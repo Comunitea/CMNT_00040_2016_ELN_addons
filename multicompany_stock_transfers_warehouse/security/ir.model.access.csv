@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_product_transfer_user,product_transfer user,model_product_transfers,stock.group_stock_user,1,0,0,0
+access_product_transfer_manager,product_transfer manager,model_product_transfers,stock.group_stock_manager,1,1,1,1
+access_wzd_transfer_product_rel_user,wzd_transfer_product_rel user,model_wzd_transfers_product_rel,stock.group_stock_user,1,0,0,0
+access_wzd_transfer_product_rel_manager,wzd_transfer_product_rel manager,model_wzd_transfers_product_rel,stock.group_stock_manager,1,1,1,1
+access_multicompany_moves_rel,multicompany_moves_rel,model_multicompany_moves_rel,,1,1,1,1

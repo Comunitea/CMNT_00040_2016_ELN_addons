@@ -1,0 +1,49 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* Department
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 7.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-03-13 12:51+0000\n"
+"PO-Revision-Date: 2014-03-13 12:51+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: Department
+#: model:ir.model,name:Department.model_stock_picking_in
+msgid "Incoming Shipments"
+msgstr "Albaranes de entrada"
+
+#. module: Department
+#: model:ir.model,name:Department.model_purchase_order
+msgid "Purchase Order"
+msgstr "Pedido de compra"
+
+#. module: Department
+#: model:ir.model,name:Department.model_account_move_line
+msgid "Journal Items"
+msgstr "Apuntes contables"
+
+#. module: Department
+#: model:ir.model,name:Department.model_stock_picking
+msgid "Picking List"
+msgstr "Albarán"
+
+#. module: Department
+#: model:ir.model.fields,field_description:Department.field_purchase_order_department_id
+#: view:purchase.order:0
+#: field:purchase.order,department_id:0
+msgid "Department"
+msgstr "Departamento"
+
+#. module: Department
+#: model:ir.model,name:Department.model_stock_picking_out
+msgid "Delivery Orders"
+msgstr "Albaranes de salida"
+

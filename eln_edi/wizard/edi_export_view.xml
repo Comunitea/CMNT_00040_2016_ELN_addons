@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="wizard_edi_export" model="ir.ui.view">
+            <field name="name">wizard.edi.export</field>
+            <field name="model">edi.export</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Exportar">
+                    <label string="¿Desea exportar los modelos seleccionados?"/>
+                    <button name="export_files" string="Sí" type="object" icon="gtk-ok" default_focus="1"/>
+                    <button special="cancel" string="No" icon="gtk-cancel"/>
+                </form>
+            </field>
+        </record>
+        <!-- Pedido de venta-->
+        <!--act_window
+            id="action edi_export" name="Exportar pedidos EDI"
+            res_model="edi.export"
+            src_model="sale.order"
+            view_type="form"
+            view_mode="form"
+            target="new"
+            view_id="wizard_edi_export"
+            key2="client_action_multi"
+            /-->
+        <!-- Albarán-->
+        <act_window
+            id="action edi_export_picking" name="Exportar Albaranes EDI"
+            res_model="edi.export"
+            src_model="stock.picking"
+            view_type="form"
+            view_mode="form"
+            target="new"
+            view_id="wizard_edi_export"
+            key2="client_action_multi"
+            />
+        <!-- Factura -->
+         <act_window
+            id="action edi_export_invoice" name="Exportar Facturas EDI"
+            res_model="edi.export"
+            src_model="account.invoice"
+            view_type="form"
+            view_mode="form"
+            target="new"
+            view_id="wizard_edi_export"
+            key2="client_action_multi"
+            />
+
+    </data>
+</openerp>

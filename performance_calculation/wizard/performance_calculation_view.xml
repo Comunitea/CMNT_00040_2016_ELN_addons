@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>
+          <record id="view_performance_calculation_wzd" model="ir.ui.view">
+            <field name="name">performance.calculatiom.wzd.form</field>
+            <field name="model">performance.calculation</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Performance calculation">
+                    <label colspan="6" string="Select the type of report you want to print and the features that you want to filter and group."/>
+                    <newline/>
+                    <group col="6" colspan="4">
+                        <field name="name" colspan="6"/>
+                        <newline/>
+                        <field name="report_type" colspan="6"/>
+                    </group>
+                    <newline/>
+                    <group col="6" colspan="4">
+                        <field name="between_dates" colspan="2" />
+                        <field name="date_start" colspan="2" attrs="{'readonly':[('between_dates', '=', False)],'required':[('between_dates','=',True)]}"/>
+                        <field name="date_stop" colspan="2" attrs="{'readonly':[('between_dates', '=', False)],'required':[('between_dates','=',True)]}"/>
+                        <newline/>
+                        <field name="by_routing" colspan="3" />
+                        <field name="routing_id" colspan="3" attrs="{'readonly':[('by_routing', '=', False)],'required':[('by_routing','=',True)]}"/>
+                        <newline/>
+                        <field name="by_product" colspan="3"/>
+                        <field name="product_id" colspan="3" attrs="{'readonly':[('by_product', '=', False)],'required':[('by_product','=',True)]}"/>
+                        <newline/>
+                        <field name="by_workcenter_id" colspan="3" />
+                        <field name="workcenter_id" colspan="3" attrs="{'readonly':[('by_workcenter_id', '=', False)],'required':[('by_workcenter_id','=',True)]}"/>
+                    </group>
+                    <newline/>
+                    <group colspan="4" col="6">
+                        <button icon="gtk-cancel" special="cancel" string="Cancel"/>
+                        <button string='Generate' icon="gtk-execute" name="generate_performance_calculation" type="object"/>
+                    </group>
+                    
+               </form>
+            </field>
+        </record>
+
+        <record id="performance_calculation_action" model="ir.actions.act_window">
+            <field name="name">Indicators calculation</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">performance.calculation</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        
+        <menuitem
+            action="performance_calculation_action" icon="STOCK_EXECUTE"
+            id="menu_performance_calculation" parent="menus_indicators_mrp"
+            sequence="1"/>
+
+
+    </data>
+</openerp>

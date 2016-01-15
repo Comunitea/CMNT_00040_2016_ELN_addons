@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>
+         <record id="view_production_lot_form_add_page" model="ir.ui.view">
+            <field name="name">stock.production.lot.form.add.page</field>
+            <field name="model">stock.production.lot</field>
+            <field name="inherit_id" ref="stock.view_production_lot_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+               <notebook position="inside">
+                   <page string="Balance sheet of Masses Down">
+                        <field colspan="4" name="stock_moves_traceability" nolabel="1" readonly="1">
+                            <tree string="Traceability down">
+                                <field name="product_id"/>
+                                <field name="prodlot_id"/>
+                                <field name="name"/>
+                                <field name="product_qty"/>
+                                <field name="product_uom"/>
+                                <field name="qty_weight"/>
+                            </tree>
+                        </field>
+                        <newline/>
+                        <group col="6" colspan="4">
+                            <field name="entry_qty" colspan="2"/>
+                            <field name="out_qty" colspan="2"/>
+                            <field name="difference" colspan="2"/>
+                        </group>
+                   </page>
+                   <page string="Balance sheet of Masses Up">
+                       <field colspan="4" name="stock_moves_traceability_up" nolabel="1" readonly="1">
+                           <tree string="Traceability up">
+                               <field name="product_id"/>
+                               <field name="prodlot_id"/>
+                               <field name="name"/>
+                               <field name="product_qty"/>
+                               <field name="product_uom"/>
+                               <field name="qty_weight"/>
+                           </tree>
+                       </field>
+                   </page>
+               </notebook>
+            </field>
+         </record>
+    </data>
+</openerp>

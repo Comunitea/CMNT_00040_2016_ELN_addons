@@ -1,0 +1,8 @@
+
+###################################################################################################################################
+- En pickings de salida, revisar que cuando asignamos disponibilidad de un producto si posteriormente modificamos la cantidad
+en la linea a otro valor superior al stock disponible no nos avisa porque no vuelve a comprobar disponibilidad. Sería como forzar.
+Debería al modificar cantidad cancelar la disponibilidad de esa linea y volver a comrpobarla para asignarla si es posible.
+###################################################################################################################################
+
+ 

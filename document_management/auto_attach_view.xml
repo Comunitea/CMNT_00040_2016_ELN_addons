@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>
+        <menuitem name="Scan Queues" id="auto_attach.scan_queues_menu_id"
+            parent="menu_configuration"
+            action="auto_attach.view_scan_queue_action" />
+        <menuitem name="Upload Files On Queues" id="auto_attach.scan_upload_queues_menu_id"
+            parent="menu_base_document_management"
+            action="auto_attach.view_scan_queue_upload_action" />
+        
+        
+        
+        <menuitem name="Document Queue" id="auto_attach.document_queue_parent_menu" parent="menu_base_document_management" sequence="1"/>
+
+        <menuitem name="Document Queue" action="auto_attach.all_scan_document_tree"
+            id="auto_attach.document_queue_menu" parent="auto_attach.document_queue_parent_menu" sequence="2" />
+
+
+
+        <menuitem name="Templates" action="auto_attach.view_template_action" id="auto_attach.template_menu"
+                        parent="menu_configuration" />
+
+
+        <menuitem
+        name="Analyze Documents Queue"
+        action="auto_attach.analyze_document_wzd"
+        id="auto_attach.document_analyze_menu"
+        parent="menu_base_document_management"
+        sequence="8"
+        />
+        <menuitem
+        name="Process Documents Queue"
+        action="auto_attach.process_document_wzd"
+        id="auto_attach.document_process_menu"
+        parent="menu_base_document_management"
+        sequence="10"
+        />
+        <menuitem
+        name="Execute Documents Queue"
+        action="auto_attach.execute_document_wzd"
+        id="auto_attach.document_execute_menu"
+        parent="menu_base_document_management"
+        sequence="11"
+        />
+        
+        <menuitem
+        name="Verify Documents Queue"
+        action="auto_attach.verify_document_wzd"
+        id="auto_attach.document_verify_menu"
+        parent="menu_base_document_management"
+        sequence="9"
+                />
+</data>
+</openerp>

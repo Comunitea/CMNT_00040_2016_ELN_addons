@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<openerp>
+    <data>
+        <record id="route_view_tree" model="ir.ui.view">
+            <field name="name">route.view.tree</field>
+            <field name="model">route</field>
+             <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Routes">
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="carrier_id"/>
+                </tree>
+            </field>
+        </record>
+        <record id="route_view_form" model="ir.ui.view">
+            <field name="name">route.view.form</field>
+            <field name="model">route</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Routes">
+                    
+                            <field name="code"/>
+                            <field name="name"/>
+                    <field name="carrier_id"/>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_route_filter" model="ir.ui.view">
+            <field name="name">route.list.select</field>
+            <field name="model">route</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Routes">
+                    <field name="name"
+                        filter_domain="[('name','ilike',self)]"/>
+                    <field name="code"/>
+                    <field name="carrier_id"/>
+                </search>
+            </field>
+        </record>
+ <record id="action_route" model="ir.actions.act_window">
+            <field name="name">Routes</field>
+             <field name="type">ir.actions.act_window</field>
+            <field name="res_model">route</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_route_filter"/>
+             <field name="context">{}</field>
+        </record>
+
+        <menuitem id="menu_routes_stock_picking" name="Routes" sequence="2" parent="stock.menu_stock_configuration"/>
+        <menuitem id="menu_routes_main" name="Routes" sequence="1" action="action_route" parent="menu_routes_stock_picking"/>
+
+    </data>
+</openerp>

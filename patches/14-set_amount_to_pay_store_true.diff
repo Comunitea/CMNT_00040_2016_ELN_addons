@@ -1,0 +1,12 @@
+=== modified file 'account_payment/account_move_line.py'
+--- account_payment/account_move_line.py	2013-09-10 15:12:35 +0000
++++ account_payment/account_move_line.py	2015-08-13 14:02:00 +0000
+@@ -111,7 +111,7 @@
+         return line2bank
+ 
+     _columns = {
+-        'amount_to_pay': fields.function(amount_to_pay,
++        'amount_to_pay': fields.function(amount_to_pay, store=True,
+             type='float', string='Amount to pay', fnct_search=_to_pay_search),
+     }
+ 

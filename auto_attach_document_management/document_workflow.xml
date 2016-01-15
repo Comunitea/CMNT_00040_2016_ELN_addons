@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>
+	<!-- Document -->
+        <record model="workflow" id="wkf_record_document">
+            <field name="name">record.document.basic</field>
+            <field name="osv">record.document</field>
+            <field name="on_create">True</field>
+        </record>
+
+        <!-- states -->
+        <record model="workflow.activity" id="document_draft">
+            <field name="wkf_id" ref="wkf_record_document"/>
+            <field name="flow_start">True</field>
+            <field name="name">draft</field>
+            <field name="action">draft()&#10;write({'state':'draft'})</field>
+            <field name="kind">function</field>
+        </record>
+        <record model="workflow.activity" id="document_done">
+            <field name="wkf_id" ref="wkf_record_document"/>
+            <field name="name">done</field>
+            <field name="action">confirm()&#10;write({'state':'done'})</field>
+            <field name="kind">function</field>
+        </record>
+        <record model="workflow.activity" id="document_cancel">
+            <field name="wkf_id" ref="wkf_record_document"/>
+            <field name="name">cancel</field>
+            <field name="action">cancel()&#10;write({'state':'cancel'})</field>
+            <field name="kind">function</field>
+        </record>
+
+
+        <!-- transitions -->
+        <record model="workflow.transition" id="doc_t1">
+            <field name="act_from" ref="document_draft"/>
+            <field name="act_to" ref="document_done"/>
+            <field name="signal">confirm</field>
+        </record>
+
+        <record model="workflow.transition" id="doc_t2">
+            <field name="act_from" ref="document_done"/>
+            <field name="act_to" ref="document_cancel"/>
+            <field name="signal">cancel</field>
+        </record>
+
+        <record model="workflow.transition" id="doc_t3">
+            <field name="act_from" ref="document_cancel"/>
+            <field name="act_to" ref="document_draft"/>
+            <field name="signal">draft</field>
+        </record>
+
+	<record model="workflow.transition" id="doc_t4">
+            <field name="act_from" ref="document_draft"/>
+            <field name="act_to" ref="document_cancel"/>
+            <field name="signal">cancel</field>
+        </record>
+
+    </data>
+</openerp>

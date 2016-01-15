@@ -1,0 +1,11 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_mrp_indicators,mrp.indicators user,model_mrp_indicators,mrp.group_mrp_user,1,1,1,1
+access_mrp_indicators_salesman,mrp.indicators salesman,model_mrp_indicators,base.group_sale_salesman,1,1,1,0
+access_mrp_indicators_line,mrp.indicators.line user,model_mrp_indicators_line,mrp.group_mrp_user,1,1,1,1
+access_mrp_indicators_line_salesman,mrp.indicators.line salesman,model_mrp_indicators_line,base.group_sale_salesman,1,1,1,0
+access_mrp_indicators_averages,mrp.indicators.averages user,model_mrp_indicators_averages,mrp.group_mrp_user,1,1,1,1
+access_mrp_indicators_averages_salesman,mrp.indicators.averages salesman,model_mrp_indicators_averages,base.group_sale_salesman,1,1,1,0
+access_mrp_indicators_scrap,mrp.indicators.scrap user,model_mrp_indicators_scrap,mrp.group_mrp_user,1,1,1,1
+access_mrp_indicators_scrap_salesman,mrp.indicators.scrap salesman,model_mrp_indicators_scrap,base.group_sale_salesman,1,1,1,0
+access_mrp_indicators_scrap_line,mrp.indicators.scrap.line user,model_mrp_indicators_scrap_line,mrp.group_mrp_user,1,1,1,1
+access_mrp_indicators_scrap_line_salesman,mrp.indicators.scrap.line salesman,model_mrp_indicators_scrap_line,base.group_sale_salesman,1,1,1,0

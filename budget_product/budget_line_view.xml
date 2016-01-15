@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>
+         <record model="ir.ui.view" id="view_budget_line_list">
+            <field name="name">budget.line.list</field>
+            <field name="model">budget.line</field>
+            <field name="inherit_id" ref="budget.view_budget_line_list"/>
+            <field name="priority">16</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <field name="date_start" position="before">
+                    <field name="product_id"/>
+
+                </field>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_budget_line_form">
+            <field name="name">budget.line.form</field>
+            <field name="model">budget.line</field>
+            <field name="inherit_id" ref="budget.view_budget_line_form"/>
+            <field name="priority">3</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="analytic_account_id" position="after">
+                    <field name="product_id"/>
+
+                </field>
+            </field>
+        </record>
+
+        <record id="view_budget_line_search" model="ir.ui.view">
+            <field name="name">budget.line.search</field>
+            <field name="model">budget.line</field>
+            <field name="inherit_id" ref="budget.view_budget_line_search"/>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <field name="analytic_account_id" position="after">
+                    <field name="product_id"/>
+
+                </field>
+                <filter name="group_analytic_account_id">
+                    <filter string="Product" context="{'group_by': 'product_id'}" name="group_product_id"/>
+                </filter>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_budget_item_form_add_cost_structure">
+            <field name="name">budget.item.form.add.cost.structure</field>
+            <field name="model">budget.item</field>
+            <field name="inherit_id" ref="budget.view_budget_item_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="parent_id" position="after">
+                    <field name="distribution_mode"/>
+                    <field name="type_c" required="0"/>
+                </field>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="view_budget_version_form_add_totals">
+            <field name="name">budget.version.form.add.totals</field>
+            <field name="model">budget.version</field>
+            <field name="inherit_id" ref="budget.view_budget_version_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <page string="Lines" position="after">
+                    <page string="Item Totals">
+                        <button name="action_calculate_totals"
+                            string="Calcular ratios" type="object"
+                            icon="terp-stock_format-scientific"
+                            colspan="4" />
+
+                        <field name="version_total" nolabel="1">
+                        <tree string="Items totals">
+                            <field name="name"/>
+                            <field name="budget_item_id"/>
+                            <field name="total"/>
+                        </tree>
+                    </field>
+                    </page>
+                </page>
+            </field>
+        </record>
+
+    </data>
+</openerp>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>
+         <record id="stock.sequence_production_lots" model="ir.sequence">
+            <field name="name">Production Lots</field>
+            <field name="code">stock.lot.serial</field>
+            <field name="prefix">%(woy)s%(weekday)s%(y)s/</field>
+            <field name="padding">0</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+        </record>
+</data>
+</openerp>

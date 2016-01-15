@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>
+         <record model="ir.ui.view" id="discount_rappel_partner_form_inherit">
+            <field name="name">discount.rappel.partner.form.view</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="parent_id" position="before">
+                        <field name="rappel_id" domain="[('state','=','open')]"/>
+                </field>
+            </field>
+         </record>
+    </data>
+</openerp>

@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+    
+        <record id="view_picking_out_form_reopen_inherit" model="ir.ui.view">
+            <field name="name">view.picking.out.form.reopen.inherit</field>
+            <field name="model">stock.picking</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <button name="action_process" position="after">
+                    <button name="action_reopen" type="object" states="done" string="Reset To Draft" icon="gtk-convert" groups="stock_picking_reopen.group" />
+                </button>
+            </field>
+        </record>
+
+        <record id="view_picking_in_form_reopen_inherit" model="ir.ui.view">
+            <field name="name">view.picking.in.form.reopen.inherit</field>
+            <field name="model">stock.picking</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <button name="action_process" position="after">
+                    <button name="action_reopen" type="object" states="done" string="Reset To Draft" icon="gtk-convert" groups="stock_picking_reopen.group" />
+                </button>
+            </field>
+        </record>
+
+        <record id="view_picking_form_reopen_inherit" model="ir.ui.view">
+            <field name="name">view.picking.form.reopen.inherit</field>
+            <field name="model">stock.picking</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <button name="action_process" position="after">
+                    <button name="action_reopen" type="object" states="done" string="Reset To Draft" icon="gtk-convert" groups="stock_picking_reopen.group" />
+                </button>
+            </field>
+        </record>
+
+    </data>
+</openerp>

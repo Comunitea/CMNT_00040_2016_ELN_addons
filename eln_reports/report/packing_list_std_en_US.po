@@ -1,0 +1,251 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PEDRO\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-03-12 12:52+0100\n"
+"PO-Revision-Date: 2015-03-12 13:00+0100\n"
+"Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
+"Language-Team: INGLES <LL@li.org>\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.7\n"
+
+#: /tmp/tmp.RGeZo8Aby0:835 /tmp/tmp.RGeZo8Aby0:1398 /tmp/tmp.RGeZo8Aby0:1961
+msgid "RECIBI:(Firma y Sello)"
+msgstr "RECEIVED: (Signature and Seal)"
+
+#: /tmp/tmp.RGeZo8Aby0:839 /tmp/tmp.RGeZo8Aby0:1402 /tmp/tmp.RGeZo8Aby0:1965
+msgid "CONTADOS: Consignar PAGADO y firma cobrador"
+msgstr "CASH PAYMENT: Commit PAID and signature bill collector"
+
+#: /tmp/tmp.RGeZo8Aby0:843 /tmp/tmp.RGeZo8Aby0:1406 /tmp/tmp.RGeZo8Aby0:1969
+msgid "OBSERVACIONES:"
+msgstr "NOTES:"
+
+#: /tmp/tmp.RGeZo8Aby0:851 /tmp/tmp.RGeZo8Aby0:1414 /tmp/tmp.RGeZo8Aby0:1977
+msgid "Suma Importes"
+msgstr "Sum Amount"
+
+#: /tmp/tmp.RGeZo8Aby0:855 /tmp/tmp.RGeZo8Aby0:1418 /tmp/tmp.RGeZo8Aby0:1981
+msgid "% P.P"
+msgstr "% E.P."
+
+#: /tmp/tmp.RGeZo8Aby0:859 /tmp/tmp.RGeZo8Aby0:1422 /tmp/tmp.RGeZo8Aby0:1985
+msgid "Importe P.P."
+msgstr "E.P. Amount"
+
+#: /tmp/tmp.RGeZo8Aby0:863 /tmp/tmp.RGeZo8Aby0:1426 /tmp/tmp.RGeZo8Aby0:1989
+msgid "Base Imponible"
+msgstr "Taxable Amount"
+
+#: /tmp/tmp.RGeZo8Aby0:867 /tmp/tmp.RGeZo8Aby0:1430 /tmp/tmp.RGeZo8Aby0:1993
+msgid "Impuestos"
+msgstr "Taxes"
+
+#: /tmp/tmp.RGeZo8Aby0:871 /tmp/tmp.RGeZo8Aby0:1434 /tmp/tmp.RGeZo8Aby0:1997
+msgid "Total AL CONTADO"
+msgstr "Total E.P. AMOUNT"
+
+#: /tmp/tmp.RGeZo8Aby0:875 /tmp/tmp.RGeZo8Aby0:1438 /tmp/tmp.RGeZo8Aby0:2001
+msgid "Total APLAZADO"
+msgstr "Total AMOUNT"
+
+#: /tmp/tmp.RGeZo8Aby0:907 /tmp/tmp.RGeZo8Aby0:1470 /tmp/tmp.RGeZo8Aby0:2033
+msgid "OTRA INFORMACIÓN:"
+msgstr "OTHER INFORMATION:"
+
+#: /tmp/tmp.RGeZo8Aby0:911 /tmp/tmp.RGeZo8Aby0:1474 /tmp/tmp.RGeZo8Aby0:2037
+msgid "Plazo de pago:"
+msgstr "Payment term:"
+
+#: /tmp/tmp.RGeZo8Aby0:919 /tmp/tmp.RGeZo8Aby0:1482 /tmp/tmp.RGeZo8Aby0:2045
+msgid "Tipo de pago:"
+msgstr "Payment type:"
+
+#: /tmp/tmp.RGeZo8Aby0:947 /tmp/tmp.RGeZo8Aby0:1510 /tmp/tmp.RGeZo8Aby0:2073
+msgid "Nº Albarán:"
+msgstr "Packing List Nº:"
+
+#: /tmp/tmp.RGeZo8Aby0:951 /tmp/tmp.RGeZo8Aby0:1514 /tmp/tmp.RGeZo8Aby0:2077
+msgid "Fecha Albarán:"
+msgstr "Packing List Date:"
+
+#: /tmp/tmp.RGeZo8Aby0:955 /tmp/tmp.RGeZo8Aby0:1518 /tmp/tmp.RGeZo8Aby0:2081
+msgid "Código Cliente:"
+msgstr "Client Code:"
+
+#: /tmp/tmp.RGeZo8Aby0:959 /tmp/tmp.RGeZo8Aby0:1522 /tmp/tmp.RGeZo8Aby0:2085
+msgid "Pedido Cliente:"
+msgstr "Customer Order:"
+
+#: /tmp/tmp.RGeZo8Aby0:963 /tmp/tmp.RGeZo8Aby0:1526 /tmp/tmp.RGeZo8Aby0:2089
+msgid "Código Proveedor:"
+msgstr "Supplier Code:"
+
+#: /tmp/tmp.RGeZo8Aby0:967 /tmp/tmp.RGeZo8Aby0:1530 /tmp/tmp.RGeZo8Aby0:2093
+msgid "Página:"
+msgstr "Page:"
+
+#: /tmp/tmp.RGeZo8Aby0:991 /tmp/tmp.RGeZo8Aby0:1554 /tmp/tmp.RGeZo8Aby0:2117
+msgid "de"
+msgstr "of"
+
+#: /tmp/tmp.RGeZo8Aby0:1003 /tmp/tmp.RGeZo8Aby0:1566 /tmp/tmp.RGeZo8Aby0:2129
+msgid "Fecha Entrega:"
+msgstr "Delivery Date:"
+
+#: /tmp/tmp.RGeZo8Aby0:1030 /tmp/tmp.RGeZo8Aby0:1593 /tmp/tmp.RGeZo8Aby0:2156
+msgid "Tel.:"
+msgstr "Tel.:"
+
+#: /tmp/tmp.RGeZo8Aby0:1030 /tmp/tmp.RGeZo8Aby0:1314 /tmp/tmp.RGeZo8Aby0:1593
+#: /tmp/tmp.RGeZo8Aby0:1877 /tmp/tmp.RGeZo8Aby0:2156 /tmp/tmp.RGeZo8Aby0:2440
+msgid "Fax:"
+msgstr "Fax:"
+
+#: /tmp/tmp.RGeZo8Aby0:1030 /tmp/tmp.RGeZo8Aby0:1314 /tmp/tmp.RGeZo8Aby0:1593
+#: /tmp/tmp.RGeZo8Aby0:1877 /tmp/tmp.RGeZo8Aby0:2156 /tmp/tmp.RGeZo8Aby0:2440
+msgid "e-mail:"
+msgstr "e-mail:"
+
+#: /tmp/tmp.RGeZo8Aby0:1082 /tmp/tmp.RGeZo8Aby0:1645 /tmp/tmp.RGeZo8Aby0:2208
+msgid "PROVEEDOR:"
+msgstr "SUPPLIER:"
+
+#: /tmp/tmp.RGeZo8Aby0:1142 /tmp/tmp.RGeZo8Aby0:1258 /tmp/tmp.RGeZo8Aby0:1290
+#: /tmp/tmp.RGeZo8Aby0:1705 /tmp/tmp.RGeZo8Aby0:1821 /tmp/tmp.RGeZo8Aby0:1853
+#: /tmp/tmp.RGeZo8Aby0:2268 /tmp/tmp.RGeZo8Aby0:2384 /tmp/tmp.RGeZo8Aby0:2416
+msgid "CIF/NIF:"
+msgstr "VAT:"
+
+#: /tmp/tmp.RGeZo8Aby0:1230 /tmp/tmp.RGeZo8Aby0:1793 /tmp/tmp.RGeZo8Aby0:2356
+msgid "CLIENTE:"
+msgstr "CUSTOMER:"
+
+#: /tmp/tmp.RGeZo8Aby0:1262 /tmp/tmp.RGeZo8Aby0:1825 /tmp/tmp.RGeZo8Aby0:2388
+msgid "DIRECCIÓN DE ENTREGA:"
+msgstr "SHIPPING ADDRESS:"
+
+#: /tmp/tmp.RGeZo8Aby0:1303 /tmp/tmp.RGeZo8Aby0:1866 /tmp/tmp.RGeZo8Aby0:2429
+msgid ""
+"IMPORTANTE:<br>No se admitirán reclamaciones sobre los envíos, pasados ocho "
+"días de la recepción de la mercancía por el comprador.<br>La conservación de "
+"la mercancía en poder del comprador es por su riesgo y cuenta."
+msgstr ""
+"IMPORTANT:<br>Claims on shipments will not be accepted, after eight days of "
+"receipt of the goods by the buyer.<br>The conservation of the goods over to "
+"the buyer's risk and expense for her."
+
+#: /tmp/tmp.RGeZo8Aby0:1314 /tmp/tmp.RGeZo8Aby0:1877 /tmp/tmp.RGeZo8Aby0:2440
+msgid ""
+"En cumplimiento de la Ley Orgánica 15/99, de 13 de diciembre, de Protección "
+"de Datos de Carácter Personal, le indicamos que la información que Ud. nos "
+"facilita de forma voluntaria, por cualquiera de nuestros medios de recogida "
+"de información, tiene como única finalidad la incorporación a un fichero "
+"automatizado de datos de carácter personal cuyas finalidades son: la gestión "
+"contable y fiscal, la facturación de servicios, la realización de propuestas "
+"y presupuestos, la gestión comercial por parte de"
+msgstr ""
+"In compliance with Organic Law 15/99 of December 13, Protection of Personal "
+"Data, we inform you that the information you provide us voluntarily, for any "
+"of our means of collecting information is only intended incorporation into "
+"an automated file of personal data whose purposes are: accounting and fiscal "
+"management, billing services, making proposals and budgets, business "
+"management by"
+
+#: /tmp/tmp.RGeZo8Aby0:1314 /tmp/tmp.RGeZo8Aby0:1877 /tmp/tmp.RGeZo8Aby0:2440
+msgid ""
+"la cual es titular de dichos ficheros. Para la realización de las gestiones "
+"antes mencionadas puede ser necesario que se cedan los datos a encargados de "
+"tratamiento, empresas colaboradoras y administraciones públicas. Esta "
+"autorización se hace efectiva de forma retroactiva a cualquier tratamiento "
+"de datos hechos ya por parte del titular del fichero, siempre y cuando la "
+"finalidad fuese la anteriormente indicada. También se hace efectiva para "
+"cualquier otro tratamiento necesario para la prestación de servicios de "
+"reciente o nueva contratación. Se le garantiza total confidencialidad y si "
+"desea ejercer el derecho de acceso, rectificación, oposición o cancelación, "
+"dirija un escrito a:"
+msgstr ""
+"which owns the files. To carry out the above steps may be necessary for data "
+"processing managers, partner companies and public administrations are "
+"transferred. This authorization is effective retroactively to any facts and "
+"data processing by the owner of the file, as long as the purpose was to "
+"Transport. It also becomes effective for any other information necessary for "
+"the provision of new or newly recruited treatment. You are guaranteed "
+"complete confidentiality and whether to exercise the right of access, "
+"rectification, opposition or cancellation, direct writing to:"
+
+#: /tmp/tmp.RGeZo8Aby0:3187 /tmp/tmp.RGeZo8Aby0:3363 /tmp/tmp.RGeZo8Aby0:3539
+msgid "CÓDIGO"
+msgstr "CODE"
+
+#: /tmp/tmp.RGeZo8Aby0:3191 /tmp/tmp.RGeZo8Aby0:3367 /tmp/tmp.RGeZo8Aby0:3543
+msgid "INTERNO"
+msgstr "INTERNAL"
+
+#: /tmp/tmp.RGeZo8Aby0:3195 /tmp/tmp.RGeZo8Aby0:3371 /tmp/tmp.RGeZo8Aby0:3547
+msgid "EAN-13"
+msgstr "EAN-13"
+
+#: /tmp/tmp.RGeZo8Aby0:3207 /tmp/tmp.RGeZo8Aby0:3383 /tmp/tmp.RGeZo8Aby0:3559
+msgid "BULTOS"
+msgstr "PACKAGES"
+
+#: /tmp/tmp.RGeZo8Aby0:3211 /tmp/tmp.RGeZo8Aby0:3387 /tmp/tmp.RGeZo8Aby0:3563
+msgid "CAJAS"
+msgstr "BOXES"
+
+#: /tmp/tmp.RGeZo8Aby0:3215 /tmp/tmp.RGeZo8Aby0:3391 /tmp/tmp.RGeZo8Aby0:3567
+msgid "UNID"
+msgstr "UNITS"
+
+#: /tmp/tmp.RGeZo8Aby0:3227 /tmp/tmp.RGeZo8Aby0:3403 /tmp/tmp.RGeZo8Aby0:3579
+msgid "DESCRIPCIÓN Y UNIDADES POR EMBALAJE"
+msgstr "DESCRIPTION AND UNITS PER PACKAGING"
+
+#: /tmp/tmp.RGeZo8Aby0:3231 /tmp/tmp.RGeZo8Aby0:3407 /tmp/tmp.RGeZo8Aby0:3583
+msgid "ARTÍCULO"
+msgstr "ITEM"
+
+#: /tmp/tmp.RGeZo8Aby0:3235 /tmp/tmp.RGeZo8Aby0:3411 /tmp/tmp.RGeZo8Aby0:3587
+msgid "TIPO UND."
+msgstr "TYPE UNIT"
+
+#: /tmp/tmp.RGeZo8Aby0:3239 /tmp/tmp.RGeZo8Aby0:3415 /tmp/tmp.RGeZo8Aby0:3591
+msgid "U/C"
+msgstr "U/C"
+
+#: /tmp/tmp.RGeZo8Aby0:3255 /tmp/tmp.RGeZo8Aby0:3431 /tmp/tmp.RGeZo8Aby0:3607
+msgid "Lote:"
+msgstr "Lot:"
+
+#: /tmp/tmp.RGeZo8Aby0:3259 /tmp/tmp.RGeZo8Aby0:3435 /tmp/tmp.RGeZo8Aby0:3611
+msgid "Caducidad:"
+msgstr "Expiration:"
+
+#: /tmp/tmp.RGeZo8Aby0:3263 /tmp/tmp.RGeZo8Aby0:3439 /tmp/tmp.RGeZo8Aby0:3615
+msgid "UNIDADES TOTALES"
+msgstr "TOTAL<br>UNITS"
+
+#: /tmp/tmp.RGeZo8Aby0:3271 /tmp/tmp.RGeZo8Aby0:3447 /tmp/tmp.RGeZo8Aby0:3623
+msgid "PRECIO UNITARIO"
+msgstr "UNIT PRICE"
+
+#: /tmp/tmp.RGeZo8Aby0:3279 /tmp/tmp.RGeZo8Aby0:3455 /tmp/tmp.RGeZo8Aby0:3631
+msgid "%<br>DTO."
+msgstr "%<br>DSC."
+
+#: /tmp/tmp.RGeZo8Aby0:3287 /tmp/tmp.RGeZo8Aby0:3463 /tmp/tmp.RGeZo8Aby0:3639
+msgid "IMPORTE"
+msgstr "AMOUNT"
+
+#: /tmp/tmp.RGeZo8Aby0:3295 /tmp/tmp.RGeZo8Aby0:3471 /tmp/tmp.RGeZo8Aby0:3647
+msgid "%<br>IVA"
+msgstr "%<br>VAT"

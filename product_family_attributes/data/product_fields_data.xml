@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Sequences for fields created from the product.
+-->
+<openerp>
+    <data>
+
+        <!-- Type -->
+        <record model="ir.sequence.type" id="seq_type_product_fields">
+            <field name="name">Sequence product fields</field>
+            <field name="code">product.fields</field>
+        </record>
+
+        <!-- Sequence -->
+        <record id="seq_product_fields_action" model="ir.sequence">
+            <field name="name">Def. product fields seq.</field>
+            <field name="code">product.fields</field>
+            <field name="prefix">PFLD/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="0"/>
+        </record>
+
+    </data>
+</openerp>

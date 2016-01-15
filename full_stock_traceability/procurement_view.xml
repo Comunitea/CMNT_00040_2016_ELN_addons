@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    
+        <record id="view_procurement_filter_change_tofix_domain" model="ir.ui.view">
+            <field name="name">procurement.order.select.change_tofix_domain</field>
+            <field name="model">procurement.order</field>
+            <field name="inherit_id" ref="procurement.view_procurement_filter"/>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <filter name="perm_exceptions" position="replace">
+                    <filter icon="terp-emblem-important" string="To Fix" name="perm_exceptions" domain="[('state','in',['exception','confirmed']),('message', '!=', '')]" help="Permanent Procurement Exceptions"/>
+                </filter>
+            </field>
+        </record>
+    
+    </data>
+</openerp>

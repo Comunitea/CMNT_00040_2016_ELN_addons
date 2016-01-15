@@ -1,0 +1,256 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* rappel_management
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 6.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-01-24 18:27+0000\n"
+"PO-Revision-Date: 2013-01-24 19:36+0100\n"
+"Last-Translator: Marta <marta@pexego.es>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+
+#. module: rappel_management
+#: field:rappel.line,condition_category_id:0
+msgid "Category"
+msgstr "Categoría"
+
+#. module: rappel_management
+#: view:rappel:0
+msgid "Current"
+msgstr "Actual"
+
+#. module: rappel_management
+#: model:ir.actions.act_window,name:rappel_management.action_rappel_renovation
+#: model:ir.ui.menu,name:rappel_management.menu_wizar_rappel_renovation
+msgid "Renovates rappel"
+msgstr "Renovar rappels"
+
+#. module: rappel_management
+#: selection:rappel.line,qty_amount:0
+msgid "By Qty."
+msgstr "Por Cant."
+
+#. module: rappel_management
+#: view:rappel.renovation:0
+#: field:rappel.renovation,rappel_ids:0
+msgid "Rappels to renew"
+msgstr "Rappels a renovar"
+
+#. module: rappel_management
+#: code:addons/rappel_management/rappel.py:106
+#, python-format
+msgid "No account found"
+msgstr "No se encontró la cuenta!"
+
+#. module: rappel_management
+#: view:rappel:0
+msgid "Group By..."
+msgstr "Agrupar por..."
+
+#. module: rappel_management
+#: field:rappel,state:0
+msgid "State"
+msgstr "Estado"
+
+#. module: rappel_management
+#: view:rappel:0
+msgid "To Close"
+msgstr "Cerrar"
+
+#. module: rappel_management
+#: selection:rappel,state:0
+msgid "Draft"
+msgstr "Borrador"
+
+#. module: rappel_management
+#: view:rappel:0
+#: field:rappel,journal_id:0
+msgid "Refund Journal"
+msgstr "Diario reembolso"
+
+#. module: rappel_management
+#: field:rappel,date_stop:0
+msgid "Stop Date"
+msgstr "Fecha fin"
+
+#. module: rappel_management
+#: view:rappel:0
+msgid "Discount campaigns with a stop date smaller than current date"
+msgstr "Discount campaigns with a stop date smaller than current date"
+
+#. module: rappel_management
+#: field:rappel.line,condition_product_id:0
+msgid "Product"
+msgstr "Producto"
+
+#. module: rappel_management
+#: view:rappel:0
+msgid "Draft and open discount campaigns"
+msgstr "Rappels en borrador o abiertos"
+
+#. module: rappel_management
+#: view:rappel.renovation:0
+msgid "_Renew"
+msgstr "_Renovar"
+
+#. module: rappel_management
+#: view:rappel.renovation:0
+msgid "This wizard renew rappels closed and reallocated to all partners"
+msgstr "Este asistente renueva los rappels seleccionados y los reasigna a las empresas."
+
+#. module: rappel_management
+#: field:rappel.renovation,by_categ:0
+msgid "By categ"
+msgstr "Por categoría"
+
+#. module: rappel_management
+#: model:ir.model,name:rappel_management.model_rappel_renovation
+msgid "rappel.renovation"
+msgstr "rappel.renovation"
+
+#. module: rappel_management
+#: view:rappel:0
+#: selection:rappel,state:0
+msgid "Done"
+msgstr "Realizado"
+
+#. module: rappel_management
+#: model:ir.model,name:rappel_management.model_rappel_line
+msgid "rappel.line"
+msgstr "rappel.line"
+
+#. module: rappel_management
+#: field:res.partner,rappel_id:0
+msgid "Rappel discount"
+msgstr "Descuento Rappel"
+
+#. module: rappel_management
+#: field:rappel,name:0
+#: field:rappel.line,name:0
+msgid "Name"
+msgstr "Nombre"
+
+#. module: rappel_management
+#: view:rappel:0
+msgid "Lines"
+msgstr "Líneas"
+
+#. module: rappel_management
+#: selection:rappel.line,qty_amount:0
+msgid "By Amount"
+msgstr "Por Importe"
+
+#. module: rappel_management
+#: view:rappel.renovation:0
+msgid "If you do not select any partner,the rebate will be renewed at all that they had assigned one of the rappels to renew. If you select one, that partner shall be barred from renewal."
+msgstr "Si no se selecciona ninguna empresa, al hacer la renovación, se reasignará el rappel a todas aquellas que ya tenían asignado un rappel cerrado. Si selecciona una, ésta será excluida de la renovación."
+
+#. module: rappel_management
+#: code:addons/rappel_management/rappel.py:106
+#, python-format
+msgid "OpenERP was not able to find an income account to put on the refund invoice line. Configure the default debit account on the selected refund journal."
+msgstr "OpenERP was not able to find an income account to put on the refund invoice line. Configure the default debit account on the selected refund journal."
+
+#. module: rappel_management
+#: view:rappel.renovation:0
+msgid "Rappel renovation"
+msgstr "Renovación Rappels"
+
+#. module: rappel_management
+#: field:rappel.line,qty_amount:0
+msgid "Settled"
+msgstr "Liquidación"
+
+#. module: rappel_management
+#: view:rappel:0
+msgid "Search Rappel"
+msgstr "Buscar rappels"
+
+#. module: rappel_management
+#: field:rappel.line,discount:0
+msgid "Discount (%)"
+msgstr "Descuento (%)"
+
+#. module: rappel_management
+#: field:rappel.line,condition_amount:0
+msgid "Min. Amount"
+msgstr "Importe Mín."
+
+#. module: rappel_management
+#: view:rappel.renovation:0
+msgid "Product categories"
+msgstr "Categorías de Producto"
+
+#. module: rappel_management
+#: field:rappel.line,sequence:0
+msgid "Sequence"
+msgstr "Secuencia"
+
+#. module: rappel_management
+#: field:rappel,line_ids:0
+msgid "Rappel Lines"
+msgstr "Líneas de rappel"
+
+#. module: rappel_management
+#: model:ir.actions.act_window,name:rappel_management.action_discount_rappel_form
+#: model:ir.ui.menu,name:rappel_management.menu_action_discount_rappel
+#: model:ir.ui.menu,name:rappel_management.menu_discount_rappel
+#: view:rappel:0
+#: field:rappel.line,rappel_id:0
+msgid "Rappel"
+msgstr "Rappel"
+
+#. module: rappel_management
+#: selection:rappel,state:0
+msgid "Canceled"
+msgstr "Cancelado"
+
+#. module: rappel_management
+#: model:ir.model,name:rappel_management.model_rappel
+msgid "rappel"
+msgstr "rappel"
+
+#. module: rappel_management
+#: field:rappel.line,condition_qty:0
+msgid "Min. Quantity"
+msgstr "Cantidad Mín."
+
+#. module: rappel_management
+#: field:rappel.renovation,categ_ids:0
+msgid "Categ. Product"
+msgstr "Categ. Producto"
+
+#. module: rappel_management
+#: view:rappel.renovation:0
+#: field:rappel.renovation,exception_partners:0
+msgid "Exception partners"
+msgstr "Empresas en excepción"
+
+#. module: rappel_management
+#: view:rappel:0
+#: view:rappel.renovation:0
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: rappel_management
+#: model:ir.model,name:rappel_management.model_res_partner
+msgid "Partner"
+msgstr "Empresa"
+
+#. module: rappel_management
+#: field:rappel,date_start:0
+msgid "Start Date"
+msgstr "Fecha de inicio"
+
+#. module: rappel_management
+#: view:rappel:0
+#: selection:rappel,state:0
+msgid "Open"
+msgstr "Abrir"
+

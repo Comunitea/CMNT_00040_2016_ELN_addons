@@ -1,0 +1,162 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+<!-- ************************* HERENCIAS *********************** -->
+        <!-- INHERITED res.partner -->
+        <record model="ir.ui.view" id="view_custom_res_partner_form" >
+            <field name="name">custom.res.partner</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form" />
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='address']/form/group[2]/field[@name='type']" position="replace">
+                    <newline/>
+                    <field name="type" string="Type" colspan="4"/>
+                    <field name="comercial" colspan="4"/>
+                </xpath>
+                <xpath expr="//field[@name='address']/tree/field[@name='name']" position="replace">
+                    <field name="comercial"/>
+                    <field name="street"/>
+                </xpath>
+                <xpath expr="//field[@name='address']/tree/field[@name='email']" position="after">
+                    <field name="type"/>
+                </xpath>
+                <xpath expr="//field[@name='address']/form/group[3]/field[@name='mobile']" position="replace">
+                    <field name="mobile2"/>
+                </xpath>
+                <xpath expr="//field[@name='address']/form/group[1]" position="replace">
+                    <group colspan="4" col="8">
+                        <field name="name" string="Contact Name"/>
+                        <field domain="[('domain', '=', 'contact')]" name="title" size="0"/>
+                        <field name="function"/>
+	                    <field name="mobile"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="view_custom_partner_form_inherit" >
+            <field name="name">custom.res.partner</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base_contact.view_partner_form_inherit" />
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="location_id" position="replace">
+                    <field name="location_id" on_change="onchange_location_id(location_id)" domain="[('partner_id', '=', parent.id)]" colspan="4" invisible="1"/>
+                </field>
+            </field>
+        </record>
+
+        <!-- INHERITED res.partner.address -->
+        <record model="ir.ui.view" id="view_custom_res_partner_address_form" >
+            <field name="name">custom.res.partner.address</field>
+            <field name="model">res.partner.address</field>
+            <field name="inherit_id" ref="base.view_partner_address_form1" />
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="partner_id" position="replace">
+                    <field name="partner_id" on_change="onchange_partner_id(partner_id)" colspan="2"/>
+                </field>
+                <field name="company_id" position="replace">
+                    <field name="company_id" on_change="onchange_company_id(company_id, partner_id)" groups="base.group_multi_company" widget="selection" colspan="2" />
+                </field>
+                <field name="street" position="before">
+                    <field name="comercial" />
+                </field>
+                <field name="country_id" position="replace" />
+                <field name="state_id" position="replace">
+                    <field name="state_id" />
+                    <field name="country_id" />
+                </field>
+                <field name="mobile" position="replace" />
+                <field name="fax" position="replace">
+                    <field name="mobile2" />
+                    <field name="fax" />
+                </field>
+                <field name="function" position="after">
+                    <field name="mobile" />
+                </field>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_custom_partner_address_tree">
+            <field name="name">res.partner.address.tree_inherit</field>
+            <field name="model">res.partner.address</field>
+            <field name="inherit_id" ref="base.view_partner_address_tree" />
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <field name="partner_id" position="after">
+                    <field name="comercial" />
+                </field>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_custom_res_partner_address_filter">
+            <field name="name">res.partner.address.select_inherit</field>
+            <field name="model">res.partner.address</field>
+            <field name="inherit_id" ref="base.view_res_partner_address_filter" />
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+	                <field name="country_id" position="before">
+	                    <field name="comercial" />
+	                    <field name="street"  />
+	                    <field name="street2" />
+	                </field>
+            </field>
+        </record>
+
+	    <record model="ir.ui.view" id="view_custom_partner_address_form_inherited0">
+	        <field name="name">res.partner.address.form.inherited0</field>
+	        <field name="model">res.partner.address</field>
+	        <field name="inherit_id" ref="base_contact.view_partner_address_form_inherited0"/>
+	        <field name="type">form</field>
+	        <field name="arch" type="xml">
+                <field name="location_id" position="replace">
+	                <field name="location_id" on_change="onchange_location_id(location_id)" invisible="1"/>
+	            </field>
+	        </field>
+	    </record>
+
+
+
+        <!-- INHERITED res.partner.contact -->
+
+	    <record model="ir.ui.view" id="view_custom_partner_contact_form">
+	        <field name="name">res.partner.contact.form</field>
+	        <field name="model">res.partner.contact</field>
+	        <field name="inherit_id" ref="base_contact.view_partner_contact_form"/>
+	        <field name="type">form</field>
+	        <field name="arch" type="xml">
+                <xpath expr="//field[@name='job_ids']/form/field[@name='location_id']" position="replace">
+                    <field name="location_id" domain="[('partner_id', '=', partner_id)]" invisible="1"/>
+                    <field name="comercial" />
+                </xpath>
+                <xpath expr="//field[@name='job_ids']/tree/field[@name='location_id']" position="replace">
+                    <field name="location_id"  invisible="1"/>
+                    <field name="partner_id" />
+                    <field name="comercial" />
+                </xpath>
+                <xpath expr="//field[@name='job_ids']/tree/field[@name='phone']" position="after">
+                    <field name="mobile2" />
+                </xpath>
+	        </field>
+	    </record>
+
+	    <record model="ir.ui.view" id="view_custom_partner_contact_tree">
+	        <field name="name">res.partner.contact.tree</field>
+	        <field name="model">res.partner.contact</field>
+	        <field name="inherit_id" ref="base_contact.view_partner_contact_tree"/>
+	        <field name="type">tree</field>
+	        <field name="arch" type="xml">
+                <field name="name" position="replace">
+	            </field>
+                <field name="first_name" position="replace">
+	                <field name="first_name"/>
+	                <field name="last_name"/>
+	            </field>
+	        </field>
+	    </record>
+
+    </data>
+</openerp>

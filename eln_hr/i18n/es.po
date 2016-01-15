@@ -1,0 +1,331 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+# 	* eln_hr
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 6.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-06-03 14:22+0000\n"
+"PO-Revision-Date: 2015-06-03 16:24+0100\n"
+"Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: es_ES\n"
+"X-Generator: Poedit 1.7.5\n"
+
+#. module: eln_hr
+#: field:hr.employee,fecha_alta_empresa:0
+msgid "Fecha alta"
+msgstr "Fecha alta"
+
+#. module: eln_hr
+#: field:hr.employee,formacion_academica_ids:0
+msgid "Recursos Humanos - Formación Académica"
+msgstr "Recursos Humanos - Formación Académica"
+
+#. module: eln_hr
+#: view:hr.employee:0
+msgid "Formación académica"
+msgstr "Formación académica"
+
+#. module: eln_hr
+#: field:hr.employee,formacion_en_la_empresa_ids:0
+#: model:ir.model,name:eln_hr.model_hr_employee_formacion_en_la_empresa
+msgid "Recursos Humanos - Formación en la empresa"
+msgstr "Recursos Humanos - Formación en la empresa"
+
+#. module: eln_hr
+#: field:hr.employee_formacion_en_la_empresa,fecha_curso:0
+msgid "Fecha"
+msgstr "Fecha"
+
+#. module: eln_hr
+#: field:hr.employee,fecha_baja_empresa:0
+msgid "Fecha baja"
+msgstr "Fecha baja"
+
+#. module: eln_hr
+#: field:hr.employee_formacion_academica,estudios:0
+msgid "Estudios"
+msgstr "Estudios"
+
+#. module: eln_hr
+#: model:ir.model,name:eln_hr.model_hr_job
+msgid "Job Description"
+msgstr "Descripción del trabajo"
+
+#. module: eln_hr
+#: model:ir.model,name:eln_hr.model_hr_employee
+msgid "Employee"
+msgstr "Empleado"
+
+#. module: eln_hr
+#: view:hr.employee:0
+msgid "Experiencia laboral"
+msgstr "Experiencia laboral"
+
+#. module: eln_hr
+#: field:hr.employee,persona_aviso_emergencia_3:0
+msgid "Persona 3"
+msgstr "Persona 3"
+
+#. module: eln_hr
+#: field:hr.employee,contrataciones_anteriores_ids:0
+#: model:ir.model,name:eln_hr.model_hr_employee_contrataciones_anteriores
+msgid "Recursos Humanos - Contrataciones anteriores"
+msgstr "Recursos Humanos - Contrataciones anteriores"
+
+#. module: eln_hr
+#: help:hr.employee,grupo_cotizacion:0
+msgid "Grupo de cotización"
+msgstr "Grupo de cotización"
+
+#. module: eln_hr
+#: help:hr.employee,fecha_fijo_empresa:0
+msgid "Fecha desde la que es fijo en la empresa"
+msgstr "Fecha desde la que es fijo en la empresa"
+
+#. module: eln_hr
+#: help:hr.employee_formacion_academica,centro:0
+msgid "Centro en el que se realizaron los estudios"
+msgstr "Centro en el que se realizaron los estudios"
+
+#. module: eln_hr
+#: field:hr.employee_tipo_contrato,name:0
+msgid "Tipo Contrato"
+msgstr "Tipo Contrato"
+
+#. module: eln_hr
+#: help:hr.employee,telefono_aviso_emergencia_1:0
+#: help:hr.employee,telefono_aviso_emergencia_2:0
+#: help:hr.employee,telefono_aviso_emergencia_3:0
+msgid "Teléfono en el que avisar en caso de emergencia"
+msgstr "Teléfono en el que avisar en caso de emergencia"
+
+#. module: eln_hr
+#: field:hr.employee,persona_aviso_emergencia_1:0
+msgid "Persona 1"
+msgstr "Persona 1"
+
+#. module: eln_hr
+#: field:hr.employee,observaciones:0
+msgid "Observaciones"
+msgstr "Observaciones"
+
+#. module: eln_hr
+#: field:hr.employee_formacion_academica,centro:0
+msgid "Centro"
+msgstr "Centro"
+
+#. module: eln_hr
+#: field:hr.employee_formacion_en_la_empresa,tipo_certificacion:0
+msgid "Tipo de certificación"
+msgstr "Tipo de certificación"
+
+#. module: eln_hr
+#: help:hr.employee_experiencia_laboral,actividad:0
+msgid "Actividad desempeñada en la empresa"
+msgstr "Actividad desempeñada en la empresa"
+
+#. module: eln_hr
+#: field:hr.employee_tipo_contrato,active:0
+msgid "Active"
+msgstr "Activo"
+
+#. module: eln_hr
+#: constraint:hr.employee:0
+msgid "Error ! You cannot create recursive Hierarchy of Employees."
+msgstr "¡Error! No se puede crear una jerarquía recursiva de empleados."
+
+#. module: eln_hr
+#: help:hr.employee,fecha_alta_empresa:0
+msgid "Fecha de alta en la empresa"
+msgstr "Fecha de alta en la empresa"
+
+#. module: eln_hr
+#: help:hr.employee,persona_aviso_emergencia_1:0
+#: help:hr.employee,persona_aviso_emergencia_2:0
+#: help:hr.employee,persona_aviso_emergencia_3:0
+msgid "Persona a quien avisar en caso de emergencia"
+msgstr "Persona a quien avisar en caso de emergencia"
+
+#. module: eln_hr
+#: help:hr.employee,motivo_baja_empresa:0
+msgid "Motivo o causa de la baja en la empresa"
+msgstr "Motivo o causa de la baja en la empresa"
+
+#. module: eln_hr
+#: field:hr.employee,fecha_fijo_empresa:0
+msgid "Fijo plantilla"
+msgstr "Fijo plantilla"
+
+#. module: eln_hr
+#: field:hr.employee,experiencia_laboral_ids:0
+#: model:ir.model,name:eln_hr.model_hr_employee_experiencia_laboral
+#: model:ir.model,name:eln_hr.model_hr_employee_formacion_academica
+msgid "Recursos Humanos - Experiencia Laboral"
+msgstr "Recursos Humanos - Experiencia Laboral"
+
+#. module: eln_hr
+#: field:hr.employee_contrataciones_anteriores,fecha_inicio:0
+#: field:hr.employee_experiencia_laboral,fecha_inicio:0
+msgid "Fecha inicio"
+msgstr "Fecha inicio"
+
+#. module: eln_hr
+#: field:hr.employee,name_employee:0
+msgid "Name"
+msgstr "Nombre"
+
+#. module: eln_hr
+#: model:ir.model,name:eln_hr.model_hr_employee_tipo_contrato
+msgid "Recursos Humanos - Tipo de contrato"
+msgstr "Recursos Humanos - Tipo de contrato"
+
+#. module: eln_hr
+#: field:hr.employee_contrataciones_anteriores,employee_id:0
+#: field:hr.employee_experiencia_laboral,employee_id:0
+#: field:hr.employee_formacion_academica,employee_id:0
+#: field:hr.employee_formacion_en_la_empresa,employee_id:0
+msgid "Empleado"
+msgstr "Empleado"
+
+#. module: eln_hr
+#: field:hr.employee,telefono_aviso_emergencia_2:0
+msgid "Teléfono 2"
+msgstr "Teléfono 2"
+
+#. module: eln_hr
+#: help:hr.employee,fecha_baja_empresa:0
+msgid "Fecha de baja en la empresa"
+msgstr "Fecha de baja en la empresa"
+
+#. module: eln_hr
+#: field:hr.employee,dni_id:0
+msgid "DNI No"
+msgstr "DNI No"
+
+#. module: eln_hr
+#: field:hr.employee_contrataciones_anteriores,fecha_fin:0
+#: field:hr.employee_experiencia_laboral,fecha_fin:0
+msgid "Fecha fin"
+msgstr "Fecha fin"
+
+#. module: eln_hr
+#: view:hr.employee:0
+msgid "Formación recibida en la empresa"
+msgstr "Formación recibida en la empresa"
+
+#. module: eln_hr
+#: field:hr.employee,grupo_cotizacion:0
+msgid "Grupo cotización"
+msgstr "Grupo cotización"
+
+#. module: eln_hr
+#: field:hr.employee,persona_aviso_emergencia_2:0
+msgid "Persona 2"
+msgstr "Persona 2"
+
+#. module: eln_hr
+#: field:hr.employee_experiencia_laboral,empresa:0
+msgid "Nombre de la empresa"
+msgstr "Nombre de la empresa"
+
+#. module: eln_hr
+#: field:hr.employee_contrataciones_anteriores,empresa:0
+msgid "Empresa"
+msgstr "Empresa"
+
+#. module: eln_hr
+#: field:hr.employee_formacion_en_la_empresa,curso_documentacion:0
+msgid "Curso/Documentación"
+msgstr "Curso/Documentación"
+
+#. module: eln_hr
+#: sql_constraint:hr.job:0
+msgid "The name of the job position must be unique per company!"
+msgstr "¡El nombre del puesto de trabajo debe ser único por compañía!"
+
+#. module: eln_hr
+#: view:hr.employee:0
+msgid "Contrataciones anteriores"
+msgstr "Contrataciones anteriores"
+
+#. module: eln_hr
+#: field:hr.employee_formacion_en_la_empresa,fecha_valoracion:0
+msgid "Valorado en fecha"
+msgstr "Valorado en fecha"
+
+#. module: eln_hr
+#: field:hr.employee,numero_hijos:0 help:hr.employee,numero_hijos:0
+msgid "Número de hijos"
+msgstr "Número de hijos"
+
+#. module: eln_hr
+#: field:hr.employee_formacion_en_la_empresa,valoracion:0
+msgid "Valoración"
+msgstr "Valoración"
+
+#. module: eln_hr
+#: field:hr.employee,telefono_aviso_emergencia_3:0
+msgid "Teléfono 3"
+msgstr "Teléfono 3"
+
+#. module: eln_hr
+#: field:hr.employee,carnet_conducir_c1:0
+msgid "Carnet de conducir C1"
+msgstr "Carnet de conducir C1"
+
+#. module: eln_hr
+#: field:hr.employee,telefono_aviso_emergencia_1:0
+msgid "Teléfono 1"
+msgstr "Teléfono 1"
+
+#. module: eln_hr
+#: view:hr.employee:0
+msgid "Persona(s) aviso en caso de emergencia"
+msgstr "Persona(s) aviso en caso de emergencia"
+
+#. module: eln_hr
+#: field:hr.employee,tipo_contrato_id:0
+msgid "Tipo de contrato"
+msgstr "Tipo de contrato"
+
+#. module: eln_hr
+#: field:hr.employee,motivo_baja_empresa:0
+msgid "Motivo/Causa baja"
+msgstr "Motivo/Causa baja"
+
+#. module: eln_hr
+#: field:hr.employee_formacion_academica,final_year:0
+msgid "Año final"
+msgstr "Año final"
+
+#. module: eln_hr
+#: view:hr.employee:0
+msgid "Carnet de conducir"
+msgstr "Carnet de conducir"
+
+#. module: eln_hr
+#: field:hr.employee,carnet_conducir_c:0
+msgid "Carnet de conducir C"
+msgstr "Carnet de conducir C"
+
+#. module: eln_hr
+#: field:hr.employee,carnet_conducir_b:0
+msgid "Carnet de conducir B"
+msgstr "Carnet de conducir B"
+
+#. module: eln_hr
+#: field:hr.employee_experiencia_laboral,actividad:0
+msgid "Actividad desempeñada"
+msgstr "Actividad desempeñada"
+
+#. module: eln_hr
+#: view:hr.employee:0
+msgid "Personal Information"
+msgstr "Información personal"

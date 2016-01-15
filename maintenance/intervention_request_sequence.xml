@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+        <record id="seq_type_intervention_request" model="ir.sequence.type">
+            <field name="name">Maintenance Intervention Request</field>
+            <field name="code">intervention.request</field>
+        </record>
+        <record id="seq_intervention_request" model="ir.sequence">
+            <field name="name">Maintenance Intervention Request</field>
+            <field name="code">intervention.request</field>
+            <field name="prefix">SI</field>
+            <field name="padding">5</field>
+        </record>
+    </data>
+</openerp>

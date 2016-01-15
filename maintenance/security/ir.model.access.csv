@@ -1,0 +1,13 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_maintenance_element,maintenance.element,model_maintenance_element,group_maintenance_user,1,1,1,1
+access_maintenance_element_manager,maintenance.element,model_maintenance_element,group_maintenance_manager,1,1,1,1
+access_maintenance_type,maintenance.type,model_maintenance_type,group_maintenance_user,1,1,1,1
+access_maintenance_type_manager,maintenance.type,model_maintenance_type,group_maintenance_manager,1,1,1,1
+access_intervention_request,intervention.request,model_intervention_request,group_maintenance_user,1,1,1,1
+access_intervention_request_manager,intervention.request,model_intervention_request,group_maintenance_manager,1,1,1,1
+access_work_order,work.order,model_work_order,group_maintenance_user,1,1,1,1
+access_work_order_manager,work.order,model_work_order,,group_maintenance_manager,1,1,1,1
+access_work_order_time_report,work.order.time.report,model_work_order_time_report,group_maintenance_user,1,1,1,1
+access_work_order_time_report_manager,work.order.time.report,model_work_order_time_report,group_maintenance_manager,1,1,1,1
+access_work_order_other_services,work.order.other.services,model_work_order_other_services,group_maintenance_user,1,1,1,1
+access_work_order_other_services_manager,work.order.other.services,model_work_order_other_services,group_maintenance_manager,1,1,1,1

@@ -1,0 +1,186 @@
+=== modified file 'jasper_reports/report_xml.py' (properties changed: -x to +x)
+--- jasper_reports/report_xml.py	2012-07-27 12:17:55 +0000
++++ jasper_reports/report_xml.py	2014-10-30 11:23:18 +0000
+@@ -177,94 +177,96 @@
+             language = False
+ 
+         # Then add all fields in alphabetical order
++	
+         model = pool.get(modelName)
+-        fields = model._columns.keys()
+-        fields += model._inherit_fields.keys()
+-        # Remove duplicates because model may have fields with the 
+-        # same name as it's parent
+-        fields = sorted( list( set( fields ) ) )
+-        for field in fields:
+-            name = False
+-            if language:
+-                # Obtain field string for user's language.
+-                name = pool.get('ir.translation')._get_source(cr, uid, modelName + ',' + field, 'field', language)
+-            if not name:
+-                # If there's not description in user's language, use default (english) one.
+-                if field  in model._columns.keys():
+-                    name = model._columns[field].string
+-                else:
+-                    name = model._inherit_fields[field][2].string
+-
+-            if name:
+-                name = self.unaccent( name )
+-            # After unaccent the name might result in an empty string
+-            if name:
+-                name = '%s-%s' % (self.unaccent( name ), field )
+-            else:
+-                name = field
+-            fieldNode = document.createElement( name )
+-
+-            parentNode.appendChild( fieldNode )
+-            if field in pool.get(modelName)._columns:
+-                fieldType = model._columns[field]._type
+-            else:
+-                fieldType = model._inherit_fields[field][2]._type
+-            if fieldType in ('many2one','one2many','many2many'):
+-                if depth <= 1:
++        if model and model._columns:        
++    	    fields = model._columns.keys()
++            fields += model._inherit_fields.keys()
++            # Remove duplicates because model may have fields with the 
++            # same name as it's parent
++            fields = sorted( list( set( fields ) ) )
++            for field in fields:
++                name = False
++                if language:
++                    # Obtain field string for user's language.
++                    name = pool.get('ir.translation')._get_source(cr, uid, modelName + ',' + field, 'field', language)
++                if not name:
++                    # If there's not description in user's language, use default (english) one.
++                    if field  in model._columns.keys():
++                        name = model._columns[field].string
++                    else:
++                        name = model._inherit_fields[field][2].string
++    
++                if name:
++                    name = self.unaccent( name )
++                # After unaccent the name might result in an empty string
++                if name:
++                    name = '%s-%s' % (self.unaccent( name ), field )
++                else:
++                    name = field
++                fieldNode = document.createElement( name )
++    
++                parentNode.appendChild( fieldNode )
++                if field in pool.get(modelName)._columns:
++                    fieldType = model._columns[field]._type
++                else:
++                    fieldType = model._inherit_fields[field][2]._type
++                if fieldType in ('many2one','one2many','many2many'):
++                    if depth <= 1:
++                        continue
++                    if field in model._columns:
++                        newName = model._columns[field]._obj
++                    else:
++                        newName = model._inherit_fields[field][2]._obj
++                    self.generate_xml(cr, uid, context, pool, newName, fieldNode, document, depth-1, False)
+                     continue
+-                if field in model._columns:
+-                    newName = model._columns[field]._obj
++                
++                if fieldType == 'float':
++                    value = '12345.67'
++                elif fieldType == 'integer':
++                    value = '12345'
++                elif fieldType == 'date':
++                    value = '2009-12-31 00:00:00'
++                elif fieldType == 'time':
++                    value = '12:34:56'
++                elif fieldType == 'datetime':
++                    value = '2009-12-31 12:34:56'
+                 else:
+-                    newName = model._inherit_fields[field][2]._obj
+-                self.generate_xml(cr, uid, context, pool, newName, fieldNode, document, depth-1, False)
+-                continue
+-            
+-            if fieldType == 'float':
+-                value = '12345.67'
+-            elif fieldType == 'integer':
+-                value = '12345'
+-            elif fieldType == 'date':
+-                value = '2009-12-31 00:00:00'
+-            elif fieldType == 'time':
+-                value = '12:34:56'
+-            elif fieldType == 'datetime':
+-                value = '2009-12-31 12:34:56'
+-            else:
+-                value = field
+-
+-            valueNode = document.createTextNode( value )
+-            fieldNode.appendChild( valueNode )
+-
+-        if depth > 1 and modelName != 'Attachments':
+-            # Create relation with attachments
+-            fieldNode = document.createElement( '%s-Attachments' % self.unaccent(_('Attachments')) )
+-            parentNode.appendChild( fieldNode )
+-            self.generate_xml(cr, uid, context, pool, 'ir.attachment', fieldNode, document, depth-1, False)
+-
+-        if first_call:
+-            # Create relation with user
+-            fieldNode = document.createElement( '%s-User' % self.unaccent(_('User')) )
+-            parentNode.appendChild( fieldNode )
+-            self.generate_xml(cr, uid, context, pool, 'res.users', fieldNode, document, depth-1, False)
+-
+-            # Create special entries
+-            fieldNode = document.createElement( '%s-Special' % self.unaccent(_('Special')) )
+-            parentNode.appendChild( fieldNode )
+-
+-            newNode = document.createElement('copy')
+-            fieldNode.appendChild( newNode )
+-            valueNode = document.createTextNode( '1' )
+-            newNode.appendChild( valueNode )
+-
+-            newNode = document.createElement('sequence')
+-            fieldNode.appendChild( newNode )
+-            valueNode = document.createTextNode( '1' )
+-            newNode.appendChild( valueNode )
+-
+-            newNode = document.createElement('subsequence')
+-            fieldNode.appendChild( newNode )
+-            valueNode = document.createTextNode( '1' )
+-            newNode.appendChild( valueNode )
++                    value = field
++    
++                valueNode = document.createTextNode( value )
++                fieldNode.appendChild( valueNode )
++    
++            if depth > 1 and modelName != 'Attachments':
++                # Create relation with attachments
++                fieldNode = document.createElement( '%s-Attachments' % self.unaccent(_('Attachments')) )
++                parentNode.appendChild( fieldNode )
++                self.generate_xml(cr, uid, context, pool, 'ir.attachment', fieldNode, document, depth-1, False)
++    
++            if first_call:
++                # Create relation with user
++                fieldNode = document.createElement( '%s-User' % self.unaccent(_('User')) )
++                parentNode.appendChild( fieldNode )
++                self.generate_xml(cr, uid, context, pool, 'res.users', fieldNode, document, depth-1, False)
++    
++                # Create special entries
++                fieldNode = document.createElement( '%s-Special' % self.unaccent(_('Special')) )
++                parentNode.appendChild( fieldNode )
++    
++                newNode = document.createElement('copy')
++                fieldNode.appendChild( newNode )
++                valueNode = document.createTextNode( '1' )
++                newNode.appendChild( valueNode )
++    
++                newNode = document.createElement('sequence')
++                fieldNode.appendChild( newNode )
++                valueNode = document.createTextNode( '1' )
++                newNode.appendChild( valueNode )
++    
++                newNode = document.createElement('subsequence')
++                fieldNode.appendChild( newNode )
++                valueNode = document.createTextNode( '1' )
++                newNode.appendChild( valueNode )
+ 
+     def create_xml(self, cr, uid, model, depth, context):
+         document = getDOMImplementation().createDocument(None, 'data', None)
+

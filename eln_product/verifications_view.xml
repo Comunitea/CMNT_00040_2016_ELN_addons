@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="product_verifications_form_view">
+            <field name="name">product.verifications.form</field>
+            <field name="model">product.verifications</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Product verifications">
+                    <field name="name"/>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="product_verifications_tree_view">
+            <field name="name">product.verifications.tree</field>
+            <field name="model">product.verifications</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Product verifications">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="product_verifications_search_view" model="ir.ui.view">
+            <field name="name">product.verifications.search</field>
+            <field name="model">product.verifications</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Product verifications">
+                    <group col="10" colspan="4">
+                        <field name="name"/>
+                     </group>
+               </search>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="product_verifications_action">
+        <field name="name">verifications</field>
+        <field name="res_model">product.verifications</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="product_verifications_tree_view"/>
+        <field name="search_view_id" ref="product_verifications_search_view"/>
+    </record>
+
+        <menuitem parent="stock.menu_product_in_config_stock" name="Verifications" id="product_verifications_menu_parent"/>
+        <menuitem parent="product_verifications_menu_parent" name="Verifications" id="product_verifications_menu"
+        action="product_verifications_action" sequence="0" />
+    </data>
+</openerp>

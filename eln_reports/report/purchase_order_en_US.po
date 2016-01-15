@@ -1,0 +1,96 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: COMPRAS\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-12-11 12:54+0100\n"
+"PO-Revision-Date: 2014-12-11 13:01+0100\n"
+"Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
+"Language-Team: INGLES <LL@li.org>\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.7\n"
+
+#: /tmp/tmp.R1ErZ2grcZ:829 /tmp/tmp.R1ErZ2grcZ:1153 /tmp/tmp.R1ErZ2grcZ:1477
+msgid "ORDER Nº "
+msgstr "ORDER Nº "
+
+#: /tmp/tmp.R1ErZ2grcZ:837 /tmp/tmp.R1ErZ2grcZ:1161 /tmp/tmp.R1ErZ2grcZ:1485
+msgid "DATE "
+msgstr "DATE "
+
+#: /tmp/tmp.R1ErZ2grcZ:845 /tmp/tmp.R1ErZ2grcZ:1169 /tmp/tmp.R1ErZ2grcZ:1493
+msgid "Supplier data"
+msgstr "Supplier data"
+
+#: /tmp/tmp.R1ErZ2grcZ:853 /tmp/tmp.R1ErZ2grcZ:937 /tmp/tmp.R1ErZ2grcZ:1017
+#: /tmp/tmp.R1ErZ2grcZ:1177 /tmp/tmp.R1ErZ2grcZ:1261 /tmp/tmp.R1ErZ2grcZ:1341
+#: /tmp/tmp.R1ErZ2grcZ:1501 /tmp/tmp.R1ErZ2grcZ:1585 /tmp/tmp.R1ErZ2grcZ:1665
+msgid "Email: "
+msgstr "Email: "
+
+#: /tmp/tmp.R1ErZ2grcZ:869 /tmp/tmp.R1ErZ2grcZ:933 /tmp/tmp.R1ErZ2grcZ:1009
+#: /tmp/tmp.R1ErZ2grcZ:1193 /tmp/tmp.R1ErZ2grcZ:1257 /tmp/tmp.R1ErZ2grcZ:1333
+#: /tmp/tmp.R1ErZ2grcZ:1517 /tmp/tmp.R1ErZ2grcZ:1581 /tmp/tmp.R1ErZ2grcZ:1657
+msgid "Fax: "
+msgstr "Fax: "
+
+#: /tmp/tmp.R1ErZ2grcZ:873 /tmp/tmp.R1ErZ2grcZ:929 /tmp/tmp.R1ErZ2grcZ:1001
+#: /tmp/tmp.R1ErZ2grcZ:1197 /tmp/tmp.R1ErZ2grcZ:1253 /tmp/tmp.R1ErZ2grcZ:1325
+#: /tmp/tmp.R1ErZ2grcZ:1521 /tmp/tmp.R1ErZ2grcZ:1577 /tmp/tmp.R1ErZ2grcZ:1649
+msgid "Tlf: "
+msgstr "Tlf: "
+
+#: /tmp/tmp.R1ErZ2grcZ:921 /tmp/tmp.R1ErZ2grcZ:1245 /tmp/tmp.R1ErZ2grcZ:1569
+msgid "Invoice address"
+msgstr "Invoice address"
+
+#: /tmp/tmp.R1ErZ2grcZ:985 /tmp/tmp.R1ErZ2grcZ:1309 /tmp/tmp.R1ErZ2grcZ:1633
+msgid "Delivery address"
+msgstr "Delivery address"
+
+#: /tmp/tmp.R1ErZ2grcZ:1021 /tmp/tmp.R1ErZ2grcZ:1345 /tmp/tmp.R1ErZ2grcZ:1669
+msgid "TOTAL: "
+msgstr "TOTAL: "
+
+#: /tmp/tmp.R1ErZ2grcZ:1041 /tmp/tmp.R1ErZ2grcZ:1365 /tmp/tmp.R1ErZ2grcZ:1689
+msgid "Comments:"
+msgstr "Comments:"
+
+#: /tmp/tmp.R1ErZ2grcZ:1053 /tmp/tmp.R1ErZ2grcZ:1377 /tmp/tmp.R1ErZ2grcZ:1701
+msgid "SIGN:"
+msgstr "SIGN:"
+
+#: /tmp/tmp.R1ErZ2grcZ:2470 /tmp/tmp.R1ErZ2grcZ:2602 /tmp/tmp.R1ErZ2grcZ:2734
+msgid "SUPPLIER REFERENCE"
+msgstr "SUPPLIER REFERENCE"
+
+#: /tmp/tmp.R1ErZ2grcZ:2478 /tmp/tmp.R1ErZ2grcZ:2610 /tmp/tmp.R1ErZ2grcZ:2742
+msgid "PRODUCT"
+msgstr "PRODUCT"
+
+#: /tmp/tmp.R1ErZ2grcZ:2494 /tmp/tmp.R1ErZ2grcZ:2626 /tmp/tmp.R1ErZ2grcZ:2758
+msgid "QUANTITY"
+msgstr "QUANTITY"
+
+#: /tmp/tmp.R1ErZ2grcZ:2502 /tmp/tmp.R1ErZ2grcZ:2634 /tmp/tmp.R1ErZ2grcZ:2766
+msgid "UNIT"
+msgstr "UNIT"
+
+#: /tmp/tmp.R1ErZ2grcZ:2510 /tmp/tmp.R1ErZ2grcZ:2642 /tmp/tmp.R1ErZ2grcZ:2774
+msgid "UNIT PRICE"
+msgstr "UNIT PRICE"
+
+#: /tmp/tmp.R1ErZ2grcZ:2526 /tmp/tmp.R1ErZ2grcZ:2658 /tmp/tmp.R1ErZ2grcZ:2790
+msgid "DELIVERY DATE"
+msgstr "DELIVERY DATE"
+
+#: /tmp/tmp.R1ErZ2grcZ:2534 /tmp/tmp.R1ErZ2grcZ:2666 /tmp/tmp.R1ErZ2grcZ:2798
+msgid "TOTAL PRICE"
+msgstr "TOTAL PRICE"

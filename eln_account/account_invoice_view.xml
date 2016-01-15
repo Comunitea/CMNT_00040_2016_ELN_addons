@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>
+        <!--
+        Se añade el campo received_check y se arregla la disposición del botón button_compute_early_payment_disc
+        -->
+        <record id="invoice_tree" model="ir.ui.view">
+            <field name="name">account.invoice.tree</field>
+            <field name="model">account.invoice</field>
+            <field name="type">tree</field>
+            <field name="inherit_id" ref="account.invoice_tree"/>
+            <field name="arch" type="xml">
+                <field name="company_id" position="replace">
+                    <field name="company_id" groups="base.group_multi_company" widget="selection" invisible="1"/>
+                </field>
+                <field name="user_id" position="replace">
+                    <field name="user_id" invisible="1"/>
+                </field>
+                <field name="residual" position="before">
+                    <field name="received_check"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="invoice_form" model="ir.ui.view">
+            <field name="name">account.invoice.form</field>
+            <field name="model">account.invoice</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+                <field name="reconciled" position="replace">
+                    <group colspan="2" col="4">
+                        <field name="reconciled"/>
+                        <field name="received_check"/>
+                    </group>
+                </field>
+            </field>
+        </record>
+        
+        <record id="invoice_form_add_early_payment_button" model="ir.ui.view">
+            <field name="name">account.invoice.form_add_early_payment_button</field>
+            <field name="model">account.invoice</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="sale_early_payment_discount.invoice_form_add_early_payment_button"/>
+            <field name="arch" type="xml">
+                <button name="button_compute_early_payment_disc" position="replace">
+                    <group colspan="2" col="1">
+                        <button name="button_compute_early_payment_disc" states="draft" string="Apply early payment disc." type="object" groups="base.group_user" />
+                    </group>
+                </button>
+            </field>
+        </record>
+
+        <!--
+        Se hace visible el campo uos_id en las lineas de la factura del proveedor
+        -->
+        <record id="invoice_supplier_form" model="ir.ui.view">
+            <field name="name">account.invoice.supplier.form</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='invoice_line']/tree/field[@name='uos_id']" position="replace"/>
+                <xpath expr="//field[@name='invoice_line']/tree/field[@name='quantity']" position="after">
+                    <field name="uos_id"/>
+                </xpath>
+            </field>
+        </record>
+               
+    </data>
+</openerp>

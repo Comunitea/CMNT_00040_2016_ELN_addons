@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>
+         <record id="product_normal_form_view_add_theoric_cost" model="ir.ui.view">
+            <field name="name">product.normal.form.add.theoric.cost</field>
+            <field name="model">product.product</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="arch" type="xml">
+                <field name="price_extra" position="after">
+                    <field name="theoric_cost"/>
+                    <field name="cost_structure_id"/>
+                    <newline/>
+                    <group col="6" colspan="4">
+                    <button name="action_product_costs" string="Product Costs" type="object" context="{'product_id': active_id}" icon="gtk-go-up" colspan="2"/>
+                    <button name="action_update_cost_product" string="Update Cost" type="object" context="{'product_id': active_id}" icon="gtk-go-up" colspan="2"/>
+                    </group>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_update_product_cost_label_wzd" model="ir.ui.view">
+            <field name="name">update.product.cost.label</field>
+            <field name="model">update.product.cost.label</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Update Product Costs">
+                    <label colspan="6" string="You are sure you update all product costs?"/>
+                    <newline/>
+                    <group colspan="4" col="6">
+                        <button icon="gtk-cancel" special="cancel" string="Cancel"/>
+                        <button string='Update' icon="gtk-execute" name="action_product_costs" type="object"/>
+                    </group>
+
+               </form>
+            </field>
+        </record>
+         <record id="action_update_product_costs" model="ir.actions.act_window">
+            <field name="name">Update product costs</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">update.product.cost.label</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="context">{}</field>
+        </record>
+
+
+
+        <record id="view_product_cost_tree" model="ir.ui.view">
+            <field name="name">product.cost.tree</field>
+            <field name="model">product.cost</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Cost Product">
+                    <field name="date"/>
+                    <field name="product_id"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_product_cost_filter" model="ir.ui.view">
+            <field name="name">product.cost.select</field>
+            <field name="model">product.cost</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Cost Product">
+                    <field name="date"/>
+                    <field name="product_id"/>
+                </search>
+            </field>
+        </record>
+        <record id="view_product_cost_form" model="ir.ui.view">
+            <field name="name">product.cost.form</field>
+            <field name="model">product.cost</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Cost Product">
+                    <group>
+                        <field name="product_id"/>
+                        <field name="date"/>
+                    </group>
+                    <newline/>
+                    <notebook>
+                        <page string="Costs">
+                            <field name="product_cost_lines" nolabel="1" colspan="4">
+                                <tree>
+                                    <field name="sequence"/>
+                                    <field name="total"/>
+                                    <field name="name"/>
+                                    <field name="theoric_cost"/>
+                                    <field name="real_cost"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+
+                </form>
+            </field>
+        </record>
+        <record id="action_cost_product" model="ir.actions.act_window">
+            <field name="name">Cost Product</field>
+             <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.cost</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_product_cost_filter"/>
+             <field name="context">{}</field>
+        </record>
+
+        <record id="product_pricelist_item_form_view_add_cost_type" model="ir.ui.view">
+            <field name="name">product.pricelist.item.form.add.cost.type</field>
+            <field name="model">product.pricelist.item</field>
+            <field name="inherit_id" ref="product.product_pricelist_item_form_view"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="base" position="after">
+                    <field name="cost_type_id" attrs="{'required':[('base','=',-3)], 'invisible': [('base','!=', -3)]}"/>
+                </field>
+            </field>
+        </record>
+
+
+    </data>
+</openerp>

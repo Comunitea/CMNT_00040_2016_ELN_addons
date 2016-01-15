@@ -1,0 +1,174 @@
+<?xml version="1.0"?>
+<document filename="Taxes.pdf">
+   <template title="Taxes" author="Marta Vázquez Rodríguez - Pexego Sistemas Informáticos (2013)" allowSplitting="20">
+    <pageTemplate id="first">
+      <frame id="first" x1="42.0" y1="62.0" width="511" height="728"/>
+    </pageTemplate>
+  </template>
+<stylesheet>
+    <blockTableStyle id="Standard_Outline">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="TOP"/>
+    </blockTableStyle>
+    <blockTableStyle id="Table1">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="TOP"/>
+      <blockBackground colorName="#e6e6e6" start="0,0" stop="0,0"/>
+      <blockBackground colorName="#e6e6e6" start="1,0" stop="1,0"/>
+      <blockBackground colorName="#e6e6e6" start="2,0" stop="2,0"/>
+      <blockBackground colorName="#e6e6e6" start="0,1" stop="0,1"/>
+      <blockBackground colorName="#e6e6e6" start="1,1" stop="1,1"/>
+      <blockBackground colorName="#e6e6e6" start="2,1" stop="2,1"/>
+    </blockTableStyle>
+
+    <blockTableStyle id="Table2">
+      <lineStyle kind="LINEBELOW" colorName="#000000" start="0,0" stop="0,0"/>
+      <lineStyle kind="LINEBELOW" colorName="#000000" start="1,0" stop="1,0"/>
+      <lineStyle kind="LINEBELOW" colorName="#000000" start="2,0" stop="2,0"/>
+      <lineStyle kind="LINEBELOW" colorName="#000000" start="3,0" stop="3,0"/>
+
+      <lineStyle kind="LINEBELOW" colorName="#e6e6e6" start="0,1" stop="0,-1"/>
+      <lineStyle kind="LINEBELOW" colorName="#e6e6e6" start="1,1" stop="1,-1"/>
+      <lineStyle kind="LINEBELOW" colorName="#e6e6e6" start="2,1" stop="2,-1"/>
+      <lineStyle kind="LINEBELOW" colorName="#e6e6e6" start="3,1" stop="3,-1"/>
+
+
+      <blockValign value="TOP"/>
+    </blockTableStyle>
+	<blockTableStyle id="Table4">
+      <blockAlignment value="LEFT"/>
+      <lineStyle kind="LINEBEFORE" colorName="#cccccc" start="1,0" stop="1,-1"/>
+    </blockTableStyle>
+    <blockTableStyle id="Table3">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="TOP"/>
+    <lineStyle kind="LINEBELOW" colorName="#cccccc" start="0,0" stop="-1,0"/>
+      <lineStyle kind="LINEBEFORE" colorName="#cccccc" start="0,0" stop="0,-1"/>
+      <lineStyle kind="LINEABOVE" colorName="#cccccc" start="0,0" stop="0,0"/>
+      <lineStyle kind="LINEBELOW" colorName="#cccccc" start="0,-1" stop="0,-1"/>
+      <lineStyle kind="LINEBEFORE" colorName="#cccccc" start="1,0" stop="1,-1"/>
+      <lineStyle kind="LINEABOVE" colorName="#cccccc" start="1,0" stop="1,0"/>
+      <lineStyle kind="LINEBELOW" colorName="#cccccc" start="1,-1" stop="1,-1"/>
+      <lineStyle kind="LINEBEFORE" colorName="#cccccc" start="2,0" stop="2,-1"/>
+      <lineStyle kind="LINEAFTER" colorName="#cccccc" start="2,0" stop="2,-1"/>
+      <lineStyle kind="LINEABOVE" colorName="#cccccc" start="2,0" stop="2,0"/>
+      <lineStyle kind="LINEBELOW" colorName="#cccccc" start="2,-1" stop="2,-1"/>
+      <lineStyle kind="LINEBEFORE" colorName="#cccccc" start="3,0" stop="3,-1"/>
+      <lineStyle kind="LINEAFTER" colorName="#cccccc" start="3,0" stop="3,-1"/>
+      <lineStyle kind="LINEABOVE" colorName="#cccccc" start="3,0" stop="3,0"/>
+      <lineStyle kind="LINEBELOW" colorName="#cccccc" start="3,-1" stop="3,-1"/>
+      <lineStyle kind="LINEBEFORE" colorName="#cccccc" start="4,0" stop="4,-1"/>
+      <lineStyle kind="LINEABOVE" colorName="#cccccc" start="4,0" stop="4,0"/>
+      <lineStyle kind="LINEBELOW" colorName="#cccccc" start="4,-1" stop="4,-1"/>
+      <lineStyle kind="LINEBEFORE" colorName="#cccccc" start="5,0" stop="5,-1"/>
+      <lineStyle kind="LINEABOVE" colorName="#cccccc" start="5,0" stop="5,0"/>
+      <lineStyle kind="LINEBELOW" colorName="#cccccc" start="5,-1" stop="5,-1"/>
+      <lineStyle kind="LINEBEFORE" colorName="#cccccc" start="6,0" stop="6,-1"/>
+      <lineStyle kind="LINEAFTER" colorName="#cccccc" start="6,0" stop="6,-1"/>
+      <lineStyle kind="LINEABOVE" colorName="#cccccc" start="6,0" stop="6,0"/>
+      <lineStyle kind="LINEBELOW" colorName="#cccccc" start="6,-1" stop="6,-1"/>
+      <lineStyle kind="LINEBEFORE" colorName="#cccccc" start="7,0" stop="7,-1"/>
+      <lineStyle kind="LINEAFTER" colorName="#cccccc" start="7,0" stop="7,-1"/>
+      <lineStyle kind="LINEABOVE" colorName="#cccccc" start="7,0" stop="7,0"/>
+    </blockTableStyle>
+    <blockTableStyle id="Tableau1">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="TOP"/>
+    </blockTableStyle>
+    <blockTableStyle id="Tableau2">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="TOP"/>
+    </blockTableStyle>
+    <initialize>
+      <paraStyle name="all" alignment="justify"/>
+    </initialize>
+     <paraStyle name="P1" fontName="Helvetica-Bold" alignment="CENTER" fontSize="14.5" leftIndent="-5.0"/>
+    <paraStyle name="P2" fontName="Helvetica-bold" fontSize="15.0" leading="10" alignment="CENTER" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="P3" fontName="Helvetica" fontSize="8.0" leading="10" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="P4" fontName="Helvetica" fontSize="8.0" leading="10" alignment="LEFT" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="P5" fontName="Helvetica" fontSize="8.0" leading="10" alignment="LEFT" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="P6" fontName="Helvetica" fontSize="8.0" alignment="RIGHT" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="P7" fontName="Helvetica" fontSize="8.0" leading="14" alignment="RIGHT" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="P8" fontName="Helvetica-Bold" fontSize="8.0" leading="10" alignment="RIGHT" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="P9" fontName="Helvetica" fontSize="8.0" leading="10" alignment="RIGHT" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="P9a" fontName="Helvetica-Bold" fontSize="8.0" leading="10" alignment="LEFT" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="P9c" fontName="Helvetica" fontSize="8.0" leading="10" alignment="LEFT" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="P9b" fontName="Helvetica-Bold" fontSize="8.0" leading="10" alignment="RIGHT" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="P10" fontName="Helvetica" alignment="CENTER"/>
+    <paraStyle name="P11" fontName="Helvetica" fontSize="8.0" leading="14"/>
+    <paraStyle name="P12" fontName="Helvetica-bold" fontSize="9.0" leading="10" alignment="LEFT" spaceBefore="0.6" spaceAfter="6.0"/>
+    <paraStyle name="P12a" fontName="Helvetica-bold" fontSize="9.0" leading="10" alignment="RIGHT" spaceBefore="0.0" spaceAfter="0.0"/>
+    <paraStyle name="P13" fontName="Helvetica" fontSize="8.0" leading="10" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="P14" fontName="Helvetica-Bold" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="P15" rightIndent="17.0" leftIndent="-0.0" fontName="Helvetica" fontSize="8.0" leading="10" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="P16" fontName="Helvetica-Bold" fontSize="8.0" leading="14" alignment="RIGHT" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="Standard" fontName="Helvetica"/>
+    <paraStyle name="Text body" fontName="Helvetica" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="List" fontName="Helvetica" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="Table Contents" fontName="Helvetica" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="Table Heading" fontName="Helvetica" alignment="CENTER" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="Caption" fontName="Helvetica" fontSize="1.0" leading="1" spaceBefore="0" spaceAfter="0"/>
+    <paraStyle name="Index" fontName="Helvetica"/>
+	<paraStyle name="terp_tblheader_General_Centre" fontName="Helvetica-Bold" fontSize="8.0" leading="10" alignment="CENTER" spaceBefore="6.0" spaceAfter="6.0"/>
+	<paraStyle name="terp_default_Centre_8" fontName="Helvetica" fontSize="8.0" leading="10" alignment="CENTER" spaceBefore="0.0" spaceAfter="0.0"/>
+
+  </stylesheet>
+    
+    <story>
+        <para style="P2">Budget vs Reality</para>
+        <para style="Standard">[[setLang(user.context_lang)]]</para>
+        <para style="Standard">
+            <font color="white"> </font>
+        </para>
+
+    <section>
+                <section>
+
+
+            <para >[[ repeatIn(get_items(data.get('form',{})), 'item') ]]</para>
+            <blockTable colWidths="350.0,95.0,95.0" style="Table2">
+
+            
+
+                    <tr>
+                        
+
+                        <td>
+                            <para style="P12">[[item[1] ]]</para>
+                        </td>
+                        <td>
+                            <para style="P12a">[[item[2] ]]</para>
+                        </td>
+                        <td>
+                            <para style="P12a">[[item[3] ]]</para>
+                        </td>
+                    </tr>
+                </blockTable>
+                <section>
+
+                        <para style="Level1">[[ repeatIn(get_lines(data.get('form',{}), item[0]), 'line') ]]</para>
+                        <blockTable colWidths="240.0,240.0,50.0,10.0"  repeatRows="1">
+                            <tr>
+                                
+                                <td>
+                                    <para style="P5">[[line[0] ]]</para>
+                                </td>
+                                <td>
+                                    <para style="P6">[[line[1] ]]</para>
+                                </td>
+                                <td>
+                                    <para style="P6">[[line[2] ]]</para>
+                                </td>
+                               <td>
+                                    <para style="P6">[[line[3] ]]</para>
+                                </td>
+                            </tr>
+                        </blockTable>
+                    </section>
+               </section>
+               </section>
+        
+
+    </story>
+</document>
+

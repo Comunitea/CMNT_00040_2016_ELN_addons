@@ -1,0 +1,54 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+# 	* eln_purchase
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 6.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-03-25 09:04+0000\n"
+"PO-Revision-Date: 2015-03-25 10:04+0100\n"
+"Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: es_ES\n"
+"X-Generator: Poedit 1.7.5\n"
+
+#. module: eln_purchase
+#: sql_constraint:purchase.order:0
+msgid "Order Reference must be unique per Company!"
+msgstr "Orden de referencia debe ser única por Empresa!"
+
+#. module: eln_purchase
+#: view:purchase.order:0
+msgid "Reference"
+msgstr "Referencia"
+
+#. module: eln_purchase
+#: model:ir.model,name:eln_purchase.model_purchase_order
+msgid "Purchase Order"
+msgstr "Pedido de compra"
+
+#. module: eln_purchase
+#: sql_constraint:stock.picking:0
+msgid "Reference must be unique per Company!"
+msgstr "Referencia debe ser única por compañía!"
+
+#. module: eln_purchase
+#: model:ir.model,name:eln_purchase.model_stock_picking
+msgid "Picking List"
+msgstr "Albarán"
+
+#. module: eln_purchase
+#: model:ir.model,name:eln_purchase.model_stock_warehouse
+#: field:stock.picking,warehouse_id:0
+msgid "Warehouse"
+msgstr "Almacén"
+
+#. module: eln_purchase
+#: constraint:stock.picking:0
+msgid "Error: UNIQUE MSG"
+msgstr "Error: UNIQUE MSG"

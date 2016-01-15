@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="wizard_edi_import" model="ir.ui.view">
+            <field name="name">wizard.edi.import</field>
+            <field name="model">edi.import</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form>
+                    <field name="downloaded_files"/>
+                    <field name="pending_process"/>
+                    <field name="state" invisible="1"/>
+                    <button name="get_files" string="Obtener ficheros" type="object" icon="gtk-print" default_focus="1" states="start"/>
+                    <button name="process_files" string="Procesar ficheros" type="object" icon="gtk-ok" default_focus="1" states="to_process"/>
+                    <button special="cancel" string="Cancel" icon="gtk-cancel"/>
+
+                </form>
+            </field>
+        </record>
+
+        <record id="action_edi_import" model="ir.actions.act_window">
+            <field name="name">action.edi.import</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">edi.import</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <!--menuitem action="action_edi_import" id="view_wizard_edi_import"  name="Importar ficheros" parent="menu_edi"/-->
+
+    </data>
+</openerp>

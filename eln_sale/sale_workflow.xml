@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+         <record id="trans_router_wait_invoice_shipping_nobill" model="workflow.transition">
+            <field name="act_from" ref="sale.act_wait_invoice"/>
+            <field name="act_to" ref="sale.act_invoice_end"/>
+            <field name="condition">(order_policy=='no_bill')</field>
+
+        </record>
+
+    </data>
+</openerp>

@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<openerp>
+    <data noupdate="1">
+        <!--
+        Groups which may access picking invoice relation - especially stock workers
+        -->
+        <record model="res.groups" id="stock_picking_reopen.group">
+            <field name="name">Allow reopen pickings</field>
+        </record>
+    </data>
+</openerp>

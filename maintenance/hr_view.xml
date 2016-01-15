@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+
+		<record model="ir.ui.view"
+			id="maintenance_timesheet_products_employee_form_view">
+			<field name="name">hr.employee.form</field>
+			<field name="model">hr.employee</field>
+			<field name="type">form</field>
+			<field name="inherit_id" ref="hr_timesheet.hr_timesheet_employee_extd_form" />
+			<field name="arch" type="xml">
+				<field name="product_id" position="after">
+					<field name="producto_hora_nocturna_id" domain="[('type','=','service')]" />
+					<field name="producto_hora_festiva_id" domain="[('type','=','service')]" />
+				</field>
+			</field>
+		</record>
+
+
+		<record model="ir.ui.view"
+			id="maintenance_timesheet_externo_employee_form_view">
+			<field name="name">hr.employee.form</field>
+			<field name="model">hr.employee</field>
+			<field name="type">form</field>
+			<field name="inherit_id" ref="hr.view_employee_form" />
+			<field name="arch" type="xml">
+				<field name="job_id" position="after">
+					
+					<field name="externo" />
+				</field>
+			</field>
+		</record>
+
+	</data>
+</openerp>

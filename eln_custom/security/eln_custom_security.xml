@@ -1,0 +1,51 @@
+<openerp>
+    <data noupdate="0">
+
+        <record model="ir.rule" id="base.res_partner_rule">
+            <field name="name">res.partner multi company</field>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="domain_force">['|','|',('company_id.child_ids','child_of',[user.company_id.id]),('company_id','child_of',[user.company_id.id]),('company_id','=',False)]</field>
+        </record>
+
+        <record model="ir.rule" id="res_partner_address_rule">
+            <field name="name">res.partner.address multi company</field>
+            <field name="model_id" ref="base.model_res_partner_address"/>
+            <field name="domain_force">['|','|',('company_id.child_ids','child_of',[user.company_id.id]),('company_id','child_of',[user.company_id.id]),('company_id','=',False)]</field>
+        </record>
+
+        <record model="ir.rule" id="base.res_company_rule">
+            <field name="name">res.company multi company</field>
+            <field name="model_id" ref="base.model_res_company"/>
+            <field name="domain_force">['|',('id','child_of',[user.company_id.id]),('id','=',user.company_id.parent_id.id)]</field>
+        </record>
+
+        <record model="ir.rule" id="payment_type_comp_rule">
+            <field name="name">payment.type multi company</field>
+            <field name="model_id" ref="account_payment_extension.model_payment_type"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
+        </record>
+
+        <record model="ir.rule" id="res_partner_bank_comp_rule">
+            <field name="name">res.partner.bank multi company</field>
+            <field name="model_id" ref="base.model_res_partner_bank"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
+        </record>
+
+        <record model="ir.rule" id="hr.hr_job_comp_rule">
+            <field name="name">Job multi company rule</field>
+            <field name="model_id" ref="hr.model_hr_job"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">['|','|',('company_id.child_ids','child_of',[user.company_id.id]),('company_id','child_of',[user.company_id.id]),('company_id','=',False)]</field>
+        </record>
+        
+        <record model="ir.rule" id="analytic_plan_instance_comp_rule">
+           <field name="name">account.analytic.plan.instance multi company</field>
+           <field name="model_id" ref="account_analytic_plans.model_account_analytic_plan_instance"/>
+           <field name="global" eval="True"/>
+           <field name="domain_force">['|','|',('company_id','=',False),('company_id','child_of',[user.company_id.id]),('company_id.child_ids','child_of',[user.company_id.id])]</field>
+       </record>
+
+    </data>
+</openerp>

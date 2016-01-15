@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>
+        <record id="view_cost_structure_elements_treed" model="ir.ui.view">
+            <field name="name">cost.structure.elements.tree</field>
+            <field name="model">cost.structure.element</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Cost Structure Elements">
+                    <field name="sequence"/>
+                    <field name="name"/>
+                    <field name="cost_type_id" widget="selection"/>
+
+<field name="calculate"/>
+
+                    <field name="totalline"/>
+
+                </tree>
+            </field>
+        </record>
+        <record id="view_cost_structure_elements_filterd" model="ir.ui.view">
+            <field name="name">cost.structure.elements.list.select</field>
+            <field name="model">cost.structure.element</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Cost Structure Elements">
+                    <field name="cost_type_id" widget="selection"/>
+                </search>
+            </field>
+        </record>
+        <record id="view_cost_structure_elements_formd" model="ir.ui.view">
+            <field name="name">cost.structure.elements.form</field>
+            <field name="model">cost.structure.element</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Cost Structure Elements">
+                    <group>
+                        <field name="sequence"/>
+                        <field name="name"/>
+                        <field name="cost_type_id"/>
+
+                        <field name="totalline"/>
+                        <field name="calculate"/>
+                        <label string="Ratios" colspan="4"/>
+                        <field name="budget_item" colspan="4" nolabel="1"/>
+                    </group>
+
+                </form>
+            </field>
+        </record>
+        <record id="action_cost_structure_elements" model="ir.actions.act_window">
+            <field name="name">Cost Structure Elements</field>
+             <field name="type">ir.actions.act_window</field>
+            <field name="res_model">cost.structure.element</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_cost_structure_elements_filterd"/>
+             <field name="context">{}</field>
+        </record>
+
+        <record id="view_cost_structure_treed" model="ir.ui.view">
+            <field name="name">cost.structure.tree</field>
+            <field name="model">cost.structure</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Cost Structure">
+                    <field name="name"/>
+                    <field name="year"/>
+                    <field name="budget_version_id"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_cost_structure_filterd" model="ir.ui.view">
+            <field name="name">cost.structure.list.select</field>
+            <field name="model">cost.structure</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Cost Structure">
+                    <field name="name"/>
+                    <field name="year"/>
+                    <field name="budget_version_id"/>
+                    <field name="company_id"/>
+                </search>
+            </field>
+        </record>
+        <record id="view_cost_structure_formd" model="ir.ui.view">
+            <field name="name">cost.structure.form</field>
+            <field name="model">cost.structure</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Cost Structure">
+                    <group>
+                        <field name="name"/>
+                        <field name="year"/>
+                        <field name="budget_version_id" on_change="onchange_version_id(budget_version_id)"/>
+                        <field name="company_id"/>
+                    </group>
+                    <notebook colspan="4">
+                        <page string="Elements">
+                            <field name="elements" nolabel="1" colspan="4"/>
+                        </page>
+                    </notebook>
+                </form>
+            </field>
+        </record>
+        <record id="action_cost_structure" model="ir.actions.act_window">
+            <field name="name">Cost Structure</field>
+             <field name="type">ir.actions.act_window</field>
+            <field name="res_model">cost.structure</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_cost_structure_filterd"/>
+             <field name="context">{}</field>
+        </record>
+
+
+    </data>
+</openerp>

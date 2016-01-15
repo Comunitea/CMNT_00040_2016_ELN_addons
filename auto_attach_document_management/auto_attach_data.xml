@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data noupdate="0">
+        <record id="ir_cron_scan_queue_upload_action" model="ir.cron">
+            <field name="name">Upload queue</field>
+            <field name="interval_number">4</field>
+            <field name="interval_type">hours</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="model">scan.queue</field>
+            <field name="function">queue_upload</field>
+            <field name="args">(False,)</field>
+            <field name="priority">1</field>
+        </record>
+        <record id="ir_cron_analyze_scan_documents_action" model="ir.cron">
+            <field name="name">Analyze documents</field>
+            <field name="interval_number">4</field>
+            <field name="interval_type">hours</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="model">scan.document</field>
+            <field name="function">analyze</field>
+            <field name="args">(False,)</field>
+            <field name="priority">2</field>
+        </record>
+        <record id="ir_cron_verified_scan_documents_action" model="ir.cron">
+            <field name="name">Verified documents</field>
+            <field name="interval_number">4</field>
+            <field name="interval_type">hours</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="model">scan.document</field>
+            <field name="function">verified</field>
+            <field name="args">(False,)</field>
+            <field name="priority">3</field>
+        </record>
+        <record id="ir_cron_process_scan_documents_action" model="ir.cron">
+            <field name="name">Process documents</field>
+            <field name="interval_number">4</field>
+            <field name="interval_type">hours</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="model">scan.document</field>
+            <field name="function">process</field>
+            <field name="args">(False,)</field>
+            <field name="priority">4</field>
+        </record>
+        <record id="ir_cron_delete_crons_background_action" model="ir.cron">
+            <field name="name">Delete crons GD</field>
+            <field name="interval_number">4</field>
+            <field name="interval_type">hours</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="model">scan.document</field>
+            <field name="function">delete_crons</field>
+            <field name="args">(False,)</field>
+            <field name="priority">4</field>
+        </record>
+    </data>
+</openerp>

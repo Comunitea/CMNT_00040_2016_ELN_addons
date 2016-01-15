@@ -1,0 +1,596 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* budget
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 6.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-11-05 10:29+0000\n"
+"PO-Revision-Date: 2013-11-05 11:45+0100\n"
+"Last-Translator: marta <marta@pexego.es>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+
+#. module: budget
+#: field:budget.line,allocation:0
+msgid "Budget Item Allocation"
+msgstr "Asignación Partida presupuestaria"
+
+#. module: budget
+#: field:budget.version,name:0
+msgid "Version Name"
+msgstr "Nombre Versión"
+
+#. module: budget
+#: view:budget.line:0
+msgid "Group By..."
+msgstr "Agrupar por..."
+
+#. module: budget
+#: model:ir.actions.report.xml,name:budget.report_budget_webkit_html
+msgid "Webkit Budget"
+msgstr "Presupuesto Webkit"
+
+#. module: budget
+#: report:addons/budget/report/report_budget_webkit.mako:12
+msgid "March"
+msgstr "Marzo"
+
+#. module: budget
+#: selection:budget.item,style:0
+msgid "Bold"
+msgstr "Negrita"
+
+#. module: budget
+#: field:budget.version,company_id:0
+msgid "Company"
+msgstr "Compañía"
+
+#. module: budget
+#: view:budget.allocation.type:0
+#: view:budget.line:0
+msgid "Allocation"
+msgstr "Asignación"
+
+#. module: budget
+#: constraint:account.period:0
+msgid "Error ! The duration of the Period(s) is/are invalid. "
+msgstr "¡Error! La duración del periodo(s) no es válido. "
+
+#. module: budget
+#: field:budget.version,user_id:0
+msgid "User In Charge"
+msgstr "Usuario a cargo"
+
+#. module: budget
+#: view:budget.budget:0
+#: field:budget.budget,note:0
+#: view:budget.item:0
+#: field:budget.item,note:0
+#: view:budget.version:0
+#: field:budget.version,note:0
+msgid "Notes"
+msgstr "Notas"
+
+#. module: budget
+#: view:budget.item:0
+#: model:ir.ui.menu,name:budget.menu_budget_item_list
+msgid "Budget Items"
+msgstr "Partidas Presupuestarias"
+
+#. module: budget
+#: view:budget.line:0
+msgid "Total Difference"
+msgstr "Diferencia Total"
+
+#. module: budget
+#: view:budget.line:0
+#: field:budget.line,amount:0
+msgid "Amount"
+msgstr "Importe"
+
+#. module: budget
+#: field:budget.item,account:0
+msgid "Financial Account"
+msgstr "Cuenta financiera"
+
+#. module: budget
+#: constraint:budget.budget:0
+msgid "Date Error: The end date is defined before the start date"
+msgstr "Error con la Fecha: La fecha final es menor que la fecha inicial"
+
+#. module: budget
+#: view:budget.item:0
+#: field:budget.item,calculation:0
+msgid "Calculation"
+msgstr "Cálculo"
+
+#. module: budget
+#: model:ir.model,name:budget.model_budget_allocation_type
+msgid "budget.allocation.type"
+msgstr "budget.allocation.type"
+
+#. module: budget
+#: field:budget.line,analytic_account_id:0
+#: model:ir.model,name:budget.model_account_analytic_account
+msgid "Analytic Account"
+msgstr "Cuenta Analítica"
+
+#. module: budget
+#: view:budget.item:0
+msgid "Accounts"
+msgstr "Cuentas"
+
+#. module: budget
+#: constraint:account.analytic.account:0
+msgid "Error! You can not create recursive analytic accounts."
+msgstr "¡Error! No puede crear cuentas analíticas recursivas."
+
+#. module: budget
+#: field:budget.line,analytic_real_amount:0
+msgid "Analytic Real Amount"
+msgstr "Importe Analítico Real"
+
+#. module: budget
+#: field:budget.budget,budget_item_id:0
+#: view:budget.item:0
+msgid "Budget Structure"
+msgstr "Estructura Presupuesto"
+
+#. module: budget
+#: view:budget.line:0
+#: field:report.budget,version_id:0
+msgid "Version"
+msgstr "Versión"
+
+#. module: budget
+#: view:report.budget:0
+msgid "Print"
+msgstr "Imprimir"
+
+#. module: budget
+#: field:budget.item,type:0
+msgid "Type"
+msgstr "Tipo"
+
+#. module: budget
+#: field:budget.budget,create_date:0
+#: field:budget.version,create_date:0
+msgid "Creation Date"
+msgstr "Fecha de creación"
+
+#. module: budget
+#: report:addons/budget/report/report_budget_webkit.mako:14
+msgid "July"
+msgstr "Julio"
+
+#. module: budget
+#: constraint:budget.line:0
+msgid "The line's dates must be within the budget's start and end dates"
+msgstr "Las fechas de las líneas deben de estar dentro de las fechas del presupuesto."
+
+#. module: budget
+#: view:budget.budget:0
+#: field:budget.budget,budget_version_ids:0
+#: view:budget.version:0
+#: model:ir.ui.menu,name:budget.menu_budget_version_list
+msgid "Budget Versions"
+msgstr "Versiones Presupuesto"
+
+#. module: budget
+#: view:budget.budget:0
+msgid "Versions"
+msgstr "Versiones"
+
+#. module: budget
+#: view:budget.budget:0
+#: field:budget.version,budget_id:0
+#: model:ir.actions.act_window,name:budget.action_report_budget
+#: model:ir.actions.report.xml,name:budget.report_budget_report
+#: model:ir.model,name:budget.model_budget_budget
+#: model:ir.ui.menu,name:budget.menu_budget
+msgid "Budget"
+msgstr "Presupuesto"
+
+#. module: budget
+#: view:budget.line:0
+msgid "Item"
+msgstr "Partida Presupuestaria"
+
+#. module: budget
+#: report:addons/budget/report/report_budget_webkit.mako:15
+msgid "September"
+msgstr "Septiembre"
+
+#. module: budget
+#: report:addons/budget/report/report_budget_webkit.mako:17
+msgid "December"
+msgstr "Diciembre"
+
+#. module: budget
+#: field:budget.line,analytic_diff_amount:0
+msgid "Analytic Difference Amount"
+msgstr "Diferencia Importe analítico"
+
+#. module: budget
+#: field:budget.line,currency_id:0
+#: field:budget.version,currency_id:0
+msgid "Currency"
+msgstr "Moneda"
+
+#. module: budget
+#: field:account.analytic.account,budget_line_ids:0
+#: view:budget.line:0
+#: view:budget.version:0
+#: field:budget.version,budget_line_ids:0
+#: model:ir.actions.act_window,name:budget.action_budget_line_analytic_tree
+#: model:ir.model,name:budget.model_budget_line
+#: model:ir.ui.menu,name:budget.menu_budget_line_list
+msgid "Budget Lines"
+msgstr "Líneas presupuestarias"
+
+#. module: budget
+#: field:budget.budget,start_date:0
+#: field:budget.line,date_start:0
+msgid "Start Date"
+msgstr "Fecha inicial"
+
+#. module: budget
+#: field:budget.line,budget_amount:0
+msgid "In Budget's Currency"
+msgstr "En la moneda del presupuesto"
+
+#. module: budget
+#: field:budget.item,style:0
+msgid "Style"
+msgstr "Estilo"
+
+#. module: budget
+#: report:addons/budget/report/report_budget_webkit.mako:17
+msgid "Tot"
+msgstr "Tot"
+
+#. module: budget
+#: field:report.budget,date_to:0
+msgid "Date to"
+msgstr "Hasta"
+
+#. module: budget
+#: report:addons/budget/report/report_budget_webkit.mako:15
+msgid "August"
+msgstr "Agosto"
+
+#. module: budget
+#: selection:budget.item,style:0
+#: selection:budget.item,type:0
+msgid "Normal"
+msgstr "Normal"
+
+#. module: budget
+#: view:budget.line:0
+#: view:budget.version:0
+msgid "Total Amount"
+msgstr "Importe total"
+
+#. module: budget
+#: report:addons/budget/report/report_budget_webkit.mako:14
+msgid "June"
+msgstr "Junio"
+
+#. module: budget
+#: view:budget.line:0
+msgid "Total Real Amount"
+msgstr "UImporte Total Real"
+
+#. module: budget
+#: field:budget.budget,active:0
+#: field:budget.item,active:0
+msgid "Active"
+msgstr "Activo"
+
+#. module: budget
+#: report:addons/budget/report/report_budget_webkit.mako:16
+msgid "November"
+msgstr "Noviembre"
+
+#. module: budget
+#: report:addons/budget/report/report_budget_webkit.mako:16
+msgid "October"
+msgstr "Octubre"
+
+#. module: budget
+#: report:addons/budget/report/report_budget_webkit.mako:11
+msgid "January"
+msgstr "Enero"
+
+#. module: budget
+#: view:budget.line:0
+msgid "Contract"
+msgstr "Contrato"
+
+#. module: budget
+#: field:budget.version,ref_date:0
+msgid "Reference Date"
+msgstr "Fecha de referencia"
+
+#. module: budget
+#: field:budget.item,children_ids:0
+msgid "Children Items"
+msgstr "Partidas presupuestarias hijas"
+
+#. module: budget
+#: view:budget.budget:0
+#: model:ir.ui.menu,name:budget.menu_budget_list
+msgid "Budgets"
+msgstr "Presupuestos"
+
+#. module: budget
+#: constraint:account.analytic.account:0
+msgid "Error! The currency has to be the same as the currency of the selected company"
+msgstr "Error ! La moneda tiene que ser la misma que la de la compañía seleccionada"
+
+#. module: budget
+#: model:ir.ui.menu,name:budget.menu_budget_item_tree
+msgid "Budget Items Structures"
+msgstr "Estructura Partidas Presupuestarias"
+
+#. module: budget
+#: model:ir.model,name:budget.model_budget_version
+msgid "Budget versions"
+msgstr "Versiones Presupuesto"
+
+#. module: budget
+#: field:budget.budget,code:0
+#: field:budget.item,code:0
+#: field:budget.version,code:0
+msgid "Code"
+msgstr "Código"
+
+#. module: budget
+#: model:ir.model,name:budget.model_budget_item
+msgid "Budget items"
+msgstr "Partidas presupuestarias"
+
+#. module: budget
+#: constraint:account.period:0
+msgid "Invalid period ! Some periods overlap or the date period is not in the scope of the fiscal year. "
+msgstr "¡Periodo inválido! Algunos periodos se superponen o la fecha del periodo no está dentro del intervalo del ejercicio fiscal. "
+
+#. module: budget
+#: report:report.budget.report:0
+msgid "Budget vs Reality"
+msgstr "Presupuestado vs Realidad"
+
+#. module: budget
+#: constraint:budget.item:0
+msgid "Error ! You can not create recursive budget items structure."
+msgstr "Error! No puedes crear una estructura de partidas presupuestarias recursiva."
+
+#. module: budget
+#: view:budget.line:0
+msgid "Periods"
+msgstr "Periodos"
+
+#. module: budget
+#: view:report.budget:0
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: budget
+#: view:budget.item:0
+msgid "Children"
+msgstr "Hijo"
+
+#. module: budget
+#: field:budget.item,all_account_ids:0
+msgid "Accounts and Children Accounts"
+msgstr "Cuentas y Cuentas Hijas"
+
+#. module: budget
+#: constraint:budget.line:0
+msgid "The end date must be after the start date."
+msgstr "La fecha final tiene que ser posterior a la fecha inicial."
+
+#. module: budget
+#: model:ir.actions.act_window,name:budget.open_budget_items_tree
+msgid "Budgets Structure"
+msgstr "Estructura Presupuesto"
+
+#. module: budget
+#: field:budget.item,parent_id:0
+msgid "Parent Item"
+msgstr "Partida presupuestaria padre"
+
+#. module: budget
+#: field:budget.line,budget_currency_id:0
+msgid "Budget Currency"
+msgstr "Divisa presupuesto"
+
+#. module: budget
+#: view:budget.line:0
+msgid "Real"
+msgstr "Real"
+
+#. module: budget
+#: field:budget.line,analytic_amount:0
+msgid "In Analytic Amount's Currency"
+msgstr "En la divisa del importe analítico"
+
+#. module: budget
+#: report:addons/budget/report/report_budget_webkit.mako:20
+#: report:addons/budget/report/report_budget_webkit.mako:21
+#: report:addons/budget/report/report_budget_webkit.mako:22
+#: report:addons/budget/report/report_budget_webkit.mako:23
+#: report:addons/budget/report/report_budget_webkit.mako:24
+#: report:addons/budget/report/report_budget_webkit.mako:25
+#: report:addons/budget/report/report_budget_webkit.mako:26
+#: report:addons/budget/report/report_budget_webkit.mako:27
+#: report:addons/budget/report/report_budget_webkit.mako:28
+#: report:addons/budget/report/report_budget_webkit.mako:29
+#: report:addons/budget/report/report_budget_webkit.mako:30
+#: report:addons/budget/report/report_budget_webkit.mako:31
+msgid "%"
+msgstr "%"
+
+#. module: budget
+#: field:budget.line,name:0
+msgid "Description"
+msgstr "Descripción"
+
+#. module: budget
+#: field:budget.line,budget_version_id:0
+msgid "Budget Version"
+msgstr "Versión presupuesto"
+
+#. module: budget
+#: report:addons/budget/report/report_budget_webkit.mako:13
+msgid "May"
+msgstr "Mayo"
+
+#. module: budget
+#: model:ir.model,name:budget.model_account_period
+msgid "Account period"
+msgstr "Período contable"
+
+#. module: budget
+#: field:budget.line,analytic_currency_id:0
+msgid "Analytic Currency"
+msgstr "Divisa Analítica"
+
+#. module: budget
+#: view:report.budget:0
+msgid "Report Budget"
+msgstr "Informe Presupuesto"
+
+#. module: budget
+#: field:budget.line,budget_item_id:0
+msgid "Budget Item"
+msgstr "Partida presupuestaria"
+
+#. module: budget
+#: selection:budget.item,style:0
+msgid "Invisible"
+msgstr "Invisible"
+
+#. module: budget
+#: view:budget.line:0
+msgid "Difference"
+msgstr "Diferencia"
+
+#. module: budget
+#: field:budget.budget,end_date:0
+#: field:budget.line,date_stop:0
+msgid "End Date"
+msgstr "Fecha Final"
+
+#. module: budget
+#: report:addons/budget/report/report_budget_webkit.mako:12
+msgid "February"
+msgstr "Febrero"
+
+#. module: budget
+#: report:addons/budget/report/report_budget_webkit.mako:11
+#: field:budget.allocation.type,name:0
+#: field:budget.budget,name:0
+#: field:budget.item,name:0
+msgid "Name"
+msgstr "Nombre"
+
+#. module: budget
+#: report:addons/budget/report/report_budget_webkit.mako:20
+#: report:addons/budget/report/report_budget_webkit.mako:21
+#: report:addons/budget/report/report_budget_webkit.mako:22
+#: report:addons/budget/report/report_budget_webkit.mako:23
+#: report:addons/budget/report/report_budget_webkit.mako:24
+#: report:addons/budget/report/report_budget_webkit.mako:25
+#: report:addons/budget/report/report_budget_webkit.mako:26
+#: report:addons/budget/report/report_budget_webkit.mako:27
+#: report:addons/budget/report/report_budget_webkit.mako:28
+#: report:addons/budget/report/report_budget_webkit.mako:29
+#: report:addons/budget/report/report_budget_webkit.mako:30
+#: report:addons/budget/report/report_budget_webkit.mako:31
+#: report:addons/budget/report/report_budget_webkit.mako:32
+msgid "Real."
+msgstr "Real."
+
+#. module: budget
+#: model:ir.model,name:budget.model_report_budget
+msgid "report.budget"
+msgstr "report.budget"
+
+#. module: budget
+#: view:budget.version:0
+msgid "Lines"
+msgstr "Líneas Presupuestarias"
+
+#. module: budget
+#: view:budget.item:0
+msgid "Reports"
+msgstr "Informes"
+
+#. module: budget
+#: report:addons/budget/report/report_budget_webkit.mako:13
+msgid "April"
+msgstr "Abril"
+
+#. module: budget
+#: constraint:budget.line:0
+msgid "The line's bugdet item must belong to the budget structure defined in the budget"
+msgstr "The line's bugdet item must belong to the budget structure defined in the budget"
+
+#. module: budget
+#: model:ir.actions.act_window,name:budget.act_wzd_report_budget
+msgid "Print budget"
+msgstr "Imprimir presupuesto"
+
+#. module: budget
+#: sql_constraint:account.period:0
+msgid "The name of the period must be unique per company!"
+msgstr "El nombre del periodo debe ser único por compañia!"
+
+#. module: budget
+#: field:budget.item,allocation_id:0
+msgid "Budget Line Allocation Type"
+msgstr "Budget Line Allocation Type"
+
+#. module: budget
+#: selection:budget.item,type:0
+msgid "View"
+msgstr "Vista"
+
+#. module: budget
+#: field:budget.item,sequence:0
+msgid "Sequence"
+msgstr "Sequence"
+
+#. module: budget
+#: report:addons/budget/report/report_budget_webkit.mako:20
+#: report:addons/budget/report/report_budget_webkit.mako:21
+#: report:addons/budget/report/report_budget_webkit.mako:22
+#: report:addons/budget/report/report_budget_webkit.mako:23
+#: report:addons/budget/report/report_budget_webkit.mako:24
+#: report:addons/budget/report/report_budget_webkit.mako:25
+#: report:addons/budget/report/report_budget_webkit.mako:26
+#: report:addons/budget/report/report_budget_webkit.mako:27
+#: report:addons/budget/report/report_budget_webkit.mako:28
+#: report:addons/budget/report/report_budget_webkit.mako:29
+#: report:addons/budget/report/report_budget_webkit.mako:30
+#: report:addons/budget/report/report_budget_webkit.mako:31
+#: report:addons/budget/report/report_budget_webkit.mako:32
+msgid "Bdg."
+msgstr "Pres."
+
+#. module: budget
+#: view:budget.line:0
+msgid "In Contract's Currency"
+msgstr "In Contract's Currency"
+
+#. module: budget
+#: view:budget.line:0
+msgid "Analytic Amounts"
+msgstr "Importes analíticos"
+

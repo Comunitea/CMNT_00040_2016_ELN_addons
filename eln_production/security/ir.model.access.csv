@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_production_stops_user,production.stops,model_production_stops,mrp.group_mrp_user,1,1,1,1

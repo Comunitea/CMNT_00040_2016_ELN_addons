@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data noupdate="0">
+        <!-- Type -->
+        <record model="ir.sequence.type" id="seq_product_sheet_shepments">
+            <field name="name">Sequence product sheet shipments</field>
+            <field name="code">product.sheet.shipments</field>
+        </record>
+
+        <!-- Sequence -->
+        <record id="seq_product_sheet_shipments_action" model="ir.sequence">
+            <field name="name">Def. product sheet shipments seq.</field>
+            <field name="code">product.sheet.shipments</field>
+            <field name="prefix">SHPMT/</field>
+            <field name="padding">10</field>
+            <field name="company_id" eval="0"/>
+        </record>
+    </data>
+</openerp>

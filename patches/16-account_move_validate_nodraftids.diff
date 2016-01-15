@@ -1,0 +1,26 @@
+=== modified file 'account/account.py'
+--- account/account.py	2013-09-10 15:12:35 +0000
++++ account/account.py	2015-10-12 20:05:58 +0000
+@@ -1646,9 +1646,17 @@
+             else:
+                 # We can't validate it (it's unbalanced)
+                 # Setting the lines as draft
+-                obj_move_line.write(cr, uid, line_ids, {
+-                    'state': 'draft'
+-                }, context, check=False)
++                #obj_move_line.write(cr, uid, line_ids, {
++                #    'state': 'draft'
++                #}, context, check=False)
++                line_nodraft_ids = []
++                for line_id in line_ids:
++                    if line_id not in line_draft_ids:
++                        line_nodraft_ids.append(line_id)
++                if len(line_nodraft_ids) > 0:
++                    obj_move_line.write(cr, uid, line_nodraft_ids, {
++                        'state': 'draft'
++                    }, context, check=False)
+         # Create analytic lines for the valid moves
+         for record in valid_moves:
+             obj_move_line.create_analytic_lines(cr, uid, [line.id for line in record.line_id], context)
+
+             

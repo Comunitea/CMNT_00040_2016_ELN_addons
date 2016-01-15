@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>
+       <report
+            auto="False"
+            id="report_budget_report"
+            model="report.budget"
+            name="report.budget.report"
+            rml="budget/report/report_budget.rml"
+            string="Budget"
+            usage="default"
+            multi="True"/>
+
+       <report auto="False"
+                id="report_budget_webkit_html"
+                model="report.budget"
+                name="report.budget.report.webkit"
+                file="budget/report/report_budget_webkit.mako"
+                string="Webkit Budget"
+                report_type="webkit"
+                webkit_header="budget.ir_header_webkit_budget_report"/>
+    </data>
+</openerp>

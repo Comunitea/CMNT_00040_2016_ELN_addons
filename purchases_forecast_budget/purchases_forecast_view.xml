@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>
+        <record id="view_purchases_forecast_form_add_budget" model="ir.ui.view">
+            <field name="name">purchases.forecast.form.add.budget</field>
+            <field name="model">purchases.forecast</field>
+            <field name="inherit_id" ref="purchases_forecast.view_purchases_forecast_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <group position="after">
+                    <group string="Budget Configuration" col="4" colspan="4">
+                        <field name="budget_version_id" widget="selection"/>
+                        <field name="budget_item_id" widget="selection"/>
+                    </group>
+                </group>
+            </field>
+        </record>
+    </data>
+</openerp>

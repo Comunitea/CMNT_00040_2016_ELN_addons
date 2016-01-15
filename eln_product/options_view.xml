@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="product_options_form_view">
+            <field name="name">product.options.form</field>
+            <field name="model">product.options</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Product options">
+                    <field name="name"/>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="product_options_tree_view">
+            <field name="name">product.options.tree</field>
+            <field name="model">product.options</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Product options">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="product_options_search_view" model="ir.ui.view">
+            <field name="name">product.options.search</field>
+            <field name="model">product.options</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Product options">
+                    <group col="10" colspan="4">
+                        <field name="name"/>
+                     </group>
+               </search>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="product_options_action">
+        <field name="name">Options</field>
+        <field name="res_model">product.options</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="product_options_tree_view"/>
+        <field name="search_view_id" ref="product_options_search_view"/>
+    </record>
+
+        <menuitem parent="stock.menu_product_in_config_stock" name="Options" id="product_options_menu_parent"/>
+        <menuitem parent="product_options_menu_parent" name="Options" id="product_options_menu"
+        action="product_options_action" sequence="0" />
+    </data>
+</openerp>

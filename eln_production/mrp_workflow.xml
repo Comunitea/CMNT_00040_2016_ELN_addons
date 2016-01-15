@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+         <record id="prod_act_finished" model="workflow.activity">
+            <field name="wkf_id" ref="mrp.wkf_prod"/>
+            <field name="kind">function</field>
+            <field name="action">action_finished()</field>            
+            <field name="name">finished</field>
+        </record>
+         <record id="prod_act_validated" model="workflow.activity">
+            <field name="wkf_id" ref="mrp.wkf_prod"/>
+            <field name="kind">function</field>
+            <field name="action">action_validated()</field>            
+            <field name="name">validated</field>
+        </record>
+         <record id="prod_act_closed" model="workflow.activity">
+            <field name="wkf_id" ref="mrp.wkf_prod"/>
+            <field name="kind">function</field>
+            <field name="action">action_close()</field>            
+            <field name="name">closed</field>
+        </record>
+    
+         <record id="mrp.prod_trans_in_production_done" model="workflow.transition">
+            <field name="act_from" ref="mrp.prod_act_in_production"/>
+            <field name="act_to" ref="prod_act_finished"/>
+            <field name="signal">button_produce_finished</field>
+            <field name="condition">True</field>
+        </record>
+        <record id="prod_trans_finished_validated" model="workflow.transition">
+            <field name="act_from" ref="prod_act_finished"/>
+            <field name="act_to" ref="prod_act_validated"/>
+            <field name="signal">button_finished_validated</field>
+        </record>
+        <record id="prod_trans_validated_closed" model="workflow.transition">
+            <field name="act_from" ref="prod_act_validated"/>
+            <field name="act_to" ref="prod_act_closed"/>
+            <field name="signal">button_validated_closed</field>
+        </record>
+        <record id="prod_trans__closed_done" model="workflow.transition">
+            <field name="act_from" ref="prod_act_closed"/>
+            <field name="act_to" ref="mrp.prod_act_done"/>
+            <field name="signal">button_produce_done</field>
+            <field name="condition">test_production_done()</field>
+        </record>
+    </data>
+</openerp>

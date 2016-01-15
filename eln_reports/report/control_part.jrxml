@@ -1,0 +1,2087 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="control_part" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Crosstab Data Text" hAlign="Center"/>
+	<subDataset name="DS_workcenter_lines">
+		<parameter name="PRODUCTION_ID" class="java.lang.Integer"/>
+		<parameter name="REWIND" class="java.lang.Object" isForPrompting="false">
+			<parameterDescription><![CDATA[]]></parameterDescription>
+			<defaultValueExpression><![CDATA[$P{REPORT_DATA_SOURCE}.moveFirst()]]></defaultValueExpression>
+		</parameter>
+		<queryString language="xPath">
+			<![CDATA[/data/record]]>
+		</queryString>
+		<field name="Orden_de_trabajo-name" class="java.lang.String">
+			<fieldDescription><![CDATA[Utilizacion_del_centro_de_produccion-workcenter_lines/Orden_de_trabajo-name]]></fieldDescription>
+		</field>
+		<field name="id" class="java.lang.Integer">
+			<fieldDescription><![CDATA[Utilizacion_del_centro_de_produccion-workcenter_lines/Orden_de_produccion-production_id/id]]></fieldDescription>
+		</field>
+		<field name="Secuencia-sequence" class="java.lang.String">
+			<fieldDescription><![CDATA[Utilizacion_del_centro_de_produccion-workcenter_lines/Secuencia-sequence]]></fieldDescription>
+		</field>
+		<field name="Name-name" class="java.lang.String">
+			<fieldDescription><![CDATA[Utilizacion_del_centro_de_produccion-workcenter_lines/Centro_de_produccion-workcenter_id/Name-name]]></fieldDescription>
+		</field>
+		<filterExpression><![CDATA[$P{PRODUCTION_ID} == $F{id}]]></filterExpression>
+	</subDataset>
+	<subDataset name="DS_LdM">
+		<parameter name="PRODUCTION_ID" class="java.lang.Integer"/>
+		<parameter name="REWIND" class="java.lang.Object" isForPrompting="false">
+			<parameterDescription><![CDATA[]]></parameterDescription>
+			<defaultValueExpression><![CDATA[$P{REPORT_DATA_SOURCE}.moveFirst()]]></defaultValueExpression>
+		</parameter>
+		<queryString language="xPath">
+			<![CDATA[/data/record]]>
+		</queryString>
+		<field name="Name-name" class="java.lang.String">
+			<fieldDescription><![CDATA[Productos_a_consumir-move_lines/Producto-product_id/Name-name]]></fieldDescription>
+		</field>
+		<field name="Cantidad-product_qty" class="java.lang.Double">
+			<fieldDescription><![CDATA[Productos_a_consumir-move_lines/Cantidad-product_qty]]></fieldDescription>
+		</field>
+		<field name="id" class="java.lang.Integer">
+			<fieldDescription><![CDATA[Productos_a_consumir-move_lines/Produccion-production_id/id]]></fieldDescription>
+		</field>
+		<field name="Nombre-name" class="java.lang.String">
+			<fieldDescription><![CDATA[Productos_a_consumir-move_lines/Unidad_de_medida-product_uom/Nombre-name]]></fieldDescription>
+		</field>
+		<field name="Referencia-code" class="java.lang.String">
+			<fieldDescription><![CDATA[Productos_a_consumir-move_lines/Producto-product_id/Referencia-code]]></fieldDescription>
+		</field>
+	</subDataset>
+	<subDataset name="DS_options">
+		<parameter name="PRODUCTION_ID" class="java.lang.Integer"/>
+		<parameter name="REWIND" class="java.lang.Object" isForPrompting="false">
+			<parameterDescription><![CDATA[]]></parameterDescription>
+			<defaultValueExpression><![CDATA[$P{REPORT_DATA_SOURCE}.moveFirst()]]></defaultValueExpression>
+		</parameter>
+		<queryString language="xPath">
+			<![CDATA[/data/record]]>
+		</queryString>
+		<field name="Name-name" class="java.lang.String">
+			<fieldDescription><![CDATA[Producto-product_id/Options-option_ids/Option-option_id/Name-name]]></fieldDescription>
+		</field>
+	</subDataset>
+	<subDataset name="DS_verifications">
+		<parameter name="PRODUCTION_ID" class="java.lang.Integer"/>
+		<parameter name="REWIND" class="java.lang.Object" isForPrompting="false">
+			<parameterDescription><![CDATA[]]></parameterDescription>
+			<defaultValueExpression><![CDATA[$P{REPORT_DATA_SOURCE}.moveFirst()]]></defaultValueExpression>
+		</parameter>
+		<queryString language="xPath">
+			<![CDATA[/data/record]]>
+		</queryString>
+		<field name="Name-name" class="java.lang.String">
+			<fieldDescription><![CDATA[Producto-product_id/Verfications-verification_ids/Verification-verification_id/Name-name]]></fieldDescription>
+		</field>
+	</subDataset>
+	<parameter name="TABLE_LINES_ORDENES_TRABAJO_1" class="java.lang.Object"/>
+	<parameter name="TABLE_LINES_ORDENES_TRABAJO_2" class="java.lang.Object"/>
+	<parameter name="TABLE_LINES_LISTA_MATERIALES_1" class="java.lang.Object"/>
+	<parameter name="TABLE_LINES_LISTA_MATERIALES_2" class="java.lang.Object"/>
+	<parameter name="TABLE_LINES_OPCIONES" class="java.lang.Object"/>
+	<parameter name="TABLE_LINES_VERIFICACIONES" class="java.lang.Object"/>
+	<parameter name="TABLE_LINES_SCRAP" class="java.lang.Object"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false"/>
+	<queryString language="xPath">
+		<![CDATA[/data/record]]>
+	</queryString>
+	<field name="id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[id]]></fieldDescription>
+	</field>
+	<field name="Referencia-name" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Referencia-name]]></fieldDescription>
+	</field>
+	<field name="Name-name" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Producto-product_id/Name-name]]></fieldDescription>
+	</field>
+	<field name="Ctdad_producto-product_qty" class="java.lang.Double">
+		<fieldDescription><![CDATA[/data/record/Ctdad_producto-product_qty]]></fieldDescription>
+	</field>
+	<field name="Cant._UdV_del_producto-product_uos_qty" class="java.lang.Double">
+		<fieldDescription><![CDATA[/data/record/Cant._UdV_del_producto-product_uos_qty]]></fieldDescription>
+	</field>
+	<field name="EAN13-ean13" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Producto-product_id/EAN13-ean13]]></fieldDescription>
+	</field>
+	<field name="DUN14-dun14" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Producto-product_id/DUN14-dun14]]></fieldDescription>
+	</field>
+	<field name="UOM____UOS_Coeff-uos_coeff" class="java.lang.Double">
+		<fieldDescription><![CDATA[/data/record/Producto-product_id/UOM____UOS_Coeff-uos_coeff]]></fieldDescription>
+	</field>
+	<field name="Fecha_final-date_finished" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[/data/record/Fecha_final-date_finished]]></fieldDescription>
+	</field>
+	<field name="Fecha_inicial-date_start" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[/data/record/Fecha_inicial-date_start]]></fieldDescription>
+	</field>
+	<field name="Lote_de_produccion-name" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Productos_a_fabricar-move_created_ids/Lote_de_produccion-prodlot_id/Lote_de_produccion-name]]></fieldDescription>
+	</field>
+	<field name="Fecha_caducidad-use_date" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[/data/record/Productos_a_fabricar-move_created_ids/Lote_de_produccion-prodlot_id/Fecha_caducidad-use_date]]></fieldDescription>
+	</field>
+	<field name="Bolsa_pinchada-perforated_bag" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[/data/record/Producto-product_id/Bolsa_pinchada-perforated_bag]]></fieldDescription>
+	</field>
+	<field name="Envasado_en_atmosfera_protectora-protective_atmosphere" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[/data/record/Producto-product_id/Envasado_en_atmosfera_protectora-protective_atmosphere]]></fieldDescription>
+	</field>
+	<field name="Productos_a_consumir-move_lines" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Productos_a_consumir-move_lines]]></fieldDescription>
+	</field>
+	<field name="Comentarios__ficha_producto-comments_sheet" class="java.lang.String">
+		<fieldDescription><![CDATA[Producto-product_id/Comentarios__ficha_producto-comments_sheet]]></fieldDescription>
+	</field>
+	<field name="Productos_a_consumir-move_lines2" class="java.lang.String">
+		<fieldDescription><![CDATA[Productos_a_consumir-move_lines]]></fieldDescription>
+	</field>
+	<field name="Nombre-name" class="java.lang.String">
+		<fieldDescription><![CDATA[UdM_del_producto-product_uom/Nombre-name]]></fieldDescription>
+	</field>
+	<field name="Nombre-name2" class="java.lang.String">
+		<fieldDescription><![CDATA[UdV_del_producto-product_uos/Nombre-name]]></fieldDescription>
+	</field>
+	<field name="Date_end_Planned-date_end_planned" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[Date_end_Planned-date_end_planned]]></fieldDescription>
+	</field>
+	<field name="Fecha_planificada-date_planned" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[Fecha_planificada-date_planned]]></fieldDescription>
+	</field>
+	<field name="Referencia-code" class="java.lang.String">
+		<fieldDescription><![CDATA[Producto-product_id/Referencia-code]]></fieldDescription>
+	</field>
+	<group name="Production" isStartNewPage="true">
+		<groupExpression><![CDATA[$F{id}]]></groupExpression>
+		<groupHeader>
+			<band height="219">
+				<staticText>
+					<reportElement positionType="Float" x="0" y="186" width="555" height="13"/>
+					<box>
+						<bottomPen lineWidth="0.5" lineStyle="Double"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Órdenes de trabajo]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="0" y="85" width="555" height="13"/>
+					<box>
+						<bottomPen lineWidth="0.5" lineStyle="Double"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Planificación]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="0" y="103" width="162" height="18"/>
+					<box>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Producto]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="161" y="103" width="67" height="18"/>
+					<box>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Cantidad (UdM)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="228" y="103" width="62" height="18"/>
+					<box>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Cantidad (UdV)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="290" y="103" width="74" height="18"/>
+					<box>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Cantidad real fabricada]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="364" y="103" width="95" height="18"/>
+					<box>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[EAN 13]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="459" y="103" width="96" height="18"/>
+					<box>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[DUN 14]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement positionType="Float" x="0" y="121" width="161" height="22"/>
+					<box>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+						<font size="7" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Name-name}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+					<reportElement positionType="Float" x="161" y="121" width="67" height="11"/>
+					<box>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+						<font size="7" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Double"><![CDATA[$F{Ctdad_producto-product_qty}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement positionType="Float" x="459" y="121" width="96" height="22"/>
+					<box>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+						<font size="7" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{DUN14-dun14}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement positionType="Float" x="364" y="121" width="95" height="22"/>
+					<box>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+						<font size="7" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{EAN13-ean13}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+					<reportElement positionType="Float" x="228" y="121" width="62" height="11"/>
+					<box>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+						<font size="7" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Double"><![CDATA[$F{Cant._UdV_del_producto-product_uos_qty}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement positionType="Float" x="290" y="121" width="74" height="22"/>
+					<box>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+						<font size="7" isBold="false"/>
+					</textElement>
+				</textField>
+				<staticText>
+					<reportElement positionType="Float" x="51" y="146" width="108" height="18"/>
+					<box>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Fecha inicio programada]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="359" y="146" width="67" height="18"/>
+					<box>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Lote]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy HH.mm.ss" isBlankWhenNull="true">
+					<reportElement positionType="Float" x="426" y="164" width="129" height="16"/>
+					<box>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+						<font size="7" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{Fecha_caducidad-use_date}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement positionType="Float" x="0" y="146" width="51" height="18"/>
+					<box>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[UDSxCAJA]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+					<reportElement positionType="Float" x="0" y="164" width="51" height="16"/>
+					<box>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+						<font size="7" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Double"><![CDATA[1/$F{UOM____UOS_Coeff-uos_coeff}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement positionType="Float" x="359" y="164" width="67" height="16"/>
+					<box>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+						<font size="7" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Lote_de_produccion-name}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy HH.mm.ss" isBlankWhenNull="true">
+					<reportElement positionType="Float" x="51" y="164" width="108" height="16"/>
+					<box>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+						<font size="7" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{Fecha_planificada-date_planned}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement positionType="Float" x="159" y="146" width="100" height="18"/>
+					<box>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Fecha fin programada]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy HH.mm.ss" isBlankWhenNull="true">
+					<reportElement positionType="Float" x="159" y="164" width="100" height="16"/>
+					<box>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+						<font size="7" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{Date_end_Planned-date_end_planned}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement positionType="Float" x="426" y="146" width="129" height="18"/>
+					<box>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Fecha de consumo preferente]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="15" y="72" width="132" height="13"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Num. Orden de Producción:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement positionType="Float" x="147" y="72" width="95" height="13"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
+						<font fontName="SansSerif" size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Referencia-name}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement positionType="Float" x="212" y="0" width="55" height="13"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="7" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Producción]]></text>
+				</staticText>
+				<componentElement>
+					<reportElement key="Tabla Órdenes de Trabajo 1" positionType="Float" stretchType="RelativeToTallestObject" x="0" y="205" width="556" height="12">
+						<property name="OPENERP_RELATIONS" value="workcenter_lines"/>
+					</reportElement>
+					<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+						<datasetRun subDataset="DS_workcenter_lines">
+							<datasetParameter name="PRODUCTION_ID">
+								<datasetParameterExpression><![CDATA[$F{id}]]></datasetParameterExpression>
+							</datasetParameter>
+							<dataSourceExpression><![CDATA[$P{TABLE_LINES_ORDENES_TRABAJO_1}]]></dataSourceExpression>
+						</datasetRun>
+						<jr:column width="40">
+							<jr:columnHeader height="16" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="40" height="16"/>
+									<box>
+										<topPen lineWidth="0.25"/>
+										<leftPen lineWidth="0.25"/>
+										<bottomPen lineWidth="0.25"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font size="7" isBold="true"/>
+									</textElement>
+									<text><![CDATA[Secuencia]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell height="22" rowSpan="1">
+								<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+									<reportElement positionType="Float" x="0" y="0" width="40" height="22"/>
+									<box>
+										<leftPen lineWidth="0.25"/>
+										<bottomPen lineWidth="0.25"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font size="7"/>
+									</textElement>
+									<textFieldExpression class="java.lang.String"><![CDATA[$F{Secuencia-sequence}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="125">
+							<jr:columnHeader height="16" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="125" height="16"/>
+									<box>
+										<topPen lineWidth="0.25"/>
+										<leftPen lineWidth="0.25"/>
+										<bottomPen lineWidth="0.25"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font size="7" isBold="true"/>
+									</textElement>
+									<text><![CDATA[Nombre]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell height="22" rowSpan="1">
+								<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+									<reportElement positionType="Float" x="0" y="0" width="125" height="22"/>
+									<box>
+										<leftPen lineWidth="0.25"/>
+										<bottomPen lineWidth="0.25"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font size="7"/>
+									</textElement>
+									<textFieldExpression class="java.lang.String"><![CDATA[$F{Orden_de_trabajo-name}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="108">
+							<jr:columnHeader height="16" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="108" height="16"/>
+									<box>
+										<topPen lineWidth="0.25"/>
+										<leftPen lineWidth="0.25"/>
+										<bottomPen lineWidth="0.25"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font size="7" isBold="true"/>
+									</textElement>
+									<text><![CDATA[Centro de producción]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell height="22" rowSpan="1">
+								<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+									<reportElement positionType="Float" x="0" y="0" width="108" height="22"/>
+									<box>
+										<leftPen lineWidth="0.25"/>
+										<bottomPen lineWidth="0.25"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font size="7"/>
+									</textElement>
+									<textFieldExpression class="java.lang.String"><![CDATA[$F{Name-name}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="26">
+							<jr:columnHeader height="16" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="26" height="16"/>
+									<box>
+										<topPen lineWidth="0.25"/>
+										<leftPen lineWidth="0.25"/>
+										<bottomPen lineWidth="0.25"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font size="7" isBold="true"/>
+									</textElement>
+									<text><![CDATA[Nº Op]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell height="22" rowSpan="1">
+								<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+									<reportElement positionType="Float" x="0" y="0" width="26" height="22"/>
+									<box>
+										<leftPen lineWidth="0.25"/>
+										<bottomPen lineWidth="0.25"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font size="7"/>
+									</textElement>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="55">
+							<jr:columnHeader height="16" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="54" height="16"/>
+									<box>
+										<topPen lineWidth="0.25"/>
+										<leftPen lineWidth="0.25"/>
+										<bottomPen lineWidth="0.25"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font size="7" isBold="true"/>
+									</textElement>
+									<text><![CDATA[Operarios]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell height="22" rowSpan="1">
+								<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+									<reportElement positionType="Float" x="0" y="0" width="54" height="22"/>
+									<box>
+										<leftPen lineWidth="0.25"/>
+										<bottomPen lineWidth="0.25"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font size="7"/>
+									</textElement>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="48">
+							<jr:columnHeader height="16" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="48" height="16"/>
+									<box>
+										<topPen lineWidth="0.25"/>
+										<leftPen lineWidth="0.25"/>
+										<bottomPen lineWidth="0.25"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font size="7" isBold="true"/>
+									</textElement>
+									<text><![CDATA[T. Antes]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell height="22" rowSpan="1">
+								<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+									<reportElement positionType="Float" x="0" y="0" width="48" height="22"/>
+									<box>
+										<leftPen lineWidth="0.25"/>
+										<bottomPen lineWidth="0.25"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font size="7"/>
+									</textElement>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="53">
+							<jr:columnHeader height="16" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="53" height="16"/>
+									<box>
+										<topPen lineWidth="0.25"/>
+										<leftPen lineWidth="0.25"/>
+										<bottomPen lineWidth="0.25"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font size="7" isBold="true"/>
+									</textElement>
+									<text><![CDATA[Hora Inicio]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell height="22" rowSpan="1">
+								<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+									<reportElement positionType="Float" x="0" y="0" width="53" height="22"/>
+									<box>
+										<leftPen lineWidth="0.25"/>
+										<bottomPen lineWidth="0.25"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font size="7"/>
+									</textElement>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="54">
+							<jr:columnHeader height="16" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="54" height="16"/>
+									<box>
+										<topPen lineWidth="0.25"/>
+										<leftPen lineWidth="0.25"/>
+										<bottomPen lineWidth="0.25"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font size="7" isBold="true"/>
+									</textElement>
+									<text><![CDATA[Hora Fin]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell height="22" rowSpan="1">
+								<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+									<reportElement positionType="Float" x="0" y="0" width="54" height="22"/>
+									<box>
+										<leftPen lineWidth="0.25"/>
+										<bottomPen lineWidth="0.25"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font size="7"/>
+									</textElement>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="47">
+							<jr:columnHeader height="16" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="47" height="16"/>
+									<box>
+										<topPen lineWidth="0.25"/>
+										<leftPen lineWidth="0.25"/>
+										<bottomPen lineWidth="0.25"/>
+										<rightPen lineWidth="0.25"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font size="7" isBold="true"/>
+									</textElement>
+									<text><![CDATA[T. Después]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell height="22" rowSpan="1">
+								<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+									<reportElement positionType="Float" x="0" y="0" width="47" height="22"/>
+									<box>
+										<leftPen lineWidth="0.25"/>
+										<bottomPen lineWidth="0.25"/>
+										<rightPen lineWidth="0.25"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font size="7"/>
+									</textElement>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+					</jr:table>
+				</componentElement>
+				<image scaleImage="RetainShape" hAlign="Center" vAlign="Middle">
+					<reportElement positionType="Float" x="1" y="0" width="63" height="49"/>
+					<imageExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "image001.png"]]></imageExpression>
+				</image>
+				<image scaleImage="RetainShape" hAlign="Center" vAlign="Middle">
+					<reportElement positionType="Float" x="78" y="24" width="69" height="25"/>
+					<imageExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "image002.png"]]></imageExpression>
+				</image>
+				<textField pattern="dd MMMMM yyyy">
+					<reportElement x="442" y="72" width="112" height="13"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement positionType="Float" x="364" y="72" width="80" height="13"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="7" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Fecha de impresión: ]]></text>
+				</staticText>
+				<componentElement>
+					<reportElement positionType="Float" x="330" y="0" width="224" height="72"/>
+					<jr:Code128 xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" moduleWidth="2.5" textPosition="bottom">
+						<jr:codeExpression><![CDATA[$F{Referencia-name}]]></jr:codeExpression>
+					</jr:Code128>
+				</componentElement>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement positionType="Float" x="228" y="132" width="62" height="11"/>
+					<box>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+						<font size="7" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Cant._UdV_del_producto-product_uos_qty} ? " " + $F{Nombre-name2}: ""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement positionType="Float" x="161" y="132" width="67" height="11"/>
+					<box>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+						<font size="7" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Ctdad_producto-product_qty} ? " " + $F{Nombre-name}:""]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy HH.mm.ss" isBlankWhenNull="true">
+					<reportElement positionType="Float" x="259" y="164" width="100" height="16"/>
+					<box>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+						<font size="7" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{Fecha_inicial-date_start}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement positionType="Float" x="259" y="146" width="100" height="18"/>
+					<box>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Fecha real]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="116">
+				<staticText>
+					<reportElement positionType="Float" x="202" y="96" width="78" height="16"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="7" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Página]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement positionType="Float" x="1" y="26" width="553" height="65"/>
+					<box>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Top" markup="none">
+						<font size="7" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Comentarios__ficha_producto-comments_sheet}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement positionType="Float" x="285" y="96" width="27" height="16"/>
+					<textElement verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Integer"><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement positionType="Float" x="0" y="3" width="555" height="13"/>
+					<box>
+						<bottomPen lineWidth="0.5" lineStyle="Double"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Observaciones]]></text>
+				</staticText>
+			</band>
+		</groupFooter>
+	</group>
+	<detail>
+		<band height="417" splitType="Stretch">
+			<rectangle>
+				<reportElement positionType="Float" x="0" y="65" width="555" height="88"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+			<line direction="BottomUp">
+				<reportElement positionType="Float" x="122" y="65" width="1" height="88"/>
+				<graphicElement>
+					<pen lineWidth="0.25"/>
+				</graphicElement>
+			</line>
+			<line direction="BottomUp">
+				<reportElement positionType="Float" x="459" y="65" width="1" height="88"/>
+				<graphicElement>
+					<pen lineWidth="0.25"/>
+				</graphicElement>
+			</line>
+			<line direction="BottomUp">
+				<reportElement positionType="Float" x="1" y="76" width="554" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.25"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement positionType="Float" x="1" y="65" width="121" height="11"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Departamento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="123" y="65" width="336" height="11"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Motivo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="461" y="65" width="94" height="11"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tiempo]]></text>
+			</staticText>
+			<line direction="BottomUp">
+				<reportElement positionType="Float" x="1" y="108" width="554" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.25"/>
+				</graphicElement>
+			</line>
+			<line direction="BottomUp">
+				<reportElement positionType="Float" x="0" y="123" width="554" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.25"/>
+				</graphicElement>
+			</line>
+			<line direction="BottomUp">
+				<reportElement positionType="Float" x="1" y="137" width="554" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.25"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="159" width="555" height="13"/>
+				<box>
+					<bottomPen lineWidth="0.5" lineStyle="Double"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Calidad]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="228" width="555" height="13"/>
+				<box>
+					<bottomPen lineWidth="0.5" lineStyle="Double"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Opciones]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="308" width="555" height="13"/>
+				<box>
+					<bottomPen lineWidth="0.5" lineStyle="Double"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Observaciones]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="1" y="332" width="553" height="45"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top" markup="none">
+					<font size="7" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{Comentarios__ficha_producto-comments_sheet}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="283" y="397" width="27" height="16"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="200" y="397" width="78" height="16"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Página]]></text>
+			</staticText>
+			<break>
+				<reportElement positionType="Float" x="0" y="415" width="554" height="1"/>
+			</break>
+			<staticText>
+				<reportElement x="0" y="1" width="555" height="13"/>
+				<box>
+					<bottomPen lineWidth="0.5" lineStyle="Double"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Lista de material]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement key="Tabla Lista de Materiales 1" positionType="Float" x="0" y="21" width="556" height="19">
+					<property name="OPENERP_RELATIONS" value="move_lines"/>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="DS_LdM">
+						<datasetParameter name="PRODUCTION_ID">
+							<datasetParameterExpression><![CDATA[$F{id}]]></datasetParameterExpression>
+						</datasetParameter>
+						<dataSourceExpression><![CDATA[$P{TABLE_LINES_LISTA_MATERIALES_1}]]></dataSourceExpression>
+					</datasetRun>
+					<jr:column width="287">
+						<jr:columnHeader height="16" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="287" height="16"/>
+								<box>
+									<topPen lineWidth="0.25"/>
+									<leftPen lineWidth="0.25"/>
+									<bottomPen lineWidth="0.25"/>
+								</box>
+								<textElement textAlignment="Left" verticalAlignment="Middle">
+									<font size="7" isBold="true"/>
+								</textElement>
+								<text><![CDATA[  Productos consumidos]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="17" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement positionType="Float" x="0" y="0" width="287" height="17"/>
+								<box>
+									<leftPen lineWidth="0.25"/>
+									<bottomPen lineWidth="0.25"/>
+								</box>
+								<textElement textAlignment="Left" verticalAlignment="Middle">
+									<font size="7"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA['[' + $F{Referencia-code} + '] ' + $F{Name-name}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="270">
+						<jr:columnHeader height="16" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="270" height="16"/>
+								<box>
+									<topPen lineWidth="0.25"/>
+									<leftPen lineWidth="0.25"/>
+									<bottomPen lineWidth="0.25"/>
+									<rightPen lineWidth="0.25"/>
+								</box>
+								<textElement textAlignment="Left" verticalAlignment="Middle">
+									<font size="7" isBold="true"/>
+								</textElement>
+								<text><![CDATA[  Lote]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="17" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement positionType="Float" x="0" y="0" width="270" height="17"/>
+								<box>
+									<leftPen lineWidth="0.25"/>
+									<bottomPen lineWidth="0.25"/>
+									<rightPen lineWidth="0.25"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="7"/>
+								</textElement>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<line direction="BottomUp">
+				<reportElement positionType="Float" x="0" y="92" width="554" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.25"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="46" width="555" height="13"/>
+				<box>
+					<bottomPen lineWidth="0.5" lineStyle="Double"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Paradas]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement key="Tabla Opciones" positionType="Float" x="1" y="251" width="553" height="48">
+					<property name="OPENERP_RELATIONS" value="[&apos;product_id/option_ids&apos;]"/>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="DS_options">
+						<datasetParameter name="PRODUCTION_ID">
+							<datasetParameterExpression><![CDATA[$F{id}]]></datasetParameterExpression>
+						</datasetParameter>
+						<dataSourceExpression><![CDATA[$P{TABLE_LINES_OPCIONES}]]></dataSourceExpression>
+					</datasetRun>
+					<jr:column width="373">
+						<jr:columnHeader height="14" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="373" height="14"/>
+								<box>
+									<topPen lineWidth="0.25"/>
+									<leftPen lineWidth="0.25"/>
+									<bottomPen lineWidth="0.25"/>
+								</box>
+								<textElement textAlignment="Left" verticalAlignment="Middle">
+									<font size="7" isBold="true"/>
+								</textElement>
+								<text><![CDATA[ Opción]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="14" rowSpan="1">
+							<textField isBlankWhenNull="true">
+								<reportElement positionType="Float" x="0" y="0" width="373" height="14" isPrintWhenDetailOverflows="true"/>
+								<box>
+									<leftPen lineWidth="0.25"/>
+									<bottomPen lineWidth="0.25"/>
+								</box>
+								<textElement textAlignment="Left" verticalAlignment="Middle">
+									<font size="7"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA["  " + $F{Name-name}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:columnHeader height="14" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="14"/>
+								<box>
+									<topPen lineWidth="0.25"/>
+									<leftPen lineWidth="0.25"/>
+									<bottomPen lineWidth="0.25"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="7" isBold="true"/>
+								</textElement>
+								<text><![CDATA[SI/NO]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="14" rowSpan="1">
+							<textField isBlankWhenNull="true">
+								<reportElement positionType="Float" x="0" y="0" width="90" height="14" isPrintWhenDetailOverflows="true"/>
+								<box>
+									<leftPen lineWidth="0.25"/>
+									<bottomPen lineWidth="0.25"/>
+								</box>
+								<textElement textAlignment="Left" verticalAlignment="Middle"/>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:columnHeader height="14" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="14"/>
+								<box>
+									<topPen lineWidth="0.25"/>
+									<leftPen lineWidth="0.25"/>
+									<bottomPen lineWidth="0.25"/>
+									<rightPen lineWidth="0.25"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="7" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Operario]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="14" rowSpan="1">
+							<textField isBlankWhenNull="true">
+								<reportElement positionType="Float" x="0" y="0" width="90" height="14" isPrintWhenDetailOverflows="true"/>
+								<box>
+									<leftPen lineWidth="0.25"/>
+									<bottomPen lineWidth="0.25"/>
+									<rightPen lineWidth="0.25"/>
+								</box>
+								<textElement textAlignment="Left" verticalAlignment="Middle">
+									<font size="7"/>
+								</textElement>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<componentElement>
+				<reportElement key="Tabla Verificaciones" positionType="Float" x="0" y="178" width="554" height="41">
+					<property name="OPENERP_RELATIONS" value="[&apos;product_id/verification_ids&apos;]"/>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="DS_verifications">
+						<datasetParameter name="PRODUCTION_ID">
+							<datasetParameterExpression><![CDATA[$F{id}]]></datasetParameterExpression>
+						</datasetParameter>
+						<dataSourceExpression><![CDATA[$P{TABLE_LINES_VERIFICACIONES}]]></dataSourceExpression>
+					</datasetRun>
+					<jr:column width="464">
+						<jr:columnHeader height="15" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="464" height="15"/>
+								<box>
+									<topPen lineWidth="0.25"/>
+									<leftPen lineWidth="0.25"/>
+									<bottomPen lineWidth="0.25"/>
+								</box>
+								<textElement verticalAlignment="Middle">
+									<font size="7" isBold="true"/>
+								</textElement>
+								<text><![CDATA[ Control]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="13" rowSpan="1">
+							<textField isBlankWhenNull="true">
+								<reportElement positionType="Float" x="0" y="0" width="464" height="13" isPrintWhenDetailOverflows="true"/>
+								<box>
+									<leftPen lineWidth="0.25"/>
+									<bottomPen lineWidth="0.25"/>
+								</box>
+								<textElement textAlignment="Left" verticalAlignment="Middle">
+									<font size="7"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA["  " + $F{Name-name}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:columnHeader height="15" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="15"/>
+								<box>
+									<topPen lineWidth="0.25"/>
+									<leftPen lineWidth="0.25"/>
+									<bottomPen lineWidth="0.25"/>
+									<rightPen lineWidth="0.25"/>
+								</box>
+								<textElement verticalAlignment="Middle">
+									<font size="7" isBold="true"/>
+								</textElement>
+								<text><![CDATA[ Operario]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="13" rowSpan="1">
+							<textField isBlankWhenNull="true">
+								<reportElement positionType="Float" x="0" y="0" width="90" height="13" isPrintWhenDetailOverflows="true"/>
+								<box>
+									<leftPen lineWidth="0.25"/>
+									<bottomPen lineWidth="0.25"/>
+									<rightPen lineWidth="0.25"/>
+								</box>
+								<textElement textAlignment="Left" verticalAlignment="Middle">
+									<font size="7"/>
+								</textElement>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+		<band height="385">
+			<staticText>
+				<reportElement positionType="Float" x="0" y="91" width="555" height="13"/>
+				<box>
+					<bottomPen lineWidth="0.5" lineStyle="Double"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Planificación]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="340" y="128" width="56" height="22"/>
+				<box>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font size="7" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{Ctdad_producto-product_qty}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="446" y="110" width="109" height="18"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cantidad (UdV)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="340" y="110" width="106" height="18"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cantidad (UdM)]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy HH.mm.ss" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="0" y="172" width="109" height="18"/>
+				<box>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font size="7" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{Fecha_planificada-date_planned}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy HH.mm.ss" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="414" y="172" width="141" height="18"/>
+				<box>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font size="7" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{Fecha_caducidad-use_date}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy HH.mm.ss" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="109" y="172" width="117" height="18"/>
+				<box>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font size="7" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{Date_end_Planned-date_end_planned}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="414" y="154" width="141" height="18"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha de consumo preferente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="109" y="154" width="117" height="18"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha fin programada]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="154" width="109" height="18"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha inicio programada]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="325" y="172" width="89" height="18"/>
+				<box>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font size="7" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{Lote_de_produccion-name}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="200" width="555" height="13"/>
+				<box>
+					<bottomPen lineWidth="0.5" lineStyle="Double"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Órdenes de trabajo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="253" width="555" height="13"/>
+				<box>
+					<bottomPen lineWidth="0.5" lineStyle="Double"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Lista de material]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="311" width="555" height="13"/>
+				<box>
+					<bottomPen lineWidth="0.5" lineStyle="Double"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Scrap]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="0" y="128" width="340" height="22"/>
+				<box>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font size="7" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA['[' + $F{Referencia-code} + '] ' + $F{Name-name}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="446" y="128" width="56" height="22"/>
+				<box>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font size="7" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{Cant._UdV_del_producto-product_uos_qty}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="325" y="154" width="89" height="18"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Lote]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement key="Tabla Ódenes de Trabajo 2" positionType="Float" x="-1" y="223" width="556" height="19" isRemoveLineWhenBlank="true">
+					<property name="OPENERP_RELATIONS" value="workcenter_lines"/>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="DS_workcenter_lines">
+						<datasetParameter name="PRODUCTION_ID">
+							<datasetParameterExpression><![CDATA[$F{id}]]></datasetParameterExpression>
+						</datasetParameter>
+						<dataSourceExpression><![CDATA[$P{TABLE_LINES_ORDENES_TRABAJO_2}]]></dataSourceExpression>
+					</datasetRun>
+					<jr:column width="90">
+						<jr:columnHeader height="16" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="16"/>
+								<box>
+									<topPen lineWidth="0.25"/>
+									<leftPen lineWidth="0.25"/>
+									<bottomPen lineWidth="0.25"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="7" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Secuencia]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="17" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="17"/>
+								<box>
+									<leftPen lineWidth="0.25"/>
+									<bottomPen lineWidth="0.25"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="7"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{Secuencia-sequence}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="284">
+						<jr:columnHeader height="16" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="284" height="16"/>
+								<box>
+									<topPen lineWidth="0.25"/>
+									<leftPen lineWidth="0.25"/>
+									<bottomPen lineWidth="0.25"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="7" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Nombre]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="17" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="284" height="17"/>
+								<box>
+									<leftPen lineWidth="0.25"/>
+									<bottomPen lineWidth="0.25"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="7"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{Orden_de_trabajo-name}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="181">
+						<jr:columnHeader height="16" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="181" height="16"/>
+								<box>
+									<topPen lineWidth="0.25"/>
+									<leftPen lineWidth="0.25"/>
+									<bottomPen lineWidth="0.25"/>
+									<rightPen lineWidth="0.25"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="7" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Centro de producción]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="17" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="181" height="17"/>
+								<box>
+									<leftPen lineWidth="0.25"/>
+									<bottomPen lineWidth="0.25"/>
+									<rightPen lineWidth="0.25"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="7"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{Name-name}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<componentElement>
+				<reportElement key="Tabla Lista de Materiales 2" positionType="Float" x="0" y="277" width="556" height="23" isRemoveLineWhenBlank="true">
+					<property name="OPENERP_RELATIONS" value="move_lines"/>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="DS_LdM">
+						<datasetParameter name="PRODUCTION_ID">
+							<datasetParameterExpression><![CDATA[$F{id}]]></datasetParameterExpression>
+						</datasetParameter>
+						<dataSourceExpression><![CDATA[$P{TABLE_LINES_LISTA_MATERIALES_2}]]></dataSourceExpression>
+					</datasetRun>
+					<jr:column width="200">
+						<jr:columnHeader height="18" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="200" height="18"/>
+								<box>
+									<topPen lineWidth="0.25"/>
+									<leftPen lineWidth="0.25"/>
+									<bottomPen lineWidth="0.25"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="7" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Productos consumidos]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="17" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement positionType="Float" x="0" y="0" width="200" height="17"/>
+								<box>
+									<leftPen lineWidth="0.25"/>
+									<bottomPen lineWidth="0.25"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="7"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA['[' + $F{Referencia-code} + '] ' + $F{Name-name}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="66">
+						<jr:columnHeader height="18" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="66" height="18"/>
+								<box>
+									<topPen lineWidth="0.25"/>
+									<leftPen lineWidth="0.25"/>
+									<bottomPen lineWidth="0.25"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="7" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Cantidad teórica]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="17" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement positionType="Float" x="0" y="0" width="66" height="17"/>
+								<box>
+									<leftPen lineWidth="0.25"/>
+									<bottomPen lineWidth="0.25"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="7"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{Cantidad-product_qty} + " " + $F{Nombre-name}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="70">
+						<jr:columnHeader height="18" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="70" height="18"/>
+								<box>
+									<topPen lineWidth="0.25"/>
+									<leftPen lineWidth="0.25"/>
+									<bottomPen lineWidth="0.25"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="7" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Cantidad enviada
+a producción]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="17" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement positionType="Float" x="0" y="0" width="70" height="17"/>
+								<box>
+									<leftPen lineWidth="0.25"/>
+									<bottomPen lineWidth="0.25"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="7"/>
+								</textElement>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="70">
+						<jr:columnHeader height="18" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="70" height="18"/>
+								<box>
+									<topPen lineWidth="0.25"/>
+									<leftPen lineWidth="0.25"/>
+									<bottomPen lineWidth="0.25"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="7" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Cantidad recibida
+de producción]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="17" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement positionType="Float" x="0" y="0" width="70" height="17"/>
+								<box>
+									<leftPen lineWidth="0.25"/>
+									<bottomPen lineWidth="0.25"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="7"/>
+								</textElement>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="151">
+						<jr:columnHeader height="18" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="151" height="18"/>
+								<box>
+									<topPen lineWidth="0.25"/>
+									<leftPen lineWidth="0.25"/>
+									<bottomPen lineWidth="0.25"/>
+									<rightPen lineWidth="0.25"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="7" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Lote]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="17" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement positionType="Float" x="0" y="0" width="151" height="17"/>
+								<box>
+									<leftPen lineWidth="0.25"/>
+									<bottomPen lineWidth="0.25"/>
+									<rightPen lineWidth="0.25"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="7"/>
+								</textElement>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<componentElement>
+				<reportElement key="Tabla Scrap" positionType="Float" x="0" y="330" width="555" height="23">
+					<property name="OPENERP_RELATIONS" value="move_lines"/>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="DS_LdM">
+						<datasetParameter name="PRODUCTION_ID">
+							<datasetParameterExpression><![CDATA[$F{id}]]></datasetParameterExpression>
+						</datasetParameter>
+						<dataSourceExpression><![CDATA[$P{TABLE_LINES_SCRAP}]]></dataSourceExpression>
+					</datasetRun>
+					<jr:column width="200">
+						<jr:columnHeader height="15" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="200" height="15"/>
+								<box>
+									<topPen lineWidth="0.25"/>
+									<leftPen lineWidth="0.25"/>
+									<bottomPen lineWidth="0.25"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="7" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Productos consumidos]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="16" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement positionType="Float" x="0" y="0" width="200" height="16"/>
+								<box>
+									<leftPen lineWidth="0.25"/>
+									<bottomPen lineWidth="0.25"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="7"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA['[' + $F{Referencia-code} + '] ' + $F{Name-name}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="66">
+						<jr:columnHeader height="15" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="66" height="15"/>
+								<box>
+									<topPen lineWidth="0.25"/>
+									<leftPen lineWidth="0.25"/>
+									<bottomPen lineWidth="0.25"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="7" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Cantidad Scrap]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="16" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement positionType="Float" x="0" y="0" width="66" height="16"/>
+								<box>
+									<leftPen lineWidth="0.25"/>
+									<bottomPen lineWidth="0.25"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression class="java.lang.Double"><![CDATA[]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="118">
+						<jr:columnHeader height="15" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="118" height="15"/>
+								<box>
+									<topPen lineWidth="0.25"/>
+									<leftPen lineWidth="0.25"/>
+									<bottomPen lineWidth="0.25"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="7" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Motivo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="16" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement positionType="Float" x="0" y="0" width="118" height="16"/>
+								<box>
+									<leftPen lineWidth="0.25"/>
+									<bottomPen lineWidth="0.25"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="7"/>
+								</textElement>
+								<textFieldExpression class="java.lang.Double"><![CDATA[]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="77">
+						<jr:columnHeader height="15" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="77" height="15"/>
+								<box>
+									<topPen lineWidth="0.25"/>
+									<leftPen lineWidth="0.25"/>
+									<bottomPen lineWidth="0.25"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="7" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Retrabajo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="16" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement positionType="Float" x="0" y="0" width="77" height="16"/>
+								<box>
+									<leftPen lineWidth="0.25"/>
+									<bottomPen lineWidth="0.25"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="7"/>
+								</textElement>
+								<textFieldExpression class="java.lang.Double"><![CDATA[]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="96">
+						<jr:columnHeader height="15" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="96" height="15"/>
+								<box>
+									<topPen lineWidth="0.25"/>
+									<leftPen lineWidth="0.25"/>
+									<bottomPen lineWidth="0.25"/>
+									<rightPen lineWidth="0.25"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="7" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Lote]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="16" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement positionType="Float" x="0" y="0" width="96" height="16"/>
+								<box>
+									<leftPen lineWidth="0.25"/>
+									<bottomPen lineWidth="0.25"/>
+									<rightPen lineWidth="0.25"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="7"/>
+								</textElement>
+								<textFieldExpression class="java.lang.Double"><![CDATA[]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<staticText>
+				<reportElement positionType="Float" x="15" y="75" width="132" height="13"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Num. Orden de Producción:]]></text>
+			</staticText>
+			<image scaleImage="RetainShape" hAlign="Center" vAlign="Middle">
+				<reportElement positionType="Float" x="78" y="34" width="69" height="25"/>
+				<imageExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "image002.png"]]></imageExpression>
+			</image>
+			<image scaleImage="RetainShape" hAlign="Center" vAlign="Middle">
+				<reportElement positionType="Float" x="1" y="10" width="63" height="49"/>
+				<imageExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "image001.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement positionType="Float" x="212" y="10" width="55" height="13"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Alimentador]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="147" y="75" width="95" height="13"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
+					<font fontName="SansSerif" size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{Referencia-name}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd MMMMM yyyy">
+				<reportElement x="442" y="75" width="112" height="13"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="364" y="75" width="80" height="13"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Fecha de impresión: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="335" width="220" height="18">
+					<printWhenExpression><![CDATA[$F{Productos_a_consumir-move_lines} == false]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Productos consumidos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="489" y="335" width="66" height="18">
+					<printWhenExpression><![CDATA[$F{Productos_a_consumir-move_lines} == false]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Lote]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="295" y="335" width="118" height="18">
+					<printWhenExpression><![CDATA[$F{Productos_a_consumir-move_lines} == false]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Motivo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="220" y="335" width="76" height="18">
+					<printWhenExpression><![CDATA[$F{Productos_a_consumir-move_lines} == false]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cantidad Scrap]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="413" y="335" width="77" height="18">
+					<printWhenExpression><![CDATA[$F{Productos_a_consumir-move_lines} == false]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Retrabajo]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="266" y="353" width="118" height="30"/>
+				<box>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="200" y="353" width="66" height="30"/>
+				<box>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="384" y="353" width="77" height="30"/>
+				<box>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="461" y="353" width="96" height="30"/>
+				<box>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="0" y="353" width="200" height="30"/>
+				<box>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Producto final: " + "\n" + '[' + $F{Referencia-code} + '] ' + $F{Name-name}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="110" width="340" height="18"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Producto]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="502" y="128" width="53" height="22"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
+					<font size="7" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{Cant._UdV_del_producto-product_uos_qty} ? " " + $F{Nombre-name2}: ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="394" y="128" width="52" height="22"/>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
+					<font size="7" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{Ctdad_producto-product_qty} ? " " + $F{Nombre-name} : ""]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="226" y="154" width="99" height="18"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha real]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy HH.mm.ss" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="226" y="172" width="99" height="18"/>
+				<box>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font size="7" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{Fecha_inicial-date_start}]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement positionType="Float" x="330" y="3" width="224" height="72"/>
+				<jr:Code128 xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" moduleWidth="2.5" textPosition="bottom">
+					<jr:codeExpression><![CDATA[$F{Referencia-name}]]></jr:codeExpression>
+				</jr:Code128>
+			</componentElement>
+		</band>
+	</detail>
+</jasperReport>

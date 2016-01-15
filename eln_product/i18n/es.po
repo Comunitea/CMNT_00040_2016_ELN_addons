@@ -1,0 +1,939 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+# 	* eln_product
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 6.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-08-06 10:40+0000\n"
+"PO-Revision-Date: 2015-08-06 12:40+0100\n"
+"Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: es_ES\n"
+"X-Generator: Poedit 1.7.5\n"
+
+#. module: eln_product
+#: field:mail.compose.message.product.datasheet,subtype:0
+msgid "Message type"
+msgstr "Tipo de mensaje"
+
+#. module: eln_product
+#: help:mail.compose.message.product.datasheet,auto_delete:0
+msgid "Permanently delete emails after sending"
+msgstr "Eliminar permanentemente los emails depués de su envío"
+
+#. module: eln_product
+#: help:mail.compose.message.product.datasheet,email_to:0
+msgid "Message recipients"
+msgstr "Destinatarios del mensaje"
+
+#. module: eln_product
+#: field:product.product,gluten_free_labeling:0
+msgid "Gluten free labeling"
+msgstr "Etiquetado \"Sin Gluten\""
+
+#. module: eln_product
+#: field:product.product,heights3:0
+msgid "Heights"
+msgstr "Alturas"
+
+#. module: eln_product
+#: selection:product.parameter,type:0
+msgid "Chemical"
+msgstr "Químicos"
+
+#. module: eln_product
+#: field:mail.compose.message.product.datasheet,template_id:0
+msgid "Template"
+msgstr "Plantilla"
+
+#. module: eln_product
+#: view:mail.compose.message.product.datasheet:0
+msgid "Compose Email"
+msgstr "Redactar e-mail"
+
+#. module: eln_product
+#: model:ir.model,name:eln_product.model_product_verifications
+msgid "product.verifications"
+msgstr "product.verifications"
+
+#. module: eln_product
+#: field:mail.compose.message.product.datasheet,reply_to:0
+msgid "Reply-To"
+msgstr "Responder a"
+
+#. module: eln_product
+#: view:product.sheet.shipments:0
+msgid "Revision"
+msgstr "Revisión"
+
+#. module: eln_product
+#: view:mail.compose.message.product.datasheet:0
+msgid "Body"
+msgstr "Cuerpo"
+
+#. module: eln_product
+#: view:product.product:0 field:product.product,storage_conditions:0
+msgid "Storage conditions"
+msgstr "Condiciones de conservación"
+
+#. module: eln_product
+#: field:product.ingredient,product_qty:0
+msgid "Product Qty"
+msgstr "Cantidad"
+
+#. module: eln_product
+#: model:ir.model,name:eln_product.model_product_verifications_product
+msgid "product.verifications.product"
+msgstr "product.verifications.product"
+
+#. module: eln_product
+#: model:ir.model,name:eln_product.model_product_options_product
+msgid "product.options.product"
+msgstr "product.options.product"
+
+#. module: eln_product
+#: model:ir.actions.act_window,name:eln_product.action_email_compose_message_product_wizard
+msgid "Compose Email Product Datasheet"
+msgstr "Redactar e-mail ficha técnica"
+
+#. module: eln_product
+#: field:product.product,others:0
+msgid "Others"
+msgstr "Otros"
+
+#. module: eln_product
+#: field:mail.compose.message.product.datasheet,body_text:0
+msgid "Text contents"
+msgstr "Contenido del texto"
+
+#. module: eln_product
+#: model:ir.ui.menu,name:eln_product.product_verifications_menu
+#: model:ir.ui.menu,name:eln_product.product_verifications_menu_parent
+#: view:product.product:0
+msgid "Verifications"
+msgstr "Verificaciones"
+
+#. module: eln_product
+#: field:product.product,company_product_code:0
+msgid "Company code"
+msgstr "Código Compañía"
+
+#. module: eln_product
+#: field:send.datasheet,send_all:0
+msgid "Send all records"
+msgstr "Enviar todos los registros"
+
+#. module: eln_product
+#: view:product.product:0
+msgid "Reviewed By"
+msgstr "Revisado por"
+
+#. module: eln_product
+#: code:addons/eln_product/product.py:292
+#, python-format
+msgid ""
+"The EAN-13 code you entered is already in use.\n"
+"The references of related products are: %s"
+msgstr ""
+"El código EAN-13 introducido ya está en uso.\n"
+"Las referencias de los productos relacionados son: %s"
+
+#. module: eln_product
+#: field:product.product,recommended_ration:0
+msgid "Recommended ration (g)"
+msgstr "Ración recomendada (g)"
+
+#. module: eln_product
+#: field:mrp.bom,product_qty_percent:0
+#: field:product.ingredient,product_qty_percent:0
+msgid "Qty(%)"
+msgstr "Cant.(%)"
+
+#. module: eln_product
+#: field:product.product,allergen_labeling:0
+msgid "Allergen labeling"
+msgstr "Etiquetado alérgenos"
+
+#. module: eln_product
+#: field:product.parameter.product,value:0
+msgid "Value"
+msgstr "Valor"
+
+#. module: eln_product
+#: field:product.revision,user_id:0
+msgid "User"
+msgstr "Usuario"
+
+#. module: eln_product
+#: model:ir.model,name:eln_product.model_mrp_bom
+msgid "Bill of Material"
+msgstr "Lista de material"
+
+#. module: eln_product
+#: help:mail.compose.message.product.datasheet,body_text:0
+msgid "Plain-text version of the message"
+msgstr "Versión en texto plano del mensaje"
+
+#. module: eln_product
+#: field:product.product,salt:0
+msgid "Salt"
+msgstr "Sal (g)"
+
+#. module: eln_product
+#: field:mail.compose.message.product.datasheet,attachment_ids:0
+msgid "Attachments"
+msgstr "Adjuntos"
+
+#. module: eln_product
+#: field:product.ingredient,origin:0
+msgid "Origin"
+msgstr "Origen"
+
+#. module: eln_product
+#: field:product.product,last_revision_ldm:0
+msgid "Last revision LdM"
+msgstr "Última revisión LdM"
+
+#. module: eln_product
+#: help:mail.compose.message.product.datasheet,body_html:0
+msgid "Rich-text/HTML version of the message"
+msgstr "Rich-text/HTML version of the message"
+
+#. module: eln_product
+#: field:mail.compose.message.product.datasheet,auto_delete:0
+msgid "Auto Delete"
+msgstr "Eliminar automáticamente"
+
+#. module: eln_product
+#: field:mail.compose.message.product.datasheet,report_template:0
+msgid "Report to attach"
+msgstr "Informe a adjuntar"
+
+#. module: eln_product
+#: field:product.ingredient,product_parent_id:0
+msgid "Product Parent"
+msgstr "Producto padre"
+
+#. module: eln_product
+#: field:product.product,comments_sheet:0
+msgid "Comments (sheet)"
+msgstr "Comentarios (ficha producto)"
+
+#. module: eln_product
+#: field:copy.product.ldm,ldm_ids_str:0
+msgid "LdM ids str"
+msgstr "LdM ids str"
+
+#. module: eln_product
+#: field:product.ingredient,process:0
+msgid "Process"
+msgstr "Proceso"
+
+#. module: eln_product
+#: help:mail.compose.message.product.datasheet,email_bcc:0
+msgid "Blind carbon copy message recipients"
+msgstr "Blind carbon copy message recipients"
+
+#. module: eln_product
+#: code:addons/eln_product/product.py:291
+#: code:addons/eln_product/product.py:311
+#, python-format
+msgid "Warning!"
+msgstr "¡Advertencia!"
+
+#. module: eln_product
+#: view:product.sheet.shipments:0 field:product.sheet.shipments,partner_id:0
+msgid "Partner"
+msgstr "Empresa"
+
+#. module: eln_product
+#: view:product.product:0 field:product.product,revision_ids:0
+msgid "Revisions"
+msgstr "Revisiones"
+
+#. module: eln_product
+#: view:product.verifications:0
+msgid "Product verifications"
+msgstr "Verificaciones de producto"
+
+#. module: eln_product
+#: code:addons/eln_product/wizard/send_datasheet.py:47
+#, python-format
+msgid "On %(date)s, "
+msgstr "En %(date)s, "
+
+#. module: eln_product
+#: field:mail.compose.message.product.datasheet,email_from:0
+msgid "From"
+msgstr "De"
+
+#. module: eln_product
+#: model:ir.actions.act_window,name:eln_product.product_parameter_action
+#: model:ir.ui.menu,name:eln_product.product_parameter_menu
+#: model:ir.ui.menu,name:eln_product.product_parameter_menu_parent
+#: view:product.product:0 field:product.product,parameter_ids:0
+msgid "Parameters"
+msgstr "Parámetros"
+
+#. module: eln_product
+#: constraint:mrp.bom:0
+msgid "BoM line product should not be same as BoM product."
+msgstr "Un producto de línea de LdM no puede ser el mismo que el producto fabricado por la Ldm"
+
+#. module: eln_product
+#: view:mail.compose.message.product.datasheet:0 view:send.datasheet:0
+msgid "Send"
+msgstr "Enviar"
+
+#. module: eln_product
+#: field:product.product,last_revision:0
+msgid "Last revision"
+msgstr "Última revisión"
+
+#. module: eln_product
+#: field:product.parameter.product,parameter_id:0
+msgid "Parameter"
+msgstr "Parámetro"
+
+#. module: eln_product
+#: field:product.product,expected_use:0
+msgid "Expected use"
+msgstr "Uso esperado"
+
+#. module: eln_product
+#: field:product.product,carbo_sugar:0
+msgid "of which sugars"
+msgstr "de los cuales azúcares (g)"
+
+#. module: eln_product
+#: help:mail.compose.message.product.datasheet,subtype:0
+msgid "Type of message, usually 'html' or 'plain', used to select plaintext or rich text contents accordingly"
+msgstr "Tipo de mensaje, normalmente 'html' o 'plano', utilizado para seleccionar contenidos en texto plano o en texto enriquecido"
+
+#. module: eln_product
+#: field:product.options.product,option_id:0
+msgid "Option"
+msgstr "Opción"
+
+#. module: eln_product
+#: model:ir.model,name:eln_product.model_mail_compose_message_product_datasheet
+msgid "E-mail composition wizard"
+msgstr "Asistente de composición de e-mail"
+
+#. module: eln_product
+#: field:product.product,comercial_format:0
+msgid "Comercial format"
+msgstr "Formato comercial"
+
+#. module: eln_product
+#: field:product.product,approved_job:0 field:product.product,reviewed_job:0
+#: field:product.product,written_job:0
+msgid "Job"
+msgstr "Puesto de trabajo"
+
+#. module: eln_product
+#: field:mail.compose.message.product.datasheet,res_id:0
+msgid "Related Document ID"
+msgstr "Id documento relacionado"
+
+#. module: eln_product
+#: field:mail.compose.message.product.datasheet,user_signature:0
+msgid "Signature user"
+msgstr "Firma de usuario"
+
+#. module: eln_product
+#: model:ir.model,name:eln_product.model_product_ingredient
+msgid "product.ingredient"
+msgstr "product.ingredient"
+
+#. module: eln_product
+#: model:ir.model,name:eln_product.model_product_parameter
+msgid "product.parameter"
+msgstr "product.parameter"
+
+#. module: eln_product
+#: field:product.product,box:0
+msgid "Box"
+msgstr "Caja"
+
+#. module: eln_product
+#: field:mail.compose.message.product.datasheet,model:0
+msgid "Related Document model"
+msgstr "Modelo documento relacionado"
+
+#. module: eln_product
+#: model:ir.model,name:eln_product.model_send_datasheet
+msgid "send.datasheet"
+msgstr "send.datasheet"
+
+#. module: eln_product
+#: field:mail.compose.message.product.datasheet,headers:0
+msgid "Message headers"
+msgstr "Cabeceras del mensaje"
+
+#. module: eln_product
+#: field:product.product,proteins:0
+msgid "Proteins"
+msgstr "Proteínas (g)"
+
+#. module: eln_product
+#: field:copy.product.ldm,product_ldm_id:0
+msgid "LdM"
+msgstr "LdM"
+
+#. module: eln_product
+#: view:product.sheet.shipments:0 field:product.sheet.shipments,contact_id:0
+msgid "Contact"
+msgstr "Contacto"
+
+#. module: eln_product
+#: field:product.verifications.product,verification_id:0
+msgid "Verification"
+msgstr "Verificación"
+
+#. module: eln_product
+#: model:ir.model,name:eln_product.model_product_parameter_product
+msgid "product.parameter.product"
+msgstr "product.parameter.product"
+
+#. module: eln_product
+#: field:mail.compose.message.product.datasheet,use_template:0
+msgid "Use Template"
+msgstr "Usar plantilla"
+
+#. module: eln_product
+#: view:product.product:0
+msgid "Approved By"
+msgstr "Aprobado por"
+
+#. module: eln_product
+#: model:ir.actions.act_window,name:eln_product.product_options_action
+#: model:ir.ui.menu,name:eln_product.product_options_menu
+#: model:ir.ui.menu,name:eln_product.product_options_menu_parent
+#: view:product.product:0 field:product.product,option_ids:0
+msgid "Options"
+msgstr "Opciones"
+
+#. module: eln_product
+#: view:product.product:0 field:product.product,provision_boxes_base:0
+msgid "Provision of boxes base"
+msgstr "Disposición de las cajas de base"
+
+#. module: eln_product
+#: view:product.product:0
+msgid "Other data"
+msgstr "Otros datos"
+
+#. module: eln_product
+#: field:product.product,energy:0
+msgid "Energy"
+msgstr "Energía (kcal)"
+
+#. module: eln_product
+#: field:product.product,ogms:0
+msgid "OGMs"
+msgstr "OGMs"
+
+#. module: eln_product
+#: field:send.datasheet,product_id:0
+msgid "Product active"
+msgstr "Producto activo"
+
+#. module: eln_product
+#: field:product.product,fat_saturates:0
+msgid "of which saturates"
+msgstr "de las cuales saturadas (g)"
+
+#. module: eln_product
+#: view:product.product:0
+msgid "Descriptions"
+msgstr "Descripciones"
+
+#. module: eln_product
+#: view:copy.product.ldm:0
+msgid "LdM's"
+msgstr "LdM's"
+
+#. module: eln_product
+#: view:send.datasheet:0
+msgid "Send product datasheet to all records?"
+msgstr "¿Enviar ficha técnica de producto a todos los registros?"
+
+#. module: eln_product
+#: field:product.pricelist.item,price_calculated:0
+msgid "Price Calculated"
+msgstr "Precio calculado"
+
+#. module: eln_product
+#: field:mail.compose.message.product.datasheet,subject:0
+msgid "Subject"
+msgstr "Asunto"
+
+#. module: eln_product
+#: field:product.product,partner_product_code:0
+msgid "Partner code"
+msgstr "Código cliente"
+
+#. module: eln_product
+#: view:product.sheet.shipments:0
+msgid "Product sheet shipments"
+msgstr "Envíos ficha técnica producto"
+
+#. module: eln_product
+#: model:ir.actions.act_window,name:eln_product.product_verifications_action
+msgid "verifications"
+msgstr "Verificaciones"
+
+#. module: eln_product
+#: field:mail.compose.message.product.datasheet,contact_ids:0
+#: view:send.datasheet:0 field:send.datasheet,contact_ids:0
+msgid "Contacts"
+msgstr "Contactos"
+
+#. module: eln_product
+#: field:product.product,dun14:0
+msgid "DUN14"
+msgstr "DUN14"
+
+#. module: eln_product
+#: constraint:product.template:0
+msgid "Error: The default UOM and the purchase UOM must be in the same category."
+msgstr "Error: La UdM por defecto y la UdM de compra deben estar en la misma categoría."
+
+#. module: eln_product
+#: field:product.product,verification_ids:0
+msgid "Verfications"
+msgstr "Verificaciones"
+
+#. module: eln_product
+#: field:product.product,written_by:0
+msgid "Written by"
+msgstr "Escrito por"
+
+#. module: eln_product
+#: field:product.product,bobbin:0
+msgid "Bobbin"
+msgstr "Bobina"
+
+#. module: eln_product
+#: field:product.product,boxes_base3:0
+msgid "Boxes of base"
+msgstr "Cajas de base"
+
+#. module: eln_product
+#: model:ir.model,name:eln_product.model_product_sheet_shipments
+msgid "product.sheet.shipments"
+msgstr "product.sheet.shipments"
+
+#. module: eln_product
+#: view:product.product:0
+msgid "Specifications"
+msgstr "Especificaciones"
+
+#. module: eln_product
+#: field:product.product,approved_signature:0
+#: field:product.product,reviewed_signature:0
+#: field:product.product,written_signature:0
+msgid "unknown"
+msgstr "Desconocido"
+
+#. module: eln_product
+#: field:product.ingredient,variety:0
+msgid "Variety"
+msgstr "Variedad"
+
+#. module: eln_product
+#: field:product.product,approved_by:0
+msgid "Approved by"
+msgstr "﻿Aprobado por"
+
+#. module: eln_product
+#: field:product.product,boxes_palet3:0
+msgid "Boxes x palet"
+msgstr "Cajas por palet"
+
+#. module: eln_product
+#: field:mail.compose.message.product.datasheet,date:0
+#: field:product.revision,date:0 view:product.sheet.shipments:0
+#: field:product.sheet.shipments,date:0
+msgid "Date"
+msgstr "Fecha"
+
+#. module: eln_product
+#: field:mail.compose.message.product.datasheet,message_id:0
+msgid "Message-Id"
+msgstr "Id del mensaje"
+
+#. module: eln_product
+#: view:product.parameter:0
+msgid "type"
+msgstr "tipo"
+
+#. module: eln_product
+#: constraint:mrp.bom:0
+msgid "Error ! You cannot create recursive BoM."
+msgstr "¡Error! No puede crear una LdM recursiva"
+
+#. module: eln_product
+#: sql_constraint:mrp.bom:0
+msgid ""
+"All product quantities must be greater than 0.\n"
+"You should install the mrp_subproduct module if you want to manage extra products on BoMs !"
+msgstr ""
+"Todas las cantidades de producto deben de ser superiores a cero.\n"
+"¡Debe instalar el módulo mrp_subproduct si quiere gestionar productos extra en las LdM!"
+
+#. module: eln_product
+#: model:ir.model,name:eln_product.model_product_revision
+msgid "product.revision"
+msgstr "product.revision"
+
+#. module: eln_product
+#: code:addons/eln_product/wizard/send_datasheet.py:48
+#, python-format
+msgid "%(sender_name)s wrote:"
+msgstr "%(sender_name)s escribió:"
+
+#. module: eln_product
+#: field:product.product,comments_product_logistics_sheet:0
+msgid "Comments (product logistics sheet)"
+msgstr "Comentarios (ficha logística producto)"
+
+#. module: eln_product
+#: selection:product.parameter,type:0
+msgid "Microbiological"
+msgstr "Microbiológicos"
+
+#. module: eln_product
+#: field:mail.compose.message.product.datasheet,body_html:0
+msgid "Rich-text contents"
+msgstr "Contenido en texto enriquecido"
+
+#. module: eln_product
+#: constraint:product.pricelist.item:0
+msgid "Error ! You cannot assign the Main Pricelist as Other Pricelist in PriceList Item!"
+msgstr "¡Error! No puede asignar la tarifa principal como Otra tarifa en un elemento de la tarifa!"
+
+#. module: eln_product
+#: view:copy.product.ldm:0
+#: model:ir.actions.act_window,name:eln_product.copy_product_ldm_action
+#: view:product.product:0
+msgid "Copy LdM"
+msgstr "Copiar LdM"
+
+#. module: eln_product
+#: view:product.product:0
+msgid "Technical Sheet"
+msgstr "Ficha técnica"
+
+#. module: eln_product
+#: view:product.product:0
+msgid "Average nutritional values (100 g)"
+msgstr "Valores nutricionales medios (100 g)"
+
+#. module: eln_product
+#: field:mail.compose.message.product.datasheet,email_cc:0
+msgid "Cc"
+msgstr "Cc"
+
+#. module: eln_product
+#: view:product.product:0
+msgid "Written By"
+msgstr "Escrito por"
+
+#. module: eln_product
+#: field:product.product,comments_product_sheet:0
+msgid "Comments (product sheet)"
+msgstr "Comentarios (ficha técnica producto)"
+
+#. module: eln_product
+#: field:mail.compose.message.product.datasheet,references:0
+msgid "References"
+msgstr "Referencias"
+
+#. module: eln_product
+#: view:copy.product.ldm:0 view:mail.compose.message.product.datasheet:0
+#: view:send.datasheet:0
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: eln_product
+#: model:ir.model,name:eln_product.model_product_pricelist_item
+msgid "Pricelist item"
+msgstr "Elemento de la tarifa"
+
+#. module: eln_product
+#: field:product.product,perforated_bag:0
+msgid "Perforated bag"
+msgstr "Bolsa pinchada"
+
+#. module: eln_product
+#: model:ir.actions.act_window,name:eln_product.product_sheet_shipments_action
+#: model:ir.ui.menu,name:eln_product.product_sheet_shipments_menu
+#: model:ir.ui.menu,name:eln_product.product_sheet_shipments_menu_parent
+msgid "Product Sheet Shipments"
+msgstr "Envíos ficha técnica producto"
+
+#. module: eln_product
+#: view:product.product:0
+msgid "Codes"
+msgstr "Códigos"
+
+#. module: eln_product
+#: view:product.product:0 field:product.product,product_ingredient_ids:0
+msgid "Ingredients"
+msgstr "Ingredientes"
+
+#. module: eln_product
+#: help:mail.compose.message.product.datasheet,headers:0
+msgid "Full message headers, e.g. SMTP session headers (usually available on inbound messages only)"
+msgstr "Cabeceras completas del mensaje, por ejemplo las cabeceras de sesión SMTP (normalmente disponibles sólo en mensajes entrantes)"
+
+#. module: eln_product
+#: field:product.product,carbohydrates:0
+msgid "Carbohydrates"
+msgstr "Hidratos de carbono (g)"
+
+#. module: eln_product
+#: field:mail.compose.message.product.datasheet,email_to:0
+msgid "To"
+msgstr "Para"
+
+#. module: eln_product
+#: view:product.product:0
+msgid "Observations"
+msgstr "Observaciones"
+
+#. module: eln_product
+#: model:ir.actions.act_window,name:eln_product.act_send_datasheet
+#: view:send.datasheet:0
+msgid "Send datasheet"
+msgstr "Enviar ficha técnica de producto"
+
+#. module: eln_product
+#: help:mail.compose.message.product.datasheet,email_from:0
+msgid "Message sender, taken from user preferences. If empty, this is not a mail but a message."
+msgstr "Remitente del mensaje, proveniente de las preferencias del usuario. Si está vacío, esto no es email sino un mensaje."
+
+#. module: eln_product
+#: view:product.product:0
+msgid "Presentation"
+msgstr "Presentación"
+
+#. module: eln_product
+#: code:addons/eln_product/wizard/send_datasheet.py:48
+#, python-format
+msgid "You"
+msgstr "Tú"
+
+#. module: eln_product
+#: view:product.product:0 field:product.product,palletizing:0
+msgid "Palletizing"
+msgstr "Paletización"
+
+#. module: eln_product
+#: selection:product.parameter,type:0
+msgid "Organoleptic"
+msgstr "Organoléptico"
+
+#. module: eln_product
+#: model:ir.actions.act_window,name:eln_product.action_product_sheet_shipments_tree
+#: field:product.product,shipments_ids:0
+msgid "Shipments"
+msgstr "Envíos"
+
+#. module: eln_product
+#: help:mail.compose.message.product.datasheet,message_id:0
+msgid "Message unique identifier"
+msgstr "Identificador único del mensaje"
+
+#. module: eln_product
+#: field:product.ingredient,caliber:0
+msgid "Caliber"
+msgstr "Calibre"
+
+#. module: eln_product
+#: view:product.product:0 field:product.revision,description:0
+msgid "Description"
+msgstr "Descripción"
+
+#. module: eln_product
+#: field:product.product,format:0
+msgid "Format"
+msgstr "Formato"
+
+#. module: eln_product
+#: model:ir.model,name:eln_product.model_mail_message
+msgid "Email Message"
+msgstr "Mensaje de correo"
+
+#. module: eln_product
+#: field:product.parameter,type:0
+msgid "Type"
+msgstr "Tipo"
+
+#. module: eln_product
+#: field:product.sheet.shipments,revision:0
+msgid "Rev."
+msgstr "Rev."
+
+#. module: eln_product
+#: field:product.product,fats:0
+msgid "Fats"
+msgstr "Grasas (g)"
+
+#. module: eln_product
+#: field:product.product,packaging_seq2:0
+msgid "Name pack. box"
+msgstr "Name pack. box"
+
+#. module: eln_product
+#: view:product.product:0 field:product.product,allergen:0
+msgid "Allergen"
+msgstr "Alérgenos"
+
+#. module: eln_product
+#: field:product.product,bag_length:0
+msgid "Bag length"
+msgstr "Largo de bolsa"
+
+#. module: eln_product
+#: view:copy.product.ldm:0
+msgid "Copy"
+msgstr "Copiar"
+
+#. module: eln_product
+#: view:product.product:0
+msgid "Expected Use"
+msgstr "Uso esperado"
+
+#. module: eln_product
+#: field:product.ingredient,name:0 field:product.options,name:0
+#: field:product.options.product,name:0 field:product.parameter,name:0
+#: field:product.parameter.product,name:0 field:product.revision,name:0
+#: field:product.sheet.shipments,name:0 field:product.verifications,name:0
+#: field:product.verifications.product,name:0
+msgid "Name"
+msgstr "Nombre"
+
+#. module: eln_product
+#: field:product.product,protective_atmosphere:0
+msgid "Protective atmosphere"
+msgstr "Envasado en atmósfera protectora"
+
+#. module: eln_product
+#: model:ir.model,name:eln_product.model_copy_product_ldm
+msgid "copy.product.ldm"
+msgstr "copy.product.ldm"
+
+#. module: eln_product
+#: view:product.product:0
+msgid "OGM's"
+msgstr "OGM's"
+
+#. module: eln_product
+#: model:ir.model,name:eln_product.model_product_product
+#: field:product.ingredient,product_id:0
+#: field:product.options.product,product_id:0
+#: field:product.parameter.product,product_id:0
+#: field:product.revision,product_id:0
+#: field:product.sheet.shipments,product_id:0
+#: field:product.verifications.product,product_id:0
+msgid "Product"
+msgstr "Producto"
+
+#. module: eln_product
+#: field:mail.compose.message.product.datasheet,email_bcc:0
+msgid "Bcc"
+msgstr "Bcc"
+
+#. module: eln_product
+#: model:ir.model,name:eln_product.model_product_template
+msgid "Product Template"
+msgstr "Plantilla producto"
+
+#. module: eln_product
+#: code:addons/eln_product/product.py:312
+#, python-format
+msgid ""
+"The DUN-14 code you entered is already in use.\n"
+"The references of related products are: %s"
+msgstr ""
+"El código DUN-14 introducido ya está en uso.\n"
+"Las referencias de los productos relacionados son: %s"
+
+#. module: eln_product
+#: view:product.parameter:0
+msgid "Product parameters"
+msgstr "Parámetros"
+
+#. module: eln_product
+#: help:mail.compose.message.product.datasheet,references:0
+msgid "Message references, such as identifiers of previous messages"
+msgstr "Referencias del mensaje, tales como identificadores de mensajes anteriores"
+
+#. module: eln_product
+#: field:product.product,reviewed_by:0
+msgid "Reviewed by"
+msgstr "Revisado por"
+
+#. module: eln_product
+#: view:product.options:0
+msgid "Product options"
+msgstr "Opciones de producto"
+
+#. module: eln_product
+#: view:product.parameter:0 view:product.sheet.shipments:0
+msgid "Group by ..."
+msgstr "Agrupar por ..."
+
+#. module: eln_product
+#: field:product.product,bag:0
+msgid "Bag"
+msgstr "Bolsa"
+
+#. module: eln_product
+#: help:mail.compose.message.product.datasheet,email_cc:0
+msgid "Carbon copy message recipients"
+msgstr "Carbon copy message recipients"
+
+#. module: eln_product
+#: model:ir.model,name:eln_product.model_product_options
+msgid "product.options"
+msgstr "product.options"
+
+#. module: eln_product
+#: constraint:product.product:0
+msgid "Error: Invalid ean code"
+msgstr "Error: Código EAN erróneo"
+
+#. module: eln_product
+#: field:mail.compose.message.product.datasheet,filter_id:0
+msgid "Filters"
+msgstr "Filtros"
+
+#. module: eln_product
+#: field:product.product,seal:0
+msgid "Seal"
+msgstr "Precinto"
+
+#. module: eln_product
+#: help:mail.compose.message.product.datasheet,reply_to:0
+msgid "Preferred response address for the message"
+msgstr "Dirección de correo de respuesta preferida para este mensaje"
+
+#. module: eln_product
+#: view:product.product:0
+msgid "Quality"
+msgstr "Calidad"
+
+#. module: eln_product
+#: selection:product.parameter,type:0
+msgid "Physical"
+msgstr "Físicos"

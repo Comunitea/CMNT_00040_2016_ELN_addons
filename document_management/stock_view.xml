@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record id="view_picking_form_add_report" model="ir.ui.view">
+            <field name="name">stock.picking.form.add.report</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="type">form</field>
+            <field eval="12" name="priority"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/notebook/page[@string='Products']/group/button[@name='action_process']" position="after">
+                    <field name="attached" invisible="1"/>
+                    <button name="%(eln_reports.barcode_label)d" string="Print label" type="action" icon="gtk-print" attrs="{'invisible': [('attached','=',False)]}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_picking_out_form_add_report" model="ir.ui.view">
+            <field name="name">stock.picking.out.form.add.report</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="type">form</field>
+            <field eval="12" name="priority"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/notebook/page[@string='Products']/group/button[@name='action_process']" position="after">
+                    <button name="%(eln_reports.barcode_label)d" string="Print label" type="action" icon="gtk-print" attrs="{'invisible': [('attached','=',False)]}"/>
+                </xpath>
+            </field>
+        </record>
+
+
+    </data>
+</openerp>
+
+

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+    
+        <record id="planning_report_wizard_view" model="ir.ui.view">
+            <field name="name">Print planning</field>
+            <field name="model">planning.report.wizard</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Report planning">
+                    <field name="date"/>
+                    <field name="route_id" widget="selection"/>
+
+                    <separator colspan="4"/>
+                    <group col="4" colspan="4">
+                        <button icon="gtk-cancel" special="cancel" string="Cancel" colspan="2"/>
+                        <button icon="gtk-print" name="print_report" string="Print" type="object" colspan="2" default_focus="1" />
+                    </group>
+                </form>
+            </field>
+            
+        </record>
+          <record id="action_planning_report_wizard" model="ir.actions.act_window">
+             <field name="name">Planning</field>
+             <field name="res_model">planning.report.wizard</field>
+             <field name="type">ir.actions.act_window</field>
+             <field name="view_type">form</field>
+             <field name="view_mode">form</field>
+             <field name="view_id" ref="planning_report_wizard_view"/>
+             <field name="context">{}</field>
+             <field name="target">new</field>
+       </record>
+
+       <menuitem id="print_planning_routes" parent="stock.menu_stock_warehouse_mgmt" action="action_planning_report_wizard" name="Print planning" sequence="4"/>
+
+    </data>
+</openerp>

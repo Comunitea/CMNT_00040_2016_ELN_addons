@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>
+        <record id="view_process_documents_queue_wizard" model="ir.ui.view">
+            <field name="name">Process documents queue</field>
+            <field name="model">process.document.queue.wizard</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Document queue processed">
+                    <label align="0.0" string="The document queue has been processed." colspan="4"/>
+                    <group colspan="4" col="4">
+                    <label align="0.0" string="All verified documents in the queue will be processed." colspan="4"/>
+                    <label align="0.0" string="Note that this operation may take a lot of time, depending on the number of documents." colspan="4"/>
+                    <label align="0.0" string="The following documents will be processed:" colspan="4"/>
+                    <field name="documents" nolabel="1" colspan="4"/>
+                    <field name="background"/>
+                    <newline/>
+                    </group>
+                    <separator string="" colspan="4" />
+                    <label string="" colspan="2" />
+                    <group col="2" colspan="1">
+                        <button icon='gtk-cancel' special="cancel"
+                            string="Cancel" />
+                        <button name="act_process" string="Process"
+                            colspan="1" type="object" icon="gtk-ok" />
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="process_document_wzd" model="ir.actions.act_window">
+            <field name="name">Process documents queue</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">process.document.queue.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+    </data>
+</openerp>
+

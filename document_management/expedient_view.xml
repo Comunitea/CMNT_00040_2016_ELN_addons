@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>
+        <menuitem icon="STOCK_DIRECTORY" id="menu_base_document_management" name="Document management" sequence="0"
+            groups="base.group_sale_salesman,base.group_sale_manager" web_icon="images/document_management.png"
+                  web_icon_hover="images/document_management_color.png"/>
+
+        <record id="expedient_tree" model="ir.ui.view">
+            <field name="name">expedient.tree</field>
+            <field name="model">expedient</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="expedients">
+                    <field name="name"/>
+                    <field name="date"/>
+                    <field name="type"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="expedient_form" model="ir.ui.view">
+            <field name="name">expedient.form</field>
+            <field name="model">expedient</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="expedients">
+                    <group col="6" colspan="4">
+                        <field name="name"/>
+                        <field name="type" on_change="onchange_type(type)"/>
+                        <field name="date"/>
+                        <field name="prototipe_barcode" colspan="4" select="1"/>
+                    </group>
+                    <notebook colspan="4">
+                        <page string="Attachments">
+                            <field colspan="4" name="attachment_ids" nolabel="1" widget="many2many"/>
+                        </page>
+                        <page string="Type of expedient" attrs="{'invisible': [('type','=',False)]}">
+                            <group col="6" colspan="4">
+                                <field name="origin_model"/>
+                                <field name="cancellation"/>
+                                <field name="condition"/>
+                            </group>
+                            <newline/>
+                            <notebook colspan="4">
+                                <page string="Models">
+                                    <field colspan="4" name="model_ids" nolabel="1" widget="one2many_list">
+                                        <tree string="Models" editable="top">
+                                            <field name="ir_model"/>
+                                            <field name="cancellation"/>
+                                        </tree>
+                                        <form string="Models">
+                                            <field name="ir_model"/>
+                                            <field name="cancellation"/>
+                                        </form>
+                                    </field>
+                                </page>
+                                <page string="Documents">
+                                    <field name="expedient_document" nolabel="1" colspan="4" />
+                                </page>
+                            </notebook>
+                        </page>
+                        <page string="Log expedient" >
+                            <field colspan="4" name="res_log_expedient_ids" nolabel="1"/>
+                        </page>
+                    </notebook>
+                    <group colspan="4" col="6">
+                        <field name="state"/>
+                        <button name="validate_expedient" states="created,incomplete" string="Validate" type="object"/>
+                        <button name="create_final_expedient" string="Create final expedient"
+                                    type="object" icon="gtk-go-forward" states="completed"/>
+                        <button name="go_back" string="Go back"
+                                    type="object" icon="gtk-go-forward" attrs="{'invisible': [('state','!=','finalized')]}"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="expedient_search" model="ir.ui.view">
+            <field name="name">expedient.search</field>
+            <field name="model">expedient</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="expedients">
+                    <group col="8" colspan="4">
+                        <field name="name" select="1"/>
+                        <field name="date"/>
+                    </group>
+                    <newline/>
+                    <group  expand='0' string='Group by...' groups="base.group_extended">
+                       <filter string='State' icon="terp-stock_symbol-selection" domain="[]" context="{'group_by' : 'state'}" />
+                       <separator orientation="vertical"/>
+                       <filter string='Type' icon="terp-stock_symbol-selection" domain="[]" context="{'group_by' : 'type'}" />
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_expedient" model="ir.actions.act_window">
+            <field name="name">Expedients</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">expedient</field>
+            <field name="view_type">form</field>
+        </record>
+
+        <menuitem id="menu_expedient" name="Expedients" parent="menu_base_document_management" sequence="1"/>
+        <menuitem action="action_expedient" id="menu_expedient_order" parent="menu_expedient" sequence="1" groups="base.group_sale_salesman,base.group_sale_manager"/>
+
+        <record id="type_expedient_tree" model="ir.ui.view">
+            <field name="name">type.expedient.tree</field>
+            <field name="model">type.expedient</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Type of expedients">
+                    <field name="ref"/>
+                    <field name="name"/>
+                    <field name="origin_model"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="type_expedient_form" model="ir.ui.view">
+            <field name="name">type.expedient.form</field>
+            <field name="model">type.expedient</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Types of expedients">
+                    <group col="4" colspan="2">
+                        <field name="ref"/>
+                        <newline/>
+                        <field name="name"/>
+                        <newline/>
+                        <group col="6" colspan="4">
+                            <field name="origin_model"/>
+                            <field name="cancellation"/>
+                            <field name="condition"/>
+                        </group>
+                        <newline/>
+                    </group>
+                    <newline/>
+                    <notebook colspan="4">
+                        <page string="Models">
+                            <field colspan="4" name="model_ids" nolabel="1" widget="one2many_list">
+                                <tree string="Models" editable="top">
+                                    <field name="ir_model"/>
+                                    <field name="cancellation"/>
+                                </tree>
+                                <form string="Models">
+                                    <field name="ir_model"/>
+                                    <field name="cancellation"/>
+                                </form>
+                            </field>
+                        </page>
+                        <page string="Documents">
+                            <field name="expedient_document" nolabel="1" colspan="4"/>
+                        </page>
+                    </notebook>
+                </form>
+            </field>
+        </record>
+
+        <record id="type_expedient_search" model="ir.ui.view">
+            <field name="name">type.expedient.search</field>
+            <field name="model">type.expedient</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Types of expedients">
+                    <group col="8" colspan="4">
+                        <field name="name" select="1"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_type_expedient" model="ir.actions.act_window">
+            <field name="name">Type of expedients</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">type.expedient</field>
+            <field name="view_type">form</field>
+        </record>
+
+        <menuitem id="menu_configuration" name="Configuration" parent="menu_base_document_management" sequence="2"/>
+        <menuitem action="action_type_expedient" id="menu_type_expedient_order" parent="menu_configuration" sequence="1" groups="base.group_sale_salesman,base.group_sale_manager"/>
+
+
+
+
+
+    </data>
+</openerp>

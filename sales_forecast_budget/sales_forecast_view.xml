@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>
+        <record id="view_sales_forecast_form_add_budget" model="ir.ui.view">
+            <field name="name">sales.forecast.form.add.budget</field>
+            <field name="model">sales.forecast</field>
+            <field name="inherit_id" ref="sales_forecast.view_sales_forecast_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <group position="after">
+                    <group string="Budget Configuration" col="4" colspan="4">
+                        <!--
+                        <field name="budget_version_id" widget="selection" attrs="{'readonly':[('is_merged','=', True)], 'required':[('is_merged','=', False)]}"/>
+                        <field name="budget_item_id" widget="selection" attrs="{'readonly':[('is_merged','=', True)], 'required':[('is_merged','=', False)]}"/>
+                        -->
+                        <field name="budget_version_id" widget="selection" attrs="{'readonly':[('is_merged','=', True)]}"/>
+                        <field name="budget_item_id" widget="selection" attrs="{'readonly':[('is_merged','=', True)]}"/>
+                    </group>
+                </group>
+            </field>
+        </record>
+    </data>
+</openerp>

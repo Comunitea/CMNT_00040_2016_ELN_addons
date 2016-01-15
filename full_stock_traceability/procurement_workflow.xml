@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        
+        <record id="procurement.trans_confirm_mts_make_to_stock" model="workflow.transition">
+            <field name="act_from" ref="procurement.act_confirm_mts"/>
+            <field name="act_to" ref="procurement.act_make_to_stock"/>
+            <field name="condition">check_lot() and check_make_to_stock()</field>
+        </record>
+        
+    </data>
+</openerp>

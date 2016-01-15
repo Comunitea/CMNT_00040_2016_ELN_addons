@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_mrp_forecast,mrp.forecast,model_mrp_forecast,base.group_user,1,1,1,1
+access_mrp_forecast_line,mrp.forecast.line,model_mrp_forecast_line,base.group_user,1,1,1,1
+access_forecast_kg_sold,forecast.kg.sold,model_forecast_kg_sold,base.group_user,1,1,1,1
+access_forecast_kg_sold_line,forecast.kg.sold.line,model_forecast_kg_sold_line,base.group_user,1,1,1,1

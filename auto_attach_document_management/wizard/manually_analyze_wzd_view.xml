@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        
+        <record id="view_manually_analyze_wizard" model="ir.ui.view">
+            <field name="name">Manual analyze</field>
+            <field name="model">manually.analyze.wzd</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Manual analyze">
+                    <group attrs="{'invisible':[('state','!=','first')]}" colspan="4">
+                        <field name="associated_doc_id"/>
+                    </group>
+                    <group attrs="{'invisible':[('state','=','first')]}" colspan="4">
+                        <field name="report_sel"/>
+                        <field name="annex"/>
+                    </group>
+                    <field name="state" invisible="1"/>
+                    <button icon='gtk-cancel' special="cancel" string="Cancel" />
+                    <button name="search_expedient" string="Search expedient" type="object" icon="gtk-ok" states="first"/>
+                    <button name="process" string="Process" type="object" icon="gtk-ok" states="second"/>
+                </form>
+            </field>
+        </record>
+
+        <record id="analyze_manually_analyze_wizard" model="ir.actions.act_window">
+            <field name="name">Manual analyze</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">manually.analyze.wzd</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        
+    </data>
+</openerp>

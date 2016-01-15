@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>
+
+        <record id="view_templates_product_wzd" model="ir.ui.view">
+            <field name="name">templates.product.wzd.form</field>
+            <field name="model">templates.product</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Assign Logistics Flows">
+                    <label colspan="2" string="Templates"/>
+                    <newline/>
+                    <field name="template_ids" colspan="4" nolabel="1"/>
+                    <newline/>
+                    <group colspan="4" col="6">
+                        <button icon="gtk-cancel" special="cancel" string="Cancel"/>
+                        <button string='Assign' icon="gtk-execute" name="assign_templates_to_product" type="object"/>
+                    </group>
+               </form>
+            </field>
+        </record>
+
+
+        <record id="assign_product_template" model="ir.actions.act_window">
+            <field name="name">Assign Logistics Flows</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">templates.product</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+    </data>
+</openerp>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>
+           <record model="ir.ui.view" id="view_budget_line_list_add_months_fields">
+            <field name="name">budget.line.list.add.months_fields</field>
+            <field name="model">budget.line</field>
+            <field name="inherit_id" ref="budget.view_budget_line_list"/>
+            <field name="priority">16</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <field name="date_stop" position="after">
+                    <field name="jan_amount"/>
+                    <field name="feb_amount"/>
+                    <field name="mar_amount"/>
+                    <field name="apr_amount"/>
+                    <field name="may_amount"/>
+                    <field name="jun_amount"/>
+                    <field name="jul_amount"/>
+                    <field name="aug_amount"/>
+                    <field name="sep_amount"/>
+                    <field name="oct_amount"/>
+                    <field name="nov_amount"/>
+                    <field name="dec_amount"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>

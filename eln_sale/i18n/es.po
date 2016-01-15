@@ -1,0 +1,277 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+# 	* eln_sale
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 6.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-02-10 07:56+0000\n"
+"PO-Revision-Date: 2015-02-10 09:11+0100\n"
+"Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: es_ES\n"
+"X-Generator: Poedit 1.7\n"
+
+#. module: eln_sale
+#: sql_constraint:sale.order:0
+msgid "Order Reference must be unique per Company!"
+msgstr "¡La referencia del pedido debe ser única por compañía!"
+
+#. module: eln_sale
+#: selection:sale.shop,order_policy:0
+msgid "Pay before delivery"
+msgstr "Pagar antes de la entrega"
+
+#. module: eln_sale
+#: field:partner.product,name:0
+msgid "Product Code"
+msgstr "Código de producto"
+
+#. module: eln_sale
+#: constraint:stock.move:0
+msgid "You must assign a production lot for this product"
+msgstr "Debe asignar un lote de producción para este producto"
+
+#. module: eln_sale
+#: view:sale.order:0 view:stock.picking:0
+msgid "Direct Invoicing"
+msgstr "Facturación Directa"
+
+#. module: eln_sale
+#: model:ir.model,name:eln_sale.model_stock_warehouse
+msgid "Warehouse"
+msgstr "Almacén"
+
+#. module: eln_sale
+#: field:res.partner,property_product_pricelist_indirect_invoicing:0
+msgid "Sale Pricelist (Indirect Invoicing)"
+msgstr "Tarifa de venta (Fact. Indirecta)"
+
+#. module: eln_sale
+#: field:sale.order,supplier_cip:0 field:stock.picking,supplier_cip:0
+msgid "CIP"
+msgstr "CIP"
+
+#. module: eln_sale
+#: code:addons/eln_sale/sale.py:228
+#, python-format
+msgid "Configuration Error !"
+msgstr "Error de configuración!"
+
+#. module: eln_sale
+#: model:ir.model,name:eln_sale.model_stock_picking
+msgid "Picking List"
+msgstr "Albarán"
+
+#. module: eln_sale
+#: field:sale.order,supplier_id:0 field:sale.shop,supplier_id:0
+#: view:stock.move:0 field:stock.move,supplier_id:0
+#: field:stock.picking,supplier_id:0
+msgid "Supplier"
+msgstr "Proveedor"
+
+#. module: eln_sale
+#: help:res.partner,property_product_pricelist_indirect_invoicing:0
+msgid "This pricelist will be used, instead of the default one, for indirect sales invoicing to the current partner"
+msgstr "Esta tarifa de precios se usará, en lugar de la por defecto, para ventas de facturación indirecta al cliente actual"
+
+#. module: eln_sale
+#: code:addons/eln_sale/sale.py:217
+#, python-format
+msgid "(n/a)"
+msgstr "(n/a)"
+
+#. module: eln_sale
+#: field:stock.warehouse,good_warehouse:0
+msgid "Good Warehouse"
+msgstr "Depósito"
+
+#. module: eln_sale
+#: model:ir.model,name:eln_sale.model_product_product
+#: field:partner.product,product_id:0
+msgid "Product"
+msgstr "Producto"
+
+#. module: eln_sale
+#: code:addons/eln_sale/sale.py:226
+#, python-format
+msgid "Picking Information ! : "
+msgstr "Información del albarán! : "
+
+#. module: eln_sale
+#: constraint:stock.move:0
+msgid "Location not valid for this product"
+msgstr "Ubicación no válida para este producto"
+
+#. module: eln_sale
+#: constraint:stock.move:0
+msgid "You try to assign a lot which is not from the same product"
+msgstr "Está intentando asignar un lote que no es del mismo producto"
+
+#. module: eln_sale
+#: constraint:stock.move:0
+msgid "You can not move products from or to a location of the type view."
+msgstr "No puede mover productos desde o hacia una ubicación de tipo vista."
+
+#. module: eln_sale
+#: selection:sale.shop,order_policy:0
+msgid "No bill"
+msgstr "No facturar"
+
+#. module: eln_sale
+#: model:ir.model,name:eln_sale.model_sale_shop
+msgid "Sales Shop"
+msgstr "Tienda ventas"
+
+#. module: eln_sale
+#: code:addons/eln_sale/sale.py:221
+#, python-format
+msgid ""
+"You selected a quantity of %d Units.\n"
+"\"\n"
+"#                                \"But it's not compatible with the selected packaging.\n"
+"\"\n"
+"#                                \"Here is a proposition of quantities according to the packaging:\n"
+"\"\n"
+"#                                \"EAN: %s Quantity: %s Type of ul: %s"
+msgstr ""
+"You selected a quantity of %d Units.\n"
+"\"\n"
+"#                                \"But it's not compatible with the selected packaging.\n"
+"\"\n"
+"#                                \"Here is a proposition of quantities according to the packaging:\n"
+"\"\n"
+"#                                \"EAN: %s Quantity: %s Type of ul: %s"
+
+#. module: eln_sale
+#: help:sale.shop,order_policy:0
+msgid ""
+"The Invoice Policy is used to synchronise invoice and delivery operations.\n"
+"  - The 'Pay before delivery' choice will first generate the invoice and then generate the picking order after the payment of this invoice.\n"
+"  - The 'Deliver & Invoice on demand' will create the picking order directly and wait for the user to manually click on the 'Invoice' button to generate the draft invoice based on the sale order or the sale order lines.\n"
+"  - The 'Invoice on order after delivery' choice will generate the draft invoice based on sales order after all picking lists have been finished.\n"
+"  - The 'Invoice based on deliveries' choice is used to create an invoice during the picking process.\n"
+"  - The 'No bill' choice is used to not create an invoice."
+msgstr ""
+"La Política de Facturación se usa para sincronizar las operaciones de factura y entrega.\n"
+"  - La opción 'Pagar antes de la entrega' generará primero la factura, y creará el albarán después del pago de la factura.\n"
+"  - La opción 'Entrega y Factura manual' creará el albarán directamente y esperará a que el usuario haga click en el botón 'Factura' para generar el borrador de la factura basada en el pedido de venta o las líneas del pedido de venta.\n"
+"  - La opción 'Facturar después de la entrega' generará el borrador de la factura basada en el pedido de venta después de haber terminado toda la fase del albarán.\n"
+"  - La opción 'Facturar desde albaranes' se usa para crear la factura durante la fase del albarán.\n"
+"  - La opción 'No facturar' se usa para no crear facturas."
+
+#. module: eln_sale
+#: constraint:stock.picking:0
+msgid "Error: UNIQUE MSG"
+msgstr "Error: UNIQUE MSG"
+
+#. module: eln_sale
+#: model:ir.model,name:eln_sale.model_partner_product
+msgid "partner.product"
+msgstr "partner.product"
+
+#. module: eln_sale
+#: view:sale.order:0 field:sale.shop,indirect_invoicing:0 view:stock.picking:0
+msgid "Indirect Invoicing"
+msgstr "Facturación Indirecta"
+
+#. module: eln_sale
+#: view:res.partner:0
+msgid "Notes"
+msgstr "Notas"
+
+#. module: eln_sale
+#: help:sale.shop,indirect_invoicing:0
+msgid "Check the indirect invoicing field if the shop is a shop of indirect invoicing."
+msgstr "Marcar la opción Facturación Indirecta si la tienda es una tienda de facturación indirecta."
+
+#. module: eln_sale
+#: field:stock.picking,carrier_id:0
+msgid "Carrier"
+msgstr "Transportista"
+
+#. module: eln_sale
+#: view:res.partner:0
+msgid "Products"
+msgstr "Productos"
+
+#. module: eln_sale
+#: sql_constraint:stock.picking:0
+msgid "Reference must be unique per Company!"
+msgstr "Referencia debe ser única por compañía!"
+
+#. module: eln_sale
+#: selection:sale.shop,order_policy:0
+msgid "Deliver & invoice on demand"
+msgstr "Entrega & Factura manual"
+
+#. module: eln_sale
+#: field:res.partner,product_ids:0
+msgid "Price list"
+msgstr "Tarifa de precios"
+
+#. module: eln_sale
+#: selection:sale.shop,order_policy:0
+msgid "Invoice on order after delivery"
+msgstr "Facturar después de la entrega"
+
+#. module: eln_sale
+#: model:ir.model,name:eln_sale.model_sale_order
+msgid "Sales Order"
+msgstr "Pedido de venta"
+
+#. module: eln_sale
+#: field:stock.picking,commitment_date:0
+msgid "Commitment Date"
+msgstr "Fecha compromiso"
+
+#. module: eln_sale
+#: model:ir.model,name:eln_sale.model_stock_move
+msgid "Stock Move"
+msgstr "Movimiento de stock"
+
+#. module: eln_sale
+#: field:sale.shop,order_policy:0
+msgid "Invoice Policy"
+msgstr "Política de facturación"
+
+#. module: eln_sale
+#: constraint:product.product:0
+msgid "Error: Invalid ean code"
+msgstr "Error: Código EAN erróneo"
+
+#. module: eln_sale
+#: model:ir.model,name:eln_sale.model_res_partner
+#: field:partner.product,partner_id:0
+msgid "Partner"
+msgstr "Empresa"
+
+#. module: eln_sale
+#: selection:sale.shop,order_policy:0
+msgid "Invoice based on deliveries"
+msgstr "Facturar desde albaranes"
+
+#. module: eln_sale
+#: help:stock.warehouse,good_warehouse:0
+msgid "Check the good warehouse field if the warehouse is a good warehouse."
+msgstr "Marcar la opción depósito si el almacén es un depósito."
+
+#. module: eln_sale
+#: help:sale.order,supplier_cip:0 help:stock.picking,supplier_cip:0
+msgid "Código interno del proveedor."
+msgstr "Código interno del proveedor."
+
+#. module: eln_sale
+#: model:ir.model,name:eln_sale.model_sale_order_line
+msgid "Sales Order Line"
+msgstr "Línea pedido de venta"
+
+#. module: eln_sale
+#: help:stock.picking,commitment_date:0
+msgid "Date on which delivery of products is to be made."
+msgstr "Fecha en la que se hará la entrega de los productos."

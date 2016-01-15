@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        
+        <record id="product_format_tree" model="ir.ui.view">
+            <field name="name">product.format.tree</field>
+            <field name="model">product.format</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Formats">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="product_format_form" model="ir.ui.view">
+            <field name="name">product.format.form</field>
+            <field name="model">product.format</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Format">
+                    <field name="name"/>
+                    <field name="active"/>
+                </form>
+            </field>
+        </record>
+
+        <record id="product_format_search" model="ir.ui.view">
+            <field name="name">product.format.search</field>
+            <field name="model">product.format</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Search formats">
+                    <group>
+                        <field name="name"/>
+                        <field name="active"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_product_format" model="ir.actions.act_window">
+            <field name="name">Formats</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.format</field>
+            <field name="view_type">form</field>
+        </record>
+
+        <menuitem action="action_product_format" id="menu_product_format" parent="stock.menu_product_in_config_stock" sequence="20"/>
+        
+    </data>
+</openerp>

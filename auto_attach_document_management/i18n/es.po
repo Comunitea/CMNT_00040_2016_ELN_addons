@@ -1,0 +1,303 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* auto_attach_document_management
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 6.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-01-08 13:27+0000\n"
+"PO-Revision-Date: 2014-01-08 13:27+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: auto_attach_document_management
+#: field:manually.analyze.wzd,associated_doc_id:0
+msgid "Associated document"
+msgstr "Documento asociado"
+
+#. module: auto_attach_document_management
+#: model:ir.actions.act_window,name:auto_attach_document_management.view_record_document_action
+#: model:ir.ui.menu,name:auto_attach_document_management.menu_documents
+#: model:ir.ui.menu,name:auto_attach_document_management.record_document_menu_id
+#: view:record.document:0
+msgid "Documents"
+msgstr "Documentos"
+
+#. module: auto_attach_document_management
+#: view:record.document:0
+msgid "Confirm"
+msgstr "Confirmar"
+
+#. module: auto_attach_document_management
+#: model:ir.model,name:auto_attach_document_management.model_record_document_page
+msgid "Pages from Document"
+msgstr "Páginas del Documento"
+
+#. module: auto_attach_document_management
+#: code:addons/auto_attach_document_management/wizard/manually_analyze_wzd.py:91
+#, python-format
+msgid "Error"
+msgstr "Error"
+
+#. module: auto_attach_document_management
+#: view:record.document.page:0
+msgid "Document Page"
+msgstr "Pág. documento"
+
+#. module: auto_attach_document_management
+#: view:record.document:0
+#: view:record.document.page:0
+msgid "Documents in queue"
+msgstr "Documentos en cola"
+
+#. module: auto_attach_document_management
+#: model:ir.model,name:auto_attach_document_management.model_scan_document
+msgid "scan.document"
+msgstr "Documento"
+
+#. module: auto_attach_document_management
+#: field:manually.analyze.wzd,state:0
+#: view:record.document:0
+#: field:record.document,state:0
+#: field:record.document.page,state:0
+msgid "State"
+msgstr "Estado"
+
+#. module: auto_attach_document_management
+#: view:record.document:0
+msgid "Draft"
+msgstr "Borrador"
+
+#. module: auto_attach_document_management
+#: field:record.document.page,attachment_id:0
+msgid "Attachment"
+msgstr "Adjunto"
+
+#. module: auto_attach_document_management
+#: view:scan.document:0
+msgid "Manual analysis"
+msgstr "Análisis manual"
+
+#. module: auto_attach_document_management
+#: code:addons/auto_attach_document_management/document.py:146
+#: code:addons/auto_attach_document_management/document.py:157
+#, python-format
+msgid "Pdf Generated from document Images"
+msgstr "Pdf generado desde documentos de imágenes"
+
+#. module: auto_attach_document_management
+#: model:ir.model,name:auto_attach_document_management.model_record_document
+#: field:record.document.page,document_id:0
+msgid "Document"
+msgstr "Documento"
+
+#. module: auto_attach_document_management
+#: view:scan.document:0
+msgid "Preview"
+msgstr "Vista previa"
+
+#. module: auto_attach_document_management
+#: field:ir.attachment,annex:0
+#: field:manually.analyze.wzd,annex:0
+#: field:scan.document,annex:0
+msgid "Annex"
+msgstr "Anexo"
+
+#. module: auto_attach_document_management
+#: code:addons/auto_attach_document_management/scan_document.py:186
+#, python-format
+msgid "Document attached automatically"
+msgstr "Documento adjuntado automaticamente"
+
+#. module: auto_attach_document_management
+#: model:ir.model,name:auto_attach_document_management.model_manually_analyze_wzd
+msgid "manually.analyze.wzd"
+msgstr "manually.analyze.wzd"
+
+#. module: auto_attach_document_management
+#: code:addons/auto_attach_document_management/scan_document.py:94
+#, python-format
+msgid "Annex Generated from document management"
+msgstr "Anexo generado desde gestión documental"
+
+#. module: auto_attach_document_management
+#: code:addons/auto_attach_document_management/queue.py:84
+#, python-format
+msgid "Pdf file"
+msgstr "Pdf file"
+
+#. module: auto_attach_document_management
+#: field:record.document,required_pages:0
+msgid "Required Pages"
+msgstr "Páginas requeridas"
+
+#. module: auto_attach_document_management
+#: code:addons/auto_attach_document_management/wizard/manually_analyze_wzd.py:91
+#, python-format
+msgid "Cannot associate it to this document, because this document don't have any expedient related"
+msgstr "No podemos asociarlo a este documento, porque el documento no tiene un expediente relacionado"
+
+#. module: auto_attach_document_management
+#: code:addons/auto_attach_document_management/scan_document.py:157
+#, python-format
+msgid "Page %s of %s"
+msgstr "Página %s de %s"
+
+#. module: auto_attach_document_management
+#: model:ir.actions.act_window,name:auto_attach_document_management.analyze_manually_analyze_wizard
+#: view:manually.analyze.wzd:0
+msgid "Manual analyze"
+msgstr "Analizar manualmente"
+
+#. module: auto_attach_document_management
+#: model:ir.model,name:auto_attach_document_management.model_ir_attachment
+msgid "ir.attachment"
+msgstr "ir.attachment"
+
+#. module: auto_attach_document_management
+#: field:record.document,date:0
+msgid "Date"
+msgstr "Fecha"
+
+#. module: auto_attach_document_management
+#: view:record.document:0
+#: field:record.document,pages:0
+msgid "Pages"
+msgstr "Páginas"
+
+#. module: auto_attach_document_management
+#: field:scan.queue,last_document_id:0
+msgid "Last Document"
+msgstr "Último documento"
+
+#. module: auto_attach_document_management
+#: field:scan.document,except_state:0
+msgid "Exception"
+msgstr "Excepción"
+
+#. module: auto_attach_document_management
+#: field:record.document,required:0
+msgid "Required"
+msgstr "Requerido"
+
+#. module: auto_attach_document_management
+#: field:record.document.page,scanned_document_id:0
+msgid "Scanned Document"
+msgstr "Documento escaneado"
+
+#. module: auto_attach_document_management
+#: field:record.document,name:0
+#: field:record.document.page,name:0
+msgid "Name"
+msgstr "Nombre"
+
+#. module: auto_attach_document_management
+#: field:scan.document,counter:0
+msgid "Counter"
+msgstr "Contador"
+
+#. module: auto_attach_document_management
+#: field:manually.analyze.wzd,report_sel:0
+#: field:record.document,report_id:0
+msgid "Report"
+msgstr "Reporte"
+
+#. module: auto_attach_document_management
+#: help:scan.queue,no_attempts:0
+msgid "Number of times to try to analyze a document. When exceeded, the state will 'exception'."
+msgstr "Número de veces que intentamos analizar el documento. Cuando se supera el estado será excepción."
+
+#. module: auto_attach_document_management
+#: view:manually.analyze.wzd:0
+msgid "Search expedient"
+msgstr "Buscar expediente"
+
+#. module: auto_attach_document_management
+#: field:manually.analyze.wzd,expedient_id:0
+#: view:record.document:0
+#: field:record.document,expedient_id:0
+msgid "Expedient"
+msgstr "Expediente"
+
+#. module: auto_attach_document_management
+#: field:record.document,pdf:0
+#: field:scan.document,pdf_type:0
+msgid "Pdf"
+msgstr "Pdf"
+
+#. module: auto_attach_document_management
+#: field:record.document,model:0
+msgid "Model"
+msgstr "Modelo"
+
+#. module: auto_attach_document_management
+#: model:res.groups,name:auto_attach_document_management.group_record_user
+msgid "Record / User"
+msgstr "Expediente / Usuario"
+
+#. module: auto_attach_document_management
+#: selection:manually.analyze.wzd,state:0
+msgid "First"
+msgstr "Primero"
+
+#. module: auto_attach_document_management
+#: model:ir.model,name:auto_attach_document_management.model_scan_queue
+msgid "Scan Queue"
+msgstr "Cola de documentos"
+
+#. module: auto_attach_document_management
+#: field:record.document.page,sequence:0
+msgid "Sequence"
+msgstr "Secuencia"
+
+#. module: auto_attach_document_management
+#: view:manually.analyze.wzd:0
+msgid "Process"
+msgstr "Procesar"
+
+#. module: auto_attach_document_management
+#: view:scan.document:0
+msgid "Properties"
+msgstr "Propriedades"
+
+#. module: auto_attach_document_management
+#: view:record.document:0
+msgid "Group by..."
+msgstr "Agrupar por..."
+
+#. module: auto_attach_document_management
+#: selection:manually.analyze.wzd,state:0
+msgid "Second"
+msgstr "Segundo"
+
+#. module: auto_attach_document_management
+#: field:scan.queue,no_attempts:0
+msgid "No attempts"
+msgstr "Sin intentos"
+
+#. module: auto_attach_document_management
+#: view:manually.analyze.wzd:0
+#: view:record.document:0
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: auto_attach_document_management
+#: field:record.document,valid:0
+msgid "Valid?"
+msgstr "Válido?"
+
+#. module: auto_attach_document_management
+#: field:record.document,document_page_ids:0
+msgid "Document Pages"
+msgstr "Páginas del documento"
+
+#. module: auto_attach_document_management
+#: field:record.document.page,page_number:0
+msgid "Page Number"
+msgstr "Número de Pág."
+

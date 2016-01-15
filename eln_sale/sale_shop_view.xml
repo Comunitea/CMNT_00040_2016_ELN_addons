@@ -1,0 +1,33 @@
+<openerp>
+    <data>
+<!-- ************************* HERENCIAS *********************** -->
+        <!-- INHERITED sale.shop -->
+        <record model="ir.ui.view" id="view_eln_sale_shop_form">
+            <field name="name">eln_sale.sale.shop</field>
+            <field name="model">sale.shop</field>
+            <field name="inherit_id" ref="sale.view_shop_form" />
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="company_id" position="after">
+                    <field name="supplier_id" />
+                </field>
+                <field name="project_id" position="after">
+                    <field name="order_policy" />
+                    <field name="indirect_invoicing" />
+                </field>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="view_eln_sale_shop_tree">
+            <field name="name">eln_sale.sale.shop</field>
+            <field name="model">sale.shop</field>
+            <field name="inherit_id" ref="sale.view_shop_tree" />
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <field name="project_id" position="after">
+                    <field name="order_policy" />
+                    <field name="indirect_invoicing" />
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>

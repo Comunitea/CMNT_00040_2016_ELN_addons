@@ -1,0 +1,9 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"access_scan_template","scan.template","model_scan_template","group_auto_attach_user",1,0,0,0
+"access_scan_template","scan.template","model_scan_template","group_auto_attach_manager",1,1,1,1
+"access_scan_template_box","scan.template.box","model_scan_template_box","group_auto_attach_user",1,0,0,0
+"access_scan_template_box","scan.template.box","model_scan_template_box","group_auto_attach_manager",1,1,1,1
+"access_scan_document","scan.document","model_scan_document","group_auto_attach_user",1,1,1,1
+"access_scan_document_property","scan.document.property","model_scan_document_property","group_auto_attach_user",1,1,1,1
+"access_scan_queue","scan.queue","model_scan_queue","group_auto_attach_manager",1,1,1,1
+

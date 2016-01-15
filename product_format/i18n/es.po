@@ -1,0 +1,60 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* product_format
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 6.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-07-31 11:38+0000\n"
+"PO-Revision-Date: 2013-07-31 13:40+0100\n"
+"Last-Translator: marta <marta@pexego.es>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+
+#. module: product_format
+#: field:product.format,name:0
+msgid "Name"
+msgstr "Nombre"
+
+#. module: product_format
+#: view:product.format:0
+#: field:product.template,format_id:0
+msgid "Format"
+msgstr "Formato"
+
+#. module: product_format
+#: view:product.format:0
+msgid "Search formats"
+msgstr "Buscar formatos"
+
+#. module: product_format
+#: constraint:product.template:0
+msgid "Error: The default UOM and the purchase UOM must be in the same category."
+msgstr "Error: La UdM por defecto y la UdM de compra deben estar en la misma categoría."
+
+#. module: product_format
+#: model:ir.model,name:product_format.model_product_template
+msgid "Product Template"
+msgstr "Plantilla de producto"
+
+#. module: product_format
+#: model:ir.actions.act_window,name:product_format.action_product_format
+#: model:ir.ui.menu,name:product_format.menu_product_format
+#: view:product.format:0
+msgid "Formats"
+msgstr "Formatos"
+
+#. module: product_format
+#: field:product.format,active:0
+msgid "Active"
+msgstr "Activo"
+
+#. module: product_format
+#: model:ir.model,name:product_format.model_product_format
+msgid "product.format"
+msgstr "Formatos"
+

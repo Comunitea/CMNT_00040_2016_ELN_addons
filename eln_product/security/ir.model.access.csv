@@ -1,0 +1,45 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_product_ingredient_stock_user,product.ingredient stock_user,model_product_ingredient,stock.group_stock_user,1,0,0,0
+access_product_ingredient_mrp_user,product.ingredient mrp_user,model_product_ingredient,mrp.group_mrp_user,1,0,0,0
+access_product_ingredient_employee,product.ingredient employee,model_product_ingredient,base.group_user,1,0,0,0
+access_product_ingredient_sale_manager,product.ingredient salemanager,model_product_ingredient,base.group_sale_manager,1,1,1,1
+
+access_product_parameter_stock_user,product.parameter stock_user,model_product_parameter,stock.group_stock_user,1,0,0,0
+access_product_parameter_mrp_user,product.parameter mrp_user,model_product_parameter,mrp.group_mrp_user,1,0,0,0
+access_product_parameter_employee,product.parameter employee,model_product_parameter,base.group_user,1,0,0,0
+access_product_parameter_sale_manager,product.parameter salemanager,model_product_parameter,base.group_sale_manager,1,1,1,1
+
+access_product_parameter_product_stock_user,product.parameter.product stock_user,model_product_parameter_product,stock.group_stock_user,1,0,0,0
+access_product_parameter_product_mrp_user,product.parameter.product mrp_user,model_product_parameter_product,mrp.group_mrp_user,1,0,0,0
+access_product_parameter_product_employee,product.parameter.product employee,model_product_parameter_product,base.group_user,1,0,0,0
+access_product_parameter_product_sale_manager,product.parameter.product salemanager,model_product_parameter_product,base.group_sale_manager,1,1,1,1
+
+access_product_revision_stock_user,product.revision stock_user,model_product_revision,stock.group_stock_user,1,0,0,0
+access_product_revision_mrp_user,product.revision mrp_user,model_product_revision,mrp.group_mrp_user,1,0,0,0
+access_product_revision_employee,product.revision employee,model_product_revision,base.group_user,1,0,0,0
+access_product_revision_sale_manager,product.revision salemanager,model_product_revision,base.group_sale_manager,1,1,1,1
+
+access_product_sheet_shipments_stock_user,product.sheet.shipments stock_user,model_product_sheet_shipments,stock.group_stock_user,1,0,0,0
+access_product_sheet_shipments_mrp_user,product.sheet.shipments mrp_user,model_product_sheet_shipments,mrp.group_mrp_user,1,0,0,0
+access_product_sheet_shipments_employee,product.sheet.shipments employee,model_product_sheet_shipments,base.group_user,1,0,0,0
+access_product_sheet_shipments_sale_manager,product.sheet.shipments salemanager,model_product_sheet_shipments,base.group_sale_manager,1,1,1,1
+
+access_product_options_stock_user,product.options stock_user,model_product_options,stock.group_stock_user,1,0,0,0
+access_product_options_mrp_user,product.options mrp_user,model_product_options,mrp.group_mrp_user,1,0,0,0
+access_product_options_employee,product.options employee,model_product_options,base.group_user,1,0,0,0
+access_product_options_sale_manager,product.options salemanager,model_product_options,base.group_sale_manager,1,1,1,1
+
+access_product_options_product_stock_user,product.options.product stock_user,model_product_options_product,stock.group_stock_user,1,0,0,0
+access_product_options_product_mrp_user,product.options.product mrp_user,model_product_options_product,mrp.group_mrp_user,1,0,0,0
+access_product_options_product_employee,product.options.product employee,model_product_options_product,base.group_user,1,0,0,0
+access_product_options_product_sale_manager,product.options.product salemanager,model_product_options_product,base.group_sale_manager,1,1,1,1
+
+access_product_verifications_stock_user,product.verifications stock_user,model_product_verifications,stock.group_stock_user,1,0,0,0
+access_product_verifications_mrp_user,product.verifications mrp_user,model_product_verifications,mrp.group_mrp_user,1,0,0,0
+access_product_verifications_employee,product.verifications employee,model_product_verifications,base.group_user,1,0,0,0
+access_product_verifications_sale_manager,product.verifications salemanager,model_product_verifications,base.group_sale_manager,1,1,1,1
+
+access_product_verifications_product_stock_user,product.verifications.product stock_user,model_product_verifications_product,stock.group_stock_user,1,0,0,0
+access_product_verifications_product_mrp_user,product.verifications.product mrp_user,model_product_verifications_product,mrp.group_mrp_user,1,0,0,0
+access_product_verifications_product_employee,product.verifications.product employee,model_product_verifications_product,base.group_user,1,0,0,0
+access_product_verifications_product_sale_manager,product.verifications.product salemanager,model_product_verifications_product,base.group_sale_manager,1,1,1,1

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data noupdate="0">
+        <!-- Type -->
+        <record model="ir.sequence.type" id="seq_product_revision">
+            <field name="name">Sequence product revision</field>
+            <field name="code">product.revision</field>
+        </record>
+
+        <!-- Sequence -->
+        <record id="seq_product_revision_action" model="ir.sequence">
+            <field name="name">Def. product revision seq.</field>
+            <field name="code">product.revision</field>
+            <field name="prefix">Rev/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="0"/>
+        </record>
+    </data>
+</openerp>

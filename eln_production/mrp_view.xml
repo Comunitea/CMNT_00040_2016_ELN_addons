@@ -1,0 +1,533 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>
+        <record id="mrp_workcenter_view" model="ir.ui.view">
+            <field name="name">mrp.workcenter.form</field>
+            <field name="model">mrp.workcenter</field>
+            <field name="type">form</field>
+            <field eval="1" name="priority"/>
+            <field name="arch" type="xml">
+                <form string="Work Center">
+                    <group col="6" colspan="4">
+                        <field name="name" select="1"/>
+                        <field name="code" select="1"/>
+                        <field name="active"/>
+                        <field name="resource_type"/>
+                        <field name="calendar_id" widget="selection"/>
+                        <field name="company_id" select="1" groups="base.group_multi_company" widget="selection"/>
+                    </group>
+                    <notebook colspan="4">
+                        <page string="General Information">
+                            <group col="2" colspan="2">
+                                <separator colspan="2" string="Capacity Information"/>
+                                <field name="time_efficiency"/>
+                           </group>
+                           <group col="4" colspan="2">
+                               <separator colspan="4" string="Costing Information"/>
+                               <field name="product_id" on_change="on_change_product_cost(product_id)"/>
+                               <field name="costs_hour"/>
+                               <field name="costs_hour_account_id" groups="analytic.group_analytic_accounting"/>
+                               <!--<field name="costs_cycle"/>
+                               <field name="costs_cycle_account_id" groups="analytic.group_analytic_accounting"/>-->
+                               <field name="costs_journal_id" attrs="{'required':[('costs_hour_account_id', '=', True)]}" groups="analytic.group_analytic_accounting"/>
+                               <field name="costs_general_account_id" attrs="{'required':[('costs_hour_account_id', '=', True)]}" groups="analytic.group_analytic_accounting"/>
+                           </group>
+                           <separator colspan="4" string="Description"/>
+                           <field colspan="4" name="note" nolabel="1"/>
+                        </page>
+                        <page string="Operators">
+                            <separator colspan="4" string="Operators"/>
+                            <field name="operators_ids" colspan="4" nolabel="1"/>
+                        </page>
+                    </notebook>
+                </form>
+            </field>
+        </record>
+
+        <record id="mrp_bom_form_view_add_fields" model="ir.ui.view">
+            <field name="name">mrp.bom.form.add.fields</field>
+            <field name="model">mrp.bom</field>
+            <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="routing_id" position="replace"></field>
+                <notebook position="inside">
+                    <page string="Routings">
+                        <field name="routing_id" string="Proceso productivo principal"/>
+                        <separator colspan="4" string="Procesos productivos alternativos"/>
+                        <field name="alternatives_routing_ids" colspan="4" nolabel="1"/>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+
+        <record id="mrp_routing_workcenter_tree_view" model="ir.ui.view">
+            <field name="name">mrp.routing.workcenter.tree</field>
+            <field name="model">mrp.routing.workcenter</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Routing Work Centers">
+                    <field name="sequence"/>
+                    <field name="name"/>
+                    <field name="workcenter_id"/>
+                    <field name="operators_number"/>
+                    <!--<field name="cycle_nbr"/>-->
+                    <field name="hour_nbr"/>
+                    <field name="qty_per_cycle"/>
+                    <field name="uom_id"/>
+                    <field name="company_id" widget="selection" groups="base.group_multi_company"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="mrp_routing_workcenter_form_view" model="ir.ui.view">
+            <field name="name">mrp.routing.workcenter.form</field>
+            <field name="model">mrp.routing.workcenter</field>
+            <field eval="1" name="priority"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Routing Work Centers">
+                    <notebook colspan="4">
+                        <page string="General Information">
+                            <separator colspan="4" string="General Information"/>
+                            <field colspan="4" name="name" select="1"/>
+                            <field name="sequence" select="1"/>
+                            <field name="workcenter_id" widget="selection" on_change="onchange_workcenter_id(workcenter_id)"/>
+                            <!--<field name="cycle_nbr"/>-->
+                            <field name="operators_number"/>
+                            <field name="hour_nbr" widget="float_time" string="Time x cycle"/>
+                            <field name="qty_per_cycle"/>
+                            <field name="uom_id"/>
+                            <field name="time_start" widget="float_time"/>
+                            <field name="time_stop" widget="float_time"/>
+                            <field name="company_id" widget="selection" groups="base.group_multi_company"/>
+                            <separator colspan="4" string="Description"/>
+                            <field colspan="4" name="note" nolabel="1"/>
+                        </page>
+                        <page string="Operators">
+                            <separator colspan="4" string="Operators"/>
+                            <field name="operators_ids" colspan="4" nolabel="1"/>
+                        </page>
+                    </notebook>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="mrp_production_workcenter_tree_view_inherit">
+            <field name="name">mrp.production.workcenter.line.tree</field>
+            <field name="model">mrp.production.workcenter.line</field>
+            <field name="type">tree</field>
+            <field eval="1" name="priority"/>
+            <field name="inherit_id" eval="False"/>
+            <field name="arch" type="xml">
+                <tree string="Work Orders" colors="gray:state in ('done','cancel');black:state in ('draft','startworking') and date_planned&gt;=current_date;red:date_planned&lt;current_date and state in ('draft', 'confirmed', 'ready')">
+                    <field name="production_id"/>
+                    <field name="date_planned"/>
+                    <field name="product"/>
+                    <field name="qty"/>
+                    <field name="uom"/>
+                    <field name="name"/>
+                    <field name="workcenter_id" widget="selection"/>
+                    <field name="hour"/>
+                    <field name="real_time"/>
+                    <field name="state" />
+                    <button name="button_start_working" string="Start" states="draft" icon="terp-gtk-jump-to-ltr" help="Start Working"/>
+                    <button name="button_resume" string="Resume" states="pause" icon="gtk-media-pause" help="Resume Work Order"/>
+                    <button name="button_pause" string="Pending" states="startworking" icon="gtk-media-pause" help="Pause Work Order"/>
+                    <button name="button_done" string="Finished" states="startworking" icon="terp-check" help="Finish Order"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="mrp_production_workcenter_form_view_inherit">
+            <field name="name">mrp.production.workcenter.line.form</field>
+            <field name="model">mrp.production.workcenter.line</field>
+            <field name="type">form</field>
+            <field eval="1" name="priority"/>
+            <field name="inherit_id" eval="False"/>
+            <field name="arch" type="xml">
+                <form string="Work Orders">
+                    <group col="6" colspan="4">
+                        <field colspan="4" name="name" select="1"/>
+                        <field name="workcenter_id" select="1" widget="selection"/>
+                        <field name="production_id"/>
+                        <field name="production_state"/>
+                        <field name="sequence"/>
+                    </group>
+                    <notebook colspan="4">
+                    <page string="Information">
+                        <group colspan="2" col="2">
+                            <separator string="Planned Date" colspan="2"/>
+                            <field name="date_planned"/>
+                            <field name="date_planned_end"/>
+                        </group>
+
+                        <group colspan="2" col="2">
+                            <separator string="Estimation" colspan="2"/>
+                            <field name="hour" widget="float_time" string="Est. Time"/>
+                        </group>
+
+                        <group colspan="2" col="2">
+                            <separator string="Real" colspan="2"/>
+                            <field name="date_start" readonly="0"/>
+                            <field name="date_finished" readonly="0"/>
+                            <field name="real_time" widget="float_time"/>
+                            <field name="time_start" widget="float_time"/>
+                            <field name="time_stop" widget="float_time"/>
+                        </group>
+
+                        <group colspan="2" col="2">
+                            <separator string="Product to Produce" colspan="2"/>
+                            <field name="product"/>
+                            <field name="qty"/>
+                            <field name="uom" widget="selection"/>
+                        </group>
+
+                        <group colspan="2" col="2">
+                            <separator string="Consumptions" colspan="2"/>
+                            <field name="gasoleo_start"/>
+                            <field name="gasoleo_stop"/>
+                        </group>
+                        <separator string="" colspan="4"/>
+                        <group colspan="8" col="8">
+                            <field name="state"/>
+                            <button name="button_cancel" string="Cancel" states="draft,startworking" icon="gtk-stop"/>
+                            <button name="button_draft" string="Set Draft" states="cancel" icon="gtk-convert"/>
+                            <button name="button_start_working" string="Start" states="draft" icon="terp-gtk-jump-to-ltr"/>
+                            <button name="button_resume" string="Resume" states="pause" icon="gtk-media-pause"/>
+                            <button name="button_pause" string="Pending" states="startworking" icon="gtk-media-pause"/>
+                            <button name="button_done" string="Finished" states="startworking" icon="terp-check"/>
+                        </group>
+                    </page>
+                    <page string="Operators">
+                        <separator string="Operators" colspan="4"/>
+                        <field name="operators_ids" colspan="4" nolabel="1"/>
+                    </page>
+                    <page string="Production stops">
+                        <field name="production_stops_ids" colspan="4" nolabel="1">
+                            <tree string="Production stops" editable="top">
+                                <field name="name"/>
+                                <field name="reason"/>
+                                <field name="time" widget="float_time"/>
+                            </tree>
+                            <form string="Production stops">
+                                <field name="name"/>
+                                <field name="reason"/>
+                                <field name="time" widget="float_time"/>
+                            </form>
+                        </field>
+                    </page>
+                    </notebook>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_mrp_production_filter_add_states" model="ir.ui.view">
+            <field name="name">mrp.production.select.add.states</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.view_mrp_production_filter"/>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <filter name="inprogress" position="after">
+                    <filter icon="terp-gdu-smart-failing" string="Finished" name="finished"
+                        domain="[('state','=','finished')]"/>
+                    <filter icon="terp-stage" string="Validated" name="validated"
+                        domain="[('state','=','validated')]"/>
+                    <filter icon="terp-mail_delete" string="Closed" name="closed"
+                        domain="[('state','=','closed')]"/>
+                </filter>
+                <filter string="Late" position="after">
+                    <newline/>
+                </filter>
+            </field>
+        </record>
+
+        <record id="mrp_production_tree_view" model="ir.ui.view">
+            <field name="name">mrp.production.tree</field>
+            <field name="model">mrp.production</field>
+            <field name="type">tree</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <tree colors="blue:state in ('draft','confirmed','ready');red:state in ('picking_except');black:state in ('finished','validated','closed');gray:state in ('done','cancel');green:state in ('in_production') " string="Manufacturing Orders">
+                    <field name="name"/>
+                    <field name="date_planned"/>
+                    <field name="product_id"/>
+                    <field name="product_qty" sum="Total Qty"/>
+                    <field name="product_uom"/>
+                    <field name="routing_id" groups="base.group_extended"/>
+                    <field name="hour_total" sum="Total Hours" groups="base.group_extended"/>
+                    <field name="cycle_total" sum="Total Cycles" groups="base.group_extended"/>
+                    <field name="origin"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="mrp_production_form_view_add_fields" model="ir.ui.view">
+            <field name="name">mrp.production.form.add.fields</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+            <field name="priority">20</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="routing_id" position="replace">
+                    <field name="ids_str2" invisible="1"/>
+                    <field name="operator_ids_str" invisible="1"/>
+                    <field name="routing_id" groups="base.group_extended" select="1" domain="[('id','in',eval(ids_str2))]" />
+                </field>
+                <button string="Produce" position="replace">
+                    <button name="button_produce_finished" states="in_production" string="Finish Production" icon="gtk-ok" />
+                </button>
+                <button name="button_produce" position="after">
+                    <button name="%(mrp.act_mrp_product_produce)d" states="finished" string="Validate Production" type="action" icon="terp-gtk-jump-to-ltr"/>
+                </button>
+                <button name="button_produce" position="after">
+                    <button name="button_validated_closed" states="validated" string="Close Production" icon="gtk-ok"/>
+                    <button name="button_produce_done" states="closed" string="Done Production" icon="gtk-ok"/>
+                </button>
+
+                <field name="state" position="replace">
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,ready,in_production,finished,validated,closed,done" statusbar_colors='{"picking_except":"red","confirmed":"blue"}'/>
+                </field>
+
+                <xpath expr="//form/group[1]" position="replace">
+                    <group colspan="4" col="7">
+                        <field name="name" string="Reference"/>
+                        <field name="date_planned"/>
+                        <field name="date_end_planned"/>
+                        <newline/>
+                        <field name="product_id" on_change="product_id_change(product_id)" domain="[('supply_method','=','produce')]"/>
+                        <field name="product_qty" on_change="product_qty_change(product_id,product_qty,product_uom,product_uos)"/>
+                        <field name="product_uom"/>
+                        <button type="action"
+                            icon="terp-accessories-archiver+"
+                            name="%(mrp.action_change_production_qty)d"
+                            string="Change Qty" states="ready,confirmed" />
+                        <field name="origin"/>
+                        <field name="product_uos_qty" on_change="product_uos_qty_change(product_id,product_uos_qty,product_uos,product_uom)" groups="product.group_uos"/>
+                        <field name="product_uos" groups="product.group_uos"/>
+                    </group>
+                </xpath>
+                <xpath expr="//form/notebook/page[@string='Consumed Products']/field[@name='move_lines']/tree/field[@name='product_id']" position="replace">
+                    <field name="product_id" on_change="product_id_change_mrp_productions(product_id, parent.name)"/>
+                    <field name="name" invisible="1"/>
+                    <field name="location_dest_id" invisible="1"/>
+                    <field name="product_uos" invisible="1"/>
+                    <field name="product_uos_qty" invisible="1"/>
+                </xpath>
+                <xpath expr="//form/notebook/page[@string='Finished Products']/field[@name='move_created_ids']/tree" position="replace">
+                     <tree string="Products to finish" editable="bottom">
+                        <field name="product_id" />
+                        <field name="product_qty"  string="Qty"/>
+                        <field name="product_uom"  string="UOM"/>
+                        <field name="prodlot_id" context="{'product_id': product_id}" domain="[('product_id','=',product_id),('stock_available','&gt;',0)]"/> 
+                        <field name="state" invisible="1"/>
+                        <button name="%(stock.action_partial_move_server)d"
+                            string="Partial"
+                            type="action" states="confirmed,assigned"
+                            icon="gtk-justify-fill"/>
+                        <button name="%(stock.move_scrap)d"
+                            string="Scrap Products" type="action"
+                            icon="gtk-convert" context="{'scrap': True}"
+                            states="draft,waiting,confirmed,assigned" />
+                    </tree>
+                </xpath>
+
+               <page string="Work Orders" position="replace">
+                    <!--<page string="pruebas">
+                        <field name="move_lines_str"/>
+                        <field name="move_lines2_str"/>
+                    </page>-->
+                    <page string="Work Orders" groups="base.group_extended">
+                        <button name="action_compute" states="draft,confirmed,ready,finished,validated,closed"
+                            string="Compute Data" type="object"
+                            icon="terp-stock_format-scientific"
+                            colspan="2" />
+                        <button name="action_recalculate_time" states="draft,confirmed,ready,finished,validated,closed"
+                            string="Recalculate Time" type="object"
+                            icon="terp-stock_format-scientific"
+                            colspan="2" />
+                        <field colspan="4" name="workcenter_lines" nolabel="1">
+                            <form string="Production Work Centers">
+                                <field colspan="4" name="name"/>
+                                <field name="workcenter_id" widget="selection"/>
+                                <field name="sequence"/>
+                                <notebook colspan="4">
+                                    <page string ="Information">
+                                        <group colspan="2" col="2">
+                                            <separator string="Planned Date" colspan="2"/>
+                                            <field name="date_planned"/>
+                                            <field name="date_planned_end"/>
+                                        </group>
+                                        <group colspan="2" col="2">
+                                            <separator string="Real" colspan="2"/>
+                                            <field name="date_start" readonly="0"/>
+                                            <field name="date_finished" readonly="0"/>
+                                            <field name="real_time" widget="float_time"/>
+                                            <field name="time_start" widget="float_time"/>
+                                           <field name="time_stop" widget="float_time"/>
+                                        </group>
+                                        <group colspan="2" col="2">
+                                            <separator string="Product to Produce" colspan="2"/>
+                                            <field name="product"/>
+                                            <field name="qty"/>
+                                            <field name="uom" widget="selection"/>
+                                        </group>
+                                        <group colspan="2" col="2">
+                                           <separator string="Consumptions" colspan="2"/>
+                                           <field name="gasoleo_start"/>
+                                           <field name="gasoleo_stop"/>
+                                        </group>
+                                    </page>
+                                    <page string="Operators">
+                                        <separator string="Operators" colspan="4"/>
+                                        <field name="operators_ids" colspan="4" nolabel="1" domain="[('id','in',eval(parent.operator_ids_str))]"/>
+                                    </page>
+                                    <page string="Production stops">
+                                        <field name="production_stops_ids" colspan="4" nolabel="1">
+                                            <tree string="Production stops" editable="top">
+                                                <field name="name"/>
+                                                <field name="reason"/>
+                                                <field name="time" widget="float_time"/>
+                                            </tree>
+                                            <form string="Production stops">
+                                                <field name="name"/>
+                                                <field name="reason"/>
+                                                <field name="time" widget="float_time"/>
+                                            </form>
+                                        </field>
+                                    </page>
+                                </notebook>
+                                <newline/>
+                                <group colspan="8" col="8">
+                                    <separator colspan="8"/>
+                                    <field name="state"/>
+                                    <button name="button_cancel" string="Cancel" states="draft,startworking" icon="gtk-stop" help="Cancel Order"/>
+                                    <button name="button_draft" string="Set Draft" states="cancel" icon="gtk-convert" help="Set to Draft"/>
+                                    <button name="button_start_working" string="Start" states="draft" icon="terp-gtk-jump-to-ltr" help="Start Working"/>
+                                    <button name="button_resume" string="Resume" states="pause" icon="gtk-media-pause" help="Resume Work Order"/>
+                                    <button name="button_pause" string="Pending" states="startworking" icon="gtk-media-pause" help="Pause Work Order"/>
+                                    <button name="button_done" string="Finished" states="startworking" icon="terp-check" help="Finish Order"/>
+                                </group>
+                            </form>
+                            <tree string="Production Work Centers">
+                                <field name="sequence"/>
+                                <field name="name"/>
+                                <field name="workcenter_id" widget="selection"/>
+                                <field name="real_time"  widget="float_time"/>
+                            </tree>
+                        </field>
+                    </page>
+                </page>
+                <page string="Extra Information" position="after">
+                    <page string="Notas">
+                        <field name="note" colspan="4" nolabel="1"/>
+                    </page>                 
+                </page>                 
+            </field>
+        </record>
+
+
+        <record id="workcenter_line_calendar" model="ir.ui.view">
+            <field name="name">mrp.production.workcenter.line.calendar</field>
+            <field name="model">mrp.production.workcenter.line</field>
+            <field eval="1" name="priority"/>
+            <field name="type">calendar</field>
+            <field name="arch" type="xml">
+                <calendar color="workcenter_id" date_stop="date_stop" date_start="date_expected" string="Workcenter">
+                    <field name="workcenter_id"/>
+                    <field name="qty"/>
+                    <field name="hour"/>
+                </calendar>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_mrp_production_workcenter_line_kanban">
+            <field name="name">mrp.production.workcenter.line.kanban</field>
+            <field name="model">mrp.production.workcenter.line</field>
+            <field name="type">kanban</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="workcenter_id" >
+                    <field name="product"/>
+                    <field name="qty"/>
+                    <field name="uom"/>
+                    <field name="hour" sum="Tiempo Est. Total"/>
+                    <field name="stock"/>
+                    <field name="date_expected"/>
+                    <field name="partner_name"/>
+                    <field name="color_stock"/>
+                    <field name="routing_id"/>
+                    <templates>
+                        <t t-name="production_workcenter_line_details">
+                            <ul class="oe_kanban_tooltip">
+                                <li><b>Product: </b> <field name="product"/></li>
+                            </ul>
+                        </t>
+                         <t t-name="kanban-box">
+                           <div t-attf-class="#{kanban_color(record.color_stock.raw_value)} #{border || ''">
+                               <div class="oe_kanban_box oe_kanban_color_border">
+                                   <table class="oe_kanban_table oe_kanban_box_header oe_kanban_color_bgdark oe_kanban_color_border oe_kanban_draghandle">
+                                    <tr>
+                                        <td align="left" valign="middle" class="oe_kanban_title" tooltip="production_workcenter_line_details">
+                                            <field name="product"/>
+                                        </td>
+                                    </tr>
+                                    </table>
+                                     <div class="oe_kanban_box_content oe_kanban_color_bglight oe_kanban_box_show_onclick_trigger oe_kanban_color_border">
+                                        <div>
+                                            <b>
+                                                <field name="qty"/>
+                                                <field name="uom"/>
+                                            </b>
+                                        </div>
+                                        <div>
+                                            <b>
+                                                Ruta: </b><field name="routing_id"/>
+
+                                        </div>
+                                        <div>
+                                            <b>
+                                                Tiempo:  </b><field name="hour" string="Tiempo estimado" widget="float_time"/>
+
+                                        </div>
+                                        <div>
+                                            <b>
+                                            Planificada: </b><field name="date_planned"/>
+
+                                        </div>
+                                        <div>
+                                            <b>
+                                            Real:  </b><field name="date_start"/>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="oe_kanban_buttons_set oe_kanban_color_border oe_kanban_color_bglight oe_kanban_box_show_onclick">
+                                        <div class="oe_kanban_left">
+                                            <a string="Edit" icon="gtk-edit" type="edit"/>
+                                            <a string="Change Color" icon="color-picker" type="color" name="color"/>
+                                        </div>
+
+                                        <br class="oe_kanban_clear"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="mrp_operations.mrp_production_wc_action_form">
+            <field name="name">Work Orders</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">mrp.production.workcenter.line</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,gantt,calendar,graph,kanban</field>
+            <field name="search_view_id" ref="mrp_operations.view_mrp_production_workcenter_form_view_filter"/>
+            <field name="help">Work Orders is the list of operations to be performed for each manufacturing order. Once you start the first work order of a manufacturing order, the manufacturing order is automatically marked as started. Once you finish the latest operation of a manufacturing order, the MO is automatically done and the related products are produced.</field>
+        </record>
+
+    </data>
+</openerp>

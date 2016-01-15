@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!--
+        ==========
+        Employee
+        ==========
+        -->
+        <record id="view_employee_form" model="ir.ui.view">
+            <field name="name">hr.employee.form</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+            
+                <field name="passport_id" position="before">
+                    <field name="dni_id"/>
+                </field>
+
+                <field name="birthday" position="after">
+                    <field name="numero_hijos" />
+                </field>
+
+                <field name="address_home_id" position="replace">
+                    <field name="address_home_id" colspan="2" groups="base.group_hr_user"/>
+                </field>
+
+                <field name="work_location" position="after">
+                    <group colspan="2" groups="base.group_hr_user" string="Persona(s) aviso en caso de emergencia">
+                        <field name="persona_aviso_emergencia_1" />
+                        <field name="telefono_aviso_emergencia_1" />
+                        <field name="persona_aviso_emergencia_2" />
+                        <field name="telefono_aviso_emergencia_2" />
+                        <field name="persona_aviso_emergencia_3" />
+                        <field name="telefono_aviso_emergencia_3" />
+                    </group>
+                </field>
+
+                <field name="job_id" position="after">
+                    <group colspan="2" col="6" groups="base.group_hr_user">
+                        <field name="tipo_contrato_id" />
+                        <field name="grupo_cotizacion" />
+                    </group>
+                    <group colspan="2" col="6" groups="base.group_hr_user">
+                        <field name="fecha_alta_empresa" />
+                        <field name="fecha_fijo_empresa" />
+                    </group>
+                    <group colspan="2" col="6" groups="base.group_hr_user">
+                        <field name="fecha_baja_empresa" />
+                            <field name="motivo_baja_empresa" colspan="4" />
+                    </group>
+                </field>
+
+                <page string="Personal Information" position="inside">
+                    <group colspan="2" col="2" groups="base.group_hr_user" name="hr_exp_lab">
+                        <separator string="Contrataciones anteriores" colspan="2"/>
+                            <field name="contrataciones_anteriores_ids" colspan="2" nolabel="1">
+                                <tree string="" editable="top">
+                                    <field name="empresa" />
+                                    <field name="fecha_inicio" />
+                                    <field name="fecha_fin" />
+                                </tree>
+                                <form string="">
+                                    <field name="empresa" />
+                                    <field name="fecha_inicio" />
+                                    <field name="fecha_fin" />
+                                </form>
+                            </field>
+                        <separator string="Formación académica" colspan="2"/>
+                            <field name="formacion_academica_ids" colspan="2" nolabel="1">
+                                <tree string="" editable="top">
+                                    <field name="estudios" />
+                                    <field name="centro" />
+                                    <field name="final_year" />
+                                </tree>
+                                <form string="">
+                                    <field name="estudios" />
+                                    <field name="centro" />
+                                    <field name="final_year" />
+                                </form>
+                            </field>
+                    </group>
+                    <group colspan="2" col="2" groups="base.group_hr_user" name="hr_exp_lab">
+                        <separator string="Experiencia laboral" colspan="2"/>
+                            <field name="experiencia_laboral_ids" colspan="2" nolabel="1">
+                                <tree string="" editable="top">
+                                    <field name="empresa" />
+                                    <field name="actividad" />
+                                    <field name="fecha_inicio" />
+                                    <field name="fecha_fin" />
+                                </tree>
+                                <form string="">
+                                    <field name="empresa" />
+                                    <field name="actividad" />
+                                    <field name="fecha_inicio" />
+                                    <field name="fecha_fin" />
+                                </form>
+                            </field>
+                        <separator string="Formación recibida en la empresa" colspan="2"/>
+                            <field name="formacion_en_la_empresa_ids" colspan="2" nolabel="1">
+                                <tree string="" editable="top">
+                                    <field name="curso_documentacion" />
+                                    <field name="tipo_certificacion" />
+                                    <field name="fecha_curso" />
+                                    <field name="valoracion" />
+                                    <field name="fecha_valoracion" />
+                                </tree>
+                                <form string="">
+                                    <field name="curso_documentacion" />
+                                    <field name="tipo_certificacion" />
+                                    <field name="fecha_curso" />
+                                    <field name="valoracion" />
+                                    <field name="fecha_valoracion" />
+                                </form>
+                            </field>
+                    </group>
+                    <group colspan="4" col="6" groups="base.group_hr_user" name="hr_carnet_conducir">
+                        <separator string="Carnet de conducir" colspan="6"/>
+                            <group colspan="6" col="6">
+                                <field name="carnet_conducir_b" />
+                                <field name="carnet_conducir_c" />
+                                <field name="carnet_conducir_c1" />
+                            </group>
+                            <group colspan="6" col="6">
+                                <field name="observaciones"/>
+                            </group>
+                    </group>
+
+                </page>
+
+            </field>
+        </record>
+
+    </data>
+</openerp>

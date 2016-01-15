@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        
+        <record id="product_trademark_tree" model="ir.ui.view">
+            <field name="name">product.trademark.tree</field>
+            <field name="model">product.trademark</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Trademarks">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="product_trademark_form" model="ir.ui.view">
+            <field name="name">product.trademark.form</field>
+            <field name="model">product.trademark</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Trademark">
+                    <field name="name"/>
+                    <field name="active"/>
+                </form>
+            </field>
+        </record>
+
+        <record id="product_trademark_search" model="ir.ui.view">
+            <field name="name">product.trademark.search</field>
+            <field name="model">product.trademark</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Search trademarks">
+                    <group>
+                        <field name="name"/>
+                        <field name="active"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_product_trademark" model="ir.actions.act_window">
+            <field name="name">Trademarks</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.trademark</field>
+            <field name="view_type">form</field>
+        </record>
+
+        <menuitem action="action_product_trademark" id="menu_product_trademark" parent="stock.menu_product_in_config_stock" sequence="18"/>
+        
+    </data>
+</openerp>

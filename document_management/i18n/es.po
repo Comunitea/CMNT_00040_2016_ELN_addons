@@ -1,0 +1,453 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* document_management
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 6.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-01-08 13:35+0000\n"
+"PO-Revision-Date: 2014-01-08 13:35+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: document_management
+#: view:expedient:0
+#: field:expedient,expedient_document:0
+#: view:type.expedient:0
+#: field:type.expedient,expedient_document:0
+msgid "Documents"
+msgstr "Documentos"
+
+#. module: document_management
+#: model:ir.actions.act_window,name:document_management.action_res_log_expedient
+#: model:ir.ui.menu,name:document_management.menu_log_exp
+#: model:ir.ui.menu,name:document_management.menu_res_log_expedient
+msgid "Log"
+msgstr "Log"
+
+#. module: document_management
+#: view:expedient:0
+#: model:ir.model,name:document_management.model_type_expedient
+msgid "Type of expedient"
+msgstr "Tipo de expediente"
+
+#. module: document_management
+#: model:ir.model,name:document_management.model_ir_model_type_expedient
+msgid "many2many between type.expedient and ir.model"
+msgstr "many2many entre type.expedient and ir.model"
+
+#. module: document_management
+#: model:ir.model,name:document_management.model_expedient
+msgid "Record documentary that grouping together a series of documents."
+msgstr "Expediente que agrupa una serie de documentos."
+
+#. module: document_management
+#: code:addons/document_management/profiler.py:375
+#, python-format
+msgid "Attachment of ' + data['model'] + '-' + str(data['id'])),\n"
+"                        'type2': (self.name).split(\"report.\")[1],\n"
+"                        'expedient_document_id': expedient_document_id and expedient_document_id or False,\n"
+"                        'type': 'binary'\n"
+"                        }, context)\n"
+"\n"
+"                if attachment_id:\n"
+"                    at.append(attachment_id)\n"
+"                if at:\n"
+"                    pooler.get_pool(cr.dbname).get('expedient"
+msgstr "Adjuntos de ' + data['model'] + '-' + str(data['id'])),\n"
+"                        'type2': (self.name).split(\"report.\")[1],\n"
+"                        'expedient_document_id': expedient_document_id and expedient_document_id or False,\n"
+"                        'type': 'binary'\n"
+"                        }, context)\n"
+"\n"
+"                if attachment_id:\n"
+"                    at.append(attachment_id)\n"
+"                if at:\n"
+"                    pooler.get_pool(cr.dbname).get('expedient"
+
+#. module: document_management
+#: view:expedient:0
+#: field:expedient,state:0
+msgid "State"
+msgstr "Estado"
+
+#. module: document_management
+#: view:expedient:0
+msgid "expedients"
+msgstr "Expedientes"
+
+#. module: document_management
+#: field:expedient,attachment_ids:0
+msgid "Attachment"
+msgstr "Adjunto"
+
+#. module: document_management
+#: view:expedient.document:0
+#: field:expedient.document,required:0
+#: view:type.expedient.document:0
+#: field:type.expedient.document,required:0
+msgid "Required"
+msgstr "Requerido"
+
+#. module: document_management
+#: field:expedient.document,ir_act_report_xml_id:0
+#: field:ir.attachment,expedient_document_id:0
+#: field:type.expedient.document,ir_act_report_xml_id:0
+msgid "Document"
+msgstr "Documento"
+
+#. module: document_management
+#: help:type.expedient,condition:0
+msgid "The condition is met we want when creating a record. Format in python code: o.field_name == value "
+msgstr "La condición que se tiene que cumplir para la creación de un expediente. Formato en código python: ejemplo: o.field_name == value and/or o.field_name2 == value2 ..."
+
+#. module: document_management
+#: help:res.log.expedient,name:0
+msgid "The logging message."
+msgstr "Mensaje del log"
+
+#. module: document_management
+#: view:stock.picking:0
+msgid "Print label"
+msgstr "Imprimir etiqueta"
+
+#. module: document_management
+#: field:res.log.expedient,create_date:0
+msgid "Creation Date"
+msgstr "Fecha creación"
+
+#. module: document_management
+#: view:expedient:0
+#: field:expedient,type:0
+#: view:ir.attachment:0
+#: field:ir.attachment,type2:0
+msgid "Type"
+msgstr "Tipo"
+
+#. module: document_management
+#: selection:expedient,state:0
+msgid "Completed"
+msgstr "Completo"
+
+#. module: document_management
+#: field:res.log.expedient,res_model:0
+msgid "Object"
+msgstr "Objecto"
+
+#. module: document_management
+#: selection:expedient.document,attach_mode:0
+#: selection:type.expedient.document,attach_mode:0
+msgid "By printing"
+msgstr "Por impresión"
+
+#. module: document_management
+#: model:ir.model,name:document_management.model_type_expedient_document
+msgid "many2many between type of expedient and ir.actions.report.xml"
+msgstr "many2many entre tipo de expediente and ir.actions.report.xml"
+
+#. module: document_management
+#: field:expedient.document,attach_mode:0
+#: field:type.expedient.document,attach_mode:0
+msgid "Attach mode"
+msgstr "Modo de adjuntar"
+
+#. module: document_management
+#: view:expedient:0
+msgid "Go back"
+msgstr "Atrás"
+
+#. module: document_management
+#: selection:expedient,state:0
+msgid "Printed"
+msgstr "Impreso"
+
+#. module: document_management
+#: model:res.groups,name:document_management.group_document_management_user
+msgid "Document management / User"
+msgstr "Gestión documental / Usuario"
+
+#. module: document_management
+#: field:res.log.expedient,read:0
+msgid "Read"
+msgstr "Leer"
+
+#. module: document_management
+#: code:addons/document_management/expedient.py:216
+#: code:addons/document_management/expedient.py:222
+#, python-format
+msgid "Invalid action !"
+msgstr "Acción invalida !"
+
+#. module: document_management
+#: field:res.log.expedient,secondary:0
+msgid "Secondary Log"
+msgstr "Log secundario"
+
+#. module: document_management
+#: view:expedient:0
+msgid "Validate"
+msgstr "Validar"
+
+#. module: document_management
+#: model:ir.ui.menu,name:document_management.menu_configuration
+msgid "Configuration"
+msgstr "Configuración"
+
+#. module: document_management
+#: model:ir.model,name:document_management.model_ir_attachment
+msgid "ir.attachment"
+msgstr "ir.attachment"
+
+#. module: document_management
+#: field:expedient,condition:0
+#: field:type.expedient,condition:0
+msgid "Condition"
+msgstr "Condición"
+
+#. module: document_management
+#: help:expedient,cancellation:0
+#: help:ir.model.expedient,cancellation:0
+#: help:ir.model.type.expedient,cancellation:0
+#: help:type.expedient,cancellation:0
+msgid "State in which this model should be canceled. Example: For the sales model in the state set aside would be canceled: cancel"
+msgstr "Estado en el que este modelo puede ser anulado. Eje.: Para que el modelo de ventas sea anulado en el estado cancelado: cancelled"
+
+#. module: document_management
+#: selection:expedient.document,attach_mode:0
+#: selection:type.expedient.document,attach_mode:0
+msgid "By Scanning"
+msgstr "Por escaneo"
+
+#. module: document_management
+#: field:expedient,date:0
+msgid "Date of expedient"
+msgstr "Fecha de expediente"
+
+#. module: document_management
+#: field:expedient,name:0
+#: field:type.expedient,name:0
+msgid "Name"
+msgstr "Nombre"
+
+#. module: document_management
+#: model:ir.model,name:document_management.model_ir_model_expedient
+msgid "many2many between expedient and ir.model"
+msgstr "many2many between expedient and ir.model"
+
+#. module: document_management
+#: selection:expedient,state:0
+msgid "Created"
+msgstr "Creado"
+
+#. module: document_management
+#: field:expedient.document,half_page:0
+#: field:type.expedient.document,half_page:0
+msgid "Printing half page"
+msgstr "Impresión a media pág."
+
+#. module: document_management
+#: field:type.expedient,ref:0
+msgid "Ref."
+msgstr "Ref."
+
+#. module: document_management
+#: view:expedient:0
+#: field:expedient,model_ids:0
+#: view:type.expedient:0
+#: field:type.expedient,model_ids:0
+msgid "Models"
+msgstr "Modelos"
+
+#. module: document_management
+#: help:res.log.expedient,read:0
+msgid "If this log item has been read, get() should not send it to the client"
+msgstr "Si este item del log ha sido leido, get() no debería enviarlo al cliente"
+
+#. module: document_management
+#: model:ir.ui.menu,name:document_management.menu_base_document_management
+msgid "Document management"
+msgstr "Gestión documental"
+
+#. module: document_management
+#: field:res.log.expedient,context:0
+msgid "Context"
+msgstr "Contexto"
+
+#. module: document_management
+#: field:expedient.document,expedient_id:0
+#: field:ir.model.expedient,expedient_id:0
+#: field:ir.model.type.expedient,type_expedient_id:0
+#: view:res.log.expedient:0
+#: field:res.log.expedient,expedient_id:0
+msgid "Expedient"
+msgstr "Expediente"
+
+#. module: document_management
+#: view:ir.attachment:0
+#: field:ir.model.expedient,ir_model:0
+#: field:ir.model.type.expedient,ir_model:0
+msgid "Model"
+msgstr "Modelo"
+
+#. module: document_management
+#: view:expedient:0
+msgid "Create final expedient"
+msgstr "Crear expediente final"
+
+#. module: document_management
+#: field:expedient,cancellation:0
+#: field:ir.model.expedient,cancellation:0
+#: field:ir.model.type.expedient,cancellation:0
+#: field:type.expedient,cancellation:0
+msgid "Cancellation"
+msgstr "Anulación"
+
+#. module: document_management
+#: selection:expedient,state:0
+msgid "Incomplete"
+msgstr "Incompleto"
+
+#. module: document_management
+#: model:ir.actions.act_window,name:document_management.action_expedient
+#: model:ir.ui.menu,name:document_management.menu_expedient
+#: model:ir.ui.menu,name:document_management.menu_expedient_order
+msgid "Expedients"
+msgstr "Expedientes"
+
+#. module: document_management
+#: view:expedient.document:0
+#: view:type.expedient.document:0
+msgid "Models required for a expedient"
+msgstr "Modelos requeridos por el expediente"
+
+#. module: document_management
+#: view:expedient:0
+msgid "Attachments"
+msgstr "Adjuntos"
+
+#. module: document_management
+#: selection:expedient,state:0
+msgid "Finalized"
+msgstr "Finalizado"
+
+#. module: document_management
+#: field:type.expedient.document,type_expedient_id:0
+msgid "Type of Expedient"
+msgstr "Tipo de expediente"
+
+#. module: document_management
+#: help:expedient,condition:0
+msgid "The condition is met we want when creating a record. Format: [('name of the field to evaluate', '=', field value)]"
+msgstr "La condición que se tiene que cumplir para la creación de un expediente. Formato: [('nombre del campo a evaluar', '=', valor del campo a evaluar)] -> [('partner_id.cash', '=', True)]"
+
+#. module: document_management
+#: field:expedient.document,sequence:0
+#: field:ir.attachment,seq_id:0
+#: field:type.expedient.document,sequence:0
+msgid "Sequence"
+msgstr "Secuencia"
+
+#. module: document_management
+#: view:type.expedient:0
+msgid "Types of expedients"
+msgstr "Tipos de expediente"
+
+#. module: document_management
+#: model:ir.model,name:document_management.model_res_log_expedient
+msgid "Log for the expedients"
+msgstr "Log expedientes"
+
+#. module: document_management
+#: field:expedient,prototipe_barcode:0
+msgid "Prototipe barcode"
+msgstr "Prototipo Cód. Barras"
+
+#. module: document_management
+#: view:expedient:0
+#: view:expedient.document:0
+#: view:res.log.expedient:0
+#: view:type.expedient.document:0
+msgid "Group by..."
+msgstr "Agrupar por..."
+
+#. module: document_management
+#: view:expedient.document:0
+#: field:expedient.document,valid_last:0
+#: view:type.expedient.document:0
+#: field:type.expedient.document,valid_last:0
+msgid "Valid the last"
+msgstr "Válido el último"
+
+#. module: document_management
+#: field:expedient,references:0
+msgid "References"
+msgstr "Referencias"
+
+#. module: document_management
+#: view:expedient:0
+#: field:expedient,res_log_expedient_ids:0
+#: view:res.log.expedient:0
+msgid "Log expedient"
+msgstr "Log expediente"
+
+#. module: document_management
+#: field:expedient,origin_model:0
+#: field:type.expedient,origin_model:0
+msgid "Origin model"
+msgstr "Modelo origen"
+
+#. module: document_management
+#: field:ir.attachment,expedient_id:0
+msgid "expedient"
+msgstr "expediente"
+
+#. module: document_management
+#: view:res.log.expedient:0
+#: field:res.log.expedient,user_id:0
+msgid "User"
+msgstr "Usuario"
+
+#. module: document_management
+#: field:res.log.expedient,res_id:0
+msgid "Object ID"
+msgstr "Object ID"
+
+#. module: document_management
+#: field:res.log.expedient,name:0
+msgid "Message"
+msgstr "Mensaje"
+
+#. module: document_management
+#: model:ir.model,name:document_management.model_expedient_document
+msgid "many2many between expedient and ir.actions.report.xml"
+msgstr "many2many entre expedientes and ir.actions.report.xml"
+
+#. module: document_management
+#: code:addons/document_management/expedient.py:216
+#: code:addons/document_management/expedient.py:222
+#, python-format
+msgid "Can't delete the expedient because it has associate models. !"
+msgstr "No puedes borrar el expediente porque tiene modelos asociados. !"
+
+#. module: document_management
+#: model:ir.actions.act_window,name:document_management.action_type_expedient
+#: model:ir.ui.menu,name:document_management.menu_type_expedient_order
+#: view:type.expedient:0
+msgid "Type of expedients"
+msgstr "Tipo de expedientes"
+
+#. module: document_management
+#: help:res.log.expedient,secondary:0
+msgid "Do not display this log if it belongs to the same object the user is working on"
+msgstr "No mostrar este log si pertenece al mismo objeto que el que está trabajando el usuario"
+
+#. module: document_management
+#: view:res.log.expedient:0
+msgid "Log expedients"
+msgstr "Log expedientes"
+

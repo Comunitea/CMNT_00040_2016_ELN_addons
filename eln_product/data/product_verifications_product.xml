@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data noupdate="0">
+        <!-- Type -->
+        <record model="ir.sequence.type" id="seq_product_verfications_product">
+            <field name="name">Sequence product verifications product</field>
+            <field name="code">product.verfications.product</field>
+        </record>
+
+        <!-- Sequence -->
+        <record id="seq_product_verfications_product_action" model="ir.sequence">
+            <field name="name">Def. product verfications product seq.</field>
+            <field name="code">product.verfications.product</field>
+            <field name="prefix">PVSP/</field>
+            <field name="padding">8</field>
+            <field name="company_id" eval="0"/>
+        </record>
+    </data>
+</openerp>

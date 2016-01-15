@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+
+        <record id="document_management_pos_form" model="ir.ui.view">
+            <field name="name">document.management.pos.form</field>
+            <field name="model">board.board</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Document Management Dashboard">
+                    <board style="2-1">
+                         <column>
+                        </column>
+                        <column>
+                        </column>
+                    </board>
+                </form>
+            </field>
+        </record>
+
+        <record id="open_document_management_pos" model="ir.actions.act_window">
+            <field name="name">Document Management Dashboard</field>
+            <field name="res_model">board.board</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="usage">menu</field>
+            <field name="view_id" ref="document_management_pos_form"/>
+        </record>
+    </data>
+    <data>
+
+        <menuitem icon="STOCK_DIRECTORY" id="document_management.menu_base_document_management" name="Document management" sequence="0"
+            groups="base.group_sale_salesman,base.group_sale_manager" web_icon="../document_management/images/document_management.png"
+                  web_icon_hover="../document_management/images/document_management_color.png" action="open_document_management_pos"/>
+
+    </data>
+</openerp>

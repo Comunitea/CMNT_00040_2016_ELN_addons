@@ -1,0 +1,335 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#   * a90_document_management
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 6.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-01-08 12:31+0000\n"
+"PO-Revision-Date: 2014-01-08 12:31+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: a90_document_management
+#: sql_constraint:sale.order:0
+msgid "Order Reference must be unique per Company!"
+msgstr "La referencia de la orden debe ser única por compañía"
+
+#. module: a90_document_management
+#: view:delete.invoice.expedient:0
+msgid "Are you sure delete expedient of selected invoices?"
+msgstr "¿Está seguro de borrar el expediente de las facturas seleccionadas?"
+
+#. module: a90_document_management
+#: view:board.board:0
+#: model:ir.actions.act_window,name:a90_document_management.open_document_management_pos
+msgid "Document Management Dashboard"
+msgstr "Tablero gestión documental"
+
+#. module: a90_document_management
+#: model:ir.actions.act_window,name:a90_document_management.action_delete_expedient
+msgid "Delete expedient"
+msgstr "Borrar expediente"
+
+#. module: a90_document_management
+#: model:ir.actions.act_window,name:a90_document_management.action_process_expedient
+#: view:process.expedient:0
+msgid "Process expedient"
+msgstr "Procesar expediente"
+
+#. module: a90_document_management
+#: selection:account.invoice,exp_state:0
+msgid "No expedient"
+msgstr "Sin expediente"
+
+#. module: a90_document_management
+#: selection:account.invoice,exp_state:0
+msgid "Completed"
+msgstr "Completo"
+
+#. module: a90_document_management
+#: view:delete.invoice.expedient:0
+msgid "Delete"
+msgstr "Borrar"
+
+#. module: a90_document_management
+#: view:account.invoice:0
+#: field:expedient,wzd_name:0
+msgid "Group"
+msgstr "Grupo"
+
+#. module: a90_document_management
+#: model:ir.model,name:a90_document_management.model_expedient_account_invoices
+msgid "Wizard to expedient the selected invoices."
+msgstr "Asistente para expedientar las facturas seleccionadas"
+
+#. module: a90_document_management
+#: selection:print.final.expedient,set_order_by:0
+msgid "Wizard name"
+msgstr "Nombre asistente"
+
+#. module: a90_document_management
+#: field:print.final.expedient,set_order_by:0
+msgid "Order by"
+msgstr "Ordenar por"
+
+#. module: a90_document_management
+#: selection:print.final.expedient,set_order_by:0
+msgid "Due date"
+msgstr "Fecha vencimiento"
+
+#. module: a90_document_management
+#: selection:print.final.expedient,set_order_by:0
+msgid "Origin"
+msgstr "Origen"
+
+#. module: a90_document_management
+#: view:delete.invoice.expedient:0
+#: model:ir.actions.act_window,name:a90_document_management.action_print_final_expedient
+#: view:print.final.expedient:0
+msgid "Print final expedient"
+msgstr "Imprimir expediente final"
+
+#. module: a90_document_management
+#: selection:print.final.expedient,set_order_by:0
+msgid "Invoice number"
+msgstr "Número factura"
+
+#. module: a90_document_management
+#: selection:print.final.expedient,set_order_by:0
+msgid "Invoice date"
+msgstr "Fecha factura"
+
+#. module: a90_document_management
+#: field:account.invoice,partner_name:0
+#: field:expedient,partner_name_expedient:0
+#: selection:print.final.expedient,set_order_by:0
+msgid "Partner name"
+msgstr "Nombre cliente"
+
+#. module: a90_document_management
+#: selection:account.invoice,exp_state:0
+msgid "Completed"
+msgstr "Completo"
+
+#. module: a90_document_management
+#: field:stock.picking,devolution_id:0
+msgid "Devolution"
+msgstr "Devolución"
+
+#. module: a90_document_management
+#: code:addons/a90_document_management/profiler.py:85
+#, python-format
+msgid "Attachment of ' + data['model'] + '-' + str(data['id'])),\n"
+"                        'type2': (self.name).split(\"report.\")[1],\n"
+"                        'expedient_document_id': expedient_document_id and expedient_document_id or False,\n"
+"                        'type': 'binary'\n"
+"                        }, context)\n"
+"\n"
+"                if attachment_id:\n"
+"                    at.append(attachment_id)\n"
+"                if at:\n"
+"                    pooler.get_pool(cr.dbname).get('expedient"
+msgstr "Adjunto ' + data['model'] + '-' + str(data['id'])),\n"
+"                        'type2': (self.name).split(\"report.\")[1],\n"
+"                        'expedient_document_id': expedient_document_id and expedient_document_id or False,\n"
+"                        'type': 'binary'\n"
+"                        }, context)\n"
+"\n"
+"                if attachment_id:\n"
+"                    at.append(attachment_id)\n"
+"                if at:\n"
+"                    pooler.get_pool(cr.dbname).get('expedient"
+
+#. module: a90_document_management
+#: view:account.invoice:0
+msgid "State"
+msgstr "Estado"
+
+#. module: a90_document_management
+#: field:print.final.expedient,asc_desc:0
+msgid "Order mode"
+msgstr "Modo"
+
+#. module: a90_document_management
+#: model:ir.model,name:a90_document_management.model_expedient_analysis
+msgid "Analysis of expedient documents"
+msgstr "Análisis Gestión Documental"
+
+#. module: a90_document_management
+#: model:ir.model,name:a90_document_management.model_stock_picking
+msgid "Picking List"
+msgstr "Albarán"
+
+#. module: a90_document_management
+#: model:ir.model,name:a90_document_management.model_print_final_expedient
+msgid "Print final expedient filter by invoices"
+msgstr "Impresión de expediente final por facturas."
+
+#. module: a90_document_management
+#: field:account.invoice,wzd_name:0
+msgid "Wzd Name"
+msgstr "Nombre asis."
+
+#. module: a90_document_management
+#: field:expedient,partner_name_expedient:0
+msgid "Partner name"
+msgstr "Nombre empresa"
+
+#. module: a90_document_management
+#: field:expedient,parent_expedient:0
+msgid "Parent"
+msgstr "Padre"
+
+#. module: a90_document_management
+#: field:expedient,child_expedient_ids:0
+msgid "unknown"
+msgstr "Desconocido"
+
+#. module: a90_document_management
+#: selection:account.invoice,exp_state:0
+msgid "Completed"
+msgstr "Completed"
+
+#. module: a90_document_management
+#: selection:account.invoice,exp_state:0
+#: field:account.invoice,printed:0
+msgid "Printed"
+msgstr "Impreso"
+
+#. module: a90_document_management
+#: field:expedient,date_origin_model:0
+msgid "Date"
+msgstr "Fecha"
+
+#. module: a90_document_management
+#: field:print.final.expedient,order_by:0
+msgid "Order by"
+msgstr "Ordenar por"
+
+#. module: a90_document_management
+#: field:expedient.account.invoices,name:0
+msgid "Name"
+msgstr "Nombre"
+
+#. module: a90_document_management
+#: selection:account.invoice,exp_state:0
+msgid "Created"
+msgstr "Creado"
+
+#. module: a90_document_management
+#: view:expedient:0
+msgid " Childs expedients"
+msgstr "Expedientes hijos"
+
+#. module: a90_document_management
+#: selection:print.final.expedient,asc_desc:0
+msgid "Up"
+msgstr "Ascendente"
+
+#. module: a90_document_management
+#: model:ir.model,name:a90_document_management.model_expedient
+msgid "Record documentary that grouping together a series of documents."
+msgstr "Expediente que agrupa una serie de documentos."
+
+#. module: a90_document_management
+#: model:ir.actions.act_window,name:a90_document_management.action_print_final_expedient
+#: view:print.final.expedient:0
+msgid "Print final expedient"
+msgstr "Imprimir expediente final"
+
+#. module: a90_document_management
+#: help:expedient,wzd_name:0
+msgid "Name of the group of files created in the assistant"
+msgstr "Nombre del grupo de ficheros creados por el asistente"
+
+#. module: a90_document_management
+#: sql_constraint:stock.picking:0
+msgid "Reference must be unique per Company!"
+msgstr "¡La referencia debe ser única por compañía!"
+
+#. module: a90_document_management
+#: view:expedient.account.invoices:0
+msgid "Expedient"
+msgstr "Expediente"
+
+#. module: a90_document_management
+#: view:expedient:0
+msgid "Create final expedient"
+msgstr "Crear expediente final"
+
+#. module: a90_document_management
+#: selection:account.invoice,exp_state:0
+msgid "Incomplete"
+msgstr "Incompleto"
+
+#. module: a90_document_management
+#: sql_constraint:account.invoice:0
+msgid "Invoice Number must be unique per Company!"
+msgstr "¡El número de factura debe ser único por compañía!"
+
+#. module: a90_document_management
+#: view:expedient:0
+msgid "Attachments"
+msgstr "Adjuntos"
+
+#. module: a90_document_management
+#: field:expedient,name_origin_model:0
+msgid "Origin document"
+msgstr "Documento origen"
+
+#. module: a90_document_management
+#: selection:account.invoice,exp_state:0
+msgid "Finalized"
+msgstr "Finalizado"
+
+#. module: a90_document_management
+#: view:print.final.expedient:0
+#: field:print.final.expedient,invoice_ids:0
+msgid "Invoices"
+msgstr "Facturas"
+
+#. module: a90_document_management
+#: field:account.invoice,exp_state:0
+msgid "Expedient state"
+msgstr "Estado expediente"
+
+#. module: a90_document_management
+#: selection:print.final.expedient,asc_desc:0
+msgid "Down"
+msgstr "Descendente"
+
+#. module: a90_document_management
+#: view:expedient.account.invoices:0
+#: model:ir.actions.act_window,name:a90_document_management.action_expedient_account_invoice
+msgid "Expedient invoices"
+msgstr "Expedientar facturas"
+
+#. module: a90_document_management
+#: model:ir.model,name:a90_document_management.model_account_invoice
+msgid "Invoice"
+msgstr "Factura"
+
+#. module: a90_document_management
+#: view:delete.invoice.expedient:0
+#: view:expedient.account.invoices:0
+#: view:print.final.expedient:0
+#: view:process.expedient:0
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: a90_document_management
+#: model:ir.model,name:a90_document_management.model_stock_return_picking
+msgid "Return Picking"
+msgstr "Devolver albarán"
+
+#. module: a90_document_management
+#: model:ir.model,name:a90_document_management.model_sale_order
+msgid "Sales Order"
+msgstr "Pedido de venta"
+

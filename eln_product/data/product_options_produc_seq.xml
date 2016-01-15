@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data noupdate="0">
+        <!-- Type -->
+        <record model="ir.sequence.type" id="seq_product_options_product">
+            <field name="name">Sequence product options product</field>
+            <field name="code">product.options.product</field>
+        </record>
+
+        <!-- Sequence -->
+        <record id="seq_product_options_product_action" model="ir.sequence">
+            <field name="name">Def. product options product seq.</field>
+            <field name="code">product.options.product</field>
+            <field name="prefix">POP/</field>
+            <field name="padding">8</field>
+            <field name="company_id" eval="0"/>
+        </record>
+    </data>
+</openerp>

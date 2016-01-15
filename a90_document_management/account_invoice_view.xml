@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>
+        <record id="invoice_tree_add_wzd" model="ir.ui.view">
+            <field name="name">account.invoice.tree.add.wzd</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_tree"/>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <field name="state" position="after">
+                    <field name="wzd_name"/>
+                   <!-- <field name="printed"/>-->
+                    <field name="exp_state"/>
+                </field>
+            </field>
+        </record>
+        <record id="invoice_form_add_wzd" model="ir.ui.view">
+            <field name="name">account.invoice.form.add.wzd</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="wzd_name"/>
+                   <!-- <field name="printed"/>-->
+                    <field name="exp_state"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_account_invoice_filter_add_wzd" model="ir.ui.view">
+            <field name="name">account.invoice.select.add.wzd</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <field name="number" position="after">
+                    <field name="wzd_name"/>
+                  <!--  <field name="printed"/>-->
+                    <field name="exp_state"/>
+                </field>
+                <filter string="State" position="after">
+                    <filter string="Group" icon="terp-stock_effects-object-colorize" domain="[]"  context="{'group_by':'wzd_name'}"/>
+                </filter>
+            </field>
+        </record>
+
+    </data>
+</openerp>

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>
+
+        <record id="view_forecast_kg_sold_form" model="ir.ui.view">
+            <field name="name">forecast.kg.sold.form</field>
+            <field name="model">forecast.kg.sold</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Forecast Kg Sold">
+                    <group col="6" colspan="4">
+                        <group col="4" colspan="4">
+                            <field name="name"/>
+                            <field name="date"/>
+                            <field name="commercial_id"/>
+                            <field name="company_id" widget="selection"/>
+                            <field name="analytic_id"/>
+                            <field name="year"/>
+                        </group>
+                    </group>
+                    <notebook colspan="4">
+                        <page string="Lines">
+                            <field colspan="4" name="kgsold_forecast_lines" nolabel="1" >
+                                <tree editable="top" string="">
+                                    <field name="format_id"/>
+                                    <field name="notes" attrs="{'invisible':[('format_id', '!=', False)]}"/>
+                                    <field name="jan_kg"/>
+                                    <field name="feb_kg"/>
+                                    <field name="mar_kg"/>
+                                    <field name="apr_kg"/>
+                                    <field name="may_kg"/>
+                                    <field name="jun_kg"/>
+                                    <field name="jul_kg"/>
+                                    <field name="aug_kg"/>
+                                    <field name="sep_kg"/>
+                                    <field name="oct_kg"/>
+                                    <field name="nov_kg"/>
+                                    <field name="dec_kg"/>
+                                </tree>
+                                <form string="">
+                                    <field name="format_id" colspan="4"/>
+                                    <field name="notes" colspan="4"/>
+                                    <group colspan="2" col="2">
+                                        <separator string="January" colspan="2"/>
+                                        <field name="jan_kg"/>
+                                    </group>
+                                    <group colspan="2" col="2">
+                                        <separator string="February" colspan="2"/>
+                                        <field name="feb_kg"/>
+                                    </group>
+                                    <group colspan="2" col="2">
+                                        <separator string="March" colspan="2"/>
+                                        <field name="mar_kg"/>
+                                    </group>
+                                    <group colspan="2" col="2">
+                                        <separator string="April" colspan="2"/>
+                                        <field name="apr_kg"/>
+                                    </group>
+                                    <group colspan="2" col="2">
+                                        <separator string="May" colspan="2"/>
+                                        <field name="may_kg"/>
+                                    </group>
+                                    <group colspan="2" col="2">
+                                        <separator string="June" colspan="2"/>
+                                        <field name="jun_kg"/>
+                                    </group>
+                                    <group colspan="2" col="2">
+                                        <separator string="July" colspan="2"/>
+                                        <field name="jul_kg"/>
+                                    </group>
+                                    <group colspan="2" col="2">
+                                        <separator string="August" colspan="2"/>
+                                        <field name="aug_kg"/>
+                                    </group>
+                                    <group colspan="2" col="2">
+                                        <separator string="September" colspan="2"/>
+                                        <field name="sep_kg"/>
+                                    </group>
+                                    <group colspan="2" col="2">
+                                        <separator string="October" colspan="2"/>
+                                        <field name="oct_kg"/>
+                                    </group>
+                                    <group colspan="2" col="2">
+                                        <separator string="November" colspan="2"/>
+                                        <field name="nov_kg"/>
+                                    </group>
+                                    <group colspan="2" col="2">
+                                        <separator string="December" colspan="2"/>
+                                        <field name="dec_kg"/>
+                                    </group>
+                                </form>
+                            </field>
+                            <group>
+                                <field name="state"/>
+                            </group>
+
+                                <button name="action_cancel" states="draft,done" string="Cancel"  icon="gtk-cancel"/>
+                                <button name="action_draft" states="cancel,done" string="Set to Draft"  icon="gtk-convert"/>
+                                <button name="action_validate" states="draft" string="Approve" icon="gtk-go-forward" />
+
+                        </page>
+                    </notebook>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_forecast_kg_sold_tree" model="ir.ui.view">
+             <field name="name">forecast.kg.soldtree</field>
+            <field name="model">forecast.kg.sold</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Forecasts Kg Sold" >
+                    <field name="name"/>
+                    <field name="analytic_id"/>
+                    <field name="commercial_id"/>
+                    <field name="company_id"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <menuitem id="menu_kg_sold" name="Forecast kg sold"
+                parent="stock.menu_stock_sched" sequence="6" groups=""/>
+
+        <record id="view_forecast_kg_sold_filter" model="ir.ui.view">
+            <field name="name">forecast.kg.sold.list.select</field>
+            <field name="model">forecast.kg.sold</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Search Forecast kg sold">
+                    <field name="commercial_id">
+                        <filter domain="[('user_id','=',uid)]" help="My purchases Forecast" icon="terp-personal"/>
+                    </field>
+                    <field name="company_id"/>
+                    <field name="analytic_id"/>
+                    <newline/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Analytic account" icon="terp-personal" domain="[]" context="{'group_by':'analytic_id'}"/>
+                        <filter string="Commercial" icon="terp-personal" domain="[]" context="{'group_by':'commercial_id'}"/>
+                        <separator orientation="vertical"/>
+                        <filter string="Company" icon="terp-go-home" domain="[]" context="{'group_by':'company_id'}"/>
+                    </group>
+              </search>
+            </field>
+        </record>
+
+        <record id="action_view_forecast_kg_sold_form" model="ir.actions.act_window">
+            <field name="name">Forecast Kg Sold</field>
+            <field name="res_model">forecast.kg.sold</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{"search_default_create_uid":uid}</field>
+
+        </record>
+
+        <menuitem id="menu_forecast_kg_sold_all"
+                  name="Forecasts kg sold"
+                  parent="menu_kg_sold"
+                  action="action_view_forecast_kg_sold_form"
+                  sequence="2"/>
+
+    </data>
+</openerp>

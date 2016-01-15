@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+       <record id="view_process_expedient" model="ir.ui.view">
+            <field name="name">process.expedient.form</field>
+            <field name="model">process.expedient</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Process expedient">
+                    <group colspan="4" col="6">
+                        <button icon="gtk-cancel" special="cancel" string="Cancel"/>
+                        <button string='Process expedient' icon="gtk-execute" name="process_expedient" type="object"/>
+                    </group>
+               </form>
+            </field>
+        </record>
+
+        <act_window id="action_process_expedient"
+            multi="True"
+            key2="client_action_multi" name="Process expedient"
+            res_model="process.expedient" src_model="expedient"
+            view_mode="form" target="new" view_type="form" />
+    </data>
+</openerp>

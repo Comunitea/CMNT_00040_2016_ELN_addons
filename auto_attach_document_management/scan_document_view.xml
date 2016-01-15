@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        
+        <record model="ir.ui.view" id="view_scan_document_form_add_manual_btn">
+                <field name="name">record.scanned.form.add_manual_btn</field>
+                <field name="model">scan.document</field>
+                <field name="inherit_id" ref="auto_attach.view_scan_document_form"/>
+                <field name="type">form</field>
+                <field name="arch" type="xml">
+                    <button name="analyze_document" position="after">
+                        <button name="%(analyze_manually_analyze_wizard)d" states="pending" type="action" string="Manual analysis"/>
+                    </button>
+                    <!--<field name="data" widget="image" filename="filename"
+                                                        img_width="300" img_height="300" nolabel="1" colspan="4" />-->
+                    <field name="data" position="replace"/>
+                    <page string="Properties" position="after">
+                        <page string="Preview">
+                            <field name="data" widget="image" filename="filename" img_width="595" img_height="842" nolabel="1" colspan="40"/>
+                        </page>
+                    </page>
+                </field>
+        </record>
+        
+    </data>
+</openerp>

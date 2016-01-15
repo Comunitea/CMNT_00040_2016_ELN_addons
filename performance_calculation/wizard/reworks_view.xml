@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>
+        <record id="view_stock_move_recover_full_product_wizard" model="ir.ui.view">
+            <field name="name">Recover full product</field>
+            <field name="model">recover.full.product</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Recover full product">
+                    <field name="product_id" colspan="4" readonly="1"/>
+                    <field name="qty_available" colspan="2" readonly="1"/>
+                    <field name="qty_recover" colspan="2" />
+                    <field name="product_uom" readonly="1" colspan="4"/>
+                    <field name="current_prodlot_id" colspan="4" readonly="1"/>
+                    <field name="recover_prodlot_id" colspan="4" context="{'product_id': product_id}" domain="[('product_id', '=', product_id),('recovery', '=', True)]" />
+                    <field name="location_dest_id" colspan="4"/>
+                    <newline/>
+                    <separator string="" colspan="4" />
+                    <label string="" colspan="2" />
+                    <group col="2" colspan="1">
+                        <button icon='gtk-cancel' special="cancel"
+                            string="Cancel" />
+                        <button name="recover_full_product" string="Ok"
+                            colspan="1" type="object" icon="gtk-ok" />
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="recover_full_product" model="ir.actions.act_window">
+            <field name="name">Recover full product</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">recover.full.product</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+         <record id="view_stock_move_recover_components_wizard" model="ir.ui.view">
+            <field name="name">Recover components</field>
+            <field name="model">recover.components</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Recover components">
+                    <field name="product_id" colspan="4" readonly="1"/>
+                    <separator colspan="4" string="Composition"/>
+                    <field name="composition_lines" colspan="4" nolabel="1" mode="tree" width="1000" height="200">
+                        <tree editable="top" string="Composition">
+                            <field name="product_id" readonly="1"/>
+                            <field name="qty_available" readonly="1"/>
+                            <field name="product_uom" readonly="1"/>
+                            <field name="qty_recover" attrs="{'required': [('recover','=', True)]}"/>
+                            <field name="recover_prodlot_id" context="{'product_id': product_id}" attrs="{'required': [('recover','=', True)]}" domain="[('product_id', '=', product_id),('recovery', '=', True)]"/>
+                            <field name="location_dest_id" attrs="{'required': [('recover','=', True)]}"/>
+                            <field name="recover"/>
+                        </tree>
+                    </field>
+                    <newline/>
+                    <separator string="" colspan="4" />
+                    <label string="" colspan="2" />
+                    <group col="2" colspan="1">
+                        <button icon='gtk-cancel' special="cancel"
+                            string="Cancel" />
+                        <button name="recover_components" string="Ok"
+                            colspan="1" type="object" icon="gtk-ok" />
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="recover_components" model="ir.actions.act_window">
+            <field name="name">Recover components</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">recover.components</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+
+        <record id="view_stock_move_scrap_wizard" model="ir.ui.view">
+            <field name="name">Scrap Move</field>
+            <field name="model">stock.move.rework.scrap</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Scrap Move">
+                    <separator string="Scrap Products" colspan="4"/>
+                    <field name="product_id" colspan="4" readonly="1"/>
+                    <field name="location_id" colspan="4" string="Scrap Location" domain="[('usage','&lt;&gt;','view'),('scrap_location','=',True)]" widget="selection"/>
+                    <field name="product_qty" colspan="2" readonly="1"/>
+                    <field name="product_uom" nolabel="1" readonly="1"/>
+                    <newline/>
+                    <separator string="" colspan="4" />
+                    <label string="" colspan="2" />
+                    <group col="2" colspan="1">
+                        <button icon='gtk-cancel' special="cancel"
+                            string="Cancel" />
+                        <button name="move_scrap" string="Ok"
+                            colspan="1" type="object" icon="gtk-ok" />
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="move_scrap" model="ir.actions.act_window">
+            <field name="name">Scrap Move</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">stock.move.rework.scrap</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</openerp>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <report auto="True" id="report_work_order" model="work.order" name="work.order"
+                rml="maintenance/report/work_order.jrxml" string="Work order"
+                usage="default"/>
+
+    </data>
+</openerp>

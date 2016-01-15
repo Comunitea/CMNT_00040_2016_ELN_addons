@@ -1,0 +1,121 @@
+=== modified file 'base_contact/base_contact.py'
+--- base_contact/base_contact.py	2013-09-10 15:12:35 +0000
++++ base_contact/base_contact.py	2014-11-30 12:07:31 +0000
+@@ -143,10 +143,10 @@
+             cr.execute("""
+                 INSERT INTO
+                     res_partner_location
+-                    (id,street,street2,zip,city,
++                    (id,street,street2,city,
+                      state_id,country_id,company_id)
+                 SELECT
+-                    id,street,street2,zip,city,
++                    id,street,street2,city,
+                     state_id,country_id,company_id
+                 FROM
+                     res_partner_address""")
+@@ -208,22 +208,77 @@
+ 
+         # fields from contact
+         'mobile' : fields.related('contact_id', 'mobile', type='char', size=64, string='Mobile'),
+-        'name' : fields.related('contact_id', 'name', type='char', size=64, string="Contact Name", store=True),
++        'last_name' : fields.related('contact_id', 'name', type='char', size=64, string="Contact Name", store=True),
+         'title' : fields.related('contact_id', 'title', type='many2one', relation='res.partner.title', string="Title", store=True),
+     }
+     def create(self, cr, uid, data, context={}):
+-        if not data.get('location_id', False):
++        if not data.get('location_id', False) and (data.get('street',False) or data.get('street2',False) or data.get('zip',False) or data.get('country_id',False) or data.get('state_id',False) or data.get('city',False)):
+             loc_id = self.pool.get('res.partner.location').create(cr, uid, {
+-                'street': data.get('street',''),
+-                'street2': data.get('street2',''),
++                'street': data.get('street','/'),
++                'street2': data.get('street2','/'),
+                 'zip': data.get('zip',''),
+                 'city': data.get('city',''),
+                 'country_id': data.get('country_id',False),
+                 'state_id': data.get('state_id',False)
+             }, context=context)
+             data['location_id'] = loc_id
++        
++        if not data.get('contact_id', False) and (data.get('mobile',False) or data.get('last_name',False) or data.get('title',False)):
++            cont_id = self.pool.get('res.partner.contact').create(cr, uid, {
++                'last_name': data.get('contact_name','/'),
++                'mobile': data.get('mobile',''),
++                'title': data.get('title',''),
++            }, context=context)
++            data['contact_id'] = cont_id
++        
+         result = super(res_partner_address, self).create(cr, uid, data, context=context)
++        
+         return result
++    def write(self, cr, uid, ids, vals, context=None):
++        if context is None: context = {}
++        if isinstance(ids, (int,long)):
++            ids = [ids]
++            
++        if vals.get('street',False) or vals.get('street2',False) or vals.get('zip',False) or vals.get('country_id',False) or vals.get('state_id',False) or vals.get('city',False):
++            for address in self.browse(cr, uid, ids):
++                location_obj = vals.get('location_id', False) and self.pool.get('res.partner.location').browse(cr, uid, vals['location_id']) or address.location_id
++                update_vals = {
++                    'street': vals.get('street',False) or (location_obj and location_obj.street or '/'),
++                    'street2': vals.get('street2',False) or (location_obj and location_obj.street2 or '/'),
++                    'zip': vals.get('zip',False) or (location_obj and location_obj.zip or ''),
++                    'city': vals.get('city',False) or (location_obj and location_obj.city or ''),
++                    'country_id': vals.get('country_id',False) or ((location_obj and location_obj.country_id) and location_obj.country_id.id or False),
++                    'state_id': vals.get('state_id',False) or ((location_obj and location_obj.state_id) and location_obj.state_id.id or False)
++                }
++                location = False
++                if location_obj:
++                    location_obj.write(update_vals)
++                    location = location_obj.id
++                else:
++                    location = self.pool.get('res.partner.location').create(cr, uid, update_vals)
++                    
++                if not vals.get('location_id', False):
++                    vals['location_id'] = location
++                    
++        if vals.get('mobile',False) or vals.get('last_name',False) or vals.get('title',False):
++            for address in self.browse(cr, uid, ids):
++                contact_obj = vals.get('contact_id', False) and self.pool.get('res.partner.contact').browse(cr, uid, vals['contact_id']) or address.contact_id
++                update_vals = {
++                    'mobile': vals.get('mobile',False) or (contact_obj and contact_obj.mobile or ''),
++                    'last_name': vals.get('last_name',False) or (contact_obj and contact_obj.last_name or '/'),
++                    'title': vals.get('title',False) or ((contact_obj and contact_obj.title) and contact_obj.title.id or False),
++                }
++                contact = False
++                if contact_obj:
++                    contact_obj.write(update_vals)
++                    contact = contact_obj.id
++                else:
++                    contact = self.pool.get('res.partner.contact').create(cr, uid, update_vals)
++                
++                if not vals.get('contact_id', False):
++                    vals['contact_id'] = contact
++                    
++        return super(res_partner_address, self).write(cr, uid, ids, vals, context=context)
+ 
+     def name_get(self, cr, uid, ids, context=None):
+         result = {}
+
+=== modified file 'base_contact/base_contact_view.xml'
+--- base_contact/base_contact_view.xml	2012-01-31 13:36:57 +0000
++++ base_contact/base_contact_view.xml	2014-11-30 12:08:12 +0000
+@@ -183,13 +183,15 @@
+         <field name="inherit_id" ref="base.view_partner_address_form1"/>
+         <field name='type'>form</field>
+         <field name='arch' type='xml'>
+-            <field name="name" position="replace">
++            <field name="name" position="after">
+                 <field name="contact_id"/>
+             </field>
+             <separator string="Postal Address" position="after">
+                 <field name="location_id" on_change="onchange_location_id(location_id)"/>
+             </separator>
+-            <field name="title" position="replace"/>
++            <field name="title" position="before">
++                <field name="last_name"/>
++            </field>
+         </field>
+     </record>
+ 
+

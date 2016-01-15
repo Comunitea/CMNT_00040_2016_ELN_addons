@@ -1,0 +1,2 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"access_print_final_expedient","print.final.expedient","model_print_final_expedient","document_management.group_document_management_user",1,1,1,1

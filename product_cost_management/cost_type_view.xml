@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>
+        <record id="view_cost_type_tree" model="ir.ui.view">
+            <field name="name">cost.type.tree</field>
+            <field name="model">cost.type</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Cost Types">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_cost_type_filter" model="ir.ui.view">
+            <field name="name">cost.type.list.select</field>
+            <field name="model">cost.type</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Cost Types">
+                    <field name="name"
+                        filter_domain="[('name','ilike',self)]"/>
+                </search>
+            </field>
+        </record>
+        <record id="view_cost_type_form" model="ir.ui.view">
+            <field name="name">cost.type.form</field>
+            <field name="model">cost.type</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Cost Types">
+                    <group col="4" colspan="4">
+                        <field name="name"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+        <record id="action_cost_types" model="ir.actions.act_window">
+            <field name="name">Cost Types</field>
+             <field name="type">ir.actions.act_window</field>
+            <field name="res_model">cost.type</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_cost_type_filter"/>
+             <field name="context">{}</field>
+        </record>
+        
+    </data>
+</openerp>
+
+
+
+
+
+
+
+     

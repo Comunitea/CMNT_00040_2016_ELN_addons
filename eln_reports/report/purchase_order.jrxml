@@ -1,0 +1,909 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="purchase_order" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="257"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#0088FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#CFCFCF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="Table lines">
+		<parameter name="PICKING_ID" class="java.lang.Integer"/>
+		<parameter name="REWIND" class="java.lang.Object" isForPrompting="false">
+			<parameterDescription><![CDATA[]]></parameterDescription>
+			<defaultValueExpression><![CDATA[$P{REPORT_DATA_SOURCE}.moveFirst()]]></defaultValueExpression>
+		</parameter>
+		<queryString language="xPath">
+			<![CDATA[]]>
+		</queryString>
+		<field name="id" class="java.lang.Integer">
+			<fieldDescription><![CDATA[/data/record/Lineas_del_pedido-order_line/Referencia_del_pedido-order_id/id]]></fieldDescription>
+		</field>
+		<field name="Codigo_cliente-partner_product_code" class="java.lang.String">
+			<fieldDescription><![CDATA[/data/record/Lineas_del_pedido-order_line/Producto-product_id/Codigo_cliente-partner_product_code]]></fieldDescription>
+		</field>
+		<field name="Cantidad-product_qty" class="java.lang.Double">
+			<fieldDescription><![CDATA[/data/record/Lineas_del_pedido-order_line/Cantidad-product_qty]]></fieldDescription>
+		</field>
+		<field name="Nombre-name" class="java.lang.String">
+			<fieldDescription><![CDATA[/data/record/Lineas_del_pedido-order_line/UdM_del_producto-product_uom/Nombre-name]]></fieldDescription>
+		</field>
+		<field name="Precio_unidad-price_unit" class="java.lang.Double">
+			<fieldDescription><![CDATA[/data/record/Lineas_del_pedido-order_line/Precio_unidad-price_unit]]></fieldDescription>
+		</field>
+		<field name="Simbolo-symbol" class="java.lang.String">
+			<fieldDescription><![CDATA[/data/record/Lineas_del_pedido-order_line/Referencia_del_pedido-order_id/Tarifa-pricelist_id/Moneda-currency_id/Simbolo-symbol]]></fieldDescription>
+		</field>
+		<field name="Fecha_planificada-date_planned" class="java.util.Date">
+			<fieldDescription><![CDATA[/data/record/Lineas_del_pedido-order_line/Fecha_planificada-date_planned]]></fieldDescription>
+		</field>
+		<field name="Subtotal-price_subtotal" class="java.lang.Double">
+			<fieldDescription><![CDATA[/data/record/Lineas_del_pedido-order_line/Subtotal-price_subtotal]]></fieldDescription>
+		</field>
+		<field name="Idioma-context_lang" class="java.lang.String">
+			<fieldDescription><![CDATA[/data/record/Usuario-User/Idioma-context_lang]]></fieldDescription>
+		</field>
+		<field name="Notas-notes" class="java.lang.String">
+			<fieldDescription><![CDATA[/data/record/Lineas_del_pedido-order_line/Notas-notes]]></fieldDescription>
+		</field>
+		<field name="Descripcion-name" class="java.lang.String">
+			<fieldDescription><![CDATA[/data/record/Lineas_del_pedido-order_line/Descripcion-name]]></fieldDescription>
+		</field>
+		<field name="Cod._Supplier-supplier" class="java.lang.String">
+			<fieldDescription><![CDATA[/data/record/Lineas_del_pedido-order_line/Cod._Supplier-supplier]]></fieldDescription>
+		</field>
+		<field name="Referencia-default_code" class="java.lang.String">
+			<fieldDescription><![CDATA[/data/record/Lineas_del_pedido-order_line/Producto-product_id/Referencia-default_code]]></fieldDescription>
+		</field>
+		<field name="Description-description" class="java.lang.String">
+			<fieldDescription><![CDATA[/data/record/Lineas_del_pedido-order_line/Producto-product_id/Description-description]]></fieldDescription>
+		</field>
+		<field name="Nombre-name_template" class="java.lang.String">
+			<fieldDescription><![CDATA[Lineas_del_pedido-order_line/Producto-product_id/Nombre-name_template]]></fieldDescription>
+		</field>
+		<field name="Purchase_Description-description_purchase" class="java.lang.String">
+			<fieldDescription><![CDATA[Lineas_del_pedido-order_line/Producto-product_id/Purchase_Description-description_purchase]]></fieldDescription>
+		</field>
+		<variable name="L" class="java.util.Locale">
+			<variableExpression><![CDATA[$F{Idioma-context_lang} ? new Locale($F{Idioma-context_lang}.split("_")[0],$F{Idioma-context_lang}.split("_")[1]) : $P{REPORT_LOCALE}]]></variableExpression>
+			<initialValueExpression><![CDATA[$P{REPORT_LOCALE}]]></initialValueExpression>
+		</variable>
+		<filterExpression><![CDATA[$P{PICKING_ID} == $F{id}]]></filterExpression>
+	</subDataset>
+	<parameter name="TABLE_LINES" class="java.lang.Object"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="lang" class="java.lang.String"/>
+	<parameter name="delivery_address" class="java.lang.Boolean"/>
+	<parameter name="signed" class="java.lang.Boolean"/>
+	<queryString language="xPath">
+		<![CDATA[/data/record]]>
+	</queryString>
+	<field name="id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[/data/record/id]]></fieldDescription>
+	</field>
+	<field name="Referencia_del_pedido-name" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Referencia_del_pedido-name]]></fieldDescription>
+	</field>
+	<field name="Notas-notes" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Notas-notes]]></fieldDescription>
+	</field>
+	<field name="Fecha_pedido-date_order" class="java.util.Date">
+		<fieldDescription><![CDATA[/data/record/Fecha_pedido-date_order]]></fieldDescription>
+	</field>
+	<field name="Nombre_de_la_compania-name" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Compania-company_id/Nombre_de_la_compania-name]]></fieldDescription>
+	</field>
+	<field name="Total-amount_total" class="java.lang.Double">
+		<fieldDescription><![CDATA[Total-amount_total]]></fieldDescription>
+	</field>
+	<field name="Nombre-name" class="java.lang.String">
+		<fieldDescription><![CDATA[Proveedor-partner_id/Nombre-name]]></fieldDescription>
+	</field>
+	<field name="CIF_NIF-vat2" class="java.lang.String">
+		<fieldDescription><![CDATA[Proveedor-partner_id/CIF_NIF-vat]]></fieldDescription>
+	</field>
+	<field name="Calle-street2" class="java.lang.String">
+		<fieldDescription><![CDATA[Proveedor-partner_id/Contactos-address/Calle-street]]></fieldDescription>
+	</field>
+	<field name="Calle2-street22" class="java.lang.String">
+		<fieldDescription><![CDATA[Proveedor-partner_id/Contactos-address/Calle2-street2]]></fieldDescription>
+	</field>
+	<field name="Ciudad-city2" class="java.lang.String">
+		<fieldDescription><![CDATA[Proveedor-partner_id/Contactos-address/Ciudad-city]]></fieldDescription>
+	</field>
+	<field name="C.P.-zip2" class="java.lang.String">
+		<fieldDescription><![CDATA[Proveedor-partner_id/Contactos-address/C.P.-zip]]></fieldDescription>
+	</field>
+	<field name="Nombre_del_pais-name2" class="java.lang.String">
+		<fieldDescription><![CDATA[Proveedor-partner_id/Contactos-address/Pais-country_id/Nombre_del_pais-name]]></fieldDescription>
+	</field>
+	<field name="Telefono-phone2" class="java.lang.String">
+		<fieldDescription><![CDATA[Proveedor-partner_id/Contactos-address/Telefono-phone]]></fieldDescription>
+	</field>
+	<field name="Fax-fax2" class="java.lang.String">
+		<fieldDescription><![CDATA[Proveedor-partner_id/Contactos-address/Fax-fax]]></fieldDescription>
+	</field>
+	<field name="Email-email2" class="java.lang.String">
+		<fieldDescription><![CDATA[Proveedor-partner_id/Contactos-address/Email-email]]></fieldDescription>
+	</field>
+	<field name="Nombre_provincia-name" class="java.lang.String">
+		<fieldDescription><![CDATA[Compania-company_id/Empresa-partner_id/Contactos-address/Provincia-state_id/Nombre_provincia-name]]></fieldDescription>
+	</field>
+	<field name="Simbolo-symbol" class="java.lang.String">
+		<fieldDescription><![CDATA[Tarifa-pricelist_id/Moneda-currency_id/Simbolo-symbol]]></fieldDescription>
+	</field>
+	<field name="Idioma-context_lang" class="java.lang.String">
+		<fieldDescription><![CDATA[Usuario-User/Idioma-context_lang]]></fieldDescription>
+	</field>
+	<field name="Pie_de_pagina_Informacion_General-rml_footer1" class="java.lang.String">
+		<fieldDescription><![CDATA[Compania-company_id/Pie_de_pagina_Informacion_General-rml_footer1]]></fieldDescription>
+	</field>
+	<field name="Logo-logo" class="java.lang.String">
+		<fieldDescription><![CDATA[Compania-company_id/Logo-logo]]></fieldDescription>
+	</field>
+	<field name="Firma-signature" class="java.lang.String">
+		<fieldDescription><![CDATA[Validada_por-validator/Firma-signature]]></fieldDescription>
+	</field>
+	<field name="Signature-signature_image" class="java.lang.String">
+		<fieldDescription><![CDATA[Validada_por-validator/Signature-signature_image]]></fieldDescription>
+	</field>
+	<field name="Invoice_city-invoice_city" class="java.lang.String">
+		<fieldDescription><![CDATA[Invoice_city-invoice_city]]></fieldDescription>
+	</field>
+	<field name="Invoice_zip-invoice_zip" class="java.lang.String">
+		<fieldDescription><![CDATA[Invoice_zip-invoice_zip]]></fieldDescription>
+	</field>
+	<field name="Invoice_state-invoice_state" class="java.lang.String">
+		<fieldDescription><![CDATA[Invoice_state-invoice_state]]></fieldDescription>
+	</field>
+	<field name="Invoice_prov-invoice_prov" class="java.lang.String">
+		<fieldDescription><![CDATA[Invoice_prov-invoice_prov]]></fieldDescription>
+	</field>
+	<field name="Invoice_phone-invoice_phone" class="java.lang.String">
+		<fieldDescription><![CDATA[Invoice_phone-invoice_phone]]></fieldDescription>
+	</field>
+	<field name="Invoice_name-invoice_name" class="java.lang.String">
+		<fieldDescription><![CDATA[Invoice_name-invoice_name]]></fieldDescription>
+	</field>
+	<field name="Invoice_fax-invoice_fax" class="java.lang.String">
+		<fieldDescription><![CDATA[Invoice_fax-invoice_fax]]></fieldDescription>
+	</field>
+	<field name="Invoice_email-invoice_email" class="java.lang.String">
+		<fieldDescription><![CDATA[Invoice_email-invoice_email]]></fieldDescription>
+	</field>
+	<field name="Invoice_address2-invoice_address2" class="java.lang.String">
+		<fieldDescription><![CDATA[Invoice_address2-invoice_address2]]></fieldDescription>
+	</field>
+	<field name="Invoice_address-invoice_address" class="java.lang.String">
+		<fieldDescription><![CDATA[Invoice_address-invoice_address]]></fieldDescription>
+	</field>
+	<field name="Nombre_del_contacto-name" class="java.lang.String">
+		<fieldDescription><![CDATA[Almacen-warehouse_id/Direccion_propietario-partner_address_id/Nombre_del_contacto-name]]></fieldDescription>
+	</field>
+	<field name="Calle-street" class="java.lang.String">
+		<fieldDescription><![CDATA[Almacen-warehouse_id/Direccion_propietario-partner_address_id/Calle-street]]></fieldDescription>
+	</field>
+	<field name="Calle2-street2" class="java.lang.String">
+		<fieldDescription><![CDATA[Almacen-warehouse_id/Direccion_propietario-partner_address_id/Calle2-street2]]></fieldDescription>
+	</field>
+	<field name="Fax-fax" class="java.lang.String">
+		<fieldDescription><![CDATA[Almacen-warehouse_id/Direccion_propietario-partner_address_id/Fax-fax]]></fieldDescription>
+	</field>
+	<field name="Email-email" class="java.lang.String">
+		<fieldDescription><![CDATA[Almacen-warehouse_id/Direccion_propietario-partner_address_id/Email-email]]></fieldDescription>
+	</field>
+	<field name="Ciudad-city" class="java.lang.String">
+		<fieldDescription><![CDATA[Almacen-warehouse_id/Direccion_propietario-partner_address_id/Ciudad-city]]></fieldDescription>
+	</field>
+	<field name="Nombre_del_pais-name" class="java.lang.String">
+		<fieldDescription><![CDATA[Almacen-warehouse_id/Direccion_propietario-partner_address_id/Pais-country_id/Nombre_del_pais-name]]></fieldDescription>
+	</field>
+	<field name="Nombre_provincia-name2" class="java.lang.String">
+		<fieldDescription><![CDATA[Almacen-warehouse_id/Direccion_propietario-partner_address_id/Provincia-state_id/Nombre_provincia-name]]></fieldDescription>
+	</field>
+	<field name="C.P.-zip" class="java.lang.String">
+		<fieldDescription><![CDATA[Almacen-warehouse_id/Direccion_propietario-partner_address_id/C.P.-zip]]></fieldDescription>
+	</field>
+	<field name="Telefono-phone" class="java.lang.String">
+		<fieldDescription><![CDATA[Almacen-warehouse_id/Direccion_propietario-partner_address_id/Telefono-phone]]></fieldDescription>
+	</field>
+	<field name="Invoice_vat-invoice_vat" class="java.lang.String">
+		<fieldDescription><![CDATA[Invoice_vat-invoice_vat]]></fieldDescription>
+	</field>
+	<field name="CIF_NIF-vat" class="java.lang.String">
+		<fieldDescription><![CDATA[Direccion_destinatario-dest_address_id/Nombre_de_empresa-partner_id/CIF_NIF-vat]]></fieldDescription>
+	</field>
+	<field name="Email-email3" class="java.lang.String">
+		<fieldDescription><![CDATA[Compania-company_id/Empresa-partner_id/Contactos-address/Email-email]]></fieldDescription>
+	</field>
+	<field name="Fax-fax3" class="java.lang.String">
+		<fieldDescription><![CDATA[Compania-company_id/Empresa-partner_id/Contactos-address/Fax-fax]]></fieldDescription>
+	</field>
+	<field name="Ciudad-city3" class="java.lang.String">
+		<fieldDescription><![CDATA[Compania-company_id/Empresa-partner_id/Contactos-address/Ciudad-city]]></fieldDescription>
+	</field>
+	<field name="Nombre_del_contacto-name2" class="java.lang.String">
+		<fieldDescription><![CDATA[Compania-company_id/Empresa-partner_id/Contactos-address/Nombre_del_contacto-name]]></fieldDescription>
+	</field>
+	<field name="Telefono-phone3" class="java.lang.String">
+		<fieldDescription><![CDATA[Compania-company_id/Empresa-partner_id/Contactos-address/Telefono-phone]]></fieldDescription>
+	</field>
+	<field name="Calle-street3" class="java.lang.String">
+		<fieldDescription><![CDATA[Compania-company_id/Empresa-partner_id/Contactos-address/Calle-street]]></fieldDescription>
+	</field>
+	<field name="Calle2-street23" class="java.lang.String">
+		<fieldDescription><![CDATA[Compania-company_id/Empresa-partner_id/Contactos-address/Calle2-street2]]></fieldDescription>
+	</field>
+	<field name="C.P.-zip3" class="java.lang.String">
+		<fieldDescription><![CDATA[Compania-company_id/Empresa-partner_id/Contactos-address/C.P.-zip]]></fieldDescription>
+	</field>
+	<field name="CIF_NIF-vat3" class="java.lang.String">
+		<fieldDescription><![CDATA[Compania-company_id/Empresa-partner_id/CIF_NIF-vat]]></fieldDescription>
+	</field>
+	<field name="Nombre_provincia-name3" class="java.lang.String">
+		<fieldDescription><![CDATA[Compania-company_id/Provincia-state_id/Nombre_provincia-name]]></fieldDescription>
+	</field>
+	<field name="Nombre_del_pais-name3" class="java.lang.String">
+		<fieldDescription><![CDATA[Compania-company_id/Pais-country_id/Nombre_del_pais-name]]></fieldDescription>
+	</field>
+	<field name="Nombre-name2" class="java.lang.String">
+		<fieldDescription><![CDATA[Compania-company_id/Empresa-partner_id/Nombre-name]]></fieldDescription>
+	</field>
+	<field name="Nombre-name3" class="java.lang.String">
+		<fieldDescription><![CDATA[Almacen-warehouse_id/Direccion_propietario-partner_address_id/Nombre_de_empresa-partner_id/Nombre-name]]></fieldDescription>
+	</field>
+	<variable name="L" class="java.util.Locale">
+		<variableExpression><![CDATA[new Locale($P{lang}.split("_")[0],$P{lang}.split("_")[1])]]></variableExpression>
+		<initialValueExpression><![CDATA[new Locale($P{lang}.split("_")[0],$P{lang}.split("_")[1])]]></initialValueExpression>
+	</variable>
+	<group name="picking" footerPosition="ForceAtBottom">
+		<groupExpression><![CDATA[$F{id}]]></groupExpression>
+		<groupHeader>
+			<band height="233">
+				<line>
+					<reportElement x="0" y="94" width="572" height="1"/>
+				</line>
+				<textField>
+					<reportElement x="223" y="20" width="120" height="23"/>
+					<textElement textAlignment="Right" markup="none">
+						<font size="16" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "ORDER Nº ")]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="349" y="20" width="97" height="23"/>
+					<textElement textAlignment="Left">
+						<font size="16" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Referencia_del_pedido-name}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="251" y="43" width="92" height="23"/>
+					<textElement textAlignment="Right" markup="none">
+						<font size="13" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "DATE ")]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+					<reportElement x="349" y="43" width="97" height="23"/>
+					<textElement textAlignment="Left">
+						<font size="13" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.util.Date"><![CDATA[$F{Fecha_pedido-date_order}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="391" y="96" width="176" height="12"/>
+					<textElement textAlignment="Left" markup="none">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "Supplier data")]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement positionType="Float" x="13" y="69" width="254" height="23"/>
+					<textElement textAlignment="Left">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Nombre_de_la_compania-name}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="391" y="215" width="177" height="11"/>
+					<textElement textAlignment="Left" markup="none">
+						<font size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "Email: ") + $F{Email-email2}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="391" y="173" width="176" height="13"/>
+					<textElement textAlignment="Left">
+						<font size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Nombre_del_pais-name2}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="391" y="118" width="176" height="10">
+						<printWhenExpression><![CDATA[$F{C.P.-zip2}]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Left">
+						<font size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{CIF_NIF-vat2}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="391" y="205" width="177" height="11"/>
+					<textElement textAlignment="Left" markup="none">
+						<font size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "Fax: ") + $F{Fax-fax2}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="391" y="195" width="177" height="11"/>
+					<textElement textAlignment="Left" markup="none">
+						<font size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "Tlf: ") + $F{Telefono-phone2}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="391" y="149" width="176" height="13"/>
+					<textElement textAlignment="Left">
+						<font size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Ciudad-city2}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="391" y="161" width="176" height="13"/>
+					<textElement textAlignment="Left">
+						<font size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{C.P.-zip2}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="391" y="107" width="176" height="11"/>
+					<textElement textAlignment="Left">
+						<font size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Nombre-name}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="391" y="127" width="176" height="24"/>
+					<textElement textAlignment="Left">
+						<font size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Calle-street2} ? $F{Calle-street2} + ($F{Calle2-street22} ? $F{Calle2-street22} : ""): ($F{Calle2-street22} ? $F{Calle2-street22} : "")]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement positionType="Float" x="0" y="225" width="572" height="1"/>
+				</line>
+				<image hAlign="Center" vAlign="Middle" onErrorType="Blank">
+					<reportElement x="13" y="0" width="105" height="65"/>
+					<imageExpression class="java.lang.String"><![CDATA[$F{Logo-logo}]]></imageExpression>
+				</image>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="14" y="173" width="177" height="13"/>
+					<textElement textAlignment="Left">
+						<font size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Nombre_del_pais-name3}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="14" y="127" width="177" height="24"/>
+					<textElement textAlignment="Left">
+						<font size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Calle-street3} +" " + $F{Calle2-street23}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="14" y="151" width="177" height="11"/>
+					<textElement textAlignment="Left">
+						<font size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Ciudad-city3} + " - " +$F{Nombre_provincia-name3}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="14" y="161" width="177" height="13"/>
+					<textElement textAlignment="Left">
+						<font size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{C.P.-zip3}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="14" y="118" width="177" height="10">
+						<printWhenExpression><![CDATA[$F{CIF_NIF-vat3}]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Left">
+						<font size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{CIF_NIF-vat3}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="14" y="96" width="177" height="12"/>
+					<textElement textAlignment="Left" markup="none">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "Invoice address")]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="14" y="108" width="177" height="11"/>
+					<textElement textAlignment="Left">
+						<font size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Nombre-name2}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="13" y="192" width="178" height="11"/>
+					<textElement textAlignment="Left" markup="none">
+						<font size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "Tlf: ") + $F{Telefono-phone3}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="13" y="202" width="178" height="11"/>
+					<textElement textAlignment="Left" markup="none">
+						<font size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "Fax: ") +$F{Fax-fax}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="13" y="212" width="178" height="11"/>
+					<textElement textAlignment="Left" markup="none">
+						<font size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "Email: ") +$F{Email-email3}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="204" y="173" width="177" height="13">
+						<printWhenExpression><![CDATA[$P{delivery_address}]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Left">
+						<font size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Nombre_del_pais-name}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="204" y="127" width="177" height="24">
+						<printWhenExpression><![CDATA[$P{delivery_address}]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Left">
+						<font size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Calle-street} + " " + $F{Calle2-street2}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="204" y="151" width="177" height="11">
+						<printWhenExpression><![CDATA[$P{delivery_address}]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Left">
+						<font size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Ciudad-city} + " - " + $F{Nombre_provincia-name2}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="204" y="161" width="177" height="13">
+						<printWhenExpression><![CDATA[$P{delivery_address}]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Left">
+						<font size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{C.P.-zip}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="204" y="118" width="177" height="10">
+						<printWhenExpression><![CDATA[$P{delivery_address} && $F{CIF_NIF-vat}]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Left">
+						<font size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{CIF_NIF-vat}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="204" y="96" width="177" height="12">
+						<printWhenExpression><![CDATA[$P{delivery_address}]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Left" markup="none">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "Delivery address")]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="204" y="107" width="177" height="11">
+						<printWhenExpression><![CDATA[$P{delivery_address}]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Left">
+						<font size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Nombre-name3}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="204" y="195" width="177" height="11">
+						<printWhenExpression><![CDATA[$P{delivery_address}]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Left" markup="none">
+						<font size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "Tlf: ") + $F{Telefono-phone}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="204" y="205" width="177" height="11">
+						<printWhenExpression><![CDATA[$P{delivery_address}]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Left" markup="none">
+						<font size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "Fax: ") + $F{Fax-fax}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="204" y="215" width="177" height="11">
+						<printWhenExpression><![CDATA[$P{delivery_address}]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Left" markup="none">
+						<font size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "Email: ") + $F{Email-email}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="196">
+				<textField>
+					<reportElement x="361" y="3" width="92" height="23"/>
+					<textElement textAlignment="Right" markup="none">
+						<font size="11" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "TOTAL: ")]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="###0.00;-###0.00" isBlankWhenNull="true">
+					<reportElement positionType="Float" x="453" y="3" width="64" height="23"/>
+					<textElement textAlignment="Right">
+						<font size="11" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Double"><![CDATA[$F{Total-amount_total} ? $F{Total-amount_total}: 0.00]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement positionType="Float" x="521" y="3" width="29" height="23">
+						<printWhenExpression><![CDATA[$F{Total-amount_total}]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Left">
+						<font size="11" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Simbolo-symbol}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="6" y="18" width="139" height="16">
+						<printWhenExpression><![CDATA[$F{Notas-notes}]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Left" markup="none">
+						<font size="10" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "Comments:")]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement positionType="Float" x="6" y="34" width="546" height="14"/>
+					<textElement textAlignment="Left">
+						<font size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Notas-notes}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement positionType="Float" x="52" y="51" width="139" height="11">
+						<printWhenExpression><![CDATA[$P{signed}]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Left" markup="none">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "SIGN:")]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement positionType="Float" x="52" y="136" width="374" height="14">
+						<printWhenExpression><![CDATA[$P{signed}]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Left" markup="none">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Firma-signature}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement positionType="Float" x="0" y="181" width="572" height="12"/>
+					<textElement textAlignment="Center">
+						<font size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Pie_de_pagina_Informacion_General-rml_footer1}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement positionType="Float" x="145" y="167" width="265" height="15"/>
+					<textElement textAlignment="Center">
+						<font size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Nombre_de_la_compania-name}]]></textFieldExpression>
+				</textField>
+				<image hAlign="Center" vAlign="Middle" onErrorType="Blank">
+					<reportElement positionType="Float" x="52" y="62" width="109" height="73">
+						<printWhenExpression><![CDATA[$P{signed}]]></printWhenExpression>
+					</reportElement>
+					<imageExpression class="java.lang.String"><![CDATA[$F{Signature-signature_image}]]></imageExpression>
+				</image>
+			</band>
+		</groupFooter>
+	</group>
+	<detail>
+		<band height="52" splitType="Stretch">
+			<componentElement>
+				<reportElement key="table 2" positionType="Float" x="0" y="0" width="572" height="50">
+					<property name="OPENERP_RELATIONS" value="order_line"/>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Table lines">
+						<datasetParameter name="PICKING_ID">
+							<datasetParameterExpression><![CDATA[$F{id}]]></datasetParameterExpression>
+						</datasetParameter>
+						<dataSourceExpression><![CDATA[$P{TABLE_LINES}]]></dataSourceExpression>
+					</datasetRun>
+					<jr:column width="69">
+						<jr:columnHeader height="27" rowSpan="1">
+							<textField>
+								<reportElement style="table_CH" x="0" y="0" width="69" height="27" backcolor="#CFCFCF"/>
+								<box>
+									<topPen lineWidth="0.75"/>
+									<leftPen lineWidth="0.75"/>
+									<bottomPen lineWidth="0.75"/>
+									<rightPen lineWidth="0.75"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+									<font size="9" isBold="true"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "SUPPLIER REFERENCE")]]></textFieldExpression>
+							</textField>
+						</jr:columnHeader>
+						<jr:detailCell height="23" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement positionType="Float" x="0" y="0" width="69" height="11"/>
+								<box leftPadding="0">
+									<bottomPen lineWidth="0.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="9"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{Cod._Supplier-supplier}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="235">
+						<jr:columnHeader height="27" rowSpan="1">
+							<textField>
+								<reportElement style="table_CH" x="0" y="0" width="235" height="27" backcolor="#CFCFCF"/>
+								<box>
+									<topPen lineWidth="0.75"/>
+									<leftPen lineWidth="0.75"/>
+									<bottomPen lineWidth="0.75"/>
+									<rightPen lineWidth="0.75"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+									<font size="9" isBold="true"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "PRODUCT")]]></textFieldExpression>
+							</textField>
+						</jr:columnHeader>
+						<jr:detailCell height="23" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement positionType="Float" x="0" y="0" width="235" height="11"/>
+								<box leftPadding="0">
+									<topPen lineWidth="0.0"/>
+									<leftPen lineWidth="0.0"/>
+									<bottomPen lineWidth="0.0"/>
+									<rightPen lineWidth="0.0"/>
+								</box>
+								<textElement textAlignment="Left" verticalAlignment="Middle">
+									<font size="9"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA['[' + $F{Referencia-default_code} + '] ' + $F{Nombre-name_template}]]></textFieldExpression>
+							</textField>
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement positionType="Float" mode="Transparent" x="0" y="11" width="235" height="12" backcolor="#FFFFFF">
+									<printWhenExpression><![CDATA[$F{Notas-notes}]]></printWhenExpression>
+								</reportElement>
+								<box leftPadding="0">
+									<bottomPen lineWidth="0.0"/>
+								</box>
+								<textElement textAlignment="Left" verticalAlignment="Middle">
+									<font size="8" isItalic="true"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{Notas-notes}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="61">
+						<jr:columnHeader height="27" rowSpan="1">
+							<textField>
+								<reportElement style="table_CH" x="0" y="0" width="61" height="27" backcolor="#CFCFCF"/>
+								<box>
+									<topPen lineWidth="0.75"/>
+									<leftPen lineWidth="0.75"/>
+									<bottomPen lineWidth="0.75"/>
+									<rightPen lineWidth="0.75"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+									<font size="9" isBold="true"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "QUANTITY")]]></textFieldExpression>
+							</textField>
+						</jr:columnHeader>
+						<jr:detailCell height="23" rowSpan="1">
+							<textField isStretchWithOverflow="true" pattern="###0.00;-###0.00" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="61" height="11"/>
+								<box leftPadding="0">
+									<bottomPen lineWidth="0.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="9"/>
+								</textElement>
+								<textFieldExpression class="java.lang.Double"><![CDATA[$F{Cantidad-product_qty}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="41">
+						<jr:columnHeader height="27" rowSpan="1">
+							<textField>
+								<reportElement style="table_CH" x="0" y="0" width="41" height="27" backcolor="#CFCFCF"/>
+								<box>
+									<topPen lineWidth="0.75"/>
+									<leftPen lineWidth="0.75"/>
+									<bottomPen lineWidth="0.75"/>
+									<rightPen lineWidth="0.75"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+									<font size="9" isBold="true"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "UNIT")]]></textFieldExpression>
+							</textField>
+						</jr:columnHeader>
+						<jr:detailCell height="23" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement positionType="Float" x="0" y="0" width="41" height="11"/>
+								<box leftPadding="0">
+									<bottomPen lineWidth="0.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="9"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{Nombre-name}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="58">
+						<jr:columnHeader height="27" rowSpan="1">
+							<textField>
+								<reportElement style="table_CH" x="0" y="0" width="58" height="27" backcolor="#CFCFCF"/>
+								<box>
+									<topPen lineWidth="0.75"/>
+									<leftPen lineWidth="0.75"/>
+									<bottomPen lineWidth="0.75"/>
+									<rightPen lineWidth="0.75"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+									<font size="9" isBold="true"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "UNIT PRICE")]]></textFieldExpression>
+							</textField>
+						</jr:columnHeader>
+						<jr:detailCell height="23" rowSpan="1">
+							<textField isStretchWithOverflow="true" pattern="###0.000;-###0.000" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="38" height="11"/>
+								<box leftPadding="0">
+									<bottomPen lineWidth="0.0"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font size="9"/>
+								</textElement>
+								<textFieldExpression class="java.lang.Double"><![CDATA[$F{Precio_unidad-price_unit}]]></textFieldExpression>
+							</textField>
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement x="37" y="0" width="21" height="11">
+									<printWhenExpression><![CDATA[$F{Precio_unidad-price_unit}]]></printWhenExpression>
+								</reportElement>
+								<box leftPadding="0">
+									<bottomPen lineWidth="0.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="9"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA[" " + $F{Simbolo-symbol}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="57">
+						<jr:columnHeader height="27" rowSpan="1">
+							<textField>
+								<reportElement style="table_CH" x="0" y="0" width="57" height="27" backcolor="#CFCFCF"/>
+								<box>
+									<topPen lineWidth="0.75"/>
+									<leftPen lineWidth="0.75"/>
+									<bottomPen lineWidth="0.75"/>
+									<rightPen lineWidth="0.75"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+									<font size="9" isBold="true"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "DELIVERY DATE")]]></textFieldExpression>
+							</textField>
+						</jr:columnHeader>
+						<jr:detailCell height="23" rowSpan="1">
+							<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="57" height="11"/>
+								<box leftPadding="0">
+									<bottomPen lineWidth="0.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="9"/>
+								</textElement>
+								<textFieldExpression class="java.util.Date"><![CDATA[$F{Fecha_planificada-date_planned}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="51">
+						<jr:columnHeader height="27" rowSpan="1">
+							<textField>
+								<reportElement style="table_CH" x="0" y="0" width="51" height="27" backcolor="#CFCFCF"/>
+								<box>
+									<topPen lineWidth="0.75"/>
+									<leftPen lineWidth="0.75"/>
+									<bottomPen lineWidth="0.75"/>
+									<rightPen lineWidth="0.75"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+									<font size="9" isBold="true"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "TOTAL PRICE")]]></textFieldExpression>
+							</textField>
+						</jr:columnHeader>
+						<jr:detailCell height="23" rowSpan="1">
+							<textField isStretchWithOverflow="true" pattern="###0.000;-###0.000" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="51" height="11"/>
+								<box leftPadding="0">
+									<bottomPen lineWidth="0.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="9"/>
+								</textElement>
+								<textFieldExpression class="java.lang.Double"><![CDATA[$F{Subtotal-price_subtotal}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</detail>
+</jasperReport>

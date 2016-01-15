@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+
+    	<record id="hr.hr_dept_comp_rule" model="ir.rule">
+	        <field name="name">Department multi company rule</field>
+	        <field model="ir.model" name="model_id" ref="hr.model_hr_department"/>
+	        <field eval="True" name="global"/>
+	        <field name="domain_force">['|','|',('company_id.child_ids','child_of',[user.company_id.id]),('company_id','child_of',[user.company_id.id]),('company_id','=',False)]</field>
+	    </record>
+    
+    </data>
+</openerp>

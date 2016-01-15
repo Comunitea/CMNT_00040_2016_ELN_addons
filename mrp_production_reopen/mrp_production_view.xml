@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        
+        <record id="mrp_production_form_view_reopen" model="ir.ui.view">
+            <field name="name">mrp.production.form.reopen</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <xpath expr="header" position="inside">
+                    <button name="action_reopen" string="Reopen" states="done" icon="gtk-go-back" type="object" groups="mrp.group_mrp_manager"/>
+                    <button name="action_redone" string="Done" states="reopen" icon="gtk-go-forward" type="object" groups="mrp.group_mrp_manager"/>
+                </xpath>
+            </field>
+        </record>
+        
+    </data>
+</openerp>

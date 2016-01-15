@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+
+		<record forcecreate="True" id="maintenance_service_journal"
+			model="account.analytic.journal">
+			<field name="active">True</field>
+			<field name="name">Maintenance services</field>
+		</record>
+
+		<record forcecreate="True" id="maintenance_materials_journal"
+			model="account.analytic.journal">
+			<field name="active">True</field>
+			<field name="name">Maintenance materials</field>
+		</record>
+	</data>
+</openerp>

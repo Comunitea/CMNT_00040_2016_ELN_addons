@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>
+         <record id="view_copy_product_ldm_wzd" model="ir.ui.view">
+            <field name="name">copy.product.ldm.wzd.form</field>
+            <field name="model">copy.product.ldm</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Copy LdM">
+                    <label colspan="2" string="LdM's"/>
+                    <newline/>
+                    <field name="ldm_ids_str" invisible="1"/>
+                    <field name="product_ldm_id" nolabel="1" domain="[('id','in',ldm_ids_str.split(','))]"/>
+                    <newline/>
+                    <group colspan="4" col="6">
+                        <button icon="gtk-cancel" special="cancel" string="Cancel"/>
+                        <button string='Copy' icon="gtk-execute" name="copy_ldm_to_ingredients" type="object"/>
+                    </group>
+               </form>
+            </field>
+        </record>
+
+
+        <record id="copy_product_ldm_action" model="ir.actions.act_window">
+            <field name="name">Copy LdM</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">copy.product.ldm</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+    </data>
+</openerp>

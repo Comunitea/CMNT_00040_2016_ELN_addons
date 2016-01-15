@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>
+
+    <record id="res_log_expedient_tree" model="ir.ui.view">
+            <field name="name">res.log.expedient.tree</field>
+            <field name="model">res.log.expedient</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Log expedient">
+                    <field name="create_date"/>
+                    <field name="user_id"/>
+                    <field name="name"/>
+                    <field name="expedient_id" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+        <record id="res_log_expedient_form" model="ir.ui.view">
+            <field name="name">res.log.expedient.form</field>
+            <field name="model">res.log.expedient</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Log expedient">
+                  <group colspan="4" col="6">
+                      <field name="name"/>
+                      <field name="create_date"/>
+                      <field name="read"/>
+                      <field name="user_id" />
+                      <field name="res_model"/>
+                      <field name="res_id"/>
+                  </group>
+                </form>
+            </field>
+        </record>
+        <record id="res_log_expedient_search" model="ir.ui.view">
+            <field name="name">res.log.expedient.search</field>
+            <field name="model">res.log.expedient</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Log expedients">
+                    <group col="8" colspan="4">
+                        <field name="create_date"/>
+                        <field name="name"/>
+                    </group>
+                    <newline/>
+                    <group  expand='0' string='Group by...' groups="base.group_extended">
+                       <filter string='Expedient' icon="terp-stock_symbol-selection" domain="[]" context="{'group_by' : 'expedient_id'}" />
+                       <filter string='User' icon="terp-personal+" domain="[]" context="{'group_by' : 'user_id'}" />
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record id="action_res_log_expedient" model="ir.actions.act_window">
+            <field name="name">Log</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.log.expedient</field>
+            <field name="view_type">form</field>
+        </record>
+        <menuitem id="menu_log_exp" name="Log" parent="menu_configuration" sequence="10"/>
+        <menuitem action="action_res_log_expedient" id="menu_res_log_expedient" parent="menu_log_exp" sequence="1"/>
+    </data>
+</openerp>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>
+        <record id="view_sales_purchase_forecast_wizard" model="ir.ui.view">
+            <field name="name">Sales purchase forecast wizard</field>
+            <field name="model">sales.purchase.forecast</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Sales forecast to purchase forecast">
+                    <label string="Are you sure you want to create a purchase forecast for selected sales forecasts?" colspan="4"/>
+                    <separator colspan="4"/>
+                    <group col="2" colspan="4">
+                        <button icon='gtk-cancel' special="cancel"
+                		string="Cancel" />
+                	<button name="generate_forecast" string="Generate"
+                		colspan="1" type="object" icon="gtk-ok" />
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <act_window name="Generate purchase forecast"
+            res_model="sales.purchase.forecast"
+            src_model="sales.forecast"
+            view_mode="form"
+            target="new"
+            key2="client_action_multi"
+            id="act_generate_purchase_forecast_sales"/>
+
+    </data>
+</openerp>

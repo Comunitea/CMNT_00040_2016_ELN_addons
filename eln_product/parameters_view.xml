@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="product_parameter_form_view">
+            <field name="name">product.parameter.form</field>
+            <field name="model">product.parameter</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Product parameters">
+                    <field name="name"/>
+                    <field name="type"/>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="product_parameter_tree_view">
+            <field name="name">product.parameter.tree</field>
+            <field name="model">product.parameter</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Product parameters">
+                    <field name="name"/>
+                   <field name="type"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="product_parameter_search_view" model="ir.ui.view">
+            <field name="name">product.parameter.search</field>
+            <field name="model">product.parameter</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Product parameters">
+                    <group col="10" colspan="4">
+                        <field name="name"/>
+                        <field name="type"/>
+                    </group>
+                    <newline/>
+                    <group expand="0" string="Group by ...">
+                        <filter string="type" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by' : 'type'}"/>
+                    </group>
+               </search>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="product_parameter_action">
+        <field name="name">Parameters</field>
+        <field name="res_model">product.parameter</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="product_parameter_tree_view"/>
+        <field name="search_view_id" ref="product_parameter_search_view"/>
+    </record>
+
+        <menuitem parent="stock.menu_product_in_config_stock" name="Parameters" id="product_parameter_menu_parent"/>
+        <menuitem parent="product_parameter_menu_parent" name="Parameters" id="product_parameter_menu"
+        action="product_parameter_action" sequence="0" />
+    </data>
+</openerp>

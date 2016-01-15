@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>
+    
+        <record id="view_picking_out_form" model="ir.ui.view">
+            <field name="name">stock.picking.out.form</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <xpath expr="/form/notebook/page[@string='Products']/field[@name='move_lines']/form/group[1]/field[@name='product_uom']" position="replace">
+                    <field name="product_uom" string="Unit Of Measure" on_change="onchange_quantity(product_id, product_qty, product_uom, product_uos)" colspan="4"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_picking_in_form" model="ir.ui.view">
+            <field name="name">stock.picking.in.form</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <xpath expr="/form/notebook/page[@string='General Information']/field[@name='move_lines']/form/group[1]/field[@name='product_uom']" position="replace">
+                    <field name="product_uom" string="Unit Of Measure" on_change="onchange_quantity(product_id, product_qty, product_uom, product_uos)" colspan="4"/>
+                </xpath>
+            </field>
+        </record>
+        
+        <record id="view_picking_form" model="ir.ui.view">
+            <field name="name">stock.picking.form</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook/page[@string='Products']/field[@name='move_lines']/form/group[1]/field[@name='product_uom']" position="replace">
+                    <field name="product_uom" string="Unit Of Measure" on_change="onchange_quantity(product_id, product_qty, product_uom, product_uos)" colspan="4"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_move_tree_add_uos_qty" model="ir.ui.view">
+            <field name="name">stock.move.tree.add.uos.qty</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock.view_move_tree"/>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <field name="product_uom" position="after">
+                    <field name="product_uos_qty" on_change="onchange_uos_quantity(product_id, product_uos_qty, product_uos, product_uom)" groups="product.group_uos"/>
+                </field>
+            </field>
+        </record>
+        
+    </data>
+</openerp>

@@ -1,0 +1,133 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* budget_forecast_extend
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 6.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-11-05 10:45+0000\n"
+"PO-Revision-Date: 2013-11-05 11:48+0100\n"
+"Last-Translator: marta <marta@pexego.es>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+
+#. module: budget_forecast_extend
+#: constraint:budget.line:0
+msgid "The end date must be after the start date."
+msgstr "La fecha final tiene que ser posterior a la fecha inicial."
+
+#. module: budget_forecast_extend
+#: field:budget.line,oct_amount:0
+msgid "October"
+msgstr "Octubre"
+
+#. module: budget_forecast_extend
+#: code:addons/budget_forecast_extend/purchases_forecast.py:35
+#: code:addons/budget_forecast_extend/sales_forecast.py:35
+#, python-format
+msgid "Error !"
+msgstr "Error !"
+
+#. module: budget_forecast_extend
+#: field:budget.line,aug_amount:0
+msgid "August"
+msgstr "Agosto"
+
+#. module: budget_forecast_extend
+#: field:budget.line,may_amount:0
+msgid "May"
+msgstr "Mayo"
+
+#. module: budget_forecast_extend
+#: field:budget.line,jun_amount:0
+msgid "June"
+msgstr "Junio"
+
+#. module: budget_forecast_extend
+#: code:addons/budget_forecast_extend/purchases_forecast.py:35
+#, python-format
+msgid "For create a budget line is neccessary to have a budget version and budget item at purchases forecast."
+msgstr "Para crear una línea presupuestaria es necesario tener una versión y una partida presupuestaria configurada en la previsión de compras."
+
+#. module: budget_forecast_extend
+#: code:addons/budget_forecast_extend/purchases_forecast.py:40
+#: code:addons/budget_forecast_extend/sales_forecast.py:40
+#, python-format
+msgid "Sales forecast line of "
+msgstr "Línea Previsión de Ventas de"
+
+#. module: budget_forecast_extend
+#: field:budget.line,jul_amount:0
+msgid "July"
+msgstr "Julio"
+
+#. module: budget_forecast_extend
+#: constraint:budget.line:0
+msgid "The line's dates must be within the budget's start and end dates"
+msgstr "The line's dates must be within the budget's start and end dates"
+
+#. module: budget_forecast_extend
+#: field:budget.line,feb_amount:0
+msgid "February"
+msgstr "Febrero"
+
+#. module: budget_forecast_extend
+#: code:addons/budget_forecast_extend/sales_forecast.py:35
+#, python-format
+msgid "For create a budget line is neccessary to have a budget version and budget item at sales forecast."
+msgstr "Para crear una línea presupuestaria es necesario tener una versión y una partida presupuestaria configurada en la previsión de ventas."
+
+#. module: budget_forecast_extend
+#: field:budget.line,jan_amount:0
+msgid "January"
+msgstr "Enero"
+
+#. module: budget_forecast_extend
+#: field:budget.line,apr_amount:0
+msgid "April"
+msgstr "Abril"
+
+#. module: budget_forecast_extend
+#: constraint:budget.line:0
+msgid "The line's bugdet item must belong to the budget structure defined in the budget"
+msgstr "The line's bugdet item must belong to the budget structure defined in the budget"
+
+#. module: budget_forecast_extend
+#: field:budget.line,mar_amount:0
+msgid "March"
+msgstr "Marzo"
+
+#. module: budget_forecast_extend
+#: field:budget.line,nov_amount:0
+msgid "November"
+msgstr "Noviembre"
+
+#. module: budget_forecast_extend
+#: model:ir.model,name:budget_forecast_extend.model_sales_forecast
+msgid "Sales forecast"
+msgstr "Previsión de ventas"
+
+#. module: budget_forecast_extend
+#: field:budget.line,sep_amount:0
+msgid "September"
+msgstr "Septiembre"
+
+#. module: budget_forecast_extend
+#: field:budget.line,dec_amount:0
+msgid "December"
+msgstr "Diciembre"
+
+#. module: budget_forecast_extend
+#: model:ir.model,name:budget_forecast_extend.model_budget_line
+msgid "Budget Lines"
+msgstr "Líneas Presupuestarias"
+
+#. module: budget_forecast_extend
+#: model:ir.model,name:budget_forecast_extend.model_purchases_forecast
+msgid "Purchases forecast"
+msgstr "Previsión de Compras"
+
