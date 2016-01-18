@@ -88,6 +88,3 @@ class stock_picking(osv.osv):
                 to_uom_id = move_uos_id
                 price = product_uom_obj._compute_price(cursor, user, from_uom_id, price, to_uom_id)
         return price
-
-stock_picking()
-
