@@ -21,7 +21,7 @@
 from openerp.osv import fields, osv
 import decimal_precision as dp
 import time
-from tools.translate import _
+from openerp.tools.translate import _
 
 def rounding(f, r):
     if not r:

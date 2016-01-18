@@ -22,7 +22,7 @@ from openerp.osv import osv, fields
 import decimal_precision as dp
 import time
 from datetime import datetime
-from tools.translate import _
+from openerp.tools.translate import _
 
 class product_options_product(osv.osv):
     _name = 'product.options.product'

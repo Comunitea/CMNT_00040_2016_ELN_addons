@@ -39,7 +39,7 @@ from openerp.osv import fields
 from openerp.osv import osv
 import pooler 
 import tools
-from tools.translate import _
+from openerp.tools.translate import _
 from calendar import calendar
 import logging
 

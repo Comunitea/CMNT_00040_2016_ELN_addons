@@ -19,7 +19,7 @@
 #
 ##############################################################################
 from openerp.osv import osv, fields
-from tools.translate import _
+from openerp.tools.translate import _
 
 class stock_invoice_onshipping(osv.osv_memory):
     _inherit = 'stock.invoice.onshipping'

@@ -20,7 +20,7 @@
 ##############################################################################
 from openerp.osv import osv
 from openerp.osv import fields
-from tools.translate import _
+from openerp.tools.translate import _
 from openerp import netsvc
 
 class mrp_production(osv.osv):

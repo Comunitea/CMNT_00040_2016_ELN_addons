@@ -25,7 +25,7 @@ import os
 import base64
 import glob
 import shutil
-from tools.translate import _
+from openerp.tools.translate import _
 import subprocess
 
 

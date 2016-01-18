@@ -19,7 +19,7 @@
 #
 ##############################################################################
 from openerp.osv import osv
-from tools.translate import _
+from openerp.tools.translate import _
 
 class merge_sales_forecast(osv.osv_memory):
     _name = "merge.sales.forecast"

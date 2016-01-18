@@ -27,7 +27,7 @@ from crm import crm
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 import time
-from tools.translate import _
+from openerp.tools.translate import _
 from tools import DEFAULT_SERVER_DATE_FORMAT
 
 

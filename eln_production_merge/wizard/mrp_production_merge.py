@@ -19,7 +19,7 @@
 #
 ##############################################################################
 from openerp.osv import osv, fields
-from tools.translate import _
+from openerp.tools.translate import _
 
 class mrp_production_merge(osv.osv_memory):
     _name = "mrp.production.merge"

@@ -21,7 +21,7 @@
 ##############################################################################
 
 from openerp.osv import fields, osv
-from tools.translate import _
+from openerp.tools.translate import _
 
 class settled_invoice_wizard (osv.osv_memory):
     """settled.invoice.wizard"""

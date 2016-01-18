@@ -20,7 +20,7 @@
 #
 ##############################################################################
 from openerp.osv import osv, fields
-from tools.translate import _
+from openerp.tools.translate import _
 from pyPdf import PdfFileReader, PdfFileWriter
 import os
 import base64

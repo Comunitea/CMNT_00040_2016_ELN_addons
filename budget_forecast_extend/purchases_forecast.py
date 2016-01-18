@@ -19,7 +19,7 @@
 #
 ##############################################################################
 from openerp.osv import osv
-from tools.translate import _
+from openerp.tools.translate import _
 class purchases_forecast(osv.osv):
     _inherit = 'purchases.forecast'
 

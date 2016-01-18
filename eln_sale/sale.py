@@ -21,7 +21,7 @@
 from openerp.osv import osv, fields
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
-from tools.translate import _
+from openerp.tools.translate import _
 import time
 
 class sale_order(osv.osv):

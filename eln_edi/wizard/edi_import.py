@@ -21,7 +21,7 @@
 ##############################################################################
 
 from openerp.osv import fields, osv
-from tools.translate import _
+from openerp.tools.translate import _
 import os
 import datetime, time
 from edi_logging import logger

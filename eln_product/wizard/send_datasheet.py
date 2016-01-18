@@ -22,7 +22,7 @@ from openerp.osv import osv, fields
 import time
 import tools
 from jasper_reports.jasper_report import report_jasper
-from tools.translate import _
+from openerp.tools.translate import _
 
 
 class mail_compose_message_product_datasheet(osv.osv_memory):

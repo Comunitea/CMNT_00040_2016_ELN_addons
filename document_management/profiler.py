@@ -22,7 +22,7 @@
 import osv
 import report
 import openerp.pooler as pooler
-from tools.translate import _
+from openerp.tools.translate import _
 import time
 import base64
 

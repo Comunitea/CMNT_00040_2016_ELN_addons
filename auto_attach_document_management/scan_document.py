@@ -19,7 +19,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from tools.translate import _
+from openerp.tools.translate import _
 from openerp.osv import osv, fields
 from NanScan.Template import *
 from NanScan.Document import *

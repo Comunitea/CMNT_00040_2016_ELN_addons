@@ -23,7 +23,7 @@
 """View that filter stock_moves by not state = 'cancel' Use this view to show traceability tree"""
 
 from openerp.osv import osv, fields
-from tools.translate import _
+from openerp.tools.translate import _
 
 class valid_stock_moves(osv.osv):
     """View that filter stock_moves by not state = 'cancel' Use this view to show traceability tree"""

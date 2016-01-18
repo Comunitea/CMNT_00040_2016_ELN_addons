@@ -28,7 +28,7 @@ import cups
 from openerp import netsvc
 from openerp.osv import fields
 from openerp.osv import osv
-from tools.translate import _
+from openerp.tools.translate import _
 
 
 class printing_printer_update_wizard(osv.osv_memory):

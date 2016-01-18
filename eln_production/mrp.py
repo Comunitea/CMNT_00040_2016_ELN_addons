@@ -22,7 +22,7 @@ from openerp.osv import osv, fields
 import time
 from datetime import datetime, timedelta
 import tools
-from tools.translate import _
+from openerp.tools.translate import _
 from openerp import netsvc
 from tools import float_compare
 from operator import attrgetter

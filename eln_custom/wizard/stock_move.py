@@ -20,7 +20,7 @@
 ##############################################################################
 
 from openerp.osv import fields, osv
-from tools.translate import _
+from openerp.tools.translate import _
 import decimal_precision as dp
 
 class split_in_production_lot(osv.osv_memory):

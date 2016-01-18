@@ -23,7 +23,7 @@
 """inherits stock.production lot, adds methods that get production lots hierarchical or manages production lot sequence"""
 
 from openerp.osv import fields, osv
-from tools.translate import _
+from openerp.tools.translate import _
 import time
 
 def sort_by_qty( item_x, item_y ):

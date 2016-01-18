@@ -23,7 +23,7 @@
 """invoice agents"""
 
 from openerp.osv import fields, osv
-from tools.translate import _
+from openerp.tools.translate import _
 
 class invoice_line_agent(osv.osv):
     """invoice agents"""

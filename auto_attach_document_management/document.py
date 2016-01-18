@@ -25,7 +25,7 @@ import base64
 import tempfile
 import os
 import time
-from tools.translate import _
+from openerp.tools.translate import _
 import subprocess
 class record_document(osv.osv):
 

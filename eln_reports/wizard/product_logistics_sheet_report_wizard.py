@@ -21,7 +21,7 @@
 from openerp.osv import osv,fields
 import pooler
 import time
-from tools.translate import _
+from openerp.tools.translate import _
 
 def _lang_get(self, cr, uid, context=None):
     obj = self.pool.get('res.lang')

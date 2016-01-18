@@ -21,7 +21,7 @@
 
 
 from openerp.osv import fields, osv
-from tools.translate import _
+from openerp.tools.translate import _
 
 
 class stock_pack_moves(osv.osv_memory):

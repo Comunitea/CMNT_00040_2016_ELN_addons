@@ -20,7 +20,7 @@
 ##############################################################################
 from openerp.osv import osv, fields
 import decimal_precision as dp
-from tools.translate import _
+from openerp.tools.translate import _
 
 
 class stock_picking(osv.osv):

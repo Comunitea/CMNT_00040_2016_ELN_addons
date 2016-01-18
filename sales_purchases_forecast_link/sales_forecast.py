@@ -20,7 +20,7 @@
 ##############################################################################
 from openerp.osv import osv, fields
 import time
-from tools.translate import _
+from openerp.tools.translate import _
 
 class sales_forecast(osv.osv):
 

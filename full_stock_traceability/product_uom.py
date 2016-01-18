@@ -23,7 +23,7 @@
 """Adds new method to return base uom from same category"""
 
 from openerp.osv import osv
-from tools.translate import _
+from openerp.tools.translate import _
 
 class product_uom(osv.osv):
     """Adds new method to return base uom from same category"""

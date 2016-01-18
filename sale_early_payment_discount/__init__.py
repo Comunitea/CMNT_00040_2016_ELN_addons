@@ -22,10 +22,10 @@
 
 """Módulo que introduce la funcionalidad de pronto pago en las ventas"""
 
-import product_category
-import partner_payment_term_early_discount
-import partner
-import payment_term
-import sale
-import account_invoice
-import stock_picking
+# import product_category
+# import partner_payment_term_early_discount
+# import partner
+# import payment_term
+# import sale
+# import account_invoice
+# import stock_picking

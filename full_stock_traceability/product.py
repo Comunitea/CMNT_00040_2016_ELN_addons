@@ -23,7 +23,7 @@
 """add functionally for differentiate miscible products and not"""
 
 from openerp.osv import fields, osv
-from tools.translate import _
+from openerp.tools.translate import _
 
 class product_product(osv.osv):
     """add functionally for differentiate miscible product and not miscible product"""

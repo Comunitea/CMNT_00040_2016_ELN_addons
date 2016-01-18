@@ -21,7 +21,7 @@
 ##############################################################################
 
 from openerp.osv import osv
-from tools.translate import _
+from openerp.tools.translate import _
 
 class action_simplified_traceability(osv.osv_memory):
     """

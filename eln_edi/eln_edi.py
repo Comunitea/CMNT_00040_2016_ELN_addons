@@ -24,7 +24,7 @@ from openerp.osv import osv, fields
 import time
 from openerp import netsvc
 import decimal_precision as dp
-from tools.translate import _
+from openerp.tools.translate import _
 
 class edi_doc(osv.osv):
     _name = "edi.doc"

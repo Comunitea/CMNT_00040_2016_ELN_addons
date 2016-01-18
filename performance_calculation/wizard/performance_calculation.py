@@ -21,7 +21,7 @@
 from openerp.osv import osv, fields
 import time
 from datetime import datetime
-from tools.translate import _
+from openerp.tools.translate import _
 
 class performance_calculation(osv.osv_memory):
 

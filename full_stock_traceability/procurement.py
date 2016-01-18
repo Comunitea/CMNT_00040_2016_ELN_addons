@@ -21,7 +21,7 @@
 ##############################################################################
 
 from openerp.osv import osv
-from tools.translate import _
+from openerp.tools.translate import _
 
 class procurement_order(osv.osv):
     

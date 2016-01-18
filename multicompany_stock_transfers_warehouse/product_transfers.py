@@ -22,7 +22,7 @@ from openerp.osv import osv, fields
 import decimal_precision as dp
 import time
 from openerp import netsvc
-from tools.translate import _
+from openerp.tools.translate import _
 
 class multicompany_moves_rel(osv.osv):
     _name = 'multicompany.moves.rel'

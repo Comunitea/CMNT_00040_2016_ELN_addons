@@ -21,7 +21,7 @@
 import pooler
 import jasper_reports
 from datetime import datetime
-from tools.translate import _
+from openerp.tools.translate import _
 
 def parser( cr, uid, ids, data, context ):
     parameters = {}

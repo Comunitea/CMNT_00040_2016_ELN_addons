@@ -24,7 +24,7 @@ from dateutil.relativedelta import relativedelta
 import calendar
 from openerp.osv import osv, fields
 from openerp import netsvc
-from tools.translate import _
+from openerp.tools.translate import _
 import logging
 import decimal_precision as dp
 
