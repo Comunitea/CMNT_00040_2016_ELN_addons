@@ -20,7 +20,7 @@
 #
 ##############################################################################
 
-from osv import osv, fields
+from openerp.osv import osv, fields
 
 def intersect(visible_lots, lots):
     """returns only visible lots in the list"""
@@ -67,5 +67,3 @@ class stock_location(osv.osv):
     _defaults = {
                  'miscible_location': lambda *a: 0,
                  }
-
-stock_location()

@@ -22,7 +22,7 @@
 
 """inherits stock.production lot, adds methods that get production lots hierarchical or manages production lot sequence"""
 
-from osv import fields, osv
+from openerp.osv import fields, osv
 from tools.translate import _
 import time
 
@@ -216,5 +216,3 @@ class stock_production_lot(osv.osv):
 
         return super(stock_production_lot, self).copy(cr, uid, id, defaults, context=context)
 
-   
-stock_production_lot()

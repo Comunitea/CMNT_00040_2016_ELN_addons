@@ -22,7 +22,7 @@
 
 """añadimos algún campo relacionado con el intrastat"""
 
-from osv import fields, osv
+from openerp.osv import fields, osv
 
 class res_partner(osv.osv):
     """añadimos algún campo relacionado con elas comisiones"""

@@ -20,7 +20,7 @@
 #
 ##############################################################################
 
-from osv import osv
+from openerp.osv import osv
 from tools.translate import _
 
 class action_traceability(osv.osv_memory):

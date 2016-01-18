@@ -20,8 +20,8 @@
 #
 ##############################################################################
 
-from osv import osv
-import netsvc
+from openerp.osv import osv
+from openerp import netsvc
 
 class mrp_production(osv.osv):
 
@@ -82,5 +82,3 @@ class mrp_production(osv.osv):
             wf_service.trg_write(uid, 'stock.picking', picking_obj.id, cr)
 
         return picking_id
-
-mrp_production()

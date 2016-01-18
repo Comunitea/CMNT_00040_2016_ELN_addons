@@ -17,7 +17,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-#from osv import fields, osv
+#from openerp.osv import fields, osv
 from openerp.osv import osv, fields
 
 class cancel_intervention_request_wizard(osv.osv_memory):

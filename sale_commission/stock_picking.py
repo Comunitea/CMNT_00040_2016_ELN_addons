@@ -22,7 +22,7 @@
 
 """Modificamos la creación de factura desde albarán para incluir el comportamiento de comisiones"""
 
-from osv import osv, fields
+from openerp.osv import osv, fields
 
 class product_product(osv.osv):
     _inherit = 'product.product'

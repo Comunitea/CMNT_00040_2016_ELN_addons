@@ -18,10 +18,10 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from osv import osv, fields
+from openerp.osv import osv, fields
 import time
-import netsvc
-from tools.translate import _
+from openerp import netsvc
+from openerp.tools.translate import _
 
 class purchases_forecast(osv.osv):
 

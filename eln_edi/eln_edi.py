@@ -20,9 +20,9 @@
 #
 ##############################################################################
 
-from osv import osv, fields
+from openerp.osv import osv, fields
 import time
-import netsvc
+from openerp import netsvc
 import decimal_precision as dp
 from tools.translate import _
 

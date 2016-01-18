@@ -22,7 +22,7 @@
 
 """View that filter stock_moves by not state = 'cancel' Use this view to show traceability tree"""
 
-from osv import osv, fields
+from openerp.osv import osv, fields
 from tools.translate import _
 
 class valid_stock_moves(osv.osv):
@@ -108,4 +108,3 @@ class valid_stock_moves(osv.osv):
         raise osv.except_osv(_('Error !'), _('You cannot delete any record!'))
 
 
-valid_stock_moves()

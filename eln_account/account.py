@@ -19,7 +19,7 @@
 #
 ##############################################################################
 
-from osv import fields, osv, orm
+from openerp.osv import fields, osv, orm
 
 class account_journal(osv.osv):
     

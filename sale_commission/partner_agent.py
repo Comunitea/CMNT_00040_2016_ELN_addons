@@ -22,7 +22,7 @@
 
 """objeto de comportamiento many2many que relaciona agentes o comerciales con partners"""
 
-from osv import fields, osv
+from openerp.osv import fields, osv
 from tools.translate import _
 
 class res_partner_agent(osv.osv):

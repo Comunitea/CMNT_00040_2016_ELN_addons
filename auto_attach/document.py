@@ -33,9 +33,9 @@ import base64
 import datetime
 import time
 
-import netsvc
-from osv import osv
-from osv import fields
+from openerp import netsvc
+from openerp.osv import osv
+from openerp.osv import fields
 from tools.translate import _
 
 from NanScan.Template import *

@@ -22,7 +22,7 @@
 
 """Creates function for show the traceability simplified"""
 
-from osv import osv
+from openerp.osv import osv
 
 class report_stock_simplified(osv.osv):
     """Creates function for show the traceability simplified"""
@@ -100,4 +100,3 @@ class report_stock_simplified(osv.osv):
             END; $BODY$
             language 'plpgsql';""")
 
-report_stock_simplified()

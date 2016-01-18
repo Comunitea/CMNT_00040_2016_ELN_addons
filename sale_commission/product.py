@@ -21,7 +21,7 @@
 ##############################################################################
 
 """Modificamos las ventas para incluir el comportamiento de comisiones"""
-from osv import fields, osv
+from openerp.osv import fields, osv
 
 class product_agent_commission(osv.osv):
     _name = "product.agent.commission"

@@ -19,7 +19,7 @@
 #
 ##############################################################################
 
-from osv import osv, fields
+from openerp.osv import osv, fields
 from dateutil.relativedelta import relativedelta
 from datetime import datetime
 class rappel_renovation(osv.osv_memory):

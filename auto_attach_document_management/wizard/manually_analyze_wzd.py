@@ -19,10 +19,10 @@
 #
 ##############################################################################
 
-from osv import osv, fields
+from openerp.osv import osv, fields
 from tools.translate import _
 from tools import ustr
-import netsvc
+from openerp import netsvc
 
 class manually_analyze_wzd(osv.osv_memory):
     

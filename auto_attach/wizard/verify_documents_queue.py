@@ -19,8 +19,8 @@
 #
 ##############################################################################
 
-from osv import osv, fields
-import netsvc
+from openerp.osv import osv, fields
+from openerp import netsvc
 
 class verify_document_queue_wizard(osv.osv_memory):
     _name = 'verify.document.queue.wizard'

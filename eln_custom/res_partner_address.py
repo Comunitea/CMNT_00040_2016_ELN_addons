@@ -19,7 +19,7 @@
 #
 ##############################################################################
 
-from osv import osv, fields
+from openerp.osv import osv, fields
 from tools.translate import _
 
 class res_partner_address(osv.osv):

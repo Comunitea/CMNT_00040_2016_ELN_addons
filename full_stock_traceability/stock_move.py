@@ -22,10 +22,10 @@
 
 """Allows trace all moves"""
 
-from osv import osv, fields
+from openerp.osv import osv, fields
 from tools.translate import _
 import time
-import netsvc
+from openerp import netsvc
 
 def reverse_list( item_x, item_y ):
     """ordered a list of ids descently"""
@@ -740,6 +740,3 @@ class stock_move(osv.osv):
                 super(stock_move, self).force_assign(cr, uid, [move.id], context=context)
 
         return True
-
-
-stock_move()

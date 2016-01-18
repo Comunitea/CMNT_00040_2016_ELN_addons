@@ -190,7 +190,7 @@
         </record>
 
         <menuitem id="menu_purchases_forecast" name="Purchases Forecasts"
-                parent="base.menu_purchase_root" sequence="6" groups="base.group_extended"/>
+                parent="base.menu_purchase_root" sequence="6" />
 
         <record id="view_purchases_forecast_filter" model="ir.ui.view">
             <field name="name">purchases.forecast.list.select</field>

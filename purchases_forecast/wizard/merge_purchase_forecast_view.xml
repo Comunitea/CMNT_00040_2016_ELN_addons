@@ -32,7 +32,6 @@ Orders will only be merged if: &#10;
             target="new"
             multi="True"
             key2="client_action_multi"
-            groups="base.group_extended"
             id="action_view_merge_purchase_forecast"/>
     </data>
 </openerp>

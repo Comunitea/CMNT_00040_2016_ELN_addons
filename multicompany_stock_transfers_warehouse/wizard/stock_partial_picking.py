@@ -20,7 +20,7 @@
 #
 ##############################################################################
 
-from osv import osv
+from openerp.osv import osv
 
 class stock_partial_picking(osv.osv_memory):
     _inherit = 'stock.partial.picking'

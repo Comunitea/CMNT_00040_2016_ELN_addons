@@ -18,7 +18,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from osv import osv,fields
+from openerp.osv import osv,fields
 
 class stock_location_templates(osv.osv):
     _name = 'stock.location.templates'

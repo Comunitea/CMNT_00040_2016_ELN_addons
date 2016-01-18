@@ -18,8 +18,8 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from osv import osv, fields
-import netsvc
+from openerp.osv import osv, fields
+from openerp import netsvc
 import time
 from tools.translate import _
 

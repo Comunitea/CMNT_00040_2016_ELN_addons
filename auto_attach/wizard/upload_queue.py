@@ -28,7 +28,7 @@
 ##############################################################################
 
 
-from osv import osv, fields
+from openerp.osv import osv, fields
 
 class upload_queue(osv.osv):
     '''

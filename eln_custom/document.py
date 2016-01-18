@@ -20,7 +20,7 @@
 ##############################################################################
 
 import base64
-from osv import osv, fields
+from openerp.osv import osv, fields
 from openerp.addons.document import nodes
 
 class document_file(osv.osv):

@@ -22,7 +22,7 @@
 
 """Inherits sale.order.line to drag partner discount to invoice lines"""
 
-from osv import osv
+from openerp.osv import osv
 
 class sale_order_line(osv.osv):
     """Inherits sale.order.line to drag partner discount to invoice lines"""

@@ -19,7 +19,7 @@
 #
 ##############################################################################
 
-from osv import osv
+from openerp.osv import osv
 
 class stock_picking(osv.osv):
 
@@ -33,5 +33,3 @@ class stock_picking(osv.osv):
                     move.write({'state':'confirmed'})
 
         return super(stock_picking, self).action_assign(cr, uid, ids, *args)
-
-stock_picking()

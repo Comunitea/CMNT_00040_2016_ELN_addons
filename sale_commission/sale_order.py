@@ -22,7 +22,7 @@
 
 """Modificamos las ventas para incluir el comportamiento de comisiones"""
 
-from osv import fields, osv
+from openerp.osv import fields, osv
 from tools.translate import _
 
 class sale_order_agent(osv.osv):

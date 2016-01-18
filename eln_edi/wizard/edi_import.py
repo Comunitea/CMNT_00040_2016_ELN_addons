@@ -20,13 +20,13 @@
 #
 ##############################################################################
 
-from osv import fields, osv
+from openerp.osv import fields, osv
 from tools.translate import _
 import os
 import datetime, time
 from edi_logging import logger
 from lxml import etree
-import netsvc
+from openerp import netsvc
 
 log = logger("import_edi")
 

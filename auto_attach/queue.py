@@ -32,8 +32,8 @@ import base64
 import glob
 import shutil
 
-from osv import osv
-from osv import fields
+from openerp.osv import osv
+from openerp.osv import fields
 
 
 class scan_queue(osv.osv):

@@ -18,12 +18,12 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from osv import osv, fields
+from openerp.osv import osv, fields
 import time
 from datetime import datetime, timedelta
 import tools
 from tools.translate import _
-import netsvc
+from openerp import netsvc
 from tools import float_compare
 from operator import attrgetter
 

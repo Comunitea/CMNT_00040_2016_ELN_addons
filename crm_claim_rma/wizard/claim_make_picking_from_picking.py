@@ -24,7 +24,7 @@
 from openerp.osv import fields, orm
 import time
 from tools import DEFAULT_SERVER_DATETIME_FORMAT
-import netsvc
+from openerp import netsvc
 
 
 class claim_make_picking_from_picking(orm.TransientModel):

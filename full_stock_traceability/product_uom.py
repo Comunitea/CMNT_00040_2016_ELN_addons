@@ -22,7 +22,7 @@
 
 """Adds new method to return base uom from same category"""
 
-from osv import osv
+from openerp.osv import osv
 from tools.translate import _
 
 class product_uom(osv.osv):
@@ -43,5 +43,3 @@ class product_uom(osv.osv):
                 _(u'There are more that one reference uom for this category: %s.' % orig_uom.category_id.name))
 
         return uom_ids[0]
-
-product_uom()

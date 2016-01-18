@@ -29,7 +29,7 @@
 
 
 
-from osv import fields,osv
+from openerp.osv import fields,osv
 import base64
 
 from NanScan.Template import *

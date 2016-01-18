@@ -20,12 +20,12 @@
 #
 ##############################################################################
 from tools.translate import _
-from osv import osv, fields
+from openerp.osv import osv, fields
 from NanScan.Template import *
 from NanScan.Document import *
 from NanScan.Recognizer import *
 from NanScan.Ocr import *
-import netsvc
+from openerp import netsvc
 
 class ir_attachment(osv.osv):
     

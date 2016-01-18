@@ -22,7 +22,7 @@
 
 """adds new field discount on partner"""
 
-from osv import fields,osv
+from openerp.osv import fields,osv
 
 class res_partner(osv.osv):
     """adds new field discount on partner"""

@@ -22,7 +22,7 @@
 
 """add functionally for differentiate miscible products and not"""
 
-from osv import fields, osv
+from openerp.osv import fields, osv
 from tools.translate import _
 
 class product_product(osv.osv):
@@ -64,9 +64,6 @@ class product_product(osv.osv):
 
         return super(product_product, self).create(cr, uid, vals, context=context)
 
-
-product_product()
-
 class product_template(osv.osv):
     """add functionally for differentiate miscible product and not miscible product"""
     _inherit = "product.template"
@@ -89,5 +86,3 @@ class product_template(osv.osv):
             view_load=True,
             help="Location where will go the products that form a mix")
         }
-
-product_template()

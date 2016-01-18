@@ -20,7 +20,7 @@
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.  #
 #########################################################################
 
-from osv import fields, osv
+from openerp.osv import fields, osv
 import pooler
 
 class get_empty_serial(osv.osv_memory):
