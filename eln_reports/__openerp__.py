@@ -28,7 +28,7 @@
     'website': 'www.pexego.es',
     'license': 'AGPL-3',
     "depends" : ['base',
-                'jasper_reports',
+                # 'jasper_reports', modificado post-migración
                 'stock_picking_valued',
                 'stock',
                 'report_webkit',

@@ -26,7 +26,8 @@ Si existe pedido de venta o pedido de compra se obtiene el precio unitario indic
 En caso contrario se obtendrá de la tarifa de venta o compra del clinte o proveedor y en su defecto del producto (precio venta o coste).""",
     "version" : "1.0",
     "author" : "Pedro Gómez",
-    "depends" : ["base","stock","sale", "purchase","purchase_landed_costs"], #Muy importante tener de dependecias todos los modulos donde se herede _get_price_unit_invoice
+    # "depends" : ["base","stock","sale", "purchase","purchase_landed_costs"], #Muy importante tener de dependecias todos los modulos donde se herede _get_price_unit_invoice
+    "depends" : ["base","stock","sale", "purchase"], # Modificado por fallo post-migración
     "category" : "Stock",
     "init_xml" : [],
     "update_xml" : [],

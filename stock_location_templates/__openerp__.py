@@ -25,7 +25,8 @@
         """,
     "version" : "1.0",
     "author" : "Pexego",
-    "depends" : ["base", "product","stock", "stock_location"],
+    # "depends" : ["base", "product","stock",],
+    "depends" : ["base", "product","stock"], # Modificado post-migración
     "category" : "Manufacturing",
     "init_xml" : [],
     # "update_xml" : ["stock_location_templates_view.xml",

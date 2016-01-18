@@ -28,7 +28,7 @@
     'website': 'www.elnogal.com',
     "depends" : ['base',
                 'stock',
-                'stock_location',
+                # 'stock_location', comentado post-migración
                 ],
     "init_xml" : [],
     # "update_xml" : [

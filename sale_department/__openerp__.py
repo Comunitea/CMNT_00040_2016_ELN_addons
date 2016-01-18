@@ -40,9 +40,14 @@
     
 """,
     "website": "http://camptocamp.com",
-    "depends" : [
+    # "depends" : [
+    #     "sale",
+    #     "invoice_department",
+    #     "hr"
+    #             ],
+     "depends" : [
         "sale",
-        "invoice_department",
+        # "invoice_department", comentado post_migración
         "hr"
                 ],
     "init_xml" : [],

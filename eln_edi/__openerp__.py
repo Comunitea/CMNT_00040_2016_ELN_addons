@@ -52,7 +52,7 @@
     'author': 'Pexego Sistemas Informáticos',
     'website': 'https://www.pexego.es',
     # 'depends': ['base', 'account', 'sale', 'account_payment', 'account_payment_extension','sale_payment', 'picking_invoice_rel'],
-    'depends': ['base', 'account', 'sale', 'account_payment', 'account_payment_extension','sale_payment'],
+    'depends': ['base', 'account', 'sale', 'account_payment'],
     'init_xml': [],
     # 'update_xml': [
     #     'security/ir.model.access.csv',

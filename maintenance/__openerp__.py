@@ -20,8 +20,10 @@
 {
     "name": "Mantenimiento",
     "version": "1.0",
-    "depends": ["Department", "product", "analytic", "stock", "purchase",
-                "l10n_es_account_asset", "survey", "hr_timesheet","jasper_reports"],
+    # "depends": ["Department", "product", "analytic", "stock", "purchase",
+    #             "l10n_es_account_asset", "survey", "hr_timesheet","jasper_reports"],
+    "depends": ["hr", "product", "analytic", "stock", "purchase",
+                "l10n_es_account_asset", "survey", "hr_timesheet"], # modificado post-migración
     "author": "Pexego",
     "category": "Generic Modules",
     "description": """
