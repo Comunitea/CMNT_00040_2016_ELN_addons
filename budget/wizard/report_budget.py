@@ -48,7 +48,6 @@ class report_budget(osv.osv_memory):
             'type': 'ir.actions.report.xml',
             'report_name': 'report.budget.report.webkit',
             'datas': datas
-
         }
 
 
