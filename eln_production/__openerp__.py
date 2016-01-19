@@ -39,7 +39,7 @@
                 'mrp_production_reopen'
                 ],
     "init_xml" : [],
-    # "update_xml" : ['data/product_data.xml',
+    # "data" : ['data/product_data.xml',
     #                 'data/stock_production_lot_seq.xml',
     #                 'security/mrp_security.xml',
     #                 'mrp_workflow.xml',
