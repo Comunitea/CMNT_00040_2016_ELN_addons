@@ -18,7 +18,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import osv
+from osv import osv
 from lxml import etree
 
 class product_product(osv.osv):

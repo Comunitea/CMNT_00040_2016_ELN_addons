@@ -19,7 +19,7 @@
 #
 ##############################################################################
 
-from openerp.osv import osv, fields
+from osv import osv, fields
 
 class product_format(osv.osv):
     
@@ -34,4 +34,6 @@ class product_format(osv.osv):
     _defaults = {
         'active': True
     }
-
+    
+    
+product_format()

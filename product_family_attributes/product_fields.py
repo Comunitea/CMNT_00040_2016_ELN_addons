@@ -18,8 +18,8 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import osv, fields
-from openerp.tools.translate import _
+from osv import osv, fields
+from tools.translate import _
 
 class product_fields(osv.osv):
     _name = "product.fields"
