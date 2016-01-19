@@ -1,4 +1,0 @@
-"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
-"access_record_document","record.document","model_record_document","group_record_user",1,1,1,0
-"access_record_document_page","record.document_page","model_record_document_page","group_record_user",1,1,1,1
-

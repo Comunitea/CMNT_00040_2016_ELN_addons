@@ -1,8 +1,0 @@
-"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
-"access_ir_model_expedient","ir.model.expedient","model_ir_model_expedient","group_document_management_user",1,1,1,1
-"access_expedient_document","expedient.document","model_expedient_document","group_document_management_user",1,1,1,1
-"access_type_expedient","type.expedient","model_type_expedient","group_document_management_user",1,1,1,1
-"access_expedient","expedient","model_expedient","group_document_management_user",1,1,1,1
-"access_res_log_expedient","res.log.expedient","model_res_log_expedient","group_document_management_user",1,1,1,1
-"access_ir_model_type_expedient","ir.model.type.expedient","model_ir_model_type_expedient","group_document_management_user",1,1,1,1
-"access_type_expedient_document","type.expedient.document","model_type_expedient_document","group_document_management_user",1,1,1,1
