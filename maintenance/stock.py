@@ -90,8 +90,3 @@ class stock_picking(orm.Model):
             'work_order_id':fields.many2one('work.order', 'Work order', required=False),
             'work_done': fields.function(_work_done, method=True, type='boolean', string='Order completed', store=False),
                     }
-<<<<<<< HEAD
-
-    
-=======
->>>>>>> d04ac55e200d3ddbab48b155e2860c9b4c7fbdea

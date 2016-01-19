@@ -19,24 +19,6 @@
 #
 ##############################################################################
 {
-<<<<<<< HEAD:rappel_management/__openerp__.py
-    "name" : "Rappel management",
-    "description": """
-        Module that adds rappel management.
-        """,
-    "version" : "1.0",
-    "author" : "Pexego",
-    "depends" : ["base", "sale"],
-    "category" : "Generic Modules/Others",
-    "init_xml" : [],
-    "update_xml" : [ "wizard/rappel_renovation_view.xml",
-                     "rappel_view.xml",
-                     "res_partner_view.xml",
-                     "security/ir.model.access.csv",
-                     "rappel_wkf.xml",
-                     ],
-    'demo_xml': [],
-=======
     'name': 'Rappel management',
     'author': 'Comunitea',
     'category': 'Sale',
@@ -61,7 +43,6 @@ Rappel Management
              'data/ir.cron.xml',
              'wizard/compute_rappel_invoice_view.xml',
              'security/ir.model.access.csv'],
->>>>>>> d04ac55e200d3ddbab48b155e2860c9b4c7fbdea:rappel/__openerp__.py
     'installable': True,
     'application': True,
 }

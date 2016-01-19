@@ -174,15 +174,9 @@ class work_order(orm.Model):
             'instrucciones': fields.text('Instructions' , states={'done': [('readonly', True)], 'cancelled': [('readonly', True)]}),
             'maintenance_type_id':fields.many2one('maintenance.type'
                                                   , 'Maintenance type'
-<<<<<<< HEAD
-                                                  , required=False),
-            'survey_id':fields.many2one('survey.survey', 'Associated survey'
-                                        , required=False),
-=======
                                                   , required=False, states={'done': [('readonly', True)], 'cancelled': [('readonly', True)]}),
             'survey_id':fields.many2one('survey.survey', 'Associated survey'
                                         , required=False, states={'done': [('readonly', True)], 'cancelled': [('readonly', True)]}),
->>>>>>> d04ac55e200d3ddbab48b155e2860c9b4c7fbdea
             'descargo':fields.selection([
                 ('bloqueo', 'Block'),
                 ('no_descargo', 'Not discharge'),

@@ -30,15 +30,6 @@ class maintenance_type(orm.Model):
                 'name':fields.char('Name', size=64, required=True),
                 'descripcion': fields.text('Description'),
                 'type':fields.selection([
-<<<<<<< HEAD
-                    ('gama', 'gamma'),
-                    ('correctivo', 'corrective'),
-                    ('legal', 'legal'),
-                    ('preventivo', 'preventivo'),
-                     ], 'Type', select=True, required=True,readonly=False),
-                'survey_id':fields.many2one('survey.survey', 'Associated survey', required=False),
-                'planificado':fields.boolean('Planned', required=False),
-=======
                     ('reform', 'Reforms'),
                     ('corrective', 'Corrective'),
                     ('predictive', 'Predictive'),
@@ -47,7 +38,6 @@ class maintenance_type(orm.Model):
                      ], 'Type', select=True, required=True),
                 'survey_id':fields.many2one('survey.survey', 'Associated survey'),
                 'planificado':fields.boolean('Planned'),
->>>>>>> d04ac55e200d3ddbab48b155e2860c9b4c7fbdea
                 'intervalo':fields.selection([
                     ('3', 'Daily'),
                     ('1', 'Monthly'),
@@ -131,5 +121,3 @@ class maintenance_type(orm.Model):
 
                     maintenance_type_obj.write(cr, uid, type_obj.id, {'ultima_ejecucion': ultima_creacion}, context)
         return True
-
-maintenance_type()

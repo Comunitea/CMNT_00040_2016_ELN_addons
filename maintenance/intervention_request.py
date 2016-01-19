@@ -17,12 +17,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 #############################################################################
-<<<<<<< HEAD
-
-from openerp.osv import osv, fields
-=======
 from openerp.osv import orm, fields
->>>>>>> d04ac55e200d3ddbab48b155e2860c9b4c7fbdea
 
 
 class intervention_request(orm.Model):
@@ -184,9 +179,4 @@ class intervention_request(orm.Model):
             'context': ctx,
         }
 
-<<<<<<< HEAD
-=======
 
-intervention_request()
-
->>>>>>> d04ac55e200d3ddbab48b155e2860c9b4c7fbdea
