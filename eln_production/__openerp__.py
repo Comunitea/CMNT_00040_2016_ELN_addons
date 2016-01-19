@@ -33,7 +33,8 @@
                 'mrp',
                 'stock',
                 'mrp_operations',
-                'full_stock_traceability',
+                'stock_traceability_tree',
+                'stock_traceability_tree_trace_mrp'
                 'hr',
                 'mrp_production_reopen'
                 ],
