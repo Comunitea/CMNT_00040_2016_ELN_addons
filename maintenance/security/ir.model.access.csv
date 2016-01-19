@@ -11,3 +11,5 @@ access_work_order_time_report,work.order.time.report,model_work_order_time_repor
 access_work_order_time_report_manager,work.order.time.report,model_work_order_time_report,group_maintenance_manager,1,1,1,1
 access_work_order_other_services,work.order.other.services,model_work_order_other_services,group_maintenance_user,1,1,1,1
 access_work_order_other_services_manager,work.order.other.services,model_work_order_other_services,group_maintenance_manager,1,1,1,1
+access_maintenance_stop,maintenance.stop,model_maintenance_stop,group_maintenance_user,1,0,0,0
+access_maintenance_stop_manager,maintenance.stop,model_maintenance_stop,group_maintenance_manager,1,1,1,1

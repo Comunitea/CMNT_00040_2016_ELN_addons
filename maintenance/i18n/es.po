@@ -1,13 +1,13 @@
-# Translation of OpenERP Server.
+# Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* maintenance
+#   * maintenance
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: OpenERP Server 7.0\n"
+"Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-13 15:57+0000\n"
-"PO-Revision-Date: 2014-03-13 15:57+0000\n"
+"POT-Creation-Date: 2014-11-24 13:38+0000\n"
+"PO-Revision-Date: 2014-11-24 13:38+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,61 +16,81 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: maintenance
-#: report:work.order:0
-msgid "ORDEN DE TRABAJO"
-msgstr "ORDEN DE TRABAJO"
+#: model:ir.actions.act_window,help:maintenance.action_intervention_request_tree
+msgid "<p class=\"oe_view_nocontent_create\">\n"
+"                    Click to add a intervention request.\n"
+"                </p>\n"
+"            "
+msgstr "<p class=\"oe_view_nocontent_create\">                    Pulsar para añadir una solicitud de intervención.                </p>            "
+
+#. module: maintenance
+#: model:ir.actions.act_window,help:maintenance.action_maintenance_element
+#: model:ir.actions.act_window,help:maintenance.action_maintenance_element_tree
+msgid "<p class=\"oe_view_nocontent_create\">\n"
+"                    Click to add a maintenance element.\n"
+"                </p>\n"
+"            "
+msgstr "<p class=\"oe_view_nocontent_create\">                    Pulsar para añadir un elemento de mantenimiento.                </p>            "
+
+#. module: maintenance
+#: model:ir.actions.act_window,help:maintenance.action_maintenance_stop_tree
+msgid "<p class=\"oe_view_nocontent_create\">\n"
+"                    Click to add a maintenance stop.\n"
+"                </p>\n"
+"            "
+msgstr "<p class=\"oe_view_nocontent_create\">                    Pulsar para añadir una parada de mantenimiento.              </p>            "
+
+#. module: maintenance
+#: model:ir.actions.act_window,help:maintenance.action_maintenance_type_tree
+msgid "<p class=\"oe_view_nocontent_create\">\n"
+"                    Click to add a maintenance type.\n"
+"                </p>\n"
+"            "
+msgstr "<p class=\"oe_view_nocontent_create\">                    Pulsar para añadir un elemento de mantenimiento.                </p>            "
+
+#. module: maintenance
+#: model:ir.actions.act_window,help:maintenance.action_work_order_tree
+msgid "<p class=\"oe_view_nocontent_create\">\n"
+"                    Click to add a work order.\n"
+"                </p>\n"
+"            "
+msgstr "<p class=\"oe_view_nocontent_create\">                    Pulsar para añadir una orden de trabajo.                </p>            "
 
 #. module: maintenance
 #: report:work.order:0
-msgid "$F{Codigo-code}"
-msgstr "$F{Codigo-code}"
+msgid "ACCIÓN TOMADA:"
+msgstr "ACCIÓN TOMADA:"
 
 #. module: maintenance
-#: report:work.order:0
-msgid "/data/record/Reporte_de_horas-horas_ids/Empleado-employee_id/Etiquetas-category_ids/Nombre-complete_name"
-msgstr "/data/record/Reporte_de_horas-horas_ids/Empleado-employee_id/Etiquetas-category_ids/Nombre-complete_name"
+#: model:ir.model.fields,field_description:maintenance.field_work_order_action_taken
+#: field:work.order,action_taken:0
+msgid "Action taken"
+msgstr "Acciones tomadas"
 
 #. module: maintenance
-#: report:work.order:0
-msgid "CANTIDAD"
-msgstr "CANTIDAD"
+#: model:ir.model.fields,field_description:maintenance.field_maintenance_element_active
+#: model:ir.model.fields,field_description:maintenance.field_maintenance_element_asset_id
+#: field:maintenance.element,active:0
+#: field:maintenance.element,asset_id:0
+msgid "Active"
+msgstr "Activo"
 
 #. module: maintenance
-#: selection:maintenance.type,intervalo:0
-msgid "Monthly"
-msgstr "Mensual"
+#: model:ir.actions.act_window,name:maintenance.action_open_active_element
+msgid "Active Element"
+msgstr "Elemento activo"
 
 #. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_work_order_total_servicios_externos
-#: field:work.order,total_servicios_externos:0
-msgid "Total external                                                                services"
-msgstr "Total servicios externos"
+#: model:ir.model.fields,field_description:maintenance.field_maintenance_element_analytic_account_id
+#: field:maintenance.element,analytic_account_id:0
+msgid "Analytic account"
+msgstr "Cuenta analítica"
 
 #. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_work_order_total_other_service
-#: field:work.order,total_other_service:0
-msgid "Other concepts total"
-msgstr "Total otros conceptos"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "PRECIO H.N"
-msgstr "PRECIO H.N"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "/data/record/total_servicios_externos-total_servicios_externos"
-msgstr "/data/record/total_servicios_externos-total_servicios_externos"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "J. SERVICIO SOLICITANTE"
-msgstr "J. SERVICIO SOLICITANTE"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "/data/record/Contrata-contrata"
-msgstr "/data/record/Contrata-contrata"
+#: field:intervention.request,solicitante_id:0
+#: model:ir.model.fields,field_description:maintenance.field_intervention_request_solicitante_id
+msgid "Applicant "
+msgstr "Solicitante "
 
 #. module: maintenance
 #: model:ir.model.fields,field_description:maintenance.field_work_order_purchase_ids
@@ -79,66 +99,75 @@ msgid "Asociated purchases"
 msgstr "Compras asociadas"
 
 #. module: maintenance
-#: view:intervention.request:0
-#: view:maintenance.element:0
-#: view:maintenance.type:0
-#: view:work.order:0
-msgid "Group By..."
-msgstr "Agrupar por..."
+#: model:ir.model.fields,field_description:maintenance.field_work_order_assigned_department_id
+#: view:work.order:maintenance.view_work_order_filter
+#: field:work.order,assigned_department_id:0
+msgid "Assigned department"
+msgstr "Departamento asignado"
 
 #. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_work_order_time_report_horas_festivas
-#: field:work.order.time.report,horas_festivas:0
-msgid "Festive hours"
-msgstr "Horas festivas"
+#: model:ir.model.fields,field_description:maintenance.field_product_template_real_element_ids
+#: view:product.template:maintenance.product_normal_form_view_add_elements
+#: field:product.template,real_element_ids:0
+msgid "Associated elements"
+msgstr "Elementos asociados"
 
 #. module: maintenance
-#: report:work.order:0
-msgid "/data/record/Reporte_de_horas-horas_ids/Total-total"
-msgstr "/data/record/Reporte_de_horas-horas_ids/Total-total"
+#: model:ir.model.fields,field_description:maintenance.field_work_order_stock_moves_ids
+#: field:work.order,stock_moves_ids:0
+msgid "Associated movement"
+msgstr "Movimientos asociados"
 
 #. module: maintenance
-#: report:work.order:0
-msgid "IMPRESIÓN"
-msgstr "IMPRESIÓN"
+#: model:ir.model.fields,field_description:maintenance.field_maintenance_element_product_ids
+#: view:maintenance.element:maintenance.maintenance_element_form_view
+#: field:maintenance.element,product_ids:0
+msgid "Associated products"
+msgstr "Repuestos asociados"
 
 #. module: maintenance
-#: report:work.order:0
-msgid "$F{Nombre-complete_name2}"
-msgstr "$F{Nombre-complete_name2}"
+#: model:ir.model.fields,field_description:maintenance.field_maintenance_type_survey_id
+#: model:ir.model.fields,field_description:maintenance.field_work_order_survey_id
+#: field:maintenance.type,survey_id:0
+#: field:work.order,survey_id:0
+msgid "Associated survey"
+msgstr "Encuesta asociada"
 
 #. module: maintenance
-#: report:work.order:0
-msgid "$F{fecha_de_inicio-fecha_inicio}"
-msgstr "$F{fecha_de_inicio-fecha_inicio}"
+#: view:work.order:maintenance.work_order_form_view
+msgid "Auxiliary orders"
+msgstr "Ordenes auxiliares"
 
 #. module: maintenance
-#: view:intervention.request:0
-#: field:intervention.request,department_id:0
-#: model:ir.model.fields,field_description:maintenance.field_intervention_request_department_id
-msgid "Department"
-msgstr "Departamento"
-
-#. module: maintenance
-#: field:intervention.request,name:0
-#: model:ir.model.fields,field_description:maintenance.field_intervention_request_name
-msgid "Nombre"
-msgstr "Nombre"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "/data/record/Fecha_final-final_date"
-msgstr "/data/record/Fecha_final-final_date"
+#: selection:maintenance.element,type:0
+#: selection:work.order,descargo:0
+msgid "Block"
+msgstr "Bloque"
 
 #. module: maintenance
 #: report:work.order:0
-msgid "$F{Horas_festivas-horas_festivas}"
-msgstr "$F{Horas_festivas-horas_festivas}"
+msgid "CANTIDAD"
+msgstr "CANTIDAD"
 
 #. module: maintenance
 #: report:work.order:0
-msgid "/data/record/fecha_de_inicio-fecha_inicio"
-msgstr "/data/record/fecha_de_inicio-fecha_inicio"
+msgid "CATEG."
+msgstr "CATEG."
+
+#. module: maintenance
+#: report:work.order:0
+msgid "CATEGORIA"
+msgstr "CATEGORIA"
+
+#. module: maintenance
+#: report:work.order:0
+msgid "CODIGO"
+msgstr "CODIGO"
+
+#. module: maintenance
+#: report:work.order:0
+msgid "CONDICIÓN OPERACIÓN:"
+msgstr "CONDICIÓN OPERACIÓN:"
 
 #. module: maintenance
 #: report:work.order:0
@@ -146,39 +175,63 @@ msgid "CONTRATA:"
 msgstr "CONTRATA:"
 
 #. module: maintenance
-#: report:work.order:0
-msgid "$F{Nombre-name}"
-msgstr "$F{Nombre-name}"
+#: view:intervention.request:maintenance.intervention_request_form_view
+#: view:maintenance.stop:maintenance.maintenance_stop_form_view
+msgid "Cancel"
+msgstr "Cancelado"
 
 #. module: maintenance
-#: view:maintenance.element:0
-msgid "Tipo"
-msgstr "Tipo"
+#: model:ir.actions.act_window,name:maintenance.cancel_intervetion_request_type_tree
+msgid "Cancel intervetion"
+msgstr "Cancelar intervención"
 
 #. module: maintenance
-#: report:work.order:0
-msgid "$V{REPORT_COUNT}"
-msgstr "$V{REPORT_COUNT}"
+#: view:work.order:maintenance.work_order_form_view
+msgid "Cancel order"
+msgstr "Cancelar orden"
 
 #. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_work_order_tipo_parada
-#: field:work.order,tipo_parada:0
-msgid "Operation condition"
-msgstr "Condición de operación"
+#: selection:intervention.request,state:0
+#: selection:maintenance.stop,state:0
+#: selection:work.order,state:0
+msgid "Cancelled"
+msgstr "Cancelado"
 
 #. module: maintenance
-#: field:intervention.request,message_unread:0
-#: model:ir.model.fields,field_description:maintenance.field_intervention_request_message_unread
-#: model:ir.model.fields,field_description:maintenance.field_work_order_message_unread
-#: field:work.order,message_unread:0
-msgid "Unread Messages"
-msgstr "Mensajes no leidos"
+#: code:addons/maintenance/maintenance_element.py:166
+#, python-format
+msgid "Cannot delete an element associated to intervention requests"
+msgstr "No puede borrar un elemento asociado a solicitudes de intervención"
 
 #. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_type_ultima_ejecucion
-#: field:maintenance.type,ultima_ejecucion:0
-msgid "last execution"
-msgstr "Última ejecución"
+#: code:addons/maintenance/maintenance_element.py:169
+#, python-format
+msgid "Cannot delete an element associated to work orders"
+msgstr "No puede borrar un elementos asociado a órdenes de trabajo"
+
+#. module: maintenance
+#: code:addons/maintenance/maintenance_element.py:163
+#, python-format
+msgid "Cannot delete an element that contains another elements"
+msgstr "No puede borrar un elemento que contenga a otros elementos"
+
+#. module: maintenance
+#: field:hr.employee,categories:0
+#: model:ir.model.fields,field_description:maintenance.field_hr_employee_categories
+msgid "Categories"
+msgstr "Categorías"
+
+#. module: maintenance
+#: model:ir.model.fields,field_description:maintenance.field_maintenance_element_codigo
+#: field:maintenance.element,codigo:0
+msgid "Code"
+msgstr "Código"
+
+#. module: maintenance
+#: model:ir.model.fields,field_description:maintenance.field_work_order_other_services_code
+#: field:work.order.other.services,code:0
+msgid "Codigo"
+msgstr "Código"
 
 #. module: maintenance
 #: field:intervention.request,company_id:0
@@ -189,49 +242,91 @@ msgid "Company"
 msgstr "Compañía"
 
 #. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_type_viernes
-#: field:maintenance.type,viernes:0
-msgid "Friday"
-msgstr "Viernes"
+#: model:ir.model.fields,field_description:maintenance.field_maintenance_element_complete_name
+#: field:maintenance.element,complete_name:0
+msgid "Complete name"
+msgstr "Nombre completo"
 
 #. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_work_order_horas_ids
-#: view:work.order:0
-#: field:work.order,horas_ids:0
-#: view:work.order.other.services:0
-#: view:work.order.time.report:0
-msgid "Timesheet"
-msgstr "Reporte de horas"
+#: view:work.order:maintenance.work_order_form_view
+msgid "Compras"
+msgstr "Compras"
 
 #. module: maintenance
-#: model:ir.actions.act_window,name:maintenance.action_maintenance_element_tree
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_type_element_ids
-#: model:ir.ui.menu,name:maintenance.menu_maintenance_element_tree
-#: view:maintenance.element:0
-#: field:maintenance.type,element_ids:0
-msgid "Maintenance element"
-msgstr "Elemento de mantenimiento"
+#: view:maintenance.stop:maintenance.maintenance_stop_form_view
+msgid "Compute"
+msgstr "Calcular"
 
 #. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_element_nombre_sin_planta
-#: field:maintenance.element,nombre_sin_planta:0
-msgid "Name without floor"
-msgstr "Nombre sin planta"
+#: view:maintenance.stop:maintenance.maintenance_stop_form_view
+msgid "Confirm"
+msgstr "Confirmar"
 
 #. module: maintenance
-#: view:intervention.request:0
-msgid "Send email"
-msgstr "Enviar correo"
+#: selection:intervention.request,state:0
+msgid "Confirmed"
+msgstr "Confirmado"
 
 #. module: maintenance
-#: report:work.order:0
-msgid "/data/record/Deteccion-deteccion"
-msgstr "/data/record/Deteccion-deteccion"
+#: model:ir.model.fields,field_description:maintenance.field_work_order_contrata
+#: field:work.order,contrata:0
+msgid "Contractual"
+msgstr "Contrata"
 
 #. module: maintenance
-#: report:work.order:0
-msgid "H.F.F.S"
-msgstr "H.F.F.S"
+#: selection:maintenance.type,type:0
+msgid "Corrective"
+msgstr "Correctivo"
+
+#. module: maintenance
+#: view:maintenance.element:maintenance.maintenance_element_form_view
+msgid "Create intervention request"
+msgstr "Crear solicitud intervención"
+
+#. module: maintenance
+#: view:intervention.request:maintenance.intervention_request_form_view
+msgid "Create work order"
+msgstr "Crear OT"
+
+#. module: maintenance
+#: field:cancel.intervention.request.wizard,create_uid:0
+#: field:intervention.request,create_uid:0
+#: model:ir.model.fields,field_description:maintenance.field_cancel_intervention_request_wizard_create_uid
+#: model:ir.model.fields,field_description:maintenance.field_intervention_request_create_uid
+#: model:ir.model.fields,field_description:maintenance.field_maintenance_element_create_uid
+#: model:ir.model.fields,field_description:maintenance.field_maintenance_stop_create_uid
+#: model:ir.model.fields,field_description:maintenance.field_maintenance_type_create_uid
+#: model:ir.model.fields,field_description:maintenance.field_work_order_create_uid
+#: model:ir.model.fields,field_description:maintenance.field_work_order_other_services_create_uid
+#: model:ir.model.fields,field_description:maintenance.field_work_order_time_report_create_uid
+#: field:maintenance.element,create_uid:0
+#: field:maintenance.stop,create_uid:0
+#: field:maintenance.type,create_uid:0
+#: field:work.order,create_uid:0
+#: field:work.order.other.services,create_uid:0
+#: field:work.order.time.report,create_uid:0
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: maintenance
+#: field:cancel.intervention.request.wizard,create_date:0
+#: field:intervention.request,create_date:0
+#: model:ir.model.fields,field_description:maintenance.field_cancel_intervention_request_wizard_create_date
+#: model:ir.model.fields,field_description:maintenance.field_intervention_request_create_date
+#: model:ir.model.fields,field_description:maintenance.field_maintenance_element_create_date
+#: model:ir.model.fields,field_description:maintenance.field_maintenance_stop_create_date
+#: model:ir.model.fields,field_description:maintenance.field_maintenance_type_create_date
+#: model:ir.model.fields,field_description:maintenance.field_work_order_create_date
+#: model:ir.model.fields,field_description:maintenance.field_work_order_other_services_create_date
+#: model:ir.model.fields,field_description:maintenance.field_work_order_time_report_create_date
+#: field:maintenance.element,create_date:0
+#: field:maintenance.stop,create_date:0
+#: field:maintenance.type,create_date:0
+#: field:work.order,create_date:0
+#: field:work.order.other.services,create_date:0
+#: field:work.order.time.report,create_date:0
+msgid "Created on"
+msgstr "Creado en"
 
 #. module: maintenance
 #: report:work.order:0
@@ -240,86 +335,83 @@ msgstr "DESCARGO:"
 
 #. module: maintenance
 #: report:work.order:0
-msgid "$F{Name-name}"
-msgstr "$F{Name-name}"
-
-#. module: maintenance
-#: view:maintenance.element:0
-msgid "Equipo padre"
-msgstr "Equipo padre"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_work_order_time_report_horas_normal
-#: field:work.order.time.report,horas_normal:0
-msgid "Normal hours"
-msgstr "Horas normales"
+msgid "DESCRIPCIÓN:"
+msgstr "DESCRIPCIÓN:"
 
 #. module: maintenance
 #: report:work.order:0
-msgid "SÍNTOMA:"
-msgstr "SÍNTOMA:"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "$P{REPORT_DATA_SOURCE}.moveFirst()"
-msgstr "$P{REPORT_DATA_SOURCE}.moveFirst()"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "$F{Nombre-name2}"
-msgstr "$F{Nombre-name2}"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "OPERARIO"
-msgstr "OPERARIO"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "/data/record/Reporte_de_horas-horas_ids/Empleado-employee_id/producto_hora_nocturna-producto_hora_nocturna_id/Cost-standard_price"
-msgstr "/data/record/Reporte_de_horas-horas_ids/Empleado-employee_id/producto_hora_nocturna-producto_hora_nocturna_id/Cost-standard_price"
-
-#. module: maintenance
-#: model:ir.actions.act_window,name:maintenance.action_work_order_tree
-#: model:ir.ui.menu,name:maintenance.menu_work_order_tree
-#: view:work.order:0
-msgid "Work orders"
-msgstr "Ordenes de trabajo"
+msgid "DETECCIÓN:"
+msgstr "DETECCIÓN:"
 
 #. module: maintenance
 #: selection:maintenance.type,intervalo:0
-msgid "Yearly"
-msgstr "Anual"
+msgid "Daily"
+msgstr "Diario"
 
 #. module: maintenance
-#: view:intervention.request:0
-#: field:intervention.request,note:0
-#: model:ir.model.fields,field_description:maintenance.field_intervention_request_note
-msgid "Notes"
-msgstr "Notas"
+#: help:intervention.request,message_last_post:0
+#: help:work.order,message_last_post:0
+msgid "Date of the last message posted on the record."
+msgstr "Fecha del último mensaje escrito en el registro."
+
+#. module: maintenance
+#: view:intervention.request:maintenance.view_intervention_request_filter
+#: field:intervention.request,department_id:0
+#: model:ir.model.fields,field_description:maintenance.field_intervention_request_department_id
+#: model:ir.model.fields,field_description:maintenance.field_maintenance_type_department_id
+#: field:maintenance.type,department_id:0
+msgid "Department"
+msgstr "Departamento"
+
+#. module: maintenance
+#: model:ir.model.fields,field_description:maintenance.field_maintenance_element_description
+#: model:ir.model.fields,field_description:maintenance.field_maintenance_stop_description
+#: model:ir.model.fields,field_description:maintenance.field_maintenance_type_descripcion
+#: model:ir.model.fields,field_description:maintenance.field_work_order_descripcion
+#: field:maintenance.element,description:0
+#: field:maintenance.stop,description:0
+#: field:maintenance.type,descripcion:0
+#: field:work.order,descripcion:0
+msgid "Description"
+msgstr "Descripción"
+
+#. module: maintenance
+#: field:intervention.request,deteccion:0
+#: model:ir.model.fields,field_description:maintenance.field_intervention_request_deteccion
+#: model:ir.model.fields,field_description:maintenance.field_work_order_deteccion
+#: field:work.order,deteccion:0
+msgid "Detection"
+msgstr "Detección"
+
+#. module: maintenance
+#: model:ir.model.fields,field_description:maintenance.field_work_order_descargo
+#: field:work.order,descargo:0
+msgid "Discharge"
+msgstr "Descargo"
+
+#. module: maintenance
+#: view:maintenance.stop:maintenance.maintenance_stop_form_view
+#: selection:maintenance.stop,state:0
+#: selection:work.order,state:0
+msgid "Done"
+msgstr "Finalizado"
+
+#. module: maintenance
+#: view:work.order:maintenance.work_order_form_view
+msgid "Done order"
+msgstr "Finalizar orden"
+
+#. module: maintenance
+#: selection:intervention.request,state:0
+#: selection:maintenance.stop,state:0
+#: selection:work.order,state:0
+msgid "Draft"
+msgstr "Borrador"
 
 #. module: maintenance
 #: report:work.order:0
-msgid "$F{id}==$P{work_order_id}&&$F{Empleado_externo-externo}==\"True\""
-msgstr "$F{id}==$P{work_order_id}&&$F{Empleado_externo-externo}==\"True\""
-
-#. module: maintenance
-#: field:intervention.request,message_ids:0
-#: model:ir.model.fields,field_description:maintenance.field_intervention_request_message_ids
-#: model:ir.model.fields,field_description:maintenance.field_work_order_message_ids
-#: field:work.order,message_ids:0
-msgid "Messages"
-msgstr "Mensajes"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "$F{Planta-planta}"
-msgstr "$F{Planta-planta}"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "$P{subreport_recursos_externos}"
-msgstr "$P{subreport_recursos_externos}"
+msgid "EFECTO:"
+msgstr "EFECTO:"
 
 #. module: maintenance
 #: report:work.order:0
@@ -333,253 +425,38 @@ msgstr "EQUIPOS:"
 
 #. module: maintenance
 #: report:work.order:0
-msgid "DETECCIÓN:"
-msgstr "DETECCIÓN:"
+msgid "EUROS/UNIDAD"
+msgstr "EUROS/UNIDAD"
 
 #. module: maintenance
-#: report:work.order:0
-msgid "RECURSOS PROPIOS"
-msgstr "RECURSOS PROPIOS"
+#: model:ir.model.fields,field_description:maintenance.field_purchase_order_line_element_id
+#: model:ir.model.fields,field_description:maintenance.field_stock_move_element_id
+#: model:ir.model.fields,field_description:maintenance.field_work_order_time_report_element_id
+#: field:purchase.order.line,element_id:0
+#: field:stock.move,element_id:0
+#: field:work.order.time.report,element_id:0
+msgid "Element"
+msgstr "Equipo"
 
 #. module: maintenance
-#: selection:intervention.request,state:0
-#: selection:work.order,state:0
-msgid "Cancelled"
-msgstr "Cancelado"
+#: model:ir.model.fields,field_description:maintenance.field_maintenance_stop_maintenanance_element_ids
+#: view:maintenance.stop:maintenance.maintenance_stop_form_view
+#: field:maintenance.stop,maintenanance_element_ids:0
+#: view:maintenance.type:maintenance.maintenance_type_form_view
+msgid "Elements"
+msgstr "Elementos"
 
 #. module: maintenance
-#: report:work.order:0
-msgid "/data/record/Fecha_inicial-initial_date"
-msgstr "/data/record/Fecha_inicial-initial_date"
+#: model:ir.model.fields,field_description:maintenance.field_work_order_elements_list
+#: field:work.order,elements_list:0
+msgid "Elements string"
+msgstr "Cadena de equipos"
 
 #. module: maintenance
-#: report:work.order:0
-msgid "TIPO O.T.:"
-msgstr "TIPO O.T.:"
-
-#. module: maintenance
-#: help:intervention.request,message_unread:0
-#: help:work.order,message_unread:0
-msgid "If checked new messages require your attention."
-msgstr "If checked new messages require your attention."
-
-#. module: maintenance
-#: view:work.order:0
-msgid "Cancel order"
-msgstr "Cancelar orden"
-
-#. module: maintenance
-#: model:ir.actions.act_window,help:maintenance.action_maintenance_type_tree
-msgid "<p class=\"oe_view_nocontent_create\">\n"
-"					Click to add a maintenance type.\n"
-"				</p>\n"
-"			"
-msgstr "<p class=\"oe_view_nocontent_create\">\n"
-"					Click to add a maintenance type.\n"
-"				</p>\n"
-"			"
-
-#. module: maintenance
-#: selection:maintenance.type,intervalo:0
-msgid "Daily"
-msgstr "Diario"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "H.F.S"
-msgstr "H.F.S"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "$F{Total-total}"
-msgstr "$F{Total-total}"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "/data/record/Departamento_origen-origin_department_id/Nombre-complete_name"
-msgstr "/data/record/Departamento_origen-origin_department_id/Nombre-complete_name"
-
-#. module: maintenance
-#: view:work.order:0
-msgid "Open work order"
-msgstr "Abrir orden"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "/data/record/Reporte_de_horas-horas_ids/Horas_nocturnas-horas_nocturnas"
-msgstr "/data/record/Reporte_de_horas-horas_ids/Horas_nocturnas-horas_nocturnas"
-
-#. module: maintenance
-#: model:ir.model,name:maintenance.model_work_order_time_report
-msgid "work.order.time.report"
-msgstr "work.order.time.report"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_work_order_request_id
-#: field:work.order,request_id:0
-msgid "Origin request"
-msgstr "Solicitud origen"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "/data/record/Reporte_de_horas-horas_ids/Empleado-employee_id/Empleado_externo-externo"
-msgstr "/data/record/Reporte_de_horas-horas_ids/Empleado-employee_id/Empleado_externo-externo"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_type_domingo
-#: field:maintenance.type,domingo:0
-msgid "Sunday"
-msgstr "Domingo"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "/data/record/efecto-efecto"
-msgstr "/data/record/efecto-efecto"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "/data/record/Solicitud_origen-request_id/Persona_solicitante-solicitante_id/Name-name"
-msgstr "/data/record/Solicitud_origen-request_id/Persona_solicitante-solicitante_id/Name-name"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "/data/record/Otros_conceptos-other_service_ids/orden_de_trabajo-work_order_id/id"
-msgstr "/data/record/Otros_conceptos-other_service_ids/orden_de_trabajo-work_order_id/id"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "FECHA/HORA:"
-msgstr "FECHA/HORA:"
-
-#. module: maintenance
-#: view:work.order:0
-msgid "Validate job"
-msgstr "Validar trabajo"
-
-#. module: maintenance
-#: selection:intervention.request,state:0
-#: selection:work.order,state:0
-msgid "Draft"
-msgstr "Borrador"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "$F{Cost-standard_price}"
-msgstr "$F{Cost-standard_price}"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "SERVICIO SOLICITANTE"
-msgstr "SERVICIO SOLICITANTE"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "J. EQUIPO TRABAJO"
-msgstr "J. EQUIPO TRABAJO"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "SERVICIO EJECUTOR"
-msgstr "SERVICIO EJECUTOR"
-
-#. module: maintenance
-#: model:ir.model,name:maintenance.model_maintenance_type
-msgid "maintenance.type"
-msgstr "maintenance.type"
-
-#. module: maintenance
-#: selection:intervention.request,state:0
-msgid "Confirmed"
-msgstr "Confirmado"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "/data/record/Departamento_origen-origin_department_id/Director-manager_id/Nombre-name_related"
-msgstr "/data/record/Departamento_origen-origin_department_id/Director-manager_id/Nombre-name_related"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_stock_move_work_done
-#: model:ir.model.fields,field_description:maintenance.field_stock_picking_work_done
-#: model:ir.model.fields,field_description:maintenance.field_stock_picking_work_done_3735
-#: field:stock.move,work_done:0
-#: field:stock.picking,work_done:0
-#: field:stock.picking.out,work_done:0
-msgid "Order completed"
-msgstr "Orden completa"
-
-#. module: maintenance
-#: view:work.order:0
-msgid "Otros conceptos"
-msgstr "Otros conceptos"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "$F{Descargo-descargo}"
-msgstr "$F{Descargo-descargo}"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_work_order_time_report_horas_nocturnas
-#: field:work.order.time.report,horas_nocturnas:0
-msgid "Nightly hours"
-msgstr "Horas nocturnas"
-
-#. module: maintenance
-#: field:intervention.request,fecha_estimada:0
-#: model:ir.model.fields,field_description:maintenance.field_intervention_request_fecha_estimada
-msgid "Estimated date"
-msgstr "Fecha estimada"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "/data/record/Responsable-responsable_id/Name-display_name"
-msgstr "/data/record/Responsable-responsable_id/Name-display_name"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "/data/record/id"
-msgstr "/data/record/id"
-
-#. module: maintenance
-#: selection:maintenance.element,type:0
-msgid "System"
-msgstr "Sistema"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "$F{Horas_nocturnas-horas_nocturnas}"
-msgstr "$F{Horas_nocturnas-horas_nocturnas}"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "$F{Tipo-type}"
-msgstr "$F{Tipo-type}"
-
-#. module: maintenance
-#: view:cancel.intervention.request.wizard:0
-#: field:cancel.intervention.request.wizard,motivo:0
-#: model:ir.model.fields,field_description:maintenance.field_cancel_intervention_request_wizard_motivo
-msgid "reason for cancellation"
-msgstr "Razón de cancelación"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "$F{categorias-categories}"
-msgstr "$F{categorias-categories}"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "/data/record/Otros_conceptos-other_service_ids/Cantidad-quantity"
-msgstr "/data/record/Otros_conceptos-other_service_ids/Cantidad-quantity"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "/data/record/Otros_conceptos-other_service_ids/Codigo-code"
-msgstr "/data/record/Otros_conceptos-other_service_ids/Codigo-code"
-
-#. module: maintenance
-#: model:ir.model,name:maintenance.model_stock_picking
-msgid "Picking List"
-msgstr "Albarán"
+#: model:ir.model,name:maintenance.model_intervention_request
+#: model:ir.model,name:maintenance.model_work_order
+msgid "Email Thread"
+msgstr "Hilo de mensajes"
 
 #. module: maintenance
 #: model:ir.model,name:maintenance.model_hr_employee
@@ -591,23 +468,66 @@ msgid "Employee"
 msgstr "Empleado"
 
 #. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_work_order_contrata
-#: field:work.order,contrata:0
-msgid "Contractual"
-msgstr "Contrata"
+#: view:work.order:maintenance.work_order_form_view
+msgid "Enviar correo"
+msgstr "Enviar correo"
 
 #. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_element_type
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_type_type
-#: field:maintenance.element,type:0
-#: field:maintenance.type,type:0
-msgid "Type"
-msgstr "Tipo"
+#: selection:maintenance.element,type:0
+msgid "Equipment"
+msgstr "Equipo"
+
+#. module: maintenance
+#: view:maintenance.element:maintenance.maintenance_element_form_view
+msgid "Equipo padre"
+msgstr "Equipo padre"
+
+#. module: maintenance
+#: code:addons/maintenance/maintenance_element.py:163
+#: code:addons/maintenance/maintenance_element.py:166
+#: code:addons/maintenance/maintenance_element.py:169
+#: code:addons/maintenance/maintenance_stop.py:108
+#, python-format
+msgid "Error !"
+msgstr "¡Error!"
+
+#. module: maintenance
+#: field:intervention.request,fecha_estimada:0
+#: model:ir.model.fields,field_description:maintenance.field_intervention_request_fecha_estimada
+msgid "Estimated date"
+msgstr "Fecha estimada"
+
+#. module: maintenance
+#: field:intervention.request,executor_department_id:0
+#: model:ir.model.fields,field_description:maintenance.field_intervention_request_executor_department_id
+msgid "Executor department"
+msgstr "Departamento ejecutor"
+
+#. module: maintenance
+#: field:hr.employee,externo:0
+#: model:ir.model.fields,field_description:maintenance.field_hr_employee_externo
+msgid "External employee"
+msgstr "Empleado externo"
 
 #. module: maintenance
 #: report:work.order:0
-msgid "CATEGORIA"
-msgstr "CATEGORIA"
+msgid "FALLO"
+msgstr "FALLO"
+
+#. module: maintenance
+#: report:work.order:0
+msgid "FECHA FINAL:"
+msgstr "FECHA FINAL:"
+
+#. module: maintenance
+#: report:work.order:0
+msgid "FECHA INICIAL:"
+msgstr "FECHA INICIAL:"
+
+#. module: maintenance
+#: report:work.order:0
+msgid "FECHA Y HORA REAL INICIO:"
+msgstr "FECHA Y HORA REAL INICIO:"
 
 #. module: maintenance
 #: report:work.order:0
@@ -615,9 +535,162 @@ msgid "FECHA Y HORA:"
 msgstr "FECHA Y HORA:"
 
 #. module: maintenance
-#: view:cancel.intervention.request.wizard:0
-msgid "solicitud a cancelar "
-msgstr "solicitud a cancelar "
+#: report:work.order:0
+msgid "FECHA/HORA:"
+msgstr "FECHA/HORA:"
+
+#. module: maintenance
+#: report:work.order:0
+msgid "FIRMA:"
+msgstr "FIRMA:"
+
+#. module: maintenance
+#: model:ir.model.fields,field_description:maintenance.field_maintenance_element_padre_id
+#: field:maintenance.element,padre_id:0
+msgid "Father"
+msgstr "Padre"
+
+#. module: maintenance
+#: model:ir.model.fields,field_description:maintenance.field_work_order_padre_id
+#: field:work.order,padre_id:0
+msgid "Father order"
+msgstr "Orden padre"
+
+#. module: maintenance
+#: model:ir.model.fields,field_description:maintenance.field_work_order_time_report_date
+#: field:work.order.time.report,date:0
+msgid "Fecha"
+msgstr "Fecha"
+
+#. module: maintenance
+#: model:ir.model.fields,field_description:maintenance.field_work_order_time_report_horas_festivas
+#: field:work.order.time.report,horas_festivas:0
+msgid "Festive hours"
+msgstr "Horas festivas"
+
+#. module: maintenance
+#: model:ir.model.fields,field_description:maintenance.field_work_order_final_date
+#: field:work.order,final_date:0
+msgid "Final date"
+msgstr "Fecha final"
+
+#. module: maintenance
+#: model:ir.model.fields,field_description:maintenance.field_maintenance_element_planta
+#: model:ir.model.fields,field_description:maintenance.field_work_order_planta
+#: field:maintenance.element,planta:0
+#: field:work.order,planta:0
+msgid "Floor"
+msgstr "Planta"
+
+#. module: maintenance
+#: field:intervention.request,message_follower_ids:0
+#: model:ir.model.fields,field_description:maintenance.field_intervention_request_message_follower_ids
+#: model:ir.model.fields,field_description:maintenance.field_work_order_message_follower_ids
+#: field:work.order,message_follower_ids:0
+msgid "Followers"
+msgstr "Seguidores"
+
+#. module: maintenance
+#: model:ir.model.fields,field_description:maintenance.field_maintenance_type_viernes
+#: field:maintenance.type,viernes:0
+msgid "Friday"
+msgstr "Viernes"
+
+#. module: maintenance
+#: report:work.order:0
+msgid "GAMA:"
+msgstr "GAMA:"
+
+#. module: maintenance
+#: view:intervention.request:maintenance.view_intervention_request_filter
+#: view:maintenance.element:maintenance.view_maintenance_element_filter
+#: view:maintenance.type:maintenance.view_maintenance_type_filter
+#: view:work.order:maintenance.view_work_order_filter
+msgid "Group By..."
+msgstr "Agrupar por..."
+
+#. module: maintenance
+#: report:work.order:0
+msgid "H.E. NORMAL"
+msgstr "H.E. NORMAL"
+
+#. module: maintenance
+#: report:work.order:0
+msgid "H.F.F.S"
+msgstr "H.F.F.S"
+
+#. module: maintenance
+#: report:work.order:0
+msgid "H.F.S"
+msgstr "H.F.S"
+
+#. module: maintenance
+#: report:work.order:0
+msgid "H.N."
+msgstr "H.N."
+
+#. module: maintenance
+#: model:ir.model.fields,field_description:maintenance.field_maintenance_element_hijo_ids
+#: field:maintenance.element,hijo_ids:0
+msgid "Hijos"
+msgstr "Hijos"
+
+#. module: maintenance
+#: help:intervention.request,message_summary:0
+#: help:work.order,message_summary:0
+msgid "Holds the Chatter summary (number of messages, ...). This summary is directly in html format in order to be inserted in kanban views."
+msgstr "Mantiene el seguimiento de conversaciones (número de mensajes, ...). Este resumen está directamente en formato html para que sea posible insertarlo en vistas kanban."
+
+#. module: maintenance
+#: field:cancel.intervention.request.wizard,id:0
+#: field:intervention.request,id:0
+#: model:ir.model.fields,field_description:maintenance.field_cancel_intervention_request_wizard_id
+#: model:ir.model.fields,field_description:maintenance.field_intervention_request_id
+#: model:ir.model.fields,field_description:maintenance.field_maintenance_element_id
+#: model:ir.model.fields,field_description:maintenance.field_maintenance_stop_id
+#: model:ir.model.fields,field_description:maintenance.field_maintenance_type_id
+#: model:ir.model.fields,field_description:maintenance.field_work_order_id
+#: model:ir.model.fields,field_description:maintenance.field_work_order_other_services_id
+#: model:ir.model.fields,field_description:maintenance.field_work_order_time_report_id
+#: field:maintenance.element,id:0
+#: field:maintenance.stop,id:0
+#: field:maintenance.type,id:0
+#: field:work.order,id:0
+#: field:work.order.other.services,id:0
+#: field:work.order.time.report,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: maintenance
+#: report:work.order:0
+msgid "IMPORTE MATERIALES"
+msgstr "IMPORTE MATERIALES"
+
+#. module: maintenance
+#: report:work.order:0
+msgid "IMPRESIÓN"
+msgstr "IMPRESIÓN"
+
+#. module: maintenance
+#: report:work.order:0
+msgid "INFORME:"
+msgstr "INFORME:"
+
+#. module: maintenance
+#: report:work.order:0
+msgid "INSTRUCCIONES:"
+msgstr "INSTRUCCIONES:"
+
+#. module: maintenance
+#: help:intervention.request,message_unread:0
+#: help:work.order,message_unread:0
+msgid "If checked new messages require your attention."
+msgstr "Si está marcado los nuevos mensajes requerirán de su atención."
+
+#. module: maintenance
+#: view:work.order:maintenance.work_order_form_view
+msgid "Information"
+msgstr "Información"
 
 #. module: maintenance
 #: model:ir.model.fields,field_description:maintenance.field_maintenance_type_inicio
@@ -630,111 +703,308 @@ msgid "Initial date"
 msgstr "Fecha inicial"
 
 #. module: maintenance
-#: report:work.order:0
-msgid "/data/record/Solicitud_origen-request_id/Notas-note"
-msgstr "/data/record/Solicitud_origen-request_id/Notas-note"
+#: field:intervention.request,instrucciones:0
+#: model:ir.model.fields,field_description:maintenance.field_intervention_request_instrucciones
+#: model:ir.model.fields,field_description:maintenance.field_work_order_instrucciones
+#: field:work.order,instrucciones:0
+msgid "Instructions"
+msgstr "Instrucciones"
+
+#. module: maintenance
+#: model:ir.model.fields,field_description:maintenance.field_maintenance_type_intervalo
+#: field:maintenance.type,intervalo:0
+msgid "Interval"
+msgstr "Intervalo"
+
+#. module: maintenance
+#: code:addons/maintenance/maintenance_element.py:148
+#: view:intervention.request:maintenance.intervention_request_calendar_view
+#: view:intervention.request:maintenance.intervention_request_form_view
+#: view:intervention.request:maintenance.intervention_request_tree_view
+#: model:ir.actions.act_window,name:maintenance.action_intervention_request_tree
+#: model:ir.ui.menu,name:maintenance.menu_intervention_request_tree
+#: view:maintenance.stop:maintenance.maintenance_stop_form_view
+#, python-format
+msgid "Intervention request"
+msgstr "Solicitud de intervención"
+
+#. module: maintenance
+#: model:ir.model.fields,field_description:maintenance.field_maintenance_stop_intervention_request_ids
+#: view:maintenance.stop:maintenance.maintenance_stop_form_view
+#: field:maintenance.stop,intervention_request_ids:0
+msgid "Intervention requests"
+msgstr "Solicitudes de intervención"
+
+#. module: maintenance
+#: field:intervention.request,message_is_follower:0
+#: model:ir.model.fields,field_description:maintenance.field_intervention_request_message_is_follower
+#: model:ir.model.fields,field_description:maintenance.field_work_order_message_is_follower
+#: field:work.order,message_is_follower:0
+msgid "Is a Follower"
+msgstr "Es un seguidor"
 
 #. module: maintenance
 #: report:work.order:0
-msgid "$F{Nombre-name_related}"
-msgstr "$F{Nombre-name_related}"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_work_order_elements_list
-#: field:work.order,elements_list:0
-msgid "Elements string"
-msgstr "String de equipos"
+msgid "J. EQUIPO TRABAJO"
+msgstr "J. EQUIPO TRABAJO"
 
 #. module: maintenance
 #: report:work.order:0
-msgid "FECHA INICIAL:"
-msgstr "FECHA INICIAL:"
+msgid "J. SERVICIO EJECUTOR"
+msgstr "J. SERVICIO EJECUTOR"
 
 #. module: maintenance
 #: report:work.order:0
-msgid "$F{Condicion_operacion-tipo_parada}"
-msgstr "$F{Condicion_operacion-tipo_parada}"
+msgid "J. SERVICIO SOLICITANTE"
+msgstr "J. SERVICIO SOLICITANTE"
 
 #. module: maintenance
 #: report:work.order:0
-msgid "$V{Total}.intValue()/$V{COLUMN_COUNT}.floatValue()"
-msgstr "$V{Total}.intValue()/$V{COLUMN_COUNT}.floatValue()"
+msgid "JEFE DE EQUIPO:"
+msgstr "JEFE DE EQUIPO:"
 
 #. module: maintenance
-#: report:work.order:0
-msgid "FALLO"
-msgstr "FALLO"
+#: field:intervention.request,message_last_post:0
+#: model:ir.model.fields,field_description:maintenance.field_intervention_request_message_last_post
+#: model:ir.model.fields,field_description:maintenance.field_work_order_message_last_post
+#: field:work.order,message_last_post:0
+msgid "Last Message Date"
+msgstr "Fecha último mensaje"
 
 #. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_work_order_note
-#: field:work.order,note:0
-msgid "Report"
-msgstr "Informe"
+#: field:cancel.intervention.request.wizard,write_uid:0
+#: field:intervention.request,write_uid:0
+#: model:ir.model.fields,field_description:maintenance.field_cancel_intervention_request_wizard_write_uid
+#: model:ir.model.fields,field_description:maintenance.field_intervention_request_write_uid
+#: model:ir.model.fields,field_description:maintenance.field_maintenance_element_write_uid
+#: model:ir.model.fields,field_description:maintenance.field_maintenance_stop_write_uid
+#: model:ir.model.fields,field_description:maintenance.field_maintenance_type_write_uid
+#: model:ir.model.fields,field_description:maintenance.field_work_order_other_services_write_uid
+#: model:ir.model.fields,field_description:maintenance.field_work_order_time_report_write_uid
+#: model:ir.model.fields,field_description:maintenance.field_work_order_write_uid
+#: field:maintenance.element,write_uid:0
+#: field:maintenance.stop,write_uid:0
+#: field:maintenance.type,write_uid:0
+#: field:work.order,write_uid:0
+#: field:work.order.other.services,write_uid:0
+#: field:work.order.time.report,write_uid:0
+msgid "Last Updated by"
+msgstr "Última actualización por"
 
 #. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_work_order_descargo
-#: field:work.order,descargo:0
-msgid "Discharge"
-msgstr "Descargo"
+#: field:cancel.intervention.request.wizard,write_date:0
+#: field:intervention.request,write_date:0
+#: model:ir.model.fields,field_description:maintenance.field_cancel_intervention_request_wizard_write_date
+#: model:ir.model.fields,field_description:maintenance.field_intervention_request_write_date
+#: model:ir.model.fields,field_description:maintenance.field_maintenance_element_write_date
+#: model:ir.model.fields,field_description:maintenance.field_maintenance_stop_write_date
+#: model:ir.model.fields,field_description:maintenance.field_maintenance_type_write_date
+#: model:ir.model.fields,field_description:maintenance.field_work_order_other_services_write_date
+#: model:ir.model.fields,field_description:maintenance.field_work_order_time_report_write_date
+#: model:ir.model.fields,field_description:maintenance.field_work_order_write_date
+#: field:maintenance.element,write_date:0
+#: field:maintenance.stop,write_date:0
+#: field:maintenance.type,write_date:0
+#: field:work.order,write_date:0
+#: field:work.order.other.services,write_date:0
+#: field:work.order.time.report,write_date:0
+msgid "Last Updated on"
+msgstr "Última actualización en"
 
 #. module: maintenance
-#: report:work.order:0
-msgid "/data/record/Descargo-descargo"
-msgstr "/data/record/Descargo-descargo"
+#: model:ir.model.fields,field_description:maintenance.field_maintenance_element_parent_left
+#: field:maintenance.element,parent_left:0
+msgid "Left Parent"
+msgstr "Padre izquierdo"
 
 #. module: maintenance
-#: report:work.order:0
-msgid "/data/record/total_oros_conceptos-total_other_service"
-msgstr "/data/record/total_oros_conceptos-total_other_service"
+#: selection:maintenance.type,type:0
+msgid "Legal"
+msgstr "Legal"
 
 #. module: maintenance
-#: report:work.order:0
-msgid "PLANTA/INSTALACIÓN"
-msgstr "PLANTA/INSTALACIÓN"
+#: model:ir.ui.menu,name:maintenance.menu_maintenance
+#: model:ir.ui.menu,name:maintenance.menu_mantenimiento_root
+msgid "Maintenance"
+msgstr "Mantenimiento"
 
 #. module: maintenance
-#: field:hr.employee,categories:0
-#: model:ir.model.fields,field_description:maintenance.field_hr_employee_categories
-msgid "Categories"
-msgstr "Categorías"
+#: model:ir.actions.act_window,name:maintenance.action_maintenance_element
+#: model:ir.ui.menu,name:maintenance.menu_maintenance_element
+#: model:ir.ui.menu,name:maintenance.menu_maintenance_element_view
+#: view:maintenance.element:maintenance.maintenance_element_form_view
+#: view:maintenance.element:maintenance.maintenance_element_tree_view
+msgid "Maintenance element"
+msgstr "Elemento de mantenimiento"
 
 #. module: maintenance
-#: view:intervention.request:0
+#: model:ir.actions.act_window,name:maintenance.action_maintenance_element_tree
+#: model:ir.ui.menu,name:maintenance.menu_maintenance_element_tree
+#: view:maintenance.element:maintenance.view_element_tree
+msgid "Maintenance element tree"
+msgstr "Árbol de elementos de mantenimiento"
+
+#. module: maintenance
+#: field:intervention.request,element_ids:0
+#: model:ir.model.fields,field_description:maintenance.field_intervention_request_element_ids
+#: model:ir.model.fields,field_description:maintenance.field_maintenance_type_element_ids
+#: model:ir.model.fields,field_description:maintenance.field_work_order_element_ids
+#: field:maintenance.type,element_ids:0
+#: view:product.template:maintenance.product_normal_form_view_add_elements
+#: field:work.order,element_ids:0
+msgid "Maintenance elements"
+msgstr "Elementos de mantenimiento"
+
+#. module: maintenance
+#: model:ir.actions.act_window,name:maintenance.action_maintenance_stop_tree
+#: model:ir.ui.menu,name:maintenance.menu_maintenance_stop_tree
+#: view:maintenance.stop:maintenance.maintenance_stop_tree_view
+msgid "Maintenance stops"
+msgstr "Paradas de mantenimiento"
+
+#. module: maintenance
+#: view:intervention.request:maintenance.view_intervention_request_filter
 #: model:ir.actions.act_window,name:maintenance.action_maintenance_type_tree
 #: model:ir.model.fields,field_description:maintenance.field_maintenance_element_maintenance_type_ids
 #: model:ir.model.fields,field_description:maintenance.field_work_order_maintenance_type_id
 #: model:ir.ui.menu,name:maintenance.menu_maintenance_type_tree
+#: view:maintenance.element:maintenance.maintenance_element_form_view
 #: field:maintenance.element,maintenance_type_ids:0
-#: view:maintenance.type:0
-#: view:work.order:0
+#: view:maintenance.type:maintenance.maintenance_type_form_view
+#: view:maintenance.type:maintenance.maintenance_type_tree_view
+#: view:work.order:maintenance.view_work_order_filter
 #: field:work.order,maintenance_type_id:0
 msgid "Maintenance type"
 msgstr "Tipo de mantenimiento"
 
 #. module: maintenance
-#: selection:maintenance.element,type:0
-msgid "Station"
-msgstr "Estación"
+#: model:res.groups,name:maintenance.group_maintenance_manager
+msgid "Manager"
+msgstr "Responsable"
 
 #. module: maintenance
-#: view:work.order:0
-msgid "Done order"
-msgstr "Finalizar orden"
+#: model:ir.module.category,name:maintenance.module_category_maintenance_management
+msgid "Mantenimiento"
+msgstr "Mantenimiento"
+
+#. module: maintenance
+#: field:intervention.request,message_ids:0
+#: model:ir.model.fields,field_description:maintenance.field_intervention_request_message_ids
+#: model:ir.model.fields,field_description:maintenance.field_work_order_message_ids
+#: field:work.order,message_ids:0
+msgid "Messages"
+msgstr "Mensajes"
+
+#. module: maintenance
+#: help:intervention.request,message_ids:0
+#: help:work.order,message_ids:0
+msgid "Messages and communication history"
+msgstr "Historial mensajes y comunicación"
+
+#. module: maintenance
+#: model:ir.model.fields,field_description:maintenance.field_maintenance_type_lunes
+#: field:maintenance.type,lunes:0
+msgid "Monday"
+msgstr "Lunes"
+
+#. module: maintenance
+#: selection:maintenance.type,intervalo:0
+msgid "Monthly"
+msgstr "Mensual"
+
+#. module: maintenance
+#: model:ir.model.fields,field_description:maintenance.field_maintenance_element_name
+#: model:ir.model.fields,field_description:maintenance.field_maintenance_stop_name
+#: model:ir.model.fields,field_description:maintenance.field_maintenance_type_name
+#: model:ir.model.fields,field_description:maintenance.field_work_order_name
+#: field:maintenance.element,name:0
+#: field:maintenance.stop,name:0
+#: field:maintenance.type,name:0
+#: field:work.order,name:0
+msgid "Name"
+msgstr "Nombre"
+
+#. module: maintenance
+#: model:ir.model.fields,field_description:maintenance.field_maintenance_element_nombre_sin_planta
+#: field:maintenance.element,nombre_sin_planta:0
+msgid "Name without floor"
+msgstr "Nombre sin planta"
+
+#. module: maintenance
+#: model:ir.model.fields,field_description:maintenance.field_work_order_time_report_horas_nocturnas
+#: field:work.order.time.report,horas_nocturnas:0
+msgid "Nightly hours"
+msgstr "Horas nocturnas"
+
+#. module: maintenance
+#: field:intervention.request,name:0
+#: model:ir.model.fields,field_description:maintenance.field_intervention_request_name
+msgid "Nombre"
+msgstr "Nombre"
+
+#. module: maintenance
+#: model:ir.model.fields,field_description:maintenance.field_work_order_time_report_horas_normal
+#: field:work.order.time.report,horas_normal:0
+msgid "Normal hours"
+msgstr "Horas normales"
+
+#. module: maintenance
+#: selection:work.order,descargo:0
+msgid "Not discharge"
+msgstr "Sin descargo"
+
+#. module: maintenance
+#: view:intervention.request:maintenance.intervention_request_form_view
+#: field:intervention.request,note:0
+#: model:ir.model.fields,field_description:maintenance.field_intervention_request_note
+#: view:maintenance.stop:maintenance.maintenance_stop_form_view
+#: view:work.order:maintenance.work_order_form_view
+msgid "Notes"
+msgstr "Notas"
 
 #. module: maintenance
 #: report:work.order:0
-msgid "/data/record/Notas-note"
-msgstr "/data/record/Notas-note"
+msgid "Nº O.T."
+msgstr "Nº O.T."
 
 #. module: maintenance
 #: report:work.order:0
-msgid "/data/record/Solicitud_origen-request_id/Fecha_de_solicitud-fecha_solicitud"
-msgstr "/data/record/Solicitud_origen-request_id/Fecha_de_solicitud-fecha_solicitud"
+msgid "OPERARIO"
+msgstr "OPERARIO"
 
 #. module: maintenance
 #: report:work.order:0
-msgid "SOLICITANTE:"
-msgstr "SOLICITANTE:"
+msgid "ORDEN DE TRABAJO"
+msgstr "ORDEN DE TRABAJO"
+
+#. module: maintenance
+#: model:ir.model.fields,field_description:maintenance.field_maintenance_type_on_stop
+#: field:maintenance.type,on_stop:0
+msgid "On stop"
+msgstr "En parada"
+
+#. module: maintenance
+#: code:addons/maintenance/maintenance_stop.py:108
+#, python-format
+msgid "Only can delete stops in draft state."
+msgstr "Sólo puede borrar paradas en estado borrador."
+
+#. module: maintenance
+#: selection:maintenance.stop,state:0
+#: selection:work.order,state:0
+msgid "Open"
+msgstr "Abierto"
+
+#. module: maintenance
+#: view:work.order:maintenance.work_order_form_view
+msgid "Open work order"
+msgstr "Abrir orden"
+
+#. module: maintenance
+#: model:ir.model.fields,field_description:maintenance.field_work_order_tipo_parada
+#: field:work.order,tipo_parada:0
+msgid "Operation condition"
+msgstr "Condición de operación"
 
 #. module: maintenance
 #: model:ir.model.fields,field_description:maintenance.field_work_order_hijas_ids
@@ -743,143 +1013,175 @@ msgid "Ordenes hijas"
 msgstr "Ordenes hijas"
 
 #. module: maintenance
-#: report:work.order:0
-msgid "/data/record/tipo_de_mantenimiento-maintenance_type_id/Nombre-name"
-msgstr "/data/record/tipo_de_mantenimiento-maintenance_type_id/Nombre-name"
+#: model:ir.model.fields,field_description:maintenance.field_stock_move_work_done
+#: model:ir.model.fields,field_description:maintenance.field_stock_picking_work_done
+#: field:stock.move,work_done:0
+#: field:stock.picking,work_done:0
+msgid "Order completed"
+msgstr "Orden completa"
 
 #. module: maintenance
-#: model:ir.model,name:maintenance.model_maintenance_element
-msgid "maintenance.element"
-msgstr "maintenance.element"
+#: model:ir.model.fields,field_description:maintenance.field_work_order_origin_department_id
+#: field:work.order,origin_department_id:0
+msgid "Origin department"
+msgstr "Departamento origen"
 
 #. module: maintenance
-#: selection:work.order,tipo_parada:0
-msgid "Up"
-msgstr "Desde"
+#: model:ir.model.fields,field_description:maintenance.field_work_order_request_id
+#: field:work.order,request_id:0
+msgid "Origin request"
+msgstr "Solicitud origen"
 
 #. module: maintenance
-#: report:work.order:0
-msgid "$F{Contrata-contrata}"
-msgstr "$F{Contrata-contrata}"
+#: model:ir.model.fields,field_description:maintenance.field_work_order_other_service_ids
+#: field:work.order,other_service_ids:0
+#: view:work.order.other.services:maintenance.work_order_other_services_tree_view
+msgid "Other concepts"
+msgstr "Otros conceptos"
 
 #. module: maintenance
-#: field:intervention.request,efecto:0
-#: model:ir.model.fields,field_description:maintenance.field_intervention_request_efecto
-#: model:ir.model.fields,field_description:maintenance.field_work_order_efecto
-#: field:work.order,efecto:0
-msgid "effect"
-msgstr "Efecto"
+#: model:ir.model.fields,field_description:maintenance.field_work_order_total_other_service
+#: field:work.order,total_other_service:0
+msgid "Other concepts total"
+msgstr "Total otros conceptos"
 
 #. module: maintenance
-#: report:work.order:0
-msgid "$F{Descripcion-descripcion}"
-msgstr "$F{Descripcion-descripcion}"
-
-#. module: maintenance
-#: model:email.template,subject:maintenance.email_template_work_order
-#: model:ir.actions.report.xml,name:maintenance.report_work_order
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_element_order_ids
-#: model:ir.model.fields,field_description:maintenance.field_purchase_order_work_order_id
-#: model:ir.model.fields,field_description:maintenance.field_stock_move_work_order_id
-#: model:ir.model.fields,field_description:maintenance.field_stock_picking_work_order_id
-#: model:ir.model.fields,field_description:maintenance.field_stock_picking_work_order_id_3656
-#: model:ir.model.fields,field_description:maintenance.field_work_order_other_services_work_order_id
-#: model:ir.model.fields,field_description:maintenance.field_work_order_time_report_work_order_id
-#: field:maintenance.element,order_ids:0
-#: field:purchase.order,work_order_id:0
-#: field:stock.move,work_order_id:0
-#: field:stock.picking,work_order_id:0
-#: field:stock.picking.out,work_order_id:0
-#: view:work.order:0
-#: field:work.order.other.services,work_order_id:0
-#: field:work.order.time.report,work_order_id:0
-msgid "Work order"
-msgstr "Orden de trabajo"
+#: view:work.order:maintenance.work_order_form_view
+msgid "Otros conceptos"
+msgstr "Otros conceptos"
 
 #. module: maintenance
 #: report:work.order:0
-msgid "$F{Fecha_de_solicitud-fecha_solicitud}"
-msgstr "$F{Fecha_de_solicitud-fecha_solicitud}"
+msgid "PLANTA/INSTALACIÓN"
+msgstr "PLANTA/INSTALACIÓN"
 
 #. module: maintenance
 #: report:work.order:0
-msgid "$F{Notas-note2}"
-msgstr "$F{Notas-note2}"
+msgid "PRECIO H.E. NORMAL"
+msgstr "PRECIO H.E. NORMAL"
+
+#. module: maintenance
+#: report:work.order:0
+msgid "PRECIO H.F.F.S"
+msgstr "PRECIO H.F.F.S"
+
+#. module: maintenance
+#: report:work.order:0
+msgid "PRECIO H.N"
+msgstr "PRECIO H.N"
+
+#. module: maintenance
+#: selection:work.order,state:0
+msgid "Pending approval"
+msgstr "Pendiente de aprobación"
+
+#. module: maintenance
+#: model:ir.model,name:maintenance.model_stock_picking
+msgid "Picking List"
+msgstr "Albarán"
+
+#. module: maintenance
+#: model:ir.model.fields,field_description:maintenance.field_maintenance_type_planificado
+#: field:maintenance.type,planificado:0
+msgid "Planned"
+msgstr "Planificado"
 
 #. module: maintenance
 #: selection:maintenance.element,type:0
-msgid "Block"
-msgstr "Bloque"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_purchase_order_work_done
-#: field:purchase.order,work_done:0
-msgid "order completed"
-msgstr "Orden finalizada"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "/data/record/Condicion_operacion-tipo_parada"
-msgstr "/data/record/Condicion_operacion-tipo_parada"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "$F{efecto-efecto}"
-msgstr "$F{efecto-efecto}"
+msgid "Plant"
+msgstr "Planta"
 
 #. module: maintenance
 #: selection:maintenance.type,type:0
-msgid "gamma"
-msgstr "Gama"
+msgid "Predictive"
+msgstr "Predictivo"
 
 #. module: maintenance
-#: help:intervention.request,message_summary:0
-#: help:work.order,message_summary:0
-msgid "Holds the Chatter summary (number of messages, ...). This summary is directly in html format in order to be inserted in kanban views."
-msgstr "Holds the Chatter summary (number of messages, ...). This summary is directly in html format in order to be inserted in kanban views."
+#: selection:maintenance.type,type:0
+msgid "Preventive"
+msgstr "Preventivo"
 
 #. module: maintenance
-#: report:work.order:0
-msgid "$F{Horas_normales-horas_normal}"
-msgstr "$F{Horas_normales-horas_normal}"
+#: model:ir.model.fields,field_description:maintenance.field_work_order_other_services_product_id
+#: field:work.order.other.services,product_id:0
+msgid "Product"
+msgstr "Producto"
 
 #. module: maintenance
-#: report:work.order:0
-msgid "EUROS/UNIDAD"
-msgstr "EUROS/UNIDAD"
+#: model:ir.model,name:maintenance.model_product_template
+msgid "Product Template"
+msgstr "Plantilla de producto"
 
 #. module: maintenance
-#: model:ir.model,name:maintenance.model_stock_picking_out
-msgid "Delivery Orders"
-msgstr "Albaranes de salida"
+#: model:ir.model,name:maintenance.model_purchase_order
+msgid "Purchase Order"
+msgstr "Pedido de compra"
 
 #. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_type_martes
-#: field:maintenance.type,martes:0
-msgid "Tuesday"
-msgstr "Martes"
+#: model:ir.model,name:maintenance.model_purchase_order_line
+msgid "Purchase Order Line"
+msgstr "Línea pedido de compra"
 
 #. module: maintenance
-#: field:intervention.request,solicitante_id:0
-#: model:ir.model.fields,field_description:maintenance.field_intervention_request_solicitante_id
-msgid "Applicant "
-msgstr "Solicitante "
-
-#. module: maintenance
-#: report:work.order:0
-msgid "JEFE DE EQUIPO:"
-msgstr "JEFE DE EQUIPO:"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_work_order_final_date
-#: field:work.order,final_date:0
-msgid "Final date"
-msgstr "Fecha final"
+#: model:ir.model.fields,field_description:maintenance.field_work_order_other_services_quantity
+#: field:work.order.other.services,quantity:0
+msgid "Quantity"
+msgstr "Cantidad"
 
 #. module: maintenance
 #: report:work.order:0
-msgid "$P{subreport_horas}"
-msgstr "$P{subreport_horas}"
+msgid "RECURSOS AJENOS"
+msgstr "RECURSOS AJENOS"
+
+#. module: maintenance
+#: report:work.order:0
+msgid "RECURSOS PROPIOS"
+msgstr "RECURSOS PROPIOS"
+
+#. module: maintenance
+#: field:intervention.request,motivo_cancelacion:0
+#: model:ir.model.fields,field_description:maintenance.field_intervention_request_motivo_cancelacion
+msgid "Reason for cancellation"
+msgstr "Motivo de cancelación"
+
+#. module: maintenance
+#: selection:maintenance.type,type:0
+msgid "Reforms"
+msgstr "Reformas"
+
+#. module: maintenance
+#: view:work.order:maintenance.work_order_form_view
+msgid "Related movements"
+msgstr "Movimientos relacionados"
+
+#. module: maintenance
+#: model:ir.model.fields,field_description:maintenance.field_maintenance_type_interval_count
+#: field:maintenance.type,interval_count:0
+msgid "Repeat with interval"
+msgstr "Repetir con intervalo"
+
+#. module: maintenance
+#: help:maintenance.type,interval_count:0
+msgid "Repeat with interval (Days/Week/Month)"
+msgstr "Repetir con intervalo (Días/Semanas/Meses)"
+
+#. module: maintenance
+#: model:ir.model.fields,field_description:maintenance.field_product_template_element_ids
+#: view:product.template:maintenance.product_normal_form_view_add_elements
+#: field:product.template,element_ids:0
+msgid "Replacement for elements"
+msgstr "Repuesto de elementos"
+
+#. module: maintenance
+#: model:ir.model.fields,field_description:maintenance.field_work_order_note
+#: field:work.order,note:0
+msgid "Report"
+msgstr "Informe"
+
+#. module: maintenance
+#: view:work.order:maintenance.work_order_form_view
+msgid "Reporte de horas"
+msgstr "Reporte de horas"
 
 #. module: maintenance
 #: field:intervention.request,fecha_solicitud:0
@@ -890,799 +1192,32 @@ msgid "Request date"
 msgstr "Fecha de solicitud"
 
 #. module: maintenance
-#: model:ir.actions.act_window,help:maintenance.action_maintenance_element_tree
-msgid "<p class=\"oe_view_nocontent_create\">\n"
-"					Click to add a maintenance element.\n"
-"				</p>\n"
-"			"
-msgstr "<p class=\"oe_view_nocontent_create\">\n"
-"					Pulse para crear un elemento de mantenimiento.\n"
-"				</p>\n"
-"			"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "INSTRUCCIONES:"
-msgstr "INSTRUCCIONES:"
-
-#. module: maintenance
-#: view:work.order:0
-msgid "Related movements"
-msgstr "Movimientos relacionados"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "/data/record/Reporte_de_horas-horas_ids/orden_de_trabajo-work_order_id/id"
-msgstr "/data/record/Reporte_de_horas-horas_ids/orden_de_trabajo-work_order_id/id"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "/data/record/tipo_de_mantenimiento-maintenance_type_id/Planificado-planificado"
-msgstr "/data/record/tipo_de_mantenimiento-maintenance_type_id/Planificado-planificado"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_element_hijo_ids
-#: field:maintenance.element,hijo_ids:0
-msgid "Hijos"
-msgstr "Hijos"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "UNIDADES DE OBRA"
-msgstr "UNIDADES DE OBRA"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "/data/record/Reporte_de_horas-horas_ids/Horas_normales-horas_normal"
-msgstr "/data/record/Reporte_de_horas-horas_ids/Horas_normales-horas_normal"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "GAMA:"
-msgstr "GAMA:"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_work_order_other_service_ids
-#: field:work.order,other_service_ids:0
-#: view:work.order.other.services:0
-msgid "Other concepts"
-msgstr "Otros conceptos"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_work_order_grupo
-#: field:work.order,grupo:0
-msgid "Group"
-msgstr "Grupo"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "$F{Fecha_inicial-initial_date}"
-msgstr "$F{Fecha_inicial-initial_date}"
-
-#. module: maintenance
-#: view:work.order:0
-msgid "Information"
-msgstr "Información"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "PRECIO H.E. NORMAL"
-msgstr "PRECIO H.E. NORMAL"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "$F{Cost-standard_price2}"
-msgstr "$F{Cost-standard_price2}"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_work_order_time_report_date
-#: field:work.order.time.report,date:0
-msgid "Fecha"
-msgstr "Fecha"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "FECHA FINAL:"
-msgstr "FECHA FINAL:"
-
-#. module: maintenance
-#: model:ir.model,name:maintenance.model_purchase_order_line
-msgid "Purchase Order Line"
-msgstr "Línea pedido de compra"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "$F{Instrucciones-instrucciones}"
-msgstr "$F{Instrucciones-instrucciones}"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "/data/record/Descripcion-descripcion"
-msgstr "/data/record/Descripcion-descripcion"
-
-#. module: maintenance
-#: view:work.order:0
-msgid "Reporte de horas"
-msgstr "Reporte de horas"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "$P{subreport_otros_conceptos}"
-msgstr "$P{subreport_otros_conceptos}"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "$F{Cantidad-quantity}"
-msgstr "$F{Cantidad-quantity}"
-
-#. module: maintenance
-#: model:ir.ui.menu,name:maintenance.menu_maintenance
-#: model:ir.ui.menu,name:maintenance.menu_mantenimiento_root
-msgid "Maintenance"
-msgstr "Mantenimiento"
-
-#. module: maintenance
-#: model:email.template,report_name:maintenance.email_template_work_order
-msgid "${(object.name or\n"
-"				'').replace('/','_')}_${object.state == 'draft' and 'draft' or ''}\n"
-"			"
-msgstr "${(object.name or\n"
-"				'').replace('/','_')}_${object.state == 'draft' and 'draft' or ''}\n"
-"			"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "$F{Deteccion-deteccion}"
-msgstr "$F{Deteccion-deteccion}"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "$F{Fecha_final-final_date}"
-msgstr "$F{Fecha_final-final_date}"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_element_complete_name
-#: field:maintenance.element,complete_name:0
-msgid "Complete name"
-msgstr "Nombre completo"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "$P{work_order_id}==$F{id}"
-msgstr "$P{work_order_id}==$F{id}"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "/data/record/Departamento_asignado-assigned_department_id/Director-manager_id/Nombre-name_related"
-msgstr "/data/record/Departamento_asignado-assigned_department_id/Director-manager_id/Nombre-name_related"
-
-#. module: maintenance
-#: selection:maintenance.type,type:0
-msgid "corrective"
-msgstr "Correctivo"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_type_lunes
-#: field:maintenance.type,lunes:0
-msgid "Monday"
-msgstr "Lunes"
-
-#. module: maintenance
-#: selection:work.order,descargo:0
-msgid "Warning"
-msgstr "Aviso"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "TOTAL €"
-msgstr "TOTAL €"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "FECHA Y HORA REAL INICIO:"
-msgstr "FECHA Y HORA REAL INICIO:"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "ACCIÓN TOMADA:"
-msgstr "ACCIÓN TOMADA:"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "/data/record/total_servicios_internos-total_servicios_internos"
-msgstr "/data/record/total_servicios_internos-total_servicios_internos"
-
-#. module: maintenance
-#: field:intervention.request,message_is_follower:0
-#: model:ir.model.fields,field_description:maintenance.field_intervention_request_message_is_follower
-#: model:ir.model.fields,field_description:maintenance.field_work_order_message_is_follower
-#: field:work.order,message_is_follower:0
-msgid "Is a Follower"
-msgstr "Is a Follower"
-
-#. module: maintenance
-#: model:res.groups,name:maintenance.group_maintenance_user
-msgid "User"
-msgstr "Usuario"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "/data/record/tipo_de_mantenimiento-maintenance_type_id/Tipo-type"
-msgstr "/data/record/tipo_de_mantenimiento-maintenance_type_id/Tipo-type"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "$F{id}==$P{work_order_id}&&$F{Empleado_externo-externo}!=\"True\""
-msgstr "$F{id}==$P{work_order_id}&&$F{Empleado_externo-externo}!=\"True\""
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_element_asset_id
-#: field:maintenance.element,asset_id:0
-msgid "Active"
-msgstr "Activo"
-
-#. module: maintenance
-#: model:ir.module.category,name:maintenance.module_category_maintenance_management
-msgid "Mantenimiento"
-msgstr "Mantenimiento"
-
-#. module: maintenance
-#: field:intervention.request,maintenance_type_id:0
-#: model:ir.model.fields,field_description:maintenance.field_intervention_request_maintenance_type_id
-msgid "maintenance type"
-msgstr "Tipo de mantenimiento"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "J. SERVICIO EJECUTOR"
-msgstr "J. SERVICIO EJECUTOR"
-
-#. module: maintenance
-#: selection:maintenance.element,type:0
-msgid "Substation"
-msgstr "Subestación"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "TOTAL SERVICIOS:"
-msgstr "TOTAL SERVICIOS:"
-
-#. module: maintenance
-#: view:work.order:0
-msgid "Search"
-msgstr "Busqueda"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "/data/record/Departamento_asignado-assigned_department_id/Nombre-complete_name"
-msgstr "/data/record/Departamento_asignado-assigned_department_id/Nombre-complete_name"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "$F{string_de_equipos-elements_list}"
-msgstr "$F{string_de_equipos-elements_list}"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "$F{total_oros_conceptos-total_other_service}"
-msgstr "$F{total_oros_conceptos-total_other_service}"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_work_order_stock_moves_ids
-#: field:work.order,stock_moves_ids:0
-msgid "Associated movement"
-msgstr "Associated movement"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "DESCRIPCIÓN:"
-msgstr "DESCRIPCIÓN:"
-
-#. module: maintenance
-#: field:hr.employee,externo:0
-#: model:ir.model.fields,field_description:maintenance.field_hr_employee_externo
-msgid "External employee"
-msgstr "Empleado externo"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_type_intervalo
-#: field:maintenance.type,intervalo:0
-msgid "Interval"
-msgstr "Intervalo"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_type_miercoles
-#: field:maintenance.type,miercoles:0
-msgid "Wednesday"
-msgstr "Miercoles"
-
-#. module: maintenance
-#: view:work.order:0
-msgid "Compras"
-msgstr "Compras"
-
-#. module: maintenance
-#: field:intervention.request,message_summary:0
-#: model:ir.model.fields,field_description:maintenance.field_intervention_request_message_summary
-#: model:ir.model.fields,field_description:maintenance.field_work_order_message_summary
-#: field:work.order,message_summary:0
-msgid "Summary"
-msgstr "Sumario"
-
-#. module: maintenance
-#: model:ir.model,name:maintenance.model_cancel_intervention_request_wizard
-msgid "cancel.intervention.request.wizard"
-msgstr "cancel.intervention.request.wizard"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "FIRMA:"
-msgstr "FIRMA:"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_work_order_other_services_quantity
-#: field:work.order.other.services,quantity:0
-msgid "Quantity"
-msgstr "Cantidad"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_element_analytic_account_id
-#: field:maintenance.element,analytic_account_id:0
-msgid "Analytic account"
-msgstr "Cuenta analítica"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_element_codigo
-#: field:maintenance.element,codigo:0
-msgid "Code"
-msgstr "Código"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "$F{Notas-note}"
-msgstr "$F{Notas-note}"
-
-#. module: maintenance
-#: selection:work.order,descargo:0
-msgid "not discharge"
-msgstr "No descargo"
-
-#. module: maintenance
-#: model:ir.model,name:maintenance.model_stock_move
-msgid "Stock Move"
-msgstr "Movimiento de existencias"
-
-#. module: maintenance
-#: view:intervention.request:0
-#: field:intervention.request,state:0
-#: model:ir.model.fields,field_description:maintenance.field_intervention_request_state
-#: model:ir.model.fields,field_description:maintenance.field_work_order_state
-#: view:work.order:0
-#: field:work.order,state:0
-msgid "State"
-msgstr "Estado"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "/data/record/Instrucciones-instrucciones"
-msgstr "/data/record/Instrucciones-instrucciones"
-
-#. module: maintenance
-#: field:intervention.request,deteccion:0
-#: model:ir.model.fields,field_description:maintenance.field_intervention_request_deteccion
-#: model:ir.model.fields,field_description:maintenance.field_work_order_deteccion
-#: field:work.order,deteccion:0
-msgid "Detection"
-msgstr "Detección"
-
-#. module: maintenance
-#: model:ir.model,name:maintenance.model_work_order_other_services
-msgid "work.order.other.services"
-msgstr "work.order.other.services"
-
-#. module: maintenance
-#: selection:maintenance.element,type:0
-msgid "equipos"
-msgstr "equipos"
-
-#. module: maintenance
-#: selection:work.order,state:0
-msgid "Done"
-msgstr "Finalizado"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "/data/record/Reporte_de_horas-horas_ids/Horas_festivas-horas_festivas"
-msgstr "/data/record/Reporte_de_horas-horas_ids/Horas_festivas-horas_festivas"
-
-#. module: maintenance
-#: view:intervention.request:0
-msgid "Cancel"
-msgstr "Cancelado"
-
-#. module: maintenance
-#: field:intervention.request,message_follower_ids:0
-#: model:ir.model.fields,field_description:maintenance.field_intervention_request_message_follower_ids
-#: model:ir.model.fields,field_description:maintenance.field_work_order_message_follower_ids
-#: field:work.order,message_follower_ids:0
-msgid "Followers"
-msgstr "Followers"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "Nº O.T."
-msgstr "Nº O.T."
-
-#. module: maintenance
-#: selection:work.order,state:0
-msgid "Open"
-msgstr "Abirto"
-
-#. module: maintenance
-#: view:intervention.request:0
-msgid "Create work order"
-msgstr "Create work order"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_type_survey_id
-#: model:ir.model.fields,field_description:maintenance.field_work_order_survey_id
-#: field:maintenance.type,survey_id:0
-#: field:work.order,survey_id:0
-msgid "Associated survey"
-msgstr "Encuesta asociada"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "/data/record/Reporte_de_horas-horas_ids/Empleado-employee_id/Name-name"
-msgstr "/data/record/Reporte_de_horas-horas_ids/Empleado-employee_id/Name-name"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "$V{Total}"
-msgstr "$V{Total}"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_type_planificado
-#: field:maintenance.type,planificado:0
-msgid "Planned"
-msgstr "Planificado"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_element_planta
-#: model:ir.model.fields,field_description:maintenance.field_work_order_planta
-#: field:maintenance.element,planta:0
-#: field:work.order,planta:0
-msgid "Floor"
-msgstr "Planta"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "$F{total_servicios_internos-total_servicios_internos}"
-msgstr "$F{total_servicios_internos-total_servicios_internos}"
-
-#. module: maintenance
-#: model:ir.actions.act_window,help:maintenance.action_work_order_tree
-msgid "<p class=\"oe_view_nocontent_create\">\n"
-"					Click to add a work order.\n"
-"				</p>\n"
-"			"
-msgstr "<p class=\"oe_view_nocontent_create\">\n"
-"					Pulse para añadir una orden de trabajo.\n"
-"				</p>\n"
-"			"
-
-#. module: maintenance
-#: view:work.order:0
-msgid "Enviar correo"
-msgstr "Enviar correo"
-
-#. module: maintenance
 #: model:ir.model.fields,field_description:maintenance.field_work_order_responsable_id
-#: view:work.order:0
+#: view:work.order:maintenance.view_work_order_filter
 #: field:work.order,responsable_id:0
 msgid "Responsible"
 msgstr "Responsable"
 
 #. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_element_padre_id
-#: field:maintenance.element,padre_id:0
-msgid "Father"
-msgstr "Padre"
+#: model:ir.model.fields,field_description:maintenance.field_maintenance_element_parent_right
+#: field:maintenance.element,parent_right:0
+msgid "Right Parent"
+msgstr "Padre derecho"
 
 #. module: maintenance
 #: report:work.order:0
-msgid "PRECIO H.F.F.S"
-msgstr "PRECIO H.F.F.S"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_type_jueves
-#: field:maintenance.type,jueves:0
-msgid "Thursday"
-msgstr "Jueves"
-
-#. module: maintenance
-#: field:intervention.request,element_ids:0
-#: model:ir.model.fields,field_description:maintenance.field_intervention_request_element_ids
-#: model:ir.model.fields,field_description:maintenance.field_work_order_element_ids
-#: field:work.order,element_ids:0
-msgid "Maintenance elements"
-msgstr "Elementos de mantenimiento"
+msgid "SERVICIO EJECUTOR"
+msgstr "SERVICIO EJECUTOR"
 
 #. module: maintenance
 #: report:work.order:0
-msgid "/data/record/string_de_equipos-elements_list"
-msgstr "/data/record/string_de_equipos-elements_list"
-
-#. module: maintenance
-#: field:cancel.intervention.request.wizard,intervention_request_id:0
-#: model:ir.model.fields,field_description:maintenance.field_cancel_intervention_request_wizard_intervention_request_id
-msgid "request"
-msgstr "request"
-
-#. module: maintenance
-#: field:hr.employee,producto_hora_festiva_id:0
-#: model:ir.model.fields,field_description:maintenance.field_hr_employee_producto_hora_festiva_id
-msgid "product festive hour"
-msgstr "producto hora festiva"
-
-#. module: maintenance
-#: field:intervention.request,sintoma:0
-#: model:ir.model.fields,field_description:maintenance.field_intervention_request_sintoma
-#: model:ir.model.fields,field_description:maintenance.field_work_order_sintoma
-#: field:work.order,sintoma:0
-msgid "Sign"
-msgstr "Sintoma"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_work_order_origin_department_id
-#: field:work.order,origin_department_id:0
-msgid "Origin department"
-msgstr "Departamento origen"
+msgid "SERVICIO SOLICITANTE"
+msgstr "SERVICIO SOLICITANTE"
 
 #. module: maintenance
 #: report:work.order:0
-msgid "H.E. NORMAL"
-msgstr "H.E. NORMAL"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_work_order_other_services_product_id
-#: field:work.order.other.services,product_id:0
-msgid "Product"
-msgstr "Producto"
-
-#. module: maintenance
-#: field:hr.employee,producto_hora_nocturna_id:0
-#: model:ir.model.fields,field_description:maintenance.field_hr_employee_producto_hora_nocturna_id
-msgid "product night hour"
-msgstr "Producto hora nocturna"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_element_description
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_type_descripcion
-#: model:ir.model.fields,field_description:maintenance.field_work_order_descripcion
-#: field:maintenance.element,description:0
-#: field:maintenance.type,descripcion:0
-#: field:work.order,descripcion:0
-msgid "Description"
-msgstr "Descripción"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "/data/record/Reporte_de_horas-horas_ids/Empleado-employee_id/producto_hora_festiva-producto_hora_festiva_id/Cost-standard_price"
-msgstr "/data/record/Reporte_de_horas-horas_ids/Empleado-employee_id/producto_hora_festiva-producto_hora_festiva_id/Cost-standard_price"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "/data/record/Reporte_de_horas-horas_ids/Empleado-employee_id/categorias-categories"
-msgstr "/data/record/Reporte_de_horas-horas_ids/Empleado-employee_id/categorias-categories"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "$F{Nombre-name_related2}"
-msgstr "$F{Nombre-name_related2}"
-
-#. module: maintenance
-#: view:work.order:0
-msgid "movimientos de stock"
-msgstr "movimientos de stock"
-
-#. module: maintenance
-#: selection:work.order,tipo_parada:0
-msgid "Stop"
-msgstr "Parada"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "H.N."
-msgstr "H.N."
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_element_product_id
-#: field:maintenance.element,product_id:0
-msgid "product associated"
-msgstr "Producto asociado"
-
-#. module: maintenance
-#: field:intervention.request,motivo_cancelacion:0
-#: model:ir.model.fields,field_description:maintenance.field_intervention_request_motivo_cancelacion
-msgid "Reason for cancellation"
-msgstr "Motivo de cancelación"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "TOTAL SERVICIOS"
-msgstr "TOTAL SERVICIOS"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "/data/record/sintoma-sintoma"
-msgstr "/data/record/sintoma-sintoma"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "$F{id}"
-msgstr "$F{id}"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_work_order_padre_id
-#: field:work.order,padre_id:0
-msgid "Father order"
-msgstr "Orden padre"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "CODIGO"
-msgstr "CODIGO"
-
-#. module: maintenance
-#: field:intervention.request,instrucciones:0
-#: model:ir.model.fields,field_description:maintenance.field_intervention_request_instrucciones
-#: model:ir.model.fields,field_description:maintenance.field_work_order_instrucciones
-#: field:work.order,instrucciones:0
-msgid "Instructions"
-msgstr "Instrucciones"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "EFECTO:"
-msgstr "EFECTO:"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "CATEG."
-msgstr "CATEG."
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_element_name
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_type_name
-#: model:ir.model.fields,field_description:maintenance.field_work_order_name
-#: field:maintenance.element,name:0
-#: field:maintenance.type,name:0
-#: field:work.order,name:0
-msgid "Name"
-msgstr "Nombre"
-
-#. module: maintenance
-#: view:cancel.intervention.request.wizard:0
-msgid "cancell request"
-msgstr "Cancelar solicitud"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_work_order_assigned_department_id
-#: view:work.order:0
-#: field:work.order,assigned_department_id:0
-msgid "Assigned department"
-msgstr "Departamento asignado"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "$F{Cost-standard_price3}"
-msgstr "$F{Cost-standard_price3}"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "TRABAJO SOLICITADO:"
-msgstr "TRABAJO SOLICITADO:"
-
-#. module: maintenance
-#: view:maintenance.type:0
-msgid "dias excluidos"
-msgstr "dias excluidos"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_purchase_order_line_element_id
-#: model:ir.model.fields,field_description:maintenance.field_stock_move_element_id
-#: field:purchase.order.line,element_id:0
-#: field:stock.move,element_id:0
-msgid "Element"
-msgstr "Equipo"
-
-#. module: maintenance
-#: view:intervention.request:0
-#: model:ir.actions.act_window,name:maintenance.action_intervention_request_tree
-#: model:ir.ui.menu,name:maintenance.menu_intervention_request_tree
-msgid "Intervention request"
-msgstr "Solicitud de intervención"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "INFORME:"
-msgstr "INFORME:"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_work_order_total_servicios_internos
-#: field:work.order,total_servicios_internos:0
-msgid "Total internal                                                                services"
-msgstr "Total internal                                                                services"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "RECURSOS AJENOS"
-msgstr "RECURSOS AJENOS"
-
-#. module: maintenance
-#: view:work.order:0
-msgid "discharge"
-msgstr "discharge"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_work_order_other_services_code
-#: field:work.order.other.services,code:0
-msgid "Codigo"
-msgstr "Codigo"
-
-#. module: maintenance
-#: help:intervention.request,message_ids:0
-#: help:work.order,message_ids:0
-msgid "Messages and communication history"
-msgstr "Messages and communication history"
-
-#. module: maintenance
-#: selection:work.order,state:0
-msgid "Pending approval"
-msgstr "Pendiente de aprobación"
-
-#. module: maintenance
-#: selection:maintenance.type,type:0
-msgid "legal"
-msgstr "legal"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_work_order_time_report_total
-#: field:work.order.time.report,total:0
-msgid "Total"
-msgstr "Total"
-
-#. module: maintenance
-#: view:maintenance.type:0
-msgid "tipo"
-msgstr "tipo"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "$F{sintoma-sintoma}"
-msgstr "$F{sintoma-sintoma}"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "CONDICIÓN OPERACIÓN:"
-msgstr "CONDICIÓN OPERACIÓN:"
-
-#. module: maintenance
-#: model:ir.actions.act_window,help:maintenance.action_intervention_request_tree
-msgid "<p class=\"oe_view_nocontent_create\">\n"
-"					Click to add a intervention request.\n"
-"				</p>\n"
-"			"
-msgstr "<p class=\"oe_view_nocontent_create\">\n"
-"					Click to add a intervention request.\n"
-"				</p>\n"
-"			"
-
-#. module: maintenance
-#: report:work.order:0
-msgid "/data/record/Nombre-name"
-msgstr "/data/record/Nombre-name"
+msgid "SOLICITANTE:"
+msgstr "SOLICITANTE:"
 
 #. module: maintenance
 #: model:ir.model.fields,field_description:maintenance.field_maintenance_type_sabado
@@ -1691,63 +1226,329 @@ msgid "Saturday"
 msgstr "Sábado"
 
 #. module: maintenance
-#: selection:maintenance.type,type:0
-msgid "preventivo"
-msgstr "preventivo"
+#: view:work.order:maintenance.view_work_order_filter
+msgid "Search"
+msgstr "Búsqueda"
+
+#. module: maintenance
+#: view:intervention.request:maintenance.intervention_request_form_view
+msgid "Send email"
+msgstr "Enviar correo"
+
+#. module: maintenance
+#: field:intervention.request,sintoma:0
+#: model:ir.model.fields,field_description:maintenance.field_intervention_request_sintoma
+#: model:ir.model.fields,field_description:maintenance.field_work_order_sintoma
+#: field:work.order,sintoma:0
+msgid "Sign"
+msgstr "Síntoma"
+
+#. module: maintenance
+#: view:intervention.request:maintenance.view_intervention_request_filter
+#: field:intervention.request,state:0
+#: model:ir.model.fields,field_description:maintenance.field_intervention_request_state
+#: model:ir.model.fields,field_description:maintenance.field_maintenance_stop_state
+#: model:ir.model.fields,field_description:maintenance.field_work_order_state
+#: field:maintenance.stop,state:0
+#: view:work.order:maintenance.view_work_order_filter
+#: field:work.order,state:0
+msgid "State"
+msgstr "Estado"
+
+#. module: maintenance
+#: model:ir.model,name:maintenance.model_stock_move
+msgid "Stock Move"
+msgstr "Movimiento de existencias"
+
+#. module: maintenance
+#: view:intervention.request:maintenance.view_intervention_request_filter
+#: field:intervention.request,stop_id:0
+#: model:ir.model.fields,field_description:maintenance.field_intervention_request_stop_id
+#: selection:work.order,tipo_parada:0
+msgid "Stop"
+msgstr "Parada"
+
+#. module: maintenance
+#: model:ir.model.fields,field_description:maintenance.field_maintenance_stop_date
+#: field:maintenance.stop,date:0
+msgid "Stop date"
+msgstr "Fecha parada"
+
+#. module: maintenance
+#: selection:maintenance.element,type:0
+msgid "Subsystem"
+msgstr "Subsistema"
+
+#. module: maintenance
+#: field:intervention.request,message_summary:0
+#: model:ir.model.fields,field_description:maintenance.field_intervention_request_message_summary
+#: model:ir.model.fields,field_description:maintenance.field_work_order_message_summary
+#: field:work.order,message_summary:0
+msgid "Summary"
+msgstr "Resumen"
+
+#. module: maintenance
+#: model:ir.model.fields,field_description:maintenance.field_maintenance_type_domingo
+#: field:maintenance.type,domingo:0
+msgid "Sunday"
+msgstr "Domingo"
+
+#. module: maintenance
+#: selection:maintenance.element,type:0
+msgid "System"
+msgstr "Sistema"
 
 #. module: maintenance
 #: report:work.order:0
-msgid "$F{Nombre-complete_name}"
-msgstr "$F{Nombre-complete_name}"
+msgid "SÍNTOMA:"
+msgstr "SÍNTOMA:"
 
 #. module: maintenance
-#: model:res.groups,name:maintenance.group_maintenance_manager
-msgid "Manager"
-msgstr "Responsable"
+#: report:work.order:0
+msgid "TIPO O.T.:"
+msgstr "TIPO O.T.:"
 
 #. module: maintenance
-#: model:ir.model,name:maintenance.model_intervention_request
-#: model:ir.model,name:maintenance.model_work_order
-msgid "Email Thread"
-msgstr "Hilo de mensajes"
+#: report:work.order:0
+msgid "TOTAL SERVICIOS"
+msgstr "TOTAL SERVICIOS"
+
+#. module: maintenance
+#: report:work.order:0
+msgid "TOTAL SERVICIOS:"
+msgstr "TOTAL SERVICIOS:"
+
+#. module: maintenance
+#: report:work.order:0
+msgid "TOTAL €"
+msgstr "TOTAL €"
+
+#. module: maintenance
+#: report:work.order:0
+msgid "TRABAJO SOLICITADO:"
+msgstr "TRABAJO SOLICITADO:"
+
+#. module: maintenance
+#: sql_constraint:maintenance.element:0
+msgid "The code of the Maintenance Element must be unique!"
+msgstr "¡El código del elemento de mantenimiento debe ser único!"
+
+#. module: maintenance
+#: model:ir.model.fields,field_description:maintenance.field_maintenance_type_jueves
+#: field:maintenance.type,jueves:0
+msgid "Thursday"
+msgstr "Jueves"
+
+#. module: maintenance
+#: model:ir.model.fields,field_description:maintenance.field_work_order_horas_ids
+#: view:work.order:maintenance.work_order_form_view
+#: field:work.order,horas_ids:0
+#: view:work.order.other.services:maintenance.work_order_other_services_form_view
+#: view:work.order.time.report:maintenance.work_order_time_report_form_view
+#: view:work.order.time.report:maintenance.work_order_time_report_tree_view
+msgid "Timesheet"
+msgstr "Reporte de horas"
+
+#. module: maintenance
+#: view:maintenance.element:maintenance.view_maintenance_element_filter
+msgid "Tipo"
+msgstr "Tipo"
+
+#. module: maintenance
+#: model:ir.model.fields,field_description:maintenance.field_work_order_time_report_total
+#: field:work.order.time.report,total:0
+msgid "Total"
+msgstr "Total"
+
+#. module: maintenance
+#: model:ir.model.fields,field_description:maintenance.field_work_order_total_servicios_externos
+#: field:work.order,total_servicios_externos:0
+msgid "Total external                                                                services"
+msgstr "Total servicios externos"
+
+#. module: maintenance
+#: model:ir.model.fields,field_description:maintenance.field_work_order_total_servicios_internos
+#: field:work.order,total_servicios_internos:0
+msgid "Total internal                                                                services"
+msgstr "Total servicios internos"
+
+#. module: maintenance
+#: model:ir.model.fields,field_description:maintenance.field_maintenance_type_martes
+#: field:maintenance.type,martes:0
+msgid "Tuesday"
+msgstr "Martes"
+
+#. module: maintenance
+#: model:ir.model.fields,field_description:maintenance.field_maintenance_element_type
+#: model:ir.model.fields,field_description:maintenance.field_maintenance_type_type
+#: field:maintenance.element,type:0
+#: field:maintenance.type,type:0
+msgid "Type"
+msgstr "Tipo de producto"
+
+#. module: maintenance
+#: report:work.order:0
+msgid "UNIDADES DE OBRA"
+msgstr "UNIDADES DE OBRA"
+
+#. module: maintenance
+#: field:intervention.request,message_unread:0
+#: model:ir.model.fields,field_description:maintenance.field_intervention_request_message_unread
+#: model:ir.model.fields,field_description:maintenance.field_work_order_message_unread
+#: field:work.order,message_unread:0
+msgid "Unread Messages"
+msgstr "Mensajes no leídos"
+
+#. module: maintenance
+#: selection:work.order,tipo_parada:0
+msgid "Up"
+msgstr "Desde"
+
+#. module: maintenance
+#: view:maintenance.stop:maintenance.maintenance_stop_form_view
+msgid "Update maintenance requests"
+msgstr "Actualizar solicitudes intervención"
+
+#. module: maintenance
+#: model:res.groups,name:maintenance.group_maintenance_user
+msgid "User"
+msgstr "Usuario"
+
+#. module: maintenance
+#: view:work.order:maintenance.work_order_form_view
+msgid "Validate job"
+msgstr "Validar trabajo"
 
 #. module: maintenance
 #: selection:work.order,descargo:0
-msgid "block"
-msgstr "Bloque"
+msgid "Warning"
+msgstr "Aviso"
 
 #. module: maintenance
-#: report:work.order:0
-msgid "/data/record/Company-company_id/Nombre_de_la_compania-name"
-msgstr "/data/record/Company-company_id/Nombre_de_la_compania-name"
+#: field:intervention.request,website_message_ids:0
+#: model:ir.model.fields,field_description:maintenance.field_intervention_request_website_message_ids
+#: model:ir.model.fields,field_description:maintenance.field_work_order_website_message_ids
+#: field:work.order,website_message_ids:0
+msgid "Website Messages"
+msgstr "Mensajes web"
 
 #. module: maintenance
-#: view:work.order:0
-msgid "Auxiliary orders"
-msgstr "Ordenes auxiliares"
+#: help:intervention.request,website_message_ids:0
+#: help:work.order,website_message_ids:0
+msgid "Website communication history"
+msgstr "Historial de comunicación web"
 
 #. module: maintenance
-#: report:work.order:0
-msgid "$F{Nombre_de_la_compania-name}"
-msgstr "$F{Nombre_de_la_compania-name}"
+#: model:ir.model.fields,field_description:maintenance.field_maintenance_type_miercoles
+#: field:maintenance.type,miercoles:0
+msgid "Wednesday"
+msgstr "Miércoles"
 
 #. module: maintenance
-#: model:ir.model,name:maintenance.model_purchase_order
-msgid "Purchase Order"
-msgstr "Pedido de compra"
+#: selection:maintenance.type,intervalo:0
+msgid "Weekly"
+msgstr "Semanal"
 
 #. module: maintenance
-#: report:work.order:0
-msgid "/data/record/Planta-planta"
-msgstr "/data/record/Planta-planta"
+#: model:email.template,subject:maintenance.email_template_work_order
+#: model:ir.actions.report.xml,name:maintenance.report_maintenance_work_order
+#: model:ir.model.fields,field_description:maintenance.field_maintenance_element_order_ids
+#: model:ir.model.fields,field_description:maintenance.field_purchase_order_work_order_id
+#: model:ir.model.fields,field_description:maintenance.field_stock_move_work_order_id
+#: model:ir.model.fields,field_description:maintenance.field_stock_picking_work_order_id
+#: model:ir.model.fields,field_description:maintenance.field_work_order_other_services_work_order_id
+#: model:ir.model.fields,field_description:maintenance.field_work_order_time_report_work_order_id
+#: field:maintenance.element,order_ids:0
+#: field:purchase.order,work_order_id:0
+#: field:stock.move,work_order_id:0
+#: field:stock.picking,work_order_id:0
+#: view:work.order:maintenance.work_order_form_view
+#: field:work.order.other.services,work_order_id:0
+#: field:work.order.time.report,work_order_id:0
+msgid "Work order"
+msgstr "Orden de trabajo"
 
 #. module: maintenance
-#: report:work.order:0
-msgid "IMPORTE MATERIALES"
-msgstr "IMPORTE MATERIALES"
+#: model:ir.actions.act_window,name:maintenance.action_work_order_tree
+#: model:ir.ui.menu,name:maintenance.menu_work_order_tree
+#: view:work.order:maintenance.work_order_calendar_view
+#: view:work.order:maintenance.work_order_tree_view
+msgid "Work orders"
+msgstr "Ordenes de trabajo"
 
 #. module: maintenance
-#: report:work.order:0
-msgid "/data/record/Reporte_de_horas-horas_ids/Empleado-employee_id/Producto-product_id/Cost-standard_price"
-msgstr "/data/record/Reporte_de_horas-horas_ids/Empleado-employee_id/Producto-product_id/Cost-standard_price"
+#: view:cancel.intervention.request.wizard:maintenance.cancel_intervention_request_wizard_view
+msgid "cancell request"
+msgstr "Cancelar solicitud"
+
+#. module: maintenance
+#: view:maintenance.type:maintenance.maintenance_type_form_view
+msgid "dias excluidos"
+msgstr "Días excluídos"
+
+#. module: maintenance
+#: view:work.order:maintenance.view_work_order_filter
+msgid "discharge"
+msgstr "Descargo"
+
+#. module: maintenance
+#: field:intervention.request,efecto:0
+#: model:ir.model.fields,field_description:maintenance.field_intervention_request_efecto
+#: model:ir.model.fields,field_description:maintenance.field_work_order_efecto
+#: field:work.order,efecto:0
+msgid "effect"
+msgstr "Efecto"
+
+#. module: maintenance
+#: model:ir.model.fields,field_description:maintenance.field_maintenance_type_ultima_ejecucion
+#: field:maintenance.type,ultima_ejecucion:0
+msgid "last execution"
+msgstr "Última ejecución"
+
+#. module: maintenance
+#: field:intervention.request,maintenance_type_id:0
+#: model:ir.model.fields,field_description:maintenance.field_intervention_request_maintenance_type_id
+msgid "maintenance type"
+msgstr "Tipo de mantenimiento"
+
+#. module: maintenance
+#: view:work.order:maintenance.work_order_form_view
+msgid "movimientos de stock"
+msgstr "Movimientos de stock"
+
+#. module: maintenance
+#: model:ir.model.fields,field_description:maintenance.field_purchase_order_work_done
+#: field:purchase.order,work_done:0
+msgid "order completed"
+msgstr "Orden finalizada"
+
+#. module: maintenance
+#: model:ir.model.fields,field_description:maintenance.field_maintenance_element_product_id
+#: field:maintenance.element,product_id:0
+msgid "product associated"
+msgstr "Código almacén"
+
+#. module: maintenance
+#: field:hr.employee,producto_hora_festiva_id:0
+#: model:ir.model.fields,field_description:maintenance.field_hr_employee_producto_hora_festiva_id
+msgid "product festive hour"
+msgstr "Producto hora festiva"
+
+#. module: maintenance
+#: field:hr.employee,producto_hora_nocturna_id:0
+#: model:ir.model.fields,field_description:maintenance.field_hr_employee_producto_hora_nocturna_id
+msgid "product night hour"
+msgstr "Producto hora nocturna"
+
+#. module: maintenance
+#: view:cancel.intervention.request.wizard:maintenance.cancel_intervention_request_wizard_view
+#: field:cancel.intervention.request.wizard,motivo:0
+#: model:ir.model.fields,field_description:maintenance.field_cancel_intervention_request_wizard_motivo
+msgid "reason for cancellation"
+msgstr "Razón de cancelación"
+
+#. module: maintenance
+#: view:maintenance.type:maintenance.view_maintenance_type_filter
+msgid "tipo"
+msgstr "Tipo"
 

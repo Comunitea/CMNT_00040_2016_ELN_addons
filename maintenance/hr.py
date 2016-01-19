@@ -17,10 +17,9 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 #############################################################################
-#from openerp.osv import fields, osv
-from openerp.osv import osv, fields
+from openerp.osv import orm, fields
 
-class hr_employee(osv.osv):
+class hr_employee(orm.Model):
     def _get_categories(self, cr , uid, ids, field_name, args=None, context=None):
         result = {}
         employees = self.pool.get('hr.employee').browse(cr, uid, ids, context)
@@ -30,12 +29,11 @@ class hr_employee(osv.osv):
                 result[employee.id]+=category.name+","
             result[employee.id]=result[employee.id][:-1]
         return result
-    
+
     _inherit = 'hr.employee'
     _columns = {
-            'producto_hora_nocturna_id':fields.many2one('product.product', 'Product night hour', required=False),
-            'producto_hora_festiva_id':fields.many2one('product.product', 'Product festive hour', required=False), 
-            'externo':fields.boolean('External employee', required=False), 
+            'producto_hora_nocturna_id':fields.many2one('product.product', 'product night hour', required=False),
+            'producto_hora_festiva_id':fields.many2one('product.product', 'product festive hour', required=False),
+            'externo':fields.boolean('External employee', required=False),
             'categories':fields.function(_get_categories, method=True, type='char', string='Categories', store=False),
                     }
-hr_employee()

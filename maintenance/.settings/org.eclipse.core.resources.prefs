@@ -1,0 +1,11 @@
+eclipse.preferences.version=1
+encoding//wizard/cancel_intervention_request.py=utf-8
+encoding/__init__.py=utf-8
+encoding/__openerp__.py=utf-8
+encoding/hr.py=utf-8
+encoding/intervention_request.py=utf-8
+encoding/maintenance_element.py=utf-8
+encoding/maintenance_type.py=utf-8
+encoding/purchase.py=utf-8
+encoding/stock.py=utf-8
+encoding/work_order.py=utf-8
