@@ -34,7 +34,7 @@
                 'stock',
                 'mrp_operations',
                 'stock_traceability_tree',
-                'stock_traceability_tree_trace_mrp'
+                'stock_traceability_tree_trace_mrp',
                 'hr',
                 'mrp_production_reopen'
                 ],

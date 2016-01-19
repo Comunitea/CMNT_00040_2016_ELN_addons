@@ -32,7 +32,7 @@
                     "cost_type_view.xml",
                     "cost_structure_elements.xml",
                     "product_cost_management_menus.xml",
-                    "security/ir.model.access.csv",
+                    # "security/ir.model.access.csv",
                     "data/product_cost_management_names_seq.xml",
                     "product_category.xml",
                     "product.xml"

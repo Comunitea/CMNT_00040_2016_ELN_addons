@@ -2,18 +2,19 @@
 
 <openerp>
     <data>
-         <record id="product_normal_form_view_add_theoric_cost" model="ir.ui.view">
-            <field name="name">product.normal.form.add.theoric.cost</field>
-            <field name="model">product.product</field>
-            <field name="type">form</field>
-            <field name="inherit_id" ref="product.product_normal_form_view"/>
-            <field name="arch" type="xml">
-                <field name="price_extra" position="after">
-                    <field name="theoric_cost"/>
-                    <newline/>
-                    <button name="action_product_costs" string="Product Costs" type="object" context="{'product_id': active_id}" icon="gtk-go-up" colspan="2"/>
-                </field>
-            </field>
-        </record>
+         <!--<record id="product_normal_form_view_add_theoric_cost" model="ir.ui.view">-->
+            <!--<field name="name">product.normal.form.add.theoric.cost</field>-->
+            <!--<field name="model">product.product</field>-->
+            <!--<field name="type">form</field>-->
+            <!--<field name="inherit_id" ref="product.product_normal_form_view"/>-->
+            <!--<field name="arch" type="xml">-->
+                <!--&lt;!&ndash;cOMENTADO, NO SE ENCUENTRA EN LA VISTA PADRE&ndash;&gt;-->
+                <!--&lt;!&ndash;<field name="price_extra" position="after">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<field name="theoric_cost"/>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<newline/>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<button name="action_product_costs" string="Product Costs" type="object" context="{'product_id': active_id}" icon="gtk-go-up" colspan="2"/>&ndash;&gt;-->
+                <!--&lt;!&ndash;</field>&ndash;&gt;-->
+            <!--</field>-->
+        <!--</record>-->
     </data>
 </openerp>
