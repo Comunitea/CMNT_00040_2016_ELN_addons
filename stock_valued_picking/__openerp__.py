@@ -26,11 +26,10 @@
     'description': """""",
     'author': 'Pexego',
     'website': '',
-    "depends": ['sale', 'stock', 'sale_stock', 'purchase'],
+    "depends": ['sale', 'stock', 'sale_stock'],
     "data": [
         'views/valued_picking_report.xml',
         # 'stock_report.xml',
-        'partner_view.xml',
-        'stock_view.xml'],
+        'partner_view.xml'],
     "installable": True
 }
