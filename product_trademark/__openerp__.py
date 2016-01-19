@@ -27,7 +27,7 @@
     "depends" : ["base", "product", "stock"],
     "category" : "Product",
     "init_xml" : [],
-    # "update_xml" : ["product_trademark_view.xml", "product_view.xml", "security/ir.model.access.csv"],
+    "update_xml" : ["product_trademark_view.xml", "product_view.xml", "security/ir.model.access.csv"],
     'demo_xml': [],
     'installable': True,
     'active': False,

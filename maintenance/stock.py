@@ -38,7 +38,6 @@ class stock(osv.osv):
             'work_order_id':fields.many2one('work.order', 'Work order', required=False),
             'work_done': fields.function(_work_done, method=True, type='boolean', string='Order completed', store=False),
                     }
-stock()
 
 class stock_picking(osv.osv):
     
@@ -58,6 +57,5 @@ class stock_picking(osv.osv):
             'work_order_id':fields.many2one('work.order', 'Work order', required=False),
             'work_done': fields.function(_work_done, method=True, type='boolean', string='Order completed', store=False),
                     }
-stock_picking()
 
     

@@ -17,7 +17,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 #############################################################################
-#from openerp.osv import osv, fields
+
 from openerp.osv import osv, fields
 
 class intervention_request(osv.osv):
@@ -149,5 +149,4 @@ class intervention_request(osv.osv):
             'target': 'new',
             'context': ctx,
         }
-intervention_request()
-        
+

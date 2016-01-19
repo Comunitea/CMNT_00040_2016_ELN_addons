@@ -17,7 +17,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 #############################################################################
-#from openerp.osv import fields, osv
+
 from openerp.osv import osv, fields
 
 class hr_employee(osv.osv):
@@ -38,4 +38,4 @@ class hr_employee(osv.osv):
             'externo':fields.boolean('External employee', required=False), 
             'categories':fields.function(_get_categories, method=True, type='char', string='Categories', store=False),
                     }
-hr_employee()
+

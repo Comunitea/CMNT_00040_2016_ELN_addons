@@ -30,7 +30,7 @@
     This module provide :
     """,
     "init_xml": [],
-    'update_xml': ["intervention_request_sequence.xml", "security/maintenance_security.xml",
+    'data': ["intervention_request_sequence.xml", "security/maintenance_security.xml",
                    "maintenance_element_view.xml", "maintenance_type_cron.xml",
                     "maintenance_type_view.xml", "work_order_sequence.xml", "wizard/cancel_intervention_request_view.xml",
                     "intervention_request_view.xml", "work_order_report.xml","work_order_view.xml",

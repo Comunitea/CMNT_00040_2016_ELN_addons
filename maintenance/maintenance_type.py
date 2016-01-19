@@ -34,7 +34,7 @@ class maintenance_type(osv.osv):
                     ('legal', 'legal'),
                     ('preventivo', 'preventivo'),
                      ], 'Type', select=True, required=True,readonly=False),
-                'survey_id':fields.many2one('survey', 'Associated survey', required=False),
+                'survey_id':fields.many2one('survey.survey', 'Associated survey', required=False),
                 'planificado':fields.boolean('Planned', required=False),
                 'intervalo':fields.selection([
                     ('3', 'Daily'),
