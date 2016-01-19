@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2004-2012 Pexego Sistemas Informáticos All Rights Reserved
-#    $Marta Vázquez Rodríguez$ <marta@pexego.es>
+#    Copyright (C) 2004-2015 Pexego Sistemas Informáticos All Rights Reserved
+#    $Jesús Ventosinos Mayor <jesus@pexego.es>$
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -18,11 +18,9 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import osv, fields
-
-class res_partner(osv.osv):
-    _inherit = 'res.partner'
-    _columns = {
-        'rappel_id': fields.many2one('rappel', 'Rappel discount'),
-    }
-res_partner()
+from . import rappel_type
+from . import rappel
+from . import res_partner
+from . import rappel_customer_rel
+from . import rappel_info
+from . import wizard
