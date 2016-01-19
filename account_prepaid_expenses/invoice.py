@@ -20,94 +20,119 @@
 #
 ##############################################################################
 
-from openerp.osv import osv, fields
+from openerp import models, fields, api, _
 import openerp.addons.decimal_precision as dp
-from openerp.tools.translate import _
-import time
-from openerp import models, api, _
-#from openerp import fields as fields2
 
-class account_invoice_line(osv.osv):
+
+class account_invoice_line(models.Model):
 
     _inherit = "account.invoice.line"
 
-    _columns = {
-        'prepaid_expense_amount': fields.float('Prepaid exp. amount', digits_compute=dp.get_precision('Account')),
-        'prepaid_expense_amount_untaxed': fields.float('Prepaid exp. untaxed amount', digits_compute=dp.get_precision('Account'))
-    }
+    prepaid_expense_amount = fields.Float('Prepaid exp. amount',
+                                          digits_compute=dp.
+                                          get_precision('Account'))
+    prepaid_expense_amount_untaxed = fields.Float('Prepaid exp. untax amount',
+                                                  digits_compute=dp.
+                                                  get_precision('Account'))
 
-    def move_line_get_item(self, cr, uid, line, context=None):
-        res = super(account_invoice_line, self).move_line_get_item(cr, uid, line, context=context)
-        res['prepaid_expense_amount_untaxed'] = (line.prepaid_expense_amount_untaxed or 0.0)
+    @api.model
+    def move_line_get_item(self, line):
+        res = super(account_invoice_line, self).move_line_get_item(line)
+        res['prepaid_expense_amount_untaxed'] = \
+            (line.prepaid_expense_amount_untaxed or 0.0)
 
         return res
 
-account_invoice_line()
 
-class account_invoice(osv.osv):
+class account_invoice(models.Model):
 
     _inherit = "account.invoice"
 
-    def line_get_convert(self, cr, uid, x, part, date, context=None):
-        res = super(account_invoice, self).line_get_convert(cr, uid, x, part, date, context=context)
-        res['prepaid_expense_amount_untaxed'] = x.get('prepaid_expense_amount_untaxed', 0.0)
-        res['taxes'] = x.get('taxes', [])
+    @api.model
+    def line_get_convert(self, line, part, date):
+        res = super(account_invoice, self).line_get_convert(line, part, date)
+        res['prepaid_expense_amount_untaxed'] = \
+            line.get('prepaid_expense_amount_untaxed', 0.0)
+        res['taxes'] = line.get('taxes', [])
         return res
 
-    def finalize_invoice_move_lines(self, cr, uid, invoice_browse, move_lines):
+    @api.multi
+    def finalize_invoice_move_lines(self, move_lines):
         new_lines = []
+        obj = self[0]
         for line in move_lines:
-            if line[2].get('prepaid_expense_amount_untaxed') and line[2].get('taxes'):
-                new_dict = dict(line[2])
-                new_dict['tax_amount'] = new_dict['prepaid_expense_amount_untaxed']
-                new_dict['debit'] = 0.0
-                new_dict['credit'] = 0.0
-                new_lines.append((0,0,new_dict))
+            if (line[2].get('prepaid_expense_amount_untaxed') and
+                    line[2].get('taxes')):
+                for tax in line[2]['taxes']:
+                    new_dict = dict(line[2])
+                    if obj.type in ('out_invoice', 'in_invoice'):
+                        new_dict['tax_amount'] = \
+                            new_dict['prepaid_expense_amount_untaxed'] * \
+                            tax.tax_sign
+                    else:
+                        new_dict['tax_amount'] = \
+                            new_dict['prepaid_expense_amount_untaxed'] * \
+                            tax.ref_tax_sign
+                    new_dict['debit'] = 0.0
+                    new_dict['credit'] = 0.0
+                    new_lines.append((0, 0, new_dict))
 
-        res = super(account_invoice, self).finalize_invoice_move_lines(cr, uid, invoice_browse, move_lines)
+        res = super(account_invoice, self).\
+            finalize_invoice_move_lines(move_lines)
         res.extend(new_lines)
 
         return res
+
 
 class account_invoice_tax(models.Model):
 
     _inherit = "account.invoice.tax"
 
     @api.v8
-    def compute(self, inv):
-        tax_grouped = super(account_invoice_tax, self).compute(inv)
-        tax_obj = self.env['account.tax']
-        cur_obj = self.env['res.currency']
-        cur = inv.currency_id
-        company_currency = inv.company_id.currency_id.id
+    def compute(self, invoice):
+        tax_grouped = super(account_invoice_tax, self).compute(invoice)
 
-        for line in inv.invoice_line:
+        currency = invoice.currency_id.\
+            with_context(invoice=invoice.date_invoice or fields.Date.
+                         context_today(self))
+        company_currency = invoice.company_id.currency_id
+
+        for line in invoice.invoice_line:
             if line.prepaid_expense_amount:
-                for tax in tax_obj.compute_all(line.invoice_line_tax_id, 0.0, line.quantity, inv.address_invoice_id.id, line.product_id, inv.partner_id)['taxes']:
+                for tax in line.invoice_line_tax_id.\
+                    compute_all(0.0, line.quantity, line.product_id,
+                                invoice.partner_id)['taxes']:
                     tax['price_unit'] = 0.0
-                    val={}
-                    val['invoice_id'] = inv.id
+                    val = {}
+                    val['invoice_id'] = invoice.id
                     val['name'] = _("Prepaid Expenses")
                     val['amount'] = line.prepaid_expense_amount
                     val['manual'] = False
                     val['sequence'] = tax['sequence']
                     val['base'] = 0.0
 
-                    if inv.type in ('out_invoice','in_invoice'):
+                    if invoice.type in ('out_invoice', 'in_invoice'):
                         val['base_code_id'] = False
                         val['tax_code_id'] = tax['tax_code_id']
                         val['base_amount'] = 0.0
-                        val['tax_amount'] = cur_obj.compute(inv.currency_id.id, company_currency, val['amount'] * tax['tax_sign'], context={'date': inv.date_invoice or time.strftime('%Y-%m-%d')}, round=False)
-                        val['account_id'] = tax['account_collected_id'] or line.account_id.id
+                        val['tax_amount'] = \
+                            currency.compute(val['amount'] * tax['tax_sign'],
+                                             company_currency, round=False)
+                        val['account_id'] = (tax['account_collected_id'] or
+                                             line.account_id.id)
                     else:
                         val['base_code_id'] = False
                         val['tax_code_id'] = tax['ref_tax_code_id']
                         val['base_amount'] = 0.0
-                        val['tax_amount'] = cur_obj.compute(inv.currency_id.id, company_currency, val['amount'] * tax['ref_tax_sign'], context={'date': inv.date_invoice or time.strftime('%Y-%m-%d')}, round=False)
-                        val['account_id'] = tax['account_paid_id'] or line.account_id.id
+                        val['tax_amount'] = \
+                            currency.compute(val['amount'] *
+                                             tax['ref_tax_sign'],
+                                             company_currency, round=False)
+                        val['account_id'] = (tax['account_paid_id'] or
+                                             line.account_id.id)
 
                     key = (val['tax_code_id'], False, val['account_id'])
-                    if not key in tax_grouped:
+                    if key not in tax_grouped:
                         tax_grouped[key] = val
                     else:
                         tax_grouped[key]['amount'] += val['amount']
@@ -118,9 +143,13 @@ class account_invoice_tax(models.Model):
         tax_grouped1 = {}
         for t in tax_grouped:
             if tax_grouped[t]['base_amount'] or tax_grouped[t]['tax_amount']:
-                tax_grouped[t]['base'] = cur.round(tax_grouped[t]['base'])
-                tax_grouped[t]['amount'] = cur.round(tax_grouped[t]['amount'])
-                tax_grouped[t]['base_amount'] = cur.round(tax_grouped[t]['base_amount'])
-                tax_grouped[t]['tax_amount'] = cur.round(tax_grouped[t]['tax_amount'])
+                tax_grouped[t]['base'] = currency.round(tax_grouped[t]['base'])
+                tax_grouped[t]['amount'] = currency.\
+                    round(tax_grouped[t]['amount'])
+                tax_grouped[t]['base_amount'] = currency.\
+                    round(tax_grouped[t]['base_amount'])
+                tax_grouped[t]['tax_amount'] = currency.\
+                    round(tax_grouped[t]['tax_amount'])
+
                 tax_grouped1[t] = tax_grouped[t]
         return tax_grouped1

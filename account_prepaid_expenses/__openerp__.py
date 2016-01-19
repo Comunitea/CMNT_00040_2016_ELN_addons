@@ -29,7 +29,7 @@
     'website': 'https://www.pexego.es',
     'depends': ['account'],
     'init_xml': [],
-    'update_xml': ['invoice_view.xml'],
+    'data': ['invoice_view.xml'],
     'demo_xml': [],
     'installable': True,
     'certificate': '',
