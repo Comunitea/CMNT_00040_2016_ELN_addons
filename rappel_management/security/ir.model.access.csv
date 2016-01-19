@@ -1,5 +1,0 @@
-"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
-"access_rappel","rappel","model_rappel","base.group_sale_salesman",1,0,0,0
-"access_rappel_line","rappel.line","model_rappel_line","base.group_sale_salesman",1,0,0,0
-"access_rappel_manager","rappel","model_rappel","base.group_sale_manager",1,1,1,1
-"access_rappel_line_manager","rappel.line","model_rappel_line","base.group_sale_manager",1,1,1,1

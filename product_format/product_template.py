@@ -28,3 +28,5 @@ class product_template(osv.osv):
     _columns = {
         'format_id': fields.many2one('product.format', 'Format')
     }
+    
+product_template()

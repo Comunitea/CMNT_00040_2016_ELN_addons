@@ -19,7 +19,7 @@
 #
 ##############################################################################
 from openerp.osv import osv, fields
-from openerp.tools.translate import _
+from openerp import _
 
 class product_fields(osv.osv):
     _name = "product.fields"

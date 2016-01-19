@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="maintenance_stop_tree_view">
+            <field name="name">maintenance.stop.tree</field>
+            <field name="model">maintenance.stop</field>
+            <field name="arch" type="xml">
+                <tree string="Maintenance stops">
+                    <field name="date"/>
+                    <field name="name"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="maintenance_stop_form_view">
+            <field name="name">maintenance.stop.form</field>
+            <field name="model">maintenance.stop</field>
+            <field name="arch" type="xml">
+                <form string="Intervention request" version="7.0">
+                    <header>
+                        <button name="act_open" type="object" string="Confirm"
+                            states="draft" />
+                        <button name="act_compute" type="object" string="Compute"
+                            states="open" />
+                        <button name="act_cancel" type="object" string="Cancel"
+                            states="draft,open" />
+                        <button name="act_done" type="object"
+                            string="Done" states="open"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,open,cancel"/>
+                    </header>
+                    <sheet>
+                        <label for="name" class="oe_edit_only" />
+                        <h1>
+                            <field name="name" />
+                        </h1>
+                        <group>
+                            <field name="date"/>
+                            <button name="act_update_requests" type="object" string="Update maintenance requests" states="open"/>
+                            <notebook colspan="4">
+                                <page string="Elements">
+                                    <field name="maintenanance_element_ids" colspan="4" nolabel="1"/>
+                                </page>
+                                <page string="Intervention requests">
+                                    <field name="intervention_request_ids" colspan="4" nolabel="1"/>
+                                </page>
+                                <page string="Notes">
+                                    <field name="description" colspan="4" nolabel="1"/>
+                                </page>
+                            </notebook>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_maintenance_stop_filter" model="ir.ui.view">
+            <field name="name">maintenance.stop.filter</field>
+            <field name="model">maintenance.stop</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name" />
+                </search>
+            </field>
+        </record>
+
+
+        <record id="action_maintenance_stop_tree" model="ir.actions.act_window">
+            <field name="name">Maintenance stops</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">maintenance.stop</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="maintenance_stop_tree_view" />
+            <field name="search_view_id" ref="view_maintenance_stop_filter" />
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to add a maintenance stop.
+                </p>
+            </field>
+        </record>
+
+        <menuitem action="action_maintenance_stop_tree" id="menu_maintenance_stop_tree"
+            parent="menu_maintenance" sequence="30" />
+
+
+    </data>
+</openerp>

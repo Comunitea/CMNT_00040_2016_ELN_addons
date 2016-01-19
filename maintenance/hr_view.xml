@@ -24,8 +24,8 @@
 			<field name="type">form</field>
 			<field name="inherit_id" ref="hr.view_employee_form" />
 			<field name="arch" type="xml">
-				<field name="job_id" position="after">
-					
+				<field name="category_ids" position="after">
+					<label for="externo" />
 					<field name="externo" />
 				</field>
 			</field>

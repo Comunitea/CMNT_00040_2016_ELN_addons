@@ -34,4 +34,6 @@ class product_format(osv.osv):
     _defaults = {
         'active': True
     }
-
+    
+    
+product_format()

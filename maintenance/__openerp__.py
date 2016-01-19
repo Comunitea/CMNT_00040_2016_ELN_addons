@@ -20,25 +20,25 @@
 {
     "name": "Mantenimiento",
     "version": "1.0",
-    # "depends": ["Department", "product", "analytic", "stock", "purchase",
-    #             "l10n_es_account_asset", "survey", "hr_timesheet","jasper_reports"],
-    "depends": ["hr", "product", "analytic", "stock", "purchase",
-                "l10n_es_account_asset", "survey", "hr_timesheet"], # modificado post-migración
+    "depends": ["Department", "product", "analytic", "stock", "purchase",
+                "l10n_es_account_asset", "survey", "hr_timesheet",
+                "jasper_reports"],
     "author": "Pexego",
-    "category": "Generic Modules",
+    "category": "category",
     "description": """
     This module provide :
     """,
+<<<<<<< HEAD
     "init_xml": [],
+=======
+>>>>>>> d04ac55e200d3ddbab48b155e2860c9b4c7fbdea
     'data': ["intervention_request_sequence.xml", "security/maintenance_security.xml",
                    "maintenance_element_view.xml", "maintenance_type_cron.xml",
                     "maintenance_type_view.xml", "work_order_sequence.xml", "wizard/cancel_intervention_request_view.xml",
                     "intervention_request_view.xml", "work_order_report.xml","work_order_view.xml",
                     "stock_view.xml","hr_view.xml", "purchase_view.xml", "maintenance_data.xml",
-                    "security/ir.model.access.csv"],
+                    "security/ir.model.access.csv", "product_view.xml", "maintenance_stop_view.xml"],
 
-    'demo_xml': [],
     'installable': True,
     'active': False,
-#    'certificate': 'certificate',
 }
