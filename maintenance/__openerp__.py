@@ -28,10 +28,6 @@
     "description": """
     This module provide :
     """,
-<<<<<<< HEAD
-    "init_xml": [],
-=======
->>>>>>> d04ac55e200d3ddbab48b155e2860c9b4c7fbdea
     'data': ["intervention_request_sequence.xml", "security/maintenance_security.xml",
                    "maintenance_element_view.xml", "maintenance_type_cron.xml",
                     "maintenance_type_view.xml", "work_order_sequence.xml", "wizard/cancel_intervention_request_view.xml",
