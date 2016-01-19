@@ -17,7 +17,12 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 #############################################################################
+<<<<<<< HEAD
+
+from openerp.osv import osv, fields
+=======
 from openerp.osv import orm, fields
+>>>>>>> d04ac55e200d3ddbab48b155e2860c9b4c7fbdea
 
 class hr_employee(orm.Model):
     def _get_categories(self, cr , uid, ids, field_name, args=None, context=None):
@@ -37,3 +42,7 @@ class hr_employee(orm.Model):
             'externo':fields.boolean('External employee', required=False),
             'categories':fields.function(_get_categories, method=True, type='char', string='Categories', store=False),
                     }
+<<<<<<< HEAD
+
+=======
+>>>>>>> d04ac55e200d3ddbab48b155e2860c9b4c7fbdea

@@ -18,9 +18,15 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+<<<<<<< HEAD:rappel_management/__init__.py
+import rappel
+import res_partner
+import wizard
+=======
 from . import rappel_type
 from . import rappel
 from . import res_partner
 from . import rappel_customer_rel
 from . import rappel_info
 from . import wizard
+>>>>>>> d04ac55e200d3ddbab48b155e2860c9b4c7fbdea:rappel/__init__.py
