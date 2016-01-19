@@ -20,7 +20,7 @@
 {
     "name": "Mantenimiento",
     "version": "1.0",
-    "depends": ["Department", "product", "analytic", "stock", "purchase",
+    "depends": ["purchase_department", "product", "analytic", "stock", "purchase",
                 "l10n_es_account_asset", "survey", "hr_timesheet",
                 "jasper_reports"],
     "author": "Pexego",
