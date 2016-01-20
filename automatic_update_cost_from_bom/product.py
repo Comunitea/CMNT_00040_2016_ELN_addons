@@ -18,12 +18,15 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp import models, api
+from openerp import models, api, fields
 
 
 class product_template(models.Model):
     
     _inherit = "product.template"
+
+    # Added post-migration, not defined more in 8.0 in product_extended module
+    calculate_price = fields.boolean('Compute standard price', help="Check this box if the standard price must be computed from the BoM."),
 
     @api.onchange('categ_id')
     def onchange_categ_id(self):
