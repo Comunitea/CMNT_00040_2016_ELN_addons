@@ -28,5 +28,3 @@ class sales_forecast(osv.osv):
         'budget_version_id': fields.many2one('budget.version', 'Version'),
         'budget_item_id': fields.many2one('budget.item', 'Item')
     }
-
-sales_forecast()

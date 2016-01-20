@@ -153,7 +153,7 @@
         </record>
 
         <menuitem id="menu_sales_forecast" name="Sales forecasts"
-                parent="base.menu_base_partner" sequence="6" groups="base.group_extended"/>
+                parent="base.menu_base_partner" sequence="6" />
 
         <record id="view_sales_forecast_filter" model="ir.ui.view">
             <field name="name">sales.forecast.list.select</field>

@@ -28,7 +28,7 @@
         "depends" : ['budget','sales_forecast'],
         "init_xml" : [],
         "demo_xml" : [],
-        # "update_xml" : ["sales_forecast_view.xml"],
+        "data" : ["sales_forecast_view.xml"],
         "installable": True,
         'active': False
 

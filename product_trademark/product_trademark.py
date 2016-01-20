@@ -34,6 +34,3 @@ class product_trademark(osv.osv):
     _defaults = {
         'active': True
     }
-    
-    
-product_trademark()

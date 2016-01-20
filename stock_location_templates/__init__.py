@@ -18,5 +18,5 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-# import stock_location_templates
-# import wizard
+import stock_location_templates
+import wizard

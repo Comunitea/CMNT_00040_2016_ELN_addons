@@ -29,7 +29,7 @@
     "depends" : ["base", "product","stock", "purchase"],
     "category" : "Stock",
     "init_xml" : [],
-    "update_xml" : [ "data/product_fields_data.xml",
+    "data" : [ "data/product_fields_data.xml",
                     "product_fields_view.xml",
                     "product_view.xml",
                     'security/ir.model.access.csv',

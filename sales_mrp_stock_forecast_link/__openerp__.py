@@ -32,7 +32,7 @@
         "depends" : ['base','sales_forecast','mrp_stock_forecast','mrp'],
         "init_xml" : [],
         "demo_xml" : [],
-        "update_xml" : [
+        "data" : [
             ],
         "installable": True,
         'active': False

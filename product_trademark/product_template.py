@@ -28,5 +28,3 @@ class product_template(osv.osv):
     _columns = {
         'trademark_id': fields.many2one('product.trademark', 'Trademark')
     }
-    
-product_template()

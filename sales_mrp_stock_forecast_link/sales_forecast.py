@@ -238,4 +238,4 @@ class sales_forecast(osv.osv):
         self.generate_mrp_forecast(cr, uid, ids, context=context)
         return super(sales_forecast, self).action_validate(cr,uid, ids, context=context)
 
-sales_forecast()
+

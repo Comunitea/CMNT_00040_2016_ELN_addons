@@ -42,5 +42,4 @@ class sales_purchase_forecast(osv.osv_memory):
             raise osv.except_osv(_('Error !'), _('You must select at least one forecast.'))
         
         return {'type': 'ir.actions.act_window_close'}
-    
-sales_purchase_forecast()
+
