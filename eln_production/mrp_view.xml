@@ -240,6 +240,18 @@
                 <filter string="Late" position="after">
                     <newline/>
                 </filter>
+                <filter string="Late" position="before">
+                    <separator orientation="vertical"/>
+                    <filter icon="terp-go-today" string="Yesterday" name="yesterday" domain="['&amp;', 
+                    ('date_planned', '&gt;=', (datetime.date.today()+datetime.timedelta(days=-1)).strftime('%%Y-%%m-%%d 00:00:00')), 
+                    ('date_planned', '&lt;=', (datetime.date.today()+datetime.timedelta(days=-1)).strftime('%%Y-%%m-%%d 23:59:59'))]"/>
+                    <filter icon="terp-go-today" string="Today" name="today" domain="['&amp;', 
+                    ('date_planned', '&gt;=', time.strftime('%%Y-%%m-%%d 00:00:00')), 
+                    ('date_planned', '&lt;=', time.strftime('%%Y-%%m-%%d 23:59:59'))]"/>
+                    <filter icon="terp-go-today" string="Tomorrow" name="tomorrow" domain="['&amp;', 
+                    ('date_planned', '&gt;=', (datetime.date.today()+datetime.timedelta(days=1)).strftime('%%Y-%%m-%%d 00:00:00')), 
+                    ('date_planned', '&lt;=', (datetime.date.today()+datetime.timedelta(days=1)).strftime('%%Y-%%m-%%d 23:59:59'))]"/>
+                </filter>
             </field>
         </record>
 
@@ -319,8 +331,10 @@
                 <xpath expr="//form/notebook/page[@string='Finished Products']/field[@name='move_created_ids']/tree" position="replace">
                      <tree string="Products to finish" editable="bottom">
                         <field name="product_id" />
-                        <field name="product_qty"  string="Qty"/>
-                        <field name="product_uom"  string="UOM"/>
+                        <field name="product_qty" string="Qty" on_change="onchange_quantity(product_id, product_qty, product_uom, product_uos)"/>
+                        <field name="product_uom" string="UOM"/>
+                        <field name="product_uos_qty" invisible="1"/>
+                        <field name="product_uos" invisible="1"/>
                         <field name="prodlot_id" context="{'product_id': product_id}" domain="[('product_id','=',product_id),('stock_available','&gt;',0)]"/> 
                         <field name="state" invisible="1"/>
                         <button name="%(stock.action_partial_move_server)d"

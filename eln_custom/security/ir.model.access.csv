@@ -1,2 +1,2 @@
 "id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
-"access_route","route","model_route","base.group_user",1,1,1,1
+"access_route_user","route_user","model_route","base.group_user",1,1,1,1

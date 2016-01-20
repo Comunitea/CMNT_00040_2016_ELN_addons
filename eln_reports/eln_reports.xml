@@ -5,25 +5,25 @@
             string="Product sheet"
             model="product.product"
             name="product_sheet"
-            rml="eln_reports/report/sheet_product.jrxml"
+            rml="eln_reports/report/sheet_product/sheet_product.jrxml"
             id="report_sheet_products_jasper"
             menu="True"
             auto="True"
             />
-         <report
+        <report
             string="Product logistics sheet"
             model="product.product"
             name="product_logistics_sheet"
-            rml="eln_reports/report/product_logistics_sheet.jrxml"
+            rml="eln_reports/report/product_logistics_sheet/product_logistics_sheet.jrxml"
             id="report_product_logistics_sheet_jasper"
             menu="False"
             auto="True"
             />
-         <report
+        <report
             string="Product datasheet"
             model="product.product"
             name="product_datasheet"
-            rml="eln_reports/report/product_datasheet.jrxml"
+            rml="eln_reports/report/product_datasheet/product_datasheet.jrxml"
             id="report_product_datasheet_jasper"
             menu="False"
             auto="True"
@@ -32,7 +32,7 @@
             string="Picking"
             model="stock.picking"
             name="picking"
-            rml="eln_reports/report/stock_picking.jrxml"
+            rml="eln_reports/report/stock_picking/stock_picking.jrxml"
             id="stock_picking_report_jasper"
             menu="True"
             auto="True"
@@ -41,25 +41,25 @@
             string="Invoice"
             model="account.invoice"
             name="invoice"
-            rml="eln_reports/report/invoice.jrxml"
+            rml="eln_reports/report/invoice/invoice.jrxml"
             id="invoice_report_jasper"
             menu="True"
             auto="True"
             />
-       <report
+        <report
             string="Control part"
             model="mrp.production"
             name="control_part"
-            rml="eln_reports/report/control_part.jrxml"
+            rml="eln_reports/report/control_part/control_part.jrxml"
             id="report_control_part_jasper"
             menu="True"
             auto="True"
             />
-       <report
+        <report
             string="Purchase order"
             model="purchase.order"
             name="purchase_order"
-            rml="eln_reports/report/purchase_order.jrxml"
+            rml="eln_reports/report/purchase_order/purchase_order.jrxml"
             id="report_purchase_order_jasper"
             menu="False"
             header="False"
@@ -69,7 +69,7 @@
             string="Plannnig"
             model="stock.picking"
             name="planning_report"
-            file="eln_reports/report/planning_report_webkit.mako"
+            file="eln_reports/report/planning_report/planning_report_webkit.mako"
             id="report_planning_webkit_html"
             report_type="webkit"
             webkit_header="eln_reports.ir_header_webkit_planning_report"
@@ -79,7 +79,7 @@
             string="Packing list (Std)"
             model="stock.picking"
             name="packing_list_std"
-            rml="eln_reports/report/packing_list_std.jrxml"
+            rml="eln_reports/report/packing_list/packing_list_std.jrxml"
             id="report_packing_list_std_jasper"
             menu="True"
             auto="False"
@@ -88,19 +88,19 @@
             string="Packing list (Alt)"
             model="stock.picking"
             name="packing_list_alt"
-            rml="eln_reports/report/packing_list_alt.jrxml"
+            rml="eln_reports/report/packing_list/packing_list_alt.jrxml"
             id="report_packing_list_alt_jasper"
             menu="True"
             auto="True"
             />
-             <report
+        <report
             string="Label"
             model="stock.picking"
-            auto="True"
             name="label.barcode"
-            rml="eln_reports/report/barcode_label.jrxml"
+            rml="eln_reports/report/barcode_label/barcode_label.jrxml"
             id="barcode_label"
             menu="False"
+            auto="True"
             header="False"
             />
     </data>

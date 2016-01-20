@@ -38,7 +38,9 @@
         "depends" : ["base","stock","product","mrp"],
         "init_xml" : [],
         "demo_xml" : [],
-        "update_xml" : ['mrp_production_view.xml'],
+        "update_xml" : ['mrp_production_view.xml',
+                        'security/mrp_production_reopen_security.xml',
+                        ],
         "installable": True,
         'active': False
 

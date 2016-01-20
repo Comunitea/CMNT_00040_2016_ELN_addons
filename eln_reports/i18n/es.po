@@ -6,26 +6,21 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 6.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-13 14:17+0000\n"
-"PO-Revision-Date: 2015-03-13 15:20+0100\n"
-"Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
+"POT-Creation-Date: 2016-01-17 23:19+0000\n"
+"PO-Revision-Date: 2016-01-18 01:31+0100\n"
+"Last-Translator: Pedro <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: \n"
-"Language: es\n"
-"X-Generator: Poedit 1.7.5\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: es_ES\n"
+"X-Generator: Poedit 1.8.6\n"
 
 #. module: eln_reports
 #: report:product_datasheet:0 report:product_sheet:0
 msgid "Tiempo_de_uso_producto-use_time"
 msgstr "Tiempo_de_uso_producto-use_time"
-
-#. module: eln_reports
-#: report:control_part:0
-msgid "Paradas"
-msgstr "Paradas"
 
 #. module: eln_reports
 #: report:product_sheet:0
@@ -49,8 +44,8 @@ msgstr "/data/record/Empresa-partner_id/Idioma-lang"
 
 #. module: eln_reports
 #: report:control_part:0
-msgid "\"Producto final: \" + $F{Name-name}"
-msgstr "\"Producto final: \" + $F{Name-name}"
+msgid "$P{SUBREPORT_DATA_TOASTED}"
+msgstr "$P{SUBREPORT_DATA_TOASTED}"
 
 #. module: eln_reports
 #: report:control_part:0
@@ -71,6 +66,16 @@ msgstr "Ultima_revision-last_revision"
 #: report:product_datasheet:0
 msgid "$F{Sal-salt}.isEmpty() ? new Double(\"0.0\") : (new Double($F{Sal-salt}) * $F{Recommended_ration__gr-recommended_ration}) / 100"
 msgstr "$F{Sal-salt}.isEmpty() ? new Double(\"0.0\") : (new Double($F{Sal-salt}) * $F{Recommended_ration__gr-recommended_ration}) / 100"
+
+#. module: eln_reports
+#: report:label.barcode:0
+msgid "tr($V{L}, \"Notes:\")"
+msgstr "tr($V{L}, \"Notes:\")"
+
+#. module: eln_reports
+#: report:label.barcode:0
+msgid "tr($V{L}, \"Service order:\")"
+msgstr "tr($V{L}, \"Service order:\")"
 
 #. module: eln_reports
 #: report:product_logistics_sheet:0
@@ -129,11 +134,6 @@ msgstr "$F{De_los_cuales_azucares-carbo_sugar}.isEmpty() ? new Double(\"0.0\") :
 
 #. module: eln_reports
 #: report:control_part:0
-msgid "Alimentador"
-msgstr "Alimentador"
-
-#. module: eln_reports
-#: report:control_part:0
 msgid "/data/record/Producto-product_id/DUN14-dun14"
 msgstr "/data/record/Producto-product_id/DUN14-dun14"
 
@@ -148,7 +148,12 @@ msgid "Invoice zip"
 msgstr "Invoice zip"
 
 #. module: eln_reports
-#: report:addons/eln_reports/report/planning_report_webkit.mako:22
+#: report:packing_list_alt:0 report:packing_list_std:0
+msgid "tr($V{L}, \"IMPORTANTE:\" + \"<br>\" + \"No se admitirán reclamaciones sobre los envíos, pasados ocho días de la recepción de la mercancía por el comprador.\" + \"<br>\" + \"La conservación de la mercancía en poder del comprador es por su riesgo y cuenta.\" )"
+msgstr "tr($V{L}, \"IMPORTANTE:\" + \"<br>\" + \"No se admitirán reclamaciones sobre los envíos, pasados ocho días de la recepción de la mercancía por el comprador.\" + \"<br>\" + \"La conservación de la mercancía en poder del comprador es por su riesgo y cuenta.\" )"
+
+#. module: eln_reports
+#: report:addons/eln_reports/report/planning_report/planning_report_webkit.mako:22
 msgid "UoM"
 msgstr "UoM"
 
@@ -169,6 +174,11 @@ msgstr "Unidades_de_logistica-packaging/Tipo_de_empaquetado-ul/Tipo-type"
 
 #. module: eln_reports
 #: report:control_part:0
+msgid "$P{SUBREPORT_DATA_FRIED}"
+msgstr "$P{SUBREPORT_DATA_FRIED}"
+
+#. module: eln_reports
+#: report:control_part:0
 msgid "$F{Cant._UdV_del_producto-product_uos_qty} ? \" \" + $F{Nombre-name2}: \"\""
 msgstr "$F{Cant._UdV_del_producto-product_uos_qty} ? \" \" + $F{Nombre-name2}: \"\""
 
@@ -176,6 +186,11 @@ msgstr "$F{Cant._UdV_del_producto-product_uos_qty} ? \" \" + $F{Nombre-name2}: \
 #: report:control_part:0
 msgid "$P{PRODUCTION_ID} == $F{id}"
 msgstr "$P{PRODUCTION_ID} == $F{id}"
+
+#. module: eln_reports
+#: report:label.barcode:0
+msgid "tr($V{L},\"CARE OF INSTALLER, CARE OF PROFESSIONAL\")"
+msgstr "tr($V{L},\"CARE OF INSTALLER, CARE OF PROFESSIONAL\")"
 
 #. module: eln_reports
 #: report:product_logistics_sheet:0 report:product_sheet:0
@@ -198,9 +213,14 @@ msgid "Packing list (Std)"
 msgstr "Albarán (Std)"
 
 #. module: eln_reports
-#: report:product_datasheet:0
-msgid "Job-approved_job/Nombre_del_trabajo-name"
-msgstr "Job-approved_job/Nombre_del_trabajo-name"
+#: report:label.barcode:0
+msgid "\"Tel: \" + $F{Telefono-phone}"
+msgstr "\"Tel: \" + $F{Telefono-phone}"
+
+#. module: eln_reports
+#: field:mrp.workcenter,control_sheet_packing:0
+msgid "Control sheet packing"
+msgstr "Hoja de control envasado"
 
 #. module: eln_reports
 #: report:product_sheet:0
@@ -209,8 +229,13 @@ msgstr "g."
 
 #. module: eln_reports
 #: report:control_part:0
-msgid "Opción"
-msgstr "Opción"
+msgid "$P{TABLE_LINES_OPCIONES}"
+msgstr "$P{TABLE_LINES_OPCIONES}"
+
+#. module: eln_reports
+#: report:purchase_order:0
+msgid "tr($V{L}, \"SUPPLIER REFERENCE\")"
+msgstr "tr($V{L}, \"SUPPLIER REFERENCE\")"
 
 #. module: eln_reports
 #: report:purchase_order:0
@@ -233,14 +258,19 @@ msgid "tr($V{L}, \"PARÁMETROS ORGANOLÉPTICOS\")"
 msgstr "tr($V{L}, \"PARÁMETROS ORGANOLÉPTICOS\")"
 
 #. module: eln_reports
+#: report:label.barcode:0
+msgid "Compania-company_id/Empresa-partner_id/Sitio_web-website"
+msgstr "Compania-company_id/Empresa-partner_id/Sitio_web-website"
+
+#. module: eln_reports
 #: report:purchase_order:0
 msgid "Almacen-warehouse_id/Direccion_propietario-partner_address_id/Email-email"
 msgstr "Almacen-warehouse_id/Direccion_propietario-partner_address_id/Email-email"
 
 #. module: eln_reports
-#: report:product_sheet:0
-msgid "Ingredientes-product_ingredient_ids/Producto-product_id/Name-name"
-msgstr "Ingredientes-product_ingredient_ids/Producto-product_id/Name-name"
+#: report:label.barcode:0
+msgid "$F{E_mail-email}"
+msgstr "$F{E_mail-email}"
 
 #. module: eln_reports
 #: report:control_part:0
@@ -251,6 +281,11 @@ msgstr "$F{Cantidad-product_qty} + \" \" + $F{Nombre-name}"
 #: report:product_sheet:0
 msgid "tr($V{L}, \"Envasado en atmósfera protectora: \")"
 msgstr "tr($V{L}, \"Envasado en atmósfera protectora: \")"
+
+#. module: eln_reports
+#: report:invoice:0 report:picking:0
+msgid "HOJA"
+msgstr "HOJA"
 
 #. module: eln_reports
 #: report:product_sheet:0
@@ -334,20 +369,14 @@ msgid "$F{Calle2-street2-supplier}.isEmpty() ? \"\" : $F{Calle-street-supplier}"
 msgstr "$F{Calle2-street2-supplier}.isEmpty() ? \"\" : $F{Calle-street-supplier}"
 
 #. module: eln_reports
-#: report:control_part:0 report:product_logistics_sheet:0
-#: report:product_sheet:0
+#: report:product_logistics_sheet:0 report:product_sheet:0
 msgid "$F{DUN14-dun14}"
 msgstr "$F{DUN14-dun14}"
 
 #. module: eln_reports
-#: report:product_logistics_sheet:0
-msgid "Unidades_de_logistica-packaging/Total_peso_paquete-weight"
-msgstr "Unidades_de_logistica-packaging/Total_peso_paquete-weight"
-
-#. module: eln_reports
-#: report:control_part:0
-msgid "Productos_a_consumir-move_lines"
-msgstr "Productos_a_consumir-move_lines"
+#: report:product_datasheet:0
+msgid "$F{Envasado_en_atmosfera_protectora-protective_atmosphere} == true ? tr($V{L}, \"SI\") : tr($V{L}, \"NO\")"
+msgstr "$F{Envasado_en_atmosfera_protectora-protective_atmosphere} == true ? tr($V{L}, \"SI\") : tr($V{L}, \"NO\")"
 
 #. module: eln_reports
 #: report:packing_list_alt:0 report:packing_list_std:0
@@ -411,14 +440,14 @@ msgid "Ingredientes-product_ingredient_ids/Nombre-name"
 msgstr "Ingredientes-product_ingredient_ids/Nombre-name"
 
 #. module: eln_reports
-#: report:control_part:0
-msgid "$P{SUBREPORT_DIR} + \"image001.png\""
-msgstr "$P{SUBREPORT_DIR} + \"image001.png\""
-
-#. module: eln_reports
 #: report:packing_list_alt:0 report:packing_list_std:0
 msgid "/data/record/Pedido_de_venta-sale_id/Direccion_de_factura-partner_invoice_id/Calle-street"
 msgstr "/data/record/Pedido_de_venta-sale_id/Direccion_de_factura-partner_invoice_id/Calle-street"
+
+#. module: eln_reports
+#: report:label.barcode:0
+msgid "Compania-company_id/Empresa-partner_id/E_mail-email"
+msgstr "Compania-company_id/Empresa-partner_id/E_mail-email"
 
 #. module: eln_reports
 #: report:product_datasheet:0
@@ -501,19 +530,14 @@ msgid "$F{Peso_paquete_vacio-weight_ul}"
 msgstr "$F{Peso_paquete_vacio-weight_ul}"
 
 #. module: eln_reports
-#: report:product_logistics_sheet:0
-msgid "\"//opt//openerp//6.1//elnogal//eln_reports//report//images//caja-dimensiones.png\""
-msgstr "\"//opt//openerp//6.1//elnogal//eln_reports//report//images//caja-dimensiones.png\""
+#: report:product_datasheet:0
+msgid "$F{De_las_cuales_Saturadas-fat_saturates}.isEmpty() ? new Double(\"0.000\") : new Double($F{De_las_cuales_Saturadas-fat_saturates})"
+msgstr "$F{De_las_cuales_Saturadas-fat_saturates}.isEmpty() ? new Double(\"0.000\") : new Double($F{De_las_cuales_Saturadas-fat_saturates})"
 
 #. module: eln_reports
 #: report:control_part:0
 msgid "$F{Date_end_Planned-date_end_planned}"
 msgstr "$F{Date_end_Planned-date_end_planned}"
-
-#. module: eln_reports
-#: report:product_logistics_sheet:0 report:product_sheet:0
-msgid "tr($V{L}, \"Alturas:\")"
-msgstr "tr($V{L}, \"Alturas:\")"
 
 #. module: eln_reports
 #: report:product_datasheet:0
@@ -569,6 +593,11 @@ msgstr "DTO."
 #: report:product_datasheet:0
 msgid "tr($V{L}, \"Energía\")"
 msgstr "tr($V{L}, \"Energía\")"
+
+#. module: eln_reports
+#: report:control_part:0
+msgid "$P{control_sheet_toasted}"
+msgstr "$P{control_sheet_toasted}"
 
 #. module: eln_reports
 #: report:packing_list_alt:0 report:packing_list_std:0
@@ -636,9 +665,9 @@ msgid "Proveedor-partner_id/CIF_NIF-vat"
 msgstr "Proveedor-partner_id/CIF_NIF-vat"
 
 #. module: eln_reports
-#: report:product_sheet:0
-msgid "$F{Envasado_en_atmosfera_protectora-protective_atmosphere} == true"
-msgstr "$F{Envasado_en_atmosfera_protectora-protective_atmosphere} == true"
+#: report:packing_list_alt:0 report:packing_list_std:0
+msgid "/data/record/Impuestos_P.P.-early_payment_disc_tax"
+msgstr "/data/record/Impuestos_P.P.-early_payment_disc_tax"
 
 #. module: eln_reports
 #: view:planning.report.wizard:0
@@ -656,7 +685,7 @@ msgid "Unidades_de_logistica-packaging/Ancho-width"
 msgstr "Unidades_de_logistica-packaging/Ancho-width"
 
 #. module: eln_reports
-#: report:purchase_order:0
+#: report:label.barcode:0 report:purchase_order:0
 msgid "Compania-company_id/Logo-logo"
 msgstr "Compania-company_id/Logo-logo"
 
@@ -666,9 +695,14 @@ msgid "$F{Sal-salt}.isEmpty() ? new Double(\"0.000\") : new Double($F{Sal-salt})
 msgstr "$F{Sal-salt}.isEmpty() ? new Double(\"0.000\") : new Double($F{Sal-salt})"
 
 #. module: eln_reports
-#: report:control_part:0
-msgid "Tiempo"
-msgstr "Tiempo"
+#: report:product_datasheet:0
+msgid "tr($V{L}, \"Hidratos de carbono\")"
+msgstr "tr($V{L}, \"Hidratos de carbono\")"
+
+#. module: eln_reports
+#: model:ir.model,name:eln_reports.model_product_logistics_sheet_report_wizard
+msgid "product.logistics.sheet.report.wizard"
+msgstr "product.logistics.sheet.report.wizard"
 
 #. module: eln_reports
 #: report:product_datasheet:0 report:product_logistics_sheet:0
@@ -702,9 +736,9 @@ msgid "tr($V{L}, \"PRODUCTO:\")"
 msgstr "tr($V{L}, \"PRODUCTO:\")"
 
 #. module: eln_reports
-#: report:product_datasheet:0
-msgid "De_las_cuales_Saturadas-fat_saturates"
-msgstr "De_las_cuales_Saturadas-fat_saturates"
+#: field:mrp.workcenter,control_sheet_fried:0
+msgid "Control sheet fried"
+msgstr "Hoja de control freido"
 
 #. module: eln_reports
 #: report:product_sheet:0
@@ -717,14 +751,14 @@ msgid "$F{Signature-written_signature}"
 msgstr "$F{Signature-written_signature}"
 
 #. module: eln_reports
-#: report:purchase_order:0
-msgid "Invoice_name-invoice_name"
-msgstr "Invoice_name-invoice_name"
+#: field:mrp.workcenter,control_sheet_salted:0
+msgid "Control sheet salted"
+msgstr "Hoja de control salado"
 
 #. module: eln_reports
-#: report:purchase_order:0
-msgid "Total-amount_total"
-msgstr "Total-amount_total"
+#: report:label.barcode:0
+msgid "Pedido_de_compra-purchase_id/Referencia_del_pedido-name"
+msgstr "Pedido_de_compra-purchase_id/Referencia_del_pedido-name"
 
 #. module: eln_reports
 #: report:purchase_order:0
@@ -738,8 +772,8 @@ msgstr "Scrap"
 
 #. module: eln_reports
 #: report:packing_list_alt:0 report:packing_list_std:0
-msgid "\"//opt//openerp//6.1//elnogal//eln_reports//report//LOGO-VALQUIN-OPENERP.png\""
-msgstr "\"//opt//openerp//6.1//elnogal//eln_reports//report//LOGO-VALQUIN-OPENERP.png\""
+msgid "tr($V{L}, \"DIRECCIÓN DE ENTREGA:\")"
+msgstr "tr($V{L}, \"DIRECCIÓN DE ENTREGA:\")"
 
 #. module: eln_reports
 #: report:invoice:0
@@ -804,14 +838,14 @@ msgid "tr($V{L},\"Ración \") + $F{Recommended_ration__gr-recommended_ration} + 
 msgstr "tr($V{L},\"Ración \") + $F{Recommended_ration__gr-recommended_ration} + \" g\""
 
 #. module: eln_reports
-#: report:control_part:0
-msgid "SI/NO"
-msgstr "SI/NO"
-
-#. module: eln_reports
 #: report:product_datasheet:0
 msgid "$F{Grasas-fats}.isEmpty() ? new Double(\"0.0\") : (new Double($F{Grasas-fats}) * $F{Recommended_ration__gr-recommended_ration}) / 70"
 msgstr "$F{Grasas-fats}.isEmpty() ? new Double(\"0.0\") : (new Double($F{Grasas-fats}) * $F{Recommended_ration__gr-recommended_ration}) / 70"
+
+#. module: eln_reports
+#: report:label.barcode:0
+msgid "tr($V{L}, \"Sale order:\")"
+msgstr "tr($V{L}, \"Sale order:\")"
 
 #. module: eln_reports
 #: report:product_sheet:0
@@ -829,14 +863,9 @@ msgid "/data/record/Lineas_de_impuestos-tax_line/Importe-amount"
 msgstr "/data/record/Lineas_de_impuestos-tax_line/Importe-amount"
 
 #. module: eln_reports
-#: report:product_logistics_sheet:0
-msgid "$F{Net_weight-weight_net} * 1000"
-msgstr "$F{Net_weight-weight_net} * 1000"
-
-#. module: eln_reports
-#: report:invoice:0 report:picking:0
-msgid "HOJA"
-msgstr "HOJA"
+#: report:control_part:0
+msgid "$P{control_sheet_mixed}"
+msgstr "$P{control_sheet_mixed}"
 
 #. module: eln_reports
 #: report:packing_list_alt:0 report:packing_list_std:0
@@ -900,9 +929,9 @@ msgid "/data/record/Base_Imponible_P.P.-early_payment_disc_untaxed"
 msgstr "/data/record/Base_Imponible_P.P.-early_payment_disc_untaxed"
 
 #. module: eln_reports
-#: report:control_part:0
-msgid "Operarios"
-msgstr "Operarios"
+#: report:product_datasheet:0
+msgid "tr($V{L},\"Edición:\") + \" \" + \"2\""
+msgstr "tr($V{L},\"Edición:\") + \" \" + \"2\""
 
 #. module: eln_reports
 #: report:packing_list_alt:0 report:packing_list_std:0
@@ -915,10 +944,9 @@ msgid "tr($V{L}, \"Marca:\")"
 msgstr "tr($V{L}, \"Marca:\")"
 
 #. module: eln_reports
-#: report:invoice:0 report:packing_list_alt:0 report:packing_list_std:0
-#: report:picking:0 report:purchase_order:0
-msgid "$F{Nombre-name2}"
-msgstr "$F{Nombre-name2}"
+#: report:product_datasheet:0
+msgid "Sal-salt"
+msgstr "Sal-salt"
 
 #. module: eln_reports
 #: field:purchase.order,invoice_name:0
@@ -934,6 +962,16 @@ msgstr "tr($V{L}, \"Fax: \") +$F{Fax-fax}"
 #: report:invoice:0
 msgid "/data/record/Fecha_factura-date_invoice"
 msgstr "/data/record/Fecha_factura-date_invoice"
+
+#. module: eln_reports
+#: report:label.barcode:0
+msgid "Empresa-partner_id/Idioma-lang"
+msgstr "Empresa-partner_id/Idioma-lang"
+
+#. module: eln_reports
+#: report:label.barcode:0
+msgid "$F{Pie_de_pagina_1_de_los_informes-rml_footer1}"
+msgstr "$F{Pie_de_pagina_1_de_los_informes-rml_footer1}"
 
 #. module: eln_reports
 #: report:control_part:0
@@ -961,7 +999,7 @@ msgid "/data/record/Direccion-address_id/Nombre_de_empresa-partner_id/Nombre-nam
 msgstr "/data/record/Direccion-address_id/Nombre_de_empresa-partner_id/Nombre-name"
 
 #. module: eln_reports
-#: report:product_datasheet:0 report:product_sheet:0
+#: report:product_sheet:0
 msgid "$F{Net_weight-weight_net}*1000"
 msgstr "$F{Net_weight-weight_net}*1000"
 
@@ -989,6 +1027,11 @@ msgstr "tr($V{L}, \"Tlf: \") + $F{Telefono-phone3}"
 #: model:ir.actions.report.xml,name:eln_reports.report_product_datasheet_jasper
 msgid "Product datasheet"
 msgstr "Ficha técnica de producto"
+
+#. module: eln_reports
+#: report:purchase_order:0
+msgid "Invoice_name-invoice_name"
+msgstr "Invoice_name-invoice_name"
 
 #. module: eln_reports
 #: report:purchase_order:0
@@ -1051,9 +1094,19 @@ msgid "tr($V{L}, \"EXPEDICIÓN\")"
 msgstr "tr($V{L}, \"EXPEDICIÓN\")"
 
 #. module: eln_reports
+#: report:control_part:0
+msgid "$P{SUBREPORT_DATA_PACKING}"
+msgstr "$P{SUBREPORT_DATA_PACKING}"
+
+#. module: eln_reports
 #: model:ir.model,name:eln_reports.model_purchase_order_report_wizard
 msgid "purchase.order.report.wizard"
 msgstr "purchase.order.report.wizard"
+
+#. module: eln_reports
+#: report:label.barcode:0
+msgid "Compania-company_id/Pie_de_pagina_1_de_los_informes-rml_footer1"
+msgstr "Compania-company_id/Pie_de_pagina_1_de_los_informes-rml_footer1"
 
 #. module: eln_reports
 #: report:purchase_order:0
@@ -1086,11 +1139,6 @@ msgid "Proveedor-partner_id/Nombre-name"
 msgstr "Proveedor-partner_id/Nombre-name"
 
 #. module: eln_reports
-#: report:control_part:0
-msgid "$P{TABLE_LINES_5}"
-msgstr "$P{TABLE_LINES_5}"
-
-#. module: eln_reports
 #: report:product_logistics_sheet:0
 msgid "tr($V{L}, \"mm\") + \" (b)\""
 msgstr "tr($V{L}, \"mm\") + \" (b)\""
@@ -1116,11 +1164,6 @@ msgid "$F{C.P.-zip2}"
 msgstr "$F{C.P.-zip2}"
 
 #. module: eln_reports
-#: report:control_part:0
-msgid "$P{TABLE_LINES_5_1}"
-msgstr "$P{TABLE_LINES_5_1}"
-
-#. module: eln_reports
 #: report:packing_list_alt:0 report:packing_list_std:0
 msgid "$F{Commitment_Date-commitment_date}"
 msgstr "$F{Commitment_Date-commitment_date}"
@@ -1134,6 +1177,11 @@ msgstr "Invoice email"
 #: report:packing_list_alt:0 report:packing_list_std:0
 msgid "/data/record/Supplier-supplier_id/Nombre-name"
 msgstr "/data/record/Supplier-supplier_id/Nombre-name"
+
+#. module: eln_reports
+#: report:product_logistics_sheet:0
+msgid "$P{SUBREPORT_DIR}"
+msgstr "$P{SUBREPORT_DIR}"
 
 #. module: eln_reports
 #: report:product_sheet:0
@@ -1151,14 +1199,18 @@ msgid "/data/record/Pedido_de_venta-sale_id/Direccion_de_factura-partner_invoice
 msgstr "/data/record/Pedido_de_venta-sale_id/Direccion_de_factura-partner_invoice_id/Calle2-street2"
 
 #. module: eln_reports
-#: report:control_part:0 report:packing_list_alt:0 report:packing_list_std:0
-#: report:product_datasheet:0 report:product_sheet:0
+#: report:packing_list_alt:0 report:packing_list_std:0 report:product_sheet:0
 msgid "1/$F{UOM____UOS_Coeff-uos_coeff}"
 msgstr "1/$F{UOM____UOS_Coeff-uos_coeff}"
 
 #. module: eln_reports
-#: report:product_datasheet:0 report:product_logistics_sheet:0
-#: report:product_sheet:0
+#: report:control_part:0
+msgid "$P{SUBREPORT_DIR} + \"control_part_salted.jasper\""
+msgstr "$P{SUBREPORT_DIR} + \"control_part_salted.jasper\""
+
+#. module: eln_reports
+#: report:control_part:0 report:product_datasheet:0
+#: report:product_logistics_sheet:0 report:product_sheet:0
 msgid "Usuario-User/Compania-company_id/Logo-logo"
 msgstr "Usuario-User/Compania-company_id/Logo-logo"
 
@@ -1168,9 +1220,9 @@ msgid "QUA - R/FT"
 msgstr "QUA - R/FT"
 
 #. module: eln_reports
-#: report:packing_list_alt:0 report:packing_list_std:0
-msgid "\"QUIVAL, S.A.\""
-msgstr "\"QUIVAL, S.A.\""
+#: report:packing_list_alt:0 report:packing_list_std:0 report:purchase_order:0
+msgid "/data/record/Compania-company_id/Nombre_de_la_compania-name"
+msgstr "/data/record/Compania-company_id/Nombre_de_la_compania-name"
 
 #. module: eln_reports
 #: report:product_datasheet:0
@@ -1186,11 +1238,6 @@ msgstr "Almacen-warehouse_id/Direccion_propietario-partner_address_id/Telefono-p
 #: report:purchase_order:0
 msgid "Almacen-warehouse_id/Direccion_propietario-partner_address_id/Ciudad-city"
 msgstr "Almacen-warehouse_id/Direccion_propietario-partner_address_id/Ciudad-city"
-
-#. module: eln_reports
-#: report:control_part:0
-msgid "$F{Ctdad_producto-product_qty} ? \" \" + $F{Nombre-name}:\"\""
-msgstr "$F{Ctdad_producto-product_qty} ? \" \" + $F{Nombre-name}:\"\""
 
 #. module: eln_reports
 #: report:control_part:0 report:invoice:0 report:picking:0
@@ -1228,6 +1275,11 @@ msgid "Unidades_de_logistica-packaging/Peso_paquete_vacio-weight_ul"
 msgstr "Unidades_de_logistica-packaging/Peso_paquete_vacio-weight_ul"
 
 #. module: eln_reports
+#: report:product_sheet:0
+msgid "tr($V{L}, \"Formato:\")"
+msgstr "tr($V{L}, \"Formato:\")"
+
+#. module: eln_reports
 #: report:product_datasheet:0
 msgid "$F{Proteinas-proteins}.isEmpty() ? new Double(\"0.000\") : new Double($F{Proteinas-proteins})"
 msgstr "$F{Proteinas-proteins}.isEmpty() ? new Double(\"0.000\") : new Double($F{Proteinas-proteins})"
@@ -1258,9 +1310,9 @@ msgid "tr($V{L}, \"CAJA\")"
 msgstr "tr($V{L}, \"CAJA\")"
 
 #. module: eln_reports
-#: report:control_part:0
-msgid "\"  \" + $F{Name-name}"
-msgstr "\"  \" + $F{Name-name}"
+#: report:product_logistics_sheet:0
+msgid "Unidades_de_logistica-packaging/Total_peso_paquete-weight"
+msgstr "Unidades_de_logistica-packaging/Total_peso_paquete-weight"
 
 #. module: eln_reports
 #: report:product_datasheet:0
@@ -1288,6 +1340,11 @@ msgid "You can not move products from or to a location of the type view."
 msgstr "No puede mover productos desde o hacia una ubicación de tipo vista."
 
 #. module: eln_reports
+#: report:product_datasheet:0 report:product_logistics_sheet:0
+msgid "Default_Unit_Of_Measure-uom_id/Categoria_UdM-category_id/id"
+msgstr "Default_Unit_Of_Measure-uom_id/Categoria_UdM-category_id/id"
+
+#. module: eln_reports
 #: model:ir.actions.report.xml,name:eln_reports.report_purchase_order_jasper
 msgid "Purchase order"
 msgstr "Pedido de compra"
@@ -1312,6 +1369,11 @@ msgstr "Imprimir ficha técnica de producto"
 #: report:product_datasheet:0
 msgid "Alergenos-allergen"
 msgstr "Alergenos-allergen"
+
+#. module: eln_reports
+#: report:label.barcode:0
+msgid "tr($V{L},\"ANNEX: \")"
+msgstr "tr($V{L},\"ANNEX: \")"
 
 #. module: eln_reports
 #: report:control_part:0
@@ -1373,11 +1435,6 @@ msgid "tr($V{L}, \"PROVEEDOR:\")"
 msgstr "tr($V{L}, \"PROVEEDOR:\")"
 
 #. module: eln_reports
-#: report:control_part:0
-msgid "T. Después"
-msgstr "T. Después"
-
-#. module: eln_reports
 #: report:purchase_order:0
 msgid "tr($V{L}, \"Comments:\")"
 msgstr "tr($V{L}, \"Comments:\")"
@@ -1396,6 +1453,11 @@ msgstr "Bolsa-bag/Bolsa-bag/Referencia-default_code"
 #: report:invoice:0
 msgid "/data/record/Lineas_de_factura-invoice_line/Stock_move-stock_move_id/Tax_line-tax_line"
 msgstr "/data/record/Lineas_de_factura-invoice_line/Stock_move-stock_move_id/Tax_line-tax_line"
+
+#. module: eln_reports
+#: report:product_datasheet:0
+msgid "Signature-approved_signature"
+msgstr "Signature-approved_signature"
 
 #. module: eln_reports
 #: report:invoice:0
@@ -1428,14 +1490,14 @@ msgid "/data/record/Lineas_del_pedido-order_line/Producto-product_id/Referencia-
 msgstr "/data/record/Lineas_del_pedido-order_line/Producto-product_id/Referencia-default_code"
 
 #. module: eln_reports
-#: report:control_part:0
-msgid "Control"
-msgstr "Control"
-
-#. module: eln_reports
 #: model:ir.ui.menu,name:eln_reports.print_planning_routes
 msgid "Print planning"
 msgstr "Imprimir planificación"
+
+#. module: eln_reports
+#: report:packing_list_alt:0 report:packing_list_std:0
+msgid "$P{SUBREPORT_DIR} + \"images//logo-valquin-openerp.png\""
+msgstr "$P{SUBREPORT_DIR} + \"images//logo-valquin-openerp.png\""
 
 #. module: eln_reports
 #: field:planning.report.wizard,name:0
@@ -1471,6 +1533,11 @@ msgstr "/data/record/Empresa-partner_id/Nombre_comercial-comercial"
 #: report:purchase_order:0
 msgid "/data/record"
 msgstr "/data/record"
+
+#. module: eln_reports
+#: report:label.barcode:0
+msgid "$F{Referencia_del_pedido-name2}"
+msgstr "$F{Referencia_del_pedido-name2}"
 
 #. module: eln_reports
 #: report:packing_list_alt:0 report:packing_list_std:0
@@ -1528,7 +1595,8 @@ msgid "Product logistics sheet"
 msgstr "Ficha logística de producto"
 
 #. module: eln_reports
-#: report:product_datasheet:0 report:product_sheet:0 report:purchase_order:0
+#: report:label.barcode:0 report:product_datasheet:0 report:product_sheet:0
+#: report:purchase_order:0
 msgid "$P{REPORT_LOCALE}"
 msgstr "$P{REPORT_LOCALE}"
 
@@ -1580,14 +1648,19 @@ msgid "tr($V{L}, \"Largo Caja:\")"
 msgstr "tr($V{L}, \"Largo Caja:\")"
 
 #. module: eln_reports
-#: report:product_logistics_sheet:0
-msgid "\"//opt//openerp//6.1//elnogal//eln_reports//report//images//unidad-dimensiones.png\""
-msgstr "\"//opt//openerp//6.1//elnogal//eln_reports//report//images//unidad-dimensiones.png\""
-
-#. module: eln_reports
 #: report:packing_list_alt:0 report:packing_list_std:0
 msgid "$F{Albaran_valorado-valued_picking} ? $F{Total_con_P.P.-early_payment_disc_total} : null"
 msgstr "$F{Albaran_valorado-valued_picking} ? $F{Total_con_P.P.-early_payment_disc_total} : null"
+
+#. module: eln_reports
+#: report:purchase_order:0
+msgid "tr($V{L}, \"DATE \")"
+msgstr "tr($V{L}, \"DATE \")"
+
+#. module: eln_reports
+#: report:product_sheet:0
+msgid "Ingredientes-product_ingredient_ids/Producto-product_id/Name-name"
+msgstr "Ingredientes-product_ingredient_ids/Producto-product_id/Name-name"
 
 #. module: eln_reports
 #: report:invoice:0 report:picking:0 report:purchase_order:0
@@ -1671,9 +1744,9 @@ msgid "Producto-product_id/Options-option_ids/Option-option_id/Name-name"
 msgstr "Producto-product_id/Options-option_ids/Option-option_id/Name-name"
 
 #. module: eln_reports
-#: report:product_datasheet:0
-msgid "tr($V{L}, \" kcal\")"
-msgstr "tr($V{L}, \" kcal\")"
+#: report:product_logistics_sheet:0 report:product_sheet:0
+msgid "tr($V{L}, \"Alturas:\")"
+msgstr "tr($V{L}, \"Alturas:\")"
 
 #. module: eln_reports
 #: report:product_logistics_sheet:0 report:product_sheet:0
@@ -1761,9 +1834,9 @@ msgid "$F{Etiquetado_Sin_Gluten-gluten_free_labeling}  == true"
 msgstr "$F{Etiquetado_Sin_Gluten-gluten_free_labeling}  == true"
 
 #. module: eln_reports
-#: report:product_datasheet:0
-msgid "Parametros-parameter_ids/Producto-product_id/id"
-msgstr "Parametros-parameter_ids/Producto-product_id/id"
+#: report:product_logistics_sheet:0
+msgid "$P{SUBREPORT_DIR2} + \"images//caja-dimensiones.png\""
+msgstr "$P{SUBREPORT_DIR2} + \"images//caja-dimensiones.png\""
 
 #. module: eln_reports
 #: report:purchase_order:0
@@ -1784,11 +1857,6 @@ msgstr "Invoice state"
 #: report:product_sheet:0
 msgid "\"(\" + $F{Referencia-default_code3} + \")-\" + $F{Name-name3}"
 msgstr "\"(\" + $F{Referencia-default_code3} + \")-\" + $F{Name-name3}"
-
-#. module: eln_reports
-#: report:control_part:0
-msgid "Producción"
-msgstr "Producción"
 
 #. module: eln_reports
 #: report:packing_list_alt:0 report:packing_list_std:0
@@ -1831,14 +1899,24 @@ msgid "$F{Last_revision-last_revision}"
 msgstr "$F{Last_revision-last_revision}"
 
 #. module: eln_reports
+#: report:label.barcode:0
+msgid "$F{Telefono-phone}"
+msgstr "$F{Telefono-phone}"
+
+#. module: eln_reports
 #: report:product_datasheet:0
-msgid "Signature-approved_signature"
-msgstr "Signature-approved_signature"
+msgid "Parametros-parameter_ids/Producto-product_id/id"
+msgstr "Parametros-parameter_ids/Producto-product_id/id"
 
 #. module: eln_reports
 #: report:packing_list_alt:0 report:packing_list_std:0 report:picking:0
 msgid "/data/record/Albaranes_internos-move_lines/Linea_pedido_de_venta-sale_line_id/Descuento-discount"
 msgstr "/data/record/Albaranes_internos-move_lines/Linea_pedido_de_venta-sale_line_id/Descuento-discount"
+
+#. module: eln_reports
+#: report:product_datasheet:0
+msgid "$F{Energia-energy}.isEmpty() ? \"0 \" + tr($V{L}, \"kJ\") + \"/0 \" + tr($V{L}, \"kcal\") : (Math.round((new Double($F{Energia-energy}) * $F{Recommended_ration__gr-recommended_ration} / 100) * 4.187 * 1) / 1) + \" \" + tr($V{L}, \"kJ\") + \"/\" + (Math.round((new Double($F{Energia-energy}) * $F{Recommended_ration__gr-recommended_ration} / 100) * 1) / 1) + \" \" + tr($V{L}, \"kcal\")"
+msgstr "$F{Energia-energy}.isEmpty() ? \"0 \" + tr($V{L}, \"kJ\") + \"/0 \" + tr($V{L}, \"kcal\") : (Math.round((new Double($F{Energia-energy}) * $F{Recommended_ration__gr-recommended_ration} / 100) * 4.187 * 1) / 1) + \" \" + tr($V{L}, \"kJ\") + \"/\" + (Math.round((new Double($F{Energia-energy}) * $F{Recommended_ration__gr-recommended_ration} / 100) * 1) / 1) + \" \" + tr($V{L}, \"kcal\")"
 
 #. module: eln_reports
 #: report:control_part:0
@@ -1874,6 +1952,11 @@ msgstr "$F{Envasado_en_atmosfera_protectora-protective_atmosphere}  == null"
 #: report:purchase_order:0
 msgid "Compania-company_id/Pais-country_id/Nombre_del_pais-name"
 msgstr "Compania-company_id/Pais-country_id/Nombre_del_pais-name"
+
+#. module: eln_reports
+#: report:control_part:0
+msgid "\"Producto final: \"  + '[' + $F{Referencia-code} + '] ' + $F{Name-name}"
+msgstr "\"Producto final: \"  + '[' + $F{Referencia-code} + '] ' + $F{Name-name}"
 
 #. module: eln_reports
 #: report:packing_list_alt:0 report:packing_list_std:0
@@ -1932,13 +2015,8 @@ msgstr "$F{Ciudad-city3} + \" - \" +$F{Nombre_provincia-name3}"
 
 #. module: eln_reports
 #: report:control_part:0
-msgid "Nº Op"
-msgstr "Nº Op"
-
-#. module: eln_reports
-#: report:control_part:0
-msgid "DUN 14"
-msgstr "DUN 14"
+msgid "$P{control_sheet_packing}"
+msgstr "$P{control_sheet_packing}"
 
 #. module: eln_reports
 #: report:packing_list_alt:0 report:packing_list_std:0
@@ -1946,9 +2024,9 @@ msgid "\"CIF/NIF: ESA36014330\""
 msgstr "\"CIF/NIF: ESA36014330\""
 
 #. module: eln_reports
-#: report:control_part:0
-msgid "$P{TABLE_LINES_1_2}"
-msgstr "$P{TABLE_LINES_1_2}"
+#: report:product_datasheet:0
+msgid "Condiciones_de_conservacion-storage_conditions"
+msgstr "Condiciones_de_conservacion-storage_conditions"
 
 #. module: eln_reports
 #: report:purchase_order:0
@@ -1977,6 +2055,11 @@ msgid "tr($V{L}, \"Email: \") + $F{Email-email}"
 msgstr "tr($V{L}, \"Email: \") + $F{Email-email}"
 
 #. module: eln_reports
+#: model:ir.actions.report.xml,name:eln_reports.barcode_label
+msgid "Label"
+msgstr "Label"
+
+#. module: eln_reports
 #: report:product_datasheet:0
 msgid "tr($V{L}, \"PARÁMETROS QUÍMICOS\")"
 msgstr "tr($V{L}, \"PARÁMETROS QUÍMICOS\")"
@@ -1997,19 +2080,20 @@ msgid "$F{Precio_unidad-price_unit}"
 msgstr "$F{Precio_unidad-price_unit}"
 
 #. module: eln_reports
-#: report:addons/eln_reports/report/planning_report_webkit.mako:19
+#: report:addons/eln_reports/report/planning_report/planning_report_webkit.mako:19
 msgid "Code"
 msgstr "Code"
 
 #. module: eln_reports
-#: report:packing_list_alt:0 report:packing_list_std:0 report:picking:0
+#: report:label.barcode:0 report:packing_list_alt:0 report:packing_list_std:0
+#: report:picking:0
 msgid "$F{Notas-note}"
 msgstr "$F{Notas-note}"
 
 #. module: eln_reports
-#: report:control_part:0
-msgid "Hora Inicio"
-msgstr "Hora Inicio"
+#: report:product_logistics_sheet:0
+msgid "new Locale($P{lang2}.split(\"_\")[0],$P{lang2}.split(\"_\")[1])"
+msgstr "new Locale($P{lang2}.split(\"_\")[0],$P{lang2}.split(\"_\")[1])"
 
 #. module: eln_reports
 #: report:product_logistics_sheet:0
@@ -2022,7 +2106,7 @@ msgid "tr($V{L}, \"VALORES NUTRICIONALES MEDIOS (por 100 g)\")"
 msgstr "tr($V{L}, \"VALORES NUTRICIONALES MEDIOS (por 100 g)\")"
 
 #. module: eln_reports
-#: report:addons/eln_reports/report/planning_report_webkit.mako:21
+#: report:addons/eln_reports/report/planning_report/planning_report_webkit.mako:21
 msgid "Qty"
 msgstr "Qty"
 
@@ -2030,6 +2114,11 @@ msgstr "Qty"
 #: report:picking:0
 msgid "$F{Impuestos-amount_tax}"
 msgstr "$F{Impuestos-amount_tax}"
+
+#. module: eln_reports
+#: report:control_part:0
+msgid "$P{REPORT_PARAMETERS_MAP}"
+msgstr "$P{REPORT_PARAMETERS_MAP}"
 
 #. module: eln_reports
 #: view:planning.report.wizard:0 view:product.datasheet.report.wizard:0
@@ -2069,11 +2158,6 @@ msgid "$F{Fecha_Real-real_date}"
 msgstr "$F{Fecha_Real-real_date}"
 
 #. module: eln_reports
-#: report:product_sheet:0
-msgid "Etiquetado_alergenos-allergen_labeling"
-msgstr "Etiquetado_alergenos-allergen_labeling"
-
-#. module: eln_reports
 #: report:product_datasheet:0 report:product_sheet:0
 msgid "$F{Cant.-product_qty_percent}"
 msgstr "$F{Cant.-product_qty_percent}"
@@ -2082,11 +2166,6 @@ msgstr "$F{Cant.-product_qty_percent}"
 #: report:packing_list_std:0
 msgid "false"
 msgstr "false"
-
-#. module: eln_reports
-#: report:control_part:0
-msgid "T. Antes"
-msgstr "T. Antes"
 
 #. module: eln_reports
 #: report:invoice:0 report:picking:0
@@ -2099,9 +2178,24 @@ msgid "tr($V{L}, \"cajas\")"
 msgstr "tr($V{L}, \"cajas\")"
 
 #. module: eln_reports
+#: report:control_part:0
+msgid "$P{control_sheet_salted}"
+msgstr "$P{control_sheet_salted}"
+
+#. module: eln_reports
 #: report:product_sheet:0
 msgid "tr($V{L}, \"PRESENTACIÓN\")"
 msgstr "tr($V{L}, \"PRESENTACIÓN\")"
+
+#. module: eln_reports
+#: report:label.barcode:0
+msgid "\"stock.picking,\" + $F{id}"
+msgstr "\"stock.picking,\" + $F{id}"
+
+#. module: eln_reports
+#: report:product_datasheet:0 report:product_sheet:0 report:purchase_order:0
+msgid "$F{Idioma-context_lang} ? new Locale($F{Idioma-context_lang}.split(\"_\")[0],$F{Idioma-context_lang}.split(\"_\")[1]) : $P{REPORT_LOCALE}"
+msgstr "$F{Idioma-context_lang} ? new Locale($F{Idioma-context_lang}.split(\"_\")[0],$F{Idioma-context_lang}.split(\"_\")[1]) : $P{REPORT_LOCALE}"
 
 #. module: eln_reports
 #: report:packing_list_alt:0 report:packing_list_std:0
@@ -2124,9 +2218,14 @@ msgid "/data/record/Lineas_de_factura-invoice_line/Referencia_factura-invoice_id
 msgstr "/data/record/Lineas_de_factura-invoice_line/Referencia_factura-invoice_id/id"
 
 #. module: eln_reports
-#: report:product_logistics_sheet:0
-msgid "\"//opt//openerp//6.1//elnogal//eln_reports//report//images//pallet-dimensiones.png\""
-msgstr "\"//opt//openerp//6.1//elnogal//eln_reports//report//images//pallet-dimensiones.png\""
+#: report:product_datasheet:0
+msgid "$F{Energia-energy}.isEmpty() ? \"0 \" + tr($V{L}, \"kJ\") + \"/0 \" + tr($V{L}, \"kcal\") : (Math.round(new Double($F{Energia-energy}) * 4.187 * 1) / 1) + \" \" + tr($V{L}, \"kJ\") + \"/\" + (Math.round(new Double($F{Energia-energy}) * 1) / 1) + \" \" + tr($V{L}, \"kcal\")"
+msgstr "$F{Energia-energy}.isEmpty() ? \"0 \" + tr($V{L}, \"kJ\") + \"/0 \" + tr($V{L}, \"kcal\") : (Math.round(new Double($F{Energia-energy}) * 4.187 * 1) / 1) + \" \" + tr($V{L}, \"kJ\") + \"/\" + (Math.round(new Double($F{Energia-energy}) * 1) / 1) + \" \" + tr($V{L}, \"kcal\")"
+
+#. module: eln_reports
+#: report:purchase_order:0
+msgid "$F{C.P.-zip3}"
+msgstr "$F{C.P.-zip3}"
 
 #. module: eln_reports
 #: field:product.datasheet.report.wizard,language:0
@@ -2151,11 +2250,6 @@ msgid "Proveedor-partner_id/Contactos-address/Calle-street"
 msgstr "Proveedor-partner_id/Contactos-address/Calle-street"
 
 #. module: eln_reports
-#: report:product_datasheet:0
-msgid "Condiciones_de_conservacion-storage_conditions"
-msgstr "Condiciones_de_conservacion-storage_conditions"
-
-#. module: eln_reports
 #: report:invoice:0
 msgid "$F{Base-amount_untaxed}"
 msgstr "$F{Base-amount_untaxed}"
@@ -2171,9 +2265,9 @@ msgid "\"En cumplimiento de la Ley Orgánica 15/99, de 13 de diciembre, de Prote
 msgstr "\"En cumplimiento de la Ley Orgánica 15/99, de 13 de diciembre, de Protección de Datos de Carácter Personal, le indicamos que la información que Ud. nos facilita de forma voluntaria, por cualquiera de nuestros medios de recogida de información, tiene como única finalidad la incorporación a un fichero automatizado de datos de carácter personal cuyas finalidades son: la gestión contable y fiscal, la facturación de servicios, la realización de propuestas y presupuestos, la gestión comercial por parte de COMERCIAL VALQUIN, S.L. la cual es titular de dichos ficheros. Para la realización de las gestiones antes mencionadas puede ser necesario que se cedan los datos a encargados de tratamiento, empresas colaboradoras y administraciones públicas. Esta autorización se hace efectiva de forma retroactiva a cualquier tratamiento de datos hechos ya por parte del titular del fichero, siempre y cuando la finalidad fuese la anteriormente indicada. También se hace efectiva para cualquier otro tratamiento necesario para la prestación de servicios de reciente o nueva contratación. Se le garantiza total confidencialidad y si desea ejercer el derecho de acceso, rectificación, oposición o cancelación, dirija un escrito a: COMERCIAL VALQUIN, S.L. · Pol. Ind. de Redonde, Parcela 8 · 36118 Campo Lameiro · Pontevedra (España) · Fax: +34 986 752 063 · e-mail: valquin@elnogal.com \""
 
 #. module: eln_reports
-#: report:packing_list_alt:0 report:packing_list_std:0 report:purchase_order:0
-msgid "/data/record/Compania-company_id/Nombre_de_la_compania-name"
-msgstr "/data/record/Compania-company_id/Nombre_de_la_compania-name"
+#: report:packing_list_alt:0 report:packing_list_std:0
+msgid "\"QUIVAL, S.A.\""
+msgstr "\"QUIVAL, S.A.\""
 
 #. module: eln_reports
 #: report:packing_list_alt:0 report:packing_list_std:0
@@ -2191,9 +2285,9 @@ msgid "$F{De_los_cuales_azucares-carbo_sugar}.isEmpty() ? new Double(\"0.000\") 
 msgstr "$F{De_los_cuales_azucares-carbo_sugar}.isEmpty() ? new Double(\"0.000\") : new Double($F{De_los_cuales_azucares-carbo_sugar})"
 
 #. module: eln_reports
-#: report:control_part:0
-msgid "/data/record/Fecha_final-date_finished"
-msgstr "/data/record/Fecha_final-date_finished"
+#: report:packing_list_alt:0 report:packing_list_std:0 report:picking:0
+msgid "/data/record/Albaranes_internos-move_lines/Subtotal-price_subtotal"
+msgstr "/data/record/Albaranes_internos-move_lines/Subtotal-price_subtotal"
 
 #. module: eln_reports
 #: report:product_logistics_sheet:0 report:product_sheet:0
@@ -2246,19 +2340,14 @@ msgid "Signed"
 msgstr "Firmado"
 
 #. module: eln_reports
-#: report:purchase_order:0
-msgid "tr($V{L}, \"SUPPLIER REFERENCE\")"
-msgstr "tr($V{L}, \"SUPPLIER REFERENCE\")"
+#: report:product_sheet:0
+msgid "tr($V{L}, \"Bolsa:\")"
+msgstr "tr($V{L}, \"Bolsa:\")"
 
 #. module: eln_reports
 #: report:picking:0
 msgid "BASE IMPONIBLE"
 msgstr "BASE IMPONIBLE"
-
-#. module: eln_reports
-#: report:control_part:0
-msgid "Operario"
-msgstr "Operario"
 
 #. module: eln_reports
 #: report:invoice:0
@@ -2276,9 +2365,9 @@ msgid "Trademark-trademark_id/Nombre-name"
 msgstr "Trademark-trademark_id/Nombre-name"
 
 #. module: eln_reports
-#: report:packing_list_alt:0 report:packing_list_std:0
-msgid "Math.round((($F{Cantidad-product_qty}) - ((((Math.round(($F{Cantidad-product_qty} * $F{UOM____UOS_Coeff-uos_coeff})*1000.0))/1000.0).intValue()) / $F{UOM____UOS_Coeff-uos_coeff}))*1.0)/1.0"
-msgstr "Math.round((($F{Cantidad-product_qty}) - ((((Math.round(($F{Cantidad-product_qty} * $F{UOM____UOS_Coeff-uos_coeff})*1000.0))/1000.0).intValue()) / $F{UOM____UOS_Coeff-uos_coeff}))*1.0)/1.0"
+#: report:product_datasheet:0 report:product_logistics_sheet:0
+msgid "$F{category_uom_id} != '2' ? $F{Net_weight-weight_net} * 1000 : $F{Net_weight-weight_net} * 1000 * 1 / $F{UOM____UOS_Coeff-uos_coeff}"
+msgstr "$F{category_uom_id} != '2' ? $F{Net_weight-weight_net} * 1000 : $F{Net_weight-weight_net} * 1000 * 1 / $F{UOM____UOS_Coeff-uos_coeff}"
 
 #. module: eln_reports
 #: report:invoice:0 report:picking:0
@@ -2306,7 +2395,7 @@ msgid "$F{Cant._UdV_del_producto-product_uos_qty}"
 msgstr "$F{Cant._UdV_del_producto-product_uos_qty}"
 
 #. module: eln_reports
-#: report:purchase_order:0
+#: report:label.barcode:0 report:purchase_order:0
 msgid "$F{Nombre_de_la_compania-name}"
 msgstr "$F{Nombre_de_la_compania-name}"
 
@@ -2319,6 +2408,16 @@ msgstr "$F{Informacion_adicional-comment}"
 #: report:product_logistics_sheet:0
 msgid "Unidades_de_logistica-packaging/Producto-product_id/id"
 msgstr "Unidades_de_logistica-packaging/Producto-product_id/id"
+
+#. module: eln_reports
+#: report:label.barcode:0
+msgid "tr($V{L}, \"Date: \")"
+msgstr "tr($V{L}, \"Date: \")"
+
+#. module: eln_reports
+#: report:product_datasheet:0
+msgid "$F{category_uom_id} != '2' ? 1 / $F{UOM____UOS_Coeff-uos_coeff} : 1"
+msgstr "$F{category_uom_id} != '2' ? 1 / $F{UOM____UOS_Coeff-uos_coeff} : 1"
 
 #. module: eln_reports
 #: report:purchase_order:0
@@ -2503,9 +2602,10 @@ msgid "tr($V{L}, \"Pedido Cliente:\")"
 msgstr "tr($V{L}, \"Pedido Cliente:\")"
 
 #. module: eln_reports
-#: report:product_datasheet:0
-msgid "$F{Envasado_en_atmosfera_protectora-protective_atmosphere} == true ? \"SI\" : \"NO\""
-msgstr "$F{Envasado_en_atmosfera_protectora-protective_atmosphere} == true ? \"SI\" : \"NO\""
+#: report:invoice:0 report:packing_list_alt:0 report:packing_list_std:0
+#: report:picking:0 report:purchase_order:0
+msgid "$F{Nombre-name2}"
+msgstr "$F{Nombre-name2}"
 
 #. module: eln_reports
 #: report:product_datasheet:0 report:product_sheet:0
@@ -2608,9 +2708,9 @@ msgid "tr($V{L}, \"Tipo de pago:\")"
 msgstr "tr($V{L}, \"Tipo de pago:\")"
 
 #. module: eln_reports
-#: report:purchase_order:0
-msgid "tr($V{L}, \"DATE \")"
-msgstr "tr($V{L}, \"DATE \")"
+#: report:product_logistics_sheet:0
+msgid "$P{SUBREPORT_DIR2} + \"images//unidad-dimensiones.png\""
+msgstr "$P{SUBREPORT_DIR2} + \"images//unidad-dimensiones.png\""
 
 #. module: eln_reports
 #: report:packing_list_alt:0 report:packing_list_std:0
@@ -2622,11 +2722,6 @@ msgstr "\"COMERCIAL VALQUIN, S.L. · Pol. Ind. de Redonde, Parcela 8 · 36118 Ca
 #: report:product_logistics_sheet:0 report:product_sheet:0
 msgid "$F{Referencia-default_code}"
 msgstr "$F{Referencia-default_code}"
-
-#. module: eln_reports
-#: report:product_datasheet:0
-msgid "tr($V{L}, \"REDACTADO POR:\")"
-msgstr "tr($V{L}, \"REDACTADO POR:\")"
 
 #. module: eln_reports
 #: report:invoice:0
@@ -2664,9 +2759,14 @@ msgid "/data/record/Fecha_Real-real_date"
 msgstr "/data/record/Fecha_Real-real_date"
 
 #. module: eln_reports
-#: report:packing_list_alt:0 report:packing_list_std:0
-msgid "new Locale($F{Idioma-lang}.split(\"_\")[0],$F{Idioma-lang}.split(\"_\")[1])"
-msgstr "new Locale($F{Idioma-lang}.split(\"_\")[0],$F{Idioma-lang}.split(\"_\")[1])"
+#: report:label.barcode:0
+msgid "Notas-note"
+msgstr "Notas-note"
+
+#. module: eln_reports
+#: report:control_part:0
+msgid "$P{TABLE_LINES_LISTA_MATERIALES_2}"
+msgstr "$P{TABLE_LINES_LISTA_MATERIALES_2}"
 
 #. module: eln_reports
 #: report:product_datasheet:0
@@ -2714,9 +2814,9 @@ msgid "$F{CIF_NIF-vat2}"
 msgstr "$F{CIF_NIF-vat2}"
 
 #. module: eln_reports
-#: report:product_datasheet:0 report:product_sheet:0 report:purchase_order:0
-msgid "$F{Idioma-context_lang} ? new Locale($F{Idioma-context_lang}.split(\"_\")[0],$F{Idioma-context_lang}.split(\"_\")[1]) : $P{REPORT_LOCALE}"
-msgstr "$F{Idioma-context_lang} ? new Locale($F{Idioma-context_lang}.split(\"_\")[0],$F{Idioma-context_lang}.split(\"_\")[1]) : $P{REPORT_LOCALE}"
+#: report:product_sheet:0
+msgid "$F{Name-name5}"
+msgstr "$F{Name-name5}"
 
 #. module: eln_reports
 #: report:packing_list_alt:0 report:packing_list_std:0 report:picking:0
@@ -2730,9 +2830,9 @@ msgid "$F{Client_Ref-client_order_ref}"
 msgstr "$F{Client_Ref-client_order_ref}"
 
 #. module: eln_reports
-#: report:control_part:0
-msgid "$P{TABLE_LINES_2}"
-msgstr "$P{TABLE_LINES_2}"
+#: report:label.barcode:0
+msgid "data/record"
+msgstr "data/record"
 
 #. module: eln_reports
 #: report:purchase_order:0
@@ -2952,9 +3052,9 @@ msgid "$F{Signature-signature_image}"
 msgstr "$F{Signature-signature_image}"
 
 #. module: eln_reports
-#: report:control_part:0
-msgid "$P{TABLE_LINES_1_3}"
-msgstr "$P{TABLE_LINES_1_3}"
+#: report:purchase_order:0
+msgid "$P{delivery_address}"
+msgstr "$P{delivery_address}"
 
 #. module: eln_reports
 #: report:product_datasheet:0
@@ -3007,11 +3107,6 @@ msgid "/data/record/Albaranes_internos-move_lines/Cantidad-product_qty"
 msgstr "/data/record/Albaranes_internos-move_lines/Cantidad-product_qty"
 
 #. module: eln_reports
-#: report:product_datasheet:0
-msgid "tr($V{L},\"Edición:\") + \" \" + \"2\""
-msgstr "tr($V{L},\"Edición:\") + \" \" + \"2\""
-
-#. module: eln_reports
 #: report:picking:0
 msgid "CONTADOS: Consignar PAGADO Y firma cobrador"
 msgstr "CONTADOS: Consignar PAGADO Y firma cobrador"
@@ -3037,7 +3132,7 @@ msgid "/data/record/Impuestos-amount_tax"
 msgstr "/data/record/Impuestos-amount_tax"
 
 #. module: eln_reports
-#: report:control_part:0 report:product_datasheet:0
+#: report:control_part:0 report:label.barcode:0 report:product_datasheet:0
 #: report:product_logistics_sheet:0 report:product_sheet:0
 msgid "id"
 msgstr "id"
@@ -3058,24 +3153,14 @@ msgid "Otros-others/Referencia-default_code"
 msgstr "Otros-others/Referencia-default_code"
 
 #. module: eln_reports
-#: report:product_datasheet:0
-msgid "$F{De_las_cuales_Saturadas-fat_saturates}.isEmpty() ? new Double(\"0.000\") : new Double($F{De_las_cuales_Saturadas-fat_saturates})"
-msgstr "$F{De_las_cuales_Saturadas-fat_saturates}.isEmpty() ? new Double(\"0.000\") : new Double($F{De_las_cuales_Saturadas-fat_saturates})"
-
-#. module: eln_reports
-#: report:purchase_order:0
+#: report:label.barcode:0 report:purchase_order:0
 msgid "$F{Referencia_del_pedido-name}"
 msgstr "$F{Referencia_del_pedido-name}"
 
 #. module: eln_reports
-#: report:product_sheet:0
-msgid "$F{Name-name5}"
-msgstr "$F{Name-name5}"
-
-#. module: eln_reports
-#: report:product_datasheet:0
-msgid "Sal-salt"
-msgstr "Sal-salt"
+#: report:label.barcode:0
+msgid "Orden_de_servicio-service_order_id/Codigo-name"
+msgstr "Orden_de_servicio-service_order_id/Codigo-name"
 
 #. module: eln_reports
 #: report:packing_list_alt:0 report:packing_list_std:0 report:picking:0
@@ -3098,6 +3183,11 @@ msgid "$F{De_las_cuales_Saturadas-fat_saturates}.isEmpty() ? new Double(\"0.0\")
 msgstr "$F{De_las_cuales_Saturadas-fat_saturates}.isEmpty() ? new Double(\"0.0\") : (new Double($F{De_las_cuales_Saturadas-fat_saturates}) * $F{Recommended_ration__gr-recommended_ration}) / 100"
 
 #. module: eln_reports
+#: report:control_part:0
+msgid "Productos_a_consumir-move_lines/Producto-product_id/Referencia-code"
+msgstr "Productos_a_consumir-move_lines/Producto-product_id/Referencia-code"
+
+#. module: eln_reports
 #: report:product_datasheet:0
 msgid "tr($V{L},\"Página \")+$V{PAGE_NUMBER}+tr($V{L},\" de \")"
 msgstr "tr($V{L},\"Página \")+$V{PAGE_NUMBER}+tr($V{L},\" de \")"
@@ -3112,6 +3202,11 @@ msgstr "$F{Tax_line-tax_line}"
 #: report:invoice:0
 msgid "ROGAMOS EVITEN DEVOLVOLVER LOS GIROS. ESTAMOS A SU DISPOSICIÓN PARA RESOLVER CUALQUIER DUDA O ANOMALÍA"
 msgstr "ROGAMOS EVITEN DEVOLVOLVER LOS GIROS. ESTAMOS A SU DISPOSICIÓN PARA RESOLVER CUALQUIER DUDA O ANOMALÍA"
+
+#. module: eln_reports
+#: report:label.barcode:0
+msgid "Pedido_de_venta-sale_id/Referencia_del_pedido-name"
+msgstr "Pedido_de_venta-sale_id/Referencia_del_pedido-name"
 
 #. module: eln_reports
 #: report:control_part:0
@@ -3204,9 +3299,9 @@ msgid "Invoice"
 msgstr "Factura"
 
 #. module: eln_reports
-#: report:invoice:0 report:picking:0 report:product_datasheet:0
-#: report:product_logistics_sheet:0 report:product_sheet:0
-#: report:purchase_order:0
+#: report:control_part:0 report:invoice:0 report:label.barcode:0
+#: report:picking:0 report:product_datasheet:0 report:product_logistics_sheet:0
+#: report:product_sheet:0 report:purchase_order:0
 msgid "$F{Logo-logo}"
 msgstr "$F{Logo-logo}"
 
@@ -3226,9 +3321,15 @@ msgid "tr($V{L}, \"TIPO UND.\")"
 msgstr "tr($V{L}, \"TIPO UND.\")"
 
 #. module: eln_reports
-#: report:product_datasheet:0 report:product_sheet:0
+#: report:product_datasheet:0 report:product_logistics_sheet:0
+#: report:product_sheet:0
 msgid "UOM____UOS_Coeff-uos_coeff"
 msgstr "UOM____UOS_Coeff-uos_coeff"
+
+#. module: eln_reports
+#: report:label.barcode:0
+msgid "Compania-company_id/Empresa-partner_id/Telefono-phone"
+msgstr "Compania-company_id/Empresa-partner_id/Telefono-phone"
 
 #. module: eln_reports
 #: report:packing_list_alt:0 report:packing_list_std:0
@@ -3241,13 +3342,18 @@ msgid "tr($V{L}, \"TOTAL: \")"
 msgstr "tr($V{L}, \"TOTAL: \")"
 
 #. module: eln_reports
+#: report:control_part:0
+msgid "$P{SUBREPORT_DIR} + \"control_part_packing.jasper\""
+msgstr "$P{SUBREPORT_DIR} + \"control_part_packing.jasper\""
+
+#. module: eln_reports
 #: report:product_datasheet:0
 msgid "tr($V{L}, \"FICHA TÉCNICA DE PRODUCTO\")"
 msgstr "tr($V{L}, \"FICHA TÉCNICA DE PRODUCTO\")"
 
 #. module: eln_reports
-#: report:control_part:0 report:packing_list_alt:0 report:packing_list_std:0
-#: report:picking:0
+#: report:control_part:0 report:label.barcode:0 report:packing_list_alt:0
+#: report:packing_list_std:0 report:picking:0
 msgid "$F{Referencia-name}"
 msgstr "$F{Referencia-name}"
 
@@ -3267,9 +3373,9 @@ msgid "tr($V{L}, \"Tipo caja: \")"
 msgstr "tr($V{L}, \"Tipo caja: \")"
 
 #. module: eln_reports
-#: report:control_part:0
-msgid "Calidad"
-msgstr "Calidad"
+#: report:product_datasheet:0
+msgid "tr($V{L}, \"REDACTADO POR:\")"
+msgstr "tr($V{L}, \"REDACTADO POR:\")"
 
 #. module: eln_reports
 #: report:product_datasheet:0 report:product_sheet:0
@@ -3285,6 +3391,11 @@ msgstr "tr($V{L}, \"UNIDAD\")"
 #: report:invoice:0
 msgid "/data/record/Lineas_de_factura-invoice_line/Precio_unidad-price_unit"
 msgstr "/data/record/Lineas_de_factura-invoice_line/Precio_unidad-price_unit"
+
+#. module: eln_reports
+#: model:ir.model,name:eln_reports.model_mrp_workcenter
+msgid "Work Center"
+msgstr "Centro de producción"
 
 #. module: eln_reports
 #: report:control_part:0
@@ -3312,7 +3423,12 @@ msgid "tr($V{L}, \"Fecha Entrega:\")"
 msgstr "tr($V{L}, \"Fecha Entrega:\")"
 
 #. module: eln_reports
-#: report:addons/eln_reports/report/planning_report_webkit.mako:20
+#: report:control_part:0
+msgid "$P{TABLE_LINES_SCRAP}"
+msgstr "$P{TABLE_LINES_SCRAP}"
+
+#. module: eln_reports
+#: report:addons/eln_reports/report/planning_report/planning_report_webkit.mako:20
 msgid "Product"
 msgstr "Product"
 
@@ -3362,11 +3478,6 @@ msgid "tr($V{L}, \"CÓDIGO INTERNO:\")"
 msgstr "tr($V{L}, \"CÓDIGO INTERNO:\")"
 
 #. module: eln_reports
-#: report:control_part:0
-msgid "UDSxCAJA"
-msgstr "UDSxCAJA"
-
-#. module: eln_reports
 #: report:product_logistics_sheet:0
 msgid "Unidades_de_logistica-packaging/Secuencia-sequence"
 msgstr "Unidades_de_logistica-packaging/Secuencia-sequence"
@@ -3393,9 +3504,9 @@ msgid "/data/record/Ctdad_producto-product_qty"
 msgstr "/data/record/Ctdad_producto-product_qty"
 
 #. module: eln_reports
-#: report:packing_list_alt:0 report:packing_list_std:0
-msgid "tr($V{L}, \"IMPORTANTE:\" + \"<br>\" + \"No se admitirán reclamaciones sobre los envíos, pasados ocho días de la recepción de la mercancía por el comprador.\" + \"<br>\" + \"La conservación de la mercancía en poder del comprador es por su riesgo y cuenta.\" )"
-msgstr "tr($V{L}, \"IMPORTANTE:\" + \"<br>\" + \"No se admitirán reclamaciones sobre los envíos, pasados ocho días de la recepción de la mercancía por el comprador.\" + \"<br>\" + \"La conservación de la mercancía en poder del comprador es por su riesgo y cuenta.\" )"
+#: report:product_logistics_sheet:0
+msgid "$P{SUBREPORT_DIR2} + \"images//pallet-dimensiones.png\""
+msgstr "$P{SUBREPORT_DIR2} + \"images//pallet-dimensiones.png\""
 
 #. module: eln_reports
 #: report:packing_list_alt:0 report:packing_list_std:0
@@ -3439,14 +3550,19 @@ msgid "$P{ORDER_ID} == $F{id} && $F{Tipo-type} == \"physical\""
 msgstr "$P{ORDER_ID} == $F{id} && $F{Tipo-type} == \"physical\""
 
 #. module: eln_reports
-#: report:purchase_order:0
-msgid "$F{C.P.-zip3}"
-msgstr "$F{C.P.-zip3}"
+#: report:packing_list_alt:0 report:packing_list_std:0
+msgid "tr($V{L}, \"IMPORTE\")"
+msgstr "tr($V{L}, \"IMPORTE\")"
 
 #. module: eln_reports
 #: report:purchase_order:0
 msgid "tr($V{L}, \"UNIT PRICE\")"
 msgstr "tr($V{L}, \"UNIT PRICE\")"
+
+#. module: eln_reports
+#: report:packing_list_alt:0 report:packing_list_std:0
+msgid "tr($V{L}, \"ARTÍCULO\")"
+msgstr "tr($V{L}, \"ARTÍCULO\")"
 
 #. module: eln_reports
 #: report:control_part:0
@@ -3520,14 +3636,19 @@ msgid "tr($V{L}, \"TOTAL PRICE\")"
 msgstr "tr($V{L}, \"TOTAL PRICE\")"
 
 #. module: eln_reports
+#: report:control_part:0
+msgid "$P{SUBREPORT_DIR} + \"control_part_fried.jasper\""
+msgstr "$P{SUBREPORT_DIR} + \"control_part_fried.jasper\""
+
+#. module: eln_reports
 #: report:packing_list_alt:0 report:packing_list_std:0
 msgid "$F{Nombre-name-supplier}"
 msgstr "$F{Nombre-name-supplier}"
 
 #. module: eln_reports
-#: report:product_sheet:0
-msgid "tr($V{L}, \"Bolsa:\")"
-msgstr "tr($V{L}, \"Bolsa:\")"
+#: report:label.barcode:0
+msgid "Compania-company_id/Cabecera_del_informe-rml_header1"
+msgstr "Compania-company_id/Cabecera_del_informe-rml_header1"
 
 #. module: eln_reports
 #: report:purchase_order:0
@@ -3565,9 +3686,9 @@ msgid "$F{Name-name4}"
 msgstr "$F{Name-name4}"
 
 #. module: eln_reports
-#: report:control_part:0
-msgid "EAN 13"
-msgstr "EAN 13"
+#: report:packing_list_alt:0 report:packing_list_std:0
+msgid "tr($V{L}, \"BULTOS\")"
+msgstr "tr($V{L}, \"BULTOS\")"
 
 #. module: eln_reports
 #: report:control_part:0
@@ -3662,16 +3783,6 @@ msgid "tr($V{L}, \"Código\")"
 msgstr "tr($V{L}, \"Código\")"
 
 #. module: eln_reports
-#: report:purchase_order:0
-msgid "$P{delivery_address}"
-msgstr "$P{delivery_address}"
-
-#. module: eln_reports
-#: report:control_part:0
-msgid "Departamento"
-msgstr "Departamento"
-
-#. module: eln_reports
 #: report:product_datasheet:0
 msgid "$F{Comercial_format-comercial_format}"
 msgstr "$F{Comercial_format-comercial_format}"
@@ -3728,6 +3839,11 @@ msgstr "Compania-company_id/Empresa-partner_id/Contactos-address/Telefono-phone"
 
 #. module: eln_reports
 #: report:packing_list_alt:0 report:packing_list_std:0
+msgid "new Locale($F{Idioma-lang}.split(\"_\")[0],$F{Idioma-lang}.split(\"_\")[1])"
+msgstr "new Locale($F{Idioma-lang}.split(\"_\")[0],$F{Idioma-lang}.split(\"_\")[1])"
+
+#. module: eln_reports
+#: report:packing_list_alt:0 report:packing_list_std:0
 msgid "/data/record/Supplier-supplier_id/CIF_NIF-vat"
 msgstr "/data/record/Supplier-supplier_id/CIF_NIF-vat"
 
@@ -3740,6 +3856,16 @@ msgstr "$F{Descripcion_impuesto-name}"
 #: report:purchase_order:0
 msgid "Almacen-warehouse_id/Direccion_propietario-partner_address_id/Fax-fax"
 msgstr "Almacen-warehouse_id/Direccion_propietario-partner_address_id/Fax-fax"
+
+#. module: eln_reports
+#: report:control_part:0
+msgid "Producto-product_id/Referencia-code"
+msgstr "Producto-product_id/Referencia-code"
+
+#. module: eln_reports
+#: report:control_part:0
+msgid "ALIMENTADOR"
+msgstr "ALIMENTADOR"
 
 #. module: eln_reports
 #: report:invoice:0
@@ -3765,6 +3891,11 @@ msgstr "tr($V{L}, \"U/C\")"
 #: report:product_datasheet:0
 msgid "Parametros-parameter_ids/Valor-value"
 msgstr "Parametros-parameter_ids/Valor-value"
+
+#. module: eln_reports
+#: report:label.barcode:0
+msgid "$F{Sitio_web-website}"
+msgstr "$F{Sitio_web-website}"
 
 #. module: eln_reports
 #: report:product_sheet:0
@@ -3833,6 +3964,16 @@ msgid "Nº ALBARÁN"
 msgstr "Nº ALBARÁN"
 
 #. module: eln_reports
+#: report:label.barcode:0
+msgid "tr($V{L}, \"Purchase order:\")"
+msgstr "tr($V{L}, \"Purchase order:\")"
+
+#. module: eln_reports
+#: field:mrp.workcenter,control_sheet_toasted:0
+msgid "Control sheet toasted"
+msgstr "Hoja de control tostado"
+
+#. module: eln_reports
 #: report:product_sheet:0
 msgid "tr($V{L}, \"FICHA DE PRODUCTO\")"
 msgstr "tr($V{L}, \"FICHA DE PRODUCTO\")"
@@ -3848,9 +3989,9 @@ msgid "Ingredientes-product_ingredient_ids/Calibre-caliber"
 msgstr "Ingredientes-product_ingredient_ids/Calibre-caliber"
 
 #. module: eln_reports
-#: report:product_logistics_sheet:0
-msgid "new Locale($P{lang2}.split(\"_\")[0],$P{lang2}.split(\"_\")[1])"
-msgstr "new Locale($P{lang2}.split(\"_\")[0],$P{lang2}.split(\"_\")[1])"
+#: report:control_part:0
+msgid "$P{TABLE_LINES_ORDENES_TRABAJO_2}"
+msgstr "$P{TABLE_LINES_ORDENES_TRABAJO_2}"
 
 #. module: eln_reports
 #: report:product_datasheet:0
@@ -3858,19 +3999,24 @@ msgid "$F{DUN14-dun14} + \" (DUN14)\""
 msgstr "$F{DUN14-dun14} + \" (DUN14)\""
 
 #. module: eln_reports
-#: report:purchase_order:0
-msgid "Invoice_phone-invoice_phone"
-msgstr "Invoice_phone-invoice_phone"
+#: report:control_part:0
+msgid "$P{SUBREPORT_DATA_SALTED}"
+msgstr "$P{SUBREPORT_DATA_SALTED}"
 
 #. module: eln_reports
-#: report:purchase_order:0
-msgid "Proveedor-partner_id/Contactos-address/Email-email"
-msgstr "Proveedor-partner_id/Contactos-address/Email-email"
+#: report:control_part:0
+msgid "$P{SUBREPORT_DIR} + \"control_part_toasted.jasper\""
+msgstr "$P{SUBREPORT_DIR} + \"control_part_toasted.jasper\""
 
 #. module: eln_reports
 #: report:packing_list_alt:0 report:packing_list_std:0
 msgid "$F{Nombre_provincia-name-supplier}"
 msgstr "$F{Nombre_provincia-name-supplier}"
+
+#. module: eln_reports
+#: report:product_datasheet:0
+msgid "$F{Bolsa_pinchada-perforated_bag} == true ? tr($V{L}, \"SI\") : tr($V{L}, \"NO\")"
+msgstr "$F{Bolsa_pinchada-perforated_bag} == true ? tr($V{L}, \"SI\") : tr($V{L}, \"NO\")"
 
 #. module: eln_reports
 #: report:invoice:0
@@ -3918,14 +4064,9 @@ msgid "Compania-company_id/Empresa-partner_id/Contactos-address/Provincia-state_
 msgstr "Compania-company_id/Empresa-partner_id/Contactos-address/Provincia-state_id/Nombre_provincia-name"
 
 #. module: eln_reports
-#: report:packing_list_alt:0 report:packing_list_std:0 report:picking:0
-msgid "/data/record/Albaranes_internos-move_lines/Subtotal-price_subtotal"
-msgstr "/data/record/Albaranes_internos-move_lines/Subtotal-price_subtotal"
-
-#. module: eln_reports
 #: report:control_part:0
-msgid "Opciones"
-msgstr "Opciones"
+msgid "/data/record/Fecha_final-date_finished"
+msgstr "/data/record/Fecha_final-date_finished"
 
 #. module: eln_reports
 #: report:product_datasheet:0
@@ -3933,10 +4074,16 @@ msgid "tr($V{L}, \"VIDA ÚTIL\")"
 msgstr "tr($V{L}, \"VIDA ÚTIL\")"
 
 #. module: eln_reports
-#: report:control_part:0 report:product_logistics_sheet:0
-#: report:product_sheet:0
+#: report:control_part:0 report:label.barcode:0
+#: report:product_logistics_sheet:0 report:product_sheet:0
 msgid "new java.util.Date()"
 msgstr "new java.util.Date()"
+
+#. module: eln_reports
+#: report:product_datasheet:0 report:product_logistics_sheet:0
+#: report:product_sheet:0
+msgid "tr($V{L}, \"OBSERVACIONES\")"
+msgstr "tr($V{L}, \"OBSERVACIONES\")"
 
 #. module: eln_reports
 #: model:ir.actions.act_window,name:eln_reports.action_planning_report_wizard
@@ -3984,19 +4131,14 @@ msgid "Lineas_del_pedido-order_line/Producto-product_id/Purchase_Description-des
 msgstr "Lineas_del_pedido-order_line/Producto-product_id/Purchase_Description-description_purchase"
 
 #. module: eln_reports
+#: report:product_datasheet:0
+msgid "Job-approved_job/Nombre_del_trabajo-name"
+msgstr "Job-approved_job/Nombre_del_trabajo-name"
+
+#. module: eln_reports
 #: report:purchase_order:0
 msgid "Compania-company_id/Empresa-partner_id/Contactos-address/Calle2-street2"
 msgstr "Compania-company_id/Empresa-partner_id/Contactos-address/Calle2-street2"
-
-#. module: eln_reports
-#: report:control_part:0
-msgid "Hora Fin"
-msgstr "Hora Fin"
-
-#. module: eln_reports
-#: report:product_datasheet:0
-msgid "tr($V{L}, \"Hidratos de carbono\")"
-msgstr "tr($V{L}, \"Hidratos de carbono\")"
 
 #. module: eln_reports
 #: report:purchase_order:0
@@ -4015,6 +4157,11 @@ msgstr "$F{Calle-street2} ? $F{Calle-street2} + ($F{Calle2-street22} ? $F{Calle2
 
 #. module: eln_reports
 #: report:product_datasheet:0
+msgid "De_las_cuales_Saturadas-fat_saturates"
+msgstr "De_las_cuales_Saturadas-fat_saturates"
+
+#. module: eln_reports
+#: report:product_datasheet:0
 msgid "$F{Nombre_del_trabajo-name2}"
 msgstr "$F{Nombre_del_trabajo-name2}"
 
@@ -4024,14 +4171,14 @@ msgid "Signature"
 msgstr "Signature"
 
 #. module: eln_reports
-#: report:packing_list_alt:0 report:packing_list_std:0
-msgid "/data/record/Impuestos_P.P.-early_payment_disc_tax"
-msgstr "/data/record/Impuestos_P.P.-early_payment_disc_tax"
+#: report:product_sheet:0
+msgid "$F{Envasado_en_atmosfera_protectora-protective_atmosphere} == true"
+msgstr "$F{Envasado_en_atmosfera_protectora-protective_atmosphere} == true"
 
 #. module: eln_reports
-#: model:ir.model,name:eln_reports.model_product_logistics_sheet_report_wizard
-msgid "product.logistics.sheet.report.wizard"
-msgstr "product.logistics.sheet.report.wizard"
+#: report:label.barcode:0
+msgid "Referencia-name"
+msgstr "Referencia-name"
 
 #. module: eln_reports
 #: report:product_logistics_sheet:0 report:product_sheet:0
@@ -4120,10 +4267,9 @@ msgid "tr($V{L}, \"Cajas de base:\")"
 msgstr "tr($V{L}, \"Cajas de base:\")"
 
 #. module: eln_reports
-#: report:product_datasheet:0 report:product_logistics_sheet:0
-#: report:product_sheet:0
-msgid "tr($V{L}, \"OBSERVACIONES\")"
-msgstr "tr($V{L}, \"OBSERVACIONES\")"
+#: report:label.barcode:0
+msgid "$F{Codigo-name}"
+msgstr "$F{Codigo-name}"
 
 #. module: eln_reports
 #: report:product_sheet:0
@@ -4233,6 +4379,11 @@ msgstr "Centro de producción"
 
 #. module: eln_reports
 #: report:purchase_order:0
+msgid "Invoice_phone-invoice_phone"
+msgstr "Invoice_phone-invoice_phone"
+
+#. module: eln_reports
+#: report:purchase_order:0
 msgid "tr($V{L}, \"SIGN:\")"
 msgstr "tr($V{L}, \"SIGN:\")"
 
@@ -4242,19 +4393,24 @@ msgid "$F{Bolsa_pinchada-perforated_bag} == true"
 msgstr "$F{Bolsa_pinchada-perforated_bag} == true"
 
 #. module: eln_reports
+#: report:purchase_order:0
+msgid "Proveedor-partner_id/Contactos-address/Email-email"
+msgstr "Proveedor-partner_id/Contactos-address/Email-email"
+
+#. module: eln_reports
 #: report:invoice:0
 msgid "$F{Impuesto-amount_tax}"
 msgstr "$F{Impuesto-amount_tax}"
 
 #. module: eln_reports
-#: report:control_part:0
-msgid "Cantidad real fabricada"
-msgstr "Cantidad real fabricada"
+#: report:product_sheet:0
+msgid "Etiquetado_alergenos-allergen_labeling"
+msgstr "Etiquetado_alergenos-allergen_labeling"
 
 #. module: eln_reports
-#: report:product_datasheet:0
-msgid "$F{Energia-energy}.isEmpty() ? new Double(\"0.0\") : (new Double($F{Energia-energy}) * $F{Recommended_ration__gr-recommended_ration}) / 100"
-msgstr "$F{Energia-energy}.isEmpty() ? new Double(\"0.0\") : (new Double($F{Energia-energy}) * $F{Recommended_ration__gr-recommended_ration}) / 100"
+#: report:purchase_order:0
+msgid "Total-amount_total"
+msgstr "Total-amount_total"
 
 #. module: eln_reports
 #: report:purchase_order:0
@@ -4302,9 +4458,9 @@ msgid "Control part"
 msgstr "Parte de control"
 
 #. module: eln_reports
-#: report:packing_list_alt:0 report:packing_list_std:0
-msgid "tr($V{L}, \"BULTOS\")"
-msgstr "tr($V{L}, \"BULTOS\")"
+#: report:label.barcode:0
+msgid "$F{Cabecera_del_informe-rml_header1}"
+msgstr "$F{Cabecera_del_informe-rml_header1}"
 
 #. module: eln_reports
 #: report:product_datasheet:0
@@ -4327,6 +4483,16 @@ msgid "$P{TABLE_LINES_UNIDAD}"
 msgstr "$P{TABLE_LINES_UNIDAD}"
 
 #. module: eln_reports
+#: report:label.barcode:0
+msgid "Compania-company_id/Nombre_de_la_compania-name"
+msgstr "Compania-company_id/Nombre_de_la_compania-name"
+
+#. module: eln_reports
+#: field:mrp.workcenter,control_sheet_mixed:0
+msgid "Control sheet mixed"
+msgstr "Hoja de control mezclado"
+
+#. module: eln_reports
 #: report:packing_list_alt:0 report:packing_list_std:0
 msgid "tr($V{L}, \"Código Proveedor:\")"
 msgstr "tr($V{L}, \"Código Proveedor:\")"
@@ -4342,14 +4508,8 @@ msgid "$F{Calle2-street2-factura}.isEmpty() ? \"\" : $F{Calle-street-factura}"
 msgstr "$F{Calle2-street2-factura}.isEmpty() ? \"\" : $F{Calle-street-factura}"
 
 #. module: eln_reports
-#: report:packing_list_alt:0 report:packing_list_std:0
-msgid "tr($V{L}, \"IMPORTE\")"
-msgstr "tr($V{L}, \"IMPORTE\")"
-
-#. module: eln_reports
-#: report:control_part:0 report:invoice:0 report:packing_list_alt:0
-#: report:packing_list_std:0 report:picking:0 report:product_sheet:0
-#: report:purchase_order:0
+#: report:invoice:0 report:packing_list_alt:0 report:packing_list_std:0
+#: report:picking:0 report:product_sheet:0 report:purchase_order:0
 msgid "$P{TABLE_LINES}"
 msgstr "$P{TABLE_LINES}"
 
@@ -4394,6 +4554,11 @@ msgid "/data/record/Lineas_de_factura-invoice_line/Producto-product_id/Referenci
 msgstr "/data/record/Lineas_de_factura-invoice_line/Producto-product_id/Referencia-code"
 
 #. module: eln_reports
+#: report:packing_list_alt:0 report:packing_list_std:0
+msgid "Math.round((($F{Cantidad-product_qty}) - ((((Math.round(($F{Cantidad-product_qty} * $F{UOM____UOS_Coeff-uos_coeff})*1000.0))/1000.0).intValue()) / $F{UOM____UOS_Coeff-uos_coeff}))*1.0)/1.0"
+msgstr "Math.round((($F{Cantidad-product_qty}) - ((((Math.round(($F{Cantidad-product_qty} * $F{UOM____UOS_Coeff-uos_coeff})*1000.0))/1000.0).intValue()) / $F{UOM____UOS_Coeff-uos_coeff}))*1.0)/1.0"
+
+#. module: eln_reports
 #: constraint:res.users:0
 msgid "The chosen company is not in the allowed companies for this user"
 msgstr "La compañía seleccionada no está en las compañías permitidas para este usuario"
@@ -4402,6 +4567,11 @@ msgstr "La compañía seleccionada no está en las compañías permitidas para e
 #: constraint:stock.move:0
 msgid "You must assign a production lot for this product"
 msgstr "Debe asignar un lote de producción para este producto"
+
+#. module: eln_reports
+#: report:control_part:0
+msgid "$P{control_sheet_fried}"
+msgstr "$P{control_sheet_fried}"
 
 #. module: eln_reports
 #: report:product_logistics_sheet:0
@@ -4429,16 +4599,6 @@ msgid "DESCRIPCIÓN IMPUESTO"
 msgstr "DESCRIPCIÓN IMPUESTO"
 
 #. module: eln_reports
-#: report:packing_list_alt:0 report:packing_list_std:0
-msgid "tr($V{L}, \"DIRECCIÓN DE ENTREGA:\")"
-msgstr "tr($V{L}, \"DIRECCIÓN DE ENTREGA:\")"
-
-#. module: eln_reports
-#: report:control_part:0
-msgid "$P{SUBREPORT_DIR} + \"image002.png\""
-msgstr "$P{SUBREPORT_DIR} + \"image002.png\""
-
-#. module: eln_reports
 #: model:ir.model,name:eln_reports.model_product_datasheet_report_wizard
 msgid "product.datasheet.report.wizard"
 msgstr "product.datasheet.report.wizard"
@@ -4449,14 +4609,19 @@ msgid "$F{Nombre_comercial-comercial-envio}.isEmpty() ? $F{Nombre_comercial-come
 msgstr "$F{Nombre_comercial-comercial-envio}.isEmpty() ? $F{Nombre_comercial-comercial-cliente} : $F{Nombre_comercial-comercial-factura}"
 
 #. module: eln_reports
+#: report:label.barcode:0
+msgid "\"Email: \" + $F{E_mail-email}"
+msgstr "\"Email: \" + $F{E_mail-email}"
+
+#. module: eln_reports
 #: report:product_datasheet:0 report:product_sheet:0
 msgid "%"
 msgstr "%"
 
 #. module: eln_reports
-#: report:product_datasheet:0
-msgid "$F{Bolsa_pinchada-perforated_bag} == true ? \"SI\" : \"NO\""
-msgstr "$F{Bolsa_pinchada-perforated_bag} == true ? \"SI\" : \"NO\""
+#: view:mrp.workcenter:0
+msgid "Description"
+msgstr "Descripción"
 
 #. module: eln_reports
 #: report:control_part:0
@@ -4508,16 +4673,6 @@ msgstr "tr($V{L}, $F{Comentarios__ficha_logistica_producto-comments_product_logi
 
 #. module: eln_reports
 #: report:product_datasheet:0
-msgid "$F{Energia-energy}.isEmpty() ? new Double(\"0.000\") : new Double($F{Energia-energy})"
-msgstr "$F{Energia-energy}.isEmpty() ? new Double(\"0.000\") : new Double($F{Energia-energy})"
-
-#. module: eln_reports
-#: report:control_part:0
-msgid "$P{TABLE_LINES_1_4}"
-msgstr "$P{TABLE_LINES_1_4}"
-
-#. module: eln_reports
-#: report:product_datasheet:0
 msgid "tr($V{L}, \"ORIGEN\")"
 msgstr "tr($V{L}, \"ORIGEN\")"
 
@@ -4527,9 +4682,8 @@ msgid "AG"
 msgstr "AG"
 
 #. module: eln_reports
-#: report:control_part:0 report:invoice:0 report:packing_list_alt:0
-#: report:packing_list_std:0 report:picking:0 report:product_logistics_sheet:0
-#: report:product_sheet:0
+#: report:invoice:0 report:packing_list_alt:0 report:packing_list_std:0
+#: report:picking:0 report:product_logistics_sheet:0 report:product_sheet:0
 msgid "$F{EAN13-ean13}"
 msgstr "$F{EAN13-ean13}"
 
@@ -4539,9 +4693,9 @@ msgid "/data/record/Supplier-supplier_id/id"
 msgstr "/data/record/Supplier-supplier_id/id"
 
 #. module: eln_reports
-#: report:packing_list_alt:0 report:packing_list_std:0
-msgid "tr($V{L}, \"ARTÍCULO\")"
-msgstr "tr($V{L}, \"ARTÍCULO\")"
+#: view:mrp.workcenter:0
+msgid "Sheets to be inluded in 'Control part' report"
+msgstr "Hojas a incluir en el informe 'Parte de control'"
 
 #. module: eln_reports
 #: report:control_part:0 report:purchase_order:0
@@ -4559,7 +4713,7 @@ msgid "$F{Numero_de_cuenta-acc_number}"
 msgstr "$F{Numero_de_cuenta-acc_number}"
 
 #. module: eln_reports
-#: report:addons/eln_reports/report/planning_report_webkit.mako:13
+#: report:addons/eln_reports/report/planning_report/planning_report_webkit.mako:13
 msgid "Carrier"
 msgstr "Carrier"
 
@@ -4574,9 +4728,9 @@ msgid "/data/record/Direccion-address_id/Ciudad-city"
 msgstr "/data/record/Direccion-address_id/Ciudad-city"
 
 #. module: eln_reports
-#: report:product_sheet:0
-msgid "tr($V{L}, \"Formato:\")"
-msgstr "tr($V{L}, \"Formato:\")"
+#: report:control_part:0
+msgid "'[' + $F{Referencia-code} + '] ' + $F{Name-name}"
+msgstr "'[' + $F{Referencia-code} + '] ' + $F{Name-name}"
 
 #. module: eln_reports
 #: report:product_datasheet:0
@@ -4604,9 +4758,29 @@ msgid "tr($V{L}, \"Tlf: \") + $F{Telefono-phone2}"
 msgstr "tr($V{L}, \"Tlf: \") + $F{Telefono-phone2}"
 
 #. module: eln_reports
+#: report:label.barcode:0
+msgid "tr($V{L}, \"Picking:\")"
+msgstr "tr($V{L}, \"Picking:\")"
+
+#. module: eln_reports
 #: report:invoice:0 report:picking:0
 msgid "FECHA CADUC."
 msgstr "FECHA CADUC."
+
+#. module: eln_reports
+#: report:control_part:0
+msgid "$P{SUBREPORT_DIR} + \"control_part_mixed.jasper\""
+msgstr "$P{SUBREPORT_DIR} + \"control_part_mixed.jasper\""
+
+#. module: eln_reports
+#: report:control_part:0
+msgid "$P{SUBREPORT_DATA_MIXED}"
+msgstr "$P{SUBREPORT_DATA_MIXED}"
+
+#. module: eln_reports
+#: report:label.barcode:0
+msgid "$F{Idioma-lang} ? new Locale($F{Idioma-lang}.split(\"_\")[0],$F{Idioma-lang}.split(\"_\")[1]) : $P{REPORT_LOCALE}"
+msgstr "$F{Idioma-lang} ? new Locale($F{Idioma-lang}.split(\"_\")[0],$F{Idioma-lang}.split(\"_\")[1]) : $P{REPORT_LOCALE}"
 
 #. module: eln_reports
 #: report:product_datasheet:0

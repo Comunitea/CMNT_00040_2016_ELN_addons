@@ -1,0 +1,22 @@
+=== modified file 'account_financial_report_webkit/account_move_line.py' (properties changed: -x to +x)
+--- account_financial_report_webkit/account_move_line.py	2012-03-06 09:13:59 +0000
++++ account_financial_report_webkit/account_move_line.py	2015-12-13 16:03:53 +0000
+@@ -36,7 +36,7 @@
+                    "          WHERE reconcile_id =  acm.reconcile_id"
+                    "              AND reconcile_id IS NOT NULL"
+                    "          ORDER BY date DESC LIMIT 1)"
+-                   " WHERE last_rec_date is null;")
++                   " WHERE last_rec_date is null and reconcile_id is not null;")
+                    
+         cr.execute("UPDATE account_move_line as acm "
+                    " SET last_rec_date =" 
+@@ -44,7 +44,7 @@
+                    "          WHERE reconcile_partial_id =  acm.reconcile_partial_id"
+                    "              AND reconcile_partial_id IS NOT NULL"
+                    "          ORDER BY date DESC LIMIT 1)"
+-                   " WHERE last_rec_date is null;")
++                   " WHERE last_rec_date is null and reconcile_partial_id is not null;")
+                    
+                    
+     def _get_move_line_from_line_rec(self, cr, uid, ids, context=None):
+
