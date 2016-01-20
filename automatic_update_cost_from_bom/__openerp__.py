@@ -27,7 +27,7 @@
     "depends" : ["base", "product", "product_extended"],
     "category" : "Manufacturing",
     "init_xml" : [],
-    "data" : ["mrp_bom_data.xml", "product_category_view.xml", "product_view"],
+    "data" : ["mrp_bom_data.xml", "product_category_view.xml", "product_view.xml"],
     'demo_xml': [],
     'installable': True,
     'active': False,
