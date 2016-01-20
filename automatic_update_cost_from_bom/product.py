@@ -26,7 +26,7 @@ class product_template(models.Model):
     _inherit = "product.template"
 
     # Added post-migration, not defined more in 8.0 in product_extended module
-    calculate_price = fields.Boolean('Compute standard price', help="Check this box if the standard price must be computed from the BoM."),
+    calculate_price = fields.Boolean('Compute standard price', help="Check this box if the standard price must be computed from the BoM.")
 
     @api.onchange('categ_id')
     def onchange_categ_id(self):
