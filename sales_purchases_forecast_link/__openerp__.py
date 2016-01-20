@@ -33,8 +33,8 @@
         "depends" : ['base','sales_forecast','purchases_forecast','mrp'],
         "init_xml" : [],
         "demo_xml" : [],
-        # "update_xml" : ['wizard/sales_purchase_forecast.xml'
-        #     ],
+        "data" : ['wizard/sales_purchase_forecast.xml'
+            ],
         "installable": True,
         'active': False
 

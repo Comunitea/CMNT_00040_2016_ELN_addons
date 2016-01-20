@@ -120,6 +120,3 @@ class product_fields(osv.osv):
 
         id = super(product_fields, self).write(cr, uid, ids, values, context)
         return id
-
-
-product_fields()

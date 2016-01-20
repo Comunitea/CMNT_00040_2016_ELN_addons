@@ -296,7 +296,7 @@
             id="act_sale_order_2_stock_picking"
             name="Delivery orders related"
             res_model="stock.picking"
-            groups="base.group_extended"
+
             src_model="sale.order"
             view_id="stock.view_picking_out_tree"
             context="{'default_sale_id': active_ids, 'contact_display': 'partner'}" />
@@ -338,7 +338,7 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <xpath expr="/form/notebook/page[@string='General Informations']/field[@name='inventory_line_id']/tree/field[@name='prod_lot_id']" position="replace">
-                    <field name="prod_lot_id" context="{'product_id': product_id}" groups="base.group_extended"/>
+                    <field name="prod_lot_id" context="{'product_id': product_id}" />
                 </xpath>
             </field>
         </record>-->

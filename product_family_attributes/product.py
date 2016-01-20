@@ -91,6 +91,3 @@ class product_product(osv.osv):
         return res
 
 
-
-
-product_product()

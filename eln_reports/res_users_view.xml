@@ -36,7 +36,7 @@
                                     <separator string="Default Filters" colspan="2"/>
                                     <field name="company_id" required="1" context="{'user_preference': 0}" groups="base.group_multi_company"/>
                                 </group>
-                                <group colspan="2" col="2" groups="base.group_extended">
+                                <group colspan="2" col="2" >
                                     <separator string="Action" colspan="2"/>
                                     <field name="action_id"/>
                                     <field domain="[('usage','=','menu')]" name="menu_id" required="True"/>

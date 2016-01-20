@@ -9,7 +9,7 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <field name="active" position="before">
-                    <field name="reworks_location" groups="base.group_extended"/>
+                    <field name="reworks_location" />
                 </field>
             </field>
         </record>

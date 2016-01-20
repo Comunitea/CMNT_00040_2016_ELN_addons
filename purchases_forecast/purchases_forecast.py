@@ -239,6 +239,3 @@ class purchases_forecast_line(osv.osv):
 #            res[field + '_amount'] = 0.0
 
         return {'value': res}
-
-
-purchases_forecast_line()

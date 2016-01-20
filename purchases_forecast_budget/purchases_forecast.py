@@ -58,6 +58,7 @@ class purchases_forecast(osv.osv):
 #                        'budget_item_id': cur.budget_item_id.id,
 #                        'name': _('Sales forecast line of ') + cur.name,
 #                        'product_id': line.product_id.id,
+#                        'product_id': line.product_id.id,
 #                        'amount': line.total_amount,
 #                        'currency_id': cur.budget_version_id.currency_id.id,
 #                        'analytic_account_id': cur.analytic_id and cur.analytic_id.id or False
@@ -73,4 +74,3 @@ class purchases_forecast(osv.osv):
 
         return super(purchases_forecast, self).action_validate(cr, uid, ids, context=context)
 
-purchases_forecast()

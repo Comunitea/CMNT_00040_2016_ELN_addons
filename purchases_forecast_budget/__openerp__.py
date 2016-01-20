@@ -28,7 +28,7 @@
         "depends" : ['budget','purchases_forecast'],
         "init_xml" : [],
         "demo_xml" : [],
-        "update_xml" : ["purchases_forecast_view.xml"],
+        "data" : ["purchases_forecast_view.xml"],
         "installable": True,
         'active': False
 

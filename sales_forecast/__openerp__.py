@@ -28,15 +28,15 @@
         "depends" : ['product','stock','account','base'],
         "init_xml" : [],
         "demo_xml" : [],
-        # "update_xml" : ["data/sales_forecast_line_seq.xml",
-        #                 "security/sales_forecast_security.xml",
-        #                 "sales_forecast_workflow.xml",
-        #                 "sales_forecast_view.xml",
-        #                 "wizard/get_sales_forecast_view.xml",
-        #                 "security/ir.model.access.csv",
-        #                 "wizard/merge_sales_forecast_view.xml",
-        #                 "wizard/scale_sales_forecast_view.xml"
-        #     ],
+        "data" : ["data/sales_forecast_line_seq.xml",
+                        "security/sales_forecast_security.xml",
+                        "sales_forecast_workflow.xml",
+                        "sales_forecast_view.xml",
+                        "wizard/get_sales_forecast_view.xml",
+                        "security/ir.model.access.csv",
+                        "wizard/merge_sales_forecast_view.xml",
+                        "wizard/scale_sales_forecast_view.xml"
+            ],
         "installable": True,
         'active': False
 

@@ -255,9 +255,9 @@
                     <field name="product_id"/>
                     <field name="product_qty" sum="Total Qty"/>
                     <field name="product_uom"/>
-                    <field name="routing_id" groups="base.group_extended"/>
-                    <field name="hour_total" sum="Total Hours" groups="base.group_extended"/>
-                    <field name="cycle_total" sum="Total Cycles" groups="base.group_extended"/>
+                    <field name="routing_id" />
+                    <field name="hour_total" sum="Total Hours" />
+                    <field name="cycle_total" sum="Total Cycles" />
                     <field name="origin"/>
                     <field name="state"/>
                 </tree>
@@ -274,7 +274,7 @@
                 <field name="routing_id" position="replace">
                     <field name="ids_str2" invisible="1"/>
                     <field name="operator_ids_str" invisible="1"/>
-                    <field name="routing_id" groups="base.group_extended" select="1" domain="[('id','in',eval(ids_str2))]" />
+                    <field name="routing_id"  select="1" domain="[('id','in',eval(ids_str2))]" />
                 </field>
                 <button string="Produce" position="replace">
                     <button name="button_produce_finished" states="in_production" string="Finish Production" icon="gtk-ok" />
@@ -339,7 +339,7 @@
                         <field name="move_lines_str"/>
                         <field name="move_lines2_str"/>
                     </page>-->
-                    <page string="Work Orders" groups="base.group_extended">
+                    <page string="Work Orders" >
                         <button name="action_compute" states="draft,confirmed,ready,finished,validated,closed"
                             string="Compute Data" type="object"
                             icon="terp-stock_format-scientific"

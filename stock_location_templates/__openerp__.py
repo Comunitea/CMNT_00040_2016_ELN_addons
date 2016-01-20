@@ -25,16 +25,16 @@
         """,
     "version" : "1.0",
     "author" : "Pexego",
-    # "depends" : ["base", "product","stock",],
+    "depends" : ["base", "product","stock",],
     "depends" : ["base", "product","stock"], # Modificado post-migración
     "category" : "Manufacturing",
     "init_xml" : [],
-    # "update_xml" : ["stock_location_templates_view.xml",
-    #                 "wizard/templates_product_view.xml",
-    #                 "product_view.xml",
-    #                 "security/ir.model.access.csv",
-    #                 "security/stock_location_templates_security.xml"
-    #                 ],
+    "update_xml" : ["stock_location_templates_view.xml",
+                    "wizard/templates_product_view.xml",
+                    "product_view.xml",
+                    "security/ir.model.access.csv",
+                    "security/stock_location_templates_security.xml"
+                    ],
     'demo_xml': [],
     'installable': True,
     'active': False,

@@ -28,7 +28,7 @@
         "depends" : ['purchase','base'],
         "init_xml" : [],
         "demo_xml" : [],
-        "update_xml" : [ 'data/purchases_forecast_line_seq.xml',
+        "data" : [ 'data/purchases_forecast_line_seq.xml',
                          'security/purchases_forecast_security.xml',
                          'purchases_forecast_view.xml',
                          'purchases_forecast_workflow.xml',
