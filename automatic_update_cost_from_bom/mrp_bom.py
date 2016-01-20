@@ -32,7 +32,7 @@ class mrp_bom(osv.osv):
             ids = self.pool.get('mrp.bom').search(cr, uid, [('bom_id','=',False)])
             
         for bom in self.browse(cr, uid, ids):
-            if bom.bom_lines:
+            if bom.bom_line_ids:
                 self.run_compute_cost(cr, uid, [x.id for x in bom.bom_lines])
             bom.product_id.compute_price()
                 
