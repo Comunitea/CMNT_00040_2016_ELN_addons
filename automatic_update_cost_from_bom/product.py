@@ -18,19 +18,17 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from openerp import models, api, fields
 
-from openerp.osv import osv, fields
 
-class product_product(osv.osv):
+class product_template(models.Model):
     
-    _inherit = "product.product"
-    
-    def onchange_categ_id(self, cr, uid, ids, categ_id=False):
-        res = {}
-        
-        if categ_id:
-            categ = self.pool.get('product.category').browse(cr, uid, categ_id)
-            res = {'value': {'calculate_price': categ.calculate_price}}
-            
-        return res
+    _inherit = "product.template"
 
+    # Added post-migration, not defined more in 8.0 in product_extended module
+    calculate_price = fields.boolean('Compute standard price', help="Check this box if the standard price must be computed from the BoM."),
+
+    @api.onchange('categ_id')
+    def onchange_categ_id(self):
+        if self.categ_id:
+            self.calculate_price = self.categ_id.calculate_price

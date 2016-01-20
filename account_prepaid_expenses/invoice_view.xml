@@ -5,10 +5,11 @@
         <record id="view_invoice_line_tree_add_prepaid_expense_amount" model="ir.ui.view">
             <field name="name">account.invoice.line.tree.prepaid_expense_amount</field>
             <field name="model">account.invoice.line</field>
+            <!--Esta herencia creo que no se usa-->
             <field name="inherit_id" ref="account.view_invoice_line_tree"/>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <field name="price_subtotal" position="after">
+                <field name="discount" position="after">
                     <field name="prepaid_expense_amount"/>
                     <field name="prepaid_expense_amount_untaxed"/>
                 </field>
@@ -19,6 +20,7 @@
         <record id="view_invoice_line_form_add_prepaid_expense_amount" model="ir.ui.view">
             <field name="name">account.invoice.line.form.add_prepaid_expense_amount</field>
             <field name="model">account.invoice.line</field>
+             <!--Esta herencia creo que no se usa, no hay form en las lineas-->
             <field name="inherit_id" ref="account.view_invoice_line_form"/>
             <field name="type">form</field>
             <field name="arch" type="xml">
@@ -41,6 +43,20 @@
                 </xpath>
             </field>
         </record>
+
+        <!--No hace falta en lienas de venta-->
+        <!--Añadido postmigration-->
+        <!--<record id="view_invoice_form_add_prepaid_expense_amount" model="ir.ui.view">-->
+            <!--<field name="name">account.invoice.form.agent</field>-->
+            <!--<field name="model">account.invoice</field>-->
+            <!--<field name="inherit_id" ref="account.invoice_form" />-->
+            <!--<field name="arch" type="xml">-->
+                <!--<xpath expr="//field[@name='invoice_line']/tree//field[@name='discount']" position="after">-->
+                   <!--<field name="prepaid_expense_amount"/>-->
+                    <!--<field name="prepaid_expense_amount_untaxed"/>-->
+                <!--</xpath>-->
+            <!--</field>-->
+        <!--</record>-->
 
     </data>
 </openerp>

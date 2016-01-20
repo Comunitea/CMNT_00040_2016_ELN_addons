@@ -26,14 +26,26 @@ class mrp_bom(osv.osv):
     
     _inherit = "mrp.bom"
 
+    # FROM 6.1
+    # def run_compute_cost(self, cr, uid, ids=False, context=None):
+    #     if context is None: context = {}
+    #     if not ids:
+    #         ids = self.pool.get('mrp.bom').search(cr, uid, [('bom_id','=',False)])
+    #
+    #     for bom in self.browse(cr, uid, ids):
+    #         if bom.bom_lines:
+    #             self.run_compute_cost(cr, uid, [x.id for x in bom.bom_lines])
+    #         bom.product_id.compute_price()
+
     def run_compute_cost(self, cr, uid, ids=False, context=None):
+        """
+        Function called by cron. Calculate product cost only for product marked
+        withe the check calculate_price.
+        """
         if context is None: context = {}
         if not ids:
-            ids = self.pool.get('mrp.bom').search(cr, uid, [('bom_id','=',False)])
-            
+            domain = [('mrp.product_id.calculate_price', '=', True)]
+            ids = self.pool.get('mrp.bom').search(cr, uid, domain, context=context)
         for bom in self.browse(cr, uid, ids):
-            if bom.bom_lines:
-                self.run_compute_cost(cr, uid, [x.id for x in bom.bom_lines])
             bom.product_id.compute_price()
-                
         return True
