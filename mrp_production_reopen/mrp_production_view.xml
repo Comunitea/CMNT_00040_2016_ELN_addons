@@ -8,10 +8,11 @@
             <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
             <field name="type">form</field>
             <field name="arch" type="xml">
-                <xpath expr="header" position="inside">
-                    <button name="action_reopen" string="Reopen" states="done" icon="gtk-go-back" type="object" groups="mrp.group_mrp_manager"/>
-                    <button name="action_redone" string="Done" states="reopen" icon="gtk-go-forward" type="object" groups="mrp.group_mrp_manager"/>
+                <xpath expr="/form/notebook/page[@string='Consumed Products']/group[1]/field[@name='state']" position="after">
+                    <button name="action_reopen" string="Reopen production" states="done" icon="gtk-go-back" type="object" colspan="1" groups="mrp_production_reopen.group"/>
+                    <button name="action_redone" string="Done" states="reopen" icon="gtk-go-forward" type="object" colspan="1" groups="mrp_production_reopen.group"/>
                 </xpath>
+                
             </field>
         </record>
         

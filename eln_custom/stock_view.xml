@@ -296,7 +296,6 @@
             id="act_sale_order_2_stock_picking"
             name="Delivery orders related"
             res_model="stock.picking"
-            groups="base.group_extended"
             src_model="sale.order"
             view_id="stock.view_picking_out_tree"
             context="{'default_sale_id': active_ids, 'contact_display': 'partner'}" />
@@ -309,7 +308,7 @@
             <field name="domain">[('sale_id', 'in', active_ids)]</field>
             <field name="context">{'default_sale_id': active_ids, 'contact_display': 'partner'}</field>
             <field name="search_view_id" ref="stock.view_picking_out_search"/>
-            <field name="groups">base.group_extended</field>
+            <!-- <field name="groups">base.group_extended</field>  -->
         </record>
         <record id="act_sale_order_2_stock_picking_out_view1" model="ir.actions.act_window.view">
             <field eval="1" name="sequence"/>

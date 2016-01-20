@@ -18,8 +18,13 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-import purchase_order_report_parser
-import product_datasheet_report_parser
-import product_logistics_sheet_report_parser
-import planning_report_parser
-import packing_list_std_report_parser
+import barcode_label
+import control_part
+import invoice
+import packing_list
+import planning_report
+import product_datasheet
+import product_logistics_sheet
+import purchase_order
+import sheet_product
+import stock_picking

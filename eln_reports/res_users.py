@@ -21,7 +21,10 @@
 from openerp.osv import osv, fields
 
 class res_users(osv.osv):
-				_inherit = 'res.users'
-				_columns = {
-								'signature_image': fields.binary('Signature')
-				}
+	_inherit = 'res.users'
+	
+	_columns = {
+		'signature_image': fields.binary('Signature')
+	}
+	
+res_users()

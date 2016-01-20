@@ -270,9 +270,11 @@
             <field name="type">tree</field>
             <field eval="7" name="priority"/>
             <field name="arch" type="xml">
+               <!-- Se oculta no dando permisos para variante de producto
                <field name="variants" position="replace">
                     <field name="variants" groups="product.group_product_variant" invisible="1"/>
-               </field>
+               </field> 
+               -->
                <field name="lst_price" position="before">
                    <field name="qty_dispo"/>
                </field>

@@ -20,6 +20,5 @@
 ##############################################################################
 import cost_type
 import cost_structure_elements
-import product_category
 import product
 import wizard
