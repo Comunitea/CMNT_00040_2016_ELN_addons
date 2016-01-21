@@ -44,8 +44,12 @@ class mrp_bom(osv.osv):
         """
         if context is None: context = {}
         if not ids:
-            domain = [('mrp.product_id.calculate_price', '=', True)]
+            domain = [('product_id.calculate_price', '=', True)]
             ids = self.pool.get('mrp.bom').search(cr, uid, domain, context=context)
+        tmpl_ids = []
         for bom in self.browse(cr, uid, ids):
-            bom.product_id.compute_price()
+           tmpl_ids.append(bom.product_id.product_tmpl_id.id)
+        if tmpl_ids:
+            t_pt = self.pool.get('product.template')
+            t_pt.compute_price(cr, uid, [], template_ids=tmpl_ids, real_time_accounting=False, recursive=False, test=False, context=context)
         return True
