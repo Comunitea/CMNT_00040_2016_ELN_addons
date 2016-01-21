@@ -9,7 +9,9 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <field name="categ_id" position="after">
-                    <field name="trademark_id"/>
+                    <group>
+                        <field name="trademark_id"/>
+                    </group>
                 </field>
             </field>
         </record>

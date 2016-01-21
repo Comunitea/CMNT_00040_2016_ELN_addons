@@ -29,6 +29,7 @@ class res_partner_address(osv.osv):
     _columns = {
         'partner_id': fields.many2one('res.partner', 'Partner Name', ondelete='cascade', select=True, help="Keep empty for a private address, not related to partner."),
         'comercial': fields.char('Nombre comercial', size=128, select=True), # Nombre Comercial de la dirección del partner,
+        'ref': fields.char('Reference', size=64, select=1), # Referencia(Cod cliente) de la dirección del partner,
         'mobile2': fields.char('Mobile phone', size=64), # Teléfono de la partner.address. El mobile es el del contacto asociado a la partner.address,
     }
 

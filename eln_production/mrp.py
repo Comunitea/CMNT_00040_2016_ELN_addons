@@ -262,6 +262,8 @@ class mrp_production_workcenter_line(osv.osv):
     }
 
     def write(self, cr, uid, ids, vals, context=None, update=True):
+        if not isinstance(ids, list):
+            ids = [ids]
         prod_obj = self.pool.get('mrp.production')
         for prod in self.browse(cr, uid, ids, context=context):
             if vals.get('workcenter_id', False):

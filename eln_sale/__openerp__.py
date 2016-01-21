@@ -30,7 +30,8 @@
                 # 'product',
                 # 'sale_order_dates',
                 # 'sale_early_payment_discount',
-                # 'sale_commission'
+                # 'sale_commission'.
+                # 'nan_partner_risk',
                 ],
     "category" : "Sale",
     "init_xml" : [],
@@ -40,6 +41,7 @@
     #                 'sale_workflow.xml',
     #                 'security/ir.model.access.csv',
     #                 'sale_shop_view.xml',
+    #                 'wizard/sale_order_confirm_view.xml',
     #                 ],
     'demo_xml': [],
     'installable': True,

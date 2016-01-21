@@ -20,6 +20,7 @@
 ##############################################################################
 # import stock
 # import purchase
+# import mrp
 # import res_users
 # import wizard
 # import report

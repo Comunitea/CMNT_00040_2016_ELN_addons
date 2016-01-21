@@ -10,13 +10,10 @@
                 <tree string="Cost Structure Elements">
                     <field name="sequence"/>
                     <field name="cost_type_id" widget="selection"/>
-                    <field name="cost_theoric_type"/>
-                    <field name="field_theoric_cost"/>
-                    <field name="fixed_theoric_cost"/>
+                    <field name="cost_type"/>
+                    <field name="cost_ratio"/>
+                    <field name="distribution_mode"/>
                     <field name="time"/>
-                    <field name="cost_real_type"/>
-                    <field name="field_real_cost"/>
-                    <field name="fixed_real_cost"/>
                 </tree>
             </field>
         </record>
@@ -36,23 +33,17 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Cost Structure Elements">
-                    <group>
+                    <group colspan="4" col="4">
+                        <field name="sequence"/>
                         <field name="cost_type_id" widget="selection"/>
                     </group>
                     <newline/>
                     <group string="Configuration" colspan="4">
                        <group colspan="2" col="2">
-                            <separator string="Theoric" colspan="2"/>
-                            <field name="cost_theoric_type" />
-                            <field name="field_theoric_cost"/>
-                            <field name="fixed_theoric_cost"/>
-                        </group>
-                        <group colspan="2" col="2">
-                           <separator string="Real" colspan="2"/>
+                            <field name="cost_type" />
+                            <field name="cost_ratio" attrs="{'invisible':[('cost_type', '!=', 'ratio')]}"/>
+                            <field name="distribution_mode" attrs="{'invisible': [('cost_type', '!=', 'ratio')]}"/>
                             <field name="time"/>
-                            <field name="cost_real_type"/>
-                            <field name="field_real_cost" />
-                            <field name="fixed_real_cost"/>
                         </group>
                     </group>
                 </form>
@@ -73,8 +64,9 @@
             <field name="model">cost.structure</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree string="Cost Structure">
+                <tree string="Cost Structures">
                     <field name="name"/>
+                    <field name="year"/>
                 </tree>
             </field>
         </record>
@@ -83,8 +75,9 @@
             <field name="model">cost.structure</field>
             <field name="type">search</field>
             <field name="arch" type="xml">
-                <search string="Cost Structure">
+                <search string="Cost Structures">
                     <field name="name"/>
+                    <field name="year"/>
                 </search>
             </field>
         </record>
@@ -96,6 +89,7 @@
                 <form string="Cost Structure">
                     <group>
                         <field name="name"/>
+                        <field name="year"/>
                     </group>
                     <notebook colspan="4">
                         <page string="Elements">
@@ -106,7 +100,7 @@
             </field>
         </record>
         <record id="action_cost_structure" model="ir.actions.act_window">
-            <field name="name">Cost Structure</field>
+            <field name="name">Cost Structures</field>
              <field name="type">ir.actions.act_window</field>
             <field name="res_model">cost.structure</field>
             <field name="view_type">form</field>

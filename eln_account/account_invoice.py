@@ -19,6 +19,8 @@
 #
 ##############################################################################
 
+import decimal_precision as dp
+
 from openerp.osv import fields, osv, orm
 from openerp.tools.translate import _
 
@@ -55,6 +57,61 @@ class account_invoice(osv.osv):
     #                if line.received_check:
     #                    res[inv.id] = True
     #    return res
+    
+    def _get_invoice_line(self, cr, uid, ids, context=None):
+        result = {}
+        for line in self.pool.get('account.invoice.line').browse(cr, uid, ids, context=context):
+            result[line.invoice_id.id] = True
+        return result.keys()
+
+    def _get_invoice_tax(self, cr, uid, ids, context=None):
+        result = {}
+        for tax in self.pool.get('account.invoice.tax').browse(cr, uid, ids, context=context):
+            result[tax.invoice_id.id] = True
+        return result.keys()
+
+    def _get_invoice_from_line(self, cr, uid, ids, context=None):
+        move = {}
+        for line in self.pool.get('account.move.line').browse(cr, uid, ids, context=context):
+            if line.reconcile_partial_id:
+                for line2 in line.reconcile_partial_id.line_partial_ids:
+                    move[line2.move_id.id] = True
+            if line.reconcile_id:
+                for line2 in line.reconcile_id.line_id:
+                    move[line2.move_id.id] = True
+        invoice_ids = []
+        if move:
+            invoice_ids = self.pool.get('account.invoice').search(cr, uid, [('move_id','in',move.keys())], context=context)
+        return invoice_ids
+
+    def _get_invoice_from_reconcile(self, cr, uid, ids, context=None):
+        move = {}
+        for r in self.pool.get('account.move.reconcile').browse(cr, uid, ids, context=context):
+            for line in r.line_partial_ids:
+                move[line.move_id.id] = True
+            for line in r.line_id:
+                move[line.move_id.id] = True
+
+        invoice_ids = []
+        if move:
+            invoice_ids = self.pool.get('account.invoice').search(cr, uid, [('move_id','in',move.keys())], context=context)
+        return invoice_ids
+
+    def _amount_residual(self, cr, uid, ids, name, args, context=None):
+        result = {}
+        for invoice in self.browse(cr, uid, ids, context=context):
+            checked_partial_rec_ids = []
+            result[invoice.id] = 0.0
+            if invoice.move_id:
+                for move_line in invoice.move_id.line_id:
+                    if move_line.account_id.type in ('receivable','payable'):
+                        if move_line.reconcile_partial_id:
+                            partial_reconcile_id = move_line.reconcile_partial_id.id
+                            if partial_reconcile_id in checked_partial_rec_ids:
+                                continue
+                            checked_partial_rec_ids.append(partial_reconcile_id)
+                        result[invoice.id] += move_line.amount_residual_currency
+        return result
 
     _columns = {
         'received_check': fields.function(_received_check, method=True, store=False, type='boolean', string='Received check', help="To write down that a check in paper support has been received, for example."),
@@ -65,6 +122,16 @@ class account_invoice(osv.osv):
         #        store={
         #           'account.move.line': (lambda self, cr, uid, ids, context=None: ids, None, 20),
         #        }),
+        
+        'residual': fields.function(_amount_residual, digits_compute=dp.get_precision('Account'), string='Balance',
+            store={
+                'account.invoice': (lambda self, cr, uid, ids, c={}: ids, ['invoice_line','move_id'], 50),
+                'account.invoice.tax': (_get_invoice_tax, None, 50),
+                'account.invoice.line': (_get_invoice_line, ['price_unit','invoice_line_tax_id','quantity','discount','invoice_id'], 50),
+                'account.move.line': (_get_invoice_from_line, None, 50),
+                'account.move.reconcile': (_get_invoice_from_reconcile, None, 50),
+            },
+            help="Remaining amount due."),
     }
 
     def _refund_cleanup_lines(self, cr, uid, lines):
@@ -105,3 +172,5 @@ class account_invoice_line(osv.osv):
             res['value']['uos_id'] = uom or False
 
         return res
+
+account_invoice_line()

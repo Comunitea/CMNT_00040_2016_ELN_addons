@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openerp>
-    <data noupdate="1">
+    <data noupdate="0">
         <!-- Type cost.structure -->
         <record model="ir.sequence.type" id="seq_cost_structure">
             <field name="name">Sequence Cost Structure</field>

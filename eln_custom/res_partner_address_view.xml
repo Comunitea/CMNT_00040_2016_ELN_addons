@@ -12,10 +12,12 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='address']/form/group[2]/field[@name='type']" position="replace">
                     <newline/>
-                    <field name="type" string="Type" colspan="4"/>
+                    <field name="type" string="Type" colspan="2"/>
+                    <field name="ref" colspan="2" groups="base.group_extended"/>
                     <field name="comercial" colspan="4"/>
                 </xpath>
                 <xpath expr="//field[@name='address']/tree/field[@name='name']" position="replace">
+                    <field name="ref" groups="base.group_extended"/>
                     <field name="comercial"/>
                     <field name="street"/>
                 </xpath>
@@ -62,6 +64,7 @@
                     <field name="company_id" on_change="onchange_company_id(company_id, partner_id)" groups="base.group_multi_company" widget="selection" colspan="2" />
                 </field>
                 <field name="street" position="before">
+                    <field name="ref" groups="base.group_extended"/>
                     <field name="comercial" />
                 </field>
                 <field name="country_id" position="replace" />
@@ -87,6 +90,7 @@
             <field name="type">tree</field>
             <field name="arch" type="xml">
                 <field name="partner_id" position="after">
+                    <field name="ref" groups="base.group_extended"/>
                     <field name="comercial" />
                 </field>
             </field>
@@ -99,6 +103,7 @@
             <field name="type">search</field>
             <field name="arch" type="xml">
 	                <field name="country_id" position="before">
+                        <!-- <field name="ref" groups="base.group_extended"/> -->
 	                    <field name="comercial" />
 	                    <field name="street"  />
 	                    <field name="street2" />

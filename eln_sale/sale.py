@@ -53,15 +53,15 @@ class sale_order(osv.osv):
         #        vals.update({'commitment_date': min(dates_list)})
         return super(sale_order, self).create(cr, uid, vals, context=context)
     
-    def action_ship_create(self, cr, uid, ids, context=None):
-        super(sale_order, self).action_ship_create(cr, uid, ids)
+    def action_ship_create(self, cr, uid, ids, *args):
+        res = super(sale_order, self).action_ship_create(cr, uid, ids, *args)
         
         for order in self.browse(cr, uid, ids):
             if order.picking_ids and order.supplier_id:
                 for picking in order.picking_ids:
                     if picking.state != 'cancel' and not picking.supplier_id:
                         self.pool.get('stock.picking').write(cr, uid, picking.id, {'supplier_id': order.supplier_id.id})
-        return True
+        return res
 
     def onchange_partner_id(self, cr, uid, ids, part):
         res = super(sale_order, self).onchange_partner_id(cr, uid, ids, part)
@@ -129,7 +129,9 @@ class sale_order_line(osv.osv):
         y no las del producto que estaba antes. Si sólo pasamos la uom hace conversión de cantidad a cantidad de venta, pero si pasamos
         también la uos hace la conversión de la unidad de venta a la unidad de compra.
         En el on_change del producto pasamos en el contexto force_product_uom=True"""
-        
+        if context is None:
+            context = {}
+            
         if product:
             product_obj = self.pool.get('product.product')
             product_obj = product_obj.browse(cr, uid, product, context=context)
