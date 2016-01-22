@@ -21,7 +21,7 @@
 
 from openerp.osv import fields, osv, orm
 
-class account_move_line(osv.osv):
+class account_move_line(orm.Model):
     _inherit = "account.move.line"
     
     #Función pendiente de aplicar. Util en los pagos para ver numero de factura.
@@ -39,5 +39,4 @@ class account_move_line(osv.osv):
     #        else:
     #            result.append((line.id, line.move_id.name))
     #    return result
-    
-account_move_line()
+

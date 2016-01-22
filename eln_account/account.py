@@ -21,7 +21,7 @@
 
 from openerp.osv import fields, osv, orm
 
-class account_journal(osv.osv):
+class account_journal(orm.Model):
     
     _inherit = 'account.journal'
     
@@ -49,5 +49,3 @@ class account_journal(osv.osv):
                     sequence_id = bank_data and bank_data.journal_id and bank_data.journal_id.sequence_id and bank_data.journal_id.sequence_id.id or False
                     vals.update({'sequence_id': sequence_id})
         return super(account_journal, self).create(cr, uid, vals, context)
-    
-account_journal()
