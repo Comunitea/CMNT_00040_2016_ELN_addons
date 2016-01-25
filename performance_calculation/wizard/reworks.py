@@ -135,7 +135,7 @@ class recover_components(osv.osv_memory):
             if move.product_id.bom_ids:
                 bom = move.product_id.bom_ids[0]
                 factor = move.product_qty * move.product_uom.factor / bom.product_uom.factor
-                res1, res2 = self.pool.get('mrp.bom')._bom_explode(cr, uid, bom, factor, properties=[], addthis=False, level=0, routing_id=False)
+                res1, res2 = self.pool.get('mrp.bom')._bom_explode(cr, uid, bom, factor, properties=[])#, addthis=False, level=0, routing_id=False)
 
                 for r in res1:
                     result.append({'product_id': r['product_id'],

@@ -116,10 +116,11 @@ class sales_forecast(osv.osv):
                                                                     uid,
                                                                     bom,
                                                                     factor / bom.product_qty,
-                                                                    properties=[],
-                                                                    addthis=False,
-                                                                    level=0,
-                                                                    routing_id=False)
+                                                                    properties=[])\
+                                                                    #
+                                                                    # addthis=False,
+                                                                    # level=0,
+                                                                    # routing_id=False)
                         boms = x
 
                         for l in y:
@@ -157,7 +158,7 @@ class sales_forecast(osv.osv):
 
                     for line in cur.sales_forecast_lines:
 
-                        if line.product_id.supply_method == 'produce':
+                        if line.product_id.route_ids[0].name == 'Manufacture':
 
                             if not line.product_id.bom_ids:
                                 break
@@ -171,28 +172,27 @@ class sales_forecast(osv.osv):
                                                                 line.product_id.uom_id.id,
                                                                 (eval('o.' + (months[month] + '_qty'),{'o': line})),
                                                                  bom.product_uom.id)
-                                    res2, res1  = bom_obj._bom_explode(cr, uid, bom, factor / bom.product_qty, properties=[], addthis=False, level=0, routing_id=False)
+                                    res2, res1  = bom_obj._bom_explode(cr, uid, bom, line.product_id,  factor / bom.product_qty, properties=[])#, addthis=False, level=0, routing_id=False)
 
                                     if res1:
                                         lines = res1
 
-                                        for r in res2:
-                                            product = prod.browse(cr, uid, r['product_id'])
-                                            if product.supply_method == 'produce' and product.bom_ids:
-                                                 for h in product.bom_ids:
-                                                     if not h.bom_id:
-                                                         bom = h
-
-                                                         if bom.routing_id:
-                                                             factor = uom_obj._compute_qty(cr, uid,
-                                                                                        product.uom_id.id,
-                                                                                        r['product_qty'],
-                                                                                        bom.product_uom.id)
-                                                             res3 = _get_bom_recursivity(r, factor)
-                                                             if res3:
-                                                                lines += res3
-                                                         break
-
+                                        # for r in res2:
+                                        #     product = prod.browse(cr, uid, r['product_id'])
+                                        #     if line.product_id.route_ids[0].name == 'Manufacture' and product.bom_ids:
+                                        #          for h in product.bom_ids:
+                                        #              if not h.bom_id:
+                                        #                  bom = h
+                                        #
+                                        #                  if bom.routing_id:
+                                        #                      factor = uom_obj._compute_qty(cr, uid,
+                                        #                                                 product.uom_id.id,
+                                        #                                                 r['product_qty'],
+                                        #                                                 bom.product_uom.id)
+                                        #                      res3 = _get_bom_recursivity(r, factor)
+                                        #                      if res3:
+                                        #                         lines += res3
+                                        #                  break
                                     for a in lines:
                                         if res.get(a['workcenter_id']):
                                             res[a['workcenter_id']][0] += a['hour']
@@ -232,6 +232,7 @@ class sales_forecast(osv.osv):
 
 
     def action_validate(self, cr, uid, ids, context=None):
+
         if context is None:
             context = {}
         self.generate_stock_forecast(cr, uid, ids, context=context)

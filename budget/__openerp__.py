@@ -1,14 +1,11 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Author: Arnaud Wüst, Guewen Baconnier
-#    Copyright 2009-2013 Camptocamp SA
+#    Author: Arnaud Wüst, Guewen Baconnier, Leonardo Pistone
+#    Copyright 2009-2014 Camptocamp SA
 #
-#    Copyright (c) 2013 Pexego Sistemas Informáticos All Rights Reserved
-#    $Marta Vázquez Rodríguez$ <marta@pexego.es>
-#
-#    Copyright (C) 2015- Comunitea Servicios Tecnologicos All Rights Reserved
-#    $Kiko Sánchez$ <kiko@comunitea.com>
+#    Copyright (C) 2015-2016 Comunitea Servicios Tecnológicos All Rights Reserved
+#    $kiko Sánchez <kiko@comunitea.com>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -25,8 +22,8 @@
 #
 ##############################################################################
 {"name": "Multicurrency Analytic Budget",
- "version": "1.0",
- "author": "Camptocamp",
+ "version": "1.1",
+ "author": "Camptocamp,Odoo Community Association (OCA)",
  "category": "Generic Modules/Accounting",
  "website": "http://camptocamp.com",
  "description": """
@@ -40,20 +37,30 @@ Features:
 
 This module is for real advanced budget use, otherwise prefer to use the
 OpenERP official one.
+
+Active Budget Version
+=====================
+
+Every Budget has zero or one active Version. This is marked by a flag and that
+can be set with a button. All other versions are disabled.
+
+If a budget version is duplicated, the old one is automatically disabled as
+well.
+
     """,
  "complexity": "expert",
  "depends": ["base",
              "account",
              "report_webkit",
+             "analytic_multicurrency",
              ],
- "data": ["budget_view.xml",
+ "data": [
           "report/budget_header_webkit.xml",
           "budget_report.xml",
-
           "wizard/report_budget_view.xml",
+          "budget_view.xml",
           "analytic_view.xml",
-          
-          "security/ir.model.access.csv"
+          "security/ir.model.access.csv",
           ],
  "installable": True,
  "application": True,

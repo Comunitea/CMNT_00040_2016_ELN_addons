@@ -4,12 +4,6 @@
 #    Author: Arnaud Wüst
 #    Copyright 2009-2013 Camptocamp SA
 #
-#    Copyright (c) 2013 Pexego Sistemas Informáticos All Rights Reserved
-#    $Marta Vázquez Rodríguez$ <marta@pexego.es>
-#
-#    Copyright (C) 2015- Comunitea Servicios Tecnologicos All Rights Reserved
-#    $Kiko Sánchez$ <kiko@comunitea.com>
-#
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
 #    published by the Free Software Foundation, either version 3 of the
@@ -24,11 +18,12 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import osv
+from openerp.osv import orm
 
 
-class account_period(osv.osv):
-    """ add new methods to the account_period object """
+class account_period(orm.Model):
+
+    """ add new methods to the account_period base object """
     _inherit = 'account.period'
 
     def _get_next_periods(self, cr, uid, start_period,

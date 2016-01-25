@@ -37,6 +37,8 @@ class get_sales_forecast(osv.osv_memory):
     def get_sales_forecast(self, cr, uid, ids, context=None):
         """ Get forecast sales for the selected analytic account and,
                     which may also increase profits in the percentage selected."""
+
+
         if context is None:
             context = {}
 
@@ -70,15 +72,19 @@ class get_sales_forecast(osv.osv_memory):
                                                     })
             for month in range(0,11):
                 #I find all the invoices in for each month last year.
-                invoice_ids = inv_obj.search(cr, uid, \
+                domain =  \
                     [('date_invoice','>',str('01-' + str(month + 1) +
                         '-' + str(int(time.strftime('%d-%m-%Y')[6:]) - 1))),
                     ('date_invoice','<',
                         str((calendar.monthrange((int(time.strftime('%d-%m-%Y')[6:]) - 1),
                         (month + 1))[1])) + '-' + str(month + 1) + '-' +
                         str(int(time.strftime('%d-%m-%Y')[6:]) - 1)),
-                    ('company_id','=', company_id)])
+                    ('company_id','=', company_id)]
+
+                invoice_ids = inv_obj.search(cr, uid, domain)
+                print u"Domain: %s\n"%(domain)
                 if invoice_ids:
+
                     #If invoices, step through lines that share the selected
                     #analytic account and save them in a dictionary, with the
                     #id of product of the line like key:
@@ -90,14 +96,19 @@ class get_sales_forecast(osv.osv_memory):
                                     line.product_id:
 
                                 quantity = self.pool.get('product.uom')._compute_qty(cr, uid, line.uos_id.id,line.quantity, line.product_id.uom_id.id)
-
                                 if products.get(line.product_id.id):
-                                    products[line.product_id.id][0] += \
-                                        products[line.product_id.id][0][0] + quantity
-                                    products[line.product_id.id][1] += \
-                                        products[line.product_id.id][0][1] + \
-                                        line.price_subtotal
+                                    new_val = (products[line.product_id.id][0][0] + quantity,
+                                               products[line.product_id.id][0][1] + line.price_subtotal)
+                                    products[line.product_id.id][0] = new_val
+
+                                    # products[line.product_id.id][0] += \
+                                    #     products[line.product_id.id][0][0] + quantity
+                                    # products[line.product_id.id][1] += \
+                                    #     products[line.product_id.id][0][1] + \
+                                    #     line.price_subtotal
+
                                 else:
+                                    print u"Nuevo producto %s (%s)"%(line.product_id.name, len(products)+1)
                                     products[line.product_id.id] = []
                                     products[line.product_id.id].append((quantity,
                                                                     line.price_subtotal))

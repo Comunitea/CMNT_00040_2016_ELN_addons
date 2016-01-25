@@ -4,12 +4,6 @@
 #    Author: Arnaud Wüst
 #    Copyright 2009-2013 Camptocamp SA
 #
-#    Copyright (c) 2013 Pexego Sistemas Informáticos All Rights Reserved
-#    $Marta Vázquez Rodríguez$ <marta@pexego.es>
-#
-#    Copyright (C) 2015- Comunitea Servicios Tecnologicos All Rights Reserved
-#    $Kiko Sánchez$ <kiko@comunitea.com>
-#
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
 #    published by the Free Software Foundation, either version 3 of the
@@ -24,17 +18,37 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import osv, fields
+from datetime import date, datetime
+import calendar
+
+from openerp.osv import fields, orm
+from openerp.tools import DEFAULT_SERVER_DATE_FORMAT as DATE_FORMAT
 
 
-class budget_budget(osv.osv):
+class budget_budget(orm.Model):
+
     """ Budget Model. The module's main object.  """
     _name = "budget.budget"
     _description = "Budget"
     _order = 'name ASC'
+
+    def _get_active_version(self, cr, uid, ids, field_name, arg, context=None):
+        version_obj = self.pool['budget.version']
+        result = {}
+
+        for budget_id in ids:
+            active_ids = version_obj.search(cr, uid, [
+                ('budget_id', '=', budget_id),
+                ('is_active', '=', True),
+            ], context=context)
+
+            result[budget_id] = active_ids and active_ids[0] or False
+
+        return result
+
     _columns = {
-        'code': fields.char('Code', size=5),
-        'name': fields.char('Name', required=True, size=255),
+        'code': fields.char('Code'),
+        'name': fields.char('Name', required=True),
         'active': fields.boolean('Active'),
         'start_date': fields.date('Start Date', required=True),
         'end_date': fields.date('End Date', required=True),
@@ -46,6 +60,12 @@ class budget_budget(osv.osv):
                                               'budget_id',
                                               'Budget Versions',
                                               readonly=True),
+        'active_version_id': fields.function(
+            _get_active_version,
+            string='Active Version',
+            type='many2one',
+            relation='budget.version',
+        ),
         'note': fields.text('Notes'),
         'create_date': fields.datetime('Creation Date', readonly=True)
     }
@@ -98,3 +118,27 @@ class budget_budget(osv.osv):
                 context=context)
             result += period_obj.browse(cr, uid, period_ids, context=context)
         return result
+
+    def on_change_start_date(self, cr, uid, ids, start_date_str, context=None):
+
+        #Da fallo al crear
+        end_date_str = False
+        if start_date_str:
+            start_date = datetime.strptime(start_date_str, DATE_FORMAT)
+        # else:
+        #     start_date = datetime(
+        #         year = datetime.now().year,
+        #         month= 1,
+        #         day = 1
+        #     )
+
+            last_day_of_month = calendar.monthrange(start_date.year,
+                                                    start_date.month)[1]
+            end_date = datetime(
+                year=start_date.year,
+                month=start_date.month,
+                day=last_day_of_month)
+
+            end_date_str = date.strftime(end_date, DATE_FORMAT)
+
+        return {'value': {'end_date': end_date_str}}

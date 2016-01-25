@@ -8,6 +8,14 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Sales forecast">
+                    <header>
+                        <button name="action_cancel" states="draft,done" string="Cancel"  icon="gtk-cancel"/>
+                        <button name="action_draft" states="cancel,done,approve" string="Set to Draft"  icon="gtk-convert"/>
+                        <button name="action_done" states="draft" string="Confirm" icon="gtk-apply" />
+                        <button name="action_validate" states="done" string="Approve" icon="gtk-go-forward" />
+                        <field name="state" widget="statusbar" statusbar_visible="draft,done, approve, cancel"
+                                       statusbar_colors='{"cancel":"red","draft":"blue"}'/>
+                    </header>
                     <group col="6" colspan="4">
                         <group col="4" colspan="4">
                             <field name="name"/>
@@ -121,13 +129,6 @@
                                     </group>
                                 </form>
                             </field>
-                            <group col="17" colspan="4">
-                                <field name="state"/>
-                                <button name="action_cancel" states="draft,done" string="Cancel"  icon="gtk-cancel"/>
-                                <button name="action_draft" states="cancel,done" string="Set to Draft"  icon="gtk-convert"/>
-                                <button name="action_done" states="draft" string="Confirm" icon="gtk-apply" />
-                                <button name="action_validate" states="done" string="Approve" icon="gtk-go-forward" />
-                            </group>
                         </page>
                         <page string="Origin" attrs="{'invisible':[('merged_from_ids', '=', False)]}">
                              <field colspan="4" name="merged_from_ids" nolabel="1"/>

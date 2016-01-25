@@ -7,7 +7,6 @@
             <field name="name">budget.line.analytic.list</field>
             <field name="model">budget.line</field>
             <field name="priority">20</field>
-            <field name="type">tree</field>
             <field name="arch" type="xml">
                 <tree string="Budget Lines">
                     <field name="analytic_account_id" invisible="1" />
@@ -42,7 +41,7 @@
         </record>
 
         <act_window
-            context="{'search_default_analytic_account_id': active_id, 'default_analytic_account_id': active_id, 'tree_view_ref': 'budget.view_budget_line_analytic_list'}"
+            context="{'search_default_analytic_account_id': active_id, 'search_default_group_budget_item_id': 1, 'default_analytic_account_id': active_id, 'tree_view_ref': 'budget.view_budget_line_analytic_list'}"
             id="action_budget_line_analytic_tree"
             name="Budget Lines"
             res_model="budget.line"

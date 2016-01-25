@@ -4,6 +4,9 @@
 #    Copyright (C) 2004-2012 Pexego Sistemas Informáticos All Rights Reserved
 #    $Marta Vázquez Rodríguez$ <marta@pexego.es>
 #
+#    Copyright (C) 2015-2016 Comunitea Servicios Tecnológicos All Rights Reserved
+#    $kiko sánchez$ <kiko@comunitea.com>
+#
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
 #    by the Free Software Foundation, either version 3 of the License, or
@@ -25,11 +28,11 @@
         "website" : "http://www.pexego.es",
         "category" : "Sales",
         "description": """Add product field to the budget lines for create lines per product.""",
-        # "depends" : ['budget','base','product'],
+        "depends" : ['budget','base','product'],
         "init_xml" : [],
         "demo_xml" : [],
-        # "update_xml" : ["budget_line_view.xml",
-        #                 "security/ir.model.access.csv"],
+        "data" : ["budget_line_view.xml",
+                        "security/ir.model.access.csv"],
         "installable": True,
         'active': False
 

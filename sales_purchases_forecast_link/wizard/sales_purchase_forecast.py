@@ -25,6 +25,7 @@ class sales_purchase_forecast(osv.osv_memory):
     _name = 'sales.purchase.forecast'
 
     def generate_forecast(self, cr, uid, ids, context=None):
+
         if context is None:
             context = {}
         validate_ids = []

@@ -9,6 +9,14 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="MRP Forecast">
+                    <header>
+                        <button name="action_cancel" states="draft,done" string="Cancel"  icon="gtk-cancel"/>
+                        <button name="action_draft" states="cancel,done" string="Set to Draft"  icon="gtk-convert"/>
+                        <button name="action_validate" states="draft" string="Approve" icon="gtk-go-forward" />
+                        <field name="state" widget="statusbar" statusbar_visible="draft,done, cancel"
+                                       statusbar_colors='{"cancel":"red","draft":"blue"}'/>
+
+                    </header>
                     <group col="6" colspan="4">
                         <group col="4" colspan="4">
                             <field name="name"/>
@@ -101,13 +109,7 @@
                                     </group>
                                 </form>
                             </field>
-                            <group>
-                                 <field name="state"/>
-                            </group>
 
-                                <button name="action_cancel" states="draft,done" string="Cancel"  icon="gtk-cancel"/>
-                                <button name="action_draft" states="cancel,done" string="Set to Draft"  icon="gtk-convert"/>
-                                <button name="action_validate" states="draft" string="Approve" icon="gtk-go-forward" />
 
                         </page>
                     </notebook>
