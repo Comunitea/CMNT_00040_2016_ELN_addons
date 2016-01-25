@@ -2,33 +2,17 @@
 
 <openerp>
     <data>
-        <!--<record id="view_picking_out_form_replace_name" model="ir.ui.view">-->
-            <!--<field name="name">stock.picking.out.form.replace_name</field>-->
-            <!--<field name="model">stock.picking</field>-->
-            <!--<field name="inherit_id" ref="stock.view_picking_form"/>-->
-            <!--<field name="type">form</field>-->
-            <!--<field name="arch" type="xml">-->
-                <!--<xpath expr="/form/notebook/page[@string='Products']/field[@name='move_lines']/form/group[1]/field[@name='name']" position="replace">-->
-                <!--</xpath>-->
-                <!--<xpath expr="/form/notebook/page[@string='Products']/field[@name='move_lines']/form/group[1]/field[@name='product_packaging']" position="before">-->
-                    <!--<field name="name" invisible="0" colspan="4" select="0" string="Description" />-->
-                <!--</xpath>-->
-            <!--</field>-->
-        <!--</record>-->
 
-        <!--<record id="view_picking_in_form_replace_name" model="ir.ui.view">-->
-            <!--<field name="name">stock.picking.in.form.replace_name</field>-->
-            <!--<field name="model">stock.picking</field>-->
-            <!--<field name="inherit_id" ref="stock.view_picking_form"/>-->
-            <!--<field name="type">form</field>-->
-            <!--<field name="arch" type="xml">-->
-                <!--<xpath expr="/form/notebook/page[@string='General Information']/field[@name='move_lines']/form/group[1]/field[@name='name']" position="replace">-->
-                <!--</xpath>-->
-                <!--<xpath expr="/form/notebook/page[@string='General Information']/field[@name='move_lines']/form/group[1]/field[@name='product_packaging']" position="before">-->
-                    <!--<field name="name" invisible="0" colspan="4" select="0" string="Description" />-->
-                <!--</xpath>-->
-            <!--</field>-->
-        <!--</record>-->
+        <record id="view_picking_out_form_replace_name" model="ir.ui.view">
+            <field name="name">stock.picking.out.form.replace_name</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock.view_move_picking_form"/>
+            <field name="arch" type="xml">
+                <field name="name" position="attributes">
+                    <attribute name="colspan">4</attribute>
+                </field>
+            </field>
+        </record>
 
         <record id="view_picking_out_form_add_route" model="ir.ui.view">
             <field name="name">stock.picking.out.form.add_route</field>
@@ -39,123 +23,134 @@
                 <field name="backorder_id" position="after">
                     <field name="route_id" on_change="onchange_route_id(route_id)"/>
                 </field>
+
+                <field name="partner_id" position="attributes">
+                    <attribute name="context">{'show_address':1, 'default_type':'delivery'}</attribute>
+                    <attribute name="options">{"always_reload": True}</attribute>
+                </field>
+
             </field>
         </record>
 
-        <!--<record id="view_picking_out_tree_add_route" model="ir.ui.view">-->
-            <!--<field name="name">stock.picking.out.tree.add_route</field>-->
-            <!--<field name="model">stock.picking</field>-->
-            <!--<field name="inherit_id" ref="stock.view_picking_out_tree"/>-->
-            <!--<field name="type">tree</field>-->
-            <!--<field name="arch" type="xml">-->
-                <!--<field name="origin" position="before">-->
-                    <!--<field name="route_id"/>-->
-                <!--</field>-->
-            <!--</field>-->
-        <!--</record>-->
+        <record id="view_picking_out_tree_add_route" model="ir.ui.view">
+            <field name="name">stock.picking.out.tree.add_route</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.vpicktree"/>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <field name="origin" position="before">
+                    <field name="route_id"/>
+                </field>
+                 <field name="partner_id" position="attributes">
+                    <!--<attribute name="context">{'show_address':1,'default_type':'delivery'}</attribute>-->
+                    <attribute name="context">{'show_address':1}</attribute>
+                    <attribute name="options">{"always_reload": True}</attribute>
+                </field>
+            </field>
+        </record>
 
-        <!--<record model="ir.ui.view" id="stock_picking_kanban">-->
-            <!--<field name="name">stock.picking.kanban</field>-->
-            <!--<field name="model">stock.picking</field>-->
-            <!--<field name="type">kanban</field>-->
-            <!--<field name="arch" type="xml">-->
-                <!--<kanban default_group_by="route_id">-->
-                    <!--<field name="name"/>-->
-                    <!--<field name="real_date"/>-->
-                    <!--<field name="address_id"/>-->
-                    <!--<field name="supplier_id"/>-->
-                    <!--<field name="carrier_id"/>-->
-                    <!--<field name="packages"/>-->
-                    <!--<field name="weight" sum="Total Peso Bruto"/>-->
-                    <!--<field name="weight_net"/>-->
-                    <!--<field name="volume"/>-->
-                    <!--<field name="color_stock"/>-->
-                    <!--<field name="state"/>-->
-                    <!--<templates>-->
-                        <!--<t t-name="kanban-box">-->
-                            <!--<t t-set="color" t-value="kanban_color(record.color_stock.raw_value || record.state.raw_value)"/>-->
-                            <!--<div t-att-class="color">-->
-                            <!--<div class="oe_kanban_box oe_kanban_color_border">-->
-                                <!--<div class="oe_kanban_box_header oe_kanban_color_bgdark oe_kanban_color_border oe_kanban_draghandle">-->
-                                    <!--<table class="oe_kanban_table">-->
-                                    <!--<tr>-->
-                                                <!--<td class="oe_kanban_title1" align="left" valign="middle" tooltip="production_workcenter_line_details">-->
-                                                    <!--Fecha Real: <field name="real_date"/>-->
-                                                <!--</td>-->
-                                    <!--</tr>-->
-                                    <!--<tr>-->
-                                        <!--<td align="left" valign="middle" class="oe_kanban_title1" tooltip="production_workcenter_line_details">-->
-                                            <!--<field name="name"/> (<field name="state"/>)-->
-                                        <!--</td>-->
+        <record model="ir.ui.view" id="stock_picking_kanban">
+            <field name="name">stock.picking.kanban</field>
+            <field name="model">stock.picking</field>
+            <field name="type">kanban</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="route_id">
+                    <field name="name"/>
+                    <field name="date_done"/>
+                    <field name="partner_id"/>
+                    <field name="supplier_id"/>
+                    <field name="carrier_id"/>
+                    <field name="packages"/>
+                    <field name="weight" sum="Total Peso Bruto"/>
+                    <field name="weight_net"/>
+                    <field name="volume"/>
+                    <field name="color_stock"/>
+                    <field name="state"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <t t-set="color" t-value="kanban_color(record.color_stock.raw_value || record.state.raw_value)"/>
+                            <div t-att-class="color">
+                            <div class="oe_kanban_box oe_kanban_color_border">
+                                <div class="oe_kanban_box_header oe_kanban_color_bgdark oe_kanban_color_border oe_kanban_draghandle">
+                                    <table class="oe_kanban_table">
+                                    <tr>
+                                                <td class="oe_kanban_title1" align="left" valign="middle" tooltip="production_workcenter_line_details">
+                                                    Fecha Real: <field name="date_done"/>
+                                                </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="left" valign="middle" class="oe_kanban_title1" tooltip="production_workcenter_line_details">
+                                            <field name="name"/> (<field name="state"/>)
+                                        </td>
 
-                                    <!--</tr>-->
-                                    <!--</table>-->
-                                <!--</div>-->
+                                    </tr>
+                                    </table>
+                                </div>
 
-                                     <!--<div class="oe_kanban_box_content oe_kanban_color_bglight oe_kanban_box_show_onclick_trigger oe_kanban_color_border">-->
-                                        <!--<div>-->
-                                            <!--<b>-->
-                                                <!--Fecha de compromiso:-->
-                                            <!--</b>-->
-                                            <!--<field name="commitment_date"/>-->
-                                        <!--</div>-->
-                                        <!--<div>-->
-                                            <!--<b>-->
-                                                <!--Dirección:-->
-                                            <!--</b>-->
-                                            <!--<field name="address_id"/>-->
-                                        <!--</div>-->
-                                        <!--<div>-->
-                                            <!--<b>-->
-                                                <!--Proveedor:-->
-                                            <!--</b>-->
-                                            <!--<field name="supplier_id"/>-->
-                                        <!--</div>-->
-                                        <!--<div>-->
-                                            <!--<b>-->
-                                                <!--Transportista:-->
-                                            <!--</b>-->
-                                            <!--<field name="carrier_id" />-->
-                                        <!--</div>-->
-                                        <!--<div>-->
-                                            <!--<b>-->
-                                               <!--Bultos:-->
-                                            <!--</b>-->
-                                             <!--<field name="packages" />-->
-                                             <!--<b>-->
-                                                 <!--Volumen:-->
-                                             <!--</b>-->
-                                             <!--<field name="volume" />-->
-                                        <!--</div>-->
-                                        <!--<div>-->
-                                            <!--<b>-->
-                                                <!--Peso bruto:-->
-                                            <!--</b>-->
-                                            <!--<field name="weight" />-->
-                                            <!--<b>-->
-                                                <!--Peso neto:-->
-                                            <!--</b>-->
-                                            <!--<field name="weight_net" />-->
+                                     <div class="oe_kanban_box_content oe_kanban_color_bglight oe_kanban_box_show_onclick_trigger oe_kanban_color_border">
+                                        <div>
+                                            <b>
+                                                Fecha de compromiso:
+                                            </b>
+                                            <field name="commitment_date"/>
+                                        </div>
+                                        <div>
+                                            <b>
+                                                Dirección:
+                                            </b>
+                                            <t-field name="o.partner_id.street"/>
+                                        </div>
+                                        <div>
+                                            <b>
+                                                Proveedor:
+                                            </b>
+                                            <field name="supplier_id"/>
+                                        </div>
+                                        <div>
+                                            <b>
+                                                Transportista:
+                                            </b>
+                                            <field name="carrier_id" />
+                                        </div>
+                                        <div>
+                                            <b>
+                                               Bultos:
+                                            </b>
+                                             <field name="packages" />
+                                             <b>
+                                                 Volumen:
+                                             </b>
+                                             <field name="volume" />
+                                        </div>
+                                        <div>
+                                            <b>
+                                                Peso bruto:
+                                            </b>
+                                            <field name="weight" />
+                                            <b>
+                                                Peso neto:
+                                            </b>
+                                            <field name="weight_net" />
 
-                                        <!--</div>-->
+                                        </div>
 
-                                    <!--</div>-->
+                                    </div>
 
-                                    <!--<div class="oe_kanban_buttons_set oe_kanban_color_border oe_kanban_color_bglight oe_kanban_box_show_onclick">-->
-                                        <!--<div class="oe_kanban_left">-->
-                                            <!--<a string="Edit" icon="gtk-edit" type="edit"/>-->
-                                        <!--</div>-->
+                                    <div class="oe_kanban_buttons_set oe_kanban_color_border oe_kanban_color_bglight oe_kanban_box_show_onclick">
+                                        <div class="oe_kanban_left">
+                                            <a string="Edit" icon="gtk-edit" type="edit"/>
+                                        </div>
 
-                                        <!--<br class="oe_kanban_clear"/>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                            <!--</div>-->
+                                        <br class="oe_kanban_clear"/>
+                                    </div>
+                                </div>
+                            </div>
 
-                        <!--</t>-->
-                    <!--</templates>-->
-                <!--</kanban>-->
-            <!--</field>-->
-        <!--</record>-->
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
         <record id="view_picking_planning_kanban_search" model="ir.ui.view">
             <field name="name">stock.picking.out.search</field>
             <field name="model">stock.picking</field>
@@ -180,36 +175,33 @@
             <field name="type">ir.actions.act_window</field>
             <field name="view_type">form</field>
             <field name="view_mode">kanban,tree,form</field>
-            <field name="domain">[('type','=','out')]</field>
-            <field name="context">{'default_type': 'out', 'contact_display': 'partner_address', 'search_default_todaytwo':1}</field>
+            <!--<field name="domain">[('type','=','out')]</field>-->
+            <!--<field name="context">{'default_type': 'out', 'contact_display': 'partner_address', 'search_default_todaytwo':1}</field>-->
             <field name="search_view_id" ref="view_picking_planning_kanban_search"/>
         </record>
-        <!--<record id="action_picking_kanban_out_view1_waiting" model="ir.actions.act_window.view">-->
-            <!--<field eval="1" name="sequence"/>-->
-            <!--<field name="view_mode">kanban</field>-->
-            <!--<field name="view_id" ref="stock_picking_kanban"/>-->
-            <!--<field name="act_window_id" ref="action_picking_planning_kanban"/>-->
-        <!--</record>-->
+        <record id="action_picking_kanban_out_view1_waiting" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">kanban</field>
+            <field name="view_id" ref="stock_picking_kanban"/>
+            <field name="act_window_id" ref="action_picking_planning_kanban"/>
+        </record>
         <record id="action_picking_kanban_out_view1_waiting2" model="ir.actions.act_window.view">
             <field eval="3" name="sequence"/>
             <field name="view_mode">form</field>
             <field name="view_id" ref="stock.view_picking_form"/>
             <field name="act_window_id" ref="action_picking_planning_kanban"/>
         </record>
-        <!--<record id="action_picking_kanban_out_view1_waiting3" model="ir.actions.act_window.view">-->
-            <!--<field eval="2" name="sequence"/>-->
-            <!--<field name="view_mode">tree</field>-->
-            <!--<field name="view_id" ref="stock.view_picking_out_tree"/>-->
-            <!--<field name="act_window_id" ref="action_picking_planning_kanban"/>-->
-        <!--</record>-->
+        <record id="action_picking_kanban_out_view1_waiting3" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="stock.vpicktree"/>
+            <field name="act_window_id" ref="action_picking_planning_kanban"/>
+        </record>
 
         <menuitem id="menu_planning_kanban_stock"
             name="Planning" action="action_picking_planning_kanban"
             parent="stock.menu_stock_warehouse_mgmt"/>
 
-<!--
-            context="{'product_id': product_id}"
--->
 
         <record model="ir.ui.view" id="view_move_form_expiry">
             <field name="name">stock.production.lot.form.inv.life</field>
@@ -342,24 +334,24 @@
             </field>
         </record>-->
 
-        <!--<record id="view_move_tree_reception_picking_custom" model="ir.ui.view">-->
-            <!--<field name="name">stock.move.tree2.custom</field>-->
-            <!--<field name="model">stock.move</field>-->
-            <!--<field name="inherit_id" ref="stock.view_move_tree_reception_picking"/>-->
-            <!--<field name="type">tree</field>-->
-            <!--<field name="arch" type="xml">-->
-                <!--<field name="date" position="before">-->
-                    <!--<field name="location_id" invisible="1"/>-->
-                    <!--<field name="location_dest_id" invisible="1"/>-->
-                <!--</field>-->
-                <!--<field name="partner_id" position="after">-->
-                    <!--<field name="supplier_id" invisible="1"/>-->
-                <!--</field>-->
-                <!--<field name="origin" position="after">-->
-                    <!--<field name="create_date" invisible="1"/>-->
-                <!--</field>-->
-            <!--</field>-->
-        <!--</record>-->
+        <record id="view_move_tree_receipt_picking_custom" model="ir.ui.view">
+            <field name="name">stock.move.tree2.custom</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock.view_move_tree_receipt_picking"/>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <field name="date" position="before">
+                    <field name="location_id" invisible="1"/>
+                    <field name="location_dest_id" invisible="1"/>
+                </field>
+                <field name="partner_id" position="after">
+                    <field name="supplier_id" invisible="1"/>
+                </field>
+                <field name="origin" position="after">
+                    <field name="create_date" invisible="1"/>
+                </field>
+            </field>
+        </record>
 
     </data>
 </openerp>

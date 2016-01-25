@@ -19,9 +19,9 @@
 #
 ##############################################################################
 
-from openerp.osv import osv, fields
+from openerp.osv import orm, fields
 
-class res_partner(osv.osv):
+class res_partner(orm.Model):
 
     _inherit = "res.partner"
 
@@ -33,26 +33,25 @@ class res_partner(osv.osv):
     }
 
 
-    def write(self, cr, uid, ids, vals, context=None):
-        """Modificación del método de escritura de res.partner para que se
-        produzca el cambio de la compañía en las direcciones del partner automáticamente
-        al realizar el guardado de los datos del partner"""
+    # POST-MIGRATION: ¿Como replicarlo?
+    # def write(self, cr, uid, ids, vals, context=None):
+    #     """Modificación del método de escritura de res.partner para que se
+    #     produzca el cambio de la compañía en las direcciones del partner automáticamente
+    #     al realizar el guardado de los datos del partner"""
+    #
+    #     if context is None:
+    #         context = {}
+    #     if isinstance(ids, (int, long)):
+    #         ids = [ids]
+    #
+    #     domain = []
+    #
+    #     #Hacemos el cambio si ha cambiado la compañia
+    #     if vals.get('company_id', False):
+    #         for partner in self.browse(cr, uid, ids):
+    #             if partner.address:
+    #                 for address in partner.address:
+    #                     address.write({'company_id': vals['company_id']})
+    #
+    #     return super(res_partner, self).write(cr, uid, ids, vals, context=context)
 
-        if context is None:
-            context = {}
-        if isinstance(ids, (int, long)):
-            ids = [ids]
-
-        domain = []
-
-        #Hacemos el cambio si ha cambiado la compañia
-        if vals.get('company_id', False):
-            for partner in self.browse(cr, uid, ids):
-                if partner.address:
-                    for address in partner.address:
-                        address.write({'company_id': vals['company_id']})
-
-        return super(res_partner, self).write(cr, uid, ids, vals, context=context)
-
-
-res_partner()

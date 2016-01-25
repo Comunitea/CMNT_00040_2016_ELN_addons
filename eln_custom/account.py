@@ -19,10 +19,10 @@
 #
 ##############################################################################
 
-from openerp.osv import osv, fields
+from openerp.osv import orm, fields
 import logging
 
-class account_analytic_plan_instance(osv.osv):
+class account_analytic_plan_instance(orm.Model):
 
     _inherit = "account.analytic.plan.instance"
 
@@ -34,5 +34,4 @@ class account_analytic_plan_instance(osv.osv):
         'company_id': lambda self, cr, uid, context: self.pool.get('res.users').browse(cr, uid, uid).company_id.id,
     }
 
-account_analytic_plan_instance()
 

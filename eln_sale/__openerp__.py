@@ -26,7 +26,7 @@
     "author" : "Pexego",
     "depends" : ['base', 
                 # 'sale',
-                # 'stock',
+                'stock',
                 # 'product',
                 # 'sale_order_dates',
                 # 'sale_early_payment_discount',

@@ -9,7 +9,7 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <field name="name" position="replace">
-                    <field name="name" options='{"quick_create": false}'/>
+                    <field name="name" options='{"quick_create": false}' string="Supplier/Customer" />
                 </field>
             </field>
         </record>

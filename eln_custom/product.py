@@ -18,10 +18,10 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import osv, fields
+from openerp.osv import orm, fields
 
 
-class product_supplierinfo(osv.osv):
+class product_supplierinfo(orm.Model):
     _inherit = "product.supplierinfo"
     _columns = {
         'name' : fields.many2one('res.partner', 'Supplier/Customer', required=True, ondelete='cascade', help="Supplier or Customer of this product"),
@@ -35,4 +35,3 @@ class product_supplierinfo(osv.osv):
                 res['product_uom'] = product_obj.uom_id.id
 
         return {'value': res}
-product_supplierinfo()

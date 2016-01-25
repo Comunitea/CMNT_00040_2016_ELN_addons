@@ -2,6 +2,7 @@
 
 <openerp>
     <data>
+        <!-- POST MIGRARATION COMENTADO-->
         <!--<record id="account_analytic_plans.view_move_form_inherit" model="ir.ui.view">-->
            <!--<field name="name">account.move.form.inherit</field>-->
            <!--<field name="model">account.move</field>-->
@@ -104,7 +105,8 @@
                 </field>
             </field>
         </record>
-    
+
+        <!-- POST MIGRARATION COMENTADO-->
         <!--<record id="account_analytic_plans.view_bank_statement_inherit_form" model="ir.ui.view">-->
             <!--<field name="name">account.bank.statement.form.inherit</field>-->
             <!--<field name="model">account.bank.statement</field>-->

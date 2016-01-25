@@ -18,9 +18,9 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import osv, fields
+from openerp.osv import orm, fields
 
-class stock_picking(osv.osv):
+class stock_picking(orm.Model):
     _inherit = 'stock.picking'
     _columns = {
         'supplier_id': fields.many2one('res.partner', 'Supplier', readonly=True,domain = [('supplier','=',True)],states={'draft': [('readonly', False)]}, select=True),
@@ -45,9 +45,9 @@ class stock_picking(osv.osv):
         res = super(stock_picking, self)._prepare_invoice_group(cr, uid, picking, partner, invoice, context)
 
         if not context.get('date_inv', False):
-            if picking and picking.real_date:
-                if invoice.date_invoice < picking.real_date:
-                    res.update({'date_invoice': picking.real_date})
+            if picking and picking.date_done:
+                if invoice.date_invoice < picking.date_done:
+                    res.update({'date_invoice': picking.date_done})
 
         return res
 
@@ -65,16 +65,15 @@ class stock_picking(osv.osv):
         res = super(stock_picking, self)._prepare_invoice(cr, uid, picking, partner, inv_type, journal_id, context)
 
         if not context.get('date_inv', False):
-            if picking and picking.real_date:
-                res.update({'date_invoice': picking.real_date})
+            if picking and picking.date_done:
+                res.update({'date_invoice': picking.date_done})
 
         return res
 
-stock_picking()
 
-class stock_move(osv.osv):
+class stock_move(orm.Model):
     _inherit = 'stock.move'
     _columns = {
         'supplier_id': fields.many2one('res.partner', 'Supplier', readonly=True,domain = [('supplier','=',True)],states={'draft': [('readonly', False)]}, select=True)
     }
-stock_move()
+
