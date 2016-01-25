@@ -43,11 +43,11 @@ class planning_report_parser(report_sxw.rml_parse):
             date_stop = date + ' 23:59:59'
             if data['form'].get('route_id', False):
                 pickings = self.pool.get('stock.picking').search(self.cr, self.uid, [('type','=','out'),
-                                                                                     ('real_date','>=',date_start),('real_date','<=',date_stop),
+                                                                                     ('date_done','>=',date_start),('date_done','<=',date_stop),
                                                                                      ('route_id','=', data['form']['route_id'][0])])
             else:
                 pickings = self.pool.get('stock.picking').search(self.cr, self.uid, [('type','=','out'),
-                                                                                     ('real_date','>=',date_start),('real_date','<=',date_stop)])
+                                                                                     ('date_done','>=',date_start),('date_done','<=',date_stop)])
 
         if pickings:
             for pick in self.pool.get('stock.picking').browse(self.cr, self.uid, pickings):

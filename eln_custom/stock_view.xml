@@ -2,31 +2,15 @@
 
 <openerp>
     <data>
+
         <record id="view_picking_out_form_replace_name" model="ir.ui.view">
             <field name="name">stock.picking.out.form.replace_name</field>
-            <field name="model">stock.picking</field>
-            <field name="inherit_id" ref="stock.view_picking_form"/>
-            <field name="type">form</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock.view_move_picking_form"/>
             <field name="arch" type="xml">
-                <xpath expr="/form/notebook/page[@string='Products']/field[@name='move_lines']/form/group[1]/field[@name='name']" position="replace">
-                </xpath>
-                <xpath expr="/form/notebook/page[@string='Products']/field[@name='move_lines']/form/group[1]/field[@name='product_packaging']" position="before">
-                    <field name="name" invisible="0" colspan="4" select="0" string="Description" />
-                </xpath>
-            </field>
-        </record>
-
-        <record id="view_picking_in_form_replace_name" model="ir.ui.view">
-            <field name="name">stock.picking.in.form.replace_name</field>
-            <field name="model">stock.picking</field>
-            <field name="inherit_id" ref="stock.view_picking_form"/>
-            <field name="type">form</field>
-            <field name="arch" type="xml">
-                <xpath expr="/form/notebook/page[@string='General Information']/field[@name='move_lines']/form/group[1]/field[@name='name']" position="replace">
-                </xpath>
-                <xpath expr="/form/notebook/page[@string='General Information']/field[@name='move_lines']/form/group[1]/field[@name='product_packaging']" position="before">
-                    <field name="name" invisible="0" colspan="4" select="0" string="Description" />
-                </xpath>
+                <field name="name" position="attributes">
+                    <attribute name="colspan">4</attribute>
+                </field>
             </field>
         </record>
 
@@ -39,17 +23,28 @@
                 <field name="backorder_id" position="after">
                     <field name="route_id" on_change="onchange_route_id(route_id)"/>
                 </field>
+
+                <field name="partner_id" position="attributes">
+                    <attribute name="context">{'show_address':1, 'default_type':'delivery'}</attribute>
+                    <attribute name="options">{"always_reload": True}</attribute>
+                </field>
+
             </field>
         </record>
 
         <record id="view_picking_out_tree_add_route" model="ir.ui.view">
             <field name="name">stock.picking.out.tree.add_route</field>
             <field name="model">stock.picking</field>
-            <field name="inherit_id" ref="stock.view_picking_out_tree"/>
+            <field name="inherit_id" ref="stock.vpicktree"/>
             <field name="type">tree</field>
             <field name="arch" type="xml">
                 <field name="origin" position="before">
                     <field name="route_id"/>
+                </field>
+                 <field name="partner_id" position="attributes">
+                    <!--<attribute name="context">{'show_address':1,'default_type':'delivery'}</attribute>-->
+                    <attribute name="context">{'show_address':1}</attribute>
+                    <attribute name="options">{"always_reload": True}</attribute>
                 </field>
             </field>
         </record>
@@ -61,8 +56,8 @@
             <field name="arch" type="xml">
                 <kanban default_group_by="route_id">
                     <field name="name"/>
-                    <field name="real_date"/>
-                    <field name="address_id"/>
+                    <field name="date_done"/>
+                    <field name="partner_id"/>
                     <field name="supplier_id"/>
                     <field name="carrier_id"/>
                     <field name="packages"/>
@@ -80,7 +75,7 @@
                                     <table class="oe_kanban_table">
                                     <tr>
                                                 <td class="oe_kanban_title1" align="left" valign="middle" tooltip="production_workcenter_line_details">
-                                                    Fecha Real: <field name="real_date"/>
+                                                    Fecha Real: <field name="date_done"/>
                                                 </td>
                                     </tr>
                                     <tr>
@@ -103,7 +98,7 @@
                                             <b>
                                                 Dirección:
                                             </b>
-                                            <field name="address_id"/>
+                                            <t-field name="o.partner_id.street"/>
                                         </div>
                                         <div>
                                             <b>
@@ -180,8 +175,8 @@
             <field name="type">ir.actions.act_window</field>
             <field name="view_type">form</field>
             <field name="view_mode">kanban,tree,form</field>
-            <field name="domain">[('type','=','out')]</field>
-            <field name="context">{'default_type': 'out', 'contact_display': 'partner_address', 'search_default_todaytwo':1}</field>
+            <!--<field name="domain">[('type','=','out')]</field>-->
+            <!--<field name="context">{'default_type': 'out', 'contact_display': 'partner_address', 'search_default_todaytwo':1}</field>-->
             <field name="search_view_id" ref="view_picking_planning_kanban_search"/>
         </record>
         <record id="action_picking_kanban_out_view1_waiting" model="ir.actions.act_window.view">
@@ -199,7 +194,7 @@
         <record id="action_picking_kanban_out_view1_waiting3" model="ir.actions.act_window.view">
             <field eval="2" name="sequence"/>
             <field name="view_mode">tree</field>
-            <field name="view_id" ref="stock.view_picking_out_tree"/>
+            <field name="view_id" ref="stock.vpicktree"/>
             <field name="act_window_id" ref="action_picking_planning_kanban"/>
         </record>
 
@@ -207,9 +202,6 @@
             name="Planning" action="action_picking_planning_kanban"
             parent="stock.menu_stock_warehouse_mgmt"/>
 
-<!--
-            context="{'product_id': product_id}"
--->
 
         <record model="ir.ui.view" id="view_move_form_expiry">
             <field name="name">stock.production.lot.form.inv.life</field>
@@ -238,97 +230,97 @@
         <!-- En la selección de albaranes a facturar hacemos visible el cliente y la dirección de entrega
              Además permitimos agrupar también por la direcciçon de entrega -->
         
-        <record id="view_picking_tree_custom" model="ir.ui.view">
-            <field name="name">picking.tree.custom</field>
-            <field name="model">stock.picking</field>
-            <field name="inherit_id" ref="stock.vpicktree"/>
-            <field name="type">tree</field>
-            <field name="arch" type="xml">
-                <field name="partner_id" position="replace">
-                    <field name="partner_id"/>
-                    <field name="address_id" string="Delivery address" context="{'contact_display':'partner_address'}" domain="[('partner_id','&lt;&gt;',False)]"/>
-                </field>
-            </field>
-        </record>
+        <!--<record id="view_picking_tree_custom" model="ir.ui.view">-->
+            <!--<field name="name">picking.tree.custom</field>-->
+            <!--<field name="model">stock.picking</field>-->
+            <!--<field name="inherit_id" ref="stock.vpicktree"/>-->
+            <!--<field name="type">tree</field>-->
+            <!--<field name="arch" type="xml">-->
+                <!--<field name="partner_id" position="replace">-->
+                    <!--<field name="partner_id"/>-->
+                    <!--<field name="address_id" string="Delivery address" context="{'contact_display':'partner_address'}" domain="[('partner_id','&lt;&gt;',False)]"/>-->
+                <!--</field>-->
+            <!--</field>-->
+        <!--</record>-->
         
-        <record id="view_picking_out_search" model="ir.ui.view">
-            <field name="name">stock.picking.out.search</field>
-            <field name="model">stock.picking</field>
-            <field name="type">search</field>
-            <field name="inherit_id" ref="stock.view_picking_out_search" />
-            <field name="arch" type="xml">
-                <field name="partner_id" position="after">
-                    <field name="address_id" string="Delivery address" context="{'contact_display':'partner_address'}" domain="[('partner_id','&lt;&gt;',False)]"/>
-                </field>
-                <filter string="Partner" position="after">
-                    <filter string="Delivery address" icon="terp-partner" domain="[]" context="{'group_by':'address_id'}"/>
-                </filter>
-                <filter string="Order Date" position="replace">
-                    <filter string="Real Date" icon="terp-go-month" domain="[]" context="{'group_by':'real_date'}"/>
-                </filter>
-            </field>
-        </record>
+        <!--<record id="view_picking_out_search" model="ir.ui.view">-->
+            <!--<field name="name">stock.picking.out.search</field>-->
+            <!--<field name="model">stock.picking</field>-->
+            <!--<field name="type">search</field>-->
+            <!--<field name="inherit_id" ref="stock.view_picking_out_search" />-->
+            <!--<field name="arch" type="xml">-->
+                <!--<field name="partner_id" position="after">-->
+                    <!--<field name="address_id" string="Delivery address" context="{'contact_display':'partner_address'}" domain="[('partner_id','&lt;&gt;',False)]"/>-->
+                <!--</field>-->
+                <!--<filter string="Partner" position="after">-->
+                    <!--<filter string="Delivery address" icon="terp-partner" domain="[]" context="{'group_by':'address_id'}"/>-->
+                <!--</filter>-->
+                <!--<filter string="Order Date" position="replace">-->
+                    <!--<filter string="Real Date" icon="terp-go-month" domain="[]" context="{'group_by':'real_date'}"/>-->
+                <!--</filter>-->
+            <!--</field>-->
+        <!--</record>-->
         
-        <record id="view_picking_out_tree" model="ir.ui.view">
-            <field name="name">stock.picking.out.tree</field>
-            <field name="model">stock.picking</field>
-            <field name="inherit_id" ref="stock.view_picking_out_tree"/>
-            <field name="type">tree</field>
-            <field name="arch" type="xml">
-                <tree position="attributes">
-                    <attribute name="colors">green:state == 'done' and invoice_state == 'invoiced';magenta:state == 'done' and invoice_state == '2binvoiced';blue:state == 'draft';grey:state == 'cancel';red:state not in ('cancel', 'done') and min_date &lt; current_date</attribute>
-                </tree>
-                <field name="partner_id" position="after">
-                    <field name="address_id" string="Delivery address" context="{'contact_display':'partner_address'}" domain="[('partner_id','&lt;&gt;',False)]"/>
-                </field>
-                <field name="date" position="replace">
-                    <field name="date" invisible="1"/>
-                </field>
-            </field>
-        </record>
+        <!--<record id="view_picking_out_tree" model="ir.ui.view">-->
+            <!--<field name="name">stock.picking.out.tree</field>-->
+            <!--<field name="model">stock.picking</field>-->
+            <!--<field name="inherit_id" ref="stock.view_picking_out_tree"/>-->
+            <!--<field name="type">tree</field>-->
+            <!--<field name="arch" type="xml">-->
+                <!--<tree position="attributes">-->
+                    <!--<attribute name="colors">green:state == 'done' and invoice_state == 'invoiced';magenta:state == 'done' and invoice_state == '2binvoiced';blue:state == 'draft';grey:state == 'cancel';red:state not in ('cancel', 'done') and min_date &lt; current_date</attribute>-->
+                <!--</tree>-->
+                <!--<field name="partner_id" position="after">-->
+                    <!--<field name="address_id" string="Delivery address" context="{'contact_display':'partner_address'}" domain="[('partner_id','&lt;&gt;',False)]"/>-->
+                <!--</field>-->
+                <!--<field name="date" position="replace">-->
+                    <!--<field name="date" invisible="1"/>-->
+                <!--</field>-->
+            <!--</field>-->
+        <!--</record>-->
         
         <!-- En la vista de pedidos de venta el enlace que lleva a los albaranes relacionados no tenía la vista search ni la form correcta.
         La borramos primero y la creamos en este módulo en lugar de hacer referencia a la misma para que se pueda traducir el "name"
         desde este módulo -->
-        <delete id="picking_invoice_rel.act_sale_order_2_stock_picking" model="ir.actions.act_window"/>
-        <act_window
-            domain="[('sale_id', 'in', active_ids)]"
-            id="act_sale_order_2_stock_picking"
-            name="Delivery orders related"
-            res_model="stock.picking"
-            src_model="sale.order"
-            view_id="stock.view_picking_out_tree"
-            context="{'default_sale_id': active_ids, 'contact_display': 'partner'}" />
-        <record id="act_sale_order_2_stock_picking" model="ir.actions.act_window">    
-            <field name="name">Delivery orders related</field>
-            <field name="res_model">stock.picking</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree,form,calendar</field>
-            <field name="domain">[('sale_id', 'in', active_ids)]</field>
-            <field name="context">{'default_sale_id': active_ids, 'contact_display': 'partner'}</field>
-            <field name="search_view_id" ref="stock.view_picking_out_search"/>
-            <!-- <field name="groups">base.group_extended</field>  -->
-        </record>
-        <record id="act_sale_order_2_stock_picking_out_view1" model="ir.actions.act_window.view">
-            <field eval="1" name="sequence"/>
-            <field name="view_mode">tree</field>
-            <field name="view_id" ref="stock.view_picking_out_tree"/>
-            <field name="act_window_id" ref="act_sale_order_2_stock_picking"/>
-        </record>
-        <record id="act_sale_order_2_stock_picking_out_view2" model="ir.actions.act_window.view">
-            <field eval="2" name="sequence"/>
-            <field name="view_mode">form</field>
-            <field name="view_id" ref="stock.view_picking_form"/>
-            <field name="act_window_id" ref="act_sale_order_2_stock_picking"/>
-        </record>
-        <record id="act_sale_order_2_stock_picking_out_view2_cal" model="ir.actions.act_window.view">
-            <field eval="3" name="sequence"/>
-            <field name="view_mode">calendar</field>
-            <field name="act_window_id" ref="act_sale_order_2_stock_picking"/>
-        </record>
+        <!--<delete id="picking_invoice_rel.act_sale_order_2_stock_picking" model="ir.actions.act_window"/>-->
+        <!--<act_window-->
+            <!--domain="[('sale_id', 'in', active_ids)]"-->
+            <!--id="act_sale_order_2_stock_picking"-->
+            <!--name="Delivery orders related"-->
+            <!--res_model="stock.picking"-->
+            <!--src_model="sale.order"-->
+            <!--view_id="stock.view_picking_out_tree"-->
+            <!--context="{'default_sale_id': active_ids, 'contact_display': 'partner'}" />-->
+        <!--<record id="act_sale_order_2_stock_picking" model="ir.actions.act_window">    -->
+            <!--<field name="name">Delivery orders related</field>-->
+            <!--<field name="res_model">stock.picking</field>-->
+            <!--<field name="type">ir.actions.act_window</field>-->
+            <!--<field name="view_type">form</field>-->
+            <!--<field name="view_mode">tree,form,calendar</field>-->
+            <!--<field name="domain">[('sale_id', 'in', active_ids)]</field>-->
+            <!--<field name="context">{'default_sale_id': active_ids, 'contact_display': 'partner'}</field>-->
+            <!--<field name="search_view_id" ref="stock.view_picking_out_search"/>-->
+            <!--&lt;!&ndash; <field name="groups">base.group_extended</field>  &ndash;&gt;-->
+        <!--</record>-->
+        <!--<record id="act_sale_order_2_stock_picking_out_view1" model="ir.actions.act_window.view">-->
+            <!--<field eval="1" name="sequence"/>-->
+            <!--<field name="view_mode">tree</field>-->
+            <!--<field name="view_id" ref="stock.view_picking_out_tree"/>-->
+            <!--<field name="act_window_id" ref="act_sale_order_2_stock_picking"/>-->
+        <!--</record>-->
+        <!--<record id="act_sale_order_2_stock_picking_out_view2" model="ir.actions.act_window.view">-->
+            <!--<field eval="2" name="sequence"/>-->
+            <!--<field name="view_mode">form</field>-->
+            <!--<field name="view_id" ref="stock.view_picking_form"/>-->
+            <!--<field name="act_window_id" ref="act_sale_order_2_stock_picking"/>-->
+        <!--</record>-->
+        <!--<record id="act_sale_order_2_stock_picking_out_view2_cal" model="ir.actions.act_window.view">-->
+            <!--<field eval="3" name="sequence"/>-->
+            <!--<field name="view_mode">calendar</field>-->
+            <!--<field name="act_window_id" ref="act_sale_order_2_stock_picking"/>-->
+        <!--</record>-->
 
-        <!-- En la vista de inventarios físicos, al crear un lote en la línea abría la vista
+        <!-- YA ESTABA COMENTADO En la vista de inventarios físicos, al crear un lote en la línea abría la vista
         sin precargar el artículo    
         <record id="view_inventory_form_custom" model="ir.ui.view">
             <field name="name">stock.inventory.form</field>
@@ -342,10 +334,10 @@
             </field>
         </record>-->
 
-        <record id="view_move_tree_reception_picking_custom" model="ir.ui.view">
+        <record id="view_move_tree_receipt_picking_custom" model="ir.ui.view">
             <field name="name">stock.move.tree2.custom</field>
             <field name="model">stock.move</field>
-            <field name="inherit_id" ref="stock.view_move_tree_reception_picking"/>
+            <field name="inherit_id" ref="stock.view_move_tree_receipt_picking"/>
             <field name="type">tree</field>
             <field name="arch" type="xml">
                 <field name="date" position="before">

@@ -20,6 +20,6 @@
 #
 ##############################################################################
 
-# import eln_edi
-# import wizard
-# import stock
+import eln_edi
+import wizard
+import stock

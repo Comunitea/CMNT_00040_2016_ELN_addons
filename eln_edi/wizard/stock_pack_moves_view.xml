@@ -51,10 +51,11 @@
                                                 Quantity:
                                                 <field name="product_qty"/>
                                             </li>
-                                            <li>
-                                                Lot:
-                                                <field name="prodlot_id"/>
-                                            </li>
+                                            <!--POST_MIGRATION comentado-->
+                                            <!--<li>-->
+                                                <!--Lot:-->
+                                                <!--<field name="prodlot_id"/>-->
+                                            <!--</li>-->
                                         </ul>
                                     </div>
                                 </div>

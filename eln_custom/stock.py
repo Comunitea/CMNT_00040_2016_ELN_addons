@@ -18,12 +18,12 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import osv, fields
-import decimal_precision as dp
-from openerp.tools.translate import _
+from openerp.osv import orm, fields
+import openerp.addons.decimal_precision as dp
+from openerp import _
 
 
-class stock_picking(osv.osv):
+class stock_picking(orm.Model):
     _inherit = 'stock.picking'
 
     def _read_group_route_ids(self, cr, uid, ids, domain, read_group_order=None, access_rights_uid=None, context=None):
@@ -38,7 +38,7 @@ class stock_picking(osv.osv):
         result = route_obj.name_get(cr, access_rights_uid, route_ids, context=context)
         # restore order of the search
         result.sort(lambda x,y: cmp(route_ids.index(x[0]), route_ids.index(y[0])))
-        return result
+        return result, {}
 
     _group_by_full = {
         'route_id': _read_group_route_ids
@@ -126,6 +126,7 @@ class stock_picking(osv.osv):
     _defaults = {
         'color_stock': 0
     }
+
     def onchange_route_id(self, cr, uid, ids, route_id):
         res = {'carrier_id': False}
         if not route_id:
@@ -134,10 +135,9 @@ class stock_picking(osv.osv):
         if route.carrier_id:
             res['carrier_id'] = route.carrier_id.id
         return {'value': res}
-    
-stock_picking()
 
-class stock_location(osv.osv):
+
+class stock_location(orm.Model):
     _inherit = 'stock.location'
     _description = "Location"
 
@@ -147,7 +147,8 @@ class stock_location(osv.osv):
 
 stock_location()
 
-class stock_inventory(osv.osv):
+
+class stock_inventory(orm.Model):
     _inherit = "stock.inventory"
     _description = "Inventory"
     
@@ -172,6 +173,3 @@ class stock_inventory(osv.osv):
         res = super(stock_inventory, self).action_cancel_inventory(cr, uid, ids, context=context)
         
         return res
-
-stock_inventory()
-

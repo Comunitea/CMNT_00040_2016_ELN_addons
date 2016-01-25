@@ -20,13 +20,13 @@
 #
 ##############################################################################
 
-from openerp.osv import osv, fields
+from openerp.osv import orm, fields
 import time
-from openerp import netsvc
-import decimal_precision as dp
+import openerp.addons.decimal_precision as dp
 from openerp.tools.translate import _
 
-class edi_doc(osv.osv):
+
+class edi_doc(orm.Model):
     _name = "edi.doc"
     _description = "Documento EDI"
     _columns = {
@@ -53,7 +53,7 @@ class edi_doc(osv.osv):
 
 edi_doc()
 
-class edi_configuration(osv.osv):
+class edi_configuration(orm.Model):
     _name = "edi.configuration"
     _description = "Configuracion EDI"
     _columns = {
@@ -84,7 +84,7 @@ edi_configuration()
 
 
 # -------------------------- PERSONALIZACIONES CON CAMPOS DE EDI ------------------------------------
-'''class sale_order(osv.osv):
+'''class sale_order(orm.Model):
 
     _inherit = 'sale.order'
     _columns = {
@@ -128,7 +128,7 @@ edi_configuration()
 sale_order()'''
 
 
-class res_partner(osv.osv):
+class res_partner(orm.Model):
     _inherit = 'res.partner'
 
     _columns = {
@@ -142,43 +142,32 @@ class res_partner(osv.osv):
                                            help='Check if customer requires the picking date in the EDI lines of invoice.'),
         'edi_filename': fields.char('EDI filename suffix', size=3,
                                            help='Partner suffix for edi filename.'),
-    }
-
-res_partner()
-
-class res_address(osv.osv):
-    _inherit = 'res.partner.address'
-
-    _columns = {
         'gln_de': fields.char('GLN Destinatario',size=13, help="GLN (Destinatario de la factura / Quien paga)"),
         'gln_rf': fields.char('GLN Receptor Factura',size=13, help="GLN (Receptor de la factura / A quien se factura)"),
         'gln_co': fields.char('GLN Comprador',size=13, help="GLN (Comprador / Quien pide)"),
         'gln_rm': fields.char('GLN Receptor Mercancía',size=13, help="GLN (Receptor de la mercancía / Quien recibe)"),
     }
 
-res_address()
 
-class payment_type(osv.osv):
+# POST-MIGRATION COMENTADO
+# class payment_type(orm.Model):
+#
+#     _inherit = 'payment.type'
+#     _columns = {
+#         'edi_code': fields.selection([('42','A una cuenta bancaria'),('14E','Giro bancario'),('10','En efectivo'),('20','Cheque'),('60','Pagaré')],'Codigo EDI', select=1)
+#     }
+#
+# payment_type()
 
-    _inherit = 'payment.type'
-    _columns = {
-        'edi_code': fields.selection([('42','A una cuenta bancaria'),('14E','Giro bancario'),('10','En efectivo'),('20','Cheque'),('60','Pagaré')],'Codigo EDI', select=1)
-    }
-
-payment_type()
-
-class product_uom(osv.osv):
+class product_uom(orm.Model):
 
     _inherit = 'product.uom'
     _columns = {
-#        'edi_code': fields.char('Código EDI', size=3, help="Código para el tipo de UOM a incluir en el fichero EDI."),
         'edi_code': fields.selection([('PCE','[PCE] Unidades'),('KGM','[KGM] Kilogramos'),
                                     ('LTR','[LTR] Litros')],'Código EDI', select=1, help="Código para el tipo de UOM a incluir en el fichero EDI."),
     }
 
-product_uom()
-
-'''class stock_picking(osv.osv):
+'''class stock_picking(orm.Model):
 
     _inherit = 'stock.picking'
     _columns = {
@@ -229,7 +218,7 @@ product_uom()
 
 stock_picking()'''
 
-'''class stock_move(osv.osv):
+'''class stock_move(orm.Model):
     _inherit = 'stock.move'
 
     _columns = {
@@ -242,18 +231,17 @@ stock_picking()'''
 stock_move()'''
 
 
-class account_tax(osv.osv):
+class account_tax(orm.Model):
 
     _inherit = "account.tax"
 
     _columns = {
-        #'code': fields.char('EDI Code', size=3),
         'edi_code': fields.selection([('VAT','[VAT] IVA'),('ENV','[ENV] Punto Verde'),
                                     ('EXT','[EXT] Exento de IVA'),('ACT','[ACT] Impuesto de Alcoholes')],'Código impuesto para EDI', select=1,
                                      help="Código para el tipo de impuesto a incluir en el fichero EDI (si ninguno se usará VAT)."),
     }
 
-class account_invoice_tax(osv.osv):
+class account_invoice_tax(orm.Model):
 
     _inherit = 'account.invoice.tax'
 
@@ -314,7 +302,7 @@ class account_invoice_tax(osv.osv):
         return tax_grouped
 
 
-class account_invoice(osv.osv):
+class account_invoice(orm.Model):
     _inherit = 'account.invoice'
 
     def _amount_all(self, cr, uid, ids, name, args, context=None):
@@ -380,14 +368,12 @@ class account_invoice(osv.osv):
             multi='all'),
     }
 
-account_invoice()
-
-class res_company(osv.osv):
+class res_company(orm.Model):
     _inherit = 'res.company'
 
     _columns = {
-        'gln_ef': fields.char('GLN Emisor Factura',size=13, help="GLN (Emisor del documento)"),
-        'gln_ve': fields.char('GLN Vendedor',size=13, help="GLN (Vendedor de la mercancía)"),
-        'edi_code': fields.char('EDI filename prefix', size=1, help='Company prefix for edi filename'),
-        'gs1': fields.char('GS1 code', size=7, help='AECOC GS1 code of the Company. Used to coding GTIN-13, GTIN-14, GS1-128, SSCC, etc. Required for EDI DESADV interchanges.'),
+        'gln_ef': fields.char(string='GLN Emisor Factura',help="GLN (Emisor del documento)"),
+        'gln_ve': fields.char(string='GLN Vendedor', help="GLN (Vendedor de la mercancía)"),
+        'edi_code': fields.char(string='EDI filename prefix', help='Company prefix for edi filename'),
+        'gs1': fields.char(string='GS1 code', help='AECOC GS1 code of the Company. Used to coding GTIN-13, GTIN-14, GS1-128, SSCC, etc. Required for EDI DESADV interchanges.'),
     }

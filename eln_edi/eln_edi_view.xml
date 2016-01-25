@@ -91,11 +91,12 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Configuracion EDI">
+                    <group>
                     <field name="name"/>
                     <field name="salesman"/>
                     <field name="local_mode"/>
                     <field name="ftpbox_path"/>
-                    <newline/>
+                    </group>
                     <group attrs="{'invisible':[('local_mode','=',True)]}" string="Buzon FTP" colspan="4">
                         <field name="ftp_host" attrs="{'required':[('local_mode','=',False)]}"/>
                         <field name="ftp_port" attrs="{'required':[('local_mode','=',False)]}"/>
@@ -153,71 +154,76 @@
             <field name="name">edi.res.partner</field>
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="base.view_partner_form" />
-            <field name="type">form</field>
             <field name="arch" type="xml">
             
-                <page string="Notes" position="before">
+                <notebook position="inside">
                     <page string="EDI">
-                        <field name="edi_filename"/>
-                        <field name="edi_date_required"/>
-                        <field name="section_code" select="2"/>
-                        <field name="product_marking_code" select="2"/>
-                        <field name="department_code_edi" select="2"/>
-                    </page>                 
-                </page>                 
-                <xpath expr="//field[@name='address']/form/group[3]/field[@name='email']" position="after">
+                        <group>
+                            <field name="edi_filename"/>
+                            <field name="edi_date_required"/>
+                            <field name="section_code" select="2"/>
+                            <field name="product_marking_code" select="2"/>
+                            <field name="department_code_edi" select="2"/>
+                        </group>
+                    </page>
+                </notebook>
+                <!--POST-MIGRATION comentado-->
+                <field name="title" position="after">
                     <separator string="Datos EDI" colspan="4" col="4"/>
                         <field name="gln_de" select="2"/>
                         <field name="gln_rf" select="2"/>
                         <field name="gln_co" select="2"/>
                         <field name="gln_rm" select="2"/>
-                </xpath>
+                </field>
 
             </field>
         </record>
 
         <!-- INHERITED res.partner.address -->
-        <record model="ir.ui.view" id="view_edi_res_partner_address_form" >
-            <field name="name">edi.res.partner.address</field>
-            <field name="model">res.partner.address</field>
-            <field name="inherit_id" ref="base.view_partner_address_form1" />
-            <field name="type">form</field>
-            <field name="arch" type="xml">
-                <field name="email" position="after">
-                    <separator string="Datos EDI" colspan="4" col="4"/>
-                        <field name="gln_de" select="2"/>
-                        <field name="gln_rf" select="2"/>
-                        <field name="gln_co" select="2"/>
-                        <field name="gln_rm" select="2"/>
-                </field>
-            </field>
-        </record>
+        <!--POST-MIGRATION comentado-->
+        <!--<record model="ir.ui.view" id="view_edi_res_partner_address_form" >-->
+            <!--<field name="name">edi.res.partner.address</field>-->
+            <!--<field name="model">res.partner.address</field>-->
+            <!--<field name="inherit_id" ref="base.view_partner_address_form1" />-->
+            <!--<field name="type">form</field>-->
+            <!--<field name="arch" type="xml">-->
+                <!--<field name="email" position="after">-->
+                    <!--<separator string="Datos EDI" colspan="4" col="4"/>-->
+                        <!--<field name="gln_de" select="2"/>-->
+                        <!--<field name="gln_rf" select="2"/>-->
+                        <!--<field name="gln_co" select="2"/>-->
+                        <!--<field name="gln_rm" select="2"/>-->
+                <!--</field>-->
+            <!--</field>-->
+        <!--</record>-->
 
-        <record id="view_customize_partner_address_tree" model="ir.ui.view">
-            <field name="name">res.partner.address.tree_inherit</field>
-            <field name="model">res.partner.address</field>
-            <field name="inherit_id" ref="base.view_partner_address_tree" />
-            <field name="type">tree</field>
-            <field name="arch" type="xml">
-                <field name="zip" position="before">
-                    <field name="street"/>
-                    <field name="street2"/>
-                </field>
-            </field>
-        </record>
+        <!--POST-MIGRATION comentado-->
+        <!--<record id="view_customize_partner_address_tree" model="ir.ui.view">-->
+            <!--<field name="name">res.partner.address.tree_inherit</field>-->
+            <!--<field name="model">res.partner.address</field>-->
+            <!--<field name="inherit_id" ref="base.view_partner_address_tree" />-->
+            <!--<field name="type">tree</field>-->
+            <!--<field name="arch" type="xml">-->
+                <!--<field name="zip" position="before">-->
+                    <!--<field name="street"/>-->
+                    <!--<field name="street2"/>-->
+                <!--</field>-->
+            <!--</field>-->
+        <!--</record>-->
 
         <!-- INHERITED payment.type -->
-        <record model="ir.ui.view" id="view_edi_payment_type_form" >
-            <field name="name">edi.payment.type</field>
-            <field name="model">payment.type</field>
-            <field name="inherit_id" ref="account_payment_extension.view_payment_type_form" />
-            <field name="type">form</field>
-            <field name="arch" type="xml">
-                <field name="name" position="after">
-                    <field name="edi_code" select="1"/>
-                </field>
-            </field>
-        </record>
+        <!-- POST-MIGRATION COMENTADA-->
+        <!--<record model="ir.ui.view" id="view_edi_payment_type_form" >-->
+            <!--<field name="name">edi.payment.type</field>-->
+            <!--<field name="model">payment.type</field>-->
+            <!--<field name="inherit_id" ref="account_payment_extension.view_payment_type_form" />-->
+            <!--<field name="type">form</field>-->
+            <!--<field name="arch" type="xml">-->
+                <!--<field name="name" position="after">-->
+                    <!--<field name="edi_code" select="1"/>-->
+                <!--</field>-->
+            <!--</field>-->
+        <!--</record>-->
 
         <!-- INHERITED product_uom -->
         <record model="ir.ui.view" id="view_edi_product_uom_form" >
@@ -272,7 +278,7 @@
             <field name="inherit_id" ref="account.invoice_form" />
             <field name="type">form</field>
             <field name="arch" type="xml">
-                <field name="name" position="after">
+                <field name="partner_id" position="after">
                     <field name="num_contract"/>
                 </field>
                 <field name="amount_untaxed" position="before">
@@ -282,6 +288,7 @@
                 <notebook position="inside" >
                     <page string="EDI">
                         <field name="edi_docs" select="1" readonly="1" colspan="4" nolabel="1"/>
+
                     </page>
                 </notebook>
             </field>
@@ -293,14 +300,20 @@
             <field name="model">res.company</field>
             <field name="inherit_id" ref="base.view_company_form"/>
             <field name="arch" type="xml">
-                <page string="Configuration" position="inside">
-                    <separator string="Datos EDI" colspan="4"/>
-                        <field name="gln_ef" colspan="2" />
-                        <field name="gln_ve" colspan="2" />
-                        <field name="edi_code" colspan="2" />
-                        <field name="gs1" colspan="2" />
-                        <newline/>
-                </page>                 
+
+                 <field name="street2" position="replace">
+                    <field name="street2"/>
+                </field>
+                <notebook position="inside">
+                    <page string="EDI">
+                        <group string="Datos EDI" colspan="4">
+                            <field name="gln_ef"/>
+                            <field name="gln_ve"/>
+                            <field name="edi_code" col="2"/>
+                            <field name="gs1" col="2"/>
+                        </group>
+                    </page>
+                </notebook>
             </field>
         </record>
 
@@ -312,19 +325,6 @@
             <field name="arch" type="xml">
                 <field name="description" position="after">
                     <field name="edi_code"/>
-                </field>
-            </field>
-        </record>
-
-        <!-- INHERITED res_company -->
-        <record model="ir.ui.view" id="view_eln_company_add_street2_form" >
-            <field name="name">view.eln.company.add.street2.form</field>
-            <field name="model">res.company</field>
-            <field name="inherit_id" ref="base.view_company_form" />
-            <field name="type">form</field>
-            <field name="arch" type="xml">
-                <field name="street2" position="replace">
-                    <field name="street2"/>
                 </field>
             </field>
         </record>

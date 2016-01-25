@@ -21,7 +21,8 @@
 
 from openerp.osv import fields, osv
 from openerp.tools.translate import _
-import decimal_precision as dp
+import openerp.addons.decimal_precision as dp
+
 
 class stock_split_into(osv.osv_memory):
     _inherit = "stock.split.into"

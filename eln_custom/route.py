@@ -18,10 +18,10 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import osv, fields
+from openerp.osv import orm, fields
 
 
-class route(osv.osv):
+class route(orm.Model):
     _name = 'route'
     _description = 'Route Model'
     _columns = {
@@ -29,4 +29,3 @@ class route(osv.osv):
         'name': fields.char('Name', size=255),
         'carrier_id': fields.many2one('res.partner', 'Carrier')
     }
-route()

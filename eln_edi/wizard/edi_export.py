@@ -26,7 +26,7 @@ from edi_logging import logger
 import os
 from datetime import datetime
 import time
-import tools
+from openerp import tools
 import codecs
 from unidecode import unidecode
 log = logger("export_edi")

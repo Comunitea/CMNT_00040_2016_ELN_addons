@@ -26,12 +26,13 @@
     'category' : 'Accounting & Finance',
     'description': """Different account customizations for El Nogal""",
     'depends': [
-                # 'account',
-                # 'sale_early_payment_discount',
+                'account',
+                'sale_early_payment_discount',
+                'account_check_deposit',
                ],
-    "update_xml" : [
-                   # 'account_invoice_view.xml',
-                   ],
+    "data": [
+        'account_invoice_view.xml',
+    ],
     'installable': True,
     'images': [],
 }

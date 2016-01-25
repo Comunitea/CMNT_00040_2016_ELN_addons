@@ -19,5 +19,5 @@
 #
 ##############################################################################
 
-import stock_move
-import stock_splitinto
+# import stock_move
+# import stock_splitinto

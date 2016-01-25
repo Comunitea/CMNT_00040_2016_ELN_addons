@@ -2,40 +2,16 @@
 <openerp>
     <data>
 
-<record id="view_partner_form_add_list_price" model="ir.ui.view">
-            <field name="name">res.partner.form.add.listprice</field>
+        <record id="view_partner_form_supplier_checks" model="ir.ui.view">
+            <field name="name">res.partner.form.add.supplier_checks</field>
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="base.view_partner_form"/>
             <field name="type">form</field>
             <field name="arch" type="xml">
-                <field name="supplier" position="after">
+                <field name="active" position="after">
                     <field name="supplier_approved"/>
                     <field name="supplier_type"/>
                 </field>
-                <!--<page string="Notes" position="after">
-                    <page string="Price list">
-                        <field name="price_list" nolabel="1" colspan="4">
-                            <tree string="Price list">
-                                <field name="product_id"/>
-                            </tree>
-                            <form string='Price list'>
-                               <field name="product_id" on_change="on_change_product_id(product_id)"/>
-                               <field name="product_uom"/>
-                               <field name="min_qty"/>
-                               <field colspan="4" groups="base.group_extended" name="pricelist_ids" nolabel="1" widget="one2many_list">
-                                   <tree editable="bottom" string="Pricelist">
-                                       <field name="min_quantity"/>
-                                       <field name="price"/>
-                                   </tree>
-                                   <form>
-                                       <field name="min_quantity"/>
-                                       <field name="price"/>
-                                   </form>
-                               </field>
-                            </form>
-                        </field>
-                    </page>
-                </page>-->
             </field>
         </record>
    </data>
