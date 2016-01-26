@@ -18,10 +18,11 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import osv, fields
-import decimal_precision as dp
+from openerp.osv import orm, fields
+import openerp.addons.decimal_precision as dp
 
-class ingredient(osv.osv):
+
+class ingredient(orm.Model):
     _name = 'product.ingredient'
     _order = 'product_qty desc'
     def _get_product_qty_percent(self, cr, uid, ids, field_name, arg, context):
@@ -58,4 +59,3 @@ class ingredient(osv.osv):
 
         return {'value': res}
 
-ingredient()

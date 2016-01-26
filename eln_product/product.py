@@ -19,7 +19,7 @@
 #
 ##############################################################################
 from openerp.osv import osv, fields
-import decimal_precision as dp
+import openerp.addons.decimal_precision as dp
 import time
 from datetime import datetime
 from openerp.tools.translate import _
@@ -242,11 +242,11 @@ class product_product(osv.osv):
         #'bag': fields.many2one('product.product', 'Bag'),
         #'others': fields.many2one('product.product', 'Others'),
         #'seal': fields.many2one('product.product', 'Seal'),
-        'box': fields.property('product.product', type='many2one', relation='product.product', string ='Box', method=True, view_load=True),
-        'bobbin': fields.property('product.product', type='many2one', relation='product.product', string ='Bobbin', method=True, view_load=True),
-        'bag': fields.property('product.product', type='many2one', relation='product.product', string ='Bag', method=True, view_load=True),
-        'others': fields.property('product.product', type='many2one', relation='product.product', string ='Others', method=True, view_load=True),
-        'seal': fields.property('product.product', type='many2one', relation='product.product', string ='Seal', method=True, view_load=True),
+        'box': fields.property(type='many2one', relation='product.product', string ='Box', method=True, view_load=True),
+        'bobbin': fields.property(type='many2one', relation='product.product', string ='Bobbin', method=True, view_load=True),
+        'bag': fields.property(type='many2one', relation='product.product', string ='Bag', method=True, view_load=True),
+        'others': fields.property(type='many2one', relation='product.product', string ='Others', method=True, view_load=True),
+        'seal': fields.property(type='many2one', relation='product.product', string ='Seal', method=True, view_load=True),
         'allergen_labeling': fields.boolean('Allergen labeling'),
         'gluten_free_labeling': fields.boolean('Gluten free labeling'),
         'parameter_ids': fields.one2many('product.parameter.product', 'product_id', 'Parameters'),

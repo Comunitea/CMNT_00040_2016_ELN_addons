@@ -18,11 +18,10 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import osv, fields
+from openerp.osv import orm, fields
 
-class product_options(osv.osv):
+class product_options(orm.Model):
     _name = 'product.options'
     _columns = {
         'name': fields.char('Name', size=255, required=True)
     }
-product_options()
