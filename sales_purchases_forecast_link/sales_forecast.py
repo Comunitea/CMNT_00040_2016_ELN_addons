@@ -144,13 +144,11 @@ class sales_forecast(osv.osv):
                             #         res3 = self._get_bom_recursivity(cr, uid, r, factor)
                             #         if res3:
                             #             lines += res3
-                            print u"BoM: %s para %s (%s) en mes %s"%(lines, line.product_id.name, line.product_id.route_ids[0].name, month)
+                            # print u"BoM: %s para %s (%s) en mes %s"%(lines, line.product_id.name, line.product_id.route_ids[0].name, month)
                             for visited in lines:
                                 product = product_obj.browse(cr, uid, visited['product_id'])
-                                #TODO revisar esto
                                 if product.route_ids[0].name == 'Buy':
                                     good_lines.append(visited)
-                            print u"Todo el desglose en good_lines. solo las que son buy"
                             for x in good_lines:
 
                                 if res.get(x['product_id']):
@@ -159,7 +157,6 @@ class sales_forecast(osv.osv):
                                 else:
                                     res[x['product_id']] = []
                                     res[x['product_id']].append(x['product_qty'])
-
                             lines = []
                             good_lines = []
 

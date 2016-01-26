@@ -53,6 +53,7 @@ class product_costs_line(osv.osv_memory):
     #_order = 'sequence asc, id asc'
 
     def _get_costs(self, cr, uid, ids, element=False, product_id=False, context=None):
+        import ipdb; ipdb.set_trace()
         theoric = 0.0
         theoric_standard = 0.0
         real = 0.0
@@ -84,11 +85,10 @@ class product_costs_line(osv.osv_memory):
             #    time_start = start.strftime("%Y-%m-%d") + " 00:00:01"
             # THEORIC COST
             if ele.cost_type == 'bom':
-                if product.supply_method == 'produce' and product.bom_ids:
-                    #bom = product.bom_ids[0] #hacemos el for porque puede ser que sea un componente el primero
-                    for bom in product.bom_ids:
-                        if not bom.bom_id and bom.active:
-                            break
+                if product.route_ids[0].name == 'Manufacture' and product.bom_ids:
+                #if product.supply_method == 'produce' and product.bom_ids:
+                    bom = product.bom_ids[0] #Cogemos la primera
+                    #aqui no hace falta iterar.
                     factor = uom_obj._compute_qty(cr, uid, bom.product_uom.id, bom.product_qty, product.uom_id.id)
                     res1, res2 = bom_obj._bom_explode(cr, uid, bom, factor / bom.product_qty, properties=[])#, addthis=False, level=0, routing_id=False)
                     if res1:
@@ -113,11 +113,8 @@ class product_costs_line(osv.osv_memory):
                     theoric = ele.cost_ratio * product.weight_net
                     theoric_standard = theoric
                 elif ele.distribution_mode == 'min':
-                    if product.supply_method == 'produce' and product.bom_ids:
-                        #bom = product.bom_ids[0] #hacemos el for porque puede ser que sea un componente el primero
-                        for bom in product.bom_ids:
-                            if not bom.bom_id and bom.active:
-                                break
+                    if product.route_ids[0].name == 'Manufacture' and product.bom_ids:
+                        bom = product.bom_ids[0]
                         if bom.routing_id:
                             hours = 0.0
                             for wc_use in bom.routing_id.workcenter_lines:
@@ -149,7 +146,7 @@ class product_costs_line(osv.osv_memory):
                                              domain)
             # Company
             company = user_facade.browse(cr, uid, uid).company_id
-            #import ipdb; ipdb.set_trace()
+            import ipdb; ipdb.set_trace()
             # QUERY
             cr.execute("select sum(price_unit)/sum(product_qty) from stock_move \
                         where product_id = " + str(product_id) + \
