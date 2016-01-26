@@ -9,9 +9,11 @@
             <field name="inherit_id" ref="product.product_normal_form_view"/>
             <field name="arch" type="xml">
                 <field name="standard_price" position="after">
-                    <field name="standard_price_standard"/>
-                    <field name="dock_cost_standard"/>
-                    <field name="cost_structure_id"/>
+                    <group>
+                        <field name="standard_price_standard"/>
+                        <field name="dock_cost_standard"/>
+                        <field name="cost_structure_id"/>
+                    </group>
                     <newline/>
                     <group col="6" colspan="2">
                         <button name="action_show_product_costs" string="Show Costs" type="object" context="{'product_id': active_id}" icon="gtk-go-up" colspan="2"/>

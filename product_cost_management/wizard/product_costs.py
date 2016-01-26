@@ -164,6 +164,7 @@ class product_costs_line(osv.osv_memory):
         return theoric, theoric_standard, real
 
     def get_product_costs(self, cr, uid, ids, context=None):
+        import ipdb; ipdb.set_trace()
         if context is None:
             context = {}
         prod = self.pool.get('product.product')
@@ -242,6 +243,7 @@ class product_costs_line(osv.osv_memory):
         return value
     
     def show_product_costs(self, cr, uid, ids, context=None):
+        import ipdb; ipdb.set_trace()
         if context is None:
             context = {}
         prod_cost = self.pool.get('product.cost')
