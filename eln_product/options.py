@@ -20,6 +20,7 @@
 ##############################################################################
 from openerp.osv import orm, fields
 
+
 class product_options(orm.Model):
     _name = 'product.options'
     _columns = {

@@ -25,6 +25,6 @@ import ingredients
 import parameters
 import product
 import mrp
-import mail_message
+# import mail_message # No necesario (POST-MIGRATION)
 import pricelist
 
