@@ -51,7 +51,7 @@ Invoice must have in any case the max(SO/PO precision)
                  'purchase',
                 ],
     "init_xml" : [],
-    # "update_xml" : ['data/product_price_unit_precision_data.xml'],
+    "data" : ['data/product_price_unit_precision_data.xml'],
     "demo_xml" : [],
     "active": False,
     "installable": True
