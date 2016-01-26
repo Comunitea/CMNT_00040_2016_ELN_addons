@@ -18,11 +18,10 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from openerp.osv import fields, orm
 
-from openerp.osv import fields, osv
 
-
-class stock_move(osv.osv):
+class stock_move(orm.Model):
     _inherit = 'stock.move'
 
     def _read_packing_id_group(self, cr, uid, ids, domain,
@@ -48,7 +47,7 @@ class stock_move(osv.osv):
             lst = list(result[index])
             lst[1] += ' ' + str(index + 1)
             result[index] = tuple(lst)
-        return result
+        return result, {}
 
     _group_by_full = {
         'packing_id': _read_packing_id_group,
@@ -58,10 +57,9 @@ class stock_move(osv.osv):
         'packing_id': fields.many2one('edi.packing', 'Packing'),
     }
 
-stock_move()
 
 
-class stock_picking(osv.osv):
+class stock_picking(orm.Model):
     _inherit = 'stock.picking'
 
     def _check_unique_pack(self, cr, uid, ids, context=None):
@@ -82,10 +80,8 @@ class stock_picking(osv.osv):
         'packing_ids': fields.one2many('edi.packing', 'picking_id', 'Packings'),
     }
 
-stock_picking()
 
-
-class edi_packing(osv.osv):
+class edi_packing(orm.Model):
     _name = 'edi.packing'
 
     _columns = {
@@ -95,10 +91,8 @@ class edi_packing(osv.osv):
         'name': fields.related('pack_id', 'name', type='char', string='Name')
     }
 
-edi_packing()
 
-
-class edi_pack(osv.osv):
+class edi_pack(orm.Model):
     _name = 'edi.pack'
 
     _columns = {
@@ -106,10 +100,9 @@ class edi_pack(osv.osv):
         'code': fields.char('Code', size=3),
         'note': fields.text('Notes', readonly = False),
     }
-edi_pack()
 
 
-class stock_return_picking(osv.osv_memory):
+class stock_return_picking(orm.TransientModel):
     _inherit = 'stock.return.picking'
 
     def default_get(self, cr, uid, fields, context=None):
@@ -152,5 +145,3 @@ class stock_return_picking(osv.osv_memory):
                 pick.write({'return_picking_id': return_pick_id[0]})
 
         return res
-
-stock_return_picking()

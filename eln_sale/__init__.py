@@ -19,7 +19,7 @@
 #
 ##############################################################################
 # import wizard
-# import res_partner
+import res_partner
 # import product
 # import sale
 import stock

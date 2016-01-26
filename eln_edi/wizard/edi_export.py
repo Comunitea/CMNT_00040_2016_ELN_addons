@@ -21,7 +21,7 @@
 ##############################################################################
 
 from openerp.tools.translate import _
-from openerp.osv import fields, osv
+from openerp.osv import fields, orm
 from edi_logging import logger
 import os
 from datetime import datetime
@@ -32,7 +32,7 @@ from unidecode import unidecode
 log = logger("export_edi")
 
 
-class edi_export (osv.osv_memory):
+class edi_export (orm.TransientModel):
 
     _name = "edi.export"
     _columns = {
@@ -46,7 +46,7 @@ class edi_export (osv.osv_memory):
 
         conf_ids = self.pool.get('edi.configuration').search(cr, uid, [])
         if not conf_ids:
-            raise osv.except_osv(_('Error'),
+            raise orm.except_orm(_('Error'),
                                  _('No existen configuraciones EDI.'))
 
         res.update({'configuration': conf_ids[0]})
@@ -87,7 +87,7 @@ class edi_export (osv.osv_memory):
                 doc_type = 'invoic'
                 invoice_id = obj.id
             else:
-                raise osv.except_osv(_('Error'),
+                raise orm.except_orm(_('Error'),
                                      _('El modelo no es ni un pedido ni un \
                                        albarán ni una factura.'))
 
@@ -184,7 +184,7 @@ class edi_export (osv.osv_memory):
             if not line.stock_move_id.picking_id:
                 errors += _('The product %s not have a picking\n') % line.product_id.name'''
         if errors:
-            raise osv.except_osv(_('Data error'), errors)
+            raise orm.except_orm(_('Data error'), errors)
 
     @staticmethod
     def parse_number(number, length, decimales):
@@ -205,7 +205,7 @@ class edi_export (osv.osv_memory):
             number = str(number)
         new_number = (length - len(number)) * '0' + number
         if len(new_number) != length:
-            raise osv.except_osv(_('Error parsing'), _('Error parsing number'))
+            raise orm.except_orm(_('Error parsing'), _('Error parsing number'))
 
         return new_number
 
@@ -234,14 +234,14 @@ class edi_export (osv.osv_memory):
         new_string = string + u' ' * (length - len(string))
         
         if len(new_string) != length:
-            raise osv.except_osv(_('Error parsing!'), _('The length of "%s" is greater of %s.') % (new_string, length))
+            raise orm.except_orm(_('Error parsing!'), _('The length of "%s" is greater of %s.') % (new_string, length))
 
         return new_string
 
     @staticmethod
     def parse_short_date(date_str):
         if len(date_str) != 10:
-            raise osv.except_osv(_('Date error'),
+            raise orm.except_orm(_('Date error'),
                                  _('Error parsing short date'))
         date = datetime.strptime(date_str, '%Y-%m-%d')
         return date.strftime('%Y%m%d')
@@ -249,7 +249,7 @@ class edi_export (osv.osv_memory):
     @staticmethod
     def parse_long_date(date_str):
         if len(date_str) != 19:
-            raise osv.except_osv(_('Date error'), _('Error parsing long date'))
+            raise orm.except_orm(_('Date error'), _('Error parsing long date'))
         date = datetime.strptime(date_str, '%Y-%m-%d %H:%M:%S')
         return date.strftime('%Y%m%d%H%M')
 
@@ -361,7 +361,7 @@ class edi_export (osv.osv_memory):
         # vencimientos
         payments = [x for x in invoice.move_id.line_id if x.date_maturity]
         if len(payments) > 3:
-            raise osv.except_osv(_('Payment error'), _('the invoice have %s payments, max 3 payments') % len(payments))
+            raise orm.except_orm(_('Payment error'), _('the invoice have %s payments, max 3 payments') % len(payments))
         if len(payments) > 1:
             invoice_data += '21 '
         else:
@@ -507,7 +507,7 @@ class edi_export (osv.osv_memory):
                 errors += _('\nThe lot %s not have use date') % move.prodlot_id.name
 
         if errors:
-            raise osv.except_osv(_('Data error'), errors)
+            raise orm.except_orm(_('Data error'), errors)
 
 
     def parse_picking(self, picking, file_name):
@@ -655,16 +655,16 @@ class edi_export (osv.osv_memory):
 
         for obj in self.pool.get(context['active_model']).browse(cr,uid,context['active_ids']):
             if not obj.company_id.edi_code:
-                raise osv.except_osv(_('Company error'), _('Edi code not established in company'))
+                raise orm.except_orm(_('Company error'), _('Edi code not established in company'))
             if not obj.partner_id.edi_filename:
-                raise osv.except_osv(_('Partner error'), _('Edi filename not established in partner'))
+                raise orm.except_orm(_('Partner error'), _('Edi filename not established in partner'))
 
             elif context['active_model'] == u'stock.picking':
                 file_name = '%s%sEDI%s%s%s.ASC' % (path,os.sep, obj.company_id.edi_code, obj.name.replace('/',''), obj.partner_id.edi_filename)
                 self.parse_picking(obj, file_name)
             elif context['active_model'] == u'account.invoice':
                 if obj.state != 'open':
-                    raise osv.except_osv(_('Invoice error'), _('Validate the invoice before.'))
+                    raise orm.except_orm(_('Invoice error'), _('Validate the invoice before.'))
                 file_name = '%s%sINV%s%s%s.ASC' % (path,os.sep, obj.company_id.edi_code, obj.number.replace('/',''), obj.partner_id.edi_filename)
                 self.parse_invoice(obj, file_name)
 
@@ -675,4 +675,3 @@ class edi_export (osv.osv_memory):
 
         return action
 
-edi_export()

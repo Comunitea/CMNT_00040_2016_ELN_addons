@@ -18,13 +18,11 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-
-from openerp.osv import fields, osv
+from openerp.osv import fields, orm
 from openerp.tools.translate import _
 
 
-class stock_pack_moves(osv.osv_memory):
+class stock_pack_moves(orm.TransientModel):
 
     _name = 'stock.pack.moves'
     _columns = {
@@ -65,5 +63,3 @@ class stock_pack_moves(osv.osv_memory):
 
         return {'value': res}
 
-
-stock_pack_moves()

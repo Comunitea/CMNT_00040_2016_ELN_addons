@@ -26,7 +26,6 @@ class res_partner(osv.osv):
     _columns = {
         'product_ids': fields.one2many('partner.product', 'partner_id', 'Price list'),
         'property_product_pricelist_indirect_invoicing': fields.property(
-            'product.pricelist',
             type='many2one', 
             relation='product.pricelist', 
             domain=[('type','=','sale')],
