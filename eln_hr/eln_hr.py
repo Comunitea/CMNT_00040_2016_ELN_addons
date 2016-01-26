@@ -19,11 +19,10 @@
 #
 ##############################################################################
 
-from openerp.osv import osv, fields
-import logging
-import addons
+from openerp.osv import orm, fields
 
-class hr_employee(osv.osv):
+
+class hr_employee(orm.Model):
     _name = "hr.employee"
     _description = "Employee"
     _inherit = 'hr.employee'    
@@ -74,9 +73,8 @@ class hr_employee(osv.osv):
 #            resource_obj.unlink(cr, uid, resource_ids, context=context)
 #        return unlink_status
 
-hr_employee()
 
-class hr_employee_tipo_contrato(osv.osv):
+class hr_employee_tipo_contrato(orm.Model):
     _name = "hr.employee_tipo_contrato"
     _description = "Recursos Humanos - Tipo de contrato"
     _columns = {
@@ -88,9 +86,8 @@ class hr_employee_tipo_contrato(osv.osv):
         'active': True
     }
 
-hr_employee_tipo_contrato()
 
-class hr_employee_contrataciones_anteriores(osv.osv):
+class hr_employee_contrataciones_anteriores(orm.Model):
     _name = "hr.employee_contrataciones_anteriores"
     _description = "Recursos Humanos - Contrataciones anteriores"
     _order = 'fecha_inicio'
@@ -101,9 +98,8 @@ class hr_employee_contrataciones_anteriores(osv.osv):
         'fecha_fin': fields.date("Fecha fin"),
     }
 
-hr_employee_contrataciones_anteriores()
 
-class hr_employee_formacion_academica(osv.osv):
+class hr_employee_formacion_academica(orm.Model):
     _name = "hr.employee_formacion_academica"
     _description = "Recursos Humanos - Experiencia Laboral"
     _order = 'final_year'
@@ -114,9 +110,8 @@ class hr_employee_formacion_academica(osv.osv):
         'final_year': fields.char('Año final', size=4),
     }
 
-hr_employee_formacion_academica()
 
-class hr_employee_experiencia_laboral(osv.osv):
+class hr_employee_experiencia_laboral(orm.Model):
     _name = "hr.employee_experiencia_laboral"
     _description = "Recursos Humanos - Experiencia Laboral"
     _order = 'fecha_inicio'
@@ -128,9 +123,8 @@ class hr_employee_experiencia_laboral(osv.osv):
         'fecha_fin': fields.char("Fecha fin", size=10),
     }
 
-hr_employee_experiencia_laboral()
 
-class hr_employee_formacion_en_la_empresa(osv.osv):
+class hr_employee_formacion_en_la_empresa(orm.Model):
     _name = "hr.employee_formacion_en_la_empresa"
     _description = "Recursos Humanos - Formación en la empresa"
     _order = 'fecha_curso'
@@ -143,16 +137,11 @@ class hr_employee_formacion_en_la_empresa(osv.osv):
         'fecha_valoracion': fields.char("Valorado en fecha", size=10),
     }
 
-hr_employee_formacion_en_la_empresa()
 
-class hr_job(osv.osv):
+class hr_job(orm.Model):
     _name = "hr.job"
     _description = "Job Description"
     _inherit = 'hr.job'    
     _columns = {
         'name': fields.char('Job Name', size=128, required=True, select=True, translate=True),
     }
-
-hr_job()
-
-

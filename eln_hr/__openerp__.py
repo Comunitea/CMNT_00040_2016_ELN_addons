@@ -28,11 +28,11 @@
     'website': 'www.elnogal.com',
     "depends" : ['hr'],
     "init_xml" : [],
-    # 'update_xml': [
-    #     'security/eln_hr_security.xml',
-    #     'security/ir.model.access.csv',
-    #     'hr_view.xml',
-    # ],
+    'data': [
+        'security/eln_hr_security.xml',
+        'security/ir.model.access.csv',
+        'hr_view.xml',
+    ],
     "demo_xml" : [],
     "active": False,
     "installable": True
