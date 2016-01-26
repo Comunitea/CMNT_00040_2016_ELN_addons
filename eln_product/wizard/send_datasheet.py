@@ -20,8 +20,8 @@
 ##############################################################################
 from openerp.osv import osv, fields
 import time
-import tools
-from jasper_reports.jasper_report import report_jasper
+from openerp import tools
+from openerp.addons.jasper_reports import report_jasper
 from openerp.tools.translate import _
 
 

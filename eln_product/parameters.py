@@ -18,9 +18,9 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import osv, fields
+from openerp.osv import orm, fields
 
-class product_parameters(osv.osv):
+class product_parameters(orm.Model):
     _name = 'product.parameter'
     _columns = {
         'name': fields.char('Name', size=255, required=True, translate=True),
@@ -30,9 +30,9 @@ class product_parameters(osv.osv):
             ('microbiological', 'Microbiological'),
             ('organoleptic','Organoleptic')], "Type", required=True)
     }
-product_parameters()
 
-class product_parameter_product(osv.osv):
+
+class product_parameter_product(orm.Model):
     _name = 'product.parameter.product'
     _columns = {
         'name': fields.char('Name', size=64, required=True),
@@ -43,4 +43,4 @@ class product_parameter_product(osv.osv):
     _defaults = {
         'name': lambda x, y, z, c: x.pool.get('ir.sequence').get(y, z, 'product.parameter.product') or '/',
     }
-product_parameter_product()
+

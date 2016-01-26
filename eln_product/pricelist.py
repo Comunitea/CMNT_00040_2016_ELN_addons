@@ -18,14 +18,15 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import fields, osv
+from openerp.osv import fields, orm
 
 import time
 from datetime import datetime
 from openerp.tools.translate import _
-import decimal_precision as dp
+import openerp.addons.decimal_precision as dp
 
-class product_pricelist_item(osv.osv):
+
+class product_pricelist_item(orm.Model):
     _inherit = "product.pricelist.item"
 
     def _get_price_calculated(self, cr, uid, ids, name, arg, context=None):
@@ -66,4 +67,3 @@ class product_pricelist_item(osv.osv):
         'price_calculated': lambda *a: 0,
     }
 
-product_pricelist_item()
