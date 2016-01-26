@@ -22,9 +22,9 @@
 
 """Inherits sale.order.line to drag partner discount to invoice lines"""
 
-from openerp.osv import osv
+from openerp.osv import orm
 
-class sale_order_line(osv.osv):
+class sale_order_line(orm.Model):
     """Inherits sale.order.line to drag partner discount to invoice lines"""
     
     _inherit = 'sale.order.line'
@@ -50,6 +50,5 @@ class sale_order_line(osv.osv):
                     result['value']['discount'] = 0.0
 
         return result
-    
-sale_order_line()
+
 

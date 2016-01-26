@@ -22,14 +22,14 @@
 
 """adds new field discount on partner"""
 
-from openerp.osv import fields,osv
+from openerp.osv import fields, orm
 
-class res_partner(osv.osv):
+class res_partner(orm.Model):
     """adds new field discount on partner"""
     _inherit = 'res.partner'
 
     _columns = {
-        'property_partner_sale_discount': fields.property('res.partner',
+        'property_partner_sale_discount': fields.property(
             type='float', 
             string="Sale Discount (%)", 
             method=True,
@@ -40,6 +40,3 @@ class res_partner(osv.osv):
     _defaults = {
         'property_partner_sale_discount': lambda *a: 0.0,
     }
-
-res_partner()
-
