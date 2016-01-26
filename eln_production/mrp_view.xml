@@ -337,10 +337,6 @@
                         <field name="product_uos" invisible="1"/>
                         <field name="prodlot_id" context="{'product_id': product_id}" domain="[('product_id','=',product_id),('stock_available','&gt;',0)]"/> 
                         <field name="state" invisible="1"/>
-                        <button name="%(stock.action_partial_move_server)d"
-                            string="Partial"
-                            type="action" states="confirmed,assigned"
-                            icon="gtk-justify-fill"/>
                         <button name="%(stock.move_scrap)d"
                             string="Scrap Products" type="action"
                             icon="gtk-convert" context="{'scrap': True}"
@@ -434,14 +430,14 @@
                         </field>
                     </page>
                 </page>
-                <page string="Extra Information" position="after">
-                    <page string="Notas">
-                        <field name="note" colspan="4" nolabel="1"/>
-                    </page>                 
-                </page>                 
+
+               <page string="Extra Information" position="after">
+                   <page string="Notas">
+                       <field name="note" colspan="4" nolabel="1"/>
+                   </page>
+               </page>
             </field>
         </record>
-
 
         <record id="workcenter_line_calendar" model="ir.ui.view">
             <field name="name">mrp.production.workcenter.line.calendar</field>

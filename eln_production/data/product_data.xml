@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <openerp>
-    <data noupdate="1">
+    <data noupdate="0">
         <record id="cat10" model="product.category">
             <field name="parent_id" ref="product.cat0"/>
             <field name="name">Materia Prima</field>

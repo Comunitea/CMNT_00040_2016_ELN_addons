@@ -38,19 +38,19 @@
             </field>
         </record>
 
-        <record id="invoice_form_add_early_payment_button_eln_account" model="ir.ui.view">
-            <field name="name">account.invoice.form_add_early_payment_button</field>
-            <field name="model">account.invoice</field>
-            <field name="type">form</field>
-            <field name="inherit_id" ref="sale_early_payment_discount.invoice_form_add_early_payment_button"/>
-            <field name="arch" type="xml">
-                <button name="button_compute_early_payment_disc" position="replace">
-                    <group colspan="2" col="1">
-                        <button name="button_compute_early_payment_disc" states="draft" string="Apply early payment disc." type="object" groups="base.group_user" />
-                    </group>
-                </button>
-            </field>
-        </record>
+        <!--<record id="invoice_form_add_early_payment_button_eln_account" model="ir.ui.view">-->
+            <!--<field name="name">account.invoice.form_add_early_payment_button</field>-->
+            <!--<field name="model">account.invoice</field>-->
+            <!--<field name="type">form</field>-->
+            <!--<field name="inherit_id" ref="sale_early_payment_discount.invoice_form_add_early_payment_button"/>-->
+            <!--<field name="arch" type="xml">-->
+                <!--<button name="button_compute_early_payment_disc" position="replace">-->
+                    <!--<group colspan="2" col="1">-->
+                        <!--<button name="button_compute_early_payment_disc" states="draft" string="Apply early payment disc." type="object" groups="base.group_user" />-->
+                    <!--</group>-->
+                <!--</button>-->
+            <!--</field>-->
+        <!--</record>-->
 
     </data>
 </openerp>

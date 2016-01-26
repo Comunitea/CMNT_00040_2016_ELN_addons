@@ -13,7 +13,7 @@
                         <field colspan="4" name="stock_moves_traceability" nolabel="1" readonly="1">
                             <tree string="Traceability down">
                                 <field name="product_id"/>
-                                <field name="prodlot_id"/>
+                                <!--<field name="prodlot_id"/>-->
                                 <field name="name"/>
                                 <field name="product_qty"/>
                                 <field name="product_uom"/>
@@ -31,7 +31,7 @@
                        <field colspan="4" name="stock_moves_traceability_up" nolabel="1" readonly="1">
                            <tree string="Traceability up">
                                <field name="product_id"/>
-                               <field name="prodlot_id"/>
+                               <!--<field name="prodlot_id"/>-->
                                <field name="name"/>
                                <field name="product_qty"/>
                                <field name="product_uom"/>
