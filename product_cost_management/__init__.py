@@ -18,7 +18,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-# import cost_type
-# import cost_structure_elements
-# import product
-# import wizard
+import cost_type
+import cost_structure_elements
+import product
+import wizard

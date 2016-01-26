@@ -40,44 +40,46 @@ class sales_forecast(osv.osv):
                                     uid,
                                 line['product_id'])
         boms = {}
-        for d in product.bom_ids:
-            if not d.bom_id:
-                bom = d
-
-                x, y  = bom_obj._bom_explode(cr,
+        #recorremos todas las lineas de la primera lista de materiales del producto
+        for bom in product.bom_ids[0].bom_line_ids:
+            if bom.product_qty == 0:
+                qty = 0
+            else:
+                qty = factor/bom.product_qty
+            boms, y  = bom_obj._bom_explode(cr,
+                                        uid,
+                                        bom,
+                                        bom.product_id,
+                                        qty,
+                                        properties=[])
+            #sacamos las necesidades de cada linea
+            #en boms, y si ahora miramos si alguna linea tiene bom
+            for bom_in_boms in boms:
+                #recorremos las lineas y sacamos el producto
+                product = product_obj.browse(cr,
                                             uid,
-                                            bom,
-                                            factor / bom.product_qty,
-                                            properties=[],
-                                            addthis=False,
-                                            level=0,
-                                            routing_id=False)
-                boms = x
+                                            bom_in_boms['product_id'])
+                #miramos si tiene bom
+                if product.route_ids[0].name == 'Manufacture' and product.bom_ids[0].bom_line_ids:
+                    #si tienen bom ...
+                     for c in product.bom_ids[0].bom_line_ids:
+                        bom = c
+                        factor = uom_obj._compute_qty(cr,
+                                                    uid,
+                                                    product.uom_id.id,
+                                                    bom_in_boms['product_qty'],
+                                                    bom.product_uom.id)
+                        a = self._get_bom_recursivity(cr, uid, bom_in_boms, factor)
+                        if a:
+                            boms += a
 
-                for l in x:
-
-                    product = product_obj.browse(cr,
-                                                uid,
-                                                l['product_id'])
-                    if product.supply_method == 'produce' and product.bom_ids:
-                         for c in product.bom_ids:
-                            if not c.bom_id:
-                                bom = c
-
-                                factor = uom_obj._compute_qty(cr,
-                                                            uid,
-                                                            product.uom_id.id,
-                                                            l['product_qty'],
-                                                            bom.product_uom.id)
-                                a = self._get_bom_recursivity(cr, uid, l, factor)
-                                if a:
-                                    boms += a
-
-                                break
+                        break
                 break
         return boms
 
     def generate_purchases_forecast(self, cr, uid, ids, context=None):
+        print u"Generar Previsaion de Compra"
+        import ipdb; ipdb.set_trace()
         if context is None:
             context = {}
         bom_obj = self.pool.get('mrp.bom')
@@ -96,10 +98,9 @@ class sales_forecast(osv.osv):
         year = 0
         company = self.pool.get('res.users').browse(cr, uid, uid).company_id and self.pool.get('res.users').browse(cr, uid, uid).company_id.id or False
         year = 0
+        #necesitamos forecast_lines: contiene todas las lineas de las previsiones de ventas
         for cur in self.browse(cr, uid, ids):
-
             year = cur.year
-
             if cur.sales_forecast_lines:
                 forecasts.append(cur.id)
                 name += cur.name + " - "
@@ -121,43 +122,35 @@ class sales_forecast(osv.osv):
 
                 for l in forecast_lines:
                     line = self.pool.get('sales.forecast.line').browse(cr, uid, l)
-                    if line.product_id.supply_method == 'produce':
-
+                    #si producimos el producto, entonces debemos de entrar en la ldm para ver que necesitamos
+                    #supongo que o se compra, o se fabrica y que siempre tiene una de las dos
+                    if line.product_id.route_ids[0].name == 'Manufacture':
                         if not line.product_id.bom_ids:
+                            #todos los productos fabricados deben de tener su ldm
                             raise osv.except_osv(_('Error !'), _('The product "%s" has no LdM') % line.product_id.name)
-                            break
                         else:
-
                             bom = line.product_id.bom_ids[0]
                             factor = uom_obj._compute_qty(cr, uid,
                                                         line.product_id.uom_id.id,
                                                         (eval('o.' + (months[month] + '_qty'),{'o': line})),
                                                          bom.product_uom.id)
-                            res1, res2 = bom_obj._bom_explode(cr, uid, bom, factor / bom.product_qty, properties=[], addthis=False, level=0, routing_id=False)
-
-                            if res1:
-                                lines = res1
-                                for r in res1:
-                                    product = product_obj.browse(cr, uid, r['product_id'])
-                                    if product.supply_method == 'produce' and product.bom_ids:
-                                        for a in product.bom_ids:
-                                            if not a.bom_id:
-                                                bom =  a
-                                                factor = uom_obj._compute_qty(cr, uid,
-                                                                                    product.uom_id.id,
-                                                                                    r['product_qty'],
-                                                                                    bom.product_uom.id)
-
-                                                res3 = self._get_bom_recursivity(cr, uid, r, factor)
-                                                if res3:
-                                                    lines += res3
-                                                break
-
+                            res1, res2 = bom_obj._bom_explode(cr, uid, bom, line.product_id, factor / bom.product_qty, properties=[])
+                            lines = res1
+                            # if res1:
+                            #     lines = res1
+                            #     for r in res1:
+                            #         product = product_obj.browse(cr, uid, r['product_id'])
+                            #         factor = uom_obj._compute_qty(cr, uid, product.uom_id.id, r['product_qty'],bom.product_uom.id)
+                            #         res3 = self._get_bom_recursivity(cr, uid, r, factor)
+                            #         if res3:
+                            #             lines += res3
+                            print u"BoM: %s para %s (%s) en mes %s"%(lines, line.product_id.name, line.product_id.route_ids[0].name, month)
                             for visited in lines:
                                 product = product_obj.browse(cr, uid, visited['product_id'])
-                                if product.supply_method != 'produce':
+                                #TODO revisar esto
+                                if product.route_ids[0].name == 'Buy':
                                     good_lines.append(visited)
-
+                            print u"Todo el desglose en good_lines. solo las que son buy"
                             for x in good_lines:
 
                                 if res.get(x['product_id']):
@@ -170,17 +163,15 @@ class sales_forecast(osv.osv):
                             lines = []
                             good_lines = []
 
-                    elif line.product_id.supply_method == 'buy':
+                    elif line.product_id.route_ids[0].name == 'Buy':
                         if res.get(line.product_id.id):
                             res[line.product_id.id][0] += (eval('o.' + (months[month] + '_qty'),{'o': line}))
 
                         else:
                             res[line.product_id.id] = []
                             res[line.product_id.id].append(((eval('o.' + (months[month] + '_qty'),{'o': line}))))
-
-
+                print u"deberemos de tener en res la prvision"
                 if res:
-
                     for product in res:
                         cur_forecast = forecast_obj.browse(cr, uid, new_id)
                         l_products = forecast_line_obj.search(cr, uid,

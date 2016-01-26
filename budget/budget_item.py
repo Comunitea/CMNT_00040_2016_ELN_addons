@@ -4,9 +4,6 @@
 #    Author: Arnaud Wüst
 #    Copyright 2009-2013 Camptocamp SA
 #
-#    Copyright (c) 2013 Pexego Sistemas Informáticos All Rights Reserved
-#    $Marta Vázquez Rodríguez$ <marta@pexego.es>
-#
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
 #    published by the Free Software Foundation, either version 3 of the
@@ -22,18 +19,21 @@
 #
 ##############################################################################
 from operator import itemgetter
-from openerp.osv import osv, fields
+from openerp.osv import fields, orm
 
-class allocation_type(osv.osv):
+
+class allocation_type(orm.Model):
+
     """Allocation type from budget line"""
     _name = "budget.allocation.type"
 
     _columns = {
-        "name": fields.char('Name', size=255, required=True)
+        'name': fields.char('Name', required=True),
     }
 
 
-class budget_item(osv.osv):
+class budget_item(orm.Model):
+
     """ Budget Item
 
     This is a link between budgets and financial accounts. """
@@ -56,8 +56,8 @@ class budget_item(osv.osv):
         return result
 
     _columns = {
-        'code': fields.char('Code', size=5, required=True),
-        'name': fields.char('Name',  size=255, required=True),
+        'code': fields.char('Code', required=True),
+        'name': fields.char('Name', required=True),
         'active': fields.boolean('Active'),
         'parent_id': fields.many2one('budget.item',
                                      string='Parent Item',
@@ -93,18 +93,12 @@ class budget_item(osv.osv):
         'active': True,
         'type': 'normal',
         'style': 'normal',
-        'calculation': "For item of type 'view', you can define a mehod of \
-            calculation based on other items. Start your formula by 'result = ' \
-            and use standard math symbols with items codes surrounded by %%()f. \
-            Items 'codes will be replaced by items' values and then parsed in \
-            python code. So be sure to be python compliant. \
-            Here is a simple example: result = (%%(ebitda)f + %%(ebit)f) * 2"
     }
 
     def _check_recursion(self, cr, uid, ids, context=None, parent=None):
         """ use in _constraints[]: return false
         if there is a recursion in the budget items structure """
-        #use the parent check_recursion function defined in orm.py
+        # use the parent check_recursion function defined in orm.py
         return super(budget_item, self)._check_recursion(
             cr, uid, ids, parent=parent or 'parent_id', context=context)
 
@@ -189,10 +183,11 @@ class budget_item(osv.osv):
             budget = budget_obj.browse(cr, uid,
                                        context['budget_id'],
                                        context=ctx)
-            allowed_item_ids = self.get_sub_item_ids(cr, uid,
-                                                     [budget.budget_item_id.id],
-                                                     context=ctx)
+            allowed_item_ids = self.get_sub_item_ids(
+                cr, uid,
+                [budget.budget_item_id.id],
+                context=ctx)
+
             domain = [('id', 'in', allowed_item_ids)]
         return super(budget_item, self).search(
             cr, uid, args + domain, offset, limit, order, context, count)
-

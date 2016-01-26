@@ -4,12 +4,6 @@
 #    Author: Arnaud Wüst
 #    Copyright 2009-2013 Camptocamp SA
 #
-#    Copyright (c) 2013 Pexego Sistemas Informáticos All Rights Reserved
-#    $Marta Vázquez Rodríguez$ <marta@pexego.es>
-#
-#    Copyright (C) 2015- Comunitea Servicios Tecnologicos All Rights Reserved
-#    $Kiko Sánchez$ <kiko@comunitea.com>
-#
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
 #    published by the Free Software Foundation, either version 3 of the
@@ -24,11 +18,12 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from . import account
+from . import budget_item
+from . import budget
+from . import budget_version
+from . import budget_line
+from . import analytic
+
 import report
 import wizard
-import account
-import budget_item
-import budget
-import budget_version
-import budget_line
-import analytic

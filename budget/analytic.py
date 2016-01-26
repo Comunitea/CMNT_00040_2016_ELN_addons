@@ -4,12 +4,6 @@
 #    Author: Guewen Baconnier
 #    Copyright 2013 Camptocamp SA
 #
-#    Copyright (c) 2013 Pexego Sistemas Informáticos All Rights Reserved
-#    $Marta Vázquez Rodríguez$ <marta@pexego.es>
-#
-#    Copyright (C) 2015- Comunitea Servicios Tecnologicos All Rights Reserved
-#    $Kiko Sánchez$ <kiko@comunitea.com>
-#
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
 #    published by the Free Software Foundation, either version 3 of the
@@ -24,11 +18,10 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from openerp.osv import orm, fields
 
-from openerp.osv import osv, fields
 
-
-class account_analytic_account(osv.osv):
+class account_analytic_account(orm.Model):
     _inherit = 'account.analytic.account'
 
     _columns = {
@@ -36,3 +29,11 @@ class account_analytic_account(osv.osv):
                                            'analytic_account_id',
                                            string='Budget Lines'),
     }
+
+    def copy_data(self, cr, uid, id, default=None, context=None):
+        """Remove budget lines when copying analytic account"""
+        if default is None:
+            default = {}
+        default.setdefault('budget_line_ids', False)
+        return super(account_analytic_account, self).copy_data(
+            cr, uid, id, default=default, context=context)

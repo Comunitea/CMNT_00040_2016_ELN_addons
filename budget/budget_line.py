@@ -4,9 +4,6 @@
 #    Author: Arnaud Wüst
 #    Copyright 2009-2013 Camptocamp SA
 #
-#    Copyright (c) 2013 Pexego Sistemas Informáticos All Rights Reserved
-#    $Marta Vázquez Rodríguez$ <marta@pexego.es>
-#
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
 #    published by the Free Software Foundation, either version 3 of the
@@ -23,12 +20,12 @@
 ##############################################################################
 from operator import itemgetter
 from itertools import imap
+from openerp.osv import fields, orm
+from openerp.addons import decimal_precision as dp
 
-from openerp.osv import osv, fields
-from openerp.addons.decimal_precision import decimal_precision as dp
 
+class budget_line(orm.Model):
 
-class budget_line(osv.osv):
     """ Budget line.
 
     A budget version line NOT linked to an analytic account """
@@ -39,20 +36,24 @@ class budget_line(osv.osv):
     _order = 'name ASC'
 
     def _get_alloc_rel(self, cr, uid, ids, context=None):
+
         item_obj = self.pool['budget.item']
         line_obj = self.pool['budget.line']
         item_ids = item_obj.search(cr, uid, [('allocation_id', 'in', ids)],
                                    context=context)
         if item_ids:
-            line_ids = line_obj.search(cr, uid, [('budget_item_id', 'in', item_ids)],
+            line_ids = line_obj.search(cr, uid,
+                                       [('budget_item_id', 'in', item_ids)],
                                        context=context)
             return line_ids
         return []
 
-    _store_tuple = (lambda self, cr, uid, ids, c={}: ids, ['budget_item_id'], 10)
+    _store_tuple = (lambda self, cr, uid, ids, c=None: ids,
+                    ['budget_item_id'], 10)
     _alloc_store_tuple = (_get_alloc_rel, [], 20)
 
-    def _get_budget_currency_amount(self, cr, uid, ids, name, arg, context=None):
+    def _get_budget_currency_amount(self, cr, uid, ids, name, arg,
+                                    context=None):
         """ return the line's amount xchanged in the budget's currency """
         res = {}
         currency_obj = self.pool.get('res.currency')
@@ -122,10 +123,28 @@ class budget_line(osv.osv):
         # if the budget currency is already set
         return context.get('currency_id', False)
 
+    def _fetch_budget_line_from_aal(self, cr, uid, ids, context=None):
+        """
+        return the list of budget line to which belong the
+        analytic.account.line `ids´
+        """
+        account_ids = []
+        budget_line_obj = self.pool.get('budget.line')
+        for aal in self.browse(cr, uid, ids, context=context):
+            if aal.account_id and aal.account_id.id not in account_ids:
+                account_ids.append(aal.account_id.id)
+
+        line_ids = budget_line_obj.search(cr,
+                                          uid,
+                                          [('analytic_account_id',
+                                            'in',
+                                            account_ids)],
+                                          context=context)
+        return line_ids
+
     _columns = {
         'date_start': fields.date('Start Date'),
         'date_stop': fields.date('End Date'),
-        'year': fields.integer('Year'),
         'analytic_account_id': fields.many2one(
             'account.analytic.account',
             string='Analytic Account',
@@ -134,16 +153,18 @@ class budget_line(osv.osv):
                                           'Budget Item',
                                           required=True,
                                           ondelete='restrict'),
-        'allocation': fields.related('budget_item_id',
-                                     'allocation_id',
-                                     'name',
-                                     type='char',
-                                     string='Budget Item Allocation',
-                                     select=True,
-                                     readonly=True,
-                                     store={'budget.line': _store_tuple,
-                                            'budget.allocation.type': _alloc_store_tuple}),
-        'name': fields.char('Description',  size=255),
+        'allocation': fields.related(
+            'budget_item_id',
+            'allocation_id',
+            'name',
+            type='char',
+            string='Budget Item Allocation',
+            select=True,
+            readonly=True,
+            store={
+                'budget.line': _store_tuple,
+                'budget.allocation.type': _alloc_store_tuple}),
+        'name': fields.char('Description'),
         'amount': fields.float('Amount', required=True),
         'currency_id': fields.many2one('res.currency',
                                        'Currency',
@@ -152,7 +173,8 @@ class budget_line(osv.osv):
             _get_budget_currency_amount,
             type='float',
             precision=dp.get_precision('Account'),
-            string="In Budget's Currency"),
+            string="In Budget's Currency",
+            store=True),
         'budget_currency_id': fields.related('budget_version_id',
                                              'currency_id',
                                              type='many2one',
@@ -169,6 +191,18 @@ class budget_line(osv.osv):
             precision=dp.get_precision('Account'),
             multi='analytic',
             string="In Analytic Amount's Currency",
+            store={
+                'budget.line': (lambda self, cr, uid, ids, c: ids,
+                                ['amount',
+                                 'date_start',
+                                 'date_stop',
+                                 'analytic_account_id',
+                                 'currency_id'], 10),
+                'account.analytic.line': (_fetch_budget_line_from_aal,
+                                          ['amount',
+                                           'unit_amount',
+                                           'date'], 10),
+            }
         ),
         'analytic_real_amount': fields.function(
             _get_analytic_amount,
@@ -176,6 +210,18 @@ class budget_line(osv.osv):
             precision=dp.get_precision('Account'),
             multi='analytic',
             string="Analytic Real Amount",
+            store={
+                'budget.line': (lambda self, cr, uid, ids, c: ids,
+                                ['amount',
+                                 'date_start',
+                                 'date_stop',
+                                 'analytic_account_id',
+                                 'currency_id'], 10),
+                'account.analytic.line': (_fetch_budget_line_from_aal,
+                                          ['amount',
+                                           'unit_amount',
+                                           'date'], 10),
+            }
         ),
         'analytic_diff_amount': fields.function(
             _get_analytic_amount,
@@ -183,6 +229,18 @@ class budget_line(osv.osv):
             precision=dp.get_precision('Account'),
             multi='analytic',
             string="Analytic Difference Amount",
+            store={
+                'budget.line': (lambda self, cr, uid, ids, c: ids,
+                                ['amount',
+                                 'date_start',
+                                 'date_stop',
+                                 'analytic_account_id',
+                                 'currency_id'], 10),
+                'account.analytic.line': (_fetch_budget_line_from_aal,
+                                          ['amount',
+                                           'unit_amount',
+                                           'date'], 10),
+            }
         ),
         'analytic_currency_id': fields.related('analytic_account_id',
                                                'currency_id',
@@ -193,7 +251,8 @@ class budget_line(osv.osv):
     }
 
     _defaults = {
-        'currency_id': lambda self, cr, uid, context: self._get_budget_version_currency(cr, uid, context)
+        'currency_id': lambda self, cr, uid, context:
+        self._get_budget_version_currency(cr, uid, context)
     }
 
     def _check_item_in_budget_tree(self, cr, uid, ids, context=None):
@@ -219,9 +278,9 @@ class budget_line(osv.osv):
                     date <= budget.end_date)
         lines = self.browse(cr, uid, ids, context=context)
         return all(date_valid(line.date_start,
+                              line.budget_version_id.budget_id) and
+                   date_valid(line.date_stop,
                               line.budget_version_id.budget_id)
-                   and date_valid(line.date_stop,
-                                  line.budget_version_id.budget_id)
                    for line in lines)
 
     def _check_dates(self, cr, uid, ids, context=None):
@@ -267,7 +326,8 @@ class budget_line(osv.osv):
         migrate_period('period_id', 'date_start')
         migrate_period('to_period_id', 'date_stop')
 
-    def onchange_analytic_account_id(self, cr, uid, ids, analytic_account_id, context=None):
+    def onchange_analytic_account_id(self, cr, uid, ids, analytic_account_id,
+                                     context=None):
         values = {}
         if analytic_account_id:
             aa_obj = self.pool.get('account.analytic.account')
@@ -276,11 +336,18 @@ class budget_line(osv.osv):
             values['currency_id'] = account.currency_id.id
         return {'value': values}
 
-    def _sum_columns(self, cursor, uid, res, orderby, context=None):
+    def _sum_columns(self, cr, uid, res, orderby, context=None):
+        """ Compute sum of columns showed by the group by
+
+        :param res: standard group by result
+        :param orderby: order by string sent by webclient
+        :returns: updated dict with missing sums of int and float
+
+        """
         # We want to sum float and int only
         cols_to_sum = self._get_applicable_cols()
-        r_ids = self.search(cursor, uid, res['__domain'], context=context)
-        lines = self.read(cursor, uid, r_ids, cols_to_sum, context=context)
+        r_ids = self.search(cr, uid, res['__domain'], context=context)
+        lines = self.read(cr, uid, r_ids, cols_to_sum, context=context)
         if lines:
             # Summing list of dict For details:
             # http://stackoverflow.com/questions/974678/
@@ -291,7 +358,7 @@ class budget_line(osv.osv):
         return res
 
     def _get_applicable_cols(self):
-        """Get function columns of numeric types"""
+        """ Get function columns of numeric types """
         col_to_return = []
         for col, val in self._columns.iteritems():
             if (isinstance(val, fields.function) and
@@ -300,19 +367,27 @@ class budget_line(osv.osv):
         return col_to_return
 
     def read_group(self, cr, uid, domain, fields, groupby, offset=0,
-                   limit=None, context=None, orderby=False):
+                   limit=None, context=None, orderby=False, lazy=True):
         """ Override in order to see useful values in group by allocation.
-        Compute all numeric value"""
-        res = super(budget_line, self).read_group(cr, uid, domain, fields, groupby,
-                                                  offset, limit, context, orderby)
+
+        Compute all numerical values.
+
+        """
+        res = super(budget_line, self).read_group(
+            cr, uid, domain, fields, groupby,
+            offset, limit, context, orderby, lazy=True
+        )
+
         for result in res:
             self._sum_columns(cr, uid, result, orderby, context=context)
-        #order_by looks like
-        # 'col 1 DESC, col2 DESC, col3 DESC'
+        # order_by looks like
+        # 'col1 DESC, col2 DESC, col3 DESC'
         #  Naive implementation we decide of the order using the first DESC ASC
         if orderby:
             order = [x.split(' ') for x in orderby.split(',')]
-            reverse = True if order[0][1] == 'DESC' else False
+            reverse = False
+            if order and len(order[0]) > 1:
+                reverse = (order[0][1] == 'DESC')
             getter = [x[0] for x in order if x[0]]
             if getter:
                 res = sorted(res, key=itemgetter(*getter), reverse=reverse)

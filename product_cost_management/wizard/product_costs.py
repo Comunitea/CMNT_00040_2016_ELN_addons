@@ -90,7 +90,7 @@ class product_costs_line(osv.osv_memory):
                         if not bom.bom_id and bom.active:
                             break
                     factor = uom_obj._compute_qty(cr, uid, bom.product_uom.id, bom.product_qty, product.uom_id.id)
-                    res1, res2 = bom_obj._bom_explode(cr, uid, bom, factor / bom.product_qty, properties=[], addthis=False, level=0, routing_id=False)
+                    res1, res2 = bom_obj._bom_explode(cr, uid, bom, factor / bom.product_qty, properties=[])#, addthis=False, level=0, routing_id=False)
                     if res1:
                         for r in res1:
                             productb = product_facade.browse(cr, uid, r['product_id'])

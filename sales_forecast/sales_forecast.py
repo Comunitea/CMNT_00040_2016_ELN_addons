@@ -57,7 +57,6 @@ class sales_forecast(osv.osv):
     def action_done(self, cr, uid, ids, context=None):
         months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug',
             'sep', 'oct', 'nov', 'dec']
-
         if context is None:
             user = self.pool.get('res.users').browse(cr, uid, uid, context)
             context = {
@@ -76,6 +75,7 @@ class sales_forecast(osv.osv):
                                                         ('date_end', '=', False),
                                                         ('date_end', '>=', o.date),
                                                     ])
+
                 if not pricelist_version_ids:
                     raise osv.except_osv(_('Warning !'), _("The pricelist has no active version !\nPlease create or activate one."))
                 products_version = []
@@ -192,14 +192,12 @@ class sales_forecast(osv.osv):
     def write(self, cr, uid, ids, vals, context=None):
         """Modificación del método de escritura para que si la prevision tiene is_merged = True 
            no guarde el valor de pricelist_id si es fijado"""
-
         if context is None:
             context = {}
         if isinstance(ids, (int, long)):
             ids = [ids]
 
         #Hacemos el cambio si ha fijado el pricelist_id y is_merged es true
-        
         if vals.get('is_merged', False) :
             vals.update({'pricelist_id': False})
             vals.update({'budget_version_id': False})
@@ -207,7 +205,6 @@ class sales_forecast(osv.osv):
 
         return super(sales_forecast, self).write(cr, uid, ids, vals, context=context)
 
-sales_forecast()
 
 class sales_forecast_line(osv.osv):
 

@@ -4,6 +4,9 @@
 #    Copyright (C) 2004-2012 Pexego Sistemas Informáticos All Rights Reserved
 #    $Marta Vázquez Rodríguez$ <marta@pexego.es>
 #
+#    Copyright (C) 2015-2016 Comunitea Servicios Tecnológicos All Rights Reserved
+#    $kiko sánchez$ <kiko@comunitea.com>
+#
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
 #    by the Free Software Foundation, either version 3 of the License, or
@@ -19,7 +22,8 @@
 #
 ##############################################################################
 from openerp.osv import osv, fields
-import decimal_precision as dp
+from openerp.addons import decimal_precision as dp
+
 
 class budget_line(osv.osv):
     #TODO: TRADUCIR -> Se añade el campo producto para poder añadir líneas
@@ -29,7 +33,7 @@ class budget_line(osv.osv):
     _columns = {
         'product_id': fields.many2one('product.product', 'Product'),
     }
-budget_line()
+
 
 class budget_item(osv.osv):
     MODELS = [('sales.forecast', 'Sales forecast'), ('forecast.kg.sold', 'Kg sold forecast'), ('mrp.forecast', 'Hour forecast')]
@@ -39,12 +43,9 @@ class budget_item(osv.osv):
         'distribution_mode': fields.reference('Forecast', MODELS, size=128),
         'type_c': fields.selection(TYPES, 'type',required=False)
     }
-budget_item()
-
 
 class budget_version_total2(osv.osv):
     _name = "budget.version.total2"
-
 
     _columns = {
         'name': fields.char('Name', size=255, required=True),
@@ -57,8 +58,6 @@ class budget_version_total2(osv.osv):
     _defaults = {
         'name': '/',
     }
-
-budget_version_total2()
 
 class budget_version(osv.osv):
     _inherit = 'budget.version'
@@ -129,14 +128,22 @@ class budget_version(osv.osv):
 
     def action_calculate_totals(self, cr, uid, ids, properties=[],context=None):
 
+
+        print "Calculo de totales"
         result = {}
         lines = self.pool.get('budget.line')
         total = self.pool.get('budget.version.total2')
         item_facade = self.pool.get('budget.item')
         lines = []
+        #3 previsiones
+        #prevision de ventas: modelo sales_forecast_lines en euros o kgrs
+        #prevision de kgrs: modelo kgsold_forecast_line en kgr
+        #prevision de mrp_forecast_lines en tiempo de fabricación
 
         for version in self.browse(cr, uid, ids):
             if version.budget_line_ids:
+                #recuperamos todas las lineas agrupadas por partidas presupestarias
+                # select sum(total_hours) from mrp_forecast_line where mrp_forecast_id =
                 cr.execute("""
                 SELECT sum(amount),budget_item_id FROM budget_line GROUP BY budget_item_id""")
                 items = cr.fetchall()
@@ -147,8 +154,10 @@ class budget_version(osv.osv):
                         parent = u''
                         tot_prev = 0.0
                         item_obj = item_facade.browse(cr, uid, res[1])
+                        #instanciamos cada partida presupuestaria
 
                         if item_obj.distribution_mode:
+                            #tipo de previsión
                             prevfac = item_obj.distribution_mode
                             if 'kgsold_forecast_lines' in prevfac._columns:
                                 model = u'forecast_kg_sold_line'
@@ -172,11 +181,10 @@ class budget_version(osv.osv):
                             if field and model and parent and name:
                                 cr.execute(""" SELECT sum("""+field+""") from """ + model + """ where """ + parent + """ = """ + str(prevfac.id) + """""")
                                 tot_prev = cr.fetchall()[0][0]
-
                                 ids_to_delete = total.search(cr, uid, [('budget_item_id','=', res[1]),('version_id','=',version.id)])
                                 if ids_to_delete:
                                     total.unlink(cr, uid, ids_to_delete)
                                 new_total_id = total.create(cr, uid, {'budget_item_id': res[1], 'version_id':version.id, 'total': round(float(res[0])/ float(tot_prev or 1.0), 2), 'name': name})
         return True
-budget_version()
+
 
