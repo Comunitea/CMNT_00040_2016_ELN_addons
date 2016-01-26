@@ -66,5 +66,12 @@
             </field>
         </record>
 
+         <record model="ir.actions.act_window.view" id="action_stock_move_kanban_all">
+            <field name="sequence" eval="4"/>
+            <field name="view_mode">kanban</field>
+            <field name="view_id" ref="move_packing_kanban"/>
+            <field name="act_window_id" ref="stock.action_move_form2"/>
+        </record>
+
     </data>
 </openerp>
