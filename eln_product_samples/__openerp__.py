@@ -28,16 +28,16 @@
     "category" : "Enterprise Specific Modules",
     "description": """Product Samples Management in Openerp""",
     "depends" : [
-                # 'product',
-                # 'sale',
-                # 'stock',
-                # 'nan_partner_risk',
+                'product',
+                'sale',
+                'stock',
+                'nan_partner_risk',
                 ],
-    # "init_xml" : ['data/stock_location.xml'],
+    "init_xml" : ['data/stock_location.xml'],
     "demo_xml" : [],
-    "update_xml" : [
-                    # 'sale_order_view.xml',
-                    # 'product_product_view.xml',
+    "data" : [
+                    'sale_order_view.xml',
+                    'product_product_view.xml',
                     ],
     "installable": True,
     'active': False

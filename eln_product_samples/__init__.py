@@ -21,6 +21,6 @@
 
 """Product Samples Management in Openerp"""
 
-# import sale_order
-# import product_product
-# import procurement
+import sale_order
+import product_product
+# import procurement  # Se sustituye por congig de reglas

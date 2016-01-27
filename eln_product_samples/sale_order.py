@@ -18,10 +18,10 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from openerp.osv import fields, orm
 
-from openerp.osv import fields, osv
 
-class sale_order_line(osv.osv):
+class sale_order_line(orm.Model):
     
     _inherit = 'sale.order.line'
     _columns = {
@@ -52,9 +52,10 @@ class sale_order_line(osv.osv):
 
         return res
 
-sale_order_line()
 
-class sale_order(osv.osv):
+class sale_order(orm.Model):
+
+    _inherit = 'sale.order'
 
     def action_ship_create(self, cr, uid, ids, *args):
         """
@@ -74,7 +75,7 @@ class sale_order(osv.osv):
         
         for pick in current_order.picking_ids:
             for move in pick.move_lines:
-                if move.sale_line_id and move.sale_line_id.id in sample_line_ids:
+                if move.procurement_id.sale_line_id and move.procurement_id.sale_line_id.id in sample_line_ids:
                     moves_to_upgrade.append(move.id)
 
             action_model, samples_location = data_pool.get_object_reference(cr, uid, 'eln_product_samples', "stock_physical_location_samples2")
@@ -101,7 +102,3 @@ class sale_order(osv.osv):
                         samples[line.product_id.id] = line.product_uom_qty
         return True
 
-    
-
-    _inherit = 'sale.order'
-sale_order()
