@@ -43,4 +43,3 @@ class product_parameter_product(orm.Model):
     _defaults = {
         'name': lambda x, y, z, c: x.pool.get('ir.sequence').get(y, z, 'product.parameter.product') or '/',
     }
-

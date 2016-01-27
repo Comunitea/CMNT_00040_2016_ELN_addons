@@ -18,33 +18,30 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from openerp.osv import fields, orm
+import openerp.addons.decimal_precision as dp
 
-from openerp.osv import fields, osv
-import decimal_precision as dp
 
-class purchase_order_line(osv.osv):
+class purchase_order_line(orm.Model):
     _inherit = "purchase.order.line"
     
     _columns = {
         'price_unit': fields.float('Unit Price', required=True, digits_compute= dp.get_precision('Purchase Price Unit')),
     }
 
-purchase_order_line()
 
-class sale_order_line(osv.osv):
+class sale_order_line(orm.Model):
     _inherit = "sale.order.line"
     
     _columns = {
         'price_unit': fields.float('Unit Price', required=True, digits_compute= dp.get_precision('Sale Price Unit'), readonly=True, states={'draft': [('readonly', False)]}),
         }
+
         
-sale_order_line()
-        
-class account_invoice_line(osv.osv):
+class account_invoice_line(orm.Model):
     _inherit = "account.invoice.line"
             
     _columns = {
        'price_unit': fields.float('Unit Price', required=True, digits_compute= dp.get_precision('Invoice Price Unit')),
     }
-                
-account_invoice_line()
+
