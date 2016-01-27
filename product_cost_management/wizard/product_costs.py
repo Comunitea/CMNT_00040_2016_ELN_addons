@@ -53,7 +53,7 @@ class product_costs_line(osv.osv_memory):
     #_order = 'sequence asc, id asc'
 
     def _get_costs(self, cr, uid, ids, element=False, product_id=False, context=None):
-        import ipdb; ipdb.set_trace()
+
         theoric = 0.0
         theoric_standard = 0.0
         real = 0.0
@@ -85,12 +85,14 @@ class product_costs_line(osv.osv_memory):
             #    time_start = start.strftime("%Y-%m-%d") + " 00:00:01"
             # THEORIC COST
             if ele.cost_type == 'bom':
+                #Valores en función de la lista de mateirales.
+                # La recorremos (aquí en principio no iteramos)
                 if product.route_ids[0].name == 'Manufacture' and product.bom_ids:
                 #if product.supply_method == 'produce' and product.bom_ids:
                     bom = product.bom_ids[0] #Cogemos la primera
                     #aqui no hace falta iterar.
                     factor = uom_obj._compute_qty(cr, uid, bom.product_uom.id, bom.product_qty, product.uom_id.id)
-                    res1, res2 = bom_obj._bom_explode(cr, uid, bom, factor / bom.product_qty, properties=[])#, addthis=False, level=0, routing_id=False)
+                    res1, res2 = bom_obj._bom_explode(cr, uid, bom, product.id, factor / bom.product_qty, properties=[])#, addthis=False, level=0, routing_id=False)
                     if res1:
                         for r in res1:
                             productb = product_facade.browse(cr, uid, r['product_id'])
@@ -146,25 +148,25 @@ class product_costs_line(osv.osv_memory):
                                              domain)
             # Company
             company = user_facade.browse(cr, uid, uid).company_id
-            import ipdb; ipdb.set_trace()
             # QUERY
-            cr.execute("select sum(price_unit)/sum(product_qty) from stock_move \
+            query = "select sum(price_unit)/sum(product_qty) from stock_move \
                         where product_id = " + str(product_id) + \
                         " and company_id = " + str(company.id) + \
                         " and location_dest_id in " + \
                         str(tuple(loc_dest_ids)) + \
                         " and state = 'done' \
                         and date <= '" + time_stop + \
-                        "' and date >= '" + time_start + "'")
+                        "' and date >= '" + time_start + "'"
+            cr.execute (query)
             a = cr.fetchall()
             if a and a[0] and a[0][0]:
                 cost += a[0][0]
             real = cost
-            
+            print u"Costes para %s\n>> Teorico: %s Teorico Standard %s Real %s"%(product.name, theoric, theoric_standard, real)
         return theoric, theoric_standard, real
 
     def get_product_costs(self, cr, uid, ids, context=None):
-        import ipdb; ipdb.set_trace()
+
         if context is None:
             context = {}
         prod = self.pool.get('product.product')
@@ -179,7 +181,9 @@ class product_costs_line(osv.osv_memory):
             pro = prod.search(cr, uid, [])
             
         for product in prod.browse(cr, uid, pro):
+
             if product.cost_structure_id and product.cost_structure_id.elements:
+                print u"Estructura de costes para %s >> %s"%(product.name, product.cost_structure_id.name)
                 new_prod_cost_id = prod_cost.create(cr, uid, {'product_id': product.id, 
                                                               'date': time.strftime('%Y-%m-%d %H:%M:%S'), 
                                                               'company_id': product.cost_structure_id.company_id.id})
@@ -194,6 +198,7 @@ class product_costs_line(osv.osv_memory):
                 dock_cost_standard = 0.0
                 
                 for element in el:
+                    import ipdb; ipdb.set_trace()
                     if element.cost_type not in ('total', 'inventory'):
                         theoric, theoric_standard, real = self._get_costs(cr, uid, ids, element.id, product.id, context)
                         sumtheo += theoric
@@ -243,7 +248,7 @@ class product_costs_line(osv.osv_memory):
         return value
     
     def show_product_costs(self, cr, uid, ids, context=None):
-        import ipdb; ipdb.set_trace()
+
         if context is None:
             context = {}
         prod_cost = self.pool.get('product.cost')

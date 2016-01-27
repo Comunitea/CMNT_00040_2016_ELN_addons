@@ -20,14 +20,15 @@
 ##############################################################################
 from openerp.osv import osv, fields
 
-class mrp_bom(osv.osv):
-    _inherit = 'mrp.bom'
+class mrp_bom_line(osv.osv):
+    _inherit = 'mrp.bom.line'
+
     def _get_product_qty_percent(self, cr, uid, ids, field_name, arg, context):
 
         res = {}
         qty_total = 0.0
-        for line in self.browse(cr, uid, ids, context=context):
 
+        for line in self.browse(cr, uid, ids, context=context):
             qty_total += line.product_qty
 
         for line in self.browse(cr, uid, ids, context=context):
@@ -38,4 +39,3 @@ class mrp_bom(osv.osv):
     _columns = {
         'product_qty_percent': fields.function(_get_product_qty_percent, type="integer", string="Qty(%)", readonly=True),
     }
-mrp_bom()

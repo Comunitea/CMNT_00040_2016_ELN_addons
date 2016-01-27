@@ -148,7 +148,7 @@ class mrp_bom(osv.osv):
         result = []
         result2 = []
         phantom = False
-        if bom.type == 'phantom' and not bom.bom_lines_ids:
+        if bom.type == 'phantom' and not bom.bom_line_ids:
                     # #def _bom_find(self, cr, uid, product_tmpl_id=None, product_id=None, properties=None, context=None):
                     # """
                     # Finds BoM for particular product and product uom.

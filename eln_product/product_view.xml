@@ -2,192 +2,201 @@
 
 <openerp>
     <data>
-
-        <!-- COMENTADO POST MIGRATION-->
-        <!--<record id="product_normal_form_view_add_datasheet2" model="ir.ui.view">-->
-            <!--<field name="name">product.normal.form.datasheet2</field>-->
-            <!--<field name="model">product.product</field>-->
-            <!--<field name="type">form</field>-->
-            <!--<field name="inherit_id" ref="product.product_normal_form_view"/>-->
-            <!--<field name="arch" type="xml">-->
-                <!--<xpath expr="/form/group/group[2]" position="replace">-->
-                    <!--<group colspan="2" col="3">-->
-                        <!--<separator string="Codes" colspan="2"/>-->
-                        <!--<field name="default_code"/>-->
-                        <!--<field name="ean13" on_change="onchange_ean13(ean13)"/>-->
-                        <!--<field name="company_product_code"/>-->
-                        <!--<field name="dun14" on_change="onchange_dun14(dun14)"/>-->
-                        <!--<field name="partner_product_code"/>-->
-                    <!--</group>-->
-                <!--</xpath>-->
+        <record id="product_normal_form_view_add_datasheet2" model="ir.ui.view">
+            <field name="name">product.normal.form.datasheet2</field>
+            <field name="model">product.product</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='ean13']" position="attributes">
+                    <attribute name="on_change">onchange_ean13(ean13)</attribute>
+                </xpath>
+                <field name="ean13" position="after">
+                    <field name="company_product_code"/>
+                    <field name="dun14" onchange="onchange_dun14(dun14)"/>
+                    <field name="partner_product_code"/>
+                </field>
                 <!--<field name="sequence" position="replace">-->
                     <!--<field name="sequence"/>-->
                 <!--</field>-->
-                <!--<page string="Descriptions" position="before">-->
-                    <!--<page string="Technical Sheet">-->
-                        <!--<notebook colspan="4">-->
-                            <!--<page string="Ingredients">-->
-                                <!--<button name="%(copy_product_ldm_action)d"-->
-                                    <!--string="Copy LdM" type="action"-->
-                                    <!--icon="gtk-convert" colspan="4"/>-->
-                                <!--<field name="product_ingredient_ids" colspan="4" nolabel="1">-->
-                                    <!--<tree string="Ingredients" editable="top">-->
-                                        <!--<field name="product_id" on_change="on_change_product_id(product_id)"/>-->
-                                        <!--<field name="name"/>-->
-                                        <!--<field name="variety"/>-->
-                                        <!--<field name="process"/>-->
-                                        <!--<field name="caliber"/>-->
-                                        <!--<field name="origin"/>-->
-                                        <!--<field name="product_qty"/>-->
-                                        <!--<field name="product_qty_percent"/>-->
-                                    <!--</tree>-->
-                                    <!--<form string="Ingredients">-->
-                                        <!--<field name="product_id" on_change="on_change_product_id(product_id)"/>-->
-                                        <!--<field name="name"/>-->
-                                        <!--<field name="variety"/>-->
-                                        <!--<field name="process"/>-->
-                                        <!--<field name="caliber"/>-->
-                                        <!--<field name="origin"/>-->
-                                        <!--<field name="product_qty" />-->
-                                        <!--<field name="product_qty_percent"/>-->
-                                    <!--</form>-->
-                                <!--</field>-->
-                            <!--</page>-->
-                            <!--<page string="Parameters">-->
-                                <!--<field name="parameter_ids" colspan="4" nolabel="1">-->
-                                    <!--<tree string="Parameters" editable="top">-->
-                                        <!--<field name="parameter_id"/>-->
-                                        <!--<field name="value"/>-->
-                                    <!--</tree>-->
-                                    <!--<form string="Parameters">-->
-                                        <!--<field name="parameter_id"/>-->
-                                        <!--<field name="value"/>-->
-                                    <!--</form>-->
-                                <!--</field>-->
-                            <!--</page>-->
-                            <!--<page string="Other data">-->
-                                <!--<group colspan="2" col="2">-->
-                                    <!--<separator string="Average nutritional values (100 g)" colspan="2"/>-->
-                                    <!--<field name="energy"/>-->
-                                    <!--<field name="fats"/>-->
-                                    <!--<field name="fat_saturates"/>-->
-                                    <!--<field name="carbohydrates"/>-->
-                                    <!--<field name="carbo_sugar"/>-->
-                                    <!--<field name="proteins"/>-->
-                                    <!--<field name="salt"/>-->
-                                    <!--<field name="recommended_ration"/>-->
-                                <!--</group>-->
-                                <!--<group colspan="2" col="2">-->
-                                    <!--<separator string="Quality" colspan="2"/>-->
-                                    <!--<field name="protective_atmosphere"/>-->
-                                    <!--<field name="perforated_bag"/>-->
-                                    <!--<field name="allergen_labeling"/>-->
-                                    <!--<field name="gluten_free_labeling"/>-->
-                                <!--</group>-->
-                                <!--<group colspan="2" col="2">-->
-                                    <!--<separator string="Presentation" colspan="2"/>-->
-                                    <!--<field name="comercial_format"/>-->
-                                    <!--<field name="format"/>-->
-                                    <!--<field name="box"/>-->
-                                    <!--<field name="bag"/>-->
-                                    <!--<field name="bag_length"/>-->
-                                    <!--<field name="bobbin"/>-->
-                                    <!--<field name="others"/>-->
-                                    <!--<field name="seal"/>-->
-                                <!--</group>-->
-                                <!--<group colspan="2" col="2">-->
-                                    <!--<separator string="Specifications" colspan="2"/>-->
-                                    <!--<label string="Storage conditions" colspan="1"/>-->
-                                    <!--<newline/>-->
-                                    <!--<field name="storage_conditions" nolabel="1"/>-->
-                                     <!--<newline/>-->
-                                    <!--<label string="Expected Use" colspan="1"/>-->
-                                    <!--<newline/>-->
-                                    <!--<field name="expected_use" nolabel="1"/>-->
-                                     <!--<newline/>-->
-                                    <!--<label string="Allergen" colspan="1"/>-->
-                                    <!--<newline/>-->
-                                    <!--<field name="allergen" nolabel="1"/>-->
-                                     <!--<newline/>-->
-                                    <!--<label string="OGM's" colspan="1"/>-->
-                                    <!--<newline/>-->
-                                    <!--<field name="ogms" nolabel="1"/>-->
-                                <!--</group>-->
-                                <!--<group colspan="4" >-->
-                                    <!--<separator string="Observations" colspan="4"/>-->
-                                    <!--<field name="comments_product_sheet"/>-->
-                                    <!--<field name="comments_sheet"/>-->
-                                    <!--<field name="comments_product_logistics_sheet"/>-->
-                                <!--</group>-->
-                                <!--<group colspan="4">-->
-                                    <!--<separator string="Palletizing" colspan="2"/>-->
-                                    <!--<separator string="Provision of boxes base" colspan="2"/>-->
-                                    <!--<newline/>-->
-                                    <!--<field name="palletizing" nolabel="1" widget="image" colspan="2"/>-->
-                                    <!--<field name="provision_boxes_base" nolabel="1" widget="image" colspan="2"/>-->
-                                <!--</group>-->
-                            <!--</page>-->
-                            <!--<page string="Revisions">-->
-                                <!--<group colspan="4" col="6">-->
-                                    <!--<separator string="Written By" colspan="2"/>-->
-                                    <!--<separator string="Reviewed By" colspan="2"/>-->
-                                    <!--<separator string="Approved By" colspan="2"/>-->
-                                    <!--<newline/>-->
-                                    <!--<field name="written_by"  nolabel="1" widget="selection" colspan="2" on_change="onchange_rev_employee(written_by,  'written_by')"/>-->
-                                    <!--<field name="reviewed_by" nolabel="1" widget="selection" colspan="2" on_change="onchange_rev_employee(reviewed_by, 'reviewed_by')"/>-->
-                                    <!--<field name="approved_by" nolabel="1" widget="selection" colspan="2" on_change="onchange_rev_employee(approved_by, 'approved_by')"/>-->
-                                    <!--<newline/>-->
-                                    <!--<field name="written_job"  widget="selection" colspan="2"/>-->
-                                    <!--<field name="reviewed_job" widget="selection" colspan="2"/>-->
-                                    <!--<field name="approved_job" widget="selection" colspan="2"/>-->
-                                    <!--<newline/>-->
-                                    <!--<field name="written_signature"  colspan="2" nolabel="1" widget="image" height="100" />-->
-                                    <!--<field name="reviewed_signature" colspan="2" nolabel="1" widget="image" height="100" />-->
-                                    <!--<field name="approved_signature" colspan="2" nolabel="1" widget="image" height="100" />-->
-                                <!--</group>-->
-                                <!--<newline/>-->
-                                <!--<field name="revision_ids" colspan="4" nolabel="1">-->
-                                    <!--<tree string="Revisions" editable="top">-->
-                                        <!--<field name="name"/>-->
-                                        <!--<field name="description"/>-->
-                                        <!--<field name="user_id"/>-->
-                                        <!--<field name="date"/>-->
-                                    <!--</tree>-->
-                                    <!--<form string="Revisions">-->
-                                        <!--<field name="name"/>-->
-                                        <!--<newline/>-->
-                                        <!--<separator string="Description" colspan="4"/>-->
-                                        <!--<field name="description" colspan="4" nolabel="1"/>-->
-                                        <!--<field name="user_id"/>-->
-                                        <!--<field name="date"/>-->
-                                    <!--</form>-->
-                                <!--</field>-->
-                            <!--</page>-->
-                            <!--<page string="Options">-->
-                                <!--<field name="option_ids" colspan="4" nolabel="1">-->
-                                    <!--<tree string="Options" editable="top">-->
-                                        <!--<field name="option_id"/>-->
-                                    <!--</tree>-->
-                                    <!--<form string="Options">-->
-                                        <!--<field name="option_id"/>-->
-                                    <!--</form>-->
-                                <!--</field>-->
-                            <!--</page>-->
-                            <!--<page string="Verifications">-->
-                                <!--<field name="verification_ids" colspan="4" nolabel="1">-->
-                                    <!--<tree string="Verifications" editable="top">-->
-                                        <!--<field name="verification_id"/>-->
-                                    <!--</tree>-->
-                                    <!--<form string="Verifications">-->
-                                        <!--<field name="verification_id"/>-->
-                                    <!--</form>-->
-                                <!--</field>-->
-                            <!--</page>-->
-                        <!--</notebook>-->
-                    <!--</page>-->
-                <!--</page>-->
-            <!--</field>-->
-        <!--</record>-->
+                <page string="Inventory" position="after">
+                    <page string="Technical Sheet">
+                        <notebook colspan="4">
+                            <page string="Ingredients">
+                                <button name="%(copy_product_ldm_action)d"
+                                    string="Copy LdM" type="action"
+                                    icon="gtk-convert" colspan="4"/>
+                                <field name="product_ingredient_ids" colspan="4" nolabel="1">
+                                    <tree string="Ingredients" editable="top">
+                                        <field name="product_id" on_change="on_change_product_id(product_id)"/>
+                                        <field name="name"/>
+                                        <field name="variety"/>
+                                        <field name="process"/>
+                                        <field name="caliber"/>
+                                        <field name="origin"/>
+                                        <field name="product_qty"/>
+                                        <field name="product_qty_percent"/>
+                                    </tree>
+                                    <form string="Ingredients">
+                                        <field name="product_id" on_change="on_change_product_id(product_id)"/>
+                                        <field name="name"/>
+                                        <field name="variety"/>
+                                        <field name="process"/>
+                                        <field name="caliber"/>
+                                        <field name="origin"/>
+                                        <field name="product_qty" />
+                                        <field name="product_qty_percent"/>
+                                    </form>
+                                </field>
+                            </page>
+                            <page string="Parameters">
+                                <field name="parameter_ids" colspan="4" nolabel="1">
+                                    <tree string="Parameters" editable="top">
+                                        <field name="parameter_id"/>
+                                        <field name="value"/>
+                                    </tree>
+                                    <form string="Parameters">
+                                        <field name="parameter_id"/>
+                                        <field name="value"/>
+                                    </form>
+                                </field>
+                            </page>
+                            <page string="Other data">
+                                <group col="6">
+                                    <group name = "left1" colspan="2" >
+                                        <separator string="Average nutritional values (100 g)" colspan="2" />
+
+                                            <field name="energy"/>
+                                            <field name="fats"/>
+                                            <field name="fat_saturates"/>
+                                            <field name="carbohydrates"/>
+                                            <field name="carbo_sugar"/>
+                                            <field name="proteins"/>
+                                            <field name="salt"/>
+                                            <field name="recommended_ration"/>
+
+                                    </group>
+                                    <group name = "center2" colspan="2">
+                                        <separator string="Quality" colspan="2"/>
+
+                                            <field name="protective_atmosphere"/>
+                                            <field name="perforated_bag"/>
+                                            <field name="allergen_labeling"/>
+                                            <field name="gluten_free_labeling"/>
+
+                                    </group>
+                                    <group name = "right2" colspan="2">
+                                        <separator string="Presentation" colspan="2"/>
+                                        <field name="comercial_format"/>
+                                        <field name="format"/>
+                                        <field name="box"/>
+                                        <field name="bag"/>
+                                        <field name="bag_length"/>
+                                        <field name="bobbin"/>
+                                        <field name="others"/>
+                                        <field name="seal"/>
+                                    </group>
+                                </group><separator string="Specifications"/>
+                                <group>
+                                    <group >
+                                        <label string="Storage conditions" colspan="2"/>
+                                        <newline/>
+                                        <field name="storage_conditions" nolabel="1"/>
+                                         <newline/>
+                                        <label string="Expected Use" colspan="2"/>
+                                        <newline/>
+                                        <field name="expected_use" nolabel="1"/>
+                                    </group>
+                                    <group >
+                                        <label string="Allergen" colspan="2"/>
+                                        <newline/>
+                                        <field name="allergen" nolabel="1"/>
+                                         <newline/>
+                                        <label string="OGM's" colspan="2"/>
+                                        <newline/>
+                                        <field name="ogms" nolabel="1"/>
+                                    </group>
+                                </group>
+                                <newline/>
+                                <group >
+                                    <separator string="Observations" colspan="4"/>
+                                    <field name="comments_product_sheet"/>
+                                    <field name="comments_sheet"/>
+                                    <field name="comments_product_logistics_sheet"/>
+                                </group>
+                                <newline/>
+                                <group >
+                                    <group>
+                                        <separator string="Palletizing" /><newline/>
+                                        <field name="palletizing" nolabel="1" widget="image"/>
+                                    </group>
+                                    <group>
+                                        <separator string="Provision of boxes base" /><newline/>
+                                        <field name="provision_boxes_base" nolabel="1" widget="image"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Revisions">
+                                <group colspan="4" col="6">
+                                    <separator string="Written By" colspan="2"/>
+                                    <separator string="Reviewed By" colspan="2"/>
+                                    <separator string="Approved By" colspan="2"/>
+                                    <newline/>
+                                    <field name="written_by"  nolabel="1" widget="selection" colspan="2" on_change="onchange_rev_employee(written_by,  'written_by')"/>
+                                    <field name="reviewed_by" nolabel="1" widget="selection" colspan="2" on_change="onchange_rev_employee(reviewed_by, 'reviewed_by')"/>
+                                    <field name="approved_by" nolabel="1" widget="selection" colspan="2" on_change="onchange_rev_employee(approved_by, 'approved_by')"/>
+                                    <newline/>
+                                    <field name="written_job"  widget="selection" colspan="2"/>
+                                    <field name="reviewed_job" widget="selection" colspan="2"/>
+                                    <field name="approved_job" widget="selection" colspan="2"/>
+                                    <newline/>
+                                    <field name="written_signature"  colspan="2" nolabel="1" widget="image" height="100" />
+                                    <field name="reviewed_signature" colspan="2" nolabel="1" widget="image" height="100" />
+                                    <field name="approved_signature" colspan="2" nolabel="1" widget="image" height="100" />
+                                </group>
+                                <newline/>
+                                <field name="revision_ids" colspan="4" nolabel="1">
+                                    <tree string="Revisions" editable="top">
+                                        <field name="name"/>
+                                        <field name="description"/>
+                                        <field name="user_id"/>
+                                        <field name="date"/>
+                                    </tree>
+                                    <form string="Revisions">
+                                        <field name="name"/>
+                                        <newline/>
+                                        <separator string="Description" colspan="4"/>
+                                        <field name="description" colspan="4" nolabel="1"/>
+                                        <field name="user_id"/>
+                                        <field name="date"/>
+                                    </form>
+                                </field>
+                            </page>
+                            <page string="Options">
+                                <field name="option_ids" colspan="4" nolabel="1">
+                                    <tree string="Options" editable="top">
+                                        <field name="option_id"/>
+                                    </tree>
+                                    <form string="Options">
+                                        <field name="option_id"/>
+                                    </form>
+                                </field>
+                            </page>
+                            <page string="Verifications">
+                                <field name="verification_ids" colspan="4" nolabel="1">
+                                    <tree string="Verifications" editable="top">
+                                        <field name="verification_id"/>
+                                    </tree>
+                                    <form string="Verifications">
+                                        <field name="verification_id"/>
+                                    </form>
+                                </field>
+                            </page>
+                        </notebook>
+                    </page>
+                </page>
+            </field>
+        </record>
         
         <record model="ir.ui.view" id="product_sheet_form_view">
             <field name="name">product.sheet_shipments.form</field>

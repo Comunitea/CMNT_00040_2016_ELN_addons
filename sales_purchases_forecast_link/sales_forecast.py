@@ -79,7 +79,7 @@ class sales_forecast(osv.osv):
 
     def generate_purchases_forecast(self, cr, uid, ids, context=None):
         print u"Generar Previsaion de Compra"
-        import ipdb; ipdb.set_trace()
+
         if context is None:
             context = {}
         bom_obj = self.pool.get('mrp.bom')
