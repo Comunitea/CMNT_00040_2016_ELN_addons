@@ -10,8 +10,8 @@
                 <form string="Copy LdM">
                     <label colspan="2" string="LdM's"/>
                     <newline/>
-                    <field name="ldm_ids_str" invisible="1"/>
-                    <field name="product_ldm_id" nolabel="1" domain="[('id','in',ldm_ids_str.split(','))]"/>
+                    <field name="ldm_ids_str" invisible ="1"/>
+                    <field name="product_ldm_id" nolabel="1" context ="{'split': ldm_ids_str}"/>
                     <newline/>
                     <group colspan="4" col="6">
                         <button icon="gtk-cancel" special="cancel" string="Cancel"/>

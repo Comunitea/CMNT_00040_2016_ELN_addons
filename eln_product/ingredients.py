@@ -25,6 +25,7 @@ import openerp.addons.decimal_precision as dp
 class ingredient(orm.Model):
     _name = 'product.ingredient'
     _order = 'product_qty desc'
+
     def _get_product_qty_percent(self, cr, uid, ids, field_name, arg, context):
 
         res = {}

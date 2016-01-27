@@ -28,7 +28,7 @@
     "depends" : ["base", "stock", "product", "account", "budget_product"],
     "category" : "Product",
     "init_xml" : [],
-    "update_xml" : ["wizard/product_costs_view.xml",
+    "data" : ["wizard/product_costs_view.xml",
                     "cost_type_view.xml",
                     "cost_structure_elements.xml",
                     "data/product_cost_management_names_seq.xml",
