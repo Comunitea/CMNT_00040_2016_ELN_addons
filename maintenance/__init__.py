@@ -18,7 +18,6 @@
 #
 ##############################################################################
 import maintenance_element
-import maintenance_stop
 import intervention_request
 import maintenance_type
 import work_order
@@ -26,5 +25,3 @@ import purchase
 import stock
 import wizard
 import hr
-import product
-import account_analytic_line

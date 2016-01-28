@@ -20,21 +20,23 @@
 {
     "name": "Mantenimiento",
     "version": "1.0",
-    "depends": ["purchase_department", "product", "analytic", "stock", "purchase",
-                "l10n_es_account_asset", "survey", "hr_timesheet",
-                "jasper_reports"],
+    "depends": ["product", "analytic", "stock", "purchase",
+                "l10n_es_account_asset", "survey", "hr_timesheet","jasper_reports"],
     "author": "Pexego",
-    "category": "category",
+    "category": "Generic Modules",
     "description": """
     This module provide :
     """,
+    "init_xml": [],
     'data': ["intervention_request_sequence.xml", "security/maintenance_security.xml",
                    "maintenance_element_view.xml", "maintenance_type_cron.xml",
                     "maintenance_type_view.xml", "work_order_sequence.xml", "wizard/cancel_intervention_request_view.xml",
                     "intervention_request_view.xml", "work_order_report.xml","work_order_view.xml",
                     "stock_view.xml","hr_view.xml", "purchase_view.xml", "maintenance_data.xml",
-                    "security/ir.model.access.csv", "product_view.xml", "maintenance_stop_view.xml"],
+                    "security/ir.model.access.csv"],
 
+    'demo_xml': [],
     'installable': True,
     'active': False,
+#    'certificate': 'certificate',
 }

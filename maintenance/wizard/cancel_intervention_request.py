@@ -17,12 +17,12 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import orm, fields
+from openerp.osv import fields, osv
 
-class cancel_intervention_request_wizard(orm.TransientModel):
+class cancel_intervention_request_wizard(osv.osv_memory):
     _name = "cancel.intervention.request.wizard"
     _columns = {
-            'motivo': fields.text('reason for cancellation', required=True),
+            'motivo': fields.text('Reason for cancellation', required=True),
                     }
 
     def close_confirm(self, cr, uid, ids, context=None):
@@ -32,7 +32,6 @@ class cancel_intervention_request_wizard(orm.TransientModel):
             return
         wizards = self.pool.get('cancel.intervention.request.wizard').browse(cr, uid, ids, context)
         for wizard in wizards:
-            self.pool.get('intervention.request').write(cr, uid, context['active_id'], {'state':'cancelled','motivo_cancelacion':wizard.motivo}, context)
-            self.pool.get('intervention.request').act_cancel(cr, uid, [context['active_id']])
+            self.pool.get('intervention.request').write(cr, uid, context['active_id'], {'state':'cancelled','motivo_cancelacion':wizard.motivo }, context)
         return {'type':'ir.actions.act_window_close'}
-
+cancel_intervention_request_wizard()

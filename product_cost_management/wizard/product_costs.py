@@ -198,7 +198,6 @@ class product_costs_line(osv.osv_memory):
                 dock_cost_standard = 0.0
                 
                 for element in el:
-                    import ipdb; ipdb.set_trace()
                     if element.cost_type not in ('total', 'inventory'):
                         theoric, theoric_standard, real = self._get_costs(cr, uid, ids, element.id, product.id, context)
                         sumtheo += theoric

@@ -17,10 +17,10 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 #############################################################################
-from openerp.osv import orm, fields
+from openerp.osv import osv, fields
 
-class purchase(orm.Model):
-
+class purchase(osv.osv):
+    
     def _work_done(self, cr, uid, ids, name, arg=None, context=None):
         res = {}
         for purchase_order_id in ids:
@@ -31,15 +31,17 @@ class purchase(orm.Model):
                 if work_order_state == 'done':
                     res[purchase_order_id] = True
         return res
-    _inherit = 'purchase.order'
+    _inherit = 'purchase.order' 
     _columns = {
             'work_order_id':fields.many2one('work.order', 'Work order', required=False),
             'work_done': fields.function(_work_done, method=True, type='boolean', string='order completed', store=False),
                     }
+        
+purchase()
 
-class purchase_order_line(orm.Model):
+class purchase_order_line(osv.osv):
     _inherit = 'purchase.order.line'
     _columns = {
             'element_id': fields.many2one('maintenance.element', 'Element', required=False),
                 }
-
+purchase_order_line()
