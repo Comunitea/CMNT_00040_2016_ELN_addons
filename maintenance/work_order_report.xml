@@ -2,27 +2,9 @@
 <openerp>
     <data>
 
-        <record id="report_maintenance_work_order" model="ir.actions.report.xml">
-            <field name="string">Work order</field>
-            <field name="auto">True</field>
-            <field name="model">work.order</field>
-            <field name="jasper_model_id" ref="model_work_order"/>
-            <field name="name">Work order</field>
-            <field name="report_name">work.order</field>
-            <field name="rml">maintenance/report/work_order.jrxml</field>
-            <field name="report_rml">maintenance/report/work_order.jrxml</field>
-            <field name="menu">True</field>
-            <field name="header">False</field>
-            <field name="jasper_report">True</field>
-            <field name="jasper_output">pdf</field>
-        </record>
-
-        <record id="report_maintenance_work_order_values" model="ir.values">
-            <field name="name">Work order</field>
-            <field name="model">work.order</field>
-            <field name="key2" eval="'client_print_multi'" />
-            <field name="value_unpickle" eval="'ir.actions.report.xml, ' +str(report_maintenance_work_order)" />
-        </record>
+        <report auto="True" id="report_work_order" model="work.order" name="work.order"
+                rml="maintenance/report/work_order.jrxml" string="Work order"
+                usage="default"/>
 
     </data>
 </openerp>

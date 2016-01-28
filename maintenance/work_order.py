@@ -17,13 +17,12 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 #############################################################################
-
-from openerp.osv import fields, orm
+from openerp.osv import osv, fields
 import time
 from datetime import datetime, date
 
 
-class work_order_other_services(orm.Model):
+class work_order_other_services(osv.osv):
     _name = 'work.order.other.services'
     _columns = {
             'code':fields.char('Codigo', size=64, required=False, readonly=False),
@@ -36,7 +35,7 @@ class work_order_other_services(orm.Model):
                                            , required=True, select="1"),
                     }
 
-class work_order_time_report(orm.Model):
+class work_order_time_report(osv.osv):
 
     def _get_total(self, cr , uid, ids, field_name, args=None, context=None):
         result = {}
@@ -47,10 +46,9 @@ class work_order_time_report(orm.Model):
         for work_order_time in work_order_times:
             total = 0.0
             precio_por_defecto = work_order_time.employee_id.product_id.standard_price
-            if precio_por_defecto:
-                total += work_order_time.horas_normal * precio_por_defecto
-                total += work_order_time.horas_nocturnas * (work_order_time.employee_id.producto_hora_nocturna_id.standard_price or precio_por_defecto)
-                total += work_order_time.horas_festivas * (work_order_time.employee_id.producto_hora_festiva_id.standard_price or precio_por_defecto)
+            total += work_order_time.horas_normal * precio_por_defecto
+            total += work_order_time.horas_nocturnas * (work_order_time.employee_id.producto_hora_nocturna_id.standard_price or precio_por_defecto)
+            total += work_order_time.horas_festivas * (work_order_time.employee_id.producto_hora_festiva_id.standard_price or precio_por_defecto)
             result[work_order_time.id] = total
         return result
 
@@ -66,20 +64,20 @@ class work_order_time_report(orm.Model):
                                             , required=False),
             'total': fields.function(_get_total, method=True, type='float'
                                      , string='Total', store=False),
-            'element_id': fields.many2one('maintenance.element', 'Element')
                     }
 
     _defaults = {
         'date': lambda *a: time.strftime('%Y-%m-%d %H:%M:%S')
     }
 
-class work_order(orm.Model):
+class work_order(osv.osv):
 
     def _get_planta(self, cr , uid, ids, field_name, args=None, context=None):
         result = {}
         work_orders = self.pool.get('work.order').browse(cr, uid, ids, context)
         for work_order in work_orders:
-            result[work_order.id] = work_order.element_ids[0].planta
+            if work_order.elements_ids:
+                result[work_order.id] = work_order.elements_ids[0].planta
         return result
 
     def _get_contrata(self, cr , uid, ids, field_name, args=None, context=None):
@@ -92,13 +90,25 @@ class work_order(orm.Model):
             result[work_order.id]=result[work_order.id][:-2]
         return result
 
+    def _get_grupo(self, cr, uid, ids, field_name, args=None, context=None):
+        result = {}
+        usuario = self.pool.get('res.users').browse(cr, uid, uid, context)
+        data_obj = self.pool.get('ir.model.data')
+        group_id = data_obj.get_object_reference(cr, uid, 'maintenance', "group_maintenance_manager")[1]
+        group = self.pool.get('res.groups').browse(cr, uid, group_id, context)
+        for work_id in ids:
+            result[work_id] = False
+            if usuario in group.users:
+                result[work_id] = True
+        return result
+
     def _get_element_list(self, cr, uid, ids, field_name, args=None, context=None):
         result = {}
         work_orders = self.pool.get('work.order').browse(cr, uid, ids, context)
         for work_order in work_orders:
             result[work_order.id] = ""
-            for element in work_order.element_ids:
-                result[work_order.id]+=element.codigo + u"\n"
+            for element in work_order.elements_ids:
+                result[work_order.id]+=element.nombre_sin_planta + u"\n"
         return result
 
     def _get_total_other_service(self, cr, uid, ids, field_name, args=None, context=None):
@@ -133,37 +143,38 @@ class work_order(orm.Model):
                                           required=True, select=1,
                                           states={'confirmed':[('readonly', True)],
                                             'approved':[('readonly', True)]}),
-            'name':fields.char('Name', size=64, required=True, states={'done': [('readonly', True)], 'cancelled': [('readonly', True)]}),
+            'name':fields.char('Name', size=64, required=True),
+            'general_account_id': fields.many2one('account.account', 'Account', required=True),
             'request_id':fields.many2one('intervention.request'
-                                         , 'Origin request', required=False, states={'done': [('readonly', True)], 'cancelled': [('readonly', True)]}),
-            'element_ids':fields.many2many('maintenance.element'
-                                           , 'maintenanceelement_work_order_rel'
+                                         , 'Origin request', required=False),
+            'elements_ids':fields.many2many('maintenance.element'
+                                           , 'maintenanceelements_workorder_rel'
                                            , 'order_id', 'element_id', 'Maintenance elements'
-                                           , required=False, states={'done': [('readonly', True)], 'cancelled': [('readonly', True)]}),
-            'descripcion': fields.text('Description', states={'done': [('readonly', True)], 'cancelled': [('readonly', True)]}),
-            'fecha': fields.date('Request date', states={'done': [('readonly', True)], 'cancelled': [('readonly', True)]}),
-            'fecha_inicio': fields.datetime('Initial date', states={'done': [('readonly', True)], 'cancelled': [('readonly', True)]}),
+                                           ),
+            'descripcion': fields.text('Description'),
+            'fecha': fields.date('Request date'),
+            'fecha_inicio': fields.datetime('Initial date'),
             'assigned_department_id':fields.many2one('hr.department',
                                                      'Assigned department'
-                                                     , required=False, states={'done': [('readonly', True)], 'cancelled': [('readonly', True)]}),
+                                                     , required=False),
             'origin_department_id':fields.many2one('hr.department',
                                                    'Origin department'
-                                                   , required=False, states={'done': [('readonly', True)], 'cancelled': [('readonly', True)]}),
+                                                   , required=False),
             'stock_moves_ids':fields.one2many('stock.move', 'work_order_id'
                                               , 'Associated movement'
-                                              , required=False, states={'done': [('readonly', True)], 'cancelled': [('readonly', True)]}),
+                                              , required=False),
             'horas_ids':fields.one2many('work.order.time.report'
                                         , 'work_order_id', 'Timesheet'
-                                        , required=False, states={'done': [('readonly', True)], 'cancelled': [('readonly', True)]}),
+                                        , required=False),
             'other_service_ids':fields.one2many('work.order.other.services'
                                                 , 'work_order_id', 'Other concepts'
-                                                , required=False, states={'done': [('readonly', True)], 'cancelled': [('readonly', True)]}),
+                                                , required=False),
             'purchase_ids':fields.one2many('purchase.order', 'work_order_id'
-                                           , 'Asociated purchases', required=False, states={'done': [('readonly', True)], 'cancelled': [('readonly', True)]}),
+                                           , 'Asociated purchases', required=False),
             'tipo_parada':fields.selection([
                 ('marcha', 'Up'),
                 ('parada', 'Stop'),
-                 ], 'Operation condition', select=True, states={'done': [('readonly', True)], 'cancelled': [('readonly', True)]}),
+                 ], 'Operation condition', select=True),
             'state':fields.selection([
                 ('draft', 'Draft'),
                 ('open', 'Open'),
@@ -171,33 +182,35 @@ class work_order(orm.Model):
                 ('done', 'Done'),
                 ('cancelled', 'Cancelled'),
                  ], 'State', readonly=True),
-            'instrucciones': fields.text('Instructions' , states={'done': [('readonly', True)], 'cancelled': [('readonly', True)]}),
+            'instrucciones': fields.text('Instructions'),
             'maintenance_type_id':fields.many2one('maintenance.type'
                                                   , 'Maintenance type'
-                                                  , required=False, states={'done': [('readonly', True)], 'cancelled': [('readonly', True)]}),
-            'survey_id':fields.many2one('survey.survey', 'Associated survey'
-                                        , required=False, states={'done': [('readonly', True)], 'cancelled': [('readonly', True)]}),
+                                                  , required=False),
+            'survey_id':fields.many2one('survey', 'Associated survey'
+                                        , required=False),
             'descargo':fields.selection([
-                ('bloqueo', 'Block'),
-                ('no_descargo', 'Not discharge'),
+                ('bloqueo', 'block'),
+                ('no_descargo', 'not discharge'),
                 ('aviso', 'Warning'),
-                 ], 'Discharge', readonly=False, states={'done': [('readonly', True)], 'cancelled': [('readonly', True)]}),
-            'initial_date': fields.date('Initial date', states={'done': [('readonly', True)], 'cancelled': [('readonly', True)]}),
-            'final_date': fields.date('Final date', states={'done': [('readonly', True)], 'cancelled': [('readonly', True)]}),
+                 ], 'Discharge', readonly=False),
+            'initial_date': fields.date('Initial date'),
+            'final_date': fields.date('Final date'),
 
             'responsable_id':fields.many2one('res.users', 'Responsible'
-                                             , required=False, states={'done': [('readonly', True)], 'cancelled': [('readonly', True)]}),
-            'note': fields.text('Report', states={'done': [('readonly', True)], 'cancelled': [('readonly', True)]}),
-            'padre_id':fields.many2one('work.order', 'Father order', required=False, states={'done': [('readonly', True)], 'cancelled': [('readonly', True)]}),
+                                             , required=False),
+            'note': fields.text('Report'),
+            'padre_id':fields.many2one('work.order', 'Father order', required=False),
             'hijas_ids':fields.one2many('work.order', 'padre_id', 'Ordenes hijas'
-                                        , required=False, states={'done': [('readonly', True)], 'cancelled': [('readonly', True)]}),
-            'deteccion':fields.text('Detection', states={'done': [('readonly', True)], 'cancelled': [('readonly', True)]}),
-            'sintoma':fields.text('Sign', states={'done': [('readonly', True)], 'cancelled': [('readonly', True)]}),
-            'efecto':fields.text('effect', states={'done': [('readonly', True)], 'cancelled': [('readonly', True)]}),
+                                        , required=False),
+            'grupo': fields.function(_get_grupo, method=True, type='boolean'
+                                     , string='Group', store=False),
+            'deteccion':fields.text('Detection'),
+            'sintoma':fields.text('Sign'),
+            'efecto':fields.text('effect'),
             'planta':fields.function(_get_planta, method=True, type='char'
                                      , string='Floor', store={
                                                'work.order':
-                                                (lambda self, cr, uid, ids, c={}: ids, ['element_ids'], 10),
+                                                (lambda self, cr, uid, ids, c={}: ids, ['elements_ids'], 10),
                                                }),
             'contrata':fields.function(_get_contrata, method=True, type='char'
                                        , string='Contractual', store=False),
@@ -217,16 +230,13 @@ class work_order(orm.Model):
                                                        , string='Total external\
                                                                 services'
                                                        , store=False),
-            'action_taken': fields.text('Action taken', states={'done': [('readonly', True)], 'cancelled': [('readonly', True)]}),
-            'picking_type_id': fields.many2one('stock.picking.type', 'Picking type')
                     }
     _defaults = {
         'state':'draft',
         'name': lambda obj, cr, uid, context: obj.pool.get('ir.sequence').get(cr, uid, 'work.order'),
         'fecha': date.today().strftime('%Y-%m-%d'),
         'company_id': lambda self, cr, uid, c: self.pool.get('res.company')._company_default_get(cr, uid, 'work.order', context=c),
-        'picking_type_id': lambda obj, cr, uid, context: obj.pool.get('stock.picking.type').search(cr, uid, [('code', '=', 'outgoing')])[0]
-    }
+        }
 
     def copy(self, cr, uid, id, default=None, context=None):
         if not default:
@@ -265,27 +275,13 @@ class work_order(orm.Model):
                                                  ,'initial_date':initial_date}, context)
         return True
 
-    def onchange_element_ids(self, cr, uid, ids, element_ids, context=None):
-        res = {}
-        if element_ids and element_ids[0][2]:
-            res['value'] = {
-                'descripcion': u", ".join([x.complete_name for x in self.pool.get('maintenance.element').browse(cr, uid, element_ids[0][2])])
-            }
-        else:
-            res['value'] = {
-                'descripcion': ""
-            }
-
-        return res
-
     def work_order_done(self, cr, uid, ids, context=None):
         data_obj = self.pool.get('ir.model.data')
         analytic_line_obj = self.pool.get('account.analytic.line')
         order_obj = self.pool.get('work.order')
-        picking_out_obj = self.pool.get('stock.picking')
-        picking_type_obj = self.pool.get('stock.picking.type')
+        picking_out_obj = self.pool.get('stock.picking.out')
         ordenes = order_obj.browse(cr, uid, ids, context)
-
+        
         hours_journal_id = data_obj.get_object_reference(cr, uid, 'hr_timesheet'
                                                          , "analytic_journal")[1]
         services_journal_id = data_obj.get_object_reference(cr, uid, 'maintenance'
@@ -295,76 +291,65 @@ class work_order(orm.Model):
         journals = [hours_journal_id, services_journal_id, materials_journal_id]
 
         for orden in ordenes:
+
+
             # calculo de total de costes para horas, servicios y materiales
-            res = {'total': [0, 0, 0]}
-            for hora in orden.horas_ids:
-                if hora.element_id:
-                    if hora.element_id not in orden.element_ids:
-                        raise orm.except_orm(u'Error imputación horas', u'El elemento %s está asociado a un reporte de horas de la OT, pero ese equipo no está entre los equipos de la OT' % hora.element_id.name)
-                    if not res.get(hora.element_id.id, False):
-                        res[hora.element_id.id] = [hora.total, 0, 0]
-                    else:
-                        res[hora.element_id.id][0] += hora.total
-                else:
-                    res['total'][0] += hora.total
+            coste_total = [0, 0, 0]
+            if orden.horas_ids:
+                for hora in orden.horas_ids:
+                    coste_total[0] += hora.total
 
 
-            res['total'][1]+= orden.total_other_service
+            coste_total[1]+= orden.total_other_service
+            if orden.purchase_ids:
+                for compra in orden.purchase_ids:
+                    if compra.state not in ['done', 'approved', 'cancel']:
+                        raise osv.except_osv('Compras sin finalizar', 'Compras sin \
+                                             finalizar asociadas a la orden')
+                    coste_total[1] += compra.amount_total
 
-            for compra in orden.purchase_ids:
-                if compra.state not in ['done', 'approved', 'cancel']:
-                    raise orm.except_orm('Compras sin finalizar', 'Compras sin \
-                                         finalizar asociadas a la orden')
-                for line in compra.order_line:
-                    if line.product_id and line.product_id.type == 'service':
-                        if line.element_id:
-                            if line.element_id not in orden.element_ids:
-                                raise orm.except_orm(u'Error imputación compras', u'El elemento %s está asociado a una linea de compra de la OT, pero ese equipo no está entre los equipos de la OT' % line.element_id.name)
-                            if not res.get(line.element_id.id, False):
-                                res[line.element_id.id] = [0, line.price_subtotal, 0]
-                            else:
-                                res[line.element_id.id][1] += line.price_subtotal
-                        else:
-                            res['total'][1] += line.price_subtotal
+            if orden.stock_moves_ids:
+                for movimiento in orden.stock_moves_ids:
+                        if movimiento.state not in ['done', 'cancel']:
+                            raise osv.except_osv('movimientos sin finalizar',
+                                                 'Hay movimientos sin finalizar\
+                                                 asociados a la orden')
+                        coste_total[2] += movimiento.product_qty * movimiento.product_id.list_price
 
-            for movimiento in orden.stock_moves_ids:
-                if movimiento.state not in ['done', 'cancel']:
-                    raise orm.except_orm('movimientos sin finalizar',
-                                         'Hay movimientos sin finalizar\
-                                         asociados a la orden')
-                if movimiento.element_id:
-                    if movimiento.element_id not in orden.element_ids:
-                        raise orm.except_orm(u'Error imputación compras', u'El elemento %s está asociado a un consumo de la OT, pero ese equipo no está entre los equipos de la OT' % movimiento.element_id.name)
-                    if not res.get(movimiento.element_id.id, False):
-                        res[movimiento.element_id.id] = [0, 0, movimiento.product_qty * movimiento.product_id.standard_price]
-                    else:
-                        res[movimiento.element_id.id][2] += movimiento.product_qty * movimiento.product_id.standard_price
-                else:
-                    res['total'][2] += movimiento.product_qty * movimiento.product_id.standard_price
+
 
             # calculo de coste proporcional por equipo
             coste_por_equipo = []
-            for coste in res['total']:
-                coste_por_equipo.append(coste / len(orden.element_ids))
+            for coste in coste_total:
+                coste_por_equipo.append(coste / len(orden.elements_ids))
+            aux = 0
 
             # creacion de apuntes analiticos para cada equipo
-            for equipo in orden.element_ids:
-                aux = 0
-                for journal in journals:
-                    amount = coste_por_equipo[aux] + (res.get(equipo.id, False) and res[equipo.id][aux] or 0.0)
-                    if amount:
+            if orden.elements_ids:
+                for equipo in orden.elements_ids:
+                    for journal in journals:
                         args_analytic_line = {
-                                              'account_id':equipo.analytic_account_id.id,
+                                              'account_id':equipo.analytic_account_id and equipo.analytic_account_id.id or False,
                                               'journal_id':journal,
-                                              'amount': -(amount),
-                                              'product_id':equipo.product_id.id,
-                                              'department_id':orden.origin_department_id.id,
+                                              'amount':coste_por_equipo[aux],
+                                              'product_id':equipo.product_id and equipo.product_id.id or False,
+                                              #'department_id':orden.origin_department_id and orden.origin_department_id.id or False,
                                               'name':equipo.name,
                                               'date':date.today().strftime('%Y-%m-%d'),
+                                              'general_account_id': orden.general_account_id.id
                                               }
                         analytic_line_obj.create(cr, uid, args_analytic_line, context)
-                    aux += 1
-
+                        aux += 1
+            if orden.stock_moves_ids:
+                # creacion del albaran para los movimientos
+                args_picking_out = {
+                                 'work_order_id':orden.id,
+                                 'origin':orden.name,
+                                 'date_done':  date.today().strftime('%Y-%m-%d'),
+                                 'move_lines':orden.stock_moves_ids and [(6, 0, [i.id for i in orden.stock_moves_ids])] or False,
+                                 'state':'done',
+                                         }
+                picking_id = picking_out_obj.create(cr, uid, args_picking_out, context)
             if orden.final_date:
                 final_date = orden.final_date
             else:

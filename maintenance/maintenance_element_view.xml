@@ -1,157 +1,107 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openerp>
-    <data>
+	<data>
 
-        <menuitem name="Maintenance" id="menu_mantenimiento_root"
-            sequence="70" groups="group_maintenance_manager,group_maintenance_user"/>
+		<menuitem name="Maintenance" id="menu_mantenimiento_root"
+			sequence="70" groups="group_maintenance_manager,group_maintenance_user" web_icon="images/iconbn.png"
+                  web_icon_hover="images/iconcl.png"/>
 
-        <menuitem id="menu_maintenance" name="Maintenance"
-            parent="menu_mantenimiento_root" sequence="1"/>
+		<menuitem id="menu_maintenance" name="Maintenance"
+			parent="menu_mantenimiento_root" sequence="1"/>
 
-        <record model="ir.ui.view" id="maintenance_element_tree_view">
-            <field name="name">maintenance.element.tree</field>
-            <field name="model">maintenance.element</field>
-            <field name="type">tree</field>
-            <field name="arch" type="xml">
-                <tree string="Maintenance element">
-                    <field name="name" />
-                    <field name="codigo" />
-                </tree>
-            </field>
-        </record>
+		<record model="ir.ui.view" id="maintenance_element_tree_view">
+			<field name="name">maintenance.element.tree</field>
+			<field name="model">maintenance.element</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree string="Maintenance element">
+					<field name="name" />
+					<field name="complete_name" />
+					<field name="type" />
+					<field name="codigo" />
+				</tree>
+			</field>
+		</record>
 
-        <record id="view_element_tree" model="ir.ui.view">
-            <field name="name">maintenance.element.tree</field>
-            <field name="model">maintenance.element</field>
-            <field name="type">tree</field>
-            <field name="field_parent">hijo_ids</field>
-            <field name="arch" type="xml">
-                <tree string="Maintenance element tree">
-                    <field name="name"/>
-                    <field name="codigo" />
-                </tree>
-            </field>
-        </record>
-
-
-        <record model="ir.ui.view" id="maintenance_element_form_view">
-            <field name="name">maintenance.element.form</field>
-            <field name="model">maintenance.element</field>
-            <field name="type">form</field>
-            <field name="arch" type="xml">
-                <form string="Maintenance element" version="7.0">
-                    <header>
-                        <button name="create_intervention_request" type="object" string="Create intervention request" icon="gtk-execute"/>
-                    </header>
-                    <sheet>
-                        <label for="name" class="oe_edit_only" />
-                        <h1>
-                            <field name="name" />
-                        </h1>
-                        <h2>
-                            <field name="complete_name" />
-
-                        </h2>
-                        <group>
-                            <group>
-                                <field name="codigo" />
-                                <field name="description" />
-                                <field name="type" />
-                                <field name="analytic_account_id" context="{'default_name': name}"/>
-                                <field name="product_id" />
-                                <field name="asset_id" />
-                                <field name="padre_id" string="Equipo padre" domain="[('id', '!=', id)]"/>
-                                <field name="active" groups="maintenance.group_maintenance_manager"/>
-                            </group>
-                            <group>
-                                <separator string="Maintenance type" colspan="4"/>
-                                <field name="maintenance_type_ids" colspan="4"/>
-                            </group>
-                        </group>
-                        <group colspan="4" string="Associated products">
-                            <field name="product_ids" nolabel="1" colspan="4"/>
-                        </group>
-                    </sheet>
-                </form>
-            </field>
-        </record>
-
-        <record id="view_maintenance_element_filter" model="ir.ui.view">
-            <field name="name">maintenance.element.filter</field>
-            <field name="model">maintenance.element</field>
-            <field name="arch" type="xml">
-                <search>
-                    <field name="name" />
-                    <field name="codigo" />
-                    <field name="type" />
-                    <field name="complete_name" />
-                    <field name="product_id" />
-                    <group expand="0" string="Group By...">
-                        <filter string="Tipo" domain="[]" context="{'group_by':'type'}" />
-                    </group>
-                </search>
-            </field>
-        </record>
+		<record model="ir.ui.view" id="maintenance_element_form_view">
+			<field name="name">maintenance.element.form</field>
+			<field name="model">maintenance.element</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Maintenance element">
+                                         <group col="6" colspan="4">
+                                                <group colspan="3" col="3">
+                                                        <field name="name" colspan="2" />
+                                                        <field name="codigo" />
+                                                        <field name="analytic_journal_id"/>
+                                                        <field name="analytic_account_id" />
+                                                        
+                                                        <field name="asset_id" />
+                                                </group>
+                                                
+                                                <group col="3" colspan="3">
+                                                        <field name="complete_name" />
+                                                                          <field name="type" />
+                                                                          <field name="product_id" />
+                                                                          <field name="padre_id" string="Equipo padre" domain="[('id', '!=', id)]"/>
+                                                </group>
+                                                
+                                        </group>
+                                        <notebook>
+                                                <page string="Maintenance Type">
+                                                        <field name="maintenance_type_ids" nolabel="1" colspan="4"/>
+                                                        
+                                                        
+                                                </page>
+                                                <page string="Description">
+                                                        <field name="description" nolabel="1" colspan="4"/>
+                                                </page>
+                                        </notebook>
 
 
-        <record id="action_maintenance_element_tree" model="ir.actions.act_window">
-            <field name="name">Maintenance element tree</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">maintenance.element</field>
-            <field name="view_type">tree</field>
-            <field name="domain">[('padre_id','=',False)]</field>
-            <field name="view_id" ref="view_element_tree" />
-            <field name="help" type="html">
-                <p class="oe_view_nocontent_create">
-                    Click to add a maintenance element.
-                </p>
-            </field>
-        </record>
+
+						
+						
+					
+				</form>
+			</field>
+		</record>
+
+		<record id="view_maintenance_element_filter" model="ir.ui.view">
+			<field name="name">maintenance.element.filter</field>
+			<field name="model">maintenance.element</field>
+                        <field name="type">search</field>
+			<field name="arch" type="xml">
+				<search>
+					<field name="name" />
+					<field name="codigo" />
+					<field name="type" />
+					<field name="complete_name" />
+					<field name="product_id" />
+                                        <newline/>
+					<group expand="0" string="Group By...">
+						<filter string="Tipo" domain="[]" context="{'group_by':'type'}" />
+					</group>
+				</search>
+			</field>
+		</record>
 
 
-        <record id="action_maintenance_element" model="ir.actions.act_window">
-            <field name="name">Maintenance element</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">maintenance.element</field>
-            <field name="view_type">form</field>
-            <field name="view_id" ref="maintenance_element_tree_view" />
-            <field name="search_view_id" ref="view_maintenance_element_filter" />
-            <field name="help" type="html">
-                <p class="oe_view_nocontent_create">
-                    Click to add a maintenance element.
-                </p>
-            </field>
-        </record>
+		<record id="action_maintenance_element_tree" model="ir.actions.act_window">
+			<field name="name">Maintenance element</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">maintenance.element</field>
+			<field name="view_type">form</field>
+			<field name="view_id" ref="maintenance_element_tree_view" />
+			<field name="search_view_id" ref="view_maintenance_element_filter" />
+			
+		</record>
 
-        <record id="action_open_active_element" model="ir.actions.act_window">
-            <field name="name">Active Element</field>
-            <field name="res_model">maintenance.element</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
-            <field name="view_id" ref="maintenance_element_tree_view"/>
-            <field name="search_view_id" ref="view_maintenance_element_filter" />
-            <field name="domain">[('id', 'in', [active_id])]</field>
-        </record>
-
-        <record id="ir_open_element" model="ir.values">
-            <field eval="'tree_but_open'" name="key2"/>
-            <field eval="'maintenance.element'" name="model"/>
-            <field name="name">Open active element</field>
-            <field eval="'ir.actions.act_window,%d'%action_open_active_element" name="value"/>
-            <field eval="True" name="object"/>
-        </record>
-
-        <menuitem action="action_maintenance_element" id="menu_maintenance_element"
-            parent="menu_maintenance" sequence="10" />
-
-        <menuitem action="action_maintenance_element_tree" id="menu_maintenance_element_tree"
-            parent="menu_maintenance_element" sequence="30" />
-
-        <menuitem action="action_maintenance_element" id="menu_maintenance_element_view"
-            parent="menu_maintenance_element" sequence="10" />
+		<menuitem action="action_maintenance_element_tree" id="menu_maintenance_element_tree"
+			parent="menu_maintenance" sequence="30" />
 
 
 
 
-    </data>
+	</data>
 </openerp>

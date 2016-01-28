@@ -253,14 +253,15 @@ class account_invoice_tax(orm.Model):
         tax_grouped = {}
         tax_obj = self.pool.get('account.tax')
         cur_obj = self.pool.get('res.currency')
-        inv = self.pool.get('account.invoice').browse(cr, uid, invoice_id, context=context)
+        #inv = self.pool.get('account.invoice').browse(cr, uid, invoice_id, context=context)
+        inv = invoice_id
         cur = inv.currency_id
         company_currency = inv.company_id.currency_id.id
 
         for line in inv.invoice_line:
             discount_line = round(1-(line.discount or 0.0)/100.0, 4)
             discount_global = round(1-(line.invoice_id.global_disc or 0.0)/100.0, 4)
-            for tax in tax_obj.compute_all(cr, uid, line.invoice_line_tax_id, ((line.price_unit * discount_line) * discount_global), line.quantity, inv.address_invoice_id.id, line.product_id, inv.partner_id)['taxes']:
+            for tax in tax_obj.compute_all(cr, uid, line.invoice_line_tax_id, ((line.price_unit * discount_line) * discount_global), line.quantity, line.product_id, inv.partner_id)['taxes']:
                 #tax['price_unit'] = cur_obj.round(cr, uid, cur, tax['price_unit'])
                 val={}
                 val['invoice_id'] = inv.id
@@ -306,7 +307,9 @@ class account_invoice(orm.Model):
     _inherit = 'account.invoice'
 
     def _amount_all(self, cr, uid, ids, name, args, context=None):
-        res = super(account_invoice, self)._amount_all(cr, uid, ids, name, args, context)
+        #res = super(account_invoice, self)._amount_all(cr, uid, ids, name, args, context)
+        import ipdb; ipdb.set_trace()
+        res = {}
         for invoice in self.browse(cr, uid, ids, context=context):
             res[invoice.id] = {
                 'amount_untaxed': 0.0,

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="work_order" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="19e5a1ec-a0d4-44e5-9073-387da7a30dd2">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="work_order" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="1.3310000000000004"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="1462"/>
-	<subDataset name="tabla_equipos_propios" uuid="9eb7504b-9690-46fb-bf6c-6263c03efe16">
+	<property name="ireport.y" value="720"/>
+	<subDataset name="tabla_equipos_propios">
 		<parameter name="work_order_id" class="java.lang.Integer"/>
 		<parameter name="REWIND" class="java.lang.Object" isForPrompting="false">
 			<parameterDescription><![CDATA[]]></parameterDescription>
@@ -50,7 +50,7 @@
 		</field>
 		<filterExpression><![CDATA[$F{id}==$P{work_order_id}&&$F{Empleado_externo-externo}!="True"]]></filterExpression>
 	</subDataset>
-	<subDataset name="recursos_externos" uuid="71ce9d14-eddd-42d1-93af-c6cd42a9cedc">
+	<subDataset name="recursos_externos">
 		<parameter name="work_order_id" class="java.lang.Integer"/>
 		<parameter name="REWIND" class="java.lang.Object" isForPrompting="false">
 			<parameterDescription><![CDATA[]]></parameterDescription>
@@ -97,7 +97,7 @@
 		</variable>
 		<filterExpression><![CDATA[$F{id}==$P{work_order_id}&&$F{Empleado_externo-externo}=="True"]]></filterExpression>
 	</subDataset>
-	<subDataset name="tabla_otros_conceptos" uuid="1791f0c9-42ba-4dc8-9078-98793a049183">
+	<subDataset name="tabla_otros_conceptos">
 		<parameter name="work_order_id" class="java.lang.Integer"/>
 		<parameter name="REWIND" class="java.lang.Object" isForPrompting="false">
 			<parameterDescription><![CDATA[]]></parameterDescription>
@@ -216,379 +216,376 @@
 	<field name="fecha_de_inicio-fecha_inicio" class="java.util.Date">
 		<fieldDescription><![CDATA[/data/record/fecha_de_inicio-fecha_inicio]]></fieldDescription>
 	</field>
-	<field name="Action_taken-action_taken" class="java.lang.String">
-		<fieldDescription><![CDATA[/data/record/Action_taken-action_taken]]></fieldDescription>
-	</field>
 	<group name="work_order_group" isStartNewPage="true">
 		<groupExpression><![CDATA[$F{id}]]></groupExpression>
 		<groupHeader>
 			<band height="802" splitType="Prevent">
 				<textField isBlankWhenNull="true">
-					<reportElement x="0" y="0" width="155" height="33" uuid="e2eb87e9-7eec-4e60-8750-9f8839360293"/>
+					<reportElement x="0" y="0" width="155" height="33"/>
 					<textElement verticalAlignment="Bottom">
 						<font size="15" isBold="true"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{Nombre_de_la_compania-name}]]></textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Nombre_de_la_compania-name}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="383" y="0" width="172" height="33" uuid="6cacc261-b589-49cc-a8d1-5e8f198f0c0d"/>
+					<reportElement x="383" y="0" width="172" height="33"/>
 					<textElement textAlignment="Right" verticalAlignment="Bottom">
 						<font size="15" isBold="false"/>
 					</textElement>
 					<text><![CDATA[ORDEN DE TRABAJO]]></text>
 				</staticText>
 				<rectangle>
-					<reportElement positionType="Float" x="0" y="33" width="132" height="60" uuid="46876c9a-e4f3-4dd4-bcd0-f9f2bbc0caa9"/>
+					<reportElement positionType="Float" x="0" y="33" width="132" height="60"/>
 				</rectangle>
 				<rectangle>
-					<reportElement positionType="Float" x="132" y="33" width="139" height="60" uuid="86116dbe-e823-4ba3-a25e-7bb77132c29a"/>
+					<reportElement positionType="Float" x="132" y="33" width="139" height="60"/>
 				</rectangle>
 				<rectangle>
-					<reportElement positionType="Float" x="271" y="33" width="147" height="60" uuid="65ab70be-cf1c-432c-a706-c352335aec1d"/>
+					<reportElement positionType="Float" x="271" y="33" width="147" height="60"/>
 				</rectangle>
 				<rectangle>
-					<reportElement positionType="Float" x="418" y="33" width="137" height="60" uuid="5a443b8e-6b75-4361-b90c-d035d0a34c62"/>
+					<reportElement positionType="Float" x="418" y="33" width="137" height="60"/>
 				</rectangle>
 				<staticText>
-					<reportElement positionType="Float" x="132" y="33" width="139" height="13" uuid="9feb596e-d409-4683-a939-3c0cde9dd070"/>
+					<reportElement positionType="Float" x="132" y="33" width="139" height="13"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="8" isUnderline="true"/>
 					</textElement>
 					<text><![CDATA[SERVICIO SOLICITANTE]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" x="271" y="33" width="147" height="13" uuid="f170d14a-4961-496a-9451-3e54adf853c0"/>
+					<reportElement positionType="Float" x="271" y="33" width="147" height="13"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="8" isUnderline="true"/>
 					</textElement>
 					<text><![CDATA[SERVICIO EJECUTOR]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" x="418" y="33" width="137" height="13" uuid="c66b21fa-7a20-41ea-ad98-9efba221bed3"/>
+					<reportElement positionType="Float" x="418" y="33" width="137" height="13"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="8" isUnderline="true"/>
 					</textElement>
 					<text><![CDATA[Nº O.T.]]></text>
 				</staticText>
 				<textField isBlankWhenNull="true">
-					<reportElement positionType="Float" x="132" y="46" width="139" height="47" uuid="b2618a5b-fce5-4c31-90e4-d1f21357e1b1"/>
+					<reportElement positionType="Float" x="132" y="46" width="139" height="47"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="11" isBold="true" isItalic="false"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{Nombre-complete_name2}]]></textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Nombre-complete_name2}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement positionType="Float" x="272" y="46" width="146" height="47" uuid="6c6424d2-98f3-4fc8-b94e-98ef14237286"/>
+					<reportElement positionType="Float" x="272" y="46" width="146" height="47"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="11" isBold="true" isItalic="false"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{Nombre-complete_name}]]></textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Nombre-complete_name}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement positionType="Float" x="418" y="46" width="137" height="47" uuid="67049d9d-de77-4aa5-8471-3739cc515783"/>
+					<reportElement positionType="Float" x="418" y="46" width="137" height="47"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="11" isBold="true" isItalic="false"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{Nombre-name2}]]></textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Nombre-name2}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement positionType="Float" x="0" y="176" width="82" height="20" uuid="6ffde5ad-2680-44ab-b9c6-3c8fb0459f20"/>
+					<reportElement positionType="Float" x="0" y="176" width="82" height="20"/>
 					<textElement verticalAlignment="Middle">
 						<font size="8" isUnderline="true"/>
 					</textElement>
 					<text><![CDATA[DESCRIPCIÓN:]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="85" y="176" width="456" height="53" uuid="712d980a-193a-433d-8872-67dc97f094cf"/>
+					<reportElement positionType="Float" x="85" y="176" width="456" height="53"/>
 					<box leftPadding="2">
 						<bottomPen lineWidth="0.0" lineStyle="Dashed"/>
 					</box>
 					<textElement>
 						<font isBold="true" isItalic="false"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{Descripcion-descripcion}]]></textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Descripcion-descripcion}]]></textFieldExpression>
 				</textField>
 				<line>
-					<reportElement positionType="Float" x="0" y="237" width="555" height="1" uuid="fe2bfbba-bac1-4f9d-842d-588df9ec82c3"/>
+					<reportElement positionType="Float" x="0" y="237" width="555" height="1"/>
 				</line>
 				<line>
-					<reportElement positionType="Float" x="0" y="348" width="555" height="1" uuid="d4d14565-f3a4-498b-bdc7-2dbcf69dac8d"/>
+					<reportElement positionType="Float" x="0" y="348" width="555" height="1"/>
 				</line>
 				<line>
-					<reportElement positionType="Float" x="255" y="237" width="1" height="111" uuid="2e0e0ab6-4b4a-4ed3-b558-19ea5316d0ea"/>
+					<reportElement positionType="Float" x="255" y="237" width="1" height="111"/>
 				</line>
 				<line>
-					<reportElement positionType="Float" x="271" y="237" width="1" height="111" uuid="fa22cc4b-8014-47b1-87a4-9bb53a06bea7"/>
+					<reportElement positionType="Float" x="271" y="237" width="1" height="111"/>
 				</line>
 				<staticText>
-					<reportElement positionType="Float" x="256" y="265" width="15" height="56" uuid="f65b715d-0dd5-4477-878b-0ffa4ab7275d"/>
+					<reportElement positionType="Float" x="256" y="265" width="15" height="56"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left"/>
 					<text><![CDATA[FALLO]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" x="2" y="258" width="71" height="10" uuid="c3aeddf5-b595-485a-8fcc-debfdfefd83b"/>
+					<reportElement positionType="Float" x="2" y="258" width="71" height="10"/>
 					<textElement>
 						<font size="8" isUnderline="true"/>
 					</textElement>
 					<text><![CDATA[SOLICITANTE:]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" x="1" y="283" width="53" height="10" uuid="2b1c3583-e07e-451c-8f40-cf6126ca7ad4"/>
+					<reportElement positionType="Float" x="1" y="283" width="53" height="10"/>
 					<textElement verticalAlignment="Middle">
 						<font size="8" isUnderline="true"/>
 					</textElement>
 					<text><![CDATA[TIPO O.T.:]]></text>
 				</staticText>
 				<textField isBlankWhenNull="true">
-					<reportElement positionType="Float" x="57" y="283" width="182" height="11" uuid="436a28ec-70e3-459b-89c0-e51067f4fbe2"/>
+					<reportElement positionType="Float" x="57" y="283" width="182" height="11"/>
 					<box leftPadding="2">
 						<bottomPen lineWidth="0.25" lineStyle="Dashed"/>
 					</box>
 					<textElement>
 						<font size="9"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{Tipo-type}]]></textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Tipo-type}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement positionType="Float" x="275" y="245" width="68" height="10" uuid="981cbaab-fdd7-44dd-ac82-130c0f9da48a"/>
+					<reportElement positionType="Float" x="275" y="245" width="68" height="10"/>
 					<textElement>
 						<font size="8" isUnderline="true"/>
 					</textElement>
 					<text><![CDATA[FECHA Y HORA:]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" x="275" y="270" width="58" height="10" uuid="e833780c-b76d-4e2b-b61d-4320c32bae97"/>
+					<reportElement positionType="Float" x="275" y="270" width="58" height="10"/>
 					<textElement>
 						<font size="8" isUnderline="true"/>
 					</textElement>
 					<text><![CDATA[DETECCIÓN:]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" x="275" y="296" width="46" height="10" uuid="9dd9316c-b269-4d49-889c-307c46abf72a"/>
+					<reportElement positionType="Float" x="275" y="296" width="46" height="10"/>
 					<textElement>
 						<font size="8" isUnderline="true"/>
 					</textElement>
 					<text><![CDATA[SÍNTOMA:]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" x="275" y="321" width="36" height="10" uuid="9227ef3d-e204-4242-9dfe-d103cab465b6"/>
+					<reportElement positionType="Float" x="275" y="321" width="36" height="10"/>
 					<textElement>
 						<font size="8" isUnderline="true"/>
 					</textElement>
 					<text><![CDATA[EFECTO:]]></text>
 				</staticText>
 				<textField isBlankWhenNull="true">
-					<reportElement positionType="Float" x="337" y="270" width="204" height="11" uuid="a115d5f9-33cf-48b3-ae98-dd50a31a4d6e"/>
+					<reportElement positionType="Float" x="337" y="270" width="204" height="11"/>
 					<box leftPadding="2">
 						<bottomPen lineWidth="0.25" lineStyle="Dashed"/>
 					</box>
 					<textElement>
 						<font size="9"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{Deteccion-deteccion}]]></textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Deteccion-deteccion}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement positionType="Float" x="326" y="296" width="215" height="11" uuid="238b0bb3-877b-4f8b-8a1a-c894a75992db"/>
+					<reportElement positionType="Float" x="326" y="296" width="215" height="11"/>
 					<box leftPadding="2">
 						<bottomPen lineWidth="0.25" lineStyle="Dashed"/>
 					</box>
 					<textElement>
 						<font size="9"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{sintoma-sintoma}]]></textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{sintoma-sintoma}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement positionType="Float" x="316" y="321" width="225" height="11" uuid="cb904896-9cd0-4a89-b6d0-27de3247704c"/>
+					<reportElement positionType="Float" x="316" y="321" width="225" height="11"/>
 					<box leftPadding="2">
 						<bottomPen lineWidth="0.25" lineStyle="Dashed"/>
 					</box>
 					<textElement>
 						<font size="9"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{efecto-efecto}]]></textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{efecto-efecto}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement positionType="Float" x="79" y="258" width="160" height="11" uuid="c76d6f6b-388e-435b-943f-13da7702e5e6"/>
+					<reportElement positionType="Float" x="79" y="258" width="160" height="11"/>
 					<box leftPadding="2">
 						<bottomPen lineWidth="0.25" lineStyle="Dashed"/>
 					</box>
 					<textElement>
 						<font size="9" isItalic="true"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{Name-name}]]></textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Name-name}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement positionType="Float" x="50" y="309" width="187" height="11" uuid="5702cbc4-4847-40fe-8517-019cef46af64"/>
+					<reportElement positionType="Float" x="50" y="309" width="187" height="11"/>
 					<box leftPadding="2">
 						<bottomPen lineWidth="0.25" lineStyle="Dashed"/>
 					</box>
 					<textElement>
 						<font size="9"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{Nombre-name}]]></textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Nombre-name}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement positionType="Float" x="2" y="309" width="38" height="10" uuid="b2f0f000-8310-4d1e-98de-827654afc9e8"/>
+					<reportElement positionType="Float" x="2" y="309" width="38" height="10"/>
 					<textElement>
 						<font size="8" isUnderline="true"/>
 					</textElement>
 					<text><![CDATA[GAMA:]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" x="10" y="359" width="100" height="10" uuid="f80233fd-cd48-42a6-acc6-3849c24ab6f3"/>
+					<reportElement positionType="Float" x="10" y="359" width="100" height="10"/>
 					<textElement>
 						<font size="8" isUnderline="true"/>
 					</textElement>
 					<text><![CDATA[TRABAJO SOLICITADO:]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" x="10" y="445" width="100" height="10" uuid="cd67e6ca-9218-4597-955e-9c7e131fe623"/>
+					<reportElement positionType="Float" x="10" y="445" width="100" height="10"/>
 					<textElement>
 						<font size="8" isUnderline="true"/>
 					</textElement>
 					<text><![CDATA[INSTRUCCIONES:]]></text>
 				</staticText>
 				<textField isBlankWhenNull="true">
-					<reportElement positionType="Float" x="10" y="460" width="531" height="93" uuid="53f6cf0b-4f86-4d68-a2a6-750124fd6ed1"/>
+					<reportElement positionType="Float" x="10" y="460" width="531" height="93"/>
 					<textElement>
 						<font isItalic="true"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{Instrucciones-instrucciones}]]></textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Instrucciones-instrucciones}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement positionType="Float" x="10" y="566" width="100" height="10" uuid="ea597b7f-b9f8-4cc2-92b9-4e6950bcb526"/>
+					<reportElement positionType="Float" x="10" y="566" width="100" height="10"/>
 					<textElement>
 						<font size="8" isBold="false" isUnderline="true"/>
 					</textElement>
 					<text><![CDATA[CONDICIÓN OPERACIÓN:]]></text>
 				</staticText>
 				<textField isBlankWhenNull="true">
-					<reportElement positionType="Float" x="120" y="565" width="213" height="11" uuid="17d79cdf-db38-426e-9cc7-80ac9c41ab85"/>
+					<reportElement positionType="Float" x="120" y="565" width="213" height="11"/>
 					<box leftPadding="2">
 						<bottomPen lineWidth="0.25" lineStyle="Solid"/>
 					</box>
 					<textElement>
 						<font size="9" isUnderline="false"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{Condicion_operacion-tipo_parada}]]></textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Condicion_operacion-tipo_parada}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement positionType="Float" x="10" y="593" width="63" height="10" uuid="2ee6107d-5ac4-4767-b7d3-3eb96c969d74"/>
+					<reportElement positionType="Float" x="10" y="593" width="63" height="10"/>
 					<textElement>
 						<font size="8" isBold="false" isUnderline="true"/>
 					</textElement>
 					<text><![CDATA[DESCARGO:]]></text>
 				</staticText>
 				<textField isBlankWhenNull="true">
-					<reportElement positionType="Float" x="85" y="593" width="248" height="11" uuid="1de09c7c-d692-41a5-b89b-63aff2e38a66"/>
+					<reportElement positionType="Float" x="85" y="593" width="248" height="11"/>
 					<box leftPadding="2">
 						<bottomPen lineWidth="0.25" lineStyle="Solid"/>
 					</box>
 					<textElement>
 						<font size="9" isUnderline="false"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{Descargo-descargo}]]></textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Descargo-descargo}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement positionType="Float" x="361" y="565" width="65" height="10" uuid="0ded27dd-d1a0-4ee2-89e5-4c888c4da4d6"/>
+					<reportElement positionType="Float" x="361" y="565" width="65" height="10"/>
 					<textElement>
 						<font size="8" isUnderline="true"/>
 					</textElement>
 					<text><![CDATA[FECHA INICIAL:]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" x="361" y="594" width="65" height="10" uuid="3da839f9-9310-4e5a-8f37-c9fc78c324d8"/>
+					<reportElement positionType="Float" x="361" y="594" width="65" height="10"/>
 					<textElement>
 						<font size="8" isUnderline="true"/>
 					</textElement>
 					<text><![CDATA[FECHA FINAL:]]></text>
 				</staticText>
 				<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="434" y="594" width="100" height="11" uuid="3ecc49de-bf25-4d44-8619-2f542244fcf1"/>
+					<reportElement positionType="Float" x="434" y="594" width="100" height="11"/>
 					<box leftPadding="2">
 						<bottomPen lineWidth="0.25"/>
 					</box>
 					<textElement>
 						<font size="9"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{Fecha_final-final_date}]]></textFieldExpression>
+					<textFieldExpression class="java.util.Date"><![CDATA[$F{Fecha_final-final_date}]]></textFieldExpression>
 				</textField>
 				<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="434" y="564" width="100" height="11" uuid="22cf5c87-ad2b-426d-8111-0dad1c1a0012"/>
+					<reportElement positionType="Float" x="434" y="564" width="100" height="11"/>
 					<box leftPadding="2">
 						<bottomPen lineWidth="0.25"/>
 					</box>
 					<textElement>
 						<font size="9"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{Fecha_inicial-initial_date}]]></textFieldExpression>
+					<textFieldExpression class="java.util.Date"><![CDATA[$F{Fecha_inicial-initial_date}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement positionType="Float" x="316" y="638" width="56" height="10" uuid="9bf7da4b-4b90-4c54-ab15-b50693b3b8ea"/>
+					<reportElement positionType="Float" x="316" y="638" width="56" height="10"/>
 					<textElement>
 						<font size="8" isBold="false" isUnderline="true"/>
 					</textElement>
 					<text><![CDATA[CONTRATA:]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" x="10" y="662" width="75" height="10" uuid="cb1ae547-fa1d-4e1f-ad4c-9037d27b59a5"/>
+					<reportElement positionType="Float" x="10" y="662" width="75" height="10"/>
 					<textElement>
 						<font size="8" isBold="false" isUnderline="true"/>
 					</textElement>
 					<text><![CDATA[JEFE DE EQUIPO:]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" x="10" y="638" width="90" height="10" uuid="62c417bd-0950-41c1-8e0d-44c30560cf23"/>
+					<reportElement positionType="Float" x="10" y="638" width="90" height="10"/>
 					<textElement>
 						<font size="8" isBold="false" isUnderline="true"/>
 					</textElement>
 					<text><![CDATA[EQUIPO DE TRABAJO:]]></text>
 				</staticText>
 				<textField isBlankWhenNull="true">
-					<reportElement positionType="Float" x="0" y="46" width="132" height="47" uuid="10e1c5a3-ae27-43c9-9769-b99e5ffaadd0"/>
+					<reportElement positionType="Float" x="0" y="46" width="132" height="47"/>
 					<box>
 						<leftPen lineStyle="Double"/>
 					</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font isBold="true" isItalic="false"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{Planta-planta}]]></textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Planta-planta}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement positionType="Float" x="0" y="33" width="132" height="13" uuid="8852f9f9-aa8e-4288-853d-4f406c35c59b"/>
+					<reportElement positionType="Float" x="0" y="33" width="132" height="13"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="8" isUnderline="true"/>
 					</textElement>
 					<text><![CDATA[PLANTA/INSTALACIÓN]]></text>
 				</staticText>
 				<rectangle>
-					<reportElement positionType="Float" x="73" y="716" width="120" height="86" uuid="1e429584-d807-4651-8865-2ae60681d9f7"/>
+					<reportElement positionType="Float" x="73" y="716" width="120" height="86"/>
 				</rectangle>
 				<rectangle>
-					<reportElement positionType="Float" x="193" y="716" width="120" height="86" uuid="d30bcae1-0984-44ff-bbc0-edd8cf042cf6"/>
+					<reportElement positionType="Float" x="193" y="716" width="120" height="86"/>
 				</rectangle>
 				<rectangle>
-					<reportElement positionType="Float" x="312" y="716" width="120" height="86" uuid="b86ebc88-5527-45c2-be8b-9683ba988526"/>
+					<reportElement positionType="Float" x="312" y="716" width="120" height="86"/>
 				</rectangle>
 				<rectangle>
-					<reportElement positionType="Float" x="432" y="716" width="120" height="86" uuid="66febb52-197c-4785-a200-afaa64e04a11"/>
+					<reportElement positionType="Float" x="432" y="716" width="120" height="86"/>
 				</rectangle>
 				<staticText>
-					<reportElement positionType="Float" x="0" y="728" width="57" height="10" uuid="17cc0e94-b540-4c8e-8764-c9e6399771e1"/>
+					<reportElement positionType="Float" x="0" y="728" width="57" height="10"/>
 					<textElement>
 						<font size="8"/>
 					</textElement>
 					<text><![CDATA[FECHA/HORA:]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" x="1" y="744" width="57" height="10" uuid="34474c5c-c1b6-4402-8612-30dac370efec"/>
+					<reportElement positionType="Float" x="1" y="744" width="57" height="10"/>
 					<textElement>
 						<font size="8"/>
 					</textElement>
 					<text><![CDATA[FIRMA:]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" x="73" y="716" width="120" height="12" uuid="a032d7ff-5944-48c5-9d82-5f8e2697ead5"/>
+					<reportElement positionType="Float" x="73" y="716" width="120" height="12"/>
 					<box>
 						<bottomPen lineWidth="0.25"/>
 					</box>
@@ -598,7 +595,7 @@
 					<text><![CDATA[IMPRESIÓN]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" x="194" y="716" width="120" height="12" uuid="d998d114-7232-4450-a1cc-d44d53dd5aae"/>
+					<reportElement positionType="Float" x="194" y="716" width="120" height="12"/>
 					<box>
 						<bottomPen lineWidth="0.25"/>
 					</box>
@@ -608,7 +605,7 @@
 					<text><![CDATA[J. SERVICIO SOLICITANTE]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" x="312" y="716" width="120" height="12" uuid="99e8a49a-995c-4b64-9901-1f71d83ac5bd"/>
+					<reportElement positionType="Float" x="312" y="716" width="120" height="12"/>
 					<box>
 						<bottomPen lineWidth="0.25"/>
 					</box>
@@ -618,7 +615,7 @@
 					<text><![CDATA[J. EQUIPO TRABAJO]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" x="432" y="716" width="120" height="12" uuid="581e45b3-3bba-4e3c-b3e9-b46e082b26fc"/>
+					<reportElement positionType="Float" x="432" y="716" width="120" height="12"/>
 					<box>
 						<bottomPen lineWidth="0.25"/>
 					</box>
@@ -628,66 +625,68 @@
 					<text><![CDATA[J. SERVICIO EJECUTOR]]></text>
 				</staticText>
 				<textField isBlankWhenNull="true">
-					<reportElement positionType="Float" x="194" y="744" width="117" height="12" uuid="4123278f-e6bb-4b51-8d66-f242b3123bd7"/>
+					<reportElement positionType="Float" x="194" y="744" width="117" height="12"/>
 					<textElement textAlignment="Center"/>
-					<textFieldExpression><![CDATA[$F{Nombre-name_related}]]></textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Nombre-name_related}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement positionType="Float" x="435" y="744" width="118" height="12" uuid="6b375831-0b13-4bf9-b9e5-dd72d56adc91"/>
+					<reportElement positionType="Float" x="435" y="744" width="118" height="12"/>
 					<textElement textAlignment="Center"/>
-					<textFieldExpression><![CDATA[$F{Nombre-name_related2}]]></textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Nombre-name_related2}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement positionType="Float" x="5" y="106" width="57" height="15" uuid="201f1d87-f201-4605-abfc-ab75bd6f5ebd"/>
+					<reportElement positionType="Float" x="5" y="106" width="57" height="15"/>
 					<textElement>
 						<font isUnderline="true"/>
 					</textElement>
 					<text><![CDATA[EQUIPOS:]]></text>
 				</staticText>
 				<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="350" y="245" width="191" height="11" uuid="675d0d56-b850-4c83-91c0-3718598ff7c5"/>
+					<reportElement positionType="Float" x="350" y="245" width="191" height="11"/>
 					<box leftPadding="2">
 						<bottomPen lineWidth="0.25"/>
 					</box>
 					<textElement>
 						<font size="9"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{Fecha_de_solicitud-fecha_solicitud}]]></textFieldExpression>
+					<textFieldExpression class="java.util.Date"><![CDATA[$F{Fecha_de_solicitud-fecha_solicitud}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement positionType="Float" x="10" y="376" width="531" height="59" uuid="174c3944-0a32-48ff-ab73-ccd4f64c2bc1"/>
-					<textFieldExpression><![CDATA[$F{Notas-note2}]]></textFieldExpression>
+					<reportElement positionType="Float" x="10" y="376" width="531" height="59"/>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Notas-note2}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement positionType="Float" x="110" y="662" width="191" height="10" uuid="af8e8bf8-6c20-4270-864d-136487aff999"/>
+					<reportElement positionType="Float" x="110" y="662" width="191" height="10"/>
 					<box leftPadding="2">
 						<bottomPen lineWidth="0.25"/>
 					</box>
 					<textElement textAlignment="Left">
 						<font size="8" isUnderline="false"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{Nombre-name_related2}]]></textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Nombre-name_related2}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement positionType="Float" x="110" y="638" width="191" height="10" uuid="7de24647-f5c5-4ab2-aeb2-8bfd0ed91b1a"/>
+					<reportElement positionType="Float" x="110" y="638" width="191" height="10"/>
 					<box leftPadding="2">
 						<bottomPen lineWidth="0.25"/>
 					</box>
 					<textElement>
 						<font size="8" isUnderline="false"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{Nombre-complete_name}]]></textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Nombre-complete_name}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement positionType="Float" x="383" y="638" width="158" height="44" uuid="526f3584-6dc7-49fb-b5ea-8fef61ad2b04"/>
+					<reportElement positionType="Float" x="383" y="638" width="158" height="44"/>
 					<textElement>
 						<font size="8"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{Contrata-contrata}]]></textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Contrata-contrata}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement positionType="Float" x="10" y="121" width="530" height="55" uuid="da613d1e-b8dd-4847-a77d-bd1563299638"/>
-					<textFieldExpression><![CDATA[$F{string_de_equipos-elements_list}]]></textFieldExpression>
+					<reportElement positionType="Float" x="10" y="121" width="530" height="55"/>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{string_de_equipos-elements_list}]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupHeader>
@@ -698,24 +697,24 @@
 	<detail>
 		<band height="159" splitType="Prevent">
 			<staticText>
-				<reportElement positionType="Float" x="5" y="8" width="122" height="10" uuid="157dd3cf-590c-4a86-ad1d-636b80738e67"/>
+				<reportElement positionType="Float" x="5" y="8" width="122" height="10"/>
 				<textElement>
 					<font size="8" isUnderline="true"/>
 				</textElement>
 				<text><![CDATA[FECHA Y HORA REAL INICIO:]]></text>
 			</staticText>
 			<componentElement>
-				<reportElement key="table" positionType="Float" x="5" y="51" width="536" height="101" isPrintWhenDetailOverflows="true" uuid="fa15cf7b-672a-413f-ac00-38dabac94385">
+				<reportElement key="table" positionType="Float" x="5" y="51" width="536" height="101" isPrintWhenDetailOverflows="true">
 					<property name="OPENERP_RELATIONS" value="[&apos;horas_ids&apos;]"/>
 				</reportElement>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="tabla_equipos_propios" uuid="9c833fc4-e111-43fb-8e0a-3c6b6d15d0d9">
+					<datasetRun subDataset="tabla_equipos_propios">
 						<datasetParameter name="work_order_id">
 							<datasetParameterExpression><![CDATA[$F{id}]]></datasetParameterExpression>
 						</datasetParameter>
 						<dataSourceExpression><![CDATA[$P{subreport_horas}]]></dataSourceExpression>
 					</datasetRun>
-					<jr:column width="90" uuid="032aa48f-90e6-4a42-83ae-c9281107d791">
+					<jr:column width="90">
 						<jr:columnHeader height="30" rowSpan="1">
 							<box>
 								<topPen lineWidth="0.25" lineStyle="Solid"/>
@@ -724,7 +723,7 @@
 								<rightPen lineWidth="0.25" lineStyle="Solid"/>
 							</box>
 							<staticText>
-								<reportElement x="0" y="0" width="90" height="30" uuid="2c3e6621-bc42-4b94-96bc-ba9bf03ce898"/>
+								<reportElement x="0" y="0" width="90" height="30"/>
 								<textElement textAlignment="Center"/>
 								<text><![CDATA[OPERARIO]]></text>
 							</staticText>
@@ -737,13 +736,13 @@
 								<rightPen lineWidth="0.25" lineStyle="Solid"/>
 							</box>
 							<textField>
-								<reportElement x="0" y="0" width="90" height="30" uuid="5944be95-bc81-463d-8b4d-1384ffa6a938"/>
+								<reportElement x="0" y="0" width="90" height="30"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
-								<textFieldExpression><![CDATA[$F{Name-name}]]></textFieldExpression>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{Name-name}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="75" uuid="f434a092-34c9-4fa0-8543-adeb0c6427f3">
+					<jr:column width="75">
 						<jr:columnHeader height="30" rowSpan="1">
 							<box>
 								<topPen lineWidth="0.25" lineStyle="Solid"/>
@@ -752,7 +751,7 @@
 								<rightPen lineWidth="0.25" lineStyle="Solid"/>
 							</box>
 							<staticText>
-								<reportElement x="0" y="0" width="75" height="30" uuid="d8c08516-a53c-4d4b-82ae-85d71505c64f"/>
+								<reportElement x="0" y="0" width="75" height="30"/>
 								<textElement textAlignment="Center"/>
 								<text><![CDATA[CATEG.]]></text>
 							</staticText>
@@ -765,13 +764,13 @@
 								<rightPen lineWidth="0.25" lineStyle="Solid"/>
 							</box>
 							<textField>
-								<reportElement x="0" y="0" width="75" height="30" uuid="a0891328-2414-4a50-80b5-e1d056874ae1"/>
+								<reportElement x="0" y="0" width="75" height="30"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
-								<textFieldExpression><![CDATA[$F{categorias-categories}]]></textFieldExpression>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{categorias-categories}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="50" uuid="a01ce091-2a7c-44f4-811d-78ba0c347ab7">
+					<jr:column width="50">
 						<jr:columnHeader height="30" rowSpan="1">
 							<box>
 								<topPen lineWidth="0.25" lineStyle="Solid"/>
@@ -780,7 +779,7 @@
 								<rightPen lineWidth="0.25" lineStyle="Solid"/>
 							</box>
 							<staticText>
-								<reportElement x="0" y="0" width="50" height="30" uuid="797ffc70-be20-4824-93e2-a3de74237ed7"/>
+								<reportElement x="0" y="0" width="50" height="30"/>
 								<textElement textAlignment="Center"/>
 								<text><![CDATA[H.N.]]></text>
 							</staticText>
@@ -792,14 +791,14 @@
 								<bottomPen lineWidth="0.25" lineStyle="Solid"/>
 								<rightPen lineWidth="0.25" lineStyle="Solid"/>
 							</box>
-							<textField pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
-								<reportElement x="0" y="0" width="50" height="30" uuid="f0a31b3b-9916-456d-9305-3240e10e4ecc"/>
+							<textField pattern="###0.00;-###0.00">
+								<reportElement x="0" y="0" width="50" height="30"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
-								<textFieldExpression><![CDATA[$F{Horas_nocturnas-horas_nocturnas}]]></textFieldExpression>
+								<textFieldExpression class="java.lang.Float"><![CDATA[$F{Horas_nocturnas-horas_nocturnas}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="50" uuid="bcda62e8-5b66-4062-884e-ec2c6ba13b9d">
+					<jr:column width="50">
 						<jr:columnHeader height="30" rowSpan="1">
 							<box>
 								<topPen lineWidth="0.25" lineStyle="Solid"/>
@@ -808,7 +807,7 @@
 								<rightPen lineWidth="0.25" lineStyle="Solid"/>
 							</box>
 							<staticText>
-								<reportElement x="0" y="0" width="50" height="30" uuid="e621dde5-93dd-4c12-bb49-1756a716b35b"/>
+								<reportElement x="0" y="0" width="50" height="30"/>
 								<textElement textAlignment="Center"/>
 								<text><![CDATA[H.E. NORMAL]]></text>
 							</staticText>
@@ -820,14 +819,14 @@
 								<bottomPen lineWidth="0.25" lineStyle="Solid"/>
 								<rightPen lineWidth="0.25" lineStyle="Solid"/>
 							</box>
-							<textField pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
-								<reportElement x="0" y="0" width="50" height="30" uuid="9ce47cd0-93ef-488a-aa5e-9a4ea88e4be4"/>
+							<textField pattern="###0.00;-###0.00">
+								<reportElement x="0" y="0" width="50" height="30"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
-								<textFieldExpression><![CDATA[$F{Horas_normales-horas_normal}]]></textFieldExpression>
+								<textFieldExpression class="java.lang.Float"><![CDATA[$F{Horas_normales-horas_normal}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="50" uuid="aa753014-d1fa-4467-a410-b4511f825678">
+					<jr:column width="50">
 						<jr:columnHeader height="30" rowSpan="1">
 							<box>
 								<topPen lineWidth="0.25" lineStyle="Solid"/>
@@ -836,7 +835,7 @@
 								<rightPen lineWidth="0.25" lineStyle="Solid"/>
 							</box>
 							<staticText>
-								<reportElement x="0" y="0" width="50" height="30" uuid="9466c17a-45c5-4e56-b86d-6dd9b9a2fbdb"/>
+								<reportElement x="0" y="0" width="50" height="30"/>
 								<textElement textAlignment="Center"/>
 								<text><![CDATA[H.F.F.S]]></text>
 							</staticText>
@@ -848,14 +847,14 @@
 								<bottomPen lineWidth="0.25" lineStyle="Solid"/>
 								<rightPen lineWidth="0.25" lineStyle="Solid"/>
 							</box>
-							<textField pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
-								<reportElement x="0" y="0" width="50" height="30" uuid="5b541061-4b2d-4a67-a343-01034aeeef4c"/>
+							<textField pattern="###0.00;-###0.00">
+								<reportElement x="0" y="0" width="50" height="30"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
-								<textFieldExpression><![CDATA[$F{Horas_festivas-horas_festivas}]]></textFieldExpression>
+								<textFieldExpression class="java.lang.Float"><![CDATA[$F{Horas_festivas-horas_festivas}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="50" uuid="62e6c7a5-361e-4779-9bc2-e05cbdd6bb2f">
+					<jr:column width="50">
 						<jr:columnHeader height="30" rowSpan="1">
 							<box>
 								<topPen lineWidth="0.25" lineStyle="Solid"/>
@@ -864,7 +863,7 @@
 								<rightPen lineWidth="0.25" lineStyle="Solid"/>
 							</box>
 							<staticText>
-								<reportElement x="0" y="0" width="50" height="30" uuid="2ea7321b-fa06-4866-9c61-d6fd61a84e9b"/>
+								<reportElement x="0" y="0" width="50" height="30"/>
 								<textElement textAlignment="Center"/>
 								<text><![CDATA[PRECIO H.N]]></text>
 							</staticText>
@@ -876,14 +875,14 @@
 								<bottomPen lineWidth="0.25" lineStyle="Solid"/>
 								<rightPen lineWidth="0.25" lineStyle="Solid"/>
 							</box>
-							<textField pattern="#,##0.00 ¤" isBlankWhenNull="true">
-								<reportElement x="0" y="0" width="50" height="30" uuid="dbafdbe3-88bc-4071-b92a-f65d8457ec11"/>
+							<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="50" height="30"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
-								<textFieldExpression><![CDATA[$F{Cost-standard_price3}]]></textFieldExpression>
+								<textFieldExpression class="java.lang.Double"><![CDATA[$F{Cost-standard_price3}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="50" uuid="5b3d2990-0755-433a-8fcd-3bc327d8e656">
+					<jr:column width="50">
 						<jr:columnHeader height="30" rowSpan="1">
 							<box>
 								<topPen lineWidth="0.25" lineStyle="Solid"/>
@@ -892,7 +891,7 @@
 								<rightPen lineWidth="0.25" lineStyle="Solid"/>
 							</box>
 							<staticText>
-								<reportElement x="0" y="0" width="50" height="30" uuid="7356a65f-ace2-4875-9396-4b0ed1837348"/>
+								<reportElement x="0" y="0" width="50" height="30"/>
 								<textElement textAlignment="Center"/>
 								<text><![CDATA[PRECIO H.E. NORMAL]]></text>
 							</staticText>
@@ -904,14 +903,14 @@
 								<bottomPen lineWidth="0.25" lineStyle="Solid"/>
 								<rightPen lineWidth="0.25" lineStyle="Solid"/>
 							</box>
-							<textField pattern="#,##0.00 ¤" isBlankWhenNull="true">
-								<reportElement x="0" y="0" width="50" height="30" uuid="125026eb-cbd4-41af-903f-a963cfc0ce16"/>
+							<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="50" height="30"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
-								<textFieldExpression><![CDATA[$F{Cost-standard_price}]]></textFieldExpression>
+								<textFieldExpression class="java.lang.Double"><![CDATA[$F{Cost-standard_price}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="50" uuid="0ab81769-0d8e-450e-afa2-deb242a8f4e9">
+					<jr:column width="50">
 						<jr:columnHeader height="30" rowSpan="1">
 							<box>
 								<topPen lineWidth="0.25" lineStyle="Solid"/>
@@ -920,7 +919,7 @@
 								<rightPen lineWidth="0.25" lineStyle="Solid"/>
 							</box>
 							<staticText>
-								<reportElement x="0" y="0" width="50" height="30" uuid="32bbfa31-03a8-4870-8489-16b1274415c3"/>
+								<reportElement x="0" y="0" width="50" height="30"/>
 								<textElement textAlignment="Center"/>
 								<text><![CDATA[PRECIO H.F.F.S]]></text>
 							</staticText>
@@ -932,14 +931,14 @@
 								<bottomPen lineWidth="0.25" lineStyle="Solid"/>
 								<rightPen lineWidth="0.25" lineStyle="Solid"/>
 							</box>
-							<textField pattern="#,##0.00 ¤" isBlankWhenNull="true">
-								<reportElement x="0" y="0" width="50" height="30" uuid="ed156824-8ef7-45b5-a33c-29ba42b1bf2b"/>
+							<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="50" height="30"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
-								<textFieldExpression><![CDATA[$F{Cost-standard_price2}]]></textFieldExpression>
+								<textFieldExpression class="java.lang.Double"><![CDATA[$F{Cost-standard_price2}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="70" uuid="9262b8a8-454a-4e69-936f-ded476e43c13">
+					<jr:column width="70">
 						<jr:columnHeader height="30" rowSpan="1">
 							<box>
 								<topPen lineWidth="0.25" lineStyle="Solid"/>
@@ -948,7 +947,7 @@
 								<rightPen lineWidth="0.25" lineStyle="Solid"/>
 							</box>
 							<staticText>
-								<reportElement x="0" y="0" width="70" height="30" uuid="0d8c33ef-c5a1-435b-8e1a-4af24bd7f53d"/>
+								<reportElement x="0" y="0" width="70" height="30"/>
 								<textElement textAlignment="Center"/>
 								<text><![CDATA[TOTAL €]]></text>
 							</staticText>
@@ -960,46 +959,46 @@
 								<bottomPen lineWidth="0.25" lineStyle="Solid"/>
 								<rightPen lineWidth="0.25" lineStyle="Solid"/>
 							</box>
-							<textField pattern="#,##0.00 ¤" isBlankWhenNull="true">
-								<reportElement x="0" y="0" width="70" height="30" uuid="64bc2a5c-e1de-4837-b37a-7c4ab1cef446"/>
+							<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="70" height="30"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
-								<textFieldExpression><![CDATA[$F{Total-total}]]></textFieldExpression>
+								<textFieldExpression class="java.lang.Double"><![CDATA[$F{Total-total}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
 				</jr:table>
 			</componentElement>
 			<staticText>
-				<reportElement positionType="Float" x="6" y="31" width="534" height="20" uuid="72d272d4-e51e-476e-bc21-eb2ac555163c"/>
+				<reportElement positionType="Float" x="6" y="31" width="534" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Bottom">
 					<font size="17"/>
 				</textElement>
 				<text><![CDATA[RECURSOS PROPIOS]]></text>
 			</staticText>
 			<textField pattern="dd/MM/yyyy HH.mm.ss" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="137" y="7" width="164" height="11" uuid="b8711d6f-2da9-4c5f-80ea-9222aee94aef"/>
+				<reportElement positionType="Float" x="137" y="7" width="164" height="11"/>
 				<textElement>
 					<font size="9"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{fecha_de_inicio-fecha_inicio}]]></textFieldExpression>
+				<textFieldExpression class="java.util.Date"><![CDATA[$F{fecha_de_inicio-fecha_inicio}]]></textFieldExpression>
 			</textField>
 		</band>
 		<band height="109" splitType="Prevent">
 			<componentElement>
-				<reportElement key="table" positionType="Float" x="10" y="5" width="531" height="50" isPrintWhenDetailOverflows="true" uuid="f4d14e56-03f4-4fbe-b06e-0958aff5a796">
+				<reportElement key="table" positionType="Float" x="10" y="5" width="531" height="50" isPrintWhenDetailOverflows="true">
 					<property name="OPENERP_RELATIONS" value="[&apos;other_service_ids&apos;]"/>
 				</reportElement>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="tabla_otros_conceptos" uuid="2654c831-8cf9-44db-89d8-a2a096caee5b">
+					<datasetRun subDataset="tabla_otros_conceptos">
 						<datasetParameter name="work_order_id">
 							<datasetParameterExpression><![CDATA[$F{id}]]></datasetParameterExpression>
 						</datasetParameter>
 						<dataSourceExpression><![CDATA[$P{subreport_otros_conceptos}]]></dataSourceExpression>
 					</datasetRun>
-					<jr:column width="90" uuid="3ec799b6-009d-4459-9602-450b3fd62c1a">
+					<jr:column width="90">
 						<jr:tableFooter height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="90" height="30" uuid="527b575d-a047-48a5-b863-d0c751a33025"/>
+								<reportElement x="0" y="0" width="90" height="30"/>
 								<box>
 									<topPen lineWidth="1.0" lineStyle="Solid"/>
 									<leftPen lineWidth="0.25" lineStyle="Solid"/>
@@ -1012,7 +1011,7 @@
 						</jr:tableFooter>
 						<jr:columnHeader height="21" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="90" height="21" uuid="15f72cd3-b7cc-4f4d-9d5d-6af547e0a330"/>
+								<reportElement x="0" y="0" width="90" height="21"/>
 								<box>
 									<pen lineWidth="0.25"/>
 									<topPen lineWidth="0.25"/>
@@ -1025,8 +1024,8 @@
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell height="20" rowSpan="1">
-							<textField isBlankWhenNull="true">
-								<reportElement x="0" y="0" width="90" height="20" uuid="0a2a8648-399b-4824-a48b-f9dfa74defab"/>
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20"/>
 								<box>
 									<pen lineWidth="0.25"/>
 									<topPen lineWidth="0.25"/>
@@ -1035,14 +1034,14 @@
 									<rightPen lineWidth="0.25"/>
 								</box>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
-								<textFieldExpression><![CDATA[$F{Codigo-code}]]></textFieldExpression>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{Codigo-code}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="90" uuid="a12f0bbc-985c-40ff-9bda-edd05e3fef3b">
+					<jr:column width="90">
 						<jr:tableFooter height="30" rowSpan="1">
-							<textField pattern="#,##0.00 ¤" isBlankWhenNull="true">
-								<reportElement x="0" y="0" width="90" height="30" uuid="ff535725-3878-4f74-b39b-3cb0b93206bd"/>
+							<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="90" height="30"/>
 								<box>
 									<topPen lineWidth="1.0" lineStyle="Solid"/>
 									<leftPen lineWidth="0.25" lineStyle="Solid"/>
@@ -1050,12 +1049,12 @@
 									<rightPen lineWidth="0.25" lineStyle="Solid"/>
 								</box>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
-								<textFieldExpression><![CDATA[$F{total_oros_conceptos-total_other_service}]]></textFieldExpression>
+								<textFieldExpression class="java.lang.Double"><![CDATA[$F{total_oros_conceptos-total_other_service}]]></textFieldExpression>
 							</textField>
 						</jr:tableFooter>
 						<jr:columnHeader height="21" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="90" height="21" uuid="9426a815-a057-4c7f-8255-3758a8e95a72"/>
+								<reportElement x="0" y="0" width="90" height="21"/>
 								<box>
 									<pen lineWidth="0.25"/>
 									<topPen lineWidth="0.25"/>
@@ -1068,8 +1067,8 @@
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell height="20" rowSpan="1">
-							<textField pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
-								<reportElement x="0" y="0" width="90" height="20" uuid="07b58102-78e9-4ed0-92d0-1a4735f78985"/>
+							<textField pattern="###0.00;-###0.00" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="90" height="20"/>
 								<box>
 									<pen lineWidth="0.25"/>
 									<topPen lineWidth="0.25"/>
@@ -1078,40 +1077,41 @@
 									<rightPen lineWidth="0.25"/>
 								</box>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
-								<textFieldExpression><![CDATA[$F{Cantidad-quantity}]]></textFieldExpression>
+								<textFieldExpression class="java.lang.Double"><![CDATA[$F{Cantidad-quantity}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
 				</jr:table>
 			</componentElement>
 			<staticText>
-				<reportElement positionType="Float" x="14" y="59" width="100" height="13" uuid="0af4a3a7-6f7b-400e-b5af-562bf21531b0"/>
+				<reportElement positionType="Float" x="14" y="59" width="100" height="13"/>
 				<textElement>
 					<font isUnderline="true"/>
 				</textElement>
 				<text><![CDATA[TOTAL SERVICIOS:]]></text>
 			</staticText>
-			<textField pattern="#,##0.00 ¤" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="146" y="59" width="100" height="13" uuid="502ad540-1e5a-4438-a0f1-2e2af5d4579c"/>
-				<textFieldExpression><![CDATA[$F{total_servicios_internos-total_servicios_internos}]]></textFieldExpression>
+			<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="146" y="59" width="100" height="13"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.Float"><![CDATA[$F{total_servicios_internos-total_servicios_internos}]]></textFieldExpression>
 			</textField>
 		</band>
 		<band height="198" splitType="Prevent">
 			<componentElement>
-				<reportElement key="table" positionType="Float" x="0" y="34" width="536" height="142" isPrintWhenDetailOverflows="true" uuid="7c61273c-a180-4c44-b710-c31acc89dd94">
+				<reportElement key="table" positionType="Float" x="0" y="34" width="536" height="142" isPrintWhenDetailOverflows="true">
 					<property name="OPENERP_RELATIONS" value="[&apos;horas_ids&apos;]"/>
 				</reportElement>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="recursos_externos" uuid="fc258f8a-de2c-493f-b108-e2c07eb7dc4d">
+					<datasetRun subDataset="recursos_externos">
 						<datasetParameter name="work_order_id">
 							<datasetParameterExpression><![CDATA[$F{id}]]></datasetParameterExpression>
 						</datasetParameter>
 						<dataSourceExpression><![CDATA[$P{subreport_recursos_externos}]]></dataSourceExpression>
 					</datasetRun>
-					<jr:column width="90" uuid="8b4f413c-b6d0-4fc9-877f-46f96ccd8427">
+					<jr:column width="90">
 						<jr:columnHeader height="30" rowSpan="1">
 							<staticText>
-								<reportElement mode="Transparent" x="0" y="0" width="90" height="30" uuid="a9a6fdbf-aff4-4d8d-90bc-8bcd43e3f41f"/>
+								<reportElement mode="Transparent" x="0" y="0" width="90" height="30"/>
 								<box>
 									<topPen lineWidth="0.25" lineStyle="Solid"/>
 									<leftPen lineWidth="0.25" lineStyle="Solid"/>
@@ -1124,7 +1124,7 @@
 						</jr:columnHeader>
 						<jr:detailCell height="30" rowSpan="1">
 							<textField>
-								<reportElement mode="Transparent" x="0" y="0" width="90" height="30" uuid="3dfac873-8b10-49c2-8608-f163829f372f"/>
+								<reportElement mode="Transparent" x="0" y="0" width="90" height="30"/>
 								<box>
 									<topPen lineWidth="0.25" lineStyle="Solid"/>
 									<leftPen lineWidth="0.25" lineStyle="Solid"/>
@@ -1132,14 +1132,14 @@
 									<rightPen lineWidth="0.25" lineStyle="Solid"/>
 								</box>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
-								<textFieldExpression><![CDATA[$F{Name-name}]]></textFieldExpression>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{Name-name}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="75" uuid="78f73565-fd1a-43c3-8e75-9d743dc52fc9">
+					<jr:column width="75">
 						<jr:tableFooter height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="75" height="30" uuid="3a27b359-4b3a-4f85-be89-f214839ff79a"/>
+								<reportElement x="0" y="0" width="75" height="30"/>
 								<box>
 									<topPen lineWidth="1.0" lineStyle="Double"/>
 									<leftPen lineWidth="1.0" lineStyle="Double"/>
@@ -1152,7 +1152,7 @@
 						</jr:tableFooter>
 						<jr:columnHeader height="30" rowSpan="1">
 							<staticText>
-								<reportElement mode="Transparent" x="0" y="0" width="75" height="30" uuid="d0809110-65ad-4f67-9014-0e7992e50f26"/>
+								<reportElement mode="Transparent" x="0" y="0" width="75" height="30"/>
 								<box>
 									<topPen lineWidth="0.25" lineStyle="Solid"/>
 									<leftPen lineWidth="0.25" lineStyle="Solid"/>
@@ -1165,7 +1165,7 @@
 						</jr:columnHeader>
 						<jr:detailCell height="30" rowSpan="1">
 							<textField>
-								<reportElement mode="Transparent" x="0" y="0" width="75" height="30" uuid="67d846eb-e2f6-4959-81ef-71ac2efe2806"/>
+								<reportElement mode="Transparent" x="0" y="0" width="75" height="30"/>
 								<box>
 									<topPen lineWidth="0.25" lineStyle="Solid"/>
 									<leftPen lineWidth="0.25" lineStyle="Solid"/>
@@ -1173,14 +1173,14 @@
 									<rightPen lineWidth="0.25" lineStyle="Solid"/>
 								</box>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
-								<textFieldExpression><![CDATA[$F{categorias-categories}]]></textFieldExpression>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{categorias-categories}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="50" uuid="0f4b6ab7-5602-45f6-95de-0080487f01a8">
+					<jr:column width="50">
 						<jr:tableFooter height="30" rowSpan="1">
-							<textField pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
-								<reportElement x="0" y="0" width="50" height="30" uuid="44ee8054-7918-4dbe-93f2-96a7ca0710d3"/>
+							<textField>
+								<reportElement x="0" y="0" width="50" height="30"/>
 								<box>
 									<topPen lineWidth="1.0" lineStyle="Double"/>
 									<leftPen lineWidth="1.0" lineStyle="Double"/>
@@ -1188,12 +1188,12 @@
 									<rightPen lineWidth="1.0" lineStyle="Double"/>
 								</box>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
-								<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+								<textFieldExpression class="java.lang.Integer"><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
 							</textField>
 						</jr:tableFooter>
 						<jr:columnHeader height="30" rowSpan="1">
 							<staticText>
-								<reportElement mode="Transparent" x="0" y="0" width="50" height="30" uuid="eb35f544-03be-4bc0-92a6-7f067d9f8936"/>
+								<reportElement mode="Transparent" x="0" y="0" width="50" height="30"/>
 								<box>
 									<topPen lineWidth="0.25" lineStyle="Solid"/>
 									<leftPen lineWidth="0.25" lineStyle="Solid"/>
@@ -1205,8 +1205,8 @@
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell height="30" rowSpan="1">
-							<textField pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
-								<reportElement mode="Transparent" x="0" y="0" width="50" height="30" uuid="68814197-a6d8-432a-b598-e73aa71d8c42"/>
+							<textField pattern="###0.00;-###0.00" isBlankWhenNull="true">
+								<reportElement mode="Transparent" x="0" y="0" width="50" height="30"/>
 								<box>
 									<topPen lineWidth="0.25" lineStyle="Solid"/>
 									<leftPen lineWidth="0.25" lineStyle="Solid"/>
@@ -1214,14 +1214,14 @@
 									<rightPen lineWidth="0.25" lineStyle="Solid"/>
 								</box>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
-								<textFieldExpression><![CDATA[$F{Horas_nocturnas-horas_nocturnas}]]></textFieldExpression>
+								<textFieldExpression class="java.lang.Double"><![CDATA[$F{Horas_nocturnas-horas_nocturnas}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="50" uuid="7ad7730f-4f8d-41ed-8632-d39caaecfd79">
+					<jr:column width="50">
 						<jr:columnHeader height="30" rowSpan="1">
 							<staticText>
-								<reportElement mode="Transparent" x="0" y="0" width="50" height="30" uuid="0f547fdd-52b7-41a8-8432-601f286c6b97"/>
+								<reportElement mode="Transparent" x="0" y="0" width="50" height="30"/>
 								<box>
 									<topPen lineWidth="0.25" lineStyle="Solid"/>
 									<leftPen lineWidth="0.25" lineStyle="Solid"/>
@@ -1233,8 +1233,8 @@
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell height="30" rowSpan="1">
-							<textField pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
-								<reportElement mode="Transparent" x="0" y="0" width="50" height="30" uuid="8a7c2945-59e8-4795-bb9a-205d46c84f44"/>
+							<textField pattern="###0.00;-###0.00" isBlankWhenNull="true">
+								<reportElement mode="Transparent" x="0" y="0" width="50" height="30"/>
 								<box>
 									<topPen lineWidth="0.25" lineStyle="Solid"/>
 									<leftPen lineWidth="0.25" lineStyle="Solid"/>
@@ -1242,14 +1242,14 @@
 									<rightPen lineWidth="0.25" lineStyle="Solid"/>
 								</box>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
-								<textFieldExpression><![CDATA[$F{Horas_normales-horas_normal}]]></textFieldExpression>
+								<textFieldExpression class="java.lang.Double"><![CDATA[$F{Horas_normales-horas_normal}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="50" uuid="6a7cc668-57be-4a40-9447-a48fdd070e22">
+					<jr:column width="50">
 						<jr:tableFooter height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="50" height="30" uuid="ac1e0926-eb44-45f3-b261-35c220b7f84b"/>
+								<reportElement x="0" y="0" width="50" height="30"/>
 								<box>
 									<topPen lineWidth="0.75" lineStyle="Double"/>
 									<leftPen lineWidth="0.75" lineStyle="Double"/>
@@ -1262,7 +1262,7 @@
 						</jr:tableFooter>
 						<jr:columnHeader height="30" rowSpan="1">
 							<staticText>
-								<reportElement mode="Transparent" x="0" y="0" width="50" height="30" uuid="2d58131d-90db-407c-80a2-57c13e8907f6"/>
+								<reportElement mode="Transparent" x="0" y="0" width="50" height="30"/>
 								<box>
 									<topPen lineWidth="0.25" lineStyle="Solid"/>
 									<leftPen lineWidth="0.25" lineStyle="Solid"/>
@@ -1274,8 +1274,8 @@
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell height="30" rowSpan="1">
-							<textField pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
-								<reportElement mode="Transparent" x="0" y="0" width="50" height="30" uuid="a0a29f34-a1c2-4547-9b05-55a52fc26283"/>
+							<textField pattern="###0.00;-###0.00" isBlankWhenNull="true">
+								<reportElement mode="Transparent" x="0" y="0" width="50" height="30"/>
 								<box>
 									<topPen lineWidth="0.25" lineStyle="Solid"/>
 									<leftPen lineWidth="0.25" lineStyle="Solid"/>
@@ -1283,14 +1283,14 @@
 									<rightPen lineWidth="0.25" lineStyle="Solid"/>
 								</box>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
-								<textFieldExpression><![CDATA[$F{Horas_festivas-horas_festivas}]]></textFieldExpression>
+								<textFieldExpression class="java.lang.Double"><![CDATA[$F{Horas_festivas-horas_festivas}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="50" uuid="44a4c1b2-7a6c-42c0-bc66-2ebe737ac97d">
+					<jr:column width="50">
 						<jr:tableFooter height="30" rowSpan="1">
-							<textField pattern="#,##0.00 ¤" isBlankWhenNull="true">
-								<reportElement x="0" y="0" width="50" height="30" uuid="c3beff22-d94f-42e4-86e6-20b3d9270764"/>
+							<textField pattern="¤ #,##0.00">
+								<reportElement x="0" y="0" width="50" height="30"/>
 								<box>
 									<topPen lineWidth="0.75" lineStyle="Double"/>
 									<leftPen lineWidth="0.75" lineStyle="Double"/>
@@ -1298,12 +1298,12 @@
 									<rightPen lineWidth="0.75" lineStyle="Double"/>
 								</box>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
-								<textFieldExpression><![CDATA[$V{Total}.intValue()/$V{COLUMN_COUNT}.floatValue()]]></textFieldExpression>
+								<textFieldExpression class="java.lang.Double"><![CDATA[$V{Total}.intValue()/$V{COLUMN_COUNT}.floatValue()]]></textFieldExpression>
 							</textField>
 						</jr:tableFooter>
 						<jr:columnHeader height="30" rowSpan="1">
 							<staticText>
-								<reportElement mode="Transparent" x="0" y="0" width="50" height="30" uuid="baf66c09-8e6f-4101-9e7f-451be876419e"/>
+								<reportElement mode="Transparent" x="0" y="0" width="50" height="30"/>
 								<box>
 									<topPen lineWidth="0.25" lineStyle="Solid"/>
 									<leftPen lineWidth="0.25" lineStyle="Solid"/>
@@ -1315,8 +1315,8 @@
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell height="30" rowSpan="1">
-							<textField pattern="#,##0.00 ¤" isBlankWhenNull="true">
-								<reportElement mode="Transparent" x="0" y="0" width="50" height="30" uuid="577740d2-3532-4d8b-8321-994e999f6b9f"/>
+							<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
+								<reportElement mode="Transparent" x="0" y="0" width="50" height="30"/>
 								<box>
 									<topPen lineWidth="0.25" lineStyle="Solid"/>
 									<leftPen lineWidth="0.25" lineStyle="Solid"/>
@@ -1324,15 +1324,15 @@
 									<rightPen lineWidth="0.25" lineStyle="Solid"/>
 								</box>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
-								<textFieldExpression><![CDATA[$F{Cost-standard_price2}]]></textFieldExpression>
+								<textFieldExpression class="java.lang.Double"><![CDATA[$F{Cost-standard_price2}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="50" uuid="cbf1c3bb-fdaf-4280-932a-6fb29e1ec00b">
+					<jr:column width="50">
 						<jr:tableFooter height="30" rowSpan="1"/>
 						<jr:columnHeader height="30" rowSpan="1">
 							<staticText>
-								<reportElement mode="Transparent" x="0" y="0" width="50" height="30" uuid="70252bbc-324d-4f8f-94a1-ee2134c830c3"/>
+								<reportElement mode="Transparent" x="0" y="0" width="50" height="30"/>
 								<box>
 									<topPen lineWidth="0.25" lineStyle="Solid"/>
 									<leftPen lineWidth="0.25" lineStyle="Solid"/>
@@ -1344,8 +1344,8 @@
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell height="30" rowSpan="1">
-							<textField pattern="#,##0.00 ¤" isBlankWhenNull="true">
-								<reportElement mode="Transparent" x="0" y="0" width="50" height="30" uuid="fd690251-dd7f-4f2a-be1e-17ce62f6eff7"/>
+							<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
+								<reportElement mode="Transparent" x="0" y="0" width="50" height="30"/>
 								<box>
 									<topPen lineWidth="0.25" lineStyle="Solid"/>
 									<leftPen lineWidth="0.25" lineStyle="Solid"/>
@@ -1353,14 +1353,14 @@
 									<rightPen lineWidth="0.25" lineStyle="Solid"/>
 								</box>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
-								<textFieldExpression><![CDATA[$F{Cost-standard_price}]]></textFieldExpression>
+								<textFieldExpression class="java.lang.Double"><![CDATA[$F{Cost-standard_price}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="50" uuid="36b50986-c2fa-4983-912d-af1be2b51823">
+					<jr:column width="50">
 						<jr:tableFooter height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="50" height="30" uuid="66d3e3f5-a8a6-4519-9be8-5f0821b85083"/>
+								<reportElement x="0" y="0" width="50" height="30"/>
 								<box>
 									<topPen lineWidth="1.0" lineStyle="Double"/>
 									<leftPen lineWidth="1.0" lineStyle="Double"/>
@@ -1373,7 +1373,7 @@
 						</jr:tableFooter>
 						<jr:columnHeader height="30" rowSpan="1">
 							<staticText>
-								<reportElement mode="Transparent" x="0" y="0" width="50" height="30" uuid="f8ab4ee2-4260-4aa8-908e-9bc5dbb7ceab"/>
+								<reportElement mode="Transparent" x="0" y="0" width="50" height="30"/>
 								<box>
 									<topPen lineWidth="0.25" lineStyle="Solid"/>
 									<leftPen lineWidth="0.25" lineStyle="Solid"/>
@@ -1385,8 +1385,8 @@
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell height="30" rowSpan="1">
-							<textField pattern="#,##0.00 ¤" isBlankWhenNull="true">
-								<reportElement mode="Transparent" x="0" y="0" width="50" height="30" uuid="32e0eaa3-4818-4b35-9d83-6e58c0a326d9"/>
+							<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
+								<reportElement mode="Transparent" x="0" y="0" width="50" height="30"/>
 								<box>
 									<topPen lineWidth="0.25" lineStyle="Solid"/>
 									<leftPen lineWidth="0.25" lineStyle="Solid"/>
@@ -1394,14 +1394,14 @@
 									<rightPen lineWidth="0.25" lineStyle="Solid"/>
 								</box>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
-								<textFieldExpression><![CDATA[$F{Cost-standard_price3}]]></textFieldExpression>
+								<textFieldExpression class="java.lang.Double"><![CDATA[$F{Cost-standard_price3}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="70" uuid="b8fb90c5-5591-4be9-a321-7b29c7219148">
+					<jr:column width="70">
 						<jr:tableFooter height="30" rowSpan="1">
-							<textField isBlankWhenNull="true">
-								<reportElement x="0" y="0" width="70" height="30" uuid="88bc7492-4a60-4f11-aaa2-45023e965841"/>
+							<textField>
+								<reportElement x="0" y="0" width="70" height="30"/>
 								<box>
 									<topPen lineWidth="1.0" lineStyle="Double"/>
 									<leftPen lineWidth="1.0" lineStyle="Double"/>
@@ -1409,12 +1409,12 @@
 									<rightPen lineWidth="1.0" lineStyle="Double"/>
 								</box>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
-								<textFieldExpression><![CDATA[$V{Total}]]></textFieldExpression>
+								<textFieldExpression class="java.lang.Double"><![CDATA[$V{Total}]]></textFieldExpression>
 							</textField>
 						</jr:tableFooter>
 						<jr:columnHeader height="30" rowSpan="1">
 							<staticText>
-								<reportElement mode="Transparent" x="0" y="0" width="70" height="30" uuid="b8d1dd1f-88cd-4f94-bce5-50fb336df157"/>
+								<reportElement mode="Transparent" x="0" y="0" width="70" height="30"/>
 								<box>
 									<topPen lineWidth="0.25" lineStyle="Solid"/>
 									<leftPen lineWidth="0.25" lineStyle="Solid"/>
@@ -1426,8 +1426,8 @@
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell height="30" rowSpan="1">
-							<textField pattern="#,##0.00 ¤" isBlankWhenNull="true">
-								<reportElement mode="Transparent" x="0" y="0" width="70" height="30" uuid="5c2cc11c-7308-4aa9-8e00-38cb310b0ab3"/>
+							<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
+								<reportElement mode="Transparent" x="0" y="0" width="70" height="30"/>
 								<box>
 									<topPen lineWidth="0.25" lineStyle="Solid"/>
 									<leftPen lineWidth="0.25" lineStyle="Solid"/>
@@ -1435,43 +1435,40 @@
 									<rightPen lineWidth="0.25" lineStyle="Solid"/>
 								</box>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
-								<textFieldExpression><![CDATA[$F{Total-total}]]></textFieldExpression>
+								<textFieldExpression class="java.lang.Double"><![CDATA[$F{Total-total}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
 				</jr:table>
 			</componentElement>
 			<staticText>
-				<reportElement positionType="Float" x="2" y="13" width="532" height="20" uuid="825f9cc9-8a94-47b9-8f4f-0b18996a76aa"/>
+				<reportElement positionType="Float" x="2" y="13" width="532" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Bottom">
 					<font size="17"/>
 				</textElement>
 				<text><![CDATA[RECURSOS AJENOS]]></text>
 			</staticText>
 		</band>
-		<band height="159" splitType="Prevent">
+		<band height="148" splitType="Prevent">
 			<staticText>
-				<reportElement positionType="Float" x="6" y="21" width="40" height="10" isPrintWhenDetailOverflows="true" uuid="e2ffd9e9-973f-45e2-ac2e-b8c8a21ac336"/>
+				<reportElement positionType="Float" x="6" y="21" width="40" height="10" isPrintWhenDetailOverflows="true"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<text><![CDATA[INFORME:]]></text>
 			</staticText>
 			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="54" y="21" width="494" height="50" isPrintWhenDetailOverflows="true" uuid="d3ff17d0-b3dc-45fe-93a5-5ae44e3722f3"/>
-				<textFieldExpression><![CDATA[$F{Notas-note}]]></textFieldExpression>
+				<reportElement positionType="Float" x="54" y="21" width="494" height="50" isPrintWhenDetailOverflows="true"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{Notas-note}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement positionType="Float" x="10" y="92" width="75" height="10" isPrintWhenDetailOverflows="true" uuid="1f37794b-2c74-4e36-bfa4-6dea1e91df3f"/>
+				<reportElement positionType="Float" x="10" y="92" width="75" height="10" isPrintWhenDetailOverflows="true"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<text><![CDATA[ACCIÓN TOMADA:]]></text>
 			</staticText>
-			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="54" y="105" width="494" height="50" isPrintWhenDetailOverflows="true" uuid="b6f185f5-32b8-4684-a11f-8df72f479f82"/>
-				<textFieldExpression><![CDATA[$F{Action_taken-action_taken}]]></textFieldExpression>
-			</textField>
 		</band>
 	</detail>
 </jasperReport>
