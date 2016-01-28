@@ -18,44 +18,44 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import osv,fields
+from openerp.osv import orm, fields
 
-class stock_picking(osv.osv):
-    _inherit = 'stock.picking'
-    
-    def _get_invoice_type(self, pick):
-        src_usage = dest_usage = None
-        inv_type = None
-        if pick.invoice_state == '2binvoiced':
-            if pick.move_lines:
-                src_usage = pick.move_lines[0].location_id.usage
-                dest_usage = pick.move_lines[0].location_dest_id.usage
-            if pick.type == 'out' and dest_usage == 'supplier':
-                inv_type = 'in_refund'
-            elif pick.type == 'out' and dest_usage == 'customer':
-                inv_type = 'out_invoice'
-            elif pick.type == 'in' and src_usage == 'supplier':
-                inv_type = 'in_invoice'
-            elif pick.type == 'in' and src_usage == 'customer':
-                inv_type = 'out_refund'
-            elif pick.type == 'in':
-                inv_type = 'in_invoice'
-            else:
-                inv_type = 'out_invoice'
-        return inv_type
+# POST-MIGRATION: odoo lo hace por defecto
+# class stock_picking(osv.osv):
+#     _inherit = 'stock.picking'
+#
+#     def _get_invoice_type(self, pick):
+#         src_usage = dest_usage = None
+#         inv_type = None
+#         if pick.invoice_state == '2binvoiced':
+#             if pick.move_lines:
+#                 src_usage = pick.move_lines[0].location_id.usage
+#                 dest_usage = pick.move_lines[0].location_dest_id.usage
+#             if pick.type == 'out' and dest_usage == 'supplier':
+#                 inv_type = 'in_refund'
+#             elif pick.type == 'out' and dest_usage == 'customer':
+#                 inv_type = 'out_invoice'
+#             elif pick.type == 'in' and src_usage == 'supplier':
+#                 inv_type = 'in_invoice'
+#             elif pick.type == 'in' and src_usage == 'customer':
+#                 inv_type = 'out_refund'
+#             elif pick.type == 'in':
+#                 inv_type = 'in_invoice'
+#             else:
+#                 inv_type = 'out_invoice'
+#         return inv_type
+#
+# stock_picking()
 
-stock_picking()
-
-class stock_incoterms(osv.osv):
+class stock_incoterms(orm.Model):
     _inherit = "stock.incoterms" 
     #Ponemos el campo name como traducible
     _columns = {
         'name': fields.char('Name', size=64, required=True, translate=True, help="Incoterms are series of sales terms.They are used to divide transaction costs and responsibilities between buyer and seller and reflect state-of-the-art transportation practices."),
     }
 
-stock_incoterms()
 
-class stock_move(osv.osv):
+class stock_move(orm.Model):
     _inherit = 'stock.move'
 
     def onchange_quantity(self, cr, uid, ids, product_id, product_qty,
@@ -90,6 +90,3 @@ class stock_move(osv.osv):
             res['domain'] = {'product_uom': [], 'product_uos': []} 
         
         return res
-
-stock_move()
-
