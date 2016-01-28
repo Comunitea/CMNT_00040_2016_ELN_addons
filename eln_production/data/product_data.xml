@@ -3,15 +3,15 @@
 <openerp>
     <data noupdate="0">
         <record id="cat10" model="product.category">
-            <field name="parent_id" ref="product.cat0"/>
+            <field name="parent_id" ref="product.product_category_all"/>
             <field name="name">Materia Prima</field>
         </record>
         <record id="cat11" model="product.category">
-            <field name="parent_id" ref="product.cat0"/>
+            <field name="parent_id" ref="product.product_category_all"/>
             <field name="name">Semiterminado</field>
         </record>
         <record id="cat12" model="product.category">
-            <field name="parent_id" ref="product.cat0"/>
+            <field name="parent_id" ref="product.product_category_all"/>
             <field name="name">Producto Final</field>
         </record>
     </data>

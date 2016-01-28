@@ -39,11 +39,12 @@
                 'mrp_production_reopen'
                 ],
     "init_xml" : [],
-    "data" : [      #'data/product_data.xml',
+    "data" : [
+                    'data/product_data.xml',
                     'data/stock_production_lot_seq.xml',
                     'security/mrp_security.xml',
                     'mrp_workflow.xml',
-                    #'mrp_view.xml',
+                    'mrp_view.xml',
                     'product_view.xml',
                     'stock_production_lot_view.xml',
                     'security/ir.model.access.csv',
