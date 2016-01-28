@@ -28,7 +28,7 @@
     'website': 'www.pexego.es',
     'license': 'AGPL-3',
     "depends" : ['base',
-                # 'jasper_reports', modificado post-migración
+                'jasper_reports',
                 'stock_valued_picking',
                 'stock',
                 'report_webkit',
@@ -36,20 +36,20 @@
 				'eln_production',
                 ],
     "init_xml" : [],
-    # "update_xml" : ['res_users_view.xml',
-    #                 'mrp_view.xml',
+    "data" : ['res_users_view.xml',
+                    'mrp_view.xml',
 
-    #                 'report/planning_report/planning_report_webkit_header.xml',
-    #                 'wizard/planning_report_wizard_view.xml',
+                    # 'report/planning_report/planning_report_webkit_header.xml',
+                    'wizard/planning_report_wizard_view.xml',
                     
-    #                 'wizard/purchase_order_report_wizard_view.xml',
-    #                 'wizard/product_datasheet_report_wizard_view.xml',
-    #                 'wizard/product_logistics_sheet_report_wizard_view.xml',
+                    'wizard/purchase_order_report_wizard_view.xml',
+                    'wizard/product_datasheet_report_wizard_view.xml',
+                    'wizard/product_logistics_sheet_report_wizard_view.xml',
 
-    #                 'security/ir.model.access.csv',
+                    'security/ir.model.access.csv',
                     
-    #                 'eln_reports.xml',
-    #               ],
+                    'eln_reports.xml',
+                  ],
 
     "demo_xml" : [],
     "active": False,

@@ -65,16 +65,17 @@
             header="False"
             auto="True"
             />
-        <report
-            string="Plannnig"
-            model="stock.picking"
-            name="planning_report"
-            file="eln_reports/report/planning_report/planning_report_webkit.mako"
-            id="report_planning_webkit_html"
-            report_type="webkit"
-            webkit_header="eln_reports.ir_header_webkit_planning_report"
-            auto="False"
-            />
+        <!--POST-MIGRATION-->
+        <!--<report-->
+            <!--string="Plannnig"-->
+            <!--model="stock.picking"-->
+            <!--name="planning_report"-->
+            <!--file="eln_reports/report/planning_report/planning_report_webkit.mako"-->
+            <!--id="report_planning_webkit_html"-->
+            <!--report_type="webkit"-->
+            <!--webkit_header="eln_reports.ir_header_webkit_planning_report"-->
+            <!--auto="False"-->
+            <!--/>-->
         <report
             string="Packing list (Std)"
             model="stock.picking"

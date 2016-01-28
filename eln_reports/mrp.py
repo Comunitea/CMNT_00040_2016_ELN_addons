@@ -18,9 +18,10 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from osv import osv, fields
+from openerp.osv import orm, fields
 
-class mrp_workcenter(osv.osv):
+
+class mrp_workcenter(orm.Model):
     _inherit = 'mrp.workcenter'
     _columns = {
         'control_sheet_packing': fields.boolean('Control sheet packing'),
@@ -29,5 +30,4 @@ class mrp_workcenter(osv.osv):
         'control_sheet_fried': fields.boolean('Control sheet fried'),
         'control_sheet_mixed': fields.boolean('Control sheet mixed'),
     }
-    
-mrp_workcenter()
+

@@ -18,10 +18,9 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-import pooler
-import jasper_reports
-from datetime import datetime
-from tools.translate import _
+
+from openerp.addons import jasper_reports
+
 
 
 def parser( cr, uid, ids, data, context ):

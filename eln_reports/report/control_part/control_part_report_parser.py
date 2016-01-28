@@ -18,10 +18,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-import pooler
-import jasper_reports
-from datetime import datetime
-from tools.translate import _
+from openerp.addons import jasper_reports
 
 
 def parser( cr, uid, ids, data, context ):
@@ -34,7 +31,7 @@ def parser( cr, uid, ids, data, context ):
 
     #import ipdb; ipdb.set_trace()
 
-    for production in pooler.get_pool(cr.dbname).get('mrp.production').browse(cr, uid, ids):
+    for production in self.pool.get(cr.dbname).get('mrp.production').browse(cr, uid, ids):
         if production.routing_id and production.routing_id.workcenter_lines:
             for line in production.routing_id.workcenter_lines:                
                 control_sheet_packing = control_sheet_packing or line.workcenter_id.control_sheet_packing

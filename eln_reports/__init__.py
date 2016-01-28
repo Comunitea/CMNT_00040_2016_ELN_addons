@@ -18,10 +18,10 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-# import stock
-# import purchase
-# import mrp
-# import res_users
-# import wizard
-# import report
+import stock
+import purchase
+import mrp
+import res_users
+import wizard
+import report
 

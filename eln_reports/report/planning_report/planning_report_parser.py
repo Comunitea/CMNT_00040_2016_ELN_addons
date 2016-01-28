@@ -18,12 +18,9 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-import time
-import re
-from report import report_sxw
-from tools.translate import _
-import calendar
+from openerp.report import report_sxw
 import datetime
+
 
 class planning_report_parser(report_sxw.rml_parse):
 

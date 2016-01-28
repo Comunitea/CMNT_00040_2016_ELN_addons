@@ -19,7 +19,7 @@
 #
 ##############################################################################
 from openerp.osv import osv, fields
-import time
+
 
 class planning_report_wizard(osv.osv_memory):
     _name = 'planning.report.wizard'
