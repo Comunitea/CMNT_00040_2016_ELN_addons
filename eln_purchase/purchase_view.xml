@@ -23,23 +23,25 @@
                 <field name="company_id" position="after">
                     <field name="container_numbers" />
                 </field>
-                <field name="warehouse_id" position="replace">
-                    <field name="warehouse_id" on_change="onchange_warehouse_id(warehouse_id)" widget="selection" required="1"/> 
-                </field>
+                <!-- POST MIGRATION: no necesario, se cambia el tipo d eoperación, que ya puede implicar un cambio de almacén-->
+                <!--<field name="warehouse_id" position="replace">-->
+                    <!--<field name="warehouse_id" on_change="onchange_warehouse_id(warehouse_id)" widget="selection" required="1"/> -->
+                <!--</field>-->
             </field>
         </record>
 
-        <record id="purchase_order_tree" model="ir.ui.view">
-            <field name="name">purchase.order.tree</field>
-            <field name="model">purchase.order</field>
-            <field name="inherit_id" ref="purchase.purchase_order_tree"/>
-            <field name="type">tree</field>
-            <field name="arch" type="xml">
-                <field name="origin" position="before">
-                    <field name="warehouse_id" invisible="1"/>
-                </field>
-            </field>
-        </record>
+        <!-- POST MIGRATION: no necesario, se cambia el tipo d eoperación, que ya puede implicar un cambio de almacén-->
+        <!--<record id="purchase_order_tree" model="ir.ui.view">-->
+            <!--<field name="name">purchase.order.tree</field>-->
+            <!--<field name="model">purchase.order</field>-->
+            <!--<field name="inherit_id" ref="purchase.purchase_order_tree"/>-->
+            <!--<field name="type">tree</field>-->
+            <!--<field name="arch" type="xml">-->
+                <!--<field name="origin" position="before">-->
+                    <!--<field name="warehouse_id" invisible="1"/>-->
+                <!--</field>-->
+            <!--</field>-->
+        <!--</record>-->
 
         <record id="view_purchase_order_filter" model="ir.ui.view">
             <field name="name">purchase.order.list.select</field>
@@ -51,9 +53,10 @@
                     <newline/>
                     <field name="name" string="Reference"/>
                 </field>
-                <field name="product_id" position="before">
-                    <field name="warehouse_id" widget="selection"/>
-                </field>
+                 <!-- POST MIGRATION: no necesario, se cambia el tipo d eoperación, que ya puede implicar un cambio de almacén-->
+                <!--<field name="product_id" position="before">-->
+                    <!--<field name="warehouse_id" widget="selection"/>-->
+                <!--</field>-->
             </field>
         </record>
 

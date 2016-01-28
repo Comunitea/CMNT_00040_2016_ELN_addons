@@ -19,9 +19,10 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import osv, fields
+from openerp.osv import orm, fields
 
-class res_partner(osv.osv):
+
+class res_partner(orm.Model):
     _inherit = 'res.partner'
     _columns = {
         'product_ids': fields.one2many('partner.product', 'partner_id', 'Price list'),
@@ -33,17 +34,15 @@ class res_partner(osv.osv):
             view_load=True,
             help="This pricelist will be used, instead of the default one, for indirect sales invoicing to the current partner"),
     }
-    
-res_partner()
 
-class partner_product(osv.osv):
+
+class partner_product(orm.Model):
     _name = 'partner.product'
     _columns = {
         'name': fields.char('Product Code', size=32, required=True),
         'product_id': fields.many2one('product.product', 'Product', required=True),
         'partner_id': fields.many2one('res.partner', 'Partner', required=True),
     }
-    
-partner_product()
+
 
 

@@ -18,9 +18,9 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-# import wizard
+import wizard
 import res_partner
-# import product
-# import sale
+import product
+import sale
 import stock
-# import sale_shop
+# import sale_shop  post migration no existe en odoo

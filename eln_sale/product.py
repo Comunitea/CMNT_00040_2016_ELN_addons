@@ -18,10 +18,10 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import osv, fields
+from openerp.osv import orm, fields
 import re
 
-class product_product(osv.osv):
+class product_product(orm.Model):
     _inherit = 'product.product'
 
     def name_search(self, cr, user, name='', args=None, operator='ilike', context=None, limit=100):

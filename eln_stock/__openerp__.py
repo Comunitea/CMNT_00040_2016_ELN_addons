@@ -28,12 +28,12 @@
     'website': 'www.elnogal.com',
     "depends" : ['base',
                 'stock',
-                # 'stock_location', comentado post-migración
+                # 'stock_location',
                 ],
     "init_xml" : [],
-    # "update_xml" : [
-    #                 'stock_view.xml',
-    #                 ],
+    "data" : [
+                    'stock_view.xml',
+                    ],
     "demo_xml" : [],
     "active": False,
     "installable": True

@@ -3,24 +3,23 @@
 <openerp>
     <data>
         <!--POST-MIGRATION comentaod-->
-        <!--<record id="view_partner_form_add_list_price" model="ir.ui.view">-->
-            <!--<field name="name">res.partner.form.add.listprice</field>-->
-            <!--<field name="model">res.partner</field>-->
-            <!--<field name="inherit_id" ref="base.view_partner_form"/>-->
-            <!--<field name="type">form</field>-->
-            <!--<field name="arch" type="xml">-->
-                <!--<page string="Notes" position="before">-->
-                    <!--<page string="Products">-->
-                        <!--<field name="product_ids" nolabel="1" colspan="4">-->
-                            <!--<tree string="Products" editable="top">-->
-                                <!--<field name="name"/>                                -->
-                                <!--<field name="product_id"/>-->
-                            <!--</tree>-->
-                        <!--</field>-->
-                    <!--</page>-->
-                <!--</page>-->
-            <!--</field>-->
-        <!--</record>-->
+        <record id="view_partner_form_add_list_price" model="ir.ui.view">
+            <field name="name">res.partner.form.add.listprice</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <notebook position="inside">
+                    <page string="Products">
+                        <field name="product_ids" nolabel="1" colspan="4">
+                            <tree string="Products" editable="top">
+                                <field name="name"/>
+                                <field name="product_id"/>
+                            </tree>
+                        </field>
+                    </page>
+                </notebook>
+            </field>
+        </record>
 
         <record id="view_partner_form_add_pricelist_indirect_invoicing" model="ir.ui.view">
             <field name="name">res.partner.form.add.pricelist.indirect.invoicing</field>

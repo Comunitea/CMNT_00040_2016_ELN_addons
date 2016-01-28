@@ -76,4 +76,3 @@ class stock_move(orm.Model):
     _columns = {
         'supplier_id': fields.many2one('res.partner', 'Supplier', readonly=True,domain = [('supplier','=',True)],states={'draft': [('readonly', False)]}, select=True)
     }
-

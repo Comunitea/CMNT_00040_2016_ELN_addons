@@ -18,12 +18,11 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from openerp.osv import fields, orm
+import openerp.addons.decimal_precision as dp
 
-from openerp.osv import fields, osv
-import decimal_precision as dp
 
-
-class product_product(osv.osv):
+class product_template(orm.Model):
 
     def _get_product_samples(self, cr, uid, ids, field_name, arg, context):
         """
@@ -41,10 +40,9 @@ class product_product(osv.osv):
             
         return res
 
-    _inherit = 'product.product'
+    _inherit = 'product.template'
 
     _columns = {
         'remaining_samples':fields.function(_get_product_samples, method=True, string='Samples', type='float', digits_compute=dp.get_precision('Product UoM'), help="Given Samples (in UoM)", readonly=True),
     }
 
-product_product()

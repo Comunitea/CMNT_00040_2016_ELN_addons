@@ -18,32 +18,31 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import osv, fields
+from openerp.osv import orm, fields
 
-class stock_picking(osv.osv):
-    _inherit = 'stock.picking'
+# POST-MIGRATION: Se propaga el tipo de operación de la compra al albarán. Esto no es necesario
+# class stock_picking(orm.Model):
+#     _inherit = 'stock.picking'
+#
+#     def _get_warehouse(self, cr, uid, ids, field_name, args, context=None):
+#         if context is None:
+#             context = {}
+#         res = {}
+#         for picking in self.browse(cr, uid, ids, context=context):
+#             res[picking.id] = picking.purchase_id and picking.purchase_id.warehouse_id and picking.purchase_id.warehouse_id.id or False
+#
+#         return res
+#
+#     _columns = {
+#         'warehouse_id': fields.function(_get_warehouse, method=True, string='Warehouse', relation='stock.warehouse', type='many2one', store=True, readonly=True),
+#     }
 
-    def _get_warehouse(self, cr, uid, ids, field_name, args, context=None):
-        if context is None:
-            context = {}
-        res = {}
-        for picking in self.browse(cr, uid, ids, context=context):
-            res[picking.id] = picking.purchase_id and picking.purchase_id.warehouse_id and picking.purchase_id.warehouse_id.id or False
 
-        return res
-
-    _columns = {
-        'warehouse_id': fields.function(_get_warehouse, method=True, string='Warehouse', relation='stock.warehouse', type='many2one', store=True, readonly=True),
-    }
-
-stock_picking()
-
-class stock_warehouse(osv.osv):
+class stock_warehouse(orm.Model):
     _inherit = "stock.warehouse"
     
 #    Añadimos este check para indicar si el almacen es depósito.
     _columns = {
         'good_warehouse': fields.boolean('Good Warehouse', help="Check the good warehouse field if the warehouse is a good warehouse."),
     }
-    
-stock_warehouse()
+

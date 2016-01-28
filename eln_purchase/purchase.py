@@ -18,9 +18,10 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import osv, fields
+from openerp.osv import orm, fields
 
-class purchase_order(osv.osv):
+
+class purchase_order(orm.Model):
     _inherit = 'purchase.order'
 
     def _get_products_names(self, cr, uid, ids, field_name, args, context=None):
@@ -48,9 +49,3 @@ class purchase_order(osv.osv):
     _defaults = {
         'invoice_method': 'picking',
     }
-purchase_order()
-
-
-
-
-

@@ -19,35 +19,30 @@
 #
 ##############################################################################
 
-from osv import osv
-from tools.translate import _
-import netsvc
-import pooler
+from openerp.osv import orm
+from openerp import _
 
-class sale_order_confirm(osv.osv_memory):
+
+class sale_order_confirm(orm.TransientModel):
     """
     This wizard will confirm the all the selected draft sales orders
     """
 
     _name = "sale.order.confirm"
-    _description = "Confirm the selected sales orders"
+
 
     def sale_order_confirm(self, cr, uid, ids, context=None):
-        wf_service = netsvc.LocalService('workflow')
         if context is None:
             context = {}
-        pool_obj = pooler.get_pool(cr.dbname)
-        data_sale = pool_obj.get('sale.order').read(cr, uid, context['active_ids'], ['state', 'order_line'], context=context)
+
+        data_sale = self.pool.get('sale.order').read(cr, uid, context['active_ids'], ['state', 'order_line'], context=context)
 
         for record in data_sale:
             if record['state'] not in ('draft',):
-                raise osv.except_osv(_('Warning'), _("Selected Sale(s) cannot be confirmed as they are not in 'Draft' state!"))
+                raise orm.except_orm(_('Warning'), _("Selected Sale(s) cannot be confirmed as they are not in 'Draft' state!"))
             if not record['order_line']:
-                raise osv.except_osv(_('Warning'), _("You cannot confirm a sale order which has no line."))
+                raise orm.except_orm(_('Warning'), _("You cannot confirm a sale order which has no line."))
         for record in data_sale:
-            wf_service.trg_validate(uid, 'sale.order', record['id'], 'draft_to_risk', cr)
+            self.pool.get('sale.order').signal_workflow(cr, uid, [record['id']], 'draft_to_risk')
             #wf_service.trg_validate(uid, 'sale.order', record['id'], 'order_confirm', cr)
-            
         return {'type': 'ir.actions.act_window_close'}
-
-sale_order_confirm()
