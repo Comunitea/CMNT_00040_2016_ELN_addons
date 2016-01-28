@@ -40,7 +40,7 @@
                 'account_analytic_default',
                 'account_analytic_plans',
                 #'picking_invoice_rel', este modiulo no se instala, su funcionlidad se sustituye por el stock_picking_invoice_linf
-                'stock_picking_invoice_link'
+                # 'stock_picking_invoice_link',  comentado post-migration
                 'sale_early_payment_discount',
                 'eln_edi',
                 'document',
