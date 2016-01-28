@@ -8,19 +8,21 @@
             <field name="inherit_id" ref="stock.view_picking_form"/>
             <field name="type">form</field>
             <field name="arch" type="xml">
-                <field name="address_id" position="after">
+                <field name="partner_id" position="after">
                     <field name="supplier_id"/>
                     <field name="carrier_id"/>
+                   <field name="supplier_cip"/>
                 </field>
                 <field name="min_date" position="after">
                     <field name="commitment_date"/>
                 </field>
-                <field name="auto_picking" position="replace"> 
-                    <group col="4" colspan="2" >
-                       <field name="auto_picking"/>
-                       <field name="supplier_cip"/>
-                    </group>
-                </field>
+                <!--POSTMIGRATION: Comentado y puesto arriba-->
+                <!--<field name="auto_picking" position="replace"> -->
+                    <!--<group col="4" colspan="2" >-->
+                        <!--<field name="auto_picking"/>-->
+                     <!--<field name="supplier_cip"/>-->
+                    <!--</group>-->
+                <!--</field>-->
             </field>
         </record>
         
@@ -31,7 +33,7 @@
             <field name="type">tree</field>
             <field eval="6" name="priority"/>
             <field name="arch" type="xml">
-                <field name="partner_id" position="after">
+                <field name="state" position="after">
                     <field name="supplier_id"/>
                 </field>
             </field>
@@ -57,7 +59,7 @@
             <field name="type">search</field>
             <field eval="3" name="priority"/>
             <field name="arch" type="xml">
-                <field name="address_id" position="after">
+                <field name="partner_id" position="after">
                     <field name="supplier_id"/>
                 </field>
                 <filter name="groupby_date" position="after">
@@ -74,32 +76,18 @@
             <field name="inherit_id" ref="stock.view_picking_form"/>
             <field name="type">form</field>
             <field name="arch" type="xml">
-                <xpath expr="//notebook/page[@string='Products']/field[@name='move_lines']/tree[@string='Stock Moves']/field[@name='product_uos']" position="before">
-                    <field name="product_uos_qty" groups="product.group_uos"/>
-                </xpath>
                 <field name="origin" position="after">
                     <field name="client_order_ref"/>
                 </field>
             </field>
         </record>
-        
-        <record id="view_picking_form" model="ir.ui.view">
-            <field name="name">stock.picking.form</field>
-            <field name="model">stock.picking</field>
-            <field name="inherit_id" ref="stock.view_picking_form"/>
-            <field name="type">form</field>
-            <field name="arch" type="xml">
-                <xpath expr="//notebook/page[@string='Products']/field[@name='move_lines']/tree[@string='Stock Moves']/field[@name='product_uos']" position="before">
-                    <field name="product_uos_qty" groups="product.group_uos"/>
-                </xpath>
-            </field>
-        </record>
-        
+
+
         <record id="view_picking_out_search" model="ir.ui.view">
             <field name="name">stock.picking.out.search</field>
             <field name="model">stock.picking</field>
             <field name="type">search</field>
-            <field name="inherit_id" ref="stock.view_picking_out_search" />
+            <field name="inherit_id" ref="stock.view_picking_internal_search" />
             <field name="arch" type="xml">
                 <field name="name" position="replace">
                     <filter icon="terp-check" string="Direct Invoicing" domain="['|',('sale_id.shop_id.indirect_invoicing','=',False), ('sale_id','=',False)]"/>

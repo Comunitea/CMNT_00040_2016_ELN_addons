@@ -18,13 +18,14 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import osv, fields
+from openerp.osv import orm, fields
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from openerp.tools.translate import _
 import time
 
-class sale_order(osv.osv):
+
+class sale_order(orm.Model):
     _inherit = 'sale.order'
 
     _columns = {
@@ -98,7 +99,7 @@ class sale_order(osv.osv):
 
 sale_order()
 
-class sale_order_line(osv.osv):
+class sale_order_line(orm.Model):
     _inherit = 'sale.order.line'
 
     def product_uos_change(self, cursor, user, ids, pricelist, product, qty=0,
