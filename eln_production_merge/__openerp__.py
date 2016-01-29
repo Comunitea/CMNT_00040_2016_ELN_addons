@@ -33,8 +33,8 @@
                  'mrp_operations',
                 ],
     "init_xml" : [],
-    # "update_xml" : ["wizard/mrp_production_merge_view.xml"
-    #                 ],
+    "update_xml" : ["wizard/mrp_production_merge_view.xml"
+                    ],
     "demo_xml" : [],
     "active": False,
     "installable": True

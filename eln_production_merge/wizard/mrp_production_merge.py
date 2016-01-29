@@ -18,10 +18,11 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import osv, fields
+from openerp.osv import orm, fields
 from openerp.tools.translate import _
 
-class mrp_production_merge(osv.osv_memory):
+
+class mrp_production_merge(orm.TransientModel):
     _name = "mrp.production.merge"
     _columns = {
         'valid_production_id': fields.many2one('mrp.production', 'Production to keep', required=True),
@@ -51,6 +52,3 @@ class mrp_production_merge(osv.osv_memory):
                 'view_id': False,
                 'type': 'ir.actions.act_window'
             }
-
-
-mrp_production_merge()

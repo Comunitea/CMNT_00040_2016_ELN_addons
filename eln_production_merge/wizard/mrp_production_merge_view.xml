@@ -4,7 +4,7 @@
     <data>
          <record id="view_mrp_production_merge" model="ir.ui.view">
             <field name="name">Mrp production merge</field>
-            <field name="model">mrp.productin.merge</field>
+            <field name="model">mrp.production.merge</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Unify productions">

@@ -18,12 +18,12 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import osv
+from openerp.osv import orm
 from openerp.osv import fields
 from openerp.tools.translate import _
 from openerp import netsvc
 
-class mrp_production(osv.osv):
+class mrp_production(orm.Model):
     _inherit = 'mrp.production'
 
     _columns = {
@@ -84,7 +84,3 @@ class mrp_production(osv.osv):
         wizard.change_prod_qty(cr, uid, [wizard.create(cr, uid, {'product_qty': product_qty})], ctx)
 
         return ids[0]
-
-mrp_production()
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
