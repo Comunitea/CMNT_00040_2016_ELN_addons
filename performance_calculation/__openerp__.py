@@ -28,14 +28,14 @@
     "depends" : ["base", "product","stock", "mrp", "eln_production", "eln_custom"],
     "category" : "Manufacturing",
     "init_xml" : [],
-    # "update_xml" : [
-    #                 "mrp_indicators_view.xml",
-    #                 "wizard/performance_calculation_view.xml",
-    #                 "wizard/reworks_view.xml",
-    #                 "stock_view.xml",
-    #                 "stock_move_view.xml",
-    #                 "security/ir.model.access.csv"
-    #                 ],
+    "data" : [
+                    "mrp_indicators_view.xml",
+                    "wizard/performance_calculation_view.xml",
+                    "wizard/reworks_view.xml",
+                    "stock_view.xml",
+                    "stock_move_view.xml",
+                    "security/ir.model.access.csv"
+                    ],
     'demo_xml': [],
     'installable': True,
     'active': False,

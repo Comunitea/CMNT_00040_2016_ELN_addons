@@ -18,12 +18,13 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import osv, fields
+from openerp.osv import orm, fields
 import time
 from datetime import datetime
 from openerp.tools.translate import _
 
-class performance_calculation(osv.osv_memory):
+
+class performance_calculation(orm.TransientModel):
 
     _name = 'performance.calculation'
     _columns = {

@@ -18,10 +18,11 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import osv, fields
-import decimal_precision as dp
+from openerp.osv import orm, fields
+from openerp.addons.decimal_precision import decimal_precision as dp
 
-class mrp_indicators(osv.osv):
+
+class mrp_indicators(orm.Model):
     _name = 'mrp.indicators'
     _columns = {
         'name': fields.char('Name', size=255, required=True),
@@ -32,9 +33,9 @@ class mrp_indicators(osv.osv):
         'company_id': fields.many2one('res.company', 'Company'),
         'report_name': fields.char('Report', size=255)
     }
-mrp_indicators()
 
-class mrp_indicators_line(osv.osv):
+
+class mrp_indicators_line(orm.Model):
     _name = 'mrp.indicators.line'
     _columns = {
         'name': fields.char('Name', size=255, required=True),
@@ -57,9 +58,9 @@ class mrp_indicators_line(osv.osv):
         'quality': fields.float('Quality'),
         'indicator_id': fields.many2one('mrp.indicators', 'Indicator', required=True)
     }
-mrp_indicators_line()
 
-class mrp_indicators_averages(osv.osv):
+
+class mrp_indicators_averages(orm.Model):
     _name = 'mrp.indicators.averages'
     _columns = {
         'name': fields.char('Name', size=255, required=True),
@@ -69,9 +70,9 @@ class mrp_indicators_averages(osv.osv):
         'quality': fields.float('Quality'),
         'indicator_id': fields.many2one('mrp.indicators', 'Incicator', required=True)
     }
-mrp_indicators_averages()
 
-class mrp_indicators_scrap(osv.osv):
+
+class mrp_indicators_scrap(orm.Model):
 
     _name = 'mrp.indicators.scrap'
     _columns = {
@@ -83,9 +84,8 @@ class mrp_indicators_scrap(osv.osv):
         'report_name': fields.char('Report', size=255)
     }
 
-mrp_indicators_scrap()
 
-class mrp_indicators_scrap_line(osv.osv):
+class mrp_indicators_scrap_line(orm.Model):
 
     _name = 'mrp.indicators.scrap.line'
     _columns = {
@@ -103,5 +103,3 @@ class mrp_indicators_scrap_line(osv.osv):
         'usage_cost': fields.float('Usage', digits_compute=dp.get_precision('Product UoM'), select=True),
         'indicator_id': fields.many2one('mrp.indicators.scrap', 'Indicator', required=True),
     }
-
-mrp_indicators_scrap_line()

@@ -18,9 +18,10 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import osv, fields
+from openerp.osv import orm, fields
 
-class stock_move(osv.osv):
+
+class stock_move(orm.Model):
     _inherit = 'stock.move'
     _columns = {
         'reworked': fields.boolean('Reworked')
@@ -36,22 +37,16 @@ class stock_move(osv.osv):
                 self.pool.get('stock.move').write(cr, uid, res, {'reworked': True})
         return res
 
-stock_move()
 
-class stock_production_lot(osv.osv):
+class stock_production_lot(orm.Model):
     _inherit = 'stock.production.lot'
     _columns = {
         'recovery': fields.boolean('Recovery')
     }
-    
-stock_production_lot()
 
-class stock_location(osv.osv):
+
+class stock_location(orm.Model):
     _inherit = 'stock.location'
     _columns = {
         'reworks_location': fields.boolean('Reworks location', help='Check this box to generate reworks when create a scrap move to this location. Should also mark the check box "Scrap Location".')
     }
-    
-stock_location()
-
-

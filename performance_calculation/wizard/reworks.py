@@ -18,13 +18,14 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import osv, fields
-import decimal_precision as dp
+from openerp.osv import orm, fields
+from openerp.addons.decimal_precision import decimal_precision as dp
 import time
 from datetime import datetime
 from openerp.tools.translate import _
 
-class recover_full_product(osv.osv_memory):
+
+class recover_full_product(orm.TransientModel):
 
     _name = "recover.full.product"
     _columns = {
@@ -69,7 +70,7 @@ class recover_full_product(osv.osv_memory):
 
         for cur in self.browse(cr, uid, ids, context):
             if cur.qty_recover > cur.qty_available:
-                raise osv.except_osv(_('Error'), _('The recovery quantity must be less than or equal to the quantity available!'))
+                raise orm.except_orm(_('Error'), _('The recovery quantity must be less than or equal to the quantity available!'))
 
             new_id = self.pool.get('stock.move').create(cr, uid, {
                                                     'name': 'Rework of move: ' + cur.move_id.name,
@@ -99,9 +100,8 @@ class recover_full_product(osv.osv_memory):
                                                     'reworked': False})
         return {'type': 'ir.actions.act_window_close'}
 
-recover_full_product()
 
-class recover_components(osv.osv_memory):
+class recover_components(orm.TransientModel):
 
     _name = 'recover.components'
     _columns = {
@@ -156,7 +156,7 @@ class recover_components(osv.osv_memory):
                 for line in cur.composition_lines:
                     if line.recover:
                         if line.qty_recover > line.qty_available:
-                            raise osv.except_osv(_('Error'), _('The recovery quantity must be less than or equal to the quantity available!'))
+                            raise orm.except_orm(_('Error'), _('The recovery quantity must be less than or equal to the quantity available!'))
                         new_id = self.pool.get('stock.move').create(cr, uid, {
                                                     'name': 'Rework of move: ' + cur.move_id.name,
                                                     'product_id': line.product_id.id,
@@ -208,9 +208,8 @@ class recover_components(osv.osv_memory):
 
         return {'type': 'ir.actions.act_window_close'}
 
-recover_components()
 
-class recover_components_composition(osv.osv_memory):
+class recover_components_composition(orm.TransientModel):
 
     _name = 'recover.components.composition'
     _columns = {
@@ -223,9 +222,9 @@ class recover_components_composition(osv.osv_memory):
         'recover': fields.boolean('Recover'),
         'parent_id': fields.many2one('recover.components', 'Recover components')
     }
-recover_components_composition()
 
-class stock_move_scrap(osv.osv_memory):
+
+class stock_move_scrap(orm.TransientModel):
     _name = "stock.move.rework.scrap"
     _description = "Scrap Products"
     _inherit = "stock.move.consume"
@@ -281,7 +280,7 @@ class stock_move_scrap(osv.osv_memory):
             quantity = data.product_qty
             location_id = data.location_id.id
             if quantity <= 0:
-                raise osv.except_osv(_('Warning!'), _('Please provide a positive quantity to scrap!'))
+                raise orm.except_orm(_('Warning!'), _('Please provide a positive quantity to scrap!'))
             res = []
             for move in move_obj.browse(cr, uid, move_ids):
                 move_qty = move.product_qty
@@ -308,6 +307,4 @@ class stock_move_scrap(osv.osv_memory):
         move_obj.action_done(cr, uid, res, context=context)
 
         return {'type': 'ir.actions.act_window_close'}
-
-stock_move_scrap()
 
