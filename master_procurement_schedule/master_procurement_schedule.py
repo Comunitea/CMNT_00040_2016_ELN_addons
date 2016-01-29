@@ -19,14 +19,11 @@
 #
 ##############################################################################
 import time
-from datetime import datetime
-from dateutil.relativedelta import relativedelta
 import calendar
 from openerp.osv import osv, fields
 from openerp import netsvc
 from openerp.tools.translate import _
 import logging
-import decimal_precision as dp
 
 MONTHS = [('0','January'), ('1','February'), ('2','March'),
           ('3','April'), ('4','May'), ('5','June'),

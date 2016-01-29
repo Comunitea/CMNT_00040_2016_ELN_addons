@@ -29,10 +29,10 @@
         "depends" : ['product','stock','account','base','sales_forecast','purchases_forecast'],
         "init_xml" : [],
         "demo_xml" : [],
-        # "update_xml" : ['master_procurement_schedule_view.xml',
-        #                 'security/stock_planning_security.xml',
-        #                 'security/ir.model.access.csv'
-        #     ],
+        "data" : ['master_procurement_schedule_view.xml',
+                        'security/stock_planning_security.xml',
+                        'security/ir.model.access.csv'
+            ],
         "installable": True,
         'active': False
 
