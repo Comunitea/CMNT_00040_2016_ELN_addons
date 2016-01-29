@@ -18,6 +18,6 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-# import budget_line
-# import sales_forecast
-# import purchases_forecast
+import budget_line
+import sales_forecast
+import purchases_forecast

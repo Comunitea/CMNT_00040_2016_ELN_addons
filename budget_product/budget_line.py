@@ -21,11 +21,11 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import osv, fields
+from openerp.osv import orm, fields
 from openerp.addons import decimal_precision as dp
 
 
-class budget_line(osv.osv):
+class budget_line(orm.Model):
     #TODO: TRADUCIR -> Se añade el campo producto para poder añadir líneas
     #al presupuesto por producto. Creadas a partir de las previsiones previamente
     #creadas y aprobadas.
@@ -35,7 +35,7 @@ class budget_line(osv.osv):
     }
 
 
-class budget_item(osv.osv):
+class budget_item(orm.Model):
     MODELS = [('sales.forecast', 'Sales forecast'), ('forecast.kg.sold', 'Kg sold forecast'), ('mrp.forecast', 'Hour forecast')]
     TYPES = [('euros', '€'), ('units', 'Uds'), ('kg', 'Kg'), ('min','Mins')]
     _inherit = "budget.item"
@@ -44,7 +44,7 @@ class budget_item(osv.osv):
         'type_c': fields.selection(TYPES, 'type',required=False)
     }
 
-class budget_version_total2(osv.osv):
+class budget_version_total2(orm.Model):
     _name = "budget.version.total2"
 
     _columns = {
@@ -59,7 +59,7 @@ class budget_version_total2(osv.osv):
         'name': '/',
     }
 
-class budget_version(osv.osv):
+class budget_version(orm.Model):
     _inherit = 'budget.version'
 
     #def _get_totals(self, cr, uid, ids, field_name, arg, context=None):

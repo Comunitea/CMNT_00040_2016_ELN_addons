@@ -18,11 +18,11 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import osv, fields
+from openerp.osv import orm, fields
 from openerp.tools.translate import _
 
 
-class sales_forecast(osv.osv):
+class sales_forecast(orm.Model):
     _inherit = 'sales.forecast'
 
     def create_budget_lines2(self, cr, uid, ids, context=None):
@@ -34,7 +34,7 @@ class sales_forecast(osv.osv):
         for cur in self.browse(cr, uid, ids):
             if cur.sales_forecast_lines and not cur.is_merged:
                 if not cur.budget_version_id or not cur.budget_item_id:
-                    raise osv.except_osv(_('Error !'), _('For create a budget line is neccessary to have a budget version and budget item at sales forecast.'))
+                    raise orm.except_orm(_('Error !'), _('For create a budget line is neccessary to have a budget version and budget item at sales forecast.'))
                 for line in cur.sales_forecast_lines:
                     vals = {
                         'budget_version_id': cur.budget_version_id.id,
@@ -83,13 +83,11 @@ class sales_forecast(osv.osv):
                     forecast_line.write(cr, uid, line.id, {'cost_warehouse': cost_warehouse, 'cost_structure': cost_structure})
 
         return res
-sales_forecast()
 
-class sales_forecast_line(osv.osv):
+
+class sales_forecast_line(orm.Model):
     _inherit = 'sales.forecast.line'
     _columns = {
         'cost_warehouse': fields.float('Cost Warehouse', digits=(16,2)),
         'cost_structure': fields.float('Cost Warehouse', digits=(16,2))
     }
-
-sales_forecast_line()

@@ -18,9 +18,11 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import osv
+from openerp.osv import orm
 from openerp.tools.translate import _
-class purchases_forecast(osv.osv):
+
+
+class purchases_forecast(orm.Model):
     _inherit = 'purchases.forecast'
 
     def _prepare_budget_line(self, cr, uid, ids, line, context=None):
@@ -85,5 +87,3 @@ class purchases_forecast(osv.osv):
 ##        self.create_budget_lines2(cr, uid, ids, context)
 ##
 ##        return super(purchases_forecast, self).action_validate(cr, uid, ids, context=context)
-    
-purchases_forecast()
