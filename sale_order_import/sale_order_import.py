@@ -37,25 +37,26 @@ class sale_order_import(orm.TransientModel):
         'file_name': fields.char('Filename', size=128, required=True),
         'file_type': fields.selection([('model_apolo','Exclusivas Apolo')], 'File type', required=True),
         'import_actions': fields.selection([('sale','Create sale order'),('sale_and_picking','Create sale order and stock picking')], 'Actions to do', required=True),
-        'shop_id': fields.many2one('sale.shop', 'Shop', required=False),
+        # 'shop_id': fields.many2one('sale.shop', 'Shop', required=False), #POST-MIGRATION
         'note': fields.text('Log'),
     }
     _defaults = {
         'file_name': '',
     }
 
-    def onchange_file_type(self, cr, uid, ids, file_type):
-        res = {}
-        
-        shop_obj = self.pool.get('sale.shop')
-        if file_type == 'model_apolo':
-            shop_id = shop_obj.search(cr, uid, [('name', 'ilike', 'apolo')]) or False
-        else:
-            shop_id = False
-
-        res['value'] = {'shop_id': shop_id and shop_id[0] or False}
-
-        return res
+    # POST-MIGRATION
+    # def onchange_file_type(self, cr, uid, ids, file_type):
+    #     res = {}
+    #
+    #     shop_obj = self.pool.get('sale.shop')
+    #     if file_type == 'model_apolo':
+    #         shop_id = shop_obj.search(cr, uid, [('name', 'ilike', 'apolo')]) or False
+    #     else:
+    #         shop_id = False
+    #
+    #     res['value'] = {'shop_id': shop_id and shop_id[0] or False}
+    #
+    #     return res
 
     def sale_order_import(self, cr, uid, ids, context=None):
 
@@ -126,7 +127,7 @@ class sale_order_import(orm.TransientModel):
                         values = {
                             'date_order': datetime.strptime(ln[date_i], '%d%m%Y').strftime('%Y-%m-%d') or time.strftime('%Y-%m-%d'),
                             'commitment_date': datetime.strptime(ln[date_i], '%d%m%Y').strftime('%Y-%m-%d') or time.strftime('%Y-%m-%d'),
-                            'shop_id': wizard.shop_id.id,
+                            # 'shop_id': wizard.shop_id.id, POST-MIGRATION
                             'client_order_ref': False,
                             'partner_id': partner.id,
                             'partner_order_id': contact_dir,
@@ -145,9 +146,10 @@ class sale_order_import(orm.TransientModel):
                         sales_created.append(order_id)
                         # Ahora voy a ejecutar los onchanges para actualizar valores
                         data = {}
-                        data.update(sale_obj.onchange_shop_id2(cr, uid, [order_id], wizard.shop_id.id, partner.id)['value'])
-                        data.update(sale_obj.onchange_partner_id3(cr, uid, [order_id], partner.id, 0.0, partner.property_payment_term.id, wizard.shop_id.id)['value'])
-                        data.update(sale_obj.onchange_partner_shipping_id(cr, uid, [order_id], partner.id, shipping_dir.id)['value'])
+                        # POST-MIGRATION
+                        # data.update(sale_obj.onchange_shop_id2(cr, uid, [order_id], wizard.shop_id.id, partner.id)['value'])
+                        # data.update(sale_obj.onchange_partner_id3(cr, uid, [order_id], partner.id, 0.0, partner.property_payment_term.id, wizard.shop_id.id)['value'])
+                        # data.update(sale_obj.onchange_partner_shipping_id(cr, uid, [order_id], partner.id, shipping_dir.id)['value'])
                         #import ipdb; ipdb.set_trace()
                         if 'partner_shipping_id' in data and data['partner_shipping_id']:
                             del data['partner_shipping_id']
@@ -195,8 +197,8 @@ class sale_order_import(orm.TransientModel):
                     for sale_agent_id in [x.id for x in so.sale_agent_ids]:
                         sale_agent_ids.append([4, sale_agent_id, False]) 
                     ctx = dict(context, partner_id=so.partner_id.id, quantity=product_uom_qty, 
-                                   pricelist=so.pricelist_id.id, shop=so.shop_id.id, uom=False, force_product_uom=False, 
-                                   order_id=order_id, sale_agents_ids=sale_agent_ids)                    
+                                   pricelist=so.pricelist_id.id, shop=False, uom=False, force_product_uom=False,
+                                   order_id=order_id, sale_agents_ids=sale_agent_ids)    # FALSE SHOP POST-MIGRATION
                     data.update(sale_line_obj.product_id_change2(cr, uid, [line_id], so.pricelist_id.id, product_id[0], product_uom_qty,
                                                                    False, False, False, '', so.partner_id.id, False, True, so.date_order,
                                                                    False, so.fiscal_position.id, False, sale_agent_ids, context=ctx)['value'])
@@ -204,7 +206,7 @@ class sale_order_import(orm.TransientModel):
                         del data['product_uom_qty']
                     #Llamo al onchange de la cantidad en UdM
                     ctx = dict(context, partner_id=so.partner_id.id, quantity=product_uom_qty, 
-                                   pricelist=so.pricelist_id.id, shop=so.shop_id.id, uom=False)
+                                   pricelist=so.pricelist_id.id, shop=False, uom=False)  # FALSE SHOP POST-MIGRATION
                     data.update(sale_line_obj.product_id_change(cr, uid, [line_id], so.pricelist_id.id, product_id[0], product_uom_qty,
                                                                    False, False, False, '', so.partner_id.id, False, True, so.date_order,
                                                                    False, so.fiscal_position.id, True, context=ctx)['value'])

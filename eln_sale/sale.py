@@ -201,24 +201,23 @@ class sale_order_line(orm.Model):
             res['domain'] = {'product_uom': [('category_id', '=', product_obj.uom_id.category_id.id)]} #Esto sobra porque tenemos fijada la uom y no se permite cambiar
 
         return res
-    
-    def product_packaging_change(self, cr, uid, ids, pricelist, product, qty=0, uom=False,
-                                   partner_id=False, packaging=False, flag=False, context=None):
-        """Reescribo la función original de addons/sale/sale.py, ya que no queremos que compruebe si el empaquetado es correcto"""
 
-        if not product:
-            return {'value': {'product_packaging': False}}
-        
-        product_obj = self.pool.get('product.product')
-        result = {}
-        products = product_obj.browse(cr, uid, product, context=context)
-
-        if not products.packaging:
-            packaging = result['product_packaging'] = False
-        elif not packaging and products.packaging and not flag:
-            packaging = products.packaging[0].id
-            result['product_packaging'] = packaging
-
-        return {'value': result}
-
-sale_order_line()
+    # POST-MIGRATION, VER COMO RESOLVER PRODUCTS.PACKAGING NO EXISTE
+    # def product_packaging_change(self, cr, uid, ids, pricelist, product, qty=0, uom=False,
+    #                                partner_id=False, packaging=False, flag=False, context=None):
+    #     """Reescribo la función original de addons/sale/sale.py, ya que no queremos que compruebe si el empaquetado es correcto"""
+    #
+    #     if not product:
+    #         return {'value': {'product_packaging': False}}
+    #
+    #     product_obj = self.pool.get('product.product')
+    #     result = {}
+    #     products = product_obj.browse(cr, uid, product, context=context)
+    #
+    #     if not products.packaging:
+    #         packaging = result['product_packaging'] = False
+    #     elif not packaging and products.packaging and not flag:
+    #         packaging = products.packaging[0].id
+    #         result['product_packaging'] = packaging
+    #
+    #     return {'value': result}

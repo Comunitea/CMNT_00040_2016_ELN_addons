@@ -167,7 +167,8 @@ class edi_import (osv.osv_memory):
             shipping_dir = self.gln_to_dir(cr,uid,cdic['gi_cab_shipto'].text)
             values = {
                 'date_order': cdic.get('gi_cab_fecha',False)!= False and cdic['gi_cab_fecha'].text or time.strftime('%Y-%m-%d'),
-                'shop_id': self.pool.get('sale.shop').search(cr,uid,[])[0] ,
+                # POST-MIGRATION
+                # 'shop_id': self.pool.get('sale.shop').search(cr,uid,[])[0] ,
                 'top_date': cdic.get('gi_cab_fechatop',False)!= False and cdic['gi_cab_fechatop'].text or False,
                 'client_order_ref': ref,
                 'partner_id': partner.id,

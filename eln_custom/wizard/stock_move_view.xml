@@ -59,21 +59,22 @@
                            groups="product.group_uos" />
                 </xpath>
 
-                <xpath expr="//field[@name='line_exist_ids']/tree/field[@name='prodlot_id']" position="replace">
-                    <field name="prodlot_id" 
-                           string="Lot number" 
-                           domain="[('product_id','=',parent.product_id)]" 
-                           on_change="onchange_lot_id2(prodlot_id, quantity, parent.location_id, parent.product_id, parent.product_uom, parent.qty, parent.qty_uos)"
-                           context="{'product_id': parent.product_id}" />
-                </xpath>
-                
-                <xpath expr="//field[@name='line_exist_ids']/form/field[@name='prodlot_id']" position="replace">
-                    <field name="prodlot_id" 
-                           string="Lot number" 
-                           domain="[('product_id','=',parent.product_id)]" 
-                           on_change="onchange_lot_id2(prodlot_id, quantity, parent.location_id, parent.product_id, parent.product_uom, parent.qty, parent.qty_uos)"
-                           context="{'product_id': parent.product_id}" />
-                </xpath>
+
+                <!--<xpath expr="//field[@name='line_exist_ids']/tree/field[@name='prodlot_id']" position="replace">-->
+                    <!--<field name="prodlot_id" -->
+                           <!--string="Lot number" -->
+                           <!--domain="[('product_id','=',parent.product_id)]" -->
+                           <!--on_change="onchange_lot_id2(prodlot_id, quantity, parent.location_id, parent.product_id, parent.product_uom, parent.qty, parent.qty_uos)"-->
+                           <!--context="{'product_id': parent.product_id}" />-->
+                <!--</xpath>-->
+                <!---->
+                <!--<xpath expr="//field[@name='line_exist_ids']/form/field[@name='prodlot_id']" position="replace">-->
+                    <!--<field name="prodlot_id" -->
+                           <!--string="Lot number" -->
+                           <!--domain="[('product_id','=',parent.product_id)]" -->
+                           <!--on_change="onchange_lot_id2(prodlot_id, quantity, parent.location_id, parent.product_id, parent.product_uom, parent.qty, parent.qty_uos)"-->
+                           <!--context="{'product_id': parent.product_id}" />-->
+                <!--</xpath>-->
 
             </field>
         </record>

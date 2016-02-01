@@ -308,7 +308,6 @@ class account_invoice(orm.Model):
 
     def _amount_all(self, cr, uid, ids, name, args, context=None):
         #res = super(account_invoice, self)._amount_all(cr, uid, ids, name, args, context)
-        import ipdb; ipdb.set_trace()
         res = {}
         for invoice in self.browse(cr, uid, ids, context=context):
             res[invoice.id] = {
