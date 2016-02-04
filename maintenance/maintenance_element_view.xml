@@ -29,40 +29,35 @@
 			<field name="type">form</field>
 			<field name="arch" type="xml">
 				<form string="Maintenance element">
-                                         <group col="6" colspan="4">
-                                                <group colspan="3" col="3">
-                                                        <field name="name" colspan="2" />
-                                                        <field name="codigo" />
-                                                        <field name="analytic_journal_id"/>
-                                                        <field name="analytic_account_id" />
-                                                        
-                                                        <field name="asset_id" />
-                                                </group>
-                                                
-                                                <group col="3" colspan="3">
-                                                        <field name="complete_name" />
-                                                                          <field name="type" />
-                                                                          <field name="product_id" />
-                                                                          <field name="padre_id" string="Equipo padre" domain="[('id', '!=', id)]"/>
-                                                </group>
-                                                
-                                        </group>
-                                        <notebook>
-                                                <page string="Maintenance Type">
-                                                        <field name="maintenance_type_ids" nolabel="1" colspan="4"/>
-                                                        
-                                                        
-                                                </page>
-                                                <page string="Description">
-                                                        <field name="description" nolabel="1" colspan="4"/>
-                                                </page>
-                                        </notebook>
+					<group>
+						<group>
+							<field name="name" colspan="2"/>
+							<field name="codigo"/>
+							<field name="analytic_journal_id"/>
+							<field name="analytic_account_id"/>
+							<field name="asset_id"/>
+						</group>
+
+						<group>
+							<field name="complete_name"/>
+							<field name="type"/>
+							<field name="product_id"/>
+							<field name="padre_id" string="Equipo padre" domain="[('id', '!=', id)]"/>
+						</group>
+
+					</group>
+					<notebook>
+						<page string="Maintenance Type">
+							<field name="maintenance_type_ids" nolabel="1" colspan="4"/>
 
 
+						</page>
+						<page string="Description">
+							<field name="description" nolabel="1" colspan="4"/>
+						</page>
+					</notebook>
 
-						
-						
-					
+
 				</form>
 			</field>
 		</record>

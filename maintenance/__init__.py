@@ -25,3 +25,4 @@ import purchase
 import stock
 import wizard
 import hr
+#import product

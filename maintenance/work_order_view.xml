@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openerp>
 	<data>
-
-
 		<!--Email template -->
 		<record id="email_template_work_order" model="email.template">
 			<field name="name">Work order - Send by Email</field>
@@ -14,7 +12,6 @@
 				'').replace('/','_')}_${object.state == 'draft' and 'draft' or ''}
 			</field>
 		</record>
-
 		<record model="ir.ui.view" id="work_order_other_services_tree_view">
 			<field name="name">work.order.other.services.tree</field>
 			<field name="model">work.order.other.services</field>
@@ -27,7 +24,6 @@
 				</tree>
 			</field>
 		</record>
-
 		<record model="ir.ui.view" id="work_order_other_services_form_view">
 			<field name="name">work.order.other.services.form</field>
 			<field name="model">work.order.other.services</field>
@@ -43,7 +39,6 @@
 				</form>
 			</field>
 		</record>
-
 		<record model="ir.ui.view" id="work_order_time_report_tree_view">
 			<field name="name">work.order.time.report.tree</field>
 			<field name="model">work.order.time.report</field>
@@ -58,7 +53,6 @@
 				</tree>
 			</field>
 		</record>
-
 		<record model="ir.ui.view" id="work_order_time_report_form_view">
 			<field name="name">work.order.time.report.form</field>
 			<field name="model">work.order.time.report</field>
@@ -75,14 +69,11 @@
 							<field name="horas_normal" widget="float_time" />
 							<field name="horas_nocturnas" widget="float_time" />
 							<field name="horas_festivas" widget="float_time" />
-
 						</group>
-
 					</group>
 				</form>
 			</field>
 		</record>
-
 		<record model="ir.ui.view" id="work_order_calendar_view">
 			<field name="name">work.order.Calendar</field>
 			<field name="model">work.order</field>
@@ -94,8 +85,6 @@
 				</calendar>
 			</field>
 		</record>
-
-
 		<record model="ir.ui.view" id="work_order_tree_view">
 			<field name="name">work.order.tree</field>
 			<field name="model">work.order</field>
@@ -116,112 +105,89 @@
 				</tree>
 			</field>
 		</record>
-
 		<record model="ir.ui.view" id="work_order_form_view">
 			<field name="name">work.order.form</field>
 			<field name="model">work.order</field>
 			<field name="type">form</field>
 			<field name="arch" type="xml">
-                                <form string="Work order">
-                                        <group col="6" colspan="4">
-                                                <group colspan="3" col="3">
-                                                        <field name="name" colspan="2" />
-                                                        <field name="general_account_id" colspan="2"/>
-                                                </group>
-                                                
-                                                <group col="3" colspan="3">
-                                                        <field name="fecha" />
-                                                                           <field name="initial_date" />
-                                                                           <field name="final_date" />
-                                                </group>
-                                                
-                                        </group>
-                                       
-						<notebook colspan="4">
-							<page string="General Information">
-                                                                
-                                                                        <group col="6" colspan="4" >
-                                                                        <field name="grupo" attrs="{'invisible':True}"/>
-                                                                        <field name="request_id" />
-                                                                                        <field name="maintenance_type_id" />
-                                                                                        <field name="survey_id" />
-                                                                                        
-                                                                                <field name="origin_department_id" />
-                                                                                        <field name="assigned_department_id" />
-                                                                                        <field name="descargo" />
-                                                                                        <field name="deteccion" widget="char" />
-										<field name="sintoma" widget="char" />
-										<field name="efecto" widget="char" />
-										
-								
-										<field name="responsable_id" />
-										<field name="tipo_parada" />
-										<field name="padre_id" domain="[('id', '!=', id)]"/>
-								
-                                                                                        
-                                                                            
-                                                                        </group>
-                                                                       <group col="6" colspan="4"> 
-                                                                               <group colspan="2" col="2" string="Description">
-                                                                                        <field name="descripcion" nolabel="1"/>
-                                                                                </group>
-                                                                                
-                                                                                        <group colspan="2" col="2" string="Note">
-                                                                                        <field name="note" nolabel="1"/>
-                                                                                        </group>
-                                                                                
-                                                                                        <group colspan="2" col="2" string="Instructions">
-                                                                                        <field name="instrucciones" nolabel="1"/>
-                                                                                </group>
-                                                                        </group>
-								
-										
-								
-								
-							</page>
-                                                        <page string="Elements">
-                            <field name="elements_ids" nolabel="1" colspan="4"/>
-                        </page>
-                                                        
-							<page string="Related movements">
-                                                                        
-									<field name="purchase_ids" colspan="4" nolabel="1"/>
-                                                                        <newline/>
-                                                                        
-									<field name="stock_moves_ids" colspan="4" nolabel="1"/>
-								
-							</page>
-							<page string="Timesheet">
-								
-									<field name="horas_ids" colspan="4" nolabel="1"/>
-                                                                        <newline/>
-									<field name="other_service_ids" colspan="4" nolabel="1"/>
-								
-							</page>
-							<page string="Auxiliary orders">
-								<field name="hijas_ids" colspan="4" nolabel="1" domain="[('id', '!=', id)]"/>
-							</page>
-						</notebook>
-<field name="state"/>
-                                    <group col="4" colspan="2">
-                                       <button name="send_email" type="object" string="Enviar correo"
-							states="draft,open,pending,done" />
+				<form string="Work order">
+					<header>
+                        <button name="send_email" type="object" string="Enviar correo"
+                                states="draft,open,pending,done"/>
+                        <button name="work_order_open" type="object"
+                                string="Open work order" states="draft"/>
+                        <button name="work_order_done" type="object" string="Validate job"
+                                attrs="{'invisible':['|',('grupo','=',False),('state','not in',['open','pending'])]}"/>
+                        <button name="request_validation" type="object" string="Done order"
+                                attrs="{'invisible':['|',('grupo','=',True),('state','!=','open')]}"/>
+                        <button name="work_order_cancel" type="object" string="Cancel order"
+                                states="draft,open,pending"/>
+                        <field name="state" widget="statusbar"/>
+					</header>
+					<group>
+						<group>
+							<field name="name"/>
+							<field name="general_account_id"/>
+						</group>
+						<group string = "Fechas">
+							<field name="fecha"/>
+							<field name="initial_date"/>
+							<field name="final_date"/>
+						</group>
+					</group>
+					<notebook colspan="4">
+						<page string="General Information">
+							<group col="6" colspan="4">
+								<group col="2">
+									<field name="grupo" attrs="{'invisible':True}"/>
+									<field name="request_id"/>
+									<field name="origin_department_id"/>
+									<field name="deteccion" widget="char"/>
+									<field name="responsable_id"/>
+								</group>
+								<group col="2">
+									<field name="maintenance_type_id"/>
+									<field name="assigned_department_id"/>
+									<field name="sintoma" widget="char"/>
+									<field name="tipo_parada"/>
+								</group>
+								<group col="2">
+									<field name="survey_id"/>
+									<field name="descargo"/>
+									<field name="efecto" widget="char"/>
+									<field name="padre_id" domain="[('id', '!=', id)]"/>
+								</group>
+							</group>
+							<group col="6" colspan="4">
+								<group colspan="2" col="2" string="Description">
+									<field name="descripcion" nolabel="1"/>
+								</group>
+								<group colspan="2" col="2" string="Note">
+									<field name="note" nolabel="1"/>
+								</group>
 
-						<button name="work_order_open" type="object"
-							string="Open work order" states="draft"/>
-						<button name="work_order_done" type="object" string="Validate job"
-							attrs="{'invisible':['|',('grupo','=',False),('state','not in',['open','pending'])]}"
-							/>
-						<button name="request_validation" type="object" string="Done order"
-							attrs="{'invisible':['|',('grupo','=',True),('state','!=','open')]}"
-							/>
-						<button name="work_order_cancel" type="object" string="Cancel order"
-							states="draft,open,pending" /></group>
-                                                
-					
-
-					
-					
+								<group colspan="2" col="2" string="Instructions">
+									<field name="instrucciones" nolabel="1"/>
+								</group>
+							</group>
+						</page>
+						<page string="Elements">
+							<field name="elements_ids" nolabel="1" colspan="4"/>
+						</page>
+						<page string="Related movements">
+							<field name="purchase_ids" colspan="4" nolabel="1"/>
+							<newline/>
+							<field name="stock_moves_ids" colspan="4" nolabel="1"/>
+						</page>
+						<page string="Timesheet">
+							<field name="horas_ids" colspan="4" nolabel="1"/>
+							<newline/>
+							<field name="other_service_ids" colspan="4" nolabel="1"/>
+						</page>
+						<page string="Auxiliary orders">
+							<field name="hijas_ids" colspan="4" nolabel="1" domain="[('id', '!=', id)]"/>
+						</page>
+					</notebook>
 				</form>
 			</field>
 		</record>

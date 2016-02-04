@@ -23,38 +23,46 @@
 			<field name="arch" type="xml">
 				<form string="Maintenance type">
 
-                                        <group col="6" colspan="4">
-                                                <group colspan="3" col="3">
+                                        <group >
+                                                <group >
                                                         <field name="name" colspan="2" />
                                                         <field name="survey_id" />
-                                              
                                                 </group>
                                                 
-                                                <group col="3" colspan="3">
-                                                        <field name="type" />
-                                                                          <field name="planificado" />
-                                                                         </group>
+                                                <group >
+													<group>
+														<group>
+															<field name="type" />
+														</group>
+														<!--<group>-->
+															<!--<field name = "fault_type" widget = "many2many_tags"/>-->
+														<!--</group>-->
+													</group>
+
+													<newline/>
+													<field name="planificado" />
+												 </group>
                                                 
                                         </group>
                                         <newline/>
-                                        <group attrs="{'invisible':[('planificado','!=',True)]}" string="Planificación"  col="6" colspan="4">
-							<field name="intervalo" attrs="{'required':[('planificado','!=',False)]}" colspan="2"/>
-							<field name="inicio" attrs="{'required':[('planificado','!=',False)]}" colspan="2"/>
-							<group string="Días excluidos" colspan="4">
-								<group>
-									<field name="lunes" />
-									<field name="martes" />
-									<field name="miercoles" />
-									<field name="jueves" />
-								</group>
-								<group>
-									<field name="viernes" />
-									<field name="sabado" />
-									<field name="domingo" />
-								</group>
-							</group>
-						</group>
-                                                <newline/>
+                                        <group attrs="{'invisible':[('planificado','!=',True)]}" string="Planificación"  >
+											<field name="intervalo" attrs="{'required':[('planificado','!=',False)]}" />
+											<field name="inicio" attrs="{'required':[('planificado','!=',False)]}" />
+											<group string="Días excluidos" colspan="4">
+												<group>
+													<field name="lunes" />
+													<field name="martes" />
+													<field name="miercoles" />
+													<field name="jueves" />
+												</group>
+												<group>
+													<field name="viernes" />
+													<field name="sabado" />
+													<field name="domingo" />
+												</group>
+											</group>
+										</group>
+										<newline/>
                                         <notebook>
                                                 <page string="Elements">
                                                         <field name="element_ids" nolabel="1" colspan="4"/>

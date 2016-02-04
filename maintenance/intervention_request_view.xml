@@ -39,6 +39,12 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Intervention request" >
+                    <header>
+                        <button name="send_email" type="object" string="Send email" states="draft,confirmed,cancelled" />
+                        <button name="create_work_order" type="object" string="Create work order" states="draft" />
+                        <button name="%(cancel_intervetion_request_type_tree)d" type="action" string="Cancel" states="draft" />
+                        <field name="state" widget="statusbar" statusbar_visible="draft,confirmed, cancelled" />
+                    </header>
                     <group col="6" colspan="4">
                         <group colspan="4" col="4">
                             <field name="name" />
@@ -75,22 +81,7 @@
                     <group attrs="{'invisible':[('state','!=','cancelled')]}" colspan="4">
                             <field name="motivo_cancelacion" />
                     </group>
-                   
-                         <group col="6" colspan="4">
-                            <field name="state" widget="statusbar" statusbar_visible="draft,confirmed" />
-                        <button name="send_email" type="object" string="Send email"
-                            states="draft,confirmed,cancelled" />
-                        <button name="create_work_order" type="object"
-                            string="Create work order" states="draft" />
-                        <button name="%(cancel_intervetion_request_type_tree)d" type="action" string="Cancel"
-                            states="draft" />
-                        
-                    
-                       </group>
-                
-                        
-                  
-                    
+
                 </form>
             </field>
         </record>

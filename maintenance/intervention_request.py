@@ -98,6 +98,7 @@ class intervention_request(osv.osv):
         return action
     
     def create_work_order(self, cr, uid, ids, context=None):
+        import ipdb; ipdb.set_trace()
         if not context:
             context = {}
         intervention_requests = self.pool.get('intervention.request').browse(cr, uid, ids, context)

@@ -2,6 +2,7 @@
 ###############################################################################
 #
 #    Copyright (C) 2004-2014 Pexego Sistemas Informáticos All Rights Reserved
+#    Copyright (C) 2015-2016 Comunitea Servicios Tecnológicos All Rights Reserved
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -33,6 +34,7 @@
                     "maintenance_type_view.xml", "work_order_sequence.xml", "wizard/cancel_intervention_request_view.xml",
                     "intervention_request_view.xml", "work_order_report.xml","work_order_view.xml",
                     "stock_view.xml","hr_view.xml", "purchase_view.xml", "maintenance_data.xml",
+                    #"product_view.xml",
                     "security/ir.model.access.csv"],
 
     'demo_xml': [],
