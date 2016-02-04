@@ -200,12 +200,22 @@ class product_product(osv.osv):
         c_out = context.copy()
         c_in.update({ 'states': ('done',), 'what': ('in',) })
         c_out.update({ 'states': ('assigned','done',), 'what': ('out',) })
-        stock_in = self.get_product_available(cr, uid, ids, context=c_in) 
-        stock_out = self.get_product_available(cr, uid, ids, context=c_out)
-        for p_id in ids:
-            res[p_id] = stock_in.get(p_id, 0.0) + stock_out.get(p_id, 0.0)
-            if res[p_id] < 0.0:
-                res[p_id] = 0.0
+        # COMENTADO POST-MIGRATION
+        # stock_in = self.get_product_available(cr, uid, ids, context=c_in) 
+        # stock_out = self.get_product_available(cr, uid, ids, context=c_out)
+        # for p_id in ids:
+        #     res[p_id] = stock_in.get(p_id, 0.0) + stock_out.get(p_id, 0.0)
+        #     if res[p_id] < 0.0:
+        #         res[p_id] = 0.0
+
+        # AHORA ES STOCK REAL - SALIDAS
+        for prod in self.browse(cr, uid, ids, context=context):
+            stock_in = prod.qty_available
+            stock_out = prod.outgoing_qty
+            res[prod.id] = stock_in - stock_out
+            if res[prod.id] < 0.0:
+                res[prod.id] = 0.0
+                res[prod.id] = 0.0
 
         return res
 
