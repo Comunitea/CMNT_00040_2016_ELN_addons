@@ -144,7 +144,8 @@ class work_order(osv.osv):
                                           states={'confirmed':[('readonly', True)],
                                             'approved':[('readonly', True)]}),
             'name':fields.char('Name', size=64, required=True),
-            'general_account_id': fields.many2one('account.account', 'Account', required=True),
+            'general_account_id': fields.many2one('account.account', 'Account'),
+            # POST-MIGRACION el campo general_account_id estaba conreanonly = True ???? ,
             'request_id':fields.many2one('intervention.request'
                                          , 'Origin request', required=False),
             'elements_ids':fields.many2many('maintenance.element'
@@ -276,6 +277,8 @@ class work_order(osv.osv):
         return True
 
     def work_order_done(self, cr, uid, ids, context=None):
+
+        import ipdb; ipdb.set_trace()
         data_obj = self.pool.get('ir.model.data')
         analytic_line_obj = self.pool.get('account.analytic.line')
         order_obj = self.pool.get('work.order')
@@ -291,8 +294,6 @@ class work_order(osv.osv):
         journals = [hours_journal_id, services_journal_id, materials_journal_id]
 
         for orden in ordenes:
-
-
             # calculo de total de costes para horas, servicios y materiales
             coste_total = [0, 0, 0]
             if orden.horas_ids:
@@ -316,30 +317,30 @@ class work_order(osv.osv):
                                                  asociados a la orden')
                         coste_total[2] += movimiento.product_qty * movimiento.product_id.list_price
 
-
-
-            # calculo de coste proporcional por equipo
-            coste_por_equipo = []
-            for coste in coste_total:
-                coste_por_equipo.append(coste / len(orden.elements_ids))
             aux = 0
-
             # creacion de apuntes analiticos para cada equipo
             if orden.elements_ids:
+                # calculo de coste proporcional por equipo
+                coste_por_equipo = []
+                for coste in coste_total:
+                    coste_por_equipo.append(coste / len(orden.elements_ids))
+
                 for equipo in orden.elements_ids:
                     for journal in journals:
-                        args_analytic_line = {
-                                              'account_id':equipo.analytic_account_id and equipo.analytic_account_id.id or False,
-                                              'journal_id':journal,
-                                              'amount':coste_por_equipo[aux],
-                                              'product_id':equipo.product_id and equipo.product_id.id or False,
-                                              #'department_id':orden.origin_department_id and orden.origin_department_id.id or False,
-                                              'name':equipo.name,
-                                              'date':date.today().strftime('%Y-%m-%d'),
-                                              'general_account_id': orden.general_account_id.id
-                                              }
-                        analytic_line_obj.create(cr, uid, args_analytic_line, context)
+                        if orden.general_account_id.id:
+                            args_analytic_line = {
+                                                  'account_id':equipo.analytic_account_id and equipo.analytic_account_id.id or False,
+                                                  'journal_id':journal,
+                                                  'amount':coste_por_equipo[aux],
+                                                  'product_id':equipo.product_id and equipo.product_id.id or False,
+                                                  #'department_id':orden.origin_department_id and orden.origin_department_id.id or False,
+                                                  'name':equipo.name,
+                                                  'date':date.today().strftime('%Y-%m-%d'),
+                                                  'general_account_id': orden.general_account_id.id
+                                                  }
+                            analytic_line_obj.create(cr, uid, args_analytic_line, context)
                         aux += 1
+
             if orden.stock_moves_ids:
                 # creacion del albaran para los movimientos
                 args_picking_out = {
@@ -350,6 +351,7 @@ class work_order(osv.osv):
                                  'state':'done',
                                          }
                 picking_id = picking_out_obj.create(cr, uid, args_picking_out, context)
+
             if orden.final_date:
                 final_date = orden.final_date
             else:
