@@ -1,15 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openerp>
     <data>
-        <report
+<!--         <report
             string="Product sheet"
-            model="product.product"
+            model="product.template"
             name="product_sheet"
             rml="eln_reports/report/sheet_product/sheet_product.jrxml"
             id="report_sheet_products_jasper"
             menu="True"
             auto="True"
             />
+ -->
+        <record id="report_sheet_products_jasper" model="ir.actions.report.xml">
+            <field name="string">Product sheet</field>
+            <field name="auto">True</field>
+            <field name="model">product.template</field>
+            <field name="jasper_model_id" ref="product.model_product_template"/>
+            <field name="name">Work order</field>
+            <field name="report_name">product_sheet</field>
+            <field name="rml">eln_reports/report/sheet_product/sheet_product.jrxml</field>
+            <field name="report_rml">eln_reports/report/sheet_product/sheet_product.jrxml</field>
+            <field name="menu">True</field>
+            <field name="header">False</field>
+            <field name="jasper_report">True</field>
+            <field name="jasper_output">pdf</field>
+        </record>
+
+        <record id="report_sheet_products_values" model="ir.values">
+            <field name="name">Product sheet</field>
+            <field name="model">product.template</field>
+            <field name="key2" eval="'client_print_multi'" />
+            <field name="value_unpickle" eval="'ir.actions.report.xml, ' +str(report_sheet_products_jasper)" />
+        </record>
         <report
             string="Product logistics sheet"
             model="product.product"
