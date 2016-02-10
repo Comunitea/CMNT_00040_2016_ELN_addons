@@ -77,7 +77,7 @@
             menu="True"
             auto="True"
             />
-        <report
+<!--         <report
             string="Purchase order"
             model="purchase.order"
             name="purchase_order"
@@ -87,6 +87,29 @@
             header="False"
             auto="True"
             />
+ -->
+        <record id="report_purchase_order_jasper2" model="ir.actions.report.xml">
+            <field name="string">Purchase order jasper</field>
+            <field name="auto">True</field>
+            <field name="model">purchase.order</field>
+            <field name="jasper_model_id" ref="purchase.model_purchase_order"/>
+            <field name="name">Purchase order jasper</field>
+            <field name="report_name">purchase_order</field>
+            <field name="rml">eln_reports/report/purchase_order/purchase_order.jrxml</field>
+            <field name="report_rml">eln_reports/report/purchase_order/purchase_order.jrxml</field>
+            <field name="menu">True</field>
+            <field name="header">False</field>
+            <field name="jasper_report">True</field>
+            <field name="jasper_output">pdf</field>
+        </record>
+
+        <record id="report_sheet_products_values2" model="ir.values">
+            <field name="name">Purchase order jasper</field>
+            <field name="model">purchase.order</field>
+            <field name="key2" eval="'client_print_multi'" />
+            <field name="value_unpickle" eval="'ir.actions.report.xml, ' +str(report_purchase_order_jasper2)" />
+        </record>
+
         <!--POST-MIGRATION-->
         <!--<report-->
             <!--string="Plannnig"-->
