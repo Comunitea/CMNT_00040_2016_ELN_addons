@@ -250,28 +250,28 @@
 		<fieldDescription><![CDATA[Entregar_a-picking_type_id/Almacen-warehouse_id/Direccion-partner_id/CIF_NIF-vat]]></fieldDescription>
 	</field>
 	<field name="Email-email3" class="java.lang.String">
-		<fieldDescription><![CDATA[Compania-company_id/Empresa-partner_id/Contactos-address/Email-email]]></fieldDescription>
+		<fieldDescription><![CDATA[Compania-company_id/Empresa-partner_id/Email-email]]></fieldDescription>
 	</field>
 	<field name="Fax-fax3" class="java.lang.String">
-		<fieldDescription><![CDATA[Compania-company_id/Empresa-partner_id/Contactos-address/Fax-fax]]></fieldDescription>
+		<fieldDescription><![CDATA[Compania-company_id/Empresa-partner_id/Fax-fax]]></fieldDescription>
 	</field>
 	<field name="Ciudad-city3" class="java.lang.String">
-		<fieldDescription><![CDATA[Compania-company_id/Empresa-partner_id/Contactos-address/Ciudad-city]]></fieldDescription>
+		<fieldDescription><![CDATA[Compania-company_id/Empresa-partner_id/Ciudad-city]]></fieldDescription>
 	</field>
 	<field name="Nombre_del_contacto-name2" class="java.lang.String">
-		<fieldDescription><![CDATA[Compania-company_id/Empresa-partner_id/Contactos-address/Nombre_del_contacto-name]]></fieldDescription>
+		<fieldDescription><![CDATA[Compania-company_id/Empresa-partner_id/Nombre_del_contacto-name]]></fieldDescription>
 	</field>
 	<field name="Telefono-phone3" class="java.lang.String">
-		<fieldDescription><![CDATA[Compania-company_id/Empresa-partner_id/Contactos-address/Telefono-phone]]></fieldDescription>
+		<fieldDescription><![CDATA[Compania-company_id/Empresa-partner_id/Telefono-phone]]></fieldDescription>
 	</field>
 	<field name="Calle-street3" class="java.lang.String">
-		<fieldDescription><![CDATA[Compania-company_id/Empresa-partner_id/Contactos-address/Calle-street]]></fieldDescription>
+		<fieldDescription><![CDATA[Compania-company_id/Empresa-partner_id/Calle-street]]></fieldDescription>
 	</field>
 	<field name="Calle2-street23" class="java.lang.String">
 		<fieldDescription><![CDATA[Compania-company_id/Empresa-partner_id/Contactos-address/Calle2-street2]]></fieldDescription>
 	</field>
 	<field name="C.P.-zip3" class="java.lang.String">
-		<fieldDescription><![CDATA[Compania-company_id/Empresa-partner_id/Contactos-address/C.P.-zip]]></fieldDescription>
+		<fieldDescription><![CDATA[Compania-company_id/Empresa-partner_id/C.P.-zip]]></fieldDescription>
 	</field>
 	<field name="CIF_NIF-vat3" class="java.lang.String">
 		<fieldDescription><![CDATA[Compania-company_id/Empresa-partner_id/CIF_NIF-vat]]></fieldDescription>
