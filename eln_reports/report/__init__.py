@@ -18,13 +18,9 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-import barcode_label
 import control_part
-import invoice
 import packing_list
-import planning_report
 import product_datasheet
 import product_logistics_sheet
 import purchase_order
 import sheet_product
-import stock_picking
