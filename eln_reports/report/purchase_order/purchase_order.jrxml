@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="purchase_order" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8f3544e6-63fb-4772-9cf0-3bcbf6d632f7">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="194"/>
+	<property name="ireport.y" value="96"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -139,31 +139,31 @@
 		<fieldDescription><![CDATA[Proveedor-partner_id/CIF_NIF-vat]]></fieldDescription>
 	</field>
 	<field name="Calle-street2" class="java.lang.String">
-		<fieldDescription><![CDATA[Proveedor-partner_id/Contactos-address/Calle-street]]></fieldDescription>
+		<fieldDescription><![CDATA[Proveedor-partner_id/Calle-street]]></fieldDescription>
 	</field>
 	<field name="Calle2-street22" class="java.lang.String">
-		<fieldDescription><![CDATA[Proveedor-partner_id/Contactos-address/Calle2-street2]]></fieldDescription>
+		<fieldDescription><![CDATA[Proveedor-partner_id/Calle2-street2]]></fieldDescription>
 	</field>
 	<field name="Ciudad-city2" class="java.lang.String">
-		<fieldDescription><![CDATA[Proveedor-partner_id/Contactos-address/Ciudad-city]]></fieldDescription>
+		<fieldDescription><![CDATA[Proveedor-partner_id/Ciudad-city]]></fieldDescription>
 	</field>
 	<field name="C.P.-zip2" class="java.lang.String">
-		<fieldDescription><![CDATA[Proveedor-partner_id/Contactos-address/C.P.-zip]]></fieldDescription>
+		<fieldDescription><![CDATA[Proveedor-partner_id/C.P.-zip]]></fieldDescription>
 	</field>
 	<field name="Nombre_del_pais-name2" class="java.lang.String">
-		<fieldDescription><![CDATA[Proveedor-partner_id/Contactos-address/Pais-country_id/Nombre_del_pais-name]]></fieldDescription>
+		<fieldDescription><![CDATA[Proveedor-partner_id/Pais-country_id/Nombre_del_pais-name]]></fieldDescription>
 	</field>
 	<field name="Telefono-phone2" class="java.lang.String">
-		<fieldDescription><![CDATA[Proveedor-partner_id/Contactos-address/Telefono-phone]]></fieldDescription>
+		<fieldDescription><![CDATA[Proveedor-partner_id/Telefono-phone]]></fieldDescription>
 	</field>
 	<field name="Fax-fax2" class="java.lang.String">
-		<fieldDescription><![CDATA[Proveedor-partner_id/Contactos-address/Fax-fax]]></fieldDescription>
+		<fieldDescription><![CDATA[Proveedor-partner_id/Fax-fax]]></fieldDescription>
 	</field>
 	<field name="Email-email2" class="java.lang.String">
-		<fieldDescription><![CDATA[Proveedor-partner_id/Contactos-address/Email-email]]></fieldDescription>
+		<fieldDescription><![CDATA[Proveedor-partner_id/Email-email]]></fieldDescription>
 	</field>
 	<field name="Nombre_provincia-name" class="java.lang.String">
-		<fieldDescription><![CDATA[Compania-company_id/Empresa-partner_id/Contactos-address/Provincia-state_id/Nombre_provincia-name]]></fieldDescription>
+		<fieldDescription><![CDATA[Compania-company_id/Empresa-partner_id/Provincia-state_id/Nombre_provincia-name]]></fieldDescription>
 	</field>
 	<field name="Simbolo-symbol" class="java.lang.String">
 		<fieldDescription><![CDATA[Tarifa-pricelist_id/Moneda-currency_id/Simbolo-symbol]]></fieldDescription>
@@ -214,40 +214,40 @@
 		<fieldDescription><![CDATA[Invoice_address-invoice_address]]></fieldDescription>
 	</field>
 	<field name="Nombre_del_contacto-name" class="java.lang.String">
-		<fieldDescription><![CDATA[Almacen-warehouse_id/Direccion_propietario-partner_address_id/Nombre_del_contacto-name]]></fieldDescription>
+		<fieldDescription><![CDATA[Entregar_a-picking_type_id/Almacen-warehouse_id/Direccion-partner_id/Nombre_del_contacto-name]]></fieldDescription>
 	</field>
 	<field name="Calle-street" class="java.lang.String">
-		<fieldDescription><![CDATA[Almacen-warehouse_id/Direccion_propietario-partner_address_id/Calle-street]]></fieldDescription>
+		<fieldDescription><![CDATA[Entregar_a-picking_type_id/Almacen-warehouse_id/Direccion-partner_id/Calle-street]]></fieldDescription>
 	</field>
 	<field name="Calle2-street2" class="java.lang.String">
-		<fieldDescription><![CDATA[Almacen-warehouse_id/Direccion_propietario-partner_address_id/Calle2-street2]]></fieldDescription>
+		<fieldDescription><![CDATA[Entregar_a-picking_type_id/Almacen-warehouse_id/Direccion-partner_id/Calle2-street2]]></fieldDescription>
 	</field>
 	<field name="Fax-fax" class="java.lang.String">
-		<fieldDescription><![CDATA[Almacen-warehouse_id/Direccion_propietario-partner_address_id/Fax-fax]]></fieldDescription>
+		<fieldDescription><![CDATA[Entregar_a-picking_type_id/Almacen-warehouse_id/Direccion-partner_id/Fax-fax]]></fieldDescription>
 	</field>
 	<field name="Email-email" class="java.lang.String">
-		<fieldDescription><![CDATA[Almacen-warehouse_id/Direccion_propietario-partner_address_id/Email-email]]></fieldDescription>
+		<fieldDescription><![CDATA[Entregar_a-picking_type_id/Almacen-warehouse_id/Direccion-partner_id/Email-email]]></fieldDescription>
 	</field>
 	<field name="Ciudad-city" class="java.lang.String">
-		<fieldDescription><![CDATA[Almacen-warehouse_id/Direccion_propietario-partner_address_id/Ciudad-city]]></fieldDescription>
+		<fieldDescription><![CDATA[Entregar_a-picking_type_id/Almacen-warehouse_id/Direccion-partner_id/Ciudad-city]]></fieldDescription>
 	</field>
 	<field name="Nombre_del_pais-name" class="java.lang.String">
-		<fieldDescription><![CDATA[Almacen-warehouse_id/Direccion_propietario-partner_address_id/Pais-country_id/Nombre_del_pais-name]]></fieldDescription>
+		<fieldDescription><![CDATA[Entregar_a-picking_type_id/Almacen-warehouse_id/Direccion-partner_id/Pais-country_id/Nombre_del_pais-name]]></fieldDescription>
 	</field>
 	<field name="Nombre_provincia-name2" class="java.lang.String">
-		<fieldDescription><![CDATA[Almacen-warehouse_id/Direccion_propietario-partner_address_id/Provincia-state_id/Nombre_provincia-name]]></fieldDescription>
+		<fieldDescription><![CDATA[Entregar_a-picking_type_id/Almacen-warehouse_id/Direccion-partner_id/Provincia-state_id/Nombre_provincia-name]]></fieldDescription>
 	</field>
 	<field name="C.P.-zip" class="java.lang.String">
-		<fieldDescription><![CDATA[Almacen-warehouse_id/Direccion_propietario-partner_address_id/C.P.-zip]]></fieldDescription>
+		<fieldDescription><![CDATA[Entregar_a-picking_type_id/Almacen-warehouse_id/Direccion-partner_id/C.P.-zip]]></fieldDescription>
 	</field>
 	<field name="Telefono-phone" class="java.lang.String">
-		<fieldDescription><![CDATA[Almacen-warehouse_id/Direccion_propietario-partner_address_id/Telefono-phone]]></fieldDescription>
+		<fieldDescription><![CDATA[Entregar_a-picking_type_id/Almacen-warehouse_id/Direccion-partner_id/Telefono-phone]]></fieldDescription>
 	</field>
 	<field name="Invoice_vat-invoice_vat" class="java.lang.String">
 		<fieldDescription><![CDATA[Invoice_vat-invoice_vat]]></fieldDescription>
 	</field>
 	<field name="CIF_NIF-vat" class="java.lang.String">
-		<fieldDescription><![CDATA[Direccion_destinatario-dest_address_id/Nombre_de_empresa-partner_id/CIF_NIF-vat]]></fieldDescription>
+		<fieldDescription><![CDATA[Entregar_a-picking_type_id/Almacen-warehouse_id/Direccion-partner_id/CIF_NIF-vat]]></fieldDescription>
 	</field>
 	<field name="Email-email3" class="java.lang.String">
 		<fieldDescription><![CDATA[Compania-company_id/Empresa-partner_id/Contactos-address/Email-email]]></fieldDescription>
@@ -286,7 +286,7 @@
 		<fieldDescription><![CDATA[Compania-company_id/Empresa-partner_id/Nombre-name]]></fieldDescription>
 	</field>
 	<field name="Nombre-name3" class="java.lang.String">
-		<fieldDescription><![CDATA[Almacen-warehouse_id/Direccion_propietario-partner_address_id/Nombre_de_empresa-partner_id/Nombre-name]]></fieldDescription>
+		<fieldDescription><![CDATA[Entregar_a-picking_type_id/Almacen-warehouse_id/Direccion-partner_id/Nombre-name]]></fieldDescription>
 	</field>
 	<variable name="L" class="java.util.Locale">
 		<variableExpression><![CDATA[new Locale($P{lang}.split("_")[0],$P{lang}.split("_")[1])]]></variableExpression>
@@ -356,9 +356,7 @@
 					<textFieldExpression><![CDATA[$F{Nombre_del_pais-name2}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement x="391" y="118" width="176" height="10" uuid="a97e32d6-f2fe-475e-bb06-dc3a6a723f44">
-						<printWhenExpression><![CDATA[!$F{C.P.-zip2}.isEmpty()]]></printWhenExpression>
-					</reportElement>
+					<reportElement x="391" y="118" width="176" height="10" uuid="a97e32d6-f2fe-475e-bb06-dc3a6a723f44"/>
 					<textElement textAlignment="Left">
 						<font size="8" isBold="false"/>
 					</textElement>
@@ -486,90 +484,70 @@
 					<textFieldExpression><![CDATA[tr($V{L}, "Email: ") +$F{Email-email3}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement x="204" y="173" width="177" height="13" uuid="3304ef57-198b-4b9e-baf7-6ce97e7fcb8c">
-						<printWhenExpression><![CDATA[!$P{delivery_address}.isEmpty()]]></printWhenExpression>
-					</reportElement>
+					<reportElement x="204" y="173" width="177" height="13" uuid="3304ef57-198b-4b9e-baf7-6ce97e7fcb8c"/>
 					<textElement textAlignment="Left">
 						<font size="8" isBold="false"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{Nombre_del_pais-name}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement x="204" y="127" width="177" height="24" uuid="f0878c9c-ba03-48cd-b6f3-fd244dcfc205">
-						<printWhenExpression><![CDATA[!$P{delivery_address}.isEmpty()]]></printWhenExpression>
-					</reportElement>
+					<reportElement x="204" y="127" width="177" height="24" uuid="f0878c9c-ba03-48cd-b6f3-fd244dcfc205"/>
 					<textElement textAlignment="Left">
 						<font size="8" isBold="false"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{Calle-street} + " " + $F{Calle2-street2}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement x="204" y="151" width="177" height="11" uuid="d016f9bb-1e4b-4558-b443-d650c288efe5">
-						<printWhenExpression><![CDATA[!$P{delivery_address}.isEmpty()]]></printWhenExpression>
-					</reportElement>
+					<reportElement x="204" y="151" width="177" height="11" uuid="d016f9bb-1e4b-4558-b443-d650c288efe5"/>
 					<textElement textAlignment="Left">
 						<font size="8" isBold="false"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{Ciudad-city} + " - " + $F{Nombre_provincia-name2}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement x="204" y="161" width="177" height="13" uuid="e9273799-1b34-4fd6-86f2-aa3dd20f4d49">
-						<printWhenExpression><![CDATA[!$P{delivery_address}.isEmpty()]]></printWhenExpression>
-					</reportElement>
+					<reportElement x="204" y="161" width="177" height="13" uuid="e9273799-1b34-4fd6-86f2-aa3dd20f4d49"/>
 					<textElement textAlignment="Left">
 						<font size="8" isBold="false"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{C.P.-zip}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement x="204" y="118" width="177" height="10" uuid="cb92e617-34f3-4a71-9be8-b86976295c1a">
-						<printWhenExpression><![CDATA[!$P{delivery_address}.isEmpty()&& !$F{CIF_NIF-vat}.isEmpty()]]></printWhenExpression>
-					</reportElement>
+					<reportElement x="204" y="118" width="177" height="10" uuid="cb92e617-34f3-4a71-9be8-b86976295c1a"/>
 					<textElement textAlignment="Left">
 						<font size="8" isBold="false"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{CIF_NIF-vat}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement x="204" y="96" width="177" height="12" uuid="c5b27972-45d5-4e1f-8eba-ca718ed91c28">
-						<printWhenExpression><![CDATA[!$P{delivery_address}.isEmpty()]]></printWhenExpression>
-					</reportElement>
+					<reportElement x="204" y="96" width="177" height="12" uuid="c5b27972-45d5-4e1f-8eba-ca718ed91c28"/>
 					<textElement textAlignment="Left" markup="none">
 						<font size="8" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[tr($V{L}, "Delivery address")]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement x="204" y="107" width="177" height="11" uuid="988abba2-420c-45cc-9866-12680a3f891a">
-						<printWhenExpression><![CDATA[!$P{delivery_address}.isEmpty()]]></printWhenExpression>
-					</reportElement>
+					<reportElement x="204" y="107" width="177" height="11" uuid="988abba2-420c-45cc-9866-12680a3f891a"/>
 					<textElement textAlignment="Left">
 						<font size="8" isBold="false"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{Nombre-name3}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="204" y="195" width="177" height="11" uuid="35b6cb40-ce43-46b2-8928-a71a49902626">
-						<printWhenExpression><![CDATA[!$P{delivery_address}.isEmpty()]]></printWhenExpression>
-					</reportElement>
+					<reportElement x="204" y="195" width="177" height="11" uuid="35b6cb40-ce43-46b2-8928-a71a49902626"/>
 					<textElement textAlignment="Left" markup="none">
 						<font size="8" isBold="false"/>
 					</textElement>
 					<textFieldExpression><![CDATA[tr($V{L}, "Tlf: ") + $F{Telefono-phone}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="204" y="205" width="177" height="11" uuid="c14f79ca-dd77-4e31-a93f-e05023fb7090">
-						<printWhenExpression><![CDATA[!$P{delivery_address}.isEmpty()]]></printWhenExpression>
-					</reportElement>
+					<reportElement x="204" y="205" width="177" height="11" uuid="c14f79ca-dd77-4e31-a93f-e05023fb7090"/>
 					<textElement textAlignment="Left" markup="none">
 						<font size="8" isBold="false"/>
 					</textElement>
 					<textFieldExpression><![CDATA[tr($V{L}, "Fax: ") + $F{Fax-fax}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="204" y="215" width="177" height="11" uuid="e03804bd-631d-41aa-9fb8-6ac954156f6f">
-						<printWhenExpression><![CDATA[!$P{delivery_address}.isEmpty()]]></printWhenExpression>
-					</reportElement>
+					<reportElement x="204" y="215" width="177" height="11" uuid="e03804bd-631d-41aa-9fb8-6ac954156f6f"/>
 					<textElement textAlignment="Left" markup="none">
 						<font size="8" isBold="false"/>
 					</textElement>
