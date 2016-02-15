@@ -278,7 +278,6 @@ class work_order(osv.osv):
 
     def work_order_done(self, cr, uid, ids, context=None):
 
-        import ipdb; ipdb.set_trace()
         data_obj = self.pool.get('ir.model.data')
         analytic_line_obj = self.pool.get('account.analytic.line')
         order_obj = self.pool.get('work.order')

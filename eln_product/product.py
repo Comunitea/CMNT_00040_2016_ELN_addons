@@ -186,9 +186,14 @@ class product_product(osv.osv):
                 'approved_signature': False
             }
             
-            res[product.id]['written_signature'] = product.written_by and product.written_by.user_id and product.written_by.user_id.signature_image or False
-            res[product.id]['reviewed_signature'] = product.reviewed_by and product.reviewed_by.user_id and product.reviewed_by.user_id.signature_image or False
-            res[product.id]['approved_signature'] = product.approved_by and product.approved_by.user_id and product.approved_by.user_id.signature_image or False
+            # res[product.id]['written_signature'] = product.written_by and product.written_by.user_id and product.written_by.user_id.signature_image or False
+            # res[product.id]['reviewed_signature'] = product.reviewed_by and product.reviewed_by.user_id and product.reviewed_by.user_id.signature_image or False
+            # res[product.id]['approved_signature'] = product.approved_by and product.approved_by.user_id and product.approved_by.user_id.signature_image or False
+            res[product.id]['written_signature'] = product.written_by and product.written_by.user_id.id  or False
+            res[product.id]['reviewed_signature'] = product.reviewed_by and product.reviewed_by.user_id.id or False
+            res[product.id]['approved_signature'] = product.approved_by and product.approved_by.user_id.id or False
+
+
 
         return res
 
@@ -200,10 +205,13 @@ class product_product(osv.osv):
         c_out = context.copy()
         c_in.update({ 'states': ('done',), 'what': ('in',) })
         c_out.update({ 'states': ('assigned','done',), 'what': ('out',) })
-        stock_in = self.get_product_available(cr, uid, ids, context=c_in) 
-        stock_out = self.get_product_available(cr, uid, ids, context=c_out)
+        # stock_in = self.get_product_available(cr, uid, ids, context=c_in)
+        # stock_out = self.get_product_available(cr, uid, ids, context=c_out)
+        # ME DA ERROR
+        stock_in = 0
+        stock_out = 0
         for p_id in ids:
-            res[p_id] = stock_in.get(p_id, 0.0) + stock_out.get(p_id, 0.0)
+            res[p_id] = 0.00 # stock_in.get(p_id, 0.0) + stock_out.get(p_id, 0.0)
             if res[p_id] < 0.0:
                 res[p_id] = 0.0
 
