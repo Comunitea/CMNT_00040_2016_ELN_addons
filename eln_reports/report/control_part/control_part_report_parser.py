@@ -19,6 +19,8 @@
 #
 ##############################################################################
 from openerp.addons import jasper_reports
+from openerp import pooler
+import os
 
 
 def parser( cr, uid, ids, data, context ):
@@ -29,9 +31,8 @@ def parser( cr, uid, ids, data, context ):
     control_sheet_fried = False
     control_sheet_mixed = False
 
-    #import ipdb; ipdb.set_trace()
 
-    for production in self.pool.get(cr.dbname).get('mrp.production').browse(cr, uid, ids):
+    for production in pooler.get_pool(cr.dbname).get('mrp.production').browse(cr, uid, ids):
         if production.routing_id and production.routing_id.workcenter_lines:
             for line in production.routing_id.workcenter_lines:                
                 control_sheet_packing = control_sheet_packing or line.workcenter_id.control_sheet_packing
@@ -50,6 +51,9 @@ def parser( cr, uid, ids, data, context ):
     parameters['control_sheet_toasted'] = control_sheet_toasted
     parameters['control_sheet_fried'] = control_sheet_fried
     parameters['control_sheet_mixed'] = control_sheet_mixed
+
+    parameters['SUBREPORT_DIR'] = os.path.dirname(os.path.abspath(__file__)) + '/'
+
     return { 
         'ids': ids, 
         'name': name, 
