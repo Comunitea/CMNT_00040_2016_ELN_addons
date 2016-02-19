@@ -32,8 +32,7 @@ class procurement_order(osv.osv):
     _inherit = 'procurement.order'
     _logger = logging.getLogger(__name__)
     
-    def _procure_orderpoint_confirm(self, cr, uid, automatic=False,\
-            use_new_cursor=False, context=None, user_id=False):
+    def _procure_orderpoint_confirm(self, cr, uid, use_new_cursor=False,company_id = False,context=None):
         '''
         Create procurement based on Orderpoint
         use_new_cursor: False or the dbname
