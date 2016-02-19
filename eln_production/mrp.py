@@ -554,6 +554,44 @@ class mrp_production(osv.osv):
 
         return amount
 
+    def _make_production_produce_line(self, cr, uid, production, context=None):
+
+        move_id = super (mrp_production, self)._make_production_produce_line(cr, uid, production, context=context)
+        #Lo cambio para no sobreescribir toda la función
+        stock_move = self.pool.get('stock.move')
+        stock_move_id = stock_move.browse(cr, uid, move_id)
+        move_name = _('PROD: %s') % production.name
+        stock_move_id.write ({'name' : move_name})
+
+        if production.product_id and production.product_id.sample_location:
+            location = self.pool.get('stock.location')
+            destloc = location.search(cr, uid, [('sample_location', '=', True)])
+            if destloc:
+                destination_location_id = destloc[0]
+                source_location_id = production.product_id.product_tmpl_id.property_stock_production.id
+                data = {
+                    'name': move_name,
+                    'date': production.date_planned,
+                    'product_id': production.product_id.id,
+                    'product_uom_qty': production.product_id.qty_sample,
+                    'product_uom': production.product_uom.id,
+                    'product_uos_qty': production.product_uos and production.product_uos_qty or False,
+                    'product_uos': production.product_uos and production.product_uos.id or False,
+                    'location_id': source_location_id,
+                    'location_dest_id': destination_location_id,
+                    'procurement_id': stock_move_id.procurement_id,
+                    'company_id': production.company_id.id,
+                    'production_id': production.id,
+                    'origin': production.name,
+                    'group_id': stock_move_id.group_id,
+                    }
+                move = stock_move.create(cr, uid, data, context=context)
+                stock_move.action_confirm(cr, uid, [move], context=context)
+
+        return move_id
+
+
+
     # def _make_production_produce_line(self, cr, uid, production, context=None):
     #     import ipdb; ipdb.set_trace()
     #     stock_move = self.pool.get('stock.move')
@@ -680,7 +718,8 @@ class mrp_production(osv.osv):
 
         return result
 
-    def action_produce(self, cr, uid, production_id, production_qty, production_mode, flag='', context=None):
+    #TODO HAY que revisar esta función; sobreescribe el action_produce y le añade "flag"
+    def action_produce_bis(self, cr, uid, production_id, production_qty, production_mode, flag='', context=None):
         """ To produce final product based on production mode (consume/consume&produce).
         If Production mode is consume, all stock move lines of raw materials will be done/consumed.
         If Production mode is consume & produce, all stock move lines of raw materials will be done/consumed
@@ -701,7 +740,6 @@ class mrp_production(osv.osv):
         if flag == 'consume':
             if production_mode in ['consume','consume_produce']:
                 consumed_data = {}
-
                 # Calculate already consumed qtys
                 for consumed in production.move_lines2:
                     if consumed.scrapped:
@@ -816,6 +854,7 @@ class mrp_production(osv.osv):
     def action_close(self, cr, uid, ids, context=None):
         for production in self.browse(cr, uid, ids, context=context):
             self.action_produce(cr, uid, production.id, production.product_qty, 'consume_produce', 'consume', context=context)
+            self.action_produce(cr, uid, production.id, production.product_qty, 'consume_produce', context=context)
             self.write(cr, uid, production.id, {'state': 'closed'})
         return True
 

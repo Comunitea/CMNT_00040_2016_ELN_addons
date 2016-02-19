@@ -52,6 +52,5 @@
                     'stock_view.xml'
                     ],
     "demo_xml" : [],
-    "active": False,
     "installable": True
 }
