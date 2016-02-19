@@ -334,7 +334,8 @@
             </field>
         </record>-->
 
-        <record id="view_move_tree_receipt_picking_custom" model="ir.ui.view">
+        <!-- COMENTADO POR LA MIGRACION 2 -->
+        <!-- <record id="view_move_tree_receipt_picking_custom" model="ir.ui.view">
             <field name="name">stock.move.tree2.custom</field>
             <field name="model">stock.move</field>
             <field name="inherit_id" ref="stock.view_move_tree_receipt_picking"/>
@@ -351,7 +352,7 @@
                     <field name="create_date" invisible="1"/>
                 </field>
             </field>
-        </record>
+        </record> -->
 
     </data>
 </openerp>
