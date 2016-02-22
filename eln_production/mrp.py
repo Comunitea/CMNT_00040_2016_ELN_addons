@@ -27,6 +27,9 @@ from openerp import netsvc
 #from openerp.tools import float_compare
 from operator import attrgetter
 from openerp.addons.product import _common
+from openerp.tools import float_compare, float_is_zero
+import openerp.addons.decimal_precision as dp
+
 
 class change_production_qty(osv.osv_memory):
     _inherit = 'change.production.qty'
@@ -642,6 +645,7 @@ class mrp_production(osv.osv):
 
 
     def product_qty_change(self, cr, uid, ids, product_id, product_qty, product_uom, product_uos, context=None):
+        #import ipdb; ipdb.set_trace()
         result = {'value': {}}
         if product_id:
             product_obj = self.pool.get('product.product').browse(cr, uid, product_id)
@@ -689,12 +693,13 @@ class mrp_production(osv.osv):
 
         return result
 
-    def product_id_change(self, cr, uid, ids, product_id, context=None):
+    def product_id_change(self, cr, uid, ids, product_id, product_qty=0, context=None):
         """ Finds UoM of changed product.
         @param product_id: Id of changed product.
         @return: Dictionary of values.
         """
-        result = super(mrp_production,self).product_id_change(cr, uid, ids, product_id, context=context)
+        #import ipdb; ipdb.set_trace()
+        result = super(mrp_production,self).product_id_change(cr, uid, ids, product_id, product_qty=product_qty, context=context)
         if not product_id:
             return {'value': {
                 'ids_str': u"[]",
@@ -733,22 +738,33 @@ class mrp_production(osv.osv):
         production = self.browse(cr, uid, production_id, context=context)
         produced_qty = 0
         wf_service = netsvc.LocalService("workflow")
+        #sacamos cantidad producidad: suma de los productos que coincidan con el production.product_id
+        # y que no sean "desechos"
         for produced_product in production.move_created_ids2:
+            #para cada línea en los productos fabricados
             if (produced_product.scrapped) or (produced_product.product_id.id <> production.product_id.id):
+                #si es desecho o no coincide con el producto que se fabrica entonces se lo salta.
                 continue
             produced_qty += produced_product.product_qty
+
+
         if flag == 'consume':
             if production_mode in ['consume','consume_produce']:
                 consumed_data = {}
                 # Calculate already consumed qtys
+                # para cada línea de productos consumidos
                 for consumed in production.move_lines2:
                     if consumed.scrapped:
                         continue
+                    # si no existe el valor en el dicionario se crea
                     if not consumed_data.get(consumed.product_id.id, False):
                         consumed_data[consumed.product_id.id] = 0
+                    # se actualiza el valor de ese diccionario para ese product_id.id
                     consumed_data[consumed.product_id.id] += consumed.product_qty
 
+
                 # Find product qty to be consumed and consume it
+                #recorremos los productos planificados ...
                 for scheduled in production.product_lines:
 
                     # total qty of consumed product we need after this consumption
@@ -841,19 +857,121 @@ class mrp_production(osv.osv):
 
         return True
 
+    def action_produce(self, cr, uid, production_id, production_qty, production_mode, wiz=False, context=None):
+        print "action_produce_heredado"
+        #import ipdb; ipdb.set_trace()
+        production = self.browse(cr, uid, production_id, context=context)
+        #sobreescribimos production_mode si viene en el contexto
+        if context.get('production_mode', False):
+            production_mode = context.get('production_mode', "consume")
+
+        if production_mode == "produce_not_consume":
+            main_production_move = False
+            stock_mov_obj = self.pool.get('stock.move')
+            uom_obj = self.pool.get("product.uom")
+
+            production_qty_uom = uom_obj._compute_qty(cr, uid, production.product_uom.id, production_qty, production.product_id.uom_id.id)
+            precision = self.pool['decimal.precision'].precision_get(cr, uid, 'Product Unit of Measure')
+            produced_products = {}
+
+            for produced_product in production.move_created_ids2:
+                if produced_product.scrapped:
+                    continue
+                if not produced_products.get(produced_product.product_id.id, False):
+                    produced_products[produced_product.product_id.id] = 0
+                produced_products[produced_product.product_id.id] += produced_product.product_qty
+            for produce_product in production.move_created_ids:
+                subproduct_factor = self._get_subproduct_factor(cr, uid, production.id, produce_product.id, context=context)
+                lot_id = False
+                if wiz:
+                    lot_id = wiz.lot_id.id
+                qty = min(subproduct_factor * production_qty_uom, produce_product.product_qty) #Needed when producing more than maximum quantity
+                new_moves = stock_mov_obj.action_consume(cr, uid, [produce_product.id], qty,
+                                                         location_id=produce_product.location_id.id, restrict_lot_id=lot_id, context=context)
+                stock_mov_obj.write(cr, uid, new_moves, {'production_id': production_id}, context=context)
+                remaining_qty = subproduct_factor * production_qty_uom - qty
+                if not float_is_zero(remaining_qty, precision_digits=precision):
+                    # In case you need to make more than planned
+                    #consumed more in wizard than previously planned
+                    extra_move_id = stock_mov_obj.copy(cr, uid, produce_product.id, default={'product_uom_qty': remaining_qty,
+                                                                                             'production_id': production_id}, context=context)
+                    stock_mov_obj.action_confirm(cr, uid, [extra_move_id], context=context)
+                    stock_mov_obj.action_done(cr, uid, [extra_move_id], context=context)
+
+                if produce_product.product_id.id == production.product_id.id:
+                    main_production_move = produce_product.id
+            # Remove remaining products to consume if no more products to produce
+            if not production.move_created_ids and production.move_lines:
+                stock_mov_obj.action_cancel(cr, uid, [x.id for x in production.move_lines], context=context)
+
+        elif production_mode =='consume_not_produce':
+            main_production_move = False
+            stock_mov_obj = self.pool.get('stock.move')
+            uom_obj = self.pool.get("product.uom")
+            production_qty_uom = uom_obj._compute_qty(cr, uid, production.product_uom.id, production_qty, production.product_id.uom_id.id)
+            precision = self.pool['decimal.precision'].precision_get(cr, uid, 'Product Unit of Measure')
+            # Supongo que nunca viene de un wiz
+            # if wiz:
+            #     consume_lines = []
+            #     for cons in wiz.consume_lines:
+            #         consume_lines.append({'product_id': cons.product_id.id, 'lot_id': cons.lot_id.id, 'product_qty': cons.product_qty})
+            # else:
+            consume_lines = self._calculate_qty(cr, uid, production, production_qty_uom, context=context)
+            for consume in consume_lines:
+                remaining_qty = consume['product_qty']
+                for raw_material_line in production.move_lines:
+                    if raw_material_line.state in ('done', 'cancel'):
+                        continue
+                    if remaining_qty <= 0:
+                        break
+                    if consume['product_id'] != raw_material_line.product_id.id:
+                        continue
+                    consumed_qty = min(remaining_qty, raw_material_line.product_qty)
+                    stock_mov_obj.action_consume(cr, uid, [raw_material_line.id], consumed_qty, raw_material_line.location_id.id,
+                                                 restrict_lot_id=consume['lot_id'], consumed_for=main_production_move, context=context)
+                    remaining_qty -= consumed_qty
+                if not float_is_zero(remaining_qty, precision_digits=precision):
+                    #consumed more in wizard than previously planned
+                    product = self.pool.get('product.product').browse(cr, uid, consume['product_id'], context=context)
+                    extra_move_id = self._make_consume_line_from_data(cr, uid, production, product, product.uom_id.id, remaining_qty, False, 0, context=context)
+                    stock_mov_obj.write(cr, uid, [extra_move_id], {'restrict_lot_id': consume['lot_id'],
+                                                                    'consumed_for': main_production_move}, context=context)
+                    stock_mov_obj.action_done(cr, uid, [extra_move_id], context=context)
+
+            self.message_post(cr, uid, production_id, body=_("%s produced") % self._description, context=context)
+            # Remove remaining products to consume if no more products to produce
+            if not production.move_created_ids and production.move_lines:
+                stock_mov_obj.action_cancel(cr, uid, [x.id for x in production.move_lines], context=context)
+
+        else:
+            super (mrp_production, self).action_produce(cr, uid, production_id, production_qty, production_mode, wiz=wiz, context=context)
+
+
+        signal_workflow = context.get('signal_workflow', 'button_produce_done')
+        if context.get('signal_workflow', False):
+            production.write ({'state': context.get('state', 'closed')})
+            self.signal_workflow(cr, uid, [production_id], signal_workflow)
+        return True
+
     def action_finished(self, cr, uid, ids, context=None):
+        print "action_finished"
+        #import ipdb; ipdb.set_trace()
         for production in self.browse(cr, uid, ids, context=context):
             self.write(cr, uid, production.id, {'date_finished': time.strftime('%Y-%m-%d %H:%M:%S'), 'state': 'finished'})
         return True
 
     def action_validated(self, cr, uid, ids, context=None):
+        print "action_validate"
+        #import ipdb; ipdb.set_trace()
         for production in self.browse(cr, uid, ids, context=context):
             self.write(cr, uid, production.id, {'state': 'validated'})
         return True
 
     def action_close(self, cr, uid, ids, context=None):
+        print "action_close"
+        #import ipdb; ipdb.set_trace()
         for production in self.browse(cr, uid, ids, context=context):
-            self.action_produce(cr, uid, production.id, production.product_qty, 'consume_produce', 'consume', context=context)
+            #self.action_produce(cr, uid, production.id, production.product_qty, 'consume_produce', 'consume', context=context)
             self.action_produce(cr, uid, production.id, production.product_qty, 'consume_produce', context=context)
             self.write(cr, uid, production.id, {'state': 'closed'})
         return True

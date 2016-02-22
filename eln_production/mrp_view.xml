@@ -290,10 +290,12 @@
                 </field>
 
                 <button name="button_produce" position="after">
-                    <button name="%(mrp.act_mrp_product_produce)d" states="finished" string="Validate Production" type="action" icon="terp-gtk-jump-to-ltr"/>
+                    <button name="%(mrp.act_mrp_product_produce)d" states="finished" context="{'production_mode': 'produce_not_consume', 'state': 'validated', 'signal_workflow': 'button_finished_validated'}" string="Validate Production" type="action" icon="terp-gtk-jump-to-ltr"/>
+                    <button name="%(mrp.act_mrp_product_produce)d" states="validated" context="{'production_mode': 'consume_not_produce', 'state': 'closed', 'signal_workflow': 'button_validated_closed'}" string="Close Production" type="action" icon="terp-gtk-jump-to-ltr"/>
+
                 </button>
                 <button name="button_produce" position="after">
-                    <button name="button_validated_closed" states="validated" string="Close Production" icon="gtk-ok"/>
+                    <!--<button name="button_validated_closed" states="validated" string="Close Production" icon="gtk-ok"/>-->
                     <button name="button_produce_done" states="closed" string="Done Production" icon="gtk-ok"/>
 
                 </button>
@@ -302,7 +304,7 @@
                 </button>
 
                 <field name="state" position="replace">
-                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,ready,in_production,finished,validated,closed,done" statusbar_colors='{"picking_except":"red","confirmed":"blue"}'/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,ready,in_production,closed" statusbar_colors='{"picking_except":"red","confirmed":"blue"}'/>
                 </field>
 
                 <xpath expr="//form/group[1]" position="replace">
