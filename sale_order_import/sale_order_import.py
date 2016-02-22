@@ -22,7 +22,7 @@
 import base64, StringIO, csv
 from openerp.osv import orm, fields, osv
 from openerp.addons.decimal_precision import decimal_precision as dp
-from openerp.tools.translate import _
+from openerp import _
 from openerp import netsvc
 import time
 from datetime import datetime

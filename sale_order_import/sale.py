@@ -19,10 +19,10 @@
 #
 ##############################################################################
 
-from osv import osv, fields
+from openerp.osv import osv, fields
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
-from tools.translate import _
+from openerp import _
 import time
 
 class sale_order(osv.osv):
