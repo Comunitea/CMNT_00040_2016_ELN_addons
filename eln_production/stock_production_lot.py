@@ -132,9 +132,6 @@ class stock_production_lot(osv.osv):
         'difference': fields.function(_get_balance, type="float", string="Difference (kg)", readonly=True, digits=(16,2), multi="balance"),
         'stock_moves_traceability_up': fields.function(_get_moves_traceability_up, method=True, readonly=True, relation='stock.move', type="many2many", string='Moves Balance sheet of Masses Up'),
     }
-    _defaults = {
-        'company_id': lambda self, cr, uid, context: self.pool.get('res.users').browse(cr, uid, uid).company_id.id
-    }
 stock_production_lot()
 
 class stock_move(osv.osv):
