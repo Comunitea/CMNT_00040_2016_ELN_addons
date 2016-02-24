@@ -859,7 +859,6 @@ class mrp_production(osv.osv):
 
     def action_produce(self, cr, uid, production_id, production_qty, production_mode, wiz=False, context=None):
         print "action_produce_heredado"
-        #import ipdb; ipdb.set_trace()
         production = self.browse(cr, uid, production_id, context=context)
         #sobreescribimos production_mode si viene en el contexto
         if context.get('production_mode', False):
