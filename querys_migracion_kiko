@@ -1,0 +1,135 @@
+﻿
+// CREAMOS UNA TABLA NUEVA PARA EVITAR RECURSIVIDAD
+
+select * into aux_res_partner from res_partner;
+
+
+// COMPROBAR COMO ESTÁ A QUE VALORES SE VA A ACTUALIZAR
+
+select rp.id, rp.name,
+(arp.name || ' / ' || rcs.name || ' (' || rp.zip || ')') as new_name,
+rpa.city as new_city , rp.street,
+rpa.gln_de
+from res_partner rp
+join res_country_state rcs on rcs.id = rp.state_id
+join aux_res_partner arp on  arp.id = rp.parent_id
+join res_partner_address rpa on rpa.openupgrade_7_migrated_to_partner_id = rp.id
+where rp.name  = '/' and not rp.parent_id isnull
+limit 10;
+
+//HACEMOS EL UPDATE PARA LOS CAMPOS: NAME, CITY Y EDI
+
+update res_partner rp
+set
+name = nt.new_name,
+city = nt.new_city,
+phone = nt.new_phone,
+gln_rf = nt.gln_rf, gln_rm = nt.gln_rm, gln_de = nt.gln_de, gln_co = nt.gln_co
+from
+(
+select rp.id, rp.name, rp.state_id, rcs.name, rp.parent_id,
+(arp.name || ' / ' || rcs.name || ' (' || rp.zip || ')') as new_name,
+rpa.city as new_city , rp.street,
+rpa.gln_rf, rpa.gln_rm, rpa.gln_de, rpa.gln_co, 
+rpa.phone as new_phone
+from res_partner rp
+join res_country_state rcs on rcs.id = rp.state_id
+join aux_res_partner arp on  arp.id = rp.parent_id
+join res_partner_address rpa on rpa.openupgrade_7_migrated_to_partner_id = rp.id
+where rp.name  = '/' and not rp.parent_id isnull
+)
+as nt
+where nt.id = rp.id
+
+
+// SI NAME ESTABLECIDO NO LO ACTUALIZAMOS
+
+update res_partner rp
+set
+city = nt.new_city,
+email = nt.new_email,
+phone = nt.new_phone,
+fax = nt.new_fax,
+gln_rf = nt.gln_rf, gln_rm = nt.gln_rm, gln_de = nt.gln_de, gln_co = nt.gln_co
+
+from
+(
+select rp.id, rp.name, rp.state_id, rcs.name, rp.parent_id,
+(arp.name || ' / ' || rcs.name || ' (' || rp.zip || ')') as new_name,
+rpa.city as new_city , rp.street,
+rpc.email as new_email,
+rpa.gln_rf, rpa.gln_rm, rpa.gln_de, rpa.gln_co, 
+rpa.phone as new_phone,
+rpa.fax as new_fax
+from res_partner rp
+
+join res_country_state rcs on rcs.id = rp.state_id
+join aux_res_partner arp on  arp.id = rp.parent_id
+join res_partner_address rpa on rpa.openupgrade_7_migrated_to_partner_id = rp.id
+join res_partner_contact rpc on rpa.contact_id = rpc.id
+)
+as nt
+where nt.id = rp.id
+
+select name, openupgrade_7_migrated_to_partner_id from res_partner_address where name ilike '%BERINI%'
+
+//DEBEMOS COMPROBAR SI ESTO ES NECESARIO: SI UN PARTNER NO TIENE EDI Y SU PARENT SI, SE ACTUALIZA AL DEL PARENT ??????
+
+update res_partner rp
+set
+gln_rf = nt.gln_rf, gln_rm = nt.gln_rm, gln_de = nt.gln_de, gln_co = nt.gln_co
+from aux_res_partner nt
+where 
+rp.parent_id = nt.id and
+rp.gln_rf isnull and not rp.gln_rf isnull and
+rp.gln_rm isnull and not rp.gln_rm isnull and
+rp.gln_de isnull and not rp.gln_de isnull and
+rp.gln_co isnull and not rp.gln_co isnull
+
+//BORRAMOS LA TABLA AUXILIAR
+
+drop table aux_res_partner
+
+//INSERTAR EN RES_PARTNER RES_CONTACT
+
+insert into res_partner 
+(create_uid, write_uid, lang, use_parent_address, type, customer, employee, supplier, agent, opt_out, vat_subjected, color, 
+is_company, active, user_id, agent_type, settlement,contact_type, notify_email, display_name, name, phone, mobile, fax, email, gln_de, gln_rf, gln_rm, gln_co, 
+parent_id, company_id, street, street2, zip, title, state_id, city, country_id)
+(
+select 1,1,'es ES', false, 'contact', false, false, false, false,  false, false, 0 as color, 
+false as is_company, true as active, 1 as user_id, 'agent' as agent_type, 'monthly' as settlement, 'standalone' as contact_type, 'always' as notify_email, 
+rpc.first_name || ' ' || rpc.last_name as display_name,
+rpc.first_name || ' ' || rpc.last_name as name,
+rpa.phone as phone, rpc.mobile as mobile, rpa.fax as fax, rpc.email || ',' || rpa.email as email,
+rpa.gln_de as gln_de, rpa.gln_rf as gln_rf, rpa.gln_rm as gln_rm, rpa.gln_co as gln_co, 
+rpa.openupgrade_7_migrated_to_partner_id as parent_id,
+rpa.company_id as company_id,
+rpa.street as street, rpa.street2 as street2, rpa.zip as zip, rpa.title as title, rpa.state_id as state_id, rpa.city as city, rpa.country_id as country_id
+from res_partner_contact rpc
+inner join res_partner_address rpa on rpa.contact_id = rpc.id
+inner join res_partner rp  on rpa.openupgrade_7_migrated_to_partner_id = rp.id
+where (not rp.name ilike rpc.last_name || ' ' || rpc.first_name ) and (not rp.name ilike rpc.first_name || ' ' || rpc.last_name )
+order by rpa.email desc
+)
+
+
+
+
+//PRODUCCION
+
+//STOCK_MOVE TIENE UN MANY2ONE A MRP_PRODUCTION, HEREDADO DE UN MANY TO MANY Y HAY QUE ACTUALIZAR YA QUE NO SE HA MIGRADO ?
+
+update stock_move set raw_material_production_id = (select production_id from mrp_production_move_ids where move_id = stock_move.id)
+where raw_material_production_id isnull
+
+// LOS PRODUCTOS DEL NOGAL DEBEN DE ESTAR ESTABLECIDOS A company_id = False
+// el nogal company_id = 1
+
+update product_template set company_id = null where company_id = 1
+
+
+//FALLO DE SEGURIDAD DEBUDO AL ARBOL DE ALMACENES
+
+update stock_warehouse set view_location_id = 151 where id = 4
+update stock_warehouse set view_location_id = 150 where id = 6
