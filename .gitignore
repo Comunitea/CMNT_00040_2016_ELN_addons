@@ -58,3 +58,5 @@ target/
 
 # IDE folder
 .idea/
+
+*.jasper
