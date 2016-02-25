@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openerp>
     <data>
-
+        
         <record id="view_partner_form_supplier_checks" model="ir.ui.view">
             <field name="name">res.partner.form.add.supplier_checks</field>
             <field name="model">res.partner</field>

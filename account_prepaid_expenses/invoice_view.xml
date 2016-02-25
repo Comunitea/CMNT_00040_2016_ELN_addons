@@ -44,19 +44,5 @@
             </field>
         </record>
 
-        <!--No hace falta en lienas de venta-->
-        <!--Añadido postmigration-->
-        <!--<record id="view_invoice_form_add_prepaid_expense_amount" model="ir.ui.view">-->
-            <!--<field name="name">account.invoice.form.agent</field>-->
-            <!--<field name="model">account.invoice</field>-->
-            <!--<field name="inherit_id" ref="account.invoice_form" />-->
-            <!--<field name="arch" type="xml">-->
-                <!--<xpath expr="//field[@name='invoice_line']/tree//field[@name='discount']" position="after">-->
-                   <!--<field name="prepaid_expense_amount"/>-->
-                    <!--<field name="prepaid_expense_amount_untaxed"/>-->
-                <!--</xpath>-->
-            <!--</field>-->
-        <!--</record>-->
-
     </data>
 </openerp>
