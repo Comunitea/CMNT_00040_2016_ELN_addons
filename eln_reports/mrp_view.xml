@@ -2,8 +2,8 @@
 
 <openerp>
     <data>
-        Comentado post migration, hay que migrar eln_production antes
-        <record id="mrp_workcenter_view" model="ir.ui.view">
+     <!--    Comentado post migration, hay que migrar eln_production antes -->
+<!--         <record id="mrp_workcenter_view" model="ir.ui.view">
             <field name="name">mrp.workcenter.form</field>
             <field name="model">mrp.workcenter</field>
             <field name="inherit_id" ref="eln_production.mrp_workcenter_view"/>
@@ -20,6 +20,6 @@
                    </group>
                 </separator>
             </field>
-        </record>
+        </record> -->
     </data>
 </openerp>
