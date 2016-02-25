@@ -22,6 +22,7 @@
 from openerp.osv import osv, fields
 from openerp.tools.translate import _
 
+# DEPRECATED, NO SE USA ESTE MODELO EN LA 8.0, COMENTADO EN EL INIT
 class res_partner_address(osv.osv):
 
     _inherit = 'res.partner.address'

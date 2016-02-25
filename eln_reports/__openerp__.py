@@ -33,21 +33,21 @@
                 'stock',
                 'report_webkit',
                 'eln_custom',
-				'eln_production',
+                'eln_production',
                 ],
     "init_xml" : [],
     "data" : ['res_users_view.xml',
-                    'mrp_view.xml',
+                    #'mrp_view.xml',
 
                     # 'report/planning_report/planning_report_webkit_header.xml',
                     'wizard/planning_report_wizard_view.xml',
-                    
+
                     'wizard/purchase_order_report_wizard_view.xml',
                     'wizard/product_datasheet_report_wizard_view.xml',
                     'wizard/product_logistics_sheet_report_wizard_view.xml',
 
                     'security/ir.model.access.csv',
-                    
+
                     'eln_reports.xml',
                   ],
 

@@ -242,14 +242,14 @@
                 </filter>
                 <filter string="Late" position="before">
                     <separator orientation="vertical"/>
-                    <filter icon="terp-go-today" string="Yesterday" name="yesterday" domain="['&amp;', 
-                    ('date_planned', '&gt;=', (datetime.date.today()+datetime.timedelta(days=-1)).strftime('%%Y-%%m-%%d 00:00:00')), 
+                    <filter icon="terp-go-today" string="Yesterday" name="yesterday" domain="['&amp;',
+                    ('date_planned', '&gt;=', (datetime.date.today()+datetime.timedelta(days=-1)).strftime('%%Y-%%m-%%d 00:00:00')),
                     ('date_planned', '&lt;=', (datetime.date.today()+datetime.timedelta(days=-1)).strftime('%%Y-%%m-%%d 23:59:59'))]"/>
-                    <filter icon="terp-go-today" string="Today" name="today" domain="['&amp;', 
-                    ('date_planned', '&gt;=', time.strftime('%%Y-%%m-%%d 00:00:00')), 
+                    <filter icon="terp-go-today" string="Today" name="today" domain="['&amp;',
+                    ('date_planned', '&gt;=', time.strftime('%%Y-%%m-%%d 00:00:00')),
                     ('date_planned', '&lt;=', time.strftime('%%Y-%%m-%%d 23:59:59'))]"/>
-                    <filter icon="terp-go-today" string="Tomorrow" name="tomorrow" domain="['&amp;', 
-                    ('date_planned', '&gt;=', (datetime.date.today()+datetime.timedelta(days=1)).strftime('%%Y-%%m-%%d 00:00:00')), 
+                    <filter icon="terp-go-today" string="Tomorrow" name="tomorrow" domain="['&amp;',
+                    ('date_planned', '&gt;=', (datetime.date.today()+datetime.timedelta(days=1)).strftime('%%Y-%%m-%%d 00:00:00')),
                     ('date_planned', '&lt;=', (datetime.date.today()+datetime.timedelta(days=1)).strftime('%%Y-%%m-%%d 23:59:59'))]"/>
                 </filter>
             </field>
@@ -472,7 +472,7 @@
                     <field name="hour" sum="Tiempo Est. Total"/>
                     <field name="stock"/>
                     <field name="date_expected"/>
-                    <field name="partner_name"/>
+                    <!--field name="partner_name"/-->
                     <field name="color_stock"/>
                     <field name="routing_id"/>
                     <templates>

@@ -39,7 +39,44 @@ class sale_order(orm.Model):
         ], 'Invoice Policy', required=True, readonly=True, states={'draft': [('readonly', False)]}, change_default=True),
         'commitment_date': fields.date('Commitment Date', help="Date on which delivery of products is to be made.", readonly=True, states={'draft': [('readonly', False)],'waiting_date': [('readonly', False)],'manual': [('readonly', False)],'progress': [('readonly', False)]}),
         'supplier_cip': fields.char('CIP', help="Código interno del proveedor.", size=32, readonly=True, states={'draft': [('readonly', False)],'waiting_date': [('readonly', False)],'manual': [('readonly', False)],'progress': [('readonly', False)]}),
+        'shop_id': fields.many2one('sale.shop', 'Sale type', required=True)
     }
+
+    def onchange_shop_id(self, cr, uid, ids, shop_id):
+        v = {}
+        if shop_id:
+            shop = self.pool.get('sale.shop').browse(cr, uid, shop_id)
+            v['project_id'] = shop.project_id.id
+            v['company_id'] = shop.company_id.id
+            # overriden by the customer priceslist if existing
+            if shop.pricelist_id.id:
+                v['pricelist_id'] = shop.pricelist_id.id
+            if shop.supplier_id.id:
+                v['supplier_id'] = shop.supplier_id.id
+            if shop.order_policy:
+                v['order_policy'] = shop.order_policy
+            v['order_policy'] = shop.order_policy
+            v['supplier_id'] = shop.supplier_id.id
+        return {'value': v}
+
+    def onchange_shop_id2(self, cr, uid, ids, shop_id, partner_id=False):
+        res = self.onchange_shop_id(cr, uid, ids, shop_id)
+        if not shop_id:
+            res['value']['pricelist_id'] = False
+            return res
+
+        if partner_id:
+            shop_obj = self.pool.get('sale.shop').browse(cr, uid, shop_id)
+            partner_obj = self.pool.get('res.partner').browse(cr, uid, partner_id)
+
+            if shop_obj.indirect_invoicing:
+                if partner_obj.property_product_pricelist_indirect_invoicing:
+                    res['value']['pricelist_id'] = partner_obj.property_product_pricelist_indirect_invoicing.id
+            else:
+                if partner_obj.property_product_pricelist:
+                    res['value']['pricelist_id'] = partner_obj.property_product_pricelist.id
+
+        return res
 
     def create(self, cr, uid, vals, context=None):
         """overwrites create method to set commitment_date automatically"""
