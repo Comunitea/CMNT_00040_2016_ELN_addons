@@ -54,7 +54,7 @@ class mrp_workcenter(osv.osv):
     _columns = {
         'operators_ids': fields.many2many('hr.employee', 'hr_employee_mrp_workcenter_rel', 'workcenter_id', 'employee_id', string='Operators'),
     }
-    
+
 mrp_workcenter()
 
 def rounding(f, r):
@@ -65,14 +65,14 @@ def rounding(f, r):
 
 class mrp_bom(osv.osv):
     _inherit = 'mrp.bom'
-    
+
     _columns = {
         'alternatives_routing_ids': fields.many2many('mrp.routing', 'mrp_bom_routing_rel', 'bom_id', 'routing_id', string="Alternatives routings")
     }
-    
+
     def _check_product(self, cr, uid, ids, context=None):
         return True
-    
+
     _constraints = [
         (_check_product, 'BoM line product should not be same as BoM product.', ['product_id']),
     ]
@@ -360,7 +360,7 @@ class mrp_routing_workcenter(osv.osv):
         'uom_id': fields.many2one('product.uom', 'UoM'),
         'operators_number': fields.integer('Operators Nº')
     }
-    
+
     def onchange_workcenter_id(self, cr, uid, ids, workcenter_id, context=None):
         """ Changes Operators if workcenter changes.
         @param workcenter_id: Changed workcenter_id
@@ -374,7 +374,7 @@ class mrp_routing_workcenter(osv.osv):
                     operators.append(oper.id)
                 return {'value': {'operators_ids': operators}}
         return {}
-    
+
 mrp_routing_workcenter()
 
 class production_stops(osv.osv):
@@ -385,7 +385,7 @@ class production_stops(osv.osv):
         'time': fields.float('Time', required=True),
         'production_workcenter_line_id': fields.many2one('mrp.production.workcenter.line', 'Production workcenter line')
     }
-    
+
 production_stops()
 
 class mrp_production_workcenter_line(osv.osv):
@@ -429,7 +429,7 @@ class mrp_production_workcenter_line(osv.osv):
                 elif line.stock > 0:
                     res[line.id] = 4
         return res
-    
+
     def _get_date_stop(self, cr, uid, ids, field_names, arg, context=None):
         res = {}
         for line in self.browse(cr, uid, ids, context=context):
@@ -440,7 +440,7 @@ class mrp_production_workcenter_line(osv.osv):
                 res[line.id] = stop.strftime("%Y-%m-%d %H:%M:%S")
 
         return res
-    
+
     _columns = {
         'operators_ids': fields.many2many('hr.employee', 'hr_employee_mrp_prod_workc_line_rel', 'workcenter_line_id', 'employee_id', string='Operators'),
         'production_stops_ids': fields.one2many('production.stops', 'production_workcenter_line_id', 'Production Stops'),
@@ -450,9 +450,9 @@ class mrp_production_workcenter_line(osv.osv):
         'gasoleo_stop': fields.float('Gasoleo stop'),
         'color': fields.integer('Color Index'),
         'move_id': fields.related('production_id', 'move_prod_id', type='many2one',relation='stock.move', string='Move', readonly=True),
-        'address': fields.related('move_id', 'address_id', type='many2one', string='address', relation='res.partner.address', readonly=True),
-        'partnerid': fields.related('address', 'partner_id', type='many2one', string='Partner', relation='res.partner',readonly=True),
-        'partner_name': fields.related('partnerid', 'name', type='char', string='Parntername', readonly=True),
+        #'address': fields.related('move_id', 'address_id', type='many2one', string='address', relation='res.partner.address', readonly=True),
+        #'partnerid': fields.related('address', 'partner_id', type='many2one', string='Partner', relation='res.partner',readonly=True),
+        #'partner_name': fields.related('partnerid', 'name', type='char', string='Parntername', readonly=True),
         'date_expected': fields.related('move_id', 'date_expected', type='datetime', string='date', readonly=True),
         'date_stop': fields.function(_get_date_stop, type="datetime", string="Date stop", readonly=True),
         'stock': fields.related('product', 'real_virtual_available', type='float', string='Stock', readonly=True),
@@ -527,7 +527,7 @@ class mrp_production(osv.osv):
                                     \nIf the stock is available then the state is set to \'Ready to Produce\'.\n When the production gets started then the state is set to \'In Production\'.\n When the production is over, the state is set to \'Done\'.'),
         'note': fields.text('Notes', readonly = False, states={'cancel':[('readonly', True)], 'done':[('readonly', True)]}),
     }
-    
+
     def _costs_generate(self, cr, uid, production):
         """ Calculates total costs at the end of the production.
         @param production: Id of production order.
@@ -1000,12 +1000,12 @@ class mrp_production(osv.osv):
 
         return True
 
-    def action_cancel(self, cr, uid, ids, context=None):  
+    def action_cancel(self, cr, uid, ids, context=None):
         """ Cancels the production order and related stock moves.
         @return: True
         """
         """
-        Se puede dar el caso de querer cancelar un producción en estado 'confirmed', la cuál no nos va a dejar si tenemos pickings en estado 
+        Se puede dar el caso de querer cancelar un producción en estado 'confirmed', la cuál no nos va a dejar si tenemos pickings en estado
         distinto a 'draft' o 'cancel'. Lo que se hace para eso es cancelar el picking primero y aquí es cuando surge el problema. El botón cancelar cuando
         la producción es 'confirmed' llama directamente a esta función, pero cuando se cancela el picking el botón cancelar dispara el flujo hacia el estado 'cancel'
         (lo que pasa es que se ha cambiado el estado de la producción a 'picking_except')
@@ -1016,7 +1016,7 @@ class mrp_production(osv.osv):
             context = {}
 
         res = super(mrp_production, self).action_cancel(cr, uid, ids, context=context)
-        
+
         if res:
             workflow = netsvc.LocalService("workflow")
             for production in self.browse(cr, uid, ids, context=context):
