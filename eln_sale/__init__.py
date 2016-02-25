@@ -23,4 +23,4 @@ import res_partner
 import product
 import sale
 import stock
-# import sale_shop  post migration no existe en odoo
+import sale_shop

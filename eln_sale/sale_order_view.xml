@@ -26,10 +26,11 @@
                      <field name="supplier_cip"/>
                 </field>
 
-                <!--POSMIGRATION la tienda ya no existe-->
-                <!--<field name="shop_id" position="before">-->
-                    <!--<field name="supplier_cip"/>-->
-                <!--</field>-->
+                <!-- Recreamos el campo tienda -->
+                <field name="partner_id" position="after">
+                    <field name="shop_id" on_change="onchange_shop_id2(shop_id, partner_id)"/>
+                    <field name="supplier_cip"/>
+                </field>
                 
                 <!--<field name="shop_id" position="replace">-->
                     <!--<field name="shop_id" on_change="onchange_shop_id2(shop_id, partner_id)" required="1" select="1"/>-->
