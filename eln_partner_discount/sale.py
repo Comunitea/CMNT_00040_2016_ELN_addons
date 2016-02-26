@@ -32,7 +32,6 @@ class sale_order_line(orm.Model):
     def product_id_change(self, cr, uid, ids, pricelist, product, qty=0,
             uom=False, qty_uos=0, uos=False, name='', partner_id=False,
             lang=False, update_tax=True, date_order=False, packaging=False, fiscal_position=False, flag=False, context=None):
-        import ipdb; ipdb.set_trace()
         """set partner discount to sale order lines discount"""
         result = super(sale_order_line, self).product_id_change(cr, uid, ids, pricelist, product, qty, 
             uom, qty_uos, uos, name, partner_id, 
