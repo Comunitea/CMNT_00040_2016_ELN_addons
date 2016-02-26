@@ -242,5 +242,3 @@ where nt.id = rp.id
 -- ARREGLAR VISTA CONTABILIDAD/PAGOS/EFECTOS
 delete from ir_ui_view where id in (select id from ir_ui_view where name = 'Invoice Payments Select');
 delete from ir_ui_view where id in (select id from ir_ui_view where name = 'Payments');
-
-

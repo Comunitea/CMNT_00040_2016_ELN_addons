@@ -16,13 +16,6 @@
                 <field name="min_date" position="after">
                     <field name="commitment_date"/>
                 </field>
-                <!--POSTMIGRATION: Comentado y puesto arriba-->
-                <!--<field name="auto_picking" position="replace"> -->
-                    <!--<group col="4" colspan="2" >-->
-                        <!--<field name="auto_picking"/>-->
-                     <!--<field name="supplier_cip"/>-->
-                    <!--</group>-->
-                <!--</field>-->
             </field>
         </record>
         

@@ -26,15 +26,13 @@ from openerp.osv import orm
 
 class sale_order_line(orm.Model):
     """Inherits sale.order.line to drag partner discount to invoice lines"""
-    
+
     _inherit = 'sale.order.line'
-    
+
     def product_id_change(self, cr, uid, ids, pricelist, product, qty=0,
             uom=False, qty_uos=0, uos=False, name='', partner_id=False,
             lang=False, update_tax=True, date_order=False, packaging=False, fiscal_position=False, flag=False, context=None):
-
         """set partner discount to sale order lines discount"""
-
         result = super(sale_order_line, self).product_id_change(cr, uid, ids, pricelist, product, qty, 
             uom, qty_uos, uos, name, partner_id, 
             lang, update_tax, date_order, packaging, fiscal_position, flag, context)

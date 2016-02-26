@@ -3,7 +3,7 @@
 <openerp>
     <data>
 
-        <record id="view_order_form" model="ir.ui.view">
+        <record id="view_elnsale_sale_form" model="ir.ui.view">
             <field name="name">view.elnsale.sale.form</field>
             <field name="model">sale.order</field>
             <field name="inherit_id" ref="sale.view_order_form"/>
@@ -26,20 +26,16 @@
                      <field name="supplier_cip"/>
                 </field>
 
-                <!--POSMIGRATION la tienda ya no existe-->
-                <!--<field name="shop_id" position="before">-->
-                    <!--<field name="supplier_cip"/>-->
-                <!--</field>-->
-                
-                <!--<field name="shop_id" position="replace">-->
-                    <!--<field name="shop_id" on_change="onchange_shop_id2(shop_id, partner_id)" required="1" select="1"/>-->
-                <!--</field>-->
-                
+                <!-- Recreamos el campo tienda -->
+                <field name="partner_id" position="after">
+                    <field name="shop_id" on_change="onchange_shop_id2(shop_id, partner_id)"/>
+                    <field name="supplier_cip"/>
+                </field>
+                                
                 <field name="project_id" position="replace">
                     <!--POST-MIGRATION: PARTNER ORDER ID MO EXISTIA-->
                     <field name="project_id" required="1" context="{'partner_id':partner_id, 'contact_id':False, 'pricelist_id':pricelist_id, 'default_name':name}" groups="analytic.group_analytic_accounting" domain="[('type','&lt;&gt;','view'), ('company_id', '=', company_id), ('parent_id', '!=', False)]"/>
                 </field>
-
             </field>
         </record>
 
@@ -84,8 +80,8 @@
             <field name="arch" type="xml">
                 <field name="name" position="replace">
                     <!--POST-MIGRATION-->
-                    <!--<filter icon="terp-check" string="Direct Invoicing" domain="[('shop_id.indirect_invoicing','=',False)]"/>-->
-                    <!--<filter icon="terp-check" string="Indirect Invoicing" domain="[('shop_id.indirect_invoicing','=',True)]"/>-->
+                    <filter icon="terp-check" string="Direct Invoicing" domain="[('shop_id.indirect_invoicing','=',False)]"/>
+                    <filter icon="terp-check" string="Indirect Invoicing" domain="[('shop_id.indirect_invoicing','=',True)]"/>
                     <newline/>
 	                <field name="name" filter_domain="['|', ('name','ilike',self),('client_order_ref','ilike',self)]"/>
                 </field>
