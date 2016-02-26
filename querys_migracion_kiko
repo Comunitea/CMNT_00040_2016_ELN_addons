@@ -4,77 +4,53 @@
 select * into aux_res_partner from res_partner;
 
 
-// COMPROBAR COMO ESTÁ A QUE VALORES SE VA A ACTUALIZAR
-
-select rp.id, rp.name,
-(arp.name || ' / ' || rcs.name || ' (' || rp.zip || ')') as new_name,
-rpa.city as new_city , rp.street,
-rpa.gln_de
-from res_partner rp
-join res_country_state rcs on rcs.id = rp.state_id
-join aux_res_partner arp on  arp.id = rp.parent_id
-join res_partner_address rpa on rpa.openupgrade_7_migrated_to_partner_id = rp.id
-where rp.name  = '/' and not rp.parent_id isnull
-limit 10;
-
-//HACEMOS EL UPDATE PARA LOS CAMPOS: NAME, CITY Y EDI
+//ACTUALIZAMOS LOS NOMBRES DE RES_PARTNER AL COMERCIAL DEL ADDRESS SI LO TIENE
 
 update res_partner rp
 set
-name = nt.new_name,
-city = nt.new_city,
-phone = nt.new_phone,
-gln_rf = nt.gln_rf, gln_rm = nt.gln_rm, gln_de = nt.gln_de, gln_co = nt.gln_co
+name = new_name,
+display_name = new_name,
+phone = new_phone,
+city = new_city
 from
 (
-select rp.id, rp.name, rp.state_id, rcs.name, rp.parent_id,
-(arp.name || ' / ' || rcs.name || ' (' || rp.zip || ')') as new_name,
-rpa.city as new_city , rp.street,
-rpa.gln_rf, rpa.gln_rm, rpa.gln_de, rpa.gln_co, 
+select rp.id,
+case
+	when not rpa.comercial isnull then rpa.comercial
+	else (arp.name || ' / ' || rcs.name || ' (' || rp.zip || ')')
+end as new_name,
+rpa.city as new_city,
 rpa.phone as new_phone
 from res_partner rp
 join res_country_state rcs on rcs.id = rp.state_id
-join aux_res_partner arp on  arp.id = rp.parent_id
+join aux_res_partner arp on arp.id = rp.parent_id
 join res_partner_address rpa on rpa.openupgrade_7_migrated_to_partner_id = rp.id
-where rp.name  = '/' and not rp.parent_id isnull
+where not rp.parent_id isnull
 )
 as nt
 where nt.id = rp.id
 
 
-// SI NAME ESTABLECIDO NO LO ACTUALIZAMOS
+//ACTUALIZAMOS LOS DATOS DE EDI DE RES_PARTNER_ADDRESS A RES_PARTNER
 
 update res_partner rp
 set
-city = nt.new_city,
-email = nt.new_email,
-phone = nt.new_phone,
-fax = nt.new_fax,
 gln_rf = nt.gln_rf, gln_rm = nt.gln_rm, gln_de = nt.gln_de, gln_co = nt.gln_co
-
 from
 (
-select rp.id, rp.name, rp.state_id, rcs.name, rp.parent_id,
-(arp.name || ' / ' || rcs.name || ' (' || rp.zip || ')') as new_name,
-rpa.city as new_city , rp.street,
-rpc.email as new_email,
-rpa.gln_rf, rpa.gln_rm, rpa.gln_de, rpa.gln_co, 
-rpa.phone as new_phone,
-rpa.fax as new_fax
+select rpa.gln_rf, rp.id, rp.parent_id,
+rpa.gln_rm, rpa.gln_de, rpa.gln_co
 from res_partner rp
-
 join res_country_state rcs on rcs.id = rp.state_id
-join aux_res_partner arp on  arp.id = rp.parent_id
+join aux_res_partner arp on arp.id = rp.parent_id
 join res_partner_address rpa on rpa.openupgrade_7_migrated_to_partner_id = rp.id
-join res_partner_contact rpc on rpa.contact_id = rpc.id
+where not rp.parent_id isnull
 )
 as nt
-where nt.id = rp.id
+where nt.id = rp.id and rp.gln_rf isnull
 
-select name, openupgrade_7_migrated_to_partner_id from res_partner_address where name ilike '%BERINI%'
 
 //DEBEMOS COMPROBAR SI ESTO ES NECESARIO: SI UN PARTNER NO TIENE EDI Y SU PARENT SI, SE ACTUALIZA AL DEL PARENT ??????
-
 update res_partner rp
 set
 gln_rf = nt.gln_rf, gln_rm = nt.gln_rm, gln_de = nt.gln_de, gln_co = nt.gln_co
@@ -86,11 +62,10 @@ rp.gln_rm isnull and not rp.gln_rm isnull and
 rp.gln_de isnull and not rp.gln_de isnull and
 rp.gln_co isnull and not rp.gln_co isnull
 
-//BORRAMOS LA TABLA AUXILIAR
 
-drop table aux_res_partner
 
-//INSERTAR EN RES_PARTNER RES_CONTACT
+//INSERTAR EN RES_PARTNER LOS DATOS DE RES_CONTACT (se pierde la relación con res_parnter pero no los datos, si no tiene nombre cogemos el nombre
+del res_partner_address asociado?
 
 insert into res_partner 
 (create_uid, write_uid, lang, use_parent_address, type, customer, employee, supplier, agent, opt_out, vat_subjected, color, 
@@ -99,22 +74,28 @@ parent_id, company_id, street, street2, zip, title, state_id, city, country_id)
 (
 select 1,1,'es ES', false, 'contact', false, false, false, false,  false, false, 0 as color, 
 false as is_company, true as active, 1 as user_id, 'agent' as agent_type, 'monthly' as settlement, 'standalone' as contact_type, 'always' as notify_email, 
-rpc.first_name || ' ' || rpc.last_name as display_name,
-rpc.first_name || ' ' || rpc.last_name as name,
+
+case
+	when rpc.first_name = '/' then 'CONTACTO DE' || coalesce(rpa.comercial, rpa.name, rp.comercial, rp.name)
+	else rpc.first_name || '_' || rpc.last_name
+end as display_name,
+case
+	when rpc.first_name = '/' then 'CONTACTO DE' || coalesce(rpa.comercial, rpa.name, rp.comercial, rp.name)
+	else rpc.first_name || '_' || rpc.last_name
+end as name,
 rpa.phone as phone, rpc.mobile as mobile, rpa.fax as fax, rpc.email || ',' || rpa.email as email,
-rpa.gln_de as gln_de, rpa.gln_rf as gln_rf, rpa.gln_rm as gln_rm, rpa.gln_co as gln_co, 
+rpa.gln_de as gln_de, rpa.gln_rf as gln_rf, rpa.gln_rm as gln_rm, rpa.gln_co as gln_co,
 rpa.openupgrade_7_migrated_to_partner_id as parent_id,
 rpa.company_id as company_id,
 rpa.street as street, rpa.street2 as street2, rpa.zip as zip, rpa.title as title, rpa.state_id as state_id, rpa.city as city, rpa.country_id as country_id
 from res_partner_contact rpc
 inner join res_partner_address rpa on rpa.contact_id = rpc.id
-inner join res_partner rp  on rpa.openupgrade_7_migrated_to_partner_id = rp.id
-where (not rp.name ilike rpc.last_name || ' ' || rpc.first_name ) and (not rp.name ilike rpc.first_name || ' ' || rpc.last_name )
-order by rpa.email desc
-)
+inner join res_partner rp  on rpa.openupgrade_7_migrated_to_partner_id = rp.id)
 
 
+//BORRAMOS LA TABLA AUXILIAR
 
+drop table if exists aux_res_partner
 
 //PRODUCCION
 
@@ -129,7 +110,7 @@ where raw_material_production_id isnull
 update product_template set company_id = null where company_id = 1
 
 
-//FALLO DE SEGURIDAD DEBUDO AL ARBOL DE ALMACENES
+//FALLO DE SEGURIDAD DEBIDO AL ARBOL DE ALMACENES
 
 update stock_warehouse set view_location_id = 151 where id = 4
 update stock_warehouse set view_location_id = 150 where id = 6
