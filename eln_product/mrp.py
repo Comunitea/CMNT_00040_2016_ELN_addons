@@ -18,9 +18,10 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import osv, fields
+from openerp.osv import orm, fields
 
-class mrp_bom_line(osv.osv):
+
+class mrp_bom_line(orm.Model):
     _inherit = 'mrp.bom.line'
 
     def _get_product_qty_percent(self, cr, uid, ids, field_name, arg, context):

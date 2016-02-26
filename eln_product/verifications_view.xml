@@ -8,7 +8,7 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Product verifications">
-                    <group>
+                    <group string="Product verifications">
                         <field name="name"/>
                     </group>
                 </form>
