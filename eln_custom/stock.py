@@ -120,8 +120,9 @@ class stock_picking(orm.Model):
                                        'stock.move': (_get_picking, ['product_id', 'product_qty'], 10)
                                       }),
         'route_id': fields.many2one('route', 'Route'),
-        'container_numbers': fields.related('purchase_id', 'container_numbers', type='char', string="Container numbers", readonly=True,  
-                           help="Container numbers assigned to the order."),
+        # TODO: Eliminado para evitar problemas en informes porque purchase_id ya no existe
+        #'container_numbers': fields.related('purchase_id', 'container_numbers', type='char', string="Container numbers", readonly=True,
+        #                   help="Container numbers assigned to the order."),
     }
     _defaults = {
         'color_stock': 0
@@ -151,7 +152,7 @@ stock_location()
 class stock_inventory(orm.Model):
     _inherit = "stock.inventory"
     _description = "Inventory"
-    
+
     def action_cancel_inventory(self, cr, uid, ids, context=None):
         """ Cancels both stock move and inventory
         @return: True
@@ -169,7 +170,7 @@ class stock_inventory(orm.Model):
             if moves:
                 raise osv.except_osv(_('UserError'),
                                      _('In order to cancel this inventory, if it is possible, you must first cancel the related moves.'))
-                
+
         res = super(stock_inventory, self).action_cancel_inventory(cr, uid, ids, context=context)
-        
+
         return res

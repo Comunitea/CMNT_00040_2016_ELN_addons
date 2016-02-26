@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2016 Comunitea All Rights Reserved
-#    $Jesús Ventosinos Mayor <jesus@comunitea.com>$
+#    Copyright (C) 2004-2012 Pexego Sistemas Informáticos All Rights Reserved
+#    $Marta Vázquez Rodríguez$ <marta@pexego.es>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -18,4 +18,26 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from . import models
+from openerp import pooler, _
+from openerp.addons import jasper_reports
+from datetime import datetime
+
+def parser( cr, uid, ids, data, context ):
+    parameters = {}
+    ids = ids
+    name = 'report.packing_list_std'
+    model = 'stock.picking'
+    data_source = 'model'
+    picking = pooler.get_pool(cr.dbname).get('stock.picking').browse(cr,uid,ids)
+    language = picking and picking[0].partner_id.lang or False
+    context['lang'] = language
+
+    return {
+        'ids': ids,
+        'name': name,
+        'model': model,
+        'records': [],
+        'data_source': data_source,
+        'parameters': parameters,
+    }
+jasper_reports.report_jasper( 'report.packing_list_std', 'stock.picking', parser )
