@@ -43,6 +43,22 @@ class stock_picking(models.Model):
         string='Sale price', readonly=True, store=True)
     external_note = fields.Text(
         ' External Notes')
+    valued_picking = fields.Boolean(string="Print valued picking",
+                                    help="If checked It will print valued "
+                                    "picks for this customer")
+
+    early_payment_disc_untaxed = fields.Float(
+        'Untaxed Amount E.P.', digits_compute=dp.get_precision('Sale Price'),
+        readonly=True, store=True, compute='_amount_all')
+    early_payment_disc_tax = fields.Float(
+        'Taxes E.P.', digits_compute=dp.get_precision('Sale Price'),
+        readonly=True, store=True, compute='_amount_all')
+    early_payment_disc_total = fields.Float(
+        'Total with E.P.', digits_compute=dp.get_precision('Sale Price'),
+        readonly=True, store=True, compute='_amount_all')
+    total_early_discount = fields.Float(
+        'E.P. amount', digits_compute=dp.get_precision('Sale Price'),
+        readonly=True, store=True, compute='_amount_all')
 
     @api.multi
     @api.depends('move_lines', 'partner_id')
@@ -84,6 +100,23 @@ class stock_picking(models.Model):
             picking.amount_total = picking.amount_untaxed + picking.amount_tax
             picking.amount_discounted = picking.amount_gross - \
                 picking.amount_untaxed
+
+            if not picking.sale_id.early_payment_discount:
+                picking.early_payment_disc_untaxed = picking.amount_untaxed
+                picking.early_payment_disc_tax = picking.amount_tax
+                picking.early_payment_disc_total = picking.amount_total
+            else:
+                picking.early_payment_disc_untaxed = picking.amount_untaxed * \
+                    (1.0 - (float(picking.sale_id.early_payment_discount or
+                            0.0)) / 100.0)
+                picking.early_payment_disc_tax = picking.amount_tax * \
+                    (1.0 - (float(picking.sale_id.early_payment_discount or
+                                  0.0)) / 100.0)
+                picking.early_payment_disc_total = picking.amount_total * \
+                    (1.0 - (float(picking.sale_id.early_payment_discount or
+                                  0.0)) / 100.0)
+                picking.total_early_discount = \
+                    picking.early_payment_disc_untaxed - picking.amount_untaxed
 
 
 class stock_move(models.Model):

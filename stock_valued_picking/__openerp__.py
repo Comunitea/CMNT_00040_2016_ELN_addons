@@ -26,10 +26,10 @@
     'description': """""",
     'author': 'Pexego',
     'website': '',
-    "depends": ['sale', 'stock', 'sale_stock'],
+    "depends": ['sale', 'stock', 'sale_stock', 'sale_early_payment_discount'],
     "data": [
-        'views/valued_picking_report.xml',
-        # 'stock_report.xml',
-        'partner_view.xml'],
+        'views/stock.xml',
+        'views/sale_order.xml',
+        'views/partner.xml'],
     "installable": True
 }
