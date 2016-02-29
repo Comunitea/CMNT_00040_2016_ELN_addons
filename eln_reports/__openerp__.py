@@ -39,7 +39,7 @@
     "data" : ['res_users_view.xml',
                     #'mrp_view.xml',
 
-                    # 'report/planning_report/planning_report_webkit_header.xml',
+                    'report/planning_report/planning_report_webkit_header.xml',
                     'wizard/planning_report_wizard_view.xml',
 
                     'wizard/purchase_order_report_wizard_view.xml',

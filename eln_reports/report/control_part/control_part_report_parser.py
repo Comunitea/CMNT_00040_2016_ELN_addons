@@ -34,13 +34,13 @@ def parser( cr, uid, ids, data, context ):
 
     for production in pooler.get_pool(cr.dbname).get('mrp.production').browse(cr, uid, ids):
         if production.routing_id and production.routing_id.workcenter_lines:
-            for line in production.routing_id.workcenter_lines:                
+            for line in production.routing_id.workcenter_lines:
                 control_sheet_packing = control_sheet_packing or line.workcenter_id.control_sheet_packing
                 control_sheet_salted = control_sheet_salted or line.workcenter_id.control_sheet_salted
                 control_sheet_toasted = control_sheet_toasted or line.workcenter_id.control_sheet_toasted
                 control_sheet_fried = control_sheet_fried or line.workcenter_id.control_sheet_fried
                 control_sheet_mixed = control_sheet_mixed or line.workcenter_id.control_sheet_mixed
-    
+
     parameters = {}
     ids = ids
     name = 'report.control_part'
@@ -52,15 +52,13 @@ def parser( cr, uid, ids, data, context ):
     parameters['control_sheet_fried'] = control_sheet_fried
     parameters['control_sheet_mixed'] = control_sheet_mixed
 
-    parameters['SUBREPORT_DIR'] = os.path.dirname(os.path.abspath(__file__)) + '/'
-
-    return { 
-        'ids': ids, 
-        'name': name, 
-        'model': model, 
-        'records': [], 
+    return {
+        'ids': ids,
+        'name': name,
+        'model': model,
+        'records': [],
         'data_source': data_source,
         'parameters': parameters,
     }
-    
+
 jasper_reports.report_jasper('report.control_part', 'mrp.production', parser)
