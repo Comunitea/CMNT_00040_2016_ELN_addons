@@ -24,4 +24,5 @@ import mrp
 import res_users
 import wizard
 import report
+from . import account_invoice
 
