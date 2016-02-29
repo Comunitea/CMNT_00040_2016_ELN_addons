@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="stock_picking" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6b382432-cc6b-4b5d-98ce-f5d98a6b89d5">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="288"/>
+	<property name="ireport.y" value="0"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -122,25 +122,25 @@
 		<![CDATA[]]>
 	</queryString>
 	<field name="Nombre-name" class="java.lang.String">
-		<fieldDescription><![CDATA[/data/record/Direccion_de_factura-address_invoice_id/Nombre_de_empresa-partner_id/Nombre-name]]></fieldDescription>
+		<fieldDescription><![CDATA[/data/record/Nombre_de_empresa-partner_id/Nombre-name]]></fieldDescription>
 	</field>
 	<field name="CIF_NIF-vat" class="java.lang.String">
-		<fieldDescription><![CDATA[/data/record/Direccion_de_factura-address_invoice_id/Nombre_de_empresa-partner_id/CIF_NIF-vat]]></fieldDescription>
+		<fieldDescription><![CDATA[/data/record/Nombre_de_empresa-partner_id/CIF_NIF-vat]]></fieldDescription>
 	</field>
 	<field name="Ciudad-city" class="java.lang.String">
-		<fieldDescription><![CDATA[/data/record/Direccion_de_factura-address_invoice_id/Ciudad-city]]></fieldDescription>
+		<fieldDescription><![CDATA[/data/record/Nombre_de_empresa-partner_id/Ciudad-city]]></fieldDescription>
 	</field>
 	<field name="Nombre_provincia-name" class="java.lang.String">
-		<fieldDescription><![CDATA[/data/record/Direccion_de_factura-address_invoice_id/Provincia-state_id/Nombre_provincia-name]]></fieldDescription>
+		<fieldDescription><![CDATA[/data/record/Nombre_de_empresa-partner_id/Provincia-state_id/Nombre_provincia-name]]></fieldDescription>
 	</field>
 	<field name="C.P.-zip" class="java.lang.String">
-		<fieldDescription><![CDATA[/data/record/Direccion_de_factura-address_invoice_id/C.P.-zip]]></fieldDescription>
+		<fieldDescription><![CDATA[/data/record/Nombre_de_empresa-partner_id/C.P.-zip]]></fieldDescription>
 	</field>
 	<field name="Calle-street" class="java.lang.String">
-		<fieldDescription><![CDATA[/data/record/Direccion_de_factura-address_invoice_id/Calle-street]]></fieldDescription>
+		<fieldDescription><![CDATA[/data/record/Nombre_de_empresa-partner_id/Calle-street]]></fieldDescription>
 	</field>
 	<field name="Calle2-street2" class="java.lang.String">
-		<fieldDescription><![CDATA[/data/record/Direccion_de_factura-address_invoice_id/Calle2-street2]]></fieldDescription>
+		<fieldDescription><![CDATA[/data/record/Nombre_de_empresa-partner_id/Calle2-street2]]></fieldDescription>
 	</field>
 	<field name="Referencia-ref" class="java.lang.String">
 		<fieldDescription><![CDATA[/data/record/Empresa-partner_id/Referencia-ref]]></fieldDescription>
@@ -170,10 +170,10 @@
 		<fieldDescription><![CDATA[/data/record/Base-amount_untaxed]]></fieldDescription>
 	</field>
 	<field name="Nombre-name2" class="java.lang.String">
-		<fieldDescription><![CDATA[/data/record/Pedido_de_venta-sale_id/Tipo_de_pago-payment_mode_id/Nombre-name]]></fieldDescription>
+		<fieldDescription><![CDATA[/data/record/Tipo_de_pago-payment_mode_id/Nombre-name]]></fieldDescription>
 	</field>
 	<field name="Plazo_de_pago-name" class="java.lang.String">
-		<fieldDescription><![CDATA[/data/record/Pedido_de_venta-sale_id/Plazo_de_pago-payment_term/Plazo_de_pago-name]]></fieldDescription>
+		<fieldDescription><![CDATA[/data/record/Plazo_de_pago-payment_term/Plazo_de_pago-name]]></fieldDescription>
 	</field>
 	<group name="picking" footerPosition="ForceAtBottom">
 		<groupExpression><![CDATA[$F{id}]]></groupExpression>
@@ -725,7 +725,7 @@ ESTAMOS A SU DISPOSICIÓN PARA RESOLVER CUALQUIER DUDA O ANOMALÍA]]></text>
 	<detail>
 		<band height="56" splitType="Stretch">
 			<componentElement>
-				<reportElement key="table 2" positionType="Float" x="0" y="0" width="452" height="50" uuid="49981113-e534-4c8f-9807-efc490492bf9">
+				<reportElement key="table 2" positionType="Float" x="0" y="0" width="571" height="50" uuid="49981113-e534-4c8f-9807-efc490492bf9">
 					<property name="OPENERP_RELATIONS" value="invoice_line"/>
 				</reportElement>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
@@ -1137,7 +1137,7 @@ ESTAMOS A SU DISPOSICIÓN PARA RESOLVER CUALQUIER DUDA O ANOMALÍA]]></text>
 					<jr:column width="142" uuid="9868d92f-84e5-4774-975a-1ace6dea85b4">
 						<jr:columnHeader height="26" rowSpan="1">
 							<staticText>
-								<reportElement style="table_CH" x="0" y="0" width="142" height="26" uuid="7d2ad200-7aca-4f8f-ad3e-b45bddfdabff"/>
+								<reportElement style="table_CH" x="0" y="0" width="116" height="26" uuid="7d2ad200-7aca-4f8f-ad3e-b45bddfdabff"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font size="5" isBold="true"/>
 								</textElement>
@@ -1146,7 +1146,7 @@ ESTAMOS A SU DISPOSICIÓN PARA RESOLVER CUALQUIER DUDA O ANOMALÍA]]></text>
 						</jr:columnHeader>
 						<jr:detailCell height="13" rowSpan="1">
 							<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
-								<reportElement x="0" y="0" width="142" height="13" uuid="de164fd6-cb03-4297-b655-cdf73df74406"/>
+								<reportElement x="0" y="0" width="116" height="13" uuid="de164fd6-cb03-4297-b655-cdf73df74406"/>
 								<box leftPadding="0">
 									<topPen lineWidth="0.75"/>
 									<leftPen lineWidth="0.75"/>
