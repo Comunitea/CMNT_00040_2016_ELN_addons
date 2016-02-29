@@ -18,13 +18,13 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import osv, fields
+from openerp.osv import orm, fields
 import openerp.addons.decimal_precision as dp
 import time
 from datetime import datetime
 from openerp.tools.translate import _
 
-class product_options_product(osv.osv):
+class product_options_product(orm.Model):
     _name = 'product.options.product'
     _columns = {
         'name': fields.char('Name', size=64, required=True),
@@ -34,9 +34,9 @@ class product_options_product(osv.osv):
     _defaults = {
         'name': lambda x, y, z, c: x.pool.get('ir.sequence').get(y, z, 'product.options.product') or '/',
     }
-product_options_product()
 
-class product_verifications_product(osv.osv):
+
+class product_verifications_product(orm.Model):
     _name = 'product.verifications.product'
     _columns = {
         'name': fields.char('Name', size=64, required=True),
@@ -46,9 +46,9 @@ class product_verifications_product(osv.osv):
     _defaults = {
         'name': lambda x, y, z, c: x.pool.get('ir.sequence').get(y, z, 'product.verifications.product') or '/',
     }
-product_options_product()
 
-class product_revisions(osv.osv):
+
+class product_revisions(orm.Model):
     _name = 'product.revision'
 
     _columns = {
@@ -64,10 +64,9 @@ class product_revisions(osv.osv):
         'date':lambda *a: time.strftime("%Y-%m-%d"),
         'name': lambda x, y, z, c: x.pool.get('ir.sequence').get(y, z, 'product.revision') or '/',
     }
-    
-product_revisions
 
-class product_sheet_shipments(osv.osv):
+
+class product_sheet_shipments(orm.Model):
     _name = 'product.sheet.shipments'
     _columns = {
         'name': fields.char('Name', size=64, required=True),
@@ -82,7 +81,7 @@ class product_sheet_shipments(osv.osv):
     }
 product_sheet_shipments()
 
-class product_product(osv.osv):
+class product_product(orm.Model):
     _inherit = 'product.product'
         
     def _get_last_revision(self, cr, uid, ids, field_name, arg, context):
@@ -351,7 +350,7 @@ class product_product(osv.osv):
     
 product_product()
 
-class product_template(osv.osv):
+class product_template(orm.Model):
     _inherit = 'product.template'
     _columns = {
         'uos_coeff': fields.float('UOM -> UOS Coeff', digits=(16,8),

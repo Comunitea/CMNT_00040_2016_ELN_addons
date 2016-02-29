@@ -8,7 +8,7 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Product parameters">
-                    <group>
+                    <group string="Product parameters">
                         <field name="name"/>
                         <field name="type"/>
                     </group>

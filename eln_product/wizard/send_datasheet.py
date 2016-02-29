@@ -31,7 +31,7 @@ class mail_compose_message_product_datasheet(osv.osv_memory):
     _columns = {
         'report_template':fields.many2one('ir.actions.report.xml', 'Report to attach'),
         'user_signature': fields.boolean('Signature user'),
-        'contact_ids': fields.many2many('res.partner.contact', 'send_email_partner_contact_rel', 'send_email_id', 'contact_id', 'Contacts'),
+        'contact_ids': fields.many2many('res.partner', 'send_email_partner_contact_rel', 'send_email_id', 'contact_id', 'Contacts'),
     }
     
    
