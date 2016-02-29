@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="packing_list" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="56b3cfb5-bff2-47bd-a2d9-4d89fa24fbd1">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="426"/>
+	<property name="ireport.y" value="0"/>
 	<property name="ireport.layers" value="##Wed Nov 26 01:29:14 CET 2014\nlayer.2.visible=false\nlayer.1.name=STANDARD\nlayer.0.visible=true\nlayer.2.id=2\nlayer.1.printWhenExpression=$P{VERSION_ALTERNATIVA} \=\= false\nlayer.2.name=ALTERNATE\nlayer.2.printWhenExpression=$P{VERSION_ALTERNATIVA} \=\= true\nlayer.1.id=1\nlayer.1.visible=true\nlayer.0.id=0\nlayer.0.name=Background"/>
 	<style name="table">
 		<box>
@@ -784,55 +784,55 @@ EN EL ARCHIVO packing_list_alt, PONER EL VALOR A true]]></parameterDescription>
 			</componentElement>
 			<elementGroup>
 				<rectangle>
-					<reportElement mode="Opaque" x="478" y="0" width="77" height="91" backcolor="#EBEBEB" uuid="45dc15d4-f70a-438e-88ba-dce528854d20"/>
+					<reportElement mode="Opaque" x="463" y="0" width="92" height="91" backcolor="#EBEBEB" uuid="45dc15d4-f70a-438e-88ba-dce528854d20"/>
 					<graphicElement>
 						<pen lineWidth="0.0"/>
 					</graphicElement>
 				</rectangle>
 				<textField>
-					<reportElement x="341" y="0" width="136" height="13" uuid="f13ebc04-fcdd-4d8f-a85d-833d4295d5ea"/>
+					<reportElement x="341" y="0" width="122" height="13" uuid="f13ebc04-fcdd-4d8f-a85d-833d4295d5ea"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="SansSerif" size="10" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[tr($V{L}, "Nº Albarán:")]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="341" y="13" width="136" height="13" uuid="8d3cb933-f270-46d2-adf9-c0fde5b4a0b1"/>
+					<reportElement x="341" y="13" width="122" height="13" uuid="8d3cb933-f270-46d2-adf9-c0fde5b4a0b1"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="SansSerif" size="10" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[tr($V{L}, "Fecha Albarán:")]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="341" y="39" width="136" height="13" uuid="31df0238-d897-4979-bd08-a06df6338c98"/>
+					<reportElement x="341" y="39" width="122" height="13" uuid="31df0238-d897-4979-bd08-a06df6338c98"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="SansSerif" size="10" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[tr($V{L}, "Código Cliente:")]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="341" y="52" width="136" height="13" uuid="b0ce9be8-3480-4450-b759-9ec7505c3b39"/>
+					<reportElement x="341" y="52" width="122" height="13" uuid="b0ce9be8-3480-4450-b759-9ec7505c3b39"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="SansSerif" size="10" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[tr($V{L}, "Pedido Cliente:")]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="341" y="65" width="136" height="13" uuid="caa6e182-16db-45d5-a865-0532bec9e13b"/>
+					<reportElement x="341" y="65" width="122" height="13" uuid="caa6e182-16db-45d5-a865-0532bec9e13b"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="SansSerif" size="10" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[tr($V{L}, "Código Proveedor:")]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="341" y="78" width="136" height="13" uuid="8f99dd0a-f641-469f-bbbf-f7fb11868b1b"/>
+					<reportElement x="341" y="78" width="122" height="13" uuid="8f99dd0a-f641-469f-bbbf-f7fb11868b1b"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="SansSerif" size="10" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[tr($V{L}, "Página:")]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
-					<reportElement mode="Transparent" x="477" y="0" width="76" height="13" forecolor="#000000" backcolor="#EBEBEB" uuid="663de0aa-3af8-420d-a140-562ff144a831"/>
+					<reportElement mode="Transparent" x="463" y="0" width="90" height="13" forecolor="#000000" backcolor="#EBEBEB" uuid="663de0aa-3af8-420d-a140-562ff144a831"/>
 					<box leftPadding="0" rightPadding="0"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle" rotation="None" markup="none">
 						<font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
@@ -841,7 +841,7 @@ EN EL ARCHIVO packing_list_alt, PONER EL VALOR A true]]></parameterDescription>
 					<textFieldExpression><![CDATA[$F{Referencia-name}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
-					<reportElement mode="Transparent" x="477" y="13" width="76" height="13" forecolor="#000000" backcolor="#EBEBEB" uuid="4a2721a4-07b9-43c1-ae07-ee40c7bd7d9a"/>
+					<reportElement mode="Transparent" x="463" y="13" width="90" height="13" forecolor="#000000" backcolor="#EBEBEB" uuid="4a2721a4-07b9-43c1-ae07-ee40c7bd7d9a"/>
 					<box leftPadding="0" rightPadding="0"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle" rotation="None" markup="none">
 						<font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
@@ -850,7 +850,7 @@ EN EL ARCHIVO packing_list_alt, PONER EL VALOR A true]]></parameterDescription>
 					<textFieldExpression><![CDATA[( $F{Fecha_realizado-date_done}.isEmpty() == false ? (new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).parse($F{Fecha_realizado-date_done}) : "" )]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
-					<reportElement mode="Transparent" x="477" y="39" width="76" height="13" forecolor="#000000" backcolor="#EBEBEB" uuid="fa96548d-98a6-4ab0-900e-b9e9b15e4ec0"/>
+					<reportElement mode="Transparent" x="463" y="39" width="90" height="13" forecolor="#000000" backcolor="#EBEBEB" uuid="fa96548d-98a6-4ab0-900e-b9e9b15e4ec0"/>
 					<box leftPadding="0" rightPadding="0"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle" rotation="None" markup="none">
 						<font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
@@ -859,7 +859,7 @@ EN EL ARCHIVO packing_list_alt, PONER EL VALOR A true]]></parameterDescription>
 					<textFieldExpression><![CDATA[$F{Referencia-ref}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
-					<reportElement mode="Transparent" x="477" y="52" width="76" height="13" forecolor="#000000" backcolor="#EBEBEB" uuid="6b1bd0d2-6d8e-4b60-9777-ba87cd351937"/>
+					<reportElement mode="Transparent" x="463" y="52" width="90" height="13" forecolor="#000000" backcolor="#EBEBEB" uuid="6b1bd0d2-6d8e-4b60-9777-ba87cd351937"/>
 					<box leftPadding="0" rightPadding="0"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle" rotation="None" markup="none">
 						<font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
@@ -868,7 +868,7 @@ EN EL ARCHIVO packing_list_alt, PONER EL VALOR A true]]></parameterDescription>
 					<textFieldExpression><![CDATA[$F{Client_Ref-client_order_ref}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
-					<reportElement mode="Transparent" x="477" y="65" width="76" height="13" forecolor="#000000" backcolor="#EBEBEB" uuid="672c5372-9003-448b-9ace-18554f300275"/>
+					<reportElement mode="Transparent" x="463" y="65" width="90" height="13" forecolor="#000000" backcolor="#EBEBEB" uuid="672c5372-9003-448b-9ace-18554f300275"/>
 					<box leftPadding="0" rightPadding="0"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle" rotation="None" markup="none">
 						<font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
@@ -877,7 +877,7 @@ EN EL ARCHIVO packing_list_alt, PONER EL VALOR A true]]></parameterDescription>
 					<textFieldExpression><![CDATA[$F{CIP-supplier_cip}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement x="477" y="78" width="63" height="13" backcolor="#EBEBEB" uuid="d7ebc001-035f-49c7-a02f-1f3dc6b75ac9"/>
+					<reportElement x="463" y="78" width="77" height="13" backcolor="#EBEBEB" uuid="d7ebc001-035f-49c7-a02f-1f3dc6b75ac9"/>
 					<box leftPadding="0" rightPadding="0"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle"/>
 					<textFieldExpression><![CDATA[$V{PAGE_NUMBER} + " " + tr($V{L}, "de")]]></textFieldExpression>
@@ -889,7 +889,7 @@ EN EL ARCHIVO packing_list_alt, PONER EL VALOR A true]]></parameterDescription>
 					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
-					<reportElement mode="Transparent" x="477" y="26" width="76" height="13" forecolor="#000000" backcolor="#EBEBEB" uuid="35197bd5-f2c2-4d0f-942c-6dff2eecc111"/>
+					<reportElement mode="Transparent" x="463" y="26" width="90" height="13" forecolor="#000000" backcolor="#EBEBEB" uuid="35197bd5-f2c2-4d0f-942c-6dff2eecc111"/>
 					<box leftPadding="0" rightPadding="0"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle" rotation="None" markup="none">
 						<font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
@@ -898,7 +898,7 @@ EN EL ARCHIVO packing_list_alt, PONER EL VALOR A true]]></parameterDescription>
 					<textFieldExpression><![CDATA[$F{Commitment_Date-commitment_date}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="341" y="26" width="136" height="13" uuid="8e257143-35b3-4e60-b3a3-f97c7d180a44"/>
+					<reportElement x="341" y="26" width="122" height="13" uuid="8e257143-35b3-4e60-b3a3-f97c7d180a44"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="SansSerif" size="10" isBold="true"/>
 					</textElement>
