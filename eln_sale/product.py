@@ -35,7 +35,7 @@ class product_product(orm.Model):
                 if prodids:
                     ids = [x.product_id.id for x in prodpart.browse(cr, user, prodids)]
 
-            if not ids:        
+            if not ids:
                 ids = self.search(cr, user, [('default_code','=',name)]+ args, limit=limit, context=context)
             if not ids:
                 ids = self.search(cr, user, [('ean13','=',name)]+ args, limit=limit, context=context)

@@ -134,8 +134,6 @@ class sale_order(orm.Model):
 
         return res
 
-sale_order()
-
 class sale_order_line(orm.Model):
     _inherit = 'sale.order.line'
 
@@ -215,7 +213,6 @@ class sale_order_line(orm.Model):
         cambiar la unidad de medida por defecto tampoco en la venta. (no se pone readonly=True en la vista porque sino no se guarda el valor)
         Con todo esto evitamos sobre todo problemas en precios en facturas (_get_price_unit_invoice)
         """
-
         if product:
             product_obj = self.pool.get('product.product')
             product_obj = product_obj.browse(cr, uid, product, context=context)
@@ -239,7 +236,8 @@ class sale_order_line(orm.Model):
 
         return res
 
-    # POST-MIGRATION, VER COMO RESOLVER PRODUCTS.PACKAGING NO EXISTE
+    # POST-MIGRATION, VER COMO RESOLVER PRODUCTS.PACKAGING NO EXISTE ES PACKING_IDS
+    # Y PUEDE QUE NO SEA NECESARIO YA QUE NO HAY ONCHANGE
     # def product_packaging_change(self, cr, uid, ids, pricelist, product, qty=0, uom=False,
     #                                partner_id=False, packaging=False, flag=False, context=None):
     #     """Reescribo la función original de addons/sale/sale.py, ya que no queremos que compruebe si el empaquetado es correcto"""
