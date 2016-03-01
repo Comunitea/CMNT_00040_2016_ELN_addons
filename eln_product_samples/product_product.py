@@ -34,7 +34,7 @@ class product_template(orm.Model):
         action_model, samples_location =  self.pool.get('ir.model.data').get_object_reference(cr, uid, 'eln_product_samples', "stock_physical_location_samples2")
         c.update({'location': samples_location})
         c.update({'warehouse': False})
-        for product in self.pool.get('product.product').browse(cr, uid, ids, context=c):
+        for product in self.pool.get('product.template').browse(cr, uid, ids, context=c):
             qty += round(product.qty_available, 2)            
             res[product.id] = qty
             

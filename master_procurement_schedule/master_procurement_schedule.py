@@ -102,10 +102,10 @@ class stock_plannings(osv.osv):
                 help = 'Enter quantity which (by your plan) should come in. Change this value and observe Stock simulation. ' \
                         'This value should be equal or greater than Confirmed In.'),
         'line_time': fields.function(_get_past_future, type='char', string='Past/Future'),
-        'minimum_op': fields.function(_get_op, type='float', string = 'Minimum Rule', multi= 'minimum', \
-                            help = 'Minimum quantity set in Minimum Stock Rules for this Warehouse'),
-        'maximum_op': fields.function(_get_op, type='float', string = 'Maximum Rule', multi= 'maximum', \
-                            help = 'Maximum quantity set in Minimum Stock Rules for this Warehouse'),
+        # 'minimum_op': fields.function(_get_op, type='float', string = 'Minimum Rule', multi= 'minimum', \
+        #                     help = 'Minimum quantity set in Minimum Stock Rules for this Warehouse'),
+        # 'maximum_op': fields.function(_get_op, type='float', string = 'Maximum Rule', multi= 'maximum', \
+        #                     help = 'Maximum quantity set in Minimum Stock Rules for this Warehouse'),
         'outgoing_before': fields.float('Planned Out Before', readonly=True, \
                             help= 'Planned Out in periods before calculated. '\
                                     'Between start date of current period and one day before start of calculated period.'),
