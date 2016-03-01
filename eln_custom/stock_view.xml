@@ -159,11 +159,11 @@
                 <search string="Picking list">
                     <group>
                         <filter icon="terp-go-week" string="Today" name="today"
-                        domain="[('real_date', '&lt;=', time.strftime('%%Y-%%m-%%d 23:59:59'))]"/>
+                        domain="[('date_done', '&lt;=', time.strftime('%%Y-%%m-%%d 23:59:59'))]"/>
                         <filter icon="terp-go-week" string="Today +2" name="todaytwo"
-                        domain="[('real_date', '&lt;=', (datetime.date.today()+datetime.timedelta(days=2)).strftime('%%Y-%%m-%%d 00:00:00'))]"/>
+                        domain="[('date_done', '&lt;=', (datetime.date.today()+datetime.timedelta(days=2)).strftime('%%Y-%%m-%%d 00:00:00')), ('date_done', '&gt;=', time.strftime('%%Y-%%m-%%d 00:00:00'))]"/>
                         <filter icon="terp-go-week" string="Today +5" name="todayfive"
-                        domain="[('real_date', '&lt;=', (datetime.date.today()+datetime.timedelta(days=5)).strftime('%%Y-%%m-%%d 00:00:00'))]"/>
+                        domain="[('date_done', '&lt;=', (datetime.date.today()+datetime.timedelta(days=5)).strftime('%%Y-%%m-%%d 00:00:00')), ('date_done', '&gt;=', time.strftime('%%Y-%%m-%%d 00:00:00'))]"/>
                     </group>
                 </search>
             </field>
@@ -175,8 +175,8 @@
             <field name="type">ir.actions.act_window</field>
             <field name="view_type">form</field>
             <field name="view_mode">kanban,tree,form</field>
-            <!--<field name="domain">[('type','=','out')]</field>-->
-            <!--<field name="context">{'default_type': 'out', 'contact_display': 'partner_address', 'search_default_todaytwo':1}</field>-->
+            <field name="domain">[('picking_type_code','=','outgoing')]</field>
+            <!--field name="context">{'default_type': 'out', 'contact_display': 'partner_address', 'search_default_todaytwo':1}</field-->
             <field name="search_view_id" ref="view_picking_planning_kanban_search"/>
         </record>
         <record id="action_picking_kanban_out_view1_waiting" model="ir.actions.act_window.view">
@@ -229,7 +229,7 @@
 
         <!-- En la selección de albaranes a facturar hacemos visible el cliente y la dirección de entrega
              Además permitimos agrupar también por la direcciçon de entrega -->
-        
+
         <!--<record id="view_picking_tree_custom" model="ir.ui.view">-->
             <!--<field name="name">picking.tree.custom</field>-->
             <!--<field name="model">stock.picking</field>-->
@@ -242,7 +242,7 @@
                 <!--</field>-->
             <!--</field>-->
         <!--</record>-->
-        
+
         <!--<record id="view_picking_out_search" model="ir.ui.view">-->
             <!--<field name="name">stock.picking.out.search</field>-->
             <!--<field name="model">stock.picking</field>-->
@@ -260,7 +260,7 @@
                 <!--</filter>-->
             <!--</field>-->
         <!--</record>-->
-        
+
         <!--<record id="view_picking_out_tree" model="ir.ui.view">-->
             <!--<field name="name">stock.picking.out.tree</field>-->
             <!--<field name="model">stock.picking</field>-->
@@ -278,7 +278,7 @@
                 <!--</field>-->
             <!--</field>-->
         <!--</record>-->
-        
+
         <!-- En la vista de pedidos de venta el enlace que lleva a los albaranes relacionados no tenía la vista search ni la form correcta.
         La borramos primero y la creamos en este módulo en lugar de hacer referencia a la misma para que se pueda traducir el "name"
         desde este módulo -->
@@ -321,7 +321,7 @@
         <!--</record>-->
 
         <!-- YA ESTABA COMENTADO En la vista de inventarios físicos, al crear un lote en la línea abría la vista
-        sin precargar el artículo    
+        sin precargar el artículo
         <record id="view_inventory_form_custom" model="ir.ui.view">
             <field name="name">stock.inventory.form</field>
             <field name="model">stock.inventory</field>

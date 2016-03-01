@@ -22,6 +22,7 @@ import time
 import re
 from openerp.report import report_sxw
 from openerp import _
+from .webkit_parser_header_fix import HeaderFooterTextWebKitParser
 import calendar
 import datetime
 
@@ -30,6 +31,29 @@ class planning_report_parser(report_sxw.rml_parse):
     def __init__(self, cr, uid, name, context):
         super(planning_report_parser, self).__init__(cr, uid, name, context)
         self.context = context
+        company = self.pool.get('res.users').browse(
+            self.cr, uid, uid, context=context).company_id
+        header_report_name = ' - '.join((_('Planning report'),
+                                        company.name))
+        footer_date_time = self.formatLang(
+            str(datetime.datetime.today()), date_time=True)
+        self.localcontext.update({
+            'cr': cr,
+            'uid': uid,
+            'report_name': _('Planning report'),
+            'additional_args': [
+                ('--header-font-name', 'Helvetica'),
+                ('--footer-font-name', 'Helvetica'),
+                ('--header-font-size', '10'),
+                ('--footer-font-size', '6'),
+                ('--header-left', header_report_name),
+                ('--header-spacing', '2'),
+                ('--footer-left', footer_date_time),
+                ('--footer-right',
+                 ' '.join((_('Page'), '[page]', _('of'), '[topage]'))),
+                ('--footer-line',),
+            ],
+        })
 
     def set_context(self, objects, data, ids, report_type=None):
         routes = []
@@ -42,12 +66,12 @@ class planning_report_parser(report_sxw.rml_parse):
             date_start = date + ' 00:00:00'
             date_stop = date + ' 23:59:59'
             if data['form'].get('route_id', False):
-                pickings = self.pool.get('stock.picking').search(self.cr, self.uid, [('type','=','out'),
-                                                                                     ('real_date','>=',date_start),('real_date','<=',date_stop),
+                pickings = self.pool.get('stock.picking').search(self.cr, self.uid, [('picking_type_code','=','outgoing'),
+                                                                                     ('date_done','>=',date_start),('date_done','<=',date_stop),
                                                                                      ('route_id','=', data['form']['route_id'][0])])
             else:
-                pickings = self.pool.get('stock.picking').search(self.cr, self.uid, [('type','=','out'),
-                                                                                     ('real_date','>=',date_start),('real_date','<=',date_stop)])
+                pickings = self.pool.get('stock.picking').search(self.cr, self.uid, [('picking_type_code','=','outgoing'),
+                                                                                     ('date_done','>=',date_start),('date_done','<=',date_stop)])
 
         if pickings:
             for pick in self.pool.get('stock.picking').browse(self.cr, self.uid, pickings):
@@ -89,4 +113,8 @@ class planning_report_parser(report_sxw.rml_parse):
 
         return lines
 
-report_sxw.report_sxw('report.planning_report', 'planning.report.wizard', 'eln_reports/report/planning_report_webkit.mako', parser=planning_report_parser, header=False)
+HeaderFooterTextWebKitParser(
+    'report.planning_report',
+    'planning.report.wizard',
+    'eln_reports/report/planning_report_webkit.mako',
+    parser=planning_report_parser)
