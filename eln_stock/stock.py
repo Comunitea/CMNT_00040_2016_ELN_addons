@@ -65,7 +65,6 @@ class stock_move(orm.Model):
         Modificamos para que solo permita en unidad de venta la que tiene el producto asignada
         Con todo esto evitamos sobre todo problemas en precios en facturas (_get_price_unit_invoice)
         """
-
         if product_id:
             product_obj = self.pool.get('product.product')
             product_obj = product_obj.browse(cr, uid, product_id, context=None)
@@ -74,7 +73,7 @@ class stock_move(orm.Model):
             uom_po = product_obj.uom_po_id and product_obj.uom_po_id.id or False
             if product_uom not in (uom, uom_po):
                 product_uom = uom
-            if product_uos: #Si se pone unidad de venta tiene que ser la del producto
+            if product_uos:  # Si se pone unidad de venta tiene que ser la del producto
                 product_uos = uos
 
         res = super(stock_move, self).onchange_quantity(cr, uid, ids, product_id, product_qty, product_uom, product_uos)
@@ -84,9 +83,8 @@ class stock_move(orm.Model):
 
         # Cuando se abre una linea existente para editar, si ya habia pasado por aqui 
         # va a usar el dominio del articulo anterior. Si es un inconveniente eliminar todo lo que está en el if
-        if product_id: 
+        if product_id:
             res['domain'] = {'product_uom': [('id', 'in', (uom, uom_po))], 'product_uos': [('id', 'in', (uos,))]} 
         else:
-            res['domain'] = {'product_uom': [], 'product_uos': []} 
-        
+            res['domain'] = {'product_uom': [], 'product_uos': []}
         return res
