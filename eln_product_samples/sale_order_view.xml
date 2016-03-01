@@ -28,7 +28,7 @@
                     <field name="sample_ok"
                         attrs="{'readonly':[('product_id', '=', False)]}"
                         on_change="onchange_sample_ok(sample_ok, price_unit, parent.pricelist_id, product_id, product_uom_qty, product_uom, product_uos_qty, product_uos, name, parent.partner_id, False, True, parent.date_order, product_packaging, parent.fiscal_position, False, context)"
-                        context="{'partner_id': parent.partner_id, 'quantity': product_uom_qty, 'pricelist': parent.pricelist_id, 'shop': False, 'uom': product_uom, 'force_product_uom': True, 'order_id': parent.id, 'sale_agent_ids': parent.sale_agent_ids}" />
+                        context="{'partner_id': parent.partner_id, 'quantity': product_uom_qty, 'pricelist': parent.pricelist_id, 'shop': False, 'uom': product_uom, 'force_product_uom': True, 'order_id': parent.id, 'sale_agent_ids': agents}" />
                 </xpath>
 
                  <xpath expr="///field[@name='order_line']/tree[@string='Sales Order Lines']/field[@name='name']" position="after">
