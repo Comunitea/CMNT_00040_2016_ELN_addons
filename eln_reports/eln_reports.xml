@@ -184,5 +184,51 @@
             <field name="key2" eval="'client_print_multi'" />
             <field name="value_unpickle" eval="'ir.actions.report.xml, ' +str(invoice_report_jasper)" />
         </record>
+
+        <record id="stock_picking_report_jasper" model="ir.actions.report.xml">
+            <field name="string">Picking</field>
+            <field name="auto">True</field>
+            <field name="model">stock.picking</field>
+            <field name="jasper_model_id" ref="stock.model_stock_picking"/>
+            <field name="name">picking</field>
+            <field name="report_name">stock_picking_report_jasper</field>
+            <field name="rml">eln_reports/report/stock_picking/stock_picking.jrxml</field>
+            <field name="report_rml">eln_reports/report/stock_picking/stock_picking.jrxml</field>
+            <field name="menu">True</field>
+            <field name="jasper_report">True</field>
+            <field name="jasper_output">pdf</field>
+        </record>
+
+        <record id="report_invoice_values" model="ir.values">
+            <field name="name">picking</field>
+            <field name="model">stock.picking</field>
+            <field name="key2" eval="'client_print_multi'" />
+            <field name="value_unpickle" eval="'ir.actions.report.xml, ' +str(stock_picking_report_jasper)" />
+        </record>
+
+        <report
+            string="Plannnig"
+            model="stock.picking"
+            name="planning_report"
+            file="eln_reports/report/planning_report/planning_report_webkit.mako"
+            id="report_planning_webkit_html"
+            report_type="webkit"
+            auto="False"
+            />
+
+        <record id="eln_reports.report_planning_webkit_html" model="ir.actions.report.xml">
+          <field name="webkit_header" ref="eln_reports.ir_header_webkit_planning_report"/>
+        </record>
+
+        <report
+            string="Label"
+            model="stock.picking"
+            name="label.barcode"
+            rml="eln_reports/report/barcode_label/barcode_label.jrxml"
+            id="barcode_label"
+            menu="False"
+            auto="True"
+            header="False"
+            />
     </data>
 </openerp>
