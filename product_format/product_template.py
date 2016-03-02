@@ -21,11 +21,11 @@
 
 from openerp.osv import osv, fields
 
+
 class product_template(osv.osv):
-    
+
     _inherit = "product.template"
-    
+
     _columns = {
         'format_id': fields.many2one('product.format', 'Format')
     }
-
