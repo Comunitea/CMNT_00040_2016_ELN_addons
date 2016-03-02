@@ -20,7 +20,6 @@
 ##############################################################################
 import route
 import res_partner
-# import res_partner_address
 import stock
 import account
 import procurement_provisional

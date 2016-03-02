@@ -21,6 +21,7 @@
 from openerp.osv import osv, fields
 import logging
 
+
 class procurement_order(osv.osv):
     """
     Esta clase la creamos solo para evitar que salgan órdenes de

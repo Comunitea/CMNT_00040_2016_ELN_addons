@@ -26,7 +26,6 @@
     "author" : "Pexego",
     "depends" : ['base',
                 'product',
-                #'stock_location',
                 'stock',
                 'purchase',
                 'sale',
@@ -36,12 +35,9 @@
                 'eln_purchase',
                 'product_expiry',
                 'account',
-                #'account_payment_extension',
                 'account_analytic_default',
                 'account_analytic_plans',
                 'acc_analytic_acc_distribution_between',
-                #'picking_invoice_rel', este modiulo no se instala, su funcionlidad se sustituye por el stock_picking_invoice_linf
-                # 'stock_picking_invoice_link',  comentado post-migration
                 'sale_early_payment_discount',
                 'eln_edi',
                 'document',
