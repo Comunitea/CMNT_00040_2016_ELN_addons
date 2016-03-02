@@ -41,6 +41,7 @@
         'sale_shop_view.xml',
         'sale_workflow.xml',
         'security/ir.model.access.csv',
+        'security/sale_security.xml',
         'wizard/sale_order_confirm_view.xml',
     ],
     'demo_xml': [],

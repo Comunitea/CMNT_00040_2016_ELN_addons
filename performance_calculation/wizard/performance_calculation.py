@@ -333,7 +333,6 @@ class performance_calculation(orm.TransientModel):
         t_quality = 0.0
         t_performance = 0.0
         t_availability = 0.0
-
         company_id = self.pool.get('res.users').browse(cr, uid, uid).company_id and self.pool.get('res.users').browse(cr, uid, uid).company_id.id or False
 
         for form in self.browse(cr, uid, ids, context):
@@ -403,7 +402,7 @@ class performance_calculation(orm.TransientModel):
                         ##############################################################
 
                         if form.report_type == 'availability':
-                            availability = (self._get_availabilily(cr, uid, ids, times_for_availability, estimated_time, rout.hour_nbr, qty_per_cycle, factor, context=context)) * 100
+                            availability = (self._get_availability(cr, uid, ids, times_for_availability, estimated_time, rout.hour_nbr, qty_per_cycle, factor, context=context)) * 100
 
                         if form.report_type == 'performance':
                             performance = (self._get_performance(cr, uid, ids, estimated_time, times_for_performance, context=context)) * 100

@@ -39,7 +39,7 @@ class sale_order_line(orm.Model):
             Sets sale line price unit to zero if 'sample_ok' field is check
         """
         res = {}
-        
+
         assert isinstance(ids, list)
         if product:
             if sample_ok:
@@ -72,7 +72,7 @@ class sale_order(orm.Model):
             if line.sample_ok:
                 sample_line_ids.append(line.id)
         moves_to_upgrade = []
-        
+
         for pick in current_order.picking_ids:
             for move in pick.move_lines:
                 if move.procurement_id.sale_line_id and move.procurement_id.sale_line_id.id in sample_line_ids:
@@ -86,6 +86,7 @@ class sale_order(orm.Model):
     def check_sample(self, cr, uid, ids, context=None):
         """ Checks if the samples included in the sale order are correct or not.
         @return: True if correct or False if not.
+        NO SE EST´A USANDO, NADIE LA LLAMA
         """
         products = {}
         samples = {}
