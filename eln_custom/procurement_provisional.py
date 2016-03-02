@@ -22,21 +22,21 @@ from openerp.osv import osv, fields
 import logging
 
 class procurement_order(osv.osv):
-    '''
+    """
     Esta clase la creamos solo para evitar que salgan órdenes de
     producción automáticas por stoks mínimos o cálculo automático
     de forma provisional. Cuando se termine el periodo de pruebas tenemos que eliminar este archivo py
     y su declaracion en el __init__.py
-    '''
+    """
     
     _inherit = 'procurement.order'
     _logger = logging.getLogger(__name__)
     
     def _procure_orderpoint_confirm(self, cr, uid, use_new_cursor=False,company_id = False,context=None):
-        '''
+        """
         Create procurement based on Orderpoint
         use_new_cursor: False or the dbname
-        '''
+        """
         self._logger.info('\n\n*** ¡¡¡ Se cancela, provisionalmente, la creación de órdenes de producción en base a stocks máximos y mínimos: procurement_provisional.py !!!\n') 
         #print '### Se cancela, provisionalmente, la creación de órdenes de producción en base a stocks máximos y mínimos:. procurement_provisional.py' 
         return {}
