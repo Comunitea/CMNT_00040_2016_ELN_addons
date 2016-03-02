@@ -39,6 +39,7 @@
                 #'account_payment_extension',
                 'account_analytic_default',
                 'account_analytic_plans',
+                'acc_analytic_acc_distribution_between',
                 #'picking_invoice_rel', este modiulo no se instala, su funcionlidad se sustituye por el stock_picking_invoice_linf
                 # 'stock_picking_invoice_link',  comentado post-migration
                 'sale_early_payment_discount',
@@ -49,13 +50,10 @@
     "init_xml" : [],
     "data" : ['security/eln_custom_security.xml',
                    'security/ir.model.access.csv',
-                   # 'wizard/stock_move_view.xml',
                    'route_view.xml',
                    'res_partner_view.xml',
-                   # 'res_partner_address_view.xml',
                    'product_view.xml',
                    'stock_view.xml',
-                   'analytic_view.xml',
                    ],
     'demo_xml': [],
     'installable': True,

@@ -8,12 +8,11 @@
             <field name="inherit_id" ref="product.product_supplierinfo_form_view"/>
             <field name="type">form</field>
             <field name="arch" type="xml">
-                <field name="name" position="replace">
-                    <field name="name" options='{"quick_create": false}' string="Supplier/Customer" />
+                <field name="name" position="attributes">
+                    <attribute name="string">Supplier/Customer</attribute>
                 </field>
             </field>
         </record>
-
 
     </data>
 </openerp>
