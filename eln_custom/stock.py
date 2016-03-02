@@ -20,6 +20,7 @@
 ##############################################################################
 from openerp.osv import orm, fields
 import openerp.addons.decimal_precision as dp
+from openerp import fields as fields2
 from openerp import _
 
 
@@ -120,10 +121,10 @@ class stock_picking(orm.Model):
                                        'stock.move': (_get_picking, ['product_id', 'product_qty'], 10)
                                       }),
         'route_id': fields.many2one('route', 'Route'),
-        # TODO: Eliminado para evitar problemas en informes porque purchase_id ya no existe
-        #'container_numbers': fields.related('purchase_id', 'container_numbers', type='char', string="Container numbers", readonly=True,
-        #                   help="Container numbers assigned to the order."),
+        'container_numbers': fields.related('purchase_id', 'container_numbers', type='char', string="Container numbers", readonly=True,
+                           help="Container numbers assigned to the order."),
     }
+    purchase_id = fields2.Many2one('purchase.order', related = 'move_lines.purchase_line_id.order_id', store=True)
     _defaults = {
         'color_stock': 0
     }
@@ -145,32 +146,3 @@ class stock_location(orm.Model):
     _columns = {
         'name': fields.char('Location Name', size=64, required=True, translate=False),
     }
-
-stock_location()
-
-
-class stock_inventory(orm.Model):
-    _inherit = "stock.inventory"
-    _description = "Inventory"
-
-    def action_cancel_inventory(self, cr, uid, ids, context=None):
-        """ Cancels both stock move and inventory
-        @return: True
-        """
-        """ Modificación para que no permita cancelar inventario si alguna de sus lineas ya
-        tiene movimientos relacionados (stock_move_history_ids en el campo parent_id)
-        Sino, se corre el riesgo de cancelar un movimiento del que ya se a descontado stock de un lote y por tanto,
-        entre otras cosas, no se vería en el árbol de trazabilidad
-         """
-        move_obj = self.pool.get('stock.move')
-        for inv in self.browse(cr, uid, ids, context=context):
-            inventory_move_ids = [x.id for x in inv.move_ids]
-            z = inventory_move_ids
-            moves = move_obj.search(cr, uid, [('move_history_ids2', 'in', z), ('state', '!=', 'cancel')])
-            if moves:
-                raise osv.except_osv(_('UserError'),
-                                     _('In order to cancel this inventory, if it is possible, you must first cancel the related moves.'))
-
-        res = super(stock_inventory, self).action_cancel_inventory(cr, uid, ids, context=context)
-
-        return res

@@ -18,40 +18,43 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from openerp import models, api, fields, _
 
-from openerp.osv import orm, fields
 
-class res_partner(orm.Model):
+class res_partner(models.Model):
 
     _inherit = "res.partner"
 
-    _columns = {
-        'company_id': fields.many2one('res.company', 'Company', select=1, required=True),
-        'supplier_approved': fields.boolean('Supplier approved'),
-        'supplier_type': fields.selection([('I','I'),('II','II'),('III','III')], string="Supplier type"),
-        #'price_list': fields.one2many('product.supplierinfo', 'name', 'Price list')
-    }
+    company_id = fields.Many2one(required=True)
+    supplier_approved = fields.Boolean('Supplier approved')
+    supplier_type = fields.Selection([('I', 'I'), ('II', 'II'),
+                                      ('III', 'III')], string="Supplier type")
+    #'price_list': fields.one2many('product.supplierinfo', 'name', 'Price list')
 
+    @api.multi
+    def write(self, vals):
+        if vals.get('company_id', False):
+            for partner in self:
+                if partner.child_ids:
+                    partner.child_ids.write({'company_id': vals['company_id']})
+        return super(res_partner, self).write(vals)
 
-    # POST-MIGRATION: ¿Como replicarlo?
-    # def write(self, cr, uid, ids, vals, context=None):
-    #     """Modificación del método de escritura de res.partner para que se
-    #     produzca el cambio de la compañía en las direcciones del partner automáticamente
-    #     al realizar el guardado de los datos del partner"""
-    #
-    #     if context is None:
-    #         context = {}
-    #     if isinstance(ids, (int, long)):
-    #         ids = [ids]
-    #
-    #     domain = []
-    #
-    #     #Hacemos el cambio si ha cambiado la compañia
-    #     if vals.get('company_id', False):
-    #         for partner in self.browse(cr, uid, ids):
-    #             if partner.address:
-    #                 for address in partner.address:
-    #                     address.write({'company_id': vals['company_id']})
-    #
-    #     return super(res_partner, self).write(cr, uid, ids, vals, context=context)
+    @api.multi
+    def onchange_address(self, use_parent_address, parent_id):
+        res = super(res_partner, self).onchange_address(use_parent_address, parent_id)
+        if parent_id:
+            parent = self.browse(parent_id)
+            if 'value' not in res:
+                res['value'] = {}
+            res['value']['company_id'] = parent.company_id.id
+        return res
 
+    @api.onchange('company_id')
+    def onchange_company_id(self):
+        if self.company_id and self.parent_id.company_id != self.company_id:
+            self.company_id = self.parent_id.company_id
+            warning = {
+                'title': _('Warning!'),
+                'message' : _('You can not change the company of the address. It must be the same as the company of the partner to which it belongs.')
+                        }
+            return {'warning': warning}

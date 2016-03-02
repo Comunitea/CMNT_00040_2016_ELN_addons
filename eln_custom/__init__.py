@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
-#    
+#
 #    Copyright (C) 2004-2012 Pexego Sistemas Informáticos All Rights Reserved
 #    $Omar Castiñeira Saavedra$ <omar@pexego.es>
 #
@@ -21,9 +21,6 @@
 import route
 import res_partner
 # import res_partner_address
-import product
 import stock
 import account
-import wizard
-# import document
 import procurement_provisional
