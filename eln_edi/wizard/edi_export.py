@@ -60,20 +60,20 @@ class edi_export (orm.TransientModel):
 
             if context['active_model'] == u'sale.order':
                 name = obj.name.replace(' ', '').replace('.', '')
-                gln_ef = obj.partner_order_id.gln
-                gln_ve = obj.company_id.partner_id.gln
-                gln_co = obj.partner_invoice_id.gln
-                gln_rm = obj.partner_shipping_id.gln
+                gln_ef = obj.partner_order_id.gln_ef
+                gln_ve = obj.company_id.partner_id.gln_ve
+                gln_co = obj.partner_invoice_id.gln_co
+                gln_rm = obj.partner_shipping_id.gln_rm
                 doc_type = 'ordrsp'
                 sale_order_id = obj.id
             elif context['active_model'] == u'stock.picking':
                 name = obj.name.replace('/', '')
-                gln_ef = obj.company_id.partner_id.gln
-                gln_ve = obj.company_id.partner_id.gln
-                gln_de = obj.partner_id.gln
-                gln_rf = obj.sale_id and obj.sale_id.partner_invoice_id.gln or obj.address_id.gln
-                gln_co = obj.sale_id and obj.sale_id.partner_order_id.gln or obj.address_id.gln
-                gln_rm = obj.address_id.gln
+                gln_ef = obj.company_id.partner_id.gln_ef
+                gln_ve = obj.company_id.partner_id.gln_ve
+                gln_de = obj.partner_id.gln_de
+                gln_rf = obj.sale_id and obj.sale_id.partner_invoice_id.gln or obj.address_id.gln_rf
+                gln_co = obj.sale_id and obj.sale_id.partner_order_id.gln or obj.address_id.gln_co
+                gln_rm = obj.address_id.gln_rm
                 doc_type = 'desadv'
                 picking_id = obj.id
             elif context['active_model'] == u'account.invoice':
