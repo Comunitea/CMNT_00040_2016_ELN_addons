@@ -49,7 +49,9 @@ class stock_production_lot(osv.osv):
         moves = []
         if context is None: context = {}
         for line in self.browse(cr, uid, ids):
-            parents = self.pool.get('stock.move').search(cr, uid, [('prodlot_id', '=', line.id),('state', '!=', 'cancel')])
+            # POST-MIGRATION: No hay lote en los movimientos, Adaptar?
+            # parents = self.pool.get('stock.move').search(cr, uid, [('prodlot_id', '=', line.id),('state', '!=', 'cancel')])
+            parents = []
             if parents:
                 for par in parents:
                     x = self.get_moves(cr, uid, [par])
@@ -67,7 +69,9 @@ class stock_production_lot(osv.osv):
         moves = []
         if context is None: context = {}
         for line in self.browse(cr, uid, ids):
-            parents = self.pool.get('stock.move').search(cr, uid, [('prodlot_id', '=', line.id),('state', '!=', 'cancel')])
+            # POST-MIGRATION: No hay lote en los movimientos, Adaptar?
+            # parents = self.pool.get('stock.move').search(cr, uid, [('prodlot_id', '=', line.id),('state', '!=', 'cancel')])
+            parents = []
             if parents:
                 for par in parents:
                     x = self.get_moves_up(cr, uid, [par])
