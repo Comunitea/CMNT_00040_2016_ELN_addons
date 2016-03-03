@@ -51,7 +51,6 @@ class edi_doc(orm.Model):
     }
     _order = 'date desc'
 
-edi_doc()
 
 class edi_configuration(orm.Model):
     _name = "edi.configuration"
@@ -64,7 +63,7 @@ class edi_configuration(orm.Model):
         'ftp_user': fields.char('Usuario', size=255),
         'ftp_password': fields.char('Password', size=255),
         'local_mode': fields.boolean('Modo local',help='Si es activado, el módulo no realizará conexiones al ftp. Sólo trabajará con los ficheros y documentos pendientes de importación.'),
-        'ftpbox_path': fields.char('Ruta ftpbox',size=255,required=True),
+        'ftpbox_path': fields.char('Ruta ftpbox (Sin / al final)',size=255,required=True),
     }
 
     def default_get(self, cr, uid, fields, context=None):
@@ -79,8 +78,6 @@ class edi_configuration(orm.Model):
             raise osv.except_osv(_("No hay una configuración EDI. "),_("Falta configuración"))
         else :
             return pool.get('edi.configuration').browse(cr,uid,ids[0])
-
-edi_configuration()
 
 
 # -------------------------- PERSONALIZACIONES CON CAMPOS DE EDI ------------------------------------

@@ -652,7 +652,6 @@ class edi_export (orm.TransientModel):
         wizard = self.browse(cr,uid,ids[0])
         path = wizard.configuration.ftpbox_path + "/out"
         tmp_name = ''
-
         for obj in self.pool.get(context['active_model']).browse(cr,uid,context['active_ids']):
             if not obj.company_id.edi_code:
                 raise orm.except_orm(_('Company error'), _('Edi code not established in company'))

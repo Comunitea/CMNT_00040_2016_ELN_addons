@@ -14,7 +14,8 @@
             </field>
         </record>
         <!-- Pedido de venta-->
-        <!--act_window
+        <!-- No se esta usando -->
+<!--    <act_window
             id="action edi_export" name="Exportar pedidos EDI"
             res_model="edi.export"
             src_model="sale.order"
@@ -23,7 +24,7 @@
             target="new"
             view_id="wizard_edi_export"
             key2="client_action_multi"
-            /-->
+        /> -->
         <!-- Albarán-->
         <act_window
             id="action edi_export_picking" name="Exportar Albaranes EDI"
