@@ -242,3 +242,15 @@ where nt.id = rp.id
 -- ARREGLAR VISTA CONTABILIDAD/PAGOS/EFECTOS
 delete from ir_ui_view where id in (select id from ir_ui_view where name = 'Invoice Payments Select');
 delete from ir_ui_view where id in (select id from ir_ui_view where name = 'Payments');
+
+-- CAMBIAR LA TABLA DEL MANY2MANY DE PRODUCTOS CONSUMIDOS Y NO CONSUMIDOS AL ONE2MAY DE LA 8
+update stock_move sm set raw_material_production_id = m2m.production_id
+from mrp_production_move_ids as m2m
+where sm.id = m2m.move_id;
+
+
+
+
+
+
+
