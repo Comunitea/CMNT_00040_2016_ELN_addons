@@ -164,6 +164,7 @@
             <field name="value_unpickle" eval="'ir.actions.report.xml, ' +str(report_packing_list_alt_jasper)" />
         </record>
 
+        <!-- FACTURA -->
         <record id="invoice_report_jasper" model="ir.actions.report.xml">
             <field name="string">Invoice</field>
             <field name="auto">True</field>
@@ -185,6 +186,7 @@
             <field name="value_unpickle" eval="'ir.actions.report.xml, ' +str(invoice_report_jasper)" />
         </record>
 
+        <!-- ALBARAN -->
         <record id="stock_picking_report_jasper" model="ir.actions.report.xml">
             <field name="string">Picking</field>
             <field name="auto">True</field>
@@ -206,6 +208,7 @@
             <field name="value_unpickle" eval="'ir.actions.report.xml, ' +str(stock_picking_report_jasper)" />
         </record>
 
+        <!-- PLANING -->
         <report
             string="Plannnig"
             model="stock.picking"
