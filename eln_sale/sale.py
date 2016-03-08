@@ -55,8 +55,11 @@ class sale_order(orm.Model):
                 v['supplier_id'] = shop.supplier_id.id
             if shop.order_policy:
                 v['order_policy'] = shop.order_policy
+            if shop.warehouse_id:
+                v['warehouse_id'] = shop.warehouse_id.id
             v['order_policy'] = shop.order_policy
             v['supplier_id'] = shop.supplier_id.id
+
         return {'value': v}
 
     def onchange_shop_id2(self, cr, uid, ids, shop_id, partner_id=False):
