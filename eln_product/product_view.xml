@@ -205,8 +205,8 @@
             <field name="arch" type="xml">
                 <form string="Product sheet shipments">
                     <field name="partner_id" readonly="1"/>
-                    <field name="contact_id" readonly="1"/>
-                    <field name="revision" readonly="1"/>
+<!--                     <field name="contact_id" readonly="1"/>
+ -->                    <field name="revision" readonly="1"/>
                     <field name="date" readonly="1"/>
                     <field name="product_id" readonly="1"/>
                 </form>
@@ -220,8 +220,8 @@
             <field name="arch" type="xml">
                 <tree string="Product sheet shipments">
                     <field name="partner_id" />
-                    <field name="contact_id"/>
-                    <field name="revision"/>
+<!--                     <field name="contact_id"/>
+ -->                    <field name="revision"/>
                     <field name="date"/>
                     <field name="product_id"/>
                 </tree>
@@ -236,8 +236,8 @@
                 <search string="Product sheet shipments">
                     <group col="10" colspan="4">
                         <field name="partner_id"/>
-                        <field name="contact_id"/>
-                        <field name="date"/>
+<!--                         <field name="contact_id"/>
+ -->                        <field name="date"/>
                         <field name="revision"/>
                     </group>
                     <newline/>
@@ -266,7 +266,7 @@
             id="action_product_sheet_shipments_tree"
             name="Shipments"
             res_model="product.sheet.shipments"
-            src_model="product.product"
+            src_model="product.template"
            />
            <!--context="{'search_default_product_id': [active_id], 'default_product_id': active_id}"-->
         <menuitem parent="stock.menu_product_in_config_stock" name="Product Sheet Shipments" id="product_sheet_shipments_menu_parent"/>

@@ -18,4 +18,5 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-import stock_invoice_onshipping
+# import stock_invoice_onshipping
+import postmigration_reconcile_quants

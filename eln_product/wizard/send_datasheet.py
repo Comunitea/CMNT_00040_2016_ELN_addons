@@ -24,7 +24,7 @@ from openerp import tools
 from openerp.addons.jasper_reports import report_jasper
 from openerp.tools.translate import _
 
-
+# COMENTADO POST MIGRATION
 class mail_compose_message_product_datasheet(osv.osv_memory):
     _name = 'mail.compose.message.product.datasheet'
     _inherit = 'mail.compose.message'
@@ -136,7 +136,7 @@ class mail_compose_message_product_datasheet(osv.osv_memory):
         # Try to provide default email_from if not specified yet
         
         if not result.get('contact_ids'):
-            result['contact_ids'] =context.get('contact_ids')
+            result['contact_ids'] = context.get('contact_ids')
         if not result.get('email_from'):
             result['email_from'] = context.get('email_from')
         if not result.get('email_to'):
@@ -150,10 +150,11 @@ mail_compose_message_product_datasheet()
 class send_datasheet(osv.osv_memory):
     _name = 'send.datasheet'
     _columns = {
-        'contact_ids': fields.many2many('res.partner.contact', 'send_datasheet_partner_contact_rel', 'send_datasheet_id', 'contact_id', 'Contacts'),
+        'contact_ids': fields.many2many('res.partner', 'send_datasheet_partner_contact_rel', 'send_datasheet_id', 'contact_id', 'Contacts'),
         'send_all': fields.boolean('Send all records'),
         'product_id': fields.many2one('product.product', 'Product active')
     }
+
     def default_get(self, cr, uid, fields, context=None):
         """ To get default values for the object.
          @param self: The object pointer.
@@ -165,7 +166,7 @@ class send_datasheet(osv.osv_memory):
         """
         if context is None:
             context = {}
-        
+
         res = super(send_datasheet, self).default_get(cr, uid, fields, context=context)
 
         product_id = self.pool.get('product.product').browse(cr, uid, context.get('active_id', False), context=context).id
@@ -173,34 +174,31 @@ class send_datasheet(osv.osv_memory):
             res['product_id'] = product_id
 
         return res
-    def onchange_send_all(self, cr, uid, ids, send_all, product_id,context=None):
+
+    def onchange_send_all(self, cr, uid, ids, send_all, product_id, context=None):
         res = {}
         if context is None:
             context = {}
         contact_ids = []
         shipments = []
-        if product_id:
-            if send_all and send_all == 1:
+        if product_id and send_all:
 
-                shipments = self.pool.get('product.sheet.shipments').search(cr, uid, [('product_id','=', product_id)])
-                if shipments:
-                    for id in shipments:
-                        ship_obj = self.pool.get('product.sheet.shipments').browse(cr, uid, id)
-                        if ship_obj.contact_id:
-                            contact_ids.append(ship_obj.contact_id.id)
-
-                if contact_ids:
-                    res['contact_ids'] = contact_ids
-            elif send_all == 0:
-                res['contact_ids'] = []
-
+            shipments = self.pool.get('product.sheet.shipments').search(cr, uid, [('product_id','=', product_id)])
+            if shipments:
+                for ship_id in shipments:
+                    ship_obj = self.pool.get('product.sheet.shipments').browse(cr, uid, ship_id)
+                    if ship_obj.partner_id:
+                        contact_ids.append(ship_obj.partner_id.id)
+        res['contact_ids'] = contact_ids
         return {'value': res}
+
     def open_mail(self, cr, uid, ids, context=None):
-        if context is None: context = {}
-        
+        if context is None:
+            context = {}
         stream = []
         contacts = []
         emails_to = ''
+        import ipdb; ipdb.set_trace()
         form_obj = self.pool.get('send.datasheet').browse(cr, uid, ids[0])
         if form_obj.contact_ids:
             for contact in form_obj.contact_ids:
@@ -216,7 +214,7 @@ class send_datasheet(osv.osv_memory):
         result = self.pool.get('ir.actions.act_window').read(cr, uid, [id])[0]
        
         result['context'] = str({'email_from': (self.pool.get('res.users').browse(cr, uid, uid) and \
-                                                self.pool.get('res.users').browse(cr, uid, uid).user_email) \
+                                                self.pool.get('res.users').browse(cr, uid, uid).email) \
                                                 or (self.pool.get('res.users').browse(cr, uid, uid) and \
                                                 self.pool.get('res.users').browse(cr, uid, uid).company_id and \
                                                 self.pool.get('res.users').browse(cr, uid, uid).company_id.email) or False,

@@ -33,6 +33,7 @@
     "init_xml" : [],
     "data" : [
                     'stock_view.xml',
+                    'wizard/postmigration_reconcile_quants_view.xml',
                     ],
     "demo_xml" : [],
     "active": False,

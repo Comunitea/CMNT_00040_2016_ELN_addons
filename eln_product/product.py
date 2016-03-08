@@ -71,7 +71,7 @@ class product_sheet_shipments(orm.Model):
     _columns = {
         'name': fields.char('Name', size=64, required=True),
         'partner_id': fields.many2one('res.partner', 'Partner'),
-        'contact_id': fields.many2one('res.partner.contact', 'Contact', required=True),
+        # 'contact_id': fields.many2one('res.partner.contact', 'Contact', required=True),
         'date': fields.date('Date', required=True),
         'product_id': fields.many2one('product.product', 'Product', required=True),
         'revision': fields.char('Rev.', size=255, readonly=True)
@@ -79,11 +79,11 @@ class product_sheet_shipments(orm.Model):
     _defaults = {
         'name': lambda x, y, z, c: x.pool.get('ir.sequence').get(y, z, 'product.sheet.shipments') or '/',
     }
-product_sheet_shipments()
+
 
 class product_product(orm.Model):
     _inherit = 'product.product'
-        
+
     def _get_last_revision(self, cr, uid, ids, field_name, arg, context):
 
         res = {}
