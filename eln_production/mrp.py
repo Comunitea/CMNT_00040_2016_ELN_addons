@@ -403,7 +403,7 @@ class mrp_production_workcenter_line(osv.osv):
         result = workcenter_obj.name_get(cr, access_rights_uid, workcenter_ids, context=context)
         # restore order of the search
         result.sort(lambda x,y: cmp(workcenter_ids.index(x[0]), workcenter_ids.index(y[0])))
-        return result
+        return result, {}
 
     _group_by_full = {
         'workcenter_id': _read_group_workcenter_ids
@@ -416,7 +416,9 @@ class mrp_production_workcenter_line(osv.osv):
         for line in self.browse(cr, uid, ids, context=context):
             res[line.id] = 0
             if line.product:
-                moves = self.pool.get('stock.move').search(cr, uid, [('product_id','=',line.product.id),('picking_id.type','=','out'),('state','not in',('done','cancel'))])
+                # COMENTADO POST-MIGRATION
+                # moves = self.pool.get('stock.move').search(cr, uid, [('product_id','=',line.product.id),('picking_id.type','=','out'),('state','not in',('done','cancel'))])
+                moves = self.pool.get('stock.move').search(cr, uid, [('picking_type_id.code','=','outgoing'),('state','not in',('done','cancel'))])
                 if moves:
                     for move in moves:
                         obj = self.pool.get('stock.move').browse(cr,uid, move)
