@@ -198,7 +198,6 @@ class send_datasheet(osv.osv_memory):
         stream = []
         contacts = []
         emails_to = ''
-        import ipdb; ipdb.set_trace()
         form_obj = self.pool.get('send.datasheet').browse(cr, uid, ids[0])
         if form_obj.contact_ids:
             for contact in form_obj.contact_ids:
