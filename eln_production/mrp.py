@@ -29,6 +29,7 @@ from operator import attrgetter
 from openerp.addons.product import _common
 from openerp.tools import float_compare, float_is_zero
 import openerp.addons.decimal_precision as dp
+from openerp import models, api
 
 
 class change_production_qty(osv.osv_memory):
@@ -475,30 +476,50 @@ class mrp_production_workcenter_line(osv.osv):
         return super(mrp_production_workcenter_line, self).write(cr, uid, ids, vals, context=context)
 
 
-mrp_production_workcenter_line()
+class mrpRouting(models.Model):
+
+    _inherit = 'mrp.routing'
+
+    def search(self, cr, uid, args, offset=0, limit=None, order=None,
+               context=None, count=False):
+        """ Overwrite in order to search only routings ior alternative
+        routings of the material list"""
+        # import ipdb; ipdb.set_trace()
+        if context is None:
+            context = {}
+        routing_ids = []
+        if context.get('bom_id', False):
+            t_bom = self.pool.get('mrp.bom')
+            bom_obj = t_bom.browse(cr, uid, context['bom_id'], context)
+            if bom_obj.routing_id:
+                routing_ids.append(bom_obj.routing_id.id)
+            for r in bom_obj.alternatives_routing_ids:
+                routing_ids.append(r.id)
+            args = [['id', 'in', routing_ids]]
+        return super(mrpRouting, self).search(cr, uid, args,
+                                              offset=offset,
+                                              limit=limit,
+                                              order=order,
+                                              context=context,
+                                              count=count)
+
+    @api.model
+    def name_search(self, name, args=None, operator='ilike', limit=100):
+        """
+        Display only routes defined in material list routes or alternative
+        routes. Uses the overwrited search
+        """
+        res = super(mrpRouting, self).name_search(name, args=args,
+                                                  operator=operator,
+                                                  limit=limit)
+        if self._context.get('bom_id', False):
+            args = args or []
+            recs = self.search(args)
+            res = recs.name_get()
+        return res
 
 class mrp_production(osv.osv):
     _inherit = 'mrp.production'
-
-    def _get_ids_str(self, cr, uid, ids, field_name, args, context=None):
-        if context is None:
-            context = {}
-        res = {}
-
-        for cur_obj in self.browse(cr, uid, ids):
-            stream = []
-            res[cur_obj.id] = "[]"
-            if cur_obj.bom_id:
-                bom_point = self.pool.get('mrp.bom').browse(cr, uid, cur_obj.bom_id.id, context=context)
-                if bom_point.routing_id or bom_point.alternatives_routing_ids:
-                    if bom_point.routing_id:
-                        stream.append(str(bom_point.routing_id.id))
-                    if bom_point.alternatives_routing_ids:
-                        for line in bom_point.alternatives_routing_ids:
-                            stream.append(str(line.id))
-                    res[cur_obj.id] = "[" + u", ".join(stream) + "]"
-
-        return res
 
     def _get_operator_ids_str(self, cr, uid, ids, field_name, args, context=None):
         if context is None:
@@ -520,7 +541,6 @@ class mrp_production(osv.osv):
         return res
 
     _columns = {
-        'ids_str2': fields.function(_get_ids_str, method=True, string='ids_str', type='char', size=255),
         'operator_ids_str': fields.function(_get_operator_ids_str, method=True, string="Operators_ids_str", type="char", size=255),
         'routing_id': fields.many2one('mrp.routing', string='Routing', on_delete='set null', readonly=True, states={'draft':[('readonly',False)],'confirmed':[('readonly',False)],'ready':[('readonly',False)]}, help="The list of operations (list of work centers) to produce the finished product. The routing is mainly used to compute work center costs during operations and to plan future loads on work centers based on production plannification."),
         'date_end_planned': fields.datetime('Date end Planned'),

@@ -51,13 +51,17 @@
             <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
             <field name="type">form</field>
             <field name="arch" type="xml">
-                <field name="routing_id" position="replace"></field>
+                <field name="routing_id" position="replace"/>
+                <label for="routing_id" position="replace"/>
                 <notebook position="inside">
-                    <page string="Routings">
-                        <field name="routing_id" string="Proceso productivo principal"/>
-                        <separator colspan="4" string="Procesos productivos alternativos"/>
-                        <field name="alternatives_routing_ids" colspan="4" nolabel="1"/>
-                    </page>
+                        <page string="Routings">
+                            <group>
+                                <field name="routing_id" string="Proceso productivo principal"/>
+                            </group>
+                            <group colspan="4" string="Procesos productivos alternativos">
+                                <field name="alternatives_routing_ids" colspan="4" nolabel="1"/>
+                            </group>
+                        </page>
                 </notebook>
             </field>
         </record>
@@ -269,7 +273,7 @@
                     <field name="product_id"/>
                     <field name="product_qty" sum="Total Qty"/>
                     <field name="product_uom"/>
-                    <field name="routing_id" groups="base.group_extended"/>
+                    <field name="routing_id"/>
                     <field name="hour_total" sum="Total Hours" groups="base.group_extended"/>
                     <field name="cycle_total" sum="Total Cycles" groups="base.group_extended"/>
                     <field name="origin"/>
@@ -286,9 +290,8 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <field name="routing_id" position="replace">
-                    <field name="ids_str2" invisible="1"/>
                     <field name="operator_ids_str" invisible="1"/>
-                    <field name="routing_id" groups="base.group_extended" select="1" domain="[('id','in',eval(ids_str2))]" />
+                    <field name="routing_id" select="1" context="{'bom_id': bom_id}" />
                 </field>
 
                 <button name="button_produce" position="after">
