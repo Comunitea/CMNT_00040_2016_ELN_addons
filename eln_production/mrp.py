@@ -387,8 +387,6 @@ class production_stops(osv.osv):
         'production_workcenter_line_id': fields.many2one('mrp.production.workcenter.line', 'Production workcenter line')
     }
 
-production_stops()
-
 class mrp_production_workcenter_line(osv.osv):
     _inherit = 'mrp.production.workcenter.line'
 
@@ -475,6 +473,45 @@ class mrp_production_workcenter_line(osv.osv):
                     raise osv.except_osv(_("ERROR!"), _("You can not modify a work order associated at a production with a state other than 'validated'") )
         return super(mrp_production_workcenter_line, self).write(cr, uid, ids, vals, context=context)
 
+class hrEmployee(models.Model):
+
+    _inherit = 'hr.employee'
+
+    def search(self, cr, uid, args, offset=0, limit=None, order=None,
+               context=None, count=False):
+        """ Display only operators of the workecenterlines of the
+            mrp.production route"""
+        if context is None:
+            context = {}
+        operator_ids = []
+        if context.get('routing_id', False):
+            t_rout = self.pool.get('mrp.routing')
+            rout_obj = t_rout.browse(cr, uid, context['routing_id'], context)
+            for line in rout_obj.workcenter_lines:
+                if line.operators_ids:
+                    for op in line.operators_ids:
+                        operator_ids.append(op.id)
+            args = [['id', 'in', operator_ids]]
+        return super(hrEmployee, self).search(cr, uid, args,
+                                              offset=offset,
+                                              limit=limit,
+                                              order=order,
+                                              context=context,
+                                              count=count)
+
+    @api.model
+    def name_search(self, name, args=None, operator='ilike', limit=100):
+        """" Display only operators of the workecenterlines of the
+            mrp.production route"""
+        res = super(hrEmployee, self).name_search(name, args=args,
+                                                  operator=operator,
+                                                  limit=limit)
+        if self._context.get('routing_id', False):
+            args = args or []
+            recs = self.search(args)
+            res = recs.name_get()
+        return res
+
 
 class mrpRouting(models.Model):
 
@@ -521,27 +558,28 @@ class mrpRouting(models.Model):
 class mrp_production(osv.osv):
     _inherit = 'mrp.production'
 
-    def _get_operator_ids_str(self, cr, uid, ids, field_name, args, context=None):
-        if context is None:
-            context = {}
-        res = {}
+    # def _get_operator_ids_str(self, cr, uid, ids, field_name, args, context=None):
+    #     import ipdb; ipdb.set_trace()
+    #     if context is None:
+    #         context = {}
+    #     res = {}
 
-        for cur_obj in self.browse(cr, uid, ids):
-            stream = []
-            res[cur_obj.id] = "[]"
-            if cur_obj.routing_id:
-                if cur_obj.routing_id.workcenter_lines:
-                    for line in cur_obj.routing_id.workcenter_lines:
-                        if line.operators_ids:
-                            for op in line.operators_ids:
-                                stream.append(str(op.id))
+    #     for cur_obj in self.browse(cr, uid, ids):
+    #         stream = []
+    #         res[cur_obj.id] = "[]"
+    #         if cur_obj.routing_id:
+    #             if cur_obj.routing_id.workcenter_lines:
+    #                 for line in cur_obj.routing_id.workcenter_lines:
+    #                     if line.operators_ids:
+    #                         for op in line.operators_ids:
+    #                             stream.append(str(op.id))
 
-                    res[cur_obj.id] = "[" + u", ".join(stream) + "]"
+    #                 res[cur_obj.id] = "[" + u", ".join(stream) + "]"
 
-        return res
+    #     return res
 
     _columns = {
-        'operator_ids_str': fields.function(_get_operator_ids_str, method=True, string="Operators_ids_str", type="char", size=255),
+        # 'operator_ids_str': fields.function(_get_operator_ids_str, method=True, string="Operators_ids_str", type="char", size=255),
         'routing_id': fields.many2one('mrp.routing', string='Routing', on_delete='set null', readonly=True, states={'draft':[('readonly',False)],'confirmed':[('readonly',False)],'ready':[('readonly',False)]}, help="The list of operations (list of work centers) to produce the finished product. The routing is mainly used to compute work center costs during operations and to plan future loads on work centers based on production plannification."),
         'date_end_planned': fields.datetime('Date end Planned'),
         'state': fields.selection([('draft','New'),('picking_except', 'Picking Exception'),('confirmed','Waiting Goods'),('ready','Ready to Produce'),('in_production','Production Started'),('finished', 'Finished'),('validated', 'Validated'),('closed', 'Closed'),('cancel','Cancelled'),('done','Done'),('reopen', 'Reopen')],'State', readonly=True,
