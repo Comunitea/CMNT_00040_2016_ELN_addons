@@ -294,8 +294,8 @@
                 </field>
 
                 <button name="button_produce" position="after">
-                    <button name="%(mrp.act_mrp_product_produce)d" states="finished" context="{'production_mode': 'produce_not_consume', 'state': 'validated', 'signal_workflow': 'button_finished_validated'}" string="Validate Production" type="action" icon="terp-gtk-jump-to-ltr"/>
-                    <button name="%(mrp.act_mrp_product_produce)d" states="validated" context="{'production_mode': 'consume_not_produce', 'state': 'closed', 'signal_workflow': 'button_validated_closed'}" string="Close Production" type="action" icon="terp-gtk-jump-to-ltr"/>
+                    <button name="%(mrp.act_mrp_product_produce)d" states="finished" context="{'default_mode':'produce', 'production_mode': 'produce_not_consume', 'state': 'validated', 'signal_workflow': 'button_finished_validated'}" string="Validate Production" type="action" icon="terp-gtk-jump-to-ltr"/>
+                    <button name="%(mrp.act_mrp_product_produce)d" states="validated" context="{'default_mode':'consume', 'production_mode': 'consume_not_produce', 'state': 'closed', 'signal_workflow': 'button_validated_closed'}" string="Close Production" type="action" icon="terp-gtk-jump-to-ltr"/>
 
                 </button>
                 <button name="button_produce" position="after">
@@ -311,25 +311,15 @@
                     <field name="state" widget="statusbar" statusbar_visible="draft,ready,in_production,closed" statusbar_colors='{"picking_except":"red","confirmed":"blue"}'/>
                 </field>
 
-                <xpath expr="//form/group[1]" position="replace">
-                    <group colspan="4" col="7">
-                        <field name="name" string="Reference"/>
-                        <field name="date_planned"/>
-                        <field name="date_end_planned"/>
-                        <newline/>
-                        <field name="product_id" on_change="product_id_change(product_id)" domain="[('supply_method','=','produce')]"/>
-                        <field name="product_qty" on_change="product_qty_change(product_id,product_qty,product_uom,product_uos)"/>
-                        <field name="product_uom"/>
-                        <button type="action"
-                            icon="terp-accessories-archiver+"
-                            name="%(mrp.action_change_production_qty)d"
-                            string="Change Qty" states="ready,confirmed" />
-                        <field name="origin"/>
-                        <field name="product_uos_qty" on_change="product_uos_qty_change(product_id,product_uos_qty,product_uos,product_uom)" groups="product.group_uos"/>
-                        <field name="product_uos" groups="product.group_uos"/>
-                    </group>
-                </xpath>
-
+               <field name="date_planned" position="after">
+                    <field name="date_end_planned"/>
+               </field>
+                <field name="product_uos_qty" position="attributes">
+                    <attribute name="on_change">product_uos_qty_change(product_id,product_uos_qty,product_uos,product_uom)</attribute>
+               </field>
+               <button string="Update" position="attributes">
+                    <attribute name="states">ready,confirmed</attribute>
+               </button>
                <page string="Work Orders" position="replace">
                     <!--<page string="pruebas">
                         <field name="move_lines_str"/>
@@ -347,7 +337,7 @@
                         <field colspan="4" name="workcenter_lines" nolabel="1">
                             <form string="Production Work Centers">
                                 <group>
-                                    <field colspan="4" name="name"/>
+                                    <field name="name"/>
                                     <field name="workcenter_id" widget="selection"/>
                                     <field name="sequence"/>
                                 </group>

@@ -24,12 +24,30 @@ from openerp.tools.translate import _
 class stock_move(osv.osv):
     _inherit = 'stock.move'
 
+    def action_consume(self, cr, uid, ids, product_qty, location_id=False, restrict_lot_id=False, restrict_partner_id=False,
+                     consumed_for=False, context=None):
+        """
+        Cuando en contexto le pasamos el movimiento de la producion lo arrastramos a este metodo.
+        """
+        if context.get('main_production_move', False):
+            consumed_for = context['main_production_move']
+        return super(stock_move, self).action_consume(cr, uid, ids, product_qty, 
+                                                      location_id=location_id,
+                                                      restrict_lot_id=restrict_lot_id,
+                                                      restrict_partner_id=restrict_partner_id,
+                                                      consumed_for=consumed_for,
+                                                      context=context)
+
     def write(self, cr, uid, ids, vals, context=None):
         if context is None:
             context = {}
 
         if isinstance(ids,(int,long)):
             ids = [ids]
+        # Escribir el campo main_production_move si se le ha pasado en contexto
+        # para que el action_produce de mrp.production sepa escribirlo.
+        if context.get('main_production_move', False):
+            vals.update({'consumed_for': context['main_production_move']})
         res = super(stock_move, self).write(cr, uid, ids, vals, context=context)
         if vals.get('prodlot_id', False):
             for move in self.browse(cr, uid, ids):
@@ -103,13 +121,12 @@ class stock_move(osv.osv):
                         move_obj.write(cr, uid, dest.id, {'state': 'draft'}) #PGC
                     ids_unlink.append(dest.id)
         return super(stock_move, self).unlink(cr, uid, ids_unlink, context=context) #PGC
-        #return osv.osv.unlink(self, cr, uid, ids_unlink, context=context) 
+        #return osv.osv.unlink(self, cr, uid, ids_unlink, context=context)
 
-stock_move()
 
 class stock_location(osv.osv):
     _inherit = 'stock.location'
     _columns = {
         'sample_location': fields.boolean('Sample location')
     }
-stock_location()
+

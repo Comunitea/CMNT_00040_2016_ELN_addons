@@ -48,7 +48,8 @@
                     'stock_production_lot_view.xml',
                     'security/ir.model.access.csv',
                     'stock_move_scrap_view.xml',
-                    'stock_view.xml'
+                    'stock_view.xml',
+                    'wizard/mrp_product_produce_view.xml'
                     ],
     "demo_xml" : [],
     "installable": True
