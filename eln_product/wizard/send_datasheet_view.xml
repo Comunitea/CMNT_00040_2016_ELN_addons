@@ -43,7 +43,7 @@
         <record id="action_email_compose_message_product_wizard" model="ir.actions.act_window">
             <field name="name">Compose Email Product Datasheet</field>
             <field name="res_model">mail.compose.message.product.datasheet</field>
-            <field name="src_model">product.product</field>
+            <field name="src_model">product.template</field>
             <field name="type">ir.actions.act_window</field>
             <field name="view_type">form</field>
             <field name="view_mode">form</field>
@@ -80,7 +80,7 @@
 
         <act_window name="Send datasheet"
             res_model="send.datasheet"
-            src_model="product.product"
+            src_model="product.template"
             view_mode="form"
             target="new"
             key2="client_action_multi"

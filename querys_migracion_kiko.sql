@@ -74,15 +74,13 @@ parent_id, company_id, street, street2, zip, title, state_id, city, country_id)
 (
 select 1,1,'es ES', false, 'contact', false, false, false, false,  false, false, 0 as color, 
 false as is_company, true as active, 1 as user_id, 'agent' as agent_type, 'monthly' as settlement, 'standalone' as contact_type, 'always' as notify_email, 
-
 case
-	when rpc.last_name = '/' then 'CONTACTO DE ' || coalesce(rpa.comercial, rpa.name, rp.comercial, rp.name)
-	else rpc.first_name || '_' || rpc.last_name
+    when rpc.last_name = '/' then 'CONTACTO DE ' || coalesce(rpa.comercial, rpa.name, rp.comercial, rp.name)
+    else coalesce(rpc.first_name, '') || '_' || coalesce(rpc.last_name, '')
 end as display_name,
 case
-	when rpc.last_name = '/' then 'CONTACTO DE ' || coalesce(rpa.comercial, rpa.name, rp.comercial, rp.name)
-	else rpc.first_name || '_' || rpc.last_name
-end as name,
+    when rpc.last_name = '/' then 'CONTACTO DE ' || coalesce(rpa.comercial, rpa.name, rp.comercial, rp.name)
+    else coalesce(rpc.first_name, '') || '_' || coalesce(rpc.last_name, '')
 end as name,
 rpa.phone as phone, rpc.mobile as mobile, rpa.fax as fax, rpc.email || ',' || rpa.email as email,
 rpa.gln_de as gln_de, rpa.gln_rf as gln_rf, rpa.gln_rm as gln_rm, rpa.gln_co as gln_co,
@@ -91,7 +89,7 @@ rpa.company_id as company_id,
 rpa.street as street, rpa.street2 as street2, rpa.zip as zip, rpa.title as title, rpa.state_id as state_id, rpa.city as city, rpa.country_id as country_id
 from res_partner_contact rpc
 inner join res_partner_address rpa on rpa.contact_id = rpc.id
-inner join res_partner rp  on rpa.openupgrade_7_migrated_to_partner_id = rp.id)
+inner join res_partner rp  on rpa.openupgrade_7_migrated_to_partner_id = rp.id);
 
 
 //BORRAMOS LA TABLA AUXILIAR

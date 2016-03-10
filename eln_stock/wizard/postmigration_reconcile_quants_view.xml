@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+         <record id="view_postmigration_reconcile_quants" model="ir.ui.view">
+            <field name="name">Reconcilie Negative Quants</field>
+            <field name="model">postmigration.reconcile.quants</field>
+            <field name="arch" type="xml">
+                <form>
+                    <div>
+                        <p> This wizard will reconcile negative quants for incoming, production or inventory moves.</p>
+                        <p> Remember to launch this wizard in all your companys.</p>
+                    </div>
+                    <footer>
+                        <button name="reconcile_quants" string="Process Quants" type="object"  class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+
+                </form>
+
+                  
+                    
+            </field>
+        </record>
+        <record id="act_reconciliate_quants" model="ir.actions.act_window">
+            <field name="name">Reconciliate Quants</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">postmigration.reconcile.quants</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_postmigration_reconcile_quants"/>
+            <field name="target">new</field>
+        </record>
+       
+        <menuitem name="Reconciliate Quants" id="menu_econciliate_quants" action="act_reconciliate_quants"
+           parent="stock.menu_traceability" sequence="99"/>
+    </data>
+</openerp>

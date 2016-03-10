@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="control_part" language="groovy" pageWidth="555" pageHeight="762" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
-	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<style name="Crosstab Data Text" hAlign="Center" lineSpacing="Single"/>
@@ -25,7 +25,10 @@
 		<field name="Name-name" class="java.lang.String">
 			<fieldDescription><![CDATA[Utilizacion_del_centro_de_produccion-workcenter_lines/Centro_de_produccion-workcenter_id/Name-name]]></fieldDescription>
 		</field>
-		<filterExpression><![CDATA[$P{PRODUCTION_ID} == $F{id}]]></filterExpression>
+		<field name="Hoja_de_control_salado-control_sheet_salted" class="java.lang.Boolean">
+			<fieldDescription><![CDATA[Utilizacion_del_centro_de_produccion-workcenter_lines/Centro_de_produccion-workcenter_id/Hoja_de_control_salado-control_sheet_salted]]></fieldDescription>
+		</field>
+		<filterExpression><![CDATA[$P{PRODUCTION_ID} == $F{id} && $F{Hoja_de_control_salado-control_sheet_salted}]]></filterExpression>
 	</subDataset>
 	<subDataset name="DS_LdM">
 		<parameter name="PRODUCTION_ID" class="java.lang.Integer"/>
@@ -51,41 +54,10 @@
 		<field name="Referencia-code" class="java.lang.String">
 			<fieldDescription><![CDATA[Productos_a_consumir-move_lines/Producto-product_id/Referencia-code]]></fieldDescription>
 		</field>
+		<sortField name="Referencia-code"/>
 	</subDataset>
-	<subDataset name="DS_options">
-		<parameter name="PRODUCTION_ID" class="java.lang.Integer"/>
-		<parameter name="REWIND" class="java.lang.Object" isForPrompting="false">
-			<parameterDescription><![CDATA[]]></parameterDescription>
-			<defaultValueExpression><![CDATA[$P{REPORT_DATA_SOURCE}.moveFirst()]]></defaultValueExpression>
-		</parameter>
-		<queryString language="xPath">
-			<![CDATA[/data/record]]>
-		</queryString>
-		<field name="Name-name" class="java.lang.String">
-			<fieldDescription><![CDATA[Producto-product_id/Options-option_ids/Option-option_id/Name-name]]></fieldDescription>
-		</field>
-	</subDataset>
-	<subDataset name="DS_verifications">
-		<parameter name="PRODUCTION_ID" class="java.lang.Integer"/>
-		<parameter name="REWIND" class="java.lang.Object" isForPrompting="false">
-			<parameterDescription><![CDATA[]]></parameterDescription>
-			<defaultValueExpression><![CDATA[$P{REPORT_DATA_SOURCE}.moveFirst()]]></defaultValueExpression>
-		</parameter>
-		<queryString language="xPath">
-			<![CDATA[/data/record]]>
-		</queryString>
-		<field name="Name-name" class="java.lang.String">
-			<fieldDescription><![CDATA[Producto-product_id/Verfications-verification_ids/Verification-verification_id/Name-name]]></fieldDescription>
-		</field>
-	</subDataset>
-	<subDataset name="dataset1"/>
-	<parameter name="TABLE_LINES_ORDENES_TRABAJO_1" class="java.lang.Object"/>
-	<parameter name="TABLE_LINES_ORDENES_TRABAJO_2" class="java.lang.Object"/>
-	<parameter name="TABLE_LINES_LISTA_MATERIALES_1" class="java.lang.Object"/>
-	<parameter name="TABLE_LINES_LISTA_MATERIALES_2" class="java.lang.Object"/>
-	<parameter name="TABLE_LINES_OPCIONES" class="java.lang.Object"/>
-	<parameter name="TABLE_LINES_VERIFICACIONES" class="java.lang.Object"/>
-	<parameter name="TABLE_LINES_SCRAP" class="java.lang.Object"/>
+	<parameter name="TABLE_LINES_ORDENES_TRABAJO_SALADO" class="java.lang.Object"/>
+	<parameter name="TABLE_LINES_LISTA_MATERIALES_SALADO" class="java.lang.Object"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="control_sheet_packing" class="java.lang.Boolean">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
@@ -166,9 +138,9 @@
 	<group name="Production" isStartNewPage="true">
 		<groupExpression><![CDATA[$F{id}]]></groupExpression>
 		<groupHeader>
-			<band height="219">
+			<band height="220">
 				<staticText>
-					<reportElement positionType="Float" x="0" y="186" width="555" height="13"/>
+					<reportElement positionType="Float" x="0" y="185" width="555" height="13"/>
 					<box>
 						<bottomPen lineWidth="0.5" lineStyle="Double"/>
 					</box>
@@ -458,7 +430,7 @@
 					<textFieldExpression class="java.lang.String"><![CDATA[$F{Referencia-name}]]></textFieldExpression>
 				</textField>
 				<componentElement>
-					<reportElement key="Tabla Órdenes de Trabajo 1" positionType="Float" stretchType="RelativeToTallestObject" x="0" y="205" width="556" height="12">
+					<reportElement key="Tabla Órdenes de Trabajo" positionType="Float" stretchType="RelativeToTallestObject" x="0" y="203" width="556" height="12">
 						<property name="OPENERP_RELATIONS" value="workcenter_lines"/>
 					</reportElement>
 					<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
@@ -466,7 +438,7 @@
 							<datasetParameter name="PRODUCTION_ID">
 								<datasetParameterExpression><![CDATA[$F{id}]]></datasetParameterExpression>
 							</datasetParameter>
-							<dataSourceExpression><![CDATA[$P{TABLE_LINES_ORDENES_TRABAJO_1}]]></dataSourceExpression>
+							<dataSourceExpression><![CDATA[$P{TABLE_LINES_ORDENES_TRABAJO_SALADO}]]></dataSourceExpression>
 						</datasetRun>
 						<jr:column width="40">
 							<jr:columnHeader height="16" rowSpan="1">
@@ -497,10 +469,10 @@
 								</textField>
 							</jr:detailCell>
 						</jr:column>
-						<jr:column width="125">
+						<jr:column width="145">
 							<jr:columnHeader height="16" rowSpan="1">
 								<staticText>
-									<reportElement x="0" y="0" width="125" height="16"/>
+									<reportElement x="0" y="0" width="145" height="16"/>
 									<box>
 										<topPen lineWidth="0.25"/>
 										<leftPen lineWidth="0.25"/>
@@ -514,7 +486,7 @@
 							</jr:columnHeader>
 							<jr:detailCell height="22" rowSpan="1">
 								<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-									<reportElement positionType="Float" x="0" y="0" width="125" height="22"/>
+									<reportElement positionType="Float" x="0" y="0" width="145" height="22"/>
 									<box>
 										<leftPen lineWidth="0.25"/>
 										<bottomPen lineWidth="0.25"/>
@@ -526,10 +498,10 @@
 								</textField>
 							</jr:detailCell>
 						</jr:column>
-						<jr:column width="108">
+						<jr:column width="125">
 							<jr:columnHeader height="16" rowSpan="1">
 								<staticText>
-									<reportElement x="0" y="0" width="108" height="16"/>
+									<reportElement x="0" y="0" width="125" height="16"/>
 									<box>
 										<topPen lineWidth="0.25"/>
 										<leftPen lineWidth="0.25"/>
@@ -543,7 +515,7 @@
 							</jr:columnHeader>
 							<jr:detailCell height="22" rowSpan="1">
 								<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-									<reportElement positionType="Float" x="0" y="0" width="108" height="22"/>
+									<reportElement positionType="Float" x="0" y="0" width="125" height="22"/>
 									<box>
 										<leftPen lineWidth="0.25"/>
 										<bottomPen lineWidth="0.25"/>
@@ -583,10 +555,10 @@
 								</textField>
 							</jr:detailCell>
 						</jr:column>
-						<jr:column width="55">
+						<jr:column width="60">
 							<jr:columnHeader height="16" rowSpan="1">
 								<staticText>
-									<reportElement x="0" y="0" width="54" height="16"/>
+									<reportElement x="0" y="0" width="60" height="16"/>
 									<box>
 										<topPen lineWidth="0.25"/>
 										<leftPen lineWidth="0.25"/>
@@ -600,7 +572,7 @@
 							</jr:columnHeader>
 							<jr:detailCell height="22" rowSpan="1">
 								<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-									<reportElement positionType="Float" x="0" y="0" width="54" height="22"/>
+									<reportElement positionType="Float" x="0" y="0" width="60" height="22"/>
 									<box>
 										<leftPen lineWidth="0.25"/>
 										<bottomPen lineWidth="0.25"/>
@@ -611,10 +583,10 @@
 								</textField>
 							</jr:detailCell>
 						</jr:column>
-						<jr:column width="48">
+						<jr:column width="40">
 							<jr:columnHeader height="16" rowSpan="1">
 								<staticText>
-									<reportElement x="0" y="0" width="48" height="16"/>
+									<reportElement x="0" y="0" width="40" height="16"/>
 									<box>
 										<topPen lineWidth="0.25"/>
 										<leftPen lineWidth="0.25"/>
@@ -628,7 +600,7 @@
 							</jr:columnHeader>
 							<jr:detailCell height="22" rowSpan="1">
 								<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-									<reportElement positionType="Float" x="0" y="0" width="48" height="22"/>
+									<reportElement positionType="Float" x="0" y="0" width="40" height="22"/>
 									<box>
 										<leftPen lineWidth="0.25"/>
 										<bottomPen lineWidth="0.25"/>
@@ -639,24 +611,25 @@
 								</textField>
 							</jr:detailCell>
 						</jr:column>
-						<jr:column width="53">
+						<jr:column width="40">
 							<jr:columnHeader height="16" rowSpan="1">
 								<staticText>
-									<reportElement x="0" y="0" width="53" height="16"/>
+									<reportElement x="0" y="0" width="40" height="16"/>
 									<box>
 										<topPen lineWidth="0.25"/>
 										<leftPen lineWidth="0.25"/>
 										<bottomPen lineWidth="0.25"/>
 									</box>
 									<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
-										<font size="7" isBold="true"/>
+										<font size="6" isBold="true"/>
 									</textElement>
-									<text><![CDATA[Hora Inicio]]></text>
+									<text><![CDATA[Hora
+inicio]]></text>
 								</staticText>
 							</jr:columnHeader>
 							<jr:detailCell height="22" rowSpan="1">
 								<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-									<reportElement positionType="Float" x="0" y="0" width="53" height="22"/>
+									<reportElement positionType="Float" x="0" y="0" width="40" height="22"/>
 									<box>
 										<leftPen lineWidth="0.25"/>
 										<bottomPen lineWidth="0.25"/>
@@ -667,24 +640,25 @@
 								</textField>
 							</jr:detailCell>
 						</jr:column>
-						<jr:column width="54">
+						<jr:column width="40">
 							<jr:columnHeader height="16" rowSpan="1">
 								<staticText>
-									<reportElement x="0" y="0" width="54" height="16"/>
+									<reportElement x="0" y="0" width="40" height="16"/>
 									<box>
 										<topPen lineWidth="0.25"/>
 										<leftPen lineWidth="0.25"/>
 										<bottomPen lineWidth="0.25"/>
 									</box>
 									<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
-										<font size="7" isBold="true"/>
+										<font size="6" isBold="true"/>
 									</textElement>
-									<text><![CDATA[Hora fin limpieza]]></text>
+									<text><![CDATA[Hora
+fin]]></text>
 								</staticText>
 							</jr:columnHeader>
 							<jr:detailCell height="22" rowSpan="1">
 								<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-									<reportElement positionType="Float" x="0" y="0" width="54" height="22"/>
+									<reportElement positionType="Float" x="0" y="0" width="40" height="22"/>
 									<box>
 										<leftPen lineWidth="0.25"/>
 										<bottomPen lineWidth="0.25"/>
@@ -695,10 +669,10 @@
 								</textField>
 							</jr:detailCell>
 						</jr:column>
-						<jr:column width="47">
+						<jr:column width="40">
 							<jr:columnHeader height="16" rowSpan="1">
 								<staticText>
-									<reportElement x="0" y="0" width="47" height="16"/>
+									<reportElement x="0" y="0" width="40" height="16"/>
 									<box>
 										<topPen lineWidth="0.25"/>
 										<leftPen lineWidth="0.25"/>
@@ -714,7 +688,7 @@ limpieza]]></text>
 							</jr:columnHeader>
 							<jr:detailCell height="22" rowSpan="1">
 								<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-									<reportElement positionType="Float" x="0" y="0" width="47" height="22"/>
+									<reportElement positionType="Float" x="0" y="0" width="40" height="22"/>
 									<box>
 										<leftPen lineWidth="0.25"/>
 										<bottomPen lineWidth="0.25"/>
@@ -809,7 +783,7 @@ limpieza]]></text>
 		<groupFooter>
 			<band height="68">
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="1" y="17" width="553" height="45"/>
+					<reportElement positionType="Float" x="1" y="18" width="553" height="45"/>
 					<box>
 						<topPen lineWidth="0.5"/>
 						<leftPen lineWidth="0.5"/>
@@ -835,19 +809,19 @@ limpieza]]></text>
 		</groupFooter>
 	</group>
 	<detail>
-		<band height="182" splitType="Stretch">
+		<band height="195" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="1" width="555" height="13"/>
+				<reportElement x="0" y="0" width="555" height="13"/>
 				<box>
 					<bottomPen lineWidth="0.5" lineStyle="Double"/>
 				</box>
 				<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single">
 					<font size="7" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Lista de material]]></text>
+				<text><![CDATA[Lista de componentes]]></text>
 			</staticText>
 			<componentElement>
-				<reportElement key="Tabla Lista de Materiales 1" positionType="Float" x="0" y="21" width="556" height="19">
+				<reportElement key="Tabla Lista de Materiales" positionType="Float" x="0" y="18" width="556" height="19">
 					<property name="OPENERP_RELATIONS" value="move_lines"/>
 				</reportElement>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
@@ -855,7 +829,7 @@ limpieza]]></text>
 						<datasetParameter name="PRODUCTION_ID">
 							<datasetParameterExpression><![CDATA[$F{id}]]></datasetParameterExpression>
 						</datasetParameter>
-						<dataSourceExpression><![CDATA[$P{TABLE_LINES_LISTA_MATERIALES_1}]]></dataSourceExpression>
+						<dataSourceExpression><![CDATA[$P{TABLE_LINES_LISTA_MATERIALES_SALADO}]]></dataSourceExpression>
 					</datasetRun>
 					<jr:column width="250">
 						<jr:columnHeader height="16" rowSpan="1">
@@ -869,7 +843,7 @@ limpieza]]></text>
 								<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single">
 									<font size="7" isBold="true"/>
 								</textElement>
-								<text><![CDATA[  Productos consumidos]]></text>
+								<text><![CDATA[  Componente]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell height="17" rowSpan="1">
@@ -882,7 +856,7 @@ limpieza]]></text>
 								<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single">
 									<font size="7"/>
 								</textElement>
-								<textFieldExpression class="java.lang.String"><![CDATA['[' + $F{Referencia-code} + '] ' + $F{Name-name}]]></textFieldExpression>
+								<textFieldExpression class="java.lang.String"><![CDATA['  ' + '[' + $F{Referencia-code} + '] ' + $F{Name-name}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -948,68 +922,68 @@ limpieza]]></text>
 			</componentElement>
 			<elementGroup>
 				<staticText>
-					<reportElement positionType="Float" x="0" y="46" width="555" height="13"/>
+					<reportElement positionType="Float" x="0" y="42" width="555" height="13"/>
 					<box>
 						<bottomPen lineWidth="0.5" lineStyle="Double"/>
 					</box>
 					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single">
 						<font size="7" isBold="true"/>
 					</textElement>
-					<text><![CDATA[Paradas (mayores a 5 minutos)]]></text>
+					<text><![CDATA[Paradas]]></text>
 				</staticText>
 				<rectangle>
-					<reportElement positionType="Float" x="0" y="65" width="555" height="59"/>
+					<reportElement positionType="Float" x="0" y="60" width="555" height="59"/>
 					<graphicElement>
 						<pen lineWidth="0.5"/>
 					</graphicElement>
 				</rectangle>
 				<line direction="BottomUp">
-					<reportElement positionType="Float" x="122" y="65" width="1" height="59"/>
+					<reportElement positionType="Float" x="122" y="60" width="1" height="59"/>
 					<graphicElement>
 						<pen lineWidth="0.25"/>
 					</graphicElement>
 				</line>
 				<line direction="BottomUp">
-					<reportElement positionType="Float" x="459" y="65" width="1" height="59"/>
+					<reportElement positionType="Float" x="459" y="60" width="1" height="59"/>
 					<graphicElement>
 						<pen lineWidth="0.25"/>
 					</graphicElement>
 				</line>
 				<staticText>
-					<reportElement positionType="Float" x="1" y="65" width="121" height="11"/>
+					<reportElement positionType="Float" x="1" y="60" width="121" height="11"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
 						<font size="7" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Departamento]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" x="123" y="65" width="336" height="11"/>
+					<reportElement positionType="Float" x="123" y="60" width="336" height="11"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
 						<font size="7" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Motivo]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" x="461" y="65" width="94" height="11"/>
+					<reportElement positionType="Float" x="461" y="60" width="94" height="11"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
 						<font size="7" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Tiempo]]></text>
 				</staticText>
 				<line direction="BottomUp">
-					<reportElement positionType="Float" x="0" y="76" width="554" height="1"/>
+					<reportElement positionType="Float" x="0" y="71" width="554" height="1"/>
 					<graphicElement>
 						<pen lineWidth="0.25"/>
 					</graphicElement>
 				</line>
 				<line direction="BottomUp">
-					<reportElement positionType="Float" x="0" y="92" width="555" height="1"/>
+					<reportElement positionType="Float" x="0" y="87" width="555" height="1"/>
 					<graphicElement>
 						<pen lineWidth="0.25"/>
 					</graphicElement>
 				</line>
 				<line direction="BottomUp">
-					<reportElement positionType="Float" x="0" y="108" width="555" height="1"/>
+					<reportElement positionType="Float" x="0" y="103" width="555" height="1"/>
 					<graphicElement>
 						<pen lineWidth="0.25"/>
 					</graphicElement>
@@ -1017,7 +991,7 @@ limpieza]]></text>
 			</elementGroup>
 			<elementGroup>
 				<staticText>
-					<reportElement positionType="Float" x="0" y="129" width="555" height="13"/>
+					<reportElement positionType="Float" x="0" y="145" width="555" height="13"/>
 					<box>
 						<bottomPen lineWidth="0.5" lineStyle="Double"/>
 					</box>
@@ -1027,52 +1001,52 @@ limpieza]]></text>
 					<text><![CDATA[Control de Scrap]]></text>
 				</staticText>
 				<rectangle>
-					<reportElement positionType="Float" x="0" y="148" width="555" height="27"/>
+					<reportElement positionType="Float" x="0" y="163" width="555" height="27"/>
 					<graphicElement>
 						<pen lineWidth="0.5"/>
 					</graphicElement>
 				</rectangle>
 				<line direction="BottomUp">
-					<reportElement positionType="Float" x="122" y="148" width="1" height="27"/>
+					<reportElement positionType="Float" x="122" y="163" width="1" height="27"/>
 					<graphicElement>
 						<pen lineWidth="0.25"/>
 					</graphicElement>
 				</line>
 				<line direction="BottomUp">
-					<reportElement positionType="Float" x="298" y="148" width="1" height="27"/>
+					<reportElement positionType="Float" x="298" y="163" width="1" height="27"/>
 					<graphicElement>
 						<pen lineWidth="0.25"/>
 					</graphicElement>
 				</line>
 				<line direction="BottomUp">
-					<reportElement positionType="Float" x="0" y="159" width="554" height="1"/>
+					<reportElement positionType="Float" x="0" y="174" width="554" height="1"/>
 					<graphicElement>
 						<pen lineWidth="0.25"/>
 					</graphicElement>
 				</line>
 				<staticText>
-					<reportElement positionType="Float" x="123" y="148" width="175" height="11"/>
+					<reportElement positionType="Float" x="123" y="163" width="175" height="11"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
 						<font size="7" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Cantidad]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" x="299" y="148" width="256" height="11"/>
+					<reportElement positionType="Float" x="299" y="163" width="256" height="11"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
 						<font size="7" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Motivo/Tipo de fallo]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" x="1" y="148" width="121" height="11"/>
+					<reportElement positionType="Float" x="1" y="163" width="121" height="11"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
 						<font size="7" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Control]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" x="1" y="159" width="121" height="16"/>
+					<reportElement positionType="Float" x="1" y="174" width="121" height="16"/>
 					<box leftPadding="2"/>
 					<textElement verticalAlignment="Middle" lineSpacing="Single">
 						<font size="7" isBold="true"/>
@@ -1080,19 +1054,124 @@ limpieza]]></text>
 					<text><![CDATA[Producto no conforme]]></text>
 				</staticText>
 			</elementGroup>
+			<elementGroup>
+				<rectangle>
+					<reportElement positionType="Float" x="0" y="124" width="555" height="16"/>
+					<graphicElement>
+						<pen lineWidth="0.5"/>
+					</graphicElement>
+				</rectangle>
+				<staticText>
+					<reportElement positionType="Float" x="0" y="124" width="194" height="16"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Paradas acopio M.P. o M.Aux. (tiempo en min.)]]></text>
+				</staticText>
+				<line direction="BottomUp">
+					<reportElement positionType="Float" x="194" y="124" width="1" height="16"/>
+					<graphicElement>
+						<pen lineWidth="0.25"/>
+					</graphicElement>
+				</line>
+				<line direction="BottomUp">
+					<reportElement positionType="Float" x="218" y="124" width="1" height="16"/>
+					<graphicElement>
+						<pen lineWidth="0.25"/>
+					</graphicElement>
+				</line>
+				<line direction="BottomUp">
+					<reportElement positionType="Float" x="242" y="124" width="1" height="16"/>
+					<graphicElement>
+						<pen lineWidth="0.25"/>
+					</graphicElement>
+				</line>
+				<line direction="BottomUp">
+					<reportElement positionType="Float" x="266" y="124" width="1" height="16"/>
+					<graphicElement>
+						<pen lineWidth="0.25"/>
+					</graphicElement>
+				</line>
+				<line direction="BottomUp">
+					<reportElement positionType="Float" x="290" y="124" width="1" height="16"/>
+					<graphicElement>
+						<pen lineWidth="0.25"/>
+					</graphicElement>
+				</line>
+				<line direction="BottomUp">
+					<reportElement positionType="Float" x="314" y="124" width="1" height="16"/>
+					<graphicElement>
+						<pen lineWidth="0.25"/>
+					</graphicElement>
+				</line>
+				<line direction="BottomUp">
+					<reportElement positionType="Float" x="338" y="124" width="1" height="16"/>
+					<graphicElement>
+						<pen lineWidth="0.25"/>
+					</graphicElement>
+				</line>
+				<line direction="BottomUp">
+					<reportElement positionType="Float" x="362" y="124" width="1" height="16"/>
+					<graphicElement>
+						<pen lineWidth="0.25"/>
+					</graphicElement>
+				</line>
+				<line direction="BottomUp">
+					<reportElement positionType="Float" x="386" y="124" width="1" height="16"/>
+					<graphicElement>
+						<pen lineWidth="0.25"/>
+					</graphicElement>
+				</line>
+				<line direction="BottomUp">
+					<reportElement positionType="Float" x="410" y="124" width="1" height="16"/>
+					<graphicElement>
+						<pen lineWidth="0.25"/>
+					</graphicElement>
+				</line>
+				<line direction="BottomUp">
+					<reportElement positionType="Float" x="434" y="124" width="1" height="16"/>
+					<graphicElement>
+						<pen lineWidth="0.25"/>
+					</graphicElement>
+				</line>
+				<line direction="BottomUp">
+					<reportElement positionType="Float" x="458" y="124" width="1" height="16"/>
+					<graphicElement>
+						<pen lineWidth="0.25"/>
+					</graphicElement>
+				</line>
+				<line direction="BottomUp">
+					<reportElement positionType="Float" x="482" y="124" width="1" height="16"/>
+					<graphicElement>
+						<pen lineWidth="0.25"/>
+					</graphicElement>
+				</line>
+				<line direction="BottomUp">
+					<reportElement positionType="Float" x="506" y="124" width="1" height="16"/>
+					<graphicElement>
+						<pen lineWidth="0.25"/>
+					</graphicElement>
+				</line>
+				<line direction="BottomUp">
+					<reportElement positionType="Float" x="530" y="124" width="1" height="16"/>
+					<graphicElement>
+						<pen lineWidth="0.25"/>
+					</graphicElement>
+				</line>
+			</elementGroup>
 		</band>
 	</detail>
 	<pageFooter>
 		<band height="24">
 			<staticText>
-				<reportElement positionType="Float" x="200" y="8" width="78" height="16"/>
+				<reportElement positionType="Float" x="200" y="4" width="78" height="16"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle" lineSpacing="Single">
 					<font size="7" isBold="false"/>
 				</textElement>
 				<text><![CDATA[Página]]></text>
 			</staticText>
 			<textField>
-				<reportElement positionType="Float" x="283" y="8" width="27" height="16"/>
+				<reportElement positionType="Float" x="283" y="4" width="27" height="16"/>
 				<textElement verticalAlignment="Middle" lineSpacing="Single">
 					<font size="7"/>
 				</textElement>

@@ -65,7 +65,6 @@ class copy_product_ldm(osv.osv_memory):
     }
 
 
-
     def default_get(self, cr, uid, fields, context=None):
 
         """ To get default values for the object.
