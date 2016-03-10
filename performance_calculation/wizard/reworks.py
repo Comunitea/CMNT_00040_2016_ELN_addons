@@ -58,7 +58,7 @@ class recover_full_product(orm.TransientModel):
         if move:
             res['move_id'] = move.id
             res['product_id'] = move.product_id.id
-            res['qty_available'] = move.product_qty
+            res['qty_available'] = move.product_uom_qty
             res['product_uom'] = move.product_uom.id
             res['current_prodlot_id'] = move.prodlot_id.id
 
@@ -78,7 +78,7 @@ class recover_full_product(orm.TransientModel):
                                                     'location_dest_id': cur.location_dest_id.id,
                                                     'product_id': cur.product_id.id,
                                                     'prodlot_id': cur.recover_prodlot_id.id,
-                                                    'product_qty': cur.qty_recover,
+                                                    'product_uom_qty': cur.qty_recover,
                                                     'product_uom': cur.product_uom.id,
                                                     'date_moved': time.strftime('%Y-%m-%d'),
                                                     'date': datetime.strptime(cur.move_id.date, '%Y-%m-%d %H:%M:%S'),
@@ -90,7 +90,7 @@ class recover_full_product(orm.TransientModel):
             self.pool.get('stock.move').action_done(cr, uid, [new_id], context=context)
 
             if cur.qty_recover < cur.qty_available:
-                new_id2 = self.pool.get('stock.move').copy(cr, uid, cur.move_id.id, {'product_qty': cur.qty_available - cur.qty_recover , 'reworked': True})
+                new_id2 = self.pool.get('stock.move').copy(cr, uid, cur.move_id.id, {'product_uom_qty': cur.qty_available - cur.qty_recover , 'reworked': True})
                 self.pool.get('stock.move').write(cr, uid, [cur.move_id.id], {
                                                     'move_history_ids': [(6,0, [new_id,new_id2])],
                                                     'reworked': False})
@@ -134,8 +134,8 @@ class recover_components(orm.TransientModel):
 
             if move.product_id.bom_ids:
                 bom = move.product_id.bom_ids[0]
-                factor = move.product_qty * move.product_uom.factor / bom.product_uom.factor
-                res1, res2 = self.pool.get('mrp.bom')._bom_explode(cr, uid, bom, factor, properties=[])#, addthis=False, level=0, routing_id=False)
+                factor = move.product_uom_qty * move.product_uom.factor / bom.product_uom.factor
+                res1, res2 = self.pool.get('mrp.bom')._bom_explode(cr, uid, bom, move.product_id, factor, properties=[])#, addthis=False, level=0, routing_id=False)
 
                 for r in res1:
                     result.append({'product_id': r['product_id'],
@@ -163,7 +163,7 @@ class recover_components(orm.TransientModel):
                                                     'location_id': cur.move_id.location_dest_id.id,
                                                     'location_dest_id': line.location_dest_id.id,
                                                     'prodlot_id': line.recover_prodlot_id.id,
-                                                    'product_qty': line.qty_recover,
+                                                    'product_uom_qty': line.qty_recover,
                                                     'product_uom': line.product_uom.id,
                                                     'date_moved': time.strftime('%Y-%m-%d'),
                                                     'date': datetime.strptime(cur.move_id.date, '%Y-%m-%d %H:%M:%S'),
@@ -174,7 +174,7 @@ class recover_components(orm.TransientModel):
 
                         new_ids.append(new_id)
                         if line.qty_recover < line.qty_available:
-                            new_id2 = self.pool.get('stock.move').copy(cr, uid, new_id, {'product_qty': line.qty_available - line.qty_recover ,
+                            new_id2 = self.pool.get('stock.move').copy(cr, uid, new_id, {'product_uom_qty': line.qty_available - line.qty_recover ,
                                                                                         'reworked': True,
                                                                                         'location_id':cur.move_id.location_id.id,
                                                                                         'location_dest_id':cur.move_id.location_dest_id.id,
@@ -188,7 +188,7 @@ class recover_components(orm.TransientModel):
                                                     'location_id':cur.move_id.location_id.id,
                                                     'location_dest_id':cur.move_id.location_dest_id.id,
                                                     'prodlot_id': line.recover_prodlot_id.id,
-                                                    'product_qty': line.qty_available,
+                                                    'product_uom_qty': line.qty_available,
                                                     'product_uom': line.product_uom.id,
                                                     'date_moved': time.strftime('%Y-%m-%d'),
                                                     'date': datetime.strptime(cur.move_id.date, '%Y-%m-%d %H:%M:%S'),
@@ -253,8 +253,8 @@ class stock_move_scrap(orm.TransientModel):
             res.update({'product_id': move.product_id.id})
         if 'product_uom' in fields:
             res.update({'product_uom': move.product_uom.id})
-        if 'product_qty' in fields:
-            res.update({'product_qty': move.product_qty})
+        if 'product_uom_qty' in fields:
+            res.update({'product_uom_qty': move.product_uom_qty})
         if 'location_id' in fields:
             if scraped_location_ids:
                 res.update({'location_id': scraped_location_ids[0]})
@@ -277,16 +277,16 @@ class stock_move_scrap(orm.TransientModel):
         move_obj = self.pool.get('stock.move')
         move_ids = context['active_ids']
         for data in self.browse(cr, uid, ids):
-            quantity = data.product_qty
+            quantity = data.product_uom_qty
             location_id = data.location_id.id
             if quantity <= 0:
                 raise orm.except_orm(_('Warning!'), _('Please provide a positive quantity to scrap!'))
             res = []
             for move in move_obj.browse(cr, uid, move_ids):
-                move_qty = move.product_qty
+                move_qty = move.product_uom_qty
                 uos_qty = quantity / move_qty * move.product_uos_qty
                 default_val = {
-                    'product_qty': quantity,
+                    'product_uom_qty': quantity,
                     'product_uos_qty': uos_qty,
                     'state': move.state,
                     'scrapped' : True,

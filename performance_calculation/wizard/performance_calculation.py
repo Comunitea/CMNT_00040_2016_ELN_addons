@@ -105,7 +105,7 @@ class performance_calculation(orm.TransientModel):
         moves = self.pool.get('stock.move').search(cr, uid, [('production_id','=',obj.production_id.id),('scrapped','=',True)])
         if moves:
             for mo in moves:
-                qty += self.pool.get('stock.move').browse(cr, uid, mo).product_qty
+                qty += self.pool.get('stock.move').browse(cr, uid, mo).product_uom_qty
 
         return qty
 
@@ -239,7 +239,7 @@ class performance_calculation(orm.TransientModel):
         qty = 0.0
 
         for move in self.pool.get('stock.move').browse(cr, uid, ids):
-            qty += move.product_qty
+            qty += move.product_uom_qty
 
         return qty
 
@@ -249,16 +249,16 @@ class performance_calculation(orm.TransientModel):
 
         for move in self.pool.get('stock.move').browse(cr, uid, ids):
             if not move.scrapped:
-                qty += move.product_qty
+                qty += move.product_uom_qty
 
         return qty
 
-    def _get_theorical_cost(self, cr, uid, ids, product_qty=0.0, bom_id=False, context=None):
+    def _get_theorical_cost(self, cr, uid, ids, product_uom_qty=0.0, bom_id=False, context=None):
 
         bom_obj = self.pool.get('mrp.bom')
         bom_point = bom_obj.browse(cr, uid, bom_id)
 
-        return bom_point.standard_price * product_qty
+        return bom_point.standard_price * product_uom_qty
 
     def _get_real_cost(self, cr, uid, ids, context=None):
 
@@ -266,7 +266,7 @@ class performance_calculation(orm.TransientModel):
 
         for move in self.pool.get('stock.move').browse(cr, uid, ids):
             if not move.prodlot_id.recovery and not move.scrapped:
-                real_cost += (move.product_id.standard_price * move.product_qty)
+                real_cost += (move.product_id.standard_price * move.product_uom_qty)
 
         return real_cost
 
@@ -304,7 +304,7 @@ class performance_calculation(orm.TransientModel):
                         #scrap = (real_cost / (qty_finished or 1.0)) * qty_scrap
                         for move in self.pool.get('stock.move').browse(cr, uid, [x.id for x in prod.move_lines2]):
                             if move.scrapped and not move.prodlot_id.recovery:
-                                scrap += (move.product_id.standard_price * move.product_qty)
+                                scrap += (move.product_id.standard_price * move.product_uom_qty)
                         usage = real_cost - theo_cost
                         real_real_cost = theo_cost + scrap + usage
 
@@ -384,7 +384,7 @@ class performance_calculation(orm.TransientModel):
                                                                                 ('name', 'like', name_routing_workcenter)])
                         if routings:
                             rout = self.pool.get('mrp.routing.workcenter').browse(cr, uid, routings[0])
-                            factor =  self.pool.get('product.uom')._compute_qty(cr, uid, obj.production_id.product_uom.id,  obj.production_id.product_qty,  obj.production_id.bom_id.product_uom.id)
+                            factor =  self.pool.get('product.uom')._compute_qty(cr, uid, obj.production_id.product_uom.id,  obj.production_id.product_uom_qty,  obj.production_id.bom_id.product_uom.id)
                             qty_per_cycle = self.pool.get('product.uom')._compute_qty(cr, uid, rout.uom_id.id, rout.qty_per_cycle, obj.production_id.bom_id.product_uom.id)
 
                             estimated_time = float((rout.hour_nbr / (qty_per_cycle or 1.0)) * factor)
