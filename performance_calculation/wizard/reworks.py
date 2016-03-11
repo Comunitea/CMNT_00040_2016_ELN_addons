@@ -60,7 +60,7 @@ class recover_full_product(orm.TransientModel):
             res['product_id'] = move.product_id.id
             res['qty_available'] = move.product_uom_qty
             res['product_uom'] = move.product_uom.id
-            res['current_prodlot_id'] = move.prodlot_id.id
+            # res['current_prodlot_id'] = move.prodlot_id.id
 
         return res
 
@@ -106,7 +106,7 @@ class recover_components(orm.TransientModel):
     _name = 'recover.components'
     _columns = {
         'product_id': fields.many2one('product.product', 'Product', required=True),
-        'composition_lines': fields.one2many('recover.components.composition', 'parent_id', 'Composition'),
+        'composition_lines_ids': fields.one2many('recover.components.composition', 'parent_id', 'Composition'),
         'move_id': fields.many2one('stock.move', 'Source Move', required=True)
     }
 
@@ -123,7 +123,6 @@ class recover_components(orm.TransientModel):
             context = {}
 
         result = []
-
         res = super(recover_components, self).default_get(cr, uid, fields, context=context)
 
         move = self.pool.get('stock.move').browse(cr, uid, context.get('active_id', False), context=context)
@@ -138,12 +137,13 @@ class recover_components(orm.TransientModel):
                 res1, res2 = self.pool.get('mrp.bom')._bom_explode(cr, uid, bom, move.product_id, factor, properties=[])#, addthis=False, level=0, routing_id=False)
 
                 for r in res1:
-                    result.append({'product_id': r['product_id'],
-                                'qty_available': r['product_qty'],
-                                'product_uom': r['product_uom']
-                                })
-
-                res['composition_lines'] = result
+                    vals = {'product_id': r['product_id'],
+                            'qty_available': r['product_qty'],
+                            'product_uom': r['product_uom']
+                    }
+                    c_id = self.pool.get("recover.components.composition").create(cr, uid, vals)
+                    result.append(c_id)
+                res['composition_lines_ids'] = result
         return res
 
     def recover_components(self, cr, uid, ids, context=None):
@@ -152,8 +152,8 @@ class recover_components(orm.TransientModel):
         new_ids = []
 
         for cur in self.browse(cr, uid, ids, context):
-            if cur.composition_lines:
-                for line in cur.composition_lines:
+            if cur.composition_lines_ids:
+                for line in cur.composition_lines_ids:
                     if line.recover:
                         if line.qty_recover > line.qty_available:
                             raise orm.except_orm(_('Error'), _('The recovery quantity must be less than or equal to the quantity available!'))
@@ -277,7 +277,7 @@ class stock_move_scrap(orm.TransientModel):
         move_obj = self.pool.get('stock.move')
         move_ids = context['active_ids']
         for data in self.browse(cr, uid, ids):
-            quantity = data.product_uom_qty
+            quantity = data.product_qty
             location_id = data.location_id.id
             if quantity <= 0:
                 raise orm.except_orm(_('Warning!'), _('Please provide a positive quantity to scrap!'))
@@ -291,8 +291,8 @@ class stock_move_scrap(orm.TransientModel):
                     'state': move.state,
                     'scrapped' : True,
                     'location_dest_id': location_id,
-                    'tracking_id': move.tracking_id.id,
-                    'prodlot_id': move.prodlot_id.id,
+                    # 'tracking_id': move.tracking_id.id,
+                    # 'prodlot_id': move.prodlot_id.id,
                     'reworked': False,
                     'location_id': move.location_dest_id.id
                 }
