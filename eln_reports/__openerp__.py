@@ -49,6 +49,8 @@
                     'security/ir.model.access.csv',
 
                     'eln_reports.xml',
+                    'stock_view.xml',
+                    "report/out_picking_report_view.xml",
                   ],
 
     "demo_xml" : [],
