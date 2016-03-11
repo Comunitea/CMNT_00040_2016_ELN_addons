@@ -46,7 +46,7 @@
                         <group>
                             <field name="product_id" readonly="1"/>
                             <separator colspan="4" string="Composition"/>
-                            <field name="composition_lines" colspan="4" nolabel="1">
+                            <field name="composition_lines_ids" colspan="4" nolabel="1">
                                 <tree editable="top" string="Composition">
                                     <field name="product_id" readonly="1"/>
                                     <field name="qty_available" readonly="1"/>

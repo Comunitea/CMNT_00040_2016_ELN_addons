@@ -106,7 +106,7 @@ class recover_components(orm.TransientModel):
     _name = 'recover.components'
     _columns = {
         'product_id': fields.many2one('product.product', 'Product', required=True),
-        'composition_lines': fields.one2many('recover.components.composition', 'parent_id', 'Composition'),
+        'composition_lines_ids': fields.one2many('recover.components.composition', 'parent_id', 'Composition'),
         'move_id': fields.many2one('stock.move', 'Source Move', required=True)
     }
 
@@ -143,7 +143,7 @@ class recover_components(orm.TransientModel):
                     }
                     c_id = self.pool.get("recover.components.composition").create(cr, uid, vals)
                     result.append(c_id)
-                res['composition_lines'] = result
+                res['composition_lines_ids'] = result
         return res
 
     def recover_components(self, cr, uid, ids, context=None):
@@ -152,8 +152,8 @@ class recover_components(orm.TransientModel):
         new_ids = []
 
         for cur in self.browse(cr, uid, ids, context):
-            if cur.composition_lines:
-                for line in cur.composition_lines:
+            if cur.composition_lines_ids:
+                for line in cur.composition_lines_ids:
                     if line.recover:
                         if line.qty_recover > line.qty_available:
                             raise orm.except_orm(_('Error'), _('The recovery quantity must be less than or equal to the quantity available!'))
