@@ -15,7 +15,7 @@
                         <field name="file_name"/>
                         <field name="file_type" on_change="onchange_file_type(file_type)"/>
                         <field name="import_actions"/>
-                        <!--<field name="shop_id" required="1"/>-->
+                        <field name="shop_id" required="1"/>
                     </group>
                     <separator colspan="4"/>
                     <group colspan="4">
@@ -57,5 +57,5 @@
 
         <menuitem action="action_sale_order_import" id="menu_sale_order_import" parent="base.menu_sales" sequence="6" groups="base.group_sale_salesman,base.group_sale_manager"/>
 
-    </data> 
+    </data>
 </openerp>
