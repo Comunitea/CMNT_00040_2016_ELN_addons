@@ -60,7 +60,7 @@ class recover_full_product(orm.TransientModel):
             res['product_id'] = move.product_id.id
             res['qty_available'] = move.product_uom_qty
             res['product_uom'] = move.product_uom.id
-            res['current_prodlot_id'] = move.prodlot_id.id
+            # res['current_prodlot_id'] = move.prodlot_id.id
 
         return res
 
@@ -123,7 +123,6 @@ class recover_components(orm.TransientModel):
             context = {}
 
         result = []
-
         res = super(recover_components, self).default_get(cr, uid, fields, context=context)
 
         move = self.pool.get('stock.move').browse(cr, uid, context.get('active_id', False), context=context)
@@ -138,11 +137,12 @@ class recover_components(orm.TransientModel):
                 res1, res2 = self.pool.get('mrp.bom')._bom_explode(cr, uid, bom, move.product_id, factor, properties=[])#, addthis=False, level=0, routing_id=False)
 
                 for r in res1:
-                    result.append({'product_id': r['product_id'],
-                                'qty_available': r['product_qty'],
-                                'product_uom': r['product_uom']
-                                })
-
+                    vals = {'product_id': r['product_id'],
+                            'qty_available': r['product_qty'],
+                            'product_uom': r['product_uom']
+                    }
+                    c_id = self.pool.get("recover.components.composition").create(cr, uid, vals)
+                    result.append(c_id)
                 res['composition_lines'] = result
         return res
 
@@ -277,7 +277,7 @@ class stock_move_scrap(orm.TransientModel):
         move_obj = self.pool.get('stock.move')
         move_ids = context['active_ids']
         for data in self.browse(cr, uid, ids):
-            quantity = data.product_uom_qty
+            quantity = data.product_qty
             location_id = data.location_id.id
             if quantity <= 0:
                 raise orm.except_orm(_('Warning!'), _('Please provide a positive quantity to scrap!'))
@@ -291,8 +291,8 @@ class stock_move_scrap(orm.TransientModel):
                     'state': move.state,
                     'scrapped' : True,
                     'location_dest_id': location_id,
-                    'tracking_id': move.tracking_id.id,
-                    'prodlot_id': move.prodlot_id.id,
+                    # 'tracking_id': move.tracking_id.id,
+                    # 'prodlot_id': move.prodlot_id.id,
                     'reworked': False,
                     'location_id': move.location_dest_id.id
                 }
