@@ -27,8 +27,8 @@ class mrp_product_produce(osv.osv_memory):
     _columns = {
         # Add Produce Only
         'mode': fields.selection([('consume_produce', 'Consume & Produce'),
-                                  ('consume', 'Consume Only'),
-                                  ('produce', 'Produce Only')], 'Mode', required=True,
+                                  ('consume', 'Solo consumir'),
+                                  ('produce', 'Solo fabricar')], 'Mode', required=True,
                                   help="'Consume only' mode will only consume the products with the quantity selected.\n"
                                         "'Consume & Produce' mode will consume as well as produce the products with the quantity selected "
                                         "and it will finish the production order when total ordered quantities are produced.")
