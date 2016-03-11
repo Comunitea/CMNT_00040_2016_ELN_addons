@@ -32,9 +32,13 @@
                                    <field name="real_time" widget="float_time"/>
                                    <field name="tic_time" widget="float_time"/>
                                    <field name="availability" widget="progressbar"/>
+                                   <field name="availability" string="%"/>
                                    <field name="performance" widget="progressbar"/>
+                                   <field name="performance" string="%"/>
                                    <field name="quality" widget="progressbar"/>
+                                   <field name="quality" string="%"/>
                                    <field name="oee" widget="progressbar"/>
+                                   <field name="oee" string="%"/>
                                 </tree>
                             </field>
                             <newline/>
@@ -43,9 +47,13 @@
                                    <field name="name"/>
 
                                    <field name="availability" widget="progressbar"/>
+                                   <field name="availability" string="%"/>
                                    <field name="performance" widget="progressbar"/>
+                                   <field name="performance" string="%"/>
                                    <field name="quality" widget="progressbar"/>
+                                   <field name="quality" string="%"/>
                                    <field name="oee" widget="progressbar"/>
+                                   <field name="oee" string="%"/>
                                 </tree>
                             </field>
                         </page>
