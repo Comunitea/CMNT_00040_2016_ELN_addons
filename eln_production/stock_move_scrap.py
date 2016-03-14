@@ -45,9 +45,9 @@ class stock_move_scrap(osv.osv_memory):
         move = self.pool.get('stock.move').browse(cr, uid, context['active_id'], context=context)
         if move.product_id and move.product_id.track_production:
             res.update({'track_production': True})
-        if 'prodlot_id' in fields:
-            if move.prodlot_id:
-                res.update({'prodlot_id': move.prodlot_id.id})
+        if 'restrict_lot_id' in fields:
+            if move.restrict_lot_id:
+                res.update({'restrict_lot_id': move.restrict_lot_id.id})
 
         return res
 
@@ -67,11 +67,10 @@ class stock_move_scrap(osv.osv_memory):
         move_ids = context['active_ids']
 
         for data in self.browse(cr, uid, ids):
-            if data.prodlot_id:
-                move_obj.write(cr, uid, move_ids, {'prodlot_id': data.prodlot_id.id}, context=context)
+            if data.restrict_lot_id:
+                move_obj.write(cr, uid, move_ids, {'restrict_lot_id': data.restrict_lot_id.id}, context=context)
 
         super(stock_move_scrap, self).move_scrap(cr, uid, ids, context=context)
         return {'type': 'ir.actions.act_window_close'}
 
 stock_move_scrap()
-

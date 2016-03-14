@@ -26,9 +26,9 @@ class stock_move(orm.Model):
     _columns = {
         'reworked': fields.boolean('Reworked')
     }
-    
-    def action_scrap(self, cr, uid, ids, quantity, location_id, context=None):
-        res = super(stock_move, self).action_scrap(cr, uid, ids, quantity, location_id, context=context)
+
+    def action_scrap(self, cr, uid, ids, quantity, location_id, restrict_lot_id=False, restrict_partner_id=False, context=None):
+        res = super(stock_move, self).action_scrap(cr, uid, ids, quantity, location_id,  restrict_lot_id=restrict_lot_id, restrict_partner_id=restrict_partner_id, context=context)
 
         is_reworks_location = self.pool.get('stock.location').browse(cr, uid, location_id, context=context).reworks_location
         
