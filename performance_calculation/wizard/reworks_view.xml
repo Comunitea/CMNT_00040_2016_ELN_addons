@@ -8,22 +8,22 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Recover full product">
-                    <field name="product_id" colspan="4" readonly="1"/>
-                    <field name="qty_available" colspan="2" readonly="1"/>
-                    <field name="qty_recover" colspan="2" />
-                    <field name="product_uom" readonly="1" colspan="4"/>
-                    <field name="current_prodlot_id" colspan="4" readonly="1"/>
-                    <field name="recover_prodlot_id" colspan="4" context="{'product_id': product_id}" domain="[('product_id', '=', product_id),('recovery', '=', True)]" />
-                    <field name="location_dest_id" colspan="4"/>
-                    <newline/>
-                    <separator string="" colspan="4" />
-                    <label string="" colspan="2" />
-                    <group col="2" colspan="1">
+                        <group>
+                            <field name="product_id" readonly="1"/>
+                            <field name="qty_available" readonly="1"/>
+                            <field name="qty_recover"/>
+                            <field name="product_uom" readonly="1"/>
+                            <field name="current_prodlot_id" readonly="1"/>
+                            <field name="recover_prodlot_id" context="{'product_id': product_id}" domain="[('product_id', '=', product_id),('recovery', '=', True)]" />
+                            <field name="location_dest_id"/>
+                        </group>
+
+                    <footer>
                         <button icon='gtk-cancel' special="cancel"
                             string="Cancel" />
                         <button name="recover_full_product" string="Ok"
-                            colspan="1" type="object" icon="gtk-ok" />
-                    </group>
+                            type="object" icon="gtk-ok" />
+                    </footer>
                 </form>
             </field>
         </record>
@@ -43,28 +43,27 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Recover components">
-                    <field name="product_id" colspan="4" readonly="1"/>
-                    <separator colspan="4" string="Composition"/>
-                    <field name="composition_lines" colspan="4" nolabel="1" mode="tree" width="1000" height="200">
-                        <tree editable="top" string="Composition">
+                        <group>
                             <field name="product_id" readonly="1"/>
-                            <field name="qty_available" readonly="1"/>
-                            <field name="product_uom" readonly="1"/>
-                            <field name="qty_recover" attrs="{'required': [('recover','=', True)]}"/>
-                            <field name="recover_prodlot_id" context="{'product_id': product_id}" attrs="{'required': [('recover','=', True)]}" domain="[('product_id', '=', product_id),('recovery', '=', True)]"/>
-                            <field name="location_dest_id" attrs="{'required': [('recover','=', True)]}"/>
-                            <field name="recover"/>
-                        </tree>
-                    </field>
-                    <newline/>
-                    <separator string="" colspan="4" />
-                    <label string="" colspan="2" />
-                    <group col="2" colspan="1">
+                            <separator colspan="4" string="Composition"/>
+                            <field name="composition_lines_ids" colspan="4" nolabel="1">
+                                <tree editable="top" string="Composition">
+                                    <field name="product_id" readonly="1"/>
+                                    <field name="qty_available" readonly="1"/>
+                                    <field name="product_uom" readonly="1"/>
+                                    <field name="qty_recover" attrs="{'required': [('recover','=', True)]}"/>
+                                    <field name="recover_prodlot_id" context="{'product_id': product_id}" attrs="{'required': [('recover','=', True)]}" domain="[('product_id', '=', product_id),('recovery', '=', True)]"/>
+                                    <field name="location_dest_id" attrs="{'required': [('recover','=', True)]}"/>
+                                    <field name="recover"/>
+                                </tree>
+                            </field>
+                        </group>
+                    <footer>
                         <button icon='gtk-cancel' special="cancel"
                             string="Cancel" />
                         <button name="recover_components" string="Ok"
-                            colspan="1" type="object" icon="gtk-ok" />
-                    </group>
+                           type="object" icon="gtk-ok" />
+                    </footer>
                 </form>
             </field>
         </record>
@@ -85,20 +84,18 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Scrap Move">
-                    <separator string="Scrap Products" colspan="4"/>
-                    <field name="product_id" colspan="4" readonly="1"/>
-                    <field name="location_id" colspan="4" string="Scrap Location" domain="[('usage','&lt;&gt;','view'),('scrap_location','=',True)]" widget="selection"/>
-                    <field name="product_qty" colspan="2" readonly="1"/>
-                    <field name="product_uom" nolabel="1" readonly="1"/>
-                    <newline/>
-                    <separator string="" colspan="4" />
-                    <label string="" colspan="2" />
-                    <group col="2" colspan="1">
+                    <group string="Scrap Products" >
+                        <field name="product_id" readonly="1"/>
+                        <field name="location_id" string="Scrap Location" domain="[('usage','&lt;&gt;','view'),('scrap_location','=',True)]" widget="selection"/>
+                        <field name="product_qty" readonly="1"/>
+                        <field name="product_uom" readonly="1"/>
+                    </group>
+                    <footer>
                         <button icon='gtk-cancel' special="cancel"
                             string="Cancel" />
                         <button name="move_scrap" string="Ok"
-                            colspan="1" type="object" icon="gtk-ok" />
-                    </group>
+                           type="object" icon="gtk-ok" />
+                    </footer>
                 </form>
             </field>
         </record>

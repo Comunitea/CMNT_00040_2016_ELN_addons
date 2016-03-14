@@ -37,26 +37,22 @@ class sale_order_import(orm.TransientModel):
         'file_name': fields.char('Filename', size=128, required=True),
         'file_type': fields.selection([('model_apolo','Exclusivas Apolo')], 'File type', required=True),
         'import_actions': fields.selection([('sale','Create sale order'),('sale_and_picking','Create sale order and stock picking')], 'Actions to do', required=True),
-        # 'shop_id': fields.many2one('sale.shop', 'Shop', required=False), #POST-MIGRATION
+        'shop_id': fields.many2one('sale.shop', 'Shop', required=False),
         'note': fields.text('Log'),
     }
     _defaults = {
         'file_name': '',
     }
 
-    # POST-MIGRATION
-    # def onchange_file_type(self, cr, uid, ids, file_type):
-    #     res = {}
-    #
-    #     shop_obj = self.pool.get('sale.shop')
-    #     if file_type == 'model_apolo':
-    #         shop_id = shop_obj.search(cr, uid, [('name', 'ilike', 'apolo')]) or False
-    #     else:
-    #         shop_id = False
-    #
-    #     res['value'] = {'shop_id': shop_id and shop_id[0] or False}
-    #
-    #     return res
+    def onchange_file_type(self, cr, uid, ids, file_type):
+        res = {}
+        shop_obj = self.pool.get('sale.shop')
+        if file_type == 'model_apolo':
+            shop_id = shop_obj.search(cr, uid, [('name', 'ilike', 'apolo')]) or False
+        else:
+            shop_id = False
+        res['value'] = {'shop_id': shop_id and shop_id[0] or False}
+        return res
 
     def sale_order_import(self, cr, uid, ids, context=None):
 
@@ -67,10 +63,9 @@ class sale_order_import(orm.TransientModel):
         result_view = mod_obj.get_object_reference(cr, uid, 'sale_order_import', 'sale_order_import_result_view')
         sale_obj = self.pool.get('sale.order')
         sale_line_obj = self.pool.get('sale.order.line')
-        partner_address_obj = self.pool.get('res.partner.address')
         product_obj = self.pool.get('product.product')
         dp = self.pool.get('decimal.precision').precision_get(cr, uid, 'Product UoS')
-            
+
         for wizard in self.browse(cr, uid, ids , context):
             #import ipdb; ipdb.set_trace()
             if wizard.file_type == 'model_apolo':
@@ -82,7 +77,7 @@ class sale_order_import(orm.TransientModel):
                 except Exception, ex: # Si no puede convertir a UTF-8 es que debe estar en ISO-8859-1: Lo convertimos
                     lines = unicode(lines, 'iso-8859-1').encode('utf-8')
                 reader = csv.reader(StringIO.StringIO(lines), delimiter=csv_separator)
-                
+
                 picking_i = 0
                 date_i = 1
                 unknown_i = 2
@@ -91,7 +86,7 @@ class sale_order_import(orm.TransientModel):
                 sign_i = 5
                 quantity_i = 6
                 lot_i = 7
-                
+
                 old_picking = ''
                 err_log = ''
                 sales_created = []
@@ -108,35 +103,26 @@ class sale_order_import(orm.TransientModel):
                             if not (err_log.find(err_msg) >= 0):
                                 err_log += '\n' + err_msg
                             continue
-                        shipping_dir = partner_address_obj.search(cr, uid, [('ref', '=', ln[partner_code_i].strip())]) or False
-                        if not shipping_dir: 
+                        partner_id = self.pool.get('res.partner').search(cr, uid, [('ref', '=', ln[partner_code_i].strip())]) or False
+                        if not partner_id:
                             _logger.info(_("Error: customer with ref '%s' not found!") %(ln[partner_code_i].strip()))
                             err_msg = _("Error processing sale with origin '%s': customer with ref '%s' not found!") %(ln[picking_i], ln[partner_code_i].strip())
                             if not (err_log.find(err_msg) >= 0):
                                 err_log += '\n' + err_msg
                             continue
-                            
+
                         old_picking = ln[picking_i]
-                            
-                        shipping_dir = partner_address_obj.browse(cr, uid, [shipping_dir[0]])[0]
-                        partner = shipping_dir.partner_id
-                        addr = self.pool.get('res.partner').address_get(cr, uid, [partner.id], ['delivery', 'invoice', 'contact'])
-                        contact_dir = addr['contact']
-                        invoice_dir = addr['invoice']
-                        
+                        partner = self.pool.get('res.partner').browse(cr, uid, partner_id, context)
                         values = {
                             'date_order': datetime.strptime(ln[date_i], '%d%m%Y').strftime('%Y-%m-%d') or time.strftime('%Y-%m-%d'),
                             'commitment_date': datetime.strptime(ln[date_i], '%d%m%Y').strftime('%Y-%m-%d') or time.strftime('%Y-%m-%d'),
-                            # 'shop_id': wizard.shop_id.id, POST-MIGRATION
+                            'shop_id': wizard.shop_id.id,
                             'client_order_ref': False,
                             'partner_id': partner.id,
-                            'partner_order_id': contact_dir,
-                            'partner_invoice_id': invoice_dir,
-                            'partner_shipping_id': shipping_dir.id,
                             'pricelist_id': partner.property_product_pricelist.id,
                             'fiscal_position': partner.property_account_position.id,
                             'payment_term': partner.property_payment_term.id,
-                            'payment_type': partner.payment_type_customer.id,
+                            'payment_mode_id': partner.customer_payment_mode.id,
                             'early_payment_discount': 0.0,
                             'user_id' : partner.user_id and partner.user_id.id or uid,
                             'origin' : ln[picking_i],
@@ -146,21 +132,18 @@ class sale_order_import(orm.TransientModel):
                         sales_created.append(order_id)
                         # Ahora voy a ejecutar los onchanges para actualizar valores
                         data = {}
-                        # POST-MIGRATION
-                        # data.update(sale_obj.onchange_shop_id2(cr, uid, [order_id], wizard.shop_id.id, partner.id)['value'])
-                        # data.update(sale_obj.onchange_partner_id3(cr, uid, [order_id], partner.id, 0.0, partner.property_payment_term.id, wizard.shop_id.id)['value'])
-                        # data.update(sale_obj.onchange_partner_shipping_id(cr, uid, [order_id], partner.id, shipping_dir.id)['value'])
-                        #import ipdb; ipdb.set_trace()
+                        data.update(sale_obj.onchange_shop_id2(cr, uid, [order_id], wizard.shop_id.id, partner.id)['value'])
+                        data.update(sale_obj.onchange_partner_id2(cr, uid, [order_id], partner.id, 0.0, partner.property_payment_term.id, context)['value'])
                         if 'partner_shipping_id' in data and data['partner_shipping_id']:
                             del data['partner_shipping_id']
                         if 'sale_agent_ids' in data and data['sale_agent_ids']:
                             data['sale_agent_ids'] = [(6, 0, data['sale_agent_ids'])]
                         sale_obj.write(cr, uid, [order_id], data)
                         _logger.info(_("Created sale order with origin '%s'.") %(ln[picking_i]))
-                        
+
                     # Creamos lineas de pedido
                     product_id = product_obj.search(cr, uid, [('default_code', '=', ln[product_code_i].strip())]) or False
-                    if not product_id: 
+                    if not product_id:
                         _logger.info(_("Error: product with ref '%s' not found!") %(ln[product_code_i].strip()))
                         err_msg = _("Error processing sale with origin '%s': product with ref '%s' not found!") %(ln[picking_i], ln[product_code_i].strip())
                         if not (err_log.find(err_msg) >= 0):
@@ -192,20 +175,11 @@ class sale_order_import(orm.TransientModel):
                     so = sale_obj.browse(cr, uid, order_id)
                     # Ahora voy a ejecutar los onchanges para actualizar valores
                     data = {}
-                    #Llamo al onchange del producto
-                    sale_agent_ids = []
-                    for sale_agent_id in [x.id for x in so.sale_agent_ids]:
-                        sale_agent_ids.append([4, sale_agent_id, False]) 
-                    ctx = dict(context, partner_id=so.partner_id.id, quantity=product_uom_qty, 
-                                   pricelist=so.pricelist_id.id, shop=False, uom=False, force_product_uom=False,
-                                   order_id=order_id, sale_agents_ids=sale_agent_ids)    # FALSE SHOP POST-MIGRATION
-                    data.update(sale_line_obj.product_id_change2(cr, uid, [line_id], so.pricelist_id.id, product_id[0], product_uom_qty,
-                                                                   False, False, False, '', so.partner_id.id, False, True, so.date_order,
-                                                                   False, so.fiscal_position.id, False, sale_agent_ids, context=ctx)['value'])
+
                     if 'product_uom_qty' in data and data['product_uom_qty']:
                         del data['product_uom_qty']
                     #Llamo al onchange de la cantidad en UdM
-                    ctx = dict(context, partner_id=so.partner_id.id, quantity=product_uom_qty, 
+                    ctx = dict(context, partner_id=so.partner_id.id, quantity=product_uom_qty,
                                    pricelist=so.pricelist_id.id, shop=False, uom=False)  # FALSE SHOP POST-MIGRATION
                     data.update(sale_line_obj.product_id_change(cr, uid, [line_id], so.pricelist_id.id, product_id[0], product_uom_qty,
                                                                    False, False, False, '', so.partner_id.id, False, True, so.date_order,
@@ -258,7 +232,7 @@ class sale_order_import(orm.TransientModel):
                 'type': 'ir.actions.act_window',
             }
             #return {'type': 'ir.actions.act_window_close'}
-    
+
 sale_order_import()
 
 def str2float(amount, decimal_separator):

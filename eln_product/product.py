@@ -175,24 +175,18 @@ class product_product(orm.Model):
         return res
 
     def _get_signature(self, cr, uid, ids, field_name, arg, context=None):
-        
         res = {}
 
-        for product in self.browse(cr, uid, ids, context=context):                        
+        for product in self.browse(cr, uid, ids, context=context):
             res[product.id] = {
                 'written_signature': False,
                 'reviewed_signature': False,
                 'approved_signature': False
             }
-            
-            # res[product.id]['written_signature'] = product.written_by and product.written_by.user_id and product.written_by.user_id.signature_image or False
-            # res[product.id]['reviewed_signature'] = product.reviewed_by and product.reviewed_by.user_id and product.reviewed_by.user_id.signature_image or False
-            # res[product.id]['approved_signature'] = product.approved_by and product.approved_by.user_id and product.approved_by.user_id.signature_image or False
-            res[product.id]['written_signature'] = product.written_by and product.written_by.user_id.id  or False
-            res[product.id]['reviewed_signature'] = product.reviewed_by and product.reviewed_by.user_id.id or False
-            res[product.id]['approved_signature'] = product.approved_by and product.approved_by.user_id.id or False
 
-
+            res[product.id]['written_signature'] = product.written_by and product.written_by.user_id and product.written_by.user_id.signature_image or False
+            res[product.id]['reviewed_signature'] = product.reviewed_by and product.reviewed_by.user_id and product.reviewed_by.user_id.signature_image or False
+            res[product.id]['approved_signature'] = product.approved_by and product.approved_by.user_id and product.approved_by.user_id.signature_image or False
 
         return res
 
