@@ -105,7 +105,7 @@ class stock_move(orm.Model):
             context = {}
 
         if type in ('in_invoice', 'in_refund'):
-            if not (move_line.procurement_id and move_line.procuremennt_id.purchase_line_id and \
+            if not (move_line.procurement_id and move_line.procurement_id.purchase_line_id and \
                     move_line.procurement_id.purchase_line_id.product_id.id == move_line.product_id.id):
                 pricelist_obj = self.pool.get("product.pricelist")
                 pricelist = move_line.picking_id.partner_id.property_product_pricelist_purchase.id
@@ -119,5 +119,5 @@ class stock_move(orm.Model):
         else:  # Escribir el partner en el movimiento para que el super sea capaz de calcularlo
             if not (move_line.procurement_id and move_line.procurement_id.sale_line_id and \
                     move_line.procurement_id.sale_line_id.product_id.id == move_line.product_id.id):
-                move_line.write({'partner_id': move.picking_id and move.picking_id.partner_id and move.picking_id.partner_id.id or False}) 
+                move_line.write({'partner_id': move_line.picking_id and move_line.picking_id.partner_id and move_line.picking_id.partner_id.id or False})
         return super(stock_move, self)._get_price_unit_invoice(cr, uid, move_line, type, context=context)

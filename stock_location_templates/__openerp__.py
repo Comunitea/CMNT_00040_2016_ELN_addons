@@ -36,6 +36,6 @@
     #                 "security/stock_location_templates_security.xml"
     #                 ],
     'demo_xml': [],
-    'installable': True,
+    'installable': False,
     'active': False,
 }
