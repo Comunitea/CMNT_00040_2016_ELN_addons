@@ -146,3 +146,6 @@ class stock_location(orm.Model):
     _columns = {
         'name': fields.char('Location Name', size=64, required=True, translate=False),
     }
+
+    def recompute(self, cr, uid, ids, context):
+        self._parent_store_compute(cr)
