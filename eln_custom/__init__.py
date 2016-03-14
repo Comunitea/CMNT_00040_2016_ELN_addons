@@ -22,4 +22,4 @@ import route
 import res_partner
 import stock
 import account
-import procurement_provisional
+#import procurement_provisional

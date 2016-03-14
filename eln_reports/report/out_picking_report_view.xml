@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+    <record id="view_out_picking_report_tree" model="ir.ui.view">
+         <field name="name">view.out.picking.report.tree</field>
+         <field name="model">out.picking.report</field>
+         <field name="arch" type="xml">
+             <tree string="Picking List">
+                <field name="product_id"/>
+                <field name="reference"/>
+                <field name="ean13"/>
+                 <field name="lot_id"/>
+                 <field name="product_qty"/>
+             </tree>
+         </field>
+    </record>
+</data>
+</openerp>

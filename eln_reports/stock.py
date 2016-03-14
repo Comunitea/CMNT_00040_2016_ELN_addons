@@ -39,4 +39,11 @@ class stock_move(osv.osv):
     _columns = {
         'tax_line': fields.function(_get_tax_line, method=True, string="Tax line", readonly=True, type="char", size=255),
     }
-stock_move()
+
+
+class stock_picking(osv.osv):
+    _inherit = "stock.picking"
+    _columns = {
+        'out_report_ids': fields.one2many('out.picking.report', 'picking_id',
+                                          'Delivery List', readonly=True)
+    }

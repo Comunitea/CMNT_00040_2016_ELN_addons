@@ -25,3 +25,4 @@ from . import product_logistics_sheet
 from . import purchase_order
 from . import sheet_product
 from . import planning_report
+from . import out_picking_report
