@@ -1,0 +1,205 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-03-13 13:19+0100\n"
+"PO-Revision-Date: 2015-03-13 13:24+0100\n"
+"Language: es_ES\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
+"Language-Team: \n"
+"X-Generator: Poedit 1.7.5\n"
+
+#: /tmp/tmp.d8bXaQeV2F:735 /tmp/tmp.d8bXaQeV2F:951 /tmp/tmp.d8bXaQeV2F:1167
+msgid "PRODUCTO"
+msgstr "PRODUCTO"
+
+#: /tmp/tmp.d8bXaQeV2F:739 /tmp/tmp.d8bXaQeV2F:955 /tmp/tmp.d8bXaQeV2F:1171
+msgid "Código DUN14:"
+msgstr "Código DUN14:"
+
+#: /tmp/tmp.d8bXaQeV2F:743 /tmp/tmp.d8bXaQeV2F:959 /tmp/tmp.d8bXaQeV2F:1175
+msgid "Peso:"
+msgstr "Peso:"
+
+#: /tmp/tmp.d8bXaQeV2F:747 /tmp/tmp.d8bXaQeV2F:963 /tmp/tmp.d8bXaQeV2F:1179
+msgid "Código interno:"
+msgstr "Código interno:"
+
+#: /tmp/tmp.d8bXaQeV2F:751 /tmp/tmp.d8bXaQeV2F:967 /tmp/tmp.d8bXaQeV2F:1183
+msgid "Designación:"
+msgstr "Designación:"
+
+#: /tmp/tmp.d8bXaQeV2F:755 /tmp/tmp.d8bXaQeV2F:971 /tmp/tmp.d8bXaQeV2F:1187
+msgid "Código EAN13:"
+msgstr "Código EAN13:"
+
+#: /tmp/tmp.d8bXaQeV2F:779 /tmp/tmp.d8bXaQeV2F:995 /tmp/tmp.d8bXaQeV2F:1211
+msgid "Marca:"
+msgstr "Marca:"
+
+#: /tmp/tmp.d8bXaQeV2F:787 /tmp/tmp.d8bXaQeV2F:1003 /tmp/tmp.d8bXaQeV2F:1219
+#: /tmp/tmp.d8bXaQeV2F:4392 /tmp/tmp.d8bXaQeV2F:4400 /tmp/tmp.d8bXaQeV2F:4520
+#: /tmp/tmp.d8bXaQeV2F:4528 /tmp/tmp.d8bXaQeV2F:4648 /tmp/tmp.d8bXaQeV2F:4656
+msgid "g"
+msgstr "g"
+
+#: /tmp/tmp.d8bXaQeV2F:791 /tmp/tmp.d8bXaQeV2F:1007 /tmp/tmp.d8bXaQeV2F:1223
+msgid "OBSERVACIONES"
+msgstr "OBSERVACIONES"
+
+#: /tmp/tmp.d8bXaQeV2F:799 /tmp/tmp.d8bXaQeV2F:1015 /tmp/tmp.d8bXaQeV2F:1231
+msgid "FICHA LOGISTICA"
+msgstr "FICHA LOGISTICA"
+
+#: /tmp/tmp.d8bXaQeV2F:803 /tmp/tmp.d8bXaQeV2F:1019 /tmp/tmp.d8bXaQeV2F:1235
+msgid "Fecha: "
+msgstr "Fecha: "
+
+#: /tmp/tmp.d8bXaQeV2F:811 /tmp/tmp.d8bXaQeV2F:1027 /tmp/tmp.d8bXaQeV2F:1243
+msgid "Indice: OR"
+msgstr "Indice: OR"
+
+#: /tmp/tmp.d8bXaQeV2F:819 /tmp/tmp.d8bXaQeV2F:1035 /tmp/tmp.d8bXaQeV2F:1251
+msgid "Formato: LOG-001/10"
+msgstr "Formato: LOG-001/10"
+
+#: /tmp/tmp.d8bXaQeV2F:823 /tmp/tmp.d8bXaQeV2F:1039 /tmp/tmp.d8bXaQeV2F:1255
+msgid "PALET"
+msgstr "PALET"
+
+#: /tmp/tmp.d8bXaQeV2F:839 /tmp/tmp.d8bXaQeV2F:1055 /tmp/tmp.d8bXaQeV2F:1271
+msgid "CAJA"
+msgstr "CAJA"
+
+#: /tmp/tmp.d8bXaQeV2F:855 /tmp/tmp.d8bXaQeV2F:1071 /tmp/tmp.d8bXaQeV2F:1287
+msgid "UNIDAD"
+msgstr "UNIDAD"
+
+#: /tmp/tmp.d8bXaQeV2F:871 /tmp/tmp.d8bXaQeV2F:1087 /tmp/tmp.d8bXaQeV2F:1303
+msgid "Disposición de las cajas de base"
+msgstr "Disposición de las cajas de base"
+
+#: /tmp/tmp.d8bXaQeV2F:883 /tmp/tmp.d8bXaQeV2F:1099 /tmp/tmp.d8bXaQeV2F:1315
+msgid "Paletización"
+msgstr "Paletización"
+
+#: /tmp/tmp.d8bXaQeV2F:2058 /tmp/tmp.d8bXaQeV2F:2238 /tmp/tmp.d8bXaQeV2F:2418
+msgid "Ancho total:"
+msgstr "Ancho total:"
+
+#: /tmp/tmp.d8bXaQeV2F:2062 /tmp/tmp.d8bXaQeV2F:2242 /tmp/tmp.d8bXaQeV2F:2422
+msgid "Cajas de base:"
+msgstr "Cajas de base:"
+
+#: /tmp/tmp.d8bXaQeV2F:2066 /tmp/tmp.d8bXaQeV2F:2246 /tmp/tmp.d8bXaQeV2F:2426
+msgid "Tipo palet:"
+msgstr "Tipo palet:"
+
+#: /tmp/tmp.d8bXaQeV2F:2070 /tmp/tmp.d8bXaQeV2F:2250 /tmp/tmp.d8bXaQeV2F:2430
+msgid "Alto total:"
+msgstr "Alto total:"
+
+#: /tmp/tmp.d8bXaQeV2F:2074 /tmp/tmp.d8bXaQeV2F:2254 /tmp/tmp.d8bXaQeV2F:2434
+msgid "Largo total:"
+msgstr "Largo total:"
+
+#: /tmp/tmp.d8bXaQeV2F:2078 /tmp/tmp.d8bXaQeV2F:2258 /tmp/tmp.d8bXaQeV2F:2438
+msgid "Cajas por palet:"
+msgstr "Cajas por palet:"
+
+#: /tmp/tmp.d8bXaQeV2F:2082 /tmp/tmp.d8bXaQeV2F:2262 /tmp/tmp.d8bXaQeV2F:2442
+msgid "Tipo caja: "
+msgstr "Tipo caja: "
+
+#: /tmp/tmp.d8bXaQeV2F:2090 /tmp/tmp.d8bXaQeV2F:2270 /tmp/tmp.d8bXaQeV2F:2450
+msgid "Alturas:"
+msgstr "Alturas:"
+
+#: /tmp/tmp.d8bXaQeV2F:2098 /tmp/tmp.d8bXaQeV2F:2278 /tmp/tmp.d8bXaQeV2F:2458
+msgid "Peso bruto por palet:"
+msgstr "Peso bruto por palet:"
+
+#: /tmp/tmp.d8bXaQeV2F:2130 /tmp/tmp.d8bXaQeV2F:2134 /tmp/tmp.d8bXaQeV2F:2138
+#: /tmp/tmp.d8bXaQeV2F:2310 /tmp/tmp.d8bXaQeV2F:2314 /tmp/tmp.d8bXaQeV2F:2318
+#: /tmp/tmp.d8bXaQeV2F:2490 /tmp/tmp.d8bXaQeV2F:2494 /tmp/tmp.d8bXaQeV2F:2498
+msgid "cajas"
+msgstr "cajas"
+
+#: /tmp/tmp.d8bXaQeV2F:2142 /tmp/tmp.d8bXaQeV2F:2146 /tmp/tmp.d8bXaQeV2F:2150
+#: /tmp/tmp.d8bXaQeV2F:2322 /tmp/tmp.d8bXaQeV2F:2326 /tmp/tmp.d8bXaQeV2F:2330
+#: /tmp/tmp.d8bXaQeV2F:2502 /tmp/tmp.d8bXaQeV2F:2506 /tmp/tmp.d8bXaQeV2F:2510
+#: /tmp/tmp.d8bXaQeV2F:3323 /tmp/tmp.d8bXaQeV2F:3327 /tmp/tmp.d8bXaQeV2F:3335
+#: /tmp/tmp.d8bXaQeV2F:3463 /tmp/tmp.d8bXaQeV2F:3467 /tmp/tmp.d8bXaQeV2F:3475
+#: /tmp/tmp.d8bXaQeV2F:3603 /tmp/tmp.d8bXaQeV2F:3607 /tmp/tmp.d8bXaQeV2F:3615
+#: /tmp/tmp.d8bXaQeV2F:4404 /tmp/tmp.d8bXaQeV2F:4408 /tmp/tmp.d8bXaQeV2F:4412
+#: /tmp/tmp.d8bXaQeV2F:4532 /tmp/tmp.d8bXaQeV2F:4536 /tmp/tmp.d8bXaQeV2F:4540
+#: /tmp/tmp.d8bXaQeV2F:4660 /tmp/tmp.d8bXaQeV2F:4664 /tmp/tmp.d8bXaQeV2F:4668
+msgid "mm"
+msgstr "mm"
+
+#: /tmp/tmp.d8bXaQeV2F:2154 /tmp/tmp.d8bXaQeV2F:2158 /tmp/tmp.d8bXaQeV2F:2334
+#: /tmp/tmp.d8bXaQeV2F:2338 /tmp/tmp.d8bXaQeV2F:2514 /tmp/tmp.d8bXaQeV2F:2518
+#: /tmp/tmp.d8bXaQeV2F:3311 /tmp/tmp.d8bXaQeV2F:3319 /tmp/tmp.d8bXaQeV2F:3451
+#: /tmp/tmp.d8bXaQeV2F:3459 /tmp/tmp.d8bXaQeV2F:3591 /tmp/tmp.d8bXaQeV2F:3599
+msgid "kg"
+msgstr "kg"
+
+#: /tmp/tmp.d8bXaQeV2F:2162 /tmp/tmp.d8bXaQeV2F:2342 /tmp/tmp.d8bXaQeV2F:2522
+msgid "Peso neto por palet:"
+msgstr "Peso neto por palet:"
+
+#: /tmp/tmp.d8bXaQeV2F:3263 /tmp/tmp.d8bXaQeV2F:3403 /tmp/tmp.d8bXaQeV2F:3543
+msgid "Ancho Caja:"
+msgstr "Ancho Caja:"
+
+#: /tmp/tmp.d8bXaQeV2F:3267 /tmp/tmp.d8bXaQeV2F:3407 /tmp/tmp.d8bXaQeV2F:3547
+msgid "Alto Caja:"
+msgstr "Alto Caja:"
+
+#: /tmp/tmp.d8bXaQeV2F:3271 /tmp/tmp.d8bXaQeV2F:3411 /tmp/tmp.d8bXaQeV2F:3551
+msgid "Largo Caja:"
+msgstr "Largo Caja:"
+
+#: /tmp/tmp.d8bXaQeV2F:3279 /tmp/tmp.d8bXaQeV2F:3419 /tmp/tmp.d8bXaQeV2F:3559
+msgid "Unidades por caja:"
+msgstr "Unidades por caja:"
+
+#: /tmp/tmp.d8bXaQeV2F:3283 /tmp/tmp.d8bXaQeV2F:3423 /tmp/tmp.d8bXaQeV2F:3563
+msgid "Peso bruto por caja:"
+msgstr "Peso bruto por caja:"
+
+#: /tmp/tmp.d8bXaQeV2F:3287 /tmp/tmp.d8bXaQeV2F:3427 /tmp/tmp.d8bXaQeV2F:3567
+msgid "Peso neto por caja:"
+msgstr "Peso neto por caja:"
+
+#: /tmp/tmp.d8bXaQeV2F:3331 /tmp/tmp.d8bXaQeV2F:3471 /tmp/tmp.d8bXaQeV2F:3611
+msgid "uds"
+msgstr "uds"
+
+#: /tmp/tmp.d8bXaQeV2F:4352 /tmp/tmp.d8bXaQeV2F:4480 /tmp/tmp.d8bXaQeV2F:4608
+msgid "Ancho Unidad:"
+msgstr "Ancho Unidad:"
+
+#: /tmp/tmp.d8bXaQeV2F:4356 /tmp/tmp.d8bXaQeV2F:4484 /tmp/tmp.d8bXaQeV2F:4612
+msgid "Alto Unidad:"
+msgstr "Alto Unidad:"
+
+#: /tmp/tmp.d8bXaQeV2F:4360 /tmp/tmp.d8bXaQeV2F:4488 /tmp/tmp.d8bXaQeV2F:4616
+msgid "Largo Unidad:"
+msgstr "Largo Unidad:"
+
+#: /tmp/tmp.d8bXaQeV2F:4368 /tmp/tmp.d8bXaQeV2F:4496 /tmp/tmp.d8bXaQeV2F:4624
+msgid "Peso bruto unidad:"
+msgstr "Peso bruto unidad:"
+
+#: /tmp/tmp.d8bXaQeV2F:4372 /tmp/tmp.d8bXaQeV2F:4500 /tmp/tmp.d8bXaQeV2F:4628
+msgid "Peso neto unidad:"
+msgstr "Peso neto unidad:"

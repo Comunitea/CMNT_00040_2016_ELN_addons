@@ -1,0 +1,254 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PEDRO\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-06-03 09:26+0200\n"
+"PO-Revision-Date: 2015-06-03 09:49+0100\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
+"Language-Team: \n"
+"X-Generator: Poedit 1.7.5\n"
+
+#: /tmp/tmp.j1gD0sea54:797 /tmp/tmp.j1gD0sea54:1361 /tmp/tmp.j1gD0sea54:1925
+msgid "PRODUCTO:"
+msgstr "PRODUCT:"
+
+#: /tmp/tmp.j1gD0sea54:801 /tmp/tmp.j1gD0sea54:1365 /tmp/tmp.j1gD0sea54:1929
+msgid "CÓDIGO INTERNO:"
+msgstr "INTERNAL CODE:"
+
+#: /tmp/tmp.j1gD0sea54:805 /tmp/tmp.j1gD0sea54:1369 /tmp/tmp.j1gD0sea54:1933
+msgid "FORMATO COMERCIAL"
+msgstr "COMMERCIAL FORMAT"
+
+#: /tmp/tmp.j1gD0sea54:809 /tmp/tmp.j1gD0sea54:1373 /tmp/tmp.j1gD0sea54:1937
+msgid "CÓDIGO CLIENTE:"
+msgstr "CUSTOMER CODE:"
+
+#: /tmp/tmp.j1gD0sea54:813 /tmp/tmp.j1gD0sea54:1377 /tmp/tmp.j1gD0sea54:1941
+msgid "DESCRIPCIÓN"
+msgstr "DESCRIPTION"
+
+#: /tmp/tmp.j1gD0sea54:817 /tmp/tmp.j1gD0sea54:1381 /tmp/tmp.j1gD0sea54:1945
+msgid "ATMÓSFERA PROTECTORA"
+msgstr "PROTECTIVE ATMOSPHERE"
+
+#: /tmp/tmp.j1gD0sea54:821 /tmp/tmp.j1gD0sea54:1385 /tmp/tmp.j1gD0sea54:1949
+msgid "PESO NETO"
+msgstr "NET WEIGHT"
+
+#: /tmp/tmp.j1gD0sea54:825 /tmp/tmp.j1gD0sea54:1389 /tmp/tmp.j1gD0sea54:1953
+msgid "CODIFICACIÓN"
+msgstr "CODING"
+
+#: /tmp/tmp.j1gD0sea54:829 /tmp/tmp.j1gD0sea54:1393 /tmp/tmp.j1gD0sea54:1957
+msgid "UDS/CAJA"
+msgstr "PCE/BOX"
+
+#: /tmp/tmp.j1gD0sea54:833 /tmp/tmp.j1gD0sea54:1397 /tmp/tmp.j1gD0sea54:1961
+msgid "BOLSA PERFORADA"
+msgstr "PERFORATED BAG"
+
+#: /tmp/tmp.j1gD0sea54:837 /tmp/tmp.j1gD0sea54:1401 /tmp/tmp.j1gD0sea54:1965
+msgid "INGREDIENTES"
+msgstr "INGREDIENTS"
+
+#: /tmp/tmp.j1gD0sea54:845 /tmp/tmp.j1gD0sea54:849 /tmp/tmp.j1gD0sea54:1409
+#: /tmp/tmp.j1gD0sea54:1413 /tmp/tmp.j1gD0sea54:1973 /tmp/tmp.j1gD0sea54:1977
+msgid "SI"
+msgstr "YES"
+
+#: /tmp/tmp.j1gD0sea54:845 /tmp/tmp.j1gD0sea54:849 /tmp/tmp.j1gD0sea54:1409
+#: /tmp/tmp.j1gD0sea54:1413 /tmp/tmp.j1gD0sea54:1973 /tmp/tmp.j1gD0sea54:1977
+msgid "NO"
+msgstr "NO"
+
+#: /tmp/tmp.j1gD0sea54:881 /tmp/tmp.j1gD0sea54:1045 /tmp/tmp.j1gD0sea54:1057
+#: /tmp/tmp.j1gD0sea54:1069 /tmp/tmp.j1gD0sea54:1081 /tmp/tmp.j1gD0sea54:1093
+#: /tmp/tmp.j1gD0sea54:1105 /tmp/tmp.j1gD0sea54:1141 /tmp/tmp.j1gD0sea54:1169
+#: /tmp/tmp.j1gD0sea54:1185 /tmp/tmp.j1gD0sea54:1201 /tmp/tmp.j1gD0sea54:1217
+#: /tmp/tmp.j1gD0sea54:1233 /tmp/tmp.j1gD0sea54:1445 /tmp/tmp.j1gD0sea54:1609
+#: /tmp/tmp.j1gD0sea54:1621 /tmp/tmp.j1gD0sea54:1633 /tmp/tmp.j1gD0sea54:1645
+#: /tmp/tmp.j1gD0sea54:1657 /tmp/tmp.j1gD0sea54:1669 /tmp/tmp.j1gD0sea54:1705
+#: /tmp/tmp.j1gD0sea54:1733 /tmp/tmp.j1gD0sea54:1749 /tmp/tmp.j1gD0sea54:1765
+#: /tmp/tmp.j1gD0sea54:1781 /tmp/tmp.j1gD0sea54:1797 /tmp/tmp.j1gD0sea54:2009
+#: /tmp/tmp.j1gD0sea54:2173 /tmp/tmp.j1gD0sea54:2185 /tmp/tmp.j1gD0sea54:2197
+#: /tmp/tmp.j1gD0sea54:2209 /tmp/tmp.j1gD0sea54:2221 /tmp/tmp.j1gD0sea54:2233
+#: /tmp/tmp.j1gD0sea54:2269 /tmp/tmp.j1gD0sea54:2297 /tmp/tmp.j1gD0sea54:2313
+#: /tmp/tmp.j1gD0sea54:2329 /tmp/tmp.j1gD0sea54:2345 /tmp/tmp.j1gD0sea54:2361
+msgid " g"
+msgstr " g"
+
+#: /tmp/tmp.j1gD0sea54:893 /tmp/tmp.j1gD0sea54:1457 /tmp/tmp.j1gD0sea54:2021
+msgid "REDACTADO POR:"
+msgstr "REDACTED BY:"
+
+#: /tmp/tmp.j1gD0sea54:897 /tmp/tmp.j1gD0sea54:1461 /tmp/tmp.j1gD0sea54:2025
+msgid "REVISADO POR:"
+msgstr "REVISED BY:"
+
+#: /tmp/tmp.j1gD0sea54:901 /tmp/tmp.j1gD0sea54:1465 /tmp/tmp.j1gD0sea54:2029
+msgid "APROBADO POR:"
+msgstr "APPROVED BY:"
+
+#: /tmp/tmp.j1gD0sea54:945 /tmp/tmp.j1gD0sea54:1509 /tmp/tmp.j1gD0sea54:2073
+msgid "Edición:"
+msgstr "Edition:"
+
+#: /tmp/tmp.j1gD0sea54:949 /tmp/tmp.j1gD0sea54:1513 /tmp/tmp.j1gD0sea54:2077
+msgid "Fecha:"
+msgstr "Date:"
+
+#: /tmp/tmp.j1gD0sea54:957 /tmp/tmp.j1gD0sea54:1521 /tmp/tmp.j1gD0sea54:2085
+msgid "FICHA TÉCNICA DE PRODUCTO"
+msgstr "PRODUCT DATA SHEET"
+
+#: /tmp/tmp.j1gD0sea54:961 /tmp/tmp.j1gD0sea54:1525 /tmp/tmp.j1gD0sea54:2089
+msgid "Página "
+msgstr "Page "
+
+#: /tmp/tmp.j1gD0sea54:961 /tmp/tmp.j1gD0sea54:1525 /tmp/tmp.j1gD0sea54:2089
+msgid " de "
+msgstr " of "
+
+#: /tmp/tmp.j1gD0sea54:969 /tmp/tmp.j1gD0sea54:1533 /tmp/tmp.j1gD0sea54:2097
+msgid "PARÁMETROS ORGANOLÉPTICOS"
+msgstr "ORGANOLEPTIC PARAMETERS"
+
+#: /tmp/tmp.j1gD0sea54:973 /tmp/tmp.j1gD0sea54:1537 /tmp/tmp.j1gD0sea54:2101
+msgid "PARÁMETROS FÍSICOS"
+msgstr "PHYSICAL PARAMETERS"
+
+#: /tmp/tmp.j1gD0sea54:993 /tmp/tmp.j1gD0sea54:1557 /tmp/tmp.j1gD0sea54:2121
+msgid "PARÁMETROS QUÍMICOS"
+msgstr "CHEMICAL PARAMETERS"
+
+#: /tmp/tmp.j1gD0sea54:997 /tmp/tmp.j1gD0sea54:1561 /tmp/tmp.j1gD0sea54:2125
+msgid "PARÁMETROS MICROBIOLÓGICOS"
+msgstr "MICROBIOLOGICAL PARAMETERS"
+
+#: /tmp/tmp.j1gD0sea54:1017 /tmp/tmp.j1gD0sea54:1581 /tmp/tmp.j1gD0sea54:2145
+msgid "VALORES NUTRICIONALES MEDIOS (por 100 g)"
+msgstr "AVERAGE NUTRITIONAL VALUES (per 100 g)"
+
+#: /tmp/tmp.j1gD0sea54:1021 /tmp/tmp.j1gD0sea54:1585 /tmp/tmp.j1gD0sea54:2149
+msgid "VALORES NUTRICIONALES MEDIOS (por ración)"
+msgstr "AVERAGE NUTRITIONAL VALUES (per portion)"
+
+#: /tmp/tmp.j1gD0sea54:1025 /tmp/tmp.j1gD0sea54:1117 /tmp/tmp.j1gD0sea54:1589
+#: /tmp/tmp.j1gD0sea54:1681 /tmp/tmp.j1gD0sea54:2153 /tmp/tmp.j1gD0sea54:2245
+msgid "Energía"
+msgstr "Energy"
+
+#: /tmp/tmp.j1gD0sea54:1033 /tmp/tmp.j1gD0sea54:1125 /tmp/tmp.j1gD0sea54:1597
+#: /tmp/tmp.j1gD0sea54:1689 /tmp/tmp.j1gD0sea54:2161 /tmp/tmp.j1gD0sea54:2253
+msgid " kcal"
+msgstr " kcal"
+
+#: /tmp/tmp.j1gD0sea54:1037 /tmp/tmp.j1gD0sea54:1133 /tmp/tmp.j1gD0sea54:1601
+#: /tmp/tmp.j1gD0sea54:1697 /tmp/tmp.j1gD0sea54:2165 /tmp/tmp.j1gD0sea54:2261
+msgid "Hidratos de carbono"
+msgstr "Carbohydrate"
+
+#: /tmp/tmp.j1gD0sea54:1049 /tmp/tmp.j1gD0sea54:1161 /tmp/tmp.j1gD0sea54:1613
+#: /tmp/tmp.j1gD0sea54:1725 /tmp/tmp.j1gD0sea54:2177 /tmp/tmp.j1gD0sea54:2289
+msgid "de los cuales azúcares"
+msgstr "of which sugars"
+
+#: /tmp/tmp.j1gD0sea54:1061 /tmp/tmp.j1gD0sea54:1177 /tmp/tmp.j1gD0sea54:1625
+#: /tmp/tmp.j1gD0sea54:1741 /tmp/tmp.j1gD0sea54:2189 /tmp/tmp.j1gD0sea54:2305
+msgid "Grasas"
+msgstr "Fats"
+
+#: /tmp/tmp.j1gD0sea54:1073 /tmp/tmp.j1gD0sea54:1193 /tmp/tmp.j1gD0sea54:1637
+#: /tmp/tmp.j1gD0sea54:1757 /tmp/tmp.j1gD0sea54:2201 /tmp/tmp.j1gD0sea54:2321
+msgid "de las cuales saturadas"
+msgstr "of which saturates"
+
+#: /tmp/tmp.j1gD0sea54:1085 /tmp/tmp.j1gD0sea54:1209 /tmp/tmp.j1gD0sea54:1649
+#: /tmp/tmp.j1gD0sea54:1773 /tmp/tmp.j1gD0sea54:2213 /tmp/tmp.j1gD0sea54:2337
+msgid "Proteínas"
+msgstr "Proteins"
+
+#: /tmp/tmp.j1gD0sea54:1097 /tmp/tmp.j1gD0sea54:1225 /tmp/tmp.j1gD0sea54:1661
+#: /tmp/tmp.j1gD0sea54:1789 /tmp/tmp.j1gD0sea54:2225 /tmp/tmp.j1gD0sea54:2353
+msgid "Sal"
+msgstr "Salt"
+
+#: /tmp/tmp.j1gD0sea54:1109 /tmp/tmp.j1gD0sea54:1673 /tmp/tmp.j1gD0sea54:2237
+msgid "Ración "
+msgstr "Portion "
+
+#: /tmp/tmp.j1gD0sea54:1113 /tmp/tmp.j1gD0sea54:1677 /tmp/tmp.j1gD0sea54:2241
+msgid "% CDO (*)"
+msgstr "% RDA (*)"
+
+#: /tmp/tmp.j1gD0sea54:1241 /tmp/tmp.j1gD0sea54:1805 /tmp/tmp.j1gD0sea54:2369
+msgid ""
+"* Valores diarios orientativos para un adulto con una ingesta diaria de 2000 "
+"kcal. Las necesidades nutricionales individuales pueden variar en función "
+"del sexo, edad, actividad física y otros factores."
+msgstr ""
+"* Approximate daily values for an adult with a daily intake of 2000 kcal. "
+"Individual nutritional requirements may vary depending on gender, age, "
+"physical activity and other factors."
+
+#: /tmp/tmp.j1gD0sea54:1245 /tmp/tmp.j1gD0sea54:1809 /tmp/tmp.j1gD0sea54:2373
+msgid "CONDICIONES DE CONSERVACIÓN"
+msgstr "STORAGE CONDITIONS"
+
+#: /tmp/tmp.j1gD0sea54:1253 /tmp/tmp.j1gD0sea54:1817 /tmp/tmp.j1gD0sea54:2381
+msgid "USO ESPERADO"
+msgstr "EXPECTED USE"
+
+#: /tmp/tmp.j1gD0sea54:1261 /tmp/tmp.j1gD0sea54:1825 /tmp/tmp.j1gD0sea54:2389
+msgid "VIDA ÚTIL"
+msgstr "SHELF LIFE"
+
+#: /tmp/tmp.j1gD0sea54:1265 /tmp/tmp.j1gD0sea54:1829 /tmp/tmp.j1gD0sea54:2393
+msgid " días desde fecha de fabricación"
+msgstr " days from packing date."
+
+#: /tmp/tmp.j1gD0sea54:1269 /tmp/tmp.j1gD0sea54:1833 /tmp/tmp.j1gD0sea54:2397
+msgid "ALÉRGENOS"
+msgstr "ALLERGENS"
+
+#: /tmp/tmp.j1gD0sea54:1277 /tmp/tmp.j1gD0sea54:1841 /tmp/tmp.j1gD0sea54:2405
+msgid "OGM's"
+msgstr "OGM's"
+
+#: /tmp/tmp.j1gD0sea54:1285 /tmp/tmp.j1gD0sea54:1849 /tmp/tmp.j1gD0sea54:2413
+msgid "OBSERVACIONES"
+msgstr "NOTES"
+
+#: /tmp/tmp.j1gD0sea54:3090 /tmp/tmp.j1gD0sea54:3202 /tmp/tmp.j1gD0sea54:3314
+msgid "DENOMINACIÓN"
+msgstr "DENOMINATION"
+
+#: /tmp/tmp.j1gD0sea54:3098 /tmp/tmp.j1gD0sea54:3210 /tmp/tmp.j1gD0sea54:3322
+msgid "VARIEDAD"
+msgstr "RANGE"
+
+#: /tmp/tmp.j1gD0sea54:3106 /tmp/tmp.j1gD0sea54:3218 /tmp/tmp.j1gD0sea54:3330
+msgid "PROCESO"
+msgstr "PROCESS"
+
+#: /tmp/tmp.j1gD0sea54:3114 /tmp/tmp.j1gD0sea54:3226 /tmp/tmp.j1gD0sea54:3338
+msgid "CALIBRE"
+msgstr "SIZE"
+
+#: /tmp/tmp.j1gD0sea54:3122 /tmp/tmp.j1gD0sea54:3234 /tmp/tmp.j1gD0sea54:3346
+msgid "ORIGEN"
+msgstr "ORIGIN"
+
+#: /tmp/tmp.j1gD0sea54:3130 /tmp/tmp.j1gD0sea54:3242 /tmp/tmp.j1gD0sea54:3354
+msgid "CANT. (%)"
+msgstr "QTY. (%)"
