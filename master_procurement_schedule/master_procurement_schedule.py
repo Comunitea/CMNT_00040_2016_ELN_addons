@@ -138,7 +138,7 @@ class stock_plannings(osv.osv):
     }
 
     _order = 'date'
-    
+
     def _from_default_uom_factor(self, cr, uid, product_id, uom_id, context=None):
         uom_obj = self.pool.get('product.uom')
         product_obj = self.pool.get('product.product')
@@ -148,7 +148,7 @@ class stock_plannings(osv.osv):
         if uom.category_id.id != product.uom_id.category_id.id:
             res = res * product.uos_coeff
         return res / product.uom_id.factor, uom.rounding
-    
+
     def _to_default_uom_factor(self, cr, uid, product_id, uom_id, context=None):
         uom_obj = self.pool.get('product.uom')
         product_obj = self.pool.get('product.product')
@@ -226,8 +226,11 @@ class stock_plannings(osv.osv):
         if done:
             context.update({ 'states':('done',), 'what':(direction,) })
             prod_ids = [prod_id]
-            st = product_obj.get_product_available(cr, uid, prod_ids, context=context)
-            res = mapping[direction]['adapter'](st.get(prod_id,0.0))
+            st = product_obj._product_available(cr, uid, prod_ids, context=context)
+            field_prod = st.get(prod_id,0.0)
+            if isinstance(field_prod, dict):
+                field_prod = field_prod[mapping[direction]['field']]
+            res = mapping[direction]['adapter'](field_prod)
         else:
             product = product_obj.read(cr, uid, prod_id,[], context)
             product_qty = product[mapping[direction]['field']]
@@ -275,7 +278,7 @@ class stock_plannings(osv.osv):
             first_date = year+"-"+month+"-"+str(first_day)
             complet_last_date = year+"-"+month+"-"+str(last_day) + " 00:00:00"
             complet_first_date = year+"-"+month+"-"+str(first_day) + " 23:59:59"
-            
+
 #            day = datetime.strptime(val.date + " 00:00:00", '%Y-%m-%d %H:%M:%S')
 #            dbefore = datetime(day.year, day.month, day.day) - one_second
 #            day_before_calculated_period = dbefore.strftime('%Y-%m-%d %H:%M:%S')   # one day before start of calculated period
@@ -294,9 +297,9 @@ class stock_plannings(osv.osv):
 #            date_for_start = dbefore.strftime('%Y-%m-%d %H:%M:%S')   # one day before current period
 #            _logger.debug("Date for start: %s", date_for_start)
 #
-            
-            
-            
+
+
+
             already_out = self._get_in_out(cr, uid, val, complet_first_date, complet_last_date, direction='out', done=True, context=context),
             already_in = self._get_in_out(cr, uid, val, complet_first_date, complet_last_date, direction='in', done=True, context=context),
             outgoing = self._get_in_out(cr, uid, val, complet_first_date, complet_last_date, direction='out', done=False, context=context),
@@ -458,7 +461,7 @@ class stock_plannings(osv.osv):
 
         return True
 
-    
+
 
 stock_plannings()
 

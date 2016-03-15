@@ -8,16 +8,16 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
             <form string="Get sales forecast">
-                <field name="name"/>
-                <field name="account_id"/>
+                <group>
+                    <field name="name"/>
+                    <field name="account_id"/>
+                    <field name="percent_increase"/>
+                </group>
                 <newline/>
-                <field name="percent_increase"/>
-                <newline/>
-                <group colspan="4" col="6">
+                <footer>
                     <button icon="gtk-cancel" special="cancel" string="Cancel"/>
                     <button string='Get' icon="gtk-execute" name="get_sales_forecast" type="object"/>
-                </group>
-
+                </footer>
             </form>
             </field>
          </record>
