@@ -62,8 +62,10 @@ class sale_order(orm.Model):
 
         return {'value': v}
 
-    def onchange_shop_id2(self, cr, uid, ids, shop_id, partner_id=False):
+    def onchange_shop_id2(self, cr, uid, ids, shop_id, partner_id=False, project_id=False):
         res = self.onchange_shop_id(cr, uid, ids, shop_id)
+        if project_id:
+            res['value']['project_id'] = project_id
         if not shop_id:
             res['value']['pricelist_id'] = False
             return res
@@ -88,7 +90,7 @@ class sale_order(orm.Model):
         #    for line in vals['order_line']:
         #        line = line[2]
         #        dt = datetime.strptime(vals['date_order'], '%Y-%m-%d') + relativedelta(days=line['delay'] or 0.0)
-        #        dt_s = dt.strftime('%Y-%m-%d')
+        #        dt_s = dt.strftime('%Y-n%m-%d')
         #        dates_list.append(dt_s)
         #    if dates_list and not vals.get('commitment_date'):
         #        vals.update({'commitment_date': min(dates_list)})
@@ -106,8 +108,9 @@ class sale_order(orm.Model):
 
     def onchange_partner_id(self, cr, uid, ids, part, context=None):
         res = super(sale_order, self).onchange_partner_id(cr, uid, ids, part, context)
-
-        rec = self.pool.get('account.analytic.default').account_get(cr, uid, False, part, uid, time.strftime('%Y-%m-%d'),{})
+        company_id = self.pool.get('res.users').browse(cr, uid, [uid]).company_id.id
+        rec = self.pool.get('account.analytic.default').account_get(cr, uid, product_id=False, partner_id=part, user_id=uid,
+                                                                    date=time.strftime('%Y-%m-%d'),company_id=company_id, context={})
         if rec:
             res['value']['project_id'] = rec.analytic_id.id
         else:
