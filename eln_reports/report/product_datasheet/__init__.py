@@ -18,4 +18,4 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-# import product_datasheet_report_parser
+import product_datasheet_report_parser

@@ -18,24 +18,27 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
 from openerp.addons import jasper_reports
-
+from openerp import pooler
+from datetime import datetime
+from openerp.tools.translate import _
 
 
 def parser( cr, uid, ids, data, context ):
-    language = data['form']['language']
-    delivery_address = data['form']['delivery_address']
-    signed = data['form']['signed']
-    parameters = {}
-    ids = ids
     name = 'report.purchase_order'
     model = 'purchase.order'
     data_source = 'model'
-    parameters['lang'] = language
-    print language
-    parameters['delivery_address'] = delivery_address
-    parameters['signed'] = signed
+    parameters = {}
+    if 'form' in data:
+        language = data['form']['language']
+        delivery_address = data['form']['delivery_address']
+        signed = data['form']['signed']
+        parameters = {}
+   
+        parameters['lang'] = language
+  
+        parameters['delivery_address'] = delivery_address
+        parameters['signed'] = signed
     return { 
         'ids': ids, 
         'name': name, 

@@ -18,4 +18,4 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-# import product_logistics_sheet_report_parser
+import product_logistics_sheet_report_parser
