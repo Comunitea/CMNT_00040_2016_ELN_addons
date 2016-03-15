@@ -213,7 +213,7 @@ select * into aux_res_partner from res_partner;
 update res_partner rp
 set
 name = new_name,
-display_name = new_name,
+comercial = new_name
 phone = new_phone,
 city = new_city
 from
@@ -244,7 +244,7 @@ from
 (
 select rpa.gln_rf, rp.id, rp.parent_id,
 rpa.gln_rm, rpa.gln_de, rpa.gln_co
-from res_partner rp
+from res_partner rp_display_name
 join res_country_state rcs on rcs.id = rp.state_id
 join aux_res_partner arp on arp.id = rp.parent_id
 join res_partner_address rpa on rpa.openupgrade_7_migrated_to_partner_id = rp.id
@@ -254,7 +254,7 @@ as nt
 where nt.id = rp.id and rp.gln_rf isnull;
 
 --INSERTAR EN RES_PARTNER LOS DATOS DE RES_CONTACT (se pierde la relación con res_parnter pero no los datos, si no tiene nombre cogemos el nombre
---del res_partner_address asociado?
+--del res_partner_address asociado?, REPASAR BIEN, ref y comercial eran campos de res.partner y res.partner.address. La parte de contacto de debe estar mal.
 
 insert into res_partner 
 (create_uid, write_uid, lang, use_parent_address, type, customer, employee, supplier, agent, opt_out, vat_subjected, color, 
@@ -263,11 +263,6 @@ parent_id, company_id, street, street2, zip, title, state_id, city, country_id)
 (
 select 1,1,'es ES', false, 'contact', false, false, false, false,  false, false, 0 as color, 
 false as is_company, true as active, 1 as user_id, 'agent' as agent_type, 'monthly' as settlement, 'standalone' as contact_type, 'always' as notify_email, 
-
-case
-    when rpc.last_name = '/' then 'CONTACTO DE ' || coalesce(rpa.comercial, rpa.name, rp.comercial, rp.name)
-    else coalesce(rpc.first_name, '') || '_' || coalesce(rpc.last_name, '')
-end as display_name,
 case
     when rpc.last_name = '/' then 'CONTACTO DE ' || coalesce(rpa.comercial, rpa.name, rp.comercial, rp.name)
     else coalesce(rpc.first_name, '') || '_' || coalesce(rpc.last_name, '')
@@ -297,8 +292,4 @@ from mrp_production_move_ids as m2m
 where sm.id = m2m.move_id;
 
 
-
-
-
-
-
+select * from res_partner where parent_id = 175;

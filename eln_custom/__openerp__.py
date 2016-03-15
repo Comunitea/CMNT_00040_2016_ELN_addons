@@ -30,7 +30,7 @@
                 'purchase',
                 'sale',
                 'hr',
-                'base_contact',
+                # 'base_contact',
                 'eln_sale',
                 'eln_purchase',
                 'product_expiry',

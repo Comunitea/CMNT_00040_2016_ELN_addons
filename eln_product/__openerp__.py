@@ -34,7 +34,7 @@
                 'stock',
                 'mail',
                 'email_template',
-                'base_contact',
+                # 'base_contact',
                 'hr',
                 ],
     "init_xml" : [],
