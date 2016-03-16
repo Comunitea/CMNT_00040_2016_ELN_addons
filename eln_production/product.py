@@ -45,7 +45,7 @@ class product_product(osv.osv):
         return res
 
     _columns = {
-        'real_virtual_available': fields.function(_product_real_available, digits_compute=dp.get_precision('Product UoM'),type='float', string='Real Quantity Available',
+        'real_virtual_available': fields.function(_product_real_available, digits_compute=dp.get_precision('Product Unit of Measure'),type='float', string='Real Quantity Available',
                                 help="Forecast quantity (computed as Quantity On Hand "
                                      "- Outgoing)\n"
                                      "In a context with a single Stock Location, this includes "
@@ -59,7 +59,7 @@ class product_product(osv.osv):
                                      "Otherwise, this includes goods stored in any Stock Location "
                                      "typed as 'internal'."),
         'sample_location': fields.boolean('Sample Location'),
-        'qty_sample': fields.float('Qty. Sample',  digits_compute=dp.get_precision('Product UoM'))
+        'qty_sample': fields.float('Qty. Sample',  digits_compute=dp.get_precision('Product Unit of Measure'))
     }
     
 product_product()

@@ -30,8 +30,8 @@ class recover_full_product(orm.TransientModel):
     _name = "recover.full.product"
     _columns = {
         'product_id': fields.many2one('product.product', 'Product', required=True),
-        'qty_available': fields.float('Qty available', digits_compute=dp.get_precision('Product UoM'), required=True),
-        'qty_recover': fields.float('Qty recover', digits_compute=dp.get_precision('Product UoM'), required=True),
+        'qty_available': fields.float('Qty available', digits_compute=dp.get_precision('Product Unit of Measure'), required=True),
+        'qty_recover': fields.float('Qty recover', digits_compute=dp.get_precision('Product Unit of Measure'), required=True),
         'product_uom': fields.many2one('product.uom', 'UoM', required=True),
         'current_prodlot_id': fields.many2one('stock.production.lot', 'Current Lot'),
         'recover_prodlot_id': fields.many2one('stock.production.lot', 'Recover Lot', required=True),
@@ -214,8 +214,8 @@ class recover_components_composition(orm.TransientModel):
     _name = 'recover.components.composition'
     _columns = {
         'product_id': fields.many2one('product.product', 'Product'),
-        'qty_available': fields.float('Qty available', digits_compute=dp.get_precision('Product UoM')),
-        'qty_recover': fields.float('Qty recover', digits_compute=dp.get_precision('Product UoM')),
+        'qty_available': fields.float('Qty available', digits_compute=dp.get_precision('Product Unit of Measure')),
+        'qty_recover': fields.float('Qty recover', digits_compute=dp.get_precision('Product Unit of Measure')),
         'product_uom': fields.many2one('product.uom', 'UoM'),
         'recover_prodlot_id': fields.many2one('stock.production.lot', 'Recover Lot' ),
         'location_dest_id': fields.many2one('stock.location', 'Location dest.'),
