@@ -28,36 +28,41 @@ class sales_forecast(orm.Model):
     def create_budget_lines2(self, cr, uid, ids, context=None):
         if context is None:
             context = {}
-        
+
         budget_line = self.pool.get('budget.line')
 
         for cur in self.browse(cr, uid, ids):
             if cur.sales_forecast_lines and not cur.is_merged:
                 if not cur.budget_version_id or not cur.budget_item_id:
                     raise orm.except_orm(_('Error !'), _('For create a budget line is neccessary to have a budget version and budget item at sales forecast.'))
-                for line in cur.sales_forecast_lines:
-                    vals = {
+                vals = {
                         'budget_version_id': cur.budget_version_id.id,
                         'budget_item_id': cur.budget_item_id.id,
                         'name': _('Sales forecast line of ') + cur.name,
-                        'product_id': line.product_id.id,
-                        'amount': line.total_amount,
+                        'amount': 0.0,
                         'currency_id': cur.budget_version_id.currency_id.id,
-                        'jan_amount': float(round(line.jan_amount,2)),
-                        'feb_amount': float(round(line.feb_amount,2)),
-                        'mar_amount': float(round(line.mar_amount,2)),
-                        'apr_amount': float(round(line.apr_amount,2)),
-                        'may_amount': float(round(line.may_amount,2)),
-                        'jun_amount': float(round(line.jun_amount,2)),
-                        'jul_amount': float(round(line.jul_amount,2)),
-                        'aug_amount': float(round(line.aug_amount,2)),
-                        'sep_amount': float(round(line.sep_amount,2)),
-                        'oct_amount': float(round(line.oct_amount,2)),
-                        'nov_amount': float(round(line.nov_amount,2)),
-                        'dec_amount': float(round(line.dec_amount,2)),
+                        'jan_amount': 0.0,
+                        'feb_amount': 0.0,
+                        'mar_amount': 0.0,
+                        'apr_amount': 0.0,
+                        'may_amount': 0.0,
+                        'jun_amount': 0.0,
+                        'jul_amount': 0.0,
+                        'aug_amount': 0.0,
+                        'sep_amount': 0.0,
+                        'oct_amount': 0.0,
+                        'nov_amount': 0.0,
+                        'dec_amount': 0.0,
                         'analytic_account_id': cur.analytic_id and cur.analytic_id.id or False,
-                    }
-                    budget_line.create(cr, uid, vals)
+                }
+                for line in cur.sales_forecast_lines:
+                    vals['amount'] += line.total_amount
+                    for month in ['jan_amount', 'feb_amount', 'mar_amount',
+                                  'apr_amount', 'may_amount', 'jun_amount',
+                                  'jul_amount', 'aug_amount', 'sep_amount',
+                                  'oct_amount', 'nov_amount', 'dec_amount']:
+                        vals[month] += float(round(line[month], 2))
+                budget_line.create(cr, uid, vals)
 
         return True
 
@@ -67,7 +72,7 @@ class sales_forecast(orm.Model):
 
         return super(sales_forecast, self).action_validate(cr, uid, ids, context=context)
 
-    def action_done(self, cr, uid, ids, context=None):
+    '''def action_done(self, cr, uid, ids, context=None):
         res = super(sales_forecast, self).action_done(cr, uid, ids, context)
         cost_line = self.pool.get('product.costs.line')
         forecast_line = self.pool.get('sales.forecast.line')
@@ -82,7 +87,7 @@ class sales_forecast(orm.Model):
                     cost_structure = cost_warehouse + line.product_id.weight_net
                     forecast_line.write(cr, uid, line.id, {'cost_warehouse': cost_warehouse, 'cost_structure': cost_structure})
 
-        return res
+        return res'''
 
 
 class sales_forecast_line(orm.Model):

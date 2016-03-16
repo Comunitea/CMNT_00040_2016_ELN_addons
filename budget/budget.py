@@ -67,11 +67,15 @@ class budget_budget(orm.Model):
             relation='budget.version',
         ),
         'note': fields.text('Notes'),
-        'create_date': fields.datetime('Creation Date', readonly=True)
+        'create_date': fields.datetime('Creation Date', readonly=True),
+        'company_id': fields.many2one('res.company', 'Company')
     }
 
     _defaults = {
         'active': True,
+        'company_id':
+        lambda s, cr, uid, c: s.pool.get('res.company')._company_default_get(
+            cr, uid, 'account.account', context=c),
     }
 
     def _check_start_end_dates(self, cr, uid, ids, context=None):

@@ -247,12 +247,16 @@ class budget_line(orm.Model):
                                                type='many2one',
                                                relation='res.currency',
                                                string='Analytic Currency',
-                                               readonly=True)
+                                               readonly=True),
+        'company_id': fields.many2one('res.company', 'Company')
     }
 
     _defaults = {
         'currency_id': lambda self, cr, uid, context:
-        self._get_budget_version_currency(cr, uid, context)
+        self._get_budget_version_currency(cr, uid, context),
+        'company_id':
+        lambda s, cr, uid, c: s.pool.get('res.company')._company_default_get(
+            cr, uid, 'account.account', context=c),
     }
 
     def _check_item_in_budget_tree(self, cr, uid, ids, context=None):

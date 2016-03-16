@@ -230,7 +230,6 @@ class sales_forecast(osv.osv):
         return new_id
 
 
-
     def action_validate(self, cr, uid, ids, context=None):
 
         if context is None:

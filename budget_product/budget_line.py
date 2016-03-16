@@ -127,9 +127,6 @@ class budget_version(orm.Model):
 
 
     def action_calculate_totals(self, cr, uid, ids, properties=[],context=None):
-
-
-        print "Calculo de totales"
         result = {}
         lines = self.pool.get('budget.line')
         total = self.pool.get('budget.version.total2')
@@ -186,5 +183,3 @@ class budget_version(orm.Model):
                                     total.unlink(cr, uid, ids_to_delete)
                                 new_total_id = total.create(cr, uid, {'budget_item_id': res[1], 'version_id':version.id, 'total': round(float(res[0])/ float(tot_prev or 1.0), 2), 'name': name})
         return True
-
-

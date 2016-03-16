@@ -119,8 +119,6 @@ class purchases_forecast(osv.osv):
                         res[line.product_id.id][months[month] + '_qty'] = 0.0
                     res[line.product_id.id][months[month] + '_qty'] = res[line.product_id.id][months[month] + '_qty'] + (eval('o.' + (months[month] + '_qty'),{'o': line}))
 
-
-        #res = {product_id:{'ene_qty': 100.00, 'feb_qty':2500.00}}
         if res:
             for product in res:
                 nwline = forecast_line_obj.create(cr, uid, {
@@ -138,7 +136,6 @@ class purchases_forecast(osv.osv):
                 wf_service.trg_validate(uid, 'purchases.forecast', old_id, 'action_cancel', cr)
         return new_id
 
-purchases_forecast()
 
 class purchases_forecast_line(osv.osv):
 

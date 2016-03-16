@@ -87,7 +87,6 @@ class sales_forecast(osv.osv):
                         if not line.product_id.id in products_version:
                             raise osv.except_osv(_('Warning !'), _("The product [%s] %s is not in the selected pricelist !") % (line.product_id.default_code, line.product_id.name))
                         for m in range(0,12):
-                            #TODO Comprobar que todos los productos están en la tarifa y versión sino RAISE
                             qty = (eval('o.' + (months[m] + '_qty'),{'o': line}))
                             price = self.pool.get('product.pricelist').price_get(cr, uid, [o.pricelist_id.id],
                             line.product_id.id, qty or 1.0, None, {
@@ -168,8 +167,6 @@ class sales_forecast(osv.osv):
                     res[line.product_id.id][months[month] + '_qty'] = res[line.product_id.id][months[month] + '_qty'] + (eval('o.' + (months[month] + '_qty'),{'o': line}))
                     res[line.product_id.id][months[month] + '_amount'] = res[line.product_id.id][months[month] + '_amount'] + (eval('o.' + (months[month] + '_amount'),{'o': line}))
 
-
-        #res = {product_id:{'ene_qty': 100.00, 'feb_qty':2500.00}}
         if res:
             for product in res:
                 nwline = forecast_line_obj.create(cr, uid, {
@@ -182,15 +179,14 @@ class sales_forecast(osv.osv):
                         months[month] + '_amount': res[product][months[month] + '_amount']})
                         #months[month] + '_amount_total': res[product][months[month] + '_qty'] * product_obj.browse(cr, uid, product).standard_price})
 
-            # make triggers pointing to the old purchases forecast to the new forecast
+        # make triggers pointing to the old purchases forecast to the new forecast
         if old_ids:
             for old_id in old_ids:
-                print old_ids
                 wf_service.trg_validate(uid, 'sales.forecast', old_id, 'action_cancel', cr)
         return new_id
-    
+
     def write(self, cr, uid, ids, vals, context=None):
-        """Modificación del método de escritura para que si la prevision tiene is_merged = True 
+        """Modificación del método de escritura para que si la prevision tiene is_merged = True
            no guarde el valor de pricelist_id si es fijado"""
         if context is None:
             context = {}
@@ -293,6 +289,3 @@ class sales_forecast_line(osv.osv):
 #            res[field + '_amount'] = 0.0
 
         return {'value': res}
-
-
-sales_forecast_line()

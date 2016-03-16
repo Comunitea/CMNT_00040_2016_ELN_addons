@@ -35,6 +35,7 @@
                     'stock_forecast_workflow.xml',
                     'wizard/merge_forecasts_view.xml',
                     'security/ir.model.access.csv',
+                    'security/security.xml'
             ],
         "installable": True,
         'active': False

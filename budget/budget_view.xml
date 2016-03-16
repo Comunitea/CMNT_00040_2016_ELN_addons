@@ -20,14 +20,19 @@
                             <h2><field name="code"/></h2>
                         </div>
                         <group>
-                            <field name="budget_item_id" domain="[('parent_id', '=', False)]"/>
-                            <label for="start_date" string="Starting and Ending Dates"/>
-                            <div>
-                                <field name="start_date" class="oe_inline" on_change="on_change_start_date(start_date)"/>
-                                <field name="end_date" class="oe_inline"/>
-                            </div>
-                            <field name="create_date"/>
-                            <field name="active"/>
+                            <group>
+                                <field name="budget_item_id" domain="[('parent_id', '=', False)]"/>
+                                <label for="start_date" string="Starting and Ending Dates"/>
+                                <div>
+                                    <field name="start_date" class="oe_inline" on_change="on_change_start_date(start_date)"/>
+                                    <field name="end_date" class="oe_inline"/>
+                                </div>
+                            </group>
+                            <group>
+                                <field name="create_date"/>
+                                <field name="active"/>
+                                <field name="company_id"/>
+                            </group>
                         </group>
                         <notebook>
                             <page string="Versions">
@@ -183,6 +188,7 @@
                             <field name="allocation_id" />
                             <field name="parent_id" select="2" />
                             <field name="active" select="2"/>
+                            <field name="company_id"/>
                         </group>
                         <group string="Reports">
                             <field name="sequence" />
@@ -296,6 +302,7 @@
                             <field name="budget_version_id"/>
                             <field name="budget_item_id"  domain="[('type', '=', 'normal')]"/>
                             <field name="name"/>
+                            <field name="company_id"/>
                             <field name="analytic_account_id"
                                    domain="[('state','not in',['close','cancelled'])]" />
                         </group>
@@ -375,12 +382,14 @@
 
         <!-- ACTION: click on Financial Management/Budgets/Budgets -->
         <record model="ir.actions.act_window" id="open_budget_list">
+            <field name="name">Budgets</field>
             <field name="res_model">budget.budget</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
         <!-- ACTION: click on Financial Management/Budgets/Budgets versions -->
         <record model="ir.actions.act_window" id="open_budget_version_list">
+            <field name="name">Budget Versions</field>
             <field name="res_model">budget.version</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
@@ -388,6 +397,7 @@
         </record>
         <!-- ACTION: click on Financial Management/Budgets/Budgets lines -->
         <record model="ir.actions.act_window" id="open_budget_lines_list">
+            <field name="name">Budget Lines</field>
             <field name="res_model">budget.line</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
@@ -396,6 +406,7 @@
         </record>
         <!-- ACTION: click on Financial Management/Budgets/Budgets items -->
         <record model="ir.actions.act_window" id="open_budget_items_list">
+            <field name="name">Budget Items</field>
             <field name="res_model">budget.item</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>

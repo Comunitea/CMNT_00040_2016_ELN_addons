@@ -25,7 +25,7 @@ class purchases_forecast(osv.osv):
     _inherit = 'purchases.forecast'
 
     def generate_master_procurement_schedule(self, cr, uid, ids, context=None):
-        
+
         purchase_obj = self.pool.get('purchases.forecast')
         purchase_line_obj = self.pool.get('purchases.forecast.line')
         proc_obj = self.pool.get('stock.plannings')
@@ -45,9 +45,9 @@ class purchases_forecast(osv.osv):
                     periods[month] = {}
                     for line in cur.purchases_forecast_lines:
                         qty = 0.0
-                        
+
                         month_ = str(int(month) +1)
-                        
+
                         first_day, last_day = calendar.monthrange(int(time.strftime('%Y')),int(month_))
                         if len(month_) == 1:
                             complet_last_date = year+"-0"+month_+"-"+str(last_day)
@@ -55,10 +55,7 @@ class purchases_forecast(osv.osv):
                         else:
                             complet_last_date = year+"-"+month_+"-"+str(last_day)
                             complet_first_date = year+"-"+month_+"-01"
-                        
-                        print complet_first_date
-                        print complet_last_date
-                       
+
                         if periods[month].get(line.product_id.id, False):
                             periods[month][line.product_id.id][0] = periods[month][line.product_id.id][0] + eval('o.' + (months[int(month)] + '_qty'),{'o': line})
                         else:
@@ -68,14 +65,14 @@ class purchases_forecast(osv.osv):
                             if purchases_lines:
                                 for pline in self.pool.get('purchase.order.line').browse(cr, uid, purchases_lines):
                                     qty += pline.product_qty
-                            
+
                             periods[month][line.product_id.id].append((eval('o.' + (months[int(month)] + '_qty'),{'o': line}), qty))
 
                 if periods:
-                    
+
                     for period in periods:
                         # month: {'sale': {'id_producto': cantidad}, 'purchase': {'id_producto': cantidad}}
-                        
+
                         if period:
                             new_ids = []
                             warehouse = warehouse_obj.search(cr, uid, [('company_id','=', cur.company_id.id)])
@@ -92,7 +89,7 @@ class purchases_forecast(osv.osv):
                                                                 'product_uom': product_obj.browse(cr, uid, product).uom_id.id
                                                             })
                                 new_ids.append(new_id)
-        
+
         return True
 
     def action_validate(self, cr, uid, ids, context=None):

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+    <data>
+
+        <record model="ir.rule" id="budget_budget_comp_rule">
+            <field name="name"> Budget multi-company</field>
+            <field name="model_id" ref="model_budget_budget"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
+        </record>
+        <record model="ir.rule" id="budget_version_comp_rule">
+            <field name="name"> Budget version multi-company</field>
+            <field name="model_id" ref="model_budget_version"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
+        </record>
+        <record model="ir.rule" id="budget_line_comp_rule">
+            <field name="name">budget line multi-company</field>
+            <field name="model_id" ref="model_budget_line"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
+        </record>
+        <record model="ir.rule" id="budget_item_comp_rule">
+            <field name="name">Budget item multi-company</field>
+            <field name="model_id" ref="model_budget_item"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
+        </record>
+
+    </data>
+</openerp>
+

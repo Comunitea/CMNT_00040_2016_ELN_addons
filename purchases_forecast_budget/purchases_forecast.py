@@ -29,17 +29,18 @@ class purchases_forecast(osv.osv):
         'budget_item_id': fields.many2one('budget.item', 'Item')
     }
 
-    def _prepare_budget_line(self, cr, uid, ids, line, context=None):
-        return {
-                'budget_version_id': line.purchases_forecast_id.budget_version_id.id,
-                'budget_item_id': line.purchases_forecast_id.budget_item_id.id,
-                'name': _('Sales forecast line of ') + line.purchases_forecast_id.name,
-                'product_id': line.product_id.id,
-                'amount': line.total_amount,
-                'currency_id': line.purchases_forecast_id.budget_version_id.currency_id.id,
-                'analytic_account_id': line.purchases_forecast_id.analytic_id and line.purchases_forecast_id.analytic_id.id or False
-
+    def _prepare_budget_vals(self, cr, uid, cur, context=None):
+        vals = {
+                    'budget_version_id': cur.budget_version_id.id,
+                    'budget_item_id': cur.budget_item_id.id,
+                    'name': _('Purchase forecast line of ') + cur.name,
+                    'currency_id': cur.budget_version_id.currency_id.id,
+                    'analytic_account_id': cur.analytic_id and cur.analytic_id.id or False,
+                    'amount': 0.0,
                 }
+        for line in cur.purchases_forecast_lines:
+            vals['amount'] += line.total_amount
+        return vals
 
     def create_budget_lines(self, cr, uid, ids, context=None):
         if context is None:
@@ -51,20 +52,8 @@ class purchases_forecast(osv.osv):
             if cur.purchases_forecast_lines:
                 if not cur.budget_version_id and not cur.budget_item_id:
                     raise osv.except_osv(_('Error !'), _('For create a budget line is neccessary to have a budget version and budget item at purchases forecast.'))
-                for line in cur.purchases_forecast_lines:
-                    vals = self.pool.get('purchases.forecast')._prepare_budget_line(cr, uid, ids, line, context=context)
-#                    vals = {
-#                        'budget_version_id': cur.budget_version_id.id,
-#                        'budget_item_id': cur.budget_item_id.id,
-#                        'name': _('Sales forecast line of ') + cur.name,
-#                        'product_id': line.product_id.id,
-#                        'product_id': line.product_id.id,
-#                        'amount': line.total_amount,
-#                        'currency_id': cur.budget_version_id.currency_id.id,
-#                        'analytic_account_id': cur.analytic_id and cur.analytic_id.id or False
-#                    }
-                    budget_line.create(cr, uid, vals)
-
+                vals = self._prepare_budget_vals(cr, uid, cur, context)
+                budget_line.create(cr, uid, vals)
         return True
 
 
@@ -73,4 +62,3 @@ class purchases_forecast(osv.osv):
         self.create_budget_lines(cr, uid, ids, context)
 
         return super(purchases_forecast, self).action_validate(cr, uid, ids, context=context)
-

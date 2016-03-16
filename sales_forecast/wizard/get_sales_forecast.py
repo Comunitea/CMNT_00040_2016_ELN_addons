@@ -82,7 +82,6 @@ class get_sales_forecast(osv.osv_memory):
                     ('company_id','=', company_id)]
 
                 invoice_ids = inv_obj.search(cr, uid, domain)
-                print u"Domain: %s\n"%(domain)
                 if invoice_ids:
 
                     #If invoices, step through lines that share the selected
@@ -108,7 +107,6 @@ class get_sales_forecast(osv.osv_memory):
                                     #     line.price_subtotal
 
                                 else:
-                                    print u"Nuevo producto %s (%s)"%(line.product_id.name, len(products)+1)
                                     products[line.product_id.id] = []
                                     products[line.product_id.id].append((quantity,
                                                                     line.price_subtotal))

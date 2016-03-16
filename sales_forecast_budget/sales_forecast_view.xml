@@ -10,12 +10,8 @@
             <field name="arch" type="xml">
                 <group position="after">
                     <group string="Budget Configuration" col="4" colspan="4">
-                        <!--
-                        <field name="budget_version_id" widget="selection" attrs="{'readonly':[('is_merged','=', True)], 'required':[('is_merged','=', False)]}"/>
-                        <field name="budget_item_id" widget="selection" attrs="{'readonly':[('is_merged','=', True)], 'required':[('is_merged','=', False)]}"/>
-                        -->
                         <field name="budget_version_id" widget="selection" attrs="{'readonly':[('is_merged','=', True)]}"/>
-                        <field name="budget_item_id" widget="selection" attrs="{'readonly':[('is_merged','=', True)]}"/>
+                        <field name="budget_item_id" attrs="{'readonly':[('is_merged','=', True)]}"/>
                     </group>
                 </group>
             </field>

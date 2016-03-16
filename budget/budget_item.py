@@ -87,12 +87,16 @@ class budget_item(orm.Model):
             type='many2many',
             relation='account.account',
             string='Accounts and Children Accounts'),
+        'company_id': fields.many2one('res.company', 'Company')
     }
 
     _defaults = {
         'active': True,
         'type': 'normal',
         'style': 'normal',
+        'company_id':
+        lambda s, cr, uid, c: s.pool.get('res.company')._company_default_get(
+            cr, uid, 'account.account', context=c),
     }
 
     def _check_recursion(self, cr, uid, ids, context=None, parent=None):
@@ -169,6 +173,7 @@ class budget_item(orm.Model):
 
     def search(self, cr, uid, args, offset=0,
                limit=None, order=None, context=None, count=False):
+        # import ipdb; ipdb.set_trace()
         """ special search. If we search an item from the budget
         version form (in the budget lines)
         then the choice is reduce to periods

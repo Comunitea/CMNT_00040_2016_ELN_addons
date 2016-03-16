@@ -1,6 +1,6 @@
 # Translation of OpenERP Server.
 # This file contains the translation of the following modules:
-#	* budget_forecast_extend
+#   * budget_forecast_extend
 #
 msgid ""
 msgstr ""
@@ -58,7 +58,7 @@ msgstr "Para crear una línea presupuestaria es necesario tener una versión y u
 #: code:addons/budget_forecast_extend/sales_forecast.py:40
 #, python-format
 msgid "Sales forecast line of "
-msgstr "Línea Previsión de Ventas de"
+msgstr "Línea Previsión de Ventas de "
 
 #. module: budget_forecast_extend
 #: field:budget.line,jul_amount:0

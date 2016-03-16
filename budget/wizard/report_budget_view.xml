@@ -8,14 +8,15 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Report Budget">
-                    <field name="version_id" widget="selection"/>
-                    <field name="date_to"/>
-                    <field name="item_id"/>
-                    <separator colspan="4"/>
-                    <group col="4" colspan="4">
+                    <group>
+                        <field name="version_id" widget="selection"/>
+                        <field name="date_to"/>
+                        <field name="item_id"/>
+                    </group>
+                    <footer>
                         <button icon="gtk-cancel" special="cancel" string="Cancel" colspan="2"/>
                         <button icon="gtk-print" name="print_report" string="Print" type="object" colspan="2" default_focus="1" />
-                    </group>
+                    </footer>
                 </form>
             </field>
         </record>

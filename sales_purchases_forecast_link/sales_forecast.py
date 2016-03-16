@@ -78,8 +78,6 @@ class sales_forecast(osv.osv):
         return boms
 
     def generate_purchases_forecast(self, cr, uid, ids, context=None):
-        print u"Generar Previsaion de Compra"
-
         if context is None:
             context = {}
         bom_obj = self.pool.get('mrp.bom')
@@ -167,7 +165,6 @@ class sales_forecast(osv.osv):
                         else:
                             res[line.product_id.id] = []
                             res[line.product_id.id].append(((eval('o.' + (months[month] + '_qty'),{'o': line}))))
-                print u"deberemos de tener en res la prvision"
                 if res:
                     for product in res:
                         cur_forecast = forecast_obj.browse(cr, uid, new_id)
