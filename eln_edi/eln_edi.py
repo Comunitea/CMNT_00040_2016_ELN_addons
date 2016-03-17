@@ -219,7 +219,7 @@ stock_picking()'''
     _inherit = 'stock.move'
 
     _columns = {
-        'acepted_qty' : fields.float('Cantidad aceptada', digits_compute=dp.get_precision('Product UoM'),readonly=True),
+        'acepted_qty' : fields.float('Cantidad aceptada', digits_compute=dp.get_precision('Product Unit of Measure'),readonly=True),
         'rejected' : fields.boolean('Rechazado'),
     }
 

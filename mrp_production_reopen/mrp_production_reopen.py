@@ -27,7 +27,7 @@ class mrp_production_reopen(osv.osv):
 
     _inherit = 'mrp.production'
     _columns = {
-        'product_qty': fields.float('Product Qty', digits_compute=dp.get_precision('Product UoM'), required=True, states={'draft':[('readonly',False)], 'reopen':[('readonly',False)]}, readonly=True),
+        'product_qty': fields.float('Product Qty', digits_compute=dp.get_precision('Product Unit of Measure'), required=True, states={'draft':[('readonly',False)], 'reopen':[('readonly',False)]}, readonly=True),
         'product_uos_qty': fields.float('Product UoS Qty', states={'draft':[('readonly',False)], 'reopen':[('readonly',False)]}, readonly=True),
         'state': fields.selection([('draft','New'),('picking_except', 'Picking Exception'),('confirmed','Waiting Goods'),('ready','Ready to Produce'),('in_production','In Production'),('cancel','Cancelled'),('done','Done'),('reopen', 'Reopen')],'State', readonly=True,
                                     help='When the production order is created the state is set to \'Draft\'.\n If the order is confirmed the state is set to \'Waiting Goods\'.\n If any exceptions are there, the state is set to \'Picking Exception\'.\

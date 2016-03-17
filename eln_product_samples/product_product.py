@@ -41,6 +41,6 @@ class product_template(orm.Model):
     _inherit = 'product.template'
 
     _columns = {
-        'remaining_samples':fields.function(_get_product_samples, method=True, string='Samples', type='float', digits_compute=dp.get_precision('Product UoM'), help="Given Samples (in UoM)", readonly=True),
+        'remaining_samples':fields.function(_get_product_samples, method=True, string='Samples', type='float', digits_compute=dp.get_precision('Product Unit of Measure'), help="Given Samples (in UoM)", readonly=True),
     }
 

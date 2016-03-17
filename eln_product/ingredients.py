@@ -43,7 +43,7 @@ class ingredient(orm.Model):
     _columns = {
         'name': fields.char('Name', size=256, required=True, translate=True),
         'product_parent_id': fields.many2one('product.product', 'Product Parent', required=True),
-        'product_qty': fields.float('Product Qty', required=True, digits_compute=dp.get_precision('Product UoM')),
+        'product_qty': fields.float('Product Qty', required=True, digits_compute=dp.get_precision('Product Unit of Measure')),
         'product_qty_percent': fields.function(_get_product_qty_percent, type="float", string="Qty(%)", readonly=True),
         'origin': fields.char('Origin',size=255, translate=True),
         'caliber': fields.char('Caliber', size=64, translate=True),
