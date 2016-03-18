@@ -99,13 +99,6 @@ class get_sales_forecast(osv.osv_memory):
                                     new_val = (products[line.product_id.id][0][0] + quantity,
                                                products[line.product_id.id][0][1] + line.price_subtotal)
                                     products[line.product_id.id][0] = new_val
-
-                                    # products[line.product_id.id][0] += \
-                                    #     products[line.product_id.id][0][0] + quantity
-                                    # products[line.product_id.id][1] += \
-                                    #     products[line.product_id.id][0][1] + \
-                                    #     line.price_subtotal
-
                                 else:
                                     products[line.product_id.id] = []
                                     products[line.product_id.id].append((quantity,
@@ -114,11 +107,11 @@ class get_sales_forecast(osv.osv_memory):
                         for product in products:
                             if form.percent_increase:
                                 #Calculation percentage increase
-                                amount = products[product][0][1] + \
+                                qty = products[product][0][0] + \
                                     ((form.percent_increase / 100) * \
-                                    products[product][0][1])
+                                    products[product][0][0])
                             else:
-                                amount = products[product][0][1]
+                                qty = products[product][0][0]
 
                             cur_forecast = forecast_obj.browse(cr, uid, new_id)
                             l_products = forecast_line_obj.search(cr, uid,
@@ -130,16 +123,13 @@ class get_sales_forecast(osv.osv_memory):
                                 l = forecast_line_obj.browse(cr, uid, l_products[0])
                                 if l.product_id.id == product:
                                     forecast_line_obj.write(cr, uid, l.id,
-                                        {months[month] + '_qty': ((products[product][0][0]) + \
+                                        {months[month] + '_qty': (qty + \
                                         (eval('o.' + (months[month] + '_qty'),{'o': l})))})
-                                        #months[month] + '_amount': (amount + \
-                                        #(eval('o.' + (months[month] + '_amount'),{'o': l})))})
                             else:
                                 forecast_line_obj.create(cr, uid, {
                                     'sales_forecast_id': new_id,
                                     'product_id': product,
-                                    months[month] + '_qty': products[product][0][0]})
-                                    #months[month] + '_amount': amount
+                                    months[month] + '_qty': qty})
 
                         products = {}
 
