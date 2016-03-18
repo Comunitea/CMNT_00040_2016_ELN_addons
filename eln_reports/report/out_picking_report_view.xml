@@ -11,6 +11,8 @@
                 <field name="ean13"/>
                  <field name="lot_id"/>
                  <field name="product_qty"/>
+                 <field name="move_id"/>
+                 <field name="total"/>
              </tree>
          </field>
     </record>

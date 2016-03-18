@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="purchase_order" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8f3544e6-63fb-4772-9cf0-3bcbf6d632f7">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="96"/>
+	<property name="ireport.y" value="409"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -596,7 +596,7 @@
 				</textField>
 				<textField isStretchWithOverflow="true">
 					<reportElement positionType="Float" x="52" y="51" width="139" height="11" uuid="ff9ef555-36f4-43d6-9f65-2620631b2e71">
-						<printWhenExpression><![CDATA[!$P{signed}.isEmpty()]]></printWhenExpression>
+						<printWhenExpression><![CDATA[$P{signed}]]></printWhenExpression>
 					</reportElement>
 					<textElement textAlignment="Left" markup="none">
 						<font size="8" isBold="true"/>
@@ -605,7 +605,7 @@
 				</textField>
 				<textField isStretchWithOverflow="true">
 					<reportElement positionType="Float" x="52" y="136" width="374" height="14" uuid="2be11012-34e8-4e1b-815b-3d0f7674af52">
-						<printWhenExpression><![CDATA[!$P{signed}.isEmpty()]]></printWhenExpression>
+						<printWhenExpression><![CDATA[$P{signed}]]></printWhenExpression>
 					</reportElement>
 					<textElement textAlignment="Left" markup="none">
 						<font size="8" isBold="true"/>
@@ -628,7 +628,7 @@
 				</textField>
 				<image hAlign="Center" vAlign="Middle" onErrorType="Blank">
 					<reportElement positionType="Float" x="52" y="62" width="109" height="73" uuid="c776091c-f206-46dd-9c35-c98b835e999c">
-						<printWhenExpression><![CDATA[!$P{signed}.isEmpty()]]></printWhenExpression>
+						<printWhenExpression><![CDATA[$P{signed}]]></printWhenExpression>
 					</reportElement>
 					<imageExpression><![CDATA[$F{Signature-signature_image}]]></imageExpression>
 				</image>

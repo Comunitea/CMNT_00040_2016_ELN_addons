@@ -30,6 +30,16 @@ class out_picking_report(osv.osv):
     _rec_name = 'product_id'
     # _order = 'sequence'
 
+    def _get_total_price(self, cr, uid, ids, field_name, arg, context):
+        res = {}
+        for line in self.browse(cr, uid, ids, context):
+            if line.move_id.procurement_id.sale_line_id:
+                res[line.id] = line.move_id.order_price_unit * line.product_qty
+            else:
+                res[line.id] = 0.0
+        return res
+
+
     _columns = {
         'product_id': fields.many2one('product.product', 'Product',
                                       readonly=True),
@@ -42,100 +52,55 @@ class out_picking_report(osv.osv):
                                   readonly=True),
         'product_qty': fields.float('Quantity', readonly=True),
         'picking_id': fields.many2one('stock.picking', 'Wave', readonly=True),
+        'move_id': fields.many2one('stock.move', 'Move', readonly=True),
+        'total':fields.function(_get_total_price, type='float', string="total"),
     }
-
-    def _select1(self):
-        select_str = """
-            SELECT min(OP.id) as id,
-                   Q.product_id as product_id,
-                   Q.lot_id as lot_id,
-                   sum(Q.qty) as product_qty,
-                   p.id as picking_id
-        """
-        return select_str
-
-    def _from1(self):
-        from_str = """
-            stock_quant Q
-                INNER JOIN stock_quant_package PA on PA.id = Q.package_id
-                INNER JOIN stock_pack_operation OP on OP.package_id = PA.id
-                INNER JOIN stock_picking P on P.id = OP.picking_id
-            WHERE OP.product_id is null
-        """
-        return from_str
-
-    def _group_by1(self):
-        group_by_str = """
-            GROUP BY
-                Q.product_id,
-                Q.lot_id,
-                P.id
-        """
-        return group_by_str
-
-    def _select2(self):
-        select_str = """
-            SELECT min(OP.id) as id,
-                   OP.product_id as product_id,
-                   OP.lot_id as lot_id,
-                   sum(OP.product_qty) as product_qty,
-                   p.id as picking_id
-        """
-        return select_str
-
-    def _from2(self):
-        from_str = """
-            stock_pack_operation OP
-                INNER JOIN stock_picking P on P.id = OP.picking_id
-            WHERE OP.product_id is not null
-        """
-        return from_str
-
-    def _group_by2(self):
-        group_by_str = """
-            GROUP BY
-                OP.product_id,
-                OP.lot_id,
-                P.id
-        """
-        return group_by_str
-
-    def _select0(self):
-        select_str = """
-            SELECT min(SQ.id) as id,
-                   SQ.product_id as product_id,
-                   SQ.lot_id as lot_id,
-                   sum(SQ.product_qty) as product_qty,
-                   SQ.picking_id as picking_id
-        """
-        return select_str
-
-    def _group_by0(self):
-        group_by_str = """
-            GROUP BY
-                SQ.product_id,
-                SQ.lot_id,
-                SQ.picking_id
-        """
-        return group_by_str
 
     def init(self, cr):
         tools.drop_view_if_exists(cr, self._table)
-        cr.execute("""CREATE or REPLACE VIEW %s as (
-            %s
-            FROM (
-                %s
-                FROM %s
-                %s
-
-                UNION
-
-                %s
-                FROM %s
-                %s ) SQ
-            %s
-                )""" % (self._table, self._select0(), self._select1(),
-                        self._from1(), self._group_by1(),
-                        self._select2(), self._from2(), self._group_by2(),
-                        self._group_by0(),
-                        ))
+        cr.execute("""CREATE OR replace VIEW %s
+AS
+  (SELECT row_number() over ()          AS id,
+          SQ.product_id       AS product_id,
+          SQ.lot_id           AS lot_id,
+          SQ.move_id          AS move_id,
+          SUM(SQ.product_qty) AS product_qty,
+          SQ.picking_id       AS picking_id
+   FROM   (SELECT smol.operation_id    AS id,
+                  quant.product_id     AS product_id,
+                  quant.lot_id         AS lot_id,
+                  quant.reservation_id AS move_id,
+                  SUM(quant.qty)       AS product_qty,
+                  move.picking_id      AS picking_id
+           FROM   stock_quant quant
+                  inner join stock_move move
+                          ON move.id = quant.reservation_id
+                  left outer join stock_move_operation_link smol
+                               ON smol.reserved_quant_id = quant.id
+           WHERE  quant.reservation_id IS NOT NULL
+           GROUP  BY quant.product_id,
+                     quant.lot_id,
+                     quant.reservation_id,
+                     move.picking_id,
+                     smol.operation_id
+           UNION
+           SELECT Min(OP.id)          AS id,
+                  OP.product_id       AS product_id,
+                  OP.lot_id           AS lot_id,
+                  smol.move_id        AS move_id,
+                  SUM(OP.product_qty) AS product_qty,
+                  p.id                AS picking_id
+           FROM   stock_pack_operation OP
+                  inner join stock_picking P
+                          ON P.id = OP.picking_id
+                  inner join stock_move_operation_link smol
+                          ON OP.id = smol.operation_id
+           WHERE  OP.product_id IS NOT NULL
+           GROUP  BY OP.product_id,
+                     OP.lot_id,
+                     smol.move_id,
+                     P.id) SQ
+   GROUP  BY SQ.product_id,
+             SQ.lot_id,
+             SQ.move_id,
+             SQ.picking_id) """ % self._table)

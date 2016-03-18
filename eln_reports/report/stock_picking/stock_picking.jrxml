@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="stock_picking" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4cd84060-3ba8-415f-8d39-497500670da3">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="350"/>
+	<property name="ireport.y" value="98"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -53,46 +53,46 @@
 			<![CDATA[]]>
 		</queryString>
 		<field name="id" class="java.lang.Integer">
-			<fieldDescription><![CDATA[/data/record/Albaranes_internos-move_lines/Referencia-picking_id/id]]></fieldDescription>
+			<fieldDescription><![CDATA[/data/record/Delivery_List-out_report_ids/Wave-picking_id/id]]></fieldDescription>
 		</field>
 		<field name="Referencia-default_code" class="java.lang.String">
-			<fieldDescription><![CDATA[/data/record/Albaranes_internos-move_lines/Producto-product_id/Referencia-default_code]]></fieldDescription>
+			<fieldDescription><![CDATA[/data/record/Delivery_List-out_report_ids/Product-product_id/Referencia-default_code]]></fieldDescription>
 		</field>
 		<field name="EAN13-ean13" class="java.lang.String">
-			<fieldDescription><![CDATA[/data/record/Albaranes_internos-move_lines/Producto-product_id/EAN13-ean13]]></fieldDescription>
+			<fieldDescription><![CDATA[/data/record/Delivery_List-out_report_ids/Product-product_id/EAN13-ean13]]></fieldDescription>
 		</field>
 		<field name="Name-name" class="java.lang.String">
-			<fieldDescription><![CDATA[/data/record/Albaranes_internos-move_lines/Producto-product_id/Name-name]]></fieldDescription>
+			<fieldDescription><![CDATA[/data/record/Delivery_List-out_report_ids/Product-product_id/Name-name]]></fieldDescription>
 		</field>
-		<field name="Cantidad-product_qty" class="java.lang.Float">
-			<fieldDescription><![CDATA[/data/record/Albaranes_internos-move_lines/Cantidad-product_qty]]></fieldDescription>
+		<field name="Cantidad-product_qty" class="java.lang.Double">
+			<fieldDescription><![CDATA[/data/record/Delivery_List-out_report_ids/Quantity-product_qty]]></fieldDescription>
 		</field>
-		<field name="Descuento-discount" class="java.lang.Float">
-			<fieldDescription><![CDATA[/data/record/Albaranes_internos-move_lines/Linea_pedido_de_venta-sale_line_id/Descuento-discount]]></fieldDescription>
+		<field name="Descuento-discount" class="java.lang.Double">
+			<fieldDescription><![CDATA[/data/record/Delivery_List-out_report_ids/Move-move_id/Abastecimiento-procurement_id/Linea_pedido_de_venta-sale_line_id/Descuento-discount]]></fieldDescription>
 		</field>
 		<field name="Descripcion-name" class="java.lang.String">
-			<fieldDescription><![CDATA[/data/record/Albaranes_internos-move_lines/Linea_pedido_de_venta-sale_line_id/Descripcion-name]]></fieldDescription>
+			<fieldDescription><![CDATA[/data/record/Delivery_List-out_report_ids/Move-move_id/Abastecimiento-procurement_id/Linea_pedido_de_venta-sale_line_id/Descripcion-name]]></fieldDescription>
 		</field>
-		<field name="Precio_unidad-price_unit" class="java.lang.Float">
-			<fieldDescription><![CDATA[/data/record/Albaranes_internos-move_lines/Linea_pedido_de_venta-sale_line_id/Precio_unidad-price_unit]]></fieldDescription>
+		<field name="Precio_unidad-price_unit" class="java.lang.Double">
+			<fieldDescription><![CDATA[/data/record/Delivery_List-out_report_ids/Move-move_id/Abastecimiento-procurement_id/Linea_pedido_de_venta-sale_line_id/Precio_unidad-price_unit]]></fieldDescription>
 		</field>
-		<field name="Subtotal-price_subtotal" class="java.lang.Float">
-			<fieldDescription><![CDATA[/data/record/Albaranes_internos-move_lines/Linea_pedido_de_venta-sale_line_id/Subtotal-price_subtotal]]></fieldDescription>
+		<field name="Subtotal-price_subtotal" class="java.lang.Double">
+			<fieldDescription><![CDATA[/data/record/Delivery_List-out_report_ids/total-total]]></fieldDescription>
 		</field>
-		<field name="Subtotal-price_subtotal2" class="java.lang.Float">
-			<fieldDescription><![CDATA[/data/record/Albaranes_internos-move_lines/Subtotal-price_subtotal]]></fieldDescription>
+		<field name="Subtotal-price_subtotal2" class="java.lang.Double">
+			<fieldDescription><![CDATA[/data/record/Delivery_List-out_report_ids/total-total]]></fieldDescription>
 		</field>
-		<field name="Precio_un.-price_unit" class="java.lang.Float">
-			<fieldDescription><![CDATA[/data/record/Albaranes_internos-move_lines/Precio_un.-price_unit]]></fieldDescription>
+		<field name="Precio_un.-price_unit" class="java.lang.Double">
+			<fieldDescription><![CDATA[/data/record/Delivery_List-out_report_ids/Move-move_id/Abastecimiento-procurement_id/Linea_pedido_de_venta-sale_line_id/Precio_unidad-price_unit]]></fieldDescription>
 		</field>
 		<field name="Tax_line-tax_line" class="java.lang.String">
-			<fieldDescription><![CDATA[/data/record/Albaranes_internos-move_lines/Tax_line-tax_line]]></fieldDescription>
+			<fieldDescription><![CDATA[/data/record/Delivery_List-out_report_ids/Move-move_id/Tax_line-tax_line]]></fieldDescription>
 		</field>
 		<field name="Lote_de_produccion-name" class="java.lang.String">
-			<fieldDescription><![CDATA[/data/record/Albaranes_internos-move_lines/Lote_de_produccion-prodlot_id/Lote_de_produccion-name]]></fieldDescription>
+			<fieldDescription><![CDATA[/data/record/Delivery_List-out_report_ids/Lot-lot_id/Lote_de_produccion-name]]></fieldDescription>
 		</field>
 		<field name="Fecha_caducidad-use_date" class="java.util.Date">
-			<fieldDescription><![CDATA[/data/record/Albaranes_internos-move_lines/Lote_de_produccion-prodlot_id/Fecha_caducidad-use_date]]></fieldDescription>
+			<fieldDescription><![CDATA[/data/record/Delivery_List-out_report_ids/Lot-lot_id/Fecha_caducidad-use_date]]></fieldDescription>
 		</field>
 		<filterExpression><![CDATA[$P{PICKING_ID} == $F{id}]]></filterExpression>
 	</subDataset>
@@ -641,7 +641,7 @@
 		<band height="75" splitType="Stretch">
 			<componentElement>
 				<reportElement key="table 2" positionType="Float" x="0" y="0" width="452" height="50" uuid="05018df8-a2e4-4b47-b2c0-c36f5317e6e5">
-					<property name="OPENERP_RELATIONS" value="move_lines"/>
+					<property name="OPENERP_RELATIONS" value="out_report_ids"/>
 				</reportElement>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
 					<datasetRun subDataset="Table lines" uuid="380fcd23-2758-48ea-87db-fb200123189b">

@@ -34,16 +34,16 @@ def parser( cr, uid, ids, data, context ):
         delivery_address = data['form']['delivery_address']
         signed = data['form']['signed']
         parameters = {}
-   
+
         parameters['lang'] = language
-  
+
         parameters['delivery_address'] = delivery_address
         parameters['signed'] = signed
-    return { 
-        'ids': ids, 
-        'name': name, 
-        'model': model, 
-        'records': [], 
+    return {
+        'ids': ids,
+        'name': name,
+        'model': model,
+        'records': [],
         'data_source': data_source,
         'parameters': parameters,
     }

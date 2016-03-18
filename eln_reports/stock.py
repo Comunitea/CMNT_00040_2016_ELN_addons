@@ -22,7 +22,7 @@ from openerp.osv import osv, fields
 
 class stock_move(osv.osv):
     _inherit = 'stock.move'
-    
+
     def _get_tax_line(self, cr, uid, ids, field_name, arg, context=None):
         if context is None:
             context = {}
@@ -30,12 +30,12 @@ class stock_move(osv.osv):
         for move in self.browse(cr, uid, ids):
             if move.purchase_line_id and move.purchase_line_id.taxes_id:
                 res[move.id] = u', '.join(map(lambda x: x.name, move.purchase_line_id.taxes_id)).split("%")[0].split(" ")[-1]
-            elif move.sale_line_id and move.sale_line_id.tax_id:
-                res[move.id] = u', '.join(map(lambda x: x.name, move.sale_line_id.tax_id)).split("%")[0].split(" ")[-1]
+            elif move.procurement_id.sale_line_id and move.procurement_id.sale_line_id.tax_id:
+                res[move.id] = u', '.join(map(lambda x: x.name, move.procurement_id.sale_line_id.tax_id)).split("%")[0].split(" ")[-1]
             else:
                 res[move.id] = ""
         return res
-   
+
     _columns = {
         'tax_line': fields.function(_get_tax_line, method=True, string="Tax line", readonly=True, type="char", size=255),
     }
