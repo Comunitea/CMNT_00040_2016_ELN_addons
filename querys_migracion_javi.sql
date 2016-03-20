@@ -5,6 +5,9 @@ update stock_move set partner_id=null where partner_id = 1993;
 update sale_order_line set order_partner_id=null where order_partner_id = 455;
 update sale_order_line set order_partner_id=null where order_partner_id = 1993;
 
+-- El valor "get_from_ref_and_so" para el campo no existe en la selección
+select * from ir_module_module where name like '%account_statement_%';
+update ir_module_module set state = 'uninstalled' where id in (969,926)
 
 -- Wrong value for product.template.cost_method: u'calc_average'
 update product_template set openupgrade_legacy_8_0_cost_method = 'average' 
@@ -22,7 +25,10 @@ update mrp_production set state = 'confirmed' where id in
 (select id from mrp_production where state = 'validated');
 
 update mrp_production set state = 'confirmed' where id in 
-(select id from mrp_production where state = 'cancelled');
+(select id from mrp_production where state = 'closed');
+
+update mrp_production set state = 'confirmed' where id in 
+(select id from mrp_production where state = 'finished');
 
 -- insert or update on table "payment_mode" violates foreign key constraint "payment_mode_type_fkey"
 alter table payment_mode drop column type;
@@ -56,7 +62,12 @@ update mrp_production set state = 'validated' where id in
 
 -- Restablecemos al estado closed
 update mrp_production set state = 'closed' where id in 
-(8664,8828,9026,10148,12107,12108,12117);
+(8664,8828,9026,10148,12713);
+
+-- Restablecemos al estado finished
+update mrp_production set state = 'finished' where id in 
+(12645);
+
 
 
 -- Quitamos la compañia a los productos que son de el nogal
