@@ -51,10 +51,11 @@ class res_partner(models.Model):
 
     @api.onchange('company_id')
     def onchange_company_id(self):
-        if self.company_id and self.parent_id.company_id != self.company_id:
-            self.company_id = self.parent_id.company_id
-            warning = {
-                'title': _('Warning!'),
-                'message' : _('You can not change the company of the address. It must be the same as the company of the partner to which it belongs.')
-                        }
-            return {'warning': warning}
+        if self.parent_id:
+            if self.company_id and self.parent_id.company_id != self.company_id:
+                self.company_id = self.parent_id.company_id
+                warning = {
+                    'title': _('Warning!'),
+                    'message' : _('You can not change the company of the address. It must be the same as the company of the partner to which it belongs.')
+                            }
+                return {'warning': warning}
