@@ -5,6 +5,9 @@ update stock_move set partner_id=null where partner_id = 1993;
 update sale_order_line set order_partner_id=null where order_partner_id = 455;
 update sale_order_line set order_partner_id=null where order_partner_id = 1993;
 
+-- El valor "get_from_ref_and_so" para el campo no existe en la selección
+select * from ir_module_module where name like '%account_statement_%';
+update ir_module_module set state = 'uninstalled' where id in (969,926)
 
 -- Wrong value for product.template.cost_method: u'calc_average'
 update product_template set openupgrade_legacy_8_0_cost_method = 'average' 
@@ -22,7 +25,10 @@ update mrp_production set state = 'confirmed' where id in
 (select id from mrp_production where state = 'validated');
 
 update mrp_production set state = 'confirmed' where id in 
-(select id from mrp_production where state = 'cancelled');
+(select id from mrp_production where state = 'closed');
+
+update mrp_production set state = 'confirmed' where id in 
+(select id from mrp_production where state = 'finished');
 
 -- insert or update on table "payment_mode" violates foreign key constraint "payment_mode_type_fkey"
 alter table payment_mode drop column type;
@@ -56,7 +62,12 @@ update mrp_production set state = 'validated' where id in
 
 -- Restablecemos al estado closed
 update mrp_production set state = 'closed' where id in 
-(8664,8828,9026,10148,12107,12108,12117);
+(8664,8828,9026,10148,12713);
+
+-- Restablecemos al estado finished
+update mrp_production set state = 'finished' where id in 
+(12645);
+
 
 
 -- Quitamos la compañia a los productos que son de el nogal
@@ -67,7 +78,7 @@ update product_template set company_id = null where id in
 -- QUIVAL: Recepciones
 update stock_move set picking_type_id=1,warehouse_id=1 where id in 
 (select stock_move.id from stock_move inner 
-join stock_picking on stock_picking.id = stock_move.picking_id ••••••
+join stock_picking on stock_picking.id = stock_move.picking_id
 where stock_picking.openupgrade_legacy_8_0_type = 'in' and location_dest_id = 12);
 
 -- QUIVAL Albaranes de salida
@@ -90,7 +101,7 @@ join stock_picking on stock_picking.id = stock_move.picking_id
 where stock_picking.openupgrade_legacy_8_0_type = 'in' and location_dest_id = 33);
 
 -- EXCLUSIVAS APOLO Albaranes de salida
-update stock_move set picking_type_id=17,warehouse_id=5 where id in 
+update stock_move set picking_type_id=20,warehouse_id=5 where id in 
 (select stock_move.id from stock_move inner 
 join stock_picking on stock_picking.id = stock_move.picking_id 
 where stock_picking.openupgrade_legacy_8_0_type = 'out' and location_id = 33);
@@ -188,7 +199,7 @@ where stock_picking.openupgrade_legacy_8_0_type = 'out' and location_id = 18 and
 
 update stock_move set picking_type_id=22,warehouse_id=6 where id in 
 (select stock_move.id from stock_move inner 
-join stock_picking on stock_picking.id = stock_move.pickingAccount Payment y Purchase Payment deben desinstalarse._id 
+join stock_picking on stock_picking.id = stock_move.picking_id 
 where stock_picking.openupgrade_legacy_8_0_type = 'out' and location_id = 18 and location_dest_id = 9 and stock_move.company_id=2);
 
 update stock_move set picking_type_id=22,warehouse_id=6 where id in 
@@ -213,7 +224,7 @@ select * into aux_res_partner from res_partner;
 update res_partner rp
 set
 name = new_name,
-comercial = new_name
+comercial = new_name,
 phone = new_phone,
 city = new_city
 from
@@ -244,7 +255,7 @@ from
 (
 select rpa.gln_rf, rp.id, rp.parent_id,
 rpa.gln_rm, rpa.gln_de, rpa.gln_co
-from res_partner rp_display_name
+from res_partner rp
 join res_country_state rcs on rcs.id = rp.state_id
 join aux_res_partner arp on arp.id = rp.parent_id
 join res_partner_address rpa on rpa.openupgrade_7_migrated_to_partner_id = rp.id
@@ -255,10 +266,9 @@ where nt.id = rp.id and rp.gln_rf isnull;
 
 --INSERTAR EN RES_PARTNER LOS DATOS DE RES_CONTACT (se pierde la relación con res_parnter pero no los datos, si no tiene nombre cogemos el nombre
 --del res_partner_address asociado?, REPASAR BIEN, ref y comercial eran campos de res.partner y res.partner.address. La parte de contacto de debe estar mal.
-
 insert into res_partner 
 (create_uid, write_uid, lang, use_parent_address, type, customer, employee, supplier, agent, opt_out, vat_subjected, color, 
-is_company, active, user_id, agent_type, settlement,contact_type, notify_email, display_name, name, phone, mobile, fax, email, gln_de, gln_rf, gln_rm, gln_co, 
+is_company, active, user_id, agent_type, settlement,contact_type, notify_email, name, phone, mobile, fax, email, gln_de, gln_rf, gln_rm, gln_co, 
 parent_id, company_id, street, street2, zip, title, state_id, city, country_id)
 (
 select 1,1,'es ES', false, 'contact', false, false, false, false,  false, false, 0 as color, 
@@ -280,7 +290,8 @@ inner join res_partner rp  on rpa.openupgrade_7_migrated_to_partner_id = rp.id);
 --BORRAMOS LA TABLA AUXILIAR
 drop table if exists aux_res_partner
 
-
+--PERMITIR NULOS COLUMNA RISK INSURANCE
+ALTER TABLE res_partner ALTER COLUMN risk_insurance_status  DROP  NOT NULL;
 
 -- ARREGLAR VISTA CONTABILIDAD/PAGOS/EFECTOS
 delete from ir_ui_view where id in (select id from ir_ui_view where name = 'Invoice Payments Select');

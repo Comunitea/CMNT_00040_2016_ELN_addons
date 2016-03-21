@@ -25,7 +25,7 @@ def parse_date(date_str):
     try:
         return datetime.strptime(date_str, '%Y-%m-%d %H:%M:%S').strftime('%d-%m-%Y')
     except ValueError:
-        import ipdb; ipdb.set_trace()
+        return ''
 
 class AccountInvoiceLine(models.Model):
 
@@ -53,6 +53,3 @@ class AccountInvoiceLine(models.Model):
                                   (' - ' + parse_date(x.lot_id.use_date)) or '')
                  for x in packops if x.lot_id])
             line.lots = line_lots
-
-
-
