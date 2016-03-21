@@ -878,6 +878,15 @@ class mrp_production(osv.osv):
 
         return res
 
+    def action_in_production(self, cr, uid, ids, context=None):
+        """
+        Overwrite to set startworking state of all workcenter lines instead
+        only one.
+        """
+        workcenter_pool = self.pool.get('mrp.production.workcenter.line')
+        for prod in self.browse(cr, uid, ids):
+            if prod.workcenter_lines:
+                workcenter_pool.signal_workflow(cr, uid, [x.id for x in prod.workcenter_lines], 'button_start_working')
+        return super(mrp_production, self).action_in_production(cr, uid, ids, context=context)
+
 mrp_production()
-
-
