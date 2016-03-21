@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="control_part" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8cf3650e-c412-4b66-90d5-c6450df02f9e">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="control_part" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="607ed42a-cb5a-4b0f-bc54-af82dd8337c3">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="530"/>
+	<property name="ireport.y" value="450"/>
 	<style name="Crosstab Data Text" hAlign="Center">
 		<paragraph lineSpacing="Single"/>
 	</style>
-	<subDataset name="DS_workcenter_lines" uuid="ece164a1-47e2-499e-a9c4-c78417064bfa">
+	<subDataset name="DS_workcenter_lines" uuid="da76326c-7289-4ca1-a7fb-8905dbba165b">
 		<parameter name="PRODUCTION_ID" class="java.lang.Integer"/>
 		<parameter name="REWIND" class="java.lang.Object" isForPrompting="false">
 			<parameterDescription><![CDATA[]]></parameterDescription>
@@ -29,7 +29,7 @@
 		</field>
 		<filterExpression><![CDATA[$P{PRODUCTION_ID} == $F{id}]]></filterExpression>
 	</subDataset>
-	<subDataset name="DS_LdM" uuid="a657d9fa-22fd-4ffb-8cba-9c57bf68cecf">
+	<subDataset name="DS_LdM" uuid="ef3710fc-adf5-4609-964f-5fae114f159c">
 		<parameter name="PRODUCTION_ID" class="java.lang.Integer"/>
 		<parameter name="REWIND" class="java.lang.Object" isForPrompting="false">
 			<parameterDescription><![CDATA[]]></parameterDescription>
@@ -54,39 +54,9 @@
 			<fieldDescription><![CDATA[Productos_a_consumir-move_lines/Producto-product_id/Referencia-code]]></fieldDescription>
 		</field>
 	</subDataset>
-	<subDataset name="DS_options" uuid="18071ee1-2457-4be5-8121-7423d7ddcf83">
-		<parameter name="PRODUCTION_ID" class="java.lang.Integer"/>
-		<parameter name="REWIND" class="java.lang.Object" isForPrompting="false">
-			<parameterDescription><![CDATA[]]></parameterDescription>
-			<defaultValueExpression><![CDATA[$P{REPORT_DATA_SOURCE}.moveFirst()]]></defaultValueExpression>
-		</parameter>
-		<queryString language="xPath">
-			<![CDATA[/data/record]]>
-		</queryString>
-		<field name="Name-name" class="java.lang.String">
-			<fieldDescription><![CDATA[Producto-product_id/Options-option_ids/Option-option_id/Name-name]]></fieldDescription>
-		</field>
-	</subDataset>
-	<subDataset name="DS_verifications" uuid="1d69c344-1281-4878-a46e-d0427c2d928f">
-		<parameter name="PRODUCTION_ID" class="java.lang.Integer"/>
-		<parameter name="REWIND" class="java.lang.Object" isForPrompting="false">
-			<parameterDescription><![CDATA[]]></parameterDescription>
-			<defaultValueExpression><![CDATA[$P{REPORT_DATA_SOURCE}.moveFirst()]]></defaultValueExpression>
-		</parameter>
-		<queryString language="xPath">
-			<![CDATA[/data/record]]>
-		</queryString>
-		<field name="Name-name" class="java.lang.String">
-			<fieldDescription><![CDATA[Producto-product_id/Verfications-verification_ids/Verification-verification_id/Name-name]]></fieldDescription>
-		</field>
-	</subDataset>
-	<parameter name="TABLE_LINES_ORDENES_TRABAJO_1" class="java.lang.Object"/>
-	<parameter name="TABLE_LINES_ORDENES_TRABAJO_2" class="java.lang.Object"/>
-	<parameter name="TABLE_LINES_LISTA_MATERIALES_1" class="java.lang.Object"/>
-	<parameter name="TABLE_LINES_LISTA_MATERIALES_2" class="java.lang.Object"/>
-	<parameter name="TABLE_LINES_OPCIONES" class="java.lang.Object"/>
-	<parameter name="TABLE_LINES_VERIFICACIONES" class="java.lang.Object"/>
-	<parameter name="TABLE_LINES_SCRAP" class="java.lang.Object"/>
+	<parameter name="TABLE_LINES_ORDENES_TRABAJO_ALIMENTADOR" class="java.lang.Object"/>
+	<parameter name="TABLE_LINES_LISTA_MATERIALES_ALIMENTADOR" class="java.lang.Object"/>
+	<parameter name="TABLE_LINES_SCRAP_ALIMENTADOR" class="java.lang.Object"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="SUBREPORT_DATA_PACKING" class="java.lang.Object"/>
 	<parameter name="SUBREPORT_DATA_SALTED" class="java.lang.Object"/>
@@ -167,12 +137,12 @@
 	<field name="Logo-logo" class="java.lang.String">
 		<fieldDescription><![CDATA[Usuario-User/Compania-company_id/Logo-logo]]></fieldDescription>
 	</field>
-	<group name="Production" isStartNewPage="true">
+	<group name="Production">
 		<groupExpression><![CDATA[$F{id}]]></groupExpression>
 		<groupHeader>
-			<band height="243">
+			<band height="230">
 				<staticText>
-					<reportElement positionType="Float" x="341" y="107" width="106" height="18" uuid="3428d19d-7526-4378-9031-7aa4dc521622"/>
+					<reportElement positionType="Float" x="340" y="103" width="106" height="18" uuid="d73c0dc2-de85-4223-9b5f-34bcb3f548c1"/>
 					<box>
 						<topPen lineWidth="0.5"/>
 						<leftPen lineWidth="0.25"/>
@@ -185,7 +155,7 @@
 					<text><![CDATA[Cantidad (UdM)]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="326" y="169" width="89" height="18" uuid="ade3e192-5c80-4481-a410-1ea90cd19277"/>
+					<reportElement positionType="Float" x="325" y="165" width="89" height="18" uuid="b8219208-8e72-47ee-a1e9-dae2df3ceca0"/>
 					<box>
 						<leftPen lineWidth="0.25"/>
 						<bottomPen lineWidth="0.5"/>
@@ -197,13 +167,13 @@
 					<textFieldExpression><![CDATA[$F{Lote_de_produccion-name}]]></textFieldExpression>
 				</textField>
 				<componentElement>
-					<reportElement positionType="Float" x="331" y="0" width="224" height="72" uuid="2ec9e915-b42c-4d01-818b-cfdf74109a6b"/>
+					<reportElement positionType="Float" x="330" y="0" width="224" height="72" uuid="a4099132-f08b-46db-80e0-20ed1c5b2d83"/>
 					<jr:Code128 xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" moduleWidth="2.5" textPosition="bottom">
 						<jr:codeExpression><![CDATA[$F{Referencia-name}]]></jr:codeExpression>
 					</jr:Code128>
 				</componentElement>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="1" y="125" width="340" height="22" uuid="be17d3a6-c165-4f57-b9dc-6f52e15d2337"/>
+					<reportElement positionType="Float" x="0" y="121" width="340" height="22" uuid="9412409c-cfac-4d0c-9c9f-960bc7832694"/>
 					<box>
 						<leftPen lineWidth="0.5"/>
 						<bottomPen lineWidth="0.5"/>
@@ -215,7 +185,7 @@
 					<textFieldExpression><![CDATA['[' + $F{Referencia-code} + '] ' + $F{Name-name}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="447" y="125" width="56" height="22" uuid="e9e4e2b0-463b-42f1-850d-8bc468a6fc9a"/>
+					<reportElement positionType="Float" x="446" y="121" width="56" height="22" uuid="1bd8f2b7-17b7-4682-8183-8863691b1e59"/>
 					<box>
 						<leftPen lineWidth="0.25"/>
 						<bottomPen lineWidth="0.5"/>
@@ -228,7 +198,7 @@
 					<textFieldExpression><![CDATA[$F{Cant._UdV_del_producto-product_uos_qty}]]></textFieldExpression>
 				</textField>
 				<textField pattern="dd MMMMM yyyy">
-					<reportElement x="443" y="72" width="112" height="13" uuid="2fa234fb-ba01-4050-8260-f27a08b1d636"/>
+					<reportElement x="443" y="72" width="112" height="13" uuid="6c28b8a2-ba0c-4758-a631-444ab5a5177b"/>
 					<textElement textAlignment="Left" verticalAlignment="Middle">
 						<font size="7"/>
 						<paragraph lineSpacing="Single"/>
@@ -236,7 +206,7 @@
 					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement positionType="Float" x="1" y="88" width="555" height="13" uuid="0c0351d4-c905-42b8-89c2-daac09cb24ac"/>
+					<reportElement positionType="Float" x="1" y="85" width="555" height="13" uuid="ef651be1-52ca-498c-8417-f1712af76c7f"/>
 					<box>
 						<bottomPen lineWidth="0.5" lineStyle="Double"/>
 					</box>
@@ -247,7 +217,7 @@
 					<text><![CDATA[Planificación]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="395" y="125" width="52" height="22" uuid="d3bd8939-f16d-46c2-a0c0-e6a4ae9d021b"/>
+					<reportElement positionType="Float" x="394" y="121" width="52" height="22" uuid="0333c37e-3bfd-4b99-8fd2-9af4def88aa4"/>
 					<box>
 						<leftPen lineWidth="0.0"/>
 						<bottomPen lineWidth="0.5"/>
@@ -259,7 +229,7 @@
 					<textFieldExpression><![CDATA[$F{Ctdad_producto-product_qty} ? " " + $F{Nombre-name} : ""]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy HH.mm.ss" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="227" y="169" width="99" height="18" uuid="f64bf4ce-e4bd-4f1b-aa82-0201a260e841"/>
+					<reportElement positionType="Float" x="226" y="165" width="99" height="18" uuid="bfcf9e33-41af-4937-b007-206840696aed"/>
 					<box>
 						<leftPen lineWidth="0.25"/>
 						<bottomPen lineWidth="0.5"/>
@@ -271,7 +241,7 @@
 					<textFieldExpression><![CDATA[$F{Fecha_inicial-date_start}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy HH.mm.ss" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="110" y="169" width="117" height="18" uuid="70d09763-b02f-4d69-8f37-e876077c2bc4"/>
+					<reportElement positionType="Float" x="109" y="165" width="117" height="18" uuid="8d287c2f-28f4-411d-94fe-21cb0465dc0d"/>
 					<box>
 						<leftPen lineWidth="0.25"/>
 						<bottomPen lineWidth="0.5"/>
@@ -283,7 +253,7 @@
 					<textFieldExpression><![CDATA[$F{Date_end_Planned-date_end_planned}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement positionType="Float" x="1" y="151" width="109" height="18" uuid="7b5f3514-1e33-47d6-a464-de5007efc68c"/>
+					<reportElement positionType="Float" x="0" y="147" width="109" height="18" uuid="5bd12163-b55d-4fd0-b89e-7a1df92e712c"/>
 					<box>
 						<topPen lineWidth="0.5"/>
 						<leftPen lineWidth="0.5"/>
@@ -296,7 +266,7 @@
 					<text><![CDATA[Fecha inicio programada]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="503" y="125" width="53" height="22" uuid="19b81ea0-1e3b-4b30-a4cb-b3147c9c2ffe"/>
+					<reportElement positionType="Float" x="502" y="121" width="53" height="22" uuid="1d1258b9-7308-4e6c-8d88-98bb36f08803"/>
 					<box>
 						<leftPen lineWidth="0.0"/>
 						<bottomPen lineWidth="0.5"/>
@@ -309,7 +279,7 @@
 					<textFieldExpression><![CDATA[$F{Cant._UdV_del_producto-product_uos_qty} ? " " + $F{Nombre-name2}: ""]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement positionType="Float" x="1" y="197" width="555" height="13" uuid="acb5d976-def3-440c-a7af-fbdf0c0493f6"/>
+					<reportElement positionType="Float" x="0" y="188" width="555" height="13" uuid="54fa2e16-227d-466c-a774-6415c279ce45"/>
 					<box>
 						<bottomPen lineWidth="0.5" lineStyle="Double"/>
 					</box>
@@ -320,7 +290,7 @@
 					<text><![CDATA[Órdenes de trabajo]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="148" y="72" width="95" height="13" uuid="e42bfee7-31a0-4e05-b19f-01f52c593b71"/>
+					<reportElement positionType="Float" x="148" y="72" width="95" height="13" uuid="2f2cde0c-f519-4313-a4d2-14936730e998"/>
 					<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
 						<font fontName="SansSerif" size="8" isBold="false"/>
 						<paragraph lineSpacing="Single"/>
@@ -328,7 +298,7 @@
 					<textFieldExpression><![CDATA[$F{Referencia-name}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="341" y="125" width="56" height="22" uuid="ee2bf037-75a6-4d2e-879e-6c9edb55cd59"/>
+					<reportElement positionType="Float" x="340" y="121" width="56" height="22" uuid="02f47050-8627-47a7-8679-cf225a8262c7"/>
 					<box>
 						<leftPen lineWidth="0.25"/>
 						<bottomPen lineWidth="0.5"/>
@@ -340,7 +310,7 @@
 					<textFieldExpression><![CDATA[$F{Ctdad_producto-product_qty}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement positionType="Float" x="86" y="0" width="245" height="18" uuid="807b7652-bd5f-41a5-af10-bc14d697da57"/>
+					<reportElement positionType="Float" x="86" y="0" width="245" height="18" uuid="c7551ed5-f71c-44b5-ae00-6d057ab5f873"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="12" isBold="true" isUnderline="true"/>
 						<paragraph lineSpacing="Single"/>
@@ -348,7 +318,7 @@
 					<text><![CDATA[ALIMENTADOR]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy HH.mm.ss" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="415" y="169" width="141" height="18" uuid="b8c06850-456c-49c4-8a99-49abfa6fd27d"/>
+					<reportElement positionType="Float" x="414" y="165" width="141" height="18" uuid="4ecdf014-3520-411b-a74e-6ec0703df282"/>
 					<box>
 						<leftPen lineWidth="0.25"/>
 						<bottomPen lineWidth="0.5"/>
@@ -361,7 +331,7 @@
 					<textFieldExpression><![CDATA[$F{Fecha_caducidad-use_date}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement positionType="Float" x="447" y="107" width="109" height="18" uuid="10f2a81f-aa88-4728-99b4-0005e12e69ff"/>
+					<reportElement positionType="Float" x="446" y="103" width="109" height="18" uuid="2552b149-473e-49a0-a9be-b6011c82f57d"/>
 					<box>
 						<topPen lineWidth="0.5"/>
 						<leftPen lineWidth="0.25"/>
@@ -375,7 +345,7 @@
 					<text><![CDATA[Cantidad (UdV)]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" x="16" y="72" width="132" height="13" uuid="ee1801d6-ee3d-4739-b5d3-e2dba4209ada"/>
+					<reportElement positionType="Float" x="16" y="72" width="132" height="13" uuid="d48404b8-cee1-475f-ab20-dc0d86a00e0f"/>
 					<textElement textAlignment="Left" verticalAlignment="Middle">
 						<font size="8" isBold="true"/>
 						<paragraph lineSpacing="Single"/>
@@ -383,7 +353,7 @@
 					<text><![CDATA[Num. Orden de Producción:]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" x="365" y="72" width="80" height="13" uuid="262565b3-b60b-41eb-8b9a-f3ee56911e39"/>
+					<reportElement positionType="Float" x="365" y="72" width="80" height="13" uuid="cf4f5a0a-8ada-4dbb-a8b9-e28650c6c751"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="7" isBold="false"/>
 						<paragraph lineSpacing="Single"/>
@@ -391,7 +361,7 @@
 					<text><![CDATA[Fecha de impresión: ]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" x="1" y="107" width="340" height="18" uuid="06dcbe06-a8f4-4211-acdb-d09cd313a1f8"/>
+					<reportElement positionType="Float" x="0" y="103" width="340" height="18" uuid="2059145c-6d60-4923-8bd1-86cb5ad9b031"/>
 					<box>
 						<topPen lineWidth="0.5"/>
 						<leftPen lineWidth="0.5"/>
@@ -404,7 +374,7 @@
 					<text><![CDATA[Producto]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" x="326" y="151" width="89" height="18" uuid="0f4981af-bccc-4555-81d3-3b9511521b37"/>
+					<reportElement positionType="Float" x="325" y="147" width="89" height="18" uuid="becf4f9a-a5c5-4f5a-b24a-f0bfcaa0c434"/>
 					<box>
 						<topPen lineWidth="0.5"/>
 						<leftPen lineWidth="0.25"/>
@@ -417,7 +387,7 @@
 					<text><![CDATA[Lote]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy HH.mm.ss" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="1" y="169" width="109" height="18" uuid="248599a2-3811-44a6-98aa-95b6451eaa95"/>
+					<reportElement positionType="Float" x="0" y="165" width="109" height="18" uuid="9307ada5-fa76-4a28-8b90-32ffa55c4b99"/>
 					<box>
 						<leftPen lineWidth="0.5"/>
 						<bottomPen lineWidth="0.5"/>
@@ -429,7 +399,7 @@
 					<textFieldExpression><![CDATA[$F{Fecha_planificada-date_planned}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement positionType="Float" x="227" y="151" width="99" height="18" uuid="09758669-21af-48a8-85cb-80e7b018dc38"/>
+					<reportElement positionType="Float" x="226" y="147" width="99" height="18" uuid="81655b2a-aa91-4c96-8354-4981d637cd84"/>
 					<box>
 						<topPen lineWidth="0.5"/>
 						<leftPen lineWidth="0.25"/>
@@ -442,20 +412,20 @@
 					<text><![CDATA[Fecha real]]></text>
 				</staticText>
 				<componentElement>
-					<reportElement key="Tabla Ódenes de Trabajo 2" positionType="Float" x="0" y="220" width="556" height="19" isRemoveLineWhenBlank="true" uuid="0351d1dd-a74b-4b94-b413-74c592ce0163">
+					<reportElement key="Tabla Ódenes de Trabajo 2" positionType="Float" x="0" y="206" width="556" height="19" isRemoveLineWhenBlank="true" uuid="1c6bb8de-3f48-47bb-a59c-9bfdb527fdbf">
 						<property name="OPENERP_RELATIONS" value="workcenter_lines"/>
 					</reportElement>
 					<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-						<datasetRun subDataset="DS_workcenter_lines" uuid="0060ab4d-ca19-41f0-a799-fb86e7817c85">
+						<datasetRun subDataset="DS_workcenter_lines" uuid="622f29f4-a590-498f-905f-da639b73c54b">
 							<datasetParameter name="PRODUCTION_ID">
 								<datasetParameterExpression><![CDATA[$F{id}]]></datasetParameterExpression>
 							</datasetParameter>
-							<dataSourceExpression><![CDATA[$P{TABLE_LINES_ORDENES_TRABAJO_2}]]></dataSourceExpression>
+							<dataSourceExpression><![CDATA[$P{TABLE_LINES_ORDENES_TRABAJO_ALIMENTADOR}]]></dataSourceExpression>
 						</datasetRun>
-						<jr:column width="90" uuid="b65f7ce4-0b80-4ccd-a5a2-cf5bf7a772a8">
+						<jr:column width="90" uuid="743d7541-4b21-486f-b9bd-34a8aefabe20">
 							<jr:columnHeader height="16" rowSpan="1">
 								<staticText>
-									<reportElement x="0" y="0" width="90" height="16" uuid="a4e23da7-be79-4626-9fe3-704aa76f7a87"/>
+									<reportElement x="0" y="0" width="90" height="16" uuid="153f90a4-83f0-4b6d-8011-012a5b7e4065"/>
 									<box>
 										<topPen lineWidth="0.25"/>
 										<leftPen lineWidth="0.25"/>
@@ -470,7 +440,7 @@
 							</jr:columnHeader>
 							<jr:detailCell height="17" rowSpan="1">
 								<textField>
-									<reportElement x="0" y="0" width="90" height="17" uuid="38d1d9c0-2689-4822-93f0-048263209d75"/>
+									<reportElement x="0" y="0" width="90" height="17" uuid="f3ec5758-370d-4e30-ae7e-55202359691a"/>
 									<box>
 										<leftPen lineWidth="0.25"/>
 										<bottomPen lineWidth="0.25"/>
@@ -483,10 +453,10 @@
 								</textField>
 							</jr:detailCell>
 						</jr:column>
-						<jr:column width="284" uuid="b37bc213-7ba8-407d-81f4-30e78a54281a">
+						<jr:column width="284" uuid="83e25a59-386e-4fbf-9008-e31954875da7">
 							<jr:columnHeader height="16" rowSpan="1">
 								<staticText>
-									<reportElement x="0" y="0" width="284" height="16" uuid="8cc6c5eb-0a3f-4b42-9806-a5e24ecea296"/>
+									<reportElement x="0" y="0" width="284" height="16" uuid="8127d1ea-5f28-4f02-b4ea-7f2c658bee11"/>
 									<box>
 										<topPen lineWidth="0.25"/>
 										<leftPen lineWidth="0.25"/>
@@ -501,7 +471,7 @@
 							</jr:columnHeader>
 							<jr:detailCell height="17" rowSpan="1">
 								<textField>
-									<reportElement x="0" y="0" width="284" height="17" uuid="6833500c-6934-4ed3-a335-0cb167305fbe"/>
+									<reportElement x="0" y="0" width="284" height="17" uuid="ad040c9e-8eed-46a0-9cb8-b1da305df85b"/>
 									<box>
 										<leftPen lineWidth="0.25"/>
 										<bottomPen lineWidth="0.25"/>
@@ -514,10 +484,10 @@
 								</textField>
 							</jr:detailCell>
 						</jr:column>
-						<jr:column width="181" uuid="674fc957-fbd7-4807-ad6e-fc154f6676d6">
+						<jr:column width="181" uuid="ce15094b-ba6f-423f-b604-41031961eba3">
 							<jr:columnHeader height="16" rowSpan="1">
 								<staticText>
-									<reportElement x="0" y="0" width="181" height="16" uuid="3d8f4a20-b9f0-49f1-ac8f-e24daa54f506"/>
+									<reportElement x="0" y="0" width="181" height="16" uuid="26535546-773d-404b-9cab-6d5c5bfca882"/>
 									<box>
 										<topPen lineWidth="0.25"/>
 										<leftPen lineWidth="0.25"/>
@@ -533,7 +503,7 @@
 							</jr:columnHeader>
 							<jr:detailCell height="17" rowSpan="1">
 								<textField>
-									<reportElement x="0" y="0" width="181" height="17" uuid="7ee2352a-b940-40b4-9933-3bc38aa923ed"/>
+									<reportElement x="0" y="0" width="181" height="17" uuid="3048fb77-d20b-43c3-98cf-3d8d8b37aede"/>
 									<box>
 										<leftPen lineWidth="0.25"/>
 										<bottomPen lineWidth="0.25"/>
@@ -550,7 +520,7 @@
 					</jr:table>
 				</componentElement>
 				<staticText>
-					<reportElement positionType="Float" x="415" y="151" width="141" height="18" uuid="12a68bd2-f99e-4067-aa74-7c97b542c159"/>
+					<reportElement positionType="Float" x="414" y="147" width="141" height="18" uuid="ffb3eab2-b437-4459-a704-382599e29fc5"/>
 					<box>
 						<topPen lineWidth="0.5"/>
 						<leftPen lineWidth="0.25"/>
@@ -564,7 +534,7 @@
 					<text><![CDATA[Fecha de consumo preferente]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" x="110" y="151" width="117" height="18" uuid="29e25de0-0a05-4064-b52a-ddedc93e313d"/>
+					<reportElement positionType="Float" x="109" y="147" width="117" height="18" uuid="2397b1f6-4382-4bb2-8a6d-90ceb6ab0b46"/>
 					<box>
 						<topPen lineWidth="0.5"/>
 						<leftPen lineWidth="0.25"/>
@@ -577,15 +547,15 @@
 					<text><![CDATA[Fecha fin programada]]></text>
 				</staticText>
 				<image hAlign="Left" vAlign="Top" onErrorType="Blank">
-					<reportElement x="0" y="0" width="86" height="53" uuid="d85a67da-715b-400c-aecb-1d06be0140e9"/>
+					<reportElement x="0" y="0" width="86" height="53" uuid="8246d72d-06e5-4c2c-bc94-1c040ef0946a"/>
 					<imageExpression><![CDATA[$F{Logo-logo}]]></imageExpression>
 				</image>
 			</band>
 		</groupHeader>
 		<groupFooter>
-			<band height="116">
+			<band height="89">
 				<staticText>
-					<reportElement positionType="Float" x="202" y="96" width="78" height="16" uuid="99495f77-6251-4e20-99c4-7da9cf45310c"/>
+					<reportElement positionType="Float" x="202" y="68" width="78" height="16" uuid="185398cc-c2cc-493c-ae6c-b1ca2d48c1fc"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font size="7" isBold="false"/>
 						<paragraph lineSpacing="Single"/>
@@ -593,7 +563,7 @@
 					<text><![CDATA[Página]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="1" y="26" width="553" height="65" uuid="a4550fdc-8225-416c-bda8-8bc4fd9ca75f"/>
+					<reportElement positionType="Float" x="1" y="18" width="553" height="45" uuid="e2fd1905-a513-4c81-94dd-fe3f5c5b02b5"/>
 					<box>
 						<topPen lineWidth="0.5"/>
 						<leftPen lineWidth="0.5"/>
@@ -607,7 +577,7 @@
 					<textFieldExpression><![CDATA[$F{Comentarios__ficha_producto-comments_sheet}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement positionType="Float" x="285" y="96" width="27" height="16" uuid="d0dae5c1-2560-4f3b-a87c-a8bdbff7cb42"/>
+					<reportElement positionType="Float" x="285" y="68" width="27" height="16" uuid="bfaa0653-6abd-4b40-ac32-a8e9e3851329"/>
 					<textElement verticalAlignment="Middle">
 						<font size="7"/>
 						<paragraph lineSpacing="Single"/>
@@ -615,7 +585,7 @@
 					<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement positionType="Float" x="0" y="3" width="555" height="13" uuid="dbb3e9a3-0e9e-4086-87c2-1ea7eb9e1348"/>
+					<reportElement positionType="Float" x="0" y="0" width="555" height="13" uuid="b2cad06b-e3e6-4ee3-80fa-31b8af251e2a"/>
 					<box>
 						<bottomPen lineWidth="0.5" lineStyle="Double"/>
 					</box>
@@ -629,9 +599,9 @@
 		</groupFooter>
 	</group>
 	<detail>
-		<band height="135" splitType="Stretch">
+		<band height="122" splitType="Stretch">
 			<staticText>
-				<reportElement positionType="Float" x="0" y="0" width="555" height="13" uuid="cdd631ee-0643-4405-8963-c1bfc178599a"/>
+				<reportElement positionType="Float" x="0" y="0" width="555" height="13" uuid="a87e4a3e-ed85-4bba-b29d-ff2a13797111"/>
 				<box>
 					<bottomPen lineWidth="0.5" lineStyle="Double"/>
 				</box>
@@ -639,10 +609,10 @@
 					<font size="7" isBold="true"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<text><![CDATA[Lista de material]]></text>
+				<text><![CDATA[Lista de materiales]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="Float" x="0" y="58" width="555" height="13" uuid="ce6da820-916b-4c83-8e72-d915d2455b2e"/>
+				<reportElement positionType="Float" x="0" y="46" width="555" height="13" uuid="78b8a9b9-9b62-4b44-b574-994573421689"/>
 				<box>
 					<bottomPen lineWidth="0.5" lineStyle="Double"/>
 				</box>
@@ -653,51 +623,51 @@
 				<text><![CDATA[Scrap]]></text>
 			</staticText>
 			<componentElement>
-				<reportElement key="Tabla Lista de Materiales 2" positionType="Float" x="0" y="24" width="556" height="23" isRemoveLineWhenBlank="true" uuid="a9161b9f-2c90-4c1d-80da-addda365e0c0">
+				<reportElement key="Tabla Lista de Materiales 2" positionType="Float" x="0" y="18" width="556" height="23" isRemoveLineWhenBlank="true" uuid="76ce69cb-2d92-4b17-a5f7-6d6b33c4df2d">
 					<property name="OPENERP_RELATIONS" value="move_lines"/>
 				</reportElement>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="DS_LdM" uuid="e24346db-2b1d-4225-a91f-1cf36f8844af">
+					<datasetRun subDataset="DS_LdM" uuid="03250c5f-6715-466e-9a5f-829a7748440a">
 						<datasetParameter name="PRODUCTION_ID">
 							<datasetParameterExpression><![CDATA[$F{id}]]></datasetParameterExpression>
 						</datasetParameter>
-						<dataSourceExpression><![CDATA[$P{TABLE_LINES_LISTA_MATERIALES_2}]]></dataSourceExpression>
+						<dataSourceExpression><![CDATA[$P{TABLE_LINES_LISTA_MATERIALES_ALIMENTADOR}]]></dataSourceExpression>
 					</datasetRun>
-					<jr:column width="200" uuid="5292f200-0a9f-443c-873f-bfa822861871">
+					<jr:column width="200" uuid="eee07d8c-df6d-46ef-bc3e-7b4758c8e4ec">
 						<jr:columnHeader height="18" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="200" height="18" uuid="8232ed2c-3fe9-4b05-b004-151c7188cd7f"/>
+								<reportElement x="0" y="0" width="200" height="18" uuid="c9440702-b34a-4a95-a23c-73b514bf2ba4"/>
 								<box>
 									<topPen lineWidth="0.25"/>
 									<leftPen lineWidth="0.25"/>
 									<bottomPen lineWidth="0.25"/>
 								</box>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
+								<textElement verticalAlignment="Middle">
 									<font size="7" isBold="true"/>
 									<paragraph lineSpacing="Single"/>
 								</textElement>
-								<text><![CDATA[Productos consumidos]]></text>
+								<text><![CDATA[  Productos consumidos]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell height="17" rowSpan="1">
 							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement positionType="Float" x="0" y="0" width="200" height="17" uuid="d96775fd-23c7-4d2a-a031-7bc9101cb98b"/>
+								<reportElement positionType="Float" x="0" y="0" width="200" height="17" uuid="277d3fd5-2f82-4d60-b426-cdc91a325b3a"/>
 								<box>
 									<leftPen lineWidth="0.25"/>
 									<bottomPen lineWidth="0.25"/>
 								</box>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
+								<textElement verticalAlignment="Middle">
 									<font size="7"/>
 									<paragraph lineSpacing="Single"/>
 								</textElement>
-								<textFieldExpression><![CDATA['[' + $F{Referencia-code} + '] ' + $F{Name-name}]]></textFieldExpression>
+								<textFieldExpression><![CDATA['  ' + '[' + $F{Referencia-code} + '] ' + $F{Name-name}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="66" uuid="ad1f18c7-3f79-4814-adf2-a6deb96dbd94">
+					<jr:column width="66" uuid="5ab95c52-ee4f-4db4-b20e-90b91ac2bebc">
 						<jr:columnHeader height="18" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="66" height="18" uuid="a62e773f-90a0-4c90-8cff-1262bb9e2b41"/>
+								<reportElement x="0" y="0" width="66" height="18" uuid="a00a475f-1b76-46ce-866f-e2c7968cdb8e"/>
 								<box>
 									<topPen lineWidth="0.25"/>
 									<leftPen lineWidth="0.25"/>
@@ -712,7 +682,7 @@
 						</jr:columnHeader>
 						<jr:detailCell height="17" rowSpan="1">
 							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement positionType="Float" x="0" y="0" width="66" height="17" uuid="581cfef4-fc6c-413f-bf3a-a550409e77e2"/>
+								<reportElement positionType="Float" x="0" y="0" width="66" height="17" uuid="91a0c0be-e1c0-4818-b44a-37b2329354fc"/>
 								<box>
 									<leftPen lineWidth="0.25"/>
 									<bottomPen lineWidth="0.25"/>
@@ -725,10 +695,10 @@
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="70" uuid="5c4290fa-f1a3-4148-9979-189a79920374">
+					<jr:column width="70" uuid="8c33cc11-5fb2-404a-bd70-e518ce4433ca">
 						<jr:columnHeader height="18" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="70" height="18" uuid="df8e6c40-9a8e-4646-9412-ac3a0cfc5e46"/>
+								<reportElement x="0" y="0" width="70" height="18" uuid="ccc9892b-8d47-442a-86ca-f5c3b5d6a970"/>
 								<box>
 									<topPen lineWidth="0.25"/>
 									<leftPen lineWidth="0.25"/>
@@ -744,7 +714,7 @@ a producción]]></text>
 						</jr:columnHeader>
 						<jr:detailCell height="17" rowSpan="1">
 							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement positionType="Float" x="0" y="0" width="70" height="17" uuid="b68a915e-c151-4d8e-baae-72f780fb6f8d"/>
+								<reportElement positionType="Float" x="0" y="0" width="70" height="17" uuid="d7b069e7-5a9c-415f-a99d-865fff23c815"/>
 								<box>
 									<leftPen lineWidth="0.25"/>
 									<bottomPen lineWidth="0.25"/>
@@ -756,10 +726,10 @@ a producción]]></text>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="70" uuid="05ea6319-05c3-4317-8b45-3ba55fdfaf8b">
+					<jr:column width="70" uuid="05e91ca8-bdee-477b-a018-6677fa0ab59c">
 						<jr:columnHeader height="18" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="70" height="18" uuid="0fa2762b-f606-434d-a087-958011e6450a"/>
+								<reportElement x="0" y="0" width="70" height="18" uuid="616487de-4b26-4e3e-916d-cfa1128ea452"/>
 								<box>
 									<topPen lineWidth="0.25"/>
 									<leftPen lineWidth="0.25"/>
@@ -775,7 +745,7 @@ de producción]]></text>
 						</jr:columnHeader>
 						<jr:detailCell height="17" rowSpan="1">
 							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement positionType="Float" x="0" y="0" width="70" height="17" uuid="af7ed141-da2c-49a4-8bd4-f05dacab9747"/>
+								<reportElement positionType="Float" x="0" y="0" width="70" height="17" uuid="fba3a5f3-1c98-4e95-9e48-93a335ed3f5a"/>
 								<box>
 									<leftPen lineWidth="0.25"/>
 									<bottomPen lineWidth="0.25"/>
@@ -787,10 +757,10 @@ de producción]]></text>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="151" uuid="429a92cc-c6ab-4e88-ad01-1a9e1a1c1e34">
+					<jr:column width="151" uuid="0ba9fe43-901b-42f8-99e8-afad6e3cddf4">
 						<jr:columnHeader height="18" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="151" height="18" uuid="19e5ae31-fe4b-40ca-9c6c-f42a59c67e20"/>
+								<reportElement x="0" y="0" width="151" height="18" uuid="6b9dee89-3f75-4eda-b360-9f6cb6d76c90"/>
 								<box>
 									<topPen lineWidth="0.25"/>
 									<leftPen lineWidth="0.25"/>
@@ -806,7 +776,7 @@ de producción]]></text>
 						</jr:columnHeader>
 						<jr:detailCell height="17" rowSpan="1">
 							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement positionType="Float" x="0" y="0" width="151" height="17" uuid="7c0ab85f-ae4a-45a4-adea-3329ed87dcb0"/>
+								<reportElement positionType="Float" x="0" y="0" width="151" height="17" uuid="83993c68-6fc7-4091-9540-1b29ff80dddc"/>
 								<box>
 									<leftPen lineWidth="0.25"/>
 									<bottomPen lineWidth="0.25"/>
@@ -822,51 +792,51 @@ de producción]]></text>
 				</jr:table>
 			</componentElement>
 			<componentElement>
-				<reportElement key="Tabla Scrap" positionType="Float" x="0" y="77" width="555" height="23" uuid="e573d3a2-4c1f-4c7f-97f2-44224f7765e9">
+				<reportElement key="Tabla Scrap" positionType="Float" x="0" y="64" width="555" height="23" uuid="142a48ec-da43-4d14-bb58-6288302fca93">
 					<property name="OPENERP_RELATIONS" value="move_lines"/>
 				</reportElement>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="DS_LdM" uuid="a0c387e5-438f-434c-9d4c-03b22dd71d48">
+					<datasetRun subDataset="DS_LdM" uuid="7ba9762f-36e8-4ad6-be33-523e641acf38">
 						<datasetParameter name="PRODUCTION_ID">
 							<datasetParameterExpression><![CDATA[$F{id}]]></datasetParameterExpression>
 						</datasetParameter>
-						<dataSourceExpression><![CDATA[$P{TABLE_LINES_SCRAP}]]></dataSourceExpression>
+						<dataSourceExpression><![CDATA[$P{TABLE_LINES_SCRAP_ALIMENTADOR}]]></dataSourceExpression>
 					</datasetRun>
-					<jr:column width="200" uuid="401dbe39-1006-4670-ba00-586dc95a9f02">
+					<jr:column width="200" uuid="bb3e0e49-287c-4f12-8e20-c9ff30cd56b0">
 						<jr:columnHeader height="15" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="200" height="15" uuid="c6479f1d-85e3-46e1-a6a4-536e91c02670"/>
+								<reportElement x="0" y="0" width="200" height="15" uuid="ee517803-e75e-4506-8807-c0d3fdf007e2"/>
 								<box>
 									<topPen lineWidth="0.25"/>
 									<leftPen lineWidth="0.25"/>
 									<bottomPen lineWidth="0.25"/>
 								</box>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
+								<textElement verticalAlignment="Middle">
 									<font size="7" isBold="true"/>
 									<paragraph lineSpacing="Single"/>
 								</textElement>
-								<text><![CDATA[Productos consumidos]]></text>
+								<text><![CDATA[  Productos consumidos]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell height="16" rowSpan="1">
 							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement positionType="Float" x="0" y="0" width="200" height="16" uuid="d49acdd7-2ab9-46d9-abbf-3d28afae7156"/>
+								<reportElement positionType="Float" x="0" y="0" width="200" height="16" uuid="be6fb6de-5aae-42b2-9e53-33e27a329710"/>
 								<box>
 									<leftPen lineWidth="0.25"/>
 									<bottomPen lineWidth="0.25"/>
 								</box>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
+								<textElement verticalAlignment="Middle">
 									<font size="7"/>
 									<paragraph lineSpacing="Single"/>
 								</textElement>
-								<textFieldExpression><![CDATA['[' + $F{Referencia-code} + '] ' + $F{Name-name}]]></textFieldExpression>
+								<textFieldExpression><![CDATA['  ' + '[' + $F{Referencia-code} + '] ' + $F{Name-name}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="66" uuid="5d3e3082-9669-4cf7-9893-6b461c423f2e">
+					<jr:column width="66" uuid="5d0a892d-fb39-45d5-8120-256c721f0461">
 						<jr:columnHeader height="15" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="66" height="15" uuid="e848c8cb-7205-4125-8b1d-45f457cf77c6"/>
+								<reportElement x="0" y="0" width="66" height="15" uuid="72c91bf9-7f69-4da1-8331-f641f5e52596"/>
 								<box>
 									<topPen lineWidth="0.25"/>
 									<leftPen lineWidth="0.25"/>
@@ -881,7 +851,7 @@ de producción]]></text>
 						</jr:columnHeader>
 						<jr:detailCell height="16" rowSpan="1">
 							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement positionType="Float" x="0" y="0" width="66" height="16" uuid="d4a0899d-347c-4a87-ab03-9ffa1ee3708a"/>
+								<reportElement positionType="Float" x="0" y="0" width="66" height="16" uuid="749df56a-8d64-483d-a66b-3e766e474ed6"/>
 								<box>
 									<leftPen lineWidth="0.25"/>
 									<bottomPen lineWidth="0.25"/>
@@ -893,10 +863,10 @@ de producción]]></text>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="118" uuid="8fadbd9e-2719-45d1-b7b7-c5bde9ea7338">
+					<jr:column width="118" uuid="07d3f697-f8e5-47f7-8e0d-4cbccc8fc2fd">
 						<jr:columnHeader height="15" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="118" height="15" uuid="b77b9384-3100-49c3-bf24-6ee185af5b97"/>
+								<reportElement x="0" y="0" width="118" height="15" uuid="8b339581-751a-4b4a-a76d-39c5aba095a1"/>
 								<box>
 									<topPen lineWidth="0.25"/>
 									<leftPen lineWidth="0.25"/>
@@ -911,7 +881,7 @@ de producción]]></text>
 						</jr:columnHeader>
 						<jr:detailCell height="16" rowSpan="1">
 							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement positionType="Float" x="0" y="0" width="118" height="16" uuid="dbdc2594-1aaa-4c42-9eb5-4925cc226813"/>
+								<reportElement positionType="Float" x="0" y="0" width="118" height="16" uuid="1ca2dcc7-4d65-48d7-a9fb-5b63a2b273a0"/>
 								<box>
 									<leftPen lineWidth="0.25"/>
 									<bottomPen lineWidth="0.25"/>
@@ -924,10 +894,10 @@ de producción]]></text>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="77" uuid="0cf20041-3ff8-4313-91ce-e8ef895d22a4">
+					<jr:column width="77" uuid="81873f35-da48-4850-9be9-517e300d8327">
 						<jr:columnHeader height="15" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="77" height="15" uuid="26f71157-b491-4b29-9686-290c769806e0"/>
+								<reportElement x="0" y="0" width="77" height="15" uuid="d02d90ba-dfec-4427-910e-13a80244bf3e"/>
 								<box>
 									<topPen lineWidth="0.25"/>
 									<leftPen lineWidth="0.25"/>
@@ -942,7 +912,7 @@ de producción]]></text>
 						</jr:columnHeader>
 						<jr:detailCell height="16" rowSpan="1">
 							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement positionType="Float" x="0" y="0" width="77" height="16" uuid="0ee25568-7775-41c8-a030-7ce1ad69eedd"/>
+								<reportElement positionType="Float" x="0" y="0" width="77" height="16" uuid="807ed187-2ca8-47b3-bc28-0d36710b5189"/>
 								<box>
 									<leftPen lineWidth="0.25"/>
 									<bottomPen lineWidth="0.25"/>
@@ -955,10 +925,10 @@ de producción]]></text>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="96" uuid="7bcc6236-7371-48a7-bdad-a94607eee044">
+					<jr:column width="96" uuid="a09d70ba-584c-40aa-91bd-0211793e76bb">
 						<jr:columnHeader height="15" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="96" height="15" uuid="fd392bcf-d5f2-4fd8-b5b5-103ed96240a3"/>
+								<reportElement x="0" y="0" width="96" height="15" uuid="89db05ef-e1e2-4e60-82bb-381ed5ee211d"/>
 								<box>
 									<topPen lineWidth="0.25"/>
 									<leftPen lineWidth="0.25"/>
@@ -974,7 +944,7 @@ de producción]]></text>
 						</jr:columnHeader>
 						<jr:detailCell height="16" rowSpan="1">
 							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement positionType="Float" x="0" y="0" width="96" height="16" uuid="db1a3886-af3d-40ac-b82d-a169e0750b50"/>
+								<reportElement positionType="Float" x="0" y="0" width="96" height="16" uuid="bf0d41f1-7f3e-4a56-949a-98f55fe2fd86"/>
 								<box>
 									<leftPen lineWidth="0.25"/>
 									<bottomPen lineWidth="0.25"/>
@@ -990,84 +960,8 @@ de producción]]></text>
 					</jr:column>
 				</jr:table>
 			</componentElement>
-			<staticText>
-				<reportElement x="0" y="82" width="220" height="18" uuid="6b5b3fe5-d82d-4bc6-bf4a-62ea95eac43f">
-					<printWhenExpression><![CDATA[$F{Productos_a_consumir-move_lines} == false]]></printWhenExpression>
-				</reportElement>
-				<box>
-					<topPen lineWidth="0.25"/>
-					<leftPen lineWidth="0.25"/>
-					<bottomPen lineWidth="0.25"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="7" isBold="true"/>
-					<paragraph lineSpacing="Single"/>
-				</textElement>
-				<text><![CDATA[Productos consumidos]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="489" y="82" width="66" height="18" uuid="cad2ccae-3e85-47ea-94fb-6bb66d53e728">
-					<printWhenExpression><![CDATA[$F{Productos_a_consumir-move_lines} == false]]></printWhenExpression>
-				</reportElement>
-				<box>
-					<topPen lineWidth="0.25"/>
-					<leftPen lineWidth="0.25"/>
-					<bottomPen lineWidth="0.25"/>
-					<rightPen lineWidth="0.25"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="7" isBold="true"/>
-					<paragraph lineSpacing="Single"/>
-				</textElement>
-				<text><![CDATA[Lote]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="295" y="82" width="118" height="18" uuid="a58fce7f-c6a4-43ae-a6c3-6e27a647534a">
-					<printWhenExpression><![CDATA[$F{Productos_a_consumir-move_lines} == false]]></printWhenExpression>
-				</reportElement>
-				<box>
-					<topPen lineWidth="0.25"/>
-					<leftPen lineWidth="0.25"/>
-					<bottomPen lineWidth="0.25"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="7" isBold="true"/>
-					<paragraph lineSpacing="Single"/>
-				</textElement>
-				<text><![CDATA[Motivo]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="220" y="82" width="76" height="18" uuid="8fe9829c-41c9-4900-aa23-66e749cf4835">
-					<printWhenExpression><![CDATA[$F{Productos_a_consumir-move_lines} == false]]></printWhenExpression>
-				</reportElement>
-				<box>
-					<topPen lineWidth="0.25"/>
-					<leftPen lineWidth="0.25"/>
-					<bottomPen lineWidth="0.25"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="7" isBold="true"/>
-					<paragraph lineSpacing="Single"/>
-				</textElement>
-				<text><![CDATA[Cantidad Scrap]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="413" y="82" width="77" height="18" uuid="32c92d0d-1ab2-4c71-9d5c-d0182acea585">
-					<printWhenExpression><![CDATA[$F{Productos_a_consumir-move_lines} == false]]></printWhenExpression>
-				</reportElement>
-				<box>
-					<topPen lineWidth="0.25"/>
-					<leftPen lineWidth="0.25"/>
-					<bottomPen lineWidth="0.25"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="7" isBold="true"/>
-					<paragraph lineSpacing="Single"/>
-				</textElement>
-				<text><![CDATA[Retrabajo]]></text>
-			</staticText>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="266" y="100" width="118" height="30" uuid="4c131a1e-8162-44d6-913d-a6ada1f6abfd"/>
+				<reportElement positionType="Float" x="266" y="87" width="118" height="30" uuid="6c8085f5-63ac-4c11-90f5-4d1d417efcef"/>
 				<box>
 					<leftPen lineWidth="0.25"/>
 					<bottomPen lineWidth="0.25"/>
@@ -1079,7 +973,7 @@ de producción]]></text>
 				<textFieldExpression><![CDATA[]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="200" y="100" width="66" height="30" uuid="dc63e957-2644-4192-92c0-bfe8e96d0d87"/>
+				<reportElement positionType="Float" x="200" y="87" width="66" height="30" uuid="ea9d0a52-01e0-49bf-9446-753ce452e990"/>
 				<box>
 					<leftPen lineWidth="0.25"/>
 					<bottomPen lineWidth="0.25"/>
@@ -1090,7 +984,7 @@ de producción]]></text>
 				<textFieldExpression><![CDATA[]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="384" y="100" width="77" height="30" uuid="d57f1a59-f4b4-48fb-b2c0-40b036024f83"/>
+				<reportElement positionType="Float" x="384" y="87" width="77" height="30" uuid="d93029f5-f324-4670-adaa-8b2ff6242e49"/>
 				<box>
 					<leftPen lineWidth="0.25"/>
 					<bottomPen lineWidth="0.25"/>
@@ -1102,7 +996,7 @@ de producción]]></text>
 				<textFieldExpression><![CDATA[]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="461" y="100" width="96" height="30" uuid="a4570eb1-7621-47eb-b146-5dc74e697733"/>
+				<reportElement positionType="Float" x="461" y="87" width="96" height="30" uuid="ec65548d-e60e-4f53-97d8-c6eea195e513"/>
 				<box>
 					<leftPen lineWidth="0.25"/>
 					<bottomPen lineWidth="0.25"/>
@@ -1115,7 +1009,7 @@ de producción]]></text>
 				<textFieldExpression><![CDATA[]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="0" y="100" width="200" height="30" uuid="a2ee632a-ce23-4290-b7a7-f7f656637ea0"/>
+				<reportElement positionType="Float" x="0" y="87" width="200" height="30" uuid="a3015b7f-2232-41cc-a873-a2e4040d95cb"/>
 				<box>
 					<leftPen lineWidth="0.25"/>
 					<bottomPen lineWidth="0.25"/>
@@ -1129,84 +1023,69 @@ de producción]]></text>
 		</band>
 	</detail>
 	<summary>
-		<band height="144">
+		<band height="144" splitType="Immediate">
 			<break>
-				<reportElement positionType="Float" x="0" y="2" width="100" height="1" uuid="42a2ba99-cac8-4096-b434-3ef22a7d30b2">
+				<reportElement positionType="Float" x="0" y="2" width="100" height="1" uuid="cbca106a-9e62-4a47-bb15-8be4da2790c0">
 					<printWhenExpression><![CDATA[$P{control_sheet_packing}]]></printWhenExpression>
 				</reportElement>
 			</break>
 			<subreport>
-				<reportElement key="PACKING" x="1" y="5" width="69" height="20" uuid="9f5f8fb1-bc81-4cb3-875a-8229507c7ce9">
+				<reportElement key="PACKING" x="0" y="5" width="69" height="20" uuid="0d56788a-d42e-4f6a-9f39-baf7c25cd0fc">
 					<printWhenExpression><![CDATA[$P{control_sheet_packing}]]></printWhenExpression>
 				</reportElement>
 				<parametersMapExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}]]></parametersMapExpression>
-				<subreportParameter name="TABLE_LINES_OPCIONES">
-					<subreportParameterExpression><![CDATA[$P{TABLE_LINES_OPCIONES}]]></subreportParameterExpression>
-				</subreportParameter>
 				<dataSourceExpression><![CDATA[$P{SUBREPORT_DATA_PACKING}]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "control_part_packing.jasper"]]></subreportExpression>
 			</subreport>
 			<break>
-				<reportElement positionType="Float" x="0" y="30" width="100" height="1" uuid="3492ee8c-69b0-4bac-bfbf-e32969cc53e1">
+				<reportElement positionType="Float" x="0" y="30" width="100" height="1" uuid="4b40ab4a-7aad-4270-87aa-2c5d785e820d">
 					<printWhenExpression><![CDATA[$P{control_sheet_salted}]]></printWhenExpression>
 				</reportElement>
 			</break>
 			<subreport>
-				<reportElement key="SALTED" x="0" y="33" width="69" height="20" uuid="3d808ca9-774d-437f-bf64-371b57e9d2c5">
+				<reportElement key="SALTED" x="0" y="33" width="69" height="20" uuid="f0381d3e-3655-45bc-b8de-37875c0ab1b8">
 					<printWhenExpression><![CDATA[$P{control_sheet_salted}]]></printWhenExpression>
 				</reportElement>
 				<parametersMapExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}]]></parametersMapExpression>
-				<subreportParameter name="TABLE_LINES_OPCIONES">
-					<subreportParameterExpression><![CDATA[$P{TABLE_LINES_OPCIONES}]]></subreportParameterExpression>
-				</subreportParameter>
 				<dataSourceExpression><![CDATA[$P{SUBREPORT_DATA_SALTED}]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "control_part_salted.jasper"]]></subreportExpression>
 			</subreport>
 			<break>
-				<reportElement positionType="Float" x="0" y="58" width="100" height="1" uuid="e3e0f5cc-61bf-488e-9079-3a4df600cadf">
+				<reportElement positionType="Float" x="0" y="58" width="100" height="1" uuid="6b66b18f-0fa0-42d6-b16c-b35eb91e9b5b">
 					<printWhenExpression><![CDATA[$P{control_sheet_toasted}]]></printWhenExpression>
 				</reportElement>
 			</break>
 			<subreport>
-				<reportElement key="TOASTED" x="0" y="61" width="69" height="20" uuid="089081c9-8ace-4eb4-a0be-dca6e09b07e9">
+				<reportElement key="TOASTED" x="0" y="61" width="69" height="20" uuid="1ddcb2b2-f587-491f-8cdf-577cf905f4cc">
 					<printWhenExpression><![CDATA[$P{control_sheet_toasted}]]></printWhenExpression>
 				</reportElement>
 				<parametersMapExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}]]></parametersMapExpression>
-				<subreportParameter name="TABLE_LINES_OPCIONES">
-					<subreportParameterExpression><![CDATA[$P{TABLE_LINES_OPCIONES}]]></subreportParameterExpression>
-				</subreportParameter>
 				<dataSourceExpression><![CDATA[$P{SUBREPORT_DATA_TOASTED}]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "control_part_toasted.jasper"]]></subreportExpression>
 			</subreport>
 			<break>
-				<reportElement positionType="Float" x="0" y="86" width="100" height="1" uuid="c4d02382-7855-4eba-8737-0f52ff97515e">
+				<reportElement positionType="Float" x="0" y="86" width="100" height="1" uuid="5d172bf0-70b7-45aa-bf87-df515e0a07d9">
 					<printWhenExpression><![CDATA[$P{control_sheet_fried}]]></printWhenExpression>
 				</reportElement>
 			</break>
 			<subreport>
-				<reportElement key="FRIED" x="0" y="89" width="69" height="20" uuid="cb0178be-f70d-4b1d-b44d-0016c85d8d73">
+				<reportElement key="FRIED" x="0" y="89" width="69" height="20" uuid="4272c78b-bfb1-4ec1-afb5-dc4019764082">
 					<printWhenExpression><![CDATA[$P{control_sheet_fried}]]></printWhenExpression>
 				</reportElement>
 				<parametersMapExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}]]></parametersMapExpression>
-				<subreportParameter name="TABLE_LINES_OPCIONES">
-					<subreportParameterExpression><![CDATA[$P{TABLE_LINES_OPCIONES}]]></subreportParameterExpression>
-				</subreportParameter>
 				<dataSourceExpression><![CDATA[$P{SUBREPORT_DATA_FRIED}]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "control_part_fried.jasper"]]></subreportExpression>
 			</subreport>
 			<break>
-				<reportElement positionType="Float" x="0" y="114" width="100" height="1" uuid="8ee5116f-5ec2-415b-96bc-98dd1277dacc">
+				<reportElement positionType="Float" x="0" y="114" width="100" height="1" uuid="a0308fd9-a01d-42b0-a1f0-c9fab8300367">
 					<printWhenExpression><![CDATA[$P{control_sheet_mixed}]]></printWhenExpression>
 				</reportElement>
 			</break>
 			<subreport>
-				<reportElement key="MIXED" x="0" y="117" width="69" height="20" uuid="0cba1ce3-35d7-4ffa-9915-da463cc5b3fe">
+				<reportElement key="MIXED" x="0" y="117" width="69" height="20" uuid="446304bc-01dc-4f97-8154-7665e0e5ebfc">
 					<printWhenExpression><![CDATA[$P{control_sheet_mixed}]]></printWhenExpression>
 				</reportElement>
 				<parametersMapExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}]]></parametersMapExpression>
-				<subreportParameter name="TABLE_LINES_OPCIONES">
-					<subreportParameterExpression><![CDATA[$P{TABLE_LINES_OPCIONES}]]></subreportParameterExpression>
-				</subreportParameter>
 				<dataSourceExpression><![CDATA[$P{SUBREPORT_DATA_MIXED}]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "control_part_mixed.jasper"]]></subreportExpression>
 			</subreport>

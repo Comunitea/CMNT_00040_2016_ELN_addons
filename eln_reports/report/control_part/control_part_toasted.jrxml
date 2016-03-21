@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="control_part" language="groovy" pageWidth="555" pageHeight="762" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="1f5db093-ecd2-4ef9-a32c-77fada5a83ec">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="control_part" language="groovy" pageWidth="555" pageHeight="762" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="121"/>
-	<style name="Crosstab Data Text" hAlign="Center">
-		<paragraph lineSpacing="Single"/>
-	</style>
-	<subDataset name="DS_workcenter_lines" uuid="87fca514-d85c-4874-a736-fc421f9b027b">
+	<property name="ireport.y" value="0"/>
+	<style name="Crosstab Data Text" hAlign="Center" lineSpacing="Single"/>
+	<subDataset name="DS_workcenter_lines">
 		<parameter name="PRODUCTION_ID" class="java.lang.Integer"/>
 		<parameter name="REWIND" class="java.lang.Object" isForPrompting="false">
 			<parameterDescription><![CDATA[]]></parameterDescription>
@@ -32,7 +30,7 @@
 		</field>
 		<filterExpression><![CDATA[$P{PRODUCTION_ID} == $F{id} && $F{Hoja_de_control_tostado-control_sheet_toasted}]]></filterExpression>
 	</subDataset>
-	<subDataset name="DS_LdM" uuid="55f89d77-00d9-48b3-a97b-6a67c838561c">
+	<subDataset name="DS_LdM">
 		<parameter name="PRODUCTION_ID" class="java.lang.Integer"/>
 		<parameter name="REWIND" class="java.lang.Object" isForPrompting="false">
 			<parameterDescription><![CDATA[]]></parameterDescription>
@@ -142,527 +140,488 @@
 		<groupHeader>
 			<band height="220">
 				<staticText>
-					<reportElement positionType="Float" x="0" y="185" width="555" height="13" uuid="7dea0608-d2e3-448a-833f-58e99d3ca44d"/>
+					<reportElement positionType="Float" x="0" y="185" width="555" height="13"/>
 					<box>
 						<bottomPen lineWidth="0.5" lineStyle="Double"/>
 					</box>
-					<textElement textAlignment="Left" verticalAlignment="Middle">
+					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single">
 						<font size="7" isBold="true"/>
-						<paragraph lineSpacing="Single"/>
 					</textElement>
 					<text><![CDATA[Órdenes de trabajo]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" x="0" y="85" width="555" height="13" uuid="2b64d6d3-a6c6-4009-bcda-659aaa64a33c"/>
+					<reportElement positionType="Float" x="0" y="85" width="555" height="13"/>
 					<box>
 						<bottomPen lineWidth="0.5" lineStyle="Double"/>
 					</box>
-					<textElement textAlignment="Left" verticalAlignment="Middle">
+					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single">
 						<font size="7" isBold="true"/>
-						<paragraph lineSpacing="Single"/>
 					</textElement>
 					<text><![CDATA[Planificación]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" x="0" y="103" width="162" height="18" uuid="10a5ac38-6a08-49d5-8e99-99b208b63a06"/>
+					<reportElement positionType="Float" x="0" y="103" width="162" height="18"/>
 					<box>
 						<topPen lineWidth="0.5"/>
 						<leftPen lineWidth="0.5"/>
 						<bottomPen lineWidth="0.25"/>
 					</box>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
+					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
 						<font size="7" isBold="true"/>
-						<paragraph lineSpacing="Single"/>
 					</textElement>
 					<text><![CDATA[Producto]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" x="161" y="103" width="67" height="18" uuid="599222a1-a581-4a80-a611-46e06f0200c8"/>
+					<reportElement positionType="Float" x="161" y="103" width="67" height="18"/>
 					<box>
 						<topPen lineWidth="0.5"/>
 						<leftPen lineWidth="0.25"/>
 						<bottomPen lineWidth="0.25"/>
 					</box>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
+					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
 						<font size="7" isBold="true"/>
-						<paragraph lineSpacing="Single"/>
 					</textElement>
 					<text><![CDATA[Cantidad (UdM)]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" x="228" y="103" width="62" height="18" uuid="87e1e68e-9c5b-45bb-bb4f-ca38cac23003"/>
+					<reportElement positionType="Float" x="228" y="103" width="62" height="18"/>
 					<box>
 						<topPen lineWidth="0.5"/>
 						<leftPen lineWidth="0.25"/>
 						<bottomPen lineWidth="0.25"/>
 					</box>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
+					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
 						<font size="7" isBold="true"/>
-						<paragraph lineSpacing="Single"/>
 					</textElement>
 					<text><![CDATA[Cantidad (UdV)]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" x="290" y="103" width="74" height="18" uuid="d44a2d30-f71b-4bb1-a366-cb8a4c3bb76a"/>
+					<reportElement positionType="Float" x="290" y="103" width="74" height="18"/>
 					<box>
 						<topPen lineWidth="0.5"/>
 						<leftPen lineWidth="0.25"/>
 						<bottomPen lineWidth="0.25"/>
 					</box>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
+					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
 						<font size="7" isBold="true"/>
-						<paragraph lineSpacing="Single"/>
 					</textElement>
 					<text><![CDATA[Cantidad real fabricada]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" x="364" y="103" width="95" height="18" uuid="6aa12fef-4df7-4d1e-aaa1-318954dfa3e9"/>
+					<reportElement positionType="Float" x="364" y="103" width="95" height="18"/>
 					<box>
 						<topPen lineWidth="0.5"/>
 						<leftPen lineWidth="0.25"/>
 						<bottomPen lineWidth="0.25"/>
 					</box>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
+					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
 						<font size="7" isBold="true"/>
-						<paragraph lineSpacing="Single"/>
 					</textElement>
 					<text><![CDATA[EAN 13]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" x="459" y="103" width="96" height="18" uuid="4fe03990-f5d0-46f2-a864-ed15862c6c0d"/>
+					<reportElement positionType="Float" x="459" y="103" width="96" height="18"/>
 					<box>
 						<topPen lineWidth="0.5"/>
 						<leftPen lineWidth="0.25"/>
 						<bottomPen lineWidth="0.25"/>
 						<rightPen lineWidth="0.5"/>
 					</box>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
+					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
 						<font size="7" isBold="true"/>
-						<paragraph lineSpacing="Single"/>
 					</textElement>
 					<text><![CDATA[DUN 14]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="0" y="121" width="161" height="22" uuid="4b2ea1d9-8234-445a-90db-996f51663fca"/>
+					<reportElement positionType="Float" x="0" y="121" width="161" height="22"/>
 					<box>
 						<leftPen lineWidth="0.5"/>
 						<bottomPen lineWidth="0.5"/>
 					</box>
-					<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="none">
 						<font size="7" isBold="false"/>
-						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression><![CDATA['[' + $F{Referencia-code} + '] ' + $F{Name-name}]]></textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA['[' + $F{Referencia-code} + '] ' + $F{Name-name}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="161" y="121" width="67" height="11" uuid="4e2cbd5d-2b8e-4626-a99b-a452ef05e905"/>
+					<reportElement positionType="Float" x="161" y="121" width="67" height="11"/>
 					<box>
 						<leftPen lineWidth="0.25"/>
 						<bottomPen lineWidth="0.0"/>
 					</box>
-					<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="none">
 						<font size="7" isBold="false"/>
-						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{Ctdad_producto-product_qty}]]></textFieldExpression>
+					<textFieldExpression class="java.lang.Double"><![CDATA[$F{Ctdad_producto-product_qty}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="459" y="121" width="96" height="22" uuid="2ba669e4-b658-442b-8f0e-11c8be67d2bc"/>
+					<reportElement positionType="Float" x="459" y="121" width="96" height="22"/>
 					<box>
 						<leftPen lineWidth="0.25"/>
 						<bottomPen lineWidth="0.5"/>
 						<rightPen lineWidth="0.5"/>
 					</box>
-					<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="none">
 						<font size="7" isBold="false"/>
-						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{DUN14-dun14}]]></textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{DUN14-dun14}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="364" y="121" width="95" height="22" uuid="64c7c9b2-c070-4789-b8fa-13fd87243de7"/>
+					<reportElement positionType="Float" x="364" y="121" width="95" height="22"/>
 					<box>
 						<leftPen lineWidth="0.25"/>
 						<bottomPen lineWidth="0.5"/>
 					</box>
-					<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="none">
 						<font size="7" isBold="false"/>
-						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{EAN13-ean13}]]></textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{EAN13-ean13}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="228" y="121" width="62" height="11" uuid="f8e46ba9-1b58-4074-8ba1-c3b235e8c763"/>
+					<reportElement positionType="Float" x="228" y="121" width="62" height="11"/>
 					<box>
 						<leftPen lineWidth="0.25"/>
 						<bottomPen lineWidth="0.0"/>
 					</box>
-					<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="none">
 						<font size="7" isBold="false"/>
-						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{Cant._UdV_del_producto-product_uos_qty}]]></textFieldExpression>
+					<textFieldExpression class="java.lang.Double"><![CDATA[$F{Cant._UdV_del_producto-product_uos_qty}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="290" y="121" width="74" height="22" uuid="d7c96a0d-2ec7-4268-862b-18b65a66d52d"/>
+					<reportElement positionType="Float" x="290" y="121" width="74" height="22"/>
 					<box>
 						<leftPen lineWidth="0.25"/>
 						<bottomPen lineWidth="0.5"/>
 					</box>
-					<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="none">
 						<font size="7" isBold="false"/>
-						<paragraph lineSpacing="Single"/>
 					</textElement>
 				</textField>
 				<staticText>
-					<reportElement positionType="Float" x="51" y="146" width="108" height="18" uuid="5f93ffcf-b9a5-4c14-8c26-59202665d357"/>
+					<reportElement positionType="Float" x="51" y="146" width="108" height="18"/>
 					<box>
 						<topPen lineWidth="0.5"/>
 						<leftPen lineWidth="0.25"/>
 						<bottomPen lineWidth="0.25"/>
 					</box>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
+					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
 						<font size="7" isBold="true"/>
-						<paragraph lineSpacing="Single"/>
 					</textElement>
 					<text><![CDATA[Fecha inicio programada]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" x="359" y="146" width="67" height="18" uuid="f42b4093-d280-466a-93cc-e6b5fa9b8211"/>
+					<reportElement positionType="Float" x="359" y="146" width="67" height="18"/>
 					<box>
 						<topPen lineWidth="0.5"/>
 						<leftPen lineWidth="0.25"/>
 						<bottomPen lineWidth="0.25"/>
 					</box>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
+					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
 						<font size="7" isBold="true"/>
-						<paragraph lineSpacing="Single"/>
 					</textElement>
 					<text><![CDATA[Lote]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy HH.mm.ss" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="426" y="164" width="129" height="16" uuid="2aff5856-93b2-4554-8b0a-718f70496099"/>
+					<reportElement positionType="Float" x="426" y="164" width="129" height="16"/>
 					<box>
 						<leftPen lineWidth="0.25"/>
 						<bottomPen lineWidth="0.5"/>
 						<rightPen lineWidth="0.5"/>
 					</box>
-					<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="none">
 						<font size="7" isBold="false"/>
-						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{Fecha_caducidad-use_date}]]></textFieldExpression>
+					<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{Fecha_caducidad-use_date}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement positionType="Float" x="0" y="146" width="51" height="18" uuid="664fd6be-27a0-41e5-8273-285f7a903272"/>
+					<reportElement positionType="Float" x="0" y="146" width="51" height="18"/>
 					<box>
 						<topPen lineWidth="0.5"/>
 						<leftPen lineWidth="0.5"/>
 						<bottomPen lineWidth="0.25"/>
 					</box>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
+					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
 						<font size="7" isBold="true"/>
-						<paragraph lineSpacing="Single"/>
 					</textElement>
 					<text><![CDATA[UDSxCAJA]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="0" y="164" width="51" height="16" uuid="db809026-3b40-40b3-a357-b804372e5d29"/>
+					<reportElement positionType="Float" x="0" y="164" width="51" height="16"/>
 					<box>
 						<leftPen lineWidth="0.5"/>
 						<bottomPen lineWidth="0.5"/>
 					</box>
-					<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="none">
 						<font size="7" isBold="false"/>
-						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression><![CDATA[1/$F{UOM____UOS_Coeff-uos_coeff}]]></textFieldExpression>
+					<textFieldExpression class="java.lang.Double"><![CDATA[1/$F{UOM____UOS_Coeff-uos_coeff}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="359" y="164" width="67" height="16" uuid="21b41226-ecb2-4c83-8603-f0237c7515bd"/>
+					<reportElement positionType="Float" x="359" y="164" width="67" height="16"/>
 					<box>
 						<leftPen lineWidth="0.25"/>
 						<bottomPen lineWidth="0.5"/>
 					</box>
-					<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="none">
 						<font size="7" isBold="false"/>
-						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{Lote_de_produccion-name}]]></textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Lote_de_produccion-name}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy HH.mm.ss" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="51" y="164" width="108" height="16" uuid="ea1d937b-ebb6-44ac-919d-cf7a9a5d8ee9"/>
+					<reportElement positionType="Float" x="51" y="164" width="108" height="16"/>
 					<box>
 						<leftPen lineWidth="0.25"/>
 						<bottomPen lineWidth="0.5"/>
 					</box>
-					<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="none">
 						<font size="7" isBold="false"/>
-						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{Fecha_planificada-date_planned}]]></textFieldExpression>
+					<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{Fecha_planificada-date_planned}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement positionType="Float" x="159" y="146" width="100" height="18" uuid="8b7d74d4-f522-4579-b5bd-3cfe7d043591"/>
+					<reportElement positionType="Float" x="159" y="146" width="100" height="18"/>
 					<box>
 						<topPen lineWidth="0.5"/>
 						<leftPen lineWidth="0.25"/>
 						<bottomPen lineWidth="0.25"/>
 					</box>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
+					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
 						<font size="7" isBold="true"/>
-						<paragraph lineSpacing="Single"/>
 					</textElement>
 					<text><![CDATA[Fecha fin programada]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy HH.mm.ss" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="159" y="164" width="100" height="16" uuid="8be84140-6145-42b3-b887-bc56e31d2d8a"/>
+					<reportElement positionType="Float" x="159" y="164" width="100" height="16"/>
 					<box>
 						<leftPen lineWidth="0.25"/>
 						<bottomPen lineWidth="0.5"/>
 					</box>
-					<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="none">
 						<font size="7" isBold="false"/>
-						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{Date_end_Planned-date_end_planned}]]></textFieldExpression>
+					<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{Date_end_Planned-date_end_planned}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement positionType="Float" x="426" y="146" width="129" height="18" uuid="0c047c22-6acc-4b82-96ac-18f3b1ead36c"/>
+					<reportElement positionType="Float" x="426" y="146" width="129" height="18"/>
 					<box>
 						<topPen lineWidth="0.5"/>
 						<leftPen lineWidth="0.25"/>
 						<bottomPen lineWidth="0.25"/>
 						<rightPen lineWidth="0.5"/>
 					</box>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
+					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
 						<font size="7" isBold="true"/>
-						<paragraph lineSpacing="Single"/>
 					</textElement>
 					<text><![CDATA[Fecha de consumo preferente]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" x="15" y="72" width="132" height="13" uuid="bf381fa7-39ab-46ec-a9d2-b2d0c7c2fb2f"/>
-					<textElement textAlignment="Left" verticalAlignment="Middle">
+					<reportElement positionType="Float" x="15" y="72" width="132" height="13"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single">
 						<font size="8" isBold="true"/>
-						<paragraph lineSpacing="Single"/>
 					</textElement>
 					<text><![CDATA[Num. Orden de Producción:]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="147" y="72" width="95" height="13" uuid="28403a7b-0467-43ef-94c6-1e7e8255a06f"/>
-					<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
+					<reportElement positionType="Float" x="147" y="72" width="95" height="13"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single" markup="none">
 						<font fontName="SansSerif" size="8" isBold="false"/>
-						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{Referencia-name}]]></textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Referencia-name}]]></textFieldExpression>
 				</textField>
 				<componentElement>
-					<reportElement key="Tabla Órdenes de Trabajo" positionType="Float" stretchType="RelativeToTallestObject" x="0" y="203" width="556" height="12" uuid="fa8f7aa8-1c91-4584-a5d3-2be7a8953316">
+					<reportElement key="Tabla Órdenes de Trabajo" positionType="Float" stretchType="RelativeToTallestObject" x="0" y="203" width="556" height="12">
 						<property name="OPENERP_RELATIONS" value="workcenter_lines"/>
 					</reportElement>
 					<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-						<datasetRun subDataset="DS_workcenter_lines" uuid="095cdfc3-0944-4624-b6e7-39622def9820">
+						<datasetRun subDataset="DS_workcenter_lines">
 							<datasetParameter name="PRODUCTION_ID">
 								<datasetParameterExpression><![CDATA[$F{id}]]></datasetParameterExpression>
 							</datasetParameter>
 							<dataSourceExpression><![CDATA[$P{TABLE_LINES_ORDENES_TRABAJO_TOSTADO}]]></dataSourceExpression>
 						</datasetRun>
-						<jr:column width="40" uuid="c4768784-76e5-44d0-9c11-968ba477b4a1">
+						<jr:column width="40">
 							<jr:columnHeader height="16" rowSpan="1">
 								<staticText>
-									<reportElement x="0" y="0" width="40" height="16" uuid="2097af41-b4c4-48d8-a9cb-be84540a6743"/>
+									<reportElement x="0" y="0" width="40" height="16"/>
 									<box>
 										<topPen lineWidth="0.25"/>
 										<leftPen lineWidth="0.25"/>
 										<bottomPen lineWidth="0.25"/>
 									</box>
-									<textElement textAlignment="Center" verticalAlignment="Middle">
+									<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
 										<font size="7" isBold="true"/>
-										<paragraph lineSpacing="Single"/>
 									</textElement>
 									<text><![CDATA[Secuencia]]></text>
 								</staticText>
 							</jr:columnHeader>
 							<jr:detailCell height="22" rowSpan="1">
 								<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-									<reportElement positionType="Float" x="0" y="0" width="40" height="22" uuid="afcb58d7-4326-4bbb-833a-169e712f99c3"/>
+									<reportElement positionType="Float" x="0" y="0" width="40" height="22"/>
 									<box>
 										<leftPen lineWidth="0.25"/>
 										<bottomPen lineWidth="0.25"/>
 									</box>
-									<textElement textAlignment="Center" verticalAlignment="Middle">
+									<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
 										<font size="7"/>
-										<paragraph lineSpacing="Single"/>
 									</textElement>
-									<textFieldExpression><![CDATA[$F{Secuencia-sequence}]]></textFieldExpression>
+									<textFieldExpression class="java.lang.String"><![CDATA[$F{Secuencia-sequence}]]></textFieldExpression>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
-						<jr:column width="145" uuid="a7d31f47-0314-40e6-94c8-cc9ef9b89b04">
+						<jr:column width="145">
 							<jr:columnHeader height="16" rowSpan="1">
 								<staticText>
-									<reportElement x="0" y="0" width="145" height="16" uuid="0defe2a3-9b12-42f5-ab3f-eb803d27b183"/>
+									<reportElement x="0" y="0" width="145" height="16"/>
 									<box>
 										<topPen lineWidth="0.25"/>
 										<leftPen lineWidth="0.25"/>
 										<bottomPen lineWidth="0.25"/>
 									</box>
-									<textElement textAlignment="Center" verticalAlignment="Middle">
+									<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
 										<font size="7" isBold="true"/>
-										<paragraph lineSpacing="Single"/>
 									</textElement>
 									<text><![CDATA[Nombre]]></text>
 								</staticText>
 							</jr:columnHeader>
 							<jr:detailCell height="22" rowSpan="1">
 								<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-									<reportElement positionType="Float" x="0" y="0" width="145" height="22" uuid="f4b7e030-3fde-4941-8ec0-86f3a6e66bf3"/>
+									<reportElement positionType="Float" x="0" y="0" width="145" height="22"/>
 									<box>
 										<leftPen lineWidth="0.25"/>
 										<bottomPen lineWidth="0.25"/>
 									</box>
-									<textElement textAlignment="Center" verticalAlignment="Middle">
+									<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
 										<font size="7"/>
-										<paragraph lineSpacing="Single"/>
 									</textElement>
-									<textFieldExpression><![CDATA[$F{Orden_de_trabajo-name}]]></textFieldExpression>
+									<textFieldExpression class="java.lang.String"><![CDATA[$F{Orden_de_trabajo-name}]]></textFieldExpression>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
-						<jr:column width="125" uuid="fca69f02-a8ff-4f1f-8d72-58ae359eaebc">
+						<jr:column width="125">
 							<jr:columnHeader height="16" rowSpan="1">
 								<staticText>
-									<reportElement x="0" y="0" width="125" height="16" uuid="e3c90918-9d61-406b-93b3-7450c3ade698"/>
+									<reportElement x="0" y="0" width="125" height="16"/>
 									<box>
 										<topPen lineWidth="0.25"/>
 										<leftPen lineWidth="0.25"/>
 										<bottomPen lineWidth="0.25"/>
 									</box>
-									<textElement textAlignment="Center" verticalAlignment="Middle">
+									<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
 										<font size="7" isBold="true"/>
-										<paragraph lineSpacing="Single"/>
 									</textElement>
 									<text><![CDATA[Centro de producción]]></text>
 								</staticText>
 							</jr:columnHeader>
 							<jr:detailCell height="22" rowSpan="1">
 								<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-									<reportElement positionType="Float" x="0" y="0" width="125" height="22" uuid="772314be-92a5-46de-9d8d-4f29eab8a657"/>
+									<reportElement positionType="Float" x="0" y="0" width="125" height="22"/>
 									<box>
 										<leftPen lineWidth="0.25"/>
 										<bottomPen lineWidth="0.25"/>
 									</box>
-									<textElement textAlignment="Center" verticalAlignment="Middle">
+									<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
 										<font size="7"/>
-										<paragraph lineSpacing="Single"/>
 									</textElement>
-									<textFieldExpression><![CDATA[$F{Name-name}]]></textFieldExpression>
+									<textFieldExpression class="java.lang.String"><![CDATA[$F{Name-name}]]></textFieldExpression>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
-						<jr:column width="26" uuid="91fa8440-6f69-4957-81a7-114ca30df4eb">
+						<jr:column width="26">
 							<jr:columnHeader height="16" rowSpan="1">
 								<staticText>
-									<reportElement x="0" y="0" width="26" height="16" uuid="8651ba0b-c95f-4d36-b3e6-cd0802f85482"/>
+									<reportElement x="0" y="0" width="26" height="16"/>
 									<box>
 										<topPen lineWidth="0.25"/>
 										<leftPen lineWidth="0.25"/>
 										<bottomPen lineWidth="0.25"/>
 									</box>
-									<textElement textAlignment="Center" verticalAlignment="Middle">
+									<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
 										<font size="7" isBold="true"/>
-										<paragraph lineSpacing="Single"/>
 									</textElement>
 									<text><![CDATA[Nº Op]]></text>
 								</staticText>
 							</jr:columnHeader>
 							<jr:detailCell height="22" rowSpan="1">
 								<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-									<reportElement positionType="Float" x="0" y="0" width="26" height="22" uuid="bbb198b2-6895-45ae-a079-c74bdd764590"/>
+									<reportElement positionType="Float" x="0" y="0" width="26" height="22"/>
 									<box>
 										<leftPen lineWidth="0.25"/>
 										<bottomPen lineWidth="0.25"/>
 									</box>
-									<textElement textAlignment="Center" verticalAlignment="Middle">
+									<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
 										<font size="7"/>
-										<paragraph lineSpacing="Single"/>
 									</textElement>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
-						<jr:column width="60" uuid="023dad01-00c3-4246-89ef-c0295407a7fe">
+						<jr:column width="60">
 							<jr:columnHeader height="16" rowSpan="1">
 								<staticText>
-									<reportElement x="0" y="0" width="60" height="16" uuid="79d62d98-da90-4216-85e8-e454e8980c2a"/>
+									<reportElement x="0" y="0" width="60" height="16"/>
 									<box>
 										<topPen lineWidth="0.25"/>
 										<leftPen lineWidth="0.25"/>
 										<bottomPen lineWidth="0.25"/>
 									</box>
-									<textElement textAlignment="Center" verticalAlignment="Middle">
+									<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
 										<font size="7" isBold="true"/>
-										<paragraph lineSpacing="Single"/>
 									</textElement>
 									<text><![CDATA[Operarios]]></text>
 								</staticText>
 							</jr:columnHeader>
 							<jr:detailCell height="22" rowSpan="1">
 								<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-									<reportElement positionType="Float" x="0" y="0" width="60" height="22" uuid="cfdd7bb3-278d-4a88-8666-e3982e0f3226"/>
+									<reportElement positionType="Float" x="0" y="0" width="60" height="22"/>
 									<box>
 										<leftPen lineWidth="0.25"/>
 										<bottomPen lineWidth="0.25"/>
 									</box>
-									<textElement textAlignment="Center" verticalAlignment="Middle">
+									<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
 										<font size="7"/>
-										<paragraph lineSpacing="Single"/>
 									</textElement>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
-						<jr:column width="40" uuid="9e8fed49-2390-49b7-b8a0-b45f03583894">
+						<jr:column width="40">
 							<jr:columnHeader height="16" rowSpan="1">
 								<staticText>
-									<reportElement x="0" y="0" width="40" height="16" uuid="e61ccded-675a-4583-9744-d75ceebf739a"/>
+									<reportElement x="0" y="0" width="40" height="16"/>
 									<box>
 										<topPen lineWidth="0.25"/>
 										<leftPen lineWidth="0.25"/>
 										<bottomPen lineWidth="0.25"/>
 									</box>
-									<textElement textAlignment="Center" verticalAlignment="Middle">
+									<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
 										<font size="6" isBold="true"/>
-										<paragraph lineSpacing="Single"/>
 									</textElement>
 									<text><![CDATA[Hora inicio adecuación]]></text>
 								</staticText>
 							</jr:columnHeader>
 							<jr:detailCell height="22" rowSpan="1">
 								<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-									<reportElement positionType="Float" x="0" y="0" width="40" height="22" uuid="8b6edcf7-2ed1-4fcd-9f01-d667caa8738b"/>
+									<reportElement positionType="Float" x="0" y="0" width="40" height="22"/>
 									<box>
 										<leftPen lineWidth="0.25"/>
 										<bottomPen lineWidth="0.25"/>
 									</box>
-									<textElement textAlignment="Center" verticalAlignment="Middle">
+									<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
 										<font size="7"/>
-										<paragraph lineSpacing="Single"/>
 									</textElement>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
-						<jr:column width="40" uuid="af970563-a94f-4d50-8901-de9cf64d09fd">
+						<jr:column width="40">
 							<jr:columnHeader height="16" rowSpan="1">
 								<staticText>
-									<reportElement x="0" y="0" width="40" height="16" uuid="a1e50086-9f4d-428a-97fb-e6053e61ea30"/>
+									<reportElement x="0" y="0" width="40" height="16"/>
 									<box>
 										<topPen lineWidth="0.25"/>
 										<leftPen lineWidth="0.25"/>
 										<bottomPen lineWidth="0.25"/>
 									</box>
-									<textElement textAlignment="Center" verticalAlignment="Middle">
+									<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
 										<font size="6" isBold="true"/>
-										<paragraph lineSpacing="Single"/>
 									</textElement>
 									<text><![CDATA[Hora
 inicio]]></text>
@@ -670,30 +629,28 @@ inicio]]></text>
 							</jr:columnHeader>
 							<jr:detailCell height="22" rowSpan="1">
 								<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-									<reportElement positionType="Float" x="0" y="0" width="40" height="22" uuid="2a32a699-ab1b-4270-97c2-a4a0edbe031b"/>
+									<reportElement positionType="Float" x="0" y="0" width="40" height="22"/>
 									<box>
 										<leftPen lineWidth="0.25"/>
 										<bottomPen lineWidth="0.25"/>
 									</box>
-									<textElement textAlignment="Center" verticalAlignment="Middle">
+									<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
 										<font size="7"/>
-										<paragraph lineSpacing="Single"/>
 									</textElement>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
-						<jr:column width="40" uuid="3b3c14d4-fadf-4708-aab4-5c5b5af76625">
+						<jr:column width="40">
 							<jr:columnHeader height="16" rowSpan="1">
 								<staticText>
-									<reportElement x="0" y="0" width="40" height="16" uuid="2ab49222-94c4-4043-836d-d0d0d179b57f"/>
+									<reportElement x="0" y="0" width="40" height="16"/>
 									<box>
 										<topPen lineWidth="0.25"/>
 										<leftPen lineWidth="0.25"/>
 										<bottomPen lineWidth="0.25"/>
 									</box>
-									<textElement textAlignment="Center" verticalAlignment="Middle">
+									<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
 										<font size="6" isBold="true"/>
-										<paragraph lineSpacing="Single"/>
 									</textElement>
 									<text><![CDATA[Hora
 fin]]></text>
@@ -701,31 +658,29 @@ fin]]></text>
 							</jr:columnHeader>
 							<jr:detailCell height="22" rowSpan="1">
 								<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-									<reportElement positionType="Float" x="0" y="0" width="40" height="22" uuid="b5b73633-ea6c-496a-ab44-ce859f027868"/>
+									<reportElement positionType="Float" x="0" y="0" width="40" height="22"/>
 									<box>
 										<leftPen lineWidth="0.25"/>
 										<bottomPen lineWidth="0.25"/>
 									</box>
-									<textElement textAlignment="Center" verticalAlignment="Middle">
+									<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
 										<font size="7"/>
-										<paragraph lineSpacing="Single"/>
 									</textElement>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
-						<jr:column width="40" uuid="cf4dfce4-1f1c-4e09-9878-7f73197a839a">
+						<jr:column width="40">
 							<jr:columnHeader height="16" rowSpan="1">
 								<staticText>
-									<reportElement x="0" y="0" width="40" height="16" uuid="d91ddf60-6f43-4b30-aff6-eb270426f283"/>
+									<reportElement x="0" y="0" width="40" height="16"/>
 									<box>
 										<topPen lineWidth="0.25"/>
 										<leftPen lineWidth="0.25"/>
 										<bottomPen lineWidth="0.25"/>
 										<rightPen lineWidth="0.25"/>
 									</box>
-									<textElement textAlignment="Center" verticalAlignment="Middle">
+									<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
 										<font size="6" isBold="true"/>
-										<paragraph lineSpacing="Single"/>
 									</textElement>
 									<text><![CDATA[Hora fin
 limpieza]]></text>
@@ -733,15 +688,14 @@ limpieza]]></text>
 							</jr:columnHeader>
 							<jr:detailCell height="22" rowSpan="1">
 								<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-									<reportElement positionType="Float" x="0" y="0" width="40" height="22" uuid="58dfd743-e31c-4b8b-b7c0-ebefd7534492"/>
+									<reportElement positionType="Float" x="0" y="0" width="40" height="22"/>
 									<box>
 										<leftPen lineWidth="0.25"/>
 										<bottomPen lineWidth="0.25"/>
 										<rightPen lineWidth="0.25"/>
 									</box>
-									<textElement textAlignment="Center" verticalAlignment="Middle">
+									<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
 										<font size="7"/>
-										<paragraph lineSpacing="Single"/>
 									</textElement>
 								</textField>
 							</jr:detailCell>
@@ -749,85 +703,78 @@ limpieza]]></text>
 					</jr:table>
 				</componentElement>
 				<textField pattern="dd MMMMM yyyy">
-					<reportElement x="442" y="72" width="112" height="13" uuid="e9b58557-6e43-4747-8e5f-06a935061740"/>
-					<textElement textAlignment="Left" verticalAlignment="Middle">
+					<reportElement x="442" y="72" width="112" height="13"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single">
 						<font size="7"/>
-						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+					<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement positionType="Float" x="364" y="72" width="80" height="13" uuid="ce63fee7-ee34-4779-9c4c-02bb839f7066"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
+					<reportElement positionType="Float" x="364" y="72" width="80" height="13"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
 						<font size="7" isBold="false"/>
-						<paragraph lineSpacing="Single"/>
 					</textElement>
 					<text><![CDATA[Fecha de impresión: ]]></text>
 				</staticText>
 				<componentElement>
-					<reportElement positionType="Float" x="330" y="0" width="224" height="72" uuid="319cbfa4-e3e6-4267-8e6f-158c07041d54"/>
+					<reportElement positionType="Float" x="330" y="0" width="224" height="72"/>
 					<jr:Code128 xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" moduleWidth="2.5" textPosition="bottom">
 						<jr:codeExpression><![CDATA[$F{Referencia-name}]]></jr:codeExpression>
 					</jr:Code128>
 				</componentElement>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="228" y="132" width="62" height="11" uuid="df098640-113c-4ecc-97a1-eadbd292ebb1"/>
+					<reportElement positionType="Float" x="228" y="132" width="62" height="11"/>
 					<box>
 						<leftPen lineWidth="0.25"/>
 						<bottomPen lineWidth="0.5"/>
 					</box>
-					<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="none">
 						<font size="7" isBold="false"/>
-						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{Cant._UdV_del_producto-product_uos_qty} ? " " + $F{Nombre-name2}: ""]]></textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Cant._UdV_del_producto-product_uos_qty} ? " " + $F{Nombre-name2}: ""]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="161" y="132" width="67" height="11" uuid="3aadf9fc-ae92-4703-abe3-3c019a17aa3c"/>
+					<reportElement positionType="Float" x="161" y="132" width="67" height="11"/>
 					<box>
 						<leftPen lineWidth="0.25"/>
 						<bottomPen lineWidth="0.5"/>
 					</box>
-					<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="none">
 						<font size="7" isBold="false"/>
-						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{Ctdad_producto-product_qty} ? " " + $F{Nombre-name}:""]]></textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Ctdad_producto-product_qty} ? " " + $F{Nombre-name}:""]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy HH.mm.ss" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="259" y="164" width="100" height="16" uuid="87a4c708-16b8-4e74-a401-c710b38845e5"/>
+					<reportElement positionType="Float" x="259" y="164" width="100" height="16"/>
 					<box>
 						<leftPen lineWidth="0.25"/>
 						<bottomPen lineWidth="0.5"/>
 					</box>
-					<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="none">
 						<font size="7" isBold="false"/>
-						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{Fecha_inicial-date_start}]]></textFieldExpression>
+					<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{Fecha_inicial-date_start}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement positionType="Float" x="259" y="146" width="100" height="18" uuid="059a5f8c-8a30-4314-87a2-70003bdaa9d3"/>
+					<reportElement positionType="Float" x="259" y="146" width="100" height="18"/>
 					<box>
 						<topPen lineWidth="0.5"/>
 						<leftPen lineWidth="0.25"/>
 						<bottomPen lineWidth="0.25"/>
 					</box>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
+					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
 						<font size="7" isBold="true"/>
-						<paragraph lineSpacing="Single"/>
 					</textElement>
 					<text><![CDATA[Fecha real]]></text>
 				</staticText>
 				<image hAlign="Left" vAlign="Top" onErrorType="Blank">
-					<reportElement x="0" y="0" width="86" height="53" uuid="4a6ab54e-eaf4-4a3e-98ee-6b4b092679a0"/>
-					<imageExpression><![CDATA[$F{Logo-logo}]]></imageExpression>
+					<reportElement x="0" y="0" width="86" height="53"/>
+					<imageExpression class="java.lang.String"><![CDATA[$F{Logo-logo}]]></imageExpression>
 				</image>
 				<staticText>
-					<reportElement positionType="Float" x="86" y="0" width="245" height="18" uuid="bededdb1-f469-4283-9b30-aaf7725cc33f"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
+					<reportElement positionType="Float" x="86" y="0" width="245" height="18"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
 						<font size="12" isBold="true" isUnderline="true"/>
-						<paragraph lineSpacing="Single"/>
 					</textElement>
 					<text><![CDATA[TOSTADO]]></text>
 				</staticText>
@@ -836,27 +783,25 @@ limpieza]]></text>
 		<groupFooter>
 			<band height="68">
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="1" y="18" width="553" height="45" uuid="d388d18e-a096-4b77-ade7-8176698e2460"/>
+					<reportElement positionType="Float" x="1" y="18" width="553" height="45"/>
 					<box>
 						<topPen lineWidth="0.5"/>
 						<leftPen lineWidth="0.5"/>
 						<bottomPen lineWidth="0.5"/>
 						<rightPen lineWidth="0.5"/>
 					</box>
-					<textElement textAlignment="Left" verticalAlignment="Top" markup="none">
+					<textElement textAlignment="Left" verticalAlignment="Top" lineSpacing="Single" markup="none">
 						<font size="7" isBold="false"/>
-						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{Comentarios__ficha_producto-comments_sheet}]]></textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Comentarios__ficha_producto-comments_sheet}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement positionType="Float" x="0" y="0" width="555" height="13" uuid="b0a1edf6-6d10-4917-a338-5be97480368c"/>
+					<reportElement positionType="Float" x="0" y="0" width="555" height="13"/>
 					<box>
 						<bottomPen lineWidth="0.5" lineStyle="Double"/>
 					</box>
-					<textElement textAlignment="Left" verticalAlignment="Middle">
+					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single">
 						<font size="7" isBold="true"/>
-						<paragraph lineSpacing="Single"/>
 					</textElement>
 					<text><![CDATA[Observaciones]]></text>
 				</staticText>
@@ -866,179 +811,165 @@ limpieza]]></text>
 	<detail>
 		<band height="331" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="0" width="555" height="13" uuid="48045592-6216-4676-a3b0-6aa7bc181d9a"/>
+				<reportElement x="0" y="0" width="555" height="13"/>
 				<box>
 					<bottomPen lineWidth="0.5" lineStyle="Double"/>
 				</box>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
+				<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single">
 					<font size="7" isBold="true"/>
-					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Lista de componentes]]></text>
 			</staticText>
 			<componentElement>
-				<reportElement key="Tabla Lista de Materiales" positionType="Float" x="0" y="18" width="556" height="19" uuid="134e0fbb-ffb8-447a-a89e-fbd3f2dc5b82">
+				<reportElement key="Tabla Lista de Materiales" positionType="Float" x="0" y="18" width="556" height="19">
 					<property name="OPENERP_RELATIONS" value="move_lines"/>
 				</reportElement>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="DS_LdM" uuid="07d2e73d-bbb7-4385-8ccf-02f906f8dfba">
+					<datasetRun subDataset="DS_LdM">
 						<datasetParameter name="PRODUCTION_ID">
 							<datasetParameterExpression><![CDATA[$F{id}]]></datasetParameterExpression>
 						</datasetParameter>
 						<dataSourceExpression><![CDATA[$P{TABLE_LINES_LISTA_MATERIALES_TOSTADO}]]></dataSourceExpression>
 					</datasetRun>
-					<jr:column width="200" uuid="8d2e2a67-3d99-4c49-8a1a-eff0ca4535de">
+					<jr:column width="200">
 						<jr:columnHeader height="16" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="200" height="16" uuid="8d5ccf04-7734-47a9-a30f-24cb87e9ff68"/>
+								<reportElement x="0" y="0" width="200" height="16"/>
 								<box>
 									<topPen lineWidth="0.25"/>
 									<leftPen lineWidth="0.25"/>
 									<bottomPen lineWidth="0.25"/>
 								</box>
-								<textElement textAlignment="Left" verticalAlignment="Middle">
+								<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single">
 									<font size="7" isBold="true"/>
-									<paragraph lineSpacing="Single"/>
 								</textElement>
 								<text><![CDATA[  Componente]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell height="17" rowSpan="1">
 							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement positionType="Float" x="0" y="0" width="200" height="17" uuid="a67b1285-fc13-41d2-8cfd-0f63bb78c95f"/>
+								<reportElement positionType="Float" x="0" y="0" width="200" height="17"/>
 								<box>
 									<leftPen lineWidth="0.25"/>
 									<bottomPen lineWidth="0.25"/>
 								</box>
-								<textElement textAlignment="Left" verticalAlignment="Middle">
+								<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single">
 									<font size="7"/>
-									<paragraph lineSpacing="Single"/>
 								</textElement>
-								<textFieldExpression><![CDATA['  ' + '[' + $F{Referencia-code} + '] ' + $F{Name-name}]]></textFieldExpression>
+								<textFieldExpression class="java.lang.String"><![CDATA['  ' + '[' + $F{Referencia-code} + '] ' + $F{Name-name}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="89" uuid="ba7b8d90-c52d-4b88-a73f-9a5085aae5af">
+					<jr:column width="89">
 						<jr:columnHeader height="16" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="89" height="16" uuid="001ea16b-8163-46bb-8801-7a9df6d3bc8f"/>
+								<reportElement x="0" y="0" width="89" height="16"/>
 								<box>
 									<topPen lineWidth="0.25"/>
 									<leftPen lineWidth="0.25"/>
 									<bottomPen lineWidth="0.25"/>
 									<rightPen lineWidth="0.25"/>
 								</box>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
+								<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
 									<font size="7" isBold="true"/>
-									<paragraph lineSpacing="Single"/>
 								</textElement>
 								<text><![CDATA[Origen]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell height="17" rowSpan="1">
 							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement positionType="Float" x="0" y="0" width="89" height="17" uuid="e553d031-42c3-4151-b6ac-5a0e7632579b"/>
+								<reportElement positionType="Float" x="0" y="0" width="89" height="17"/>
 								<box>
 									<leftPen lineWidth="0.25"/>
 									<bottomPen lineWidth="0.25"/>
 									<rightPen lineWidth="0.25"/>
 								</box>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<paragraph lineSpacing="Single"/>
-								</textElement>
+								<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single"/>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="89" uuid="8b0672f4-4c70-48b2-a93f-9e54d7066ef6">
+					<jr:column width="89">
 						<jr:columnHeader height="16" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="89" height="16" uuid="2e3a8202-1e39-42e6-a3db-a4de14530b9c"/>
+								<reportElement x="0" y="0" width="89" height="16"/>
 								<box>
 									<topPen lineWidth="0.25"/>
 									<leftPen lineWidth="0.25"/>
 									<bottomPen lineWidth="0.25"/>
 									<rightPen lineWidth="0.25"/>
 								</box>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
+								<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
 									<font size="7" isBold="true"/>
-									<paragraph lineSpacing="Single"/>
 								</textElement>
 								<text><![CDATA[Proveedor]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell height="17" rowSpan="1">
 							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement positionType="Float" x="0" y="0" width="89" height="17" uuid="5e5dbf8b-20f9-4032-be91-58db79810507"/>
+								<reportElement positionType="Float" x="0" y="0" width="89" height="17"/>
 								<box>
 									<leftPen lineWidth="0.25"/>
 									<bottomPen lineWidth="0.25"/>
 									<rightPen lineWidth="0.25"/>
 								</box>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<paragraph lineSpacing="Single"/>
-								</textElement>
+								<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single"/>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="90" uuid="5120f9f3-2266-4027-9f3a-e20dd24a6a47">
+					<jr:column width="90">
 						<jr:columnHeader height="16" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="90" height="16" uuid="cd2798bd-6ec8-4a82-84ad-08aa7abd10cb"/>
+								<reportElement x="0" y="0" width="90" height="16"/>
 								<box>
 									<topPen lineWidth="0.25"/>
 									<leftPen lineWidth="0.25"/>
 									<bottomPen lineWidth="0.25"/>
 									<rightPen lineWidth="0.25"/>
 								</box>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
+								<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
 									<font size="7" isBold="true"/>
-									<paragraph lineSpacing="Single"/>
 								</textElement>
 								<text><![CDATA[Lote]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell height="17" rowSpan="1">
 							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement positionType="Float" x="0" y="0" width="90" height="17" uuid="5d4c8b92-66a8-4056-962a-ebc4de47be07"/>
+								<reportElement positionType="Float" x="0" y="0" width="90" height="17"/>
 								<box>
 									<leftPen lineWidth="0.25"/>
 									<bottomPen lineWidth="0.25"/>
 									<rightPen lineWidth="0.25"/>
 								</box>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<paragraph lineSpacing="Single"/>
-								</textElement>
+								<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single"/>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="89" uuid="9a6a889e-aa68-4a16-872f-787ac2d034c7">
+					<jr:column width="89">
 						<jr:columnHeader height="16" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="89" height="16" uuid="22478ae2-9bfb-493d-9c5a-35632964c13b"/>
+								<reportElement x="0" y="0" width="89" height="16"/>
 								<box>
 									<topPen lineWidth="0.25"/>
 									<leftPen lineWidth="0.25"/>
 									<bottomPen lineWidth="0.25"/>
 									<rightPen lineWidth="0.25"/>
 								</box>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
+								<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
 									<font size="7" isBold="true"/>
-									<paragraph lineSpacing="Single"/>
 								</textElement>
 								<text><![CDATA[Salida almacén]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell height="17" rowSpan="1">
 							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement positionType="Float" x="0" y="0" width="89" height="17" uuid="e01d7cfb-b714-4711-b7d6-c7c87e2617df"/>
+								<reportElement positionType="Float" x="0" y="0" width="89" height="17"/>
 								<box>
 									<leftPen lineWidth="0.25"/>
 									<bottomPen lineWidth="0.25"/>
 									<rightPen lineWidth="0.25"/>
 								</box>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
+								<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
 									<font size="7"/>
-									<paragraph lineSpacing="Single"/>
 								</textElement>
 							</textField>
 						</jr:detailCell>
@@ -1047,72 +978,68 @@ limpieza]]></text>
 			</componentElement>
 			<elementGroup>
 				<staticText>
-					<reportElement positionType="Float" x="0" y="42" width="555" height="13" uuid="11b10596-c1f6-42a5-80c3-794369166e22"/>
+					<reportElement positionType="Float" x="0" y="42" width="555" height="13"/>
 					<box>
 						<bottomPen lineWidth="0.5" lineStyle="Double"/>
 					</box>
-					<textElement textAlignment="Left" verticalAlignment="Middle">
+					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single">
 						<font size="7" isBold="true"/>
-						<paragraph lineSpacing="Single"/>
 					</textElement>
 					<text><![CDATA[Paradas]]></text>
 				</staticText>
 				<rectangle>
-					<reportElement positionType="Float" x="0" y="60" width="555" height="59" uuid="a991b154-d67d-46ff-bd61-c77b4a7454e6"/>
+					<reportElement positionType="Float" x="0" y="60" width="555" height="59"/>
 					<graphicElement>
 						<pen lineWidth="0.5"/>
 					</graphicElement>
 				</rectangle>
 				<line direction="BottomUp">
-					<reportElement positionType="Float" x="122" y="60" width="1" height="59" uuid="c9a61412-2fe7-4c34-bae1-000e3339c8c5"/>
+					<reportElement positionType="Float" x="122" y="60" width="1" height="59"/>
 					<graphicElement>
 						<pen lineWidth="0.25"/>
 					</graphicElement>
 				</line>
 				<line direction="BottomUp">
-					<reportElement positionType="Float" x="459" y="60" width="1" height="59" uuid="a7848eb6-c20f-4b88-83d9-8223648da7db"/>
+					<reportElement positionType="Float" x="459" y="60" width="1" height="59"/>
 					<graphicElement>
 						<pen lineWidth="0.25"/>
 					</graphicElement>
 				</line>
 				<staticText>
-					<reportElement positionType="Float" x="1" y="60" width="121" height="11" uuid="d0066e2b-0a97-4fec-91e7-ac970b7cafa7"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
+					<reportElement positionType="Float" x="1" y="60" width="121" height="11"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
 						<font size="7" isBold="true"/>
-						<paragraph lineSpacing="Single"/>
 					</textElement>
 					<text><![CDATA[Departamento]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" x="123" y="60" width="336" height="11" uuid="a5826a28-32c1-44a3-8e51-7add559c0696"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
+					<reportElement positionType="Float" x="123" y="60" width="336" height="11"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
 						<font size="7" isBold="true"/>
-						<paragraph lineSpacing="Single"/>
 					</textElement>
 					<text><![CDATA[Motivo]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" x="461" y="60" width="94" height="11" uuid="7cc7c185-0a5d-447f-b32e-a9ad521aa674"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
+					<reportElement positionType="Float" x="461" y="60" width="94" height="11"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
 						<font size="7" isBold="true"/>
-						<paragraph lineSpacing="Single"/>
 					</textElement>
 					<text><![CDATA[Tiempo]]></text>
 				</staticText>
 				<line direction="BottomUp">
-					<reportElement positionType="Float" x="0" y="71" width="554" height="1" uuid="603e2c72-a4a0-4150-a9a7-01613807f1ce"/>
+					<reportElement positionType="Float" x="0" y="71" width="554" height="1"/>
 					<graphicElement>
 						<pen lineWidth="0.25"/>
 					</graphicElement>
 				</line>
 				<line direction="BottomUp">
-					<reportElement positionType="Float" x="0" y="87" width="555" height="1" uuid="a2543166-df91-4dbe-84c1-e0cb0a993f66"/>
+					<reportElement positionType="Float" x="0" y="87" width="555" height="1"/>
 					<graphicElement>
 						<pen lineWidth="0.25"/>
 					</graphicElement>
 				</line>
 				<line direction="BottomUp">
-					<reportElement positionType="Float" x="0" y="103" width="555" height="1" uuid="d05222a8-d96f-4759-bbe3-39b83659a3e1"/>
+					<reportElement positionType="Float" x="0" y="103" width="555" height="1"/>
 					<graphicElement>
 						<pen lineWidth="0.25"/>
 					</graphicElement>
@@ -1120,390 +1047,369 @@ limpieza]]></text>
 			</elementGroup>
 			<elementGroup>
 				<staticText>
-					<reportElement positionType="Float" x="0" y="145" width="555" height="13" uuid="44ffef34-81f7-444b-9ddc-30318116159f"/>
+					<reportElement positionType="Float" x="0" y="145" width="555" height="13"/>
 					<box>
 						<bottomPen lineWidth="0.5" lineStyle="Double"/>
 					</box>
-					<textElement textAlignment="Left" verticalAlignment="Middle">
+					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single">
 						<font size="7" isBold="true"/>
-						<paragraph lineSpacing="Single"/>
 					</textElement>
 					<text><![CDATA[Control de Scrap]]></text>
 				</staticText>
 				<rectangle>
-					<reportElement positionType="Float" x="0" y="163" width="555" height="27" uuid="d285b60c-40bf-49fb-9d8f-e3b9bccd8d71"/>
+					<reportElement positionType="Float" x="0" y="163" width="555" height="27"/>
 					<graphicElement>
 						<pen lineWidth="0.5"/>
 					</graphicElement>
 				</rectangle>
 				<line direction="BottomUp">
-					<reportElement positionType="Float" x="122" y="163" width="1" height="27" uuid="3d357371-b31a-4a6c-9498-021ac9940caf"/>
+					<reportElement positionType="Float" x="122" y="163" width="1" height="27"/>
 					<graphicElement>
 						<pen lineWidth="0.25"/>
 					</graphicElement>
 				</line>
 				<line direction="BottomUp">
-					<reportElement positionType="Float" x="298" y="163" width="1" height="27" uuid="a904dd57-fab6-4730-b93d-64e8908d79f9"/>
+					<reportElement positionType="Float" x="298" y="163" width="1" height="27"/>
 					<graphicElement>
 						<pen lineWidth="0.25"/>
 					</graphicElement>
 				</line>
 				<line direction="BottomUp">
-					<reportElement positionType="Float" x="0" y="174" width="554" height="1" uuid="8c54bd47-4f21-4fda-81ea-0a9b3bcbbfc3"/>
+					<reportElement positionType="Float" x="0" y="174" width="554" height="1"/>
 					<graphicElement>
 						<pen lineWidth="0.25"/>
 					</graphicElement>
 				</line>
 				<staticText>
-					<reportElement positionType="Float" x="123" y="163" width="175" height="11" uuid="574e6788-3503-45e6-a1d1-7cc1953b672d"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
+					<reportElement positionType="Float" x="123" y="163" width="175" height="11"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
 						<font size="7" isBold="true"/>
-						<paragraph lineSpacing="Single"/>
 					</textElement>
 					<text><![CDATA[Cantidad]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" x="299" y="163" width="256" height="11" uuid="be8a371c-7fc3-46cd-85ec-3173097a4e6c"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
+					<reportElement positionType="Float" x="299" y="163" width="256" height="11"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
 						<font size="7" isBold="true"/>
-						<paragraph lineSpacing="Single"/>
 					</textElement>
 					<text><![CDATA[Motivo/Tipo de fallo]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" x="1" y="163" width="121" height="11" uuid="4f77cff2-c013-450f-9955-ea3d2610f530"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
+					<reportElement positionType="Float" x="1" y="163" width="121" height="11"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
 						<font size="7" isBold="true"/>
-						<paragraph lineSpacing="Single"/>
 					</textElement>
 					<text><![CDATA[Control]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" x="1" y="174" width="121" height="16" uuid="0b65716e-bc2e-4c48-bbd8-bfd20e7528f8"/>
+					<reportElement positionType="Float" x="1" y="174" width="121" height="16"/>
 					<box leftPadding="2"/>
-					<textElement verticalAlignment="Middle">
+					<textElement verticalAlignment="Middle" lineSpacing="Single">
 						<font size="7" isBold="true"/>
-						<paragraph lineSpacing="Single"/>
 					</textElement>
 					<text><![CDATA[Producto no conforme]]></text>
 				</staticText>
 			</elementGroup>
 			<elementGroup>
 				<rectangle>
-					<reportElement positionType="Float" x="0" y="213" width="555" height="79" uuid="3b37de95-c958-4b13-ab2e-e2702b9ab572"/>
+					<reportElement positionType="Float" x="0" y="213" width="555" height="79"/>
 					<graphicElement>
 						<pen lineWidth="0.5"/>
 					</graphicElement>
 				</rectangle>
 				<staticText>
-					<reportElement positionType="Float" x="0" y="195" width="555" height="13" uuid="471f5643-52d5-42b9-92b8-c6949e13b650"/>
+					<reportElement positionType="Float" x="0" y="195" width="555" height="13"/>
 					<box>
 						<bottomPen lineWidth="0.5" lineStyle="Double"/>
 					</box>
-					<textElement textAlignment="Left" verticalAlignment="Middle">
+					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single">
 						<font size="7" isBold="true"/>
-						<paragraph lineSpacing="Single"/>
 					</textElement>
 					<text><![CDATA[Parámetros críticos de fabricación]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" x="6" y="237" width="85" height="15" uuid="cda92648-b5b3-4fab-bf3d-fb0ae7132dc2"/>
-					<textElement verticalAlignment="Middle">
+					<reportElement positionType="Float" x="6" y="237" width="85" height="15"/>
+					<textElement verticalAlignment="Middle" lineSpacing="Single">
 						<font size="7"/>
-						<paragraph lineSpacing="Single"/>
 					</textElement>
 					<text><![CDATA[Velocidad de las cintas]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" x="6" y="252" width="85" height="15" uuid="bc90e22b-ef23-4709-bed6-f878cbc37d52"/>
-					<textElement verticalAlignment="Middle">
+					<reportElement positionType="Float" x="6" y="252" width="85" height="15"/>
+					<textElement verticalAlignment="Middle" lineSpacing="Single">
 						<font size="7"/>
-						<paragraph lineSpacing="Single"/>
 					</textElement>
 					<text><![CDATA[Temperatura]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" x="6" y="267" width="85" height="15" uuid="345ebdd6-09a5-428f-9655-488b7b346d38"/>
-					<textElement verticalAlignment="Middle">
+					<reportElement positionType="Float" x="6" y="267" width="85" height="15"/>
+					<textElement verticalAlignment="Middle" lineSpacing="Single">
 						<font size="7"/>
-						<paragraph lineSpacing="Single"/>
 					</textElement>
 					<text><![CDATA[Apertura del llenado]]></text>
 				</staticText>
 				<rectangle>
-					<reportElement positionType="Float" x="91" y="237" width="80" height="15" uuid="3075011c-a6ae-4cf7-a0bd-3cf61695b157"/>
+					<reportElement positionType="Float" x="91" y="237" width="80" height="15"/>
 				</rectangle>
 				<rectangle>
-					<reportElement positionType="Float" x="91" y="252" width="80" height="15" uuid="5c18b084-a31b-4e3a-a396-b13ddfa6593a"/>
+					<reportElement positionType="Float" x="91" y="252" width="80" height="15"/>
 				</rectangle>
 				<rectangle>
-					<reportElement positionType="Float" x="91" y="267" width="80" height="15" uuid="50700f08-0200-42ab-9864-8464b53da76b"/>
+					<reportElement positionType="Float" x="91" y="267" width="80" height="15"/>
 				</rectangle>
 				<rectangle>
-					<reportElement positionType="Float" x="184" y="237" width="55" height="15" uuid="a8390ce7-d7d5-44bd-b8a7-cfb22b264204"/>
+					<reportElement positionType="Float" x="184" y="237" width="55" height="15"/>
 				</rectangle>
 				<rectangle>
-					<reportElement positionType="Float" x="244" y="237" width="55" height="15" uuid="6fa08ecb-09e3-45db-8814-d1605e041979"/>
+					<reportElement positionType="Float" x="244" y="237" width="55" height="15"/>
 				</rectangle>
 				<rectangle>
-					<reportElement positionType="Float" x="304" y="237" width="55" height="15" uuid="ebb95800-3ead-4548-8137-912428d51453"/>
+					<reportElement positionType="Float" x="304" y="237" width="55" height="15"/>
 				</rectangle>
 				<rectangle>
-					<reportElement positionType="Float" x="364" y="237" width="55" height="15" uuid="bbf47e44-65eb-4cff-a672-6da568ea5c9b"/>
+					<reportElement positionType="Float" x="364" y="237" width="55" height="15"/>
 				</rectangle>
 				<rectangle>
-					<reportElement positionType="Float" x="424" y="237" width="55" height="15" uuid="d660e2b7-e64d-4a1e-8a75-ba6e60a32dfd"/>
+					<reportElement positionType="Float" x="424" y="237" width="55" height="15"/>
 				</rectangle>
 				<rectangle>
-					<reportElement positionType="Float" x="484" y="237" width="55" height="15" uuid="734e6062-6c20-4d93-b0d2-6f68522b7968"/>
+					<reportElement positionType="Float" x="484" y="237" width="55" height="15"/>
 				</rectangle>
 				<rectangle>
-					<reportElement positionType="Float" x="184" y="252" width="55" height="15" uuid="27f88081-34ca-42af-902f-2d6ee1713302"/>
+					<reportElement positionType="Float" x="184" y="252" width="55" height="15"/>
 				</rectangle>
 				<rectangle>
-					<reportElement positionType="Float" x="244" y="252" width="55" height="15" uuid="fac67f4a-b261-4c5c-8919-e818c178bc4e"/>
+					<reportElement positionType="Float" x="244" y="252" width="55" height="15"/>
 				</rectangle>
 				<rectangle>
-					<reportElement positionType="Float" x="304" y="252" width="55" height="15" uuid="c0f16e81-bfd2-419a-a632-5cda25f3c698"/>
+					<reportElement positionType="Float" x="304" y="252" width="55" height="15"/>
 				</rectangle>
 				<rectangle>
-					<reportElement positionType="Float" x="364" y="252" width="55" height="15" uuid="23557cf6-4b7a-4e18-9d70-05b5e968c132"/>
+					<reportElement positionType="Float" x="364" y="252" width="55" height="15"/>
 				</rectangle>
 				<rectangle>
-					<reportElement positionType="Float" x="424" y="252" width="55" height="15" uuid="b78b69c5-692e-49b9-82d7-2367afa8837e"/>
+					<reportElement positionType="Float" x="424" y="252" width="55" height="15"/>
 				</rectangle>
 				<rectangle>
-					<reportElement positionType="Float" x="484" y="252" width="55" height="15" uuid="31feae62-f4fd-4470-b797-eea991c6c564"/>
+					<reportElement positionType="Float" x="484" y="252" width="55" height="15"/>
 				</rectangle>
 				<staticText>
-					<reportElement positionType="Float" x="91" y="217" width="80" height="10" uuid="c7a9e9dd-b403-43b5-bbd3-f79e6bc8ff25"/>
+					<reportElement positionType="Float" x="91" y="217" width="80" height="10"/>
 					<box>
 						<bottomPen lineWidth="0.5"/>
 					</box>
-					<textElement textAlignment="Center">
+					<textElement textAlignment="Center" lineSpacing="Single">
 						<font size="7" isUnderline="false"/>
-						<paragraph lineSpacing="Single"/>
 					</textElement>
 					<text><![CDATA[NOMINAL]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" x="184" y="217" width="355" height="10" uuid="c9bd729e-86d8-48b9-a49c-a29dec8725f7"/>
+					<reportElement positionType="Float" x="184" y="217" width="355" height="10"/>
 					<box>
 						<bottomPen lineWidth="0.5"/>
 					</box>
-					<textElement textAlignment="Center">
+					<textElement textAlignment="Center" lineSpacing="Single">
 						<font size="7"/>
-						<paragraph lineSpacing="Single"/>
 					</textElement>
 					<text><![CDATA[REAL]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" x="184" y="227" width="55" height="10" uuid="81c9c64b-0b13-4ae8-905f-32a64393d773"/>
+					<reportElement positionType="Float" x="184" y="227" width="55" height="10"/>
 					<box>
 						<bottomPen lineWidth="0.5"/>
 					</box>
-					<textElement textAlignment="Center">
+					<textElement textAlignment="Center" lineSpacing="Single">
 						<font size="7"/>
-						<paragraph lineSpacing="Single"/>
 					</textElement>
 					<text><![CDATA[VALOR]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" x="244" y="227" width="55" height="10" uuid="58f016a9-8e40-410b-9ef1-d1befb7c7305"/>
+					<reportElement positionType="Float" x="244" y="227" width="55" height="10"/>
 					<box>
 						<bottomPen lineWidth="0.5"/>
 					</box>
-					<textElement textAlignment="Center">
+					<textElement textAlignment="Center" lineSpacing="Single">
 						<font size="7"/>
-						<paragraph lineSpacing="Single"/>
 					</textElement>
 					<text><![CDATA[HORA]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" x="304" y="227" width="55" height="10" uuid="3fab3f29-1c38-4ea2-acc5-1814cd20b015"/>
+					<reportElement positionType="Float" x="304" y="227" width="55" height="10"/>
 					<box>
 						<bottomPen lineWidth="0.5"/>
 					</box>
-					<textElement textAlignment="Center">
+					<textElement textAlignment="Center" lineSpacing="Single">
 						<font size="7"/>
-						<paragraph lineSpacing="Single"/>
 					</textElement>
 					<text><![CDATA[VALOR]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" x="364" y="227" width="55" height="10" uuid="a5dec851-775e-49dd-8d60-94fe0d7d8850"/>
+					<reportElement positionType="Float" x="364" y="227" width="55" height="10"/>
 					<box>
 						<bottomPen lineWidth="0.5"/>
 					</box>
-					<textElement textAlignment="Center">
+					<textElement textAlignment="Center" lineSpacing="Single">
 						<font size="7"/>
-						<paragraph lineSpacing="Single"/>
 					</textElement>
 					<text><![CDATA[HORA]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" x="424" y="227" width="55" height="10" uuid="0009932b-bbab-473d-9e6f-5c53d300ad25"/>
+					<reportElement positionType="Float" x="424" y="227" width="55" height="10"/>
 					<box>
 						<bottomPen lineWidth="0.5"/>
 					</box>
-					<textElement textAlignment="Center">
+					<textElement textAlignment="Center" lineSpacing="Single">
 						<font size="7"/>
-						<paragraph lineSpacing="Single"/>
 					</textElement>
 					<text><![CDATA[VALOR]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" x="484" y="227" width="55" height="10" uuid="edab744b-6bef-4781-b44c-68187a1710af"/>
+					<reportElement positionType="Float" x="484" y="227" width="55" height="10"/>
 					<box>
 						<bottomPen lineWidth="0.5"/>
 					</box>
-					<textElement textAlignment="Center">
+					<textElement textAlignment="Center" lineSpacing="Single">
 						<font size="7"/>
-						<paragraph lineSpacing="Single"/>
 					</textElement>
 					<text><![CDATA[HORA]]></text>
 				</staticText>
 			</elementGroup>
 			<staticText>
-				<reportElement positionType="Float" x="0" y="310" width="85" height="15" uuid="727aaffe-294a-41b6-9ae4-10dd53ca1eb0"/>
+				<reportElement positionType="Float" x="0" y="310" width="85" height="15"/>
 				<box>
 					<bottomPen lineWidth="0.5"/>
 				</box>
-				<textElement verticalAlignment="Middle">
+				<textElement verticalAlignment="Middle" lineSpacing="Single">
 					<font size="7"/>
-					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[GASÓLEO (CONTADOR)]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="Float" x="89" y="300" width="80" height="10" uuid="55e7f3f0-0eaf-4abb-bfce-755bde388621"/>
+				<reportElement positionType="Float" x="89" y="300" width="80" height="10"/>
 				<box>
 					<bottomPen lineWidth="0.5"/>
 				</box>
-				<textElement textAlignment="Center">
+				<textElement textAlignment="Center" lineSpacing="Single">
 					<font size="7"/>
-					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[LECTURA INICIAL]]></text>
 			</staticText>
 			<rectangle>
-				<reportElement positionType="Float" x="89" y="310" width="80" height="15" uuid="c9c48410-7581-45eb-910d-f8034e888344"/>
+				<reportElement positionType="Float" x="89" y="310" width="80" height="15"/>
 			</rectangle>
 			<rectangle>
-				<reportElement positionType="Float" x="174" y="310" width="80" height="15" uuid="ea4b3227-fb97-4b18-a2c9-c26d0b01dead"/>
+				<reportElement positionType="Float" x="174" y="310" width="80" height="15"/>
 			</rectangle>
 			<staticText>
-				<reportElement positionType="Float" x="174" y="300" width="80" height="10" uuid="4611ca9d-0fd5-47c3-8a88-9e2a6eab48b3"/>
+				<reportElement positionType="Float" x="174" y="300" width="80" height="10"/>
 				<box>
 					<bottomPen lineWidth="0.5"/>
 				</box>
-				<textElement textAlignment="Center">
+				<textElement textAlignment="Center" lineSpacing="Single">
 					<font size="7"/>
-					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[LECTURA FINAL]]></text>
 			</staticText>
 			<elementGroup>
 				<rectangle>
-					<reportElement positionType="Float" x="0" y="124" width="555" height="16" uuid="85c66f99-fe20-4376-90a1-5633fea2eeb7"/>
+					<reportElement positionType="Float" x="0" y="124" width="555" height="16"/>
 					<graphicElement>
 						<pen lineWidth="0.5"/>
 					</graphicElement>
 				</rectangle>
 				<staticText>
-					<reportElement positionType="Float" x="0" y="124" width="194" height="16" uuid="99cb4100-9006-492c-a175-e09bfa955081"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
+					<reportElement positionType="Float" x="0" y="124" width="194" height="16"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
 						<font size="7" isBold="true"/>
-						<paragraph lineSpacing="Single"/>
 					</textElement>
 					<text><![CDATA[Paradas acopio M.P. o M.Aux. (tiempo en min.)]]></text>
 				</staticText>
 				<line direction="BottomUp">
-					<reportElement positionType="Float" x="194" y="124" width="1" height="16" uuid="2c42af8a-ef53-4640-90df-0c06581bc2b3"/>
+					<reportElement positionType="Float" x="194" y="124" width="1" height="16"/>
 					<graphicElement>
 						<pen lineWidth="0.25"/>
 					</graphicElement>
 				</line>
 				<line direction="BottomUp">
-					<reportElement positionType="Float" x="218" y="124" width="1" height="16" uuid="463e945b-a413-488b-8b9b-a3c25226d952"/>
+					<reportElement positionType="Float" x="218" y="124" width="1" height="16"/>
 					<graphicElement>
 						<pen lineWidth="0.25"/>
 					</graphicElement>
 				</line>
 				<line direction="BottomUp">
-					<reportElement positionType="Float" x="242" y="124" width="1" height="16" uuid="6fca4607-9617-43c2-a377-f68f67c79805"/>
+					<reportElement positionType="Float" x="242" y="124" width="1" height="16"/>
 					<graphicElement>
 						<pen lineWidth="0.25"/>
 					</graphicElement>
 				</line>
 				<line direction="BottomUp">
-					<reportElement positionType="Float" x="266" y="124" width="1" height="16" uuid="ff3eb99a-56e9-4c55-a021-f99e94cc33a7"/>
+					<reportElement positionType="Float" x="266" y="124" width="1" height="16"/>
 					<graphicElement>
 						<pen lineWidth="0.25"/>
 					</graphicElement>
 				</line>
 				<line direction="BottomUp">
-					<reportElement positionType="Float" x="290" y="124" width="1" height="16" uuid="e2d2d251-e4cd-4e6e-a966-09f17d719e1a"/>
+					<reportElement positionType="Float" x="290" y="124" width="1" height="16"/>
 					<graphicElement>
 						<pen lineWidth="0.25"/>
 					</graphicElement>
 				</line>
 				<line direction="BottomUp">
-					<reportElement positionType="Float" x="314" y="124" width="1" height="16" uuid="ee4214d2-9e2f-458a-9f1b-6747987b772e"/>
+					<reportElement positionType="Float" x="314" y="124" width="1" height="16"/>
 					<graphicElement>
 						<pen lineWidth="0.25"/>
 					</graphicElement>
 				</line>
 				<line direction="BottomUp">
-					<reportElement positionType="Float" x="338" y="124" width="1" height="16" uuid="6baedd6d-7aa4-4d40-830c-949993f569a0"/>
+					<reportElement positionType="Float" x="338" y="124" width="1" height="16"/>
 					<graphicElement>
 						<pen lineWidth="0.25"/>
 					</graphicElement>
 				</line>
 				<line direction="BottomUp">
-					<reportElement positionType="Float" x="362" y="124" width="1" height="16" uuid="84eaaa07-d923-4c4e-acc0-17f1da08a784"/>
+					<reportElement positionType="Float" x="362" y="124" width="1" height="16"/>
 					<graphicElement>
 						<pen lineWidth="0.25"/>
 					</graphicElement>
 				</line>
 				<line direction="BottomUp">
-					<reportElement positionType="Float" x="386" y="124" width="1" height="16" uuid="64d514e8-5d3c-4d1e-9764-deb00664af46"/>
+					<reportElement positionType="Float" x="386" y="124" width="1" height="16"/>
 					<graphicElement>
 						<pen lineWidth="0.25"/>
 					</graphicElement>
 				</line>
 				<line direction="BottomUp">
-					<reportElement positionType="Float" x="410" y="124" width="1" height="16" uuid="4614bb19-a193-46f6-ab7c-f86607f8f3b4"/>
+					<reportElement positionType="Float" x="410" y="124" width="1" height="16"/>
 					<graphicElement>
 						<pen lineWidth="0.25"/>
 					</graphicElement>
 				</line>
 				<line direction="BottomUp">
-					<reportElement positionType="Float" x="434" y="124" width="1" height="16" uuid="494b43f7-7e13-45a5-9f14-16a24e3cf03c"/>
+					<reportElement positionType="Float" x="434" y="124" width="1" height="16"/>
 					<graphicElement>
 						<pen lineWidth="0.25"/>
 					</graphicElement>
 				</line>
 				<line direction="BottomUp">
-					<reportElement positionType="Float" x="458" y="124" width="1" height="16" uuid="cb309384-ce87-4653-8fe4-2d7e51f39c1e"/>
+					<reportElement positionType="Float" x="458" y="124" width="1" height="16"/>
 					<graphicElement>
 						<pen lineWidth="0.25"/>
 					</graphicElement>
 				</line>
 				<line direction="BottomUp">
-					<reportElement positionType="Float" x="482" y="124" width="1" height="16" uuid="cdafea91-6ea6-477e-8004-c9ad67e2f1a7"/>
+					<reportElement positionType="Float" x="482" y="124" width="1" height="16"/>
 					<graphicElement>
 						<pen lineWidth="0.25"/>
 					</graphicElement>
 				</line>
 				<line direction="BottomUp">
-					<reportElement positionType="Float" x="506" y="124" width="1" height="16" uuid="22c359c6-cdc1-439e-9f20-84e8600b7ca1"/>
+					<reportElement positionType="Float" x="506" y="124" width="1" height="16"/>
 					<graphicElement>
 						<pen lineWidth="0.25"/>
 					</graphicElement>
 				</line>
 				<line direction="BottomUp">
-					<reportElement positionType="Float" x="530" y="124" width="1" height="16" uuid="4224ab15-0bfa-4d9f-be45-22085f4a4686"/>
+					<reportElement positionType="Float" x="530" y="124" width="1" height="16"/>
 					<graphicElement>
 						<pen lineWidth="0.25"/>
 					</graphicElement>
@@ -1514,20 +1420,18 @@ limpieza]]></text>
 	<pageFooter>
 		<band height="24">
 			<staticText>
-				<reportElement positionType="Float" x="200" y="4" width="78" height="16" uuid="b480029e-6aa0-42e3-b14a-0df1f9289e94"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
+				<reportElement positionType="Float" x="200" y="4" width="78" height="16"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle" lineSpacing="Single">
 					<font size="7" isBold="false"/>
-					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Página]]></text>
 			</staticText>
 			<textField>
-				<reportElement positionType="Float" x="283" y="4" width="27" height="16" uuid="64ddf867-a294-4c4c-a5e2-d35d8a0a78a6"/>
-				<textElement verticalAlignment="Middle">
+				<reportElement positionType="Float" x="283" y="4" width="27" height="16"/>
+				<textElement verticalAlignment="Middle" lineSpacing="Single">
 					<font size="7"/>
-					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageFooter>
