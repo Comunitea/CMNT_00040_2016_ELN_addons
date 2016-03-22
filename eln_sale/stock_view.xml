@@ -82,11 +82,13 @@
             <field name="type">search</field>
             <field name="inherit_id" ref="stock.view_picking_internal_search" />
             <field name="arch" type="xml">
-                <field name="name" position="replace">
+                <field name="name" position="before">
                     <filter icon="terp-check" string="Direct Invoicing" domain="['|',('sale_id.shop_id.indirect_invoicing','=',False), ('sale_id','=',False)]"/>
                     <filter icon="terp-check" string="Indirect Invoicing" domain="[('sale_id.shop_id.indirect_invoicing','=',True)]"/>
-                    <newline/>
-                    <field name="name" filter_domain="['|', ('name','ilike',self),('client_order_ref','ilike',self)]"/>
+                    <!--
+                    SE COMENTA PORQUE NO FUNCIONA LA BÚSQUEDA CON LOS FILTRO SASÏ
+                    newline/>
+                    <field name="name" filter_domain="['|', ('name','ilike',self),('client_order_ref','ilike',self)]"/-->
                 </field>
             </field>
         </record>
