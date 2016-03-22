@@ -53,9 +53,9 @@ class account_invoice(orm.Model):
                                           string='Received check', help="To write down that a check in paper support has been received, for example.")
     }
 
-    def _refund_cleanup_lines(self, cr, uid, lines):
+    def _refund_cleanup_lines(self, lines):
         """ugly function to map all fields of account.invoice.line when creates refund invoice"""
-        res = super(account_invoice, self)._refund_cleanup_lines(cr, uid, lines)
+        res = super(account_invoice, self)._refund_cleanup_lines(lines)
 
         for line in res:
             if 'tax_id' in line[2]:
