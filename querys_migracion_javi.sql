@@ -302,5 +302,9 @@ update stock_move sm set raw_material_production_id = m2m.production_id
 from mrp_production_move_ids as m2m
 where sm.id = m2m.move_id;
 
-
-select * from res_partner where parent_id = 175;
+-- Si la tabla de tipos de pago solo tiene dos:
+alter sequence product_price_type_id_seq restart with 3;
+INSERT INTO product_price_type(id, create_uid, create_date, write_date, write_uid, active, field, currency_id, name)
+VALUES (3, null, null, null, null, true, 'list_price', 1, 'Public Price');
+INSERT INTO product_price_type(id, create_uid, create_date, write_date, write_uid, active, field, currency_id, name)
+VALUES (4, null, null, null, null, true, 'standard_price_date', 1, 'Cost Price on Date');
