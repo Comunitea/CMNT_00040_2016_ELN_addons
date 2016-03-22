@@ -308,3 +308,7 @@ INSERT INTO product_price_type(id, create_uid, create_date, write_date, write_ui
 VALUES (3, null, null, null, null, true, 'list_price', 1, 'Public Price');
 INSERT INTO product_price_type(id, create_uid, create_date, write_date, write_uid, active, field, currency_id, name)
 VALUES (4, null, null, null, null, true, 'standard_price_date', 1, 'Cost Price on Date');
+
+-- Borrar columna display_name y luego lanzar update all para que la recalcule
+alter table res_partner drop column display_name;
+
