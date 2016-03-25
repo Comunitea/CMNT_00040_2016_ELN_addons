@@ -39,7 +39,9 @@ class sale_order(orm.Model):
         ], 'Invoice Policy', required=True, readonly=True, states={'draft': [('readonly', False)]}, change_default=True),
         'commitment_date': fields.date('Commitment Date', help="Date on which delivery of products is to be made.", readonly=True, states={'draft': [('readonly', False)],'waiting_date': [('readonly', False)],'manual': [('readonly', False)],'progress': [('readonly', False)]}),
         'supplier_cip': fields.char('CIP', help="Código interno del proveedor.", size=32, readonly=True, states={'draft': [('readonly', False)],'waiting_date': [('readonly', False)],'manual': [('readonly', False)],'progress': [('readonly', False)]}),
-        'shop_id': fields.many2one('sale.shop', 'Sale type', required=True)
+        'shop_id': fields.many2one('sale.shop', 'Sale type', required=True),
+        'commercial_partner_id': fields.many2one('res.partner',
+                                                 invisible=True)
     }
 
     def onchange_shop_id(self, cr, uid, ids, shop_id):
@@ -109,34 +111,46 @@ class sale_order(orm.Model):
     def onchange_partner_id(self, cr, uid, ids, part, context=None):
         res = super(sale_order, self).onchange_partner_id(cr, uid, ids, part, context)
         company_id = self.pool.get('res.users').browse(cr, uid, [uid]).company_id.id
-        rec = self.pool.get('account.analytic.default').account_get(cr, uid, product_id=False, partner_id=part, user_id=uid,
+        partner = self.pool.get('res.partner').browse(cr, uid, part)
+        commercial_partner = partner.commercial_partner_id.id
+        rec = self.pool.get('account.analytic.default').account_get(cr, uid, product_id=False, partner_id=commercial_partner, user_id=uid,
                                                                     date=time.strftime('%Y-%m-%d'),company_id=company_id, context={})
         if rec:
             res['value']['project_id'] = rec.analytic_id.id
         else:
             res['value']['project_id'] = False
 
+        print rec
         return res
 
     def onchange_partner_id3(self, cr, uid, ids, part, early_payment_discount=False, payment_term=False, shop=False):
         """extend this event for change the pricelist when the shop is to indirect invoice"""
         res = self.onchange_partner_id2(cr, uid, ids, part, early_payment_discount, payment_term)
+        partner_obj = self.pool.get('res.partner').browse(cr, uid, part)
+        res['value']['commercial_partner_id'] = \
+            partner_obj.commercial_partner_id.id
         if not part:
             res['value']['pricelist_id'] = False
             return res
 
         if shop:
             shop_obj = self.pool.get('sale.shop').browse(cr, uid, shop)
-            partner_obj = self.pool.get('res.partner').browse(cr, uid, part)
+
             if shop_obj.pricelist_id and shop_obj.pricelist_id.id:
                 res['value']['pricelist_id'] = shop_obj.pricelist_id.id
 
             if shop_obj.indirect_invoicing:
                 if partner_obj.property_product_pricelist_indirect_invoicing:
-                    res['value']['pricelist_id'] = partner_obj.property_product_pricelist_indirect_invoicing.id
+                    res['value']['pricelist_id'] = \
+                        partner_obj.commercial_partner_id.property_product_pricelist_indirect_invoicing.id
             else:
                 if partner_obj.property_product_pricelist:
-                    res['value']['pricelist_id'] = partner_obj.property_product_pricelist.id
+                    res['value']['pricelist_id'] = \
+                        partner_obj.commercial_partner_id.property_product_pricelist.id
+        else:
+            res['value']['pricelist_id'] = \
+                partner_obj.commercial_partner_id.property_product_pricelist.id
+
 
         return res
 

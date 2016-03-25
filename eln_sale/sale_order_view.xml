@@ -20,7 +20,7 @@
                         on_change="product_uom_change(parent.pricelist_id, product_id, product_uom_qty, product_uom, product_uos_qty, product_uos, name, parent.partner_id, False, False, parent.date_order, context)"
                         nolabel="1"/>
                 </xpath>
-                
+
                 <field name="client_order_ref" position="after">
                     <field name="supplier_id"/>
                      <field name="supplier_cip"/>
@@ -33,6 +33,15 @@
                                 
                 <field name="project_id" position="replace">
                     <field name="project_id" required="1" context="{'partner_id':partner_id, 'contact_id':False, 'pricelist_id':pricelist_id, 'default_name':name}" groups="analytic.group_analytic_accounting" domain="[('type','&lt;&gt;','view'), ('company_id', '=', company_id), ('parent_id', '!=', False)]"/>
+                </field>
+                <field name="partner_invoice_id" position="before">
+                    <field name="commercial_partner_id" invisible="True" />
+                </field>
+                 <field name="partner_invoice_id" position="attributes">
+                    <attribute name="domain">[('commercial_partner_id', '=', commercial_partner_id)] </attribute>
+                </field>
+                <field name="partner_shipping_id" position="attributes">
+                    <attribute name="domain">[('commercial_partner_id', '=', commercial_partner_id)] </attribute>
                 </field>
             </field>
         </record>
