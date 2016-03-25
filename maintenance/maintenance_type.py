@@ -34,7 +34,8 @@ class maintenance_type(osv.osv):
                     ('preventivo', 'preventivo'),
                      ], 'Type', select=True, required=True,readonly=False),
                 #'fault_type': fields.many2many('fault.type', string="Fault Type"),
-                'survey_id':fields.many2one('survey', 'Associated survey', required=False),
+                'survey_id':fields.many2one('survey.survey', 'Associated '
+                                            'Survey', required=False),
                 'planificado':fields.boolean('Planned', required=False),
                 'intervalo':fields.selection([
                     ('4', 'After x Days'),

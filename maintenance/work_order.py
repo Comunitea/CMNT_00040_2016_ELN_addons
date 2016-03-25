@@ -187,7 +187,7 @@ class work_order(osv.osv):
             'maintenance_type_id':fields.many2one('maintenance.type'
                                                   , 'Maintenance type'
                                                   , required=False),
-            'survey_id':fields.many2one('survey', 'Associated survey'
+            'survey_id':fields.many2one('survey.survey', 'Associated survey'
                                         , required=False),
             'descargo':fields.selection([
                 ('bloqueo', 'block'),
