@@ -120,7 +120,11 @@ class sale_order(orm.Model):
         else:
             res['value']['project_id'] = False
 
-        print rec
+        #Modificamos para que la dirección de factura sea la que tenga la empresa padre
+        addr = self.pool.get('res.partner').address_get(cr, uid, [commercial_partner], ['invoice'])
+        res['value']['partner_invoice_id'] = \
+            addr['invoice']
+
         return res
 
     def onchange_partner_id3(self, cr, uid, ids, part, early_payment_discount=False, payment_term=False, shop=False):
@@ -140,11 +144,11 @@ class sale_order(orm.Model):
                 res['value']['pricelist_id'] = shop_obj.pricelist_id.id
 
             if shop_obj.indirect_invoicing:
-                if partner_obj.property_product_pricelist_indirect_invoicing:
+                if partner_obj.commercial_partner_id.property_product_pricelist_indirect_invoicing:
                     res['value']['pricelist_id'] = \
                         partner_obj.commercial_partner_id.property_product_pricelist_indirect_invoicing.id
             else:
-                if partner_obj.property_product_pricelist:
+                if partner_obj.commercial_partner_id.property_product_pricelist:
                     res['value']['pricelist_id'] = \
                         partner_obj.commercial_partner_id.property_product_pricelist.id
         else:
