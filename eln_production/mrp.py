@@ -473,6 +473,27 @@ class mrp_production_workcenter_line(osv.osv):
                     raise osv.except_osv(_("ERROR!"), _("You can not modify a work order associated at a production with a state other than 'validated'") )
         return super(mrp_production_workcenter_line, self).write(cr, uid, ids, vals, context=context)
 
+    def modify_production_order_state(self, cr, uid, ids, action):
+        """ Modifies production order state if work order state is changed.
+        @param action: Action to perform.
+        @return: Nothing
+        """
+        prod_obj_pool = self.pool.get('mrp.production')
+        oper_obj = self.browse(cr, uid, ids)[0]
+        prod_obj = oper_obj.production_id
+        if action == 'start':
+            if prod_obj.state =='confirmed':
+                prod_obj_pool.force_production(cr, uid, [prod_obj.id])
+                prod_obj_pool.signal_workflow(cr, uid, [prod_obj.id], 'button_produce')
+            elif prod_obj.state in ('ready', 'in_production', 'finished', 'validated', 'closed'):
+                prod_obj_pool.signal_workflow(cr, uid, [prod_obj.id], 'button_produce')
+            else:
+                raise osv.except_osv(_('Error!'),_('Manufacturing order cannot be started in state "%s"!') % (prod_obj.state,))
+        else:
+            return super(mrp_production_workcenter_line, self).modify_production_order_state(cr, uid, ids, action)
+        return
+
+
 class hrEmployee(models.Model):
 
     _inherit = 'hr.employee'
@@ -756,6 +777,8 @@ class mrp_production(osv.osv):
         return result
 
     def action_produce(self, cr, uid, production_id, production_qty, production_mode, wiz=False, context=None):
+        if context is None:
+            context = {}
         stock_mov_obj = self.pool.get('stock.move')
         uom_obj = self.pool.get("product.uom")
         production = self.browse(cr, uid, production_id, context=context)
