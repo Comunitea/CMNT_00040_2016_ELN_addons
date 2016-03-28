@@ -112,13 +112,27 @@ class sale_order_import(orm.TransientModel):
                             continue
 
                         old_picking = ln[picking_i]
-                        partner = self.pool.get('res.partner').browse(cr, uid, partner_id, context)
+
+                        shipping_dir = self.pool.get('res.partner').browse(cr, uid, partner_id, context)
+                        partner = shipping_dir.parent_id and self.pool.get('res.partner').browse(cr, uid, shipping_dir.parent_id.id, context) or shipping_dir
+                        addr = self.pool.get('res.partner').address_get(cr, uid, [partner.id], ['delivery', 'invoice', 'contact'])
+                        invoice_dir = addr['invoice']
+
+                        if not partner.property_product_pricelist:
+                            _logger.info(_("Error: customer with ref '%s' whitout pricelist!") %(ln[partner_code_i].strip()))
+                            err_msg = _("Error processing sale with origin '%s': customer with ref '%s' whithout pricelist!") %(ln[picking_i], ln[partner_code_i].strip())
+                            if not (err_log.find(err_msg) >= 0):
+                                err_log += '\n' + err_msg
+                            continue
+                        
                         values = {
                             'date_order': datetime.strptime(ln[date_i], '%d%m%Y').strftime('%Y-%m-%d') or time.strftime('%Y-%m-%d'),
                             'commitment_date': datetime.strptime(ln[date_i], '%d%m%Y').strftime('%Y-%m-%d') or time.strftime('%Y-%m-%d'),
                             'shop_id': wizard.shop_id.id,
                             'client_order_ref': False,
                             'partner_id': partner.id,
+                            'partner_invoice_id': invoice_dir,
+                            'partner_shipping_id': shipping_dir.id,
                             'pricelist_id': partner.property_product_pricelist.id,
                             'fiscal_position': partner.property_account_position.id,
                             'payment_term': partner.property_payment_term.id,
@@ -136,8 +150,6 @@ class sale_order_import(orm.TransientModel):
                         data.update(sale_obj.onchange_partner_id2(cr, uid, [order_id], partner.id, 0.0, partner.property_payment_term.id, context)['value'])
                         if 'partner_shipping_id' in data and data['partner_shipping_id']:
                             del data['partner_shipping_id']
-                        if 'sale_agent_ids' in data and data['sale_agent_ids']:
-                            data['sale_agent_ids'] = [(6, 0, data['sale_agent_ids'])]
                         sale_obj.write(cr, uid, [order_id], data)
                         _logger.info(_("Created sale order with origin '%s'.") %(ln[picking_i]))
 
@@ -175,21 +187,28 @@ class sale_order_import(orm.TransientModel):
                     so = sale_obj.browse(cr, uid, order_id)
                     # Ahora voy a ejecutar los onchanges para actualizar valores
                     data = {}
-
+                    #Llamo al onchange del producto
+                    sale_agent_ids = []
+                    for sale_agent_id in [x.id for x in so.agents]:
+                        sale_agent_ids.append([4, sale_agent_id, False])
+                    ctx = dict(context, partner_id=so.partner_id.id, quantity=product_uom_qty,
+                                   pricelist=so.pricelist_id.id, shop=so.shop_id.id, uom=False, force_product_uom=False,
+                                   order_id=order_id, sale_agents_ids=sale_agent_ids)
+                    data.update(sale_line_obj.product_id_change2(cr, uid, [line_id], so.pricelist_id.id, product_id[0], product_uom_qty,
+                                                                   False, False, False, '', so.partner_id.id, False, True, so.date_order,
+                                                                   False, so.fiscal_position.id, False, sale_agent_ids, context=ctx)['value'])
                     if 'product_uom_qty' in data and data['product_uom_qty']:
                         del data['product_uom_qty']
                     #Llamo al onchange de la cantidad en UdM
                     ctx = dict(context, partner_id=so.partner_id.id, quantity=product_uom_qty,
-                                   pricelist=so.pricelist_id.id, shop=False, uom=False)  # FALSE SHOP POST-MIGRATION
+                                   pricelist=so.pricelist_id.id, shop=so.shop_id.shop, uom=False)  # FALSE SHOP POST-MIGRATION
                     data.update(sale_line_obj.product_id_change(cr, uid, [line_id], so.pricelist_id.id, product_id[0], product_uom_qty,
-                                                                   False, False, False, '', so.partner_id.id, False, True, so.date_order,
-                                                                   False, so.fiscal_position.id, True, context=ctx)['value'])
+                                                                False, False, False, '', so.partner_id.id, False, True, so.date_order,
+                                                                False, so.fiscal_position.id, True, context=ctx)['value'])
                     if 'product_uom_qty' in data and data['product_uom_qty']:
                         del data['product_uom_qty']
                     if 'tax_id' in data and data['tax_id']:
                         data['tax_id'] = [(6, 0, data['tax_id'])]
-                    if 'line_agent_ids' in data and data['line_agent_ids']:
-                        data['line_agent_ids'] = [(6, 0, data['line_agent_ids'])]
                     #En lugar de hacer write sobre la linea lo hago sobre la cabecera para que dispare correctamente algunos campos funcion como el descuento por pronto pago
                     #sale_line_obj.write(cr, uid, [line_id], data)
                     sale_obj.write(cr, uid, [order_id], {'order_line': [(1, line_id, data)]})

@@ -28,6 +28,8 @@
     'website': 'www.elnogal.com',
     "depends" : ['sale',
                  'eln_custom',
+                 'sale_commission',
+                 'eln_partner_discount'
                  ],
     "init_xml" : [],
     'update_xml': [
