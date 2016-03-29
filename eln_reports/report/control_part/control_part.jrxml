@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="control_part" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="607ed42a-cb5a-4b0f-bc54-af82dd8337c3">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="450"/>
+	<property name="ireport.y" value="476"/>
 	<style name="Crosstab Data Text" hAlign="Center">
 		<paragraph lineSpacing="Single"/>
 	</style>
@@ -63,11 +63,11 @@
 	<parameter name="SUBREPORT_DATA_TOASTED" class="java.lang.Object"/>
 	<parameter name="SUBREPORT_DATA_FRIED" class="java.lang.Object"/>
 	<parameter name="SUBREPORT_DATA_MIXED" class="java.lang.Object"/>
-	<parameter name="control_sheet_packing" class="java.lang.Boolean"/>
-	<parameter name="control_sheet_salted" class="java.lang.Boolean"/>
-	<parameter name="control_sheet_toasted" class="java.lang.Boolean"/>
-	<parameter name="control_sheet_fried" class="java.lang.Boolean"/>
-	<parameter name="control_sheet_mixed" class="java.lang.Boolean"/>
+	<parameter name="control_sheet_packing" class="java.util.HashMap"/>
+	<parameter name="control_sheet_salted" class="java.util.HashMap"/>
+	<parameter name="control_sheet_toasted" class="java.util.HashMap"/>
+	<parameter name="control_sheet_fried" class="java.util.HashMap"/>
+	<parameter name="control_sheet_mixed" class="java.util.HashMap"/>
 	<queryString language="xPath">
 		<![CDATA[/data/record]]>
 	</queryString>
@@ -553,15 +553,72 @@
 			</band>
 		</groupHeader>
 		<groupFooter>
-			<band height="89">
-				<staticText>
-					<reportElement positionType="Float" x="202" y="68" width="78" height="16" uuid="185398cc-c2cc-493c-ae6c-b1ca2d48c1fc"/>
-					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font size="7" isBold="false"/>
-						<paragraph lineSpacing="Single"/>
-					</textElement>
-					<text><![CDATA[Página]]></text>
-				</staticText>
+			<band height="230">
+				<break>
+					<reportElement positionType="Float" x="0" y="144" width="100" height="1" uuid="6b66b18f-0fa0-42d6-b16c-b35eb91e9b5b">
+						<printWhenExpression><![CDATA[$P{control_sheet_toasted}.get($F{id}.toString())]]></printWhenExpression>
+					</reportElement>
+				</break>
+				<subreport>
+					<reportElement key="FRIED" x="1" y="173" width="69" height="20" uuid="4272c78b-bfb1-4ec1-afb5-dc4019764082">
+						<printWhenExpression><![CDATA[$P{control_sheet_fried}.get($F{id}.toString())]]></printWhenExpression>
+					</reportElement>
+					<parametersMapExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}]]></parametersMapExpression>
+					<dataSourceExpression><![CDATA[$P{SUBREPORT_DATA_FRIED}]]></dataSourceExpression>
+					<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "control_part_fried.jasper"]]></subreportExpression>
+				</subreport>
+				<subreport>
+					<reportElement key="PACKING" x="1" y="89" width="69" height="20" uuid="0d56788a-d42e-4f6a-9f39-baf7c25cd0fc">
+						<printWhenExpression><![CDATA[$P{control_sheet_packing}.get($F{id}.toString())]]></printWhenExpression>
+					</reportElement>
+					<parametersMapExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}]]></parametersMapExpression>
+					<dataSourceExpression><![CDATA[$P{SUBREPORT_DATA_PACKING}]]></dataSourceExpression>
+					<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "control_part_packing.jasper"]]></subreportExpression>
+				</subreport>
+				<subreport>
+					<reportElement key="TOASTED" x="1" y="145" width="69" height="20" uuid="1ddcb2b2-f587-491f-8cdf-577cf905f4cc">
+						<printWhenExpression><![CDATA[$P{control_sheet_toasted}.get($F{id}.toString())]]></printWhenExpression>
+					</reportElement>
+					<parametersMapExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}]]></parametersMapExpression>
+					<dataSourceExpression><![CDATA[$P{SUBREPORT_DATA_TOASTED}]]></dataSourceExpression>
+					<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "control_part_toasted.jasper"]]></subreportExpression>
+				</subreport>
+				<subreport>
+					<reportElement key="MIXED" x="1" y="201" width="69" height="20" uuid="446304bc-01dc-4f97-8154-7665e0e5ebfc">
+						<printWhenExpression><![CDATA[$P{control_sheet_mixed}.get($F{id}.toString())]]></printWhenExpression>
+					</reportElement>
+					<parametersMapExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}]]></parametersMapExpression>
+					<dataSourceExpression><![CDATA[$P{SUBREPORT_DATA_MIXED}]]></dataSourceExpression>
+					<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "control_part_mixed.jasper"]]></subreportExpression>
+				</subreport>
+				<break>
+					<reportElement positionType="Float" x="0" y="116" width="100" height="1" uuid="4b40ab4a-7aad-4270-87aa-2c5d785e820d">
+						<printWhenExpression><![CDATA[$P{control_sheet_salted}.get($F{id}.toString())]]></printWhenExpression>
+					</reportElement>
+				</break>
+				<break>
+					<reportElement positionType="Float" x="0" y="172" width="100" height="1" uuid="5d172bf0-70b7-45aa-bf87-df515e0a07d9">
+						<printWhenExpression><![CDATA[$P{control_sheet_fried}.get($F{id}.toString())]]></printWhenExpression>
+					</reportElement>
+				</break>
+				<subreport>
+					<reportElement key="SALTED" x="1" y="117" width="69" height="20" uuid="f0381d3e-3655-45bc-b8de-37875c0ab1b8">
+						<printWhenExpression><![CDATA[$P{control_sheet_salted}.get($F{id}.toString())]]></printWhenExpression>
+					</reportElement>
+					<parametersMapExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}]]></parametersMapExpression>
+					<dataSourceExpression><![CDATA[$P{SUBREPORT_DATA_SALTED}]]></dataSourceExpression>
+					<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "control_part_salted.jasper"]]></subreportExpression>
+				</subreport>
+				<break>
+					<reportElement positionType="Float" x="0" y="200" width="100" height="1" uuid="a0308fd9-a01d-42b0-a1f0-c9fab8300367">
+						<printWhenExpression><![CDATA[$P{control_sheet_mixed}.get($F{id}.toString())]]></printWhenExpression>
+					</reportElement>
+				</break>
+				<break>
+					<reportElement positionType="Float" x="0" y="88" width="100" height="1" uuid="cbca106a-9e62-4a47-bb15-8be4da2790c0">
+						<printWhenExpression><![CDATA[$P{control_sheet_packing}.get($F{id}.toString())]]></printWhenExpression>
+					</reportElement>
+				</break>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 					<reportElement positionType="Float" x="1" y="18" width="553" height="45" uuid="e2fd1905-a513-4c81-94dd-fe3f5c5b02b5"/>
 					<box>
@@ -575,14 +632,6 @@
 						<paragraph lineSpacing="Single"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{Comentarios__ficha_producto-comments_sheet}]]></textFieldExpression>
-				</textField>
-				<textField>
-					<reportElement positionType="Float" x="285" y="68" width="27" height="16" uuid="bfaa0653-6abd-4b40-ac32-a8e9e3851329"/>
-					<textElement verticalAlignment="Middle">
-						<font size="7"/>
-						<paragraph lineSpacing="Single"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement positionType="Float" x="0" y="0" width="555" height="13" uuid="b2cad06b-e3e6-4ee3-80fa-31b8af251e2a"/>
@@ -1022,73 +1071,27 @@ de producción]]></text>
 			</textField>
 		</band>
 	</detail>
-	<summary>
-		<band height="144" splitType="Immediate">
-			<break>
-				<reportElement positionType="Float" x="0" y="2" width="100" height="1" uuid="cbca106a-9e62-4a47-bb15-8be4da2790c0">
-					<printWhenExpression><![CDATA[$P{control_sheet_packing}]]></printWhenExpression>
-				</reportElement>
-			</break>
-			<subreport>
-				<reportElement key="PACKING" x="0" y="5" width="69" height="20" uuid="0d56788a-d42e-4f6a-9f39-baf7c25cd0fc">
-					<printWhenExpression><![CDATA[$P{control_sheet_packing}]]></printWhenExpression>
-				</reportElement>
-				<parametersMapExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}]]></parametersMapExpression>
-				<dataSourceExpression><![CDATA[$P{SUBREPORT_DATA_PACKING}]]></dataSourceExpression>
-				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "control_part_packing.jasper"]]></subreportExpression>
-			</subreport>
-			<break>
-				<reportElement positionType="Float" x="0" y="30" width="100" height="1" uuid="4b40ab4a-7aad-4270-87aa-2c5d785e820d">
-					<printWhenExpression><![CDATA[$P{control_sheet_salted}]]></printWhenExpression>
-				</reportElement>
-			</break>
-			<subreport>
-				<reportElement key="SALTED" x="0" y="33" width="69" height="20" uuid="f0381d3e-3655-45bc-b8de-37875c0ab1b8">
-					<printWhenExpression><![CDATA[$P{control_sheet_salted}]]></printWhenExpression>
-				</reportElement>
-				<parametersMapExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}]]></parametersMapExpression>
-				<dataSourceExpression><![CDATA[$P{SUBREPORT_DATA_SALTED}]]></dataSourceExpression>
-				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "control_part_salted.jasper"]]></subreportExpression>
-			</subreport>
-			<break>
-				<reportElement positionType="Float" x="0" y="58" width="100" height="1" uuid="6b66b18f-0fa0-42d6-b16c-b35eb91e9b5b">
-					<printWhenExpression><![CDATA[$P{control_sheet_toasted}]]></printWhenExpression>
-				</reportElement>
-			</break>
-			<subreport>
-				<reportElement key="TOASTED" x="0" y="61" width="69" height="20" uuid="1ddcb2b2-f587-491f-8cdf-577cf905f4cc">
-					<printWhenExpression><![CDATA[$P{control_sheet_toasted}]]></printWhenExpression>
-				</reportElement>
-				<parametersMapExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}]]></parametersMapExpression>
-				<dataSourceExpression><![CDATA[$P{SUBREPORT_DATA_TOASTED}]]></dataSourceExpression>
-				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "control_part_toasted.jasper"]]></subreportExpression>
-			</subreport>
-			<break>
-				<reportElement positionType="Float" x="0" y="86" width="100" height="1" uuid="5d172bf0-70b7-45aa-bf87-df515e0a07d9">
-					<printWhenExpression><![CDATA[$P{control_sheet_fried}]]></printWhenExpression>
-				</reportElement>
-			</break>
-			<subreport>
-				<reportElement key="FRIED" x="0" y="89" width="69" height="20" uuid="4272c78b-bfb1-4ec1-afb5-dc4019764082">
-					<printWhenExpression><![CDATA[$P{control_sheet_fried}]]></printWhenExpression>
-				</reportElement>
-				<parametersMapExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}]]></parametersMapExpression>
-				<dataSourceExpression><![CDATA[$P{SUBREPORT_DATA_FRIED}]]></dataSourceExpression>
-				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "control_part_fried.jasper"]]></subreportExpression>
-			</subreport>
-			<break>
-				<reportElement positionType="Float" x="0" y="114" width="100" height="1" uuid="a0308fd9-a01d-42b0-a1f0-c9fab8300367">
-					<printWhenExpression><![CDATA[$P{control_sheet_mixed}]]></printWhenExpression>
-				</reportElement>
-			</break>
-			<subreport>
-				<reportElement key="MIXED" x="0" y="117" width="69" height="20" uuid="446304bc-01dc-4f97-8154-7665e0e5ebfc">
-					<printWhenExpression><![CDATA[$P{control_sheet_mixed}]]></printWhenExpression>
-				</reportElement>
-				<parametersMapExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}]]></parametersMapExpression>
-				<dataSourceExpression><![CDATA[$P{SUBREPORT_DATA_MIXED}]]></dataSourceExpression>
-				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "control_part_mixed.jasper"]]></subreportExpression>
-			</subreport>
+	<pageFooter>
+		<band height="20">
+			<textField>
+				<reportElement positionType="Float" x="285" y="0" width="27" height="16" uuid="bfaa0653-6abd-4b40-ac32-a8e9e3851329"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="202" y="0" width="78" height="16" uuid="185398cc-c2cc-493c-ae6c-b1ca2d48c1fc"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="7" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Página]]></text>
+			</staticText>
 		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Immediate"/>
 	</summary>
 </jasperReport>
