@@ -61,25 +61,39 @@ class planning_report_parser(report_sxw.rml_parse):
         pickings = []
         route = False
 
-        if data.get('form',{}) and data['form'].get('date', ''):
-            date = datetime.datetime.strptime(data['form']['date'], '%Y-%m-%d').strftime('%Y-%m-%d')
+        if data.get('form',{}):# and data['form'].get('date', ''):
+            if data ['form'].get('date', False):
+                date = datetime.datetime.strptime(data['form']['date'], '%Y-%m-%d').strftime('%Y-%m-%d')
+            else:
+                date = datetime.datetime.now().strftime('%Y-%m-%d')
             date_start = date + ' 00:00:00'
             date_stop = date + ' 23:59:59'
+
+
+            # if data['form'].get('route_id', False):
+            #     pickings = self.pool.get('stock.picking').search(self.cr, self.uid, [('picking_type_code','=','outgoing'),
+            #                                                                          ('date_done','>=',date_start),('date_done','<=',date_stop),
+            #                                                                          ('route_id','=', data['form']['route_id'][0])])
+            # else:
+            #     pickings = self.pool.get('stock.picking').search(self.cr, self.uid, [('picking_type_code','=','outgoing'),
+            #                                                                          ('date_done','>=',date_start),('date_done','<=',date_stop)])
             if data['form'].get('route_id', False):
-                pickings = self.pool.get('stock.picking').search(self.cr, self.uid, [('picking_type_code','=','outgoing'),
+                pickings = self.pool.get('stock.picking').search(self.cr, self.uid, [('picking_type_id.code','=','outgoing'),
                                                                                      ('date_done','>=',date_start),('date_done','<=',date_stop),
                                                                                      ('route_id','=', data['form']['route_id'][0])])
             else:
-                pickings = self.pool.get('stock.picking').search(self.cr, self.uid, [('picking_type_code','=','outgoing'),
+                pickings = self.pool.get('stock.picking').search(self.cr, self.uid, [('picking_type_id.code','=','outgoing'),
                                                                                      ('date_done','>=',date_start),('date_done','<=',date_stop)])
 
         if pickings:
             for pick in self.pool.get('stock.picking').browse(self.cr, self.uid, pickings):
+                print "Pick id: %s >> Ruta %s"%(pick.id, pick.route_id)
                 if pick.route_id:
                     routes.append(pick.route_id)
                 if pick.move_lines:
                     a = [x.id for x in pick.move_lines]
                     moves = moves + a
+
         objects = []
         if routes:
             routes = list(set(routes))
@@ -89,6 +103,7 @@ class planning_report_parser(report_sxw.rml_parse):
                 route.carrier = route.carrier_id.name
                 route.lines = self.get_move_lines(moves, route.id)
                 objects.append(route)
+
         return super(planning_report_parser, self).set_context(objects, data, ids, report_type=report_type)
 
 
@@ -100,8 +115,8 @@ class planning_report_parser(report_sxw.rml_parse):
         if products:
             products = list(x[0] for x in products)
             for product in self.pool.get('product.product').browse(self.cr, self.uid, products):
-                self.cr.execute('''select s.product_uom, sum(s.product_qty) from stock_move s inner join stock_picking p on p.id=s.picking_id
-                                   where s.product_id = %s and s.id in ''' + str(tuple(moves)) + ''' and p.route_id=''' + str(route) + ''' group by s.product_uom''', (product.id,))
+                self.cr.execute('''select s.product_uom, sum(s.product_qty), s.product_uos, sum(s.product_uos_qty) from stock_move s inner join stock_picking p on p.id=s.picking_id
+                                   where s.product_id = %s and s.id in ''' + str(tuple(moves)) + ''' and p.route_id=''' + str(route) + ''' group by s.product_uos, s.product_uom''', (product.id,))
 
                 move_lines = self.cr.fetchall()[0]
 
@@ -109,6 +124,8 @@ class planning_report_parser(report_sxw.rml_parse):
                 product.name = product.name
                 product.qty = move_lines[1]
                 product.uom = self.pool.get('product.uom').browse(self.cr, self.uid, move_lines[0]).name
+                product.uos_qty = move_lines[3]
+                product.uos = self.pool.get('product.uom').browse(self.cr, self.uid, move_lines[2]).name
                 lines.append(product)
 
         return lines

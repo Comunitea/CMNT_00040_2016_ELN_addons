@@ -13,13 +13,15 @@
         <p style="font-size:15;">${_("Carrier")}: route.carrier</p>
     %endif
 
-    <table>
+    <table class="list_table">
         <thead>
             <tr>
                 <th>${_("Code")}</th>
-                <th  >${_("Product")}</th>
+                <th>${_("Product")}</th>
                 <th >${_("Qty")}</th>
                 <th>${_("UoM")}</th>
+                <th >${_("Qty (UoS)")}</th>
+                <th>${_("UoS")}</th>
             </tr>
         </thead>
 
@@ -30,6 +32,8 @@
             <td>${product.name|entity}</td>
             <td>${product.qty|entity}</td>
             <td>${product.uom|entity}</td>
+            <td>${product.uos_qty|entity}</td>
+            <td>${product.uos|entity}</td>
         </tr>
         %endfor
         </tbody>

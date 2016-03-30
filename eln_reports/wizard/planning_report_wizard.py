@@ -19,7 +19,7 @@
 #
 ##############################################################################
 from openerp.osv import osv, fields
-
+import datetime
 
 class planning_report_wizard(osv.osv_memory):
     _name = 'planning.report.wizard'
@@ -27,10 +27,12 @@ class planning_report_wizard(osv.osv_memory):
     _columns = {
         'name': fields.char('name', size=64),
         'route_id': fields.many2one('route', 'Route'),
-        'date': fields.date('Date', required=True)
+        'date': fields.date('Date')
+
     }
     _defaults = {
         'name': lambda *a: 'planning_report', #será el nombre del archivo generado
+        'date': datetime.datetime.now().strftime('%Y-%m-%d')
     }
     def print_report(self, cr, uid, ids,context=None):
         if context is None:

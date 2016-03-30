@@ -113,28 +113,28 @@
                     }
 
                     .list_table {
-                    border-color:black;
-                    text-align:center;
+
+                    text-align:left;
                     border-collapse: collapse;
                     }
 
                     .list_table td {
-                    border-color:gray;
-                    border-top:1px solid gray;
-                    text-align:rigth;
+                    text-align:left;
                     font-size:8;
-                    padding-right:1px
-                    padding-left:1px
-                    padding-top:1px
+                    padding-right:1px;
+                    padding-left:1px;
+                    padding-top:1px;
                     padding-bottom:1px
                     }
 
                     .list_table th {
-                    border:1px solid black;
-                    text-align:center;
-                    font-size:8;
-                    padding-right:1px
-                    padding-left:1px
+                    border-bottom:1px solid black
+                    text-align:left;
+                    font-size:10;
+                    font-weight: bold;
+                    padding-right:10px;
+                    padding-left:1px;
+                    padding-bottom:3px
                     }
 
                     .list_tabe thead {
