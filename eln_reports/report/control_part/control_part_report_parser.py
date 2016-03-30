@@ -25,21 +25,21 @@ import os
 
 def parser( cr, uid, ids, data, context ):
 
-    control_sheet_packing = False
-    control_sheet_salted = False
-    control_sheet_toasted = False
-    control_sheet_fried = False
-    control_sheet_mixed = False
+    control_sheet_packing = {}
+    control_sheet_salted = {}
+    control_sheet_toasted = {}
+    control_sheet_fried = {}
+    control_sheet_mixed = {}
 
 
     for production in pooler.get_pool(cr.dbname).get('mrp.production').browse(cr, uid, ids):
         if production.routing_id and production.routing_id.workcenter_lines:
             for line in production.routing_id.workcenter_lines:
-                control_sheet_packing = control_sheet_packing or line.workcenter_id.control_sheet_packing
-                control_sheet_salted = control_sheet_salted or line.workcenter_id.control_sheet_salted
-                control_sheet_toasted = control_sheet_toasted or line.workcenter_id.control_sheet_toasted
-                control_sheet_fried = control_sheet_fried or line.workcenter_id.control_sheet_fried
-                control_sheet_mixed = control_sheet_mixed or line.workcenter_id.control_sheet_mixed
+                control_sheet_packing[str(production.id)] = line.workcenter_id.control_sheet_packing
+                control_sheet_salted[str(production.id)] = line.workcenter_id.control_sheet_salted
+                control_sheet_toasted[str(production.id)] = line.workcenter_id.control_sheet_toasted
+                control_sheet_fried[str(production.id)] = line.workcenter_id.control_sheet_fried
+                control_sheet_mixed[str(production.id)] = line.workcenter_id.control_sheet_mixed
 
     parameters = {}
     ids = ids

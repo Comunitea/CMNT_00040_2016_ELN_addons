@@ -64,30 +64,32 @@ class stock_picking(models.Model):
     @api.depends('move_lines', 'partner_id')
     def _amount_all(self):
         for picking in self:
-            if not picking.sale_id:
-                picking.amount_tax = picking.amount_untaxed = \
-                    picking.amount_gross = 0.0
-                continue
             taxes = amount_gross = amount_untaxed = 0.0
             cur = picking.partner_id.property_product_pricelist \
                 and picking.partner_id.property_product_pricelist.currency_id \
                 or False
             for line in picking.move_lines:
                 price_unit = 0.0
-                sale_line = line.procurement_id.sale_line_id
-                if sale_line and line.state != 'cancel':
-                    price_unit = sale_line.price_unit * \
-                        (1-(sale_line.discount or 0.0)/100.0)
-                    for c in sale_line.tax_id.compute_all(
-                            price_unit, line.product_qty,
-                            line.product_id,
-                            sale_line.order_id.partner_id)['taxes']:
-                        taxes += c.get('amount', 0.0)
-                    amount_gross += (sale_line.price_unit *
-                                     line.product_qty)
-                    amount_untaxed += price_unit * line.product_qty
+                order_line = False
+                if line.procurement_id.sale_line_id and line.state != 'cancel':
+                    order_line = line.procurement_id.sale_line_id
+                    taxes_obj = order_line.tax_id
+                elif line.purchase_line_id and line.state != 'cancel':
+                    order_line = line.purchase_line_id
+                    taxes_obj = order_line.taxes_id
                 else:
                     continue
+
+                price_unit = order_line.price_unit * (1 - (order_line.discount or 0.0) / 100.0)
+                for c in taxes_obj.compute_all(
+                        price_unit, line.product_uom_qty,
+                        line.product_id,
+                        order_line.order_id.partner_id)['taxes']:
+                    taxes += c.get('amount', 0.0)
+                amount_gross += (order_line.price_unit *
+                                 line.product_uom_qty)
+                amount_untaxed += price_unit * line.product_uom_qty
+
             if cur:
                 picking.amount_tax = cur.round(taxes)
                 picking.amount_untaxed = cur.round(amount_untaxed)
@@ -145,19 +147,23 @@ class stock_move(models.Model):
         store=True)
 
     @api.multi
-    @api.depends('product_id', 'product_qty', 'procurement_id.sale_line_id')
+    @api.depends('product_id', 'product_uom_qty', 'procurement_id.sale_line_id')
     def _get_subtotal(self):
         for move in self:
+            price_unit = 0.0
             if move.procurement_id.sale_line_id:
-                cost_price = move.product_id.standard_price or 0.0
-                price_unit = (move.procurement_id.sale_line_id.price_unit *
-                              (1-(move.procurement_id.sale_line_id.discount or
-                                  0.0)/100.0))
-                move.price_subtotal = price_unit * move.product_qty
-                move.order_price_unit = price_unit
-                move.cost_subtotal = cost_price * move.product_qty
-                move.margin = move.price_subtotal - move.cost_subtotal
-                if move.price_subtotal > 0:
-                    move.percent_margin = (move.margin/move.price_subtotal)*100
-                else:
-                    move.percent_margin = 0
+                price_unit = (move.procurement_id.sale_line_id.price_unit * (1-(move.procurement_id.sale_line_id.discount or 0.0)/100.0))
+            elif move.purchase_line_id:
+                price_unit = (move.purchase_line_id.price_unit * (1-(move.purchase_line_id.discount or 0.0)/100.0))
+            else:
+                continue
+
+            cost_price = move.product_id.standard_price or 0.0
+            move.price_subtotal = price_unit * move.product_uom_qty
+            move.order_price_unit = price_unit
+            move.cost_subtotal = cost_price * move.product_uom_qty
+            move.margin = move.price_subtotal - move.cost_subtotal
+            if move.price_subtotal > 0:
+                move.percent_margin = (move.margin/move.price_subtotal)*100
+            else:
+                move.percent_margin = 0
