@@ -36,7 +36,6 @@ class mrp_production(orm.Model):
         main_obj = self.browse(cr, uid, ids[0], context=context)
         wizard = self.pool.get('change.production.qty')
         product_qty = 0.0
-        picking_ids = []
         if ids[0] in invalid_ids:
             invalid_ids.remove(ids[0])
 
@@ -63,7 +62,6 @@ class mrp_production(orm.Model):
                 raise osv.except_osv(_('Error !'), _('Production order "%s" UOS is different from the one in the first selected order.') % production.name)
 
             product_qty += production.product_qty
-            picking_ids.append( production.picking_id.id )
 
 
         self.write(cr, uid, ids, {
@@ -72,9 +70,7 @@ class mrp_production(orm.Model):
 
         workflow = netsvc.LocalService("workflow")
 
-        # Cancel 'old' production: We must cancel pickings before cancelling production orders
-        for id in picking_ids:
-            workflow.trg_validate(uid, 'stock.picking', id, 'button_cancel', cr)
+        # Cancel 'old' production
         for id in invalid_ids:
             workflow.trg_validate(uid, 'mrp.production', id, 'button_cancel', cr)
 

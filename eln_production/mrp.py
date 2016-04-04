@@ -609,7 +609,22 @@ class mrp_production(osv.osv):
                                     \nIf the stock is available then the state is set to \'Ready to Produce\'.\n When the production gets started then the state is set to \'In Production\'.\n When the production is over, the state is set to \'Done\'.'),
         'note': fields.text('Notes', readonly = False, states={'cancel':[('readonly', True)], 'done':[('readonly', True)]}),
         'workcenter_lines': fields.one2many('mrp.production.workcenter.line', 'production_id', 'Work Centers Utilisation'),  # remove readonly state
+        'origin': fields.char('Source Document', readonly=False,  states={'cancel':[('readonly', True)], 'done':[('readonly', True)]},
+            help="Reference of the document that generated this production order request.", copy=False),
     }
+
+    def modify_consumption(self, cr, uid, ids, context=None):
+        if not context:
+            context = {}
+        else:
+            context = context.copy()
+        context.update({
+            'active_model': self._name,
+            'active_ids': ids,
+            'active_id': ids[0]
+        })
+        created_id = self.pool['mrp.modify.consumption'].create(cr, uid, {}, context)
+        return self.pool['mrp.modify.consumption'].wizard_view(cr, uid, created_id, context)
 
     def _costs_generate(self, cr, uid, production):
         """ Calculates total costs at the end of the production.

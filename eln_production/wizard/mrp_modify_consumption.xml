@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+    <data>
+
+        <record id="mrp_modify_consumption_form" model="ir.ui.view">
+            <field name="name">mrp.modify.consumption.form</field>
+            <field name="model">mrp.modify.consumption</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Modify consumptions">
+                    <group>
+                        <field name="line_ids" nolabel="1">
+                            <tree editable="bottom" create="false">
+                                <field name="product_id"/>
+                                <field name="product_qty"/>
+                                <button name="split" string="split" type="object" icon="STOCK_PREFERENCES"/>
+                                <field name="lot_id"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <footer>
+                        <button name="modify" string="Modify" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window name="Modify consumptions"
+            res_model="mrp.modify.consumption"
+            view_id="mrp_modify_consumption_form"
+            view_mode="form"
+            target="new"
+            id="action_mrp_modify_consumption"/>
+
+    </data>
+</openerp>
+
