@@ -27,6 +27,7 @@ class planning_report_wizard(osv.osv_memory):
     _columns = {
         'name': fields.char('name', size=64),
         'route_id': fields.many2one('route', 'Route'),
+        'group_by_route': fields.boolean('Group By Route'),
         'date': fields.date('Date')
 
     }

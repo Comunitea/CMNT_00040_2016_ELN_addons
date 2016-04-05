@@ -6,41 +6,50 @@
 </head>
 <body>
 
-%for route in objects:
 
-    <p style="font-size:18;font-weight:bold;">${route.name|entity}(${route.code|entity}) </p>
-    %if route.carrier:
-        <p style="font-size:15;">${_("Carrier")}: route.carrier</p>
-    %endif
-
-    <table class="list_table">
+%for date in objects:
+    <table style="page-break-after:always">
         <thead>
-            <tr>
-                <th>${_("Code")}</th>
-                <th>${_("Product")}</th>
-                <th >${_("Qty")}</th>
-                <th>${_("UoM")}</th>
-                <th >${_("Qty (UoS)")}</th>
-                <th>${_("UoS")}</th>
-            </tr>
+            <tr><th style="text-align:left">
+            Fecha de Previsión: ${date[0]|entity}
+            <hr>
+            </th></tr>
         </thead>
-
-        %for product in route.lines :
         <tbody>
-        <tr>
-            <td>${product.code|entity}</td>
-            <td>${product.name|entity}</td>
-            <td>${product.qty|entity}</td>
-            <td>${product.uom|entity}</td>
-            <td>${product.uos_qty|entity}</td>
-            <td>${product.uos|entity}</td>
-        </tr>
-        %endfor
-        </tbody>
+            <tr><td>
+            %for route in date[1]:
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th colspan = 6 >Ruta: ${route[0]|entity}</th>
+                        </tr>
+                        <tr>
+                            <th>${_("Codigo")}</th>
+                            <th>${_("Producto")}</th>
+                            <th>${_("Qty")}</th>
+                            <th>${_("UoM")}</th>
+                            <th>${_("Qty (UoS)")}</th>
+                            <th>${_("UoS")}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        %for product in route[1]:
+                        <tr>
+                            <td>${product[0]|entity}</td>
+                            <td>${product[1]|entity}</td>
+                            <td>${product[2]|entity}</td>
+                            <td>${product[3]|entity}</td>
+                            <td>${product[4]|entity}</td>
+                            <td>${product[5]|entity}</td>
+                        </tr>
+                        %endfor
+                    </tbody>
+                </table>
+            %endfor
+            </td></tr>
+            </tbody>
     </table>
 %endfor
-
-    <p style="page-break-after:always"></p>
-
 </body>
 </html>

@@ -1988,6 +1988,12 @@ msgstr "Compania-company_id/Empresa-partner_id/Nombre-name"
 msgid "Date"
 msgstr "Fecha"
 
+
+#. module: eln_reports
+#: field:planning.report.wizard,date:0
+msgid "Group By Route"
+msgstr "Agrupado por fecha"
+
 #. module: eln_reports
 #: report:control_part:0
 msgid "Cantidad teórica"
