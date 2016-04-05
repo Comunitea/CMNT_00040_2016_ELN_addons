@@ -28,7 +28,7 @@
 		<filterExpression><![CDATA[$P{PRODUCTION_ID} == $F{id}]]></filterExpression>
 	</subDataset>
 	<subDataset name="DS_LdM">
-		<parameter name="PRODUCTION_ID" class="java.lang.Integer"/>
+		<parameter name="RAW_MATERIAL_PRODUCTION_ID" class="java.lang.Integer"/>
 		<parameter name="REWIND" class="java.lang.Object" isForPrompting="false">
 			<parameterDescription><![CDATA[]]></parameterDescription>
 			<defaultValueExpression><![CDATA[$P{REPORT_DATA_SOURCE}.moveFirst()]]></defaultValueExpression>
@@ -51,10 +51,14 @@
 		<field name="Referencia-code" class="java.lang.String">
 			<fieldDescription><![CDATA[Productos_a_consumir-move_lines/Producto-product_id/Referencia-code]]></fieldDescription>
 		</field>
+		<field name="id2" class="java.lang.Integer">
+			<fieldDescription><![CDATA[Productos_a_consumir-move_lines/Orden_de_produccion_para_las_materias_primas-raw_material_production_id/id]]></fieldDescription>
+		</field>
 		<sortField name="Referencia-code"/>
+		<filterExpression><![CDATA[$P{RAW_MATERIAL_PRODUCTION_ID} == $F{id2}]]></filterExpression>
 	</subDataset>
 	<subDataset name="DS_verifications">
-		<parameter name="PRODUCTION_ID" class="java.lang.Integer"/>
+		<parameter name="PRODUCT_ID" class="java.lang.Integer"/>
 		<parameter name="REWIND" class="java.lang.Object" isForPrompting="false">
 			<parameterDescription><![CDATA[]]></parameterDescription>
 			<defaultValueExpression><![CDATA[$P{REPORT_DATA_SOURCE}.moveFirst()]]></defaultValueExpression>
@@ -65,6 +69,10 @@
 		<field name="Name-name" class="java.lang.String">
 			<fieldDescription><![CDATA[Producto-product_id/Verfications-verification_ids/Verification-verification_id/Name-name]]></fieldDescription>
 		</field>
+		<field name="verification-product_id" class="java.lang.Integer">
+			<fieldDescription><![CDATA[Producto-product_id/Opciones-option_ids/Producto-product_id/id]]></fieldDescription>
+		</field>
+		<filterExpression><![CDATA[$P{PRODUCT_ID} == $F{verification-product_id}]]></filterExpression>
 	</subDataset>
 	<parameter name="TABLE_LINES_ORDENES_TRABAJO_FREIDO" class="java.lang.Object"/>
 	<parameter name="TABLE_LINES_LISTA_MATERIALES_FREIDO" class="java.lang.Object"/>
@@ -77,6 +85,11 @@
 	<parameter name="control_sheet_toasted" class="java.lang.Boolean"/>
 	<parameter name="control_sheet_fried" class="java.lang.Boolean"/>
 	<parameter name="control_sheet_mixed" class="java.lang.Boolean"/>
+	<parameter name="control_sheet_packing_ids" class="java.util.HashMap"/>
+	<parameter name="control_sheet_salted_ids" class="java.util.HashMap"/>
+	<parameter name="control_sheet_toasted_ids" class="java.util.HashMap"/>
+	<parameter name="control_sheet_fried_ids" class="java.util.HashMap"/>
+	<parameter name="control_sheet_mixed_ids" class="java.util.HashMap"/>
 	<queryString language="xPath">
 		<![CDATA[/data/record]]>
 	</queryString>
@@ -146,7 +159,11 @@
 	<field name="Logo-logo" class="java.lang.String">
 		<fieldDescription><![CDATA[Usuario-User/Compania-company_id/Logo-logo]]></fieldDescription>
 	</field>
-	<group name="Production" isStartNewPage="true">
+	<field name="product_id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[Producto-product_id/id]]></fieldDescription>
+	</field>
+	<filterExpression><![CDATA[$P{control_sheet_fried_ids}.get($F{id}.toString())]]></filterExpression>
+	<group name="Production" isStartNewPage="true" isResetPageNumber="true">
 		<groupExpression><![CDATA[$F{id}]]></groupExpression>
 		<groupHeader>
 			<band height="220">
@@ -847,7 +864,7 @@ limpieza]]></text>
 				</reportElement>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
 					<datasetRun subDataset="DS_LdM">
-						<datasetParameter name="PRODUCTION_ID">
+						<datasetParameter name="RAW_MATERIAL_PRODUCTION_ID">
 							<datasetParameterExpression><![CDATA[$F{id}]]></datasetParameterExpression>
 						</datasetParameter>
 						<dataSourceExpression><![CDATA[$P{TABLE_LINES_LISTA_MATERIALES_FREIDO}]]></dataSourceExpression>
@@ -975,8 +992,8 @@ limpieza]]></text>
 				</reportElement>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
 					<datasetRun subDataset="DS_verifications">
-						<datasetParameter name="PRODUCTION_ID">
-							<datasetParameterExpression><![CDATA[$F{id}]]></datasetParameterExpression>
+						<datasetParameter name="PRODUCT_ID">
+							<datasetParameterExpression><![CDATA[$F{product_id}]]></datasetParameterExpression>
 						</datasetParameter>
 						<dataSourceExpression><![CDATA[$P{TABLE_LINES_VERIFICACIONES_FREIDO}]]></dataSourceExpression>
 					</datasetRun>
