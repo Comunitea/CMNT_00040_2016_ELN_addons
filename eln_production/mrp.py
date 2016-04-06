@@ -794,6 +794,7 @@ class mrp_production(osv.osv):
     def action_produce(self, cr, uid, production_id, production_qty, production_mode, wiz=False, context=None):
         if context is None:
             context = {}
+        context = dict(context)
         stock_mov_obj = self.pool.get('stock.move')
         uom_obj = self.pool.get("product.uom")
         production = self.browse(cr, uid, production_id, context=context)

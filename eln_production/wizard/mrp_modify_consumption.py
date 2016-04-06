@@ -18,7 +18,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp import models, fields, api, exceptions, _
+from openerp import _, api, exceptions, fields, models
 import openerp.addons.decimal_precision as dp
 
 
@@ -31,7 +31,8 @@ class MrpModifyConsumptionLine(models.TransientModel):
         'Quantity (in default UoM)',
         digits=dp.get_precision('Product Unit of Measure'))
     lot_id = fields.Many2one('stock.production.lot', 'Lot')
-    move_id = fields.Many2one('stock.move', 'Move')
+    location_id = fields.Many2one('stock.location', 'Source location')
+    move_id = fields.Many2one('stock.move', 'Move', required=True)
     wiz_id = fields.Many2one('mrp.modify.consumption', 'Wizard')
 
     @api.multi
@@ -40,12 +41,20 @@ class MrpModifyConsumptionLine(models.TransientModel):
         self.copy({'product_qty': 0})
         return self.wiz_id.wizard_view()
 
-    @api.one
+    @api.multi
     def create_move(self):
-        new_move = self.move_id.copy(
-            {'product_uom_qty': self.product_qty,
-             'restrict_lot_id': self.lot_id.id})
-        new_move.action_confirm()
+        self.ensure_one()
+        self.move_id = self.move_id.copy({'product_uom_qty': self.product_qty,
+                                      'restrict_lot_id': self.lot_id.id,
+                                      'location_id': self.location_id.id})
+        self.move_id.action_confirm()
+
+    @api.multi
+    def modify_move(self):
+        self.ensure_one()
+        self.move_id.write({'restrict_lot_id': self.lot_id.id,
+                            'product_uom_qty': self.product_qty,
+                            'location_id': self.location_id.id})
 
 
 class MrpModifyConsumption(models.TransientModel):
@@ -83,10 +92,12 @@ class MrpModifyConsumption(models.TransientModel):
                 qty = quant.qty < total and quant.qty or total
                 lines.append({'product_id': quant.product_id.id,
                               'product_qty': qty, 'lot_id': quant.lot_id.id,
+                              'location_id': quant.location_id.id,
                               'move_id': move.id})
                 total -= qty
             if total > 0:
                 lines.append({'product_id': move.product_id.id,
+                              'location_id': move.location_id.id,
                               'product_qty': total, 'move_id': move.id})
         res.update(line_ids=lines)
         return res
@@ -99,8 +110,7 @@ class MrpModifyConsumption(models.TransientModel):
             if line.move_id.id in modified_moves:
                 line.create_move()
             else:
-                line.move_id.write({'restrict_lot_id': line.lot_id.id,
-                                    'product_uom_qty': line.product_qty})
+                line.modify_move()
                 modified_moves.append(line.move_id.id)
         self.mapped('line_ids.move_id').action_assign()
         return {'type': 'ir.actions.act_window_close'}

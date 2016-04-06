@@ -16,6 +16,7 @@
                                 <field name="product_qty"/>
                                 <button name="split" string="split" type="object" icon="STOCK_PREFERENCES"/>
                                 <field name="lot_id"/>
+                                <field name="location_id"/>
                             </tree>
                         </field>
                     </group>
