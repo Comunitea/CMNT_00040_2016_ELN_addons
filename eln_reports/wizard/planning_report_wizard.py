@@ -27,12 +27,13 @@ class planning_report_wizard(osv.osv_memory):
     _columns = {
         'name': fields.char('name', size=64),
         'route_id': fields.many2one('route', 'Route'),
+        'group_by_route': fields.boolean('Group By Route'),
         'date': fields.date('Date')
-
     }
     _defaults = {
         'name': lambda *a: 'planning_report', #será el nombre del archivo generado
-        'date': datetime.datetime.now().strftime('%Y-%m-%d')
+        'date': lambda *a: False,
+        #'date': datetime.datetime.now().strftime('%Y-%m-%d'),
     }
     def print_report(self, cr, uid, ids,context=None):
         if context is None:
@@ -50,5 +51,4 @@ class planning_report_wizard(osv.osv_memory):
 
         }
 
-planning_report_wizard()
 

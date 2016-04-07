@@ -10,8 +10,13 @@
                 <form string="Report planning">
                     <group>
                     <field name="date"/>
-                    <field name="route_id" widget="selection"/>
                     </group>
+                    <group col="4">
+                        <field name="route_id" widget="selection" colspan="2"/>
+                        <field name = "group_by_route" colspan="2"/>
+                    </group>
+
+
                     <separator colspan="4"/>
                     <group col="4" colspan="4">
                         <button icon="gtk-cancel" special="cancel" string="Cancel" colspan="2"/>

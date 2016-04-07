@@ -63,9 +63,7 @@
                             <td>${helper.embed_logo_by_name('elnogal_logo')|n}</td>
                             <td style="text-align:right"> </td>
                         </tr>
-
                         </table>
-                        ${_debug or ''|n}
                      </body>
                 </html>]]>
             </field>
@@ -74,72 +72,17 @@
                 <![CDATA[
                     body {
                     font-family:helvetica;
-                    font-size:12;
+                    font-size:12px;
                     }
+                    table {
+                    font-size:10px;
+                    text-align: left;
+                    }
+                    thead {
+                    font-size:12px}
 
-                    .header {
-                    margin-left:0;
-                    text-align:left;
-                    width:300px;
-                    font-size:20;
-                    }
-                    .normal{
-                    color: black;
-                    }
-
-                    .negative{
-                    color:red;
-                    }
-
-                    .positive{
-                    color: green;
-                    }
-
-                    .title {
-                    font-size:16;
-                    font-weight: bold;
-                    text-align:center;
-                    }
-
-                    .basic_table{
-                    text-align:center;
-                    border:1px solid lightGrey;
-                    border-collapse: collapse;
-                    }
-
-                    .basic_table td {
-                    border:1px solid lightGrey;
-                    font-size:12;
-                    }
-
-                    .list_table {
-
-                    text-align:left;
-                    border-collapse: collapse;
-                    }
-
-                    .list_table td {
-                    text-align:left;
-                    font-size:8;
-                    padding-right:1px;
-                    padding-left:1px;
-                    padding-top:1px;
-                    padding-bottom:1px
-                    }
-
-                    .list_table th {
-                    border-bottom:1px solid black
-                    text-align:left;
-                    font-size:10;
-                    font-weight: bold;
-                    padding-right:10px;
-                    padding-left:1px;
-                    padding-bottom:3px
-                    }
-
-                    .list_tabe thead {
-                        display:table-header-group;
-                    }
+                    tbody {
+                    font-size:10px}
 
 
                 ]]>

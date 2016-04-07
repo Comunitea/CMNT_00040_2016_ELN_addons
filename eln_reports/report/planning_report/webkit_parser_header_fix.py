@@ -221,7 +221,6 @@ class HeaderFooterTextWebKitParser(webkit_report.WebKitParser):
                 _('No header defined for this Webkit report!'),
                 _('Please set a header in company settings.')
             )
-
         css = report_xml.webkit_header.css
         if not css:
             css = ''

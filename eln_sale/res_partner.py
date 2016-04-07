@@ -22,16 +22,16 @@
 from openerp.osv import orm, fields
 
 
+
 class res_partner(orm.Model):
     _inherit = 'res.partner'
     _columns = {
         'product_ids': fields.one2many('partner.product', 'partner_id', 'Price list'),
         'property_product_pricelist_indirect_invoicing': fields.property(
-            type='many2one', 
-            relation='product.pricelist', 
+            type='many2one',
+            relation='product.pricelist',
             domain=[('type','=','sale')],
-            string="Sale Pricelist (Indirect Invoicing)", 
-            view_load=True,
+            string="Sale Pricelist (Indirect Invoicing)",
             help="This pricelist will be used, instead of the default one, for indirect sales invoicing to the current partner"),
     }
 

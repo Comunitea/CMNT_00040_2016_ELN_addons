@@ -157,7 +157,9 @@
             <field name="type">search</field>
             <field name="arch" type="xml">
                 <search string="Picking list">
-                    <group>
+                    <group string="Filters">
+                        <filter icon="terp-check" name="available" string="Ready" domain="[('state','in',('assigned', 'partially_available'))]" help="Assigned Moves"/>
+                        <separator/>
                         <filter icon="terp-go-week" string="Today" name="today"
                         domain="[('date_done', '&lt;=', time.strftime('%%Y-%%m-%%d 23:59:59'))]"/>
                         <filter icon="terp-go-week" string="Today +2" name="todaytwo"
@@ -176,6 +178,7 @@
             <field name="view_type">form</field>
             <field name="view_mode">kanban,tree,form</field>
             <field name="domain">[('picking_type_code','=','outgoing')]</field>
+            <field name="context">{'search_default_available':1}</field>
             <!--field name="context">{'default_type': 'out', 'contact_display': 'partner_address', 'search_default_todaytwo':1}</field-->
             <field name="search_view_id" ref="view_picking_planning_kanban_search"/>
         </record>
