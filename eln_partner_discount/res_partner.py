@@ -33,7 +33,6 @@ class res_partner(orm.Model):
             type='float', 
             string="Sale Discount (%)", 
             method=True,
-            view_load=True,
             help="If select this partner in sale order, discount will be dragged to sale order lines"),
     }
 
