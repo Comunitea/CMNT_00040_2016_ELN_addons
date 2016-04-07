@@ -34,6 +34,7 @@
     "data" : [
                     'stock_view.xml',
                     'wizard/postmigration_reconcile_quants_view.xml',
+                    'wizard/stock_picking_assign_multi.xml',
                     ],
     "demo_xml" : [],
     "active": False,
