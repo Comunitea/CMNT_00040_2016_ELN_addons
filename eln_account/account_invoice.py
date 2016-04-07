@@ -21,6 +21,7 @@
 import openerp.addons.decimal_precision as dp
 from openerp.osv import fields, orm
 from openerp.tools.translate import _
+from openerp import api
 
 
 class account_invoice(orm.Model):
@@ -47,10 +48,37 @@ class account_invoice(orm.Model):
                     res[inv.id] = payment.check_deposit_id.id
         return res
 
+    @api.model
+    def _default_journal(self):
+        if self._context.get('no_journal', False):
+            return False
+        return super(account_invoice, self)._default_journal()
+
+    @api.model
+    def _default_currency(self):
+        if self._context.get('no_journal', False):
+            return self.env.user.company_id.currency_id
+        return super(account_invoice, self)._default_currency()
+
+    @api.multi
+    def onchange_company_id(self, company_id, part_id, type, invoice_line, currency_id):
+        res = super(account_invoice, self).onchange_company_id(company_id, part_id, type, invoice_line, currency_id)
+        if self._context.get('no_journal', False) and res.get('value', {}).get('journal_id', False):
+            res['value']['journal_id'] = False
+        return res
+
     _columns = {
         # 'received_check': fields.function(_received_check, method=True, store=False, type='boolean', string='Received check', help="To write down that a check in paper support has been received, for example."),
         'received_check': fields.function(_received_check, method=True, store=False, type='many2one', relation='account.check.deposit',
-                                          string='Received check', help="To write down that a check in paper support has been received, for example.")
+                                          string='Received check', help="To write down that a check in paper support has been received, for example."),
+        'journal_id': fields.many2one(
+            'account.journal', string='Journal', required=True, readonly=True,
+            states={'draft': [('readonly', False)]}, default=_default_journal,
+            domain="[('type', 'in', {'out_invoice': ['sale'], 'out_refund': ['sale_refund'], 'in_refund': ['purchase_refund'], 'in_invoice': ['purchase']}.get(type, [])), ('company_id', '=', company_id)]"),
+        'currency_id': fields.many2one(
+            'res.currency', string='Currency', required=True, readonly=True,
+            states={'draft': [('readonly', False)]},
+            default=_default_currency, track_visibility='always'),
     }
 
     def _refund_cleanup_lines(self, lines):
@@ -74,16 +102,16 @@ class account_invoice_line(orm.Model):
         """
         if context is None:
             context = {}
-            
+
         update_res = False
-        
+
         if product and uom:
             prod = self.pool.get('product.product').browse(cr, uid, product, context=context)
             prod_uom = self.pool.get('product.uom').browse(cr, uid, uom, context=context)
             if prod.uom_id.category_id.id != prod_uom.category_id.id:
                 update_res = True
                 uom = (prod.uos_id and prod.uos_id.id) or (prod.uom_id and prod.uom_id.id) or False
-            
+
         res = super(account_invoice_line, self).uos_id_change(cr, uid, ids, product, uom, qty, name, type, partner_id, fposition_id, price_unit, address_invoice_id, currency_id, context, company_id)
 
         if update_res:

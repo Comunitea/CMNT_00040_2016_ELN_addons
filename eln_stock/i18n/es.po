@@ -1,6 +1,6 @@
 # Translation of OpenERP Server.
 # This file contains the translation of the following modules:
-# 	* eln_stock
+#   * eln_stock
 #
 msgid ""
 msgstr ""
@@ -36,3 +36,31 @@ msgstr "Referencia debe ser única por compañía!"
 #: model:ir.model,name:eln_stock.model_stock_picking
 msgid "Picking List"
 msgstr "Albarán"
+
+#. module: eln_stock
+#: model:ir.actions.act_window,name:eln_stock.stock_picking_assign_multi_action
+#: view:stock.picking.assign.multi:eln_stock.stock_picking_assign_multi_form
+msgid "Assign multi"
+msgstr "Comprobar disponibilidad"
+
+#. module: eln_stock
+#: view:postmigration.reconcile.quants:eln_stock.view_postmigration_reconcile_quants
+#: view:stock.picking.assign.multi:eln_stock.stock_picking_assign_multi_form
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: eln_stock
+#: view:postmigration.reconcile.quants:eln_stock.view_postmigration_reconcile_quants
+#: view:stock.picking.assign.multi:eln_stock.stock_picking_assign_multi_form
+msgid "or"
+msgstr "o"
+
+#. module: eln_stock
+#: view:res.partner:eln_stock.res_partner_form
+msgid "Deliveries"
+msgstr "Envíos"
+
+#. module: eln_stock
+#: field:stock.picking,address:0
+msgid "Address"
+msgstr "Dirección"
