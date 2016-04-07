@@ -28,11 +28,13 @@
     'website': 'www.elnogal.com',
     "depends" : ['base',
                 'stock',
+                'picking_invoice_rel',
                 # 'stock_location',
                 ],
     "init_xml" : [],
     "data" : [
                     'stock_view.xml',
+                    'res_partner.xml',
                     'wizard/postmigration_reconcile_quants_view.xml',
                     'wizard/stock_picking_assign_multi.xml',
                     ],

@@ -54,3 +54,13 @@ msgstr "Cancelar"
 #: view:stock.picking.assign.multi:eln_stock.stock_picking_assign_multi_form
 msgid "or"
 msgstr "o"
+
+#. module: eln_stock
+#: view:res.partner:eln_stock.res_partner_form
+msgid "Deliveries"
+msgstr "Envíos"
+
+#. module: eln_stock
+#: field:stock.picking,address:0
+msgid "Address"
+msgstr "Dirección"

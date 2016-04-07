@@ -18,18 +18,33 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+
 from openerp import models, fields, api, exceptions, _
 
-class StcokPickingAssignMulti(models.TransientModel):
 
-    _name = 'stock.picking.assign.multi'
+class ResPartner(models.Model):
+
+    _inherit = 'res.partner'
+
+    picking_count = fields.Integer('Deliveries', compute='_get_deliveries_count')
 
     @api.multi
-    def assign(self):
-        self.ensure_one()
-        picking_ids = self._context.get('active_ids', False)
-        pickings = self.env['stock.picking'].browse(picking_ids)
-        pickings = pickings.filtered(
-            lambda r: r.state in ['partially_available', 'confirmed'])
-        pickings.action_assign()
-        return {'type': 'ir.actions.act_window_close'}
+    def _get_deliveries_count(self):
+        picking_type = self.env['stock.picking.type'].search([('code', '=', 'outgoing')])
+        for part in self:
+            pickings = self.env['stock.picking'].search([('partner_id', '=', part.id), ('picking_type_id', 'in', picking_type._ids)])
+            part.picking_count = len(pickings)
+
+
+    @api.multi
+    def action_picking_out(self):
+        picking_type = self.env['stock.picking.type'].search([('code', '=', 'outgoing')])
+        return {
+            'domain': [('partner_id', '=', self.id), ('picking_type_id', 'in', picking_type._ids)],
+            'name': _('Pickings'),
+            'view_mode': 'tree,form',
+            'view_type': 'form',
+            'context': {},
+            'res_model': 'stock.picking',
+            'type': 'ir.actions.act_window',
+        }
