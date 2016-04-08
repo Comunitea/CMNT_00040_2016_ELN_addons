@@ -155,9 +155,9 @@ class planning_report_parser(report_sxw.rml_parse):
             str_route = ''
         sql_dates = "select id from stock_picking p where " \
             "%s" \
-            "state in ('%s', '%s') %s and " \
+            "state in ('%s', '%s', '%s') %s and " \
             "picking_type_id in (select id from stock_picking_type where code = '%s') " \
-            "group by 1 order by route_id desc"%(str_date, 'assigned', 'partially_available', str_route, 'outgoing')
+            "group by 1 order by route_id desc"%(str_date, 'assigned', 'partially_available', 'confirmed', str_route, 'outgoing')
         print sql_dates
         self.cr.execute (sql_dates)
         picks = self.cr.fetchall()
@@ -169,9 +169,9 @@ class planning_report_parser(report_sxw.rml_parse):
         sql_dates = "select route_id, r.name from stock_picking p " \
                     "left join route r on p.route_id = r.id " \
                     "where %s " \
-                    "state in ('%s', '%s') %s and " \
+                    "state in ('%s', '%s', '%s') %s and " \
                     "picking_type_id in (select id from stock_picking_type where code = '%s') " \
-                    "group by 1, 2 order by route_id asc"%(str_date, 'assigned', 'partially_available', str_route, 'outgoing')
+                    "group by 1, 2 order by route_id asc"%(str_date, 'assigned', 'partially_available', 'confirmed', str_route, 'outgoing')
 
         self.cr.execute (sql_dates)
         routes = self.cr.fetchall()

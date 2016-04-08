@@ -74,19 +74,17 @@
                                 <div class="oe_kanban_box_header oe_kanban_color_bgdark oe_kanban_color_border oe_kanban_draghandle">
                                     <table class="oe_kanban_table">
                                     <tr>
-                                                <td class="oe_kanban_title1" align="left" valign="middle" tooltip="production_workcenter_line_details">
-                                                    Fecha Real: <field name="date_done"/>
-                                                </td>
+                                        <td class="oe_kanban_title1" align="left" valign="middle" tooltip="production_workcenter_line_details">
+                                            Fecha Real: <field name="date_done"/>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td align="left" valign="middle" class="oe_kanban_title1" tooltip="production_workcenter_line_details">
                                             <field name="name"/> (<field name="state"/>)
                                         </td>
-
                                     </tr>
                                     </table>
                                 </div>
-
                                      <div class="oe_kanban_box_content oe_kanban_color_bglight oe_kanban_box_show_onclick_trigger oe_kanban_color_border">
                                         <div>
                                             <b>
@@ -98,7 +96,7 @@
                                             <b>
                                                 Dirección:
                                             </b>
-                                            <t-field name="o.partner_id.street"/>
+                                            <field name="partner_id" context="{'show_address':1, 'default_type':'delivery'}"/>
                                         </div>
                                         <div>
                                             <b>
@@ -118,39 +116,35 @@
                                             </b>
                                              <field name="packages" />
                                              <b>
-                                                 Volumen:
+                                               Volumen:
                                              </b>
                                              <field name="volume" />
                                         </div>
                                         <div>
                                             <b>
-                                                Peso bruto:
+                                              Peso bruto:
                                             </b>
                                             <field name="weight" />
                                             <b>
-                                                Peso neto:
+                                              Peso neto:
                                             </b>
                                             <field name="weight_net" />
-
                                         </div>
-
                                     </div>
-
                                     <div class="oe_kanban_buttons_set oe_kanban_color_border oe_kanban_color_bglight oe_kanban_box_show_onclick">
                                         <div class="oe_kanban_left">
                                             <a string="Edit" icon="gtk-edit" type="edit"/>
                                         </div>
-
                                         <br class="oe_kanban_clear"/>
                                     </div>
                                 </div>
                             </div>
-
                         </t>
                     </templates>
                 </kanban>
             </field>
         </record>
+        
         <record id="view_picking_planning_kanban_search" model="ir.ui.view">
             <field name="name">stock.picking.out.search</field>
             <field name="model">stock.picking</field>
@@ -159,6 +153,7 @@
                 <search string="Picking list">
                     <group string="Filters">
                         <filter icon="terp-check" name="available" string="Ready" domain="[('state','in',('assigned', 'partially_available'))]" help="Assigned Moves"/>
+                        <filter icon="terp-check" name="waiting" string="Waiting Availability" domain="[('state','=', 'confirmed')]" help="Waiting Moves"/>
                         <separator/>
                         <filter icon="terp-go-week" string="Today" name="today"
                         domain="[('date_done', '&lt;=', time.strftime('%%Y-%%m-%%d 23:59:59'))]"/>
@@ -178,7 +173,7 @@
             <field name="view_type">form</field>
             <field name="view_mode">kanban,tree,form</field>
             <field name="domain">[('picking_type_code','=','outgoing')]</field>
-            <field name="context">{'search_default_available':1}</field>
+            <field name="context">{'search_default_available':1, 'search_default_waiting':1}</field>
             <!--field name="context">{'default_type': 'out', 'contact_display': 'partner_address', 'search_default_todaytwo':1}</field-->
             <field name="search_view_id" ref="view_picking_planning_kanban_search"/>
         </record>

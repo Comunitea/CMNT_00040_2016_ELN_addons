@@ -33,6 +33,9 @@
                     <field name="client_order_ref"/>
                     <field name="address"/>
                 </field>
+                <group string="Group By" position="inside">
+                    <filter string="Route" domain="[]" context="{'group_by':'route_id'}"/>
+                </group>
             </field>
         </record>
 
