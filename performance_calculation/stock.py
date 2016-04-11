@@ -18,35 +18,24 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import orm, fields
+from openerp import models, fields
 
 
-class stock_move(orm.Model):
+class stock_move(models.Model):
     _inherit = 'stock.move'
-    _columns = {
-        'reworked': fields.boolean('Reworked')
-    }
 
-    def action_scrap(self, cr, uid, ids, quantity, location_id, restrict_lot_id=False, restrict_partner_id=False, context=None):
-        res = super(stock_move, self).action_scrap(cr, uid, ids, quantity, location_id,  restrict_lot_id=restrict_lot_id, restrict_partner_id=restrict_partner_id, context=context)
-
-        is_reworks_location = self.pool.get('stock.location').browse(cr, uid, location_id, context=context).reworks_location
-        
-        for move in self.browse(cr, uid, ids):
-            if is_reworks_location:
-                self.pool.get('stock.move').write(cr, uid, res, {'reworked': True})
-        return res
+    reworked = fields.Boolean('Reworked',
+                              related="location_dest_id.reworks_location",
+                              readonly=True)
 
 
-class stock_production_lot(orm.Model):
+class stock_production_lot(models.Model):
     _inherit = 'stock.production.lot'
-    _columns = {
-        'recovery': fields.boolean('Recovery')
-    }
+
+    recovery = fields.Boolean('Recovery')
 
 
-class stock_location(orm.Model):
+class stock_location(models.Model):
     _inherit = 'stock.location'
-    _columns = {
-        'reworks_location': fields.boolean('Reworks location', help='Check this box to generate reworks when create a scrap move to this location. Should also mark the check box "Scrap Location".')
-    }
+    reworks_location = fields.Boolean('Reworks location',
+                                      help='Check this box to generate reworks when create a scrap move to this location. Should also mark the check box "Scrap Location".')
