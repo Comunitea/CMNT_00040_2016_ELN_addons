@@ -65,7 +65,7 @@
                 <form string="Reworks">
                     <header>
 
-               
+
                         <button name="%(recover_full_product)d"
                         string="Recover full product" type="action"
                         icon="gtk-convert"
@@ -76,7 +76,7 @@
                         />
                         <button name="%(move_scrap)d"
                         string="Scrap Products" type="action"
-                        icon="terp-stock_effects-object-colorize" 
+                        icon="terp-stock_effects-object-colorize"
                         context="{'scrap': True}"/>
                         <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,assigned,done" statusbar_colors='{"waiting":"blue","confirmed":"blue"}'/>
 
@@ -110,7 +110,7 @@
                         </group>
 
                     </sheet>
-                    
+
                 </form>
             </field>
         </record>
@@ -122,7 +122,7 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="view_move_reworks_tree"/>
-            <field name="domain">[('reworked','=',True)]</field>
+            <field name="domain">[('reworked','=',True), ('state', '=', 'done')]</field>
             <field name="search_view_id" ref="view_move_reworkssearch"/>
         </record>
 
@@ -132,7 +132,7 @@
             <field name="view_id" ref="view_move_reworks_tree"/>
             <field name="act_window_id" ref="action_move_reworksform2"/>
         </record>
-        
+
         <record model="ir.actions.act_window.view" id="action_move_reworks_form">
             <field name="sequence" eval="2"/>
             <field name="view_mode">form</field>
@@ -153,7 +153,7 @@
                 </field>
             </field>
         </record>
-        
+
         <record id="view_production_lot_tree_add_recovery" model="ir.ui.view">
             <field name="name">stock.production.lot.tree.add.recovery</field>
             <field name="model">stock.production.lot</field>
