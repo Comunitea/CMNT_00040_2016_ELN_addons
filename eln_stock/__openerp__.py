@@ -28,7 +28,7 @@
     'website': 'www.elnogal.com',
     "depends" : ['base',
                 'stock',
-                'stock_picking_invoice_link',
+                'picking_invoice_rel',
                 # 'stock_location',
                 ],
     "init_xml" : [],
