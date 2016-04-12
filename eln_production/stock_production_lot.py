@@ -98,7 +98,7 @@ class stock_production_lot(osv.osv):
     def _get_balance(self, cr, uid, ids, field_name, arg, context=None):
         res = {}
         data_pool = self.pool.get('ir.model.data')
-        action_model, final_product_category = data_pool.get_object_reference(cr, uid, 'eln_production', "cat12") #Producto Final
+        #action_model, final_product_category = data_pool.get_object_reference(cr, uid, 'eln_production', "cat12") #Producto Final
         for line in self.browse(cr, uid, ids, context=context):
             res[line.id] = {
                 'entry_qty': 0.0,
@@ -108,21 +108,22 @@ class stock_production_lot(osv.osv):
             entry_qty = 0.0
             out_qty = 0.0
             difference = 0.0
-            if line.stock_moves_traceability:
-                for move in line.stock_moves_traceability:
-                    if move.location_id != move.location_dest_id:
-                        if (move.picking_id and move.picking_id.type == 'in') or \
-                            move.production_id or move.location_id == 5 or move.location_id == 24:#revisar esto. esta puesto a dedo para salir del paso
-                            entry_qty += self._get_weight_x_qty(cr, uid, move, context)
-                        else:
-                            #se pone este else porque en el if siguiente no entra ya que ningun producto tiene esa
-                            #categoria puesta. Se deja de momento así, ya que no tiene mucho sentido esta parte de
-                            #balance de masas, pero por si se puede aprovechar en un futuro se mantiene
-                            out_qty += self._get_weight_x_qty(cr, uid, move, context)
-                        if move.product_id and move.product_id.categ_id and move.product_id.categ_id.id == final_product_category: #los productos en realidad no tienen esta categoria. Habría que diferenciar las salidas de otra forma
-                            out_qty += self._get_weight_x_qty(cr, uid, move, context)
-            if entry_qty and out_qty:
-                difference = entry_qty - out_qty
+        #SE COMENTA PORQUE NO TIENE SENTIDO HACERLO DE ESTA FORMA EN LA V8. HAY QUE REVISARLO Y REHACERLO
+        #    if line.stock_moves_traceability:
+        #        for move in line.stock_moves_traceability:
+        #            if move.location_id != move.location_dest_id:
+        #                if (move.picking_id and move.picking_id.type == 'in') or \
+        #                    move.production_id or move.location_id == 5 or move.location_id == 24:#revisar esto. esta puesto a dedo para salir del paso
+        #                    entry_qty += self._get_weight_x_qty(cr, uid, move, context)
+        #                else:
+        #                    #se pone este else porque en el if siguiente no entra ya que ningun producto tiene esa
+        #                    #categoria puesta. Se deja de momento así, ya que no tiene mucho sentido esta parte de
+        #                    #balance de masas, pero por si se puede aprovechar en un futuro se mantiene
+        #                    out_qty += self._get_weight_x_qty(cr, uid, move, context)
+        #                if move.product_id and move.product_id.categ_id and move.product_id.categ_id.id == final_product_category: #los productos en realidad no tienen esta categoria. Habría que diferenciar las salidas de otra forma
+        #                    out_qty += self._get_weight_x_qty(cr, uid, move, context)
+        #    if entry_qty and out_qty:
+        #        difference = entry_qty - out_qty
 
             res[line.id]['entry_qty'] = entry_qty
             res[line.id]['out_qty'] = out_qty

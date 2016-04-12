@@ -13,7 +13,7 @@
                 </xpath>
                 <field name="ean13" position="after">
                     <field name="company_product_code"/>
-                    <field name="dun14" onchange="onchange_dun14(dun14)"/>
+                    <field name="dun14" on_change="onchange_dun14(dun14)"/>
                     <field name="partner_product_code"/>
                 </field>
                 <!--<field name="sequence" position="replace">-->
