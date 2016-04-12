@@ -40,7 +40,7 @@
                 ],
     "init_xml" : [],
     "data" : [
-                    'data/product_data.xml',
+                    #'data/product_data.xml', #SE USABA PARA BALANCE MASAS. NO QUERREMOS CATEGORIAS FIJAS-CUANDO SE REVISE ELIMINAR DE AQUI y el fichero product_data.xml
                     'data/stock_production_lot_seq.xml',
                     'mrp_workflow.xml',
                     'mrp_view.xml',
