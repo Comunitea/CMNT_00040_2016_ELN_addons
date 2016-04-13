@@ -52,24 +52,33 @@ class cost_structure(osv.osv):
     _description = ''
     _columns = {
         'name': fields.char('Name', size=255, required=True),
-        'elements': fields.one2many('cost.structure.elements', 'structure_id', 'Elements', required=True),
+        'elements': fields.one2many('cost.structure.elements', 'structure_id',
+                                    'Elements', required=True),
         'year': fields.integer('Year', size=4, required=True),
         'company_id': fields.many2one('res.company', 'Company', required=True),
     }
     _defaults = {
         'name': '/',
-        'company_id': lambda s, cr, uid, c: s.pool.get('res.company')._company_default_get(cr, uid, 'cost.structure', context=c),
+        'company_id': lambda s, cr, uid, c:
+        s.pool.get('res.company')._company_default_get(cr, uid,
+                                                       'cost.structure',
+                                                       context=c),
     }
-    
+
+
 class cost_structure_elements(osv.osv):
     _name = 'cost.structure.elements'
     _description = ''
     _columns = {
         'name': fields.char('Name', size=255, required=True),
         'sequence': fields.integer('Sequence', required=True),
-        'structure_id': fields.many2one('cost.structure', 'Structure', required=True, ondelete='cascade'),
+        'structure_id': fields.many2one('cost.structure', 'Structure',
+                                        required=True, ondelete='cascade'),
         'cost_type_id': fields.many2one('cost.type', 'Cost name', required=True),
-        'cost_type': fields.related('cost_type_id', 'cost_type', type="selection", selection=COST_TYPES, relation="cost.type", string="Cost type", readonly=True, store=False,
+        'cost_type': fields.related('cost_type_id', 'cost_type', type="selection",
+                                    selection=COST_TYPES, relation="cost.type",
+                                    string="Cost type", readonly=True,
+                                    store=False,
             help="This option is used to define how the cost is calculated.\n" \
             "The 'Total' value means that the cost is a totalizing of the preceding lines in the structure sequence.\n"\
             "The 'BoM' value means that the cost is calculated from the product BoM.\n"\
@@ -77,10 +86,17 @@ class cost_structure_elements(osv.osv):
             "The 'Ratio' value means that the cost is calculated based on a ratio.\n"\
             "The 'Inventory' value means that the cost is as total and when update product cost it will be used as the 'Cost price'."
             ),
-        'cost_ratio': fields.related('cost_type_id', 'cost_ratio', type="float", relation="cost.type", string="Cost ratio", readonly=True, store=False),
-        'distribution_mode': fields.related('cost_type_id', 'distribution_mode', type="selection", selection=DISTRIBUTION_MODES, relation="cost.type", string="Distribution mode", readonly=True, store=False),
+        'cost_ratio': fields.related('cost_type_id', 'cost_ratio', type="float",
+                                     relation="cost.type", string="Cost ratio",
+                                     readonly=True, store=False),
+        'distribution_mode': fields.related('cost_type_id', 'distribution_mode',
+                                            type="selection", selection=DISTRIBUTION_MODES,
+                                            relation="cost.type", string="Distribution mode",
+                                            readonly=True, store=False),
         'time': fields.selection(TIME, string="Time"),
-        'company_id': fields.related('structure_id', 'company_id', type='many2one', relation='res.company', string='Company', store=True, readonly=True),
+        'company_id': fields.related('structure_id', 'company_id', type='many2one',
+                                     relation='res.company', string='Company',
+                                     store=True, readonly=True),
         #'total': fields.boolean('Total')
     }
     _defaults = {

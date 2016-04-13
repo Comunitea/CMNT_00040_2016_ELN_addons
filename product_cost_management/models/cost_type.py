@@ -29,7 +29,10 @@ DISTRIBUTION_MODES = [('eur', 'By amounting'),
                       ('units', 'By units'),
                       ('kg', 'By weight net (kg)'),
                       ('min', 'By minutes')]
-MODELS = [('sales.forecast', 'Sales forecast'), ('forecast.kg.sold', 'Kg sold forecast'), ('mrp.forecast', 'Hour forecast')]
+MODELS = [('sales.forecast', 'Sales forecast'),
+          ('forecast.kg.sold', 'Kg sold forecast'),
+          ('mrp.forecast', 'Hour forecast')]
+
 
 class cost_type(osv.osv):
     _name = 'cost.type'
@@ -48,12 +51,14 @@ class cost_type(osv.osv):
         'distribution_mode': fields.selection(DISTRIBUTION_MODES, 'Distribution mode'),
         'budget_item': fields.many2one('budget.item', 'Budget Item'),
         'forecast_type': fields.reference('Forecast', MODELS, size=128),
-        'forecast_cost_ratio': fields.float('Forecasted cost ratio', readonly=True), #TODO: campo funcion
-        'real_cost_ratio': fields.float('Real cost ratio', readonly=True), #TODO: campo funcion
+        'forecast_cost_ratio': fields.float('Forecasted cost ratio', readonly=True), # TODO: campo funcion
+        'real_cost_ratio': fields.float('Real cost ratio', readonly=True), # TODO: campo funcion
         'company_id': fields.many2one('res.company', 'Company', required=True),
     }
     _defaults = {
         'cost_type': 'total',
-        'company_id': lambda s, cr, uid, c: s.pool.get('res.company')._company_default_get(cr, uid, 'cost.type', context=c),
+        'company_id': lambda s, cr, uid, c:
+        s.pool.get('res.company')._company_default_get(cr, uid, 'cost.type',
+                                                       context=c),
     }
 

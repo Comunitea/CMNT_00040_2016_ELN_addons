@@ -35,7 +35,7 @@
                 </tree>
             </field>
         </record>
-        
+
         <record id="view_product_cost_filter" model="ir.ui.view">
             <field name="name">product.cost.select</field>
             <field name="model">product.cost</field>
@@ -52,7 +52,7 @@
                 </search>
             </field>
         </record>
-        
+
         <record id="view_product_cost_form" model="ir.ui.view">
             <field name="name">product.cost.form</field>
             <field name="model">product.cost</field>
@@ -72,10 +72,10 @@
                                     <field name="name"/>
                                     <field name="theoric_cost"/>
                                     <field name="theoric_cost_standard"/>
-                                    <field name="tcs_tc_percent" widget="progressbar"/>
+                                    <!--field name="tcs_tc_percent" widget="progressbar"/>
                                     <field name="real_cost"/>
                                     <field name="tc_rc_percent" widget="progressbar"/>
-                                    <field name="tcs_rc_percent" widget="progressbar"/>
+                                    <field name="tcs_rc_percent" widget="progressbar"/-->
                                     <field name="inventory"/>
                                     <field name="total"/>
                                 </tree>
@@ -85,7 +85,7 @@
                 </form>
             </field>
         </record>
-        
+
         <record id="action_cost_product" model="ir.actions.act_window">
             <field name="name">Cost Product</field>
              <field name="type">ir.actions.act_window</field>
@@ -96,18 +96,6 @@
              <field name="context">{}</field>
         </record>
 
-        <record id="product_pricelist_item_form_view_add_cost_type" model="ir.ui.view">
-            <field name="name">product.pricelist.item.form.add.cost.type</field>
-            <field name="model">product.pricelist.item</field>
-            <field name="inherit_id" ref="product.product_pricelist_item_form_view"/>
-            <field name="type">form</field>
-            <field name="arch" type="xml">
-                <field name="base" position="after">
-                    <field name="cost_type_id" attrs="{'required':[('base','=',-3)], 'invisible': [('base','!=', -3)]}"/>
-                </field>
-            </field>
-        </record>
-        
         <record id="view_update_product_costs_wzd" model="ir.ui.view">
             <field name="name">update.product.costs</field>
             <field name="model">update.product.costs</field>
