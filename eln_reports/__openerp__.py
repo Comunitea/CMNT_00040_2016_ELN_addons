@@ -33,6 +33,7 @@
                 'stock',
                 'report_webkit',
                 'eln_custom',
+                'picking_invoice_rel',  # Por campo stock_move_id
                 'eln_production',
                 ],
     "init_xml": [],
