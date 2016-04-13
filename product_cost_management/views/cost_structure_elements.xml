@@ -17,6 +17,7 @@
                 </tree>
             </field>
         </record>
+
         <record id="view_cost_structure_elements_filter" model="ir.ui.view">
             <field name="name">cost.structure.elements.list.select</field>
             <field name="model">cost.structure.elements</field>
@@ -27,6 +28,7 @@
                 </search>
             </field>
         </record>
+
         <record id="view_cost_structure_elements_form" model="ir.ui.view">
             <field name="name">cost.structure.elements.form</field>
             <field name="model">cost.structure.elements</field>
@@ -49,6 +51,7 @@
                 </form>
             </field>
         </record>
+
         <record id="action_cost_structure_elements" model="ir.actions.act_window">
             <field name="name">Cost Structure Elements</field>
              <field name="type">ir.actions.act_window</field>
@@ -70,6 +73,7 @@
                 </tree>
             </field>
         </record>
+
         <record id="view_cost_structure_filter" model="ir.ui.view">
             <field name="name">cost.structure.list.select</field>
             <field name="model">cost.structure</field>
@@ -81,6 +85,7 @@
                 </search>
             </field>
         </record>
+
         <record id="view_cost_structure_form" model="ir.ui.view">
             <field name="name">cost.structure.form</field>
             <field name="model">cost.structure</field>
@@ -99,6 +104,7 @@
                 </form>
             </field>
         </record>
+
         <record id="action_cost_structure" model="ir.actions.act_window">
             <field name="name">Cost Structures</field>
              <field name="type">ir.actions.act_window</field>
@@ -108,7 +114,6 @@
             <field name="search_view_id" ref="view_cost_structure_filter"/>
              <field name="context">{}</field>
         </record>
-
 
     </data>
 </openerp>

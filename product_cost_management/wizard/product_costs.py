@@ -52,7 +52,7 @@ class product_costs_line(osv.osv_memory):
     }
     #_order = 'sequence asc, id asc'
 
-    def _get_costs(self, cr, uid, ids, element=False, product_id=False, context=None):
+    def _get_costs(self, cr, uid, ids, element_id=False, product_id=False, context=None):
 
         theoric = 0.0
         theoric_standard = 0.0
@@ -67,24 +67,24 @@ class product_costs_line(osv.osv_memory):
         buditem_facade = self.pool.get('budget.item')
         sale_forecast = self.pool.get('sales.forecast')
         sale_forecast_line = self.pool.get('sales.forecast.line')
-        if element and product_id:
-            ele = element_facade.browse(cr, uid, element)
+        if element_id and product_id:
+            element = element_facade.browse(cr, uid, element_id)
             product = product_facade.browse(cr, uid, product_id)
             # Time
             time_start = False
             time_stop = False
-            if ele.time == 'current_year':
+            if element.time == 'current_year':
                 year = time.strftime('%Y')
                 time_start = "01-01-" + year + " 00:00:01"
                 first_day, last_day = calendar.monthrange(int(year), 12)
                 time_stop = str(last_day) + "-12-" + year + " 23:59:59"
-            #elif ele.time == 'last_twelve_months':
+            #elif element.time == 'last_twelve_months':
             #    time_stop = time.strftime('%Y-%m-%d %H:%M:%S')
             #    start = datetime.date.today() + \
             #             relativedelta(months=-12)
             #    time_start = start.strftime("%Y-%m-%d") + " 00:00:01"
             # THEORIC COST
-            if ele.cost_type == 'bom':
+            if element.cost_type == 'bom':
                 #Valores en función de la lista de mateirales.
                 # La recorremos (aquí en principio no iteramos)
                 if product.route_ids[0].name == 'Manufacture' and product.bom_ids:
@@ -101,20 +101,20 @@ class product_costs_line(osv.osv_memory):
                                 theoric_standard += productb.standard_price_standard * r['product_qty']
                         theoric = theoric / (factor or 1.0)
                         theoric_standard = theoric_standard / (factor or 1.0)
-            elif ele.cost_type == 'standard_price':
+            elif element.cost_type == 'standard_price':
                     theoric = product.standard_price or 0.0
                     theoric_standard = product.standard_price_standard or 0.0
-            elif ele.cost_type == 'ratio':
-                if ele.distribution_mode == 'eur':
-                    theoric = ele.cost_ratio * product.standard_price
+            elif element.cost_type == 'ratio':
+                if element.distribution_mode == 'eur':
+                    theoric = element.cost_ratio * product.standard_price
                     theoric_standard = theoric
-                elif ele.distribution_mode == 'units':
-                    theoric = ele.cost_ratio
+                elif element.distribution_mode == 'units':
+                    theoric = element.cost_ratio
                     theoric_standard = theoric
-                elif ele.distribution_mode == 'kg':
-                    theoric = ele.cost_ratio * product.weight_net
+                elif element.distribution_mode == 'kg':
+                    theoric = element.cost_ratio * product.weight_net
                     theoric_standard = theoric
-                elif ele.distribution_mode == 'min':
+                elif element.distribution_mode == 'min':
                     if product.route_ids[0].name == 'Manufacture' and product.bom_ids:
                         bom = product.bom_ids[0]
                         if bom.routing_id:
@@ -123,12 +123,12 @@ class product_costs_line(osv.osv_memory):
                                 wc = wc_use.workcenter_id
                                 qty_per_cycle = uom_obj._compute_qty(cr, uid, wc_use.uom_id.id, wc_use.qty_per_cycle, product.uom_id.id)
                                 hours += float((wc_use.hour_nbr / qty_per_cycle)  * (wc.time_efficiency or 1.0))
-                            theoric = ele.cost_ratio * hours * 60
+                            theoric = element.cost_ratio * hours * 60
                             theoric_standard = theoric
-            elif ele.cost_type == 'total':
+            elif element.cost_type == 'total':
                 theoric = 0.0
                 theoric_standard = 0.0
-            elif ele.cost_type == 'inventory':
+            elif element.cost_type == 'inventory':
                 theoric = 0.0
                 theoric_standard = 0.0
             # REAL COST
@@ -162,11 +162,9 @@ class product_costs_line(osv.osv_memory):
             if a and a[0] and a[0][0]:
                 cost += a[0][0]
             real = cost
-            print u"Costes para %s\n>> Teorico: %s Teorico Standard %s Real %s"%(product.name, theoric, theoric_standard, real)
         return theoric, theoric_standard, real
 
     def get_product_costs(self, cr, uid, ids, context=None):
-
         if context is None:
             context = {}
         prod = self.pool.get('product.product')
@@ -174,18 +172,17 @@ class product_costs_line(osv.osv_memory):
         prod_cost_line = self.pool.get('product.cost.lines')
         lines = []
         value = {}
-        
+
         if context.get('product_id', False):
             pro = [context['product_id']]
         else:
             pro = prod.search(cr, uid, [])
-            
+
         for product in prod.browse(cr, uid, pro):
 
             if product.cost_structure_id and product.cost_structure_id.elements:
-                print u"Estructura de costes para %s >> %s"%(product.name, product.cost_structure_id.name)
-                new_prod_cost_id = prod_cost.create(cr, uid, {'product_id': product.id, 
-                                                              'date': time.strftime('%Y-%m-%d %H:%M:%S'), 
+                new_prod_cost_id = prod_cost.create(cr, uid, {'product_id': product.id,
+                                                              'date': time.strftime('%Y-%m-%d %H:%M:%S'),
                                                               'company_id': product.cost_structure_id.company_id.id})
                 el = product.cost_structure_id.elements
                 sumtheo = 0.0
@@ -196,7 +193,7 @@ class product_costs_line(osv.osv_memory):
                 real = 0.0
                 standard_price_standard = 0.0
                 dock_cost_standard = 0.0
-                
+
                 for element in el:
                     if element.cost_type not in ('total', 'inventory'):
                         theoric, theoric_standard, real = self._get_costs(cr, uid, ids, element.id, product.id, context)
@@ -225,14 +222,13 @@ class product_costs_line(osv.osv_memory):
                         standard_price_standard = theoric_standard #El ultimo valor tipo inventario encontrado para actualizar el producto
                     if element.cost_type in ('total'):
                         dock_cost_standard = theoric_standard #El ultimo valor tipo total encontrado para actualizar el producto
-                
+
                 vals = {}
                 if (standard_price_standard or dock_cost_standard) and context.get('update_costs', False):
                     if standard_price_standard:
                         vals['standard_price_standard'] = standard_price_standard
                     if dock_cost_standard:
-                        vals['dock_cost_standard'] = dock_cost_standard       
-                    print 'Updating product costs: ', product.code, vals
+                        vals['dock_cost_standard'] = dock_cost_standard
                     prod.write(cr, uid, product.id, vals)
 
         if not context.get('cron', False):
@@ -243,9 +239,9 @@ class product_costs_line(osv.osv_memory):
                 'res_model': 'product.costs.line',
                 'type': 'ir.actions.act_window',
                 'nodestroy': True}
-            
+
         return value
-    
+
     def show_product_costs(self, cr, uid, ids, context=None):
 
         if context is None:
@@ -278,7 +274,7 @@ class product_costs_line(osv.osv_memory):
                     raise osv.except_osv(_('Warning !'), _('Could not show costs. No cost lines were found for this product!'))
             else:
                 raise osv.except_osv(_('Warning !'), _('Could not show costs. There are no costs associated with this product!'))
-            
+
         value = {
             'domain': str([('id', 'in', lines_ids)]),
             'view_type': 'tree',
@@ -286,7 +282,7 @@ class product_costs_line(osv.osv_memory):
             'res_model': 'product.costs.line',
             'type': 'ir.actions.act_window',
             'nodestroy': True}
-            
+
         return value
 
 

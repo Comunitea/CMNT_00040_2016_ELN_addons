@@ -11,3 +11,4 @@ access_product_cost_lines,product.cost.lines,model_product_cost_lines,account.gr
 
 access_cost_structure_manager,cost.structure manager,model_cost_structure,account.group_account_manager,1,0,0,0
 access_cost_structure,cost.structure,model_cost_structure,account.group_account_invoice,1,1,1,1
+access_cost_structure_elements,access_cost_structure_elements,model_cost_structure_elements,account.group_account_invoice,1,1,1,1
