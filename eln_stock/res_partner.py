@@ -25,6 +25,7 @@ from openerp import models, fields, api, exceptions, _
 class ResPartner(models.Model):
 
     _inherit = 'res.partner'
+    _order = 'id desc'
 
     picking_count = fields.Integer('Deliveries', compute='_get_deliveries_count')
 
@@ -34,7 +35,6 @@ class ResPartner(models.Model):
         for part in self:
             pickings = self.env['stock.picking'].search([('partner_id', '=', part.id), ('picking_type_id', 'in', picking_type._ids)])
             part.picking_count = len(pickings)
-
 
     @api.multi
     def action_picking_out(self):
