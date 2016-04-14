@@ -35,7 +35,6 @@ class ResPartner(models.Model):
             pickings = self.env['stock.picking'].search([('partner_id', '=', part.id), ('picking_type_id', 'in', picking_type._ids)])
             part.picking_count = len(pickings)
 
-
     @api.multi
     def action_picking_out(self):
         picking_type = self.env['stock.picking.type'].search([('code', '=', 'outgoing')])

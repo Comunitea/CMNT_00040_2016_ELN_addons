@@ -24,6 +24,7 @@ from openerp import models, fields, api
 class StockPicking(models.Model):
 
     _inherit = 'stock.picking'
+    _order = 'id desc'
 
     address = fields.Char('Address',
                           compute='_get_address',
