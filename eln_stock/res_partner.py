@@ -25,7 +25,6 @@ from openerp import models, fields, api, exceptions, _
 class ResPartner(models.Model):
 
     _inherit = 'res.partner'
-    _order = 'id desc'
 
     picking_count = fields.Integer('Deliveries', compute='_get_deliveries_count')
 
