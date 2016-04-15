@@ -73,11 +73,11 @@ class product_costs_line(osv.osv_memory):
             # Time
             time_start = False
             time_stop = False
-            if element.time == 'current_year':
-                year = time.strftime('%Y')
-                time_start = "01-01-" + year + " 00:00:01"
-                first_day, last_day = calendar.monthrange(int(year), 12)
-                time_stop = str(last_day) + "-12-" + year + " 23:59:59"
+            #if element.time == 'current_year':
+            year = time.strftime('%Y')
+            time_start = "01-01-" + year + " 00:00:01"
+            first_day, last_day = calendar.monthrange(int(year), 12)
+            time_stop = str(last_day) + "-12-" + year + " 23:59:59"
             #elif element.time == 'last_twelve_months':
             #    time_stop = time.strftime('%Y-%m-%d %H:%M:%S')
             #    start = datetime.date.today() + \
