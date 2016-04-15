@@ -292,7 +292,9 @@
                 <field name="routing_id" position="replace">
                     <field name="routing_id" select="1" context="{'bom_id': bom_id}" />
                 </field>
-
+                <field name="product_id" position="attributes">
+                    <attribute name="default_focus">1</attribute>
+                </field>
                 <button name="button_produce" position="after">
                     <button name="%(mrp.act_mrp_product_produce)d" states="finished" context="{'default_mode':'produce', 'production_mode': 'produce_not_consume', 'state': 'validated', 'signal_workflow': 'button_finished_validated'}" string="Validate Production" type="action" icon="terp-gtk-jump-to-ltr"/>
                     <button name="%(mrp.act_mrp_product_produce)d" states="validated" context="{'default_mode':'consume', 'production_mode': 'consume_not_produce', 'state': 'closed', 'signal_workflow': 'button_validated_closed'}" string="Close Production" type="action" icon="terp-gtk-jump-to-ltr"/>
@@ -301,6 +303,7 @@
                 <button name="button_produce" position="after">
                     <!--<button name="button_validated_closed" states="validated" string="Close Production" icon="gtk-ok"/>-->
                     <button name="button_produce_done" states="closed" string="Done Production" icon="gtk-ok"/>
+                    <button name="modify_consumption" type="object" states="validated" string="Modify consumptions"/>
 
                 </button>
                 <button string="Produce" position="replace">
