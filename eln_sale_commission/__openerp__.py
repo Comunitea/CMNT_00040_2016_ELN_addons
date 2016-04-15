@@ -27,6 +27,7 @@ Add new features to sale commission module that covers:
     ],
     "data": [
         'views/sale_order_view.xml',
+        'views/res_partner_view.xml',
     ],
     "demo": [
     ],
