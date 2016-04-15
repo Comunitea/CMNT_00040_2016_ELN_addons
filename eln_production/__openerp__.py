@@ -43,6 +43,7 @@
                     #'data/product_data.xml', #SE USABA PARA BALANCE MASAS. NO QUERREMOS CATEGORIAS FIJAS-CUANDO SE REVISE ELIMINAR DE AQUI y el fichero product_data.xml
                     'data/stock_production_lot_seq.xml',
                     'mrp_workflow.xml',
+                    'wizard/mrp_modify_consumption.xml',
                     'mrp_view.xml',
                     'product_view.xml',
                     'stock_production_lot_view.xml',

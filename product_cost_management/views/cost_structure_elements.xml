@@ -13,7 +13,7 @@
                     <field name="cost_type"/>
                     <field name="cost_ratio"/>
                     <field name="distribution_mode"/>
-                    <field name="time"/>
+                    <field name="time" invisible="1"/>
                 </tree>
             </field>
         </record>
@@ -45,7 +45,7 @@
                             <field name="cost_type" />
                             <field name="cost_ratio" attrs="{'invisible':[('cost_type', '!=', 'ratio')]}"/>
                             <field name="distribution_mode" attrs="{'invisible': [('cost_type', '!=', 'ratio')]}"/>
-                            <field name="time"/>
+                            <field name="time" invisible="1"/>
                         </group>
                     </group>
                 </form>

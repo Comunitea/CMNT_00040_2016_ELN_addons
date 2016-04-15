@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* eln_production
+#   * eln_production
 #
 msgid ""
 msgstr ""
@@ -20,6 +20,20 @@ msgstr ""
 #, python-format
 msgid "Active Id is not found"
 msgstr "Id activo no se encuentra"
+
+#. module: eln_production
+#: view:mrp.modify.consumption:eln_production.mrp_modify_consumption_form
+msgid "Modify"
+msgstr "Modificar"
+
+#. module: eln_production
+#: code:addons/eln_production/wizard/mrp_modify_consumption.py:62
+#: model:ir.actions.act_window,name:eln_production.action_mrp_modify_consumption
+#: view:mrp.modify.consumption:eln_production.mrp_modify_consumption_form
+#: view:mrp.production:eln_production.mrp_production_form_inherit_10
+#, python-format
+msgid "Modify consumptions"
+msgstr "Modificar consumos"
 
 #. module: eln_production
 #: field:mrp.bom,alternatives_routing_ids:0
@@ -65,6 +79,7 @@ msgid "Can not recalculate time because not exists objectives datas in the lines
 msgstr "No puede crealcular tiempo porque no existen datos objetivos en las líneas de la ruta"
 
 #. module: eln_production
+#: view:mrp.modify.consumption:eln_production.mrp_modify_consumption_form
 #: view:mrp.production:eln_production.mrp_production_form_inherit_10
 #: view:mrp.production.workcenter.line:eln_production.mrp_production_workcenter_form_view_inherit
 msgid "Cancel"
@@ -79,6 +94,16 @@ msgstr "Cancelar orden"
 #: view:mrp.workcenter:eln_production.mrp_workcenter_view
 msgid "Capacity Information"
 msgstr "Información de capacidad"
+
+#. module: eln_production
+#: view:mrp.modify.consumption:eln_production.mrp_modify_consumption_form
+msgid "or"
+msgstr "o"
+
+#. module: eln_production
+#: view:mrp.modify.consumption:eln_production.mrp_modify_consumption_form
+msgid "split"
+msgstr "Dividir"
 
 #. module: eln_production
 #: field:mrp.routing.workcenter,capacity_per_cycle:0
@@ -296,6 +321,7 @@ msgid "Location"
 msgstr "Ubicación"
 
 #. module: eln_production
+#: field:mrp.modify.consumption.line,lot_id:0
 #: field:stock.move.scrap,prodlot_id:0
 msgid "Lot"
 msgstr "Lote"
@@ -419,8 +445,14 @@ msgstr "Fabricar"
 
 #. module: eln_production
 #: model:ir.model,name:eln_production.model_product_product
+#: field:mrp.modify.consumption.line,product_id:0
 msgid "Product"
 msgstr "Producto"
+
+#. module: eln_production
+#: field:mrp.modify.consumption.line,product_qty:0
+msgid "Quantity (in default UoM)"
+msgstr "Cantidad (En UdM por defecto)"
 
 #. module: eln_production
 #: model:ir.model,name:eln_production.model_mrp_product_produce
