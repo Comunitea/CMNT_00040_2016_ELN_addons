@@ -87,7 +87,13 @@ class product_costs_line(osv.osv_memory):
             if element.cost_type == 'bom':
                 #Valores en función de la lista de mateirales.
                 # La recorremos (aquí en principio no iteramos)
-                if product.route_ids[0].name == 'Manufacture' and product.bom_ids:
+                routes = product.route_ids + product.categ_id.route_ids
+                manufacture_routes = []
+                for route in routes:
+                    for pull in route.pull_ids:
+                        if pull.action == 'manufacture':
+                            manufacture_routes.append(route.id)
+                if manufacture_routes and product.bom_ids:
                 #if product.supply_method == 'produce' and product.bom_ids:
                     bom = product.bom_ids[0] #Cogemos la primera
                     #aqui no hace falta iterar.
@@ -115,7 +121,13 @@ class product_costs_line(osv.osv_memory):
                     theoric = element.cost_ratio * product.weight_net
                     theoric_standard = theoric
                 elif element.distribution_mode == 'min':
-                    if product.route_ids[0].name == 'Manufacture' and product.bom_ids:
+                    routes = product.route_ids + product.categ_id.route_ids
+                    manufacture_routes = []
+                    for route in routes:
+                        for pull in route.pull_ids:
+                            if pull.action == 'manufacture':
+                                manufacture_routes.append(route.id)
+                    if manufacture_routes and product.bom_ids:
                         bom = product.bom_ids[0]
                         if bom.routing_id:
                             hours = 0.0
@@ -295,5 +307,3 @@ class update_product_costs(osv.osv_memory):
         c['cron'] = True
         c['update_costs'] = True
         return self.pool.get('product.costs.line').get_product_costs(cr, uid, ids, c)
-
-
