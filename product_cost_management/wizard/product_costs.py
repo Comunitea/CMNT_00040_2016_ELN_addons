@@ -87,7 +87,7 @@ class product_costs_line(osv.osv_memory):
             if element.cost_type == 'bom':
                 #Valores en función de la lista de mateirales.
                 # La recorremos (aquí en principio no iteramos)
-                routes = product.route_ids + product.categ_id.route_ids
+                routes = product.route_ids + product.categ_id.total_route_ids
                 manufacture_routes = []
                 for route in routes:
                     for pull in route.pull_ids:
@@ -121,7 +121,7 @@ class product_costs_line(osv.osv_memory):
                     theoric = element.cost_ratio * product.weight_net
                     theoric_standard = theoric
                 elif element.distribution_mode == 'min':
-                    routes = product.route_ids + product.categ_id.route_ids
+                    routes = product.route_ids + product.categ_id.total_route_ids
                     manufacture_routes = []
                     for route in routes:
                         for pull in route.pull_ids:
