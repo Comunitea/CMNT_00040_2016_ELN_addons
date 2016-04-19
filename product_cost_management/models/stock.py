@@ -30,6 +30,7 @@ class stock_move(osv.osv):
         if move.production_id:
             print '****************************************************************************************'
             print 'el valor para el quant si hay produccion', move.product_id, move.price_unit
+            print ' no se si tenemos que usarlo'
             print '****************************************************************************************'
             #return move.price_unit
 
@@ -49,7 +50,9 @@ class stock_move(osv.osv):
             if context is None: context = {}
             c = context.copy()
             c['cron'] = True
-            price = move.product_id.cost_structure_id and self.pool.get('product.costs.line').get_product_costs(cr, uid, move.product_id, c)['inventory_cost']
+            c['product_id'] = move.product_id.id
+            #import ipdb; ipdb.set_trace()
+            price = move.product_id.cost_structure_id and self.pool.get('product.costs.line').get_product_costs(cr, uid, move.product_id, c)['inventory_cost'] or False
             if price:
                 print 'voy a retornar en este caso:', price
                 print '=============================='
