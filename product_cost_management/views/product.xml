@@ -10,8 +10,6 @@
             <field name="arch" type="xml">
                 <field name="standard_price" position="after">
                     <group>
-                        <field name="standard_price_standard"/>
-                        <field name="dock_cost_standard"/>
                         <field name="cost_structure_id"/>
                     </group>
                     <newline/>
@@ -71,11 +69,8 @@
                                     <field name="sequence"/>
                                     <field name="name"/>
                                     <field name="theoric_cost"/>
-                                    <field name="theoric_cost_standard"/>
-                                    <!--field name="tcs_tc_percent" widget="progressbar"/>
                                     <field name="real_cost"/>
                                     <field name="tc_rc_percent" widget="progressbar"/>
-                                    <field name="tcs_rc_percent" widget="progressbar"/-->
                                     <field name="inventory"/>
                                     <field name="total"/>
                                 </tree>

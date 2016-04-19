@@ -21,3 +21,4 @@
 from . import cost_type
 from . import cost_structure_elements
 from . import product
+from . import stock
