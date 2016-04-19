@@ -189,19 +189,8 @@ class sale_order_import(orm.TransientModel):
                     data = {}
                     #Llamo al onchange del producto
                     sale_agent_ids = []
-                    for sale_agent_id in [x.id for x in so.agents]:
-                        sale_agent_ids.append([4, sale_agent_id, False])
                     ctx = dict(context, partner_id=so.partner_id.id, quantity=product_uom_qty,
-                                   pricelist=so.pricelist_id.id, shop=so.shop_id.id, uom=False, force_product_uom=False,
-                                   order_id=order_id, sale_agents_ids=sale_agent_ids)
-                    data.update(sale_line_obj.product_id_change2(cr, uid, [line_id], so.pricelist_id.id, product_id[0], product_uom_qty,
-                                                                   False, False, False, '', so.partner_id.id, False, True, so.date_order,
-                                                                   False, so.fiscal_position.id, False, sale_agent_ids, context=ctx)['value'])
-                    if 'product_uom_qty' in data and data['product_uom_qty']:
-                        del data['product_uom_qty']
-                    #Llamo al onchange de la cantidad en UdM
-                    ctx = dict(context, partner_id=so.partner_id.id, quantity=product_uom_qty,
-                                   pricelist=so.pricelist_id.id, shop=so.shop_id.shop, uom=False)  # FALSE SHOP POST-MIGRATION
+                                   pricelist=so.pricelist_id.id, shop=so.shop_id.id, uom=False)  # FALSE SHOP POST-MIGRATION
                     data.update(sale_line_obj.product_id_change(cr, uid, [line_id], so.pricelist_id.id, product_id[0], product_uom_qty,
                                                                 False, False, False, '', so.partner_id.id, False, True, so.date_order,
                                                                 False, so.fiscal_position.id, True, context=ctx)['value'])
