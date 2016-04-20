@@ -16,12 +16,28 @@
                     <field name="numero_hijos" />
                 </field>
 
-                <field name="address_home_id" position="replace">
-                    <field name="address_home_id" colspan="2" groups="base.group_hr_user"/>
+                <field name="bank_account_id" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="address_home_id" position="attributes">
+                    <attribute name="invisible">1</attribute>
                 </field>
 
-                <field name="work_location" position="after">
-                    <group colspan="2" groups="base.group_hr_user" string="Persona(s) aviso en caso de emergencia">
+                <field name="address_home_id" position="after">
+                    <group colspan="2" col="4">
+                        <field name="personal_street1" placeholder="Calle 1" colspan="4" nolabel="1" />
+                        <field name="personal_street2" placeholder="Calle 2" colspan="4" nolabel="1" />
+                        <field name="personal_zip" placeholder="Código postal" colspan="1" nolabel="1" />
+                        <field name="personal_city" placeholder="Ciudad" colspan="3" nolabel="1" />
+                        <field name="personal_state" placeholder="Provincia" colspan="2" nolabel="1" />
+                        <field name="personal_country" placeholder="País" colspan="2" nolabel="1" />
+                        <field name="personal_phone" placeholder="Teléfono fijo" colspan="2" />
+                        <field name="personal_mobile" placeholder="Teléfono móvil" colspan="2"  />
+                        <field name="personal_email" placeholder="email" colspan="4"  />
+                    </group>
+                </field>
+                <group string="Status" position="before">
+                    <group colspan="4" col="4" string="Persona(s) aviso en caso de emergencia">
                         <field name="persona_aviso_emergencia_1" />
                         <field name="telefono_aviso_emergencia_1" />
                         <field name="persona_aviso_emergencia_2" />
@@ -29,27 +45,21 @@
                         <field name="persona_aviso_emergencia_3" />
                         <field name="telefono_aviso_emergencia_3" />
                     </group>
-                </field>
-
-                <field name="job_id" position="after">
-                    <group colspan="2" col="6" groups="base.group_hr_user">
-                        <field name="tipo_contrato_id" />
-                        <field name="grupo_cotizacion" />
-                    </group>
-                    <group colspan="2" col="6" groups="base.group_hr_user">
-                        <field name="fecha_alta_empresa" />
-                        <field name="fecha_fijo_empresa" />
-                    </group>
-                    <group colspan="2" col="6" groups="base.group_hr_user">
-                        <field name="fecha_baja_empresa" />
-                            <field name="motivo_baja_empresa" colspan="4" />
-                    </group>
-                </field>
+                </group>
 
                 <page string="Personal Information" position="inside">
-                    <group colspan="2" col="2" groups="base.group_hr_user" name="hr_exp_lab">
-                        <separator string="Contrataciones anteriores" colspan="2"/>
-                            <field name="contrataciones_anteriores_ids" colspan="2" nolabel="1">
+                    <group name="hr_exp_lab">
+                        <separator string="Información contratación" colspan="4"/>
+                            <group colspan="4" col="6">
+                                <field name="tipo_contrato_id" />
+                                <field name="fecha_alta_empresa" />
+                                <field name="fecha_baja_empresa" />
+                                <field name="grupo_cotizacion" />
+                                <field name="fecha_fijo_empresa" />
+                                <field name="motivo_baja_empresa" />
+                            </group>
+                        <separator string="Contrataciones anteriores" colspan="4"/>
+                            <field name="contrataciones_anteriores_ids" colspan="4" nolabel="1">
                                 <tree string="" editable="top">
                                     <field name="empresa" />
                                     <field name="fecha_inicio" />
@@ -61,8 +71,8 @@
                                     <field name="fecha_fin" />
                                 </form>
                             </field>
-                        <separator string="Formación académica" colspan="2"/>
-                            <field name="formacion_academica_ids" colspan="2" nolabel="1">
+                        <separator string="Formación académica" colspan="4"/>
+                            <field name="formacion_academica_ids" colspan="4" nolabel="1">
                                 <tree string="" editable="top">
                                     <field name="estudios" />
                                     <field name="centro" />
@@ -74,10 +84,8 @@
                                     <field name="final_year" />
                                 </form>
                             </field>
-                    </group>
-                    <group colspan="2" col="2" groups="base.group_hr_user" name="hr_exp_lab">
-                        <separator string="Experiencia laboral" colspan="2"/>
-                            <field name="experiencia_laboral_ids" colspan="2" nolabel="1">
+                        <separator string="Experiencia laboral" colspan="4"/>
+                            <field name="experiencia_laboral_ids" colspan="4" nolabel="1">
                                 <tree string="" editable="top">
                                     <field name="empresa" />
                                     <field name="actividad" />
@@ -91,8 +99,8 @@
                                     <field name="fecha_fin" />
                                 </form>
                             </field>
-                        <separator string="Formación recibida en la empresa" colspan="2"/>
-                            <field name="formacion_en_la_empresa_ids" colspan="2" nolabel="1">
+                        <separator string="Formación recibida en la empresa" colspan="4"/>
+                            <field name="formacion_en_la_empresa_ids" colspan="4" nolabel="1">
                                 <tree string="" editable="top">
                                     <field name="curso_documentacion" />
                                     <field name="tipo_certificacion" />
@@ -108,23 +116,19 @@
                                     <field name="fecha_valoracion" />
                                 </form>
                             </field>
-                    </group>
-                    <group colspan="4" col="6" groups="base.group_hr_user" name="hr_carnet_conducir">
-                        <separator string="Carnet de conducir" colspan="6"/>
-                            <group colspan="6" col="6">
+                        <separator string="Carnet de conducir" colspan="4"/>
+                            <group colspan="4" col="6">
                                 <field name="carnet_conducir_b" />
                                 <field name="carnet_conducir_c" />
                                 <field name="carnet_conducir_c1" />
                             </group>
-                            <group colspan="6" col="6">
-                                <field name="observaciones"/>
+                        <separator string="Observaciones" colspan="4"/>
+                            <group colspan="4">
+                                <field name="observaciones" nolabel="1"/>
                             </group>
                     </group>
-
                 </page>
-
             </field>
         </record>
-
     </data>
 </openerp>
