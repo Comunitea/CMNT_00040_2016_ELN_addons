@@ -19,43 +19,35 @@
 #
 ##############################################################################
 
-from openerp.osv import fields, osv
-from openerp.tools.translate import _
+from openerp import models
 
-class stock_move(osv.osv):
+
+class StockMove(models.Model):
     _inherit = 'stock.move'
 
-    def get_price_unit(self, cr, uid, move, context=None):
-        """ Returns the unit price to store on the quant """
-        if move.production_id:
-            print '****************************************************************************************'
-            print 'el valor para el quant si hay produccion', move.product_id, move.price_unit
-            print ' no se si tenemos que usarlo'
-            print '****************************************************************************************'
-            #return move.price_unit
-
-        return super(stock_move, self).get_price_unit(cr, uid, move, context=context)
+    def get_price_from_cost_structure(self, cr, uid, ids, context=None):
+        if context is None:
+            context = {}
+        for move in self.browse(cr, uid, ids, context=context):
+            if move.production_id and move.product_id.cost_structure_id:
+                c = context.copy()
+                c['cron'] = True
+                c['product_id'] = move.product_id.id
+                pcl_pool = self.pool.get('product.costs.line')
+                cost = pcl_pool.get_product_costs(cr, uid, move.product_id, c)
+                price = cost.get('inventory_cost', False)
+                if price:
+                    self.write(cr, uid, [move.id], {'price_unit': price},
+                               context=context)
 
     def attribute_price(self, cr, uid, move, context=None):
         """
-            Attribute price to move, important in inter-company moves or receipts with only one partner
+        Gets move price from product cost structure, this method is called in
+        the action confirm of odoo.
         """
-        # The method attribute_price of the parent class sets the price to the standard product
-        # price if move.price_unit is zero. We don't want this behavior in the case of a production
-        if move.production_id:
-            print '****************************************************************************************'
-            print 'tendria que calcular el precio de la estructura', move.product_id, move.price_unit
-            print '****************************************************************************************'
-            price = False
-            if context is None: context = {}
-            c = context.copy()
-            c['cron'] = True
-            c['product_id'] = move.product_id.id
-            #import ipdb; ipdb.set_trace()
-            price = move.product_id.cost_structure_id and self.pool.get('product.costs.line').get_product_costs(cr, uid, move.product_id, c)['inventory_cost'] or False
-            if price:
-                print 'voy a retornar en este caso:', price
-                print '=============================='
-                return self.write(cr, uid, [move.id], {'price_unit': price}, context=context)
-            
-        super(stock_move, self).attribute_price(cr, uid, move, context=context)
+        if context is None:
+            context = {}
+        calc_costs = True if not context.get('skip_costs', False) else False
+        if calc_costs:
+            self.get_proce_from_cost_structure(cr, uid, [move.id], context)
+        super(StockMove, self).attribute_price(cr, uid, move, context=context)
