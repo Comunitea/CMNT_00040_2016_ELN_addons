@@ -39,15 +39,3 @@ class StockMove(models.Model):
                 if price:
                     self.write(cr, uid, [move.id], {'price_unit': price},
                                context=context)
-
-    def attribute_price(self, cr, uid, move, context=None):
-        """
-        Gets move price from product cost structure, this method is called in
-        the action confirm of odoo.
-        """
-        if context is None:
-            context = {}
-        calc_costs = True if not context.get('skip_costs', False) else False
-        if calc_costs:
-            self.get_proce_from_cost_structure(cr, uid, [move.id], context)
-        super(StockMove, self).attribute_price(cr, uid, move, context=context)
