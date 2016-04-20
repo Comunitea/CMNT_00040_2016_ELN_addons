@@ -39,6 +39,16 @@ class hr_employee(orm.Model):
         'grupo_cotizacion': fields.integer('Grupo cotización', size=2, help="Grupo de cotización"),
         'numero_hijos': fields.integer('Número de hijos', size=2, help="Número de hijos"),
 
+        'personal_street1': fields.char('Calle 1', size=64),
+        'personal_street2': fields.char('Calle 2', size=64),
+        'personal_zip': fields.char('C.P.', size=10),
+        'personal_city': fields.char('Ciudad', size=32),
+        'personal_state': fields.char('Provincia', size=32),
+        'personal_country': fields.char(u'País', size=32),
+        'personal_phone': fields.char(u'Teléfono', size=16),
+        'personal_mobile': fields.char(u'Móvil', size=16),
+        'personal_email': fields.char(u'Email', size=64),
+
         'persona_aviso_emergencia_1': fields.char('Persona 1', size=64, help="Persona a quien avisar en caso de emergencia"),
         'telefono_aviso_emergencia_1': fields.char('Teléfono 1', size=32, help="Teléfono en el que avisar en caso de emergencia"),
         'persona_aviso_emergencia_2': fields.char('Persona 2', size=64, help="Persona a quien avisar en caso de emergencia"),
