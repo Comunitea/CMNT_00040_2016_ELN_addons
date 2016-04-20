@@ -20,7 +20,7 @@
                     <!--<field name="sequence"/>-->
                 <!--</field>-->
                 <page string="Inventory" position="after">
-                    <page string="Technical Sheet">
+                    <page string="Technical and Logistic Sheet">
                         <notebook colspan="4">
                             <page string="Ingredients">
                                 <button name="%(copy_product_ldm_action)d"
@@ -65,7 +65,6 @@
                                 <group col="6">
                                     <group name = "left1" colspan="2" >
                                         <separator string="Average nutritional values (100 g)" colspan="2" />
-
                                             <field name="energy"/>
                                             <field name="fats"/>
                                             <field name="fat_saturates"/>
@@ -78,12 +77,10 @@
                                     </group>
                                     <group name = "center2" colspan="2">
                                         <separator string="Quality" colspan="2"/>
-
                                             <field name="protective_atmosphere"/>
                                             <field name="perforated_bag"/>
                                             <field name="allergen_labeling"/>
                                             <field name="gluten_free_labeling"/>
-
                                     </group>
                                     <group name = "right2" colspan="2">
                                         <separator string="Presentation" colspan="2"/>
@@ -123,17 +120,6 @@
                                     <field name="comments_product_sheet"/>
                                     <field name="comments_sheet"/>
                                     <field name="comments_product_logistics_sheet"/>
-                                </group>
-                                <newline/>
-                                <group >
-                                    <group>
-                                        <separator string="Palletizing" /><newline/>
-                                        <field name="palletizing" nolabel="1" widget="image"/>
-                                    </group>
-                                    <group>
-                                        <separator string="Provision of boxes base" /><newline/>
-                                        <field name="provision_boxes_base" nolabel="1" widget="image"/>
-                                    </group>
                                 </group>
                             </page>
                             <page string="Revisions">
@@ -191,6 +177,51 @@
                                         <field name="verification_id"/>
                                     </form>
                                 </field>
+                            </page>
+                            <page string="Logistic information">
+                                <group col="6">
+                                    <group name = "logistic_left1" colspan="2" >
+                                        <separator string="Pallet" colspan="2"/>
+                                            <field name="pallet_boxes_layer"/>
+                                            <field name="pallet_layers"/>
+                                            <field name="pallet_boxes_pallet"/>
+                                            <field name="pallet_gross_weight"/>
+                                            <field name="pallet_net_weight"/>
+                                            <field name="pallet_total_height"/>
+                                            <field name="pallet_total_width"/>
+                                            <field name="pallet_total_length"/>
+                                            <field name="pallet_ul"/>
+                                    </group>
+                                    <group name = "logistic_center2" colspan="2">
+                                        <separator string="Box" colspan="2"/>
+                                            <field name="box_units"/>
+                                            <field name="box_gross_weight"/>
+                                            <field name="box_net_weight"/>
+                                            <field name="box_total_height"/>
+                                            <field name="box_total_width"/>
+                                            <field name="box_total_length"/>
+                                            <field name="box_ul"/>
+                                    </group>
+                                    <group name = "logistic_right2" colspan="2">
+                                        <separator string="Unit" colspan="2"/>
+                                            <field name="unit_gross_weight"/>
+                                            <field name="unit_net_weight"/>
+                                            <field name="unit_total_height"/>
+                                            <field name="unit_total_width"/>
+                                            <field name="unit_total_length"/>
+                                    </group>
+                                    <newline/>
+                                </group>
+                                <group>
+                                    <group>
+                                        <separator string="Palletizing" /><newline/>
+                                        <field name="palletizing" nolabel="1" widget="image"/>
+                                    </group>
+                                    <group>
+                                        <separator string="Provision of boxes base" /><newline/>
+                                        <field name="provision_boxes_base" nolabel="1" widget="image"/>
+                                    </group>
+                                </group>
                             </page>
                         </notebook>
                     </page>
