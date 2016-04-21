@@ -99,19 +99,6 @@ class product_product(orm.Model):
 
         return res
 
-    def _get_name_packaging(self, cr, uid, ids, field_name, arg, context=None):
-        res = {}
-        packs = []
-        name = ''
-        for line in self.browse(cr, uid, ids, context=context):
-            packs = self.pool.get('product.packaging').search(cr, uid, [('product_tmpl_id','=', line.product_tmpl_id.id),('sequence','=', 2)])
-            if packs:
-                pack_obj = self.pool.get('product.packaging').browse(cr, uid, packs[0])
-                if pack_obj.ul and pack_obj.ul.name:
-                    name = pack_obj.ul.name
-            res[line.id] = name
-        return res
-
     def _get_ldm_last_revision(self, cr, uid, ids, field_name, arg, context=None):
         res = {}
         revisions = []
@@ -126,49 +113,6 @@ class product_product(orm.Model):
                     last_revision=rev.name + " (" + date.strftime("%d/%m/%Y") + ")"
             res[line.id] = last_revision
 
-        return res
-
-    def _get_heights(self, cr, uid, ids, field_name, arg, context=None):
-
-        res = {}
-        rows = 0
-        for product in self.browse(cr, uid, ids, context=context):
-            if product.packaging_ids:
-                for pack in product.packaging_ids:
-                    if pack.ul.type == 'pallet':
-                        rows = pack.rows
-                        break
-            res[product.id] = rows
-        print res
-        return res
-
-    def _get_boxes_base(self, cr, uid, ids, field_name, arg, context=None):
-
-        res = {}
-        ul_qty = 0
-        for product in self.browse(cr, uid, ids, context=context):
-            if product.packaging_ids:
-                for pack in product.packaging_ids:
-                    if pack.ul.type == 'pallet':
-                        ul_qty = pack.ul_qty
-                        break
-            res[product.id] = ul_qty
-        print res
-        return res
-
-    def _get_boxes_palet(self, cr, uid, ids, field_name, arg, context=None):
-
-        res = {}
-        qty = 0.0
-        for product in self.browse(cr, uid, ids, context=context):
-            if product.packaging_ids:
-                for pack in product.packaging_ids:
-                    if pack.ul.type == 'pallet':
-                        qty  = pack.qty
-                        break
-            res[product.id] = qty
-
-        print res
         return res
 
     def _get_signature(self, cr, uid, ids, field_name, arg, context=None):
@@ -237,16 +181,6 @@ class product_product(orm.Model):
         'format': fields.char('Format', size=64, translate=True),
         'comercial_format': fields.char('Comercial format', size=255, translate=True),
         'bag_length': fields.char('Bag length', size=64),
-        # Convertimos los campos box, bobbin, bag, others y seal a property
-        # porque al usar el producto en modo multicompañia si el que está asignado a estos campos
-        # no pertenece a la compañía seleccionada en ese momento provoca error de permisos
-        # ya que al ser un many2one se intenta obtener informacion de los mismos al acceder al producto principal
-        # P.G.C. (27/01/2015)
-        #'box': fields.many2one('product.product', 'Box'),
-        #'bobbin': fields.many2one('product.product', 'Bobbin'),
-        #'bag': fields.many2one('product.product', 'Bag'),
-        #'others': fields.many2one('product.product', 'Others'),
-        #'seal': fields.many2one('product.product', 'Seal'),
         'box': fields.property(type='many2one', relation='product.product', string ='Box', method=True),
         'bobbin': fields.property(type='many2one', relation='product.product', string ='Bobbin', method=True),
         'bag': fields.property(type='many2one', relation='product.product', string ='Bag', method=True),
@@ -262,12 +196,8 @@ class product_product(orm.Model):
         'partner_product_code': fields.char('Partner code', size=64),
         'dun14': fields.char('DUN14', size=64),
         'last_revision': fields.function(_get_last_revision,readonly=True,string='Last revision', type='char',size=255),
-        'boxes_palet3': fields.function(_get_boxes_palet, digits_compute= dp.get_precision('Sale Price'), string='Boxes x palet'),
-        'boxes_base3': fields.function(_get_boxes_base, type="integer", string='Boxes of base'),
-        'heights3': fields.function(_get_heights, type="integer", string='Heights'),
         'last_revision_ldm': fields.function(_get_ldm_last_revision,readonly=True,string='Last revision LdM', type='char',size=255),
         'company_product_code': fields.char('Company code', size=64),
-        'packaging_seq2': fields.function(_get_name_packaging,readonly=True,string='Name pack. box', type='char',size=255),
         'written_by': fields.many2one('hr.employee','Written by'),
         'written_signature': fields.function(_get_signature, readonly=True, type='binary', multi="rev_signature"),
         'written_job': fields.many2one('hr.job', 'Job'),
@@ -280,6 +210,27 @@ class product_product(orm.Model):
         'recommended_ration': fields.integer('Recommended ration (g)'),
         'qty_dispo': fields.function(_product_dispo, method=True, digits_compute=dp.get_precision('Product Unit of Measure'), type='float', string='Stock available',
                     help="Stock available for assignment. It refers to the actual stock not reserved."),
+        'pallet_boxes_layer': fields.integer('Boxes per layer'),
+        'pallet_layers': fields.integer('Layers'),
+        'pallet_boxes_pallet': fields.integer('Boxes per pallet'),
+        'pallet_gross_weight': fields.float('Gross weight per pallet (kg)', digits=(16,2)),
+        'pallet_net_weight': fields.float('Net weight per pallet (kg)', digits=(16,2)),
+        'pallet_total_height': fields.float('Total height per pallet (mm)', digits=(16,0)),
+        'pallet_total_width': fields.float('Total width per pallet (mm)', digits=(16,0)),
+        'pallet_total_length': fields.float('Total length per pallet (mm)', digits=(16,0)),
+        'pallet_ul' : fields.many2one('product.ul', 'Pallet type'),
+        'box_units': fields.integer('Units per box'),
+        'box_gross_weight': fields.float('Gross weight per box (kg)', digits=(16,2)),
+        'box_net_weight': fields.float('Net weight per box (kg)', digits=(16,2)),
+        'box_total_height': fields.float('Total height per box (mm)', digits=(16,0)),
+        'box_total_width': fields.float('Total width per box (mm)', digits=(16,0)),
+        'box_total_length': fields.float('Total length per box (mm)', digits=(16,0)),
+        'box_ul' : fields.many2one('product.ul', 'Box type'),
+        'unit_gross_weight': fields.float('Gross weight per unit (g)', digits=(16,2)),
+        'unit_net_weight': fields.float('Net weight per unit (g)', digits=(16,2)),
+        'unit_total_height': fields.float('Unit total height (mm)', digits=(16,0)),
+        'unit_total_width': fields.float('Unit total width (mm)', digits=(16,0)),
+        'unit_total_length': fields.float('Unit total length (mm)', digits=(16,0)),
     }
 
     def onchange_ean13(self, cr, uid, ids, ean13):
