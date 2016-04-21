@@ -38,11 +38,8 @@ class product_costs_line(osv.osv_memory):
         'sequence': fields.integer('Sequence', required=True),
         'name': fields.char('Name', size=255, required=True),
         'theoric_cost': fields.float('Theoric Cost', digits=(16,6), required=True),
-        'theoric_cost_standard': fields.float('Theoric Cost Standard', digits=(16,6), required=True),
-        'tcs_tc_percent': fields.float('TCS vs TC (%)', digits=(4,2), readonly="True"),
         'real_cost': fields.float('Real Cost', digits=(16,6), required=True),
         'tc_rc_percent': fields.float('TC vs RC (%)', digits=(4,2), readonly="True"),
-        'tcs_rc_percent': fields.float('TCS vs RC (%)', digits=(4,2), readonly="True"),
         'inventory': fields.boolean('Inventory'),
         'total': fields.boolean('Total')
     }
@@ -55,7 +52,6 @@ class product_costs_line(osv.osv_memory):
     def _get_costs(self, cr, uid, ids, element_id=False, product_id=False, context=None):
 
         theoric = 0.0
-        theoric_standard = 0.0
         real = 0.0
         element_facade = self.pool.get('cost.structure.elements')
         product_facade = self.pool.get('product.product')
@@ -87,7 +83,7 @@ class product_costs_line(osv.osv_memory):
             if element.cost_type == 'bom':
                 #Valores en función de la lista de mateirales.
                 # La recorremos (aquí en principio no iteramos)
-                routes = product.route_ids + product.categ_id.route_ids
+                routes = product.route_ids + product.categ_id.total_route_ids
                 manufacture_routes = []
                 for route in routes:
                     for pull in route.pull_ids:
@@ -104,24 +100,18 @@ class product_costs_line(osv.osv_memory):
                             productb = product_facade.browse(cr, uid, r['product_id'])
                             if productb:
                                 theoric += productb.standard_price * r['product_qty']
-                                theoric_standard += productb.standard_price_standard * r['product_qty']
                         theoric = theoric / (factor or 1.0)
-                        theoric_standard = theoric_standard / (factor or 1.0)
             elif element.cost_type == 'standard_price':
                     theoric = product.standard_price or 0.0
-                    theoric_standard = product.standard_price_standard or 0.0
             elif element.cost_type == 'ratio':
                 if element.distribution_mode == 'eur':
                     theoric = element.cost_ratio * product.standard_price
-                    theoric_standard = theoric
                 elif element.distribution_mode == 'units':
                     theoric = element.cost_ratio
-                    theoric_standard = theoric
                 elif element.distribution_mode == 'kg':
                     theoric = element.cost_ratio * product.weight_net
-                    theoric_standard = theoric
                 elif element.distribution_mode == 'min':
-                    routes = product.route_ids + product.categ_id.route_ids
+                    routes = product.route_ids + product.categ_id.total_route_ids
                     manufacture_routes = []
                     for route in routes:
                         for pull in route.pull_ids:
@@ -136,13 +126,10 @@ class product_costs_line(osv.osv_memory):
                                 qty_per_cycle = uom_obj._compute_qty(cr, uid, wc_use.uom_id.id, wc_use.qty_per_cycle, product.uom_id.id)
                                 hours += float((wc_use.hour_nbr / qty_per_cycle)  * (wc.time_efficiency or 1.0))
                             theoric = element.cost_ratio * hours * 60
-                            theoric_standard = theoric
             elif element.cost_type == 'total':
                 theoric = 0.0
-                theoric_standard = 0.0
             elif element.cost_type == 'inventory':
                 theoric = 0.0
-                theoric_standard = 0.0
             # REAL COST
             cost = 0.0
             context.update({'to_date': time_stop[:10]})
@@ -174,7 +161,7 @@ class product_costs_line(osv.osv_memory):
             if a and a[0] and a[0][0]:
                 cost += a[0][0]
             real = cost
-        return theoric, theoric_standard, real
+        return theoric, real
 
     def get_product_costs(self, cr, uid, ids, context=None):
         if context is None:
@@ -198,29 +185,22 @@ class product_costs_line(osv.osv_memory):
                                                               'company_id': product.cost_structure_id.company_id.id})
                 el = product.cost_structure_id.elements
                 sumtheo = 0.0
-                sumtheostd = 0.0
                 sumreal = 0.0
                 theoric = 0.0
-                theoric_standard = 0.0
                 real = 0.0
-                standard_price_standard = 0.0
-                dock_cost_standard = 0.0
 
                 for element in el:
                     if element.cost_type not in ('total', 'inventory'):
-                        theoric, theoric_standard, real = self._get_costs(cr, uid, ids, element.id, product.id, context)
+                        theoric, real = self._get_costs(cr, uid, ids, element.id, product.id, context)
                         sumtheo += theoric
-                        sumtheostd += theoric_standard
                         sumreal += real
                     else:
                         theoric = sumtheo
-                        theoric_standard = sumtheostd
                         real = sumreal
 
                     vals = {'sequence': element.sequence,
                             'name': element.cost_type_id.name,
                             'theoric_cost': theoric,
-                            'theoric_cost_standard': theoric_standard,
                             'real_cost': real,
                             'inventory': (element.cost_type in ('inventory')),
                             'total': (element.cost_type in ('total', 'inventory'))
@@ -230,18 +210,9 @@ class product_costs_line(osv.osv_memory):
 
                     vals['product_cost_id'] = new_prod_cost_id
                     prod_cost_line.create(cr, uid, vals)
-                    if element.cost_type in ('inventory'):
-                        standard_price_standard = theoric_standard #El ultimo valor tipo inventario encontrado para actualizar el producto
-                    if element.cost_type in ('total'):
-                        dock_cost_standard = theoric_standard #El ultimo valor tipo total encontrado para actualizar el producto
-
-                vals = {}
-                if (standard_price_standard or dock_cost_standard) and context.get('update_costs', False):
-                    if standard_price_standard:
-                        vals['standard_price_standard'] = standard_price_standard
-                    if dock_cost_standard:
-                        vals['dock_cost_standard'] = dock_cost_standard
-                    prod.write(cr, uid, product.id, vals)
+                    if element.cost_type in ('inventory'):#seria el valor a coger para actualizar los costes en la produccion
+                        valor_para_la_entrada = theoric #El ultimo valor tipo inventario encontrado para actualizar el producto
+                        value = {'inventory_cost': theoric}
 
         if not context.get('cron', False):
             value = {
@@ -272,11 +243,8 @@ class product_costs_line(osv.osv_memory):
                         vals = {'sequence': l.sequence,
                                 'name': l.name,
                                 'theoric_cost': l.theoric_cost,
-                                'theoric_cost_standard': l.theoric_cost_standard,
-                                'tcs_tc_percent': l.tcs_tc_percent,
                                 'real_cost': l.real_cost,
                                 'tc_rc_percent': l.tc_rc_percent,
-                                'tcs_rc_percent': l.tcs_rc_percent,
                                 'inventory': l.inventory,
                                 'total': l.total
                                 }
