@@ -18,6 +18,7 @@ class MrpProduction(models.Model):
                 quant_ids = [x.id for x in move.quant_ids]
                 t_quant.write(cr, SUPERUSER_ID, quant_ids,
                               {'cost': move.price_unit}, context=context)
+                move.update_product_price()  # Update price in product.template
         res = super(MrpProduction, self).action_validated(cr, uid, ids,
                                                           context=context)
         return res
