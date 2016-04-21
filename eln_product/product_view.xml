@@ -16,9 +16,6 @@
                     <field name="dun14" on_change="onchange_dun14(dun14)"/>
                     <field name="partner_product_code"/>
                 </field>
-                <!--<field name="sequence" position="replace">-->
-                    <!--<field name="sequence"/>-->
-                <!--</field>-->
                 <page string="Inventory" position="after">
                     <page string="Technical and Logistic Sheet">
                         <notebook colspan="4">
@@ -73,7 +70,6 @@
                                             <field name="proteins"/>
                                             <field name="salt"/>
                                             <field name="recommended_ration"/>
-
                                     </group>
                                     <group name = "center2" colspan="2">
                                         <separator string="Quality" colspan="2"/>
@@ -206,6 +202,7 @@
                                         <separator string="Unit" colspan="2"/>
                                             <field name="unit_gross_weight"/>
                                             <field name="unit_net_weight"/>
+                                            <field name="unit_net_weight_drained"/>
                                             <field name="unit_total_height"/>
                                             <field name="unit_total_width"/>
                                             <field name="unit_total_length"/>

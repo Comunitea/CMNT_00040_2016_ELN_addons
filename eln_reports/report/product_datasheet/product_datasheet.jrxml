@@ -210,8 +210,8 @@
 	<parameter name="TABLE_LINES_ORGANOLEPTICOS" class="java.lang.Object"/>
 	<parameter name="TABLE_LINES_FISICOS" class="java.lang.Object"/>
 	<parameter name="TABLE_LINES_QUIMICOS" class="java.lang.Object"/>
-	<parameter name="lang" class="java.lang.String"/>
 	<parameter name="TABLE_LINES_MICROBIOLOGICOS" class="java.lang.Object"/>
+	<parameter name="lang" class="java.lang.String"/>
 	<queryString language="xPath">
 		<![CDATA[/data/record]]>
 	</queryString>
@@ -335,6 +335,12 @@
 	<field name="category_uom_id" class="java.lang.String">
 		<fieldDescription><![CDATA[Default_Unit_Of_Measure-uom_id/Categoria_UdM-category_id/id]]></fieldDescription>
 	</field>
+	<field name="Net_Drained_Weight__g-unit_net_weight_drained" class="java.lang.Float">
+		<fieldDescription><![CDATA[Net_Drained_Weight__g-unit_net_weight_drained]]></fieldDescription>
+	</field>
+	<field name="Peso_neto_por_unidad__g-unit_net_weight" class="java.lang.Float">
+		<fieldDescription><![CDATA[Peso_neto_por_unidad__g-unit_net_weight]]></fieldDescription>
+	</field>
 	<variable name="L" class="java.util.Locale">
 		<variableExpression><![CDATA[new Locale($P{lang}.split("_")[0],$P{lang}.split("_")[1])]]></variableExpression>
 		<initialValueExpression><![CDATA[new Locale($P{lang}.split("_")[0],$P{lang}.split("_")[1])]]></initialValueExpression>
@@ -342,7 +348,7 @@
 	<group name="PRODUCTO" isStartNewPage="true">
 		<groupExpression><![CDATA[$F{id}]]></groupExpression>
 		<groupHeader>
-			<band height="179">
+			<band height="200">
 				<textField>
 					<reportElement x="3" y="1" width="86" height="13"/>
 					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single" markup="none">
@@ -372,42 +378,46 @@
 					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "CÓDIGO CLIENTE:")]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="10" y="57" width="280" height="13"/>
+					<reportElement x="6" y="57" width="250" height="13"/>
 					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single" markup="none">
-						<font size="9" isBold="false"/>
+						<font size="7" isBold="false"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "DESCRIPCIÓN")]]></textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA[" " + tr($V{L}, "DESCRIPCIÓN")]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="7" y="94" width="150" height="13"/>
+					<reportElement x="7" y="94" width="150" height="13">
+						<printWhenExpression><![CDATA[!($F{Net_Drained_Weight__g-unit_net_weight_drained} > 0)]]></printWhenExpression>
+					</reportElement>
 					<textElement textAlignment="Right" verticalAlignment="Middle" lineSpacing="Single" markup="none">
 						<font size="9" isBold="false"/>
 					</textElement>
 					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "ATMÓSFERA PROTECTORA") + ":"]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="286" y="57" width="70" height="13"/>
+					<reportElement x="418" y="57" width="60" height="13"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="none">
-						<font size="9" isBold="false"/>
+						<font size="7" isBold="false"/>
 					</textElement>
 					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "PESO NETO")]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="356" y="57" width="139" height="13"/>
+					<reportElement x="256" y="57" width="120" height="13"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="none">
-						<font size="9" isBold="false"/>
+						<font size="7" isBold="false"/>
 					</textElement>
 					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "CODIFICACIÓN")]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="495" y="57" width="52" height="13"/>
+					<reportElement x="376" y="57" width="42" height="13"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="none">
-						<font size="9" isBold="false"/>
+						<font size="7" isBold="false"/>
 					</textElement>
 					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "UDS/CAJA")]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="317" y="94" width="96" height="13"/>
+					<reportElement x="317" y="94" width="96" height="13">
+						<printWhenExpression><![CDATA[!($F{Net_Drained_Weight__g-unit_net_weight_drained} > 0)]]></printWhenExpression>
+					</reportElement>
 					<textElement textAlignment="Right" verticalAlignment="Middle" lineSpacing="Single" markup="none">
 						<font size="9" isBold="false"/>
 					</textElement>
@@ -428,18 +438,22 @@
 					<textFieldExpression class="java.lang.String"><![CDATA[$F{Name-name}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="173" y="94" width="31" height="13"/>
+					<reportElement positionType="Float" x="173" y="94" width="31" height="13">
+						<printWhenExpression><![CDATA[!($F{Net_Drained_Weight__g-unit_net_weight_drained} > 0)]]></printWhenExpression>
+					</reportElement>
 					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single" markup="none">
 						<font size="9" isBold="false"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{Envasado_en_atmosfera_protectora-protective_atmosphere} == true ? tr($V{L}, "SI") : tr($V{L}, "NO")]]></textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Envasado_en_atmosfera_protectora-protective_atmosphere} ? tr($V{L}, "SI") : tr($V{L}, "NO")]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="427" y="94" width="31" height="13"/>
+					<reportElement positionType="Float" x="427" y="94" width="31" height="13">
+						<printWhenExpression><![CDATA[!($F{Net_Drained_Weight__g-unit_net_weight_drained} > 0)]]></printWhenExpression>
+					</reportElement>
 					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single" markup="none">
 						<font size="9" isBold="false"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{Bolsa_pinchada-perforated_bag} == true ? tr($V{L}, "SI") : tr($V{L}, "NO")]]></textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Bolsa_pinchada-perforated_bag} ? tr($V{L}, "SI") : tr($V{L}, "NO")]]></textFieldExpression>
 				</textField>
 				<line>
 					<reportElement x="0" y="13" width="553" height="1"/>
@@ -472,13 +486,16 @@
 					<reportElement x="0" y="126" width="553" height="1"/>
 				</line>
 				<line direction="BottomUp">
-					<reportElement x="286" y="57" width="1" height="36"/>
+					<reportElement x="256" y="57" width="1" height="36"/>
 				</line>
 				<line direction="BottomUp">
-					<reportElement x="356" y="57" width="1" height="36"/>
+					<reportElement x="376" y="57" width="1" height="36"/>
 				</line>
 				<line direction="BottomUp">
-					<reportElement x="495" y="57" width="1" height="36"/>
+					<reportElement x="418" y="57" width="1" height="36"/>
+				</line>
+				<line direction="BottomUp">
+					<reportElement x="478" y="57" width="1" height="36"/>
 				</line>
 				<line direction="BottomUp">
 					<reportElement x="6" y="57" width="1" height="49"/>
@@ -494,25 +511,25 @@
 					<textFieldExpression class="java.lang.String"><![CDATA[$F{Referencia-code}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="356" y="71" width="139" height="11"/>
+					<reportElement positionType="Float" x="256" y="71" width="120" height="11"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="none">
 						<font size="9" isBold="false"/>
 					</textElement>
 					<textFieldExpression class="java.lang.String"><![CDATA[$F{EAN13-ean13} + " (EAN13)"]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="356" y="81" width="139" height="12"/>
+					<reportElement positionType="Float" x="256" y="81" width="120" height="12"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="none">
 						<font size="9" isBold="false"/>
 					</textElement>
 					<textFieldExpression class="java.lang.String"><![CDATA[$F{DUN14-dun14} + " (DUN14)"]]></textFieldExpression>
 				</textField>
 				<textField pattern="#,##0;#,##0-" isBlankWhenNull="true">
-					<reportElement x="286" y="71" width="56" height="22"/>
+					<reportElement x="418" y="71" width="46" height="22"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle" lineSpacing="Single" markup="none">
 						<font size="9" isBold="false"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{category_uom_id} != '2' ? $F{Net_weight-weight_net} * 1000 : $F{Net_weight-weight_net} * 1000 * 1 / $F{UOM____UOS_Coeff-uos_coeff}]]></textFieldExpression>
+					<textFieldExpression class="java.lang.Float"><![CDATA[$F{Peso_neto_por_unidad__g-unit_net_weight}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 					<reportElement positionType="Float" x="348" y="13" width="200" height="14"/>
@@ -522,22 +539,22 @@
 					<textFieldExpression class="java.lang.String"><![CDATA[$F{Partner_code-partner_product_code}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="6" y="71" width="280" height="22" isPrintWhenDetailOverflows="true"/>
+					<reportElement positionType="Float" x="6" y="71" width="250" height="22" isPrintWhenDetailOverflows="true"/>
 					<box leftPadding="0" rightPadding="0"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="none">
 						<font size="9" isBold="false"/>
 					</textElement>
 					<textFieldExpression class="java.lang.String"><![CDATA[$F{Comercial_format-comercial_format}]]></textFieldExpression>
 				</textField>
-				<textField pattern="###0;###0-">
-					<reportElement positionType="Float" x="495" y="71" width="52" height="22" isPrintWhenDetailOverflows="true"/>
+				<textField isStretchWithOverflow="true" pattern="###0;###0-">
+					<reportElement positionType="Float" x="376" y="71" width="42" height="22" isPrintWhenDetailOverflows="true"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="none">
 						<font size="9" isBold="false"/>
 					</textElement>
 					<textFieldExpression class="java.lang.String"><![CDATA[$F{category_uom_id} != '2' ? 1 / $F{UOM____UOS_Coeff-uos_coeff} : 1]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="342" y="71" width="14" height="22"/>
+					<reportElement x="464" y="71" width="14" height="22"/>
 					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single" markup="none">
 						<font size="9" isBold="false"/>
 					</textElement>
@@ -811,6 +828,33 @@
 						</jr:column>
 					</jr:table>
 				</componentElement>
+				<textField>
+					<reportElement x="479" y="57" width="68" height="13">
+						<printWhenExpression><![CDATA[$F{Net_Drained_Weight__g-unit_net_weight_drained} > 0]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+						<font size="7" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "PESO ESCURRIDO")]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;#,##0-" isBlankWhenNull="true">
+					<reportElement x="487" y="71" width="46" height="22">
+						<printWhenExpression><![CDATA[$F{Net_Drained_Weight__g-unit_net_weight_drained} > 0]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Right" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+						<font size="9" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Float"><![CDATA[$F{Net_Drained_Weight__g-unit_net_weight_drained}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="533" y="71" width="14" height="22">
+						<printWhenExpression><![CDATA[$F{Net_Drained_Weight__g-unit_net_weight_drained} > 0]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+						<font size="9" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, " g")]]></textFieldExpression>
+				</textField>
 			</band>
 		</groupHeader>
 		<groupFooter>
