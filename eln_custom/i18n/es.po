@@ -1,13 +1,13 @@
-# Translation of OpenERP Server.
+# Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # 	* eln_custom
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: OpenERP Server 6.1\n"
+"Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-31 14:37+0000\n"
-"PO-Revision-Date: 2015-07-31 16:39+0100\n"
+"POT-Creation-Date: 2016-04-22 11:33+0000\n"
+"PO-Revision-Date: 2016-04-22 15:50+0200\n"
 "Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -15,183 +15,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Language: es_ES\n"
-"X-Generator: Poedit 1.7.5\n"
-
-#. module: eln_custom
-#: sql_constraint:purchase.order:0
-msgid "Order Reference must be unique per Company!"
-msgstr "Orden de referencia debe ser única por Empresa!"
-
-#. module: eln_custom
-#: field:res.partner,supplier_type:0
-msgid "Supplier type"
-msgstr "Proveedor Tipo"
-
-#. module: eln_custom
-#: model:ir.model,name:eln_custom.model_stock_move_split_lines
-msgid "Stock move Split lines"
-msgstr "Dividir líneas de movimientos de existencias"
-
-#. module: eln_custom
-#: model:ir.model,name:eln_custom.model_check_paid_wizard
-msgid "Check payments in orders"
-msgstr "Chequear órdenes de pago"
-
-#. module: eln_custom
-#: field:stock.picking,packages:0
-msgid "Packages"
-msgstr "Paquetes"
-
-#. module: eln_custom
-#: code:addons/eln_custom/res_partner_address.py:168
-#, python-format
-msgid "You can not change the company of the address. It must be the same as the company of the partner to which it belongs."
-msgstr "No se puede cambiar la compañía de la dirección. Debe ser igual a la compañía de la empresa a la que pertenece."
-
-#. module: eln_custom
-#: model:ir.actions.act_window,name:eln_custom.action_route
-#: model:ir.ui.menu,name:eln_custom.menu_routes_main
-#: model:ir.ui.menu,name:eln_custom.menu_routes_stock_picking view:route:0
-msgid "Routes"
-msgstr "Rutas de transporte"
-
-#. module: eln_custom
-#: model:ir.actions.act_window,name:eln_custom.act_sale_order_2_stock_picking
-msgid "Delivery orders related"
-msgstr "Albaranes relacionados"
-
-#. module: eln_custom
-#: model:ir.model,name:eln_custom.model_stock_picking
-msgid "Picking List"
-msgstr "Albarán"
-
-#. module: eln_custom
-#: field:stock.picking,weight_net:0
-msgid "Weigth Net"
-msgstr "Peso neto"
-
-#. module: eln_custom
-#: view:res.partner:0
-msgid "Type"
-msgstr "Tipo"
-
-#. module: eln_custom
-#: model:ir.model,name:eln_custom.model_stock_move_split
-msgid "Split in Production lots"
-msgstr "Dividir en lotes de producción"
-
-#. module: eln_custom
-#: field:route,name:0
-msgid "Name"
-msgstr "Nombre"
-
-#. module: eln_custom
-#: view:stock.move.split:0 field:stock.move.split,product_uos:0
-msgid "UoS"
-msgstr "UdV"
-
-#. module: eln_custom
-#: field:purchase.order,container_numbers:0
-#: field:stock.picking,container_numbers:0
-msgid "Container numbers"
-msgstr "Números de contenedor"
-
-#. module: eln_custom
-#: view:stock.picking:0
-msgid "Description"
-msgstr "Descripción"
-
-#. module: eln_custom
-#: model:ir.actions.act_window,name:eln_custom.action_picking_planning_kanban
-msgid "Planning Delivery Orders"
-msgstr "Planificación de Albaranes"
-
-#. module: eln_custom
-#: constraint:account.journal:0
-msgid "Journal company and invoice sequence company do not match."
-msgstr "La compañía del diario y la compañía de la factura no coinciden."
-
-#. module: eln_custom
-#: field:account.analytic.plan.instance,company_id:0
-msgid "Company"
-msgstr "Empresa"
-
-#. module: eln_custom
-#: field:stock.picking,weight:0
-msgid "Weigth"
-msgstr "Peso"
-
-#. module: eln_custom
-#: field:stock.picking,volume:0
-msgid "Volume"
-msgstr "Volumen"
-
-#. module: eln_custom
-#: view:stock.picking:0
-msgid "Edit"
-msgstr "Editar"
-
-#. module: eln_custom
-#: view:stock.move.split:0
-msgid "Lot number"
-msgstr "Número de lote"
-
-#. module: eln_custom
-#: model:ir.ui.menu,name:eln_custom.menu_planning_kanban_stock
-msgid "Planning"
-msgstr "Planificación"
-
-#. module: eln_custom
-#: model:ir.model,name:eln_custom.model_stock_split_into
-msgid "Split into"
-msgstr "Dividir en"
-
-#. module: eln_custom
-#: view:stock.picking:0
-msgid "Today"
-msgstr "Hoy"
-
-#. module: eln_custom
-#: model:ir.model,name:eln_custom.model_product_supplierinfo
-msgid "Information about a product supplier"
-msgstr "Información sobre un proveedor de producto"
-
-#. module: eln_custom
-#: view:account.invoice:0
-msgid "Apply early payment disc."
-msgstr "Aplicar descuento(s) por pronto pago"
-
-#. module: eln_custom
-#: view:stock.picking:0
-msgid "Today +5"
-msgstr "Hoy +5"
-
-#. module: eln_custom
-#: constraint:stock.picking:0
-msgid "Error: UNIQUE MSG"
-msgstr "Error: UNIQUE MSG"
-
-#. module: eln_custom
-#: selection:res.partner,supplier_type:0
-msgid "III"
-msgstr "III"
-
-#. module: eln_custom
-#: help:purchase.order,container_numbers:0
-#: help:stock.picking,container_numbers:0
-msgid "Container numbers assigned to the order."
-msgstr "Números de contenedor asigandos al pedido."
-
-#. module: eln_custom
-#: view:stock.move.split:0
-msgid "UoM"
-msgstr "UdM"
-
-#. module: eln_custom
-#: code:addons/eln_custom/res_partner_address.py:167
-#, python-format
-msgid "Warning!"
-msgstr "¡Atención!"
+"X-Generator: Poedit 1.8.7\n"
 
 #. module: eln_custom
 #: model:ir.model,name:eln_custom.model_account_analytic_plan_instance
@@ -199,170 +23,14 @@ msgid "Analytic Plan Instance"
 msgstr "Instancia de plan analítico"
 
 #. module: eln_custom
-#: code:addons/eln_custom/stock.py:169
-#, python-format
-msgid "UserError"
-msgstr "UserError"
+#: view:stock.picking:eln_custom.view_picking_planning_kanban_search
+msgid "Assigned Moves"
+msgstr "Movimientos asignados"
 
 #. module: eln_custom
-#: field:res.partner.address,mobile2:0
-msgid "Mobile phone"
-msgstr "Tel. móvil"
-
-#. module: eln_custom
-#: model:ir.model,name:eln_custom.model_route
-msgid "Route Model"
-msgstr "Ruta transporte"
-
-#. module: eln_custom
-#: selection:res.partner,supplier_type:0
-msgid "I"
-msgstr "I"
-
-#. module: eln_custom
-#: view:res.partner:0
-msgid "Contact Name"
-msgstr "Nombre del contacto"
-
-#. module: eln_custom
-#: field:stock.picking,route_id:0
-msgid "Route"
-msgstr "Ruta de transporte"
-
-#. module: eln_custom
-#: view:stock.picking:0
-msgid "Picking list"
-msgstr "Albarán"
-
-#. module: eln_custom
-#: field:purchase.order,lines_product_name_str:0
-msgid "Lines"
-msgstr "Líneas"
-
-#. module: eln_custom
-#: view:stock.picking:0
-msgid "Order Date"
-msgstr "Fecha pedido"
-
-#. module: eln_custom
-#: model:ir.model,name:eln_custom.model_purchase_order
-msgid "Purchase Order"
-msgstr "Pedido de compra"
-
-#. module: eln_custom
-#: selection:res.partner,supplier_type:0
-msgid "II"
-msgstr "II"
-
-#. module: eln_custom
-#: code:addons/eln_custom/wizard/stock_splitinto.py:48
-#: code:addons/eln_custom/wizard/stock_splitinto.py:52
-#, python-format
-msgid "Error!"
-msgstr "Error!"
-
-#. module: eln_custom
-#: view:stock.picking:0
-msgid "Today +2"
-msgstr "Hoy +2"
-
-#. module: eln_custom
-#: constraint:account.journal:0
-msgid "Configuration error! The currency chosen should be shared by the default accounts too."
-msgstr "¡Error de configuración! La moneda elegida debería ser también la misma en las cuentas por defecto"
-
-#. module: eln_custom
-#: view:stock.picking:0
-msgid "Real Date"
-msgstr "Fecha Real"
-
-#. module: eln_custom
-#: code:addons/eln_custom/stock.py:170
-#, python-format
-msgid "In order to cancel this inventory, if it is possible, you must first cancel the related moves."
-msgstr "Con el fin de cancelar este inventario, si es posible, debe cancelar primero los movimientos relacionados."
-
-#. module: eln_custom
-#: sql_constraint:stock.picking:0
-msgid "Reference must be unique per Company!"
-msgstr "Referencia debe ser única por compañía!"
-
-#. module: eln_custom
-#: field:account.invoice,received_check:0
-msgid "Received check"
-msgstr "Cheque recibido"
-
-#. module: eln_custom
-#: view:stock.picking:0
-msgid "Delivery address"
-msgstr "Dirección de envío"
-
-#. module: eln_custom
-#: code:addons/eln_custom/wizard/stock_splitinto.py:48
-#, python-format
-msgid "The current move line is already assigned to a pack, please remove it first if you really want to change it '             #                        'for this product: \"%s\" (id: %d)"
-msgstr "La línea de movimiento actual ya está asignada a un albarán, elimínela primero si realmente quiere cambiarla ' # 'para este este producto: \"%s\" (id: %d)"
-
-#. module: eln_custom
-#: view:stock.picking:0
-msgid "Total Peso Bruto"
-msgstr "Total peso bruto"
-
-#. module: eln_custom
-#: view:stock.move.split:0
-msgid "Quantity"
-msgstr "Cantidad"
-
-#. module: eln_custom
-#: model:ir.model,name:eln_custom.model_stock_location
-msgid "Location"
-msgstr "Ubicación"
-
-#. module: eln_custom
-#: sql_constraint:account.invoice:0
-msgid "Invoice Number must be unique per Company!"
-msgstr "¡El número de factura debe ser único por compañía!"
-
-#. module: eln_custom
-#: field:route,code:0
-msgid "Code"
-msgstr "Código"
-
-#. module: eln_custom
-#: constraint:account.invoice:0
-msgid "Invoice date is previous to an existing invoice."
-msgstr "La fecha de la factura es anterior a una factura existente."
-
-#. module: eln_custom
-#: model:ir.model,name:eln_custom.model_procurement_order
-msgid "Procurement"
-msgstr "Abastecimiento"
-
-#. module: eln_custom
-#: field:stock.picking,color_stock:0
-msgid "Color stock"
-msgstr "Color stock"
-
-#. module: eln_custom
-#: field:res.partner.address,comercial:0
-msgid "Nombre comercial"
-msgstr "Nombre comercial"
-
-#. module: eln_custom
-#: field:res.partner,supplier_approved:0
-msgid "Supplier approved"
-msgstr "Proveedor Aprobado"
-
-#. module: eln_custom
-#: sql_constraint:account.journal:0
-msgid "The name of the journal must be unique per company !"
-msgstr "¡El nombre del diario debe ser único por compañía!"
-
-#. module: eln_custom
-#: view:stock.move.split:0 field:stock.move.split,qty_uos:0
-#: field:stock.move.split.lines,quantity_uos:0
-msgid "Quantity (UoS)"
-msgstr "Cantidad (UdV)"
+#: view:stock.picking:eln_custom.stock_picking_kanban
+msgid "Bultos:"
+msgstr "Bultos:"
 
 #. module: eln_custom
 #: field:route,carrier_id:0
@@ -370,42 +38,288 @@ msgid "Carrier"
 msgstr "Transportista"
 
 #. module: eln_custom
-#: help:account.invoice,received_check:0
-msgid "To write down that a check in paper support has been received, for example."
-msgstr "Sirve para indicar que se ha recibido un cheque en soporte papel, por ejemplo."
+#: field:route,code:0
+msgid "Code"
+msgstr "Código"
 
 #. module: eln_custom
-#: model:ir.model,name:eln_custom.model_account_invoice
-msgid "Invoice"
-msgstr "Factura"
+#: field:stock.picking,color_stock:0
+msgid "Color stock"
+msgstr "Color stock"
 
 #. module: eln_custom
-#: sql_constraint:account.journal:0
-msgid "The code of the journal must be unique per company !"
-msgstr "¡El código del diario debe ser único por compañía!"
+#: field:account.analytic.plan.instance,company_id:0
+msgid "Company"
+msgstr "Empresa"
 
 #. module: eln_custom
-#: code:addons/eln_custom/wizard/stock_splitinto.py:52
-#, python-format
-msgid "Total quantity after split exceeds the quantity to split for this product: \"%s\" (id: %d)"
-msgstr "Cantidad total después de que la división exceda la cantidad para dividir para este producto: \"%s\" (id: %d)"
+#: field:stock.picking,container_numbers:0
+msgid "Container numbers"
+msgstr "Números de contenedor"
 
 #. module: eln_custom
-#: model:ir.model,name:eln_custom.model_res_partner view:stock.picking:0
+#: help:stock.picking,container_numbers:0
+msgid "Container numbers assigned to the order."
+msgstr "Números de contenedor asigandos al pedido."
+
+#. module: eln_custom
+#: field:route,create_uid:0
+msgid "Created by"
+msgstr "Created by"
+
+#. module: eln_custom
+#: field:route,create_date:0
+msgid "Created on"
+msgstr "Created on"
+
+#. module: eln_custom
+#: view:stock.picking:eln_custom.stock_picking_kanban
+msgid "Dirección:"
+msgstr "Dirección:"
+
+#. module: eln_custom
+#: field:route,display_name:0
+msgid "Display Name"
+msgstr "Nombre mostrado"
+
+#. module: eln_custom
+#: view:stock.picking:eln_custom.stock_picking_kanban
+msgid "Edit"
+msgstr "Editar"
+
+#. module: eln_custom
+#: view:stock.picking:eln_custom.stock_picking_kanban
+msgid "Fecha Real:"
+msgstr "Fecha Real:"
+
+#. module: eln_custom
+#: view:stock.picking:eln_custom.stock_picking_kanban
+msgid "Fecha de compromiso:"
+msgstr "Fecha de compromiso:"
+
+#. module: eln_custom
+#: view:stock.picking:eln_custom.view_picking_planning_kanban_search
+msgid "Filters"
+msgstr "Filtros"
+
+#. module: eln_custom
+#: field:route,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: eln_custom
+#: selection:res.partner,supplier_type:0
+msgid "II"
+msgstr "II"
+
+#. module: eln_custom
+#: selection:res.partner,supplier_type:0
+msgid "III"
+msgstr "III"
+
+#. module: eln_custom
+#: model:ir.model,name:eln_custom.model_stock_location
+msgid "Inventory Locations"
+msgstr "Ubicaciones de inventario"
+
+#. module: eln_custom
+#: field:route,__last_update:0
+msgid "Last Modified on"
+msgstr "Last Modified on"
+
+#. module: eln_custom
+#: field:route,write_uid:0
+msgid "Last Updated by"
+msgstr "Last Updated by"
+
+#. module: eln_custom
+#: field:route,write_date:0
+msgid "Last Updated on"
+msgstr "Last Updated on"
+
+#. module: eln_custom
+#: field:route,name:0
+msgid "Name"
+msgstr "Nombre"
+
+#. module: eln_custom
+#: field:stock.picking,purchase_id:0
+msgid "Order Reference"
+msgstr "Order Reference"
+
+#. module: eln_custom
+#: field:stock.picking,packages:0
+msgid "Packages"
+msgstr "Paquetes"
+
+#. module: eln_custom
+#: model:ir.model,name:eln_custom.model_res_partner
 msgid "Partner"
 msgstr "Empresa"
 
 #. module: eln_custom
-#: model:ir.model,name:eln_custom.model_res_partner_address
-msgid "Partner Addresses"
-msgstr "Direcciones de empresa"
+#: view:stock.picking:eln_custom.stock_picking_kanban
+msgid "Peso bruto:"
+msgstr "Peso bruto:"
 
 #. module: eln_custom
-#: model:ir.model,name:eln_custom.model_account_journal
-msgid "Journal"
-msgstr "Diario"
+#: view:stock.picking:eln_custom.stock_picking_kanban
+msgid "Peso neto:"
+msgstr "Peso neto:"
 
 #. module: eln_custom
-#: model:ir.model,name:eln_custom.model_stock_inventory
-msgid "Inventory"
-msgstr "Inventario"
+#: model:ir.model,name:eln_custom.model_stock_picking
+msgid "Picking List"
+msgstr "Albarán"
+
+#. module: eln_custom
+#: view:stock.picking:eln_custom.view_picking_planning_kanban_search
+msgid "Picking list"
+msgstr "Albarán"
+
+#. module: eln_custom
+#: model:ir.ui.menu,name:eln_custom.menu_planning_kanban_stock
+msgid "Planning"
+msgstr "Planificación"
+
+#. module: eln_custom
+#: model:ir.actions.act_window,name:eln_custom.action_picking_planning_kanban
+msgid "Planning Delivery Orders"
+msgstr "Planificación de Albaranes"
+
+#. module: eln_custom
+#: view:stock.picking:eln_custom.stock_picking_kanban
+msgid "Proveedor:"
+msgstr "Proveedor:"
+
+#. module: eln_custom
+#: view:stock.picking:eln_custom.view_picking_planning_kanban_search
+msgid "Ready"
+msgstr "Preparado"
+
+#. module: eln_custom
+#: field:res.partner,route_id:0 field:stock.picking,route_id:0
+msgid "Route"
+msgstr "Ruta de transporte"
+
+#. module: eln_custom
+#: model:ir.model,name:eln_custom.model_route
+msgid "Route Model"
+msgstr "Ruta transporte"
+
+#. module: eln_custom
+#: model:ir.actions.act_window,name:eln_custom.action_route
+#: model:ir.ui.menu,name:eln_custom.menu_routes_main
+#: model:ir.ui.menu,name:eln_custom.menu_routes_stock_picking
+#: view:route:eln_custom.route_view_form view:route:eln_custom.route_view_tree
+#: view:route:eln_custom.view_route_filter
+msgid "Routes"
+msgstr "Rutas de transporte"
+
+#. module: eln_custom
+#: model:ir.model,name:eln_custom.model_sale_order
+msgid "Sales Order"
+msgstr "Pedido de venta"
+
+#. module: eln_custom
+#: field:res.partner,supplier_approved:0
+msgid "Supplier approved"
+msgstr "Proveedor Aprobado"
+
+#. module: eln_custom
+#: field:res.partner,supplier_type:0
+msgid "Supplier type"
+msgstr "Proveedor Tipo"
+
+#. module: eln_custom
+#: view:product.supplierinfo:eln_custom.product_supplierinfo_form_view_delete_domain
+msgid "Supplier/Customer"
+msgstr "Supplier/Customer"
+
+#. module: eln_custom
+#: view:stock.picking:eln_custom.view_picking_planning_kanban_search
+msgid "Today"
+msgstr "Hoy"
+
+#. module: eln_custom
+#: view:stock.picking:eln_custom.view_picking_planning_kanban_search
+msgid "Today +2"
+msgstr "Hoy +2"
+
+#. module: eln_custom
+#: view:stock.picking:eln_custom.view_picking_planning_kanban_search
+msgid "Today +5"
+msgstr "Hoy +5"
+
+#. module: eln_custom
+#: view:stock.picking:eln_custom.stock_picking_kanban
+msgid "Total Peso Bruto"
+msgstr "Total peso bruto"
+
+#. module: eln_custom
+#: view:stock.picking:eln_custom.stock_picking_kanban
+msgid "Transportista:"
+msgstr "Transportista:"
+
+#. module: eln_custom
+#: field:stock.picking,volume:0
+msgid "Volume"
+msgstr "Volumen"
+
+#. module: eln_custom
+#: view:stock.picking:eln_custom.stock_picking_kanban
+msgid "Volumen:"
+msgstr "Volumen:"
+
+#. module: eln_custom
+#: view:stock.picking:eln_custom.view_picking_planning_kanban_search
+msgid "Waiting Availability"
+msgstr "Esperando disponibilidad"
+
+#. module: eln_custom
+#: view:stock.picking:eln_custom.view_picking_planning_kanban_search
+msgid "Waiting Moves"
+msgstr "Movimientos a la espera"
+
+#. module: eln_custom
+#: code:addons/eln_custom/res_partner.py:59
+#, python-format
+msgid "Warning!"
+msgstr "Warning!"
+
+#. module: eln_custom
+#: field:stock.picking,weight:0
+msgid "Weigth"
+msgstr "Peso"
+
+#. module: eln_custom
+#: field:stock.picking,weight_net:0
+msgid "Weigth Net"
+msgstr "Peso neto"
+
+#. module: eln_custom
+#: code:addons/eln_custom/res_partner.py:60
+#, python-format
+msgid "You can not change the company of the address. It must be the same as the company of the partner to which it belongs."
+msgstr "No se puede cambiar la compañía de la dirección. Debe ser igual a la compañía de la empresa a la que pertenece."
+
+#. module: eln_custom
+#: view:res.partner:eln_custom.view_partner_filter_address
+msgid "['|','|','|','|', ('display_name','ilike',self),('ref','=',self),('email','ilike',self), ('street', 'ilike', self),('state_id', 'ilike', self) ]"
+msgstr "['|','|','|','|', ('display_name','ilike',self),('ref','=',self),('email','ilike',self), ('street', 'ilike', self),('state_id', 'ilike', self) ]"
+
+#. module: eln_custom
+#: view:stock.picking:eln_custom.view_picking_out_form_add_route
+#: view:stock.picking:eln_custom.view_picking_out_tree_add_route
+msgid "{\"always_reload\": True}"
+msgstr "{\"always_reload\": True}"
+
+#. module: eln_custom
+#: view:stock.picking:eln_custom.view_picking_out_form_add_route
+msgid "{'show_address':1, 'default_type':'delivery'}"
+msgstr "{'show_address':1, 'default_type':'delivery'}"
+
+#. module: eln_custom
+#: view:stock.picking:eln_custom.view_picking_out_tree_add_route
+msgid "{'show_address':1}"
+msgstr "{'show_address':1}"
