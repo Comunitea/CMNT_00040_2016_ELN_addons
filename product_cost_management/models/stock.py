@@ -54,6 +54,10 @@ class StockMove(models.Model):
                 product = move.product_id
                 prod_tmpl_id = move.product_id.product_tmpl_id.id
                 qty_available = move.product_id.product_tmpl_id.qty_available
+                # Becouse move is done and we dont want the move qty yet
+                qty_available -= move.product_uom_qty
+                if qty_available <= 0:
+                    qty_available = 0.0
                 if tmpl_dict.get(prod_tmpl_id):
                     product_avail = qty_available + tmpl_dict[prod_tmpl_id]
                 else:

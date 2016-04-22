@@ -16,7 +16,7 @@
                     <group col="6" colspan="2">
                         <button name="action_show_product_costs" string="Show Costs" type="object" context="{'product_id': active_id}" icon="gtk-go-up" colspan="2"/>
                         <button name="action_get_product_costs" string="Get Costs" type="object" context="{'product_id': active_id}" icon="gtk-go-up" colspan="2"/>
-                        <button name="action_update_product_costs" string="Update Costs" type="object" context="{'product_id': active_id}" icon="gtk-go-up" colspan="2"/>
+                      <!--   <button name="action_update_product_costs" string="Update Costs" type="object" context="{'product_id': active_id}" icon="gtk-go-up" colspan="2"/> -->
                     </group>
                 </field>
             </field>
