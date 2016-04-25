@@ -16,9 +16,14 @@ class SaleOrderLine(models.Model):
         agent and commission for this address if exists.
         """
         res = super(SaleOrderLine, self)._default_agents()
-
+        t_partner = self.env['res.partner']
         res_extended = []
-        if self.env.context.get('address_id'):
+        partner = False
+        if not self.env.context.get('partner_id'):
+            return res
+        partner = t_partner.browse(self.env.context['partner_id'])
+        ship_address_id = self.env.context.get('address_id', False)
+        if ship_address_id and ship_address_id != partner.id:
             sol = self.with_context(partner_id=self._context['address_id'])
             res_extended = super(SaleOrderLine, sol)._default_agents()
 
