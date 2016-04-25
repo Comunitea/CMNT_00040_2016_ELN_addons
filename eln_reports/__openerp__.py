@@ -29,7 +29,7 @@
     'license': 'AGPL-3',
     "depends": ['base',
                 'jasper_reports',
-                'stock_valued_picking',
+                'stock_picking_valued',
                 'stock',
                 'report_webkit',
                 'eln_custom',
