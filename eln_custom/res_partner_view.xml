@@ -2,6 +2,18 @@
 <openerp>
     <data>
         
+        <record id="view_partner_form_route" model="ir.ui.view">
+            <field name="name">res.partner.form.add.route</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="active" position="after">
+                    <field name="route_id"/>
+                </field>
+            </field>
+        </record>
+
         <record id="view_partner_form_supplier_checks" model="ir.ui.view">
             <field name="name">res.partner.form.add.supplier_checks</field>
             <field name="model">res.partner</field>
@@ -15,7 +27,7 @@
             </field>
         </record>
 
-         <record id="view_partner_filter_address" model="ir.ui.view">
+        <record id="view_partner_filter_address" model="ir.ui.view">
             <field name="name">partner.filter.address</field>
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="base.view_res_partner_filter"/>
