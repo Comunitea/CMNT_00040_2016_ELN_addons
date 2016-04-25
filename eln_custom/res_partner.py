@@ -29,6 +29,7 @@ class res_partner(models.Model):
     supplier_approved = fields.Boolean('Supplier approved')
     supplier_type = fields.Selection([('I', 'I'), ('II', 'II'),
                                       ('III', 'III')], string="Supplier type")
+    route_id = fields.Many2one('route', 'Route')
     #'price_list': fields.one2many('product.supplierinfo', 'name', 'Price list')
 
     @api.multi

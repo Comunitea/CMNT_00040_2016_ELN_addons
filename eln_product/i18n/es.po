@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-20 20:51+0000\n"
-"PO-Revision-Date: 2016-04-20 23:21+0200\n"
+"POT-Creation-Date: 2016-04-21 22:26+0000\n"
+"PO-Revision-Date: 2016-04-22 00:29+0200\n"
 "Last-Translator: Pedro <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -102,7 +102,7 @@ msgstr "Largo de bolsa"
 #. module: eln_product
 #: model:ir.model,name:eln_product.model_mrp_bom
 msgid "Bill of Material"
-msgstr "Lista de material"
+msgstr "Lista de materiales"
 
 #. module: eln_product
 #: field:product.product,bobbin:0
@@ -123,7 +123,7 @@ msgstr "Tipo de caja"
 #. module: eln_product
 #: field:product.product,pallet_boxes_layer:0
 msgid "Boxes per layer"
-msgstr "Cajas por base"
+msgstr "Cajas por capa"
 
 #. module: eln_product
 #: field:product.product,pallet_boxes_pallet:0
@@ -180,11 +180,6 @@ msgstr "Comentarios (ficha técnica producto)"
 #: field:product.product,comments_sheet:0
 msgid "Comments (sheet)"
 msgstr "Comentarios (ficha producto)"
-
-#. module: eln_product
-#: field:product.product,company_product_code:0
-msgid "Company code"
-msgstr "Código Compañía"
 
 #. module: eln_product
 #: model:ir.actions.act_window,name:eln_product.action_email_compose_message_product_wizard
@@ -285,6 +280,11 @@ msgid "Description"
 msgstr "Descripción"
 
 #. module: eln_product
+#: field:product.product,development_code:0
+msgid "Development code"
+msgstr "Código de desarrollo"
+
+#. module: eln_product
 #: field:copy.product.ldm,display_name:0
 #: field:mail.compose.message.product.datasheet,display_name:0
 #: field:product.ingredient,display_name:0 field:product.options,display_name:0
@@ -312,7 +312,7 @@ msgstr "Dirección de correo del remitente. Este campo se establece cuando no ex
 #. module: eln_product
 #: model:ir.model,name:eln_product.model_mail_compose_message_product_datasheet
 msgid "Email composition wizard"
-msgstr "Asistente de redacción de correo electrónico."
+msgstr "Asistente de composición de e-mail"
 
 #. module: eln_product
 #: field:product.product,energy:0
@@ -350,19 +350,15 @@ msgid "Gluten free labeling"
 msgstr "Etiquetado \"Sin Gluten\""
 
 #. module: eln_product
-#: field:product.product,box_gross_weight:0
-msgid "Gross weight per box (kg)"
-msgstr "Peso bruto por caja (kg)"
-
-#. module: eln_product
-#: field:product.product,pallet_gross_weight:0
-msgid "Gross weight per pallet (kg)"
-msgstr "Peso bruto por palet (kg)"
-
-#. module: eln_product
 #: field:product.product,unit_gross_weight:0
-msgid "Gross weight per unit (g)"
-msgstr "Peso bruto por unidad (g)"
+msgid "Gross weight (g)"
+msgstr "Peso bruto (g)"
+
+#. module: eln_product
+#: field:product.product,box_gross_weight:0
+#: field:product.product,pallet_gross_weight:0
+msgid "Gross weight (kg)"
+msgstr "Peso bruto (kg)"
 
 #. module: eln_product
 #: view:product.parameter:eln_product.product_parameter_search_view
@@ -460,8 +456,8 @@ msgstr "Última revisión LdM"
 
 #. module: eln_product
 #: field:product.product,pallet_layers:0
-msgid "Layers"
-msgstr "Capas"
+msgid "Layers per pallet"
+msgstr "Capas por palet"
 
 #. module: eln_product
 #: field:copy.product.ldm,product_ldm_id:0
@@ -528,19 +524,20 @@ msgid "Name get of the related document."
 msgstr "Name get of the related document."
 
 #. module: eln_product
-#: field:product.product,box_net_weight:0
-msgid "Net weight per box (kg)"
-msgstr "Peso neto por caja (kg)"
-
-#. module: eln_product
-#: field:product.product,pallet_net_weight:0
-msgid "Net weight per pallet (kg)"
-msgstr "Peso neto por palet (kg)"
+#: field:product.product,unit_net_weight_drained:0
+msgid "Net Drained Weight (g)"
+msgstr "Peso neto escurrido (g)"
 
 #. module: eln_product
 #: field:product.product,unit_net_weight:0
-msgid "Net weight per unit (g)"
-msgstr "Peso neto por unidad (g)"
+msgid "Net weight (g)"
+msgstr "Peso neto (g)"
+
+#. module: eln_product
+#: field:product.product,box_net_weight:0
+#: field:product.product,pallet_net_weight:0
+msgid "Net weight (kg)"
+msgstr "Peso neto (kg)"
 
 #. module: eln_product
 #: field:mail.compose.message.product.datasheet,no_auto_thread:0
@@ -951,7 +948,7 @@ msgid "Technical field holding the message notifications. Use notified_partner_i
 msgstr "Technical field holding the message notifications. Use notified_partner_ids to access notified partners."
 
 #. module: eln_product
-#: code:addons/eln_product/product.py:270
+#: code:addons/eln_product/product.py:271
 #, python-format
 msgid ""
 "The DUN-14 code you entered is already in use.\n"
@@ -961,7 +958,7 @@ msgstr ""
 "Las referencias de los productos relacionados son: %s"
 
 #. module: eln_product
-#: code:addons/eln_product/product.py:250
+#: code:addons/eln_product/product.py:251
 #, python-format
 msgid ""
 "The EAN-13 code you entered is already in use.\n"
@@ -971,39 +968,35 @@ msgstr ""
 "Las referencias de los productos relacionados son: %s"
 
 #. module: eln_product
+#: help:product.product,unit_net_weight_drained:0
+msgid "The drained net weight in g. Leave zero if not applicable."
+msgstr "El peso neto escurrido en g. Dejar a cero si no es aplicable a este producto."
+
+#. module: eln_product
 #: field:mail.compose.message.product.datasheet,to_read:0
 msgid "To read"
 msgstr "Para leer"
 
 #. module: eln_product
 #: field:product.product,box_total_height:0
-msgid "Total height per box (mm)"
-msgstr "Alto total por caja (mm)"
-
-#. module: eln_product
 #: field:product.product,pallet_total_height:0
-msgid "Total height per pallet (mm)"
-msgstr "Alto total por palet (mm)"
+#: field:product.product,unit_total_height:0
+msgid "Total height (mm)"
+msgstr "Alto total (mm)"
 
 #. module: eln_product
 #: field:product.product,box_total_length:0
-msgid "Total length per box (mm)"
-msgstr "Largo total por caja (mm)"
-
-#. module: eln_product
 #: field:product.product,pallet_total_length:0
-msgid "Total length per pallet (mm)"
-msgstr "Largo total por palet (mm)"
+#: field:product.product,unit_total_length:0
+msgid "Total length (mm)"
+msgstr "Largo total (mm)"
 
 #. module: eln_product
 #: field:product.product,box_total_width:0
-msgid "Total width per box (mm)"
-msgstr "Ancho total por caja (mm)"
-
-#. module: eln_product
 #: field:product.product,pallet_total_width:0
-msgid "Total width per pallet (mm)"
-msgstr "Ancho total por palet (mm)"
+#: field:product.product,unit_total_width:0
+msgid "Total width (mm)"
+msgstr "Ancho total (mm)"
 
 #. module: eln_product
 #: field:mail.compose.message.product.datasheet,type:0
@@ -1015,21 +1008,6 @@ msgstr "Tipo"
 #: view:product.product:eln_product.product_normal_form_view_add_datasheet2
 msgid "Unit"
 msgstr "Unidad"
-
-#. module: eln_product
-#: field:product.product,unit_total_height:0
-msgid "Unit total height (mm)"
-msgstr "Alto total unidad (mm)"
-
-#. module: eln_product
-#: field:product.product,unit_total_length:0
-msgid "Unit total length (mm)"
-msgstr "Largo total unidad (mm)"
-
-#. module: eln_product
-#: field:product.product,unit_total_width:0
-msgid "Unit total width (mm)"
-msgstr "Ancho total unidad (mm)"
 
 #. module: eln_product
 #: field:product.product,box_units:0
@@ -1089,8 +1067,8 @@ msgid "Votes"
 msgstr "Votos"
 
 #. module: eln_product
-#: code:addons/eln_product/product.py:249
-#: code:addons/eln_product/product.py:269
+#: code:addons/eln_product/product.py:250
+#: code:addons/eln_product/product.py:270
 #, python-format
 msgid "Warning!"
 msgstr "¡Advertencia!"

@@ -19,6 +19,7 @@
 #
 ##############################################################################
 from openerp.osv import orm, fields
+from openerp import models, api, exceptions, _
 
 
 class route(orm.Model):
@@ -29,3 +30,18 @@ class route(orm.Model):
         'name': fields.char('Name', size=255),
         'carrier_id': fields.many2one('res.partner', 'Carrier')
     }
+
+class SaleOrder(models.Model):
+
+    _inherit = "sale.order"
+
+    @api.multi
+    def action_ship_create(self):
+        res = super(SaleOrder, self).action_ship_create()
+        for order in self:
+            route_id = order.partner_shipping_id.route_id or order.partner_shipping_id.commercial_partner_id.route_id or False
+            if route_id:
+                route_id = route_id.id
+            order.picking_ids.write({'route_id': route_id})
+        return res
+
