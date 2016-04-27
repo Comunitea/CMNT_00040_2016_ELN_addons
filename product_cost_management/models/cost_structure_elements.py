@@ -18,7 +18,9 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import osv, fields
+from openerp import models, _
+from openerp.osv import fields
+
 
 COST_TYPES = [('total', 'Total'),
               ('bom', 'BoM'),
@@ -47,7 +49,7 @@ DISTRIBUTE_BUDGET_ITEM = [('kg', 'By weight (net)(kg)'),
                           ('eur', 'By sales volume')]
 
 
-class cost_structure(osv.osv):
+class cost_structure(models.Model):
     _name = 'cost.structure'
     _description = ''
     _columns = {
@@ -65,8 +67,23 @@ class cost_structure(osv.osv):
                                                        context=c),
     }
 
+    def _check_elements_required(self, cr, uid, ids, context=None):
+        for cost_str in self.browse(cr, uid, ids, context):
+            total_type = inventory_type = False
+            for e in cost_str.elements:
+                if e.cost_type == 'total':
+                    total_type = True
+                if e.cost_type == 'inventory':
+                    inventory_type = True
+            return (total_type and inventory_type)
 
-class cost_structure_elements(osv.osv):
+    _constraints = [(_check_elements_required,
+                     _('You must define a element with total cost type and\
+                       another of inventory cost type'),
+                     ['elements'])]
+
+
+class cost_structure_elements(models.Model):
     _name = 'cost.structure.elements'
     _description = ''
     _columns = {
