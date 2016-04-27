@@ -21,7 +21,7 @@
 import openerp.addons.decimal_precision as dp
 from openerp.osv import fields, orm
 from openerp.tools.translate import _
-from openerp import api
+from openerp import api, fields as fields2
 
 
 class account_invoice(orm.Model):
@@ -94,6 +94,18 @@ class account_invoice(orm.Model):
 
 class account_invoice_line(orm.Model):
     _inherit = "account.invoice.line"
+
+    @api.one
+    @api.depends('quantity')
+    def _get_uom_qty(self):
+        if self.quantity:
+            uom_qty = self.env['product.uom']._compute_qty(self.uos_id.id,
+                                                           self.quantity,
+                                                           self.product_id.
+                                                           uom_id.id)
+            self.uom_qty = uom_qty
+
+    uom_qty = fields2.Float('Uom Qty', compute=_get_uom_qty)
 
     def uos_id_change(self, cr, uid, ids, product, uom, qty=0, name='', type='out_invoice', partner_id=False, fposition_id=False, price_unit=False, address_invoice_id=False, currency_id=False, context=None, company_id=None):
         """
