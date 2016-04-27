@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+           
+      <record id="view_eln_sale_report_xls_wzd" model="ir.ui.view">
+        <field name="name">Dayle Report Sale</field>
+        <field name="model">eln.sale.report.xls.wzd</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <group string= "Select report date">
+                <field name="date"/>
+            </group>
+            <footer>
+                <button name="create_xls_report" string="Print report" type="object" class="oe_highlight" icon="gtk-print"/>
+                <button special="cancel" string="Cancel" icon="gtk-close"/>
+            </footer>
+        </field>
+      </record>
+
+      <record id="action_eln_sale_report_xls_wzd" model="ir.actions.act_window">
+        <field name="name">Print Dayle Report Sale</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">eln.sale.report.xls.wzd</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_eln_sale_report_xls_wzd"/>
+        <field name="target">new</field>
+      </record>
+
+      <menuitem action="action_eln_sale_report_xls_wzd" name="Dayle sale report" id="menu_eln_sale_report_xls_wzd" parent="base.next_id_64" sequence="60"/>
+      
+    </data>
+</openerp>
