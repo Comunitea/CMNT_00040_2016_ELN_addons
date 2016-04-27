@@ -88,7 +88,7 @@ AS
                   OP.product_id       AS product_id,
                   OP.lot_id           AS lot_id,
                   smol.move_id        AS move_id,
-                  SUM(OP.product_qty) AS product_qty,
+                  SUM(smol.qty) AS product_qty,
                   p.id                AS picking_id
            FROM   stock_pack_operation OP
                   inner join stock_picking P

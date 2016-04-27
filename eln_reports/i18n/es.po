@@ -89,7 +89,7 @@ msgstr "Fecha"
 #. module: eln_reports
 #: view:stock.picking:eln_reports.view_picking_form_add_page_delivery_report
 msgid "Delivery"
-msgstr "Delivery"
+msgstr "Envío"
 
 #. module: eln_reports
 #: field:purchase.order.report.wizard,delivery_address:0
@@ -99,7 +99,7 @@ msgstr "Dirección de envío"
 #. module: eln_reports
 #: field:stock.picking,out_report_ids:0
 msgid "Delivery List"
-msgstr "Delivery List"
+msgstr "Lista de envío"
 
 #. module: eln_reports
 #: view:mrp.workcenter:eln_reports.mrp_workcenter_view

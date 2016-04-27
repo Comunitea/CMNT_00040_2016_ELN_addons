@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+
+    <record id="eln_sale_report_xls" model="ir.actions.report.xml">
+      <field name="name">Dayle sale report analysis</field>
+      <field name="model">stock.picking</field>
+      <field name="type">ir.actions.report.xml</field>
+      <field name="report_name">eln_sale_report_xls</field>
+      <field name="report_type">xls</field>
+      <field name="auto" eval="False"/>
+    </record>
+
+  
+  </data>
+</openerp>

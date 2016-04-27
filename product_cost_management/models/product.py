@@ -33,9 +33,6 @@ def rounding(f, r):
 class product_product(osv.osv):
     _inherit = 'product.product'
     _columns = {
-        'standard_price_standard': fields.float('Cost Price Standard',
-                                                digits=(16, 6)),
-        'dock_cost_standard': fields.float('Dock Cost', digits=(16, 6)),
         'cost_structure_id': fields.many2one('cost.structure',
                                              'Cost Structure'),
     }
@@ -62,6 +59,7 @@ class product_product(osv.osv):
         prod_cost = self.pool.get('product.cost')
         line = self.pool.get('product.cost.lines')
         prod = self.pool.get('product.product')
+        vals = {}
 
         if context.get('product_id', False):
             pro = [context['product_id']]
@@ -82,19 +80,9 @@ class product_product(osv.osv):
                                         order="sequence desc")
                     if lines:
                         line_cost = line.browse(cr, uid, lines[0])
-                        vals = {'standard_price_standard':
-                                line_cost.theoric_cost_standard}
-                        prod.write(cr, uid, product.id, vals)
-                    lines = line.search(cr, uid,
-                                        [('product_cost_id', '=', cost_ids[0]),
-                                         ('total', '=', True),
-                                         ('inventory', '=', False)],
-                                        order="sequence desc")
-                    if lines:
-                        line_cost = line.browse(cr, uid, lines[0])
-                        vals = {'dock_cost_standard': line_cost.theoric_cost}
-                        prod.write(cr, uid, product.id, vals)
-        return True
+                        vals = {'theoric_cost':
+                                line_cost.theoric_cost}
+        return vals
 
 
 class product_cost(osv.osv):
@@ -124,21 +112,12 @@ class product_cost_lines(osv.osv):
         res = {}
         for prod_cost_line in self.browse(cr, uid, ids, context):
             res[prod_cost_line.id] = {
-                'tcs_tc_percent': 0.0,
                 'tc_rc_percent': 0.0,
-                'tcs_rc_percent': 0.0,
             }
 
-            if prod_cost_line.theoric_cost:
-                res[prod_cost_line.id]['tcs_tc_percent'] = 100 * (
-                    (prod_cost_line.theoric_cost_standard / prod_cost_line.theoric_cost) - 1)
-            else:
-                res[prod_cost_line.id]['tcs_tc_percent'] = 100
             if prod_cost_line.real_cost:
-                res[prod_cost_line.id]['tcs_rc_percent'] = 100 * ((prod_cost_line.theoric_cost_standard / prod_cost_line.real_cost) - 1)
                 res[prod_cost_line.id]['tc_rc_percent'] = 100 * ((prod_cost_line.theoric_cost / prod_cost_line.real_cost) - 1)
             else:
-                res[prod_cost_line.id]['tcs_rc_percent'] = 100
                 res[prod_cost_line.id]['tc_rc_percent'] = 100
 
         return res
@@ -147,18 +126,11 @@ class product_cost_lines(osv.osv):
         'product_cost_id': fields.many2one('product.cost', 'Cost', required=True, ondelete='cascade'),
         'sequence': fields.integer('Sequence', required=True),
         'name': fields.char('Name', size=255, required=True),
-        'theoric_cost': fields.float('Theoric Cost', required=True, digits=(16,6)),
-        'theoric_cost_standard': fields.float('Theoric Cost Standard', required=True, digits=(16,6)),
-        'tcs_tc_percent': fields.function(_cost_percent, method=True,
-                                          string=_('TCS vs TC (%)'), type='float',
-                                          digits=(4, 2), multi='cost_percent'),
-        'real_cost': fields.float('Real Cost', required=True, digits=(16, 6)),
+        'theoric_cost': fields.float('Theoric Cost', required=True, digits=(16,3)),
+        'real_cost': fields.float('Real Cost', required=True, digits=(16, 3)),
         'tc_rc_percent': fields.function(_cost_percent, method=True,
                                          string=_('TC vs RC (%)'), type='float',
                                          digits=(4, 2), multi='cost_percent'),
-        'tcs_rc_percent': fields.function(_cost_percent, method=True,
-                                          string=_('TCS vs RC (%)'), type='float',
-                                          digits=(4,2), multi='cost_percent'),
         'inventory': fields.boolean('Inventory'),
         'total': fields.boolean('Total'),
         'company_id': fields.related('product_cost_id', 'company_id',
@@ -167,7 +139,6 @@ class product_cost_lines(osv.osv):
     }
     _defaults = {
         'theoric_cost': 0.0,
-        'theoric_cost_standard': 0.0,
         'real_cost': 0.0,
         'inventory': False,
         'total': False,

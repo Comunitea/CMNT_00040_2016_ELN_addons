@@ -10,15 +10,13 @@
             <field name="arch" type="xml">
                 <field name="standard_price" position="after">
                     <group>
-                        <field name="standard_price_standard"/>
-                        <field name="dock_cost_standard"/>
                         <field name="cost_structure_id"/>
                     </group>
                     <newline/>
                     <group col="6" colspan="2">
                         <button name="action_show_product_costs" string="Show Costs" type="object" context="{'product_id': active_id}" icon="gtk-go-up" colspan="2"/>
                         <button name="action_get_product_costs" string="Get Costs" type="object" context="{'product_id': active_id}" icon="gtk-go-up" colspan="2"/>
-                        <button name="action_update_product_costs" string="Update Costs" type="object" context="{'product_id': active_id}" icon="gtk-go-up" colspan="2"/>
+                      <!--   <button name="action_update_product_costs" string="Update Costs" type="object" context="{'product_id': active_id}" icon="gtk-go-up" colspan="2"/> -->
                     </group>
                 </field>
             </field>
@@ -71,11 +69,8 @@
                                     <field name="sequence"/>
                                     <field name="name"/>
                                     <field name="theoric_cost"/>
-                                    <field name="theoric_cost_standard"/>
-                                    <!--field name="tcs_tc_percent" widget="progressbar"/>
                                     <field name="real_cost"/>
                                     <field name="tc_rc_percent" widget="progressbar"/>
-                                    <field name="tcs_rc_percent" widget="progressbar"/-->
                                     <field name="inventory"/>
                                     <field name="total"/>
                                 </tree>

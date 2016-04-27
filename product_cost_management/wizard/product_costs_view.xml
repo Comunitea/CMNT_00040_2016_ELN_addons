@@ -10,11 +10,8 @@
                 <tree string="Product Costs" colors="magenta:inventory;red:total">
                     <field name="name"/>
                     <field name="theoric_cost"/>
-                    <field name="theoric_cost_standard"/>
-                    <!--field name="tcs_tc_percent"/>
                     <field name="real_cost"/>
                     <field name="tc_rc_percent"/>
-                    <field name="tcs_rc_percent"/-->
                     <field name="inventory" invisible="1"/>
                     <field name="total" invisible="1"/>
                 </tree>
