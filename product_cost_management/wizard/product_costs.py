@@ -37,8 +37,8 @@ class product_costs_line(osv.osv_memory):
     _columns = {
         'sequence': fields.integer('Sequence', required=True),
         'name': fields.char('Name', size=255, required=True),
-        'theoric_cost': fields.float('Theoric Cost', digits=(16,6), required=True),
-        'real_cost': fields.float('Real Cost', digits=(16,6), required=True),
+        'theoric_cost': fields.float('Theoric Cost', digits=(16,3), required=True),
+        'real_cost': fields.float('Real Cost', digits=(16,3), required=True),
         'tc_rc_percent': fields.float('TC vs RC (%)', digits=(4,2), readonly="True"),
         'inventory': fields.boolean('Inventory'),
         'total': fields.boolean('Total')
