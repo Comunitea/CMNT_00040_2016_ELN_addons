@@ -57,5 +57,17 @@
             <!--</field>-->
         <!--</record>-->
 
+        <!-- DESCOMENTAR PARA VER EL CAMPO UOM_QTY -->
+        <!-- <record id="invoice_form" model="ir.ui.view">
+            <field name="name">invoice.supplier.form.add.sales.pickings.link</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">                   
+                <xpath expr="//field[@name='invoice_line']/tree/field[@name='account_analytic_id']" position="after">
+                    <field name="uom_qty"/>
+                </xpath>
+            </field>
+        </record> -->
+
     </data>
 </openerp>
