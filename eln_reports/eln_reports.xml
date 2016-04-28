@@ -118,50 +118,50 @@
             <field name="value_unpickle" eval="'ir.actions.report.xml, ' +str(report_purchase_order_jasper2)" />
         </record>
 
-        <!-- PACKING LIST (Std) -->
-        <record id="report_packing_list_std_jasper" model="ir.actions.report.xml">
-            <field name="string">Packing list (Std)</field>
+        <!-- STOCK PICKING OUT (Std) - ALBARAN ENVIO ESTANDAR -->
+        <record id="report_stock_picking_out_std_jasper" model="ir.actions.report.xml">
+            <field name="string">Stock picking out (Std)</field>
             <field name="auto">True</field>
             <field name="model">stock.picking</field>
             <field name="jasper_model_id" ref="stock.model_stock_picking"/>
-            <field name="name">Packing list (Std)</field>
-            <field name="report_name">packing_list_std</field>
-            <field name="rml">eln_reports/report/packing_list/packing_list_std.jrxml</field>
-            <field name="report_rml">eln_reports/report/packing_list/packing_list_std.jrxml</field>
+            <field name="name">Stock picking out (Std)</field>
+            <field name="report_name">stock_picking_out_std</field>
+            <field name="rml">eln_reports/report/stock_picking/stock_picking_out_std.jrxml</field>
+            <field name="report_rml">eln_reports/report/stock_picking/stock_picking_out_std.jrxml</field>
             <field name="menu">True</field>
             <field name="header">False</field>
             <field name="jasper_report">True</field>
             <field name="jasper_output">pdf</field>
         </record>
 
-        <record id="report_packing_list_std_values" model="ir.values">
-            <field name="name">Packing list (Std)</field>
+        <record id="report_stock_picking_out_std_values" model="ir.values">
+            <field name="name">Stock picking out (Std)</field>
             <field name="model">stock.picking</field>
             <field name="key2" eval="'client_print_multi'" />
-            <field name="value_unpickle" eval="'ir.actions.report.xml, ' +str(report_packing_list_std_jasper)" />
+            <field name="value_unpickle" eval="'ir.actions.report.xml, ' +str(report_stock_picking_out_std_jasper)" />
         </record>
 
-        <!-- PACKING LIST (Alt) -->
-        <record id="report_packing_list_alt_jasper" model="ir.actions.report.xml">
-            <field name="string">Packing list (Alt)</field>
+        <!-- STOCK PICKING OUT (Alt) - ALBARAN ENVIO ALTERNATIVO -->
+        <record id="report_stock_picking_out_alt_jasper" model="ir.actions.report.xml">
+            <field name="string">Stock picking out (Alt)</field>
             <field name="auto">True</field>
             <field name="model">stock.picking</field>
             <field name="jasper_model_id" ref="stock.model_stock_picking"/>
-            <field name="name">Packing list (Alt)</field>
-            <field name="report_name">packing_list_alt</field>
-            <field name="rml">eln_reports/report/packing_list/packing_list_alt.jrxml</field>
-            <field name="report_rml">eln_reports/report/packing_list/packing_list_alt.jrxml</field>
+            <field name="name">Stock picking out (Alt)</field>
+            <field name="report_name">stock_picking_out_alt</field>
+            <field name="rml">eln_reports/report/stock_picking/stock_picking_out_alt.jrxml</field>
+            <field name="report_rml">eln_reports/report/stock_picking/stock_picking_out_alt.jrxml</field>
             <field name="menu">True</field>
             <field name="header">False</field>
             <field name="jasper_report">True</field>
             <field name="jasper_output">pdf</field>
         </record>
 
-        <record id="report_packing_list_alt_values" model="ir.values">
-            <field name="name">Packing list (Alt)</field>
+        <record id="report_stock_picking_out_alt_values" model="ir.values">
+            <field name="name">Stock picking out (Alt)</field>
             <field name="model">stock.picking</field>
             <field name="key2" eval="'client_print_multi'" />
-            <field name="value_unpickle" eval="'ir.actions.report.xml, ' +str(report_packing_list_alt_jasper)" />
+            <field name="value_unpickle" eval="'ir.actions.report.xml, ' +str(report_stock_picking_out_alt_jasper)" />
         </record>
 
         <!-- FACTURA -->
@@ -184,28 +184,6 @@
             <field name="model">account.invoice</field>
             <field name="key2" eval="'client_print_multi'" />
             <field name="value_unpickle" eval="'ir.actions.report.xml, ' +str(invoice_report_jasper)" />
-        </record>
-
-        <!-- ALBARAN -->
-        <record id="stock_picking_report_jasper" model="ir.actions.report.xml">
-            <field name="string">Picking</field>
-            <field name="auto">True</field>
-            <field name="model">stock.picking</field>
-            <field name="jasper_model_id" ref="stock.model_stock_picking"/>
-            <field name="name">picking</field>
-            <field name="report_name">stock_picking_report_jasper</field>
-            <field name="rml">eln_reports/report/stock_picking/stock_picking.jrxml</field>
-            <field name="report_rml">eln_reports/report/stock_picking/stock_picking.jrxml</field>
-            <field name="menu">True</field>
-            <field name="jasper_report">True</field>
-            <field name="jasper_output">pdf</field>
-        </record>
-
-        <record id="report_invoice_values" model="ir.values">
-            <field name="name">picking</field>
-            <field name="model">stock.picking</field>
-            <field name="key2" eval="'client_print_multi'" />
-            <field name="value_unpickle" eval="'ir.actions.report.xml, ' +str(stock_picking_report_jasper)" />
         </record>
 
         <!-- PLANING -->

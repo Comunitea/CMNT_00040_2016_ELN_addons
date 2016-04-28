@@ -19,7 +19,7 @@
 #
 ##############################################################################
 from . import control_part
-from . import packing_list
+from . import stock_picking
 from . import product_datasheet
 from . import product_logistics_sheet
 from . import purchase_order
