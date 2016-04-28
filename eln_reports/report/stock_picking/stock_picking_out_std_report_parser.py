@@ -25,7 +25,7 @@ from datetime import datetime
 def parser( cr, uid, ids, data, context ):
     parameters = {}
     ids = ids
-    name = 'report.packing_list_std'
+    name = 'report.stock_picking_out_std'
     model = 'stock.picking'
     data_source = 'model'
     picking = pooler.get_pool(cr.dbname).get('stock.picking').browse(cr,uid,ids)
@@ -40,4 +40,4 @@ def parser( cr, uid, ids, data, context ):
         'data_source': data_source,
         'parameters': parameters,
     }
-jasper_reports.report_jasper( 'report.packing_list_std', 'stock.picking', parser )
+jasper_reports.report_jasper( 'report.stock_picking_out_std', 'stock.picking', parser )
