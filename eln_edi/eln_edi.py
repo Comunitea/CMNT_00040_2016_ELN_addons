@@ -129,7 +129,7 @@ class res_partner(orm.Model):
     _inherit = 'res.partner'
 
     _columns = {
-        'section_code': fields.char('Section/Supplier or Branch', size=9, 
+        'section_code': fields.char('Section/Supplier or Branch', size=9,
                                            help="Código de sección/proveedor o sucursal. Ejemplo: para Alcampo se refiere a la Sección/Proveedor(SSS/PPPPP)."),
         'department_code_edi': fields.char('Internal department code', size=3,
                                            help="Internal department code for edi when required by customer. Only El Corte Inglés customer requires this code currently."),
@@ -146,15 +146,12 @@ class res_partner(orm.Model):
     }
 
 
-# POST-MIGRATION COMENTADO
-# class payment_type(orm.Model):
-#
-#     _inherit = 'payment.type'
-#     _columns = {
-#         'edi_code': fields.selection([('42','A una cuenta bancaria'),('14E','Giro bancario'),('10','En efectivo'),('20','Cheque'),('60','Pagaré')],'Codigo EDI', select=1)
-#     }
-#
-# payment_type()
+class payment_mode(orm.Model):
+
+    _inherit = 'payment.mode'
+    _columns = {
+        'edi_code': fields.selection([('42','A una cuenta bancaria'),('14E','Giro bancario'),('10','En efectivo'),('20','Cheque'),('60','Pagaré')],'Codigo EDI', select=1)
+    }
 
 class product_uom(orm.Model):
 

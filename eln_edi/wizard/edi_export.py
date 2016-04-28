@@ -60,7 +60,7 @@ class edi_export (orm.TransientModel):
 
             if context['active_model'] == u'sale.order':
                 name = obj.name.replace(' ', '').replace('.', '')
-                gln_ef = obj.partner_order_id.gln_ef
+                gln_ef = obj.partner_id.gln_ef
                 gln_ve = obj.company_id.partner_id.gln_ve
                 gln_co = obj.partner_invoice_id.gln_co
                 gln_rm = obj.partner_shipping_id.gln_rm
@@ -71,19 +71,19 @@ class edi_export (orm.TransientModel):
                 gln_ef = obj.company_id.partner_id.gln_ef
                 gln_ve = obj.company_id.partner_id.gln_ve
                 gln_de = obj.partner_id.gln_de
-                gln_rf = obj.sale_id and obj.sale_id.partner_invoice_id.gln or obj.address_id.gln_rf
-                gln_co = obj.sale_id and obj.sale_id.partner_order_id.gln or obj.address_id.gln_co
-                gln_rm = obj.address_id.gln_rm
+                gln_rf = obj.sale_id and obj.sale_id.partner_invoice_id.gln or obj.gln_rf
+                gln_co = obj.sale_id and obj.sale_id.partner_id.gln or obj.gln_co
+                gln_rm = obj.partner_id.gln_rm
                 doc_type = 'desadv'
                 picking_id = obj.id
             elif context['active_model'] == u'account.invoice':
                 name = obj.name.replace('/', '')
                 gln_ef = obj.company_id.gln_ef
                 gln_ve = obj.company_id.gln_ve
-                gln_de = obj.picking_ids and obj.picking_ids[0].address_id.gln_de or obj.address_invoice_id.gln_de
-                gln_rf = obj.picking_ids and obj.picking_ids[0].address_id.gln_rf or obj.address_invoice_id.gln_rf
-                gln_co = obj.picking_ids and obj.picking_ids[0].address_id.gln_co or obj.address_invoice_id.gln_co
-                gln_rm = obj.picking_ids and obj.picking_ids[0].address_id.gln_rm or obj.address_invoice_id.gln_rm
+                gln_de = obj.picking_ids and obj.picking_ids[0].partner_id.gln_de or obj.partner_id.gln_de
+                gln_rf = obj.picking_ids and obj.picking_ids[0].partner_id.gln_rf or obj.partner_id.gln_rf
+                gln_co = obj.picking_ids and obj.picking_ids[0].partner_id.gln_co or obj.partner_id.gln_co
+                gln_rm = obj.picking_ids and obj.picking_ids[0].partner_id.gln_rm or obj.partner_id.gln_rm
                 doc_type = 'invoic'
                 invoice_id = obj.id
             else:
@@ -133,7 +133,7 @@ class edi_export (orm.TransientModel):
     def check_invoice_data(self, invoice):
 
         errors = ''
-        
+
         if not invoice.company_id.gln_ef or not invoice.company_id.gln_ve:
             errors += _('The company %s not have some GLN defined.\n') % \
                 invoice.company_id.name
@@ -144,18 +144,18 @@ class edi_export (orm.TransientModel):
             errors += _('The partner %s not have vat.\n') % \
                 invoice.company_id.partner_id.name
 
-        if not (invoice.picking_ids and invoice.picking_ids[0].address_id.gln_de or invoice.address_invoice_id.gln_de) or \
-           not (invoice.picking_ids and invoice.picking_ids[0].address_id.gln_rf or invoice.address_invoice_id.gln_rf) or \
-           not (invoice.picking_ids and invoice.picking_ids[0].address_id.gln_co or invoice.address_invoice_id.gln_co) or \
-           not (invoice.picking_ids and invoice.picking_ids[0].address_id.gln_rm or invoice.address_invoice_id.gln_rm):
+        if not (invoice.picking_ids and invoice.picking_ids[0].partner_id.gln_de or invoice.partner_id.gln_de) or \
+           not (invoice.picking_ids and invoice.picking_ids[0].partner_id.gln_rf or invoice.partner_id.gln_rf) or \
+           not (invoice.picking_ids and invoice.picking_ids[0].partner_id.gln_co or invoice.partner_id.gln_co) or \
+           not (invoice.picking_ids and invoice.picking_ids[0].partner_id.gln_rm or invoice.partner_id.gln_rm):
             errors += _('The partner %s not have some GLN defined.\n') % \
                 invoice.partner_id.name
-                
+
         if not invoice.date_invoice:
             errors += _('The invoice not have date.\n')
-        if not invoice.payment_type.edi_code:
+        if not invoice.payment_mode_id.edi_code:
             errors += _('The invoice payment type is not defined or not have a edi code asigned.\n')
-            
+
         if invoice.type == 'out_refund':
             if not invoice.origin_invoices_ids and not \
                     invoice_origin_invoice_ids[0].picking_ids:
@@ -171,7 +171,7 @@ class edi_export (orm.TransientModel):
         if invoice.type == 'out_refund':
             if not invoice.origin_invoices_ids:
                 errors += _('The refund invoice not have an original associated.\n')
-        
+
         for line in invoice.invoice_line:
             if not line.product_id.ean13:
                 errors += _('The product %s not have EAN.\n') % \
@@ -179,7 +179,7 @@ class edi_export (orm.TransientModel):
             if invoice.partner_id.edi_date_required and not \
                     line.stock_move_id.date_expected:
                 errors += _('the line %s requires date expected in the move.') % line.product_id.name
-            '''if not line.stock_move_id.sale_line_id:
+            '''if not line.stock_move_id.procurement_id.sale_line_id:
                 errors += _('The product %s not have a sale\n') % line.product_id.name
             if not line.stock_move_id.picking_id:
                 errors += _('The product %s not have a picking\n') % line.product_id.name'''
@@ -188,13 +188,12 @@ class edi_export (orm.TransientModel):
 
     @staticmethod
     def parse_number(number, length, decimales):
-        
+
         if not number:
             return ' ' * length
         if isinstance(number, float):
             number = round(number, decimales)
             number = str(number)
-            #import ipdb; ipdb.set_trace()
             point_pos = number.index('.')
             if len(number[point_pos+1:]) < decimales:
                 number += (decimales - len(number[point_pos+1:])) * '0'
@@ -224,7 +223,7 @@ class edi_export (orm.TransientModel):
             #string = str(string)
             #string = string
             string = unidecode(string)
-            #import ipdb; ipdb.set_trace()
+
             #string = string.encode('ascii', 'ignore')
 
         if len(string) > length:
@@ -232,7 +231,7 @@ class edi_export (orm.TransientModel):
 
         string = string[0:length]
         new_string = string + u' ' * (length - len(string))
-        
+
         if len(new_string) != length:
             raise orm.except_orm(_('Error parsing!'), _('The length of "%s" is greater of %s.') % (new_string, length))
 
@@ -259,27 +258,27 @@ class edi_export (orm.TransientModel):
             address_data = ''
             #address_data += self.parse_number(address.gln, 13, 0)
             address_data += self.parse_number(gln_val, 13, 0)
-            address_data += self.parse_string(address.partner_id.name, 35)
+            address_data += self.parse_string(address.name, 35)
             address_data += self.parse_string(address.comercial, 35) #u' ' * 35
             address_data += self.parse_string(address.street, 35)
-            address_data += self.parse_string(address.city_id.name, 35)
+            address_data += self.parse_string(address.city, 35)
             address_data += self.parse_string(address.zip, 9)
-            address_data += self.parse_string(address.partner_id.vat, 17)
+            address_data += self.parse_string(address.vat, 17)
             return address_data
 
         invoice_data = 'CAB'
         self.check_invoice_data(invoice)
-        # f = file(file_name,'w') Usamos la línea de abajo por fallo al convertir acentos 
+        # f = file(file_name,'w') Usamos la línea de abajo por fallo al convertir acentos
         f = codecs.open(file_name, 'w', 'utf-8')
 
-        gln_de = invoice.picking_ids and invoice.picking_ids[0].address_id.gln_de or invoice.address_invoice_id.gln_de
-        gln_rf = invoice.picking_ids and invoice.picking_ids[0].address_id.gln_rf or invoice.address_invoice_id.gln_rf
-        gln_co = invoice.picking_ids and invoice.picking_ids[0].address_id.gln_co or invoice.address_invoice_id.gln_co
-        gln_rm = invoice.picking_ids and invoice.picking_ids[0].address_id.gln_rm or invoice.address_invoice_id.gln_rm
-        
+        gln_de = invoice.picking_ids and invoice.picking_ids[0].partner_id.gln_de or invoice.partner_id.gln_de
+        gln_rf = invoice.picking_ids and invoice.picking_ids[0].partner_id.gln_rf or invoice.partner_id.gln_rf
+        gln_co = invoice.picking_ids and invoice.picking_ids[0].partner_id.gln_co or invoice.partner_id.gln_co
+        gln_rm = invoice.picking_ids and invoice.picking_ids[0].partner_id.gln_rm or invoice.partner_id.gln_rm
+
         invoice_data += self.parse_number(gln_de, 13, 0)
         # datos de cabecera
-        
+
         # tipo de factura
         if invoice.type == 'out_invoice':
             invoice_data += u'380'
@@ -289,13 +288,13 @@ class edi_export (orm.TransientModel):
 
         # Fecha de factura.
         invoice_data += self.parse_short_date(invoice.date_invoice)
-        
+
         # modo de pago
-        invoice_data += self.parse_string(invoice.payment_type.edi_code, 3)
-        
+        invoice_data += self.parse_string(invoice.payment_mode_id.edi_code, 3)
+
         # cargo o abono(siempre en blanco 3 espacios)
         invoice_data += ' ' * 3
-        
+
         # codigo de sección de proveedor.
         # Hay una excepción para El Corte Inglés. En las facturas enviamos el código departamento interno en lugar de la sección.
         # En en fichero se sigue enviando también en la posición original el departamento interno, aunque en el mapeo de generix no se tiene en cuenta
@@ -303,10 +302,10 @@ class edi_export (orm.TransientModel):
             invoice_data += self.parse_string(invoice.partner_id.department_code_edi, 9)
         else:
             invoice_data += self.parse_string(invoice.partner_id.section_code, 9)
-        
+
         # texto libre
         invoice_data += self.parse_string(invoice.comment, 131)
-        
+
         if invoice.type == 'out_refund':
             # numero de albaran
             invoice_data += self.parse_string(invoice.origin_invoices_ids[0].picking_ids[0].name, 17)
@@ -317,7 +316,7 @@ class edi_export (orm.TransientModel):
             invoice_data += self.parse_string(invoice.picking_ids[0].name, 17)
             # numero de pedido
             invoice_data += self.parse_string(invoice.sale_order_ids[0].client_order_ref, 17)
-            
+
         # si es rectificativa se añade el numero de factura original.
         if invoice.type == 'out_refund':
             invoice_data += self.parse_string(invoice.origin_invoices_ids[0].number, 17)
@@ -325,15 +324,15 @@ class edi_export (orm.TransientModel):
             invoice_data += u' ' * 17
 
         # receptor.
-        invoice_data += parse_address(invoice.address_invoice_id, gln_rf)
-        
+        invoice_data += parse_address(invoice.partner_id, gln_rf)
+
         # emisor factura
         address_data = ''
         address_data += self.parse_number(invoice.company_id.gln_ef, 13, 0)
         address_data += self.parse_string(invoice.company_id.partner_id.name, 35)
         address_data += u' ' * 35
         address_data += self.parse_string(invoice.company_id.street, 35)
-        address_data += self.parse_string(invoice.company_id.city_id.name, 35)
+        address_data += self.parse_string(invoice.company_id.city, 35)
         address_data += self.parse_string(invoice.company_id.zip, 9)
         address_data += self.parse_string(invoice.company_id.vat, 17)
         # vendedor
@@ -341,20 +340,20 @@ class edi_export (orm.TransientModel):
         address_data += self.parse_string(invoice.company_id.partner_id.name, 35)
         address_data += u' ' * 35
         address_data += self.parse_string(invoice.company_id.street, 35)
-        address_data += self.parse_string(invoice.company_id.city_id.name, 35)
+        address_data += self.parse_string(invoice.company_id.city, 35)
         address_data += self.parse_string(invoice.company_id.zip, 9)
         address_data += self.parse_string(invoice.company_id.vat, 17)
         invoice_data += address_data
 
         # comprador
-        invoice_data += parse_address(invoice.address_contact_id, gln_co)
-        
+        invoice_data += parse_address(invoice.partner_id.commercial_partner_id, gln_co)
+
         # código de departamento interno
         invoice_data += self.parse_string(invoice.partner_id.department_code_edi, 3)
 
         # receptor de la mercancia
-        invoice_data += parse_address(invoice.picking_ids and invoice.picking_ids[0].address_id or invoice.address_invoice_id, gln_rm)
-        
+        invoice_data += parse_address(invoice.picking_ids and invoice.picking_ids[0].partner_id or invoice.partner_id, gln_rm)
+
         # divisa
         invoice_data += self.parse_string(invoice.currency_id.name or u'EUR', 3)
 
@@ -370,7 +369,7 @@ class edi_export (orm.TransientModel):
             invoice_data += self.parse_short_date(payment.date_maturity) + self.parse_number(payment.debit, 18, 3)
         invoice_data += (' ' * 26) * (3 - len(payments))
         f.write(invoice_data)
-        
+
         # descuentos globales
         discount_data = '\nDCO'
         if invoice.global_disc > 0:
@@ -381,7 +380,7 @@ class edi_export (orm.TransientModel):
         f.write(discount_data)
         invoice_number = 0
         total_bruto = 0
-        
+
         # linea de factura
         for line in invoice.invoice_line:
             total_bruto += line.price_unit * line.quantity
@@ -407,8 +406,8 @@ class edi_export (orm.TransientModel):
                 line_data += self.parse_number(line_qty, 15, 0)
 
             line_data += self.parse_string(line.stock_move_id.product_uom.edi_code or u'PCE', 3)
-            line_data += self.parse_string(line.note, 70)
-            
+            line_data += self.parse_string('', 70)
+
             # importe total neto
             #imp = line.invoice_line_tax_id and int(line.invoice_line_tax_id[0].amount * 100) or int('0')
             #total_line_without_tax = line.price_subtotal - (line.price_subtotal * (line.invoice_id.global_disc/100))
@@ -416,7 +415,7 @@ class edi_export (orm.TransientModel):
             #total_line = total_line_without_tax + (total_line_without_tax * imp/100.0)
             #line_data += self.parse_number(total_line, 18, 3)
             line_data += self.parse_number(line.price_subtotal, 18, 3)
-            
+
             # precios unitarios bruto y neto
             line_price_unit_gross = (line.quantity * line.price_unit) / line_qty
             line_price_unit_net = line.price_subtotal / line_qty
@@ -424,15 +423,15 @@ class edi_export (orm.TransientModel):
             line_data += self.parse_number(line_price_unit_net, 18, 3)
 
             # numero de pedido y albaran
-            if line.stock_move_id.sale_line_id: 
-                line_data += self.parse_string(line.stock_move_id.sale_line_id.order_id.client_order_ref, 17)
+            if line.stock_move_id.procurement_id.sale_line_id:
+                line_data += self.parse_string(line.stock_move_id.procurement_id.sale_line_id.order_id.client_order_ref, 17)
             else:
                 line_data += self.parse_string(False, 17)
             if line.stock_move_id.picking_id:
                 line_data += self.parse_string(line.stock_move_id.picking_id.name, 17)
             else:
                 line_data += self.parse_string(False, 17)
-                
+
             # datos de los impuestos, únicamente del primero
             if line.invoice_line_tax_id:
                 imp = line.invoice_line_tax_id and int(line.invoice_line_tax_id[0].amount * 100) or int('0')
@@ -480,7 +479,7 @@ class edi_export (orm.TransientModel):
             tax_data += self.parse_number(tax.tax_amount, 18, 3)
             tax_data += self.parse_number(tax.base_amount, 18, 3)
             f.write(tax_data)
-            
+
         f.close()
 
     def check_picking_data(self, picking):
@@ -492,8 +491,8 @@ class edi_export (orm.TransientModel):
             errors += _('\nThe picking not have min date')
         if not picking.company_id.partner_id.gln:
             errors += _('\nThe partner %s not have gln') % picking.company_id.partner_id.name
-        if not picking.address_id.gln:
-            errors += _('\nThe address %s not have gln') % picking.address_id.name
+        if not picking.partner_id.gln:
+            errors += _('\nThe address %s not have gln') % picking.partner_id.name
         if not picking.company_id.gs1:
             errors += _('\nThe company %s not have gs1') % picking.company_id.name
         for move in picking.move_lines:
@@ -549,7 +548,7 @@ class edi_export (orm.TransientModel):
             #peso neto de la linea
             move_line += self.parse_number(move.product_qty * product.weight_net, 15, 0)
 
-            move_line += self.parse_string(move.picking_id.address_id.gln, 25)
+            move_line += self.parse_string(move.picking_id.partner_id.gln, 25)
 
             #codigo alcampo eci
             move_line += self.parse_number(move.partner_id.product_marking_code, 25, 0)
@@ -583,7 +582,7 @@ class edi_export (orm.TransientModel):
         picking_data += self.parse_number(picking.company_id.partner_id.gln, 13, 0)
         picking_data += self.parse_number('', 13, 0)
         picking_data += self.parse_number(picking.partner_id.gln, 13, 0)
-        picking_data += self.parse_number(picking.address_id.gln, 13, 0)
+        picking_data += self.parse_number(picking.partner_id.gln, 13, 0)
         picking_data += self.parse_number(picking.partner_id.gln, 13, 0)
         picking_data += self.parse_number(picking.company_id.partner_id.gln, 13, 0)
 
@@ -666,11 +665,9 @@ class edi_export (orm.TransientModel):
                     raise orm.except_orm(_('Invoice error'), _('Validate the invoice before.'))
                 file_name = '%s%sINV%s%s%s.ASC' % (path,os.sep, obj.company_id.edi_code, obj.number.replace('/',''), obj.partner_id.edi_filename)
                 self.parse_invoice(obj, file_name)
-
-            wizard.create_doc(obj,file_name,context)
+            self.create_doc(cr, uid, wizard.id, obj, file_name, context)
             data_pool = self.pool.get('ir.model.data')
             action_model,action_id = data_pool.get_object_reference(cr, uid, 'eln_edi', "act_edi_doc")
             action = self.pool.get(action_model).read(cr,uid,action_id,context=context)
 
         return action
-

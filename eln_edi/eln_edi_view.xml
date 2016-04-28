@@ -155,7 +155,7 @@
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="base.view_partner_form" />
             <field name="arch" type="xml">
-            
+
                 <notebook position="inside">
                     <page string="EDI" attrs="{'invisible': [('parent_id', '!=', False), ('is_company','=',False)]}">
                         <group>
@@ -293,6 +293,17 @@
             </field>
         </record>
 
+        <record id="payment_mode_form_add_edi_code" model="ir.ui.view">
+            <field name="name">payment.mode.form</field>
+            <field name="model">payment.mode</field>
+            <field name="inherit_id" ref="account_payment.view_payment_mode_form"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="edi_code"/>
+                </field>
+            </field>
+        </record>
+
  <!-- **************************** MENUS ***************************** -->
         <menuitem id="menu_edi" name="EDI" parent="base.menu_administration"/>
             <menuitem id="menu_edi_configuration" parent="menu_edi" name="Configuracion EDI" action="act_edi_configuration" sequence="1"/>
@@ -300,4 +311,3 @@
 
     </data>
 </openerp>
-
