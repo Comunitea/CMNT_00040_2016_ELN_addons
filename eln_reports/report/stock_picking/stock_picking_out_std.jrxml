@@ -1335,7 +1335,7 @@ $F{Nombre_de_la_compania-name} + " · " + $F{Calle-street-company} + " · " + $F
 	<detail>
 		<band height="90" splitType="Stretch">
 			<componentElement>
-				<reportElement key="table 2" mode="Opaque" x="0" y="0" width="555" height="48">
+				<reportElement key="table 2" mode="Transparent" x="0" y="0" width="555" height="48">
 					<property name="OPENERP_RELATIONS" value="out_report_ids"/>
 				</reportElement>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
