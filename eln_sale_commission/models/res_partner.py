@@ -10,3 +10,4 @@ class ResPartner(models.Model):
     _inherit = "res.partner"
 
     commission = fields.Many2one(company_dependent=True, required=False)
+    atypical = fields.Float('Atypical', company_dependent=True)
