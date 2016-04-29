@@ -57,9 +57,28 @@ class ElnSaleReportXls(report_xls):
         self.style_bold_blue_center = xlwt.easyxf(
             _xs['bold'] + _xs['fill_blue'] + _xs['borders_all'] +
             _xs['center'])
+        self.report_date = objects.date
 
-    def print_title(self, row_pos):
-        report_name = ' - '.join(["DAYLY SALE REPORT", 'MES', 'AÑO'],)
+    def print_title(self, objects, row_pos):
+        date = objects.date
+        date_split = date.split('-')
+        year = date_split[0]
+        months = {
+            '01': _('JANUARY'),
+            '02': _('FEBRUARY'),
+            '03': _('MARCH'),
+            '04': _('APRIL'),
+            '05': _('MAY'),
+            '06': _('JUNE'),
+            '07': _('JULY'),
+            '08': _('AUGUST'),
+            '09': _('SEPTEMBER'),
+            '10': _('OCTOBER'),
+            '11': _('NOVEMBER'),
+            '12': _('DECEMBER'),
+        }
+        month = months[date_split[1]]
+        report_name = ' - '.join(["DAYLY SALE REPORT", month + ' ' + year])
         c_specs = [('report_name', self.nbr_columns, 0, 'text', report_name)]
         row_data = self.xls_row_template(c_specs, [x[0] for x in c_specs])
         row_pos = self.xls_write_row(
@@ -76,7 +95,7 @@ class ElnSaleReportXls(report_xls):
             self.ws, row_pos, row_data, set_column_size=True)
         return row_pos
 
-    def print_header_titles(self, data, row_pos):
+    def print_header_titles(self, row_pos):
         style1 = self.style_bold_blue_center
         # PART 1
         c_specs = [
@@ -107,7 +126,7 @@ class ElnSaleReportXls(report_xls):
             ('a', 1, 0, 'text', None, None, None),
             ('b', 1, 0, 'text', _('CURRENT'), None, style1),
             ('c', 1, 0, 'text', _('PREV.'), None, style1),
-            ('d', 1, 0, 'text', _('NEXT.'), None, style1),
+            ('d', 1, 0, 'text', _('Y. NEXT.'), None, style1),
             ('e', 1, 0, 'text', _('CURRENTS'), None, style1),
             ('f', 1, 0, 'text', _('PREVIOUS'), None, style1),
             ('g', 1, 0, 'text', None, None, style1),
@@ -123,55 +142,52 @@ class ElnSaleReportXls(report_xls):
         row_pos = self.xls_write_row(self.ws, row_pos, row_data)
         return row_pos
 
-    def generate_xls_report(self, _p, _xs, data, objects, wb):
-        # report_name = "Ameus Animé"
-        # ws = wb.add_sheet("1")
-        # ws.panes_frozen = True
-        # ws.remove_splits = True
-        # ws.portrait = 0  # Landscape
-        # ws.fit_width_to_pages = 1
-        # row_pos = 0
-        # ws.header_str = self.xls_headers['standard']
-        # ws.footer_str = self.xls_footers['standard']
+    def _print_report_values(self, data, row_pos):
+        for acc_name in data:
+            val = data[acc_name]
+            margin = ((val['base'] - val['p_price']) * 100)\
+                / val['p_price'] if val['p_price'] else 0.0
+            ld_margin = ((val['ld_base'] - val['ld_p_price'])) * 100 \
+                / val['ld_p_price'] if val['ld_p_price'] else 0.0
+            ly_margin = ((val['ly_base'] - val['ly_p_price'])) * 100 \
+                / val['ly_p_price'] if val['ly_p_price'] else 0.0
+            c_specs = [
+                ('a', 1, 0, 'text', acc_name, None, None),
+                ('b', 1, 0, 'text', str(round(margin, 2)), None, None),
+                ('c', 1, 0, 'text', str(round(ld_margin, 2)), None, None),
+                ('d', 1, 0, 'text', str(round(ly_margin, 2)), None, None),
+                ('e', 1, 0, 'text', str(round(val['base'], 2)), None, None),
+                ('f', 1, 0, 'text', str(round(val['ld_base'], 2)), None, None),
+                ('g', 1, 0, 'text',
+                    str(round(val['base'] - val['ld_base'], 2)), None,
+                    None),
+                ('h', 1, 0, 'text', str(round(val['ly_base'], 2)), None, None),
+                ('i', 1, 0, 'text', str(round(val['quot1'], 2)), None, None),
+                ('j', 1, 0, 'text', str(round(val['kg'], 2)), None, None),
+                ('k', 1, 0, 'text', str(round(val['ld_kg'], 2)), None, None),
+                ('l', 1, 0, 'text', str(round(val['kg'] - val['ld_kg'], 2)),
+                    None, None),
+                ('m', 1, 0, 'text', str(round(val['ly_kg'], 2)), None, None),
+                ('n', 1, 0, 'text', str(round(val['quot2'], 2)), None, None),
+            ]
+            row_data = self.xls_row_template(c_specs, [x[0] for x in c_specs])
+            row_pos = self.xls_write_row(self.ws, row_pos, row_data)
+        return row_pos
 
+    def generate_xls_report(self, _p, _xs, data, objects, wb):
         # Initializations
         self.global_initializations(wb, _p, xlwt, _xs, objects, data)
         row_pos = 0
         # Report Title
-        row_pos = self.print_title(row_pos)
+        row_pos = self.print_title(objects, row_pos)
         # Print empty row to define column sizes
         row_pos = self.print_empty_row(row_pos)
 
         # Headers
-        row_pos = self.print_header_titles(self, row_pos)
-        # _ = _p._
-        # # c_specs = [
-        # #     ('report_name', 10, 10, 'text', report_name),
-        # #     ('report_name2', 1, 3, 'text', report_name),
-        # # ]
+        row_pos = self.print_header_titles(row_pos)
 
-        # # row_data = self.xls_row_template(c_specs, [x[0] for x in c_specs])
-        # # row_pos = self.xls_write_row(ws, row_pos, row_data)
-        # # row_pos += 1
-        # cell_style = xlwt.easyxf(_xs['xls_title'])
-
-        # # Column headers
-        # c_specs = map(lambda x: self.render(
-        #     x, self.col_specs_template, 'header', render_space={'_': _p._}),
-        #     ['space1', 'space2', 'eu', 'kg'])
-        # row_data = self.xls_row_template(c_specs, [x[0] for x in c_specs])
-        # row_pos = self.xls_write_row(
-        #     ws, row_pos, row_data, row_style=self.rh_cell_style,
-        #     set_column_size=True)
-
-        # c_specs = map(lambda x: self.render(
-        #     x, self.col_specs_template, 'header', render_space={'_': _p._}),
-        #     ['rent_per'])
-        # row_data = self.xls_row_template(c_specs, [x[0] for x in c_specs])
-        # row_pos = self.xls_write_row(
-        #     ws, row_pos, row_data, row_style=self.rh_cell_style,
-        #     set_column_size=True)
-        # # ws.set_horz_split_pos(row_pos)
+        # Values
+        row_pos = self._print_report_values(data, row_pos)
 
 
 ElnSaleReportXls('report.eln_sale_report_xls',

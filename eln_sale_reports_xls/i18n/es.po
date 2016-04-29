@@ -1,0 +1,243 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* eln_sale_reports_xls
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-04-29 13:26+0000\n"
+"PO-Revision-Date: 2016-04-29 13:26+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: eln_sale_reports_xls
+#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:112
+#, python-format
+msgid "% RENT"
+msgstr "% RENT"
+
+#. module: eln_sale_reports_xls
+#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:113
+#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:117
+#, python-format
+msgid "ACUMULED"
+msgstr "ACUMULADO"
+
+#. module: eln_sale_reports_xls
+#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:70
+#, python-format
+msgid "APRIL"
+msgstr "ABRIL"
+
+#. module: eln_sale_reports_xls
+#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:74
+#, python-format
+msgid "AUGUST"
+msgstr "AGOSTO"
+
+#. module: eln_sale_reports_xls
+#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:127
+#, python-format
+msgid "CURRENT"
+msgstr "ACTUAL"
+
+#. module: eln_sale_reports_xls
+#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:130
+#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:135
+#, python-format
+msgid "CURRENTS"
+msgstr "ACTUALES"
+
+#. module: eln_sale_reports_xls
+#: view:eln.sale.report.xls.wzd:eln_sale_reports_xls.view_eln_sale_report_xls_wzd
+msgid "Cancel"
+msgstr "CANCELAR"
+
+#. module: eln_sale_reports_xls
+#: field:eln.sale.report.xls.wzd,create_uid:0
+msgid "Created by"
+msgstr "creado por"
+
+#. module: eln_sale_reports_xls
+#: field:eln.sale.report.xls.wzd,create_date:0
+msgid "Created on"
+msgstr "creado en"
+
+#. module: eln_sale_reports_xls
+#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:78
+#, python-format
+msgid "DECEMBER"
+msgstr "DICIEMBRE"
+
+#. module: eln_sale_reports_xls
+#: model:ir.ui.menu,name:eln_sale_reports_xls.menu_eln_sale_report_xls_wzd
+msgid "Dayle sale report"
+msgstr "Informe diario de ventas"
+
+#. module: eln_sale_reports_xls
+#: model:ir.actions.report.xml,name:eln_sale_reports_xls.eln_sale_report_xls
+msgid "Dayle sale report analysis"
+msgstr "Informe diario de ventas análisis"
+
+#. module: eln_sale_reports_xls
+#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:52
+#, python-format
+msgid "Dayly sale report"
+msgstr "Informe diario de ventas"
+
+#. module: eln_sale_reports_xls
+#: field:eln.sale.report.xls.wzd,display_name:0
+msgid "Display Name"
+msgstr "Nombre mostrado"
+
+#. module: eln_sale_reports_xls
+#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:104
+#, python-format
+msgid "EUROS"
+msgstr "EUROS"
+
+#. module: eln_sale_reports_xls
+#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:68
+#, python-format
+msgid "FEBRUARY"
+msgstr "FEBRERO"
+
+#. module: eln_sale_reports_xls
+#: field:eln.sale.report.xls.wzd,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: eln_sale_reports_xls
+#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:67
+#, python-format
+msgid "JANUARY"
+msgstr "ENERO"
+
+#. module: eln_sale_reports_xls
+#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:73
+#, python-format
+msgid "JULY"
+msgstr "JULIO"
+
+#. module: eln_sale_reports_xls
+#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:72
+#, python-format
+msgid "JUNE"
+msgstr "JUNIO"
+
+#. module: eln_sale_reports_xls
+#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:105
+#, python-format
+msgid "KILES"
+msgstr "KILOS"
+
+#. module: eln_sale_reports_xls
+#: field:eln.sale.report.xls.wzd,__last_update:0
+msgid "Last Modified on"
+msgstr "Última modificación en"
+
+#. module: eln_sale_reports_xls
+#: field:eln.sale.report.xls.wzd,write_uid:0
+msgid "Last Updated by"
+msgstr "Última actualización por"
+
+#. module: eln_sale_reports_xls
+#: field:eln.sale.report.xls.wzd,write_date:0
+msgid "Last Updated on"
+msgstr "Última actualización en"
+
+#. module: eln_sale_reports_xls
+#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:69
+#, python-format
+msgid "MARCH"
+msgstr "MARZO"
+
+#. module: eln_sale_reports_xls
+#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:71
+#, python-format
+msgid "MAY"
+msgstr "MAYO"
+
+#. module: eln_sale_reports_xls
+#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:129
+#, python-format
+msgid "Y. NEXT."
+msgstr "A.ANT"
+
+#. module: eln_sale_reports_xls
+#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:77
+#, python-format
+msgid "NOVEMBER"
+msgstr "NOBIEMBRE"
+
+#. module: eln_sale_reports_xls
+#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:76
+#, python-format
+msgid "OCTOBER"
+msgstr "OCTUBRE"
+
+#. module: eln_sale_reports_xls
+#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:114
+#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:118
+#, python-format
+msgid "OF DAY"
+msgstr "DEL DÍA"
+
+#. module: eln_sale_reports_xls
+#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:128
+#, python-format
+msgid "PREV."
+msgstr "ANT."
+
+#. module: eln_sale_reports_xls
+#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:131
+#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:136
+#, python-format
+msgid "PREVIOUS"
+msgstr "ANTERIORES"
+
+#. module: eln_sale_reports_xls
+#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:115
+#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:119
+#, python-format
+msgid "PREVIOUS DAY"
+msgstr "DÍA ANTERIOR"
+
+#. module: eln_sale_reports_xls
+#: model:ir.actions.act_window,name:eln_sale_reports_xls.action_eln_sale_report_xls_wzd
+msgid "Print Dayle Report Sale"
+msgstr "Imprimir informe diario de ventas"
+
+#. module: eln_sale_reports_xls
+#: view:eln.sale.report.xls.wzd:eln_sale_reports_xls.view_eln_sale_report_xls_wzd
+msgid "Print report"
+msgstr "Imprimir informe"
+
+#. module: eln_sale_reports_xls
+#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:116
+#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:120
+#, python-format
+msgid "QUOTATION"
+msgstr "PRESUPUESTO"
+
+#. module: eln_sale_reports_xls
+#: field:eln.sale.report.xls.wzd,date:0
+msgid "Report Date"
+msgstr "Fecha informe"
+
+#. module: eln_sale_reports_xls
+#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:75
+#, python-format
+msgid "SEPTEMBER"
+msgstr "SEPTIEMBRE"
+
+#. module: eln_sale_reports_xls
+#: view:eln.sale.report.xls.wzd:eln_sale_reports_xls.view_eln_sale_report_xls_wzd
+msgid "Select report date"
+msgstr "Seleccione fecha del informe"
+

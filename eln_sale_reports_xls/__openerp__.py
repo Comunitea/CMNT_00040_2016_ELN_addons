@@ -11,7 +11,8 @@
     'depends': [
         'base',
         'sale_stock',
-        'report_xls'
+        'report_xls',
+        'stock_picking_valued',
     ],
     'contributors': [
         "Javier Colmenero <javier@comunitea.com>"
