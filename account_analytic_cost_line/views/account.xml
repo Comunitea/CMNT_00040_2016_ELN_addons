@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="account_analytic_journal_form_add_cost" model="ir.ui.view">
+            <field name="name">account.analytic.journal.form</field>
+            <field name="model">account.analytic.journal</field>
+            <field name="inherit_id" ref="account.view_account_analytic_journal_form"/>
+            <field name="arch" type="xml">
+                <field name="active" position="after">
+                    <field name="analytic_cost_journal" attrs="{'invisible': [('type', '!=', 'sale')]}"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>
