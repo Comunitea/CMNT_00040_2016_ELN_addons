@@ -146,11 +146,11 @@ class ElnSaleReportXls(report_xls):
         for acc_name in data:
             val = data[acc_name]
             margin = ((val['base'] - val['p_price']) * 100)\
-                / val['p_price'] if val['p_price'] else 0.0
+                / val['base'] if val['base'] else 0.0
             ld_margin = ((val['ld_base'] - val['ld_p_price'])) * 100 \
-                / val['ld_p_price'] if val['ld_p_price'] else 0.0
+                / val['ld_base'] if val['ld_base'] else 0.0
             ly_margin = ((val['ly_base'] - val['ly_p_price'])) * 100 \
-                / val['ly_p_price'] if val['ly_p_price'] else 0.0
+                / val['ly_base'] if val['ly_base'] else 0.0
             c_specs = [
                 ('a', 1, 0, 'text', acc_name, None, None),
                 ('b', 1, 0, 'text', str(round(margin, 2)), None, None),

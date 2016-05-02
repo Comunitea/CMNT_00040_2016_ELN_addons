@@ -39,7 +39,10 @@ class stock_picking(orm.Model):
         result = route_obj.name_get(cr, access_rights_uid, route_ids, context=context)
         # restore order of the search
         result.sort(lambda x,y: cmp(route_ids.index(x[0]), route_ids.index(y[0])))
-        return result, {}
+        fold = {x[0]:1 for x in result}
+        # Se pliega la columna indefinido
+        fold[False] = 1
+        return result, fold
 
     _group_by_full = {
         'route_id': _read_group_route_ids

@@ -70,8 +70,10 @@
             <field name="inherit_id" ref="stock.view_picking_internal_search" />
             <field name="arch" type="xml">
                 <field name="name" position="before">
-                    <filter icon="terp-check" string="Direct Invoicing" domain="['|',('sale_id.shop_id.indirect_invoicing','=',False), ('sale_id','=',False)]"/>
-                    <filter icon="terp-check" string="Indirect Invoicing" domain="[('sale_id.shop_id.indirect_invoicing','=',True)]"/>
+                   <!--  <filter icon="terp-check" string="Direct Invoicing" domain="['|',('sale_id.shop_id.indirect_invoicing','=',False), ('sale_id','=',False)]"/>
+                    <filter icon="terp-check" string="Indirect Invoicing" domain="[('sale_id.shop_id.indirect_invoicing','=',True)]"/> -->
+                     <filter icon="terp-check" string="Direct Invoicing" domain="[('supplier_id','=', False)]"/>
+                    <filter icon="terp-check" string="Indirect Invoicing" domain="[('supplier_id','!=',False)]"/>
                 </field>
             </field>
         </record>
