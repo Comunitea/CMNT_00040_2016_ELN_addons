@@ -11,6 +11,15 @@
       <field name="auto" eval="False"/>
     </record>
 
+    <record id="eln_salesman_summary_xls" model="ir.actions.report.xml">
+      <field name="name">Salesmans Sale Summary</field>
+      <field name="model">stock.picking</field>
+      <field name="type">ir.actions.report.xml</field>
+      <field name="report_name">eln_salesman_summary_xls</field>
+      <field name="report_type">xls</field>
+      <field name="auto" eval="False"/>
+    </record>
+
   
   </data>
 </openerp>
