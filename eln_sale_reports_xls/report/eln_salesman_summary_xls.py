@@ -6,7 +6,7 @@ import xlwt
 from openerp.addons.report_xls.report_xls import report_xls
 from datetime import datetime
 from openerp.report import report_sxw
-# from openerp.addons.report_xls.utils import _render
+from openerp.addons.report_xls.utils import rowcol_to_cell
 from openerp.tools.translate import _
 
 
@@ -59,8 +59,9 @@ class ElnSalesmanSummaryXls(report_xls):
             _xs['center'])
 
     def print_title(self, objects, row_pos):
-        report_name = '-'.join([_("SALESMAN SALE SUMMARY"), objects.start_date,
-                               objects.end_date])
+        report_name = '  '.join([_("SALESMAN SALE SUMMARY"),
+                                objects.start_date,
+                                objects.end_date])
         c_specs = [('report_name', self.nbr_columns, 0, 'text', report_name)]
         row_data = self.xls_row_template(c_specs, [x[0] for x in c_specs])
         row_pos = self.xls_write_row(
@@ -83,10 +84,10 @@ class ElnSalesmanSummaryXls(report_xls):
         c_specs = [
             ('a', 1, 0, 'text', None, None, None),
             ('bcde', 4, 0, 'text', _('COMERCIAL VALQUIN'), None, style1),
-            ('bcde', 4, 0, 'text', _('COMERCIAL VALQUIN INDIRECT'), None,
+            ('fghi', 4, 0, 'text', _('COMERCIAL VALQUIN INDIRECT'), None,
              style1),
-            ('fghi', 4, 0, 'text', _('QUIVAL S.A'), None, style1),
-            ('jklm', 4, 0, 'text', _('TOTAL'), None, style1),
+            ('jklm', 4, 0, 'text', _('QUIVAL S.A'), None, style1),
+            ('n', 1, 0, 'text', _('TOTAL'), None, style1),
         ]
         row_data = self.xls_row_template(c_specs, [x[0] for x in c_specs])
         row_pos = self.xls_write_row(self.ws, row_pos, row_data)
@@ -111,62 +112,111 @@ class ElnSalesmanSummaryXls(report_xls):
         row_pos = self.xls_write_row(self.ws, row_pos, row_data)
         return row_pos
 
+    def _get_values(self, by_company, group_col):
+        sale = cost = benefit = benefit_per = 0.0
+        if by_company.get(group_col, False):
+            val = by_company[group_col]
+            sale = val['sale']
+            cost = val['cost']
+            benefit = sale - cost
+            benefit_per = (benefit * 100) / sale if sale else 0.0
+
+            if group_col == 'indir_valquin':
+                cost = benefit = benefit_per = 0.0
+
+        return sale, cost, benefit, benefit_per
+
     def _print_report_values(self, data, row_pos):
-        for c_id in data:
-            if c_id == 2:
-                for user_id in data[c_id]:
-                    val = data[c_id][user_id]
-                    # user_name = self.pool.get('res.users').browse(self.cr,
-                    #                                               1,
-                    #                                               user_id).name
-                    user_name = 'aaa'
-                    sale = val['sale']
-                    cost = val['cost']
-                    benefit = sale - cost
-                    benefit_per = (benefit * 100) / sale if sale else 0.0
-                    c_specs = [
-                        ('a', 1, 0, 'text', user_name, None, None),
-                        ('b', 1, 0, 'text', str(round(sale, 2)), None, None),
-                        ('c', 1, 0, 'text', str(round(cost, 2)), None, None),
-                        ('d', 1, 0, 'text', str(round(benefit, 2)), None,
-                         None),
-                        ('e', 1, 0, 'text', str(round(benefit_per, 2)), None,
-                         None),
-                    ]
-                    row_data = self.xls_row_template(c_specs,
-                                                     [x[0] for x in c_specs])
-                    row_pos = self.xls_write_row(self.ws, row_pos, row_data)
-            else:
-                for user_id in data[c_id]:
-                    val = data[c_id][user_id]
-                    # user_name = self.pool.get('res.users').browse(self.cr,
-                    #                                               1,
-                    #                                               user_id).name
-                    user_name = 'bbbb'
-                    sale = val['sale']
-                    cost = val['cost']
-                    benefit = sale - cost
-                    benefit_per = (benefit * 100) / sale if sale else 0.0
-                    c_specs = [
-                        ('a', 1, 0, 'text', user_name, None, None),
-                        ('b', 1, 0, 'text', None, None, None),
-                        ('c', 1, 0, 'text', None, None, None),
-                        ('d', 1, 0, 'text', None, None, None),
-                        ('e', 1, 0, 'text', None, None, None),
-                        ('f', 1, 0, 'text', None, None, None),
-                        ('g', 1, 0, 'text', None, None, None),
-                        ('h', 1, 0, 'text', None, None, None),
-                        ('i', 1, 0, 'text', None, None, None),
-                        ('j', 1, 0, 'text', str(round(sale, 2)), None, None),
-                        ('k', 1, 0, 'text', str(round(cost, 2)), None, None),
-                        ('l', 1, 0, 'text', str(round(benefit, 2)), None,
-                         None),
-                        ('m', 1, 0, 'text', str(round(benefit_per, 2)), None,
-                         None),
-                    ]
-                    row_data = self.xls_row_template(c_specs,
-                                                     [x[0] for x in c_specs])
-                    row_pos = self.xls_write_row(self.ws, row_pos, row_data)
+        for salesman in data:
+            by_company = data[salesman]
+            c_specs = [('a', 1, 0, 'text', salesman, None, None)]
+            sale_total = 0
+            for c in ['valquin', 'indir_valquin', 'quival']:
+                sale, cost, benefit, benefit_per = self._get_values(by_company,
+                                                                    c)
+                col1 = 'b' if c == 'valquin' else \
+                    ('f' if c == 'indir_valquin' else 'j')
+                col2 = 'c' if c == 'valquin' else \
+                    ('g' if c == 'indir_valquin' else 'k')
+                col3 = 'd' if c == 'valquin' else \
+                    ('h' if c == 'indir_valquin' else 'l')
+                col4 = 'e' if c == 'valquin' else \
+                    ('i' if c == 'indir_valquin' else 'm')
+                c_specs += [
+                    (col1, 1, 0, 'number', sale, None, None),
+                    (col2, 1, 0, 'number', cost, None, None),
+                    (col3, 1, 0, 'number', benefit, None, None),
+                    (col4, 1, 0, 'number', benefit_per, None, None)]
+                sale_total += sale
+            c_specs += [('n', 1, 0, 'number', sale_total, None, None)]
+            row_data = self.xls_row_template(c_specs,
+                                             [x[0] for x in c_specs])
+            row_pos = self.xls_write_row(self.ws, row_pos, row_data)
+        return row_pos
+
+    def _print_totals(self, row_pos):
+        init_pos = 4
+        end_pos = row_pos - 2
+
+        # VALQUIN TOTALS
+        sale_start = rowcol_to_cell(init_pos, 1)
+        sale_end = rowcol_to_cell(end_pos, 1)
+        val_sales = 'SUM(' + sale_start + ':' + sale_end + ')'
+
+        cost_start = rowcol_to_cell(init_pos, 2)
+        cost_end = rowcol_to_cell(end_pos, 2)
+        val_cost = 'SUM(' + cost_start + ':' + cost_end + ')'
+
+        total_sale = rowcol_to_cell(row_pos, 1)
+        total_cost = rowcol_to_cell(row_pos, 2)
+        val_benefit = total_sale + '-' + total_cost
+
+        total_benefit = rowcol_to_cell(row_pos, 3)
+        val_benefit_per = total_benefit + '*' + '100' + '/' + total_sale
+
+        # VALQUIN INDIRECT TOTALS
+        sale_start = rowcol_to_cell(init_pos, 5)
+        sale_end = rowcol_to_cell(end_pos, 5)
+        in_val_sales = 'SUM(' + sale_start + ':' + sale_end + ')'
+
+        # QUIVAL TOTALS
+        sale_start = rowcol_to_cell(init_pos, 9)
+        sale_end = rowcol_to_cell(end_pos, 9)
+        qui_sales = 'SUM(' + sale_start + ':' + sale_end + ')'
+
+        cost_start = rowcol_to_cell(init_pos, 10)
+        cost_end = rowcol_to_cell(end_pos, 10)
+        qui_cost = 'SUM(' + cost_start + ':' + cost_end + ')'
+
+        total_sale = rowcol_to_cell(row_pos, 9)
+        total_cost = rowcol_to_cell(row_pos, 10)
+        qui_benefit = total_sale + '-' + total_cost
+
+        total_benefit = rowcol_to_cell(row_pos, 11)
+        qui_benefit_per = total_benefit + '*' + '100' + '/' + total_sale
+
+        # TOTAL SALES
+        sale_start = rowcol_to_cell(init_pos, 13)
+        sale_end = rowcol_to_cell(end_pos, 13)
+        total_toal_sales = 'SUM(' + sale_start + ':' + sale_end + ')'
+        c_specs = [
+            ('a', 1, 0, 'text', _('TOTALS'), None, None),
+            ('b', 1, 0, 'number', None, val_sales, None),
+            ('c', 1, 0, 'number', None, val_cost, None),
+            ('d', 1, 0, 'number', None, val_benefit, None),
+            ('e', 1, 0, 'number', None, val_benefit_per, None),
+            ('f', 1, 0, 'number', None, in_val_sales, None),
+            ('g', 1, 0, 'number', None, None, None),
+            ('h', 1, 0, 'number', None, None, None),
+            ('i', 1, 0, 'number', None, None, None),
+            ('j', 1, 0, 'number', None, qui_sales, None),
+            ('k', 1, 0, 'number', None, qui_cost, None),
+            ('l', 1, 0, 'number', None, qui_benefit, None),
+            ('m', 1, 0, 'number', None, qui_benefit_per, None),
+            ('n', 1, 0, 'number', None, total_toal_sales, None),
+        ]
+        row_data = self.xls_row_template(c_specs, [x[0] for x in c_specs])
+        row_pos = self.xls_write_row(self.ws, row_pos, row_data)
         return row_pos
 
     def generate_xls_report(self, _p, _xs, data, objects, wb):
@@ -183,6 +233,12 @@ class ElnSalesmanSummaryXls(report_xls):
 
         # Values
         row_pos = self._print_report_values(data, row_pos)
+
+        # Print empty row to define column sizes
+        row_pos = self.print_empty_row(row_pos)
+
+        # Totals
+        row_pos = self._print_totals(row_pos)
 
 
 ElnSalesmanSummaryXls('report.eln_salesman_summary_xls',

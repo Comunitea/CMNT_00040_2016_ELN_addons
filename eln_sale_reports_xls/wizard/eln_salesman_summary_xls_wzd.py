@@ -22,43 +22,42 @@ class ElnSaleSummaryXlsWzd(models.TransientModel):
         return cost, sale
 
     @api.multi
-    def get_company_ids(self):
-        res = []
-        t_company = self.env['res.company'].sudo()
-        objs = t_company.search([('parent_id', '!=', False)])
-        res = [x.id for x in objs]
-        return res
-
-    @api.multi
     def _get_report_data(self):
+        valquin_id = 2
+        quival_id = 3
         self.ensure_one()
         t_pick = self.env['stock.picking'].sudo()
         res = {}
-        company_ids = self.get_company_ids()
-        for c_id in company_ids:
-            res[c_id] = {}
         domain = [
             ('picking_type_code', '=', 'outgoing'),
             ('state', 'not in', ['draft', 'cancel']),
             ('min_date', '>=', self.start_date),
             ('min_date', '<=', self.end_date),
-            ('company_id', 'in', company_ids)
+            ('company_id', 'in', [valquin_id, quival_id])
         ]
         for pick in t_pick.search(domain):
-            c = pick.company_id.id
-            if not pick.sale_id and pick.sale_id.user_id:
-                continue
-            user_id = pick.sale_id.user_id.id
-            if user_id not in res:
-                res[c][user_id] = {
-                    'cost': 0.0,
-                    'sale': 0.0,
-                }
+
+            # Get company mode
+            c = 'valquin'
+            if pick.company_id.id == valquin_id and not pick.supplier_id:
+                c = 'valquin'
+            elif pick.company_id.id == valquin_id and pick.supplier_id:
+                c = 'indir_valquin'
+            elif pick.company_id.id == quival_id:
+                c = 'quival'
+
+            # Group by salesman
+            com = 'Desconocido'
+            if pick.sale_id and pick.sale_id.user_id:
+                com = pick.sale_id.user_id.name
+            if com not in res:
+                res[com] = {c: {'cost': 0.0, 'sale': 0.0}}
+            elif c not in res[com]:
+                res[com][c] = {'cost': 0.0, 'sale': 0.0}
 
             cost, sale = self.get_pick_values(pick)
-            res[c][user_id]['cost'] += cost
-            res[c][user_id]['sale'] += sale
-
+            res[com][c]['cost'] += cost
+            res[com][c]['sale'] += sale
         return res
 
     @api.multi
