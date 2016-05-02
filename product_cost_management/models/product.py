@@ -33,8 +33,9 @@ def rounding(f, r):
 class product_product(osv.osv):
     _inherit = 'product.product'
     _columns = {
-        'cost_structure_id': fields.many2one('cost.structure',
-                                             'Cost Structure'),
+        'cost_structure_id': fields.property(type='many2one',
+                                             relation='cost.structure',
+                                             string="Cost Structure")
     }
 
     def action_show_product_costs(self, cr, uid, ids, context=None):
