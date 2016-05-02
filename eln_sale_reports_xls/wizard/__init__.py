@@ -3,3 +3,4 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from . import eln_sale_report_xls_wzd
+from . import eln_salesman_summary_xls_wzd

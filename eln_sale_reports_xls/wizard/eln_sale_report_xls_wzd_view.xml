@@ -3,7 +3,7 @@
     <data>
            
       <record id="view_eln_sale_report_xls_wzd" model="ir.ui.view">
-        <field name="name">Dayle Report Sale</field>
+        <field name="name">Dayly Report Sale</field>
         <field name="model">eln.sale.report.xls.wzd</field>
         <field name="type">form</field>
         <field name="arch" type="xml">
@@ -27,7 +27,7 @@
         <field name="target">new</field>
       </record>
 
-      <menuitem action="action_eln_sale_report_xls_wzd" name="Dayle sale report" id="menu_eln_sale_report_xls_wzd" parent="base.next_id_64" sequence="60"/>
+      <menuitem action="action_eln_sale_report_xls_wzd" name="Dayle sale report" id="menu_eln_sale_report_xls_wzd" parent="base.next_id_64" sequence="98"/>
       
     </data>
 </openerp>

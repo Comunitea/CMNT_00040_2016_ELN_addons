@@ -19,6 +19,7 @@
     ],
     "data": [
         "wizard/eln_sale_report_xls_wzd_view.xml",
+        "wizard/eln_salesman_summary_xls_wzd_view.xml",
         "report/eln_sale_report.xml"
     ],
     "demo": [
