@@ -8,6 +8,8 @@
             <field name="arch" type="xml">
                 <field name="commission" position="replace">
                     <field name="commission"/>
+                </field>
+                <field name="commission_ids" position="after">
                     <field name="atypical"/>
                 </field>
             </field>
