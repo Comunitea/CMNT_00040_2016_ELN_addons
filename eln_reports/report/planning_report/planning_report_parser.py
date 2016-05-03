@@ -136,7 +136,8 @@ class planning_report_parser(report_sxw.rml_parse):
         for product in products:
             product = (product[0], #id
                        product_obj.browse(self.cr, 1, product[0], self.context).default_code, #default_code
-                       product_obj.browse(self.cr, 1, product[0], self.context).name, #name
+                       #product_obj.browse(self.cr, 1, product[0], self.context).name, #name
+                       product_obj.browse(self.cr, 1, product[0], self.context).partner_ref, #partner_ref
                        product[1], #product_qty
                        uom_obj.browse(self.cr, 1, product[2], self.context).name, #product_uom
                        product[3], #product_uos_qty
