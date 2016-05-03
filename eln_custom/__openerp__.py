@@ -41,6 +41,7 @@
                 'sale_early_payment_discount',
                 'eln_edi',
                 'document',
+                'l10n_es_partner',
                 ],
     "category" : "Custom",
     "init_xml" : [],
