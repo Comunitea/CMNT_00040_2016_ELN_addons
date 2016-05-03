@@ -114,7 +114,7 @@
                                             <b>
                                                Bultos:
                                             </b>
-                                             <field name="packages" />
+                                             <field name="packages_uos" />
                                              <b>
                                                Volumen:
                                              </b>
