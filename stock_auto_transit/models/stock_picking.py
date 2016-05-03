@@ -52,3 +52,13 @@ class StockMove(models.Model):
             split(move, qty, restrict_lot_id=restrict_lot_id,
                   restrict_partner_id=restrict_partner_id)
         return res
+
+    @api.multi
+    def action_cancel(self):
+        for move in self:
+            rec = move
+            if self.env['res.users'].browse(self._uid).company_id.id !=\
+                    move.company_id.id:
+                rec = self.env['stock.move'].sudo().browse(move.id)
+            res = super(StockMove, rec).action_cancel()
+        return res
