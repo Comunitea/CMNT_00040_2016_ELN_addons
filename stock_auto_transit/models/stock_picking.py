@@ -32,3 +32,23 @@ class StockPicking(models.Model):
             if pick.state != 'done':
                 pick.do_transfer()
         return res
+
+
+class StockMove(models.Model):
+    _inherit = "stock.move"
+
+    @api.model
+    def split(self, move, qty, restrict_lot_id=False,
+              restrict_partner_id=False):
+        """
+        When the move belongs to other company, make it with sudo.
+        Because of partial transfer from one company to another.
+        """
+        rec = self
+        if self.env['res.users'].browse(self._uid).company_id.id !=\
+                move.company_id.id:
+            rec = self.env['stock.move'].sudo().browse(move.id)
+        res = super(StockMove, rec).\
+            split(move, qty, restrict_lot_id=restrict_lot_id,
+                  restrict_partner_id=restrict_partner_id)
+        return res
