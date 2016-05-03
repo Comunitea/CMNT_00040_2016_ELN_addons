@@ -35,12 +35,16 @@
                         <tbody>
                             %for product in route[1]:
                             <tr>
+                            <tr height="30">
                                 <td>${product[1]|entity}</td>
                                 <td>${product[2]|entity}</td>
                                 <td style="text-align:right">${product[3]|entity}</td>
                                 <td>${product[4]|entity}</td>
                                 <td style="text-align:right">${product[5]|entity}</td>
                                 <td>${product[6]|entity}</td>
+                                <td width="350">LOTES:</td>
+                            </tr>
+                                <td colspan="7"><hr/</td>
                             </tr>
                             %endfor
                         </tbody>
