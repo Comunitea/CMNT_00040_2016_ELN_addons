@@ -45,6 +45,7 @@ class planning_report_parser(report_sxw.rml_parse):
             'uid': uid,
             'report_name': _('Planning report'),
             'additional_args': [
+                ('--orientation', 'Landscape'),
                 ('--header-font-name', 'Helvetica'),
                 ('--footer-font-name', 'Helvetica'),
                 ('--header-font-size', '10'),
