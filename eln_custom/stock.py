@@ -75,12 +75,14 @@ class stock_picking(orm.Model):
         for picking in self.browse(cr, uid, ids, context=context):
             res[picking.id] = {
                 'packages': 0.0,
+                'packages_uos': 0.0,
                 'weight': 0.0,
                 'weight_net': 0.0,
                 'volume': 0.0,
             }
             for line in picking.move_lines:
                 res[picking.id]['packages'] += line.product_qty
+                res[picking.id]['packages_uos'] += line.product_qty * (line.product_id.uos_coeff or 1.0)
                 if line.product_id:
                     res[picking.id]['weight'] += line.product_id.weight
                     res[picking.id]['weight_net'] += line.product_id.weight_net
@@ -98,6 +100,13 @@ class stock_picking(orm.Model):
         'packages': fields.function(_get_total_values,
                                     digits_compute= dp.get_precision('Sale Price'),
                                     string='Packages', multi='sums',
+                                    store = {
+                                        'stock.picking': (lambda self, cr, uid, ids, c={}: ids, ['move_lines'], 10),
+                                        'stock.move': (_get_picking, ['product_id', 'product_qty', 'picking_id'], 10)
+                                    }),
+        'packages_uos': fields.function(_get_total_values,
+                                    digits_compute= dp.get_precision('Sale Price'),
+                                    string='Packages UoS', multi='sums',
                                     store = {
                                         'stock.picking': (lambda self, cr, uid, ids, c={}: ids, ['move_lines'], 10),
                                         'stock.move': (_get_picking, ['product_id', 'product_qty', 'picking_id'], 10)

@@ -16,17 +16,19 @@ class StockPicking(models.Model):
         goods from the transit location to the destination location
         """
         res = super(StockPicking, self).do_transfer()
-        pick2process_ids = []
+        pick2process_ids = set()
         su_move = self.env['stock.move'].sudo()  # Because of multicompany
         for pick in self:
             for move in pick.move_lines:
                 if move.location_dest_id.usage == 'transit' and \
                         move.move_dest_id:
                     next_move = su_move.browse(move.move_dest_id.id)
-                    pick2process_ids.append(next_move.picking_id.id)
+                    pick2process_ids.add(next_move.picking_id.id)
 
+        pick2process_ids = list(pick2process_ids)
         for pick_id in pick2process_ids:
             pick = self.sudo().browse(pick_id)  # Because of multicompany
             pick.do_prepare_partial()
-            pick.do_transfer()
+            if pick.state != 'done':
+                pick.do_transfer()
         return res
