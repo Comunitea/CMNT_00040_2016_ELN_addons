@@ -100,12 +100,14 @@ class sale_order(orm.Model):
 
     def action_ship_create(self, cr, uid, ids, *args):
         res = super(sale_order, self).action_ship_create(cr, uid, ids, *args)
-
         for order in self.browse(cr, uid, ids):
-            if order.picking_ids and order.supplier_id:
+            if order.picking_ids:
                 for picking in order.picking_ids:
-                    if picking.state != 'cancel' and not picking.supplier_id:
-                        self.pool.get('stock.picking').write(cr, uid, picking.id, {'supplier_id': order.supplier_id.id})
+                    vals = {'note': order.note}
+                    if order.supplier_id and picking.state != 'cancel' and not picking.supplier_id:
+                        vals.update({'supplier_id': order.supplier_id.id})
+                    self.pool.get('stock.picking').write(cr, uid, picking.id,
+                                                         vals)
         return res
 
     def onchange_partner_id(self, cr, uid, ids, part, context=None):
