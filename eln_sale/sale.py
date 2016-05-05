@@ -126,6 +126,7 @@ class sale_order(orm.Model):
         addr = self.pool.get('res.partner').address_get(cr, uid, [commercial_partner], ['invoice'])
         res['value']['partner_invoice_id'] = \
             addr['invoice']
+        dedicated_salesman = False
         if res['value'].get('partner_shipping_id', False):
             part_ship_id = res['value']['partner_shipping_id']
             partner_ship = self.pool.get('res.partner').browse(cr, uid,
