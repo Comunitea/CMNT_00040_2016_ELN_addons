@@ -18,13 +18,14 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp import _, api, exceptions, fields, models
+from openerp import _, api, fields, models
 import openerp.addons.decimal_precision as dp
 
 
 class MrpModifyConsumptionLine(models.TransientModel):
 
     _name = 'mrp.modify.consumption.line'
+    _order = 'product_id'
 
     product_id = fields.Many2one('product.product', 'Product', required=True)
     product_qty = fields.Float(
@@ -45,8 +46,8 @@ class MrpModifyConsumptionLine(models.TransientModel):
     def create_move(self):
         self.ensure_one()
         self.move_id = self.move_id.copy({'product_uom_qty': self.product_qty,
-                                      'restrict_lot_id': self.lot_id.id,
-                                      'location_id': self.location_id.id})
+                                          'restrict_lot_id': self.lot_id.id,
+                                          'location_id': self.location_id.id})
         self.move_id.action_confirm()
 
     @api.multi
@@ -90,15 +91,24 @@ class MrpModifyConsumption(models.TransientModel):
             total = move.product_uom_qty
             for quant in move.reserved_quant_ids:
                 qty = quant.qty < total and quant.qty or total
-                lines.append({'product_id': quant.product_id.id,
-                              'product_qty': qty, 'lot_id': quant.lot_id.id,
-                              'location_id': quant.location_id.id,
-                              'move_id': move.id})
+                try:
+                    exist_line = (x for x in lines
+                                  if x['lot_id'] == quant.lot_id.id and
+                                  x['location_id'] == quant.location_id.id and
+                                  x['move_id'] == move.id).next()
+                    exist_line['product_qty'] += qty
+                except StopIteration:
+                    lines.append({'product_id': quant.product_id.id,
+                                  'product_qty': qty,
+                                  'lot_id': quant.lot_id.id,
+                                  'location_id': quant.location_id.id,
+                                  'move_id': move.id})
                 total -= qty
             if total > 0:
                 lines.append({'product_id': move.product_id.id,
                               'location_id': move.location_id.id,
-                              'product_qty': total, 'move_id': move.id})
+                              'product_qty': total,
+                              'move_id': move.id})
         res.update(line_ids=lines)
         return res
 
