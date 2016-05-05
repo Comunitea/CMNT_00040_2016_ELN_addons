@@ -66,7 +66,6 @@ class planning_report_parser(report_sxw.rml_parse):
         if route_id:
             route_id = route_id[0]
         date_done = data ['form'].get('date', False)
-        print route_id
 
         routes_pool = self.saca_rutas(date_done, route_id)
         routes = []
@@ -75,16 +74,16 @@ class planning_report_parser(report_sxw.rml_parse):
             if routes_pool:
                 for route in routes_pool:
                     picks_pool = self.saca_picks(date_done, route[0])
-                    products = self.saca_products(picks_pool)
-                    route_obj = route[1] or 'Sin Ruta', products
+                    products, packages, weight = self.saca_products(picks_pool)
+                    route_obj = route[1] or 'Sin Ruta', products, packages, weight
                     routes.append(route_obj)
             else:
                 raise osv.except_osv(_('Error!'),  _('Ruta no encontrada.'))
         else:
             picks_pool = self.saca_picks(date_done, 'all')
-            products = self.saca_products(picks_pool)
+            products, packages, weight = self.saca_products(picks_pool)
             if products:
-                route_obj = 'Todas las rutas', products
+                route_obj = 'Todas las rutas', products, packages, weight
                 routes.append(route_obj)
             else:
                 raise osv.except_osv(_('Error!'),  _('No hay nada.'))
@@ -122,10 +121,11 @@ class planning_report_parser(report_sxw.rml_parse):
         #               "order by pp.default_code, s.product_id"%picks
         sql_products = "select s.product_id, sum(s.product_qty), s.product_uom, sum(s.product_uos_qty), s.product_uos from stock_move s " \
                        "inner join product_product pp on pp.id = s.product_id " \
+                       "inner join product_template pt on pt.id = pp.product_tmpl_id " \
                        "inner join stock_picking p on p.id = s.picking_id " \
                        "where p.id in (%s) " \
-                       "group by s.product_id, s.product_uom, s.product_uos, pp.default_code " \
-                       "order by pp.default_code, s.product_id"%picks
+                       "group by s.product_id, s.product_uom, s.product_uos, pp.default_code, pt.loc_row " \
+                       "order by pt.loc_row, pp.default_code, s.product_id"%picks
 
         self.cr.execute(sql_products)
         products = self.cr.fetchall()
@@ -133,12 +133,17 @@ class planning_report_parser(report_sxw.rml_parse):
         product_obj = self.pool.get('product.product')
         uom_obj = self.pool.get('product.uom')
         res = []
+        packages = 0.0
+        weight = 0.0
 
         for product in products:
+            packages += product[3] #product_uos_qty
+            weight += float(product_obj.browse(self.cr, 1, product[0], self.context).weight) * float(product[1]) #product unit weight * product_qty
             product = (product[0], #id
-                       product_obj.browse(self.cr, 1, product[0], self.context).default_code, #default_code
-                       #product_obj.browse(self.cr, 1, product[0], self.context).name, #name
-                       product_obj.browse(self.cr, 1, product[0], self.context).partner_ref, #partner_ref
+                       (product_obj.browse(self.cr, 1, product[0], self.context).default_code or ''), #default_code
+                       (product_obj.browse(self.cr, 1, product[0], self.context).dun14 \
+                        or product_obj.browse(self.cr, 1, product[0], self.context).ean13 or ''), #ean-13
+                       product_obj.browse(self.cr, 1, product[0], self.context).name, #name
                        product[1], #product_qty
                        uom_obj.browse(self.cr, 1, product[2], self.context).name, #product_uom
                        product[3], #product_uos_qty
@@ -146,7 +151,7 @@ class planning_report_parser(report_sxw.rml_parse):
                        )
             res.append(product)
 
-        return res
+        return res, int(packages), int(weight)
 
     def saca_picks(self, date_done = False, route_id = False):
 
@@ -160,7 +165,7 @@ class planning_report_parser(report_sxw.rml_parse):
             "state in ('%s', '%s', '%s') %s and " \
             "picking_type_id in (select id from stock_picking_type where code = '%s') " \
             "group by 1 order by route_id desc"%(str_date, 'assigned', 'partially_available', 'confirmed', str_route, 'outgoing')
-        print sql_dates
+
         self.cr.execute (sql_dates)
         picks = self.cr.fetchall()
 

@@ -52,21 +52,22 @@ class stock_picking(orm.Model):
         res = {}
         if ids:
             for pick in self.browse(cr, uid, ids, context=context):
-                res[pick.id] = 2
                 if pick.state == 'draft':
-                    res[pick.id] = 0
-                elif pick.state == 'auto':
-                    res[pick.id] = 3
-                elif pick.state == 'done':
-                    res[pick.id] = 6
-                elif pick.state == 'assigned':
-                    res[pick.id] = 7
-                elif pick.state == 'confirmed':
-                        res[pick.id] = 4
+                    res[pick.id] = 3 #amarillo
                 elif pick.state == 'cancel':
-                    res[pick.id] = 1
+                    res[pick.id] = 1 #gris
+                elif pick.state == 'waiting':
+                    res[pick.id] = 2 #rojo claro 
+                elif pick.state == 'confirmed':
+                    res[pick.id] = 9 #rosa fuerte
+                elif pick.state == 'assigned':
+                    res[pick.id] = 5 #verde oscuro
+                elif pick.state == 'partially_available':
+                    res[pick.id] = 4 #verde claro
+                elif pick.state == 'done':
+                    res[pick.id] = 8 #violeta
                 else:
-                    res[pick.id] = 2
+                    res[pick.id] = 0 #blanco
         return res
 
     def _get_total_values(self, cr, uid, ids, field_name, arg, context=None):
@@ -84,9 +85,9 @@ class stock_picking(orm.Model):
                 res[picking.id]['packages'] += line.product_qty
                 res[picking.id]['packages_uos'] += line.product_qty * (line.product_id.uos_coeff or 1.0)
                 if line.product_id:
-                    res[picking.id]['weight'] += line.product_id.weight
-                    res[picking.id]['weight_net'] += line.product_id.weight_net
-                    res[picking.id]['volume'] += line.product_id.volume
+                    res[picking.id]['weight'] += line.product_id.weight * line.product_qty
+                    res[picking.id]['weight_net'] += line.product_id.weight_net * line.product_qty
+                    res[picking.id]['volume'] += line.product_id.volume * line.product_qty
         return res
 
     def _get_picking(self, cr, uid, ids, context=None):
@@ -96,7 +97,8 @@ class stock_picking(orm.Model):
         return result.keys()
 
     _columns = {
-        'color_stock': fields.integer('Color stock'),
+        #'color_stock': fields.integer('Color stock'),
+        'color_stock': fields.function(_get_color_stock, type="integer", string="Color stock", readonly=True),
         'packages': fields.function(_get_total_values,
                                     digits_compute= dp.get_precision('Sale Price'),
                                     string='Packages', multi='sums',

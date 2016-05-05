@@ -18,13 +18,14 @@
                     <table style="page-break-after:avoid">
                         <thead>
                             <tr>
-                                <th colspan = 6>Desglose hasta la fecha: ${date[0]|entity}</th>
+                                <th colspan = 7>Desglose hasta la fecha: ${date[0]|entity}</th>
                             </tr>
                             <tr>
-                                <th colspan = 6>Ruta: ${route[0]|entity}</th>
+                                <th colspan = 7>Ruta: ${route[0]|entity} | Cajas: ${route[2]|entity} | Peso bruto: ${route[3]|entity} kg</th>
                             </tr>
                             <tr>
                                 <th>${_("Codigo")}</th>
+                                <th>${_("DUN-14/EAN-13")}</th>
                                 <th>${_("Producto")}</th>
                                 <th style="text-align:right">${_("Qty")}</th>
                                 <th>${_("UoM")}</th>
@@ -35,16 +36,17 @@
                         <tbody>
                             %for product in route[1]:
                             <tr>
-                            <tr height="30">
+                            <tr height="20">
                                 <td>${product[1]|entity}</td>
                                 <td>${product[2]|entity}</td>
-                                <td style="text-align:right">${product[3]|entity}</td>
-                                <td>${product[4]|entity}</td>
-                                <td style="text-align:right">${product[5]|entity}</td>
-                                <td>${product[6]|entity}</td>
-                                <td width="350">LOTES:</td>
+                                <td>${product[3]|entity}</td>
+                                <td style="text-align:right">${product[4]|entity}</td>
+                                <td>${product[5]|entity}</td>
+                                <td style="text-align:right">${product[6]|entity}</td>
+                                <td>${product[7]|entity}</td>
+                                <td width="250">LOTES:</td>
                             </tr>
-                                <td colspan="7"><hr/</td>
+                                <td colspan="8"><hr/</td>
                             </tr>
                             %endfor
                         </tbody>
