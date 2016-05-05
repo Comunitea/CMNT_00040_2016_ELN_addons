@@ -126,7 +126,14 @@ class sale_order(orm.Model):
         addr = self.pool.get('res.partner').address_get(cr, uid, [commercial_partner], ['invoice'])
         res['value']['partner_invoice_id'] = \
             addr['invoice']
-
+        if res['value'].get('partner_shipping_id', False):
+            part_ship_id = res['value']['partner_shipping_id']
+            partner_ship = self.pool.get('res.partner').browse(cr, uid,
+                                                               part_ship_id)
+            dedicated_salesman = partner_ship.user_id and \
+                partner_ship.user_id.id or False
+        if dedicated_salesman:
+            res['value']['user_id'] = dedicated_salesman
         return res
 
     def onchange_partner_id3(self, cr, uid, ids, part, early_payment_discount=False, payment_term=False, shop=False):
