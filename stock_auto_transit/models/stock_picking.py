@@ -55,6 +55,7 @@ class StockMove(models.Model):
 
     @api.multi
     def action_cancel(self):
+        res = False
         for move in self:
             rec = move
             if self.env['res.users'].browse(self._uid).company_id.id !=\

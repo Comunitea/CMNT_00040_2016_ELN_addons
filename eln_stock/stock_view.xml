@@ -33,9 +33,35 @@
                     <field name="client_order_ref"/>
                     <field name="address"/>
                 </field>
+                <field name="name" position="after">
+                    <filter string="Today Done" domain="[('date_done','&lt;=',time.strftime('%%Y-%%m-%%d 23:59:59')),('date_done','&gt;=',time.strftime('%%Y-%%m-%%d 00:00:00')), ('state', '=', 'done')]"/>
+                </field>
                 <group string="Group By" position="inside">
                     <filter string="Route" domain="[]" context="{'group_by':'route_id'}"/>
                 </group>
+            </field>
+        </record>
+
+
+        <record id="view_stock_quant_tree" model="ir.ui.view" >
+            <field name="name">stock.quant.tree</field>
+            <field name="model">stock.quant</field>
+            <field name="inherit_id" ref="stock.view_stock_quant_tree"/>
+            <field name="arch" type="xml">
+                <field name="in_date" position="after">
+                    <field name="cost"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="vpicktree" model="ir.ui.view">
+            <field name="name">stock.picking.tree</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.vpicktree"/>
+            <field name="arch" type="xml">
+                <field name="date" position="after">
+                    <field name="date_done"/>
+                </field>
             </field>
         </record>
 
