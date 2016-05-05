@@ -68,8 +68,7 @@
                     <field name="state"/>
                     <templates>
                         <t t-name="kanban-box">
-                            <t t-set="color" t-value="kanban_color(record.color_stock.raw_value || record.state.raw_value)"/>
-                            <div t-att-class="color">
+                            <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color_stock.raw_value || record.state.raw_value)} oe_kanban_card">
                             <div class="oe_kanban_box oe_kanban_color_border">
                                 <div class="oe_kanban_box_header oe_kanban_color_bgdark oe_kanban_color_border oe_kanban_draghandle">
                                     <table class="oe_kanban_table">
@@ -96,7 +95,7 @@
                                             <b>
                                                 Dirección:
                                             </b>
-                                            <field name="partner_id" context="{'show_address':1, 'default_type':'delivery'}"/>
+                                            <field name="partner_id"/>
                                         </div>
                                         <div>
                                             <b>

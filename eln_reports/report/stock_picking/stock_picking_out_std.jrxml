@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="stock_picking_out" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="2.0"/>
-	<property name="ireport.x" value="447"/>
-	<property name="ireport.y" value="381"/>
+	<property name="ireport.x" value="476"/>
+	<property name="ireport.y" value="0"/>
 	<property name="ireport.layers" value="##Thu Apr 28 19:25:55 CEST 2016\nlayer.2.visible=false\nlayer.1.name=STANDARD\nlayer.0.visible=true\nlayer.2.id=2\nlayer.1.printWhenExpression=$P{VERSION_ALTERNATIVA} \=\= false\nlayer.2.name=ALTERNATE\nlayer.2.printWhenExpression=$P{VERSION_ALTERNATIVA} \=\= true\nlayer.1.id=1\nlayer.1.visible=true\nlayer.0.id=0\nlayer.0.name=Background"/>
 	<style name="table" lineSpacing="Single">
 		<box>
@@ -265,6 +265,9 @@
 		<field name="UdV_del_producto-name" class="java.lang.String">
 			<fieldDescription><![CDATA[/data/record/Delivery_List-out_report_ids/Movimiento-move_id/UdV_del_producto-product_uos/Unidad_de_medida-name]]></fieldDescription>
 		</field>
+		<sortField name="Referencia-default_code"/>
+		<sortField name="EAN13-ean13"/>
+		<sortField name="Name-name"/>
 		<variable name="L" class="java.util.Locale">
 			<variableExpression><![CDATA[new Locale($F{Idioma-lang}.split("_")[0],$F{Idioma-lang}.split("_")[1])]]></variableExpression>
 			<initialValueExpression><![CDATA[new Locale($F{Idioma-lang}.split("_")[0],$F{Idioma-lang}.split("_")[1])]]></initialValueExpression>
@@ -801,6 +804,14 @@ tr($V{L}, "Tel.Móvil: ") +
 ($F{Peso-weight} == null ? "" : $F{Peso-weight})
 + "<br>" +
 tr($V{L}, "Bultos: ") + $F{Paquetes-packages_uos}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="419" y="102" width="136" height="26"/>
+					<box topPadding="5" leftPadding="5"/>
+					<textElement verticalAlignment="Bottom" lineSpacing="Single" markup="html">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "Palets: ")]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupFooter>
