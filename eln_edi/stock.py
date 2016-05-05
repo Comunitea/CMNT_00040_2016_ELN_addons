@@ -119,7 +119,7 @@ class stock_return_picking(orm.TransientModel):
 
         if pick:
             for line in pick.move_lines:
-                qty = line.product_qty - line.acepted_qty ##el return history k?? qty = line.product_qty - return_history[line.id]
+                qty = line.product_qty - line.accepted_qty ##el return history k?? qty = line.product_qty - return_history[line.id]
                 if qty > 0:
                     result1.append({'product_id': line.product_id.id, 'quantity': qty,'move_id':line.id})
             if 'product_return_moves' in fields:

@@ -54,6 +54,7 @@
     'depends': ['base',
                 'account',
                 'sale',
+                'stock_picking_review'
                 # 'account_payment',
                 # 'account_payment_extension',
                 # 'sale_payment',
