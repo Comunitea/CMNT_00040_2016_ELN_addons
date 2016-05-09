@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-05 10:30+0000\n"
-"PO-Revision-Date: 2016-05-05 10:30+0000\n"
+"POT-Creation-Date: 2016-05-09 08:57+0000\n"
+"PO-Revision-Date: 2016-05-09 08:57+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -34,18 +34,21 @@ msgstr "Comprobar disponibilidad"
 #. module: eln_stock
 #: view:postmigration.reconcile.quants:eln_stock.view_postmigration_reconcile_quants
 #: view:stock.picking.assign.multi:eln_stock.stock_picking_assign_multi_form
+#: view:stock.picking.unreserve.multi:eln_stock.stock_picking_unreserve_multi_form
 msgid "Cancel"
 msgstr "Cancelar"
 
 #. module: eln_stock
 #: field:postmigration.reconcile.quants,create_uid:0
 #: field:stock.picking.assign.multi,create_uid:0
+#: field:stock.picking.unreserve.multi,create_uid:0
 msgid "Created by"
 msgstr "Created by"
 
 #. module: eln_stock
 #: field:postmigration.reconcile.quants,create_date:0
 #: field:stock.picking.assign.multi,create_date:0
+#: field:stock.picking.unreserve.multi,create_date:0
 msgid "Created on"
 msgstr "Created on"
 
@@ -58,6 +61,7 @@ msgstr "Envíos"
 #. module: eln_stock
 #: field:postmigration.reconcile.quants,display_name:0
 #: field:stock.picking.assign.multi,display_name:0
+#: field:stock.picking.unreserve.multi,display_name:0
 msgid "Display Name"
 msgstr "Display Name"
 
@@ -69,6 +73,7 @@ msgstr "Agrupar por"
 #. module: eln_stock
 #: field:postmigration.reconcile.quants,id:0
 #: field:stock.picking.assign.multi,id:0
+#: field:stock.picking.unreserve.multi,id:0
 msgid "ID"
 msgstr "ID"
 
@@ -80,18 +85,21 @@ msgstr "Incoterms"
 #. module: eln_stock
 #: field:postmigration.reconcile.quants,__last_update:0
 #: field:stock.picking.assign.multi,__last_update:0
+#: field:stock.picking.unreserve.multi,__last_update:0
 msgid "Last Modified on"
 msgstr "Last Modified on"
 
 #. module: eln_stock
 #: field:postmigration.reconcile.quants,write_uid:0
 #: field:stock.picking.assign.multi,write_uid:0
+#: field:stock.picking.unreserve.multi,write_uid:0
 msgid "Last Updated by"
 msgstr "Last Updated by"
 
 #. module: eln_stock
 #: field:postmigration.reconcile.quants,write_date:0
 #: field:stock.picking.assign.multi,write_date:0
+#: field:stock.picking.unreserve.multi,write_date:0
 msgid "Last Updated on"
 msgstr "Last Updated on"
 
@@ -153,6 +161,12 @@ msgid "Today Done"
 msgstr "Realizados Hoy"
 
 #. module: eln_stock
+#: model:ir.actions.act_window,name:eln_stock.stock_picking_unreserve_multi_action
+#: view:stock.picking.unreserve.multi:eln_stock.stock_picking_unreserve_multi_form
+msgid "Unreserve"
+msgstr "Anular reservas"
+
+#. module: eln_stock
 #: view:stock.move:eln_stock.view_move_picking_form_add_onchange
 #: view:stock.move:eln_stock.view_move_picking_tree_add_onchange
 msgid "onchange_quantity(product_id, product_uom_qty, product_uom, product_uos)"
@@ -161,6 +175,7 @@ msgstr "onchange_quantity(product_id, product_uom_qty, product_uom, product_uos)
 #. module: eln_stock
 #: view:postmigration.reconcile.quants:eln_stock.view_postmigration_reconcile_quants
 #: view:stock.picking.assign.multi:eln_stock.stock_picking_assign_multi_form
+#: view:stock.picking.unreserve.multi:eln_stock.stock_picking_unreserve_multi_form
 msgid "or"
 msgstr "o"
 
