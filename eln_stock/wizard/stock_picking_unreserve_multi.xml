@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+    <data>
+
+        <record id="stock_picking_unreserve_multi_form" model="ir.ui.view">
+            <field name="name">stock.picking.unreserve.multi.form</field>
+            <field name="model">stock.picking.unreserve.multi</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Unreserve">
+                    <footer>
+                        <button name="unreserve" string="Unreserve" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window name="Unreserve"
+            res_model="stock.picking.unreserve.multi"
+            src_model="stock.picking"
+            view_id="stock_picking_unreserve_multi_form"
+            view_mode="form"
+            target="new"
+            key2="client_action_multi"
+            id="stock_picking_unreserve_multi_action"/>
+
+    </data>
+</openerp>
+

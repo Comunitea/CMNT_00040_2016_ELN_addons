@@ -103,8 +103,10 @@ class sale_order(orm.Model):
         for order in self.browse(cr, uid, ids):
             if order.picking_ids:
                 for picking in order.picking_ids:
-                    vals = {'note': order.note}
-                    if order.supplier_id and picking.state != 'cancel' and not picking.supplier_id:
+                    vals = {'note': order.note, 
+                            'commitment_date': order.commitment_date}
+                    if order.supplier_id and picking.state != 'cancel' \
+                            and not picking.supplier_id:
                         vals.update({'supplier_id': order.supplier_id.id})
                     self.pool.get('stock.picking').write(cr, uid, picking.id,
                                                          vals)

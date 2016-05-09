@@ -21,3 +21,4 @@
 # import stock_invoice_onshipping
 import postmigration_reconcile_quants
 from . import stock_picking_assign_multi
+from . import stock_picking_unreserve_multi

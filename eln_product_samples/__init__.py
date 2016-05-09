@@ -23,4 +23,4 @@
 
 import sale_order
 import product_product
-# import procurement  # Se sustituye por congig de reglas
+import stock_warehouse
