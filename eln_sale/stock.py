@@ -25,8 +25,8 @@ class stock_picking(orm.Model):
     _columns = {
         'supplier_id': fields.many2one('res.partner', 'Supplier', readonly=True,domain = [('supplier','=',True)],states={'draft': [('readonly', False)]}, select=True),
         'carrier_id': fields.many2one('res.partner', 'Carrier', readonly=True, states={'draft': [('readonly', False)], 'confirmed': [('readonly', False)], 'assigned': [('readonly', False)]}, select=True),
-        'commitment_date': fields.related('sale_id', 'commitment_date', type='date', string="Commitment Date", readonly=True, 
-                           help="Date on which delivery of products is to be made."),
+        'commitment_date': fields.date('Commitment Date', help="Date on which delivery of products is to be made.", states={'cancel': [('readonly', True)]}),
+
         'supplier_cip': fields.related('sale_id', 'supplier_cip', type='char', string="CIP", readonly=True,  
                            help="Código interno del proveedor."),
     }
