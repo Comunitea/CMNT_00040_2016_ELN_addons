@@ -78,7 +78,9 @@ class sale_order(orm.Model):
                 if move.procurement_id.sale_line_id and move.procurement_id.sale_line_id.id in sample_line_ids:
                     moves_to_upgrade.append(move.id)
 
-            action_model, samples_location = data_pool.get_object_reference(cr, uid, 'eln_product_samples', "stock_physical_location_samples2")
+            samples_location = False
+            if current_order.warehouse_id.samples_loc_id:
+                samples_location = current_order.warehouse_id.samples_loc_id.id
             if samples_location:
                 stock_move_facade.write(cr, uid, moves_to_upgrade, {'location_id': samples_location})
         return res

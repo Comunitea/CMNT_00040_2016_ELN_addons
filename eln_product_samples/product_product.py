@@ -31,8 +31,13 @@ class product_template(orm.Model):
         res = {}
         qty = 0.0
         c = context.copy()
-        action_model, samples_location = self.pool.get('ir.model.data').get_object_reference(cr, uid, 'eln_product_samples', "stock_physical_location_samples2")
-        c.update({'location': samples_location, 'warehouse': False})
+        wh_ids = self.pool.get('stock.warehouse').search(cr, uid, [])
+        samp_ids = set()
+        for wh in self.pool.get('stock.warehouse').browse(cr, uid, wh_ids, c):
+            if wh.samples_loc_id:
+                samp_ids.add(wh.samples_loc_id.id)
+        samp_ids = list(samp_ids)
+        c.update({'location': samp_ids, 'warehouse': False})
         for product in self.pool.get('product.template').browse(cr, uid, ids, context=c):
             qty += round(product.qty_available, 2)
             res[product.id] = qty
