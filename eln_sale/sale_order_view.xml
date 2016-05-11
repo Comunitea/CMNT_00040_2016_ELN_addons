@@ -43,6 +43,10 @@
                 <field name="partner_shipping_id" position="attributes">
                     <attribute name="domain">[('commercial_partner_id', '=', commercial_partner_id)] </attribute>
                 </field>
+
+                 <field name="note" position="attributes">
+                    <attribute name="attrs">{'readonly': [('state', 'in', ['progress', 'manual', 'done'])]}</attribute>
+                </field>
             </field>
         </record>
 

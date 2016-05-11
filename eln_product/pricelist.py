@@ -60,7 +60,7 @@ class product_pricelist_item(orm.Model):
         'price_calculated': fields.function(
             _get_price_calculated,
             type='float',
-            precision=dp.get_precision('Sale Price'),
+            digits_compute=dp.get_precision('Product Price'),
             string="Price Calculated"),
     }
     _defaults = {

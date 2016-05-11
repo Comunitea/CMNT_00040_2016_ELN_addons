@@ -100,35 +100,35 @@ class stock_picking(orm.Model):
         #'color_stock': fields.integer('Color stock'),
         'color_stock': fields.function(_get_color_stock, type="integer", string="Color stock", readonly=True),
         'packages': fields.function(_get_total_values,
-                                    digits_compute= dp.get_precision('Sale Price'),
+                                    digits_compute=dp.get_precision('Product UoS'),
                                     string='Packages', multi='sums',
                                     store = {
                                         'stock.picking': (lambda self, cr, uid, ids, c={}: ids, ['move_lines'], 10),
                                         'stock.move': (_get_picking, ['product_id', 'product_qty', 'picking_id'], 10)
                                     }),
         'packages_uos': fields.function(_get_total_values,
-                                    digits_compute= dp.get_precision('Sale Price'),
+                                    digits_compute=dp.get_precision('Product UoS'),
                                     string='Packages UoS', multi='sums',
                                     store = {
                                         'stock.picking': (lambda self, cr, uid, ids, c={}: ids, ['move_lines'], 10),
                                         'stock.move': (_get_picking, ['product_id', 'product_qty', 'picking_id'], 10)
                                     }),
         'weight': fields.function(_get_total_values,
-                                  digits_compute= dp.get_precision('Sale Price'),
+                                  digits_compute=dp.get_precision('Stock Weight'),
                                   string='Weigth', multi='sums',
                                   store = {
                                       'stock.picking': (lambda self, cr, uid, ids, c={}: ids, ['move_lines'], 10),
                                       'stock.move': (_get_picking, ['product_id', 'product_qty', 'picking_id'], 10)
                                   }),
         'weight_net': fields.function(_get_total_values,
-                                      digits_compute= dp.get_precision('Sale Price'),
+                                      digits_compute=dp.get_precision('Stock Weight'),
                                       string='Weigth Net', multi='sums',
                                       store = {
                                           'stock.picking': (lambda self, cr, uid, ids, c={}: ids, ['move_lines'], 10),
                                           'stock.move': (_get_picking, ['product_id', 'product_qty', 'picking_id'], 10)
                                       }),
         'volume': fields.function(_get_total_values,
-                                  digits_compute= dp.get_precision('Sale Price'),
+                                  digits_compute=dp.get_precision('Product UoS'),
                                   string='Volume', multi='sums',
                                   store = {
                                        'stock.picking': (lambda self, cr, uid, ids, c={}: ids, ['move_lines'], 10),
