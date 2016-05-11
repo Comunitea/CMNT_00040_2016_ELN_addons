@@ -3,7 +3,7 @@
 	<property name="ireport.zoom" value="2.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="512"/>
-	<property name="ireport.layers" value="##Wed May 11 11:31:55 CEST 2016\nlayer.2.visible=true\nlayer.1.name=STANDARD\nlayer.0.visible=true\nlayer.2.id=2\nlayer.1.printWhenExpression=$P{VERSION_ALTERNATIVA} \=\= false\nlayer.2.name=ALTERNATE\nlayer.2.printWhenExpression=$P{VERSION_ALTERNATIVA} \=\= true\nlayer.1.id=1\nlayer.1.visible=false\nlayer.0.id=0\nlayer.0.name=Background"/>
+	<property name="ireport.layers" value="##Wed May 11 20:34:38 CEST 2016\nlayer.2.visible=true\nlayer.1.name=STANDARD\nlayer.0.visible=true\nlayer.2.id=2\nlayer.1.printWhenExpression=$P{VERSION_ALTERNATIVA} \=\= false\nlayer.2.name=ALTERNATE\nlayer.2.printWhenExpression=$P{VERSION_ALTERNATIVA} \=\= true\nlayer.1.id=1\nlayer.1.visible=false\nlayer.0.id=0\nlayer.0.name=Background"/>
 	<style name="table" lineSpacing="Single">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -758,7 +758,7 @@ EN EL ARCHIVO packing_list_alt, PONER EL VALOR A true]]></parameterDescription>
 					</textField>
 					<textField isBlankWhenNull="true">
 						<reportElement x="65" y="0" width="148" height="9">
-							<printWhenExpression><![CDATA[$F{Albaran_valorado-valued_picking} && $F{id-supplier} != 0]]></printWhenExpression>
+							<printWhenExpression><![CDATA[$F{Albaran_valorado-valued_picking} && $F{id-supplier} == 0]]></printWhenExpression>
 						</reportElement>
 						<textElement verticalAlignment="Middle" lineSpacing="Single">
 							<font size="6"/>
@@ -774,7 +774,7 @@ EN EL ARCHIVO packing_list_alt, PONER EL VALOR A true]]></parameterDescription>
 					</textField>
 					<textField isBlankWhenNull="true">
 						<reportElement x="65" y="9" width="148" height="9">
-							<printWhenExpression><![CDATA[$F{Albaran_valorado-valued_picking} && $F{id-supplier} != 0]]></printWhenExpression>
+							<printWhenExpression><![CDATA[$F{Albaran_valorado-valued_picking} && $F{id-supplier} == 0]]></printWhenExpression>
 						</reportElement>
 						<textElement verticalAlignment="Middle" lineSpacing="Single">
 							<font size="6"/>
@@ -1405,7 +1405,7 @@ $F{Nombre_de_la_compania-name} + " · " + $F{Calle-street-company} + " · " + $F
 							</textField>
 						</jr:columnHeader>
 						<jr:detailCell height="22" rowSpan="1">
-							<textField isStretchWithOverflow="true" pattern="#,##0;-#,##0" isBlankWhenNull="true">
+							<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
 								<reportElement positionType="Float" mode="Transparent" x="0" y="0" width="60" height="11" isPrintWhenDetailOverflows="true"/>
 								<box topPadding="0" leftPadding="0" bottomPadding="0">
 									<topPen lineWidth="0.25"/>
@@ -1413,7 +1413,9 @@ $F{Nombre_de_la_compania-name} + " · " + $F{Calle-street-company} + " · " + $F
 								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" lineSpacing="Single" markup="none">
 									<font fontName="SansSerif" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 								</textElement>
-								<textFieldExpression class="java.lang.String"><![CDATA[$F{Cantidad-product_qty}]]></textFieldExpression>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{Cantidad-product_qty}==$F{Cantidad-product_qty}.intValue() ?
+new DecimalFormat("#,##0").format($F{Cantidad-product_qty}):
+new DecimalFormat("#,##0.00").format($F{Cantidad-product_qty})]]></textFieldExpression>
 							</textField>
 							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 								<reportElement positionType="Float" mode="Transparent" x="0" y="11" width="60" height="11" isPrintWhenDetailOverflows="true"/>
