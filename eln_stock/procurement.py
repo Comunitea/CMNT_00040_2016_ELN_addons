@@ -11,6 +11,9 @@ class ProcurementOrder(models.Model):
 
     @api.model
     def _prepare_orderpoint_procurement(self, orderpoint, product_qty):
+        """
+        Get the uos conversion to create the procurement and propagate it.
+        """
         res = super(ProcurementOrder, self).\
             _prepare_orderpoint_procurement(orderpoint, product_qty)
 
