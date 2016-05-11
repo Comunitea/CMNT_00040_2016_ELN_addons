@@ -45,11 +45,14 @@ class AccountInvoice(models.Model):
                     'move_id.line_id.analytic_lines'):
                 if not analytic_move.product_id:
                     continue
+                product = analytic_move.product_id
+                account = product.property_account_expense or product.categ_id.property_account_expense_categ
                 amount = currency.compute(
-                    analytic_move.product_id.standard_price *
+                    product.standard_price *
                     analytic_move.unit_amount, company_currency) * sign
                 analytic_move.copy(
                     {'journal_id':
                      analytic_move.journal_id.analytic_cost_journal.id,
+                     'general_account_id': account.id,
                      'amount': amount})
         return super(AccountInvoice, self).invoice_validate()
