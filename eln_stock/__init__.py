@@ -20,4 +20,5 @@
 ##############################################################################
 from . import wizard
 from . import stock
+from . import procurement
 from . import res_partner
