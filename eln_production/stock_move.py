@@ -87,41 +87,41 @@ class stock_move(osv.osv):
 
         return {'value': result}
 
-    def unlink(self, cr, uid, ids, context=None):
-        #27/11/2015
-        #Se añadaen las lineas con PGC para que solo deje borrar movimientos "a consumir" de una producción
-        #Sin eso y llamando directamente al orm permitia borrar todos los movimiento sin distinción.
-        if context is None:
-            context = {}
-        move_obj = self.pool.get('stock.move') #PGC 
-        proc = self.pool.get('procurement.order')
-        procurements = []
-        ids_unlink = []
+    # def unlink(self, cr, uid, ids, context=None):
+    #     #27/11/2015
+    #     #Se añadaen las lineas con PGC para que solo deje borrar movimientos "a consumir" de una producción
+    #     #Sin eso y llamando directamente al orm permitia borrar todos los movimiento sin distinción.
+    #     if context is None:
+    #         context = {}
+    #     move_obj = self.pool.get('stock.move') #PGC 
+    #     proc = self.pool.get('procurement.order')
+    #     procurements = []
+    #     ids_unlink = []
 
-        for move in self.browse(cr, uid, ids, context=context):
-            procurements = proc.search(cr, uid, [('move_id','=', move.id)])
+    #     for move in self.browse(cr, uid, ids, context=context):
+    #         procurements = proc.search(cr, uid, [('move_id','=', move.id)])
             
-            #Si pertenece a una producción lo pongo como borrador para que se pueda borrar al llamar al super
-            if move.production_ids and move.state not in ('done', 'cancel'): #PGC
-                move_obj.write(cr, uid, move.id, {'state': 'draft'}) #PGC
+    #         #Si pertenece a una producción lo pongo como borrador para que se pueda borrar al llamar al super
+    #         if move.production_ids and move.state not in ('done', 'cancel'): #PGC
+    #             move_obj.write(cr, uid, move.id, {'state': 'draft'}) #PGC
                 
-            ids_unlink.append(move.id)
-            if procurements:
-                proc.write(cr, uid, procurements, {'state':'cancel'})
-                proc.unlink(cr, uid, procurements)
-                procurements = []
-            if move.move_dest_id_lines:
-                for dest in move.move_dest_id_lines:
-                    procurements = proc.search(cr, uid, [('move_id','=', dest.id)])
-                    if procurements:
-                        proc.write(cr, uid, procurements, {'state':'cancel'})
-                        proc.unlink(cr, uid, procurements)
-                    #Si pertenece a una producción lo pongo como borrador para que se pueda borrar al llamar al super
-                    if move.production_ids and move.state not in ('done', 'cancel'): #PGC
-                        move_obj.write(cr, uid, dest.id, {'state': 'draft'}) #PGC
-                    ids_unlink.append(dest.id)
-        return super(stock_move, self).unlink(cr, uid, ids_unlink, context=context) #PGC
-        #return osv.osv.unlink(self, cr, uid, ids_unlink, context=context)
+    #         ids_unlink.append(move.id)
+    #         if procurements:
+    #             proc.write(cr, uid, procurements, {'state':'cancel'})
+    #             proc.unlink(cr, uid, procurements)
+    #             procurements = []
+    #         if move.move_dest_id_lines:
+    #             for dest in move.move_dest_id_lines:
+    #                 procurements = proc.search(cr, uid, [('move_id','=', dest.id)])
+    #                 if procurements:
+    #                     proc.write(cr, uid, procurements, {'state':'cancel'})
+    #                     proc.unlink(cr, uid, procurements)
+    #                 #Si pertenece a una producción lo pongo como borrador para que se pueda borrar al llamar al super
+    #                 if move.production_ids and move.state not in ('done', 'cancel'): #PGC
+    #                     move_obj.write(cr, uid, dest.id, {'state': 'draft'}) #PGC
+    #                 ids_unlink.append(dest.id)
+    #     return super(stock_move, self).unlink(cr, uid, ids_unlink, context=context) #PGC
+    #     #return osv.osv.unlink(self, cr, uid, ids_unlink, context=context)
 
 
 class stock_location(osv.osv):
