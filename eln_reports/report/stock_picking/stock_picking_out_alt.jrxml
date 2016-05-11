@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="stock_picking_out" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="2.0"/>
-	<property name="ireport.x" value="476"/>
-	<property name="ireport.y" value="0"/>
-	<property name="ireport.layers" value="##Thu May 05 02:56:26 CEST 2016\nlayer.2.visible=true\nlayer.1.name=STANDARD\nlayer.0.visible=true\nlayer.2.id=2\nlayer.1.printWhenExpression=$P{VERSION_ALTERNATIVA} \=\= false\nlayer.2.name=ALTERNATE\nlayer.2.printWhenExpression=$P{VERSION_ALTERNATIVA} \=\= true\nlayer.1.id=1\nlayer.1.visible=false\nlayer.0.id=0\nlayer.0.name=Background"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="512"/>
+	<property name="ireport.layers" value="##Wed May 11 11:31:55 CEST 2016\nlayer.2.visible=true\nlayer.1.name=STANDARD\nlayer.0.visible=true\nlayer.2.id=2\nlayer.1.printWhenExpression=$P{VERSION_ALTERNATIVA} \=\= false\nlayer.2.name=ALTERNATE\nlayer.2.printWhenExpression=$P{VERSION_ALTERNATIVA} \=\= true\nlayer.1.id=1\nlayer.1.visible=false\nlayer.0.id=0\nlayer.0.name=Background"/>
 	<style name="table" lineSpacing="Single">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -516,8 +516,8 @@ EN EL ARCHIVO packing_list_alt, PONER EL VALOR A true]]></parameterDescription>
 					</textElement>
 					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "OBSERVACIONES:")]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement x="192" y="17" width="217" height="30"/>
+				<textField isBlankWhenNull="true">
+					<reportElement x="192" y="17" width="217" height="53"/>
 					<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
 						<topPen lineWidth="0.5"/>
 						<leftPen lineWidth="0.5"/>
@@ -742,17 +742,23 @@ EN EL ARCHIVO packing_list_alt, PONER EL VALOR A true]]></parameterDescription>
 					</graphicElement>
 				</rectangle>
 				<frame>
-					<reportElement x="192" y="57" width="217" height="35"/>
+					<reportElement x="192" y="74" width="217" height="18"/>
+					<rectangle>
+						<reportElement mode="Transparent" x="0" y="0" width="217" height="18"/>
+						<graphicElement>
+							<pen lineWidth="0.5"/>
+						</graphicElement>
+					</rectangle>
 					<textField>
-						<reportElement x="3" y="3" width="62" height="13"/>
+						<reportElement x="3" y="0" width="62" height="9"/>
 						<textElement verticalAlignment="Middle" lineSpacing="Single" markup="none">
 							<font size="6" isBold="true"/>
 						</textElement>
 						<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "Plazo de pago:")]]></textFieldExpression>
 					</textField>
 					<textField isBlankWhenNull="true">
-						<reportElement x="65" y="3" width="148" height="13">
-							<printWhenExpression><![CDATA[$F{Albaran_valorado-valued_picking}]]></printWhenExpression>
+						<reportElement x="65" y="0" width="148" height="9">
+							<printWhenExpression><![CDATA[$F{Albaran_valorado-valued_picking} && $F{id-supplier} != 0]]></printWhenExpression>
 						</reportElement>
 						<textElement verticalAlignment="Middle" lineSpacing="Single">
 							<font size="6"/>
@@ -760,27 +766,21 @@ EN EL ARCHIVO packing_list_alt, PONER EL VALOR A true]]></parameterDescription>
 						<textFieldExpression class="java.lang.String"><![CDATA[$F{Plazo_de_pago-name}]]></textFieldExpression>
 					</textField>
 					<textField>
-						<reportElement x="3" y="19" width="62" height="13"/>
+						<reportElement x="3" y="9" width="62" height="9"/>
 						<textElement verticalAlignment="Middle" lineSpacing="Single" markup="none">
 							<font size="6" isBold="true"/>
 						</textElement>
 						<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "Tipo de pago:")]]></textFieldExpression>
 					</textField>
 					<textField isBlankWhenNull="true">
-						<reportElement x="65" y="19" width="148" height="13">
-							<printWhenExpression><![CDATA[$F{Albaran_valorado-valued_picking}]]></printWhenExpression>
+						<reportElement x="65" y="9" width="148" height="9">
+							<printWhenExpression><![CDATA[$F{Albaran_valorado-valued_picking} && $F{id-supplier} != 0]]></printWhenExpression>
 						</reportElement>
 						<textElement verticalAlignment="Middle" lineSpacing="Single">
 							<font size="6"/>
 						</textElement>
 						<textFieldExpression class="java.lang.String"><![CDATA[$F{Nombre-name2}]]></textFieldExpression>
 					</textField>
-					<rectangle>
-						<reportElement mode="Transparent" x="0" y="0" width="217" height="35"/>
-						<graphicElement>
-							<pen lineWidth="0.5"/>
-						</graphicElement>
-					</rectangle>
 				</frame>
 				<textField isBlankWhenNull="true">
 					<reportElement x="418" y="17" width="136" height="30"/>
@@ -806,7 +806,7 @@ tr($V{L}, "Tel.Móvil: ") +
 tr($V{L}, "Bultos: ") + $F{Paquetes-packages_uos}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement x="419" y="102" width="136" height="26"/>
+					<reportElement x="419" y="102" width="136" height="20"/>
 					<box topPadding="5" leftPadding="5"/>
 					<textElement verticalAlignment="Bottom" lineSpacing="Single" markup="html">
 						<font size="8"/>
