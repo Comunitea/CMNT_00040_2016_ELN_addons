@@ -28,6 +28,9 @@ class StockPicking(models.Model):
         pick2process_ids = list(pick2process_ids)
         for pick_id in pick2process_ids:
             pick = self.sudo().browse(pick_id)  # Because of multicompany
+            if self.env['res.users'].browse(self._uid).company_id.id ==\
+                    pick.company_id.id:
+                pick = self.browse(pick_id)  # same company
             pick.do_prepare_partial()
             if pick.state != 'done':
                 pick.do_transfer()
