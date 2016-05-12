@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Invoice" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="2.0"/>
-	<property name="ireport.x" value="169"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="367"/>
 	<property name="ireport.layers" value="##Thu Apr 28 01:42:20 CEST 2016\nlayer.1.name=STANDARD\nlayer.1.visible=true\nlayer.1.id=1\nlayer.0.name=Background\nlayer.0.visible=true\nlayer.0.id=0"/>
 	<style name="table" lineSpacing="Single">
 		<box>
@@ -259,6 +259,9 @@
 		<field name="Unit_of_Measure-Nombre-name" class="java.lang.String">
 			<fieldDescription><![CDATA[/data/record/Lineas_de_factura-invoice_line/Producto-product_id/Unit_of_Measure-uom_id/Nombre-name]]></fieldDescription>
 		</field>
+		<sortField name="Referencia-default_code"/>
+		<sortField name="EAN13-ean13"/>
+		<sortField name="Descripcion-name"/>
 		<variable name="L" class="java.util.Locale">
 			<variableExpression><![CDATA[new Locale($F{Idioma-lang}.split("_")[0],$F{Idioma-lang}.split("_")[1])]]></variableExpression>
 			<initialValueExpression><![CDATA[new Locale($F{Idioma-lang}.split("_")[0],$F{Idioma-lang}.split("_")[1])]]></initialValueExpression>
@@ -475,6 +478,12 @@
 	<field name="Fecha_vencimiento-date_due" class="java.util.Date">
 		<fieldDescription><![CDATA[/data/record/Fecha_vencimiento-date_due]]></fieldDescription>
 	</field>
+	<field name="Saldo-residual" class="java.lang.Float">
+		<fieldDescription><![CDATA[/data/record/Saldo-residual]]></fieldDescription>
+	</field>
+	<field name="Estado-state" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Estado-state]]></fieldDescription>
+	</field>
 	<variable name="L" class="java.util.Locale">
 		<variableExpression><![CDATA[new Locale($F{Idioma-lang}.split("_")[0],$F{Idioma-lang}.split("_")[1])]]></variableExpression>
 		<initialValueExpression><![CDATA[new Locale($F{Idioma-lang}.split("_")[0],$F{Idioma-lang}.split("_")[1])]]></initialValueExpression>
@@ -489,6 +498,15 @@
 						<pen lineWidth="0.5" lineStyle="Dashed"/>
 					</graphicElement>
 				</line>
+				<textField isBlankWhenNull="true">
+					<reportElement x="0" y="40" width="182" height="13">
+						<printWhenExpression><![CDATA[$F{Estado-state} == 'paid']]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+						<font size="9"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "PAGADO")]]></textFieldExpression>
+				</textField>
 				<textField>
 					<reportElement x="0" y="74" width="182" height="13"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="none">
