@@ -259,6 +259,11 @@
 		<field name="Unit_of_Measure-Nombre-name" class="java.lang.String">
 			<fieldDescription><![CDATA[/data/record/Lineas_de_factura-invoice_line/Producto-product_id/Unit_of_Measure-uom_id/Nombre-name]]></fieldDescription>
 		</field>
+		<field name="client_order_ref" class="java.lang.String">
+			<fieldDescription><![CDATA[/data/record/Lineas_de_factura-invoice_line/stock_move_id/picking_id/client_order_ref
+]]></fieldDescription>
+		</field>
+		<sortField name="Documento_origen-origin"/>
 		<sortField name="Referencia-default_code"/>
 		<sortField name="EAN13-ean13"/>
 		<sortField name="Descripcion-name"/>
@@ -1162,7 +1167,7 @@ $F{Nombre_de_la_compania-name} + " · " + $F{Calle-street-company} + " · " + $F
 								<textElement verticalAlignment="Middle" lineSpacing="Single">
 									<font size="7"/>
 								</textElement>
-								<textFieldExpression class="java.lang.String"><![CDATA[$F{Ref_pedidos_de_venta_cliente-client_order_refs}.isEmpty() ? " " : " " + tr($V{L}, "NºPedido:") + " " + $F{Ref_pedidos_de_venta_cliente-client_order_refs}]]></textFieldExpression>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{client_order_ref}.isEmpty() ? " " : " " + tr($V{L}, "NºPedido:") + " " + $F{client_order_ref}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -1179,7 +1184,7 @@ $F{Nombre_de_la_compania-name} + " · " + $F{Calle-street-company} + " · " + $F
 								<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="html">
 									<font size="6" isBold="true"/>
 								</textElement>
-								<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "CAJAS TOTALES")]]></textFieldExpression>
+								<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "CAJAS<br>TOTALES")]]></textFieldExpression>
 							</textField>
 						</jr:columnHeader>
 						<jr:detailCell height="22" rowSpan="1">
