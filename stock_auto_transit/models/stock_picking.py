@@ -2,7 +2,7 @@
 # © 2016 Comunitea Servicios Tecnológicos (<http://www.comunitea.com>)
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from openerp import api, models
+from openerp import api, models, fields
 
 
 class StockPicking(models.Model):
@@ -65,4 +65,62 @@ class StockMove(models.Model):
                     move.company_id.id:
                 rec = self.env['stock.move'].sudo().browse(move.id)
             res = super(StockMove, rec).action_cancel()
+        return res
+
+
+class StockLocationRoute(models.Model):
+    _inherit = "stock.location.route"
+
+    def _get_location_vals(self):
+        res = []
+        t_loc = self.env['stock.location'].sudo()
+        domain = [('usage', '=', 'internal')]
+        locs = t_loc.search(domain)
+        for l in locs:
+
+            res.append((str(l.id), l.display_name))
+        return res
+
+    orig_loc = fields.Selection(_get_location_vals, 'Origin Locartion')
+
+
+class StockQuant(models.Model):
+    _inherit = "stock.quant"
+
+    def _get_origin_location_route(self, product, location):
+        res = False
+        routes = product.route_ids + product.categ_id.total_route_ids
+        for r in routes:
+            if r.orig_loc:
+                res = int(r.orig_loc)
+        return res
+
+    @api.model
+    def apply_removal_strategy(self, location, product, quantity, domain,
+                               removal_strategy):
+        """
+        """
+        res = super(StockQuant, self).apply_removal_strategy(location,
+                                                             product,
+                                                             quantity, domain,
+                                                             removal_strategy)
+        to_check_qty = 0.0
+        for record in res:
+            if record[0] is None:
+                to_check_qty += record[1]
+                res.remove(record)
+
+        orig_loc_id = self._get_origin_location_route(product, location)
+        # import ipdb;ipdb.set_trace()
+        if to_check_qty and orig_loc_id:
+
+            orig_loc = self.env['stock.location'].sudo().browse(orig_loc_id)
+            self_su = \
+                self.sudo().with_context(force_company=orig_loc.company_id.id)
+            domain = [('reservation_id', '=', False),
+                      ('qty', '>', 0),
+                      ('product_id', '=', product.id)]
+            res2 = self_su._quants_get_order(orig_loc, product, to_check_qty,
+                                             domain)
+            res.extend(res2)
         return res
