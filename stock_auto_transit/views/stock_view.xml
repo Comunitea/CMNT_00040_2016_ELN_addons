@@ -12,5 +12,15 @@
             </field>
         </record>
 
+         <record id="view_picking_form" model="ir.ui.view">
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <button name="action_assign" position="attributes">
+                    <attribute name="context">{'special_assign': True}</attribute>
+                </button>
+            </field>
+        </record>
+
     </data>
 </openerp>

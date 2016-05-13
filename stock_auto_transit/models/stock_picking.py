@@ -58,6 +58,9 @@ class StockMove(models.Model):
 
     @api.multi
     def action_cancel(self):
+         """
+        When the move belongs to other company, make it with sudo.
+        """
         res = False
         for move in self:
             rec = move
@@ -65,6 +68,30 @@ class StockMove(models.Model):
                     move.company_id.id:
                 rec = self.env['stock.move'].sudo().browse(move.id)
             res = super(StockMove, rec).action_cancel()
+        return res
+
+    @api.multi
+    def action_done(self):
+        # import ipdb; ipdb.set_trace()
+        quants_to_unreserve = self.env['stock.quant'].sudo()
+        moves_to_check = []
+        operations = self.env['stock.pack.operation']
+        for move in self:
+            for q in move.reserved_quant_ids:
+                if q.location_id.id != move.location_id.id:
+                    quants_to_unreserve += q
+                    moves_to_check.append(move)
+        if quants_to_unreserve:
+            quants_to_unreserve.write({'reservation_id': False})
+            move.picking_id.write({'recompute_pack_op': True})
+        for move in moves_to_check:
+            for link in move.linked_move_operation_ids:
+                operations += link.operation_id
+            operations.write({'location_id': move.location_id.id})
+        res = super(StockMove, self).action_done()
+        import ipdb; ipdb.set_trace()
+        if quants_to_unreserve:
+            print "BUSCAR O CREAR ABASTECIMIENTO Y RESERVAR LOS NEGATIVOS"
         return res
 
 
@@ -88,6 +115,9 @@ class StockQuant(models.Model):
     _inherit = "stock.quant"
 
     def _get_origin_location_route(self, product, location):
+        """
+        MEJOR BUSCAR EMULANDO LA BUSQUEDA DE REGLA PARA EL ABASTECIMIENTO
+        """
         res = False
         routes = product.route_ids + product.categ_id.total_route_ids
         for r in routes:
@@ -104,6 +134,10 @@ class StockQuant(models.Model):
                                                              product,
                                                              quantity, domain,
                                                              removal_strategy)
+        # import ipdb; ipdb.set_trace()
+        if not self._context.get('special_assign', False):
+            return res
+
         to_check_qty = 0.0
         for record in res:
             if record[0] is None:
