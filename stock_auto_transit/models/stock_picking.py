@@ -58,7 +58,7 @@ class StockMove(models.Model):
 
     @api.multi
     def action_cancel(self):
-         """
+        """
         When the move belongs to other company, make it with sudo.
         """
         res = False
