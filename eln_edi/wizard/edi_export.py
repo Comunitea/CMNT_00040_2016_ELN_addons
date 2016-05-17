@@ -174,6 +174,8 @@ class edi_export (orm.TransientModel):
 
         for line in invoice.invoice_line:
             if line.product_id.default_code == 'DPP':
+                if not invoice.early_payment_discount:
+                    errors += _('Found early payment discount lines, but there is not set any percentage on the invoice.')
                 continue
             if not line.product_id.ean13:
                 errors += _('The product %s not have EAN.\n') % \
@@ -302,16 +304,60 @@ class edi_export (orm.TransientModel):
         # texto libre
         invoice_data += self.parse_string(invoice.comment.replace('\n','').replace('\r',''), 131)
 
-        if invoice.type == 'out_refund':
+        origin = [] #Vamos a comprobar si es una factura resumen. En ese caso no pondremos en la cabecera el num alb y pedido
+
+        for line in invoice.invoice_line:
+            if line.origin:
+                origin.append(line.origin)
+            origin = list(set(origin))
+            print origin
+            if len(origin) > 1:
+                break
+        
+        if len(origin) > 1: #Factura resumen
             # numero de albaran
-            invoice_data += self.parse_string(invoice.origin_invoices_ids[0].picking_ids[0].name, 17)
+            invoice_data += self.parse_string(False, 17)
             # numero de pedido
-            invoice_data += self.parse_string(invoice.origin_invoices_ids[0].sale_order_ids[0].name, 17)
+            invoice_data += self.parse_string(False, 17)
         else:
-            # numero de albaran
-            invoice_data += self.parse_string(invoice.picking_ids[0].name, 17)
-            # numero de pedido
-            invoice_data += self.parse_string(invoice.sale_order_ids[0].client_order_ref, 17)
+            if invoice.type == 'out_refund':
+                # numero de albaran
+                # si en el pedido de venta el campo origin tiene algun valor lo interpretamos como el albarán 
+                # de entrega real (por un tercero por ejemplo)
+                # si va precedido de la palabra ALB.
+                numalb = False
+                if invoice.origin_invoices_ids[0].sale_order_ids:
+                    numalb = invoice.origin_invoices_ids[0].sale_order_ids[0].origin
+                    if numalb and len(numalb) > 4 and numalb[:4].upper() == 'ALB.':
+                        numalb = numalb[4:]
+                    else:
+                        numalb = False
+                if not numalb:
+                    if invoice.origin_invoices_ids[0].picking_ids:
+                        numalb = invoice.origin_invoices_ids[0].picking_ids[0].name
+                invoice_data += self.parse_string(numalb, 17)
+            else:
+                # numero de albaran
+                # si en el pedido de venta el campo origin tiene algun valor lo interpretamos como el albarán 
+                # de entrega real (por un tercero por ejemplo)
+                # si va precedido de la palabra ALB.
+                numalb = False
+                if invoice.sale_order_ids:
+                    numalb = invoice.sale_order_ids[0].origin
+                    if numalb and len(numalb) > 4 and numalb[:4].upper() == 'ALB.':
+                        numalb = numalb[4:]
+                    else:
+                        numalb = False
+                if not numalb:
+                    if invoice.picking_ids:
+                        numalb = invoice.picking_ids[0].name
+                invoice_data += self.parse_string(numalb, 17)
+            if invoice.type == 'out_refund':
+                # numero de pedido
+                invoice_data += self.parse_string(invoice.origin_invoices_ids[0].sale_order_ids[0].client_order_ref, 17)
+            else:
+                # numero de pedido
+                invoice_data += self.parse_string(invoice.sale_order_ids[0].client_order_ref, 17)
 
         # si es rectificativa se añade el numero de factura original.
         if invoice.type == 'out_refund':
@@ -319,7 +365,7 @@ class edi_export (orm.TransientModel):
         else:
             invoice_data += u' ' * 17
 
-        # receptor.
+        # receptor
         invoice_data += parse_address(invoice.partner_id, gln_rf)
 
         # emisor factura
@@ -370,7 +416,7 @@ class edi_export (orm.TransientModel):
         # descuentos globales        
         if invoice.global_disc > 0: # descuento comercial
             discount_data = '\r\nDCO'
-            discount_data += 'A  TD 1  ' + self.parse_number(invoice.global_disc, 8, 3)
+            discount_data += 'A  TD 1  ' + self.parse_number(invoice.global_disc, 8, 2)
             discount_data += self.parse_number(invoice.total_global_discounted, 18, 3)
             f.write(discount_data)
         if invoice.early_payment_discount: # descuento pronto pago
@@ -380,7 +426,7 @@ class edi_export (orm.TransientModel):
                     early_discount_amount += (-1) * line.price_subtotal
             if early_discount_amount:
                 discount_data = '\r\nDCO'
-                discount_data += 'A  EAB1  ' + self.parse_number(invoice.early_payment_discount, 8, 3)
+                discount_data += 'A  EAB1  ' + self.parse_number(invoice.early_payment_discount, 8, 2)
                 discount_data += self.parse_number(early_discount_amount, 18, 3)
                 f.write(discount_data)
             
@@ -398,8 +444,8 @@ class edi_export (orm.TransientModel):
             line_data += self.parse_number(line.product_id.ean13, 13, 0)
             line_data += self.parse_string(line.product_id.partner_product_code, 35)
             line_data += self.parse_string(line.product_id.default_code, 35)
-            #line_data += self.parse_string(line.product_id.name, 35)
-            line_data += self.parse_string(line.name, 35)
+            line_data += self.parse_string(line.product_id.with_context(lang=invoice.partner_id.lang).name, 35)
+            #line_data += self.parse_string(line.name, 35)
 
             # cantidades facturada enviada y sin cargo
             #line_qty = line.stock_move_id.product_qty
@@ -431,16 +477,28 @@ class edi_export (orm.TransientModel):
             line_data += self.parse_number(line_price_unit_gross, 18, 3)
             line_data += self.parse_number(line_price_unit_net, 18, 3)
 
-            # numero de pedido y albaran
+            # numero de pedido
             if line.stock_move_id.procurement_id.sale_line_id:
                 line_data += self.parse_string(line.stock_move_id.procurement_id.sale_line_id.order_id.client_order_ref, 17)
             else:
                 line_data += self.parse_string(False, 17)
-            if line.stock_move_id.picking_id:
-                line_data += self.parse_string(line.stock_move_id.picking_id.name, 17)
-            else:
-                line_data += self.parse_string(line.origin, 17)
-                #line_data += self.parse_string(False, 17)
+            # numero de albaran
+            # si en el pedido de venta el campo origin tiene algun valor lo interpretamos como el albarán 
+            # de entrega real (por un tercero por ejemplo)
+            # si va precedido de la palabra ALB.
+            numalb = False
+            if line.stock_move_id.procurement_id.sale_line_id:
+                numalb = line.stock_move_id.procurement_id.sale_line_id.order_id.origin
+                if numalb and len(numalb) > 4 and numalb[:4].upper() == 'ALB.':
+                    numalb = numalb[4:]
+                else:
+                    numalb = False
+            if not numalb:
+                if line.stock_move_id.picking_id:
+                    numalb = line.stock_move_id.picking_id.name
+                else:
+                    numalb = line.origin
+            line_data += self.parse_string(numalb, 17)
 
             # datos de los impuestos, únicamente del primero
             if line.invoice_line_tax_id:
