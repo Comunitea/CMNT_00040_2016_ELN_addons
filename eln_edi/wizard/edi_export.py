@@ -158,10 +158,10 @@ class edi_export (orm.TransientModel):
 
         if invoice.type == 'out_refund':
             if not invoice.origin_invoices_ids and not \
-                    invoice_origin_invoice_ids[0].picking_ids:
+                    invoice.origin_invoice_ids[0].picking_ids:
                 errors += _('The invoice not have associated pickings.\n')
             if not invoice.origin_invoices_ids and not \
-                    invoice_origin_invoice_ids[0].sale_order_ids:
+                    invoice.origin_invoice_ids[0].sale_order_ids:
                 errors += _('The invoice not have associated pickings.\n')
         else:
             if not invoice.picking_ids:
@@ -173,6 +173,8 @@ class edi_export (orm.TransientModel):
                 errors += _('The refund invoice not have an original associated.\n')
 
         for line in invoice.invoice_line:
+            if line.product_id.default_code == 'DPP':
+                continue
             if not line.product_id.ean13:
                 errors += _('The product %s not have EAN.\n') % \
                     line.product_id.name
@@ -212,7 +214,6 @@ class edi_export (orm.TransientModel):
     def parse_string(string, length):
         if not string:
             string = u' '
-            #string = ''
         if isinstance(string, float):
             string = str(string)
             point_pos = string.index('.')
@@ -220,11 +221,7 @@ class edi_export (orm.TransientModel):
                 string += '0'
             string = string.replace('.', '')
         else:
-            #string = str(string)
-            #string = string
             string = unidecode(string)
-
-            #string = string.encode('ascii', 'ignore')
 
         if len(string) > length:
             print _('Warning on EDI invoice. The length of "%s" is greater of %s.\nOnly the first %s characters are showed.') % (string, length, length)
@@ -268,7 +265,6 @@ class edi_export (orm.TransientModel):
 
         invoice_data = 'CAB'
         self.check_invoice_data(invoice)
-        # f = file(file_name,'w') Usamos la línea de abajo por fallo al convertir acentos
         f = codecs.open(file_name, 'w', 'utf-8')
 
         gln_de = invoice.picking_ids and invoice.picking_ids[0].partner_id.gln_de or invoice.partner_id.gln_de
@@ -292,7 +288,7 @@ class edi_export (orm.TransientModel):
         # modo de pago
         invoice_data += self.parse_string(invoice.payment_mode_id.edi_code, 3)
 
-        # cargo o abono(siempre en blanco 3 espacios)
+        # cargo o abono (siempre en blanco 3 espacios)
         invoice_data += ' ' * 3
 
         # codigo de sección de proveedor.
@@ -304,7 +300,7 @@ class edi_export (orm.TransientModel):
             invoice_data += self.parse_string(invoice.partner_id.section_code, 9)
 
         # texto libre
-        invoice_data += self.parse_string(invoice.comment, 131)
+        invoice_data += self.parse_string(invoice.comment.replace('\n','').replace('\r',''), 131)
 
         if invoice.type == 'out_refund':
             # numero de albaran
@@ -335,6 +331,7 @@ class edi_export (orm.TransientModel):
         address_data += self.parse_string(invoice.company_id.city, 35)
         address_data += self.parse_string(invoice.company_id.zip, 9)
         address_data += self.parse_string(invoice.company_id.vat, 17)
+        
         # vendedor
         address_data += self.parse_number(invoice.company_id.gln_ve, 13, 0)
         address_data += self.parse_string(invoice.company_id.partner_id.name, 35)
@@ -370,27 +367,39 @@ class edi_export (orm.TransientModel):
         invoice_data += (' ' * 26) * (3 - len(payments))
         f.write(invoice_data)
 
-        # descuentos globales
-        discount_data = '\nDCO'
-        if invoice.global_disc > 0:
-            discount_data += 'A  EAB1  ' + self.parse_number(invoice.global_disc, 8, 3)
-            discount_data += self.parse_string(invoice.total_global_discounted, 18)
-        else:
-            discount_data += ' ' * 35
-        f.write(discount_data)
+        # descuentos globales        
+        if invoice.global_disc > 0: # descuento comercial
+            discount_data = '\r\nDCO'
+            discount_data += 'A  TD 1  ' + self.parse_number(invoice.global_disc, 8, 3)
+            discount_data += self.parse_number(invoice.total_global_discounted, 18, 3)
+            f.write(discount_data)
+        if invoice.early_payment_discount: # descuento pronto pago
+            early_discount_amount = 0
+            for line in invoice.invoice_line:
+                if line.product_id.default_code == 'DPP':
+                    early_discount_amount += (-1) * line.price_subtotal
+            if early_discount_amount:
+                discount_data = '\r\nDCO'
+                discount_data += 'A  EAB1  ' + self.parse_number(invoice.early_payment_discount, 8, 3)
+                discount_data += self.parse_number(early_discount_amount, 18, 3)
+                f.write(discount_data)
+            
         invoice_number = 0
         total_bruto = 0
 
         # linea de factura
         for line in invoice.invoice_line:
+            if line.product_id.default_code == 'DPP':
+                continue
             total_bruto += line.price_unit * line.quantity
             invoice_number += 1
-            line_data = '\nLIN' + self.parse_number(invoice_number, 4, 0)
+            line_data = '\r\nLIN' + self.parse_number(invoice_number, 4, 0)
             # referencias de producto
             line_data += self.parse_number(line.product_id.ean13, 13, 0)
             line_data += self.parse_string(line.product_id.partner_product_code, 35)
             line_data += self.parse_string(line.product_id.default_code, 35)
-            line_data += self.parse_string(line.product_id.name, 35)
+            #line_data += self.parse_string(line.product_id.name, 35)
+            line_data += self.parse_string(line.name, 35)
 
             # cantidades facturada enviada y sin cargo
             #line_qty = line.stock_move_id.product_qty
@@ -430,7 +439,8 @@ class edi_export (orm.TransientModel):
             if line.stock_move_id.picking_id:
                 line_data += self.parse_string(line.stock_move_id.picking_id.name, 17)
             else:
-                line_data += self.parse_string(False, 17)
+                line_data += self.parse_string(line.origin, 17)
+                #line_data += self.parse_string(False, 17)
 
             # datos de los impuestos, únicamente del primero
             if line.invoice_line_tax_id:
@@ -451,19 +461,19 @@ class edi_export (orm.TransientModel):
 
             # descuentos de linea
             if line.discount:
-                line_data += '\nDLFA  TD ' + ' ' * 15 + '1  ' + \
+                line_data += '\r\nDLFA  TD ' + ' ' * 15 + '1  ' + \
                     self.parse_number(line.discount, 8, 2) + '204' + \
                     self.parse_number(((line.quantity * line.price_unit) - line.price_subtotal), 18, 3)
             f.write(line_data)
 
         # importes totales
-        total_data = '\nTOT' + self.parse_number(total_bruto, 18, 3)
+        total_data = '\r\nTOT' + self.parse_number(total_bruto, 18, 3)
         total_data += self.parse_number(invoice.amount_untaxed, 18, 3)
         total_data += self.parse_number((invoice.amount_untaxed - (invoice.amount_untaxed * invoice.global_disc/100)), 18, 3)
 
         total_data += self.parse_number(invoice.amount_tax, 18, 3)
-        if invoice.total_global_discounted:
-            total_data += self.parse_number(invoice.total_global_discounted, 18, 3)
+        if invoice.total_global_discounted or early_discount_amount:
+            total_data += self.parse_number(invoice.total_global_discounted + early_discount_amount, 18, 3)
         else:
             total_data += self.parse_number('0', 18, 3)
         total_data += self.parse_number('0', 18, 3)
@@ -473,7 +483,7 @@ class edi_export (orm.TransientModel):
 
         #impuestos de la factura
         for tax in invoice.tax_line:
-            tax_data = '\nTAX'
+            tax_data = '\r\nTAX'
             tax_data += self.parse_string(tax.tax_id.edi_code or u'VAT', 3)
             tax_data += self.parse_number(tax.tax_id.amount * 100, 5, 2)
             tax_data += self.parse_number(tax.tax_amount, 18, 3)
@@ -658,12 +668,12 @@ class edi_export (orm.TransientModel):
                 raise orm.except_orm(_('Partner error'), _('Edi filename not established in partner'))
 
             elif context['active_model'] == u'stock.picking':
-                file_name = '%s%sEDI%s%s%s.ASC' % (path,os.sep, obj.company_id.edi_code, obj.name.replace('/',''), obj.partner_id.edi_filename)
+                file_name = '%s%sEDI%s%s%s.ASC' % (path,os.sep, obj.company_id.edi_code, obj.name.replace('/','').replace('\\',''), obj.partner_id.edi_filename)
                 self.parse_picking(obj, file_name)
             elif context['active_model'] == u'account.invoice':
                 if obj.state != 'open':
                     raise orm.except_orm(_('Invoice error'), _('Validate the invoice before.'))
-                file_name = '%s%sINV%s%s%s.ASC' % (path,os.sep, obj.company_id.edi_code, obj.number.replace('/',''), obj.partner_id.edi_filename)
+                file_name = '%s%sINV%s%s%s.ASC' % (path,os.sep, obj.company_id.edi_code, obj.number.replace('/','').replace('\\',''), obj.partner_id.edi_filename)
                 self.parse_invoice(obj, file_name)
             self.create_doc(cr, uid, wizard.id, obj, file_name, context)
             data_pool = self.pool.get('ir.model.data')
