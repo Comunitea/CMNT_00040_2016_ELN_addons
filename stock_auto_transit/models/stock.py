@@ -5,6 +5,8 @@
 from openerp import api, models, fields
 from openerp.tools import float_compare as f_c
 from openerp.tools import float_round as f_r
+from openerp.tools.translate import _
+from openerp.exceptions import except_orm
 
 
 class StockPicking(models.Model):
@@ -72,36 +74,71 @@ class StockMove(models.Model):
             res = super(StockMove, rec).action_cancel()
         return res
 
+    # @api.model
+    # def _get_original_move_from_procurement(self, move):
+    #     import ipdb; ipdb.set_trace()
+    #     t_move_su = self.env['stock.move'].sudo()
+    #     t_op = self.env['stock.warehouse.orderpoint']
+    #     res = False
+    #     print "BUSCAR O CREAR ABASTECIMIENTO Y RESERVAR LOS NEGATIVOS"
+    #     domain = [('warehouse_id', '=', move.warehouse_id.id),
+    #               ('product_id', '=', move.product_id.id)]
+    #     op_objs = t_op.search(domain)
+    #     for op in op_objs:
+    #         if move.product_id.virtual_available < op.product_min_qty:
+    #             op._single_orderpoint_confirm()
+    #         if move.product_id.virtual_available >= op.product_min_qty:
+    #             t_proc = self.env['procurement.order'].sudo()
+    #             domain = [
+    #                 ('product_id', '=', move.product_id.id),
+    #                 ('state', 'in', ['confirmed', 'running']),
+    #                 ('id', '!=', move.procurement_id.id),
+    #                 ('location_id.usage', '=', 'transit')
+    #             ]
+    #             proc_obj = t_proc.search(domain, limit=1)
+    #             proc_obj = t_proc.browse(proc_obj.id)
+    #             if proc_obj:
+    #                 if proc_obj.state == 'confirmed':
+    #                     proc_obj.run()
+    #                 domain = [('procurement_id', '=', proc_obj.id)]
+    #                 proc_move = t_move_su.search(domain)
+    #                 res = proc_move
+    #                 # if proc_move:
+    #     return res
+
     @api.model
     def _get_original_move_from_procurement(self, move):
+        import ipdb; ipdb.set_trace()
         t_move_su = self.env['stock.move'].sudo()
-        # t_proc = self.env['procurement.order']
-        t_op = self.env['stock.warehouse.orderpoint']
-        res = False
-        print "BUSCAR O CREAR ABASTECIMIENTO Y RESERVAR LOS NEGATIVOS"
-        domain = [('warehouse_id', '=', move.warehouse_id.id),
-                  ('product_id', '=', move.product_id.id)]
-        op_objs = t_op.search(domain)
-        for op in op_objs:
-            if move.product_id.virtual_available < op.product_min_qty:
-                op._single_orderpoint_confirm()
-            if move.product_id.virtual_available >= op.product_min_qty:
-                t_proc = self.env['procurement.order'].sudo()
-                domain = [
-                    ('product_id', '=', move.product_id.id),
-                    ('state', 'in', ['confirmed', 'running']),
-                    ('id', '!=', move.procurement_id.id),
-                    ('location_id.usage', '=', 'transit')
-                ]
-                proc_obj = t_proc.search(domain, limit=1)
-                proc_obj = t_proc.browse(proc_obj.id)
-                if proc_obj:
-                    if proc_obj.state == 'confirmed':
-                        proc_obj.run()
-                    domain = [('procurement_id', '=', proc_obj.id)]
-                    proc_move = t_move_su.search(domain)
-                    res = proc_move
-                    # if proc_move:
+        # t_proc = self.env['procurement.order'].sudo()
+        # domain = [
+        #     ('product_id', '=', move.product_id.id),
+        #     ('state', 'in', ['confirmed', 'running']),
+        #     ('id', '!=', move.procurement_id.id),
+        #     ('location_id.usage', '=', 'transit'),
+        #     ('orderpoint_id', '=', False),
+        # ]
+        # proc_obj = t_proc.search(domain, limit=1)
+        # proc_obj = t_proc.browse(proc_obj.id)
+        # if not proc_obj:
+        #     msg = "Procurement not founded for product %s ." \
+        #         % move.product_id.name
+        #     raise except_orm(_('Error'), _(msg))
+        # if proc_obj.state == 'confirmed':
+        #     proc_obj.run()
+        # domain = [('procurement_id', '=', proc_obj.id)]
+        domain = [
+            ('id', '!=', move.id),
+            ('product_uom_qty', '=', move.product_uom_qty),
+            ('product_uom', '=', move.product_uom.id),
+            ('location_dest_id.usage', '=', 'transit'),
+            ('state', '=', 'confirmed')
+
+        ]
+        proc_move = t_move_su.search(domain, limit=1)
+        if not proc_move:
+            raise except_orm(_('Error'), _('No move created'))
+        res = proc_move
         return res
 
     @api.model
@@ -167,25 +204,25 @@ class StockMove(models.Model):
         # Action done will force the unreserve quants
         res = super(StockMove, self).action_done()
 
-        for move in moves_to_check:
-            orig_move = self._get_original_move_from_procurement(move)
-            # Group qty to reserve in lots
-            q2transit = {}
-            quant2force = []
-            for q in move.quant_ids:
-                if q.qty < 0:
-                    if q.lot_id.id not in q2transit:
-                        q2transit[q.lot_id.id] = 0.0
-                    q2transit[q.lot_id.id] += abs(q.qty)
-            if orig_move:
-                quant2force = self._reserve_quants_to_transit(orig_move,
-                                                              q2transit)
-            if quant2force:
-                ctx = move._context.copy()
-                ctx.update(forced_quants=quant2force)
-                new_orig_move = self.sudo().with_context(ctx).\
-                    browse(orig_move.id)
-                new_orig_move.action_assign()  # reserve the forced quants
+        # for move in moves_to_check:
+        #     orig_move = self._get_original_move_from_procurement(move)
+        #     # Group qty to reserve in lots
+        #     q2transit = {}
+        #     quant2force = []
+        #     for q in move.quant_ids:
+        #         if q.qty < 0:
+        #             if q.lot_id.id not in q2transit:
+        #                 q2transit[q.lot_id.id] = 0.0
+        #             q2transit[q.lot_id.id] += abs(q.qty)
+        #     if orig_move:
+        #         quant2force = self._reserve_quants_to_transit(orig_move,
+        #                                                       q2transit)
+        #     if quant2force:
+        #         ctx = move._context.copy()
+        #         ctx.update(forced_quants=quant2force)
+        #         new_orig_move = self.sudo().with_context(ctx).\
+        #             browse(orig_move.id)
+        #         new_orig_move.action_assign()  # reserve the forced quants
         return res
 
     @api.multi
@@ -197,7 +234,7 @@ class StockMove(models.Model):
                     move.state != 'waiting':
                 ctx = self._context.copy()
                 ctx.update(special_assign=True)
-                rec = self.with_context(ctx).browse(self.id)
+                rec = self.with_context(ctx).browse(move.id)
             res = super(StockMove, rec).action_assign()
         return res
 
@@ -279,37 +316,37 @@ class StockQuant(models.Model):
         return res
 
 
-class StockWarehouseOrderpoint(models.Model):
-    _inherit = "stock.warehouse.orderpoint"
+# class StockWarehouseOrderpoint(models.Model):
+#     _inherit = "stock.warehouse.orderpoint"
 
-    @api.multi
-    def _single_orderpoint_confirm(self):
-        '''
-        '''
-        res = False
-        self.ensure_one()
-        op = self
-        rnd = op.product_uom.rounding
-        proc_obj = self.env['procurement.order'].sudo()
-        prods = proc_obj._product_virtual_get(op)
-        if prods is None:
-            return
-        if f_c(prods, op.product_min_qty, precision_rounding=rnd) < 0:
-            qty = max(op.product_min_qty, op.product_max_qty) - prods
-            reste = op.qty_multiple > 0 and qty % op.qty_multiple or 0.0
-            if f_c(reste, 0.0, precision_rounding=rnd) > 0:
-                qty += op.qty_multiple - reste
-            if f_c(qty, 0.0, precision_rounding=rnd) <= 0:
-                return
+#     @api.multi
+#     def _single_orderpoint_confirm(self):
+#         '''
+#         '''
+#         res = False
+#         self.ensure_one()
+#         op = self
+#         rnd = op.product_uom.rounding
+#         proc_obj = self.env['procurement.order'].sudo()
+#         prods = proc_obj._product_virtual_get(op)
+#         if prods is None:
+#             return
+#         if f_c(prods, op.product_min_qty, precision_rounding=rnd) < 0:
+#             qty = max(op.product_min_qty, op.product_max_qty) - prods
+#             reste = op.qty_multiple > 0 and qty % op.qty_multiple or 0.0
+#             if f_c(reste, 0.0, precision_rounding=rnd) > 0:
+#                 qty += op.qty_multiple - reste
+#             if f_c(qty, 0.0, precision_rounding=rnd) <= 0:
+#                 return
 
-            qty -= self.subtract_procurements(op)
+#             qty -= self.subtract_procurements(op)
 
-            qty_rounded = f_r(qty, precision_rounding=rnd)
-            if qty_rounded > 0:
-                vals = proc_obj._prepare_orderpoint_procurement(op,
-                                                                qty_rounded)
-                proc_obj = proc_obj.create(vals)
-                proc_obj.check()
-                proc_obj.run()
-                res = proc_obj
-        return res
+#             qty_rounded = f_r(qty, precision_rounding=rnd)
+#             if qty_rounded > 0:
+#                 vals = proc_obj._prepare_orderpoint_procurement(op,
+#                                                                 qty_rounded)
+#                 proc_obj = proc_obj.create(vals)
+#                 proc_obj.check()
+#                 proc_obj.run()
+#                 res = proc_obj
+#         return res
