@@ -178,7 +178,7 @@
 
                  <!-- Contact Data -->
                  <xpath expr="//field[@name='child_ids']/form//field[@name='customer']" position="after">
-                    <group string="Datods EDI">
+                    <group string="Datos EDI">
                         <field name="gln_de" select="2"/>
                         <field name="gln_rf" select="2"/>
                         <field name="gln_co" select="2"/>

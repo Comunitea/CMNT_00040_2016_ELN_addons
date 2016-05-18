@@ -263,10 +263,14 @@
 			<fieldDescription><![CDATA[/data/record/Lineas_de_factura-invoice_line/stock_move_id/picking_id/client_order_ref
 ]]></fieldDescription>
 		</field>
-		<sortField name="Documento_origen-origin"/>
+		<sortField name="ORDEN_ALBARAN" type="Variable"/>
 		<sortField name="Referencia-default_code"/>
 		<sortField name="EAN13-ean13"/>
 		<sortField name="Descripcion-name"/>
+		<variable name="ORDEN_ALBARAN" class="java.lang.String">
+			<variableExpression><![CDATA[new String($F{client_order_ref}.isEmpty() ? "ZZZZZZ" : $F{client_order_ref})]]></variableExpression>
+			<initialValueExpression><![CDATA["ZZZZZZ"]]></initialValueExpression>
+		</variable>
 		<variable name="L" class="java.util.Locale">
 			<variableExpression><![CDATA[new Locale($F{Idioma-lang}.split("_")[0],$F{Idioma-lang}.split("_")[1])]]></variableExpression>
 			<initialValueExpression><![CDATA[new Locale($F{Idioma-lang}.split("_")[0],$F{Idioma-lang}.split("_")[1])]]></initialValueExpression>
