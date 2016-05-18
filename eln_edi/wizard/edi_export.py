@@ -301,7 +301,8 @@ class edi_export (orm.TransientModel):
             invoice_data += self.parse_string(invoice.partner_id.section_code, 9)
 
         # texto libre
-        invoice_data += self.parse_string(invoice.comment.replace('\n','').replace('\r',''), 131)
+        #invoice_data += self.parse_string(invoice.comment and invoice.comment.replace('\n','').replace('\r',''), 131)
+        invoice_data += self.parse_string(False, 131)
 
         origin = [] #Vamos a comprobar si es una factura resumen. En ese caso no pondremos en la cabecera el num alb y pedido
 
@@ -724,7 +725,7 @@ class edi_export (orm.TransientModel):
                 file_name = '%s%sEDI%s%s%s.ASC' % (path,os.sep, obj.company_id.edi_code, obj.name.replace('/','').replace('\\',''), obj.partner_id.edi_filename)
                 self.parse_picking(obj, file_name)
             elif context['active_model'] == u'account.invoice':
-                if obj.state != 'open':
+                if obj.state not in ('open', 'paid'):
                     raise orm.except_orm(_('Invoice error'), _('Validate the invoice before.'))
                 file_name = '%s%sINV%s%s%s.ASC' % (path,os.sep, obj.company_id.edi_code, obj.number.replace('/','').replace('\\',''), obj.partner_id.edi_filename)
                 self.parse_invoice(obj, file_name)
