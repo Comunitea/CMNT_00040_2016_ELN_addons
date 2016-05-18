@@ -524,14 +524,11 @@ class edi_export (orm.TransientModel):
 
         # importes totales
         total_data = '\r\nTOT' + self.parse_number(total_bruto, 18, 3)
-        total_data += self.parse_number(invoice.amount_untaxed, 18, 3)
-        total_data += self.parse_number((invoice.amount_untaxed - (invoice.amount_untaxed * invoice.global_disc/100)), 18, 3)
+        total_data += self.parse_number(invoice.amount_untaxed + invoice.total_global_discounted + early_discount_amount, 18, 3)
+        total_data += self.parse_number(invoice.amount_untaxed), 18, 3)
 
         total_data += self.parse_number(invoice.amount_tax, 18, 3)
-        if invoice.total_global_discounted or early_discount_amount:
-            total_data += self.parse_number(invoice.total_global_discounted + early_discount_amount, 18, 3)
-        else:
-            total_data += self.parse_number('0', 18, 3)
+        total_data += self.parse_number(invoice.total_global_discounted + early_discount_amount, 18, 3)
         total_data += self.parse_number('0', 18, 3)
         total_data += self.parse_number(invoice.amount_total, 18, 3)
 
