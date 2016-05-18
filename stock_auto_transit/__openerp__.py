@@ -16,7 +16,8 @@
         "Javier Colmenero Fernández <javier@comunitea.com>"
     ],
     "data": [
-        'views/stock_view.xml'
+        'views/stock_view.xml',
+        'wizard/reserve_transit_wzd_view.xml',
     ],
     "demo": [
     ],
