@@ -525,7 +525,7 @@ class edi_export (orm.TransientModel):
         # importes totales
         total_data = '\r\nTOT' + self.parse_number(total_bruto, 18, 3)
         total_data += self.parse_number(invoice.amount_untaxed + invoice.total_global_discounted + early_discount_amount, 18, 3)
-        total_data += self.parse_number(invoice.amount_untaxed), 18, 3)
+        total_data += self.parse_number(invoice.amount_untaxed, 18, 3)
 
         total_data += self.parse_number(invoice.amount_tax, 18, 3)
         total_data += self.parse_number(invoice.total_global_discounted + early_discount_amount, 18, 3)
