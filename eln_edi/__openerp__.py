@@ -60,7 +60,7 @@
                 # 'sale_payment',
                 # 'picking_invoice_rel'
     ],
-    'depends': ['base', 'account', 'sale', 'account_payment'],
+    'depends': ['base', 'account', 'sale', 'account_payment', 'stock'],
     'init_xml': [],
     'data': [
         'security/ir.model.access.csv',

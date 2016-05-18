@@ -88,8 +88,7 @@ class edi_export (orm.TransientModel):
                 invoice_id = obj.id
             else:
                 raise orm.except_orm(_('Error'),
-                                     _('El modelo no es ni un pedido ni un \
-                                       albarán ni una factura.'))
+                                     _('El modelo no es ni un pedido ni un albarán ni una factura.'))
 
             if not doc_obj.search(cr, uid, [('name', '=', name)], context=context):
                 f = open(file_name)
@@ -175,7 +174,7 @@ class edi_export (orm.TransientModel):
         for line in invoice.invoice_line:
             if line.product_id.default_code == 'DPP':
                 if not invoice.early_payment_discount:
-                    errors += _('Found early payment discount lines, but there is not set any percentage on the invoice.')
+                    errors += _('Found early payment discount lines, but there is not set any percentage on the invoice.\n')
                 continue
             if not line.product_id.ean13:
                 errors += _('The product %s not have EAN.\n') % \
