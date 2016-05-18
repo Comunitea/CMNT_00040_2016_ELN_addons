@@ -74,37 +74,34 @@ class StockMove(models.Model):
 
     @api.model
     def _get_original_move_from_procurement(self, move):
-        import ipdb; ipdb.set_trace()
         t_move_su = self.env['stock.move'].sudo()
         # t_proc = self.env['procurement.order']
         t_op = self.env['stock.warehouse.orderpoint']
         res = False
         print "BUSCAR O CREAR ABASTECIMIENTO Y RESERVAR LOS NEGATIVOS"
-        if move.product_id.virtual_available < 0:
-            print "CREAR ABASTECIMIENTO y asignar"
-            domain = [('warehouse_id', '=', move.warehouse_id.id),
-                      ('product_id', '=', move.product_id.id)]
-            op_objs = t_op.search(domain)
-            for op in op_objs:
+        domain = [('warehouse_id', '=', move.warehouse_id.id),
+                  ('product_id', '=', move.product_id.id)]
+        op_objs = t_op.search(domain)
+        for op in op_objs:
+            if move.product_id.virtual_available < op.product_min_qty:
                 op._single_orderpoint_confirm()
-        import ipdb; ipdb.set_trace()
-        if move.product_id.virtual_available >= 0:
-            t_proc = self.env['procurement.order'].sudo()
-            domain = [
-                ('product_id', '=', move.product_id.id),
-                ('state', 'in', ['confirmed', 'running']),
-                ('id', '!=', move.procurement_id.id),
-                ('location_id.usage', '=', 'transit')
-            ]
-            proc_obj = t_proc.search(domain, limit=1)
-            proc_obj = t_proc.browse(proc_obj.id)
-            if proc_obj:
-                if proc_obj.state == 'confirmed':
-                    proc_obj.run()
-                domain = [('procurement_id', '=', proc_obj.id)]
-                proc_move = t_move_su.search(domain)
-                res = proc_move
-                # if proc_move:
+            if move.product_id.virtual_available >= op.product_min_qty:
+                t_proc = self.env['procurement.order'].sudo()
+                domain = [
+                    ('product_id', '=', move.product_id.id),
+                    ('state', 'in', ['confirmed', 'running']),
+                    ('id', '!=', move.procurement_id.id),
+                    ('location_id.usage', '=', 'transit')
+                ]
+                proc_obj = t_proc.search(domain, limit=1)
+                proc_obj = t_proc.browse(proc_obj.id)
+                if proc_obj:
+                    if proc_obj.state == 'confirmed':
+                        proc_obj.run()
+                    domain = [('procurement_id', '=', proc_obj.id)]
+                    proc_move = t_move_su.search(domain)
+                    res = proc_move
+                    # if proc_move:
         return res
 
     @api.model
@@ -122,16 +119,12 @@ class StockMove(models.Model):
             quants_objs = t_quant_su.search(domain)
             assigned_qty = 0
             rst_qty = q2transit[lot_id]
-            import ipdb; ipdb.set_trace()
             for q in quants_objs:
-                # assigned_qty < line_qty
-                # fc = f_c(assigned_qty, line_qty, precision_rounding=rounding)
-                # if fc == -1:
                 fc2 = f_c(rst_qty, q.qty, precision_rounding=rounding)
                 if fc2 != -1:  # quant qty enougth
                     res.append((q, q.qty))
                     assigned_qty += q.qty
-                    break;
+                    break
                 else:  # quant qty less than needed
                     res.append((q, rst_qty))
                     assigned_qty += rst_qty
@@ -174,7 +167,6 @@ class StockMove(models.Model):
         # Action done will force the unreserve quants
         res = super(StockMove, self).action_done()
 
-        import ipdb; ipdb.set_trace()
         for move in moves_to_check:
             orig_move = self._get_original_move_from_procurement(move)
             # Group qty to reserve in lots
@@ -189,7 +181,6 @@ class StockMove(models.Model):
                 quant2force = self._reserve_quants_to_transit(orig_move,
                                                               q2transit)
             if quant2force:
-                import ipdb; ipdb.set_trace()
                 ctx = move._context.copy()
                 ctx.update(forced_quants=quant2force)
                 new_orig_move = self.sudo().with_context(ctx).\
@@ -199,7 +190,6 @@ class StockMove(models.Model):
 
     @api.multi
     def action_assign(self):
-        import ipdb; ipdb.set_trace()
         customer_loc = self.env.ref('stock.stock_location_customers')
         for move in self:
             rec = self
@@ -221,7 +211,6 @@ class StockLocationRoute(models.Model):
         domain = [('usage', '=', 'internal')]
         locs = t_loc.search(domain)
         for l in locs:
-
             res.append((str(l.id), l.display_name))
         return res
 
@@ -247,15 +236,16 @@ class StockQuant(models.Model):
                                removal_strategy):
         """
         """
-        import ipdb; ipdb.set_trace()
         # Quants already calculed will be returned
         if self._context.get('forced_quants', []):
             return self._context['forced_quants']
-
-        res = super(StockQuant, self).apply_removal_strategy(location,
-                                                             product,
-                                                             quantity, domain,
-                                                             removal_strategy)
+        ctx = self._context.copy()
+        ctx.update(force_company=location.company_id.id)
+        rec = self.with_context(ctx).browse(self.id)
+        res = super(StockQuant, rec).apply_removal_strategy(location,
+                                                            product,
+                                                            quantity, domain,
+                                                            removal_strategy)
         if not self._context.get('special_assign', False):
             return res
 
