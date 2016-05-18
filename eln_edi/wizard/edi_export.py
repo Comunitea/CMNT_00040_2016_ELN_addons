@@ -309,7 +309,6 @@ class edi_export (orm.TransientModel):
             if line.origin:
                 origin.append(line.origin)
             origin = list(set(origin))
-            print origin
             if len(origin) > 1:
                 break
         
