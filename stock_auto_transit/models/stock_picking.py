@@ -122,6 +122,7 @@ class StockMove(models.Model):
             quants_objs = t_quant_su.search(domain)
             assigned_qty = 0
             rst_qty = q2transit[lot_id]
+            import ipdb; ipdb.set_trace()
             for q in quants_objs:
                 # assigned_qty < line_qty
                 # fc = f_c(assigned_qty, line_qty, precision_rounding=rounding)
@@ -130,6 +131,7 @@ class StockMove(models.Model):
                 if fc2 != -1:  # quant qty enougth
                     res.append((q, q.qty))
                     assigned_qty += q.qty
+                    break;
                 else:  # quant qty less than needed
                     res.append((q, rst_qty))
                     assigned_qty += rst_qty
@@ -187,14 +189,17 @@ class StockMove(models.Model):
                 quant2force = self._reserve_quants_to_transit(orig_move,
                                                               q2transit)
             if quant2force:
+                import ipdb; ipdb.set_trace()
                 ctx = move._context.copy()
                 ctx.update(forced_quants=quant2force)
-                new_orig_move = self.sudo().browse(orig_move.id)
+                new_orig_move = self.sudo().with_context(ctx).\
+                    browse(orig_move.id)
                 new_orig_move.action_assign()  # reserve the forced quants
         return res
 
     @api.multi
     def action_assign(self):
+        import ipdb; ipdb.set_trace()
         customer_loc = self.env.ref('stock.stock_location_customers')
         for move in self:
             rec = self
@@ -202,7 +207,7 @@ class StockMove(models.Model):
                     move.state != 'waiting':
                 ctx = self._context.copy()
                 ctx.update(special_assign=True)
-                rec = self.with_context(ctx)
+                rec = self.with_context(ctx).browse(self.id)
             res = super(StockMove, rec).action_assign()
         return res
 
@@ -242,6 +247,7 @@ class StockQuant(models.Model):
                                removal_strategy):
         """
         """
+        import ipdb; ipdb.set_trace()
         # Quants already calculed will be returned
         if self._context.get('forced_quants', []):
             return self._context['forced_quants']
