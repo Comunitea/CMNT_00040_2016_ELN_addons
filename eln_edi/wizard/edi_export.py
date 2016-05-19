@@ -249,7 +249,7 @@ class edi_export (orm.TransientModel):
         date = datetime.strptime(date_str, '%Y-%m-%d %H:%M:%S')
         return date.strftime('%Y%m%d%H%M')
 
-    def parse_invoice(self, invoice, file_name):
+    def parse_invoice(self, cr, uid, invoice, file_name):
 
         def parse_address(address, gln_val):
             address_data = ''
@@ -449,11 +449,14 @@ class edi_export (orm.TransientModel):
 
             #line_qty = line.quantity / (line.product_id.uos_coeff or 1)
             t_uom = self.pool.get('product.uom')
-            #t_uom = self.env['product.uom']
             qty = line.quantity
             uos_id = line.uos_id.id
             uom_id = line.product_id.uom_id.id
-            line_qty = t_uom._compute_qty(self.cr, self.uid, uos_id, qty, uom_id)
+            line_qty = t_uom._compute_qty(cr, uid, uos_id, qty, uom_id)
+            if line.partner_id.edi_uos_as_uom_on_kgm_required:
+                kgm_uom = self.pool.get('ir.model.data').xmlid_to_res_id(cr, uid, 'product.product_uom_kgm')
+                if uom_id == kgm_uom:
+                    line_qty = t_uom._compute_qty(cr, uid, uos_id, qty, (line.product_id.uos_id and line.product_id.uos_id.id or uos_id))
             line_qty = round(line_qty, 0)
             if line.price_unit != 0:
                 line_data += self.parse_number(line_qty, 15, 0)
@@ -468,11 +471,6 @@ class edi_export (orm.TransientModel):
             line_data += self.parse_string('', 70)
 
             # importe total neto
-            #imp = line.invoice_line_tax_id and int(line.invoice_line_tax_id[0].amount * 100) or int('0')
-            #total_line_without_tax = line.price_subtotal - (line.price_subtotal * (line.invoice_id.global_disc/100))
-            #line_data += self.parse_number(total_line_without_tax, 18, 3)
-            #total_line = total_line_without_tax + (total_line_without_tax * imp/100.0)
-            #line_data += self.parse_number(total_line, 18, 3)
             line_data += self.parse_number(line.price_subtotal, 18, 3)
 
             # precios unitarios bruto y neto
@@ -716,16 +714,14 @@ class edi_export (orm.TransientModel):
             num += 1
         f.close()
 
-    def export_files(self,cr, uid, ids, context=None):
-        wizard = self.browse(cr,uid,ids[0])
+    def export_files(self, cr, uid, ids, context=None):
+        wizard = self.browse(cr, uid, ids[0])
         path = wizard.configuration.ftpbox_path + "/out"
-        tmp_name = ''
-        for obj in self.pool.get(context['active_model']).browse(cr,uid,context['active_ids']):
+        for obj in self.pool.get(context['active_model']).browse(cr, uid, context['active_ids']):
             if not obj.company_id.edi_code:
                 raise orm.except_orm(_('Company error'), _('Edi code not established in company'))
             if not obj.partner_id.edi_filename:
                 raise orm.except_orm(_('Partner error'), _('Edi filename not established in partner'))
-
             elif context['active_model'] == u'stock.picking':
                 file_name = '%s%sEDI%s%s%s.ASC' % (path,os.sep, obj.company_id.edi_code, obj.name.replace('/','').replace('\\',''), obj.partner_id.edi_filename)
                 self.parse_picking(obj, file_name)
@@ -733,10 +729,10 @@ class edi_export (orm.TransientModel):
                 if obj.state not in ('open', 'paid'):
                     raise orm.except_orm(_('Invoice error'), _('Validate the invoice before.'))
                 file_name = '%s%sINV%s%s%s.ASC' % (path,os.sep, obj.company_id.edi_code, obj.number.replace('/','').replace('\\',''), obj.partner_id.edi_filename)
-                self.parse_invoice(obj, file_name)
+                self.parse_invoice(cr, uid, obj, file_name)
             self.create_doc(cr, uid, wizard.id, obj, file_name, context)
             data_pool = self.pool.get('ir.model.data')
             action_model,action_id = data_pool.get_object_reference(cr, uid, 'eln_edi', "act_edi_doc")
-            action = self.pool.get(action_model).read(cr,uid,action_id,context=context)
+            action = self.pool.get(action_model).read(cr, uid, action_id, context=context)
 
         return action
