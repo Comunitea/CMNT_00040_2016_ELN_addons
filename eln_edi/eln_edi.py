@@ -74,7 +74,6 @@ class edi_configuration(orm.Model):
         return res
 
     def get_configuration(self, cr, uid, ids):
-
         ids = self.pool.get('edi.configuration').search(cr, uid, [])
         if not ids:
             raise osv.except_osv(_("No hay una configuración EDI. "),_("Falta configuración"))
@@ -139,6 +138,8 @@ class res_partner(orm.Model):
                                            help="EDI (DESADV). Code specifying product marking instructions. Segment: PCI, Tag: 4233. Example: 36E, 17, ..."),
         'edi_date_required': fields.boolean('EDI lines requires picking date',
                                            help='Check if customer requires the picking date in the EDI lines of invoice.'),
+        'edi_uos_as_uom_on_kgm_required': fields.boolean('Use UoS as UoM if UoM is kg',
+                                           help='Check if customer requires invoicing products with UoM kg interpreting UoM = UoS. (1 bag of 5 kg is 1 bag, not 5 kg)'),
         'edi_filename': fields.char('EDI filename suffix', size=3,
                                            help='Partner suffix for edi filename.'),
         'gln_de': fields.char('GLN Destinatario', size=13, help="GLN (Destinatario de la factura / Quien paga)"),
@@ -163,7 +164,7 @@ class product_uom(orm.Model):
     _columns = {
         'edi_code': fields.selection([('PCE', '[PCE] Unidades'), ('KGM', '[KGM] Kilogramos'),
                                       ('LTR', '[LTR] Litros')], 'Código EDI', 
-                                     select=1, help="Código para el tipo de UOM a incluir en el fichero EDI."),
+                                     select=1, help="Código para el tipo de UOM a incluir en el fichero EDI. Si no se establece se usará [PCE]."),
     }
 
 '''class stock_picking(orm.Model):
@@ -373,8 +374,9 @@ class res_company(orm.Model):
     _inherit = 'res.company'
 
     _columns = {
-        'gln_ef': fields.char(string='GLN Emisor Factura',help="GLN (Emisor del documento)"),
+        'gln_ef': fields.char(string='GLN Emisor Factura', help="GLN (Emisor del documento)"),
         'gln_ve': fields.char(string='GLN Vendedor', help="GLN (Vendedor de la mercancía)"),
         'edi_code': fields.char(string='EDI filename prefix', help='Company prefix for edi filename'),
         'gs1': fields.char(string='GS1 code', help='AECOC GS1 code of the Company. Used to coding GTIN-13, GTIN-14, GS1-128, SSCC, etc. Required for EDI DESADV interchanges.'),
+        'edi_rm': fields.char(string='Registro Mercantil', size=35, help="Registro Mercantil del emisor de la factura y el vendedor"),
     }
