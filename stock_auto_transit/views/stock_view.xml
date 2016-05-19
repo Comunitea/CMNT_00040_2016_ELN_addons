@@ -34,5 +34,24 @@
             </field>
         </record>
 
+        <record id="view_picking_type_form" model="ir.ui.view" >
+            <field name="model">stock.picking.type</field>
+            <field name="inherit_id" ref="stock.view_picking_type_form"/>
+            <field name="arch" type="xml">
+                <field name="warehouse_id" position="after">
+                    <field name="auto_transit"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_picking_form" model="ir.ui.view">
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <field name="origin" position="after">
+                    <field name="auto_transit"/>
+                </field>
+            </field>
+        </record>
     </data>
 </openerp>

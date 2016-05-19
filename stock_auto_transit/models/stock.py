@@ -12,6 +12,9 @@ from openerp.exceptions import except_orm
 class StockPicking(models.Model):
     _inherit = "stock.picking"
 
+    auto_transit = fields.Boolean('Auto Transit Picking',
+                                  related='picking_type_id.auto_transit')
+
     @api.multi
     def do_transfer(self):
         """
@@ -74,100 +77,6 @@ class StockMove(models.Model):
             res = super(StockMove, rec).action_cancel()
         return res
 
-    # @api.model
-    # def _get_original_move_from_procurement(self, move):
-    #     import ipdb; ipdb.set_trace()
-    #     t_move_su = self.env['stock.move'].sudo()
-    #     t_op = self.env['stock.warehouse.orderpoint']
-    #     res = False
-    #     print "BUSCAR O CREAR ABASTECIMIENTO Y RESERVAR LOS NEGATIVOS"
-    #     domain = [('warehouse_id', '=', move.warehouse_id.id),
-    #               ('product_id', '=', move.product_id.id)]
-    #     op_objs = t_op.search(domain)
-    #     for op in op_objs:
-    #         if move.product_id.virtual_available < op.product_min_qty:
-    #             op._single_orderpoint_confirm()
-    #         if move.product_id.virtual_available >= op.product_min_qty:
-    #             t_proc = self.env['procurement.order'].sudo()
-    #             domain = [
-    #                 ('product_id', '=', move.product_id.id),
-    #                 ('state', 'in', ['confirmed', 'running']),
-    #                 ('id', '!=', move.procurement_id.id),
-    #                 ('location_id.usage', '=', 'transit')
-    #             ]
-    #             proc_obj = t_proc.search(domain, limit=1)
-    #             proc_obj = t_proc.browse(proc_obj.id)
-    #             if proc_obj:
-    #                 if proc_obj.state == 'confirmed':
-    #                     proc_obj.run()
-    #                 domain = [('procurement_id', '=', proc_obj.id)]
-    #                 proc_move = t_move_su.search(domain)
-    #                 res = proc_move
-    #                 # if proc_move:
-    #     return res
-
-    @api.model
-    def _get_original_move_from_procurement(self, move):
-        import ipdb; ipdb.set_trace()
-        t_move_su = self.env['stock.move'].sudo()
-        # t_proc = self.env['procurement.order'].sudo()
-        # domain = [
-        #     ('product_id', '=', move.product_id.id),
-        #     ('state', 'in', ['confirmed', 'running']),
-        #     ('id', '!=', move.procurement_id.id),
-        #     ('location_id.usage', '=', 'transit'),
-        #     ('orderpoint_id', '=', False),
-        # ]
-        # proc_obj = t_proc.search(domain, limit=1)
-        # proc_obj = t_proc.browse(proc_obj.id)
-        # if not proc_obj:
-        #     msg = "Procurement not founded for product %s ." \
-        #         % move.product_id.name
-        #     raise except_orm(_('Error'), _(msg))
-        # if proc_obj.state == 'confirmed':
-        #     proc_obj.run()
-        # domain = [('procurement_id', '=', proc_obj.id)]
-        domain = [
-            ('id', '!=', move.id),
-            ('product_uom_qty', '=', move.product_uom_qty),
-            ('product_uom', '=', move.product_uom.id),
-            ('location_dest_id.usage', '=', 'transit'),
-            ('state', '=', 'confirmed')
-
-        ]
-        proc_move = t_move_su.search(domain, limit=1)
-        if not proc_move:
-            raise except_orm(_('Error'), _('No move created'))
-        res = proc_move
-        return res
-
-    @api.model
-    def _reserve_quants_to_transit(self, orig_move, q2transit):
-        # Search quants to force the assignament later
-        res = []
-        t_quant_su = self.env['stock.quant'].sudo()
-        prod = orig_move.product_id
-        rounding = prod.uom_id.rounding
-        for lot_id in q2transit:
-            domain = [
-                ('product_id', '=', prod.id),
-                ('location_id', '=', orig_move.location_id.id),
-                ('qty', '>', 0.0)]
-            quants_objs = t_quant_su.search(domain)
-            assigned_qty = 0
-            rst_qty = q2transit[lot_id]
-            for q in quants_objs:
-                fc2 = f_c(rst_qty, q.qty, precision_rounding=rounding)
-                if fc2 != -1:  # quant qty enougth
-                    res.append((q, q.qty))
-                    assigned_qty += q.qty
-                    break
-                else:  # quant qty less than needed
-                    res.append((q, rst_qty))
-                    assigned_qty += rst_qty
-                rst_qty -= assigned_qty
-        return res
-
     @api.multi
     def action_done(self):
         """
@@ -225,6 +134,37 @@ class StockMove(models.Model):
         #         new_orig_move.action_assign()  # reserve the forced quants
         return res
 
+    # @api.multi
+    # def _get_quants_from_negatives(self):
+    #     res = []
+    #     import ipdb; ipdb.set_trace
+    #     for transit_move in self:
+    #         move = self.sudo().browse(transit_move.id)
+    #         if not move.move_dest_id:
+    #             raise except_orm(_('Error'), _('No destination move.'))
+    #         search_loc = move.move_dest_id.location_dest_id
+    #         domain = [
+    #             ('qty', '<', 0),
+    #             ('location_id', '=', search_loc.id),
+    #             ('product_id', '=', move.product_id.id)
+    #             ('reservation_id', = False)
+    #         ]
+    #         quant_objs = self.env['stock.quant'].search(domain)
+    #         assigned_qty = 0
+    #         rst_qty = move.product_uom_qty
+    #         rounding = move.product_id.uom_id.rounding
+    #         for q in quant_objs:
+    #             fc2 = f_c(rst_qty, q.qty, precision_rounding=rounding)
+    #             if fc2 != -1:  # quant qty enougth
+    #                 res.append((q, q.qty))
+    #                 assigned_qty += q.qty
+    #                 break
+    #             else:  # quant qty less than needed
+    #                 res.append((q, rst_qty))
+    #                 assigned_qty += rst_qty
+    #             rst_qty -= assigned_qty
+    #     return res
+
     @api.multi
     def action_assign(self):
         customer_loc = self.env.ref('stock.stock_location_customers')
@@ -235,7 +175,41 @@ class StockMove(models.Model):
                 ctx = self._context.copy()
                 ctx.update(special_assign=True)
                 rec = self.with_context(ctx).browse(move.id)
+
+            # elif move.picking_id.auto_transit:
+            #     move.do_unreserve()
+            #     ctx = self._context.copy()
+            #     forced_quants = move._get_quants_from_negatives()
+            #     ctx.update(forced_quants=forced_quants)
+            #     rec = self.with_context(ctx).browse(move.id)
             res = super(StockMove, rec).action_assign()
+        return res
+
+    @api.model
+    def _get_quants_to_transit(self, orig_move, q2transit):
+        # Search quants to force the assignament later
+        res = []
+        t_quant_su = self.env['stock.quant'].sudo()
+        prod = orig_move.product_id
+        rounding = prod.uom_id.rounding
+        for lot_id in q2transit:
+            domain = [
+                ('product_id', '=', prod.id),
+                ('location_id', '=', orig_move.location_id.id),
+                ('qty', '>', 0.0)]
+            quants_objs = t_quant_su.search(domain)
+            assigned_qty = 0
+            rst_qty = q2transit[lot_id]
+            for q in quants_objs:
+                fc2 = f_c(rst_qty, q.qty, precision_rounding=rounding)
+                if fc2 != -1:  # quant qty enougth
+                    res.append((q, q.qty))
+                    assigned_qty += q.qty
+                    break
+                else:  # quant qty less than needed
+                    res.append((q, rst_qty))
+                    assigned_qty += rst_qty
+                rst_qty -= assigned_qty
         return res
 
 
@@ -256,17 +230,6 @@ class StockLocationRoute(models.Model):
 
 class StockQuant(models.Model):
     _inherit = "stock.quant"
-
-    def _get_origin_location_route(self, product, location):
-        """
-        MEJOR BUSCAR EMULANDO LA BUSQUEDA DE REGLA PARA EL ABASTECIMIENTO
-        """
-        res = False
-        routes = product.route_ids + product.categ_id.total_route_ids
-        for r in routes:
-            if r.orig_loc:
-                res = int(r.orig_loc)
-        return res
 
     @api.model
     def apply_removal_strategy(self, location, product, quantity, domain,
@@ -292,7 +255,8 @@ class StockQuant(models.Model):
                 to_check_qty += record[1]
                 res.remove(record)
 
-        orig_loc_id = self._get_origin_location_route(product, location)
+        t_proc = self.env['procurement.order']
+        orig_loc_id = t_proc._get_origin_location_route(product, location)
         # import ipdb;ipdb.set_trace()
         if to_check_qty and orig_loc_id:
 
@@ -316,37 +280,7 @@ class StockQuant(models.Model):
         return res
 
 
-# class StockWarehouseOrderpoint(models.Model):
-#     _inherit = "stock.warehouse.orderpoint"
+class StockPickingType(models.Model):
+    _inherit = "stock.picking.type"
 
-#     @api.multi
-#     def _single_orderpoint_confirm(self):
-#         '''
-#         '''
-#         res = False
-#         self.ensure_one()
-#         op = self
-#         rnd = op.product_uom.rounding
-#         proc_obj = self.env['procurement.order'].sudo()
-#         prods = proc_obj._product_virtual_get(op)
-#         if prods is None:
-#             return
-#         if f_c(prods, op.product_min_qty, precision_rounding=rnd) < 0:
-#             qty = max(op.product_min_qty, op.product_max_qty) - prods
-#             reste = op.qty_multiple > 0 and qty % op.qty_multiple or 0.0
-#             if f_c(reste, 0.0, precision_rounding=rnd) > 0:
-#                 qty += op.qty_multiple - reste
-#             if f_c(qty, 0.0, precision_rounding=rnd) <= 0:
-#                 return
-
-#             qty -= self.subtract_procurements(op)
-
-#             qty_rounded = f_r(qty, precision_rounding=rnd)
-#             if qty_rounded > 0:
-#                 vals = proc_obj._prepare_orderpoint_procurement(op,
-#                                                                 qty_rounded)
-#                 proc_obj = proc_obj.create(vals)
-#                 proc_obj.check()
-#                 proc_obj.run()
-#                 res = proc_obj
-#         return res
+    auto_transit = fields.Boolean('Auto Transit')
