@@ -130,11 +130,13 @@ class edi_export (orm.TransientModel):
         return os.path.dirname(self.path())
 
     def check_invoice_data(self, invoice):
-
         errors = ''
 
         if not invoice.company_id.gln_ef or not invoice.company_id.gln_ve:
             errors += _('The company %s not have some GLN defined.\n') % \
+                invoice.company_id.name
+        if not invoice.company_id.edi_rm:
+            errors += _('The company %s not have trade register defined.\n') % \
                 invoice.company_id.name
         if not invoice.partner_id.vat:
             errors += _('The partner %s not have vat.\n') % \
@@ -191,7 +193,6 @@ class edi_export (orm.TransientModel):
 
     @staticmethod
     def parse_number(number, length, decimales):
-
         if not number:
             return ' ' * length
         if isinstance(number, float):
@@ -208,7 +209,6 @@ class edi_export (orm.TransientModel):
         new_number = (length - len(number)) * '0' + number
         if len(new_number) != length:
             raise orm.except_orm(_('Error parsing'), _('Error parsing number'))
-
         return new_number
 
     @staticmethod
@@ -232,7 +232,6 @@ class edi_export (orm.TransientModel):
 
         if len(new_string) != length:
             raise orm.except_orm(_('Error parsing!'), _('The length of "%s" is greater of %s.') % (new_string, length))
-
         return new_string
 
     @staticmethod
@@ -257,7 +256,7 @@ class edi_export (orm.TransientModel):
             #address_data += self.parse_number(address.gln, 13, 0)
             address_data += self.parse_number(gln_val, 13, 0)
             address_data += self.parse_string(address.name, 35)
-            address_data += self.parse_string(address.comercial, 35) #u' ' * 35
+            address_data += self.parse_string(False, 35) #Reg. Mercantil
             address_data += self.parse_string(address.street, 35)
             address_data += self.parse_string(address.city, 35)
             address_data += self.parse_string(address.zip, 9)
@@ -371,7 +370,7 @@ class edi_export (orm.TransientModel):
         address_data = ''
         address_data += self.parse_number(invoice.company_id.gln_ef, 13, 0)
         address_data += self.parse_string(invoice.company_id.partner_id.name, 35)
-        address_data += u' ' * 35
+        address_data += self.parse_string(invoice.company_id.edi_rm, 35)
         address_data += self.parse_string(invoice.company_id.street, 35)
         address_data += self.parse_string(invoice.company_id.city, 35)
         address_data += self.parse_string(invoice.company_id.zip, 9)
@@ -380,7 +379,7 @@ class edi_export (orm.TransientModel):
         # vendedor
         address_data += self.parse_number(invoice.company_id.gln_ve, 13, 0)
         address_data += self.parse_string(invoice.company_id.partner_id.name, 35)
-        address_data += u' ' * 35
+        address_data += self.parse_string(invoice.company_id.edi_rm, 35)
         address_data += self.parse_string(invoice.company_id.street, 35)
         address_data += self.parse_string(invoice.company_id.city, 35)
         address_data += self.parse_string(invoice.company_id.zip, 9)
@@ -413,13 +412,13 @@ class edi_export (orm.TransientModel):
         f.write(invoice_data)
 
         # descuentos globales        
+        early_discount_amount = 0
         if invoice.global_disc > 0: # descuento comercial
             discount_data = '\r\nDCO'
             discount_data += 'A  TD 1  ' + self.parse_number(invoice.global_disc, 8, 2)
             discount_data += self.parse_number(invoice.total_global_discounted, 18, 3)
             f.write(discount_data)
         if invoice.early_payment_discount: # descuento pronto pago
-            early_discount_amount = 0
             for line in invoice.invoice_line:
                 if line.product_id.default_code == 'DPP':
                     early_discount_amount += (-1) * line.price_subtotal
@@ -447,8 +446,14 @@ class edi_export (orm.TransientModel):
             #line_data += self.parse_string(line.name, 35)
 
             # cantidades facturada enviada y sin cargo
-            #line_qty = line.stock_move_id.product_qty
-            line_qty = line.quantity / (line.product_id.uos_coeff or 1)
+
+            #line_qty = line.quantity / (line.product_id.uos_coeff or 1)
+            t_uom = self.pool.get('product.uom')
+            #t_uom = self.env['product.uom']
+            qty = line.quantity
+            uos_id = line.uos_id.id
+            uom_id = line.product_id.uom_id.id
+            line_qty = t_uom._compute_qty(self.cr, self.uid, uos_id, qty, uom_id)
             line_qty = round(line_qty, 0)
             if line.price_unit != 0:
                 line_data += self.parse_number(line_qty, 15, 0)
@@ -459,7 +464,7 @@ class edi_export (orm.TransientModel):
                 line_data += self.parse_number(line_qty, 15, 0)
                 line_data += self.parse_number(line_qty, 15, 0)
 
-            line_data += self.parse_string(line.stock_move_id.product_uom.edi_code or u'PCE', 3)
+            line_data += self.parse_string(line.product_id.uom_id.edi_code or u'PCE', 3)
             line_data += self.parse_string('', 70)
 
             # importe total neto
