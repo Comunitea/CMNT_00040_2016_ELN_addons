@@ -13,18 +13,12 @@ class ReserveTransitWzd(models.TransientModel):
 
     @api.multi
     def reserve_transit(self, pick):
+        t_quant = self.env['stock.quant']
         wh_objs = self.env['stock.warehouse'].search([])
         stock_locs = [x.lot_stock_id for x in wh_objs]
         q2transit = {}
         for loc in stock_locs:
-            domain = [('qty', '<', 0), ('location_id', '=', loc.id)]
-            quant_objs = self.env['stock.quant'].search(domain)
-            for q in quant_objs:
-                if q.product_id not in q2transit:
-                    q2transit[q.product_id] = {q.lot_id: 0.0}
-                if q.lot_id not in q2transit[q.product_id]:
-                    q2transit[q.product_id][q.lot_id] = 0.0
-                q2transit[q.product_id][q.lot_id] += abs(q.qty)
+            q2transit = t_quant._search_negative_quants_qty(loc)
             import ipdb; ipdb.set_trace()
             for prod in q2transit:
                 orig_loc_id = self.env['procurement.order'].\

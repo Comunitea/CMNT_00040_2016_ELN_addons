@@ -279,6 +279,25 @@ class StockQuant(models.Model):
         res = super(StockQuant, rec).unlink()
         return res
 
+    @api.model
+    def _search_negative_quants_qty(self, loc, extra_domain=[]):
+        """
+        Returns dic with negative qty in absolute value grouped by product and
+        lot
+        """
+        res = {}
+        domain = [('qty', '<', 0), ('location_id', '=', loc.id)]
+        domain.extend(extra_domain)
+        quant_objs = self.env['stock.quant'].search(domain)
+        for q in quant_objs:
+            if q.product_id not in res:
+                res[q.product_id] = {q.lot_id: 0.0}
+            if q.lot_id not in res[q.product_id]:
+                res[q.product_id][q.lot_id] = 0.0
+            res[q.product_id][q.lot_id] += abs(q.qty)
+        return res
+
+
 
 class StockPickingType(models.Model):
     _inherit = "stock.picking.type"
