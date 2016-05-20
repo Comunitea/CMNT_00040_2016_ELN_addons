@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    
+        <template id="external_layout_header_custom" inherit_id="report.external_layout_header">
+            <div t-field="company.partner_id" position="replace">
+                <div t-field="company.partner_id" 
+                    t-field-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": true}'
+                />
+                <span t-if="company.partner_id.vat">TIN: <span t-field="company.partner_id.vat"/></span>
+                <div style="border-bottom: 1px solid black;"></div>
+            </div>
+        </template>
+
+        <template id="external_layout_footer_custom" inherit_id="report.external_layout_footer">
+            <div class="text-center" position="before">
+                <div t-if="company.company_registry" class="text-center" style="border-top: 1px solid black;">
+                    <span t-field="company.company_registry"/>
+                </div>
+            </div>
+        </template>
+
+    </data>
+</openerp>

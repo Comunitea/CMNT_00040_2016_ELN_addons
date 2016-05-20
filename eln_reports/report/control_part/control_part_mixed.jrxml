@@ -964,7 +964,7 @@ limpieza]]></text>
 								<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
 									<font size="7" isBold="true"/>
 								</textElement>
-								<text><![CDATA[Nº Hoja salida alm.]]></text>
+								<text><![CDATA[Cantidad]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell height="17" rowSpan="1">
