@@ -138,9 +138,9 @@ class edi_export (orm.TransientModel):
         if not invoice.company_id.edi_rm:
             errors += _('The company %s not have trade register defined.\n') % \
                 invoice.company_id.name
-        if not invoice.partner_id.vat:
+        if not invoice.partner_id.commercial_partner_id.vat:
             errors += _('The partner %s not have vat.\n') % \
-                invoice.partner_id.name
+                invoice.partner_id.commercial_partner_id.name
         if not invoice.company_id.partner_id.vat:
             errors += _('The partner %s not have vat.\n') % \
                 invoice.company_id.partner_id.name
@@ -181,7 +181,7 @@ class edi_export (orm.TransientModel):
             if not line.product_id.ean13:
                 errors += _('The product %s not have EAN.\n') % \
                     line.product_id.name
-            if invoice.partner_id.edi_date_required and not \
+            if invoice.partner_id.commercial_partner_id.edi_date_required and not \
                     line.stock_move_id.date_expected:
                 errors += _('the line %s requires date expected in the move.') % line.product_id.name
             '''if not line.stock_move_id.procurement_id.sale_line_id:
@@ -260,7 +260,7 @@ class edi_export (orm.TransientModel):
             address_data += self.parse_string(address.street, 35)
             address_data += self.parse_string(address.city, 35)
             address_data += self.parse_string(address.zip, 9)
-            address_data += self.parse_string(address.vat, 17)
+            address_data += self.parse_string(address.commercial_partner_id.vat, 17)
             return address_data
 
         invoice_data = 'CAB'
@@ -295,9 +295,9 @@ class edi_export (orm.TransientModel):
         # Hay una excepción para El Corte Inglés. En las facturas enviamos el código departamento interno en lugar de la sección.
         # En en fichero se sigue enviando también en la posición original el departamento interno, aunque en el mapeo de generix no se tiene en cuenta
         if invoice.partner_id.edi_filename == u'ECI':
-            invoice_data += self.parse_string(invoice.partner_id.department_code_edi, 9)
+            invoice_data += self.parse_string(invoice.partner_id.commercial_partner_id.department_code_edi, 9)
         else:
-            invoice_data += self.parse_string(invoice.partner_id.section_code, 9)
+            invoice_data += self.parse_string(invoice.partner_id.commercial_partner_id.section_code, 9)
 
         # texto libre
         #invoice_data += self.parse_string(invoice.comment and invoice.comment.replace('\n','').replace('\r',''), 131)
@@ -390,7 +390,7 @@ class edi_export (orm.TransientModel):
         invoice_data += parse_address(invoice.partner_id.commercial_partner_id, gln_co)
 
         # código de departamento interno
-        invoice_data += self.parse_string(invoice.partner_id.department_code_edi, 3)
+        invoice_data += self.parse_string(invoice.partner_id.commercial_partner_id.department_code_edi, 3)
 
         # receptor de la mercancia
         invoice_data += parse_address(invoice.picking_ids and invoice.picking_ids[0].partner_id or invoice.partner_id, gln_rm)
@@ -453,7 +453,7 @@ class edi_export (orm.TransientModel):
             uos_id = line.uos_id.id
             uom_id = line.product_id.uom_id.id
             line_qty = t_uom._compute_qty(cr, uid, uos_id, qty, uom_id)
-            if line.partner_id.edi_uos_as_uom_on_kgm_required:
+            if line.partner_id.commercial_partner_id.edi_uos_as_uom_on_kgm_required:
                 kgm_uom = self.pool.get('ir.model.data').xmlid_to_res_id(cr, uid, 'product.product_uom_kgm')
                 if uom_id == kgm_uom:
                     line_qty = t_uom._compute_qty(cr, uid, uos_id, qty, (line.product_id.uos_id and line.product_id.uos_id.id or uos_id))
@@ -514,7 +514,7 @@ class edi_export (orm.TransientModel):
                 line_data += 'EXT' + ' ' * 23
 
             # fecha de entrega
-            if line.stock_move_id.date_expected and line.partner_id.edi_date_required:
+            if line.stock_move_id.date_expected and line.partner_id.commercial_partner_id.edi_date_required:
                 line_data += self.parse_short_date(line.stock_move_id.picking_id.date_done[:10])
             else:
                 line_data += self.parse_string(False, 8)
@@ -720,15 +720,15 @@ class edi_export (orm.TransientModel):
         for obj in self.pool.get(context['active_model']).browse(cr, uid, context['active_ids']):
             if not obj.company_id.edi_code:
                 raise orm.except_orm(_('Company error'), _('Edi code not established in company'))
-            if not obj.partner_id.edi_filename:
+            if not obj.partner_id.commercial_partner_id.edi_filename:
                 raise orm.except_orm(_('Partner error'), _('Edi filename not established in partner'))
             elif context['active_model'] == u'stock.picking':
-                file_name = '%s%sEDI%s%s%s.ASC' % (path,os.sep, obj.company_id.edi_code, obj.name.replace('/','').replace('\\',''), obj.partner_id.edi_filename)
+                file_name = '%s%sEDI%s%s%s.ASC' % (path,os.sep, obj.company_id.edi_code, obj.name.replace('/','').replace('\\',''), obj.partner_id.commercial_partner_id.edi_filename)
                 self.parse_picking(obj, file_name)
             elif context['active_model'] == u'account.invoice':
                 if obj.state not in ('open', 'paid'):
                     raise orm.except_orm(_('Invoice error'), _('Validate the invoice before.'))
-                file_name = '%s%sINV%s%s%s.ASC' % (path,os.sep, obj.company_id.edi_code, obj.number.replace('/','').replace('\\',''), obj.partner_id.edi_filename)
+                file_name = '%s%sINV%s%s%s.ASC' % (path,os.sep, obj.company_id.edi_code, obj.number.replace('/','').replace('\\',''), obj.partner_id.commercial_partner_id.edi_filename)
                 self.parse_invoice(cr, uid, obj, file_name)
             self.create_doc(cr, uid, wizard.id, obj, file_name, context)
             data_pool = self.pool.get('ir.model.data')
