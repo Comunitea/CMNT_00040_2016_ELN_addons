@@ -4,9 +4,6 @@
 
 from openerp import api, models, fields
 from openerp.tools import float_compare as f_c
-from openerp.tools import float_round as f_r
-from openerp.tools.translate import _
-from openerp.exceptions import except_orm
 
 
 class StockPicking(models.Model):
@@ -112,58 +109,7 @@ class StockMove(models.Model):
 
         # Action done will force the unreserve quants
         res = super(StockMove, self).action_done()
-
-        # for move in moves_to_check:
-        #     orig_move = self._get_original_move_from_procurement(move)
-        #     # Group qty to reserve in lots
-        #     q2transit = {}
-        #     quant2force = []
-        #     for q in move.quant_ids:
-        #         if q.qty < 0:
-        #             if q.lot_id.id not in q2transit:
-        #                 q2transit[q.lot_id.id] = 0.0
-        #             q2transit[q.lot_id.id] += abs(q.qty)
-        #     if orig_move:
-        #         quant2force = self._reserve_quants_to_transit(orig_move,
-        #                                                       q2transit)
-        #     if quant2force:
-        #         ctx = move._context.copy()
-        #         ctx.update(forced_quants=quant2force)
-        #         new_orig_move = self.sudo().with_context(ctx).\
-        #             browse(orig_move.id)
-        #         new_orig_move.action_assign()  # reserve the forced quants
         return res
-
-    # @api.multi
-    # def _get_quants_from_negatives(self):
-    #     res = []
-    #     import ipdb; ipdb.set_trace
-    #     for transit_move in self:
-    #         move = self.sudo().browse(transit_move.id)
-    #         if not move.move_dest_id:
-    #             raise except_orm(_('Error'), _('No destination move.'))
-    #         search_loc = move.move_dest_id.location_dest_id
-    #         domain = [
-    #             ('qty', '<', 0),
-    #             ('location_id', '=', search_loc.id),
-    #             ('product_id', '=', move.product_id.id)
-    #             ('reservation_id', = False)
-    #         ]
-    #         quant_objs = self.env['stock.quant'].search(domain)
-    #         assigned_qty = 0
-    #         rst_qty = move.product_uom_qty
-    #         rounding = move.product_id.uom_id.rounding
-    #         for q in quant_objs:
-    #             fc2 = f_c(rst_qty, q.qty, precision_rounding=rounding)
-    #             if fc2 != -1:  # quant qty enougth
-    #                 res.append((q, q.qty))
-    #                 assigned_qty += q.qty
-    #                 break
-    #             else:  # quant qty less than needed
-    #                 res.append((q, rst_qty))
-    #                 assigned_qty += rst_qty
-    #             rst_qty -= assigned_qty
-    #     return res
 
     @api.multi
     def action_assign(self):
@@ -176,12 +122,6 @@ class StockMove(models.Model):
                 ctx.update(special_assign=True)
                 rec = self.with_context(ctx).browse(move.id)
 
-            # elif move.picking_id.auto_transit:
-            #     move.do_unreserve()
-            #     ctx = self._context.copy()
-            #     forced_quants = move._get_quants_from_negatives()
-            #     ctx.update(forced_quants=forced_quants)
-            #     rec = self.with_context(ctx).browse(move.id)
             res = super(StockMove, rec).action_assign()
         return res
 
@@ -196,6 +136,7 @@ class StockMove(models.Model):
             domain = [
                 ('product_id', '=', prod.id),
                 ('location_id', '=', orig_move.location_id.id),
+                ('reservation_id', '=', False),
                 ('qty', '>', 0.0)]
             quants_objs = t_quant_su.search(domain)
             assigned_qty = 0
@@ -210,6 +151,11 @@ class StockMove(models.Model):
                     res.append((q, rst_qty))
                     assigned_qty += rst_qty
                 rst_qty -= assigned_qty
+
+        print "***************************************************************"
+        print "_get_quants_to_transit: res"
+        print res
+        print "***************************************************************"
         return res
 
 
@@ -238,6 +184,10 @@ class StockQuant(models.Model):
         """
         # Quants already calculed will be returned
         if self._context.get('forced_quants', []):
+            print "***********************************************************"
+            print "apply_removal_strategy: forced_quants"
+            print self._context['forced_quants']
+            print "***********************************************************"
             return self._context['forced_quants']
         ctx = self._context.copy()
         ctx.update(force_company=location.company_id.id)
@@ -250,16 +200,17 @@ class StockQuant(models.Model):
             return res
 
         to_check_qty = 0.0
+        recs_to_remove = []
         for record in res:
             if record[0] is None:
                 to_check_qty += record[1]
-                res.remove(record)
+                recs_to_remove.append(record)
 
         t_proc = self.env['procurement.order']
         orig_loc_id = t_proc._get_origin_location_route(product, location)
-        # import ipdb;ipdb.set_trace()
         if to_check_qty and orig_loc_id:
-
+            for r in recs_to_remove:
+                res.remove(r)
             orig_loc = self.env['stock.location'].sudo().browse(orig_loc_id)
             self_su = \
                 self.sudo().with_context(force_company=orig_loc.company_id.id)
@@ -269,6 +220,10 @@ class StockQuant(models.Model):
             res2 = self_su._quants_get_order(orig_loc, product, to_check_qty,
                                              domain)
             res.extend(res2)
+        print "***********************************************************"
+        print "apply_removal_strategy: res"
+        print res
+        print "***********************************************************"
         return res
 
     @api.multi
@@ -295,8 +250,11 @@ class StockQuant(models.Model):
             if q.lot_id not in res[q.product_id]:
                 res[q.product_id][q.lot_id] = 0.0
             res[q.product_id][q.lot_id] += abs(q.qty)
+        print "***********************************************************"
+        print "_search_negative_quants_qty: res"
+        print res
+        print "***********************************************************"
         return res
-
 
 
 class StockPickingType(models.Model):

@@ -19,7 +19,6 @@ class ReserveTransitWzd(models.TransientModel):
         q2transit = {}
         for loc in stock_locs:
             q2transit = t_quant._search_negative_quants_qty(loc)
-            import ipdb; ipdb.set_trace()
             for prod in q2transit:
                 orig_loc_id = self.env['procurement.order'].\
                     _get_origin_location_route(prod, loc)
@@ -51,4 +50,8 @@ class ReserveTransitWzd(models.TransientModel):
             ('state', '=', 'confirmed')
         ]
         res = t_move_su.search(domain)
+        print "*************************************************************"
+        print "_get_original_move_from_procurement: RES"
+        print res
+        print "*************************************************************"
         return res
