@@ -244,9 +244,6 @@
                         domain="[('state','=','closed')]"/>
                 </filter>
                 <filter string="Late" position="after">
-                    <newline/>
-                </filter>
-                <filter string="Late" position="before">
                     <separator orientation="vertical"/>
                     <filter icon="terp-go-today" string="Yesterday" name="yesterday" domain="['&amp;',
                     ('date_planned', '&gt;=', (datetime.date.today()+datetime.timedelta(days=-1)).strftime('%%Y-%%m-%%d 00:00:00')),
@@ -257,6 +254,9 @@
                     <filter icon="terp-go-today" string="Tomorrow" name="tomorrow" domain="['&amp;',
                     ('date_planned', '&gt;=', (datetime.date.today()+datetime.timedelta(days=1)).strftime('%%Y-%%m-%%d 00:00:00')),
                     ('date_planned', '&lt;=', (datetime.date.today()+datetime.timedelta(days=1)).strftime('%%Y-%%m-%%d 23:59:59'))]"/>
+                </filter>
+                <filter string="Scheduled Month" position="after">
+                    <filter string="Work Center" icon="terp-go-month" domain="[]" context="{'group_by':'workcenter_id'}"/>
                 </filter>
             </field>
         </record>
@@ -277,6 +277,7 @@
                     <field name="hour_total" sum="Total Hours" groups="base.group_extended"/>
                     <field name="cycle_total" sum="Total Cycles" groups="base.group_extended"/>
                     <field name="origin"/>
+                    <field name="priority"/>
                     <field name="state"/>
                 </tree>
             </field>
@@ -431,6 +432,93 @@
                     <field name="qty"/>
                     <field name="hour"/>
                 </calendar>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_mrp_production_kanban">
+            <field name="name">mrp.production.kanban</field>
+            <field name="model">mrp.production</field>
+            <field name="type">kanban</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="workcenter_id" default_order="priority desc, date_planned desc" edit="false" quick_create="false">
+                    <field name="name"/>
+                    <field name="product_id"/>
+                    <field name="product_qty"/>
+                    <field name="product_uom"/>
+                    <field name="product_uos_qty"/>
+                    <field name="product_uos"/>
+                    <field name="date_planned"/>
+                    <field name="priority"/>
+                    <field name="routing_id"/>
+                    <field name="state"/>
+                    <field name="color_production"/>
+                    <field name="hour_total" sum="Total Hours"/>
+                    <templates>
+                         <t t-name="kanban-box">
+                           <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color_production.raw_value || record.state.raw_value)} oe_kanban_card">
+                               <div class="oe_dropdown_toggle oe_dropdown_kanban" groups="mrp.group_mrp_manager">
+                                   <span class="oe_e">í</span>
+                                   <ul class="oe_dropdown_menu">
+                                       <t t-if="widget.view.is_action_enabled('edit')"><li><a type="edit">Edit...</a></li></t>
+                                   </ul>
+                               </div>
+                               <div class="oe_kanban_box oe_kanban_color_border">
+                                   <h4 class="text-center"><strong><field name="name"/></strong></h4>
+                                     <div class="oe_kanban_box_content oe_kanban_color_bglight oe_kanban_box_show_onclick_trigger oe_kanban_color_border">
+                                        <div>
+                                            <b><field name="product_id"/></b>
+                                        </div>
+                                        <div>
+                                            <b>Quantity:</b>
+                                        </div>
+                                        <div>
+                                            <field name="product_qty"/> <field name="product_uom"/>
+                                        </div>
+                                        <div>
+                                            <field name="product_uos_qty"/> <field name="product_uos"/>
+                                        </div>
+                                        <!--<div>
+                                            <b>Ruta: </b><field name="routing_id"/>
+                                        </div>-->
+                                        <div>
+                                            <b>Tiempo: </b><field name="hour_total"/>
+                                        </div>
+                                        <div>
+                                            <b>Fecha: </b><field name="date_planned"/>
+                                        </div>
+                                        <div>
+                                            <b>Priority: </b><field name="priority"/>
+                                        </div>
+                                        <div>
+                                            <b>State: </b><field name="state"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="mrp.mrp_production_action_planning" model="ir.actions.act_window">
+            <field name="name">Manufacturing Orders</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">mrp.production</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,calendar,tree,form,graph</field>
+            <field name="domain">[('state','in',('ready','confirmed','in_production'))]</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to start a new manufacturing order. 
+              </p><p>
+                A manufacturing order, based on a bill of materials, will
+                consume raw materials and produce finished products.
+              </p><p>
+                Manufacturing orders are usually proposed automatically based
+                on customer requirements or automated rules like the minimum
+                stock rule.
+              </p>
             </field>
         </record>
 
