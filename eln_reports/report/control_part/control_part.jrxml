@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="control_part" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="133"/>
 	<style name="Crosstab Data Text" hAlign="Center" lineSpacing="Single"/>
 	<subDataset name="DS_workcenter_lines">
 		<parameter name="PRODUCTION_ID" class="java.lang.Integer"/>
@@ -145,7 +145,7 @@
 	<field name="Logo-logo" class="java.lang.String">
 		<fieldDescription><![CDATA[Usuario-User/Compania-company_id/Logo-logo]]></fieldDescription>
 	</field>
-	<group name="Production" isStartNewPage="true" isResetPageNumber="true">
+	<group name="Production" isStartNewPage="true" isResetPageNumber="true" isReprintHeaderOnEachPage="true">
 		<groupExpression><![CDATA[$F{id}]]></groupExpression>
 		<groupHeader>
 			<band height="230">
@@ -530,14 +530,7 @@
 			</band>
 		</groupHeader>
 		<groupFooter>
-			<band height="89">
-				<staticText>
-					<reportElement positionType="Float" x="202" y="68" width="78" height="16"/>
-					<textElement textAlignment="Right" verticalAlignment="Middle" lineSpacing="Single">
-						<font size="7" isBold="false"/>
-					</textElement>
-					<text><![CDATA[Página]]></text>
-				</staticText>
+			<band height="70">
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 					<reportElement positionType="Float" x="1" y="18" width="553" height="45"/>
 					<box>
@@ -550,13 +543,6 @@
 						<font size="7" isBold="false"/>
 					</textElement>
 					<textFieldExpression class="java.lang.String"><![CDATA[$F{Comentarios__ficha_producto-comments_sheet}]]></textFieldExpression>
-				</textField>
-				<textField>
-					<reportElement positionType="Float" x="285" y="68" width="27" height="16"/>
-					<textElement verticalAlignment="Middle" lineSpacing="Single">
-						<font size="7"/>
-					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement positionType="Float" x="0" y="0" width="555" height="13"/>
@@ -619,9 +605,9 @@
 								<text><![CDATA[  Productos consumidos]]></text>
 							</staticText>
 						</jr:columnHeader>
-						<jr:detailCell height="17" rowSpan="1">
+						<jr:detailCell height="50" rowSpan="1">
 							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement positionType="Float" x="0" y="0" width="200" height="17"/>
+								<reportElement positionType="Float" x="0" y="0" width="200" height="50"/>
 								<box>
 									<leftPen lineWidth="0.25"/>
 									<bottomPen lineWidth="0.25"/>
@@ -648,9 +634,9 @@
 								<text><![CDATA[Cantidad teórica]]></text>
 							</staticText>
 						</jr:columnHeader>
-						<jr:detailCell height="17" rowSpan="1">
+						<jr:detailCell height="50" rowSpan="1">
 							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement positionType="Float" x="0" y="0" width="66" height="17"/>
+								<reportElement positionType="Float" x="0" y="0" width="66" height="50"/>
 								<box>
 									<leftPen lineWidth="0.25"/>
 									<bottomPen lineWidth="0.25"/>
@@ -678,9 +664,9 @@
 a producción]]></text>
 							</staticText>
 						</jr:columnHeader>
-						<jr:detailCell height="17" rowSpan="1">
+						<jr:detailCell height="50" rowSpan="1">
 							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement positionType="Float" x="0" y="0" width="70" height="17"/>
+								<reportElement positionType="Float" x="0" y="0" width="70" height="50"/>
 								<box>
 									<leftPen lineWidth="0.25"/>
 									<bottomPen lineWidth="0.25"/>
@@ -707,9 +693,9 @@ a producción]]></text>
 de producción]]></text>
 							</staticText>
 						</jr:columnHeader>
-						<jr:detailCell height="17" rowSpan="1">
+						<jr:detailCell height="50" rowSpan="1">
 							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement positionType="Float" x="0" y="0" width="70" height="17"/>
+								<reportElement positionType="Float" x="0" y="0" width="70" height="50"/>
 								<box>
 									<leftPen lineWidth="0.25"/>
 									<bottomPen lineWidth="0.25"/>
@@ -736,9 +722,9 @@ de producción]]></text>
 								<text><![CDATA[Lote]]></text>
 							</staticText>
 						</jr:columnHeader>
-						<jr:detailCell height="17" rowSpan="1">
+						<jr:detailCell height="50" rowSpan="1">
 							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement positionType="Float" x="0" y="0" width="151" height="17"/>
+								<reportElement positionType="Float" x="0" y="0" width="151" height="50"/>
 								<box>
 									<leftPen lineWidth="0.25"/>
 									<bottomPen lineWidth="0.25"/>
@@ -966,6 +952,24 @@ de producción]]></text>
 			</textField>
 		</band>
 	</detail>
+	<pageFooter>
+		<band height="24">
+			<textField evaluationTime="Group" evaluationGroup="Production">
+				<reportElement positionType="Float" x="293" y="4" width="31" height="16"/>
+				<textElement verticalAlignment="Middle" lineSpacing="Single">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="222" y="4" width="70" height="16"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle" lineSpacing="Single">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Página " + $V{PAGE_NUMBER} + " de"]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
 	<summary>
 		<band height="144" splitType="Immediate">
 			<break>

@@ -48,6 +48,7 @@
               'eln_reports.xml',
               'stock_view.xml',
               'report/out_picking_report_view.xml',
+              'views/layouts_custom.xml',
              ],
 
     "demo_xml": [],

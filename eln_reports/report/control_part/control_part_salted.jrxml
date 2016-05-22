@@ -841,10 +841,10 @@ limpieza]]></text>
 						</datasetParameter>
 						<dataSourceExpression><![CDATA[$P{TABLE_LINES_LISTA_MATERIALES_SALADO}]]></dataSourceExpression>
 					</datasetRun>
-					<jr:column width="250">
+					<jr:column width="200">
 						<jr:columnHeader height="16" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="250" height="16"/>
+								<reportElement x="0" y="0" width="200" height="16"/>
 								<box>
 									<topPen lineWidth="0.25"/>
 									<leftPen lineWidth="0.25"/>
@@ -858,7 +858,7 @@ limpieza]]></text>
 						</jr:columnHeader>
 						<jr:detailCell height="17" rowSpan="1">
 							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement positionType="Float" x="0" y="0" width="250" height="17"/>
+								<reportElement positionType="Float" x="0" y="0" width="200" height="17"/>
 								<box>
 									<leftPen lineWidth="0.25"/>
 									<bottomPen lineWidth="0.25"/>
@@ -870,10 +870,10 @@ limpieza]]></text>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="153">
+					<jr:column width="89">
 						<jr:columnHeader height="16" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="153" height="16"/>
+								<reportElement x="0" y="0" width="89" height="16"/>
 								<box>
 									<topPen lineWidth="0.25"/>
 									<leftPen lineWidth="0.25"/>
@@ -883,12 +883,12 @@ limpieza]]></text>
 								<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
 									<font size="7" isBold="true"/>
 								</textElement>
-								<text><![CDATA[Cantidad usada]]></text>
+								<text><![CDATA[Origen]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell height="17" rowSpan="1">
 							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement positionType="Float" x="0" y="0" width="153" height="17"/>
+								<reportElement positionType="Float" x="0" y="0" width="89" height="17"/>
 								<box>
 									<leftPen lineWidth="0.25"/>
 									<bottomPen lineWidth="0.25"/>
@@ -898,10 +898,38 @@ limpieza]]></text>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="153">
+					<jr:column width="89">
 						<jr:columnHeader height="16" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="153" height="16"/>
+								<reportElement x="0" y="0" width="89" height="16"/>
+								<box>
+									<topPen lineWidth="0.25"/>
+									<leftPen lineWidth="0.25"/>
+									<bottomPen lineWidth="0.25"/>
+									<rightPen lineWidth="0.25"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
+									<font size="7" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Proveedor]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="17" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement positionType="Float" x="0" y="0" width="89" height="17"/>
+								<box>
+									<leftPen lineWidth="0.25"/>
+									<bottomPen lineWidth="0.25"/>
+									<rightPen lineWidth="0.25"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single"/>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90">
+						<jr:columnHeader height="16" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="16"/>
 								<box>
 									<topPen lineWidth="0.25"/>
 									<leftPen lineWidth="0.25"/>
@@ -916,7 +944,35 @@ limpieza]]></text>
 						</jr:columnHeader>
 						<jr:detailCell height="17" rowSpan="1">
 							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement positionType="Float" x="0" y="0" width="153" height="17"/>
+								<reportElement positionType="Float" x="0" y="0" width="90" height="17"/>
+								<box>
+									<leftPen lineWidth="0.25"/>
+									<bottomPen lineWidth="0.25"/>
+									<rightPen lineWidth="0.25"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single"/>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="89">
+						<jr:columnHeader height="16" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="89" height="16"/>
+								<box>
+									<topPen lineWidth="0.25"/>
+									<leftPen lineWidth="0.25"/>
+									<bottomPen lineWidth="0.25"/>
+									<rightPen lineWidth="0.25"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
+									<font size="7" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Cantidad]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="17" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement positionType="Float" x="0" y="0" width="89" height="17"/>
 								<box>
 									<leftPen lineWidth="0.25"/>
 									<bottomPen lineWidth="0.25"/>
