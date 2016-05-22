@@ -183,7 +183,9 @@ class sale_order_import(orm.TransientModel):
                         'product_uom': product_obj.browse(cr, uid, [product_id[0]])[0].uom_id.id,
                         'pre_prodlot': ln[lot_i].strip() or False,
                     }
-                    line_id = sale_line_obj.create(cr, uid, values)
+                    c = context.copy()
+                    c.update(partner_id=partner.id, address_id=shipping_dir.id)
+                    line_id = sale_line_obj.create(cr, uid, values, c)
                     so = sale_obj.browse(cr, uid, order_id)
                     # Ahora voy a ejecutar los onchanges para actualizar valores
                     data = {}
