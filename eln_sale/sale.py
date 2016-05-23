@@ -153,7 +153,9 @@ class sale_order(orm.Model):
                                                                delivery_id,
                                                                context)
             res['value']['user_id'] = partner_ship.user_id and \
-                partner_ship.user_id.id or False
+                partner_ship.user_id.id or \
+                (partner_ship.commercial_partner_id.user_id and
+                    partner_ship.commercial_partner_id.user_id.id or False)
         return res
 
     def onchange_partner_id3(self, cr, uid, ids, part, early_payment_discount=False, payment_term=False, shop=False):
