@@ -93,31 +93,44 @@ from openerp.osv import orm, fields
 #         return price
 
 
-class stock_move(orm.Model):
+class StockMove(orm.Model):
     _inherit = 'stock.move'
 
     def _get_price_unit_invoice(self, cr, uid, move_line, type, context=None):
-        """ 
+        """
         Si el tipo de factura es de entrada y no tiene una compra asociada,
         obtenemos el precio de la tarifa del partner.
         """
         if context is None:
             context = {}
-
         if type in ('in_invoice', 'in_refund'):
-            if not (move_line.procurement_id and move_line.procurement_id.purchase_line_id and \
-                    move_line.procurement_id.purchase_line_id.product_id.id == move_line.product_id.id):
+            if move_line.location_id.usage == 'supplier' and \
+                    not move_line.purchase_line_id:
                 pricelist_obj = self.pool.get("product.pricelist")
-                pricelist = move_line.picking_id.partner_id.property_product_pricelist_purchase.id
+                pricelist = move_line.picking_id.partner_id.\
+                    property_product_pricelist_purchase.id
                 price = pricelist_obj.price_get(cr, uid, [pricelist],
-                        move_line.product_id.id, move_line.product_uom_qty, move_line.partner_id.id, {
-                            'uom': move_line.product_uom.id,
-                            'date': move_line.date,
-                            })[pricelist]
-                if price:# Escribimos el precio unitario, para que en el super al entrar por el mismo if, lo devuelva.
+                                                move_line.product_id.id,
+                                                move_line.product_uom_qty,
+                                                move_line.partner_id.id,
+                                                {
+                                                'uom': move_line.
+                                                    product_uom.id,
+                                                'date': move_line.date,
+                                                })[pricelist]
+                if price:
+                    # Escribimos el precio unitario, para que en el super
+                    # al entrar por el mismo if, lo devuelva.
                     move_line.write({'price_unit': price})
-        else:  # Escribir el partner en el movimiento para que el super sea capaz de calcularlo
-            if not (move_line.procurement_id and move_line.procurement_id.sale_line_id and \
-                    move_line.procurement_id.sale_line_id.product_id.id == move_line.product_id.id):
-                move_line.write({'partner_id': move_line.picking_id and move_line.picking_id.partner_id and move_line.picking_id.partner_id.id or False})
-        return super(stock_move, self)._get_price_unit_invoice(cr, uid, move_line, type, context=context)
+        else:
+            # Escribir el partner en el movimiento para que el super
+            # sea capaz de calcularlo
+            if not move_line.procurement_id.sale_line_id and \
+                    not move_line.partner_id:
+                part_id = move_line.picking_id.partner_id and \
+                    move_line.picking_id.partner_id.id or False
+                move_line.write({'partner_id': part_id})
+        return super(StockMove, self)._get_price_unit_invoice(cr, uid,
+                                                              move_line,
+                                                              type,
+                                                              context=context)
