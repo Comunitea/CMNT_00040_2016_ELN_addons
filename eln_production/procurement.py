@@ -26,7 +26,7 @@ class procurement_order(osv.osv):
 
     def _prepare_mo_vals(self, cr, uid, procurement, context=None):
         res = super(procurement_order, self)._prepare_mo_vals(cr, uid, procurement, context=context)
-        if not res.get('priority', False):
+        if res:
             product_obj = self.pool.get('product.product')
             virtual_available = product_obj._product_available(cr, uid, [procurement.product_id.id],
                 context={'location': procurement.location_id.id})[procurement.product_id.id]['virtual_available']
