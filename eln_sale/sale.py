@@ -23,6 +23,7 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from openerp.tools.translate import _
 import time
+from openerp import api
 
 
 class sale_order(orm.Model):
@@ -138,6 +139,11 @@ class sale_order(orm.Model):
         if dedicated_salesman:
             res['value']['user_id'] = dedicated_salesman
         return res
+
+    @api.onchange('partner_shipping_id')
+    def onchange_partner_shipping_id(self):
+        if self.partner_shipping_id:
+            self.user_id = self.partner_shipping_id.user_id.id
 
     def onchange_partner_id3(self, cr, uid, ids, part, early_payment_discount=False, payment_term=False, shop=False):
         """extend this event for change the pricelist when the shop is to indirect invoice"""
