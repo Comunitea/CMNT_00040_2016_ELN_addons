@@ -140,10 +140,21 @@ class sale_order(orm.Model):
             res['value']['user_id'] = dedicated_salesman
         return res
 
-    @api.onchange('partner_shipping_id')
-    def onchange_partner_shipping_id(self):
-        if self.partner_shipping_id:
-            self.user_id = self.partner_shipping_id.user_id.id
+    def onchange_delivery_id(self, cr, uid, ids, company_id, partner_id,
+                             delivery_id, fiscal_position, context=None):
+        res = super(sale_order, self).onchange_delivery_id(cr, uid, ids,
+                                                           company_id,
+                                                           partner_id,
+                                                           delivery_id,
+                                                           fiscal_position,
+                                                           context=context)
+        if delivery_id:
+            partner_ship = self.pool.get('res.partner').browse(cr, uid,
+                                                               delivery_id,
+                                                               context)
+            res['value']['user_id'] = partner_ship.user_id and \
+                partner_ship.user_id.id or False
+        return res
 
     def onchange_partner_id3(self, cr, uid, ids, part, early_payment_discount=False, payment_term=False, shop=False):
         """extend this event for change the pricelist when the shop is to indirect invoice"""
