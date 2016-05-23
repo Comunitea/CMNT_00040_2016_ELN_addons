@@ -31,7 +31,7 @@ class procurement_order(osv.osv):
             virtual_available = product_obj._product_available(cr, uid, [procurement.product_id.id],
                 context={'location': procurement.location_id.id})[procurement.product_id.id]['virtual_available']
             if virtual_available <= 0:
-                res.update(priority='3')
+                res.update(priority='2')
         return res
         
 procurement_order()
