@@ -14,9 +14,16 @@ class ElnSaleReportXlsWzd(models.TransientModel):
     @api.multi
     def get_pick_values(self, pick):
         base = pur_price = kg = 0.0
+        c = self._context.copy()
+        company_id = pick.company_id.id
+        c.update(company_id=company_id,
+                 force_company=company_id)
+        t_product = self.env['product.product'].with_context(c)
         for move in pick.move_lines:
+            product = t_product.browse(move.product_id.id)
+            standard_price = product.standard_price
             kg += move.product_id.weight_net * move.product_uom_qty
-            pur_price += move.product_id.standard_price * move.product_uom_qty
+            pur_price += standard_price * move.product_uom_qty
             base += move.price_subtotal
         return base, pur_price, kg
 
