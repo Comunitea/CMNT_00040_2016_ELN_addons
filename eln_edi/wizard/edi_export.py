@@ -59,7 +59,7 @@ class edi_export (orm.TransientModel):
                 doc_type = sale_order_id = picking_id = invoice_id = False
 
             if context['active_model'] == u'sale.order':
-                name = obj.name and obj.name.replace('/', '') or '/'
+                name = str(obj.id) + ' - ' + obj.number
                 gln_ef = obj.partner_id.gln_ef
                 gln_ve = obj.company_id.partner_id.gln_ve
                 gln_co = obj.partner_invoice_id.gln_co
@@ -67,7 +67,7 @@ class edi_export (orm.TransientModel):
                 doc_type = 'ordrsp'
                 sale_order_id = obj.id
             elif context['active_model'] == u'stock.picking':
-                name = obj.name and obj.name.replace('/', '') or '/'
+                name = str(obj.id) + ' - ' + obj.number
                 gln_ef = obj.company_id.partner_id.gln_ef
                 gln_ve = obj.company_id.partner_id.gln_ve
                 gln_de = obj.partner_id.gln_de
@@ -77,7 +77,7 @@ class edi_export (orm.TransientModel):
                 doc_type = 'desadv'
                 picking_id = obj.id
             elif context['active_model'] == u'account.invoice':
-                name = obj.name and obj.name.replace('/', '') or '/'
+                name = str(obj.id) + ' - ' + obj.number
                 gln_ef = obj.company_id.gln_ef
                 gln_ve = obj.company_id.gln_ve
                 gln_de = obj.picking_ids and obj.picking_ids[0].partner_id.gln_de or obj.partner_id.gln_de
