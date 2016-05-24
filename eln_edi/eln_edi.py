@@ -130,8 +130,14 @@ class res_partner(orm.Model):
     _inherit = 'res.partner'
 
     _columns = {
-        'section_code': fields.char('Section/Supplier or Branch', size=9,
-                                           help="Código de sección/proveedor o sucursal. Ejemplo: para Alcampo se refiere a la Sección/Proveedor(SSS/PPPPP)."),
+        'section_code': fields.property(
+            type='char', 
+            string="Section/Supplier or Branch", 
+            size=9,
+            method=True,
+            help="Código de sección/proveedor o sucursal. Ejemplo: para Alcampo se refiere a la Sección/Proveedor(SSS/PPPPP)."),
+        #'section_code': fields.char('Section/Supplier or Branch', size=9,
+        #                                   help="Código de sección/proveedor o sucursal. Ejemplo: para Alcampo se refiere a la Sección/Proveedor(SSS/PPPPP)."),
         'department_code_edi': fields.char('Internal department code', size=3,
                                            help="Internal department code for edi when required by customer. Only El Corte Inglés customer requires this code currently."),
         'product_marking_code': fields.char('Product marking instructions code', size=3,
