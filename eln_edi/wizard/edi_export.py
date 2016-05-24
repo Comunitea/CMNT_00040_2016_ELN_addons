@@ -59,7 +59,7 @@ class edi_export (orm.TransientModel):
                 doc_type = sale_order_id = picking_id = invoice_id = False
 
             if context['active_model'] == u'sale.order':
-                name = obj.name.replace(' ', '').replace('.', '')
+                name = obj.name and obj.name.replace('/', '') or '/'
                 gln_ef = obj.partner_id.gln_ef
                 gln_ve = obj.company_id.partner_id.gln_ve
                 gln_co = obj.partner_invoice_id.gln_co
@@ -67,7 +67,7 @@ class edi_export (orm.TransientModel):
                 doc_type = 'ordrsp'
                 sale_order_id = obj.id
             elif context['active_model'] == u'stock.picking':
-                name = obj.name.replace('/', '')
+                name = obj.name and obj.name.replace('/', '') or '/'
                 gln_ef = obj.company_id.partner_id.gln_ef
                 gln_ve = obj.company_id.partner_id.gln_ve
                 gln_de = obj.partner_id.gln_de
@@ -77,7 +77,7 @@ class edi_export (orm.TransientModel):
                 doc_type = 'desadv'
                 picking_id = obj.id
             elif context['active_model'] == u'account.invoice':
-                name = obj.name.replace('/', '')
+                name = obj.name and obj.name.replace('/', '') or '/'
                 gln_ef = obj.company_id.gln_ef
                 gln_ve = obj.company_id.gln_ve
                 gln_de = obj.picking_ids and obj.picking_ids[0].partner_id.gln_de or obj.partner_id.gln_de
@@ -156,22 +156,24 @@ class edi_export (orm.TransientModel):
             errors += _('The invoice not have date.\n')
         if not invoice.payment_mode_id.edi_code:
             errors += _('The invoice payment type is not defined or not have a edi code asigned.\n')
+        if not invoice.origin:
+            errors += _('The invoice not have origin.\n')
 
-        if invoice.type == 'out_refund':
-            if not invoice.origin_invoices_ids and not \
-                    invoice.origin_invoice_ids[0].picking_ids:
-                errors += _('The invoice not have associated pickings.\n')
-            if not invoice.origin_invoices_ids and not \
-                    invoice.origin_invoice_ids[0].sale_order_ids:
-                errors += _('The invoice not have associated pickings.\n')
-        else:
-            if not invoice.picking_ids:
-                errors += _('The invoice not have associated pickings.\n')
-            if not invoice.sale_order_ids:
-                errors += _('The invoice not have associated sales.\n')
-        if invoice.type == 'out_refund':
-            if not invoice.origin_invoices_ids:
-                errors += _('The refund invoice not have an original associated.\n')
+        #if invoice.type == 'out_refund':
+        #    if not invoice.origin_invoices_ids and not \
+        #            invoice.origin_invoices_ids[0].picking_ids:
+        #        errors += _('The invoice not have associated pickings.\n')
+        #    if not invoice.origin_invoices_ids and not \
+        #            invoice.origin_invoices_ids[0].sale_order_ids:
+        #        errors += _('The invoice not have associated pickings.\n')
+        #else:
+        #    if not invoice.picking_ids:
+        #        errors += _('The invoice not have associated pickings.\n')
+        #    if not invoice.sale_order_ids:
+        #        errors += _('The invoice not have associated sales.\n')
+        #if invoice.type == 'out_refund':
+        #    if not invoice.origin_invoices_ids:
+        #        errors += _('The refund invoice not have an original associated.\n')
 
         for line in invoice.invoice_line:
             if line.product_id.default_code == 'DPP':
@@ -324,15 +326,17 @@ class edi_export (orm.TransientModel):
                 # de entrega real (por un tercero por ejemplo)
                 # si va precedido de la palabra ALB.
                 numalb = False
-                if invoice.origin_invoices_ids[0].sale_order_ids:
+                if invoice.origin_invoices_ids and invoice.origin_invoices_ids[0].sale_order_ids:
                     numalb = invoice.origin_invoices_ids[0].sale_order_ids[0].origin
                     if numalb and len(numalb) > 4 and numalb[:4].upper() == 'ALB.':
                         numalb = numalb[4:]
                     else:
                         numalb = False
                 if not numalb:
-                    if invoice.origin_invoices_ids[0].picking_ids:
+                    if invoice.origin_invoices_ids and invoice.origin_invoices_ids[0].picking_ids:
                         numalb = invoice.origin_invoices_ids[0].picking_ids[0].name
+                    else:
+                        numalb = invoice.origin
                 invoice_data += self.parse_string(numalb, 17)
             else:
                 # numero de albaran
@@ -349,17 +353,21 @@ class edi_export (orm.TransientModel):
                 if not numalb:
                     if invoice.picking_ids:
                         numalb = invoice.picking_ids[0].name
+                    else:
+                        numalb = invoice.origin
                 invoice_data += self.parse_string(numalb, 17)
             if invoice.type == 'out_refund':
                 # numero de pedido
-                invoice_data += self.parse_string(invoice.origin_invoices_ids[0].sale_order_ids[0].client_order_ref, 17)
+                numped = invoice.origin_invoices_ids and invoice.origin_invoices_ids[0].sale_order_ids and invoice.origin_invoices_ids[0].sale_order_ids[0].client_order_ref
+                invoice_data += self.parse_string(numped, 17)
             else:
                 # numero de pedido
-                invoice_data += self.parse_string(invoice.sale_order_ids[0].client_order_ref, 17)
+                numped = invoice.sale_order_ids and invoice.sale_order_ids[0].client_order_ref
+                invoice_data += self.parse_string(numped, 17)
 
         # si es rectificativa se añade el numero de factura original.
         if invoice.type == 'out_refund':
-            invoice_data += self.parse_string(invoice.origin_invoices_ids[0].number, 17)
+            invoice_data += self.parse_string(invoice.origin_invoices_ids and invoice.origin_invoices_ids[0].number, 17)
         else:
             invoice_data += u' ' * 17
 
@@ -499,7 +507,7 @@ class edi_export (orm.TransientModel):
                 if line.stock_move_id.picking_id:
                     numalb = line.stock_move_id.picking_id.name
                 else:
-                    numalb = line.origin
+                    numalb = line.origin or invoice.origin
             line_data += self.parse_string(numalb, 17)
 
             # datos de los impuestos, únicamente del primero
