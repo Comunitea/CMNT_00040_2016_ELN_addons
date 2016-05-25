@@ -16,9 +16,12 @@ class ElnSaleReportXlsWzd(models.TransientModel):
         base = pur_price = kg = 0.0
         c = self._context.copy()
         company_id = pick.company_id.id
+        user_company_id = self.env['res.users'].browse(self._uid).company_id.id
         c.update(company_id=company_id,
                  force_company=company_id)
         t_product = self.env['product.product'].with_context(c)
+        if company_id != user_company_id:
+            t_product = self.env['product.product'].sudo().with_context(c)
         for move in pick.move_lines:
             product = t_product.browse(move.product_id.id)
             standard_price = product.standard_price
@@ -69,23 +72,21 @@ class ElnSaleReportXlsWzd(models.TransientModel):
                 }
 
             base, pur_price, kg = self.get_pick_values(pick)
-
-            # From init to previous day of end date
-            if pick.min_date >= init_date and pick.min_date != end_date:
-                res[acc]['ld_base'] += base
-                res[acc]['ld_p_price'] += pur_price
-                res[acc]['ld_kg'] += kg
             # From init to Current days values
             if pick.min_date >= init_date and pick.min_date <= end_date:
                 res[acc]['base'] += base
                 res[acc]['p_price'] += pur_price
                 res[acc]['kg'] += kg
+            # From init to previous day of end date
+            if pick.min_date >= init_date and pick.min_date < end_date:
+                res[acc]['ld_base'] += base
+                res[acc]['ld_p_price'] += pur_price
+                res[acc]['ld_kg'] += kg
             # Last Year
             if pick.min_date >= ly_init_date and pick.min_date <= ly_end_date:
                 res[acc]['ly_base'] += base
                 res[acc]['ly_p_price'] += pur_price
                 res[acc]['ly_kg'] += kg
-
         return res
 
     @api.multi
