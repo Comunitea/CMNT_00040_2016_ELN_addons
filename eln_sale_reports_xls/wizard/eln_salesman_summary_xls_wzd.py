@@ -17,10 +17,13 @@ class ElnSaleSummaryXlsWzd(models.TransientModel):
     def get_pick_values(self, pick):
         cost = sale = 0.0
         c = self._context.copy()
+        user_company_id = self.env['res.users'].browse(self._uid).company_id.id
         company_id = pick.company_id.id
         c.update(company_id=company_id,
                  force_company=company_id)
         t_product = self.env['product.product'].with_context(c)
+        if company_id != user_company_id:
+            t_product = self.env['product.product'].sudo().with_context(c)
         for move in pick.move_lines:
             product = t_product.browse(move.product_id.id)
             standard_price = product.standard_price
