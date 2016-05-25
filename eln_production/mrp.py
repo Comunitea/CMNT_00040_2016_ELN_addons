@@ -599,6 +599,29 @@ class mrp_production(osv.osv):
 
     #     return res
 
+    def _get_workcenter_id(self, cr, uid, ids, name, args, context=None):
+        res = {}
+        for production in self.browse(cr, uid, ids, context=context):
+            res[production.id] = production.routing_id and production.routing_id.workcenter_lines and production.routing_id.workcenter_lines[0].workcenter_id.id
+            #res[production.id] = production.workcenter_lines and production.workcenter_lines[0].workcenter_id.id
+        return res
+    
+    def _get_color_production(self, cr, uid, ids, field_name, arg, context=None):
+        res = {}
+        if ids:
+            for production in self.browse(cr, uid, ids, context=context):
+                if production.priority == '0': #Prioridad no urgente
+                    res[production.id] = 3 #amarillo
+                elif production.priority == '1': #Prioridad normal
+                    res[production.id] = 4 #verde claro
+                elif production.priority == '2': #Prioridad urgente
+                    res[production.id] = 8 #violeta 
+                elif production.priority == '3': #Prioridad muy urgente
+                    res[production.id] = 9 #rosa fuerte
+                else:
+                    res[production.id] = 0 #blanco
+        return res
+
     _columns = {
         # 'operator_ids_str': fields.function(_get_operator_ids_str, method=True, string="Operators_ids_str", type="char", size=255),
         'date_planned': fields.datetime('Scheduled Date', required=True, select=1, copy=False),  #  Avoid Readonly
@@ -611,6 +634,10 @@ class mrp_production(osv.osv):
         'workcenter_lines': fields.one2many('mrp.production.workcenter.line', 'production_id', 'Work Centers Utilisation'),  # remove readonly state
         'origin': fields.char('Source Document', readonly=False,  states={'cancel':[('readonly', True)], 'done':[('readonly', True)]},
             help="Reference of the document that generated this production order request.", copy=False),
+        'workcenter_id': fields.function(_get_workcenter_id, method=True, store=True, 
+                                          type='many2one', relation='mrp.workcenter',
+                                          string='Work Center', help="Work center of the first operation of the route."), #Uso para operaciones de agrupacion, filtrado, etc.
+        'color_production': fields.function(_get_color_production, type="integer", string="Color production", readonly=True),
     }
 
     def modify_consumption(self, cr, uid, ids, context=None):

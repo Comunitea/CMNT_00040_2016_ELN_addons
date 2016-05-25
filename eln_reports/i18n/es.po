@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-28 09:10+0000\n"
-"PO-Revision-Date: 2016-04-28 11:24+0200\n"
+"POT-Creation-Date: 2016-05-20 14:19+0000\n"
+"PO-Revision-Date: 2016-05-20 16:24+0200\n"
 "Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -59,6 +59,11 @@ msgstr "Crédito disponible"
 #: view:purchase.order.report.wizard:eln_reports.purchase_order_report_wizard_view
 msgid "Cancel"
 msgstr "Cancelar"
+
+#. module: eln_reports
+#: help:res.users,edi_uos_as_uom_on_kgm_required:0
+msgid "Check if customer requires invoicing products with UoM kg interpreting UoM = UoS. (1 bag of 5 kg is 1 bag, not 5 kg)"
+msgstr "Marcar si el cliente requiere facturar productos con UdM kg interpretando UdM = UdV. (1 bolsa de 5 kg es 1 bolsa, no 5 kg)"
 
 #. module: eln_reports
 #: help:res.users,edi_date_required:0
@@ -170,6 +175,11 @@ msgstr "Plazo de pago de cliente"
 #: help:res.users,section_code:0
 msgid "Código de sección/proveedor o sucursal. Ejemplo: para Alcampo se refiere a la Sección/Proveedor(SSS/PPPPP)."
 msgstr "Código de sección/proveedor o sucursal. Ejemplo: para Alcampo se refiere a la Sección/Proveedor(SSS/PPPPP)."
+
+#. module: eln_reports
+#: report:addons/eln_reports/report/planning_report/planning_report_webkit.mako:28
+msgid "DUN-14/EAN-13"
+msgstr "DUN-14/EAN-13"
 
 #. module: eln_reports
 #: field:planning.report.wizard,date:0
@@ -399,7 +409,7 @@ msgstr "Facturas"
 #. module: eln_reports
 #: field:res.users,journal_item_count:0
 msgid "Journal Items"
-msgstr "Journal Items"
+msgstr "Apuntes contables"
 
 #. module: eln_reports
 #: model:ir.actions.report.xml,name:eln_reports.barcode_label
@@ -477,7 +487,7 @@ msgid "No header defined for this Webkit report!"
 msgstr "¡Ninguna cabecera definida para este informe de Webkit!"
 
 #. module: eln_reports
-#: code:addons/eln_reports/report/planning_report/planning_report_parser.py:55
+#: code:addons/eln_reports/report/planning_report/planning_report_parser.py:56
 #, python-format
 msgid "Page"
 msgstr "Página"
@@ -593,7 +603,7 @@ msgid "Product technique sheet"
 msgstr "Ficha técnica de producto"
 
 #. module: eln_reports
-#: report:addons/eln_reports/report/planning_report/planning_report_webkit.mako:28
+#: report:addons/eln_reports/report/planning_report/planning_report_webkit.mako:29
 msgid "Producto"
 msgstr "Producto"
 
@@ -618,12 +628,12 @@ msgid "Purchase order jasper"
 msgstr "Purchase order jasper"
 
 #. module: eln_reports
-#: report:addons/eln_reports/report/planning_report/planning_report_webkit.mako:29
+#: report:addons/eln_reports/report/planning_report/planning_report_webkit.mako:30
 msgid "Qty"
 msgstr "Cant."
 
 #. module: eln_reports
-#: report:addons/eln_reports/report/planning_report/planning_report_webkit.mako:31
+#: report:addons/eln_reports/report/planning_report/planning_report_webkit.mako:32
 msgid "Qty (UoS)"
 msgstr "Cant. (UdV)"
 
@@ -729,6 +739,11 @@ msgid "Supplier type"
 msgstr "Proveedor Tipo"
 
 #. module: eln_reports
+#: view:website:report.external_layout_header
+msgid "TIN:"
+msgstr "NIF:"
+
+#. module: eln_reports
 #: field:account.invoice.line,tax_str:0
 msgid "Tax"
 msgstr "Impuesto"
@@ -831,6 +846,11 @@ msgid "Total amount you have to pay to this supplier."
 msgstr "Importe total que debe pagar a este proveedor."
 
 #. module: eln_reports
+#: field:res.users,comercial:0
+msgid "Trade name"
+msgstr "Nombre comercial"
+
+#. module: eln_reports
 #: field:res.users,agent_type:0
 msgid "Type"
 msgstr "Tipo"
@@ -846,14 +866,19 @@ msgid "Uninvoiced Orders"
 msgstr "Pedidos de venta sin facturar"
 
 #. module: eln_reports
-#: report:addons/eln_reports/report/planning_report/planning_report_webkit.mako:30
+#: report:addons/eln_reports/report/planning_report/planning_report_webkit.mako:31
 msgid "UoM"
 msgstr "UdM"
 
 #. module: eln_reports
-#: report:addons/eln_reports/report/planning_report/planning_report_webkit.mako:32
+#: report:addons/eln_reports/report/planning_report/planning_report_webkit.mako:33
 msgid "UoS"
 msgstr "UdV"
+
+#. module: eln_reports
+#: field:res.users,edi_uos_as_uom_on_kgm_required:0
+msgid "Use UoS as UoM if UoM is kg"
+msgstr "Usar UdV como UdM si UdM es kg"
 
 #. module: eln_reports
 #: model:ir.model,name:eln_reports.model_res_users field:res.users,users:0
@@ -909,7 +934,7 @@ msgid "name"
 msgstr "name"
 
 #. module: eln_reports
-#: code:addons/eln_reports/report/planning_report/planning_report_parser.py:55
+#: code:addons/eln_reports/report/planning_report/planning_report_parser.py:56
 #, python-format
 msgid "of"
 msgstr "de"

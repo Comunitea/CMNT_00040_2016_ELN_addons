@@ -23,6 +23,7 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from openerp.tools.translate import _
 import time
+from openerp import api
 
 
 class sale_order(orm.Model):
@@ -137,6 +138,24 @@ class sale_order(orm.Model):
                 partner_ship.user_id.id or False
         if dedicated_salesman:
             res['value']['user_id'] = dedicated_salesman
+        return res
+
+    def onchange_delivery_id(self, cr, uid, ids, company_id, partner_id,
+                             delivery_id, fiscal_position, context=None):
+        res = super(sale_order, self).onchange_delivery_id(cr, uid, ids,
+                                                           company_id,
+                                                           partner_id,
+                                                           delivery_id,
+                                                           fiscal_position,
+                                                           context=context)
+        if delivery_id:
+            partner_ship = self.pool.get('res.partner').browse(cr, uid,
+                                                               delivery_id,
+                                                               context)
+            res['value']['user_id'] = partner_ship.user_id and \
+                partner_ship.user_id.id or \
+                (partner_ship.commercial_partner_id.user_id and
+                    partner_ship.commercial_partner_id.user_id.id or False)
         return res
 
     def onchange_partner_id3(self, cr, uid, ids, part, early_payment_discount=False, payment_term=False, shop=False):

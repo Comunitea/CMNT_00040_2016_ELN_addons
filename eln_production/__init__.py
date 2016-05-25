@@ -24,3 +24,4 @@ import stock_production_lot
 import stock_move_scrap
 import stock_move
 import wizard
+import procurement

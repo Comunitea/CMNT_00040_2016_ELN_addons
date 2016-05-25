@@ -97,7 +97,7 @@ class sale_order_import(orm.TransientModel):
                     if ln[sign_i] == '-' or ln[picking_i] == '': # Solo vamos a procesar lineas positivas y con numero de albaran
                         continue
                     if ln[picking_i] != old_picking: # Cabecera
-                        if (sale_obj.search(cr, uid, [('origin', '=', ln[picking_i]), ('state', '!=', 'cancel')]) or False): # Ya existe el albaran en el sistema
+                        if (sale_obj.search(cr, uid, [('origin', '=', ('ALB.' + ln[picking_i])), ('state', '!=', 'cancel')]) or False): # Ya existe el albaran en el sistema
                             _logger.info(_("Error: document '%s' is already in the system!") %(ln[picking_i]))
                             err_msg = _("Error processing sale with origin '%s': document is already in the system!") %(ln[picking_i])
                             if not (err_log.find(err_msg) >= 0):
@@ -139,7 +139,7 @@ class sale_order_import(orm.TransientModel):
                             'payment_mode_id': partner.customer_payment_mode.id,
                             'early_payment_discount': 0.0,
                             'user_id' : partner.user_id and partner.user_id.id or uid,
-                            'origin' : ln[picking_i],
+                            'origin' : ('ALB.' + ln[picking_i]),
                             'note': "",
                         }
                         order_id = sale_obj.create(cr, uid, values)
@@ -183,7 +183,9 @@ class sale_order_import(orm.TransientModel):
                         'product_uom': product_obj.browse(cr, uid, [product_id[0]])[0].uom_id.id,
                         'pre_prodlot': ln[lot_i].strip() or False,
                     }
-                    line_id = sale_line_obj.create(cr, uid, values)
+                    c = context.copy()
+                    c.update(partner_id=partner.id, address_id=shipping_dir.id)
+                    line_id = sale_line_obj.create(cr, uid, values, c)
                     so = sale_obj.browse(cr, uid, order_id)
                     # Ahora voy a ejecutar los onchanges para actualizar valores
                     data = {}

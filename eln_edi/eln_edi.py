@@ -32,22 +32,24 @@ class edi_doc(orm.Model):
     _columns = {
         'name': fields.char('Referencia', size=255, required=True),
         'file_name':fields.char('Nombre fichero', size=64),
-        'type': fields.selection([('orders','Pedido'),('ordrsp','Respuesta Pedido'),('desadv','Albarán'),('recadv','Confirmación mercancía'),('invoic','Factura')],'Tipo de documento', select=1),
+        'type': fields.selection([('orders', 'Pedido'), ('ordrsp', 'Respuesta Pedido'), 
+                                  ('desadv', 'Albarán'), ('recadv', 'Confirmación mercancía'), 
+                                  ('invoic', 'Factura')], 'Tipo de documento', select=1),
         'date': fields.datetime('Descargado el', size=255),
         'date_process': fields.datetime('Procesado el', size=255),
-        'status': fields.selection([('draft','Sin procesar'),('imported','Importado'),
-                                    ('export','Exportado'),('error','Con incidencias')],'Estado', select=1),
-        'sale_order_id': fields.many2one('sale.order','Pedido',ondelete='restrict'),
-        'picking_id' : fields.many2one('stock.picking','Albarán',ondelete='restrict'),
-        'invoice_id' : fields.many2one('account.invoice','Factura',ondelete='restrict'),
-        'send_date': fields.datetime('Fecha del último envío',select=1),
+        'status': fields.selection([('draft', 'Sin procesar'), ('imported', 'Importado'),
+                                    ('export', 'Exportado'), ('error', 'Con incidencias')], 'Estado', select=1),
+        'sale_order_id': fields.many2one('sale.order','Pedido', ondelete='restrict'),
+        'picking_id' : fields.many2one('stock.picking','Albarán', ondelete='restrict'),
+        'invoice_id' : fields.many2one('account.invoice','Factura', ondelete='restrict'),
+        'send_date': fields.datetime('Fecha del último envío', select=1),
         'message': fields.text('Mensaje'),
-        'gln_ef': fields.char('GLN Emisor Factura',size=60, help="GLN (Emisor del documento)"),
-        'gln_ve': fields.char('GLN Vendedor',size=60, help="GLN (Vendedor de la mercancía)"),
-        'gln_de': fields.char('GLN Destinatario',size=60, help="GLN (Destinatario de la factura / Quien paga)"),
-        'gln_rf': fields.char('GLN Receptor Factura',size=60, help="GLN (Receptor de la factura / A quien se factura)"),
-        'gln_co': fields.char('GLN Comprador',size=60, help="GLN (Comprador / Quien pide)"),
-        'gln_rm': fields.char('GLN Receptor Mercancía',size=60, help="GLN (Receptor de la mercancía / Quien recibe)"),
+        'gln_ef': fields.char('GLN Emisor Factura', size=60, help="GLN (Emisor del documento)"),
+        'gln_ve': fields.char('GLN Vendedor', size=60, help="GLN (Vendedor de la mercancía)"),
+        'gln_de': fields.char('GLN Destinatario', size=60, help="GLN (Destinatario de la factura / Quien paga)"),
+        'gln_rf': fields.char('GLN Receptor Factura', size=60, help="GLN (Receptor de la factura / A quien se factura)"),
+        'gln_co': fields.char('GLN Comprador', size=60, help="GLN (Comprador / Quien pide)"),
+        'gln_rm': fields.char('GLN Receptor Mercancía', size=60, help="GLN (Receptor de la mercancía / Quien recibe)"),
     }
     _order = 'date desc'
 
@@ -56,14 +58,14 @@ class edi_configuration(orm.Model):
     _name = "edi.configuration"
     _description = "Configuracion EDI"
     _columns = {
-        'name':fields.char('Nombre', size=255,required=True),
-        'salesman': fields.many2one('res.users','Comercial para los pedidos.', help="Seleccione el comercial que será asignado a todos los pedidos."),
+        'name':fields.char('Nombre', size=255, required=True),
+        'salesman': fields.many2one('res.users', 'Comercial para los pedidos.', help="Seleccione el comercial que será asignado a todos los pedidos."),
         'ftp_host': fields.char('Host', size=255),
-        'ftp_port': fields.char('Puerto', size=255, ),
+        'ftp_port': fields.char('Puerto', size=255),
         'ftp_user': fields.char('Usuario', size=255),
         'ftp_password': fields.char('Password', size=255),
-        'local_mode': fields.boolean('Modo local',help='Si es activado, el módulo no realizará conexiones al ftp. Sólo trabajará con los ficheros y documentos pendientes de importación.'),
-        'ftpbox_path': fields.char('Ruta ftpbox (Sin / al final)',size=255,required=True),
+        'local_mode': fields.boolean('Modo local', help='Si es activado, el módulo no realizará conexiones al ftp. Sólo trabajará con los ficheros y documentos pendientes de importación.'),
+        'ftpbox_path': fields.char('Ruta ftpbox (Sin / al final)', size=255, required=True),
     }
 
     def default_get(self, cr, uid, fields, context=None):
@@ -71,13 +73,12 @@ class edi_configuration(orm.Model):
         res.update({'local_mode': True})
         return res
 
-    def get_configuration(self,cr,uid,ids):
-
+    def get_configuration(self, cr, uid, ids):
         ids = self.pool.get('edi.configuration').search(cr, uid, [])
         if not ids:
             raise osv.except_osv(_("No hay una configuración EDI. "),_("Falta configuración"))
         else :
-            return pool.get('edi.configuration').browse(cr,uid,ids[0])
+            return pool.get('edi.configuration').browse(cr, uid, ids[0])
 
 
 # -------------------------- PERSONALIZACIONES CON CAMPOS DE EDI ------------------------------------
@@ -129,20 +130,28 @@ class res_partner(orm.Model):
     _inherit = 'res.partner'
 
     _columns = {
-        'section_code': fields.char('Section/Supplier or Branch', size=9,
-                                           help="Código de sección/proveedor o sucursal. Ejemplo: para Alcampo se refiere a la Sección/Proveedor(SSS/PPPPP)."),
+        'section_code': fields.property(
+            type='char', 
+            string="Section/Supplier or Branch", 
+            size=9,
+            method=True,
+            help="Código de sección/proveedor o sucursal. Ejemplo: para Alcampo se refiere a la Sección/Proveedor(SSS/PPPPP)."),
+        #'section_code': fields.char('Section/Supplier or Branch', size=9,
+        #                                   help="Código de sección/proveedor o sucursal. Ejemplo: para Alcampo se refiere a la Sección/Proveedor(SSS/PPPPP)."),
         'department_code_edi': fields.char('Internal department code', size=3,
                                            help="Internal department code for edi when required by customer. Only El Corte Inglés customer requires this code currently."),
         'product_marking_code': fields.char('Product marking instructions code', size=3,
                                            help="EDI (DESADV). Code specifying product marking instructions. Segment: PCI, Tag: 4233. Example: 36E, 17, ..."),
         'edi_date_required': fields.boolean('EDI lines requires picking date',
                                            help='Check if customer requires the picking date in the EDI lines of invoice.'),
+        'edi_uos_as_uom_on_kgm_required': fields.boolean('Use UoS as UoM if UoM is kg',
+                                           help='Check if customer requires invoicing products with UoM kg interpreting UoM = UoS. (1 bag of 5 kg is 1 bag, not 5 kg)'),
         'edi_filename': fields.char('EDI filename suffix', size=3,
                                            help='Partner suffix for edi filename.'),
-        'gln_de': fields.char('GLN Destinatario',size=13, help="GLN (Destinatario de la factura / Quien paga)"),
-        'gln_rf': fields.char('GLN Receptor Factura',size=13, help="GLN (Receptor de la factura / A quien se factura)"),
-        'gln_co': fields.char('GLN Comprador',size=13, help="GLN (Comprador / Quien pide)"),
-        'gln_rm': fields.char('GLN Receptor Mercancía',size=13, help="GLN (Receptor de la mercancía / Quien recibe)"),
+        'gln_de': fields.char('GLN Destinatario', size=13, help="GLN (Destinatario de la factura / Quien paga)"),
+        'gln_rf': fields.char('GLN Receptor Factura', size=13, help="GLN (Receptor de la factura / A quien se factura)"),
+        'gln_co': fields.char('GLN Comprador', size=13, help="GLN (Comprador / Quien pide)"),
+        'gln_rm': fields.char('GLN Receptor Mercancía', size=13, help="GLN (Receptor de la mercancía / Quien recibe)"),
     }
 
 
@@ -150,15 +159,18 @@ class payment_mode(orm.Model):
 
     _inherit = 'payment.mode'
     _columns = {
-        'edi_code': fields.selection([('42','A una cuenta bancaria'),('14E','Giro bancario'),('10','En efectivo'),('20','Cheque'),('60','Pagaré')],'Codigo EDI', select=1)
+        'edi_code': fields.selection([('42', 'A una cuenta bancaria'), ('14E', 'Giro bancario'),
+                                      ('10', 'En efectivo'), ('20', 'Cheque'),
+                                      ('60', 'Pagaré')], 'Codigo EDI', select=1)
     }
 
 class product_uom(orm.Model):
 
     _inherit = 'product.uom'
     _columns = {
-        'edi_code': fields.selection([('PCE','[PCE] Unidades'),('KGM','[KGM] Kilogramos'),
-                                    ('LTR','[LTR] Litros')],'Código EDI', select=1, help="Código para el tipo de UOM a incluir en el fichero EDI."),
+        'edi_code': fields.selection([('PCE', '[PCE] Unidades'), ('KGM', '[KGM] Kilogramos'),
+                                      ('LTR', '[LTR] Litros')], 'Código EDI', 
+                                     select=1, help="Código para el tipo de UOM a incluir en el fichero EDI. Si no se establece se usará [PCE]."),
     }
 
 '''class stock_picking(orm.Model):
@@ -230,8 +242,8 @@ class account_tax(orm.Model):
     _inherit = "account.tax"
 
     _columns = {
-        'edi_code': fields.selection([('VAT','[VAT] IVA'),('ENV','[ENV] Punto Verde'),
-                                    ('EXT','[EXT] Exento de IVA'),('ACT','[ACT] Impuesto de Alcoholes')],'Código impuesto para EDI', select=1,
+        'edi_code': fields.selection([('VAT', '[VAT] IVA'), ('ENV', '[ENV] Punto Verde'),
+                                    ('EXT', '[EXT] Exento de IVA'), ('ACT', '[ACT] Impuesto de Alcoholes')], 'Código impuesto para EDI', select=1,
                                      help="Código para el tipo de impuesto a incluir en el fichero EDI (si ninguno se usará VAT)."),
     }
 
@@ -336,30 +348,30 @@ class account_invoice(orm.Model):
             store={
                 'account.invoice': (lambda self, cr, uid, ids, c={}: ids, ['invoice_line'], 20),
                 'account.invoice.tax': (_get_invoice_tax, None, 20),
-                'account.invoice.line': (_get_invoice_line, ['price_unit','invoice_line_tax_id','quantity','discount','invoice_id'], 20),
+                'account.invoice.line': (_get_invoice_line, ['price_unit', 'invoice_line_tax_id', 'quantity', 'discount', 'invoice_id'], 20),
             },
             multi='all'),
         'num_contract': fields.char('Contract Number', size=128),
-        'edi_docs': fields.one2many('edi.doc','invoice_id','Documentos EDI'),
+        'edi_docs': fields.one2many('edi.doc', 'invoice_id', 'Documentos EDI'),
         'amount_untaxed': fields.function(_amount_all, digits_compute=dp.get_precision('Account'), string='Untaxed',
             store={
                 'account.invoice': (lambda self, cr, uid, ids, c={}: ids, ['invoice_line'], 20),
                 'account.invoice.tax': (_get_invoice_tax, None, 20),
-                'account.invoice.line': (_get_invoice_line, ['price_unit','invoice_line_tax_id','quantity','discount','invoice_id'], 20),
+                'account.invoice.line': (_get_invoice_line, ['price_unit', 'invoice_line_tax_id', 'quantity', 'discount', 'invoice_id'], 20),
             },
             multi='all'),
         'amount_tax': fields.function(_amount_all, digits_compute=dp.get_precision('Account'), string='Tax',
             store={
                 'account.invoice': (lambda self, cr, uid, ids, c={}: ids, ['invoice_line'], 20),
                 'account.invoice.tax': (_get_invoice_tax, None, 20),
-                'account.invoice.line': (_get_invoice_line, ['price_unit','invoice_line_tax_id','quantity','discount','invoice_id'], 20),
+                'account.invoice.line': (_get_invoice_line, ['price_unit', 'invoice_line_tax_id', 'quantity', 'discount', 'invoice_id'], 20),
             },
             multi='all'),
         'amount_total': fields.function(_amount_all, digits_compute=dp.get_precision('Account'), string='Total',
             store={
                 'account.invoice': (lambda self, cr, uid, ids, c={}: ids, ['invoice_line'], 20),
                 'account.invoice.tax': (_get_invoice_tax, None, 20),
-                'account.invoice.line': (_get_invoice_line, ['price_unit','invoice_line_tax_id','quantity','discount','invoice_id'], 20),
+                'account.invoice.line': (_get_invoice_line, ['price_unit', 'invoice_line_tax_id', 'quantity', 'discount', 'invoice_id'], 20),
             },
             multi='all'),
     }
@@ -368,8 +380,9 @@ class res_company(orm.Model):
     _inherit = 'res.company'
 
     _columns = {
-        'gln_ef': fields.char(string='GLN Emisor Factura',help="GLN (Emisor del documento)"),
+        'gln_ef': fields.char(string='GLN Emisor Factura', help="GLN (Emisor del documento)"),
         'gln_ve': fields.char(string='GLN Vendedor', help="GLN (Vendedor de la mercancía)"),
         'edi_code': fields.char(string='EDI filename prefix', help='Company prefix for edi filename'),
         'gs1': fields.char(string='GS1 code', help='AECOC GS1 code of the Company. Used to coding GTIN-13, GTIN-14, GS1-128, SSCC, etc. Required for EDI DESADV interchanges.'),
+        'edi_rm': fields.char(string='Registro Mercantil', size=35, help="Registro Mercantil del emisor de la factura y el vendedor"),
     }
