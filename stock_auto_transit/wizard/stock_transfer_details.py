@@ -28,17 +28,14 @@ class StockTransferDetails(models.TransientModel):
     @api.model
     def default_get(self, fields):
         """
-        Overwrited to get the secondary unit to the item line.
-        We get conversions of product model if we are in a outgoing picking
-        else we use supplier products model conversions.
-        We check if product is variable weight or not
         """
         t_move_su = self.env['stock.move'].sudo()
         t_op = self.env['stock.pack.operation']
         t_quant = self.env['stock.quant']
         picking_ids = self._context.get('active_ids', [])
         picking = self.env['stock.picking'].browse(picking_ids[0])
-        if picking.auto_transit:
+        if picking.auto_transit and \
+                picking.location_dest_id.usage == 'transit':
             # picking.do_unreserve()
             picking.pack_operation_ids.unlink()
             prod_ids = set()
