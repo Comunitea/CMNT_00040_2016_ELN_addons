@@ -19,7 +19,8 @@
 #
 ##############################################################################
 
-from openerp import models, SUPERUSER_ID
+from openerp import models, fields, SUPERUSER_ID
+from openerp.addons.decimal_precision import decimal_precision as dp
 
 
 class StockMove(models.Model):
@@ -78,3 +79,9 @@ class StockMove(models.Model):
                 product_obj.write(cr, SUPERUSER_ID, [product.id],
                                   {'standard_price': new_std_price},
                                   context=ctx)
+
+
+class StockQuant(models.Model):
+    _inherit = 'stock.quant'
+
+    cost = fields.Float('Unit Cost', digits=dp.get_precision('Product Price'))
