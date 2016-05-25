@@ -92,3 +92,12 @@ class StockMove(models.Model):
         else:
             res['domain'] = {'product_uom': [], 'product_uos': []}
         return res
+
+    @api.multi
+    def unlink(self):
+        res = False
+        for move in self:
+            if move.state == 'cancel' and move.picking_id.pack_operation_ids:
+                move.picking_id.pack_operation_ids.unlink()
+            res = super(StockMove, self).action_cancel()
+        return res
