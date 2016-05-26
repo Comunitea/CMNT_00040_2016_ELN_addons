@@ -10,7 +10,10 @@ class StockPicking(models.Model):
     _inherit = "stock.picking"
 
     auto_transit = fields.Boolean('Auto Transit Picking',
-                                  related='picking_type_id.auto_transit')
+                                  related='picking_type_id.auto_transit',
+                                  help="When we do a transfer"
+                                  " propose qty and lot based on negative"
+                                  " quants to reconciliate.")
 
     @api.multi
     def do_transfer(self):
@@ -151,11 +154,8 @@ class StockMove(models.Model):
                     res.append((q, rst_qty))
                     assigned_qty += rst_qty
                 rst_qty -= assigned_qty
-
-        print "***************************************************************"
-        print "_get_quants_to_transit: res"
-        print res
-        print "***************************************************************"
+                if not rst_qty:
+                    break
         return res
 
 
@@ -171,7 +171,11 @@ class StockLocationRoute(models.Model):
             res.append((str(l.id), l.display_name))
         return res
 
-    orig_loc = fields.Selection(_get_location_vals, 'Origin Locartion')
+    orig_loc = fields.Selection(_get_location_vals, 'Origin Locartion',
+                                help="Set it the final origin location to "
+                                "get the products. Needed to do a reserve"
+                                " of quants forced when doing a sale "
+                                " to reconciliate later")
 
 
 class StockQuant(models.Model):
@@ -184,10 +188,6 @@ class StockQuant(models.Model):
         """
         # Quants already calculed will be returned
         if self._context.get('forced_quants', []):
-            print "***********************************************************"
-            print "apply_removal_strategy: forced_quants"
-            print self._context['forced_quants']
-            print "***********************************************************"
             return self._context['forced_quants']
         ctx = self._context.copy()
         ctx.update(force_company=location.company_id.id)
@@ -220,10 +220,6 @@ class StockQuant(models.Model):
             res2 = self_su._quants_get_order(orig_loc, product, to_check_qty,
                                              domain)
             res.extend(res2)
-        print "***********************************************************"
-        print "apply_removal_strategy: res"
-        print res
-        print "***********************************************************"
         return res
 
     @api.multi
@@ -250,14 +246,13 @@ class StockQuant(models.Model):
             if q.lot_id not in res[q.product_id]:
                 res[q.product_id][q.lot_id] = 0.0
             res[q.product_id][q.lot_id] += abs(q.qty)
-        print "***********************************************************"
-        print "_search_negative_quants_qty: res"
-        print res
-        print "***********************************************************"
         return res
 
 
 class StockPickingType(models.Model):
     _inherit = "stock.picking.type"
 
-    auto_transit = fields.Boolean('Auto Transit')
+    auto_transit = fields.Boolean('Auto Transit',
+                                  help="When we do a transfer"
+                                  " propose qty and lot based on negative"
+                                  " quants to reconciliate.")

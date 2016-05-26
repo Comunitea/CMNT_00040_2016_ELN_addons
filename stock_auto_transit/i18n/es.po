@@ -1,0 +1,157 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* stock_auto_transit
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-05-26 12:21+0000\n"
+"PO-Revision-Date: 2016-05-26 12:21+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: stock_auto_transit
+#: field:stock.picking.type,auto_transit:0
+#: field:stock.transfer_details,auto_transit:0
+msgid "Auto Transit"
+msgstr "Traspaso automático"
+
+#. module: stock_auto_transit
+#: field:stock.picking,auto_transit:0
+msgid "Auto Transit Picking"
+msgstr "Albarán de traspaso automático"
+
+#. module: stock_auto_transit
+#: view:reserve.transit.wzd:stock_auto_transit.reserve_transit_view_form
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: stock_auto_transit
+#: field:reserve.transit.wzd,create_uid:0
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: stock_auto_transit
+#: field:reserve.transit.wzd,create_date:0
+msgid "Created on"
+msgstr "Created en"
+
+#. module: stock_auto_transit
+#: field:reserve.transit.wzd,display_name:0
+msgid "Display Name"
+msgstr "Nombre mostrado"
+
+#. module: stock_auto_transit
+#: field:reserve.transit.wzd,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: stock_auto_transit
+#: view:stock.transfer_details:stock_auto_transit.view_stock_enter_transfer_details
+msgid "IMPORTANT: TRANSIT TRANSFER"
+msgstr "IMPORTANTE: TRANSFERENCIA A TRANSITO"
+
+#. module: stock_auto_transit
+#: model:ir.model,name:stock_auto_transit.model_stock_location_route
+msgid "Inventory Routes"
+msgstr "Rutas de inventario"
+
+#. module: stock_auto_transit
+#: view:reserve.transit.wzd:stock_auto_transit.reserve_transit_view_form
+msgid "It will reserve the transit transfers to reconcile negative quants when you do the transfer"
+msgstr "Este asistente reservará los albaranes de traspaso para poder reconciliar los quants negativos cuando se haga el traspaso"
+
+#. module: stock_auto_transit
+#: field:reserve.transit.wzd,__last_update:0
+msgid "Last Modified on"
+msgstr "ültima modificación en"
+
+#. module: stock_auto_transit
+#: field:reserve.transit.wzd,write_uid:0
+msgid "Last Updated by"
+msgstr "Última modificación por"
+
+#. module: stock_auto_transit
+#: field:reserve.transit.wzd,write_date:0
+msgid "Last Updated on"
+msgstr "Última modificación en"
+
+#. module: stock_auto_transit
+#: field:stock.location.route,orig_loc:0
+msgid "Origin Locartion"
+msgstr "Ubicación origen final"
+
+#. module: stock_auto_transit
+#: model:ir.model,name:stock_auto_transit.model_stock_picking
+msgid "Picking List"
+msgstr "Albarán"
+
+#. module: stock_auto_transit
+#: model:ir.model,name:stock_auto_transit.model_stock_transfer_details
+msgid "Picking wizard"
+msgstr "Asistente de albarán"
+
+#. module: stock_auto_transit
+#: model:ir.model,name:stock_auto_transit.model_procurement_order
+msgid "Procurement"
+msgstr "Abastecimiento"
+
+#. module: stock_auto_transit
+#: view:stock.transfer_details:stock_auto_transit.view_stock_enter_transfer_details
+msgid "Products To Move"
+msgstr "Productos a mover"
+
+#. module: stock_auto_transit
+#: model:ir.model,name:stock_auto_transit.model_stock_quant
+msgid "Quants"
+msgstr "Quants"
+
+#. module: stock_auto_transit
+#: field:reserve.transit.wzd,date:0
+msgid "Report Date"
+msgstr "Fecha informe"
+
+#. module: stock_auto_transit
+#: model:ir.actions.act_window,name:stock_auto_transit.action_reserve_transit
+#: model:ir.ui.menu,name:stock_auto_transit.menu_reserve_transit
+#: view:reserve.transit.wzd:stock_auto_transit.reserve_transit_view_form
+msgid "Reserve Transit"
+msgstr "Reservar traspasos"
+
+#. module: stock_auto_transit
+#: help:stock.location.route,orig_loc:0
+msgid "Set it the final origin location to get the products. Needed to do a reserve of quants forced when doing a sale  to reconciliate later"
+msgstr "Establece la lubicación final para obtener los productos. Necesario al hacer una reserva de los quants que fueron forzados al hacer una venta para reconciliarlos después."
+
+#. module: stock_auto_transit
+#: model:ir.model,name:stock_auto_transit.model_stock_move
+msgid "Stock Move"
+msgstr "Movimiento de existencias"
+
+#. module: stock_auto_transit
+#: model:ir.model,name:stock_auto_transit.model_stock_picking_type
+msgid "The picking type determines the picking view"
+msgstr "El tipo de albarán determina la vista de albarán"
+
+#. module: stock_auto_transit
+#: view:stock.transfer_details:stock_auto_transit.view_stock_enter_transfer_details
+msgid "The quantity and lot where proposed to reconciliate the negative quants in the final\n"
+"                        destination location."
+msgstr "Las cantidades y lotes fueron propuestos para reconciliar los quants negativos en la ubicación de destino final."
+
+#. module: stock_auto_transit
+#: help:stock.picking,auto_transit:0
+#: help:stock.picking.type,auto_transit:0
+msgid "When we do a transfer propose qty and lot based on negative quants to reconciliate."
+msgstr "Cuando se haga un traspaso propone la cantidad y los lotes basandose en los quants negativos a reconciliar."
+
+#. module: stock_auto_transit
+#: view:stock.quant:stock_auto_transit.view_stock_quant_tree
+msgid "{'force_unlink': True"
+msgstr "{'force_unlink': True"
+

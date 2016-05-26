@@ -13,8 +13,8 @@ class ReserveTransitWzd(models.TransientModel):
 
     @api.multi
     def reserve_transit(self, pick):
-        t_quant = self.env['stock.quant']
-        wh_objs = self.env['stock.warehouse'].search([])
+        t_quant = self.env['stock.quant'].sudo()
+        wh_objs = self.env['stock.warehouse'].sudo().search([])
         stock_locs = [x.lot_stock_id for x in wh_objs]
         q2transit = {}
         for loc in stock_locs:
@@ -50,8 +50,4 @@ class ReserveTransitWzd(models.TransientModel):
             ('state', '=', 'confirmed')
         ]
         res = t_move_su.search(domain)
-        print "*************************************************************"
-        print "_get_original_move_from_procurement: RES"
-        print res
-        print "*************************************************************"
         return res

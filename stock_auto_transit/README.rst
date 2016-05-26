@@ -13,6 +13,17 @@ When yo process the first picking to a transit location, the next chained
 picking from transit location to destination location will be automatically
 done.
 
+Also we let to reserve quantity and lots of products that will be traspased
+and reconciliare later the negative quants.
+
+You must set the orig location field in stock routes, when te route involves
+a transit.
+Also tou must set the picking types that get the product to a transit location
+with the auto transit check. When a picking is transfered, if it is marked as
+autotransit, The system will propose the quantity and lots to reconciliare the
+negative quants created when forcinf the sale.
+
+
 Credits
 =======
 

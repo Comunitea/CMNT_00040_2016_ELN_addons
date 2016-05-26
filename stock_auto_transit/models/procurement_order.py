@@ -28,7 +28,7 @@ class ProcurementOrder(models.Model):
         """
         """
         res = False
-        t_proc = self.env['procurement.order']
+        t_proc = self.env['procurement.order'].sudo()
         proc_tmp = t_proc._create_temp_procurement(product, location)
         rule_id = t_proc._find_suitable_rule(proc_tmp)
         if rule_id:

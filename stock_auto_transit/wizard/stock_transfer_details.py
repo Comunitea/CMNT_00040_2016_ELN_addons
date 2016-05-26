@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 # © 2016 Comunitea Servicios Tecnológicos (<http://www.comunitea.com>)
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
-from openerp import models, api
+from openerp import models, api, fields
 
 
 class StockTransferDetails(models.TransientModel):
     _inherit = 'stock.transfer_details'
+
+    auto_transit = fields.Boolean('Auto Transit')
 
     def _prepare_packops_vals(self, prod, lot, qty):
         picking_ids = self._context.get('active_ids', [])
@@ -56,4 +58,7 @@ class StockTransferDetails(models.TransientModel):
                         vals = self._prepare_packops_vals(prod, lot, qty)
                         t_op.create(vals)
         res = super(StockTransferDetails, self).default_get(fields)
+        if picking.auto_transit and \
+                picking.location_dest_id.usage == 'transit':
+            res.update(auto_transit=True)
         return res

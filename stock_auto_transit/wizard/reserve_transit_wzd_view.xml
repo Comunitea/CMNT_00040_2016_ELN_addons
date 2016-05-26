@@ -7,13 +7,15 @@
         <field name="model">reserve.transit.wzd</field>
         <field name="type">form</field>
         <field name="arch" type="xml">
-            <header>
-                <p>It will reserve the transit transfers to reconcile negative quants when you do the transfer</p>
-            </header>
-            <footer>
-                <button name="reserve_transit" string="Reserve Transit" type="object" class="oe_highlight" icon="gtk-print"/>
-                <button special="cancel" string="Cancel" icon="gtk-close"/>
-            </footer>
+            <form>
+                <div>
+                    <p>It will reserve the transit transfers to reconcile negative quants when you do the transfer</p>
+                </div>
+                <footer>
+                    <button name="reserve_transit" string="Reserve Transit" type="object" class="oe_highlight" icon="gtk-print"/>
+                    <button special="cancel" string="Cancel" icon="gtk-close"/>
+                </footer>
+            </form>
         </field>
       </record>
 
