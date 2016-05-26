@@ -25,20 +25,21 @@ class StockPicking(models.Model):
         res = super(StockPicking, self).do_transfer()
         pick2process_ids = set()
         su_move = self.env['stock.move'].sudo()  # Because of multicompany
+        t_move = self.env['stock.move'].sudo()  # Because of multicompany
         user_company_id = self.env['res.users'].browse(self._uid).company_id.id
         for pick in self:
             for move in pick.move_lines:
                 if move.location_dest_id.usage == 'transit' and \
                         move.move_dest_id:
-                    next_move = move.move_dest_id
-                    if user_company_id != move.company_id.id:
-                        next_move = su_move.browse(move.move_dest_id.id)
+                    next_move = su_move.browse(move.move_dest_id.id)
+                    if user_company_id == next_move.company_id.id:
+                        next_move = t_move.browse(move.move_dest_id.id)
                     pick2process_ids.add(next_move.picking_id.id)
         pick2process_ids = list(pick2process_ids)
         for pick_id in pick2process_ids:
-            pick = self.browse(pick_id)
-            if user_company_id != pick.company_id.id:
-                pick = self.sudo().browse(pick_id)
+            pick = self.sudo().browse(pick_id)
+            if user_company_id == pick.company_id.id:
+                pick = self.browse(pick_id)
             pick.do_prepare_partial()
             if pick.state != 'done':
                 pick.do_transfer()
