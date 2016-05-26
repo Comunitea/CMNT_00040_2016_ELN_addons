@@ -30,11 +30,10 @@ class StockPicking(models.Model):
             for move in pick.move_lines:
                 if move.location_dest_id.usage == 'transit' and \
                         move.move_dest_id:
-                    next_move = move
+                    next_move = move.move_dest_id
                     if user_company_id != move.company_id.id:
                         next_move = su_move.browse(move.move_dest_id.id)
                     pick2process_ids.add(next_move.picking_id.id)
-
         pick2process_ids = list(pick2process_ids)
         for pick_id in pick2process_ids:
             pick = self.browse(pick_id)

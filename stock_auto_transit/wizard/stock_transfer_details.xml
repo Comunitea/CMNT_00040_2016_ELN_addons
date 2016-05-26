@@ -16,7 +16,7 @@
                     </div>
                 </group>
                 <xpath expr="//field[@name='item_ids']/tree/field[@name='product_id']" position="before">
-                    <field name="from_negative_quant"/>
+                    <field name="from_negative_quant" invisible="1"/>
                 </xpath>
                 <xpath expr="//field[@name='item_ids']/tree" position="attributes">
                     <attribute name="colors">red:from_negative_quant == True</attribute>
