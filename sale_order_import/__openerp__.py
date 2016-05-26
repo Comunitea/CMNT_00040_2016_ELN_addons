@@ -32,7 +32,7 @@
                  'eln_partner_discount'
                  ],
     "init_xml" : [],
-    'update_xml': [
+    'data': [
         'sale_order_import_view.xml',
     ],
     "demo_xml" : [],

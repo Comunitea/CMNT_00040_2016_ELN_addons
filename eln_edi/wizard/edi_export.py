@@ -197,7 +197,11 @@ class edi_export (orm.TransientModel):
     def parse_number(number, length, decimales):
         if not number:
             return ' ' * length
+        isnegative = False
         if isinstance(number, float):
+            if number < 0:
+                isnegative = True
+                number = abs(number)
             number = round(number, decimales)
             number = str(number)
             point_pos = number.index('.')
@@ -208,7 +212,10 @@ class edi_export (orm.TransientModel):
             number = number.replace('.', '')
         else:
             number = str(number)
-        new_number = (length - len(number)) * '0' + number
+        if not isnegative:
+            new_number = (length - len(number)) * '0' + number
+        else:
+            new_number = '-' + (length - len(number) - 1) * '0' + number
         if len(new_number) != length:
             raise orm.except_orm(_('Error parsing'), _('Error parsing number'))
         return new_number
@@ -415,7 +422,10 @@ class edi_export (orm.TransientModel):
         else:
             invoice_data += '25 '
         for payment in payments:
-            invoice_data += self.parse_short_date(payment.date_maturity) + self.parse_number(payment.debit, 18, 3)
+            if invoice.type == 'out_refund':
+                invoice_data += self.parse_short_date(payment.date_maturity) + self.parse_number(payment.credit, 18, 3)
+            else:
+                invoice_data += self.parse_short_date(payment.date_maturity) + self.parse_number(payment.debit, 18, 3)
         invoice_data += (' ' * 26) * (3 - len(payments))
         f.write(invoice_data)
 
@@ -551,8 +561,8 @@ class edi_export (orm.TransientModel):
             tax_data = '\r\nTAX'
             tax_data += self.parse_string(tax.tax_id.edi_code or u'VAT', 3)
             tax_data += self.parse_number(tax.tax_id.amount * 100, 5, 2)
-            tax_data += self.parse_number(tax.tax_amount, 18, 3)
-            tax_data += self.parse_number(tax.base_amount, 18, 3)
+            tax_data += self.parse_number(tax.amount, 18, 3)
+            tax_data += self.parse_number(tax.base, 18, 3)
             f.write(tax_data)
 
         f.close()
