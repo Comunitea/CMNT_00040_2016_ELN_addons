@@ -49,9 +49,11 @@ class sale_order_import(orm.TransientModel):
         shop_obj = self.pool.get('sale.shop')
         if file_type == 'model_apolo':
             shop_id = shop_obj.search(cr, uid, [('name', 'ilike', 'apolo')]) or False
+            import_actions = 'sale'
         else:
             shop_id = False
-        res['value'] = {'shop_id': shop_id and shop_id[0] or False}
+            import_actions = False
+        res['value'] = {'shop_id': shop_id and shop_id[0] or False, 'import_actions': import_actions}
         return res
 
     def sale_order_import(self, cr, uid, ids, context=None):
@@ -168,19 +170,28 @@ class sale_order_import(orm.TransientModel):
                             err_log += '\n' + err_msg
                         continue
                     product_uom_qty = round(str2float(ln[quantity_i], decimal_separator), dp)
+
+                    product_aux = product_obj.browse(cr, uid, [product_id[0]])[0]
+                    t_uom = self.pool.get('product.uom')
+                    uom_id = product_aux.uom_id and product_aux.uom_id.id
+                    uos_id = product_aux.uos_id and product_aux.uos_id.id
+
                     #si la unidad es kg interpretamos que la cantidad la pasan en UdV
                     #se le avisara para que la pasen en UdM
                     #Por tanto convertimos la cantidad a UdM
-                    product_aux = product_obj.browse(cr, uid, [product_id[0]])[0]
-                    if product_aux.uom_id.id == 2: #name='kg'
-                        product_uom_qty = round(product_uom_qty / (product_aux.uos_coeff or 1.0), dp)
+                    kgm_uom = self.pool.get('ir.model.data').xmlid_to_res_id(cr, uid, 'product.product_uom_kgm')
+                    if uom_id == kgm_uom:
+                        product_uom_qty = t_uom._compute_qty(cr, uid, uos_id, product_uom_qty, uom_id)
                     #FIN conversion graneles
+                    product_uos_qty = t_uom._compute_qty(cr, uid, uom_id, product_uom_qty, uos_id)
                     values = {
                         'order_id': order_id,
                         'product_id': product_id[0],
                         'name': ' ' or False,
-                        'product_uom_qty': product_uom_qty or 0.0,
-                        'product_uom': product_obj.browse(cr, uid, [product_id[0]])[0].uom_id.id,
+                        'product_uom_qty': product_uom_qty,
+                        'product_uom': uom_id,
+                        'product_uos_qty': product_uos_qty,
+                        'product_uos': uos_id,
                         'pre_prodlot': ln[lot_i].strip() or False,
                     }
                     c = context.copy()
@@ -190,11 +201,10 @@ class sale_order_import(orm.TransientModel):
                     # Ahora voy a ejecutar los onchanges para actualizar valores
                     data = {}
                     #Llamo al onchange del producto
-                    sale_agent_ids = []
                     ctx = dict(context, partner_id=so.partner_id.id, quantity=product_uom_qty,
                                    pricelist=so.pricelist_id.id, shop=so.shop_id.id, uom=False)  # FALSE SHOP POST-MIGRATION
                     data.update(sale_line_obj.product_id_change(cr, uid, [line_id], so.pricelist_id.id, product_id[0], product_uom_qty,
-                                                                False, False, False, '', so.partner_id.id, False, True, so.date_order,
+                                                                uom_id, product_uos_qty, uos_id, '', so.partner_id.id, False, True, so.date_order,
                                                                 False, so.fiscal_position.id, True, context=ctx)['value'])
                     if 'product_uom_qty' in data and data['product_uom_qty']:
                         del data['product_uom_qty']
