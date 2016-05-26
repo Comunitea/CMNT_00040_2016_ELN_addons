@@ -11,10 +11,16 @@
                 <group string="Products To Move" position="inside">
                     <div attrs="{'invisible': [('auto_transit', '=', False)]}">
                         <p style="color: red" >IMPORTANT: TRANSIT TRANSFER</p>
-                        <p>The quantity and lot where proposed to reconciliate the negative quants in the final
+                        <p style="color: red">The quantity and lot where proposed to reconciliate the negative quants in the final
                         destination location.</p>
                     </div>
                 </group>
+                <xpath expr="//field[@name='item_ids']/tree/field[@name='product_id']" position="before">
+                    <field name="from_negative_quant"/>
+                </xpath>
+                <xpath expr="//field[@name='item_ids']/tree" position="attributes">
+                    <attribute name="colors">red:from_negative_quant == True</attribute>
+                </xpath>
             </field>
         </record>
 

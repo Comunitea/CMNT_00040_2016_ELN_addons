@@ -24,6 +24,7 @@ class StockTransferDetails(models.TransientModel):
             'location_dest_id': dest_loc.id,
             'result_package_id': False,
             'package_id': False,
+            'from_negative_quant': True
         }
         return vals
 
@@ -61,4 +62,16 @@ class StockTransferDetails(models.TransientModel):
         if picking.auto_transit and \
                 picking.location_dest_id.usage == 'transit':
             res.update(auto_transit=True)
+        t_op = self.env['stock.pack.operation']
+        if res.get('item_ids', False):
+            for item in res['item_ids']:
+                pack_op = t_op.browse(item['packop_id'])
+                if pack_op.from_negative_quant:
+                    item.update(from_negative_quant=True)
         return res
+
+
+class StockTransferDetailsItems(models.TransientModel):
+    _inherit = 'stock.transfer_details_items'
+
+    from_negative_quant = fields.Boolean('From negative Quant', readonly=True)

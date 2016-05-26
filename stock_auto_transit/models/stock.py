@@ -250,6 +250,13 @@ class StockQuant(models.Model):
             res[q.product_id][q.lot_id] += abs(q.qty)
         return res
 
+    @api.multi
+    def _mergeable_domain(self):
+        """Method from stock quant merge. Adds cost to domain"""
+        res = super(StockQuant, self)._mergeable_domain()
+        res.append(('cost', '=', self.cost))
+        return res
+
 
 class StockPickingType(models.Model):
     _inherit = "stock.picking.type"
@@ -258,3 +265,9 @@ class StockPickingType(models.Model):
                                   help="When we do a transfer"
                                   " propose qty and lot based on negative"
                                   " quants to reconciliate.")
+
+
+class StockPackOperation(models.Model):
+    _inherit = "stock.pack.operation"
+
+    from_negative_quant = fields.Boolean('From negative', readonly=True)
