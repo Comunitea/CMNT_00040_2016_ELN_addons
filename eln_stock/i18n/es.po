@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-09 08:57+0000\n"
-"PO-Revision-Date: 2016-05-09 08:57+0000\n"
+"POT-Creation-Date: 2016-05-27 11:36+0000\n"
+"PO-Revision-Date: 2016-05-27 11:36+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -32,15 +32,37 @@ msgid "Assign multi"
 msgstr "Comprobar disponibilidad"
 
 #. module: eln_stock
+#: model:ir.model,name:eln_stock.model_procurement_orderpoint_compute
+msgid "Automatic Order Point"
+msgstr "Regla de stock mínimo automática"
+
+#. module: eln_stock
 #: view:postmigration.reconcile.quants:eln_stock.view_postmigration_reconcile_quants
 #: view:stock.picking.assign.multi:eln_stock.stock_picking_assign_multi_form
+#: view:stock.picking.cancel.multi:eln_stock.stock_picking_cancel_multi_form
 #: view:stock.picking.unreserve.multi:eln_stock.stock_picking_unreserve_multi_form
 msgid "Cancel"
 msgstr "Cancelar"
 
 #. module: eln_stock
+#: model:ir.actions.act_window,name:eln_stock.stock_picking_cancel_multi_action
+msgid "Cancel Trasnfers"
+msgstr "Cancelar albaranes"
+
+#. module: eln_stock
+#: view:stock.picking.cancel.multi:eln_stock.stock_picking_cancel_multi_form
+msgid "Cancel pickings"
+msgstr "Cancelar albaranes"
+
+#. module: eln_stock
+#: view:stock.picking:eln_stock.view_picking_internal_search
+msgid "Commitment date"
+msgstr "Fecha compromiso"
+
+#. module: eln_stock
 #: field:postmigration.reconcile.quants,create_uid:0
 #: field:stock.picking.assign.multi,create_uid:0
+#: field:stock.picking.cancel.multi,create_uid:0
 #: field:stock.picking.unreserve.multi,create_uid:0
 msgid "Created by"
 msgstr "Created by"
@@ -48,9 +70,15 @@ msgstr "Created by"
 #. module: eln_stock
 #: field:postmigration.reconcile.quants,create_date:0
 #: field:stock.picking.assign.multi,create_date:0
+#: field:stock.picking.cancel.multi,create_date:0
 #: field:stock.picking.unreserve.multi,create_date:0
 msgid "Created on"
 msgstr "Created on"
+
+#. module: eln_stock
+#: view:stock.picking:eln_stock.view_picking_internal_search
+msgid "Date done"
+msgstr "Fecha transferencia"
 
 #. module: eln_stock
 #: view:res.partner:eln_stock.res_partner_form
@@ -61,6 +89,7 @@ msgstr "Envíos"
 #. module: eln_stock
 #: field:postmigration.reconcile.quants,display_name:0
 #: field:stock.picking.assign.multi,display_name:0
+#: field:stock.picking.cancel.multi,display_name:0
 #: field:stock.picking.unreserve.multi,display_name:0
 msgid "Display Name"
 msgstr "Display Name"
@@ -73,6 +102,7 @@ msgstr "Agrupar por"
 #. module: eln_stock
 #: field:postmigration.reconcile.quants,id:0
 #: field:stock.picking.assign.multi,id:0
+#: field:stock.picking.cancel.multi,id:0
 #: field:stock.picking.unreserve.multi,id:0
 msgid "ID"
 msgstr "ID"
@@ -85,6 +115,7 @@ msgstr "Incoterms"
 #. module: eln_stock
 #: field:postmigration.reconcile.quants,__last_update:0
 #: field:stock.picking.assign.multi,__last_update:0
+#: field:stock.picking.cancel.multi,__last_update:0
 #: field:stock.picking.unreserve.multi,__last_update:0
 msgid "Last Modified on"
 msgstr "Last Modified on"
@@ -92,6 +123,7 @@ msgstr "Last Modified on"
 #. module: eln_stock
 #: field:postmigration.reconcile.quants,write_uid:0
 #: field:stock.picking.assign.multi,write_uid:0
+#: field:stock.picking.cancel.multi,write_uid:0
 #: field:stock.picking.unreserve.multi,write_uid:0
 msgid "Last Updated by"
 msgstr "Last Updated by"
@@ -99,12 +131,14 @@ msgstr "Last Updated by"
 #. module: eln_stock
 #: field:postmigration.reconcile.quants,write_date:0
 #: field:stock.picking.assign.multi,write_date:0
+#: field:stock.picking.cancel.multi,write_date:0
 #: field:stock.picking.unreserve.multi,write_date:0
 msgid "Last Updated on"
 msgstr "Last Updated on"
 
 #. module: eln_stock
 #: model:ir.model,name:eln_stock.model_res_partner
+#: view:stock.picking:eln_stock.view_picking_internal_search
 msgid "Partner"
 msgstr "Empresa"
 
@@ -123,6 +157,11 @@ msgstr "Albaranes"
 #: view:postmigration.reconcile.quants:eln_stock.view_postmigration_reconcile_quants
 msgid "Process Quants"
 msgstr "Procesar quants"
+
+#. module: eln_stock
+#: model:ir.model,name:eln_stock.model_procurement_order
+msgid "Procurement"
+msgstr "Abastecimiento"
 
 #. module: eln_stock
 #: model:ir.actions.act_window,name:eln_stock.act_reconciliate_quants
@@ -175,6 +214,7 @@ msgstr "onchange_quantity(product_id, product_uom_qty, product_uom, product_uos)
 #. module: eln_stock
 #: view:postmigration.reconcile.quants:eln_stock.view_postmigration_reconcile_quants
 #: view:stock.picking.assign.multi:eln_stock.stock_picking_assign_multi_form
+#: view:stock.picking.cancel.multi:eln_stock.stock_picking_cancel_multi_form
 #: view:stock.picking.unreserve.multi:eln_stock.stock_picking_unreserve_multi_form
 msgid "or"
 msgstr "o"
