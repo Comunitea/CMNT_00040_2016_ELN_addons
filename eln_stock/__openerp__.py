@@ -28,6 +28,7 @@
     'website': 'www.elnogal.com',
     "depends": ['base',
                 'stock',
+                'eln_sale',  # Because of commitment_date group
                 'picking_invoice_rel',
                 # 'stock_location',
                 ],
