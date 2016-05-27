@@ -46,7 +46,9 @@ class ElnSaleSummaryXlsWzd(models.TransientModel):
             ('company_id', 'in', [valquin_id, quival_id])
         ]
         for pick in t_pick.search(domain):
-
+            if not pick.sale_id or \
+                    (not pick.supplier_id and pick.invoice_state == 'none'):
+                continue
             # Get company mode
             c = 'valquin'
             if pick.company_id.id == valquin_id and not pick.supplier_id:
