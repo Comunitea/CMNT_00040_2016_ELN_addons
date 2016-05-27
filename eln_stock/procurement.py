@@ -24,3 +24,18 @@ class ProcurementOrder(models.Model):
             uos_qty = t_uom._compute_qty(uom_id, product_qty, uos_id)
             res.update(product_uos_qty=uos_qty, product_uos=uos_id)
         return res
+
+    @api.model
+    def _procure_orderpoint_confirm(self, use_new_cursor=False,
+                                    company_id=False):
+        """
+        Calculate orderpoints with SUPERUSER because of intercompany
+        procurements
+        """
+        rec = self
+        if self._context.get('use_sudo', False):
+            rec = self.sudo()
+        res = super(ProcurementOrder, rec).\
+            _procure_orderpoint_confirm(use_new_cursor=use_new_cursor,
+                                        company_id=company_id)
+        return res
