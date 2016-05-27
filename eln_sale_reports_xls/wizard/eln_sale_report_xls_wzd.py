@@ -53,7 +53,7 @@ class ElnSaleReportXlsWzd(models.TransientModel):
             ('min_date', '<=', ly_end_date),
         ]
         for pick in t_pick.search(domain):
-            if not pick.sale_id:
+            if not pick.sale_id or pick.invoice_state == 'none':
                 continue
             acc = pick.sale_id.project_id
             if acc not in res:
