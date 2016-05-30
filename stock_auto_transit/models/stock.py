@@ -125,7 +125,7 @@ class StockMove(models.Model):
                     move.state != 'waiting':
                 ctx = self._context.copy()
                 ctx.update(special_assign=True)
-                rec = self.with_context(ctx).browse(move.id)
+                rec = self.sudo().with_context(ctx).browse(move.id)
 
             res = super(StockMove, rec).action_assign()
         return res
