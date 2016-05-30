@@ -28,7 +28,8 @@ class route(orm.Model):
     _columns = {
         'code': fields.char('Code', size=32),
         'name': fields.char('Name', size=255),
-        'carrier_id': fields.many2one('res.partner', 'Carrier')
+        'carrier_id': fields.many2one('res.partner', 'Carrier'),
+        'delivery_delay': fields.float('Delivery Lead Time', required=True, help="The average delay in days between the order transfer and the delivery of the products to customer."),
     }
 
 class SaleOrder(models.Model):

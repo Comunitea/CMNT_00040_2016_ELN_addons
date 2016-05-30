@@ -52,18 +52,6 @@ class sale_order(orm.Model):
             ('postpaid', 'Invoice on order after delivery'),
             ('no_bill', 'No bill')
         ], 'Invoice Policy', required=True, readonly=True, states={'draft': [('readonly', False)]}, change_default=True),
-        #'requested_date': fields.date('Requested Date',
-        #    readonly=True, states={'draft': [('readonly', False)],
-        #                           'sent': [('readonly', False)]}, copy=False,
-        #    help="Date by which the customer has requested the items to be "
-        #         "delivered.\n"
-        #         "When this Order gets confirmed, the Delivery Order's "
-        #         "expected date will be computed based on this date and the "
-        #         "Company's Security Delay.\n"
-        #         "Leave this field empty if you want the Delivery Order to be "
-        #         "processed as soon as possible. In that case the expected "
-        #         "date will be computed using the default method: based on "
-        #         "the Product Lead Times and the Company's Security Delay."),
         'supplier_cip': fields.char('CIP', help="Código interno del proveedor.", size=32, readonly=True, states={'draft': [('readonly', False)],'waiting_date': [('readonly', False)],'manual': [('readonly', False)],'progress': [('readonly', False)]}),
         'shop_id': fields.many2one('sale.shop', 'Sale type', required=True),
         'commercial_partner_id': fields.many2one('res.partner',
