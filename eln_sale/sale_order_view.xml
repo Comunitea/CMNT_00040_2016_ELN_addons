@@ -94,6 +94,9 @@
                     <newline/>
 	                <field name="name" filter_domain="['|', ('name','ilike',self),('client_order_ref','ilike',self)]"/>
                 </field>
+                <group string="Group By" position="inside">
+                    <filter string="Effective Date" domain="[]" context="{'group_by':'effective_date'}"/>
+                </group>
             </field>
         </record>
 
@@ -264,7 +267,7 @@
             <field name="inherit_id" ref="sale.view_order_tree"/>
             <field name="arch" type="xml">
                 <field name="amount_total" position="before">
-                    <field name="amount_untaxed"/>
+                    <field name="amount_untaxed" sum="Total amount untaxed"/>
                 </field>
             </field>
         </record>

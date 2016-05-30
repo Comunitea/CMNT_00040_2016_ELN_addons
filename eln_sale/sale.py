@@ -30,7 +30,7 @@ class sale_order(orm.Model):
     _inherit = 'sale.order'
 
     def _get_effective_date(self, cr, uid, ids, name, arg, context=None):
-        """Read the shipping date from the related packings"""
+        """Read the shipping effective date from the related packings"""
         res = {}
         dates_list = []
         for order in self.browse(cr, uid, ids, context=context):
@@ -54,8 +54,10 @@ class sale_order(orm.Model):
         ], 'Invoice Policy', required=True, readonly=True, states={'draft': [('readonly', False)]}, change_default=True),
         'supplier_cip': fields.char('CIP', help="Código interno del proveedor.", size=32, readonly=True, states={'draft': [('readonly', False)],'waiting_date': [('readonly', False)],'manual': [('readonly', False)],'progress': [('readonly', False)]}),
         'shop_id': fields.many2one('sale.shop', 'Sale type', required=True),
-        'commercial_partner_id': fields.many2one('res.partner',
-                                                 invisible=True)
+        'commercial_partner_id': fields.many2one('res.partner', invisible=True),
+        'effective_date': fields.function(_get_effective_date, type='date',
+            store=True, string='Effective Date',
+            help="Date on which the first Delivery Order was delivered."),
     }
 
     def onchange_shop_id(self, cr, uid, ids, shop_id):

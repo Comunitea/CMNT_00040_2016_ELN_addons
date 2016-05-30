@@ -18,11 +18,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from datetime import datetime, timedelta
-
 from openerp.osv import orm, fields
-from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT
-from openerp import api
 
 class stock_picking(orm.Model):
     _inherit = 'stock.picking'
@@ -37,6 +33,9 @@ class stock_picking(orm.Model):
             help="Date by which the customer has requested the items to be delivered."),
         'supplier_cip': fields.related('sale_id', 'supplier_cip', type='char', string="CIP", readonly=True,  
                            help="Código interno del proveedor."),
+    }
+    _defaults = {
+        'effective_date': fields.datetime.now,
     }
 
     def _prepare_invoice_group(self, cr, uid, picking, partner, invoice, context=None):
@@ -76,19 +75,6 @@ class stock_picking(orm.Model):
             if picking and picking.date_done:
                 res.update({'date_invoice': picking.date_done})
 
-        return res
-
-    @api.cr_uid_ids_context
-    def do_transfer(self, cr, uid, picking_ids, context=None):
-        context = context or {}
-        import ipdb; ipdb.set_trace()
-        res = super(stock_picking, self).do_transfer(cr, uid, picking_ids, context)
-        for pick in self.browse(cr, uid, picking_ids, context=context):
-            print pick.date_done, pick.state
-            if pick.date_done and pick.state == 'done':
-                effective_date = datetime.strptime(pick.requested_date or pick.date_done, DEFAULT_SERVER_DATETIME_FORMAT)
-                effective_date += timedelta(days=pick.company_id.security_lead)
-                pick.effective_date = effective_date.strftime(DEFAULT_SERVER_DATETIME_FORMAT)
         return res
 
 class stock_move(orm.Model):

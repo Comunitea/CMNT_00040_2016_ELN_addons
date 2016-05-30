@@ -18,8 +18,11 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from datetime import datetime, timedelta
+
 from openerp.osv import orm, fields
 from openerp import models, api, exceptions, _
+from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT
 
 
 class route(orm.Model):
@@ -29,11 +32,10 @@ class route(orm.Model):
         'code': fields.char('Code', size=32),
         'name': fields.char('Name', size=255),
         'carrier_id': fields.many2one('res.partner', 'Carrier'),
-        'delivery_delay': fields.float('Delivery Lead Time', required=True, help="The average delay in days between the order transfer and the delivery of the products to customer."),
+        'delivery_delay': fields.float('Delivery Lead Time', required=True, help="The average delay in days between the picking transfer and the delivery of the products to customer."),
     }
 
 class SaleOrder(models.Model):
-
     _inherit = "sale.order"
 
     @api.multi
@@ -45,4 +47,27 @@ class SaleOrder(models.Model):
                 route_id = route_id.id
             order.picking_ids.write({'route_id': route_id})
         return res
+    
+    
+class StockPicking(models.Model):
+    _inherit = 'stock.picking'
+
+    @api.multi
+    def do_transfer(self):
+        #import ipdb; ipdb.set_trace()
+        res = super(StockPicking, self).do_transfer()
+        for pick in self:
+            print pick.date_done, pick.state
+            if pick.date_done and pick.state == 'done':
+                effective_date = datetime.strptime(pick.date_done, DEFAULT_SERVER_DATETIME_FORMAT)
+                effective_date += timedelta(days=(pick.route_id and pick.route_id.delivery_delay or 0.0))
+                if pick.requested_date:
+                    requested_date = datetime.strptime(pick.requested_date, DEFAULT_SERVER_DATETIME_FORMAT)
+                    date_done = datetime.strptime(pick.date_done, DEFAULT_SERVER_DATETIME_FORMAT)
+                    if requested_date >= date_done:
+                        effective_date = date_done
+                pick.effective_date = effective_date.strftime(DEFAULT_SERVER_DATETIME_FORMAT)
+        return res
+
+   
 
