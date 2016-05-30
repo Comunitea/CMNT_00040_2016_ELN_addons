@@ -18,7 +18,11 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from datetime import datetime, timedelta
+
 from openerp.osv import orm, fields
+from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT
+from openerp import api
 
 class stock_picking(orm.Model):
     _inherit = 'stock.picking'
@@ -26,7 +30,11 @@ class stock_picking(orm.Model):
         'supplier_id': fields.many2one('res.partner', 'Supplier', readonly=True,domain = [('supplier','=',True)],states={'draft': [('readonly', False)]}, select=True),
         'carrier_id': fields.many2one('res.partner', 'Carrier', readonly=True, states={'draft': [('readonly', False)], 'confirmed': [('readonly', False)], 'assigned': [('readonly', False)]}, select=True),
         'commitment_date': fields.date('Commitment Date', help="Date on which delivery of products is to be made.", states={'cancel': [('readonly', True)]}),
-
+        #borrar el campo anterior una vez hecho el volcado de datos al nuevo requested_date
+        'requested_date': fields.datetime('Requested Date', states={'cancel': [('readonly', True)]},
+            help="Date by which the customer has requested the items to be delivered."),
+        'effective_date': fields.date('Effective Date', readonly=True, states={'done': [('readonly', False)]},
+            help="Date by which the customer has requested the items to be delivered."),
         'supplier_cip': fields.related('sale_id', 'supplier_cip', type='char', string="CIP", readonly=True,  
                            help="Código interno del proveedor."),
     }
@@ -70,6 +78,18 @@ class stock_picking(orm.Model):
 
         return res
 
+    @api.cr_uid_ids_context
+    def do_transfer(self, cr, uid, picking_ids, context=None):
+        context = context or {}
+        import ipdb; ipdb.set_trace()
+        res = super(stock_picking, self).do_transfer(cr, uid, picking_ids, context)
+        for pick in self.browse(cr, uid, picking_ids, context=context):
+            print pick.date_done, pick.state
+            if pick.date_done and pick.state == 'done':
+                effective_date = datetime.strptime(pick.requested_date or pick.date_done, DEFAULT_SERVER_DATETIME_FORMAT)
+                effective_date += timedelta(days=pick.company_id.security_lead)
+                pick.effective_date = effective_date.strftime(DEFAULT_SERVER_DATETIME_FORMAT)
+        return res
 
 class stock_move(orm.Model):
     _inherit = 'stock.move'

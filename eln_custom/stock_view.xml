@@ -87,9 +87,9 @@
                                      <div class="oe_kanban_box_content oe_kanban_color_bglight oe_kanban_box_show_onclick_trigger oe_kanban_color_border">
                                         <div>
                                             <b>
-                                                Fecha de compromiso:
+                                                Fecha de solicitud:
                                             </b>
-                                            <field name="commitment_date"/>
+                                            <field name="requested_date"/>
                                         </div>
                                         <div>
                                             <b>
