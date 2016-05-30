@@ -99,6 +99,5 @@ class StockMove(models.Model):
         for move in self:
             if move.state == 'cancel' and move.picking_id.pack_operation_ids:
                 move.picking_id.pack_operation_ids.unlink()  # Delete move
-            else:
-                res = super(StockMove, self).unlink()
+        res = super(StockMove, self).unlink()
         return res
