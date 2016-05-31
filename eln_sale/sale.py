@@ -20,6 +20,7 @@
 ##############################################################################
 from openerp.osv import orm, fields
 from datetime import datetime
+from dateutil import tz
 from dateutil.relativedelta import relativedelta
 from openerp.tools.translate import _
 import time
@@ -101,14 +102,26 @@ class sale_order(orm.Model):
 
         return res
 
-    def action_ship_create(self, cr, uid, ids, *args):
-        res = super(sale_order, self).action_ship_create(cr, uid, ids, *args)
+    def action_ship_create(self, cr, uid, ids, context=None):
+        res = super(sale_order, self).action_ship_create(cr, uid, ids,
+                                                         context=context)
+        user_tz = self.pool['res.users'].browse(cr, uid, uid).tz
+        from_zone = tz.gettz('UTC')
+        to_zone = tz.gettz(user_tz)
         for order in self.browse(cr, uid, ids):
             if order.picking_ids:
                 for picking in order.picking_ids:
-                    vals = {'note': order.note, 
-                            'requested_date': order.requested_date,
-                            'effective_date': order.requested_date or order.commitment_date
+                    datetime_requested = \
+                        datetime.strptime(order.requested_date,
+                                          '%Y-%m-%d %H:%M:%S').\
+                        replace(tzinfo=from_zone).astimezone(to_zone)
+
+                    date_requested = datetime.strftime(datetime_requested,
+                                                       '%Y-%m-%d')
+                    vals = {'note': order.note,
+                            'requested_date': date_requested,
+                            'effective_date': date_requested or
+                            order.commitment_date
                             }
                     if order.supplier_id and picking.state != 'cancel' \
                             and not picking.supplier_id:

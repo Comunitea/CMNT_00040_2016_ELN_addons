@@ -19,6 +19,8 @@
 #
 ##############################################################################
 from openerp.osv import orm, fields
+from openerp import api
+
 
 class stock_picking(orm.Model):
     _inherit = 'stock.picking'
@@ -76,6 +78,21 @@ class stock_picking(orm.Model):
                 res.update({'date_invoice': picking.date_done})
 
         return res
+
+    @api.multi
+    def write(self, vals):
+        res = super(stock_picking, self).write(vals)
+        if vals.get('effective_date', False):
+            new_date = vals['effective_date']
+            for picking in self:
+                if picking.sale_id:
+                    old_date_dic = picking.sale_id._get_effective_date(False,
+                                                                       False)
+                    old_date = old_date_dic[picking.sale_id.id]
+                    if new_date <= old_date or not old_date:
+                        picking.sale_id.effective_date = old_date
+        return res
+
 
 class stock_move(orm.Model):
     _inherit = 'stock.move'

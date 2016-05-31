@@ -62,9 +62,6 @@ class StockPicking(models.Model):
                 effective_date += timedelta(days=(pick.route_id and pick.route_id.delivery_delay or 0.0))
                 if pick.requested_date:
                     requested_date = datetime.strptime(pick.requested_date, DEFAULT_SERVER_DATETIME_FORMAT)
-                    date_done = datetime.strptime(pick.date_done, DEFAULT_SERVER_DATETIME_FORMAT)
-                    if requested_date >= date_done:#vamos a respetar siempre la fecha de entrega para probar. hay que borrar el if
-                        effective_date = requested_date
                     effective_date = requested_date
                 pick.effective_date = effective_date.strftime(DEFAULT_SERVER_DATETIME_FORMAT)
         return res
