@@ -39,7 +39,7 @@
                 <group string="Group By" position="inside">
                     <filter string="Route" domain="[]" context="{'group_by':'route_id'}"/>
                     <filter string="Partner" domain="[]" context="{'group_by':'partner_id'}"/>
-                    <filter string="Requested date" domain="[]" context="{'group_by':'requested_date'}"/>
+                    <filter string="Effective Date" domain="[]" context="{'group_by':'effective_date'}"/>
                     <filter string="Date done" domain="[]" context="{'group_by':'date_done'}"/>
                 </group>
             </field>

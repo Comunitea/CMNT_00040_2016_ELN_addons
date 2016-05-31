@@ -54,7 +54,6 @@ class StockPicking(models.Model):
 
     @api.multi
     def do_transfer(self):
-        #import ipdb; ipdb.set_trace()
         res = super(StockPicking, self).do_transfer()
         for pick in self:
             print pick.date_done, pick.state
@@ -64,8 +63,9 @@ class StockPicking(models.Model):
                 if pick.requested_date:
                     requested_date = datetime.strptime(pick.requested_date, DEFAULT_SERVER_DATETIME_FORMAT)
                     date_done = datetime.strptime(pick.date_done, DEFAULT_SERVER_DATETIME_FORMAT)
-                    if requested_date >= date_done:
-                        effective_date = date_done
+                    if requested_date >= date_done:#vamos a respetar siempre la fecha de entrega para probar. hay que borrar el if
+                        effective_date = requested_date
+                    effective_date = requested_date
                 pick.effective_date = effective_date.strftime(DEFAULT_SERVER_DATETIME_FORMAT)
         return res
 
