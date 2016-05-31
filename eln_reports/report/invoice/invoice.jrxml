@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Invoice" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="2.0"/>
-	<property name="ireport.x" value="220"/>
-	<property name="ireport.y" value="1490"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="407"/>
 	<property name="ireport.layers" value="##Thu Apr 28 01:42:20 CEST 2016\nlayer.1.name=STANDARD\nlayer.1.visible=true\nlayer.1.id=1\nlayer.0.name=Background\nlayer.0.visible=true\nlayer.0.id=0"/>
 	<style name="table" lineSpacing="Single">
 		<box>
@@ -267,7 +267,7 @@
 		<sortField name="EAN13-ean13"/>
 		<sortField name="Descripcion-name"/>
 		<variable name="ORDEN_ALBARAN" class="java.lang.String">
-			<variableExpression><![CDATA[new String($F{client_order_ref}.isEmpty() ? "ZZZZZZ" : $F{client_order_ref})]]></variableExpression>
+			<variableExpression><![CDATA[new String($F{Documento_origen-origin}.isEmpty() ? "ZZZZZZ" : $F{Documento_origen-origin})]]></variableExpression>
 			<initialValueExpression><![CDATA["ZZZZZZ"]]></initialValueExpression>
 		</variable>
 		<variable name="L" class="java.util.Locale">
@@ -548,9 +548,7 @@
 						<textFieldExpression class="java.lang.String"><![CDATA[$F{Tipo-type} != 'out_refund' ?
 tr($V{L}, "TOTAL")
 :
-tr($V{L}, "TOTAL ABONO")
-
-]]></textFieldExpression>
+tr($V{L}, "TOTAL ABONO")]]></textFieldExpression>
 					</textField>
 					<textField pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
 						<reportElement x="0" y="15" width="85" height="20"/>
@@ -800,8 +798,7 @@ $F{Numero_de_cuenta-acc_number}.isEmpty() ?
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{Tipo-type} != 'out_refund' ?
 tr($V{L}, "FACTURA")
 :
-tr($V{L}, "FACTURA<BR>ABONO")
-]]></textFieldExpression>
+tr($V{L}, "FACTURA<BR>ABONO")]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement mode="Transparent" x="-15" y="0" width="15" height="802" forecolor="#000000"/>
@@ -841,9 +838,7 @@ tr($V{L}, "FACTURA<BR>ABONO")
 					<textFieldExpression class="java.lang.String"><![CDATA[$F{Tipo-type} != 'out_refund' ?
 tr($V{L}, "Factura:")
 :
-tr($V{L}, "Factura Rectificativa:")
-
-]]></textFieldExpression>
+tr($V{L}, "Factura Rectificativa:")]]></textFieldExpression>
 				</textField>
 				<textField>
 					<reportElement x="341" y="13" width="122" height="13"/>
