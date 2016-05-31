@@ -89,7 +89,7 @@ class stock_picking(orm.Model):
                     old_date_dic = picking.sale_id._get_effective_date(False,
                                                                        False)
                     old_date = old_date_dic[picking.sale_id.id]
-                    if new_date <= old_date or not old_date:
+                    if new_date <= old_date or not picking.sale_id.effective_date:
                         picking.sale_id.effective_date = old_date
         return res
 

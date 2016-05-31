@@ -54,9 +54,9 @@
             <field name="model">stock.picking</field>
             <field name="type">kanban</field>
             <field name="arch" type="xml">
-                <kanban default_group_by="route_id">
+                <kanban default_group_by="route_id" default_order="effective_date asc, name asc">
                     <field name="name"/>
-                    <field name="date_done"/>
+                    <field name="effective_date"/>
                     <field name="partner_id"/>
                     <field name="supplier_id"/>
                     <field name="carrier_id"/>
@@ -73,13 +73,18 @@
                                 <div class="oe_kanban_box_header oe_kanban_color_bgdark oe_kanban_color_border oe_kanban_draghandle">
                                     <table class="oe_kanban_table">
                                     <tr>
-                                        <td class="oe_kanban_title1" align="left" valign="middle" tooltip="production_workcenter_line_details">
-                                            Fecha Real: <field name="date_done"/>
+                                        <td align="left" valign="middle" class="oe_kanban_title1">
+                                            <h3><a type="open"><field name="name"/></a></h3>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td align="left" valign="middle" class="oe_kanban_title1" tooltip="production_workcenter_line_details">
-                                            <field name="name"/> (<field name="state"/>)
+                                        <td align="left" valign="middle" class="oe_kanban_title1">
+                                            (<field name="state"/>)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="oe_kanban_title1" align="left" valign="middle">
+                                            <h4>Fecha Efectiva: <field name="effective_date"/></h4>
                                         </td>
                                     </tr>
                                     </table>
@@ -113,21 +118,25 @@
                                             <b>
                                                Bultos:
                                             </b>
-                                             <field name="packages_uos" />
-                                             <b>
+                                            <field name="packages_uos" />
+                                        <!--
+                                            <b>
                                                Volumen:
-                                             </b>
-                                             <field name="volume" />
+                                            </b>
+                                            <field name="volume" /> 
+                                        -->
                                         </div>
                                         <div>
                                             <b>
                                               Peso bruto:
                                             </b>
                                             <field name="weight" />
+                                        <!--
                                             <b>
                                               Peso neto:
                                             </b>
                                             <field name="weight_net" />
+                                        -->
                                         </div>
                                     </div>
                                     <div class="oe_kanban_buttons_set oe_kanban_color_border oe_kanban_color_bglight oe_kanban_box_show_onclick">

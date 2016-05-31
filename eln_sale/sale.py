@@ -119,12 +119,19 @@ class sale_order(orm.Model):
     
                         date_requested = datetime.strftime(datetime_requested,
                                                            '%Y-%m-%d')
+                        date_effective = date_requested
                     else:
                         date_requested = False
+                        datetime_effective = \
+                            datetime.strptime(order.commitment_date,
+                                              '%Y-%m-%d %H:%M:%S').\
+                            replace(tzinfo=from_zone).astimezone(to_zone)
+    
+                        date_effective = datetime.strftime(datetime_effective,
+                                                           '%Y-%m-%d')
                     vals = {'note': order.note,
                             'requested_date': date_requested,
-                            'effective_date': date_requested or
-                            order.commitment_date
+                            'effective_date': date_effective,
                             }
                     if order.supplier_id and picking.state != 'cancel' \
                             and not picking.supplier_id:
