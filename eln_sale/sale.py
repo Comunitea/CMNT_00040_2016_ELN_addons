@@ -111,13 +111,16 @@ class sale_order(orm.Model):
         for order in self.browse(cr, uid, ids):
             if order.picking_ids:
                 for picking in order.picking_ids:
-                    datetime_requested = \
-                        datetime.strptime(order.requested_date,
-                                          '%Y-%m-%d %H:%M:%S').\
-                        replace(tzinfo=from_zone).astimezone(to_zone)
-
-                    date_requested = datetime.strftime(datetime_requested,
-                                                       '%Y-%m-%d')
+                    if order.requested_date:
+                        datetime_requested = \
+                            datetime.strptime(order.requested_date,
+                                              '%Y-%m-%d %H:%M:%S').\
+                            replace(tzinfo=from_zone).astimezone(to_zone)
+    
+                        date_requested = datetime.strftime(datetime_requested,
+                                                           '%Y-%m-%d')
+                    else:
+                        date_requested = False
                     vals = {'note': order.note,
                             'requested_date': date_requested,
                             'effective_date': date_requested or
