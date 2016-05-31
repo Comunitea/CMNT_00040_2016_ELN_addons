@@ -13,6 +13,7 @@
         'sale_stock',
         'report_xls',
         'stock_picking_valued',
+        'eln_sale',
     ],
     'contributors': [
         "Javier Colmenero <javier@comunitea.com>"
