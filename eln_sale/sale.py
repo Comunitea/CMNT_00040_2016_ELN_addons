@@ -126,7 +126,6 @@ class sale_order(orm.Model):
                     if order.supplier_id and picking.state != 'cancel' \
                             and not picking.supplier_id:
                         vals.update({'supplier_id': order.supplier_id.id})
-                    import ipdb; ipdb.set_trace()
                     self.pool.get('stock.picking').write(cr, uid, picking.id,
                                                          vals)
         return res
