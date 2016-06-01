@@ -19,6 +19,7 @@
 #
 ##############################################################################
 from openerp.osv import orm, fields
+from openerp import models, api
 
 
 class stock_warehouse(orm.Model):
@@ -29,3 +30,11 @@ class stock_warehouse(orm.Model):
         'good_warehouse': fields.boolean('Good Warehouse', help="Check the good warehouse field if the warehouse is a good warehouse."),
     }
 
+
+class StockPickingType(models.Model):
+    _inherit = 'stock.picking.type'
+
+    @api.multi
+    def name_get(self):
+        return [(pt.id, pt.warehouse_id.name + ' - ' + pt.name)
+                for pt in self]
