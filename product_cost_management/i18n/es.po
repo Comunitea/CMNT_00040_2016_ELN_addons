@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-20 16:15+0000\n"
-"PO-Revision-Date: 2016-04-20 16:15+0000\n"
+"POT-Creation-Date: 2016-06-01 15:58+0000\n"
+"PO-Revision-Date: 2016-06-01 15:58+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -149,13 +149,13 @@ msgstr "Costes"
 #: code:addons/product_cost_management/wizard/product_costs.py:254
 #, python-format
 msgid "Could not show costs. No cost lines were found for this product!"
-msgstr "No se pueden mostrar los costes. ¡No se encontraron líneas de coste para este producto!"
+msgstr "No se pudieron mostrar costes. No hay lineas de coste donde encontrar este producto!"
 
 #. module: product_cost_management
 #: code:addons/product_cost_management/wizard/product_costs.py:256
 #, python-format
 msgid "Could not show costs. There are no costs associated with this product!"
-msgstr "No se pueden mostrar los costes. ¡No se encontraron costes asociados a este producto!"
+msgstr "No se pudieron mostrar costes. No hay costes asociados con este producto"
 
 #. module: product_cost_management
 #: field:cost.structure,create_uid:0
@@ -287,7 +287,7 @@ msgstr "Última modificación en"
 #: field:product.costs.line,write_uid:0
 #: field:update.product.costs,write_uid:0
 msgid "Last Updated by"
-msgstr "ültima actualización por"
+msgstr "Última actualización por"
 
 #. module: product_cost_management
 #: field:cost.structure,write_date:0
@@ -299,6 +299,17 @@ msgstr "ültima actualización por"
 #: field:update.product.costs,write_date:0
 msgid "Last Updated on"
 msgstr "Última actualización en"
+
+#. module: product_cost_management
+#: view:stock.history:product_cost_management.view_stock_history_report_search
+msgid "Location"
+msgstr "Ubicación"
+
+#. module: product_cost_management
+#: view:stock.history:product_cost_management.view_stock_history_report_search
+#: field:stock.history,lot_id:0
+msgid "Lot"
+msgstr "Lote"
 
 #. module: product_cost_management
 #: model:ir.model,name:product_cost_management.model_mrp_production
@@ -332,6 +343,11 @@ msgstr "Coste del producto"
 #: view:product.costs.line:product_cost_management.view_product_costs_tree
 msgid "Product Costs"
 msgstr "Costes de producto"
+
+#. module: product_cost_management
+#: model:ir.model,name:product_cost_management.model_stock_quant
+msgid "Quants"
+msgstr "Quants"
 
 #. module: product_cost_management
 #: selection:cost.structure.elements,cost_type:0
@@ -383,7 +399,7 @@ msgid "Structure"
 msgstr "Estructura"
 
 #. module: product_cost_management
-#: code:addons/product_cost_management/models/product.py:132
+#: code:addons/product_cost_management/models/product.py:133
 #: field:product.cost.lines,tc_rc_percent:0
 #: field:product.costs.line,tc_rc_percent:0
 #, python-format
@@ -436,20 +452,15 @@ msgid "Update"
 msgstr "Actualizar"
 
 #. module: product_cost_management
-#: view:product.product:product_cost_management.product_normal_form_view_add_theoric_cost
-msgid "Update Costs"
-msgstr "Actualizar costes"
-
-#. module: product_cost_management
 #: view:update.product.costs:product_cost_management.view_update_product_costs_wzd
 msgid "Update Product Costs"
-msgstr "Actualizar costes de producto"
+msgstr "Actualizar costes producto"
 
 #. module: product_cost_management
 #: model:ir.actions.act_window,name:product_cost_management.action_update_product_costs
 #: model:ir.ui.menu,name:product_cost_management.update_product_costs
 msgid "Update product costs"
-msgstr "Actualizar costes de producto"
+msgstr "Actualizar costes producto"
 
 #. module: product_cost_management
 #: code:addons/product_cost_management/wizard/product_costs.py:254
@@ -466,7 +477,7 @@ msgstr "Año"
 #. module: product_cost_management
 #: view:update.product.costs:product_cost_management.view_update_product_costs_wzd
 msgid "You are sure you update all product costs?"
-msgstr "Estás seguro de que quieres actualizar todos los costes de producto?"
+msgstr "Estás seguro de actualizar todos los costes de producto?"
 
 #. module: product_cost_management
 #: code:addons/product_cost_management/models/cost_structure_elements.py:81

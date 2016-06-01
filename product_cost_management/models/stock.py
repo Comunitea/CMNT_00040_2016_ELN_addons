@@ -87,12 +87,12 @@ class StockQuant(models.Model):
     cost = fields.Float('Unit Cost', digits=dp.get_precision('Product Price'))
 
 
-class StockHistory(models.Model):
-    """
-    Added to reload stock_history view, because is deleted when we put the
-    precission to the stock quant cost field
-    """
-    _inherit = 'stock.history'
+# class StockHistory(models.Model):
+#     """
+#     Added to reload stock_history view, because is deleted when we put the
+#     precission to the stock quant cost field
+#     """
+#     _inherit = 'stock.history'
 
-    def init(self, cr):
-        super(StockHistory, self).init(cr)
+#     def init(self, cr):
+#         super(StockHistory, self).init(cr)
