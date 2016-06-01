@@ -35,6 +35,7 @@ class AccountInvoice(models.Model):
 
     @api.multi
     def invoice_validate(self):
+        t_uom = self.env['product.uom']
         for invoice in self:
             if invoice.type not in ('out_invoice', 'out_refund'):
                 continue
@@ -45,11 +46,46 @@ class AccountInvoice(models.Model):
                     'move_id.line_id.analytic_lines'):
                 if not analytic_move.product_id:
                     continue
+                from_unit = analytic_move.product_uom_id.id
+                product_unit = analytic_move.product_id.uom_id.id
+                uom_qty = analytic_move.unit_amount
+                if from_unit != product_unit:
+                    uom_qty = t_uom._compute_qty(from_unit,
+                                                 analytic_move.unit_amount,
+                                                 product_unit)
                 amount = currency.compute(
                     analytic_move.product_id.standard_price *
-                    analytic_move.unit_amount, company_currency) * sign
+                    uom_qty, company_currency) * sign
                 analytic_move.copy(
                     {'journal_id':
                      analytic_move.journal_id.analytic_cost_journal.id,
                      'amount': amount})
         return super(AccountInvoice, self).invoice_validate()
+
+
+# class AccountAnalyticLine(models.Model):
+
+#     _inherit = 'account.analytic.line'
+
+#     @api.multi
+#     def fix(self):
+#         import ipdb; ipdb.set_trace()
+#         lines = self.sudo().search([])
+#         t_uom = self.env['product.uom']
+#         for l in lines:
+#             if l.product_uom_id.id != l.product_id.uom_id:
+#                 currency = l.invoice_id.currency_id.\
+#                     with_context(date=l.invoice_id.date_invoice)
+#                 company_currency = l.invoice_id.company_id.currency_id
+#                 sign = -1 if l.invoice_id.type == 'out_invoice' else 1
+#                 from_unit = l.product_uom_id.id
+#                 product_unit = l.product_id.uom_id.id
+#                 uom_qty = l.unit_amount
+#                 uom_qty = t_uom._compute_qty(from_unit,
+#                                              l.unit_amount,
+#                                              product_unit)
+#                 amount = currency.compute(
+#                     l.product_id.standard_price *
+#                     uom_qty, company_currency) * sign
+#                 l.amount = amount
+#         return
