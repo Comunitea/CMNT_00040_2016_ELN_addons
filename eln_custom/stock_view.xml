@@ -66,86 +66,84 @@
                     <field name="volume"/>
                     <field name="color_stock"/>
                     <field name="state"/>
+                    <field name="backorder_id"/>
                     <templates>
                         <t t-name="kanban-box">
                             <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color_stock.raw_value || record.state.raw_value)} oe_kanban_card">
                             <div class="oe_kanban_box oe_kanban_color_border">
                                 <div class="oe_kanban_box_header oe_kanban_color_bgdark oe_kanban_color_border oe_kanban_draghandle">
-                                    <table class="oe_kanban_table">
-                                    <tr>
-                                        <td align="left" valign="middle" class="oe_kanban_title1">
-                                            <h3><a type="open"><field name="name"/></a></h3>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td align="left" valign="middle" class="oe_kanban_title1">
-                                            (<field name="state"/>)
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="oe_kanban_title1" align="left" valign="middle">
-                                            <h4>Fecha Efectiva: <field name="effective_date"/></h4>
-                                        </td>
-                                    </tr>
-                                    </table>
-                                </div>
-                                     <div class="oe_kanban_box_content oe_kanban_color_bglight oe_kanban_box_show_onclick_trigger oe_kanban_color_border">
-                                        <div>
-                                            <b>
-                                                Fecha de solicitud:
-                                            </b>
-                                            <field name="requested_date"/>
-                                        </div>
-                                        <div>
-                                            <b>
-                                                Dirección:
-                                            </b>
-                                            <field name="partner_id"/>
-                                        </div>
-                                        <div>
-                                            <b>
-                                                Proveedor:
-                                            </b>
-                                            <field name="supplier_id"/>
-                                        </div>
-                                        <div>
-                                            <b>
-                                                Transportista:
-                                            </b>
-                                            <field name="carrier_id" />
-                                        </div>
-                                        <div>
-                                            <b>
-                                               Bultos:
-                                            </b>
-                                            <field name="packages_uos" />
-                                        <!--
-                                            <b>
-                                               Volumen:
-                                            </b>
-                                            <field name="volume" /> 
-                                        -->
-                                        </div>
-                                        <div>
-                                            <b>
-                                              Peso bruto:
-                                            </b>
-                                            <field name="weight" />
-                                        <!--
-                                            <b>
-                                              Peso neto:
-                                            </b>
-                                            <field name="weight_net" />
-                                        -->
-                                        </div>
+                                    <div>
+                                        <h3>
+                                           <a type="open"><field name="name"/></a>
+                                           <t t-if="record.backorder_id.raw_value"> (<field name="backorder_id"/>)</t>
+                                        </h3> 
                                     </div>
-                                    <div class="oe_kanban_buttons_set oe_kanban_color_border oe_kanban_color_bglight oe_kanban_box_show_onclick">
-                                        <div class="oe_kanban_left">
-                                            <a string="Edit" icon="gtk-edit" type="edit"/>
-                                        </div>
-                                        <br class="oe_kanban_clear"/>
+                                    <div>
+                                        (<field name="state"/>)
+                                    </div>
+                                    <div>
+                                        <h4>Fecha Efectiva: <field name="effective_date"/></h4>
                                     </div>
                                 </div>
+                                <div class="oe_kanban_box_content oe_kanban_color_bglight oe_kanban_box_show_onclick_trigger oe_kanban_color_border">
+                                    <div t-if="record.requested_date.raw_value" t-attf-class="oe_kanban_text_red">
+                                        <b>
+                                            Fecha de solicitud:
+                                        </b>
+                                        <field name="requested_date"/>
+                                    </div>
+                                    <div>
+                                        <b>
+                                            Dirección:
+                                        </b>
+                                        <field name="partner_id"/>
+                                    </div>
+                                    <!--
+                                    <div>
+                                        <b>
+                                            Proveedor:
+                                        </b>
+                                        <field name="supplier_id"/>
+                                    </div>
+                                    <div>
+                                        <b>
+                                            Transportista:
+                                        </b>
+                                        <field name="carrier_id" />
+                                    </div>
+                                    -->
+                                    <div>
+                                        <b>
+                                            Bultos:
+                                        </b>
+                                        <field name="packages_uos" />
+                                        <!--
+                                        <b>
+                                            Volumen:
+                                        </b>
+                                        <field name="volume" /> 
+                                        -->
+                                    </div>
+                                    <div>
+                                        <b>
+                                            Peso bruto:
+                                        </b>
+                                        <field name="weight" />
+                                        <!--
+                                        <b>
+                                            Peso neto:
+                                        </b>
+                                        <field name="weight_net" />
+                                        -->
+                                    </div>
+                                </div>
+                                <div class="oe_kanban_buttons_set oe_kanban_color_border oe_kanban_color_bglight oe_kanban_box_show_onclick">
+                                    <div class="oe_kanban_left">
+                                        <a string="Edit" icon="gtk-edit" type="edit"/>
+                                    </div>
+                                    <br class="oe_kanban_clear"/>
+                                </div>
+                            </div>
                             </div>
                         </t>
                     </templates>
