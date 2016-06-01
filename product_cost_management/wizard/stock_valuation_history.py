@@ -2,7 +2,18 @@
 # © 2016 Comunitea - Javier Colmenero <javier@comunitea.com>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from openerp import models, tools, fields
+from openerp import models, tools, fields, api
+
+
+class WizardValuationHistory(models.TransientModel):
+
+    _inherit = 'wizard.valuation.history'
+
+    @api.multi
+    def open_table(self):
+        self.ensure_one()
+        self2 = self.with_context(search_default_group_by_lot=True)
+        return super(WizardValuationHistory, self2).open_table()
 
 
 class StockHistory(models.Model):
