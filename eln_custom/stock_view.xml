@@ -57,6 +57,7 @@
                 <kanban default_group_by="route_id" default_order="effective_date asc, name asc">
                     <field name="name"/>
                     <field name="effective_date"/>
+                    <field name="requested_date"/>
                     <field name="partner_id"/>
                     <field name="supplier_id"/>
                     <field name="carrier_id"/>
@@ -79,7 +80,7 @@
                                         </h3> 
                                     </div>
                                     <div>
-                                        (<field name="state"/>)
+                                        <li>(<field name="state"/>)</li>
                                     </div>
                                     <div>
                                         <h4>Fecha Efectiva: <field name="effective_date"/></h4>
