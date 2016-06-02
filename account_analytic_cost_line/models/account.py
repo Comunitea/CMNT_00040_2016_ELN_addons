@@ -56,10 +56,11 @@ class AccountInvoice(models.Model):
                 amount = currency.compute(
                     analytic_move.product_id.standard_price *
                     uom_qty, company_currency) * sign
-                analytic_move.copy(
-                    {'journal_id':
-                     analytic_move.journal_id.analytic_cost_journal.id,
-                     'amount': amount})
+                if analytic_move.journal_id.analytic_cost_journal:
+                    analytic_move.copy(
+                        {'journal_id':
+                         analytic_move.journal_id.analytic_cost_journal.id,
+                         'amount': amount})
         return super(AccountInvoice, self).invoice_validate()
 
 
