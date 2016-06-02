@@ -74,7 +74,7 @@ class AccountAnalyticLine(models.Model):
         lines = self.search([('journal_id', '=', journal_id)])
         t_uom = self.env['product.uom']
         for l in lines:
-            if l.product_uom_id.id != l.product_id.uom_id:
+            if l.product_uom_id.id != l.product_id.uom_id.id:
                 invoice_id = False
                 for l2 in l.move_id.analytic_lines:
                     if l2.invoice_id:
