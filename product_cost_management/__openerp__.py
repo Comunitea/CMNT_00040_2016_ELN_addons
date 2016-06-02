@@ -34,6 +34,7 @@
     "category": "Product",
     "init_xml": [],
     "data": ["wizard/product_costs_view.xml",
+             "wizard/stock_valuation_history_view.xml",
               "views/cost_type_view.xml",
               "views/cost_structure_elements.xml",
               "data/product_cost_management_names_seq.xml",

@@ -1,19 +1,21 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* eln_sale
+# 	* eln_sale
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-25 18:18+0000\n"
-"PO-Revision-Date: 2016-02-25 18:18+0000\n"
-"Last-Translator: <>\n"
+"POT-Creation-Date: 2016-05-30 22:44+0000\n"
+"PO-Revision-Date: 2016-05-31 00:49+0200\n"
+"Last-Translator: Pedro <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
+"Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
+"Language: es\n"
+"X-Generator: Poedit 1.8.6\n"
 
 #. module: eln_sale
 #: view:sale.shop:eln_sale.view_shop_form
@@ -26,8 +28,7 @@ msgid "Analytic Account"
 msgstr "Cuenta analítica"
 
 #. module: eln_sale
-#: field:sale.order,supplier_cip:0
-#: field:stock.picking,supplier_cip:0
+#: field:sale.order,supplier_cip:0 field:stock.picking,supplier_cip:0
 msgid "CIP"
 msgstr "CIP"
 
@@ -68,29 +69,26 @@ msgid "Confirm Sales Orders"
 msgstr "Confirmar pedidos de ventas"
 
 #. module: eln_sale
-#: model:ir.model,name:eln_sale.model_sale_order_confirm
-msgid "Confirm the selected sales orders"
-msgstr "Confirmar lo pedidos de ventas seleccionados"
-
-#. module: eln_sale
-#: field:partner.product,create_uid:0
-#: field:sale.order.confirm,create_uid:0
+#: field:partner.product,create_uid:0 field:sale.order.confirm,create_uid:0
 #: field:sale.shop,create_uid:0
 msgid "Created by"
 msgstr "Created by"
 
 #. module: eln_sale
-#: field:partner.product,create_date:0
-#: field:sale.order.confirm,create_date:0
+#: field:partner.product,create_date:0 field:sale.order.confirm,create_date:0
 #: field:sale.shop,create_date:0
 msgid "Created on"
 msgstr "Created on"
 
 #. module: eln_sale
-#: help:sale.order,supplier_cip:0
-#: help:stock.picking,supplier_cip:0
+#: help:sale.order,supplier_cip:0 help:stock.picking,supplier_cip:0
 msgid "Código interno del proveedor."
 msgstr "Código interno del proveedor."
+
+#. module: eln_sale
+#: help:stock.picking,effective_date:0 help:stock.picking,requested_date:0
+msgid "Date by which the customer has requested the items to be delivered."
+msgstr "Fecha en la que el cliente a solicitado el envío de los productos."
 
 #. module: eln_sale
 #: help:stock.picking,commitment_date:0
@@ -108,13 +106,35 @@ msgid "Deliver & invoice on demand"
 msgstr "Entrega & Factura manual"
 
 #. module: eln_sale
+#: view:sale.order:eln_sale.view_sales_order_filter
 #: view:stock.picking:eln_sale.view_picking_out_search
 msgid "Direct Invoicing"
 msgstr "Facturación Directa"
 
 #. module: eln_sale
-#: field:partner.product,id:0
-#: field:sale.order.confirm,id:0
+#: field:partner.product,display_name:0 field:sale.order.confirm,display_name:0
+#: field:sale.shop,display_name:0
+msgid "Display Name"
+msgstr "Nombre mostrado"
+
+#. module: eln_sale
+#: view:sale.order:eln_sale.view_sales_order_filter
+#: field:stock.picking,effective_date:0
+msgid "Effective Date"
+msgstr "Fecha efectiva"
+
+#. module: eln_sale
+#: view:sale.shop:eln_sale.view_shop_form
+msgid "General"
+msgstr "General"
+
+#. module: eln_sale
+#: view:sale.order:eln_sale.view_sales_order_filter
+msgid "Group By"
+msgstr "Agrupar por"
+
+#. module: eln_sale
+#: field:partner.product,id:0 field:sale.order.confirm,id:0
 #: field:sale.shop,id:0
 msgid "ID"
 msgstr "ID"
@@ -125,6 +145,7 @@ msgid "If you have more than one sale_type reselling your company products, you 
 msgstr "If you have more than one sale_type reselling your company products, you can create and manage that from here. Whenever you will record a new quotation or sales order, it has to be linked to a sale_type. The sale_type also defines the warehouse from which the products will be delivered for each particular sales."
 
 #. module: eln_sale
+#: view:sale.order:eln_sale.view_sales_order_filter
 #: field:sale.shop,indirect_invoicing:0
 #: view:stock.picking:eln_sale.view_picking_out_search
 msgid "Indirect Invoicing"
@@ -146,15 +167,19 @@ msgid "Invoice on order after delivery"
 msgstr "Facturar después de la entrega"
 
 #. module: eln_sale
-#: field:partner.product,write_uid:0
-#: field:sale.order.confirm,write_uid:0
+#: field:partner.product,__last_update:0
+#: field:sale.order.confirm,__last_update:0 field:sale.shop,__last_update:0
+msgid "Last Modified on"
+msgstr "Last Modified on"
+
+#. module: eln_sale
+#: field:partner.product,write_uid:0 field:sale.order.confirm,write_uid:0
 #: field:sale.shop,write_uid:0
 msgid "Last Updated by"
 msgstr "Last Updated by"
 
 #. module: eln_sale
-#: field:partner.product,write_date:0
-#: field:sale.order.confirm,write_date:0
+#: field:partner.product,write_date:0 field:sale.order.confirm,write_date:0
 #: field:sale.shop,write_date:0
 msgid "Last Updated on"
 msgstr "Last Updated on"
@@ -208,6 +233,11 @@ msgid "Products"
 msgstr "Productos"
 
 #. module: eln_sale
+#: field:stock.picking,requested_date:0
+msgid "Requested Date"
+msgstr "Fecha solicitud"
+
+#. module: eln_sale
 #: field:res.partner,property_product_pricelist_indirect_invoicing:0
 msgid "Sale Pricelist (Indirect Invoicing)"
 msgstr "Tarifa de venta (Fact. Indirecta)"
@@ -222,6 +252,11 @@ msgstr "Tipo de venta"
 #: model:ir.ui.menu,name:eln_sale.menu_action_shop_form
 msgid "Sale Types"
 msgstr "Tipos de venta"
+
+#. module: eln_sale
+#: field:sale.order,shop_id:0
+msgid "Sale type"
+msgstr "Tipo de venta"
 
 #. module: eln_sale
 #: model:ir.model,name:eln_sale.model_sale_order
@@ -240,15 +275,10 @@ msgid "Sales Shop"
 msgstr "Tipos de ventas"
 
 #. module: eln_sale
-#: code:addons/eln_sale/wizard/sale_order_confirm.py:42
+#: code:addons/eln_sale/wizard/sale_order_confirm.py:41
 #, python-format
 msgid "Selected Sale(s) cannot be confirmed as they are not in 'Draft' state!"
 msgstr "¡Los pedidos seleccionados no pueden ser confirmados si no están en estado 'Presupuesto'!"
-
-#. module: eln_sale
-#: field:sale.shop,name:0
-msgid "Type Name"
-msgstr "Nombre tipo"
 
 #. module: eln_sale
 #: model:ir.model,name:eln_sale.model_stock_move
@@ -256,23 +286,23 @@ msgid "Stock Move"
 msgstr "Movimiento de existencias"
 
 #. module: eln_sale
-#: field:sale.order,supplier_id:0
-#: field:sale.shop,supplier_id:0
+#: field:sale.order,supplier_id:0 field:sale.shop,supplier_id:0
 #: view:stock.move:eln_sale.view_move_search_add_supplier
-#: field:stock.move,supplier_id:0
-#: field:stock.picking,supplier_id:0
+#: field:stock.move,supplier_id:0 field:stock.picking,supplier_id:0
 msgid "Supplier"
 msgstr "Proveedor"
 
 #. module: eln_sale
 #: help:sale.shop,order_policy:0
-msgid "The Invoice Policy is used to synchronise invoice and delivery operations.\n"
+msgid ""
+"The Invoice Policy is used to synchronise invoice and delivery operations.\n"
 "  - The 'Pay before delivery' choice will first generate the invoice and then generate the picking order after the payment of this invoice.\n"
 "  - The 'Deliver & Invoice on demand' will create the picking order directly and wait for the user to manually click on the 'Invoice' button to generate the draft invoice based on the sale order or the sale order lines.\n"
 "  - The 'Invoice on order after delivery' choice will generate the draft invoice based on sales order after all picking lists have been finished.\n"
 "  - The 'Invoice based on deliveries' choice is used to create an invoice during the picking process.\n"
 "  - The 'No bill' choice is used to not create an invoice."
-msgstr "La Política de Facturación se usa para sincronizar las operaciones de factura y entrega.\n"
+msgstr ""
+"La Política de Facturación se usa para sincronizar las operaciones de factura y entrega.\n"
 "  - La opción 'Pagar antes de la entrega' generará primero la factura, y creará el albarán después del pago de la factura.\n"
 "  - La opción 'Entrega y Factura manual' creará el albarán directamente y esperará a que el usuario haga click en el botón 'Factura' para generar el borrador de la factura basada en el pedido de venta o las líneas del pedido de venta.\n"
 "  - La opción 'Facturar después de la entrega' generará el borrador de la factura basada en el pedido de venta después de haber terminado toda la fase del albarán.\n"
@@ -285,21 +315,44 @@ msgid "This pricelist will be used, instead of the default one, for indirect sal
 msgstr "Esta tarifa de precios se usará, en lugar de la por defecto, para ventas de facturación indirecta al cliente actual"
 
 #. module: eln_sale
-#: model:ir.model,name:eln_sale.model_stock_warehouse
+#: view:sale.order:eln_sale.view_order_tree
+msgid "Total amount untaxed"
+msgstr "Importe total sin impuestos"
+
+#. module: eln_sale
+#: field:sale.shop,name:0
+msgid "Type Name"
+msgstr "Nombre tipo"
+
+#. module: eln_sale
 #: field:sale.shop,warehouse_id:0
 msgid "Warehouse"
 msgstr "Almacén"
 
 #. module: eln_sale
-#: code:addons/eln_sale/wizard/sale_order_confirm.py:42
-#: code:addons/eln_sale/wizard/sale_order_confirm.py:44
+#: code:addons/eln_sale/wizard/sale_order_confirm.py:41
+#: code:addons/eln_sale/wizard/sale_order_confirm.py:43
 #, python-format
 msgid "Warning"
 msgstr "Atención"
 
 #. module: eln_sale
-#: code:addons/eln_sale/wizard/sale_order_confirm.py:44
+#: code:addons/eln_sale/wizard/sale_order_confirm.py:43
 #, python-format
 msgid "You cannot confirm a sale order which has no line."
 msgstr "No puede confirmar un pedido de venta sin líneas."
 
+#. module: eln_sale
+#: view:sale.order:eln_sale.view_elnsale_sale_form
+msgid "[('commercial_partner_id', '=', commercial_partner_id)]"
+msgstr "[('commercial_partner_id', '=', commercial_partner_id)]"
+
+#. module: eln_sale
+#: field:sale.order,commercial_partner_id:0
+msgid "unknown"
+msgstr "Desconocido"
+
+#. module: eln_sale
+#: view:sale.order:eln_sale.view_elnsale_sale_form
+msgid "{'readonly': [('state', 'in', ['progress', 'manual', 'done'])]}"
+msgstr "{'readonly': [('state', 'in', ['progress', 'manual', 'done'])]}"

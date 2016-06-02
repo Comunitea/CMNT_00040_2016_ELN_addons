@@ -57,12 +57,13 @@ class sale_order(orm.Model):
 
     _inherit = 'sale.order'
 
-    def action_ship_create(self, cr, uid, ids, *args):
+    def action_ship_create(self, cr, uid, ids, context=None):
         """
             Extend this method for updating stock move based on sale_order_line 'sample' field...
         """
         assert isinstance(ids,list)
-        res = super(sale_order, self).action_ship_create(cr, uid, ids, *args)
+        res = super(sale_order, self).action_ship_create(cr, uid, ids,
+                                                         context=context)
         stock_move_facade = self.pool.get('stock.move')
         data_pool = self.pool.get('ir.model.data')
         current_order = self.browse(cr, uid, ids)[0]

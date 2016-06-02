@@ -94,6 +94,9 @@
                     <newline/>
 	                <field name="name" filter_domain="['|', ('name','ilike',self),('client_order_ref','ilike',self)]"/>
                 </field>
+                <group string="Group By" position="inside">
+                    <filter string="Effective Date" domain="[]" context="{'group_by':'effective_date'}"/>
+                </group>
             </field>
         </record>
 
@@ -104,15 +107,15 @@
             <field name="inherit_id" ref="sale_order_dates.view_sale_orderfor"/>
             <field name="arch" type="xml">
                 <field name="date_order" position="replace"/>
-                <field name="commitment_date" position="replace"/>
+                <!-- <field name="commitment_date" position="replace"/> -->
                 <!-- POST-MIGRATION -->
                <!--  <field name="shipped" position="replace"/> -->
                 <field name="invoiced" position="replace">
                     <group col="4" colspan="2">
                         <field name="date_order"/>
                         <field name="invoiced"/>
-                        <field name="commitment_date"/>
-                        <field name="shipped"/>
+                        <!-- <field name="commitment_date"/> -->
+                        <!--  <field name="shipped"/> -->
                     </group>
               </field>
             </field>
@@ -264,7 +267,7 @@
             <field name="inherit_id" ref="sale.view_order_tree"/>
             <field name="arch" type="xml">
                 <field name="amount_total" position="before">
-                    <field name="amount_untaxed"/>
+                    <field name="amount_untaxed" sum="Total amount untaxed"/>
                 </field>
             </field>
         </record>

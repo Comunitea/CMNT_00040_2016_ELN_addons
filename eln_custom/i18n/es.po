@@ -6,16 +6,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-22 11:33+0000\n"
-"PO-Revision-Date: 2016-04-22 15:50+0200\n"
-"Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
+"POT-Creation-Date: 2016-05-30 22:53+0000\n"
+"PO-Revision-Date: 2016-05-31 00:57+0200\n"
+"Last-Translator: Pedro <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Language: es_ES\n"
-"X-Generator: Poedit 1.8.7\n"
+"X-Generator: Poedit 1.8.6\n"
 
 #. module: eln_custom
 #: model:ir.model,name:eln_custom.model_account_analytic_plan_instance
@@ -48,6 +48,11 @@ msgid "Color stock"
 msgstr "Color stock"
 
 #. module: eln_custom
+#: model:ir.model,name:eln_custom.model_res_company
+msgid "Companies"
+msgstr "Compañías"
+
+#. module: eln_custom
 #: field:account.analytic.plan.instance,company_id:0
 msgid "Company"
 msgstr "Empresa"
@@ -73,6 +78,11 @@ msgid "Created on"
 msgstr "Created on"
 
 #. module: eln_custom
+#: field:route,delivery_delay:0
+msgid "Delivery Lead Time"
+msgstr "Plazo de entrega"
+
+#. module: eln_custom
 #: view:stock.picking:eln_custom.stock_picking_kanban
 msgid "Dirección:"
 msgstr "Dirección:"
@@ -94,8 +104,8 @@ msgstr "Fecha Real:"
 
 #. module: eln_custom
 #: view:stock.picking:eln_custom.stock_picking_kanban
-msgid "Fecha de compromiso:"
-msgstr "Fecha de compromiso:"
+msgid "Fecha de solicitud:"
+msgstr "Fecha de solicitud:"
 
 #. module: eln_custom
 #: view:stock.picking:eln_custom.view_picking_planning_kanban_search
@@ -145,12 +155,17 @@ msgstr "Nombre"
 #. module: eln_custom
 #: field:stock.picking,purchase_id:0
 msgid "Order Reference"
-msgstr "Order Reference"
+msgstr "Referencia de pedido"
 
 #. module: eln_custom
 #: field:stock.picking,packages:0
 msgid "Packages"
 msgstr "Paquetes"
+
+#. module: eln_custom
+#: field:stock.picking,packages_uos:0
+msgid "Packages UoS"
+msgstr "Paquetes UdV"
 
 #. module: eln_custom
 #: model:ir.model,name:eln_custom.model_res_partner
@@ -234,7 +249,12 @@ msgstr "Proveedor Tipo"
 #. module: eln_custom
 #: view:product.supplierinfo:eln_custom.product_supplierinfo_form_view_delete_domain
 msgid "Supplier/Customer"
-msgstr "Supplier/Customer"
+msgstr "Proveedor/Cliente"
+
+#. module: eln_custom
+#: help:route,delivery_delay:0
+msgid "The average delay in days between the picking transfer and the delivery of the products to customer."
+msgstr "El tiempo medio en días entre la transferencia del albarán y la entrega de los productos al cliente."
 
 #. module: eln_custom
 #: view:stock.picking:eln_custom.view_picking_planning_kanban_search
@@ -285,7 +305,7 @@ msgstr "Movimientos a la espera"
 #: code:addons/eln_custom/res_partner.py:59
 #, python-format
 msgid "Warning!"
-msgstr "Warning!"
+msgstr "¡Advertencia!"
 
 #. module: eln_custom
 #: field:stock.picking,weight:0
