@@ -20,6 +20,7 @@
 ##############################################################################
 from openerp.osv import orm, fields
 from datetime import datetime
+from dateutil import tz
 from dateutil.relativedelta import relativedelta
 from openerp.tools.translate import _
 import time
@@ -28,6 +29,20 @@ from openerp import api
 
 class sale_order(orm.Model):
     _inherit = 'sale.order'
+
+    def _get_effective_date(self, cr, uid, ids, name, arg, context=None):
+        """Read the shipping effective date from the related packings"""
+        res = {}
+        dates_list = []
+        for order in self.browse(cr, uid, ids, context=context):
+            dates_list = []
+            for pick in order.picking_ids:
+                dates_list.append(pick.effective_date)
+            if dates_list:
+                res[order.id] = min(dates_list)
+            else:
+                res[order.id] = False
+        return res
 
     _columns = {
         'supplier_id': fields.many2one('res.partner', 'Supplier', readonly=True,domain = [('supplier','=',True)],states={'draft': [('readonly', False)]}, select=True),
@@ -38,11 +53,12 @@ class sale_order(orm.Model):
             ('postpaid', 'Invoice on order after delivery'),
             ('no_bill', 'No bill')
         ], 'Invoice Policy', required=True, readonly=True, states={'draft': [('readonly', False)]}, change_default=True),
-        'commitment_date': fields.date('Commitment Date', help="Date on which delivery of products is to be made.", readonly=True, states={'draft': [('readonly', False)],'waiting_date': [('readonly', False)],'manual': [('readonly', False)],'progress': [('readonly', False)]}),
         'supplier_cip': fields.char('CIP', help="Código interno del proveedor.", size=32, readonly=True, states={'draft': [('readonly', False)],'waiting_date': [('readonly', False)],'manual': [('readonly', False)],'progress': [('readonly', False)]}),
         'shop_id': fields.many2one('sale.shop', 'Sale type', required=True),
-        'commercial_partner_id': fields.many2one('res.partner',
-                                                 invisible=True)
+        'commercial_partner_id': fields.many2one('res.partner', invisible=True),
+        'effective_date': fields.function(_get_effective_date, type='date',
+            store=True, string='Effective Date',
+            help="Date on which the first Delivery Order was delivered."),
     }
 
     def onchange_shop_id(self, cr, uid, ids, shop_id):
@@ -86,26 +102,37 @@ class sale_order(orm.Model):
 
         return res
 
-    def create(self, cr, uid, vals, context=None):
-        """overwrites create method to set commitment_date automatically"""
-        #if vals.get('order_line', []):
-        #    dates_list = []
-        #    for line in vals['order_line']:
-        #        line = line[2]
-        #        dt = datetime.strptime(vals['date_order'], '%Y-%m-%d') + relativedelta(days=line['delay'] or 0.0)
-        #        dt_s = dt.strftime('%Y-n%m-%d')
-        #        dates_list.append(dt_s)
-        #    if dates_list and not vals.get('commitment_date'):
-        #        vals.update({'commitment_date': min(dates_list)})
-        return super(sale_order, self).create(cr, uid, vals, context=context)
-
-    def action_ship_create(self, cr, uid, ids, *args):
-        res = super(sale_order, self).action_ship_create(cr, uid, ids, *args)
+    def action_ship_create(self, cr, uid, ids, context=None):
+        res = super(sale_order, self).action_ship_create(cr, uid, ids,
+                                                         context=context)
+        user_tz = self.pool['res.users'].browse(cr, uid, uid).tz
+        from_zone = tz.gettz('UTC')
+        to_zone = tz.gettz(user_tz)
         for order in self.browse(cr, uid, ids):
             if order.picking_ids:
                 for picking in order.picking_ids:
-                    vals = {'note': order.note, 
-                            'commitment_date': order.commitment_date}
+                    if order.requested_date:
+                        datetime_requested = \
+                            datetime.strptime(order.requested_date,
+                                              '%Y-%m-%d %H:%M:%S').\
+                            replace(tzinfo=from_zone).astimezone(to_zone)
+    
+                        date_requested = datetime.strftime(datetime_requested,
+                                                           '%Y-%m-%d')
+                        date_effective = date_requested
+                    else:
+                        date_requested = False
+                        datetime_effective = \
+                            datetime.strptime(order.commitment_date,
+                                              '%Y-%m-%d %H:%M:%S').\
+                            replace(tzinfo=from_zone).astimezone(to_zone)
+    
+                        date_effective = datetime.strftime(datetime_effective,
+                                                           '%Y-%m-%d')
+                    vals = {'note': order.note,
+                            'requested_date': date_requested,
+                            'effective_date': date_effective,
+                            }
                     if order.supplier_id and picking.state != 'cancel' \
                             and not picking.supplier_id:
                         vals.update({'supplier_id': order.supplier_id.id})

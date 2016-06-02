@@ -12,6 +12,7 @@
                     <field name="code"/>
                     <field name="name"/>
                     <field name="carrier_id"/>
+                    <field name="delivery_delay"/>
                 </tree>
             </field>
         </record>
@@ -26,6 +27,7 @@
                         <field name="code"/>
                         <field name="name"/>
                         <field name="carrier_id"/>
+                        <field name="delivery_delay"/>
                     </group>
                 </form>
             </field>

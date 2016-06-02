@@ -14,7 +14,8 @@
                    <field name="supplier_cip"/>
                 </field>
                 <field name="min_date" position="after">
-                    <field name="commitment_date"/>
+                    <field name="requested_date" widget="date"/>
+                    <field name="effective_date"/>
                 </field>
             </field>
         </record>

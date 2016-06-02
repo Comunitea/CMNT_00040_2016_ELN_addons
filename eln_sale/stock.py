@@ -19,6 +19,8 @@
 #
 ##############################################################################
 from openerp.osv import orm, fields
+from openerp import api
+
 
 class stock_picking(orm.Model):
     _inherit = 'stock.picking'
@@ -26,9 +28,16 @@ class stock_picking(orm.Model):
         'supplier_id': fields.many2one('res.partner', 'Supplier', readonly=True,domain = [('supplier','=',True)],states={'draft': [('readonly', False)]}, select=True),
         'carrier_id': fields.many2one('res.partner', 'Carrier', readonly=True, states={'draft': [('readonly', False)], 'confirmed': [('readonly', False)], 'assigned': [('readonly', False)]}, select=True),
         'commitment_date': fields.date('Commitment Date', help="Date on which delivery of products is to be made.", states={'cancel': [('readonly', True)]}),
-
+        #borrar el campo anterior una vez hecho el volcado de datos al nuevo requested_date
+        'requested_date': fields.date('Requested Date', states={'cancel': [('readonly', True)]},
+            help="Date by which the customer has requested the items to be delivered."),
+        'effective_date': fields.date('Effective Date', readonly=True, states={'done': [('readonly', False)]},
+            help="Date by which the customer has requested the items to be delivered."),
         'supplier_cip': fields.related('sale_id', 'supplier_cip', type='char', string="CIP", readonly=True,  
                            help="Código interno del proveedor."),
+    }
+    _defaults = {
+        'effective_date': fields.datetime.now,
     }
 
     def _prepare_invoice_group(self, cr, uid, picking, partner, invoice, context=None):
@@ -68,6 +77,20 @@ class stock_picking(orm.Model):
             if picking and picking.date_done:
                 res.update({'date_invoice': picking.date_done})
 
+        return res
+
+    @api.multi
+    def write(self, vals):
+        res = super(stock_picking, self).write(vals)
+        if vals.get('effective_date', False):
+            new_date = vals['effective_date']
+            for picking in self:
+                if picking.sale_id:
+                    old_date_dic = picking.sale_id._get_effective_date(False,
+                                                                       False)
+                    old_date = old_date_dic[picking.sale_id.id]
+                    if new_date <= old_date or not picking.sale_id.effective_date:
+                        picking.sale_id.effective_date = old_date
         return res
 
 
