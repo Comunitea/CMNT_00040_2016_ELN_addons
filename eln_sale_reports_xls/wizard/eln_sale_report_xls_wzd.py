@@ -46,11 +46,11 @@ class ElnSaleReportXlsWzd(models.TransientModel):
             ('state', 'not in', ['draft', 'cancel']),
             '|',
             '&',
-            ('min_date', '>=', init_date),
-            ('min_date', '<=', end_date),
+            ('effective_date', '>=', init_date),
+            ('effective_date', '<=', end_date),
             '&',
-            ('min_date', '>=', ly_init_date),
-            ('min_date', '<=', ly_end_date),
+            ('effective_date', '>=', ly_init_date),
+            ('effective_date', '<=', ly_end_date),
         ]
         for pick in t_pick.search(domain):
             if not pick.sale_id or pick.invoice_state == 'none':
@@ -73,17 +73,17 @@ class ElnSaleReportXlsWzd(models.TransientModel):
 
             base, pur_price, kg = self.get_pick_values(pick)
             # From init to Current days values
-            if pick.min_date >= init_date and pick.min_date <= end_date:
+            if pick.effective_date >= init_date and pick.effective_date <= end_date:
                 res[acc]['base'] += base
                 res[acc]['p_price'] += pur_price
                 res[acc]['kg'] += kg
             # From init to previous day of end date
-            if pick.min_date >= init_date and pick.min_date < end_date:
+            if pick.effective_date >= init_date and pick.effective_date < end_date:
                 res[acc]['ld_base'] += base
                 res[acc]['ld_p_price'] += pur_price
                 res[acc]['ld_kg'] += kg
             # Last Year
-            if pick.min_date >= ly_init_date and pick.min_date <= ly_end_date:
+            if pick.effective_date >= ly_init_date and pick.effective_date <= ly_end_date:
                 res[acc]['ly_base'] += base
                 res[acc]['ly_p_price'] += pur_price
                 res[acc]['ly_kg'] += kg

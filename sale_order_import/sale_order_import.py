@@ -129,7 +129,7 @@ class sale_order_import(orm.TransientModel):
                         
                         values = {
                             'date_order': datetime.strptime(ln[date_i], '%d%m%Y').strftime('%Y-%m-%d') or time.strftime('%Y-%m-%d'),
-                            'commitment_date': datetime.strptime(ln[date_i], '%d%m%Y').strftime('%Y-%m-%d') or time.strftime('%Y-%m-%d'),
+                            'requested_date': datetime.strptime(ln[date_i], '%d%m%Y').strftime('%Y-%m-%d') or time.strftime('%Y-%m-%d'),
                             'shop_id': wizard.shop_id.id,
                             'client_order_ref': False,
                             'partner_id': partner.id,

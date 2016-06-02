@@ -41,8 +41,8 @@ class ElnSaleSummaryXlsWzd(models.TransientModel):
         domain = [
             ('picking_type_code', '=', 'outgoing'),
             ('state', 'not in', ['draft', 'cancel']),
-            ('min_date', '>=', self.start_date),
-            ('min_date', '<=', self.end_date),
+            ('effective_date', '>=', self.start_date),
+            ('effective_date', '<=', self.end_date),
             ('company_id', 'in', [valquin_id, quival_id])
         ]
         for pick in t_pick.search(domain):
