@@ -56,36 +56,43 @@ class AccountInvoice(models.Model):
                 amount = currency.compute(
                     analytic_move.product_id.standard_price *
                     uom_qty, company_currency) * sign
-                analytic_move.copy(
-                    {'journal_id':
-                     analytic_move.journal_id.analytic_cost_journal.id,
-                     'amount': amount})
+                if analytic_move.journal_id.analytic_cost_journal:
+                    analytic_move.copy(
+                        {'journal_id':
+                         analytic_move.journal_id.analytic_cost_journal.id,
+                         'amount': amount})
         return super(AccountInvoice, self).invoice_validate()
 
 
-# class AccountAnalyticLine(models.Model):
+class AccountAnalyticLine(models.Model):
 
-#     _inherit = 'account.analytic.line'
+    _inherit = 'account.analytic.line'
 
-#     @api.multi
-#     def fix(self):
-#         import ipdb; ipdb.set_trace()
-#         lines = self.sudo().search([])
-#         t_uom = self.env['product.uom']
-#         for l in lines:
-#             if l.product_uom_id.id != l.product_id.uom_id:
-#                 currency = l.invoice_id.currency_id.\
-#                     with_context(date=l.invoice_id.date_invoice)
-#                 company_currency = l.invoice_id.company_id.currency_id
-#                 sign = -1 if l.invoice_id.type == 'out_invoice' else 1
-#                 from_unit = l.product_uom_id.id
-#                 product_unit = l.product_id.uom_id.id
-#                 uom_qty = l.unit_amount
-#                 uom_qty = t_uom._compute_qty(from_unit,
-#                                              l.unit_amount,
-#                                              product_unit)
-#                 amount = currency.compute(
-#                     l.product_id.standard_price *
-#                     uom_qty, company_currency) * sign
-#                 l.amount = amount
-#         return
+    @api.multi
+    def fix(self):
+        journal_id = self[0].journal_id.id
+        lines = self.search([('journal_id', '=', journal_id)])
+        t_uom = self.env['product.uom']
+        for l in lines:
+            if l.product_uom_id.id != l.product_id.uom_id:
+                invoice_id = False
+                for l2 in l.move_id.analytic_lines:
+                    if l2.invoice_id:
+                        invoice_id = l2.invoice_id
+                if not invoice_id:
+                    continue
+                company_currency = invoice_id.company_id.currency_id
+                currency = invoice_id.currency_id.\
+                    with_context(date=invoice_id.date_invoice)
+                sign = -1 if invoice_id.type == 'out_invoice' else 1
+                from_unit = l.product_uom_id.id
+                product_unit = l.product_id.uom_id.id
+                uom_qty = l.unit_amount
+                uom_qty = t_uom._compute_qty(from_unit,
+                                             l.unit_amount,
+                                             product_unit)
+                amount = currency.compute(
+                    l.product_id.standard_price *
+                    uom_qty, company_currency) * sign
+                l.amount = amount
+        return

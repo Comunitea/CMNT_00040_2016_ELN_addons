@@ -1,19 +1,21 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* eln_stock
+# 	* eln_stock
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-27 11:36+0000\n"
-"PO-Revision-Date: 2016-05-27 11:36+0000\n"
-"Last-Translator: <>\n"
+"POT-Creation-Date: 2016-05-31 08:31+0000\n"
+"PO-Revision-Date: 2016-05-31 10:32+0200\n"
+"Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
+"Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
+"Language: es\n"
+"X-Generator: Poedit 1.8.6\n"
 
 #. module: eln_stock
 #: field:stock.picking,address:0
@@ -32,11 +34,6 @@ msgid "Assign multi"
 msgstr "Comprobar disponibilidad"
 
 #. module: eln_stock
-#: model:ir.model,name:eln_stock.model_procurement_orderpoint_compute
-msgid "Automatic Order Point"
-msgstr "Regla de stock mínimo automática"
-
-#. module: eln_stock
 #: view:postmigration.reconcile.quants:eln_stock.view_postmigration_reconcile_quants
 #: view:stock.picking.assign.multi:eln_stock.stock_picking_assign_multi_form
 #: view:stock.picking.cancel.multi:eln_stock.stock_picking_cancel_multi_form
@@ -53,11 +50,6 @@ msgstr "Cancelar albaranes"
 #: view:stock.picking.cancel.multi:eln_stock.stock_picking_cancel_multi_form
 msgid "Cancel pickings"
 msgstr "Cancelar albaranes"
-
-#. module: eln_stock
-#: view:stock.picking:eln_stock.view_picking_internal_search
-msgid "Commitment date"
-msgstr "Fecha compromiso"
 
 #. module: eln_stock
 #: field:postmigration.reconcile.quants,create_uid:0
@@ -92,7 +84,12 @@ msgstr "Envíos"
 #: field:stock.picking.cancel.multi,display_name:0
 #: field:stock.picking.unreserve.multi,display_name:0
 msgid "Display Name"
-msgstr "Display Name"
+msgstr "Nombre mostrado"
+
+#. module: eln_stock
+#: view:stock.picking:eln_stock.view_picking_internal_search
+msgid "Effective Date"
+msgstr "Fecha efectiva"
 
 #. module: eln_stock
 #: view:stock.picking:eln_stock.view_picking_internal_search
@@ -101,8 +98,7 @@ msgstr "Agrupar por"
 
 #. module: eln_stock
 #: field:postmigration.reconcile.quants,id:0
-#: field:stock.picking.assign.multi,id:0
-#: field:stock.picking.cancel.multi,id:0
+#: field:stock.picking.assign.multi,id:0 field:stock.picking.cancel.multi,id:0
 #: field:stock.picking.unreserve.multi,id:0
 msgid "ID"
 msgstr "ID"
@@ -172,17 +168,12 @@ msgstr "Reconciliar Quants"
 #. module: eln_stock
 #: view:postmigration.reconcile.quants:eln_stock.view_postmigration_reconcile_quants
 msgid "Remember to launch this wizard in all your companys."
-msgstr "Acuerdate de lanzar este wizard en todas las compañías."
+msgstr "Acuérdate de lanzar este wizard en todas las compañías."
 
 #. module: eln_stock
 #: view:stock.picking:eln_stock.view_picking_internal_search
 msgid "Route"
 msgstr "Ruta"
-
-#. module: eln_stock
-#: model:ir.model,name:eln_stock.model_stock_invoice_onshipping
-msgid "Stock Invoice Onshipping"
-msgstr "Factura de Stock en el envío"
 
 #. module: eln_stock
 #: model:ir.model,name:eln_stock.model_stock_move
@@ -192,7 +183,7 @@ msgstr "Movimiento de existencias"
 #. module: eln_stock
 #: view:postmigration.reconcile.quants:eln_stock.view_postmigration_reconcile_quants
 msgid "This wizard will reconcile negative quants for incoming, production or inventory moves."
-msgstr "Este asistente reconciliará quants negaticos para la entrada, producción y movimientos de inventario."
+msgstr "Este asistente reconciliará quants negativos para la entrada, producción y movimientos de inventario."
 
 #. module: eln_stock
 #: view:stock.picking:eln_stock.view_picking_internal_search
@@ -218,4 +209,3 @@ msgstr "onchange_quantity(product_id, product_uom_qty, product_uom, product_uos)
 #: view:stock.picking.unreserve.multi:eln_stock.stock_picking_unreserve_multi_form
 msgid "or"
 msgstr "o"
-

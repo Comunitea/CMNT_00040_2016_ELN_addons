@@ -54,9 +54,10 @@
             <field name="model">stock.picking</field>
             <field name="type">kanban</field>
             <field name="arch" type="xml">
-                <kanban default_group_by="route_id">
+                <kanban default_group_by="route_id" default_order="effective_date asc, name asc">
                     <field name="name"/>
-                    <field name="date_done"/>
+                    <field name="effective_date"/>
+                    <field name="requested_date"/>
                     <field name="partner_id"/>
                     <field name="supplier_id"/>
                     <field name="carrier_id"/>
@@ -66,77 +67,84 @@
                     <field name="volume"/>
                     <field name="color_stock"/>
                     <field name="state"/>
+                    <field name="backorder_id"/>
                     <templates>
                         <t t-name="kanban-box">
                             <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color_stock.raw_value || record.state.raw_value)} oe_kanban_card">
                             <div class="oe_kanban_box oe_kanban_color_border">
                                 <div class="oe_kanban_box_header oe_kanban_color_bgdark oe_kanban_color_border oe_kanban_draghandle">
-                                    <table class="oe_kanban_table">
-                                    <tr>
-                                        <td class="oe_kanban_title1" align="left" valign="middle" tooltip="production_workcenter_line_details">
-                                            Fecha Real: <field name="date_done"/>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td align="left" valign="middle" class="oe_kanban_title1" tooltip="production_workcenter_line_details">
-                                            <field name="name"/> (<field name="state"/>)
-                                        </td>
-                                    </tr>
-                                    </table>
-                                </div>
-                                     <div class="oe_kanban_box_content oe_kanban_color_bglight oe_kanban_box_show_onclick_trigger oe_kanban_color_border">
-                                        <div>
-                                            <b>
-                                                Fecha de compromiso:
-                                            </b>
-                                            <field name="commitment_date"/>
-                                        </div>
-                                        <div>
-                                            <b>
-                                                Dirección:
-                                            </b>
-                                            <field name="partner_id"/>
-                                        </div>
-                                        <div>
-                                            <b>
-                                                Proveedor:
-                                            </b>
-                                            <field name="supplier_id"/>
-                                        </div>
-                                        <div>
-                                            <b>
-                                                Transportista:
-                                            </b>
-                                            <field name="carrier_id" />
-                                        </div>
-                                        <div>
-                                            <b>
-                                               Bultos:
-                                            </b>
-                                             <field name="packages_uos" />
-                                             <b>
-                                               Volumen:
-                                             </b>
-                                             <field name="volume" />
-                                        </div>
-                                        <div>
-                                            <b>
-                                              Peso bruto:
-                                            </b>
-                                            <field name="weight" />
-                                            <b>
-                                              Peso neto:
-                                            </b>
-                                            <field name="weight_net" />
-                                        </div>
+                                    <div>
+                                        <h3>
+                                           <a type="open"><field name="name"/></a>
+                                           <t t-if="record.backorder_id.raw_value"> (<field name="backorder_id"/>)</t>
+                                        </h3> 
                                     </div>
-                                    <div class="oe_kanban_buttons_set oe_kanban_color_border oe_kanban_color_bglight oe_kanban_box_show_onclick">
-                                        <div class="oe_kanban_left">
-                                            <a string="Edit" icon="gtk-edit" type="edit"/>
-                                        </div>
-                                        <br class="oe_kanban_clear"/>
+                                    <div>
+                                        <li>(<field name="state"/>)</li>
+                                    </div>
+                                    <div>
+                                        <h4>Fecha Efectiva: <field name="effective_date"/></h4>
                                     </div>
                                 </div>
+                                <div class="oe_kanban_box_content oe_kanban_color_bglight oe_kanban_box_show_onclick_trigger oe_kanban_color_border">
+                                    <div t-if="record.requested_date.raw_value" t-attf-class="oe_kanban_text_red">
+                                        <b>
+                                            Fecha de solicitud:
+                                        </b>
+                                        <field name="requested_date"/>
+                                    </div>
+                                    <div>
+                                        <b>
+                                            Dirección:
+                                        </b>
+                                        <field name="partner_id"/>
+                                    </div>
+                                    <!--
+                                    <div>
+                                        <b>
+                                            Proveedor:
+                                        </b>
+                                        <field name="supplier_id"/>
+                                    </div>
+                                    <div>
+                                        <b>
+                                            Transportista:
+                                        </b>
+                                        <field name="carrier_id" />
+                                    </div>
+                                    -->
+                                    <div>
+                                        <b>
+                                            Bultos:
+                                        </b>
+                                        <field name="packages_uos" />
+                                        <!--
+                                        <b>
+                                            Volumen:
+                                        </b>
+                                        <field name="volume" /> 
+                                        -->
+                                    </div>
+                                    <div>
+                                        <b>
+                                            Peso bruto:
+                                        </b>
+                                        <field name="weight" />
+                                        <!--
+                                        <b>
+                                            Peso neto:
+                                        </b>
+                                        <field name="weight_net" />
+                                        -->
+                                    </div>
+                                </div>
+                                <div class="oe_kanban_buttons_set oe_kanban_color_border oe_kanban_color_bglight oe_kanban_box_show_onclick">
+                                    <div class="oe_kanban_left">
+                                        <a string="Edit" icon="gtk-edit" type="edit"/>
+                                    </div>
+                                    <br class="oe_kanban_clear"/>
+                                </div>
+                            </div>
                             </div>
                         </t>
                     </templates>
@@ -155,11 +163,14 @@
                         <filter icon="terp-check" name="waiting" string="Waiting Availability" domain="[('state','=', 'confirmed')]" help="Waiting Moves"/>
                         <separator/>
                         <filter icon="terp-go-week" string="Today" name="today"
-                        domain="[('date_done', '&lt;=', time.strftime('%%Y-%%m-%%d 23:59:59'))]"/>
+                        domain="[('effective_date', '&lt;=', time.strftime('%%Y-%%m-%%d 23:59:59'))]"/>
                         <filter icon="terp-go-week" string="Today +2" name="todaytwo"
-                        domain="[('date_done', '&lt;=', (datetime.date.today()+datetime.timedelta(days=2)).strftime('%%Y-%%m-%%d 00:00:00')), ('date_done', '&gt;=', time.strftime('%%Y-%%m-%%d 00:00:00'))]"/>
+                        domain="[('effective_date', '&lt;=', (datetime.date.today()+datetime.timedelta(days=2)).strftime('%%Y-%%m-%%d 23:59:59')), ('effective_date', '&gt;=', time.strftime('%%Y-%%m-%%d 00:00:00'))]"/>
                         <filter icon="terp-go-week" string="Today +5" name="todayfive"
-                        domain="[('date_done', '&lt;=', (datetime.date.today()+datetime.timedelta(days=5)).strftime('%%Y-%%m-%%d 00:00:00')), ('date_done', '&gt;=', time.strftime('%%Y-%%m-%%d 00:00:00'))]"/>
+                        domain="[('effective_date', '&lt;=', (datetime.date.today()+datetime.timedelta(days=5)).strftime('%%Y-%%m-%%d 23:59:59')), ('effective_date', '&gt;=', time.strftime('%%Y-%%m-%%d 00:00:00'))]"/>
+                    </group>
+                    <group string="Group By">
+                        <filter string="Route" domain="[]" context="{'group_by':'route_id'}"/>
                     </group>
                 </search>
             </field>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="stock_picking_out" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="2.0"/>
-	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="512"/>
+	<property name="ireport.x" value="187"/>
+	<property name="ireport.y" value="0"/>
 	<property name="ireport.layers" value="##Thu Apr 28 19:25:55 CEST 2016\nlayer.2.visible=false\nlayer.1.name=STANDARD\nlayer.0.visible=true\nlayer.2.id=2\nlayer.1.printWhenExpression=$P{VERSION_ALTERNATIVA} \=\= false\nlayer.2.name=ALTERNATE\nlayer.2.printWhenExpression=$P{VERSION_ALTERNATIVA} \=\= true\nlayer.1.id=1\nlayer.1.visible=true\nlayer.0.id=0\nlayer.0.name=Background"/>
 	<style name="table" lineSpacing="Single">
 		<box>
@@ -422,8 +422,8 @@ EN EL ARCHIVO packing_list_alt, PONER EL VALOR A true]]></parameterDescription>
 	<field name="Client_Ref-client_order_ref" class="java.lang.String">
 		<fieldDescription><![CDATA[/data/record/Client_Ref-client_order_ref]]></fieldDescription>
 	</field>
-	<field name="Commitment_Date-commitment_date" class="java.util.Date">
-		<fieldDescription><![CDATA[/data/record/Commitment_Date-commitment_date]]></fieldDescription>
+	<field name="requested_date" class="java.util.Date">
+		<fieldDescription><![CDATA[/data/record/requested_date]]></fieldDescription>
 	</field>
 	<field name="Desc._P.P.-early_payment_discount" class="java.lang.Float">
 		<fieldDescription><![CDATA[/data/record/Pedido_de_venta-sale_id/Desc._P.P.-early_payment_discount]]></fieldDescription>
@@ -965,7 +965,7 @@ tr($V{L}, "Bultos: ") + $F{Paquetes-packages_uos}]]></textFieldExpression>
 					<textElement textAlignment="Right" verticalAlignment="Middle" rotation="None" lineSpacing="Single" markup="none">
 						<font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{Commitment_Date-commitment_date}]]></textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{requested_date}]]></textFieldExpression>
 				</textField>
 				<textField>
 					<reportElement x="341" y="26" width="122" height="13"/>
