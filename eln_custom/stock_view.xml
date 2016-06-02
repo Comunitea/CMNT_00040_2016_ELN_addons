@@ -163,11 +163,14 @@
                         <filter icon="terp-check" name="waiting" string="Waiting Availability" domain="[('state','=', 'confirmed')]" help="Waiting Moves"/>
                         <separator/>
                         <filter icon="terp-go-week" string="Today" name="today"
-                        domain="[('date_done', '&lt;=', time.strftime('%%Y-%%m-%%d 23:59:59'))]"/>
+                        domain="[('effective_date', '&lt;=', time.strftime('%%Y-%%m-%%d 23:59:59'))]"/>
                         <filter icon="terp-go-week" string="Today +2" name="todaytwo"
-                        domain="[('date_done', '&lt;=', (datetime.date.today()+datetime.timedelta(days=2)).strftime('%%Y-%%m-%%d 00:00:00')), ('date_done', '&gt;=', time.strftime('%%Y-%%m-%%d 00:00:00'))]"/>
+                        domain="[('effective_date', '&lt;=', (datetime.date.today()+datetime.timedelta(days=2)).strftime('%%Y-%%m-%%d 00:00:00')), ('effective_date', '&gt;=', time.strftime('%%Y-%%m-%%d 00:00:00'))]"/>
                         <filter icon="terp-go-week" string="Today +5" name="todayfive"
-                        domain="[('date_done', '&lt;=', (datetime.date.today()+datetime.timedelta(days=5)).strftime('%%Y-%%m-%%d 00:00:00')), ('date_done', '&gt;=', time.strftime('%%Y-%%m-%%d 00:00:00'))]"/>
+                        domain="[('effective_date', '&lt;=', (datetime.date.today()+datetime.timedelta(days=5)).strftime('%%Y-%%m-%%d 00:00:00')), ('effective_date', '&gt;=', time.strftime('%%Y-%%m-%%d 00:00:00'))]"/>
+                    </group>
+                    <group string="Group By">
+                        <filter string="Route" domain="[]" context="{'group_by':'route_id'}"/>
                     </group>
                 </search>
             </field>
