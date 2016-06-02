@@ -23,6 +23,7 @@ from datetime import datetime, timedelta
 from openerp.osv import orm, fields
 from openerp import models, api, exceptions, _
 from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT
+from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
 
 
 class route(orm.Model):
@@ -61,7 +62,7 @@ class StockPicking(models.Model):
                 effective_date = datetime.strptime(pick.date_done, DEFAULT_SERVER_DATETIME_FORMAT)
                 effective_date += timedelta(days=(pick.route_id and pick.route_id.delivery_delay or 0.0))
                 if pick.requested_date:
-                    requested_date = datetime.strptime(pick.requested_date, DEFAULT_SERVER_DATETIME_FORMAT)
+                    requested_date = datetime.strptime(pick.requested_date, DEFAULT_SERVER_DATE_FORMAT)
                     effective_date = requested_date
                 pick.effective_date = effective_date.strftime(DEFAULT_SERVER_DATETIME_FORMAT)
         return res

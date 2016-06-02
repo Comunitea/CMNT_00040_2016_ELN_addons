@@ -29,7 +29,7 @@ class stock_picking(orm.Model):
         'carrier_id': fields.many2one('res.partner', 'Carrier', readonly=True, states={'draft': [('readonly', False)], 'confirmed': [('readonly', False)], 'assigned': [('readonly', False)]}, select=True),
         'commitment_date': fields.date('Commitment Date', help="Date on which delivery of products is to be made.", states={'cancel': [('readonly', True)]}),
         #borrar el campo anterior una vez hecho el volcado de datos al nuevo requested_date
-        'requested_date': fields.datetime('Requested Date', states={'cancel': [('readonly', True)]},
+        'requested_date': fields.date('Requested Date', states={'cancel': [('readonly', True)]},
             help="Date by which the customer has requested the items to be delivered."),
         'effective_date': fields.date('Effective Date', readonly=True, states={'done': [('readonly', False)]},
             help="Date by which the customer has requested the items to be delivered."),
