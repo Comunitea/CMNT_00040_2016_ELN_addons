@@ -49,7 +49,7 @@ class ElnSaleReportXls(report_xls):
     def global_initializations(self, wb, _p, xlwt, _xs, objects, data):
         # this procedure will initialise variables and Excel cell styles and
         # return them as global ones
-        self.ws = wb.add_sheet(_("Dayly sale report"))
+        self.ws = wb.add_sheet(_("Informe diario de ventas"))
         self.nbr_columns = 14
         # Tytle style
         self.style_font12 = xlwt.easyxf(_xs['xls_title'] + _xs['center'])
@@ -64,21 +64,22 @@ class ElnSaleReportXls(report_xls):
         date_split = date.split('-')
         year = date_split[0]
         months = {
-            '01': _('JANUARY'),
-            '02': _('FEBRUARY'),
-            '03': _('MARCH'),
-            '04': _('APRIL'),
-            '05': _('MAY'),
-            '06': _('JUNE'),
-            '07': _('JULY'),
-            '08': _('AUGUST'),
-            '09': _('SEPTEMBER'),
-            '10': _('OCTOBER'),
-            '11': _('NOVEMBER'),
-            '12': _('DECEMBER'),
+            '01': _('ENERO'),
+            '02': _('FEBRERO'),
+            '03': _('MARZO'),
+            '04': _('ABRIL'),
+            '05': _('MAYO'),
+            '06': _('JUNIO'),
+            '07': _('JULIO'),
+            '08': _('AGOSTO'),
+            '09': _('SEPTIEMBRE'),
+            '10': _('OCTUBRE'),
+            '11': _('NOBIEMBRE'),
+            '12': _('DICIEMBRE'),
         }
         month = months[date_split[1]]
-        report_name = ' - '.join(["DAYLY SALE REPORT", month + ' ' + year])
+        report_name = ' - '.join(["INFORME DIARIO DE VENTAS", month + ' ' +
+                                 year])
         c_specs = [('report_name', self.nbr_columns, 0, 'text', report_name)]
         row_data = self.xls_row_template(c_specs, [x[0] for x in c_specs])
         row_pos = self.xls_write_row(
@@ -102,7 +103,7 @@ class ElnSaleReportXls(report_xls):
             ('a', 1, 0, 'text', None, None, None),
             ('b', 3, 0, 'text', None, None, None),
             ('c', 5, 0, 'text', _('EUROS'), None, style1),
-            ('d', 5, 0, 'text', _('KILES'), None, style1),
+            ('d', 5, 0, 'text', _('KILOS'), None, style1),
         ]
         row_data = self.xls_row_template(c_specs, [x[0] for x in c_specs])
         row_pos = self.xls_write_row(self.ws, row_pos, row_data)
@@ -110,30 +111,30 @@ class ElnSaleReportXls(report_xls):
         c_specs = [
             ('a', 1, 0, 'text', None, None, None),
             ('b', 3, 0, 'text', _('% RENT'), None, style1),
-            ('c', 2, 0, 'text', _('ACUMULED'), None, style1),
-            ('d', 1, 0, 'text', _('OF DAY'), None, style1),
-            ('e', 1, 0, 'text', _('PREVIOUS DAY'), None, style1),
-            ('f', 1, 0, 'text', _('QUOTATION'), None, style1),
-            ('g', 2, 0, 'text', _('ACUMULED'), None, style1),
-            ('h', 1, 0, 'text', _('OF DAY'), None, style1),
-            ('i', 1, 0, 'text', _('PREVIOUS DAY'), None, style1),
-            ('j', 1, 0, 'text', _('QUOTATION'), None, style1),
+            ('c', 2, 0, 'text', _('ACUMULADOS'), None, style1),
+            ('d', 1, 0, 'text', _('DEL DÍA'), None, style1),
+            ('e', 1, 0, 'text', _('AÑO ANTERIOR'), None, style1),
+            ('f', 1, 0, 'text', _('PRESUPUESTO'), None, style1),
+            ('g', 2, 0, 'text', _('ACUMULADOS'), None, style1),
+            ('h', 1, 0, 'text', _('DEL DÍA'), None, style1),
+            ('i', 1, 0, 'text', _('AÑO ANTERIOR'), None, style1),
+            ('j', 1, 0, 'text', _('PRESUPUESTO'), None, style1),
         ]
         row_data = self.xls_row_template(c_specs, [x[0] for x in c_specs])
         row_pos = self.xls_write_row(self.ws, row_pos, row_data)
         # PART 2
         c_specs = [
             ('a', 1, 0, 'text', None, None, None),
-            ('b', 1, 0, 'text', _('CURRENT'), None, style1),
-            ('c', 1, 0, 'text', _('PREV.'), None, style1),
-            ('d', 1, 0, 'text', _('Y. NEXT.'), None, style1),
-            ('e', 1, 0, 'text', _('CURRENTS'), None, style1),
-            ('f', 1, 0, 'text', _('PREVIOUS'), None, style1),
+            ('b', 1, 0, 'text', _('ACTUAL'), None, style1),
+            ('c', 1, 0, 'text', _('ANT.'), None, style1),
+            ('d', 1, 0, 'text', _('A.ANT.'), None, style1),
+            ('e', 1, 0, 'text', _('ACTUALES'), None, style1),
+            ('f', 1, 0, 'text', _('ANTERIORES'), None, style1),
             ('g', 1, 0, 'text', None, None, style1),
             ('h', 1, 0, 'text', None, None, style1),
             ('i', 1, 0, 'text', None, None, style1),
-            ('j', 1, 0, 'text', _('CURRENTS'), None, style1),
-            ('k', 1, 0, 'text', _('PREVIOUS'), None, style1),
+            ('j', 1, 0, 'text', _('ACTUALES'), None, style1),
+            ('k', 1, 0, 'text', _('ANTERIORES'), None, style1),
             ('l', 1, 0, 'text', None, None, style1),
             ('m', 1, 0, 'text', None, None, style1),
             ('n', 1, 0, 'text', None, None, style1),

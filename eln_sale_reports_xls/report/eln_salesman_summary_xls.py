@@ -49,7 +49,7 @@ class ElnSalesmanSummaryXls(report_xls):
     def global_initializations(self, wb, _p, xlwt, _xs, objects, data):
         # this procedure will initialise variables and Excel cell styles and
         # return them as global ones
-        self.ws = wb.add_sheet(_("Salesman Sale Summary"))
+        self.ws = wb.add_sheet(_("Resumen ventas"))
         self.nbr_columns = 14
         # Tytle style
         self.style_font12 = xlwt.easyxf(_xs['xls_title'] + _xs['center'])
@@ -59,7 +59,7 @@ class ElnSalesmanSummaryXls(report_xls):
             _xs['center'])
 
     def print_title(self, objects, row_pos):
-        report_name = '  '.join([_("SALESMAN SALE SUMMARY"),
+        report_name = '  '.join([_("Resumen ventas por representante"),
                                 objects.start_date,
                                 objects.end_date])
         c_specs = [('report_name', self.nbr_columns, 0, 'text', report_name)]
@@ -84,7 +84,7 @@ class ElnSalesmanSummaryXls(report_xls):
         c_specs = [
             ('a', 1, 0, 'text', None, None, None),
             ('bcde', 4, 0, 'text', _('COMERCIAL VALQUIN'), None, style1),
-            ('fghi', 4, 0, 'text', _('COMERCIAL VALQUIN INDIRECT'), None,
+            ('fghi', 4, 0, 'text', _('COMERCIAL VALQUIN (INDIRECTOS)'), None,
              style1),
             ('jklm', 4, 0, 'text', _('QUIVAL S.A'), None, style1),
             ('n', 1, 0, 'text', _('TOTAL'), None, style1),
@@ -93,20 +93,20 @@ class ElnSalesmanSummaryXls(report_xls):
         row_pos = self.xls_write_row(self.ws, row_pos, row_data)
         # PART 2
         c_specs = [
-            ('a', 1, 0, 'text', _('SALESMAN'), None, style1),
-            ('b', 1, 0, 'text', _('SALES'), None, style1),
-            ('c', 1, 0, 'text', _('COST'), None, style1),
-            ('d', 1, 0, 'text', _('BENEFIT'), None, style1),
-            ('e', 1, 0, 'text', _('BENEFIT %'), None, style1),
-            ('f', 1, 0, 'text', _('SALES'), None, style1),
-            ('g', 1, 0, 'text', _('COST'), None, style1),
-            ('h', 1, 0, 'text', _('BENEFIT'), None, style1),
-            ('i', 1, 0, 'text', _('BENEFIT %'), None, style1),
-            ('j', 1, 0, 'text', _('SALES'), None, style1),
-            ('k', 1, 0, 'text', _('COST'), None, style1),
-            ('l', 1, 0, 'text', _('BENEFIT'), None, style1),
-            ('m', 1, 0, 'text', _('BENEFIT %'), None, style1),
-            ('n', 1, 0, 'text', _('SALE TOTAL'), None, style1),
+            ('a', 1, 0, 'text', _('VENDEDOR'), None, style1),
+            ('b', 1, 0, 'text', _('VENTAS'), None, style1),
+            ('c', 1, 0, 'text', _('COSTE'), None, style1),
+            ('d', 1, 0, 'text', _('BENEFICIO'), None, style1),
+            ('e', 1, 0, 'text', _('BENEFICIO %'), None, style1),
+            ('f', 1, 0, 'text', _('VENTAS'), None, style1),
+            ('g', 1, 0, 'text', _('COSTE'), None, style1),
+            ('h', 1, 0, 'text', _('BENEFICIO'), None, style1),
+            ('i', 1, 0, 'text', _('BENEFICIO %'), None, style1),
+            ('j', 1, 0, 'text', _('VENTAS'), None, style1),
+            ('k', 1, 0, 'text', _('COSTE'), None, style1),
+            ('l', 1, 0, 'text', _('BENEFICIO'), None, style1),
+            ('m', 1, 0, 'text', _('BENEFICIO %'), None, style1),
+            ('n', 1, 0, 'text', _('TOTAL VENTAS'), None, style1),
         ]
         row_data = self.xls_row_template(c_specs, [x[0] for x in c_specs])
         row_pos = self.xls_write_row(self.ws, row_pos, row_data)
@@ -200,7 +200,7 @@ class ElnSalesmanSummaryXls(report_xls):
         sale_end = rowcol_to_cell(end_pos, 13)
         total_toal_sales = 'SUM(' + sale_start + ':' + sale_end + ')'
         c_specs = [
-            ('a', 1, 0, 'text', _('TOTALS'), None, None),
+            ('a', 1, 0, 'text', _('TOTALES'), None, None),
             ('b', 1, 0, 'number', None, val_sales, None),
             ('c', 1, 0, 'number', None, val_cost, None),
             ('d', 1, 0, 'number', None, val_benefit, None),

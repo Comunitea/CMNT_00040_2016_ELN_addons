@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-29 13:26+0000\n"
-"PO-Revision-Date: 2016-04-29 13:26+0000\n"
+"POT-Creation-Date: 2016-06-03 10:40+0000\n"
+"PO-Revision-Date: 2016-06-03 10:40+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,62 +16,134 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: eln_sale_reports_xls
-#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:112
+#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:113
 #, python-format
 msgid "% RENT"
 msgstr "% RENT"
 
 #. module: eln_sale_reports_xls
-#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:113
-#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:117
+#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:130
 #, python-format
-msgid "ACUMULED"
-msgstr "ACUMULADO"
+msgid "A.ANT."
+msgstr "A.ANT."
 
 #. module: eln_sale_reports_xls
 #: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:70
 #, python-format
-msgid "APRIL"
+msgid "ABRIL"
 msgstr "ABRIL"
+
+#. module: eln_sale_reports_xls
+#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:128
+#, python-format
+msgid "ACTUAL"
+msgstr "ACTUAL"
+
+#. module: eln_sale_reports_xls
+#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:131
+#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:136
+#, python-format
+msgid "ACTUALES"
+msgstr "ACTUALES"
+
+#. module: eln_sale_reports_xls
+#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:114
+#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:118
+#, python-format
+msgid "ACUMULADOS"
+msgstr "ACUMULADOS"
 
 #. module: eln_sale_reports_xls
 #: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:74
 #, python-format
-msgid "AUGUST"
+msgid "AGOSTO"
 msgstr "AGOSTO"
 
 #. module: eln_sale_reports_xls
-#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:127
+#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:129
 #, python-format
-msgid "CURRENT"
-msgstr "ACTUAL"
+msgid "ANT."
+msgstr "ANT."
 
 #. module: eln_sale_reports_xls
-#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:130
-#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:135
+#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:132
+#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:137
 #, python-format
-msgid "CURRENTS"
-msgstr "ACTUALES"
+msgid "ANTERIORES"
+msgstr "ANTERIORES"
+
+#. module: eln_sale_reports_xls
+#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:116
+#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:120
+#, python-format
+msgid "AÑO ANTERIOR"
+msgstr "AÑO ANTERIOR"
+
+#. module: eln_sale_reports_xls
+#: code:addons/eln_sale_reports_xls/report/eln_salesman_summary_xls.py:99
+#: code:addons/eln_sale_reports_xls/report/eln_salesman_summary_xls.py:103
+#: code:addons/eln_sale_reports_xls/report/eln_salesman_summary_xls.py:107
+#, python-format
+msgid "BENEFICIO"
+msgstr "BENEFICIO"
+
+#. module: eln_sale_reports_xls
+#: code:addons/eln_sale_reports_xls/report/eln_salesman_summary_xls.py:100
+#: code:addons/eln_sale_reports_xls/report/eln_salesman_summary_xls.py:104
+#: code:addons/eln_sale_reports_xls/report/eln_salesman_summary_xls.py:108
+#, python-format
+msgid "BENEFICIO %"
+msgstr "BENEFICIO %"
+
+#. module: eln_sale_reports_xls
+#: code:addons/eln_sale_reports_xls/report/eln_salesman_summary_xls.py:86
+#, python-format
+msgid "COMERCIAL VALQUIN"
+msgstr "COMERCIAL VALQUIN"
+
+#. module: eln_sale_reports_xls
+#: code:addons/eln_sale_reports_xls/report/eln_salesman_summary_xls.py:87
+#, python-format
+msgid "COMERCIAL VALQUIN INDIRECTOS"
+msgstr "COMERCIAL VALQUIN INDIRECTOS"
+
+#. module: eln_sale_reports_xls
+#: code:addons/eln_sale_reports_xls/report/eln_salesman_summary_xls.py:98
+#: code:addons/eln_sale_reports_xls/report/eln_salesman_summary_xls.py:102
+#: code:addons/eln_sale_reports_xls/report/eln_salesman_summary_xls.py:106
+#, python-format
+msgid "COSTE"
+msgstr "COSTE"
 
 #. module: eln_sale_reports_xls
 #: view:eln.sale.report.xls.wzd:eln_sale_reports_xls.view_eln_sale_report_xls_wzd
+#: view:eln.salesman.summary.xls.wzd:eln_sale_reports_xls.view_eln_salesman_summary_xls_wzd
 msgid "Cancel"
 msgstr "CANCELAR"
 
 #. module: eln_sale_reports_xls
 #: field:eln.sale.report.xls.wzd,create_uid:0
+#: field:eln.salesman.summary.xls.wzd,create_uid:0
 msgid "Created by"
 msgstr "creado por"
 
 #. module: eln_sale_reports_xls
 #: field:eln.sale.report.xls.wzd,create_date:0
+#: field:eln.salesman.summary.xls.wzd,create_date:0
 msgid "Created on"
 msgstr "creado en"
 
 #. module: eln_sale_reports_xls
+#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:115
+#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:119
+#, python-format
+msgid "DEL DÍA"
+msgstr "DEL DÍA"
+
+#. module: eln_sale_reports_xls
 #: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:78
 #, python-format
-msgid "DECEMBER"
+msgid "DICIEMBRE"
 msgstr "DICIEMBRE"
 
 #. module: eln_sale_reports_xls
@@ -85,128 +157,112 @@ msgid "Dayle sale report analysis"
 msgstr "Informe diario de ventas análisis"
 
 #. module: eln_sale_reports_xls
-#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:52
-#, python-format
-msgid "Dayly sale report"
-msgstr "Informe diario de ventas"
-
-#. module: eln_sale_reports_xls
 #: field:eln.sale.report.xls.wzd,display_name:0
+#: field:eln.salesman.summary.xls.wzd,display_name:0
 msgid "Display Name"
 msgstr "Nombre mostrado"
 
 #. module: eln_sale_reports_xls
-#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:104
+#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:67
+#, python-format
+msgid "ENERO"
+msgstr "ENERO"
+
+#. module: eln_sale_reports_xls
+#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:105
 #, python-format
 msgid "EUROS"
 msgstr "EUROS"
 
 #. module: eln_sale_reports_xls
+#: field:eln.salesman.summary.xls.wzd,end_date:0
+msgid "End Date"
+msgstr "Fecha fin"
+
+#. module: eln_sale_reports_xls
 #: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:68
 #, python-format
-msgid "FEBRUARY"
+msgid "FEBRERO"
 msgstr "FEBRERO"
 
 #. module: eln_sale_reports_xls
 #: field:eln.sale.report.xls.wzd,id:0
+#: field:eln.salesman.summary.xls.wzd,id:0
 msgid "ID"
 msgstr "ID"
 
 #. module: eln_sale_reports_xls
-#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:67
+#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:52
 #, python-format
-msgid "JANUARY"
-msgstr "ENERO"
+msgid "Informe diario de ventas"
+msgstr "Informe diario de ventas"
 
 #. module: eln_sale_reports_xls
 #: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:73
 #, python-format
-msgid "JULY"
+msgid "JULIO"
 msgstr "JULIO"
 
 #. module: eln_sale_reports_xls
 #: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:72
 #, python-format
-msgid "JUNE"
+msgid "JUNIO"
 msgstr "JUNIO"
 
 #. module: eln_sale_reports_xls
-#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:105
+#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:106
 #, python-format
-msgid "KILES"
+msgid "KILOS"
 msgstr "KILOS"
 
 #. module: eln_sale_reports_xls
 #: field:eln.sale.report.xls.wzd,__last_update:0
+#: field:eln.salesman.summary.xls.wzd,__last_update:0
 msgid "Last Modified on"
 msgstr "Última modificación en"
 
 #. module: eln_sale_reports_xls
 #: field:eln.sale.report.xls.wzd,write_uid:0
+#: field:eln.salesman.summary.xls.wzd,write_uid:0
 msgid "Last Updated by"
 msgstr "Última actualización por"
 
 #. module: eln_sale_reports_xls
 #: field:eln.sale.report.xls.wzd,write_date:0
+#: field:eln.salesman.summary.xls.wzd,write_date:0
 msgid "Last Updated on"
 msgstr "Última actualización en"
 
 #. module: eln_sale_reports_xls
 #: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:69
 #, python-format
-msgid "MARCH"
+msgid "MARZO"
 msgstr "MARZO"
 
 #. module: eln_sale_reports_xls
 #: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:71
 #, python-format
-msgid "MAY"
+msgid "MAYO"
 msgstr "MAYO"
-
-#. module: eln_sale_reports_xls
-#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:129
-#, python-format
-msgid "Y. NEXT."
-msgstr "A.ANT"
 
 #. module: eln_sale_reports_xls
 #: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:77
 #, python-format
-msgid "NOVEMBER"
+msgid "NOBIEMBRE"
 msgstr "NOBIEMBRE"
 
 #. module: eln_sale_reports_xls
 #: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:76
 #, python-format
-msgid "OCTOBER"
+msgid "OCTUBRE"
 msgstr "OCTUBRE"
 
 #. module: eln_sale_reports_xls
-#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:114
-#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:118
+#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:117
+#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:121
 #, python-format
-msgid "OF DAY"
-msgstr "DEL DÍA"
-
-#. module: eln_sale_reports_xls
-#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:128
-#, python-format
-msgid "PREV."
-msgstr "ANT."
-
-#. module: eln_sale_reports_xls
-#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:131
-#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:136
-#, python-format
-msgid "PREVIOUS"
-msgstr "ANTERIORES"
-
-#. module: eln_sale_reports_xls
-#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:115
-#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:119
-#, python-format
-msgid "PREVIOUS DAY"
-msgstr "DÍA ANTERIOR"
+msgid "PRESUPUESTO"
+msgstr "PRESUPUESTO"
 
 #. module: eln_sale_reports_xls
 #: model:ir.actions.act_window,name:eln_sale_reports_xls.action_eln_sale_report_xls_wzd
@@ -214,16 +270,25 @@ msgid "Print Dayle Report Sale"
 msgstr "Imprimir informe diario de ventas"
 
 #. module: eln_sale_reports_xls
+#: model:ir.actions.act_window,name:eln_sale_reports_xls.action_eln_sale_summary_xls_wzd
+msgid "Print Salesman Sale Summary"
+msgstr "Imprimir resumen de ventas por representante"
+
+#. module: eln_sale_reports_xls
 #: view:eln.sale.report.xls.wzd:eln_sale_reports_xls.view_eln_sale_report_xls_wzd
 msgid "Print report"
 msgstr "Imprimir informe"
 
 #. module: eln_sale_reports_xls
-#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:116
-#: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:120
+#: view:eln.salesman.summary.xls.wzd:eln_sale_reports_xls.view_eln_salesman_summary_xls_wzd
+msgid "Print summary"
+msgstr "Imprimir resumen"
+
+#. module: eln_sale_reports_xls
+#: code:addons/eln_sale_reports_xls/report/eln_salesman_summary_xls.py:89
 #, python-format
-msgid "QUOTATION"
-msgstr "PRESUPUESTO"
+msgid "QUIVAL S.A"
+msgstr "QUIVAL S.A"
 
 #. module: eln_sale_reports_xls
 #: field:eln.sale.report.xls.wzd,date:0
@@ -231,13 +296,72 @@ msgid "Report Date"
 msgstr "Fecha informe"
 
 #. module: eln_sale_reports_xls
+#: code:addons/eln_sale_reports_xls/report/eln_salesman_summary_xls.py:52
+#: code:addons/eln_sale_reports_xls/report/eln_salesman_summary_xls.py:62
+#, python-format
+msgid "Resumen ventas por representante"
+msgstr "Resumen ventas por representante"
+
+#. module: eln_sale_reports_xls
 #: code:addons/eln_sale_reports_xls/report/eln_sale_report_xls.py:75
 #, python-format
-msgid "SEPTEMBER"
+msgid "SEPTIEMBRE"
 msgstr "SEPTIEMBRE"
+
+#. module: eln_sale_reports_xls
+#: model:ir.ui.menu,name:eln_sale_reports_xls.menu_eln_sale_summary_xls_wzd
+msgid "Salesman Sale Summary"
+msgstr "Resumen ventas por representante"
+
+#. module: eln_sale_reports_xls
+#: model:ir.actions.report.xml,name:eln_sale_reports_xls.eln_salesman_summary_xls
+msgid "Salesmans Sale Summary"
+msgstr "Resumen ventas por representante"
 
 #. module: eln_sale_reports_xls
 #: view:eln.sale.report.xls.wzd:eln_sale_reports_xls.view_eln_sale_report_xls_wzd
 msgid "Select report date"
 msgstr "Seleccione fecha del informe"
+
+#. module: eln_sale_reports_xls
+#: view:eln.salesman.summary.xls.wzd:eln_sale_reports_xls.view_eln_salesman_summary_xls_wzd
+msgid "Select summary date"
+msgstr "Selecciona fecha resumen"
+
+#. module: eln_sale_reports_xls
+#: field:eln.salesman.summary.xls.wzd,start_date:0
+msgid "Start Date"
+msgstr "Fecha inicio"
+
+#. module: eln_sale_reports_xls
+#: code:addons/eln_sale_reports_xls/report/eln_salesman_summary_xls.py:90
+#, python-format
+msgid "TOTAL"
+msgstr "TOTAL"
+
+#. module: eln_sale_reports_xls
+#: code:addons/eln_sale_reports_xls/report/eln_salesman_summary_xls.py:109
+#, python-format
+msgid "TOTAL VENTAS"
+msgstr "TOTAL VENTAS"
+
+#. module: eln_sale_reports_xls
+#: code:addons/eln_sale_reports_xls/report/eln_salesman_summary_xls.py:203
+#, python-format
+msgid "TOTALES"
+msgstr "TOTALES"
+
+#. module: eln_sale_reports_xls
+#: code:addons/eln_sale_reports_xls/report/eln_salesman_summary_xls.py:96
+#, python-format
+msgid "VENDEDOR"
+msgstr "VENDEDOR"
+
+#. module: eln_sale_reports_xls
+#: code:addons/eln_sale_reports_xls/report/eln_salesman_summary_xls.py:97
+#: code:addons/eln_sale_reports_xls/report/eln_salesman_summary_xls.py:101
+#: code:addons/eln_sale_reports_xls/report/eln_salesman_summary_xls.py:105
+#, python-format
+msgid "VENTAS"
+msgstr "VENTAS"
 

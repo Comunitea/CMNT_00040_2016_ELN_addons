@@ -955,4 +955,28 @@ class mrp_production(osv.osv):
                 workcenter_pool.signal_workflow(cr, uid, [x.id for x in prod.workcenter_lines], 'button_start_working')
         return super(mrp_production, self).action_in_production(cr, uid, ids, context=context)
 
+    def action_production_end(self, cr, uid, ids, context=None):
+        uom_obj = self.pool.get("product.uom")
+        bom_obj = self.pool.get("mrp.bom")
+        prod_line_obj = self.pool.get('mrp.production.product.line')
+        res = super(mrp_production, self).\
+            action_production_end(cr, uid, ids, context=context)
+        for prod in self.browse(cr, uid, ids, context=context):
+            bom = prod.bom_id
+            finished_qty = sum([x.product_uom_qty
+                                for x in prod.move_created_ids2])
+            factor = uom_obj._compute_qty(cr, uid, prod.product_uom.id,
+                                          finished_qty,
+                                          bom.product_uom.id)
+            new_qty = factor / bom.product_qty
+            routing_id = prod.routing_id.id
+            res = bom_obj._bom_explode(cr, uid, bom, prod.product_id,
+                                       new_qty, routing_id=routing_id)
+            prod_lines = res[0]
+            prod.product_lines.unlink()
+            for line in prod_lines:
+                line['production_id'] = prod.id
+                prod_line_obj.create(cr, uid, line)
+        return res
+
 mrp_production()
