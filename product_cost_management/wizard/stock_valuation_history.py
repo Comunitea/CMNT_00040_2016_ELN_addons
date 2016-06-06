@@ -106,4 +106,5 @@ class StockHistory(models.Model):
                 ))
                 AS foo
                 GROUP BY move_id, location_id, company_id, product_id, product_categ_id, lot_id, date, source
+                having SUM(quantity) != 0
             )""")
