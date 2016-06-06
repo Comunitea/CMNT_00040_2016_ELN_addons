@@ -366,10 +366,12 @@ class edi_export (orm.TransientModel):
             if invoice.type == 'out_refund':
                 # numero de pedido
                 numped = invoice.origin_invoices_ids and invoice.origin_invoices_ids[0].sale_order_ids and invoice.origin_invoices_ids[0].sale_order_ids[0].client_order_ref
+                numped = numped or invoice.name
                 invoice_data += self.parse_string(numped, 17)
             else:
                 # numero de pedido
                 numped = invoice.sale_order_ids and invoice.sale_order_ids[0].client_order_ref
+                numped = numped or invoice.name
                 invoice_data += self.parse_string(numped, 17)
 
         # si es rectificativa se añade el numero de factura original.
@@ -499,9 +501,10 @@ class edi_export (orm.TransientModel):
 
             # numero de pedido
             if line.stock_move_id.procurement_id.sale_line_id:
-                line_data += self.parse_string(line.stock_move_id.procurement_id.sale_line_id.order_id.client_order_ref, 17)
+                numped = line.stock_move_id.procurement_id.sale_line_id.order_id.client_order_ref
             else:
-                line_data += self.parse_string(False, 17)
+                numped = invoice.name
+            line_data += self.parse_string(numped, 17)
             # numero de albaran
             # si en el pedido de venta el campo origin tiene algun valor lo interpretamos como el albarán 
             # de entrega real (por un tercero por ejemplo)

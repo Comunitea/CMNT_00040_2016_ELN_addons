@@ -57,10 +57,10 @@ class StockPicking(models.Model):
     def do_transfer(self):
         res = super(StockPicking, self).do_transfer()
         for pick in self:
-            print pick.date_done, pick.state
             if pick.date_done and pick.state == 'done':
                 effective_date = datetime.strptime(pick.date_done, DEFAULT_SERVER_DATETIME_FORMAT)
-                effective_date += timedelta(days=(pick.route_id and pick.route_id.delivery_delay or 0.0))
+                if pick.picking_type_id.code != 'incoming':
+                    effective_date += timedelta(days=(pick.route_id and pick.route_id.delivery_delay or 0.0))
                 if pick.requested_date:
                     requested_date = datetime.strptime(pick.requested_date, DEFAULT_SERVER_DATE_FORMAT)
                     effective_date = requested_date
