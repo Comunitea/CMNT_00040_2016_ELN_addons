@@ -73,7 +73,8 @@ class StockMove(orm.Model):
             if move.product_uos and move.product_uom_qty and \
                     move.product_uos.id != move.product_uom.id:
                 uos_coeff = move.product_uos_qty / move.product_uom_qty
-                res['price_unit'] = res['price_unit'] / uos_coeff
+                if uos_coeff:
+                    res['price_unit'] = res['price_unit'] / uos_coeff
         if inv_type in ['out_invoice', 'out_refund']:
             if not move.procurement_id or \
                     (move.procurement_id and
@@ -81,5 +82,6 @@ class StockMove(orm.Model):
                     move.product_uos.id != move.product_uom.id and\
                     move.product_uom_qty:
                 uos_coeff = move.product_uos_qty / move.product_uom_qty
-                res['price_unit'] = res['price_unit'] / uos_coeff
+                if uos_coeff:
+                    res['price_unit'] = res['price_unit'] / uos_coeff
         return res
