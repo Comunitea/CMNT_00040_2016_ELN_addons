@@ -11,7 +11,7 @@
     'depends': [
         'base',
         'stock',
-        'stock_quant_merge'
+        'stock_quant_merge',
     ],
     'contributors': [
         "Javier Colmenero Fernández <javier@comunitea.com>"
