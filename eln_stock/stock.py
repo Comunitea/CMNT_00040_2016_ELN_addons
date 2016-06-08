@@ -101,3 +101,19 @@ class StockMove(models.Model):
                 move.picking_id.pack_operation_ids.unlink()  # Delete move
         res = super(StockMove, self).unlink()
         return res
+
+    def _get_taxes(self, cr, uid, move, context=None):
+        res = super(StockMove, self)._get_taxes(cr, uid, move, context=context)
+        if not res and not (move.procurement_id.sale_line_id or
+                            move.origin_returned_move_id.purchase_line_id):
+            fiscal_obj = self.pool.get('account.fiscal.position')
+            fpos = move.partner_id.property_account_position
+            prod = move.product_id
+            if prod.taxes_id:
+                if fpos:
+                    for tax in prod.taxes_id:
+                        res += fiscal_obj.map_tax(cr, uid, fpos, tax,
+                                                  context=context)
+                else:
+                    res = [tax.id for tax in prod.taxes_id]
+        return res
