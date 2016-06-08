@@ -66,3 +66,14 @@ class StockMove(models.Model):
                 rec = self.env['stock.move'].sudo().browse(move.id)
             res = super(StockMove, rec).action_cancel()
         return res
+
+
+class StockQuant(models.Model):
+    _inherit = "stock.quant"
+
+    @api.multi
+    def _mergeable_domain(self):
+        """Method from stock quant merge. Adds cost to domain"""
+        res = super(StockQuant, self)._mergeable_domain()
+        res.append(('cost', '=', self.cost))
+        return res
