@@ -81,15 +81,7 @@ class product_costs_line(osv.osv_memory):
             #    time_start = start.strftime("%Y-%m-%d") + " 00:00:01"
             # THEORIC COST
             if element.cost_type == 'bom':
-                #Valores en función de la lista de mateirales.
-                # La recorremos (aquí en principio no iteramos)
-                routes = product.route_ids + product.categ_id.total_route_ids
-                manufacture_routes = []
-                for route in routes:
-                    for pull in route.pull_ids:
-                        if pull.action == 'manufacture':
-                            manufacture_routes.append(route.id)
-                if manufacture_routes and product.bom_ids:
+                if product.bom_ids:
                 #if product.supply_method == 'produce' and product.bom_ids:
                     bom = product.bom_ids[0] #Cogemos la primera
                     #aqui no hace falta iterar.
@@ -111,13 +103,7 @@ class product_costs_line(osv.osv_memory):
                 elif element.distribution_mode == 'kg':
                     theoric = element.cost_ratio * product.weight_net
                 elif element.distribution_mode == 'min':
-                    routes = product.route_ids + product.categ_id.total_route_ids
-                    manufacture_routes = []
-                    for route in routes:
-                        for pull in route.pull_ids:
-                            if pull.action == 'manufacture':
-                                manufacture_routes.append(route.id)
-                    if manufacture_routes and product.bom_ids:
+                    if product.bom_ids:
                         bom = product.bom_ids[0]
                         if bom.routing_id:
                             hours = 0.0
