@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-20 14:19+0000\n"
-"PO-Revision-Date: 2016-05-20 16:24+0200\n"
+"POT-Creation-Date: 2016-06-03 15:14+0000\n"
+"PO-Revision-Date: 2016-06-03 17:31+0200\n"
 "Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -96,6 +96,11 @@ msgid "Commission"
 msgstr "Comisión"
 
 #. module: eln_reports
+#: view:website:stock.report_picking
+msgid "Commitment Date"
+msgstr "Fecha compromiso"
+
+#. module: eln_reports
 #: field:res.users,ref_companies:0
 msgid "Companies that refers to partner"
 msgstr "Compañías que se refieren a la empresa"
@@ -162,6 +167,11 @@ msgid "Creditor/Agent"
 msgstr "Agente"
 
 #. module: eln_reports
+#: view:website:stock.report_picking
+msgid "Customer Address:"
+msgstr "Dirección de cliente:"
+
+#. module: eln_reports
 #: field:res.users,property_stock_customer:0
 msgid "Customer Location"
 msgstr "Ubicación del cliente"
@@ -200,6 +210,11 @@ msgstr "Envío"
 #: field:purchase.order.report.wizard,delivery_address:0
 msgid "Delivery Address"
 msgstr "Dirección de envío"
+
+#. module: eln_reports
+#: view:website:stock.report_picking
+msgid "Delivery Address:"
+msgstr "Dirección de envío:"
 
 #. module: eln_reports
 #: field:stock.picking,out_report_ids:0
@@ -487,6 +502,16 @@ msgid "No header defined for this Webkit report!"
 msgstr "¡Ninguna cabecera definida para este informe de Webkit!"
 
 #. module: eln_reports
+#: view:website:stock.report_picking
+msgid "Order (Origin)"
+msgstr "Pedido (Origen)"
+
+#. module: eln_reports
+#: view:website:stock.report_picking
+msgid "Packages / Weight"
+msgstr "Bultos / Peso"
+
+#. module: eln_reports
 #: code:addons/eln_reports/report/planning_report/planning_report_parser.py:56
 #, python-format
 msgid "Page"
@@ -542,6 +567,11 @@ msgid "Price list"
 msgstr "Tarifa de precios"
 
 #. module: eln_reports
+#: view:website:stock.report_picking
+msgid "Price unit"
+msgstr "Precio unitario"
+
+#. module: eln_reports
 #: view:planning.report.wizard:eln_reports.planning_report_wizard_view
 #: view:product.datasheet.report.wizard:eln_reports.product_datasheet_report_wizard_view
 #: view:product.logistics.sheet.report.wizard:eln_reports.product_logistics_sheet_report_wizard_view
@@ -578,7 +608,7 @@ msgid "Print valued picking"
 msgstr "Imprimir albarán valorado"
 
 #. module: eln_reports
-#: field:out.picking.report,product_id:0
+#: field:out.picking.report,product_id:0 view:website:stock.report_picking
 msgid "Product"
 msgstr "Producto"
 
@@ -638,9 +668,19 @@ msgid "Qty (UoS)"
 msgstr "Cant. (UdV)"
 
 #. module: eln_reports
-#: field:out.picking.report,product_qty:0
+#: field:out.picking.report,product_qty:0 view:website:stock.report_picking
 msgid "Quantity"
 msgstr "Cantidad"
+
+#. module: eln_reports
+#: view:website:stock.report_picking
+msgid "Quantity UoM"
+msgstr "Cantidad UdM"
+
+#. module: eln_reports
+#: view:website:stock.report_picking
+msgid "Quantity UoS"
+msgstr "Cantidad UdV"
 
 #. module: eln_reports
 #: field:out.picking.report,reference:0
@@ -651,6 +691,11 @@ msgstr "Referencia"
 #: view:planning.report.wizard:eln_reports.planning_report_wizard_view
 msgid "Report planning"
 msgstr "Report planning"
+
+#. module: eln_reports
+#: view:website:stock.report_picking
+msgid "Requested Date"
+msgstr "Fecha solicitud"
 
 #. module: eln_reports
 #: field:planning.report.wizard,route_id:0 field:res.users,route_id:0
@@ -704,9 +749,14 @@ msgid "Signed"
 msgstr "Firmado"
 
 #. module: eln_reports
+#: view:website:stock.report_picking
+msgid "State"
+msgstr "Estado"
+
+#. module: eln_reports
 #: model:ir.model,name:eln_reports.model_stock_move
 msgid "Stock Move"
-msgstr "Movimiento de stock"
+msgstr "Movimiento de existencias"
 
 #. module: eln_reports
 #: model:ir.actions.report.xml,name:eln_reports.report_stock_picking_out_alt_jasper
@@ -717,6 +767,11 @@ msgstr "Albarán de envío (Alt)"
 #: model:ir.actions.report.xml,name:eln_reports.report_stock_picking_out_std_jasper
 msgid "Stock picking out (Std)"
 msgstr "Albarán de envío (Std)"
+
+#. module: eln_reports
+#: view:website:stock.report_picking
+msgid "Supplier Address:"
+msgstr "Dirección del proveedor:"
 
 #. module: eln_reports
 #: field:res.users,property_stock_supplier:0
@@ -752,6 +807,11 @@ msgstr "Impuesto"
 #: field:stock.move,tax_line:0
 msgid "Tax line"
 msgstr "Línea de impuesto"
+
+#. module: eln_reports
+#: view:website:stock.report_picking
+msgid "Taxes"
+msgstr "Impuestos"
 
 #. module: eln_reports
 #: code:addons/eln_reports/report/planning_report/webkit_parser_header_fix.py:167
@@ -816,6 +876,11 @@ msgid "This stock location will be used, instead of the default one, as the sour
 msgstr "Esta ubicación de existencias será utilizada, en lugar de la ubicación por defecto, como la ubicación de origen para recibir mercancías desde esta empresa"
 
 #. module: eln_reports
+#: view:website:stock.report_picking
+msgid "Total"
+msgstr "Total"
+
+#. module: eln_reports
 #: field:res.users,total_debt:0
 msgid "Total Debt"
 msgstr "Deuda total"
@@ -834,6 +899,11 @@ msgstr "Total a pagar"
 #: field:res.users,credit:0
 msgid "Total Receivable"
 msgstr "Total a cobrar"
+
+#. module: eln_reports
+#: view:website:stock.report_picking
+msgid "Total Without Taxes"
+msgstr "Base imponible"
 
 #. module: eln_reports
 #: help:res.users,credit:0
@@ -867,11 +937,13 @@ msgstr "Pedidos de venta sin facturar"
 
 #. module: eln_reports
 #: report:addons/eln_reports/report/planning_report/planning_report_webkit.mako:31
+#: view:website:stock.report_picking
 msgid "UoM"
 msgstr "UdM"
 
 #. module: eln_reports
 #: report:addons/eln_reports/report/planning_report/planning_report_webkit.mako:33
+#: view:website:stock.report_picking
 msgid "UoS"
 msgstr "UdV"
 
@@ -889,6 +961,16 @@ msgstr "Usuarios"
 #: field:res.users,vat_subjected:0
 msgid "VAT Legal Statement"
 msgstr "Sujeto a IVA"
+
+#. module: eln_reports
+#: view:website:stock.report_picking
+msgid "VAT:"
+msgstr "NIF:"
+
+#. module: eln_reports
+#: view:website:stock.report_picking
+msgid "Warehouse Address:"
+msgstr "Dirección del almacén"
 
 #. module: eln_reports
 #: field:out.picking.report,picking_id:0
@@ -914,6 +996,16 @@ msgstr "Webkit error"
 #, python-format
 msgid "Webkit render"
 msgstr "Renderizador de Webkit"
+
+#. module: eln_reports
+#: field:purchase.order,website_message_ids:0
+msgid "Website Messages"
+msgstr "Mensajes del sitio web"
+
+#. module: eln_reports
+#: help:purchase.order,website_message_ids:0
+msgid "Website communication history"
+msgstr "Historial de comunicaciones del sitio web"
 
 #. module: eln_reports
 #: model:ir.model,name:eln_reports.model_mrp_workcenter

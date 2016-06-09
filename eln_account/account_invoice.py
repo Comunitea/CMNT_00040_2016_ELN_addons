@@ -130,3 +130,31 @@ class account_invoice_line(orm.Model):
             res['value']['uos_id'] = uom or False
 
         return res
+
+    @api.multi
+    def product_id_change(self, product, uom_id, qty=0, name='',
+                          type='out_invoice', partner_id=False,
+                          fposition_id=False, price_unit=False,
+                          currency_id=False, company_id=None):
+        res = super(account_invoice_line, self).\
+            product_id_change(product, uom_id, qty=qty, name=name, type=type,
+                              partner_id=partner_id, fposition_id=fposition_id,
+                              price_unit=price_unit, currency_id=currency_id,
+                              company_id=company_id)
+
+        t_part = self.env["res.partner"]
+        if partner_id and product:
+            part = t_part.browse(partner_id)
+            pricelist = False
+            if type in ['in_invoice', 'in_refund']:
+                pricelist = part.property_product_pricelist_purchase
+            if type in ['out_invoice', 'out_refund']:
+                pricelist = part.property_product_pricelist
+            price = False
+            if pricelist:
+                price = pricelist.price_get(product, 1,
+                                            partner_id)[pricelist.id]
+                if price:
+                    res['value']['price_unit'] = price
+
+        return res
