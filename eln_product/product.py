@@ -296,7 +296,7 @@ product_product()
 class product_template(orm.Model):
     _inherit = 'product.template'
     _columns = {
-        'uos_coeff': fields.float('UOM -> UOS Coeff', digits=(16,8),
+        'uos_coeff': fields.float('UOM -> UOS Coeff', digits=(16, 10),
             help='Coefficient to convert UOM to UOS\n'
             ' uos = uom * coeff'),
     }
