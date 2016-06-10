@@ -19,11 +19,12 @@
 #
 ##############################################################################
 
-from openerp.osv import fields, osv, orm
+from openerp import models, api
 
-class account_move_line(orm.Model):
+
+class AccountMoveLine(models.Model):
     _inherit = "account.move.line"
-    
+
     #Función pendiente de aplicar. Util en los pagos para ver numero de factura.
     #def name_get(self, cr, uid, ids, context=None):
     #    if not ids:
@@ -40,3 +41,11 @@ class account_move_line(orm.Model):
     #            result.append((line.id, line.move_id.name))
     #    return result
 
+    @api.multi
+    def unlink(self):
+        domain = [('move_line_id', 'in', self._ids)]
+        voucher_lines = self.env['account.voucher.line'].search(domain)
+        if voucher_lines:
+            voucher_lines.unlink()
+        res = super(AccountMoveLine, self).unlink()
+        return res
