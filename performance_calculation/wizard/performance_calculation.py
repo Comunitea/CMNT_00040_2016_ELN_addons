@@ -256,16 +256,18 @@ class performance_calculation(orm.TransientModel):
     def _get_theorical_cost(self, cr, uid, ids, product_uom_qty=0.0, bom_id=False, context=None):
 
         bom_obj = self.pool.get('mrp.bom')
+        tmpl_obj = self.pool.get('product.template')
         bom_point = bom_obj.browse(cr, uid, bom_id)
-
-        return bom_point.standard_price * product_uom_qty
+        updated_price = tmpl_obj._calc_price(cr, uid, bom_point,
+                                             context=context)
+        return updated_price * product_uom_qty
 
     def _get_real_cost(self, cr, uid, ids, context=None):
 
         real_cost = 0.0
 
         for move in self.pool.get('stock.move').browse(cr, uid, ids):
-            if move.lot_ids:
+            if move.lot_ids and move.state != 'cancel':
                 if not move.lot_ids[0].recovery and not move.scrapped:
                     real_cost += (move.product_id.standard_price * move.product_uom_qty)
 
@@ -278,7 +280,6 @@ class performance_calculation(orm.TransientModel):
         indicator_id = False
         prod_obj = self.pool.get('mrp.production')
         company_id = self.pool.get('res.users').browse(cr, uid, uid).company_id and self.pool.get('res.users').browse(cr, uid, uid).company_id.id or False
-
         for form in self.browse(cr, uid, ids, context):
             name_report = self._get_name_by_filters(cr, uid, [form.id], context=context)
             production_ids = self._get_productions_by_filters(cr, uid, ids, context=context)
@@ -304,7 +305,7 @@ class performance_calculation(orm.TransientModel):
 
                         #scrap = (real_cost / (qty_finished or 1.0)) * qty_scrap
                         for move in self.pool.get('stock.move').browse(cr, uid, [x.id for x in prod.move_lines2]):
-                            if move.scrapped and move.lot_ids and not move.lot_ids[0].recovery:
+                            if move.scrapped and move.lot_ids and not move.lot_ids[0].recovery and move.state != 'cancel':
                                 scrap += (move.product_id.standard_price * move.product_uom_qty)
                         usage = real_cost - theo_cost
                         real_real_cost = theo_cost + scrap + usage
