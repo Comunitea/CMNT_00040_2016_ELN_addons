@@ -528,8 +528,12 @@ class edi_export (orm.TransientModel):
                 imp = line.invoice_line_tax_id and int(line.invoice_line_tax_id[0].amount * 100) or int('0')
                 imp = round(imp, 2)
                 line_data += self.parse_string(line.invoice_line_tax_id[0].edi_code or u'VAT', 3)
-                line_data += self.parse_number(imp, 5, 2)
-                line_data += self.parse_number((line.price_subtotal * (imp/100.0)), 18, 3)
+                if line.invoice_line_tax_id[0].edi_code and line.invoice_line_tax_id[0].edi_code == 'EXT':
+                    line_data += self.parse_number('0', 5, 2)
+                    line_data += self.parse_number('0', 18, 3)
+                else:
+                    line_data += self.parse_number(imp, 5, 2)
+                    line_data += self.parse_number((line.price_subtotal * (imp/100.0)), 18, 3)
             else:
             #revisar para coviran portugal, es posible que haya que poner ceros
                 line_data += 'EXT' + ' ' * 23
@@ -567,9 +571,14 @@ class edi_export (orm.TransientModel):
         for tax in invoice.tax_line:
             tax_data = '\r\nTAX'
             tax_data += self.parse_string(tax.tax_id.edi_code or u'VAT', 3)
-            tax_data += self.parse_number(tax.tax_id.amount * 100, 5, 2)
-            tax_data += self.parse_number(tax.amount, 18, 3)
-            tax_data += self.parse_number(tax.base, 18, 3)
+            if tax.tax_id.edi_code and tax.tax_id.edi_code == 'EXT':
+                tax_data += self.parse_number('0', 5, 2)
+                tax_data += self.parse_number('0', 18, 3)
+                tax_data += self.parse_number('0', 18, 3)
+            else:
+                tax_data += self.parse_number(tax.tax_id.amount * 100, 5, 2)
+                tax_data += self.parse_number(tax.amount, 18, 3)
+                tax_data += self.parse_number(tax.base, 18, 3)
             f.write(tax_data)
 
         f.close()
