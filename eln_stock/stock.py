@@ -109,11 +109,17 @@ class StockMove(models.Model):
             fiscal_obj = self.pool.get('account.fiscal.position')
             fpos = move.partner_id.property_account_position
             prod = move.product_id
-            if prod.taxes_id:
+            taxes = False
+            inv_type = context.get('inv_type', False)
+            if inv_type in ['out_invoice', 'out_refund']:
+                taxes = prod.taxes_id
+            elif inv_type in ['in_invoice', 'in_refund']:
+                taxes = prod.supplier_taxes_id
+            if taxes:
                 if fpos:
-                    for tax in prod.taxes_id:
+                    for tax in taxes:
                         res += fiscal_obj.map_tax(cr, uid, fpos, tax,
                                                   context=context)
                 else:
-                    res = [tax.id for tax in prod.taxes_id]
+                    res = [tax.id for tax in taxes]
         return res
