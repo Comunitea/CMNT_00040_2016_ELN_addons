@@ -110,9 +110,10 @@ class StockMove(models.Model):
             fpos = move.partner_id.property_account_position
             prod = move.product_id
             taxes = False
-            if move.picking_type_id.code == 'outgoing':
+            inv_type = context.get('inv_type', False)
+            if inv_type in ['out_invoice', 'out_refund']:
                 taxes = prod.taxes_id
-            elif move.picking_type_id.code == 'incoming':
+            elif inv_type in ['in_invoice', 'in_refund']:
                 taxes = prod.supplier_taxes_id
             if taxes:
                 if fpos:
