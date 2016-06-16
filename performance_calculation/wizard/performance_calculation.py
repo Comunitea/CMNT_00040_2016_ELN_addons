@@ -258,7 +258,7 @@ class performance_calculation(orm.TransientModel):
         bom_obj = self.pool.get('mrp.bom')
         tmpl_obj = self.pool.get('product.template')
         bom_point = bom_obj.browse(cr, uid, bom_id)
-        updated_price = tmpl_obj._calc_price(cr, uid, bom_point,
+        updated_price = tmpl_obj._calc_price(cr, uid, bom_point, test=True,
                                              context=context)
         return updated_price * product_uom_qty
 
@@ -269,7 +269,8 @@ class performance_calculation(orm.TransientModel):
         for move in self.pool.get('stock.move').browse(cr, uid, ids):
             if move.lot_ids and move.state != 'cancel':
                 if not move.lot_ids[0].recovery and not move.scrapped:
-                    real_cost += (move.product_id.standard_price * move.product_uom_qty)
+                    # real_cost += (move.product_id.standard_price * move.product_uom_qty)
+                    real_cost += (move.price_unit * move.product_uom_qty)
 
         return real_cost
 
@@ -300,13 +301,16 @@ class performance_calculation(orm.TransientModel):
                         qty_finished = self._calc_finished_qty(cr, uid, [x.id for x in prod.move_created_ids2], context=context)
                         real_qty_finished = self._calc_real_finished_qty(cr, uid, [x.id for x in prod.move_created_ids2], context=context)
                         qty_scrap = qty_finished - real_qty_finished
-                        theo_cost = self._get_theorical_cost(cr, uid, ids, qty_finished, prod.bom_id.id, context=context)
+                        theo_cost = prod.theo_cost
+                        if not theo_cost:
+                            theo_cost = self._get_theorical_cost(cr, uid, ids, qty_finished, prod.bom_id.id, context=context)
                         real_cost = self._get_real_cost(cr, uid, [x.id for x in prod.move_lines2], context=context)
 
                         #scrap = (real_cost / (qty_finished or 1.0)) * qty_scrap
                         for move in self.pool.get('stock.move').browse(cr, uid, [x.id for x in prod.move_lines2]):
                             if move.scrapped and move.lot_ids and not move.lot_ids[0].recovery and move.state != 'cancel':
-                                scrap += (move.product_id.standard_price * move.product_uom_qty)
+                                # scrap += (move.product_id.standard_price * move.product_uom_qty)
+                                scrap += (move.price_unit * move.product_uom_qty)
                         usage = real_cost - theo_cost
                         real_real_cost = theo_cost + scrap + usage
 
