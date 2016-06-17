@@ -14,10 +14,9 @@
                             <field name="qty_recover"/>
                             <field name="product_uom" readonly="1"/>
                             <field name="current_prodlot_id" readonly="1"/>
-                            <field name="recover_prodlot_id" context="{'product_id': product_id}" domain="[('product_id', '=', product_id),('recovery', '=', True)]" />
+                            <field name="recover_prodlot_id" context="{'product_id': product_id}" domain="[('product_id', '=', product_id)]" />
                             <field name="location_dest_id"/>
                         </group>
-
                     <footer>
                         <button icon='gtk-cancel' special="cancel"
                             string="Cancel" />
@@ -52,7 +51,7 @@
                                     <field name="qty_available" readonly="1"/>
                                     <field name="product_uom" readonly="1"/>
                                     <field name="qty_recover" attrs="{'required': [('recover','=', True)]}"/>
-                                    <field name="recover_prodlot_id" context="{'product_id': product_id}" attrs="{'required': [('recover','=', True)]}" domain="[('product_id', '=', product_id),('recovery', '=', True)]"/>
+                                    <field name="recover_prodlot_id" context="{'product_id': product_id}" attrs="{'required': [('recover','=', True)]}" domain="[('product_id', '=', product_id)]"/>
                                     <field name="location_dest_id" attrs="{'required': [('recover','=', True)]}"/>
                                     <field name="recover"/>
                                 </tree>
