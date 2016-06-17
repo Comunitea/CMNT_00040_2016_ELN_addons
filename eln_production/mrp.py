@@ -981,7 +981,7 @@ class mrp_production(osv.osv):
                 prod_line_obj.create(cr, uid, line)
             theo_cost = tmpl_obj._calc_price(cr, uid, bom, test=True,
                                              context=context)
-            prod.write({'theo_cost': new_qty * theo_cost})
+            prod.write({'theo_cost': finished_qty * theo_cost})
         return res
 
 mrp_production()

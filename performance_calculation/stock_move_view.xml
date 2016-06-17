@@ -142,29 +142,5 @@
 
         <menuitem action="action_move_reworksform2" id="menu_action_move_reworks_form2" parent="mrp.menu_mrp_manufacturing" sequence="20"/>
 
-        <record id="view_production_lot_form_add_boolean" model="ir.ui.view">
-            <field name="name">stock.production.lot.form.add.boolean</field>
-            <field name="model">stock.production.lot</field>
-            <field name="inherit_id" ref="stock.view_production_lot_form"/>
-            <field name="type">form</field>
-            <field name="arch" type="xml">
-                <field name="name" position="after">
-                    <field name="recovery"/>
-                </field>
-            </field>
-        </record>
-
-        <record id="view_production_lot_tree_add_recovery" model="ir.ui.view">
-            <field name="name">stock.production.lot.tree.add.recovery</field>
-            <field name="model">stock.production.lot</field>
-            <field name="inherit_id" ref="stock.view_production_lot_tree"/>
-            <field name="type">tree</field>
-            <field name="arch" type="xml">
-                <field name="name" position="after">
-                    <field name="recovery"/>
-                </field>
-           </field>
-       </record>
-
     </data>
 </openerp>
