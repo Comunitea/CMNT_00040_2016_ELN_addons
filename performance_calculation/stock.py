@@ -28,13 +28,6 @@ class stock_move(models.Model):
                               related="location_dest_id.reworks_location",
                               readonly=True)
 
-
-class stock_production_lot(models.Model):
-    _inherit = 'stock.production.lot'
-
-    recovery = fields.Boolean('Recovery')
-
-
 class stock_location(models.Model):
     _inherit = 'stock.location'
     reworks_location = fields.Boolean('Reworks location',

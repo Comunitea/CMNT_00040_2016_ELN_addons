@@ -267,10 +267,9 @@ class performance_calculation(orm.TransientModel):
         real_cost = 0.0
 
         for move in self.pool.get('stock.move').browse(cr, uid, ids):
-            if move.lot_ids and move.state != 'cancel':
-                if not move.lot_ids[0].recovery and not move.scrapped:
-                    # real_cost += (move.product_id.standard_price * move.product_uom_qty)
-                    real_cost += (move.price_unit * move.product_uom_qty)
+            if not move.scrapped and move.state != 'cancel':
+                # real_cost += (move.product_id.standard_price * move.product_uom_qty)
+                real_cost += (move.price_unit * move.product_uom_qty)
 
         return real_cost
 
@@ -308,7 +307,7 @@ class performance_calculation(orm.TransientModel):
 
                         #scrap = (real_cost / (qty_finished or 1.0)) * qty_scrap
                         for move in self.pool.get('stock.move').browse(cr, uid, [x.id for x in prod.move_lines2]):
-                            if move.scrapped and move.lot_ids and not move.lot_ids[0].recovery and move.state != 'cancel':
+                            if move.scrapped and move.state != 'cancel':
                                 # scrap += (move.product_id.standard_price * move.product_uom_qty)
                                 scrap += (move.price_unit * move.product_uom_qty)
                         usage = real_cost - theo_cost
