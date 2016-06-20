@@ -306,12 +306,13 @@ class performance_calculation(orm.TransientModel):
                         real_cost = self._get_real_cost(cr, uid, [x.id for x in prod.move_lines2], context=context)
 
                         #scrap = (real_cost / (qty_finished or 1.0)) * qty_scrap
+                        scrap += qty_scrap * (theo_cost / qty_finished)
                         for move in self.pool.get('stock.move').browse(cr, uid, [x.id for x in prod.move_lines2]):
                             if move.scrapped and move.state != 'cancel':
                                 # scrap += (move.product_id.standard_price * move.product_uom_qty)
                                 scrap += (move.price_unit * move.product_uom_qty)
                         usage = real_cost - theo_cost
-                        real_real_cost = theo_cost + scrap + usage
+                        real_real_cost = real_cost + scrap
 
                         self.pool.get('mrp.indicators.scrap.line').create(cr,\
                             uid,self._prepare_scrap_indicator_line(cr,\
