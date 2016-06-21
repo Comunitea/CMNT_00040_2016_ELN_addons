@@ -37,6 +37,7 @@ class ReserveTransitWzd(models.TransientModel):
                         ctx.update(forced_quants=forced_quants)
                         orig_move = self.env['stock.move'].sudo().\
                             with_context(ctx).browse(move.id)
+                        orig_move.do_unreserve()
                         orig_move.action_assign()
         return
 

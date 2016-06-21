@@ -37,8 +37,10 @@ class StockTransferDetails(models.TransientModel):
         t_quant = self.env['stock.quant']
         picking_ids = self._context.get('active_ids', [])
         picking = self.env['stock.picking'].browse(picking_ids[0])
+        auto_transit_mode = False
         if picking.auto_transit and \
                 picking.location_dest_id.usage == 'transit':
+            auto_transit_mode = True
             # picking.do_unreserve()
             picking.pack_operation_ids.unlink()
             prod_ids = set()
@@ -59,8 +61,7 @@ class StockTransferDetails(models.TransientModel):
                         vals = self._prepare_packops_vals(prod, lot, qty)
                         t_op.create(vals)
         res = super(StockTransferDetails, self).default_get(fields)
-        if picking.auto_transit and \
-                picking.location_dest_id.usage == 'transit':
+        if auto_transit_mode:
             res.update(auto_transit=True)
         t_op = self.env['stock.pack.operation']
         if res.get('item_ids', False):
@@ -68,6 +69,9 @@ class StockTransferDetails(models.TransientModel):
                 pack_op = t_op.browse(item['packop_id'])
                 if pack_op.from_negative_quant:
                     item.update(from_negative_quant=True)
+                elif auto_transit_mode:
+                    item.update(quantity=0.0, uos_qty=0.0)
+
         return res
 
 
