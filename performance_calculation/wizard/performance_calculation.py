@@ -256,18 +256,20 @@ class performance_calculation(orm.TransientModel):
     def _get_theorical_cost(self, cr, uid, ids, product_uom_qty=0.0, bom_id=False, context=None):
 
         bom_obj = self.pool.get('mrp.bom')
+        tmpl_obj = self.pool.get('product.template')
         bom_point = bom_obj.browse(cr, uid, bom_id)
-
-        return bom_point.standard_price * product_uom_qty
+        updated_price = tmpl_obj._calc_price(cr, uid, bom_point, test=True,
+                                             context=context)
+        return updated_price * product_uom_qty
 
     def _get_real_cost(self, cr, uid, ids, context=None):
 
         real_cost = 0.0
 
         for move in self.pool.get('stock.move').browse(cr, uid, ids):
-            if move.lot_ids:
-                if not move.lot_ids[0].recovery and not move.scrapped:
-                    real_cost += (move.product_id.standard_price * move.product_uom_qty)
+            if not move.scrapped and move.state != 'cancel':
+                # real_cost += (move.product_id.standard_price * move.product_uom_qty)
+                real_cost += (move.price_unit * move.product_uom_qty)
 
         return real_cost
 
@@ -278,7 +280,6 @@ class performance_calculation(orm.TransientModel):
         indicator_id = False
         prod_obj = self.pool.get('mrp.production')
         company_id = self.pool.get('res.users').browse(cr, uid, uid).company_id and self.pool.get('res.users').browse(cr, uid, uid).company_id.id or False
-
         for form in self.browse(cr, uid, ids, context):
             name_report = self._get_name_by_filters(cr, uid, [form.id], context=context)
             production_ids = self._get_productions_by_filters(cr, uid, ids, context=context)
@@ -299,15 +300,19 @@ class performance_calculation(orm.TransientModel):
                         qty_finished = self._calc_finished_qty(cr, uid, [x.id for x in prod.move_created_ids2], context=context)
                         real_qty_finished = self._calc_real_finished_qty(cr, uid, [x.id for x in prod.move_created_ids2], context=context)
                         qty_scrap = qty_finished - real_qty_finished
-                        theo_cost = self._get_theorical_cost(cr, uid, ids, qty_finished, prod.bom_id.id, context=context)
+                        theo_cost = prod.theo_cost
+                        if not theo_cost:
+                            theo_cost = self._get_theorical_cost(cr, uid, ids, qty_finished, prod.bom_id.id, context=context)
                         real_cost = self._get_real_cost(cr, uid, [x.id for x in prod.move_lines2], context=context)
 
                         #scrap = (real_cost / (qty_finished or 1.0)) * qty_scrap
+                        scrap += qty_scrap * (theo_cost / qty_finished)
                         for move in self.pool.get('stock.move').browse(cr, uid, [x.id for x in prod.move_lines2]):
-                            if move.scrapped and move.lot_ids and not move.lot_ids[0].recovery:
-                                scrap += (move.product_id.standard_price * move.product_uom_qty)
+                            if move.scrapped and move.state != 'cancel':
+                                # scrap += (move.product_id.standard_price * move.product_uom_qty)
+                                scrap += (move.price_unit * move.product_uom_qty)
                         usage = real_cost - theo_cost
-                        real_real_cost = theo_cost + scrap + usage
+                        real_real_cost = real_cost + scrap
 
                         self.pool.get('mrp.indicators.scrap.line').create(cr,\
                             uid,self._prepare_scrap_indicator_line(cr,\

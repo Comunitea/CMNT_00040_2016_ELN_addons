@@ -638,6 +638,7 @@ class mrp_production(osv.osv):
                                           type='many2one', relation='mrp.workcenter',
                                           string='Work Center', help="Work center of the first operation of the route."), #Uso para operaciones de agrupacion, filtrado, etc.
         'color_production': fields.function(_get_color_production, type="integer", string="Color production", readonly=True),
+        'theo_cost': fields.float('Theorical Cost', digits_compute=dp.get_precision('Product Price'))
     }
 
     def modify_consumption(self, cr, uid, ids, context=None):
@@ -958,6 +959,7 @@ class mrp_production(osv.osv):
     def action_production_end(self, cr, uid, ids, context=None):
         uom_obj = self.pool.get("product.uom")
         bom_obj = self.pool.get("mrp.bom")
+        tmpl_obj = self.pool.get('product.template')
         prod_line_obj = self.pool.get('mrp.production.product.line')
         res = super(mrp_production, self).\
             action_production_end(cr, uid, ids, context=context)
@@ -977,6 +979,9 @@ class mrp_production(osv.osv):
             for line in prod_lines:
                 line['production_id'] = prod.id
                 prod_line_obj.create(cr, uid, line)
+            theo_cost = tmpl_obj._calc_price(cr, uid, bom, test=True,
+                                             context=context)
+            prod.write({'theo_cost': finished_qty * theo_cost})
         return res
 
 mrp_production()
