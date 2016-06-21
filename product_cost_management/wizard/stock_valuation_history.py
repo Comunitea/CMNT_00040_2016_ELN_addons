@@ -2,7 +2,7 @@
 # © 2016 Comunitea - Javier Colmenero <javier@comunitea.com>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from openerp import models, tools, fields, api
+from openerp import models, tools, api
 
 
 class WizardValuationHistory(models.TransientModel):
@@ -22,8 +22,6 @@ class StockHistory(models.Model):
     """
     _inherit = 'stock.history'
 
-    lot_id = fields.Many2one('stock.production.lot', 'Lot', required=True)
-
     def init(self, cr):
         tools.drop_view_if_exists(cr, 'stock_history')
         cr.execute("""
@@ -35,7 +33,6 @@ class StockHistory(models.Model):
                 product_id,
                 product_categ_id,
                 SUM(quantity) as quantity,
-                lot_id,
                 date,
                 SUM(price_unit_on_quant * quantity) / SUM(quantity) as price_unit_on_quant,
                 source
@@ -48,7 +45,6 @@ class StockHistory(models.Model):
                     stock_move.product_id AS product_id,
                     product_template.categ_id AS product_categ_id,
                     quant.qty AS quantity,
-                    quant.lot_id AS lot_id,
                     stock_move.date AS date,
                     quant.cost as price_unit_on_quant,
                     stock_move.origin AS source
@@ -80,7 +76,6 @@ class StockHistory(models.Model):
                     stock_move.product_id AS product_id,
                     product_template.categ_id AS product_categ_id,
                     - quant.qty AS quantity,
-                    quant.lot_id,
                     stock_move.date AS date,
                     quant.cost as price_unit_on_quant,
                     stock_move.origin AS source
@@ -105,6 +100,6 @@ class StockHistory(models.Model):
                     dest_location.usage not in ('internal', 'transit'))
                 ))
                 AS foo
-                GROUP BY move_id, location_id, company_id, product_id, product_categ_id, lot_id, date, source
+                GROUP BY move_id, location_id, company_id, product_id, product_categ_id, date, source
                 having SUM(quantity) != 0
             )""")
