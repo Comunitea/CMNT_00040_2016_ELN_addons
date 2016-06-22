@@ -638,8 +638,11 @@ class mrp_production(osv.osv):
                                           type='many2one', relation='mrp.workcenter',
                                           string='Work Center', help="Work center of the first operation of the route."), #Uso para operaciones de agrupacion, filtrado, etc.
         'color_production': fields.function(_get_color_production, type="integer", string="Color production", readonly=True),
-        'theo_cost': fields.float('Theorical Cost', digits_compute=dp.get_precision('Product Price'))
+        'theo_cost': fields.float('Theorical Cost', digits_compute=dp.get_precision('Product Price')),
+        'sequence': fields.integer('Sequence', help="Used to order the production planning kanban view"),
     }
+
+    _order = 'name desc'
 
     def modify_consumption(self, cr, uid, ids, context=None):
         if not context:
