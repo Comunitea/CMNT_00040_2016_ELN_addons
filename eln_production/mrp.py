@@ -611,13 +611,13 @@ class mrp_production(osv.osv):
         if ids:
             for production in self.browse(cr, uid, ids, context=context):
                 if production.priority == '0': #Prioridad no urgente
-                    res[production.id] = 3 #amarillo
-                elif production.priority == '1': #Prioridad normal
                     res[production.id] = 4 #verde claro
+                elif production.priority == '1': #Prioridad normal
+                    res[production.id] = 3 #amarillo
                 elif production.priority == '2': #Prioridad urgente
-                    res[production.id] = 8 #violeta 
+                    res[production.id] = 2 #rojo claro
                 elif production.priority == '3': #Prioridad muy urgente
-                    res[production.id] = 9 #rosa fuerte
+                    res[production.id] = 1 #gris 
                 else:
                     res[production.id] = 0 #blanco
         return res

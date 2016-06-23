@@ -465,7 +465,8 @@
                                        <li><a type="edit">Edit...</a></li>
                                    </ul>
                                </div>
-                               <div class="oe_kanban_box oe_kanban_color_border">
+                               <!-- <div class="oe_kanban_box oe_kanban_color_border">  -->
+                               <div class="oe_kanban_content">
                                    <h4 class="text-center"><strong><field name="name"/></strong></h4>
                                      <div class="oe_kanban_box_content oe_kanban_color_bglight oe_kanban_box_show_onclick_trigger oe_kanban_color_border">
                                         <div>
@@ -485,7 +486,7 @@
                                         </div>
                                         -->
                                         <div>
-                                            <field name="priority"/> - <field name="state"/>
+                                            <b><field name="priority"/> - <field name="state"/></b>
                                         </div>
                                     </div>
                                 </div>

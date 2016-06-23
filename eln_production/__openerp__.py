@@ -50,7 +50,8 @@
                     'security/ir.model.access.csv',
                     'stock_move_scrap_view.xml',
                     'stock_view.xml',
-                    'wizard/mrp_product_produce_view.xml'
+                    'wizard/mrp_product_produce_view.xml',
+                    'stock_warehouse_orderpoint_view.xml',
                     ],
     "demo_xml" : [],
     "installable": True
