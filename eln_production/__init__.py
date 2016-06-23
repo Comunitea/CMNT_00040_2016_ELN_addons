@@ -25,3 +25,4 @@ import stock_move_scrap
 import stock_move
 import wizard
 import procurement
+import stock_warehouse_orderpoint

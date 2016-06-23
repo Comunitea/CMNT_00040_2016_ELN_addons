@@ -36,6 +36,7 @@ class AccountInvoice(models.Model):
     @api.multi
     def invoice_validate(self):
         t_uom = self.env['product.uom']
+        product_tmpl_obj = self.env['product.template']
         for invoice in self:
             if invoice.type not in ('out_invoice', 'out_refund'):
                 continue
@@ -53,8 +54,27 @@ class AccountInvoice(models.Model):
                     uom_qty = t_uom._compute_qty(from_unit,
                                                  analytic_move.unit_amount,
                                                  product_unit)
+                price_unit = 0
+                quant_qty = 0
+                if analytic_move.product_id.type != 'service':
+                    for picking_id in self.picking_ids:
+                        for move_line in picking_id.move_lines:
+                            if move_line.product_id == analytic_move.product_id:
+                                for quant in move_line.quant_ids:
+                                    if quant_qty < 0:
+                                        continue
+                                    price_unit += quant.cost * quant.qty
+                                    quant_qty += quant.qty
+                if quant_qty:
+                    price_unit = price_unit / quant_qty
+                if not price_unit:
+                    date = self.date_invoice
+                    price_unit = product_tmpl_obj.get_history_price(analytic_move.product_id.product_tmpl_id.id, 
+                                                                    self.company_id.id, 
+                                                                    date=date) 
+                price_unit = price_unit or analytic_move.product_id.standard_price
                 amount = currency.compute(
-                    analytic_move.product_id.standard_price *
+                    price_unit *
                     uom_qty, company_currency) * sign
                 if analytic_move.journal_id.analytic_cost_journal:
                     analytic_move.copy(
