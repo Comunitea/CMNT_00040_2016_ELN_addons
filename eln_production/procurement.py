@@ -32,8 +32,9 @@ class procurement_order(osv.osv):
                 context={'location': procurement.location_id.id})[procurement.product_id.id]['virtual_available']
 
             orderpoint_obj = self.pool.get('stock.warehouse.orderpoint') 
-            company_id = False
+            company_id = res.get('company_id', False) or procurement[0].company_id.id
             dom = company_id and [('company_id', '=', company_id)] or []
+            dom.append(('product_id', '=', procurement.product_id.id))
             orderpoint_ids = orderpoint_obj.search(cr, uid, dom)
             min_qty = max_qty = security_qty = 0
             if orderpoint_ids:
