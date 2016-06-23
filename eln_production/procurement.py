@@ -42,7 +42,6 @@ class procurement_order(osv.osv):
                 max_qty = max(op.product_min_qty, op.product_max_qty)
                 security_qty = op.product_security_qty
             
-            import ipdb; ipdb.set_trace()
             if virtual_available <= 0:
                 res.update(priority='2') #Urgente
             elif virtual_available <= security_qty:
