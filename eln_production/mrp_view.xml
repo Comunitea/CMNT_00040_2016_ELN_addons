@@ -269,6 +269,7 @@
             <field name="arch" type="xml">
                 <tree colors="blue:state in ('draft','confirmed','ready');red:state in ('picking_except');black:state in ('finished','validated','closed');gray:state in ('done','cancel');green:state in ('in_production') " string="Manufacturing Orders">
                     <field name="name"/>
+                    <field name="sequence" widget="handle" invisible="1"/>
                     <field name="date_planned"/>
                     <field name="product_id"/>
                     <field name="product_qty" sum="Total Qty"/>
@@ -440,7 +441,8 @@
             <field name="model">mrp.production</field>
             <field name="type">kanban</field>
             <field name="arch" type="xml">
-                <kanban default_group_by="workcenter_id" default_order="priority desc, date_planned desc" edit="false" quick_create="false">
+                <kanban default_group_by="workcenter_id" default_order="sequence asc, priority desc, date_planned desc, name asc" edit="true" quick_create="false">
+                    <field name="sequence"/>
                     <field name="name"/>
                     <field name="product_id"/>
                     <field name="product_qty"/>
@@ -463,35 +465,28 @@
                                        <li><a type="edit">Edit...</a></li>
                                    </ul>
                                </div>
-                               <div class="oe_kanban_box oe_kanban_color_border">
+                               <!-- <div class="oe_kanban_box oe_kanban_color_border">  -->
+                               <div class="oe_kanban_content">
                                    <h4 class="text-center"><strong><field name="name"/></strong></h4>
                                      <div class="oe_kanban_box_content oe_kanban_color_bglight oe_kanban_box_show_onclick_trigger oe_kanban_color_border">
                                         <div>
                                             <b><field name="product_id"/></b>
                                         </div>
-                                        <div>
-                                            <b>Quantity:</b>
-                                        </div>
+                                        <!--
                                         <div>
                                             <field name="product_qty"/> <field name="product_uom"/>
                                         </div>
+                                        -->
                                         <div>
-                                            <field name="product_uos_qty"/> <field name="product_uos"/>
+                                            <b><field name="product_uos_qty"/> <field name="product_uos"/></b>
                                         </div>
-                                        <!--<div>
-                                            <b>Ruta: </b><field name="routing_id"/>
-                                        </div>-->
+                                        <!--
                                         <div>
-                                            <b>Tiempo: </b><field name="hour_total"/>
+                                            <field name="date_planned"/>
                                         </div>
+                                        -->
                                         <div>
-                                            <b>Fecha: </b><field name="date_planned"/>
-                                        </div>
-                                        <div>
-                                            <b>Priority: </b><field name="priority"/>
-                                        </div>
-                                        <div>
-                                            <b>State: </b><field name="state"/>
+                                            <b><field name="priority"/> - <field name="state"/></b>
                                         </div>
                                     </div>
                                 </div>

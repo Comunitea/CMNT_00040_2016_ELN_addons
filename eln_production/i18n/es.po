@@ -6,9 +6,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-22 21:20+0000\n"
-"PO-Revision-Date: 2016-05-22 23:33+0200\n"
-"Last-Translator: Pedro <pegomez@elnogal.com>\n"
+"POT-Creation-Date: 2016-06-23 09:20+0000\n"
+"PO-Revision-Date: 2016-06-23 11:37+0200\n"
+"Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -61,7 +61,7 @@ msgid "BoM line product should not be same as BoM product."
 msgstr "Un producto de línea de LdM no puede ser el mismo que el producto fabricado por la LdM"
 
 #. module: eln_production
-#: code:addons/eln_production/mrp.py:917
+#: code:addons/eln_production/mrp.py:921
 #, python-format
 msgid "Can not recalculate time because not exists objectives datas in the lines of the routing"
 msgstr "No puede recalcular tiempo porque no existen datos objetivos en las líneas de la ruta"
@@ -213,7 +213,7 @@ msgid "Entry qty (kg)"
 msgstr "Cant. entrada (kg)"
 
 #. module: eln_production
-#: code:addons/eln_production/mrp.py:491 code:addons/eln_production/mrp.py:917
+#: code:addons/eln_production/mrp.py:491 code:addons/eln_production/mrp.py:921
 #, python-format
 msgid "Error!"
 msgstr "¡Error!"
@@ -232,11 +232,6 @@ msgstr "Estimación"
 #: view:mrp.production:eln_production.mrp_production_form_inherit_10
 msgid "Extra Information"
 msgstr "Información extra"
-
-#. module: eln_production
-#: view:mrp.production:eln_production.view_mrp_production_kanban
-msgid "Fecha:"
-msgstr "Fecha:"
 
 #. module: eln_production
 #: view:mrp.production:eln_production.mrp_production_form_inherit_10
@@ -375,6 +370,11 @@ msgid "Manufacturing order cannot be started in state \"%s\"!"
 msgstr "La orden de producción no se puede iniciar en estado \"%s\""
 
 #. module: eln_production
+#: model:ir.model,name:eln_production.model_stock_warehouse_orderpoint
+msgid "Minimum Inventory Rule"
+msgstr "Regla de inventario mínimo"
+
+#. module: eln_production
 #: view:mrp.modify.consumption:eln_production.mrp_modify_consumption_form
 msgid "Modify"
 msgstr "Modificar"
@@ -447,7 +447,7 @@ msgid "Out qty (kg)"
 msgstr "Cant. salida (kg)"
 
 #. module: eln_production
-#: code:addons/eln_production/mrp.py:691
+#: code:addons/eln_production/mrp.py:695
 #: code:addons/eln_production/stock_move.py:82
 #, python-format
 msgid "PROD: %s"
@@ -476,11 +476,6 @@ msgstr "Planificada:"
 #: view:mrp.production.workcenter.line:eln_production.mrp_production_workcenter_form_view_inherit
 msgid "Planned Date"
 msgstr "Fecha planeada"
-
-#. module: eln_production
-#: view:mrp.production:eln_production.view_mrp_production_kanban
-msgid "Priority:"
-msgstr "Prioridad:"
 
 #. module: eln_production
 #: view:mrp.bom:eln_production.mrp_bom_form_view_add_fields
@@ -564,11 +559,6 @@ msgstr "Cant. Muestra"
 #: field:mrp.modify.consumption.line,product_qty:0
 msgid "Quantity (in default UoM)"
 msgstr "Cantidad (en UdM por defecto)"
-
-#. module: eln_production
-#: view:mrp.production:eln_production.view_mrp_production_kanban
-msgid "Quantity:"
-msgstr "Cantidad:"
 
 #. module: eln_production
 #: view:mrp.production:eln_production.mrp_production_form_inherit_10
@@ -657,6 +647,21 @@ msgid "Scrap Products"
 msgstr "Desechar productos"
 
 #. module: eln_production
+#: field:stock.warehouse.orderpoint,product_security_qty:0
+msgid "Security Quantity"
+msgstr "Cantidad seguridad"
+
+#. module: eln_production
+#: help:stock.warehouse.orderpoint,product_security_qty:0
+msgid "Security stock to determine priority on procurement orders."
+msgstr "Stock de seguridad usado para determinar prioridad en ódenes de producción."
+
+#. module: eln_production
+#: field:mrp.production,sequence:0
+msgid "Sequence"
+msgstr "Secuencia"
+
+#. module: eln_production
 #: view:mrp.production:eln_production.mrp_production_form_inherit_10
 #: view:mrp.production.workcenter.line:eln_production.mrp_production_workcenter_form_view_inherit
 msgid "Set Draft"
@@ -686,11 +691,6 @@ msgid "Start Working"
 msgstr "Empezar a trabajar"
 
 #. module: eln_production
-#: view:mrp.production:eln_production.view_mrp_production_kanban
-msgid "State:"
-msgstr "Estado:"
-
-#. module: eln_production
 #: field:mrp.production.workcenter.line,stock:0
 msgid "Stock"
 msgstr "Stock"
@@ -699,6 +699,11 @@ msgstr "Stock"
 #: model:ir.model,name:eln_production.model_stock_move
 msgid "Stock Move"
 msgstr "Movimiento de existencias"
+
+#. module: eln_production
+#: field:mrp.production,theo_cost:0
+msgid "Theorical Cost"
+msgstr "Coste teórico"
 
 #. module: eln_production
 #: view:mrp.production.workcenter.line:eln_production.view_mrp_production_workcenter_line_kanban
@@ -711,7 +716,6 @@ msgid "Tiempo estimado"
 msgstr "Tiempo estimado"
 
 #. module: eln_production
-#: view:mrp.production:eln_production.view_mrp_production_kanban
 #: view:mrp.production.workcenter.line:eln_production.view_mrp_production_workcenter_line_kanban
 msgid "Tiempo:"
 msgstr "Tiempo:"
@@ -800,6 +804,11 @@ msgstr "UdM"
 #: view:mrp.production:eln_production.mrp_production_form_inherit_10
 msgid "Update"
 msgstr "Actualizar"
+
+#. module: eln_production
+#: help:mrp.production,sequence:0
+msgid "Used to order the production planning kanban view"
+msgstr "Usado para ordenar la vista kanban del planning de produccion"
 
 #. module: eln_production
 #: view:mrp.production:eln_production.mrp_production_form_inherit_10

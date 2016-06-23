@@ -31,7 +31,8 @@
     "application": False,
     "installable": True,
     "depends": [
-        "account"
+        "account",
+        "picking_invoice_rel"
     ],
     "data": [
     'views/account.xml'
