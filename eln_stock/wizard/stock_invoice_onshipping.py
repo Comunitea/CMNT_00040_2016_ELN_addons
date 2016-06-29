@@ -22,52 +22,10 @@ from openerp.osv import osv, fields
 from openerp.tools.translate import _
 
 
-# POST-MIGRATION: odoo ya debería hacerlo bien
-# class stock_invoice_onshipping(osv.osv_memory):
+# class StockInvoiceOnshipping(osv.osv_memory):
 #     _inherit = 'stock.invoice.onshipping'
-#
-#     def _get_journal_id(self, cr, uid, context=None):
-#         if context is None:
-#             context = {}
-#
-#         model = context.get('active_model')
-#         if not model or model != 'stock.picking':
-#             return []
-#
-#         model_pool = self.pool.get(model)
-#         journal_obj = self.pool.get('account.journal')
-#         res_ids = context and context.get('active_ids', [])
-#         vals = []
-#         browse_picking = model_pool.browse(cr, uid, res_ids, context=context)
-#
-#         for pick in browse_picking:
-#             if not pick.move_lines:
-#                 continue
-#             src_usage = pick.move_lines[0].location_id.usage
-#             dest_usage = pick.move_lines[0].location_dest_id.usage
-#             type = pick.type
-#             if type == 'out' and dest_usage == 'supplier':
-#                 journal_type = 'purchase_refund'
-#             elif type == 'out' and dest_usage == 'customer':
-#                 journal_type = 'sale'
-#             elif type == 'in' and src_usage == 'supplier':
-#                 journal_type = 'purchase'
-#             elif type == 'in' and src_usage == 'customer':
-#                 journal_type = 'sale_refund'
-#             elif type == 'in':
-#                 journal_type = 'purchase'
-#             else:
-#                 journal_type = 'sale'
-#
-#             value = journal_obj.search(cr, uid, [('type', '=', journal_type )])
-#             for jr_type in journal_obj.browse(cr, uid, value, context=context):
-#                 t1 = jr_type.id,jr_type.name
-#                 if t1 not in vals:
-#                     vals.append(t1)
-#         return vals
-#
-#     _columns = {
-#         'journal_id': fields.selection(_get_journal_id, 'Destination Journal', required=True),
-#     }
-#
-# stock_invoice_onshipping()
+
+#     def onchange_journal_id(self, cr, uid, ids, journal_id, context=None):
+#         res = super(StockInvoiceOnshipping, self).\
+#             onchange_journal_id(cr, uid, ids, journal_id, context=context)
+#         return res
