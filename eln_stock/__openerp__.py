@@ -30,6 +30,7 @@
                 'stock',
                 'eln_sale',  # Because of commitment_date group
                 'picking_invoice_rel',
+                'web_readonly_bypass'
                 # 'stock_location',
                 ],
     "init_xml": [],
@@ -40,6 +41,7 @@
         'wizard/stock_picking_assign_multi.xml',
         'wizard/stock_picking_unreserve_multi.xml',
         'wizard/stock_picking_cancel_multi.xml',
+        'wizard/stock_invoice_onshipping_view.xml',
     ],
     "demo_xml": [],
     "active": False,
