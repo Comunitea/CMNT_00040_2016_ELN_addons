@@ -32,9 +32,11 @@ class StockMove(orm.Model):
         """
         if context is None:
             context = {}
-        if type in ('in_invoice', 'in_refund'):
-            if move_line.location_id.usage in ['supplier', 'transit'] and \
-                    not move_line.purchase_line_id:
+        if type in ('in_invoice', 'in_refund') and \
+                not move_line.purchase_line_id:
+            loc = move_line.location_id if type == 'in_invoice' else \
+                move_line.location_dest_id
+            if loc.usage in ['supplier', 'transit']:
                 pricelist_obj = self.pool.get("product.pricelist")
                 pricelist = move_line.picking_id.partner_id.\
                     property_product_pricelist_purchase.id
