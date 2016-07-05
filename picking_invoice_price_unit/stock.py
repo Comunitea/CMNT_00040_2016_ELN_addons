@@ -40,15 +40,17 @@ class StockMove(orm.Model):
                 pricelist_obj = self.pool.get("product.pricelist")
                 pricelist = move_line.picking_id.partner_id.\
                     property_product_pricelist_purchase.id
-                price = pricelist_obj.price_get(cr, uid, [pricelist],
-                                                move_line.product_id.id,
-                                                move_line.product_uom_qty,
-                                                move_line.partner_id.id,
-                                                {
-                                                'uom': move_line.
+                price = False
+                if pricelist:
+                    price = pricelist_obj.price_get(cr, uid, [pricelist],
+                                                    move_line.product_id.id,
+                                                    move_line.product_uom_qty,
+                                                    move_line.partner_id.id,
+                                                    {
+                                                    'uom': move_line.
                                                     product_uom.id,
-                                                'date': move_line.date,
-                                                })[pricelist]
+                                                    'date': move_line.date,
+                                                    })[pricelist]
                 if price:
                     # Escribimos el precio unitario, para que en el super
                     # al entrar por el mismo if, lo devuelva.
