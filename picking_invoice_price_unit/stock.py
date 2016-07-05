@@ -40,6 +40,7 @@ class StockMove(orm.Model):
                 pricelist_obj = self.pool.get("product.pricelist")
                 pricelist = move_line.picking_id.partner_id.\
                     property_product_pricelist_purchase.id
+                price = False
                 if pricelist:
                     price = pricelist_obj.price_get(cr, uid, [pricelist],
                                                     move_line.product_id.id,
