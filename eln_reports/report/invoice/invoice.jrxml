@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Invoice" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="2.0"/>
-	<property name="ireport.x" value="0"/>
+	<property name="ireport.x" value="226"/>
 	<property name="ireport.y" value="407"/>
 	<property name="ireport.layers" value="##Thu Apr 28 01:42:20 CEST 2016\nlayer.1.name=STANDARD\nlayer.1.visible=true\nlayer.1.id=1\nlayer.0.name=Background\nlayer.0.visible=true\nlayer.0.id=0"/>
 	<style name="table" lineSpacing="Single">
@@ -566,7 +566,7 @@ tr($V{L}, "TOTAL ABONO")]]></textFieldExpression>
 					</textField>
 				</frame>
 				<frame>
-					<reportElement x="0" y="100" width="315" height="30" isPrintWhenDetailOverflows="true"/>
+					<reportElement x="0" y="100" width="320" height="30" isPrintWhenDetailOverflows="true"/>
 					<box>
 						<topPen lineWidth="0.5"/>
 						<leftPen lineWidth="0.5"/>
@@ -594,8 +594,8 @@ tr($V{L}, "TOTAL ABONO")]]></textFieldExpression>
 						</textElement>
 						<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "Tipo de pago:")]]></textFieldExpression>
 					</textField>
-					<textField isBlankWhenNull="true">
-						<reportElement x="67" y="15" width="243" height="13"/>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement x="67" y="15" width="253" height="13"/>
 						<textElement verticalAlignment="Middle" lineSpacing="Single">
 							<font size="7"/>
 						</textElement>
@@ -615,7 +615,7 @@ $F{Numero_de_cuenta-acc_number}.isEmpty() ?
 						<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "Vencimiento:")]]></textFieldExpression>
 					</textField>
 					<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
-						<reportElement x="238" y="2" width="72" height="13"/>
+						<reportElement x="238" y="2" width="82" height="13"/>
 						<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0"/>
 						<textElement verticalAlignment="Middle" lineSpacing="Single">
 							<font size="7"/>
