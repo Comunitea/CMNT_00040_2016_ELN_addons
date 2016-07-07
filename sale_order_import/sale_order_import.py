@@ -205,7 +205,7 @@ class sale_order_import(orm.TransientModel):
                                    pricelist=so.pricelist_id.id, shop=so.shop_id.id, uom=False)  # FALSE SHOP POST-MIGRATION
                     data.update(sale_line_obj.product_id_change(cr, uid, [line_id], so.pricelist_id.id, product_id[0], product_uom_qty,
                                                                 uom_id, product_uos_qty, uos_id, '', so.partner_id.id, False, True, so.date_order,
-                                                                False, so.fiscal_position.id, True, context=ctx)['value'])
+                                                                False, so.fiscal_position.id, False, context=ctx)['value'])
                     if 'product_uom_qty' in data and data['product_uom_qty']:
                         del data['product_uom_qty']
                     if 'tax_id' in data and data['tax_id']:
