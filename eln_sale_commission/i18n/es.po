@@ -1,0 +1,69 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* eln_sale_commission
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-07-11 11:57+0000\n"
+"PO-Revision-Date: 2016-07-11 11:57+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: eln_sale_commission
+#: view:sale.commission.settlement.line:eln_sale_commission.view_settlement_line_search
+msgid "Agent"
+msgstr "Agente"
+
+#. module: eln_sale_commission
+#: field:res.partner,atypical:0
+msgid "Atypical"
+msgstr "Atípico"
+
+#. module: eln_sale_commission
+#: view:sale.commission.settlement.line:eln_sale_commission.view_settlement_line_search
+msgid "Commission"
+msgstr "Comisión"
+
+#. module: eln_sale_commission
+#: model:ir.model,name:eln_sale_commission.model_res_partner
+#: view:sale.commission.settlement.line:eln_sale_commission.view_settlement_line_search
+#: field:sale.commission.settlement.line,partner_id:0
+msgid "Partner"
+msgstr "Empresa"
+
+#. module: eln_sale_commission
+#: model:ir.model,name:eln_sale_commission.model_sale_order_line
+msgid "Sales Order Line"
+msgstr "Línea pedido de venta"
+
+#. module: eln_sale_commission
+#: model:ir.ui.menu,name:eln_sale_commission.menu_settlement_lines
+msgid "Settlement Lines"
+msgstr "Lineas liquidación"
+
+#. module: eln_sale_commission
+#: model:ir.actions.act_window,name:eln_sale_commission.action_settlemment_line
+msgid "Settlement lines"
+msgstr "Lineas liquidación"
+
+#. module: eln_sale_commission
+#: sql_constraint:account.invoice.line.agent:0
+msgid "You can only add one time each agent."
+msgstr "Sólo puede añadir una vez cada agente."
+
+#. module: eln_sale_commission
+#: sql_constraint:sale.order.line.agent:0
+msgid "You can only add one time each agent.!"
+msgstr "Sólo puede añadir una vez cada agente.!"
+
+#. module: eln_sale_commission
+#: view:sale.order:eln_sale_commission.eln_view_order_agent_form_inherit
+msgid "{'partner_id': partner_id, 'address_id': partner_shipping_id}"
+msgstr "{'partner_id': partner_id, 'address_id': partner_shipping_id}"
+

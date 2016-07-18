@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="view_settlement_line_tree">
+            <field name="name">Settlement lines</field>
+            <field name="model">sale.commission.settlement.line</field>
+            <field name="inherit_id" ref="sale_commission.view_settlement_line_tree"/>
+            <field name="arch" type="xml">
+                <field name="date" position="before">
+                    <field name="partner_id"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_settlement_line_search" model="ir.ui.view">
+            <field name="model">sale.commission.settlement.line</field>
+            <field name="inherit_id" ref="sale_commission.view_settlement_line_search"/>
+            <field name="arch" type="xml">
+                <field name="agent" position="after">
+                    <field name="partner_id"/>
+                </field>
+                <filter string="Agent" position="after">
+                    <filter string="Commission" name="group_commission" context="{'group_by': 'commission'}"/>
+                    <filter string="Partner" name="group_partner" context="{'group_by': 'partner_id'}"/>
+                </filter>
+            </field>
+        </record>
+
+        <record id="action_settlemment_line" model="ir.actions.act_window" >
+            <field name="name">Settlement lines</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.commission.settlement.line</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="Settlement Lines"
+                  id="menu_settlement_lines"
+                  parent="sale_commission.menu_sale_commissions_conf"
+                  action="action_settlemment_line"
+        />
+
+    </data>
+</openerp>
