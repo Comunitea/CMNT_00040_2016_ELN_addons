@@ -221,7 +221,7 @@ class sale_order_line(orm.Model):
 
     def product_uos_change(self, cursor, user, ids, pricelist, product, qty=0,
             uom=False, qty_uos=0, uos=False, name='', partner_id=False,
-            lang=False, update_tax=True, date_order=False, context=None):
+            lang=False, update_tax=True, date_order=False, fpos=False, context=None):
         res = {}
         if context is None:
             context = {}
@@ -233,8 +233,7 @@ class sale_order_line(orm.Model):
                     if qty_uos:
                         if product_obj.uos_coeff:
                             qty_uom = qty_uos / product_obj.uos_coeff
-                        fpos = False
-                        if partner_id:
+                        if not fpos and partner_id:
                             partner = self.pool.get('res.partner').browse(cursor, user, partner_id, context=context)
                             fpos = partner.property_account_position and partner.property_account_position.id or False
                         res = self.product_id_change(cursor, user, ids, pricelist, product,

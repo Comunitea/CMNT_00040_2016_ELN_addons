@@ -12,7 +12,7 @@
             
                 <field name="product_uos_qty" position="replace">
                     <field groups="product.group_uos" name="product_uos_qty"
-                        on_change="product_uos_change(parent.pricelist_id, product_id, product_uom_qty, product_uom, product_uos_qty, product_uos, name, parent.partner_id, 'es_ES', False, parent.date_order)"/>
+                        on_change="product_uos_change(parent.pricelist_id, product_id, product_uom_qty, product_uom, product_uos_qty, product_uos, name, parent.partner_id, 'es_ES', False, parent.date_order, parent.fiscal_position)"/>
                 </field>
                 
                 <xpath expr="//field[@name='order_line']/form/group/group/div[@groups='product.group_uos']/field[@name='product_uos']" position="replace">
