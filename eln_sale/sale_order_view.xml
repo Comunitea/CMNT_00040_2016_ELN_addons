@@ -12,7 +12,7 @@
             
                 <field name="product_uos_qty" position="replace">
                     <field groups="product.group_uos" name="product_uos_qty"
-                        on_change="product_uos_change(parent.pricelist_id, product_id, product_uom_qty, product_uom, product_uos_qty, product_uos, name, parent.partner_id, 'es_ES', False, parent.date_order)"/>
+                        on_change="product_uos_change(parent.pricelist_id, product_id, product_uom_qty, product_uom, product_uos_qty, product_uos, name, parent.partner_id, 'es_ES', False, parent.date_order, parent.fiscal_position)"/>
                 </field>
                 
                 <xpath expr="//field[@name='order_line']/form/group/group/div[@groups='product.group_uos']/field[@name='product_uos']" position="replace">
@@ -47,25 +47,6 @@
                  <field name="note" position="attributes">
                     <attribute name="attrs">{'readonly': [('state', 'in', ['progress', 'manual', 'done'])]}</attribute>
                 </field>
-            </field>
-        </record>
-
-        <record id="view_order_agent_form_inherit" model="ir.ui.view">
-            <field name="name">sale.agent.order.inherit.form</field>
-            <field name="model">sale.order</field>
-            <field name="inherit_id" ref="sale_commission.view_order_agent_form_inherit"/>
-            <field name="type">form</field>
-            <field name="arch" type="xml">
-                <!-- Esta vista heredada de sale_commission (product_id) no es necesaria porque no aporta ningún cambio en este momento
-                     pero la dejamos ya que estamos verificando el onchange del producto para ver si funciona bien y podría ser necesario 
-                     cambiar algo. Si finalmente no presenta problemas se puede eliminar. -->
-                <field name="product_id" position="replace">
-                    <field colspan="3"
-                        context="{'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'shop':False, 'uom':product_uom, 'force_product_uom': True,'order_id': parent.id,'sale_agent_ids': parent.sale_agent_ids}"
-                        name="product_id"
-                        on_change="product_id_change2(parent.pricelist_id, product_id, product_uom_qty, product_uom, product_uos_qty, product_uos, name, parent.partner_id, False, True, parent.date_order, product_packaging, parent.fiscal_position, False, parent.sale_agent_ids, context)"/>
-                </field>
-                
             </field>
         </record>
 

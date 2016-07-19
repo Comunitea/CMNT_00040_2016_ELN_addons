@@ -221,8 +221,10 @@ class sale_order_line(orm.Model):
 
     def product_uos_change(self, cursor, user, ids, pricelist, product, qty=0,
             uom=False, qty_uos=0, uos=False, name='', partner_id=False,
-            lang=False, update_tax=True, date_order=False):
+            lang=False, update_tax=True, date_order=False, fpos=False, context=None):
         res = {}
+        if context is None:
+            context = {}
         if product:
             product_obj = self.pool.get('product.product').browse(cursor, user, product)
             if uos:
@@ -231,11 +233,13 @@ class sale_order_line(orm.Model):
                     if qty_uos:
                         if product_obj.uos_coeff:
                             qty_uom = qty_uos / product_obj.uos_coeff
-                            uom = product_obj.uom_id.id
+                        if not fpos and partner_id:
+                            partner = self.pool.get('res.partner').browse(cursor, user, partner_id, context=context)
+                            fpos = partner.property_account_position and partner.property_account_position.id or False
                         res = self.product_id_change(cursor, user, ids, pricelist, product,
                             qty=qty_uom, uom=False, qty_uos=qty_uos, uos=uos, name=name,
                             partner_id=partner_id, lang=lang, update_tax=update_tax,
-                            date_order=date_order)
+                            date_order=date_order, fiscal_position=fpos, context=context)
                         if 'product_uom' in res['value']:
                             del res['value']['product_uom']
         return res
@@ -274,50 +278,6 @@ class sale_order_line(orm.Model):
             res['value']['product_uos'] = uos
         return res
 
-    def product_id_change2(self, cr, uid, ids, pricelist, product, qty=0,
-            uom=False, qty_uos=0, uos=False, name='', partner_id=False,
-            lang=False, update_tax=True, date_order=False, packaging=False, fiscal_position=False, flag=False, sale_agent_ids=False, context=None):
-        """Modificamos para que pase como parámetro la uom y/o la uos del producto al que estamos cambiando
-        y no las del producto que estaba antes. Si sólo pasamos la uom hace conversión de cantidad a cantidad de venta, pero si pasamos
-        también la uos hace la conversión de la unidad de venta a la unidad de compra.
-        En el on_change del producto pasamos en el contexto force_product_uom=True"""
-        if context is None:
-            context = {}
-
-        if product:
-            product_obj = self.pool.get('product.product')
-            product_obj = product_obj.browse(cr, uid, product, context=context)
-            uom = product_obj.uom_id.id or False
-            uos = product_obj.uos_id.id or False
-
-        res = super(sale_order_line, self).product_id_change2(cr, uid, ids, pricelist, product, qty, uom, qty_uos, uos, name, partner_id, lang, update_tax, date_order, packaging, fiscal_position, flag, sale_agent_ids, context)
-
-        if not res['value'].get('product_uos', False):
-            res['value']['product_uos'] = uos or False
-
-        # - set a domain on product_uom
-        if product:
-            res['domain'] = {'product_uom': [('category_id', '=', product_obj.uom_id.category_id.id)]}
-
-        # - set a procure_method if exist a pull flow in the product to 'make_to_order'
-        # Los flujos arrastrados solo funcionan con método abastecimiento make_to_order,
-        # por eso se hace que el onchange lo cambie si es necesario solo
-        # si hay un flujo arrastrado para esa ubicacion (tienda/almacen)
-        if product and context.get('shop', False):
-            shop_obj = self.pool.get('sale.shop').browse(cr, uid, context['shop'])
-            warehouse_obj = self.pool.get('stock.warehouse').browse(cr, uid, shop_obj.warehouse_id.id)
-            warehouse_location_id = warehouse_obj.lot_stock_id
-
-            for flow_pull_id in product_obj.flow_pull_ids:
-                #Si algún flujo tiene localización destino igual a la localización de
-                #existencias de la tienda (almacén) significa que se ejecutará el flujo,
-                #por tanto se controla el método de abastecimiento
-                if flow_pull_id.location_id == warehouse_location_id and flow_pull_id.type_proc == 'move':
-                    res['value']['type'] = 'make_to_order' #'make_to_order' sino no funciona correctamente el flujo
-        # - end of set a procure_method if exist a pull flow in the product
-
-        return res
-
     def product_uom_change(self, cr, uid, ids, pricelist, product, qty=0,
             uom=False, qty_uos=0, uos=False, name='', partner_id=False,
             lang=False, update_tax=True, date_order=False, context=None):
@@ -334,13 +294,6 @@ class sale_order_line(orm.Model):
             product_obj = product_obj.browse(cr, uid, product, context=context)
             uom = product_obj.uom_id and product_obj.uom_id.id or False
             uos = product_obj.uos_id and product_obj.uos_id.id or False
-            #if uom:
-            #    product_uom_obj = self.pool.get('product.uom')
-            #    product_uom_obj = product_uom_obj.browse(cr, uid, uom, context=context)
-            #    uom_cat1 = product_obj.uom_id.category_id or False
-            #    uom_cat2 = product_uom_obj.category_id or False
-            #    if uom_cat1 != uom_cat2:
-            #        uom = product_obj.uom_id.id or False
 
         res = super(sale_order_line, self).product_uom_change(cr, uid, ids, pricelist, product, qty, uom, qty_uos, uos, name, partner_id, lang, update_tax, date_order, context)
 
@@ -351,24 +304,3 @@ class sale_order_line(orm.Model):
             res['domain'] = {'product_uom': [('category_id', '=', product_obj.uom_id.category_id.id)]} #Esto sobra porque tenemos fijada la uom y no se permite cambiar
 
         return res
-
-    # POST-MIGRATION, VER COMO RESOLVER PRODUCTS.PACKAGING NO EXISTE ES PACKING_IDS
-    # Y PUEDE QUE NO SEA NECESARIO YA QUE NO HAY ONCHANGE
-    # def product_packaging_change(self, cr, uid, ids, pricelist, product, qty=0, uom=False,
-    #                                partner_id=False, packaging=False, flag=False, context=None):
-    #     """Reescribo la función original de addons/sale/sale.py, ya que no queremos que compruebe si el empaquetado es correcto"""
-    #
-    #     if not product:
-    #         return {'value': {'product_packaging': False}}
-    #
-    #     product_obj = self.pool.get('product.product')
-    #     result = {}
-    #     products = product_obj.browse(cr, uid, product, context=context)
-    #
-    #     if not products.packaging:
-    #         packaging = result['product_packaging'] = False
-    #     elif not packaging and products.packaging and not flag:
-    #         packaging = products.packaging[0].id
-    #         result['product_packaging'] = packaging
-    #
-    #     return {'value': result}
