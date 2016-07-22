@@ -16,6 +16,6 @@ class StcokPickingUnreserveMulti(models.TransientModel):
         picking_ids = self._context.get('active_ids', False)
         pickings = self.env['stock.picking'].browse(picking_ids)
         pickings = pickings.filtered(
-            lambda r: r.state in ['partially_available', 'assigned'])
+            lambda r: r.state in ['partially_available', 'assigned', 'confirmed'])
         pickings.do_unreserve()
         return {'type': 'ir.actions.act_window_close'}
