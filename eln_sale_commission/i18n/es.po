@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-11 11:57+0000\n"
-"PO-Revision-Date: 2016-07-11 11:57+0000\n"
+"POT-Creation-Date: 2016-07-28 10:33+0000\n"
+"PO-Revision-Date: 2016-07-28 10:33+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -22,6 +22,7 @@ msgstr "Agente"
 
 #. module: eln_sale_commission
 #: field:res.partner,atypical:0
+#: field:sale.commission.settlement.line,atypical:0
 msgid "Atypical"
 msgstr "Atípico"
 
@@ -43,6 +44,11 @@ msgid "Sales Order Line"
 msgstr "Línea pedido de venta"
 
 #. module: eln_sale_commission
+#: model:ir.actions.act_window,name:eln_sale_commission.action_settlemment
+msgid "Settlement"
+msgstr "Liquidaciones"
+
+#. module: eln_sale_commission
 #: model:ir.ui.menu,name:eln_sale_commission.menu_settlement_lines
 msgid "Settlement Lines"
 msgstr "Lineas liquidación"
@@ -51,6 +57,16 @@ msgstr "Lineas liquidación"
 #: model:ir.actions.act_window,name:eln_sale_commission.action_settlemment_line
 msgid "Settlement lines"
 msgstr "Lineas liquidación"
+
+#. module: eln_sale_commission
+#: model:ir.ui.menu,name:eln_sale_commission.menu_settlement
+msgid "Settlements"
+msgstr "Liquidaciones"
+
+#. module: eln_sale_commission
+#: field:sale.commission.settlement.line,total_atypical:0
+msgid "Total with Atypical"
+msgstr "Total con atípico"
 
 #. module: eln_sale_commission
 #: sql_constraint:account.invoice.line.agent:0

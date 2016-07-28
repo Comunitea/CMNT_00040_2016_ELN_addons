@@ -23,12 +23,15 @@ from openerp import models, fields, api
 
 class Settlement(models.Model):
     _inherit = "sale.commission.settlement"
+    _rec_name = "agent"
 
     @api.depends('lines', 'lines.settled_amount')
     def _compute_total(self):
         for record in self:
-            record.total = sum(x.settled_amount for x in record.lines) * \
-                (1 - (self.agent.atypical / 100))
+            record.total = \
+                sum(((1 -
+                    (x.invoice.partner_id.commercial_partner_id.atypical /
+                        100)) * x.settled_amount) for x in record.lines)
 
 
 class SettlementLine(models.Model):
@@ -53,3 +56,24 @@ class SettlementLine(models.Model):
     commission = fields.Many2one(
         comodel_name="sale.commission", related="agent_line.commission",
         store=True)
+    atypical = fields.Float('Atypical', readonly=True)
+    total_atypical = fields.Float('Total with Atypical', readonly=True)
+
+
+class SaleCommissionMakeSettle(models.TransientModel):
+    _inherit = "sale.commission.make.settle"
+
+    @api.multi
+    def action_settle(self):
+        res = super(SaleCommissionMakeSettle, self).action_settle()
+        if 'domain' not in res:
+            return res  # Action window close
+        settlement_ids = res['domain'][0][2]
+        t_settle = self.env['sale.commission.settlement']
+        for settle in t_settle.browse(settlement_ids):
+            for l in settle.lines:
+                atypical = l.invoice.partner_id.commercial_partner_id.atypical
+                total_atypical = l.settled_amount * (1 - (atypical / 100))
+                l.write({'atypical': atypical,
+                         'total_atypical': total_atypical})
+        return res

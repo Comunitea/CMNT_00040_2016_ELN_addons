@@ -10,6 +10,10 @@
                 <field name="date" position="before">
                     <field name="partner_id"/>
                 </field>
+                <field name="settled_amount" position="after">
+                    <field name="atypical"/>
+                    <field name="total_atypical"/>
+                </field>
             </field>
         </record>
 
@@ -39,6 +43,36 @@
                   id="menu_settlement_lines"
                   parent="sale_commission.menu_sale_commissions_conf"
                   action="action_settlemment_line"
+                  sequence="91"
+        />
+
+        <record id="view_settlement_form" model="ir.ui.view" >
+            <field name="model">sale.commission.settlement</field>
+            <field name="inherit_id" ref="sale_commission.view_settlement_form"/>
+            <field name="arch" type="xml">
+                <field name="invoice" position="after">
+                    <field name="agent"/>
+                </field>  
+                <xpath expr="//field[@name='lines']/tree/field[@name='settled_amount']" position="after">
+                    <field name="atypical"/>
+                    <field name="total_atypical"/>
+                </xpath>  
+            </field>
+        </record>
+
+        <record id="action_settlemment" model="ir.actions.act_window" >
+            <field name="name">Settlement</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.commission.settlement</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="Settlements"
+                  id="menu_settlement"
+                  parent="sale_commission.menu_sale_commissions_conf"
+                  action="action_settlemment"
+                  sequence="90"
         />
 
     </data>
