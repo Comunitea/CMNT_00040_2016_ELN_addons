@@ -1,19 +1,21 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* eln_sale_commission
+# 	* eln_sale_commission
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-28 10:33+0000\n"
-"PO-Revision-Date: 2016-07-28 10:33+0000\n"
-"Last-Translator: <>\n"
+"POT-Creation-Date: 2016-07-29 14:15+0000\n"
+"PO-Revision-Date: 2016-07-29 16:20+0200\n"
+"Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: es_ES\n"
+"X-Generator: Poedit 1.8.6\n"
 
 #. module: eln_sale_commission
 #: view:sale.commission.settlement.line:eln_sale_commission.view_settlement_line_search
@@ -27,9 +29,19 @@ msgid "Atypical"
 msgstr "Atípico"
 
 #. module: eln_sale_commission
+#: view:sale.commission.settlement.line:eln_sale_commission.view_settlement_line_tree
+msgid "Atypical settled total"
+msgstr "Total liquidado con atípico"
+
+#. module: eln_sale_commission
 #: view:sale.commission.settlement.line:eln_sale_commission.view_settlement_line_search
 msgid "Commission"
 msgstr "Comisión"
+
+#. module: eln_sale_commission
+#: view:sale.commission.settlement.line:eln_sale_commission.view_settlement_line_search
+msgid "Invoice"
+msgstr "Factura"
 
 #. module: eln_sale_commission
 #: model:ir.model,name:eln_sale_commission.model_res_partner
@@ -45,6 +57,7 @@ msgstr "Línea pedido de venta"
 
 #. module: eln_sale_commission
 #: model:ir.actions.act_window,name:eln_sale_commission.action_settlemment
+#: view:sale.commission.settlement.line:eln_sale_commission.view_settlement_line_search
 msgid "Settlement"
 msgstr "Liquidaciones"
 
@@ -76,10 +89,9 @@ msgstr "Sólo puede añadir una vez cada agente."
 #. module: eln_sale_commission
 #: sql_constraint:sale.order.line.agent:0
 msgid "You can only add one time each agent.!"
-msgstr "Sólo puede añadir una vez cada agente.!"
+msgstr "Sólo puede añadir una vez cada agente."
 
 #. module: eln_sale_commission
 #: view:sale.order:eln_sale_commission.eln_view_order_agent_form_inherit
 msgid "{'partner_id': partner_id, 'address_id': partner_shipping_id}"
 msgstr "{'partner_id': partner_id, 'address_id': partner_shipping_id}"
-
