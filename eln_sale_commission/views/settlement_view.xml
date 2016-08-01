@@ -12,7 +12,7 @@
                 </field>
                 <field name="settled_amount" position="after">
                     <field name="atypical"/>
-                    <field name="total_atypical"/>
+                    <field name="total_atypical" sum="Atypical settled total"/>
                 </field>
             </field>
         </record>
@@ -27,6 +27,8 @@
                 <filter string="Agent" position="after">
                     <filter string="Commission" name="group_commission" context="{'group_by': 'commission'}"/>
                     <filter string="Partner" name="group_partner" context="{'group_by': 'partner_id'}"/>
+                    <filter string="Invoice" name="group_invoice" context="{'group_by': 'invoice'}"/>
+                    <filter string="Settlement" name="group_settlement" context="{'group_by': 'settlement'}"/>
                 </filter>
             </field>
         </record>
@@ -36,7 +38,7 @@
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">sale.commission.settlement.line</field>
             <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">tree,form,graph</field>
         </record>
 
         <menuitem name="Settlement Lines"
@@ -50,6 +52,9 @@
             <field name="model">sale.commission.settlement</field>
             <field name="inherit_id" ref="sale_commission.view_settlement_form"/>
             <field name="arch" type="xml">
+                <field name="date" position="before">
+                    <field name="partner_id"/>
+                </field>
                 <field name="invoice" position="after">
                     <field name="agent"/>
                 </field>  
