@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* eln_custom
+#   * eln_custom
 #
 msgid ""
 msgstr ""
@@ -343,3 +343,27 @@ msgstr "{'show_address':1, 'default_type':'delivery'}"
 #: view:stock.picking:eln_custom.view_picking_out_tree_add_route
 msgid "{'show_address':1}"
 msgstr "{'show_address':1}"
+
+#. module: eln_custom
+#: view:account.invoice.line:eln_custom.account_invoice_line_view_search
+#: model:ir.model,name:eln_custom.model_account_invoice
+msgid "Invoice"
+msgstr "Factura"
+
+#. module: eln_custom
+#: view:account.invoice.line:eln_custom.account_invoice_line_view_search
+msgid "Product"
+msgstr "Producto"
+
+
+#. module: eln_custom
+#: model:ir.actions.act_window,name:eln_custom.supplier_invoice_line_action
+#: model:ir.ui.menu,name:eln_custom.supplier_invoice_line_menu
+msgid "Supplier Invoice lines"
+msgstr "Lineas de factura de proveedor"
+
+#. module: eln_custom
+#: model:ir.actions.act_window,name:eln_custom.customer_invoice_line_action
+#: model:ir.ui.menu,name:eln_custom.customer_invoice_line_menu
+msgid "Customer Invoice lines"
+msgstr "Lineas de factura de cliente"
