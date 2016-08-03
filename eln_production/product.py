@@ -40,7 +40,7 @@ class product_product(osv.osv):
        
         for id in ids:            
             product = self.pool.get('product.product').browse(cr, uid, id)
-            res[id] = product.qty_available + product.outgoing_qty
+            res[id] = product.qty_available - product.outgoing_qty
             
         return res
 
