@@ -158,3 +158,20 @@ class account_invoice_line(orm.Model):
                     res['value']['price_unit'] = price
 
         return res
+
+
+class AccountInvoiceRefund(orm.TransientModel):
+
+    _inherit = "account.invoice.refund"
+
+
+    @api.multi
+    def compute_refund(self, mode='refund'):
+        res = super(AccountInvoiceRefund, self).compute_refund(mode)
+        new_ids = res['domain'][1][2]
+        for invoice in self.env['account.invoice'].browse(new_ids):
+            orig = invoice.origin_invoices_ids
+            if not orig:
+                continue
+            invoice.payment_mode_id = orig[0].payment_mode_id
+        return res
