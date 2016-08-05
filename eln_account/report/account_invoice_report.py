@@ -18,22 +18,27 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-{
-    'name': 'eln_account',
-    'version': '1.0',
-    'author': 'Pedro Gómez',
-    'website': 'www.elnogal.com',
-    'category' : 'Accounting & Finance',
-    'description': """Different account customizations for El Nogal""",
-    'depends': [
-                'account',
-                'sale_early_payment_discount',
-                'account_check_deposit',
-               ],
-    "data": [
-        'account_invoice_view.xml',
-        'report/account_invoice_report_view.xml',
-    ],
-    'installable': True,
-    'images': [],
-}
+from openerp import tools
+import openerp.addons.decimal_precision as dp
+from openerp.osv import fields,osv
+
+class account_invoice_report(osv.osv):
+    _inherit = "account.invoice.report"
+
+    _columns = {
+        'number': fields.char('Number', readonly=True),
+    }
+    
+    _depends = {
+        'account.invoice': ['number'],
+    }
+
+    def _select(self):
+        return  super(account_invoice_report, self)._select() + ", sub.number"
+
+    def _sub_select(self):
+        return  super(account_invoice_report, self)._sub_select() + ", ai.number"
+
+    def _group_by(self):
+        return super(account_invoice_report, self)._group_by() + ", ai.number"
+

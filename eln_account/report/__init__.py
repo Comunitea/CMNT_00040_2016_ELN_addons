@@ -18,22 +18,4 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-{
-    'name': 'eln_account',
-    'version': '1.0',
-    'author': 'Pedro Gómez',
-    'website': 'www.elnogal.com',
-    'category' : 'Accounting & Finance',
-    'description': """Different account customizations for El Nogal""",
-    'depends': [
-                'account',
-                'sale_early_payment_discount',
-                'account_check_deposit',
-               ],
-    "data": [
-        'account_invoice_view.xml',
-        'report/account_invoice_report_view.xml',
-    ],
-    'installable': True,
-    'images': [],
-}
+import account_invoice_report
