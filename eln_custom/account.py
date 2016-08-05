@@ -20,7 +20,6 @@
 ##############################################################################
 from openerp import models, fields
 
-
 class AccountAnalyticPlanInstance(models.Model):
 
     _inherit = 'account.analytic.plan.instance'
@@ -28,14 +27,3 @@ class AccountAnalyticPlanInstance(models.Model):
     company_id = fields.Many2one(
         'res.company', 'Company',
         default=lambda self: self.env.user.company_id)
-
-
-class AccountInvoiceLine(models.Model):
-
-    _inherit = 'account.invoice.line'
-    invoice_type = fields.Selection(
-        [('out_invoice','Customer Invoice'),
-         ('in_invoice','Supplier Invoice'),
-         ('out_refund','Customer Refund'),
-         ('in_refund','Supplier Refund')],
-         related='invoice_id.type', readonly=True)

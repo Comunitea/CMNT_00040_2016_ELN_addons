@@ -51,7 +51,7 @@
               'res_partner_view.xml',
               'product_view.xml',
               'stock_view.xml',
-              'account_view.xml'],
+              ],
     'demo_xml': [],
     'installable': True,
     'active': False,
