@@ -40,29 +40,23 @@ class mrp_production(orm.Model):
             invalid_ids.remove(ids[0])
 
         if main_obj.state not in ['confirmed','ready']:
-            raise osv.except_osv(_('Error !'), _('Production order "%s" must be in status "confirmed" or "ready".') % main_obj.name)
+            raise orm.except_orm(_('Error !'), _('Production order "%s" must be in status "confirmed" or "ready".') % main_obj.name)
         product_qty += main_obj.product_qty
 
         for production in self.pool.get('mrp.production').browse(cr, uid, invalid_ids, context=None):
             if production.state not in ['confirmed','ready']:
-                raise osv.except_osv(_('Error !'), _('Production order "%s" must be in status "confirmed" or "ready".') % production.name)
-
+                raise orm.except_orm(_('Error !'), _('Production order "%s" must be in status "confirmed" or "ready".') % production.name)
             if production.product_id != main_obj.product_id:
-                raise osv.except_osv(_('Error !'), _('Production order "%s" product is different from the one in the first selected order.') % production.name)
+                raise orm.except_orm(_('Error !'), _('Production order "%s" product is different from the one in the first selected order.') % production.name)
             if production.product_uom != main_obj.product_uom:
-                raise osv.except_osv(_('Error !'), _('Production order "%s" UOM is different from the one in the first selected order.') % production.name)
-
+                raise orm.except_orm(_('Error !'), _('Production order "%s" UOM is different from the one in the first selected order.') % production.name)
             if production.bom_id != main_obj.bom_id:
-                raise osv.except_osv(_('Error !'), _('Production order "%s" BOM is different from the one in the first selected order.') % production.name)
-
+                raise orm.except_orm(_('Error !'), _('Production order "%s" BOM is different from the one in the first selected order.') % production.name)
             if production.routing_id != main_obj.routing_id:
-                raise osv.except_osv(_('Error !'), _('Production order "%s" routing is different from the one in the first selected order.%s - %s') % (production.name, production.routing_id, main_obj.routing_id) )
-
+                raise orm.except_orm(_('Error !'), _('Production order "%s" routing is different from the one in the first selected order.%s - %s') % (production.name, production.routing_id, main_obj.routing_id) )
             if production.product_uos != main_obj.product_uos:
-                raise osv.except_osv(_('Error !'), _('Production order "%s" UOS is different from the one in the first selected order.') % production.name)
-
+                raise orm.except_orm(_('Error !'), _('Production order "%s" UOS is different from the one in the first selected order.') % production.name)
             product_qty += production.product_qty
-
 
         self.write(cr, uid, ids, {
             'merged_into_id': main_obj.id,
@@ -73,7 +67,6 @@ class mrp_production(orm.Model):
         # Cancel 'old' production
         for id in invalid_ids:
             workflow.trg_validate(uid, 'mrp.production', id, 'button_cancel', cr)
-
 
         ctx = context.copy()
         ctx['active_id'] = ids[0]
