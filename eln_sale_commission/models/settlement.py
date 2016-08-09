@@ -49,10 +49,14 @@ class SettlementLine(models.Model):
                         partner = sm.picking_id.partner_id
             if partner:
                 rec.partner_id = partner.commercial_partner_id.id
+                rec.partner_shipping_id = partner.id
 
     partner_id = fields.Many2one('res.partner', string="Partner",
                                  compute="_get_partner_id", readonly=True,
-                                 store=True)
+                                 multi='get_partner', store=True)
+    partner_shipping_id = fields.Many2one('res.partner', string="Shipping Address",
+                                 compute="_get_partner_id", readonly=True,
+                                 multi='get_partner', store=True)
     commission = fields.Many2one(
         comodel_name="sale.commission", related="agent_line.commission",
         store=True)

@@ -9,6 +9,7 @@
             <field name="arch" type="xml">
                 <field name="date" position="before">
                     <field name="partner_id"/>
+                    <field name="partner_shipping_id"/>
                 </field>
                 <field name="settled_amount" position="after">
                     <field name="atypical"/>
@@ -23,10 +24,12 @@
             <field name="arch" type="xml">
                 <field name="agent" position="after">
                     <field name="partner_id"/>
+                    <field name="partner_shipping_id"/>
                 </field>
                 <filter string="Agent" position="after">
                     <filter string="Commission" name="group_commission" context="{'group_by': 'commission'}"/>
                     <filter string="Partner" name="group_partner" context="{'group_by': 'partner_id'}"/>
+                    <filter string="Shipping Address" name="group_partner_shipping" context="{'group_by': 'partner_shipping_id'}"/>
                     <filter string="Invoice" name="group_invoice" context="{'group_by': 'invoice'}"/>
                     <filter string="Settlement" name="group_settlement" context="{'group_by': 'settlement'}"/>
                 </filter>
@@ -53,7 +56,8 @@
             <field name="inherit_id" ref="sale_commission.view_settlement_form"/>
             <field name="arch" type="xml">
                 <field name="date" position="before">
-                    <field name="partner_id"/>
+                    <!-- <field name="partner_id"/> -->
+                    <field name="partner_shipping_id"/>
                 </field>
                 <field name="invoice" position="after">
                     <field name="agent"/>
