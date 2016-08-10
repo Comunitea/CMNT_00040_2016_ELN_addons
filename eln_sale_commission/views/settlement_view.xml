@@ -11,6 +11,9 @@
                     <field name="partner_id"/>
                     <field name="partner_shipping_id"/>
                 </field>
+                <field name="settled_amount" position="before">
+                    <field name="invoiced_amount"/>
+                </field>
                 <field name="settled_amount" position="after">
                     <field name="atypical"/>
                     <field name="total_atypical" sum="Atypical settled total"/>
@@ -62,6 +65,9 @@
                 <field name="invoice" position="after">
                     <field name="agent"/>
                 </field>  
+                <xpath expr="//field[@name='lines']/tree/field[@name='settled_amount']" position="before">
+                    <field name="invoiced_amount"/>
+                </xpath>  
                 <xpath expr="//field[@name='lines']/tree/field[@name='settled_amount']" position="after">
                     <field name="atypical"/>
                     <field name="total_atypical"/>

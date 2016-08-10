@@ -60,8 +60,9 @@ class SettlementLine(models.Model):
     commission = fields.Many2one(
         comodel_name="sale.commission", related="agent_line.commission",
         store=True)
+    invoiced_amount = fields.Float(related="agent_line.invoiced_amount", store=True)
     atypical = fields.Float('Atypical', group_operator='avg', readonly=True)
-    total_atypical = fields.Float('Total with Atypical', readonly=True)
+    total_atypical = fields.Float('Total without atypical', readonly=True)
 
 
 class SaleCommissionMakeSettle(models.TransientModel):
