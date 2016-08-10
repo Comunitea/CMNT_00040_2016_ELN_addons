@@ -35,5 +35,5 @@ class SaleOrderLineAgent(models.Model):
 
     _sql_constraints = [
         ('unique_agent', 'Check(1=1)',
-         'You can only add one time each agent.!'),
+         'You can only add one time each agent.'),
     ]
