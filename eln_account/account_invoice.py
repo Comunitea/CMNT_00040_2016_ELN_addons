@@ -81,16 +81,6 @@ class account_invoice(orm.Model):
             default=_default_currency, track_visibility='always'),
     }
 
-    def _refund_cleanup_lines(self, lines):
-        """ugly function to map all fields of account.invoice.line when creates refund invoice"""
-        res = super(account_invoice, self)._refund_cleanup_lines(lines)
-
-        for line in res:
-            if 'tax_id' in line[2]:
-                line[2]['tax_id'] = line[2]['tax_id'] and line[2]['tax_id'][0] or False
-
-        return res
-
 
 class account_invoice_line(orm.Model):
     _inherit = "account.invoice.line"
