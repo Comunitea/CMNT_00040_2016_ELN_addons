@@ -227,7 +227,7 @@ class L10nEsAeatMod340TaxLineIssued(orm.Model):
     _description = 'Mod340 vat lines issued'
     _columns = {
         'name': fields.char('Name', size=128, required=True, select=True),
-        'tax_percentage': fields.float('Tax percentage', digits=(0, 2)),
+        'tax_percentage': fields.float('Tax percentage', digits=(0, 4)),
         'tax_amount': fields.float('Tax amount', digits=(13, 2)),
         'base_amount': fields.float('Base tax bill', digits=(13, 2)),
         'invoice_record_id': fields.many2one('l10n.es.aeat.mod340.issued',
