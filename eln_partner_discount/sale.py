@@ -42,8 +42,8 @@ class sale_order_line(orm.Model):
         if context and context.get('shop', False):
             shop_obj = self.pool.get('sale.shop').browse(cr, uid, context.get('shop'))        
             if partner_id and result.get('value', False):
-                partner_obj = self.pool.get('res.partner').browse(cr, uid, partner_id)
-                result['value']['discount'] = partner_obj.property_partner_sale_discount
+                partner_obj = self.pool.get('res.partner').browse(cr, uid, partner_id, context)
+                result['value']['discount'] = partner_obj.commercial_partner_id.property_partner_sale_discount
                 if shop_obj and shop_obj.indirect_invoicing:
                     result['value']['discount'] = 0.0
 
