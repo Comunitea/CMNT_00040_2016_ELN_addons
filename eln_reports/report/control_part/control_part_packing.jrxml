@@ -248,7 +248,7 @@
 					<text><![CDATA[Producto]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" x="161" y="103" width="67" height="18"/>
+					<reportElement positionType="Float" x="162" y="103" width="75" height="18"/>
 					<box>
 						<topPen lineWidth="0.5"/>
 						<leftPen lineWidth="0.25"/>
@@ -260,7 +260,7 @@
 					<text><![CDATA[Cantidad (UdM)]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" x="228" y="103" width="62" height="18"/>
+					<reportElement positionType="Float" x="237" y="103" width="75" height="18"/>
 					<box>
 						<topPen lineWidth="0.5"/>
 						<leftPen lineWidth="0.25"/>
@@ -272,7 +272,7 @@
 					<text><![CDATA[Cantidad (UdV)]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" x="290" y="103" width="74" height="18"/>
+					<reportElement positionType="Float" x="312" y="103" width="75" height="18"/>
 					<box>
 						<topPen lineWidth="0.5"/>
 						<leftPen lineWidth="0.25"/>
@@ -284,7 +284,7 @@
 					<text><![CDATA[Cantidad real fabricada]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" x="364" y="103" width="95" height="18"/>
+					<reportElement positionType="Float" x="387" y="103" width="84" height="18"/>
 					<box>
 						<topPen lineWidth="0.5"/>
 						<leftPen lineWidth="0.25"/>
@@ -296,7 +296,7 @@
 					<text><![CDATA[EAN 13]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" x="459" y="103" width="96" height="18"/>
+					<reportElement positionType="Float" x="471" y="103" width="84" height="18"/>
 					<box>
 						<topPen lineWidth="0.5"/>
 						<leftPen lineWidth="0.25"/>
@@ -309,7 +309,7 @@
 					<text><![CDATA[DUN 14]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="0" y="121" width="161" height="22"/>
+					<reportElement positionType="Float" x="0" y="121" width="162" height="22"/>
 					<box>
 						<leftPen lineWidth="0.5"/>
 						<bottomPen lineWidth="0.5"/>
@@ -320,7 +320,7 @@
 					<textFieldExpression class="java.lang.String"><![CDATA['[' + $F{Referencia-code} + '] ' + $F{Name-name}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="161" y="121" width="67" height="11"/>
+					<reportElement positionType="Float" x="162" y="121" width="75" height="11"/>
 					<box>
 						<leftPen lineWidth="0.25"/>
 						<bottomPen lineWidth="0.0"/>
@@ -331,7 +331,7 @@
 					<textFieldExpression class="java.lang.Double"><![CDATA[$F{Ctdad_producto-product_qty}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="459" y="121" width="96" height="22"/>
+					<reportElement positionType="Float" x="471" y="121" width="84" height="22"/>
 					<box>
 						<leftPen lineWidth="0.25"/>
 						<bottomPen lineWidth="0.5"/>
@@ -343,7 +343,7 @@
 					<textFieldExpression class="java.lang.String"><![CDATA[$F{DUN14-dun14}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="364" y="121" width="95" height="22"/>
+					<reportElement positionType="Float" x="387" y="121" width="84" height="22"/>
 					<box>
 						<leftPen lineWidth="0.25"/>
 						<bottomPen lineWidth="0.5"/>
@@ -354,7 +354,7 @@
 					<textFieldExpression class="java.lang.String"><![CDATA[$F{EAN13-ean13}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="228" y="121" width="62" height="11"/>
+					<reportElement positionType="Float" x="237" y="121" width="75" height="11"/>
 					<box>
 						<leftPen lineWidth="0.25"/>
 						<bottomPen lineWidth="0.0"/>
@@ -365,7 +365,7 @@
 					<textFieldExpression class="java.lang.Double"><![CDATA[$F{Cant._UdV_del_producto-product_uos_qty}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="290" y="121" width="74" height="22"/>
+					<reportElement positionType="Float" x="312" y="121" width="75" height="22"/>
 					<box>
 						<leftPen lineWidth="0.25"/>
 						<bottomPen lineWidth="0.5"/>
@@ -375,7 +375,7 @@
 					</textElement>
 				</textField>
 				<staticText>
-					<reportElement positionType="Float" x="51" y="146" width="108" height="18"/>
+					<reportElement positionType="Float" x="51" y="146" width="97" height="18"/>
 					<box>
 						<topPen lineWidth="0.5"/>
 						<leftPen lineWidth="0.25"/>
@@ -387,7 +387,7 @@
 					<text><![CDATA[Fecha inicio programada]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" x="359" y="146" width="67" height="18"/>
+					<reportElement positionType="Float" x="342" y="146" width="105" height="18"/>
 					<box>
 						<topPen lineWidth="0.5"/>
 						<leftPen lineWidth="0.25"/>
@@ -399,7 +399,7 @@
 					<text><![CDATA[Lote]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy HH.mm.ss" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="426" y="164" width="129" height="16"/>
+					<reportElement positionType="Float" x="447" y="164" width="108" height="16"/>
 					<box>
 						<leftPen lineWidth="0.25"/>
 						<bottomPen lineWidth="0.5"/>
@@ -434,7 +434,7 @@
 					<textFieldExpression class="java.lang.Double"><![CDATA[1/$F{UOM____UOS_Coeff-uos_coeff}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="359" y="164" width="67" height="16"/>
+					<reportElement positionType="Float" x="342" y="164" width="105" height="16"/>
 					<box>
 						<leftPen lineWidth="0.25"/>
 						<bottomPen lineWidth="0.5"/>
@@ -445,7 +445,7 @@
 					<textFieldExpression class="java.lang.String"><![CDATA[$F{Lote_de_produccion-name}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy HH.mm.ss" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="51" y="164" width="108" height="16"/>
+					<reportElement positionType="Float" x="51" y="164" width="97" height="16"/>
 					<box>
 						<leftPen lineWidth="0.25"/>
 						<bottomPen lineWidth="0.5"/>
@@ -456,7 +456,7 @@
 					<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{Fecha_planificada-date_planned}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement positionType="Float" x="159" y="146" width="100" height="18"/>
+					<reportElement positionType="Float" x="148" y="146" width="97" height="18"/>
 					<box>
 						<topPen lineWidth="0.5"/>
 						<leftPen lineWidth="0.25"/>
@@ -468,7 +468,7 @@
 					<text><![CDATA[Fecha fin programada]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy HH.mm.ss" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="159" y="164" width="100" height="16"/>
+					<reportElement positionType="Float" x="148" y="164" width="97" height="16"/>
 					<box>
 						<leftPen lineWidth="0.25"/>
 						<bottomPen lineWidth="0.5"/>
@@ -479,7 +479,7 @@
 					<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{Date_end_Planned-date_end_planned}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement positionType="Float" x="426" y="146" width="129" height="18"/>
+					<reportElement positionType="Float" x="447" y="146" width="108" height="18"/>
 					<box>
 						<topPen lineWidth="0.5"/>
 						<leftPen lineWidth="0.25"/>
@@ -489,7 +489,7 @@
 					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
 						<font size="7" isBold="true"/>
 					</textElement>
-					<text><![CDATA[Fecha de consumo preferente]]></text>
+					<text><![CDATA[Fecha consumo preferente]]></text>
 				</staticText>
 				<staticText>
 					<reportElement positionType="Float" x="15" y="72" width="132" height="13"/>
@@ -526,7 +526,7 @@
 					</jr:Code128>
 				</componentElement>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="228" y="132" width="62" height="11"/>
+					<reportElement positionType="Float" x="237" y="132" width="75" height="11"/>
 					<box>
 						<leftPen lineWidth="0.25"/>
 						<bottomPen lineWidth="0.5"/>
@@ -537,7 +537,7 @@
 					<textFieldExpression class="java.lang.String"><![CDATA[$F{Cant._UdV_del_producto-product_uos_qty} ? " " + $F{Nombre-name2}: ""]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="161" y="132" width="67" height="11"/>
+					<reportElement positionType="Float" x="162" y="132" width="75" height="11"/>
 					<box>
 						<leftPen lineWidth="0.25"/>
 						<bottomPen lineWidth="0.5"/>
@@ -548,7 +548,7 @@
 					<textFieldExpression class="java.lang.String"><![CDATA[$F{Ctdad_producto-product_qty} ? " " + $F{Nombre-name}:""]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy HH.mm.ss" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="259" y="164" width="100" height="16"/>
+					<reportElement positionType="Float" x="245" y="164" width="97" height="16"/>
 					<box>
 						<leftPen lineWidth="0.25"/>
 						<bottomPen lineWidth="0.5"/>
@@ -559,7 +559,7 @@
 					<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{Fecha_inicial-date_start}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement positionType="Float" x="259" y="146" width="100" height="18"/>
+					<reportElement positionType="Float" x="245" y="146" width="97" height="18"/>
 					<box>
 						<topPen lineWidth="0.5"/>
 						<leftPen lineWidth="0.25"/>

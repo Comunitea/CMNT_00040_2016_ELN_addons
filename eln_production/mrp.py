@@ -630,7 +630,7 @@ class mrp_production(osv.osv):
         'state': fields.selection([('draft','New'),('confirmed','Waiting Goods'),('ready','Ready to Produce'),('in_production','Production Started'),('finished', 'Finished'),('validated', 'Validated'),('closed', 'Closed'),('cancel','Cancelled'),('done','Done'),('reopen', 'Reopen')],'State', readonly=True,
                                     help='When the production order is created the state is set to \'Draft\'.\n If the order is confirmed the state is set to \'Waiting Goods\'.\n If any exceptions are there, the state is set to \'Picking Exception\'.\
                                     \nIf the stock is available then the state is set to \'Ready to Produce\'.\n When the production gets started then the state is set to \'In Production\'.\n When the production is over, the state is set to \'Done\'.'),
-        'note': fields.text('Notes', readonly = False, states={'cancel':[('readonly', True)], 'done':[('readonly', True)]}),
+        'note': fields.text('Notes'),
         'workcenter_lines': fields.one2many('mrp.production.workcenter.line', 'production_id', 'Work Centers Utilisation'),  # remove readonly state
         'origin': fields.char('Source Document', readonly=False,  states={'cancel':[('readonly', True)], 'done':[('readonly', True)]},
             help="Reference of the document that generated this production order request.", copy=False),
