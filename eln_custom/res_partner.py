@@ -30,7 +30,13 @@ class res_partner(models.Model):
     supplier_type = fields.Selection([('I', 'I'), ('II', 'II'),
                                       ('III', 'III')], string="Supplier type")
     route_id = fields.Many2one('route', 'Route')
-    #'price_list': fields.one2many('product.supplierinfo', 'name', 'Price list')
+
+    @api.model
+    def create(self, vals):
+        if vals.get('parent_id', False) and not vals.get('company_id', False):
+            partner = self.browse(vals['parent_id'])
+            vals['company_id'] = partner.company_id.id
+        return super(res_partner, self).create(vals)
 
     @api.multi
     def write(self, vals):
