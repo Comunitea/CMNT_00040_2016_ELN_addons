@@ -36,7 +36,6 @@
                 'stock_traceability_tree',
                 'stock_traceability_tree_trace_mrp',
                 'hr',
-                'mrp_production_reopen'
                 ],
     "init_xml" : [],
     "data" : [
