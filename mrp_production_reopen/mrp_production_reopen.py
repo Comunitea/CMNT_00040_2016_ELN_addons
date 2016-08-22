@@ -19,47 +19,43 @@
 #
 ##############################################################################
 
-from openerp.osv import osv, fields
-#import decimal_precision as dp
-import openerp.addons.decimal_precision as dp
+from openerp import models, fields, api
 
-class mrp_production_reopen(osv.osv):
+class MrpProductionReopen(models.Model):
 
     _inherit = 'mrp.production'
-    _columns = {
-        'product_qty': fields.float('Product Qty', digits_compute=dp.get_precision('Product Unit of Measure'), required=True, states={'draft':[('readonly',False)], 'reopen':[('readonly',False)]}, readonly=True),
-        'product_uos_qty': fields.float('Product UoS Qty', states={'draft':[('readonly',False)], 'reopen':[('readonly',False)]}, readonly=True),
-        'state': fields.selection([('draft','New'),('picking_except', 'Picking Exception'),('confirmed','Waiting Goods'),('ready','Ready to Produce'),('in_production','In Production'),('cancel','Cancelled'),('done','Done'),('reopen', 'Reopen')],'State', readonly=True,
-                                    help='When the production order is created the state is set to \'Draft\'.\n If the order is confirmed the state is set to \'Waiting Goods\'.\n If any exceptions are there, the state is set to \'Picking Exception\'.\
-                                    \nIf the stock is available then the state is set to \'Ready to Produce\'.\n When the production gets started then the state is set to \'In Production\'.\n When the production is over, the state is set to \'Done\'.'),
-    }
-    
+
+    product_qty = fields.Float(states={'draft':[('readonly',False)], 'reopen':[('readonly',False)]}, readonly=True)
+    product_uos_qty = fields.Float(states={'draft':[('readonly',False)], 'reopen':[('readonly',False)]}, readonly=True)
+    state = fields.Selection(selection_add=[('reopen', 'Reopen')])
        
-    def action_reopen(self, cr, uid, ids, context=None):
-        self.write(cr, uid, ids, {'state': 'reopen'})
-        picking_id = super(mrp_production_reopen, self).browse(cr, uid, ids)
+    @api.multi
+    def action_reopen(self):
+
+        self.state = 'reopen'
         
-        for move in picking_id[0].move_lines2:
+        for move in self.move_lines2:
             if move.state == "done":
-                self.pool.get('stock.move').write(cr, uid, [move.id], {'state': 'draft'})
+                move.state = 'draft'
         
-        for products in picking_id[0].move_created_ids2:
+        for products in self.move_created_ids2:
             if products.state == "done":
-                self.pool.get('stock.move').write(cr, uid, [products.id], {'state': 'draft'})
+                move.state = 'draft'
         
         return True
 
-    def action_redone(self, cr, uid, ids, context=None):
-        picking_id = super(mrp_production_reopen, self).browse(cr, uid, ids)
+    @api.multi
+    def action_redone(self):
         
-        for move in picking_id[0].move_lines:
+        for move in self.move_lines:
             if move.state == "draft":
-                self.pool.get('stock.move').write(cr, uid, [move.id], {'state': 'done'})
+                move.state = 'done'
         
-        for products in picking_id[0].move_created_ids:
+        for products in self.move_created_ids:
             if products.state == "draft":
-                self.pool.get('stock.move').write(cr, uid, [products.id], {'state': 'done'})
+                move.state = 'done'
         
-        self.write(cr, uid, ids, {'state': 'done'})
+        self.state = 'done'
+        
         return True
 
