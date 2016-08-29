@@ -89,17 +89,15 @@ class stock_picking(orm.Model):
                     old_date = old_date_dic[picking.sale_id.id]
                     if new_date <= old_date or not picking.sale_id.effective_date:
                         picking.sale_id.effective_date = old_date
-                picking.move_lines.write({'effective_date': new_date})
+                self._cr.execute(""" UPDATE stock_move SET effective_date=%s WHERE picking_id=%s""", (new_date, picking.id))
         return res
 
 
 class stock_move(orm.Model):
     _inherit = 'stock.move'
+
     _columns = {
         'supplier_id': fields.many2one('res.partner', 'Supplier', readonly=True, domain = [('supplier','=',True)], states={'draft': [('readonly', False)]}, select=True),
-        'effective_date': fields.date('Effective Date', readonly=True,
+        'effective_date': fields.related('picking_id', 'effective_date', type='date', string='Effective Date', readonly=True, store=True,
             help="Date on which the Delivery Order was delivered."),
-    }
-    _defaults = {
-        'effective_date': False,
     }
