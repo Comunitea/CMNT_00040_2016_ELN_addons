@@ -20,6 +20,7 @@
 ##############################################################################
 
 from openerp.osv import fields, osv, orm
+from openerp import models, api
 
 class account_journal(orm.Model):
     
@@ -49,3 +50,15 @@ class account_journal(orm.Model):
                     sequence_id = bank_data and bank_data.journal_id and bank_data.journal_id.sequence_id and bank_data.journal_id.sequence_id.id or False
                     vals.update({'sequence_id': sequence_id})
         return super(account_journal, self).create(cr, uid, vals, context)
+
+class AccountMove(models.Model):
+    _inherit = "account.move"
+    
+    @api.multi
+    def write(self, vals):
+        if vals.get('ref', False):
+            self._cr.execute(""" UPDATE account_move_line SET ref=%s WHERE move_id=%s""", (vals['ref'], self.id))
+        return super(AccountMove, self).write(vals)
+
+
+
