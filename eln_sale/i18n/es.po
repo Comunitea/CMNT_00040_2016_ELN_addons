@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-29 10:06+0000\n"
-"PO-Revision-Date: 2016-08-29 12:18+0200\n"
+"POT-Creation-Date: 2016-08-31 08:57+0000\n"
+"PO-Revision-Date: 2016-08-31 10:59+0200\n"
 "Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -41,6 +41,11 @@ msgstr "Transportista"
 #: help:sale.shop,indirect_invoicing:0
 msgid "Check the indirect invoicing field if the shop is a shop of indirect invoicing."
 msgstr "Marcar la opción Facturación Indirecta si la tienda es una tienda de facturación indirecta."
+
+#. module: eln_sale
+#: help:stock.picking,sent_to_supplier:0
+msgid "Check this box if the physical delivery note has been sent to the supplier"
+msgstr "Marque esta casilla si el albarán de entrega físico ha sido enviado al proveedor"
 
 #. module: eln_sale
 #: view:sale.order.confirm:eln_sale.sale_order_confirm_view_form
@@ -279,6 +284,11 @@ msgstr "Tipos de ventas"
 #, python-format
 msgid "Selected Sale(s) cannot be confirmed as they are not in 'Draft' state!"
 msgstr "¡Los pedidos seleccionados no pueden ser confirmados si no están en estado 'Presupuesto'!"
+
+#. module: eln_sale
+#: field:stock.picking,sent_to_supplier:0
+msgid "Sent to Supplier"
+msgstr "Enviado al proveedor"
 
 #. module: eln_sale
 #: model:ir.model,name:eln_sale.model_stock_move

@@ -29,6 +29,11 @@
                     <attribute name="options">{"always_reload": True}</attribute>
                 </field>
 
+                <field name="priority" position="after">
+                    <field name="weight"/>
+                    <field name="packages_uos"/>
+                </field>
+
             </field>
         </record>
 
