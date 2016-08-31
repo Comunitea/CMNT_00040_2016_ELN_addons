@@ -32,10 +32,13 @@ class stock_picking(orm.Model):
         'effective_date': fields.date('Effective Date', readonly=True, states={'done': [('readonly', False)]},
             help="Date on which the Delivery Order was delivered."),
         'supplier_cip': fields.related('sale_id', 'supplier_cip', type='char', string="CIP", readonly=True,  
-                           help="Código interno del proveedor."),
+            help="Código interno del proveedor."),
+        'sent_to_supplier': fields.boolean('Sent to Supplier', readonly=True, states={'done': [('readonly', False)], 'cancel': [('readonly', False)]},
+            help="Check this box if the physical delivery note has been sent to the supplier"),
     }
     _defaults = {
         'effective_date': fields.datetime.now,
+        'sent_to_supplier': False,
     }
 
     def _prepare_invoice_group(self, cr, uid, picking, partner, invoice, context=None):

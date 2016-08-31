@@ -11,15 +11,30 @@
                 <field name="partner_id" position="after">
                     <field name="supplier_id"/>
                     <field name="carrier_id"/>
-                   <field name="supplier_cip"/>
+                    <field name="supplier_cip"/>
                 </field>
                 <field name="min_date" position="after">
                     <field name="requested_date" widget="date"/>
                     <field name="effective_date"/>
                 </field>
+                <field name="priority" position="after">
+                    <field name="sent_to_supplier" attrs="{'invisible': [('supplier_id', '=', False)]}"/>
+                </field>
             </field>
         </record>
         
+        <record id="view_picking_tree_add_sale_customizations" model="ir.ui.view">
+            <field name="name">stock.picking.tree.add.sale.customizations</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.vpicktree"/>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <field name="priority" position="after">
+                    <field name="sent_to_supplier" invisible="1"/>
+                </field>
+            </field>
+        </record>
+
         <record id="view_move_tree_add_supplier" model="ir.ui.view">
             <field name="name">stock.move.tree.add_supplier</field>
             <field name="model">stock.move</field>
