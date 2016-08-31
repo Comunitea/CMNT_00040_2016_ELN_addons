@@ -31,7 +31,8 @@
                 'sale_order_dates',
                 'sale_early_payment_discount',
                 'sale_commission',
-                'nan_partner_risk'],
+                'nan_partner_risk',
+                'account_analytic_default'],
     "category": "Sale",
     "init_xml": [],
     "data": [

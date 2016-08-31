@@ -68,14 +68,16 @@
             <field name="type">search</field>
             <field name="inherit_id" ref="sale.view_sales_order_filter" />
             <field name="arch" type="xml">
-                <field name="name" position="replace">
-                    <!--POST-MIGRATION-->
+                <field name="name" position="before">
                     <filter icon="terp-check" string="Direct Invoicing" domain="[('shop_id.indirect_invoicing','=',False)]"/>
                     <filter icon="terp-check" string="Indirect Invoicing" domain="[('shop_id.indirect_invoicing','=',True)]"/>
-                    <newline/>
-	                <field name="name" filter_domain="['|', ('name','ilike',self),('client_order_ref','ilike',self)]"/>
+                    <separator/>
+                </field>
+                <field name="partner_id" position="after">
+                    <field name="partner_shipping_id"/>
                 </field>
                 <group string="Group By" position="inside">
+                    <filter string="Delivery Address" domain="[]" context="{'group_by':'partner_shipping_id'}"/>
                     <filter string="Effective Date" domain="[]" context="{'group_by':'effective_date'}"/>
                 </group>
             </field>
@@ -186,7 +188,7 @@
             <field name="type">search</field>
             <field name="inherit_id" ref="sale.view_sales_order_filter"/>
             <field name="arch" type="xml">
-                <field name="partner_id" position="after" >
+                <field name="product_id" position="after" >
                     <field name="origin"/>
                 </field>
             </field>
