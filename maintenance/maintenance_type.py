@@ -98,8 +98,6 @@ class maintenance_type(osv.osv):
                                 if nueva_fecha not in fechas_excluidas:
                                     fecha = nueva_fecha
                                     fecha_cambiada = True
-                        #import ipdb; ipdb.set_trace()
-                        print "estoy trabajando"
                         if crear_solicitud and type_obj.element_ids:
                             ultima_creacion = fecha
                             element_ids = []
