@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-
-        <report auto="True" id="report_work_order" model="work.order" name="work.order"
-                rml="maintenance/report/work_order.jrxml" string="Work order"
-                usage="default"/>
-
+        <record id="report_work_order" model="ir.actions.report.xml">
+            <field name="string">Work order</field>
+            <field name="auto">True</field>
+            <field name="model">work.order</field>
+            <field name="jasper_model_id" ref="maintenance.model_work_order"/>
+            <field name="name">work.order</field>
+            <field name="report_name">word_order_jasper</field>
+            <field name="rml">maintenance/report/work_order.jrxml</field>
+            <field name="report_rml">maintenance/report/work_order.jrxml</field>
+            <field name="menu">True</field>
+            <field name="jasper_report">True</field>
+            <field name="jasper_output">pdf</field>
+        </record>
     </data>
 </openerp>
