@@ -1,30 +1,32 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* product_cost_management
+# 	* product_cost_management
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-01 15:58+0000\n"
-"PO-Revision-Date: 2016-06-01 15:58+0000\n"
-"Last-Translator: <>\n"
+"POT-Creation-Date: 2016-10-14 16:48+0000\n"
+"PO-Revision-Date: 2016-10-14 18:53+0200\n"
+"Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
+"Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
+"Language: es\n"
+"X-Generator: Poedit 1.8.6\n"
+
+#. module: product_cost_management
+#: view:product.product:product_cost_management.product_normal_form_view_add_cost_structure
+msgid "'Cost price for price list' will be updated. Are you sure?"
+msgstr "Se actualizará el campo 'Precio de coste para tarifa'. ¿Está seguro?"
 
 #. module: product_cost_management
 #: selection:cost.structure.elements,cost_type:0
 #: selection:cost.type,cost_type:0
 msgid "BoM"
 msgstr "LdM"
-
-#. module: product_cost_management
-#: field:cost.type,budget_item:0
-msgid "Budget Item"
-msgstr "Partida presupuestaria"
 
 #. module: product_cost_management
 #: selection:cost.structure.elements,distribution_mode:0
@@ -56,10 +58,8 @@ msgid "Cancel"
 msgstr "Cancelar"
 
 #. module: product_cost_management
-#: field:cost.structure,company_id:0
-#: field:cost.structure.elements,company_id:0
-#: field:cost.type,company_id:0
-#: field:product.cost,company_id:0
+#: field:cost.structure,company_id:0 field:cost.structure.elements,company_id:0
+#: field:cost.type,company_id:0 field:product.cost,company_id:0
 #: field:product.cost.lines,company_id:0
 msgid "Company"
 msgstr "Compañía"
@@ -86,6 +86,7 @@ msgstr "Coste del producto"
 
 #. module: product_cost_management
 #: view:cost.structure:product_cost_management.view_cost_structure_form
+#: view:product.product:product_cost_management.product_normal_form_view_add_cost_structure
 #: field:product.product,cost_structure_id:0
 msgid "Cost Structure"
 msgstr "Estructura de coste"
@@ -116,8 +117,7 @@ msgid "Cost Types"
 msgstr "Tipos de coste"
 
 #. module: product_cost_management
-#: field:cost.structure.elements,cost_type_id:0
-#: field:cost.type,name:0
+#: field:cost.structure.elements,cost_type_id:0 field:cost.type,name:0
 msgid "Cost name"
 msgstr "Nombre del coste"
 
@@ -128,14 +128,22 @@ msgid "Cost price"
 msgstr "Precio de coste"
 
 #. module: product_cost_management
-#: field:cost.structure.elements,cost_ratio:0
-#: field:cost.type,cost_ratio:0
+#: field:product.product,cost_price_for_pricelist:0
+msgid "Cost price for price list"
+msgstr "Precio de coste para tarifa"
+
+#. module: product_cost_management
+#: help:product.product,cost_price_for_pricelist:0
+msgid "Cost price for price list. Used, for example, to calculate product price list based on."
+msgstr "Precio de coste para tarifa. Usado, por ejemplo, para calcular tarifas de precios basadas en este valor."
+
+#. module: product_cost_management
+#: field:cost.structure.elements,cost_ratio:0 field:cost.type,cost_ratio:0
 msgid "Cost ratio"
 msgstr "Ratio de coste"
 
 #. module: product_cost_management
-#: field:cost.structure.elements,cost_type:0
-#: field:cost.type,cost_type:0
+#: field:cost.structure.elements,cost_type:0 field:cost.type,cost_type:0
 msgid "Cost type"
 msgstr "Tipo de coste"
 
@@ -146,34 +154,31 @@ msgid "Costs"
 msgstr "Costes"
 
 #. module: product_cost_management
-#: code:addons/product_cost_management/wizard/product_costs.py:254
+#: code:addons/product_cost_management/wizard/product_costs.py:240
+#: code:addons/product_cost_management/wizard/product_costs.py:278
 #, python-format
 msgid "Could not show costs. No cost lines were found for this product!"
-msgstr "No se pudieron mostrar costes. No hay lineas de coste donde encontrar este producto!"
+msgstr "No se pueden mostrar los costes. ¡No se encontraron líneas de coste para este producto!"
 
 #. module: product_cost_management
-#: code:addons/product_cost_management/wizard/product_costs.py:256
+#: code:addons/product_cost_management/wizard/product_costs.py:242
+#: code:addons/product_cost_management/wizard/product_costs.py:280
 #, python-format
 msgid "Could not show costs. There are no costs associated with this product!"
-msgstr "No se pudieron mostrar costes. No hay costes asociados con este producto"
+msgstr "No se pueden mostrar los costes. ¡No se encontraron costes asociados a este producto!"
 
 #. module: product_cost_management
-#: field:cost.structure,create_uid:0
-#: field:cost.structure.elements,create_uid:0
-#: field:cost.type,create_uid:0
-#: field:product.cost,create_uid:0
-#: field:product.cost.lines,create_uid:0
-#: field:product.costs.line,create_uid:0
+#: field:cost.structure,create_uid:0 field:cost.structure.elements,create_uid:0
+#: field:cost.type,create_uid:0 field:product.cost,create_uid:0
+#: field:product.cost.lines,create_uid:0 field:product.costs.line,create_uid:0
 #: field:update.product.costs,create_uid:0
 msgid "Created by"
 msgstr "Creado por"
 
 #. module: product_cost_management
 #: field:cost.structure,create_date:0
-#: field:cost.structure.elements,create_date:0
-#: field:cost.type,create_date:0
-#: field:product.cost,create_date:0
-#: field:product.cost.lines,create_date:0
+#: field:cost.structure.elements,create_date:0 field:cost.type,create_date:0
+#: field:product.cost,create_date:0 field:product.cost.lines,create_date:0
 #: field:product.costs.line,create_date:0
 #: field:update.product.costs,create_date:0
 msgid "Created on"
@@ -192,10 +197,8 @@ msgstr "Fecha "
 
 #. module: product_cost_management
 #: field:cost.structure,display_name:0
-#: field:cost.structure.elements,display_name:0
-#: field:cost.type,display_name:0
-#: field:product.cost,display_name:0
-#: field:product.cost.lines,display_name:0
+#: field:cost.structure.elements,display_name:0 field:cost.type,display_name:0
+#: field:product.cost,display_name:0 field:product.cost.lines,display_name:0
 #: field:product.costs.line,display_name:0
 #: field:update.product.costs,display_name:0
 msgid "Display Name"
@@ -224,12 +227,33 @@ msgid "Forecasted"
 msgstr "Previsto"
 
 #. module: product_cost_management
+#: field:product.cost.lines,forecasted_cost:0
+#: field:product.costs.line,forecasted_cost:0
+msgid "Forecasted Cost"
+msgstr "Coste previsto"
+
+#. module: product_cost_management
+#: field:product.product,forecasted_price:0
+msgid "Forecasted Cost Price"
+msgstr "Precio de coste previsto"
+
+#. module: product_cost_management
+#: help:product.product,forecasted_price:0
+msgid "Forecasted cost price used to calculate an alternative BoM cost based on this value. If set to 0, the standard price is used instead."
+msgstr "Precio de coste previsto usado para calcular una LdM alternativa basada en este valor. Si se establece a 0, se usará el precio de coste del producto en su lugar."
+
+#. module: product_cost_management
+#: view:product.product:product_cost_management.product_normal_form_view_add_cost_structure
+msgid "Forecasted cost prices will be set to zero for all products of this company. Are you sure?"
+msgstr "Los precios de coste previstos serán establecidos a cero para todos los productos de la Compañía actual. ¿Está seguro?"
+
+#. module: product_cost_management
 #: field:cost.type,forecast_cost_ratio:0
 msgid "Forecasted cost ratio"
 msgstr "Ratio de coste previsto"
 
 #. module: product_cost_management
-#: view:product.product:product_cost_management.product_normal_form_view_add_theoric_cost
+#: view:product.product:product_cost_management.product_normal_form_view_add_cost_structure
 msgid "Get Costs"
 msgstr "Obtener costes"
 
@@ -244,20 +268,15 @@ msgid "Hour forecast"
 msgstr "Previsión en horas"
 
 #. module: product_cost_management
-#: field:cost.structure,id:0
-#: field:cost.structure.elements,id:0
-#: field:cost.type,id:0
-#: field:product.cost,id:0
-#: field:product.cost.lines,id:0
-#: field:product.costs.line,id:0
-#: field:update.product.costs,id:0
+#: field:cost.structure,id:0 field:cost.structure.elements,id:0
+#: field:cost.type,id:0 field:product.cost,id:0 field:product.cost.lines,id:0
+#: field:product.costs.line,id:0 field:update.product.costs,id:0
 msgid "ID"
 msgstr "ID"
 
 #. module: product_cost_management
 #: selection:cost.structure.elements,cost_type:0
-#: selection:cost.type,cost_type:0
-#: field:product.cost.lines,inventory:0
+#: selection:cost.type,cost_type:0 field:product.cost.lines,inventory:0
 #: field:product.costs.line,inventory:0
 msgid "Inventory"
 msgstr "Inventario"
@@ -270,8 +289,7 @@ msgstr "Previsión kg vendidos"
 #. module: product_cost_management
 #: field:cost.structure,__last_update:0
 #: field:cost.structure.elements,__last_update:0
-#: field:cost.type,__last_update:0
-#: field:product.cost,__last_update:0
+#: field:cost.type,__last_update:0 field:product.cost,__last_update:0
 #: field:product.cost.lines,__last_update:0
 #: field:product.costs.line,__last_update:0
 #: field:update.product.costs,__last_update:0
@@ -279,37 +297,20 @@ msgid "Last Modified on"
 msgstr "Última modificación en"
 
 #. module: product_cost_management
-#: field:cost.structure,write_uid:0
-#: field:cost.structure.elements,write_uid:0
-#: field:cost.type,write_uid:0
-#: field:product.cost,write_uid:0
-#: field:product.cost.lines,write_uid:0
-#: field:product.costs.line,write_uid:0
+#: field:cost.structure,write_uid:0 field:cost.structure.elements,write_uid:0
+#: field:cost.type,write_uid:0 field:product.cost,write_uid:0
+#: field:product.cost.lines,write_uid:0 field:product.costs.line,write_uid:0
 #: field:update.product.costs,write_uid:0
 msgid "Last Updated by"
 msgstr "Última actualización por"
 
 #. module: product_cost_management
-#: field:cost.structure,write_date:0
-#: field:cost.structure.elements,write_date:0
-#: field:cost.type,write_date:0
-#: field:product.cost,write_date:0
-#: field:product.cost.lines,write_date:0
-#: field:product.costs.line,write_date:0
+#: field:cost.structure,write_date:0 field:cost.structure.elements,write_date:0
+#: field:cost.type,write_date:0 field:product.cost,write_date:0
+#: field:product.cost.lines,write_date:0 field:product.costs.line,write_date:0
 #: field:update.product.costs,write_date:0
 msgid "Last Updated on"
 msgstr "Última actualización en"
-
-#. module: product_cost_management
-#: view:stock.history:product_cost_management.view_stock_history_report_search
-msgid "Location"
-msgstr "Ubicación"
-
-#. module: product_cost_management
-#: view:stock.history:product_cost_management.view_stock_history_report_search
-#: field:stock.history,lot_id:0
-msgid "Lot"
-msgstr "Lote"
 
 #. module: product_cost_management
 #: model:ir.model,name:product_cost_management.model_mrp_production
@@ -317,10 +318,8 @@ msgid "Manufacturing Order"
 msgstr "Órden de producción"
 
 #. module: product_cost_management
-#: field:cost.structure,name:0
-#: field:cost.structure.elements,name:0
-#: field:product.cost.lines,name:0
-#: field:product.costs.line,name:0
+#: field:cost.structure,name:0 field:cost.structure.elements,name:0
+#: field:product.cost.lines,name:0 field:product.costs.line,name:0
 msgid "Name"
 msgstr "Nombre"
 
@@ -361,8 +360,7 @@ msgid "Real"
 msgstr "Real"
 
 #. module: product_cost_management
-#: field:product.cost.lines,real_cost:0
-#: field:product.costs.line,real_cost:0
+#: field:product.cost.lines,real_cost:0 field:product.costs.line,real_cost:0
 msgid "Real Cost"
 msgstr "Coste real"
 
@@ -377,14 +375,13 @@ msgid "Sales forecast"
 msgstr "Previsión de ventas"
 
 #. module: product_cost_management
-#: field:cost.structure.elements,sequence:0
-#: field:product.cost.lines,sequence:0
+#: field:cost.structure.elements,sequence:0 field:product.cost.lines,sequence:0
 #: field:product.costs.line,sequence:0
 msgid "Sequence"
 msgstr "Secuencia"
 
 #. module: product_cost_management
-#: view:product.product:product_cost_management.product_normal_form_view_add_theoric_cost
+#: view:product.product:product_cost_management.product_normal_form_view_add_cost_structure
 msgid "Show Costs"
 msgstr "Mostrar costes"
 
@@ -397,6 +394,14 @@ msgstr "Movimiento de existencias"
 #: field:cost.structure.elements,structure_id:0
 msgid "Structure"
 msgstr "Estructura"
+
+#. module: product_cost_management
+#: code:addons/product_cost_management/models/product.py:136
+#: field:product.cost.lines,tc_fc_percent:0
+#: field:product.costs.line,tc_fc_percent:0
+#, python-format
+msgid "TC vs FC (%)"
+msgstr "CT vs CP (%)"
 
 #. module: product_cost_management
 #: code:addons/product_cost_management/models/product.py:133
@@ -413,15 +418,16 @@ msgid "Theoric Cost"
 msgstr "Coste teórico"
 
 #. module: product_cost_management
-#: help:cost.structure.elements,cost_type:0
-#: help:cost.type,cost_type:0
-msgid "This option is used to define how the cost is calculated.\n"
+#: help:cost.structure.elements,cost_type:0 help:cost.type,cost_type:0
+msgid ""
+"This option is used to define how the cost is calculated.\n"
 "The 'Total' value means that the cost is a totalizing of the preceding lines in the structure sequence.\n"
 "The 'BoM' value means that the cost is calculated from the product BoM.\n"
 "The 'Cost price' value means that the cost is the cost price that currently has the product.\n"
 "The 'Ratio' value means that the cost is calculated based on a ratio.\n"
 "The 'Inventory' value means that the cost is as total and when update product cost it will be used as the 'Cost price'."
-msgstr "Esta opción se usa para definir como se calculará el coste.\n"
+msgstr ""
+"Esta opción se usa para definir como se calculará el coste.\n"
 "El valor 'Total' significa que el coste es un totalizador de las líneas precedentes en la secuencia de la estructura.\n"
 "El valor 'LdM' significa que el coste es calculado desde la LdM del producto.\n"
 "El valor 'Precio de coste' significa que el coste es el precio de coste que tiene actualmente el producto.\n"
@@ -440,8 +446,7 @@ msgstr "Para aplicar"
 
 #. module: product_cost_management
 #: selection:cost.structure.elements,cost_type:0
-#: selection:cost.type,cost_type:0
-#: field:product.cost.lines,total:0
+#: selection:cost.type,cost_type:0 field:product.cost.lines,total:0
 #: field:product.costs.line,total:0
 msgid "Total"
 msgstr "Total"
@@ -454,20 +459,27 @@ msgstr "Actualizar"
 #. module: product_cost_management
 #: view:update.product.costs:product_cost_management.view_update_product_costs_wzd
 msgid "Update Product Costs"
-msgstr "Actualizar costes producto"
+msgstr "Actualizar costes de producto"
 
 #. module: product_cost_management
 #: model:ir.actions.act_window,name:product_cost_management.action_update_product_costs
 #: model:ir.ui.menu,name:product_cost_management.update_product_costs
 msgid "Update product costs"
-msgstr "Actualizar costes producto"
+msgstr "Actualizar costes de producto"
 
 #. module: product_cost_management
-#: code:addons/product_cost_management/wizard/product_costs.py:254
-#: code:addons/product_cost_management/wizard/product_costs.py:256
+#: code:addons/product_cost_management/wizard/product_costs.py:240
+#: code:addons/product_cost_management/wizard/product_costs.py:242
+#: code:addons/product_cost_management/wizard/product_costs.py:278
+#: code:addons/product_cost_management/wizard/product_costs.py:280
 #, python-format
 msgid "Warning !"
-msgstr "Advertencia !"
+msgstr "¡Atención!"
+
+#. module: product_cost_management
+#: model:ir.model,name:product_cost_management.model_wizard_valuation_history
+msgid "Wizard that opens the stock valuation history table"
+msgstr "Asistente que abre la tabla de histórico de valoración de inventario"
 
 #. module: product_cost_management
 #: field:cost.structure,year:0
@@ -476,8 +488,8 @@ msgstr "Año"
 
 #. module: product_cost_management
 #: view:update.product.costs:product_cost_management.view_update_product_costs_wzd
-msgid "You are sure you update all product costs?"
-msgstr "Estás seguro de actualizar todos los costes de producto?"
+msgid "You are sure you update all product 'Cost price for price list'?"
+msgstr "Está seguro de querer actualizar el campo 'Precio de coste para tarifa' para todos los productos?"
 
 #. module: product_cost_management
 #: code:addons/product_cost_management/models/cost_structure_elements.py:81
@@ -486,3 +498,12 @@ msgstr "Estás seguro de actualizar todos los costes de producto?"
 msgid "You must define a element with total cost type and                       another of inventory cost type"
 msgstr "Debes definir un elemento con un coste de tipo total y otro con un coste de tipo inventario"
 
+#. module: product_cost_management
+#: view:product.product:product_cost_management.product_normal_form_view_add_cost_structure
+msgid "⇒ Set all to 0"
+msgstr "⇒ Fijar todos a 0"
+
+#. module: product_cost_management
+#: view:product.product:product_cost_management.product_normal_form_view_add_cost_structure
+msgid "⇒ Update"
+msgstr "⇒ Actualizar"

@@ -39,13 +39,16 @@ class product_costs_line(osv.osv_memory):
         'name': fields.char('Name', size=255, required=True),
         'theoric_cost': fields.float('Theoric Cost', digits=(16,3), required=True),
         'real_cost': fields.float('Real Cost', digits=(16,3), required=True),
+        'forecasted_cost': fields.float('Forecasted Cost', digits=(16,3), required=True),
         'tc_rc_percent': fields.float('TC vs RC (%)', digits=(4,2), readonly="True"),
+        'tc_fc_percent': fields.float('TC vs FC (%)', digits=(4,2), readonly="True"),
         'inventory': fields.boolean('Inventory'),
         'total': fields.boolean('Total')
     }
     _defaults = {
         'theoric_cost': 0.0,
-        'real_cost': 0.0
+        'real_cost': 0.0,
+        'forecasted_cost': 0.0
     }
     #_order = 'sequence asc, id asc'
 
@@ -53,6 +56,7 @@ class product_costs_line(osv.osv_memory):
 
         theoric = 0.0
         real = 0.0
+        forecasted = 0.0
         element_facade = self.pool.get('cost.structure.elements')
         product_facade = self.pool.get('product.product')
         user_facade = self.pool.get('res.users')
@@ -92,16 +96,35 @@ class product_costs_line(osv.osv_memory):
                             productb = product_facade.browse(cr, uid, r['product_id'])
                             if productb:
                                 theoric += productb.standard_price * r['product_qty']
+								#Si el producto tiene lista de materiales y se usa en la estructura de costes
+								#calculamos de forma recursiva el valor forecasted_price
+                                if 'bom' in [x.cost_type for x in productb.cost_structure_id.elements]:
+                                    c = context.copy()
+                                    c['cron'] = True
+                                    c['update_costs'] = False
+                                    c['register_costs'] = False
+                                    c['product_id'] = productb.id
+                                    
+                                    cost = self.get_product_costs(cr, uid, ids, c)
+                                    forecasted_price = cost.get('forecasted_price', False) or productb.forecasted_price or productb.standard_price or 0.0
+                                else:
+                                    forecasted_price = productb.forecasted_price or productb.standard_price or 0.0
+                                forecasted += forecasted_price * r['product_qty']
                         theoric = theoric / (factor or 1.0)
+                        forecasted = forecasted / (factor or 1.0)
             elif element.cost_type == 'standard_price':
                     theoric = product.standard_price or 0.0
+                    forecasted = product.forecasted_price or product.standard_price or 0.0
             elif element.cost_type == 'ratio':
                 if element.distribution_mode == 'eur':
                     theoric = element.cost_ratio * product.standard_price
+                    forecasted = element.cost_ratio * (product.forecasted_price or product.standard_price or 0.0)
                 elif element.distribution_mode == 'units':
                     theoric = element.cost_ratio
+                    forecasted = theoric
                 elif element.distribution_mode == 'kg':
                     theoric = element.cost_ratio * product.weight_net
+                    forecasted = theoric
                 elif element.distribution_mode == 'min':
                     if product.bom_ids:
                         bom = product.bom_ids[0]
@@ -112,10 +135,13 @@ class product_costs_line(osv.osv_memory):
                                 qty_per_cycle = uom_obj._compute_qty(cr, uid, wc_use.uom_id.id, wc_use.qty_per_cycle, product.uom_id.id)
                                 hours += float((wc_use.hour_nbr / qty_per_cycle)  * (wc.time_efficiency or 1.0) * (wc_use.operators_number or 1.0))
                             theoric = element.cost_ratio * hours * 60
+                            forecasted = theoric
             elif element.cost_type == 'total':
                 theoric = 0.0
+                forecasted = theoric
             elif element.cost_type == 'inventory':
                 theoric = 0.0
+                forecasted = theoric
             # REAL COST
             cost = 0.0
             context.update({'to_date': time_stop[:10]})
@@ -147,7 +173,7 @@ class product_costs_line(osv.osv_memory):
             if a and a[0] and a[0][0]:
                 cost += a[0][0]
             real = cost
-        return theoric, real
+        return theoric, real, forecasted
 
     def get_product_costs(self, cr, uid, ids, context=None):
         if context is None:
@@ -166,39 +192,49 @@ class product_costs_line(osv.osv_memory):
         for product in prod.browse(cr, uid, pro):
 
             if product.cost_structure_id and product.cost_structure_id.elements:
-                new_prod_cost_id = prod_cost.create(cr, uid, {'product_id': product.id,
-                                                              'date': time.strftime('%Y-%m-%d %H:%M:%S'),
-                                                              'company_id': product.cost_structure_id.company_id.id})
+                if context.get('register_costs', True):
+                    new_prod_cost_id = prod_cost.create(cr, uid, {'product_id': product.id,
+                                                                  'date': time.strftime('%Y-%m-%d %H:%M:%S'),
+                                                                  'company_id': product.cost_structure_id.company_id.id})
                 el = product.cost_structure_id.elements
                 sumtheo = 0.0
                 sumreal = 0.0
+                sumforecasted = 0.0
                 theoric = 0.0
                 real = 0.0
+                forecasted = 0.0
 
                 for element in el:
                     if element.cost_type not in ('total', 'inventory'):
-                        theoric, real = self._get_costs(cr, uid, ids, element.id, product.id, context)
+                        theoric, real, forecasted = self._get_costs(cr, uid, ids, element.id, product.id, context)
                         sumtheo += theoric
                         sumreal += real
+                        sumforecasted += forecasted
                     else:
                         theoric = sumtheo
                         real = sumreal
+                        forecasted= sumforecasted
 
                     vals = {'sequence': element.sequence,
                             'name': element.cost_type_id.name,
                             'theoric_cost': theoric,
                             'real_cost': real,
+                            'forecasted_cost': forecasted,
                             'inventory': (element.cost_type in ('inventory')),
                             'total': (element.cost_type in ('total', 'inventory'))
                             }
-                    new_id = self.create(cr, uid, vals)
-                    lines.append(new_id)
-
-                    vals['product_cost_id'] = new_prod_cost_id
-                    prod_cost_line.create(cr, uid, vals)
+                    if context.get('register_costs', True):
+                        new_id = self.create(cr, uid, vals)
+                        lines.append(new_id)
+                        vals['product_cost_id'] = new_prod_cost_id
+                        prod_cost_line.create(cr, uid, vals)
+                        
+                    vals = {}
                     if element.cost_type in ('inventory'):#seria el valor a coger para actualizar los costes en la produccion
                         valor_para_la_entrada = theoric #El ultimo valor tipo inventario encontrado para actualizar el producto
-                        value = {'inventory_cost': theoric}
+                        value = {'inventory_cost': theoric, 'forecasted_price': forecasted}
+                    if context.get('update_costs', False) and element.cost_type in ('total'):
+                        prod.write(cr, uid, product.id, {'cost_price_for_pricelist': forecasted})
 
         if not context.get('cron', False):
             value = {
@@ -230,7 +266,9 @@ class product_costs_line(osv.osv_memory):
                                 'name': l.name,
                                 'theoric_cost': l.theoric_cost,
                                 'real_cost': l.real_cost,
+                                'forecasted_cost': l.forecasted_cost,
                                 'tc_rc_percent': l.tc_rc_percent,
+                                'tc_fc_percent': l.tc_fc_percent,
                                 'inventory': l.inventory,
                                 'total': l.total
                                 }
@@ -260,4 +298,5 @@ class update_product_costs(osv.osv_memory):
         c = context.copy()
         c['cron'] = True
         c['update_costs'] = True
+        c['register_costs'] = False
         return self.pool.get('product.costs.line').get_product_costs(cr, uid, ids, c)
