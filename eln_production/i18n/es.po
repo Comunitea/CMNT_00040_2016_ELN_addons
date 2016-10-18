@@ -6,15 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-23 09:20+0000\n"
-"PO-Revision-Date: 2016-06-23 11:37+0200\n"
+"POT-Creation-Date: 2016-10-18 16:21+0000\n"
+"PO-Revision-Date: 2016-10-18 18:27+0200\n"
 "Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"Language: es_ES\n"
+"Plural-Forms: \n"
+"Language: es\n"
 "X-Generator: Poedit 1.8.6\n"
 
 #. module: eln_production
@@ -214,6 +214,8 @@ msgstr "Cant. entrada (kg)"
 
 #. module: eln_production
 #: code:addons/eln_production/mrp.py:491 code:addons/eln_production/mrp.py:921
+#: code:addons/eln_production/mrp.py:1006
+#: code:addons/eln_production/mrp.py:1016
 #, python-format
 msgid "Error!"
 msgstr "¡Error!"
@@ -747,7 +749,7 @@ msgstr "Tiempo en horas para limpieza."
 #: help:mrp.production.workcenter.line,time_start:0
 #: help:mrp.routing.workcenter,time_start:0
 msgid "Time in hours for the setup."
-msgstr "Time in hours for the setup."
+msgstr "Tiempo en horas para la configuración."
 
 #. module: eln_production
 #: view:mrp.routing.workcenter:eln_production.mrp_routing_workcenter_form_view
@@ -875,6 +877,13 @@ msgstr "Ayer"
 #, python-format
 msgid "You can not modify a work order associated at a production with a state other than 'validated'"
 msgstr "No se puede modificar una orden de trabajo asociada a una producción con un estado que no sea 'validada'"
+
+#. module: eln_production
+#: code:addons/eln_production/mrp.py:1006
+#: code:addons/eln_production/mrp.py:1016
+#, python-format
+msgid "You cannot delete a production which is not cancelled."
+msgstr "No se puede eliminar una producción que no esté cancelada."
 
 #. module: eln_production
 #: field:mrp.production.workcenter.line,date_expected:0
