@@ -945,6 +945,11 @@ class mrp_production(osv.osv):
             for production in self.browse(cr, uid, ids, context=context):
                 if production.state == 'cancel':
                     workflow.trg_validate(uid, 'mrp.production', production.id, 'button_cancel', cr)
+            # Put related procurements in cancel state
+            proc_obj = self.pool.get("procurement.order")
+            procs = proc_obj.search(cr, uid, [('production_id', 'in', ids)], context=context)
+            if procs:
+                proc_obj.write(cr, uid, procs, {'state': 'cancel'}, context=context)
 
         return res
 
