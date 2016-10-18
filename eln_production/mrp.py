@@ -987,4 +987,29 @@ class mrp_production(osv.osv):
             prod.write({'theo_cost': finished_qty * theo_cost})
         return res
 
+    def unlink(self, cr, uid, ids, context=None):
+        """ Unlink the production order and related stock moves.
+        @return: True
+        """
+        res = {}
+        if context is None:
+            context = {}
+
+        move_obj = self.pool.get('stock.move')
+
+        if any(x.state not in ('draft', 'confirmed', 'ready', 'in_production', 'cancel') for x in self.browse(cr, uid, ids, context=context)):
+            raise osv.except_osv(_('Error!'),  _('You cannot delete a production which is not cancelled.'))
+        
+        for production in self.browse(cr, uid, ids, context=context):
+            if production.state in ('draft', 'confirmed', 'ready', 'in_production'):
+                super(mrp_production, self).action_cancel(cr, uid, [production.id], context=context)
+            if production.state in ('cancel'):
+                move_obj.unlink(cr, uid, [x.id for x in production.move_created_ids2], context=context)
+                move_obj.unlink(cr, uid, [x.id for x in production.move_lines2], context=context)
+                res = super(mrp_production, self).unlink(cr, uid, [production.id], context=context)
+            else:
+                raise osv.except_osv(_('Error!'),  _('You cannot delete a production which is not cancelled.'))
+
+        return res
+
 mrp_production()
