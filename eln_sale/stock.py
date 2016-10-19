@@ -30,12 +30,15 @@ class stock_picking(orm.Model):
         'requested_date': fields.date('Requested Date', states={'cancel': [('readonly', True)]},
             help="Date by which the customer has requested the items to be delivered."),
         'effective_date': fields.date('Effective Date', readonly=True, states={'done': [('readonly', False)]},
-            help="Date by which the customer has requested the items to be delivered."),
+            help="Date on which the Delivery Order was delivered."),
         'supplier_cip': fields.related('sale_id', 'supplier_cip', type='char', string="CIP", readonly=True,  
-                           help="Código interno del proveedor."),
+            help="Código interno del proveedor."),
+        'sent_to_supplier': fields.boolean('Sent to Supplier', readonly=True, states={'done': [('readonly', False)], 'cancel': [('readonly', False)]},
+            help="Check this box if the physical delivery note has been sent to the supplier"),
     }
     _defaults = {
         'effective_date': fields.datetime.now,
+        'sent_to_supplier': False,
     }
 
     def _prepare_invoice_group(self, cr, uid, picking, partner, invoice, context=None):
@@ -89,11 +92,15 @@ class stock_picking(orm.Model):
                     old_date = old_date_dic[picking.sale_id.id]
                     if new_date <= old_date or not picking.sale_id.effective_date:
                         picking.sale_id.effective_date = old_date
+                self._cr.execute(""" UPDATE stock_move SET effective_date=%s WHERE picking_id=%s""", (new_date, picking.id))
         return res
 
 
 class stock_move(orm.Model):
     _inherit = 'stock.move'
+
     _columns = {
-        'supplier_id': fields.many2one('res.partner', 'Supplier', readonly=True,domain = [('supplier','=',True)],states={'draft': [('readonly', False)]}, select=True)
+        'supplier_id': fields.many2one('res.partner', 'Supplier', readonly=True, domain = [('supplier','=',True)], states={'draft': [('readonly', False)]}, select=True),
+        'effective_date': fields.related('picking_id', 'effective_date', type='date', string='Effective Date', readonly=True, store=True,
+            help="Date on which the Delivery Order was delivered."),
     }

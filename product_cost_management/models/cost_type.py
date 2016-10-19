@@ -49,7 +49,7 @@ class cost_type(osv.osv):
             ),
         'cost_ratio': fields.float('Cost ratio'),
         'distribution_mode': fields.selection(DISTRIBUTION_MODES, 'Distribution mode'),
-        'budget_item': fields.many2one('budget.item', 'Budget Item'),
+#        'budget_item': fields.many2one('budget.item', 'Budget Item'),
         'forecast_type': fields.reference('Forecast', MODELS, size=128),
         'forecast_cost_ratio': fields.float('Forecasted cost ratio', readonly=True), # TODO: campo funcion
         'real_cost_ratio': fields.float('Real cost ratio', readonly=True), # TODO: campo funcion
