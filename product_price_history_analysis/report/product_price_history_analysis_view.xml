@@ -58,8 +58,12 @@
             <field name="model">product.product</field>
             <field name="inherit_id" ref="product.product_normal_form_view"/>
             <field name="arch" type="xml">
+                <xpath expr="//div[@name='buttons']" position="attributes">
+                    <attribute name="style">width: 450px;</attribute>
+                </xpath>
                 <xpath expr="//div[@name='buttons']" position="inside">
-                   <button class="oe_inline oe_stat_button" name="action_view_history_analysis" string="Cost Price Analysis" type="object" icon="fa-line-chart" groups="stock.group_stock_user"/>
+                   <button name="action_view_history_analysis" string="Cost Price Analysis" type="object" class="oe_inline oe_stat_button" 
+                       icon="fa-line-chart" groups="stock.group_stock_user"/>
                 </xpath>
             </field>
         </record>
@@ -69,8 +73,12 @@
             <field name="model">product.template</field>
             <field name="inherit_id" ref="product.product_template_only_form_view"/>
             <field name="arch" type="xml">
+                <xpath expr="//div[@name='buttons']" position="attributes">
+                    <attribute name="style">width: 450px;</attribute>
+                </xpath>
                 <xpath expr="//div[@name='buttons']" position="inside">
-                   <button class="oe_inline oe_stat_button" name="action_view_history_analysis" string="Cost Price Analysis" type="object" icon="fa-line-chart" groups="stock.group_stock_user"/>
+                   <button name="action_view_history_analysis" string="Cost Price Analysis" type="object" class="oe_inline oe_stat_button" 
+                       icon="fa-line-chart" groups="stock.group_stock_user"/>
                 </xpath>
             </field>
         </record>
