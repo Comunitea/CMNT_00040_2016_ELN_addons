@@ -939,12 +939,7 @@ class mrp_production(osv.osv):
             context = {}
 
         res = super(mrp_production, self).action_cancel(cr, uid, ids, context=context)
-
         if res:
-            workflow = netsvc.LocalService("workflow")
-            for production in self.browse(cr, uid, ids, context=context):
-                if production.state == 'cancel':
-                    workflow.trg_validate(uid, 'mrp.production', production.id, 'button_cancel', cr)
             # Put related procurements in cancel state
             proc_obj = self.pool.get("procurement.order")
             procs = proc_obj.search(cr, uid, [('production_id', 'in', ids)], context=context)
