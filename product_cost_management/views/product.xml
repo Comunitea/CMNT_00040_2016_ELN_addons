@@ -2,23 +2,33 @@
 
 <openerp>
     <data>
-         <record id="product_normal_form_view_add_theoric_cost" model="ir.ui.view">
-            <field name="name">product.normal.form.add.theoric.cost</field>
+        <record id="product_normal_form_view_add_cost_structure" model="ir.ui.view">
+            <field name="name">product.normal.form.add.cost.structure</field>
             <field name="model">product.product</field>
             <field name="type">form</field>
             <field name="inherit_id" ref="product.product_normal_form_view"/>
             <field name="arch" type="xml">
-                <field name="standard_price" position="after">
-                    <group>
-                        <field name="cost_structure_id"/>
+                <group name="procurement_uom" position="after">
+                    <group name="cost_structure" string="Cost Structure">
+                        <group col="4" colspan="2">
+                            <field name="cost_structure_id" colspan="4"/>
+                            <field name="forecasted_price" colspan="2"/>
+                            <button name="reset_forecasted_price" string="⇒ Set all to 0" type="object" class="oe_link" colspan="2"
+                                 confirm="Forecasted cost prices will be set to zero for all products of this company. Are you sure?"/>
+                            <field name="cost_price_for_pricelist" colspan="2"/>
+                            <button name="action_update_product_costs" string="⇒ Update" type="object" class="oe_link" colspan="2" 
+                                context="{'product_id': active_id}"
+                                confirm="'Cost price for price list' will be updated. Are you sure?"/>
+                        </group>
+                        <newline/>
+                        <div>
+                            <button name="action_show_product_costs" string="Show Costs" type="object" class="oe_inline oe_stat_button"
+                                context="{'product_id': active_id}" icon="fa-eye"/>
+                            <button name="action_get_product_costs" string="Get Costs" type="object" class="oe_inline oe_stat_button"
+                                context="{'product_id': active_id}" icon="fa-calculator"/>
+                        </div>
                     </group>
-                    <newline/>
-                    <group col="6" colspan="2">
-                        <button name="action_show_product_costs" string="Show Costs" type="object" context="{'product_id': active_id}" icon="gtk-go-up" colspan="2"/>
-                        <button name="action_get_product_costs" string="Get Costs" type="object" context="{'product_id': active_id}" icon="gtk-go-up" colspan="2"/>
-                      <!--   <button name="action_update_product_costs" string="Update Costs" type="object" context="{'product_id': active_id}" icon="gtk-go-up" colspan="2"/> -->
-                    </group>
-                </field>
+                </group>
             </field>
         </record>
 
@@ -70,7 +80,9 @@
                                     <field name="name"/>
                                     <field name="theoric_cost"/>
                                     <field name="real_cost"/>
+                                    <field name="forecasted_cost"/>
                                     <field name="tc_rc_percent" widget="progressbar"/>
+                                    <field name="tc_fc_percent" widget="progressbar"/>
                                     <field name="inventory"/>
                                     <field name="total"/>
                                 </tree>
@@ -97,7 +109,7 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Update Product Costs">
-                    <label colspan="6" string="You are sure you update all product costs?"/>
+                    <label colspan="6" string="You are sure you update all product 'Cost price for price list'?"/>
                     <newline/>
                     <group colspan="4" col="6">
                         <button icon="gtk-cancel" special="cancel" string="Cancel"/>
@@ -107,7 +119,8 @@
                </form>
             </field>
         </record>
-         <record id="action_update_product_costs" model="ir.actions.act_window">
+
+        <record id="action_update_product_costs" model="ir.actions.act_window">
             <field name="name">Update product costs</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">update.product.costs</field>
