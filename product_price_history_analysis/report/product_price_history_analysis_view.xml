@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="product_price_history_analysis_graph" model="ir.ui.view">
+             <field name="name">product.price.history.analysis.graph</field>
+             <field name="model">product.price.history.analysis</field>
+             <field name="arch" type="xml">
+                 <graph string="Product Price Analysis" type="pivot" stacked="True">
+                     <field name="datetime" type="row" interval="week"/>
+                     <field name="product_id" type="col"/>
+                     <field name="cost" type="measure"/>
+                 </graph>
+             </field>
+        </record>
+
+        <record id="product_price_history_analysis_graph_search" model="ir.ui.view">
+            <field name="name">product.price.history.analysis.search</field>
+            <field name="model">product.price.history.analysis</field>
+            <field name="arch" type="xml">
+                <search string="Product Price Analysis">
+                    <field name="product_id"/>
+                    <field name="product_template_id"/>
+                    <field name="company_id"/>
+                    <separator/>
+                    <filter string="This Year" name="year" domain="
+                    [('datetime','&lt;=', time.strftime('%%Y-12-31')),
+                    ('datetime','&gt;=', time.strftime('%%Y-01-01'))]"/>
+                    <filter string="Last Year" name="last_year" domain="
+                    [('datetime','&lt;=', (datetime.date.today()+datetime.timedelta(days=-365)).strftime('%%Y-12-31 00:00:00')),
+                    ('datetime','&gt;=', (datetime.date.today()+datetime.timedelta(days=-365)).strftime('%%Y-01-01 23:59:59'))]"/>
+                    <filter string="Last 12 Months" name="last_12_months" domain="
+                    [('datetime','&lt;=', (datetime.date.today()+datetime.timedelta(days=-1)).strftime('%%Y-%%m-%%d 00:00:00')),
+                    ('datetime','&gt;=', (datetime.date.today()+datetime.timedelta(days=-365)).strftime('%%Y-%%m-%%d 23:59:59'))]"/>
+                    <group expand="1" string="Group By">
+                        <filter string="Product" name="Product" context="{'group_by':'product_id'}"/>
+                        <filter string="Date" name="Fecha" context="{'group_by':'datetime'}"/>
+                        <filter string="Company" name="Company" context="{'group_by':'company_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_product_price_history_analysis_graph" model="ir.actions.act_window">
+            <field name="name">Product Price Analysis</field>
+            <field name="res_model">product.price.history.analysis</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">graph</field>
+            <field name="search_view_id" ref="product_price_history_analysis_graph_search"/>
+            <field name="view_id" ref="product_price_history_analysis_graph"/>
+            <field name="context">{'search_default_last_12_months':1}</field>
+        </record>
+
+        <menuitem action="action_product_price_history_analysis_graph" id="menu_product_price_history_analysis_graph" parent="base.next_id_64" sequence="98"/>
+    
+        <record model="ir.ui.view" id="product_form_view_history_analysis_button">
+            <field name="name">product.product.history.analysis</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='buttons']" position="attributes">
+                    <attribute name="style">width: 450px;</attribute>
+                </xpath>
+                <xpath expr="//div[@name='buttons']" position="inside">
+                   <button name="action_view_history_analysis" string="Cost Price Analysis" type="object" class="oe_inline oe_stat_button" 
+                       icon="fa-line-chart" groups="stock.group_stock_user"/>
+                </xpath>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="product_template_form_view_history_analysis_button">
+            <field name="name">product.template.history.analysis</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_only_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='buttons']" position="attributes">
+                    <attribute name="style">width: 450px;</attribute>
+                </xpath>
+                <xpath expr="//div[@name='buttons']" position="inside">
+                   <button name="action_view_history_analysis" string="Cost Price Analysis" type="object" class="oe_inline oe_stat_button" 
+                       icon="fa-line-chart" groups="stock.group_stock_user"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</openerp>
