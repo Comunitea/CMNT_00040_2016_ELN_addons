@@ -46,18 +46,18 @@ class StockPicking(models.Model):
 
     @api.model
     def _prepare_values_extra_move(self, op, product, remaining_qty):  
+        res = super(StockPicking, self).\
+            _prepare_values_extra_move(op, product, remaining_qty)
         """
         Si no tenemos la UdV la obtenemos del movimiento relacionado o del producto si la tiene
         En caso de no poder obtenerla, no la establecemos (Se podria pasar la UdM como UdV),
         pero no se considera necesario.
         """
-        res = super(StockPicking, self).\
-            _prepare_values_extra_move(op, product, remaining_qty)
         if not res.get('uos_id', False) and \
-            (op.linked_move_operation_ids.move_id.product_uos or op.product_id.uos_id):
+            ((op.linked_move_operation_ids and op.linked_move_operation_ids[0].move_id.product_uos) or op.product_id.uos_id):
             t_uom = self.env['product.uom']
             uom_id = op.product_uom_id.id
-            uos_id = op.linked_move_operation_ids.move_id.product_uos.id or op.product_id.uos_id.id
+            uos_id = (op.linked_move_operation_ids and op.linked_move_operation_ids[0].move_id.product_uos.id) or op.product_id.uos_id.id
             uom_qty = remaining_qty
             uos_qty = t_uom._compute_qty(uom_id, uom_qty, uos_id)
             uos_vals = {
@@ -65,6 +65,12 @@ class StockPicking(models.Model):
                 'product_uos_qty': uos_qty,
             }
             res.update(uos_vals)
+        """
+        Si no tenemos el partner_id la obtenemos del picking relacionado.
+        """
+        if not res.get('partner_id', False) and op.picking_id.partner_id:
+            res.update({'partner_id': op.picking_id.partner_id.id})
+            
         return res
 
 class StockIncoterms(models.Model):
