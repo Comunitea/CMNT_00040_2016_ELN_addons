@@ -969,7 +969,8 @@ class mrp_production(osv.osv):
         for prod in self.browse(cr, uid, ids, context=context):
             bom = prod.bom_id
             finished_qty = sum([x.product_uom_qty
-                                for x in prod.move_created_ids2])
+                                for x in prod.move_created_ids2 
+                                if x.state in ('done') and not x.scrapped])
             factor = uom_obj._compute_qty(cr, uid, prod.product_uom.id,
                                           finished_qty,
                                           bom.product_uom.id)
