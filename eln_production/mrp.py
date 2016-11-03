@@ -863,17 +863,22 @@ class mrp_production(osv.osv):
 
                 if produce_product.product_id.id == production.product_id.id:
                     main_production_move = produce_product.id
-            self.signal_workflow(cr, uid, [production_id], 'button_finished_validated')
+
+            if not production.move_created_ids and \
+                not (context.get('default_mode', False) and context['default_mode'] == 'consume'):
+                self.signal_workflow(cr, uid, [production_id], 'button_finished_validated')
         else:
             if not main_production_move:
                 main_production_move = production.move_created_ids2 and production.move_created_ids2[0].id
             context.update({'main_production_move': main_production_move})  # Para escribirlo en el write y en el action_consume()
             res = super(mrp_production, self).action_produce(cr, uid, production_id, production_qty, production_mode, wiz=wiz, context=context)
+            if not production.move_created_ids and \
+                not (context.get('default_mode', False) and context['default_mode'] == 'consume'):
+                self.signal_workflow(cr, uid, [production_id], 'button_finished_validated')
             if context.get('default_mode', False) and context['default_mode'] == 'consume':  # Custom behaivor, set closed state
                 self.signal_workflow(cr, uid, [production_id], 'button_validated_closed')
+
         return True
-
-
 
     def action_finished(self, cr, uid, ids, context=None):
         print "action_finished"
