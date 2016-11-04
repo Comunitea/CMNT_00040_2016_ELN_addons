@@ -239,7 +239,10 @@ class performance_calculation(orm.TransientModel):
         qty = 0.0
 
         for move in self.pool.get('stock.move').browse(cr, uid, ids):
-            qty += move.product_uom_qty
+            if move.state not in ('done'):
+                continue
+            if not move.scrapped:
+                qty += move.product_uom_qty
 
         return qty
 
@@ -248,8 +251,12 @@ class performance_calculation(orm.TransientModel):
         qty = 0.0
 
         for move in self.pool.get('stock.move').browse(cr, uid, ids):
+            if move.state not in ('done'):
+                continue
             if not move.scrapped:
                 qty += move.product_uom_qty
+            else:
+                qty -= move.product_uom_qty
 
         return qty
 
@@ -287,7 +294,6 @@ class performance_calculation(orm.TransientModel):
                 indicator_id = self.pool.get('mrp.indicators.scrap').create(cr, uid, self._prepare_indicator(cr, uid, ids, name_report, company_id, context=context))
                 if indicator_id:
                     for prod in prod_obj.browse(cr, uid, production_ids):
-
                         ###########################################################
                         qty_finished = 0.0
                         real_qty_finished = 0.0
