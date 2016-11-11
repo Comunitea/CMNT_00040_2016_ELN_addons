@@ -184,7 +184,8 @@ class import_assets(object):
         return asset_ids and asset_ids[-1] or False
         
     def getAccountByCode(self, code):
-        account_ids = self.search("account.account", [('code', '=', code)])
+        account_ids = self.search("account.account", [('code', 'like',
+                                                       code+"%")])
         print account_ids
         return account_ids and account_ids[-1] or False
 
@@ -217,36 +218,47 @@ class import_assets(object):
                         print "Contabiliza para activo: ", str(record[2])
                         move_vals = {
                             'ref' : str(record[2]),
-                            'journal_id' : 103,
-                            'company_id' : 2,
+                            'journal_id' : 150,
+                            'company_id' : 3,
+                            'period_id': 119,
                             'date' : '31/12/2015'
                         }
                         move_id = self.create('account.move', move_vals)
-                        account = str(record[8]).split('.')[0]
+                        asset_category_id = self.read('account.asset.asset',
+                                               asset_id,
+                                  ['category_id'])['category_id'][0]
+                        asset_accounts = self.read('account.asset.category',
+                                                  asset_category_id,
+                                  ['account_depreciation_id',
+                                   'account_expense_depreciation_id'])
+                        #account = str(record[8]).split('.')[0]
                         move_line_vals1 = {
                             'name': str(record[2]),
-                            'journal_id': 103,
+                            'journal_id': 150,
                             'period_id': 119,
                             'date': '31/12/2015',
                             'debit': 0,
                             'credit': record[9],
-                            'account_id' : self.getAccountByCode(account),
+                            'account_id': asset_accounts[
+                                'account_depreciation_id'][0],
                             'move_id': move_id
                         }
                         move_line_id =  self.create('account.move.line', move_line_vals1)
                         account = str(record[13]).split('.')[0]
                         move_line_vals2 = {
-                            'name' : str(record[2]),
-                            'journal_id' : 103,
-                            'period_id' : 119,
-                            'date' : '31/12/2015',
-                            'debit' : record[9],
-                            'credit' : 0,
-                            'account_id' : self.getAccountByCode(account),
-                            'move_id' : move_id
+                            'name': str(record[2]),
+                            'journal_id': 150,
+                            'period_id': 119,
+                            'date': '31/12/2015',
+                            'debit': record[9],
+                            'credit': 0,
+                            'account_id': asset_accounts[
+                                'account_expense_depreciation_id'][0],
+                            'move_id': move_id
                         } 
                         self.create('account.move.line', move_line_vals2)
-                        self.execute('account.move', 'create_reversals', move_id, '31/12/2015', 119, 14)
+                        self.execute('account.move', 'create_reversals',
+                                     move_id, '31/12/2015', 119, 6)
                         self.write('account.move.line', move_line_id, {'asset_id': asset_id})
                     
                         self.write('account.asset.depreciation.line',
