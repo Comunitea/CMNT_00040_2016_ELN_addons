@@ -151,3 +151,18 @@ class StockMove(models.Model):
                 else:
                     res = [tax.id for tax in taxes]
         return res
+
+    def attribute_price(self, cr, uid, move, context=None):
+        """
+            Attribute price to move, important in inter-company moves or receipts with only one partner
+        """
+        # Pasamos el contexto con la compañia del movimiento para que en caso de obtener el precio
+        # del campo standard_price del producto, que es dependiente de la compañia, lo haga correctamente 
+        if not context:
+            context = {}
+        c = context.copy()
+        company_id = move.company_id.id
+        c.update(company_id=company_id, force_company=company_id)
+
+        return super(StockMove, self).attribute_price(cr, uid, move.with_context(c), context=context)
+
