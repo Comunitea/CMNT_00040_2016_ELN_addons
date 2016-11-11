@@ -42,6 +42,7 @@ class mrp_production(orm.Model):
         if main_obj.state not in ['confirmed','ready']:
             raise orm.except_orm(_('Error !'), _('Production order "%s" must be in status "confirmed" or "ready".') % main_obj.name)
         product_qty += main_obj.product_qty
+        priority = main_obj.priority
 
         for production in self.pool.get('mrp.production').browse(cr, uid, invalid_ids, context=None):
             if production.state not in ['confirmed','ready']:
@@ -57,9 +58,12 @@ class mrp_production(orm.Model):
             if production.product_uos != main_obj.product_uos:
                 raise orm.except_orm(_('Error !'), _('Production order "%s" UOS is different from the one in the first selected order.') % production.name)
             product_qty += production.product_qty
+            if production.priority > priority:
+                priority = production.priority
 
         self.write(cr, uid, ids, {
             'merged_into_id': main_obj.id,
+            'priority': priority,
         }, context)
 
         workflow = netsvc.LocalService("workflow")

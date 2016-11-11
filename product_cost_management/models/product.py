@@ -35,7 +35,13 @@ class product_product(osv.osv):
     _columns = {
         'cost_structure_id': fields.property(type='many2one',
                                              relation='cost.structure',
-                                             string="Cost Structure")
+                                             string="Cost Structure"),
+        'forecasted_price': fields.property(type = 'float', digits_compute=dp.get_precision('Product Price'), 
+                                          help="Forecasted cost price used to calculate an alternative BoM cost based on this value. If set to 0, the standard price is used instead.",
+                                          groups="base.group_user", string="Forecasted Cost Price"),
+        'cost_price_for_pricelist': fields.property(type = 'float', digits_compute=dp.get_precision('Product Price'), 
+                                          help="Cost price for price list. Used, for example, to calculate product price list based on.",
+                                          groups="base.group_user", string="Cost price for price list"),
     }
 
     def action_show_product_costs(self, cr, uid, ids, context=None):
@@ -55,35 +61,22 @@ class product_product(osv.osv):
         return value
 
     def action_update_product_costs(self, cr, uid, ids, context=None):
-        if context is None:
+        if context is None: 
             context = {}
-        prod_cost = self.pool.get('product.cost')
-        line = self.pool.get('product.cost.lines')
-        prod = self.pool.get('product.product')
-        vals = {}
+        c = context.copy()
+        c['cron'] = True
+        c['update_costs'] = True
+        c['register_costs'] = False
+        
+        return self.pool.get('product.costs.line').get_product_costs(cr, uid, ids, c)
 
-        if context.get('product_id', False):
-            pro = [context['product_id']]
-        else:
-            pro = prod.search(cr, uid, [])
-        for product in prod.browse(cr, uid, pro):
-            if product.cost_structure_id and product.cost_structure_id.elements:
-                cost_ids = prod_cost.search(cr,
-                                            uid,
-                                            [('product_id', '=', product.id)],
-                                            order="date desc")
-                if cost_ids:
-                    lines = line.search(cr,
-                                        uid,
-                                        [('product_cost_id', '=', cost_ids[0]),
-                                         ('total', '=', True),
-                                         ('inventory', '=', True)],
-                                        order="sequence desc")
-                    if lines:
-                        line_cost = line.browse(cr, uid, lines[0])
-                        vals = {'theoric_cost':
-                                line_cost.theoric_cost}
-        return vals
+    def reset_forecasted_price(self, cr, uid, ids, context=None):
+        domain = [('forecasted_price', '<>', 0.0)]
+        ids = self.pool.get('product.product').search(cr, uid, domain, context=context)
+        if ids:
+            self.pool.get('product.product').write(cr, uid, ids, {'forecasted_price': 0.0})
+            
+        return True
 
 
 class product_cost(osv.osv):
@@ -114,12 +107,18 @@ class product_cost_lines(osv.osv):
         for prod_cost_line in self.browse(cr, uid, ids, context):
             res[prod_cost_line.id] = {
                 'tc_rc_percent': 0.0,
+                'tc_fc_percent': 0.0,
             }
 
             if prod_cost_line.real_cost:
                 res[prod_cost_line.id]['tc_rc_percent'] = 100 * ((prod_cost_line.theoric_cost / prod_cost_line.real_cost) - 1)
             else:
                 res[prod_cost_line.id]['tc_rc_percent'] = 100
+
+            if prod_cost_line.forecasted_cost:
+                res[prod_cost_line.id]['tc_fc_percent'] = 100 * ((prod_cost_line.theoric_cost / prod_cost_line.forecasted_cost) - 1)
+            else:
+                res[prod_cost_line.id]['tc_fc_percent'] = 100
 
         return res
 
@@ -129,8 +128,12 @@ class product_cost_lines(osv.osv):
         'name': fields.char('Name', size=255, required=True),
         'theoric_cost': fields.float('Theoric Cost', required=True, digits=(16,3)),
         'real_cost': fields.float('Real Cost', required=True, digits=(16, 3)),
+        'forecasted_cost': fields.float('Forecasted Cost', required=True, digits=(16, 3)),
         'tc_rc_percent': fields.function(_cost_percent, method=True,
                                          string=_('TC vs RC (%)'), type='float',
+                                         digits=(4, 2), multi='cost_percent'),
+        'tc_fc_percent': fields.function(_cost_percent, method=True,
+                                         string=_('TC vs FC (%)'), type='float',
                                          digits=(4, 2), multi='cost_percent'),
         'inventory': fields.boolean('Inventory'),
         'total': fields.boolean('Total'),
@@ -141,6 +144,7 @@ class product_cost_lines(osv.osv):
     _defaults = {
         'theoric_cost': 0.0,
         'real_cost': 0.0,
+        'forecasted_cost': 0.0,
         'inventory': False,
         'total': False,
     }

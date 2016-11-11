@@ -41,22 +41,30 @@ class StockMove(models.Model):
                     self.write(cr, uid, [move.id], {'price_unit': price},
                                context=context)
 
-    def update_product_price(self, cr, uid, ids, context=None):
+    def quant_price_update_after_produce(self, cr, uid, ids, context=None):
+        t_quant = self.pool.get('stock.quant')
+        for move in self.browse(cr, uid, ids, context=context):
+            self.get_price_from_cost_structure(cr, uid, ids, context)
+            quant_ids = [x.id for x in move.quant_ids]
+            t_quant.write(cr, SUPERUSER_ID, quant_ids,
+                          {'cost': move.price_unit}, context=context)
+        
+    def product_price_update_after_produce(self, cr, uid, ids, context=None):
         """ Copy function of product_price_update_before_done with productions
             locations
         """
         product_obj = self.pool.get('product.product')
         tmpl_dict = {}
         for move in self.browse(cr, uid, ids, context=context):
-            # Adapt standard price on incomming OR PRODUCTION moves if
+            # Adapt standard price on production moves if
             # the product cost_method is 'average'
-            if (move.location_id.usage in ('supplier', 'production')) and \
+            if (move.location_id.usage in ('production')) and \
                     (move.product_id.cost_method == 'average'):
                 product = move.product_id
                 prod_tmpl_id = move.product_id.product_tmpl_id.id
                 qty_available = move.product_id.product_tmpl_id.qty_available
-                # Becouse move is done and we dont want the move qty yet
-                qty_available -= move.product_uom_qty
+                # Because move is done and we don't want the move qty yet
+                qty_available -= move.product_qty
                 if qty_available <= 0:
                     qty_available = 0.0
                 if tmpl_dict.get(prod_tmpl_id):
@@ -70,15 +78,25 @@ class StockMove(models.Model):
                     # Get the standard price
                     amount_unit = product.standard_price
                     new_std_price = ((amount_unit * product_avail) +
-                                     (move.price_unit * move.product_qty)) /\
-                        (product_avail + move.product_qty)
-                tmpl_dict[prod_tmpl_id] += move.product_qty
-                # Write the standard price, as SUPERUSER_ID because  warehouse
-                # manager may not have the right to rite on products
+                                     (move.price_unit * move.product_qty)) / \
+                                     (product_avail + move.product_qty)
+                tmpl_dict[prod_tmpl_id] -= move.product_qty
+                # Write the standard price, as SUPERUSER_ID because a warehouse manager
+                # may not have the right to write on products
                 ctx = dict(context or {}, force_company=move.company_id.id)
-                product_obj.write(cr, SUPERUSER_ID, [product.id],
-                                  {'standard_price': new_std_price},
+                product_obj.write(cr, SUPERUSER_ID, [product.id], 
+                                  {'standard_price': new_std_price}, 
                                   context=ctx)
+                
+    def action_done(self, cr, uid, ids, context=None):
+        res = super(StockMove, self).action_done(cr, uid, ids, context=context)
+        move_ids = [x.id for x in self.browse(cr, uid, ids, context=context)
+                    if x.state in ('done') and not x.scrapped and x.production_id]
+        if move_ids:
+            self.quant_price_update_after_produce(cr, uid, move_ids, context=context)
+            self.product_price_update_after_produce(cr, uid, move_ids, context=context)
+
+        return res
 
 
 class StockQuant(models.Model):
