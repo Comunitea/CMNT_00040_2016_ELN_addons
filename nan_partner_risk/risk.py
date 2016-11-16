@@ -130,15 +130,14 @@ class partner(osv.osv):
             # to the bank but have not yet been reconciled (or the date_maturity has not been reached).
             amount = 0.0
             for line in self.pool.get('account.move.line').browse( cr, uid, line_ids, context ):
-                # odoo v8 code
-                # if line.currency_id:
-                #     sign = line.amount_currency < 0 and -1 or 1
-                # else:
-                #     sign = (line.debit - line.credit) < 0 and -1 or 1
-                # amount += sign * line.amount_residual
-
-                # Pedro Code
-                amount += line.debit - line.credit
+                if line.currency_id:
+                    sign = line.amount_currency < 0 and -1 or 1
+                else:
+                    sign = (line.debit - line.credit) < 0 and -1 or 1
+                if line.reconcile_partial_id:
+                     amount += line.debit - line.credit
+                else:
+                    amount += sign * line.amount_residual
             res[partner.id] = amount
         return res
 
@@ -161,15 +160,14 @@ class partner(osv.osv):
             # to the bank but have not yet been reconciled (or the date_maturity has not been reached).
             amount = 0.0
             for line in self.pool.get('account.move.line').browse( cr, uid, line_ids, context ):
-                # odoo v8 code.
-                # if line.currency_id:
-                #     sign = line.amount_currency < 0 and -1 or 1
-                # else:
-                #     sign = (line.debit - line.credit) < 0 and -1 or 1
-                # amount += sign * line.amount_residual
-
-                # Pedro Code
-                amount += -line.amount_to_pay
+                if line.currency_id:
+                    sign = line.amount_currency < 0 and -1 or 1
+                else:
+                    sign = (line.debit - line.credit) < 0 and -1 or 1
+                if line.reconcile_partial_id:
+                    amount += line.debit - line.credit
+                else:
+                    amount += sign * line.amount_residual
             res[partner.id] = amount
         return res
 
@@ -177,18 +175,11 @@ class partner(osv.osv):
         res = {}
         today = time.strftime('%Y-%m-%d')
         for id in ids:
-            # odoo v8 code
-            # invids = self.pool.get('account.invoice').search( cr, uid, [
-            #     ('partner_id','child_of',[id]),
-            #     ('state','=','draft'),
-            #     '|', ('date_due','>=',today), ('date_due','=',False)
-            # ], context=context )
-
-            invids = self.pool.get('account.invoice').search(cr, uid, [
-                ('partner_id', '=', id),
-                ('state', '=', 'draft'),
-                '|', ('date_due', '>=', today), ('date_due', '=', False)
-            ], context=context)
+            invids = self.pool.get('account.invoice').search( cr, uid, [
+                ('partner_id','child_of',[id]),
+                ('state','=','draft'),
+                '|', ('date_due','>=',today), ('date_due','=',False)
+            ], context=context )
             val = 0.0
             for invoice in self.pool.get('account.invoice').browse( cr, uid, invids, context ):
                 # Note that even if the invoice is in 'draft' state it can have an account.move because it
@@ -206,35 +197,20 @@ class partner(osv.osv):
     def _pending_orders_amount(self, cr, uid, ids, name, arg, context=None):
         res = {}
         for id in ids:
-            # odoo v8 code
-            # sids = self.pool.get('sale.order').search( cr, uid, [
-            #     ('partner_id','child_of',[id]),
-            #     ('state','not in',['draft','cancel','wait_risk'])
-            # ], context=context )
-            
             sids = self.pool.get('sale.order').search( cr, uid, [
-                ('partner_id', '=', id),
+                ('partner_id', 'child_of', [id]),
                 ('order_policy', 'not in', ['no_bill']),
-                ('invoice_ids', '=', False),
-                ('state', 'not in', ['draft', 'cancel', 'wait_risk', 'shipping_except'])
+                ('invoice_ids', '=', False), #Esta condicion es posible que no sea necesaria
+                ('state', 'not in', ['draft', 'cancel', 'wait_risk', 'sent'])
             ], context=context)
             total = 0.0
-            # odoo v8 code
-            # for order in self.pool.get('sale.order').browse(cr, uid, sids, context):
-            #     total += order.amount_total - order.amount_invoiced
-
-            # Pedro Code
             for order in self.pool.get('sale.order').browse(cr, uid, sids, context):
-                #total += order.amount_total
-                #En lugar de usar la linea anterior usamos el if y lo que esta dentro
-                #porque a pesar del search de sids comprobamos igualmente si hay al menos un albaran relacionado en estado no cancelado
-                #ya que al cancelar un envío hasta que entran los planificadores noa ctualiza el estado a 'shipping_except' y además se
-                #podria poner como realizado el pedido posteriormente por error.
-                if order.picking_ids: 
-                    for picking in order.picking_ids:
-                        if picking.state != 'cancel':
-                            total += order.amount_total
-                            break
+                if not order.picking_ids:
+                    total += order.amount_total
+                else:
+                    total += sum([x.amount_total
+                                for x in order.picking_ids
+                                if x.state not in ('cancel') and x.invoice_state in ('2binvoiced')])
             res[id] = total
         return res
 
@@ -242,11 +218,10 @@ class partner(osv.osv):
         res = {}
         for partner in self.browse( cr, uid, ids, context ):
             pending_orders = partner.pending_orders_amount or 0.0
-            circulating = partner.circulating_amount or 0.0  # Pedro Code
             unpayed = partner.unpayed_amount or 0.0
             pending = partner.pending_amount or 0.0
             draft_invoices = partner.draft_invoices_amount or 0.0
-            res[partner.id] = pending_orders + unpayed + pending + draft_invoices + circulating # Pedro code
+            res[partner.id] = pending_orders + unpayed + pending + draft_invoices
         return res
 
     def _available_risk(self, cr, uid, ids, name, arg, context=None):
@@ -264,31 +239,6 @@ class partner(osv.osv):
                 res[partner.id] = 100
         return res
 
-    # PEDRO CUSTOMIZATIONS
-    def _circulating_amount(self, cr, uid, ids, name, arg, context=None):
-        res = {}
-        today = time.strftime('%Y-%m-%d')
-        for partner in self.browse(cr, uid, ids, context):
-            accounts = []
-            if partner.property_account_receivable:
-                accounts.append( partner.property_account_receivable.id )
-            if partner.property_account_payable:
-                accounts.append( partner.property_account_payable.id )
-            line_ids = self.pool.get('account.move.line').search( cr, uid, [
-                ('partner_id', '=', partner.id), 
-                ('account_id', 'in', accounts), 
-                ('reconcile_id', '=', False), 
-                '|', ('date_maturity', '>=', today), ('date_maturity', '=', False)
-            ], context=context) 
-            # Those that have amount_to_pay == 0, will mean that they're circulating. The payment request has been sent
-            # to the bank but have not yet been reconciled (or the date_maturity has not been reached).
-            amount = 0.0
-            for line in self.pool.get('account.move.line').browse( cr, uid, line_ids, context ):
-                # amount += line.debit - line.credit
-                amount += line.debit - line.credit + line.amount_to_pay
-            res[partner.id] = amount
-        return res
-
     _columns = {
         'unpayed_amount': fields.function(_unpayed_amount, method=True, string=_('Expired Unpaid Payments'), type='float'),
         'pending_amount': fields.function(_pending_amount, method=True, string=_('Unexpired Pending Payments'), type='float'),
@@ -296,6 +246,7 @@ class partner(osv.osv):
         'pending_orders_amount': fields.function(_pending_orders_amount, method=True, string=_('Uninvoiced Orders'), type='float'),
         'total_debt': fields.function(_total_debt, method=True, string=_('Total Debt'), type='float'),
         'available_risk': fields.function(_available_risk, method=True, string=_('Available Credit'), type='float'),
-        'total_risk_percent': fields.function(_total_risk_percent, method=True, string=_('Credit Usage (%)'), type='float'),
-        'circulating_amount': fields.function(_circulating_amount, method=True, string=_('Payments Sent to Bank'), type='float'),  # Pedrfo Field
+        'total_risk_percent': fields.function(_total_risk_percent, method=True, string=_('Credit Usage (%)'), type='float')
     }
+partner()
+
