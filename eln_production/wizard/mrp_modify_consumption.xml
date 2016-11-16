@@ -11,7 +11,7 @@
                 <form string="Modify consumptions">
                     <group>
                         <field name="line_ids" nolabel="1">
-                            <tree editable="bottom" create="false">
+                            <tree editable="bottom" create="true">
                                 <field name="product_id"/>
                                 <field name="product_qty"/>
                                 <button name="split" string="split" type="object" icon="STOCK_PREFERENCES"/>
