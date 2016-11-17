@@ -332,14 +332,10 @@
                 </button>
 
                 <tree string="Consumed Products" position="attributes">
-                    <attribute name="editable">0</attribute>
+                    <attribute name="editable"></attribute>
                 </tree>
-
+                
                 <page string="Work Orders" position="replace">
-                    <!--<page string="pruebas">
-                        <field name="move_lines_str"/>
-                        <field name="move_lines2_str"/>
-                    </page>-->
                     <page string="Work Orders">
                         <button name="action_compute" states="draft,confirmed,ready,finished,validated,closed"
                             string="Compute Data" type="object"
