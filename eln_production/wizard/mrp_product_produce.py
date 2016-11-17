@@ -18,7 +18,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp import models, fields, api
+from openerp import models, fields, api, exceptions, _
 
 
 class MrpProductProduce(models.TransientModel):
@@ -26,6 +26,16 @@ class MrpProductProduce(models.TransientModel):
 
     mode = fields.Selection(selection_add=[('produce', 'Solo fabricar')])
 
+    @api.model
+    def default_get(self, fields):
+        #Comprobamos stock al abrir el wizard para que quede reflejado al cerrarlo en move_lines si cerramos el wizard
+        #Es posible que se pueda hacer de otra forma mejor. Revisar.
+        res = super(MrpProductProduce, self).default_get(fields)
+        production_id = self._context.get('active_id', False)
+        production = self.env['mrp.production'].browse(production_id)
+        production.move_lines.do_unreserve()
+        production.move_lines.action_assign()
+        return res
 
     @api.multi
     def on_change_qty(self, product_qty, consume_lines):
@@ -75,6 +85,9 @@ class MrpProductProduce(models.TransientModel):
                     line.modify_move()
                     modified_moves.append(line.move_id.id)
             self.mapped('consume_lines.move_id').action_assign()
+            if any(item.state not in ['assigned'] for item in self.mapped('consume_lines.move_id')):
+                raise exceptions.Warning(_('Invalid Action!'), _('At least one product does not have enough stock to be consumed.'))
+
         return super(MrpProductProduce, self).do_produce()
 
 class MrpProductProduceLine(models.TransientModel):
@@ -87,9 +100,9 @@ class MrpProductProduceLine(models.TransientModel):
     @api.multi
     def create_move(self):
         self.ensure_one()
-        self.move_id = self.move_id.copy({'product_uom_qty': self.product_qty,
-                                      'restrict_lot_id': self.lot_id.id,
-                                      'location_id': self.location_id.id})
+        self.move_id = self.move_id.copy({'restrict_lot_id': self.lot_id.id,
+                                          'product_uom_qty': self.product_qty,
+                                          'location_id': self.location_id.id})
         self.move_id.action_confirm()
 
     @api.multi

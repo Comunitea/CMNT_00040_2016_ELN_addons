@@ -49,16 +49,13 @@ class MrpModifyConsumptionLine(models.TransientModel):
                                               'product_uom_qty': self.product_qty,
                                               'location_id': self.location_id.id})
             self.move_id.action_confirm()
-            self.move_id.action_assign()
         else:
             if self.product_id.type != 'service':
                 production = self.wiz_id.production_id
-                stock_move_id = production._make_consume_line_from_data(self.wiz_id.production_id, self.product_id, self.product_id.uom_id.id, self.product_qty, False, 0)
-                new_move = self.env['stock.move'].browse([stock_move_id])
-                if self.location_id and self.location_id != new_move.location_id:
-                    new_move.write({'location_id': self.location_id.id})
-                new_move.action_confirm()
-                new_move.action_assign()
+                self.move_id = production._make_consume_line_from_data(self.wiz_id.production_id, self.product_id, self.product_id.uom_id.id, self.product_qty, False, 0)
+                if self.location_id and self.location_id != self.move_id.location_id:
+                    self.move_id.write({'location_id': self.location_id.id})
+                self.move_id.action_confirm()
 
     @api.multi
     def modify_move(self):
@@ -125,4 +122,8 @@ class MrpModifyConsumption(models.TransientModel):
                 line.modify_move()
                 modified_moves.append(line.move_id.id)
         self.mapped('line_ids.move_id').action_assign()
+        to_remove_ids = self.mapped('production_id.move_lines') - self.mapped('line_ids.move_id')
+        if to_remove_ids:
+            to_remove_ids.action_cancel()
+            to_remove_ids.unlink()
         return {'type': 'ir.actions.act_window_close'}
