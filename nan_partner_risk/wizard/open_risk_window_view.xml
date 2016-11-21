@@ -12,7 +12,6 @@
                             <field name="unpayed_amount" colspan="2"/>
                             <field name="pending_amount" colspan="2"/>
                             <field name="draft_invoices_amount" colspan="2"/>
-                            <field name="circulating_amount" colspan="2"/>
                             <field name="pending_orders_amount" colspan="2"/>
                             <separator colspan="2"/>
                             <field name="total_debt" colspan="2"/>
