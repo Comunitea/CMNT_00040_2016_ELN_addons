@@ -9,13 +9,30 @@
             <field name="arch" type="xml">
                 <xpath expr="//group[@string='Produce']/field[@name='lot_id']" position="attributes">
                     <attribute name="default_focus">1</attribute>
+                    <attribute name="attrs">{'invisible': [('mode', '=', 'consume')]}</attribute>
+                </xpath>
+                <xpath expr="//group[@string='Produce']/field[@name='product_qty']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('mode', '=', 'consume')]}</attribute>
                 </xpath>
                 <xpath expr="//group[@string='To Consume']" position="attributes">
                     <attribute name="attrs">{'invisible': [('mode', '=', 'produce')]}</attribute>
                 </xpath>
                 <xpath expr="//field[@name='consume_lines']/tree/field[@name='lot_id']" position="after">
-                    <field name="location_id"/>
+                    <field name="location_id" readonly="1"/>
                     <field name="move_id" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='consume_lines']/tree[@string='Consume Lines']" position="attributes">
+                    <attribute name="create">false</attribute>
+                    <attribute name="delete">false</attribute>
+                </xpath>
+                <xpath expr="//field[@name='consume_lines']/tree/field[@name='product_id']" position="attributes">
+                    <attribute name="attrs">{'readonly': 1}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='consume_lines']/tree/field[@name='product_qty']" position="attributes">
+                    <attribute name="attrs">{'readonly': 1}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='consume_lines']/tree/field[@name='lot_id']" position="attributes">
+                    <attribute name="attrs">{'readonly': 1}</attribute>
                 </xpath>
             </field>
         </record>
