@@ -26,17 +26,6 @@ class MrpProductProduce(models.TransientModel):
 
     mode = fields.Selection(selection_add=[('produce', 'Solo fabricar')])
 
-    @api.model
-    def default_get(self, fields):
-        #Comprobamos stock al abrir el wizard para que quede reflejado al cerrarlo en move_lines si cerramos el wizard
-        #Es posible que se pueda hacer de otra forma mejor. Revisar.
-        res = super(MrpProductProduce, self).default_get(fields)
-        production_id = self._context.get('active_id', False)
-        production = self.env['mrp.production'].browse(production_id)
-        production.move_lines.do_unreserve()
-        production.move_lines.action_assign()
-        return res
-
     @api.multi
     def on_change_qty(self, product_qty, consume_lines):
         """
