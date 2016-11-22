@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-18 16:21+0000\n"
-"PO-Revision-Date: 2016-10-18 18:27+0200\n"
+"POT-Creation-Date: 2016-11-21 09:38+0000\n"
+"PO-Revision-Date: 2016-11-21 10:42+0100\n"
 "Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -27,6 +27,12 @@ msgstr "Id activo no se encuentra"
 #: field:mrp.bom,alternatives_routing_ids:0
 msgid "Alternatives routings"
 msgstr "Procesos productivos alternativos"
+
+#. module: eln_production
+#: code:addons/eln_production/wizard/mrp_product_produce.py:89
+#, python-format
+msgid "At least one product does not have enough stock to be consumed."
+msgstr "Al menos un producto no tiene stock suficiente para ser consumido."
 
 #. module: eln_production
 #: view:stock.production.lot:eln_production.view_production_lot_form_add_page
@@ -61,7 +67,7 @@ msgid "BoM line product should not be same as BoM product."
 msgstr "Un producto de línea de LdM no puede ser el mismo que el producto fabricado por la LdM"
 
 #. module: eln_production
-#: code:addons/eln_production/mrp.py:921
+#: code:addons/eln_production/mrp.py:926
 #, python-format
 msgid "Can not recalculate time because not exists objectives datas in the lines of the routing"
 msgstr "No puede recalcular tiempo porque no existen datos objetivos en las líneas de la ruta"
@@ -127,6 +133,11 @@ msgstr "Color stock"
 #: view:mrp.production:eln_production.mrp_production_form_inherit_10
 msgid "Compute Data"
 msgstr "Calcular datos"
+
+#. module: eln_production
+#: view:mrp.production:eln_production.mrp_production_form_inherit_10
+msgid "Consumed Products"
+msgstr "Productos consumidos"
 
 #. module: eln_production
 #: view:mrp.production:eln_production.mrp_production_form_inherit_10
@@ -213,9 +224,9 @@ msgid "Entry qty (kg)"
 msgstr "Cant. entrada (kg)"
 
 #. module: eln_production
-#: code:addons/eln_production/mrp.py:491 code:addons/eln_production/mrp.py:921
-#: code:addons/eln_production/mrp.py:1006
-#: code:addons/eln_production/mrp.py:1016
+#: code:addons/eln_production/mrp.py:491 code:addons/eln_production/mrp.py:926
+#: code:addons/eln_production/mrp.py:1007
+#: code:addons/eln_production/mrp.py:1017
 #, python-format
 msgid "Error!"
 msgstr "¡Error!"
@@ -299,6 +310,7 @@ msgstr "Información"
 
 #. module: eln_production
 #: code:addons/eln_production/mrp.py:269 code:addons/eln_production/mrp.py:300
+#: code:addons/eln_production/wizard/mrp_product_produce.py:89
 #, python-format
 msgid "Invalid Action!"
 msgstr "Acción no válida."
@@ -382,7 +394,7 @@ msgid "Modify"
 msgstr "Modificar"
 
 #. module: eln_production
-#: code:addons/eln_production/wizard/mrp_modify_consumption.py:71
+#: code:addons/eln_production/wizard/mrp_modify_consumption.py:79
 #: model:ir.actions.act_window,name:eln_production.action_mrp_modify_consumption
 #: view:mrp.modify.consumption:eln_production.mrp_modify_consumption_form
 #: view:mrp.production:eln_production.mrp_production_form_inherit_10
@@ -525,6 +537,11 @@ msgstr "Producto a producir"
 #: view:mrp.production.workcenter.line:eln_production.view_mrp_production_workcenter_line_kanban
 msgid "Product:"
 msgstr "Producto: "
+
+#. module: eln_production
+#: field:mrp.modify.consumption,production_id:0
+msgid "Production"
+msgstr "Producción"
 
 #. module: eln_production
 #: field:mrp.production.workcenter.line,production_stops_ids:0
@@ -879,8 +896,8 @@ msgid "You can not modify a work order associated at a production with a state o
 msgstr "No se puede modificar una orden de trabajo asociada a una producción con un estado que no sea 'validada'"
 
 #. module: eln_production
-#: code:addons/eln_production/mrp.py:1006
-#: code:addons/eln_production/mrp.py:1016
+#: code:addons/eln_production/mrp.py:1007
+#: code:addons/eln_production/mrp.py:1017
 #, python-format
 msgid "You cannot delete a production which is not cancelled."
 msgstr "No se puede eliminar una producción que no esté cancelada."
@@ -889,6 +906,11 @@ msgstr "No se puede eliminar una producción que no esté cancelada."
 #: field:mrp.production.workcenter.line,date_expected:0
 msgid "date"
 msgstr "fecha"
+
+#. module: eln_production
+#: view:mrp.product.produce:eln_production.eln_view_mrp_product_produce_wizard
+msgid "false"
+msgstr "false"
 
 #. module: eln_production
 #: view:mrp.modify.consumption:eln_production.mrp_modify_consumption_form
@@ -912,5 +934,15 @@ msgstr "Dividir"
 
 #. module: eln_production
 #: view:mrp.product.produce:eln_production.eln_view_mrp_product_produce_wizard
+msgid "{'invisible': [('mode', '=', 'consume')]}"
+msgstr "{'invisible': [('mode', '=', 'consume')]}"
+
+#. module: eln_production
+#: view:mrp.product.produce:eln_production.eln_view_mrp_product_produce_wizard
 msgid "{'invisible': [('mode', '=', 'produce')]}"
 msgstr "{'invisible': [('mode', '=', 'produce')]}"
+
+#. module: eln_production
+#: view:mrp.product.produce:eln_production.eln_view_mrp_product_produce_wizard
+msgid "{'readonly': 1}"
+msgstr "{'readonly': 1}"

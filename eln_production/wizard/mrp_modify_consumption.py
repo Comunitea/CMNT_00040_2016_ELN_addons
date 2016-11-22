@@ -32,7 +32,7 @@ class MrpModifyConsumptionLine(models.TransientModel):
         digits=dp.get_precision('Product Unit of Measure'))
     lot_id = fields.Many2one('stock.production.lot', 'Lot')
     location_id = fields.Many2one('stock.location', 'Source location')
-    move_id = fields.Many2one('stock.move', 'Move', required=True)
+    move_id = fields.Many2one('stock.move', 'Move')
     wiz_id = fields.Many2one('mrp.modify.consumption', 'Wizard')
 
     @api.multi
@@ -44,10 +44,18 @@ class MrpModifyConsumptionLine(models.TransientModel):
     @api.multi
     def create_move(self):
         self.ensure_one()
-        self.move_id = self.move_id.copy({'product_uom_qty': self.product_qty,
-                                      'restrict_lot_id': self.lot_id.id,
-                                      'location_id': self.location_id.id})
-        self.move_id.action_confirm()
+        if self.move_id:
+            self.move_id = self.move_id.copy({'restrict_lot_id': self.lot_id.id,
+                                              'product_uom_qty': self.product_qty,
+                                              'location_id': self.location_id.id})
+            self.move_id.action_confirm()
+        else:
+            if self.product_id.type != 'service':
+                production = self.wiz_id.production_id
+                self.move_id = production._make_consume_line_from_data(self.wiz_id.production_id, self.product_id, self.product_id.uom_id.id, self.product_qty, False, 0)
+                if self.location_id and self.location_id != self.move_id.location_id:
+                    self.move_id.write({'location_id': self.location_id.id})
+                self.move_id.action_confirm()
 
     @api.multi
     def modify_move(self):
@@ -61,8 +69,8 @@ class MrpModifyConsumption(models.TransientModel):
 
     _name = 'mrp.modify.consumption'
 
-    line_ids = fields.One2many('mrp.modify.consumption.line', 'wiz_id',
-                               'Lines')
+    production_id = fields.Many2one('mrp.production', 'Production')
+    line_ids = fields.One2many('mrp.modify.consumption.line', 'wiz_id', 'Lines')
 
     @api.multi
     def wizard_view(self):
@@ -97,9 +105,10 @@ class MrpModifyConsumption(models.TransientModel):
                 total -= qty
             if total > 0:
                 lines.append({'product_id': move.product_id.id,
+                              'product_qty': total, 
                               'location_id': move.location_id.id,
-                              'product_qty': total, 'move_id': move.id})
-        res.update(line_ids=lines)
+                              'move_id': move.id})
+        res.update(line_ids=lines, production_id=production_id)
         return res
 
     @api.multi
@@ -107,10 +116,14 @@ class MrpModifyConsumption(models.TransientModel):
         self.mapped('line_ids.move_id').do_unreserve()
         modified_moves = []
         for line in self.line_ids.filtered(lambda r: r.product_qty > 0.0):
-            if line.move_id.id in modified_moves:
+            if line.move_id.id in modified_moves or not line.move_id:
                 line.create_move()
             else:
                 line.modify_move()
                 modified_moves.append(line.move_id.id)
         self.mapped('line_ids.move_id').action_assign()
+        to_remove_ids = self.mapped('production_id.move_lines') - self.mapped('line_ids.move_id')
+        if to_remove_ids:
+            to_remove_ids.action_cancel()
+            to_remove_ids.unlink()
         return {'type': 'ir.actions.act_window_close'}
