@@ -35,11 +35,11 @@
             <field name="name">stock.move.reworks.search</field>
             <field name="model">stock.move</field>
             <field name="type">search</field>
-            <field eval="3" name="priority"/>
+            <field eval="5" name="priority"/>
             <field name="arch" type="xml">
                 <search string="Reworks">
                     <group>
-                       <separator orientation="vertical"/>
+                        <separator orientation="vertical"/>
                         <filter icon="terp-go-today" string="Today" domain="[('date','&lt;=',time.strftime('%%Y-%%m-%%d 23:59:59')),('date','&gt;=',time.strftime('%%Y-%%m-%%d 00:00:00'))]" help="Orders processed Today or planned for Today"/>
                         <separator orientation="vertical"/>
                         <field name="name"/>
@@ -64,8 +64,6 @@
             <field name="arch" type="xml">
                 <form string="Reworks">
                     <header>
-
-
                         <button name="%(recover_full_product)d"
                         string="Recover full product" type="action"
                         icon="gtk-convert"
@@ -108,9 +106,7 @@
                             <field name="date" />
                             <field name="date_expected" on_change="onchange_date(date,date_expected)"/>
                         </group>
-
                     </sheet>
-
                 </form>
             </field>
         </record>
