@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-31 08:31+0000\n"
-"PO-Revision-Date: 2016-05-31 10:32+0200\n"
+"POT-Creation-Date: 2016-11-23 10:37+0000\n"
+"PO-Revision-Date: 2016-11-23 11:40+0100\n"
 "Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -34,7 +34,6 @@ msgid "Assign multi"
 msgstr "Comprobar disponibilidad"
 
 #. module: eln_stock
-#: view:postmigration.reconcile.quants:eln_stock.view_postmigration_reconcile_quants
 #: view:stock.picking.assign.multi:eln_stock.stock_picking_assign_multi_form
 #: view:stock.picking.cancel.multi:eln_stock.stock_picking_cancel_multi_form
 #: view:stock.picking.unreserve.multi:eln_stock.stock_picking_unreserve_multi_form
@@ -52,7 +51,6 @@ msgid "Cancel pickings"
 msgstr "Cancelar albaranes"
 
 #. module: eln_stock
-#: field:postmigration.reconcile.quants,create_uid:0
 #: field:stock.picking.assign.multi,create_uid:0
 #: field:stock.picking.cancel.multi,create_uid:0
 #: field:stock.picking.unreserve.multi,create_uid:0
@@ -60,12 +58,16 @@ msgid "Created by"
 msgstr "Created by"
 
 #. module: eln_stock
-#: field:postmigration.reconcile.quants,create_date:0
 #: field:stock.picking.assign.multi,create_date:0
 #: field:stock.picking.cancel.multi,create_date:0
 #: field:stock.picking.unreserve.multi,create_date:0
 msgid "Created on"
 msgstr "Created on"
+
+#. module: eln_stock
+#: view:stock.move:eln_stock.view_move_picking_tree_add_date
+msgid "Date"
+msgstr "Fecha"
 
 #. module: eln_stock
 #: view:stock.picking:eln_stock.view_picking_internal_search
@@ -79,7 +81,6 @@ msgid "Deliveries"
 msgstr "Envíos"
 
 #. module: eln_stock
-#: field:postmigration.reconcile.quants,display_name:0
 #: field:stock.picking.assign.multi,display_name:0
 #: field:stock.picking.cancel.multi,display_name:0
 #: field:stock.picking.unreserve.multi,display_name:0
@@ -97,7 +98,6 @@ msgid "Group By"
 msgstr "Agrupar por"
 
 #. module: eln_stock
-#: field:postmigration.reconcile.quants,id:0
 #: field:stock.picking.assign.multi,id:0 field:stock.picking.cancel.multi,id:0
 #: field:stock.picking.unreserve.multi,id:0
 msgid "ID"
@@ -109,7 +109,6 @@ msgid "Incoterms"
 msgstr "Incoterms"
 
 #. module: eln_stock
-#: field:postmigration.reconcile.quants,__last_update:0
 #: field:stock.picking.assign.multi,__last_update:0
 #: field:stock.picking.cancel.multi,__last_update:0
 #: field:stock.picking.unreserve.multi,__last_update:0
@@ -117,7 +116,6 @@ msgid "Last Modified on"
 msgstr "Last Modified on"
 
 #. module: eln_stock
-#: field:postmigration.reconcile.quants,write_uid:0
 #: field:stock.picking.assign.multi,write_uid:0
 #: field:stock.picking.cancel.multi,write_uid:0
 #: field:stock.picking.unreserve.multi,write_uid:0
@@ -125,12 +123,16 @@ msgid "Last Updated by"
 msgstr "Last Updated by"
 
 #. module: eln_stock
-#: field:postmigration.reconcile.quants,write_date:0
 #: field:stock.picking.assign.multi,write_date:0
 #: field:stock.picking.cancel.multi,write_date:0
 #: field:stock.picking.unreserve.multi,write_date:0
 msgid "Last Updated on"
 msgstr "Last Updated on"
+
+#. module: eln_stock
+#: view:stock.move:eln_stock.view_move_search_add_partially_available
+msgid "Partially Available"
+msgstr "Parcialmente disponible"
 
 #. module: eln_stock
 #: model:ir.model,name:eln_stock.model_res_partner
@@ -150,25 +152,9 @@ msgid "Pickings"
 msgstr "Albaranes"
 
 #. module: eln_stock
-#: view:postmigration.reconcile.quants:eln_stock.view_postmigration_reconcile_quants
-msgid "Process Quants"
-msgstr "Procesar quants"
-
-#. module: eln_stock
 #: model:ir.model,name:eln_stock.model_procurement_order
 msgid "Procurement"
 msgstr "Abastecimiento"
-
-#. module: eln_stock
-#: model:ir.actions.act_window,name:eln_stock.act_reconciliate_quants
-#: model:ir.ui.menu,name:eln_stock.menu_econciliate_quants
-msgid "Reconciliate Quants"
-msgstr "Reconciliar Quants"
-
-#. module: eln_stock
-#: view:postmigration.reconcile.quants:eln_stock.view_postmigration_reconcile_quants
-msgid "Remember to launch this wizard in all your companys."
-msgstr "Acuérdate de lanzar este wizard en todas las compañías."
 
 #. module: eln_stock
 #: view:stock.picking:eln_stock.view_picking_internal_search
@@ -181,9 +167,9 @@ msgid "Stock Move"
 msgstr "Movimiento de existencias"
 
 #. module: eln_stock
-#: view:postmigration.reconcile.quants:eln_stock.view_postmigration_reconcile_quants
-msgid "This wizard will reconcile negative quants for incoming, production or inventory moves."
-msgstr "Este asistente reconciliará quants negativos para la entrada, producción y movimientos de inventario."
+#: view:stock.move:eln_stock.view_move_search_add_partially_available
+msgid "Stock moves that are Partially Available"
+msgstr "Movimientos de existencias que están parcialmente disponibles"
 
 #. module: eln_stock
 #: view:stock.picking:eln_stock.view_picking_internal_search
@@ -192,6 +178,7 @@ msgstr "Realizados Hoy"
 
 #. module: eln_stock
 #: model:ir.actions.act_window,name:eln_stock.stock_picking_unreserve_multi_action
+#: view:stock.move:eln_stock.view_move_form_add_unreserve
 #: view:stock.picking.unreserve.multi:eln_stock.stock_picking_unreserve_multi_form
 msgid "Unreserve"
 msgstr "Anular reservas"
@@ -203,7 +190,6 @@ msgid "onchange_quantity(product_id, product_uom_qty, product_uom, product_uos)"
 msgstr "onchange_quantity(product_id, product_uom_qty, product_uom, product_uos)"
 
 #. module: eln_stock
-#: view:postmigration.reconcile.quants:eln_stock.view_postmigration_reconcile_quants
 #: view:stock.picking.assign.multi:eln_stock.stock_picking_assign_multi_form
 #: view:stock.picking.cancel.multi:eln_stock.stock_picking_cancel_multi_form
 #: view:stock.picking.unreserve.multi:eln_stock.stock_picking_unreserve_multi_form
