@@ -21,7 +21,10 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <header position="inside">
-                     <button name="do_unreserve" states="assigned" string="Cancel Availability" type="object" groups="base.group_user"/>
+                    <field name="partially_available" invisible="1"/>
+                    <button name="do_unreserve" string="Cancel Availability" type="object" groups="base.group_user"
+                             attrs="{'invisible': ['|', '&amp;', ('partially_available','=', False),('state','=','confirmed'),
+                                                   ('state','not in',['assigned','confirmed'])]}"/>
                 </header>
             </field>
         </record>
