@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>
+
+        <record id="view_location_form_add_allow_negative_stock" model="ir.ui.view">
+            <field name="name">stock.location.form.add.allow.negative.stock</field>
+            <field name="model">stock.location</field>
+            <field name="inherit_id" ref="stock.view_location_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="active" position="before">
+                    <field name='allow_negative_stock' groups="stock.group_stock_manager" 
+                           attrs="{'invisible':[('usage','!=','internal')], 'required':[('usage','=','internal')]}"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>
