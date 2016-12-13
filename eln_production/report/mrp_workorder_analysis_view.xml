@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!--
+        Work Order Report
+        -->
+        <record id="view_report_mrp_workorder_graph_add_weight" model="ir.ui.view">
+            <field name="name">mrp.workorder.graph.add.weight</field>
+            <field name="model">mrp.workorder</field>
+            <field name="inherit_id" ref="mrp_operations.view_report_mrp_workorder_graph"/>
+            <field name="arch" type="xml">
+                <field name="total_cycles" position="replace">
+                    <field name="product_weight" type="measure"/>
+                </field>
+            </field>
+        </record>
+
+  </data>
+</openerp>
