@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-21 09:38+0000\n"
-"PO-Revision-Date: 2016-11-21 10:42+0100\n"
+"POT-Creation-Date: 2016-12-13 17:33+0000\n"
+"PO-Revision-Date: 2016-12-13 18:35+0100\n"
 "Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -29,7 +29,7 @@ msgid "Alternatives routings"
 msgstr "Procesos productivos alternativos"
 
 #. module: eln_production
-#: code:addons/eln_production/wizard/mrp_product_produce.py:89
+#: code:addons/eln_production/wizard/mrp_product_produce.py:78
 #, python-format
 msgid "At least one product does not have enough stock to be consumed."
 msgstr "Al menos un producto no tiene stock suficiente para ser consumido."
@@ -310,7 +310,7 @@ msgstr "Información"
 
 #. module: eln_production
 #: code:addons/eln_production/mrp.py:269 code:addons/eln_production/mrp.py:300
-#: code:addons/eln_production/wizard/mrp_product_produce.py:89
+#: code:addons/eln_production/wizard/mrp_product_produce.py:78
 #, python-format
 msgid "Invalid Action!"
 msgstr "Acción no válida."
@@ -526,6 +526,11 @@ msgstr "Fabricar producto"
 #: model:ir.model,name:eln_production.model_mrp_product_produce_line
 msgid "Product Produce Consume lines"
 msgstr "Líneas de consumo de los producto producidos"
+
+#. module: eln_production
+#: field:mrp.workorder,product_weight:0
+msgid "Product Weight"
+msgstr "Peso producto"
 
 #. module: eln_production
 #: view:mrp.production:eln_production.mrp_production_form_inherit_10
@@ -866,6 +871,11 @@ msgstr "Utilización del centro de producción"
 #: model:ir.model,name:eln_production.model_mrp_production_workcenter_line
 msgid "Work Order"
 msgstr "Orden de trabajo"
+
+#. module: eln_production
+#: model:ir.model,name:eln_production.model_mrp_workorder
+msgid "Work Order Report"
+msgstr "Informe orden de trabajo"
 
 #. module: eln_production
 #: view:mrp.production:eln_production.mrp_production_form_inherit_10

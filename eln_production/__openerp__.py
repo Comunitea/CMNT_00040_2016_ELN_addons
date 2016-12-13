@@ -51,6 +51,7 @@
                     'stock_view.xml',
                     'wizard/mrp_product_produce_view.xml',
                     'stock_warehouse_orderpoint_view.xml',
+                    'report/mrp_workorder_analysis_view.xml',
                     ],
     "demo_xml" : [],
     "installable": True
