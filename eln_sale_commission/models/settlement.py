@@ -18,12 +18,14 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp import models, fields, api
+from openerp import models, fields, api, _
+from datetime import datetime
 
 
 class Settlement(models.Model):
     _inherit = "sale.commission.settlement"
-    _rec_name = "agent"
+
+    name = fields.Char('Name', compute='_get_name')
 
     @api.depends('lines', 'lines.settled_amount')
     def _compute_total(self):
@@ -32,6 +34,13 @@ class Settlement(models.Model):
                 sum(((1 -
                     (x.invoice.partner_id.commercial_partner_id.atypical /
                         100)) * x.settled_amount) for x in record.lines)
+
+    @api.multi
+    def _get_name(self):
+        for settlement_id in self:
+            date_from = settlement_id.date_from and datetime.strptime(settlement_id.date_from, "%Y-%m-%d").strftime('%d-%m-%Y')
+            date_to = settlement_id.date_to and datetime.strptime(settlement_id.date_to, "%Y-%m-%d").strftime('%d-%m-%Y')
+            settlement_id.name = _("%s (from: %s, to: %s)") % (settlement_id.agent.name or '', date_from or '', date_to or '')
 
 
 class SettlementLine(models.Model):
@@ -63,6 +72,8 @@ class SettlementLine(models.Model):
     invoiced_amount = fields.Float(related="agent_line.invoiced_amount", store=True)
     atypical = fields.Float('Atypical', group_operator='avg', readonly=True)
     total_atypical = fields.Float('Total without atypical', readonly=True)
+    date_from = fields.Date(related="settlement.date_from", string="From", store=True)
+    date_to = fields.Date(related="settlement.date_to", string="To", store=True)
 
 
 class SaleCommissionMakeSettle(models.TransientModel):
