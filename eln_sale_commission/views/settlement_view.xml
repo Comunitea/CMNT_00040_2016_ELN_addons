@@ -26,6 +26,8 @@
             <field name="inherit_id" ref="sale_commission.view_settlement_line_search"/>
             <field name="arch" type="xml">
                 <field name="agent" position="after">
+                    <field name="date_from"/>
+                    <field name="date_to"/>
                     <field name="partner_id"/>
                     <field name="partner_shipping_id"/>
                 </field>
@@ -40,7 +42,7 @@
         </record>
 
         <record id="action_settlemment_line" model="ir.actions.act_window" >
-            <field name="name">Settlement lines</field>
+            <field name="name">Settlement Lines</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">sale.commission.settlement.line</field>
             <field name="view_type">form</field>

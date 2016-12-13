@@ -6,16 +6,22 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-10 07:01+0000\n"
-"PO-Revision-Date: 2016-08-10 09:01+0200\n"
+"POT-Creation-Date: 2016-12-13 08:38+0000\n"
+"PO-Revision-Date: 2016-12-13 09:39+0100\n"
 "Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"Language: es_ES\n"
+"Plural-Forms: \n"
+"Language: es\n"
 "X-Generator: Poedit 1.8.6\n"
+
+#. module: eln_sale_commission
+#: code:addons/eln_sale_commission/models/settlement.py:43
+#, python-format
+msgid "%s (from: %s, to: %s)"
+msgstr "%s (De: %s, A: %s)"
 
 #. module: eln_sale_commission
 #: view:sale.commission.settlement.line:eln_sale_commission.view_settlement_line_search
@@ -39,6 +45,11 @@ msgid "Commission"
 msgstr "Comisión"
 
 #. module: eln_sale_commission
+#: field:sale.commission.settlement.line,date_from:0
+msgid "From"
+msgstr "De:"
+
+#. module: eln_sale_commission
 #: view:sale.commission.settlement.line:eln_sale_commission.view_settlement_line_search
 msgid "Invoice"
 msgstr "Factura"
@@ -48,6 +59,11 @@ msgstr "Factura"
 #: field:sale.commission.settlement.line,invoiced_amount:0
 msgid "Invoiced amount"
 msgstr "Importe facturado"
+
+#. module: eln_sale_commission
+#: field:sale.commission.settlement,name:0
+msgid "Name"
+msgstr "Nombre"
 
 #. module: eln_sale_commission
 #: model:ir.model,name:eln_sale_commission.model_res_partner
@@ -68,13 +84,9 @@ msgid "Settlement"
 msgstr "Liquidaciones"
 
 #. module: eln_sale_commission
+#: model:ir.actions.act_window,name:eln_sale_commission.action_settlemment_line
 #: model:ir.ui.menu,name:eln_sale_commission.menu_settlement_lines
 msgid "Settlement Lines"
-msgstr "Lineas liquidación"
-
-#. module: eln_sale_commission
-#: model:ir.actions.act_window,name:eln_sale_commission.action_settlemment_line
-msgid "Settlement lines"
 msgstr "Lineas liquidación"
 
 #. module: eln_sale_commission
@@ -87,6 +99,11 @@ msgstr "Liquidaciones"
 #: field:sale.commission.settlement.line,partner_shipping_id:0
 msgid "Shipping Address"
 msgstr "Dirección de envío"
+
+#. module: eln_sale_commission
+#: field:sale.commission.settlement.line,date_to:0
+msgid "To"
+msgstr "A"
 
 #. module: eln_sale_commission
 #: field:sale.commission.settlement.line,total_atypical:0
