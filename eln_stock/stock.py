@@ -166,3 +166,16 @@ class StockMove(models.Model):
 
         return super(StockMove, self).attribute_price(cr, uid, move.with_context(c), context=context)
 
+
+class StockProductionLot(models.Model):
+    _inherit = 'stock.production.lot'
+
+    qty_available = fields.Float('Quantity On Hand', compute='_get_qty_available', store=False)
+
+    @api.multi
+    def _get_qty_available(self):
+        for lot in self:
+            location_ids = [w.view_location_id.id for w in self.env['stock.warehouse'].search([])]
+            lot.qty_available = lot.sudo().product_id.with_context(lot_id=lot.id, location=location_ids).qty_available
+
+
