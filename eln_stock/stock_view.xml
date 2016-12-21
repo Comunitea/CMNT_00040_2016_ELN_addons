@@ -132,7 +132,7 @@
             <field name="inherit_id" ref="stock.view_production_lot_tree"/>
             <field name="arch" type="xml">
                 <field name="create_date" position="after">
-                    <field name="qty_available" sum="Quantity On Hand"/>
+                    <field name="qty_available"/>
                 </field>
             </field>
         </record>

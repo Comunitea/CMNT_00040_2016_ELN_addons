@@ -170,7 +170,7 @@ class StockMove(models.Model):
 class StockProductionLot(models.Model):
     _inherit = 'stock.production.lot'
 
-    qty_available = fields.Float('Quantity On Hand', compute='_get_qty_available', store=False)
+    qty_available = fields.Float('Quantity On Hand', compute='_get_qty_available')
 
     @api.multi
     def _get_qty_available(self):
