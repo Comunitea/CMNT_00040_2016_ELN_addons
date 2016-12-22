@@ -6,9 +6,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-30 22:53+0000\n"
-"PO-Revision-Date: 2016-05-31 00:57+0200\n"
-"Last-Translator: Pedro <pegomez@elnogal.com>\n"
+"POT-Creation-Date: 2016-12-22 14:13+0000\n"
+"PO-Revision-Date: 2016-12-22 15:26+0100\n"
+"Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -99,8 +99,8 @@ msgstr "Editar"
 
 #. module: eln_custom
 #: view:stock.picking:eln_custom.stock_picking_kanban
-msgid "Fecha Real:"
-msgstr "Fecha Real:"
+msgid "Fecha Efectiva:"
+msgstr "Fecha Efectiva:"
 
 #. module: eln_custom
 #: view:stock.picking:eln_custom.stock_picking_kanban
@@ -111,6 +111,11 @@ msgstr "Fecha de solicitud:"
 #: view:stock.picking:eln_custom.view_picking_planning_kanban_search
 msgid "Filters"
 msgstr "Filtros"
+
+#. module: eln_custom
+#: view:stock.picking:eln_custom.view_picking_planning_kanban_search
+msgid "Group By"
+msgstr "Agrupar por"
 
 #. module: eln_custom
 #: field:route,id:0
@@ -178,11 +183,6 @@ msgid "Peso bruto:"
 msgstr "Peso bruto:"
 
 #. module: eln_custom
-#: view:stock.picking:eln_custom.stock_picking_kanban
-msgid "Peso neto:"
-msgstr "Peso neto:"
-
-#. module: eln_custom
 #: model:ir.model,name:eln_custom.model_stock_picking
 msgid "Picking List"
 msgstr "Albarán"
@@ -203,17 +203,14 @@ msgid "Planning Delivery Orders"
 msgstr "Planificación de Albaranes"
 
 #. module: eln_custom
-#: view:stock.picking:eln_custom.stock_picking_kanban
-msgid "Proveedor:"
-msgstr "Proveedor:"
-
-#. module: eln_custom
 #: view:stock.picking:eln_custom.view_picking_planning_kanban_search
 msgid "Ready"
 msgstr "Preparado"
 
 #. module: eln_custom
-#: field:res.partner,route_id:0 field:stock.picking,route_id:0
+#: field:res.partner,route_id:0
+#: view:stock.picking:eln_custom.view_picking_planning_kanban_search
+#: field:stock.picking,route_id:0
 msgid "Route"
 msgstr "Ruta de transporte"
 
@@ -277,19 +274,9 @@ msgid "Total Peso Bruto"
 msgstr "Total peso bruto"
 
 #. module: eln_custom
-#: view:stock.picking:eln_custom.stock_picking_kanban
-msgid "Transportista:"
-msgstr "Transportista:"
-
-#. module: eln_custom
 #: field:stock.picking,volume:0
 msgid "Volume"
 msgstr "Volumen"
-
-#. module: eln_custom
-#: view:stock.picking:eln_custom.stock_picking_kanban
-msgid "Volumen:"
-msgstr "Volumen:"
 
 #. module: eln_custom
 #: view:stock.picking:eln_custom.view_picking_planning_kanban_search
@@ -302,7 +289,7 @@ msgid "Waiting Moves"
 msgstr "Movimientos a la espera"
 
 #. module: eln_custom
-#: code:addons/eln_custom/res_partner.py:59
+#: code:addons/eln_custom/res_partner.py:65
 #, python-format
 msgid "Warning!"
 msgstr "¡Advertencia!"
@@ -318,7 +305,7 @@ msgid "Weigth Net"
 msgstr "Peso neto"
 
 #. module: eln_custom
-#: code:addons/eln_custom/res_partner.py:60
+#: code:addons/eln_custom/res_partner.py:66
 #, python-format
 msgid "You can not change the company of the address. It must be the same as the company of the partner to which it belongs."
 msgstr "No se puede cambiar la compañía de la dirección. Debe ser igual a la compañía de la empresa a la que pertenece."
@@ -329,15 +316,15 @@ msgid "['|','|','|','|', ('display_name','ilike',self),('ref','=',self),('email'
 msgstr "['|','|','|','|', ('display_name','ilike',self),('ref','=',self),('email','ilike',self), ('street', 'ilike', self),('state_id', 'ilike', self) ]"
 
 #. module: eln_custom
-#: view:stock.picking:eln_custom.view_picking_out_form_add_route
+#: view:stock.picking:eln_custom.view_picking_out_form_custom
 #: view:stock.picking:eln_custom.view_picking_out_tree_add_route
 msgid "{\"always_reload\": True}"
 msgstr "{\"always_reload\": True}"
 
 #. module: eln_custom
-#: view:stock.picking:eln_custom.view_picking_out_form_add_route
-msgid "{'show_address':1, 'default_type':'delivery'}"
-msgstr "{'show_address':1, 'default_type':'delivery'}"
+#: view:stock.picking:eln_custom.view_picking_out_form_custom
+msgid "{'show_address': 1, 'default_type': 'delivery'}"
+msgstr "{'show_address': 1, 'default_type': 'delivery'}"
 
 #. module: eln_custom
 #: view:stock.picking:eln_custom.view_picking_out_tree_add_route
