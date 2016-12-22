@@ -14,8 +14,8 @@
             </field>
         </record>
 
-        <record id="view_picking_out_form_add_route" model="ir.ui.view">
-            <field name="name">stock.picking.out.form.add_route</field>
+        <record id="view_picking_out_form_custom" model="ir.ui.view">
+            <field name="name">stock.picking.out.form.custom</field>
             <field name="model">stock.picking</field>
             <field name="inherit_id" ref="stock.view_picking_form"/>
             <field name="type">form</field>
@@ -23,17 +23,17 @@
                 <field name="backorder_id" position="after">
                     <field name="route_id" on_change="onchange_route_id(route_id)"/>
                 </field>
-
                 <field name="partner_id" position="attributes">
-                    <attribute name="context">{'show_address':1, 'default_type':'delivery'}</attribute>
+                    <attribute name="context">{'show_address': 1, 'default_type': 'delivery'}</attribute>
                     <attribute name="options">{"always_reload": True}</attribute>
                 </field>
-
                 <field name="priority" position="after">
                     <field name="weight"/>
                     <field name="packages_uos"/>
                 </field>
-
+                <field name="move_type" position="after">
+                    <field name="purchase_id" attrs="{'invisible': [('purchase_id', '=', False)]}"/>
+                </field>
             </field>
         </record>
 
