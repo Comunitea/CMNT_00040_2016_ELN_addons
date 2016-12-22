@@ -2,6 +2,7 @@
 
 <openerp>
     <data>
+
         <record id="view_location_form_add_sample" model="ir.ui.view">
             <field name="name">stock.location.form.add.sample</field>
             <field name="model">stock.location</field>
@@ -13,5 +14,18 @@
                 </field>
             </field>
         </record>
+
+        <record id="view_move_form" model="ir.ui.view">
+            <field name="name">stock.move.form</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock.view_move_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group/group[@name='origin_grp']/field[@name='picking_id']" position="after">
+                    <field name="production_id" string="Manufacturing Order" attrs="{'invisible': [('production_id', '=', False)]}"/>
+                    <field name="raw_material_production_id" string="Manufacturing Order" attrs="{'invisible': [('raw_material_production_id', '=', False)]}"/>
+                </xpath>
+            </field>
+        </record>
+
     </data>
 </openerp>

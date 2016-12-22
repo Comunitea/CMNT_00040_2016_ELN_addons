@@ -25,7 +25,7 @@ from openerp import api
 class stock_picking(orm.Model):
     _inherit = 'stock.picking'
     _columns = {
-        'supplier_id': fields.many2one('res.partner', 'Supplier', readonly=True,domain = [('supplier','=',True)],states={'draft': [('readonly', False)]}, select=True),
+        'supplier_id': fields.many2one('res.partner', 'Supplier', readonly=True, domain = [('supplier','=',True)], states={'draft': [('readonly', False)]}, select=True),
         'carrier_id': fields.many2one('res.partner', 'Carrier', readonly=True, states={'draft': [('readonly', False)], 'confirmed': [('readonly', False)], 'assigned': [('readonly', False)]}, select=True),
         'requested_date': fields.date('Requested Date', states={'cancel': [('readonly', True)]},
             help="Date by which the customer has requested the items to be delivered."),
@@ -87,12 +87,11 @@ class stock_picking(orm.Model):
             new_date = vals['effective_date']
             for picking in self:
                 if picking.sale_id:
-                    old_date_dic = picking.sale_id._get_effective_date(False,
-                                                                       False)
+                    old_date_dic = picking.sale_id._get_effective_date(False, False)
                     old_date = old_date_dic[picking.sale_id.id]
                     if new_date <= old_date or not picking.sale_id.effective_date:
                         picking.sale_id.effective_date = old_date
-                self._cr.execute(""" UPDATE stock_move SET effective_date=%s WHERE picking_id=%s""", (new_date, picking.id))
+                self._cr.execute("""UPDATE stock_move SET effective_date=%s WHERE picking_id=%s""", (new_date, picking.id))
         return res
 
 
@@ -100,7 +99,7 @@ class stock_move(orm.Model):
     _inherit = 'stock.move'
 
     _columns = {
-        'supplier_id': fields.many2one('res.partner', 'Supplier', readonly=True, domain = [('supplier','=',True)], states={'draft': [('readonly', False)]}, select=True),
+        'supplier_id': fields.related('picking_id', 'supplier_id', type='many2one', relation='res.partner', string='Supplier', readonly=True, select=True, store=False),
         'effective_date': fields.related('picking_id', 'effective_date', type='date', string='Effective Date', readonly=True, store=True,
             help="Date on which the Delivery Order was delivered."),
     }
