@@ -932,14 +932,6 @@ class mrp_production(osv.osv):
         """ Cancels the production order and related stock moves.
         @return: True
         """
-        """
-        Se puede dar el caso de querer cancelar un producción en estado 'confirmed', la cuál no nos va a dejar si tenemos pickings en estado
-        distinto a 'draft' o 'cancel'. Lo que se hace para eso es cancelar el picking primero y aquí es cuando surge el problema. El botón cancelar cuando
-        la producción es 'confirmed' llama directamente a esta función, pero cuando se cancela el picking el botón cancelar dispara el flujo hacia el estado 'cancel'
-        (lo que pasa es que se ha cambiado el estado de la producción a 'picking_except')
-        Si en otro instancia del navegador tenemos cargada la vista con el botón de cuando el estado de la producción aun era 'confirmed' y lo pulsamos
-        no estamos moviendo el flujo y por tanto el flujo se queda descoordinado y provoca que el procurement_order se quede en 'running' siempre
-        """
         if context is None:
             context = {}
 
@@ -1008,7 +1000,7 @@ class mrp_production(osv.osv):
         
         for production in self.browse(cr, uid, ids, context=context):
             if production.state in ('draft', 'confirmed', 'ready', 'in_production'):
-                super(mrp_production, self).action_cancel(cr, uid, [production.id], context=context)
+                self.action_cancel(cr, uid, [production.id], context=context)
             if production.state in ('cancel'):
                 move_obj.unlink(cr, uid, [x.id for x in production.move_created_ids2], context=context)
                 move_obj.unlink(cr, uid, [x.id for x in production.move_lines2], context=context)
