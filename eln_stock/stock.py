@@ -135,7 +135,7 @@ class StockMove(models.Model):
         if not res and not (move.procurement_id.sale_line_id or
                             move.origin_returned_move_id.purchase_line_id):
             fiscal_obj = self.pool.get('account.fiscal.position')
-            fpos = move.partner_id.property_account_position
+            fpos = move.picking_id.partner_id.commercial_partner_id.property_account_position
             prod = move.product_id
             taxes = False
             inv_type = context.get('inv_type', False)
@@ -165,6 +165,19 @@ class StockMove(models.Model):
         c.update(company_id=company_id, force_company=company_id)
 
         return super(StockMove, self).attribute_price(cr, uid, move.with_context(c), context=context)
+
+    @api.multi
+    def action_done(self):
+        """
+            Por defecto el partner_id del movimiento solo se graba cuando el pedido de venta crea el abastecimiento y es ejecutado.
+            Para poder filtrar movimientos por el partner_id vamos a hacer que todos los movimientos que pertenezcan a un
+            albaran (que tenga establecido el partner_id) escriban ese valor si no tienen ya uno. Se hará al transferir el movimiento.
+        """
+        res = super(StockMove, self).action_done()
+        for move in self:
+            if not move.partner_id and move.picking_id.partner_id:
+                move.write({'partner_id': move.picking_id.partner_id.id})
+        return res
 
 
 class StockProductionLot(models.Model):
