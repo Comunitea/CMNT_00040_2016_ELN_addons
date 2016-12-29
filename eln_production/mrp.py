@@ -35,17 +35,14 @@ from openerp import models, api
 class change_production_qty(osv.osv_memory):
     _inherit = 'change.production.qty'
 
-    def change_prod_qty(self, cr, uid, ids, context=None):
-
-        res = super(change_production_qty, self).change_prod_qty(cr, uid, ids, context=context)
-        prod_obj = self.pool.get('mrp.production')
-        record_id = context and context.get('active_id',False)
-        assert record_id, _('Active Id is not found')
-        for wiz_qty in self.browse(cr, uid, ids, context=context):
-            prod = prod_obj.browse(cr, uid, record_id, context=context)
-            if prod.product_uom and prod.product_uos and prod.product_uos.id == prod.product_id.uos_id.id:
-                prod_obj.write(cr, uid, prod.id, {'product_uos_qty': wiz_qty.product_qty * (prod.product_id.uos_coeff or 1.0)})
-
+    def _update_product_to_produce(self, cr, uid, prod, qty, context=None):
+        res = super(change_production_qty, self)._update_product_to_produce(cr, uid, prod, qty, context=context)
+        uom_obj = self.pool.get('product.uom')
+        move_lines_obj = self.pool.get('stock.move')
+        for m in prod.move_created_ids:
+            if m.product_uos:
+                uos_qty = uom_obj._compute_qty(cr, uid, m.product_uom.id, qty, m.product_uos.id)
+                move_lines_obj.write(cr, uid, [m.id], {'product_uos_qty': uos_qty})
         return res
 
 change_production_qty()
