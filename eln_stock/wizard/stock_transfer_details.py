@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2004-2013 QUIVAL, S.A. All Rights Reserved
+#    Copyright (C) 2004-2016 QUIVAL, S.A. All Rights Reserved
 #    $Pedro Gómez Campos$ <pegomez@elnogal.com>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -18,9 +18,19 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-# from . import stock_invoice_onshipping
-# from . import postmigration_reconcile_quants
-from . import stock_picking_assign_multi
-from . import stock_picking_unreserve_multi
-from . import stock_picking_cancel_multi
-from . import stock_transfer_details
+from openerp import api, _, exceptions, models, fields
+
+
+class StockTransferDetailsItems(models.TransientModel):
+    _inherit = 'stock.transfer_details_items'
+
+    active = fields.Boolean('Active', default=True) 
+    
+    @api.multi 
+    def unlink(self): 
+        if not self._context: 
+            return super(StockTransferDetailsItems, self).unlink() 
+        else: 
+            for line in self: 
+                line.active = False 
+
