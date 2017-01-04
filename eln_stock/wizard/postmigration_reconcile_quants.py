@@ -26,23 +26,26 @@ class postmigration_reconcile_quants(models.TransientModel):
     @api.multi
     def reconcile_quants(self):
         t_move = self.env["stock.move"]
-        stock_warehouses = []
-        
-        for wh in self.env['stock.warehouse'].search([]):
-            if wh.wh_input_stock_loc_id:
-                stock_warehouses.append(wh.wh_input_stock_loc_id.id)
+        #stock_warehouses = []
+        #for wh in self.env['stock.warehouse'].search([]):
+        #    if wh.wh_input_stock_loc_id:
+        #        stock_warehouses.append(wh.wh_input_stock_loc_id.id)
+        user_company_ids = self.env['res.users'].browse(self._uid).company_id
+        user_company_ids += user_company_ids.child_ids
+        company_ids = [x.id for x in user_company_ids]
         domain = [('state', '=', 'done'),
-                  ('location_dest_id', 'in', stock_warehouses),
-                  ('location_id.usage', '!=', 'internal')
+                  #('location_dest_id', 'in', stock_warehouses),
+                  ('location_id.usage', '!=', 'internal'),
+                  ('company_id', 'in', company_ids),
         ]
         move_objs = t_move.search(domain, order='date')
         count = 1
         len_move = len(move_objs)
         for move in move_objs:
-            print("RECONCILIANDO MOVIMIENTO %s de %s" % (count, len_move))
+            print("RECONCILIANDO MOVIMIENTO            %s de %s" % (count, len_move))
             for quant in move.quant_ids:
-                print("RECONCIALIANDO QUANTS DEL MOVIMIENTO %s" % count)
                 if quant.location_id.id == move.location_dest_id.id:  #To avoid we take a quant that was reconcile already
+                    print("RECONCILIANDO QUANTS DEL MOVIMIENTO %s" % count)
                     self.env['stock.quant']._quant_reconcile_negative(quant, move)
             count += 1
         return True
