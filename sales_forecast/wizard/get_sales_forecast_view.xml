@@ -11,6 +11,7 @@
                 <group>
                     <field name="name"/>
                     <field name="account_id"/>
+                    <field name="include_child_ids"/>
                     <field name="percent_increase"/>
                 </group>
                 <newline/>
