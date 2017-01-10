@@ -29,39 +29,50 @@ class get_sales_forecast(osv.osv_memory):
     _description = 'Preload a sales forecast'
     _columns = {
         'name': fields.char('Name', size=64, required=True),
-        'account_id': fields.many2one('account.analytic.account', 'Account',
-                                        required=True),
+        'account_id': fields.many2one('account.analytic.account', 'Account', required=True),
+        'include_child_ids': fields.boolean('Include Child Accounts'),
         'percent_increase': fields.float('% Increase', digits=(16,2))
+    }
+    _defaults = {
+        'include_child_ids': True,
     }
 
     def get_sales_forecast(self, cr, uid, ids, context=None):
         """ Get forecast sales for the selected analytic account and,
                     which may also increase profits in the percentage selected."""
 
-
         if context is None:
             context = {}
-
-        amount = 0.0
-
+        
         new_id = False
 
         products = {}
-        value = {}
 
         invoice_ids = []
-        months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug',
-            'sep', 'oct', 'nov', 'dec']
+        months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 
+                  'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
 
         inv_obj = self.pool.get('account.invoice')
         forecast_obj = self.pool.get('sales.forecast')
         forecast_line_obj = self.pool.get('sales.forecast.line')
         user_obj = self.pool.get('res.users')
-        product_obj = self.pool.get('product.product')
-
+        analytic_obj = self.pool.get('account.analytic.account')
+        
         company_id = user_obj.browse(cr, uid, uid).company_id.id
 
         for form in self.browse(cr, uid, ids):
+            form_analytic_ids = []
+            new_analytic_ids = [form.account_id.id]
+            if form.include_child_ids:
+                while new_analytic_ids:
+                    form_analytic_ids += new_analytic_ids
+                    analytic_ids = new_analytic_ids
+                    new_analytic_ids = []
+                    for account in analytic_obj.browse(cr, uid, analytic_ids, context=context):
+                        new_analytic_ids += map(lambda x: x.id, [child for child in account.child_ids if child.state != 'template'])
+            else:
+                form_analytic_ids = [form.account_id.id]
+        
             #create forecast sales without lines
             new_id = forecast_obj.create(cr, uid, {'name': form.name,
                                                    'analytic_id': form.account_id.id,
@@ -70,12 +81,12 @@ class get_sales_forecast(osv.osv_memory):
                                                    'company_id': company_id,
                                                    'state': 'draft'
                                                     })
-            for month in range(0,11):
+            for month in range(12):
                 #I find all the invoices in for each month last year.
                 domain =  \
-                    [('date_invoice','>',str('01-' + str(month + 1) +
+                    [('date_invoice','>=',str('01-' + str(month + 1) +
                         '-' + str(int(time.strftime('%d-%m-%Y')[6:]) - 1))),
-                    ('date_invoice','<',
+                    ('date_invoice','<=',
                         str((calendar.monthrange((int(time.strftime('%d-%m-%Y')[6:]) - 1),
                         (month + 1))[1])) + '-' + str(month + 1) + '-' +
                         str(int(time.strftime('%d-%m-%Y')[6:]) - 1)),
@@ -83,17 +94,13 @@ class get_sales_forecast(osv.osv_memory):
 
                 invoice_ids = inv_obj.search(cr, uid, domain)
                 if invoice_ids:
-
                     #If invoices, step through lines that share the selected
                     #analytic account and save them in a dictionary, with the
                     #id of product of the line like key:
                     #{Product_Id: [(amount, benefits)]}
                     for inv in inv_obj.browse(cr, uid, invoice_ids):
                         for line in inv.invoice_line:
-                            if line.account_analytic_id and \
-                                    line.account_analytic_id.id == form.account_id.id and \
-                                    line.product_id:
-
+                            if line.account_analytic_id and line.product_id and line.account_analytic_id.id in form_analytic_ids:
                                 quantity = self.pool.get('product.uom')._compute_qty(cr, uid, line.uos_id.id,line.quantity, line.product_id.uom_id.id)
                                 if products.get(line.product_id.id):
                                     new_val = (products[line.product_id.id][0][0] + quantity,
