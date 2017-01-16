@@ -6,16 +6,21 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-21 22:56+0000\n"
-"PO-Revision-Date: 2016-12-21 23:58+0100\n"
-"Last-Translator: Pedro <pegomez@elnogal.com>\n"
+"POT-Creation-Date: 2017-01-16 12:28+0000\n"
+"PO-Revision-Date: 2017-01-16 13:30+0100\n"
+"Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: \n"
-"Language: es\n"
-"X-Generator: Poedit 1.8.11\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: es_ES\n"
+"X-Generator: Poedit 1.8.6\n"
+
+#. module: eln_stock
+#: field:stock.transfer_details_items,active:0
+msgid "Active"
+msgstr "Activo"
 
 #. module: eln_stock
 #: field:stock.picking,address:0
@@ -93,6 +98,11 @@ msgid "Effective Date"
 msgstr "Fecha efectiva"
 
 #. module: eln_stock
+#: field:stock.inventory,estimated_valuation:0
+msgid "Estimated Valuation"
+msgstr "Valoración estimada"
+
+#. module: eln_stock
 #: view:stock.picking:eln_stock.view_picking_internal_search
 msgid "Group By"
 msgstr "Agrupar por"
@@ -107,6 +117,11 @@ msgstr "ID"
 #: model:ir.model,name:eln_stock.model_stock_incoterms
 msgid "Incoterms"
 msgstr "Incoterms"
+
+#. module: eln_stock
+#: model:ir.model,name:eln_stock.model_stock_inventory
+msgid "Inventory"
+msgstr "Inventario"
 
 #. module: eln_stock
 #: field:stock.picking.assign.multi,__last_update:0
@@ -149,6 +164,11 @@ msgstr "Empresa"
 #: model:ir.model,name:eln_stock.model_stock_picking
 msgid "Picking List"
 msgstr "Albarán"
+
+#. module: eln_stock
+#: model:ir.model,name:eln_stock.model_stock_transfer_details_items
+msgid "Picking wizard items"
+msgstr "Elementos del asistente de albarán"
 
 #. module: eln_stock
 #: code:addons/eln_stock/res_partner.py:43
