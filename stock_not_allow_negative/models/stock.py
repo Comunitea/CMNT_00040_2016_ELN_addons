@@ -68,17 +68,12 @@ class StockProductionLot(models.Model):
             restrict_search = restrict_search and (location_id.allow_negative_stock == 'never' or
                             (location_id.allow_negative_stock in ('by_product', False) and not product_id.allow_negative_stock))
             if restrict_search:
-                stock_ids = [x.lot_stock_id.id
-                             for x in self.env['stock.warehouse'].search([])]
-                is_stock = self.env['stock.location'].search(
-                    [('id', 'child_of', stock_ids), ('id', '=', self._context.get('location_id', False))])
-                if is_stock:
-                    quants = self.env['stock.quant'].search(
-                        [('location_id', '=', self._context.get('location_id')),
-                         ('product_id', '=', self._context.get('product_id')),
-                         ('lot_id', '!=', False)])
-                    lot_ids = [x.lot_id.id for x in quants]
-                    args = [('id', 'in', lot_ids)] + args
+                quants = self.env['stock.quant'].search(
+                    [('location_id', '=', self._context.get('location_id')),
+                     ('product_id', '=', self._context.get('product_id')),
+                     ('lot_id', '!=', False)])
+                lot_ids = [x.lot_id.id for x in quants]
+                args = [('id', 'in', lot_ids)] + args
         return super(StockProductionLot, self)._search(
             args, offset, limit, order, count=count, access_rights_uid=access_rights_uid)
 
@@ -95,21 +90,16 @@ class StockProductionLot(models.Model):
             show_stock = show_stock and (location_id.allow_negative_stock == 'never' or
                             (location_id.allow_negative_stock in ('by_product', False) and not product_id.allow_negative_stock))
             if show_stock:
-                stock_ids = [x.lot_stock_id.id
-                             for x in self.env['stock.warehouse'].search([])]
-                is_stock = self.env['stock.location'].search(
-                    [('id', 'child_of', stock_ids), ('id', '=', self._context.get('location_id', False))])
-                if is_stock:
-                    new_res = []
-                    for lot_id, lot_name in res:
-                        quants = self.env['stock.quant'].search(
-                            [('location_id', '=', self._context.get('location_id')),
-                             ('product_id', '=', self._context.get('product_id')),
-                             ('lot_id', '=', lot_id)])
-                        lot_qty = sum(x.qty for x in quants)
-                        new_name = "%s (%s)" % (lot_name, lot_qty)
-                        new_res.append((lot_id, new_name))
-                    res = new_res
+                new_res = []
+                for lot_id, lot_name in res:
+                    quants = self.env['stock.quant'].search(
+                        [('location_id', '=', self._context.get('location_id')),
+                         ('product_id', '=', self._context.get('product_id')),
+                         ('lot_id', '=', lot_id)])
+                    lot_qty = sum(x.qty for x in quants)
+                    new_name = "%s (%s)" % (lot_name, lot_qty)
+                    new_res.append((lot_id, new_name))
+                res = new_res
         return res
 
 class StockLocation(models.Model):
