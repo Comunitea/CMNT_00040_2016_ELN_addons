@@ -104,13 +104,16 @@
             </field>
         </record>
 
-        <record id="view_move_search_add_partially_available" model="ir.ui.view">
-            <field name="name">stock.move.search.add.partially.available</field>
+        <record id="view_move_search_eln_stock" model="ir.ui.view">
+            <field name="name">stock.move.search.eln.stock</field>
             <field name="model">stock.move</field>
             <field name="inherit_id" ref="stock.view_move_search"/>
             <field name="arch" type="xml">
                 <filter name="ready" position="after">
                     <filter icon="terp-camera_test" string="Partially Available" name="partially_available" domain="['&amp;',('partially_available','=',True),('state','in',['confirmed'])]" help="Stock moves that are Partially Available"/>
+                </filter>
+                <filter name="groupby_create_date" position="after">
+                    <filter string="Date" name="groupby_date" icon="terp-go-month" domain="[]" context="{'group_by':'date'}" groups="base.group_no_one"/>
                 </filter>
             </field>
         </record>
@@ -136,6 +139,28 @@
                 </field>
             </field>
         </record>
-        
+
+        <record id="view_inventory_tree" model="ir.ui.view">
+            <field name="name">stock.inventory.tree</field>
+            <field name="model">stock.inventory</field>
+            <field name="inherit_id" ref="stock.view_inventory_tree"/>
+            <field name="arch" type="xml">
+                <field name="date" position="after">
+                    <field name="estimated_valuation"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_inventory_form" model="ir.ui.view">
+            <field name="name">stock.inventory.form</field>
+            <field name="model">stock.inventory</field>
+            <field name="inherit_id" ref="stock.view_inventory_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='date']" position="after">
+                    <field name="estimated_valuation"/>
+                </xpath>
+            </field>
+        </record>
+
     </data>
 </openerp>

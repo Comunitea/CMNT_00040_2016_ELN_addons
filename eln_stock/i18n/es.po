@@ -6,16 +6,21 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-21 22:56+0000\n"
-"PO-Revision-Date: 2016-12-21 23:58+0100\n"
-"Last-Translator: Pedro <pegomez@elnogal.com>\n"
+"POT-Creation-Date: 2017-01-17 17:33+0000\n"
+"PO-Revision-Date: 2017-01-17 18:39+0100\n"
+"Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
 "Language: es\n"
-"X-Generator: Poedit 1.8.11\n"
+"X-Generator: Poedit 1.8.6\n"
+
+#. module: eln_stock
+#: field:stock.transfer_details_items,active:0
+msgid "Active"
+msgstr "Activo"
 
 #. module: eln_stock
 #: field:stock.picking,address:0
@@ -32,6 +37,14 @@ msgstr "Asignar"
 #: view:stock.picking.assign.multi:eln_stock.stock_picking_assign_multi_form
 msgid "Assign multi"
 msgstr "Comprobar disponibilidad"
+
+#. module: eln_stock
+#: code:addons/eln_stock/wizard/stock_invoice_onshipping.py:31
+#, python-format
+msgid "At least one of the selected picking lists are not in 'done' state and cannot be invoiced."
+msgstr ""
+"Al menos uno de los albaranes seleccionados no está en estado 'Transferido' \n"
+"y no puede ser facturado."
 
 #. module: eln_stock
 #: view:stock.picking.assign.multi:eln_stock.stock_picking_assign_multi_form
@@ -66,6 +79,7 @@ msgstr "Created on"
 
 #. module: eln_stock
 #: view:stock.move:eln_stock.view_move_picking_tree_add_date
+#: view:stock.move:eln_stock.view_move_search_eln_stock
 msgid "Date"
 msgstr "Fecha"
 
@@ -93,6 +107,11 @@ msgid "Effective Date"
 msgstr "Fecha efectiva"
 
 #. module: eln_stock
+#: field:stock.inventory,estimated_valuation:0
+msgid "Estimated Valuation"
+msgstr "Valoración estimada"
+
+#. module: eln_stock
 #: view:stock.picking:eln_stock.view_picking_internal_search
 msgid "Group By"
 msgstr "Agrupar por"
@@ -107,6 +126,11 @@ msgstr "ID"
 #: model:ir.model,name:eln_stock.model_stock_incoterms
 msgid "Incoterms"
 msgstr "Incoterms"
+
+#. module: eln_stock
+#: model:ir.model,name:eln_stock.model_stock_inventory
+msgid "Inventory"
+msgstr "Inventario"
 
 #. module: eln_stock
 #: field:stock.picking.assign.multi,__last_update:0
@@ -135,7 +159,7 @@ msgid "Lot/Serial"
 msgstr "Lote/Nº de serie"
 
 #. module: eln_stock
-#: view:stock.move:eln_stock.view_move_search_add_partially_available
+#: view:stock.move:eln_stock.view_move_search_eln_stock
 msgid "Partially Available"
 msgstr "Parcialmente disponible"
 
@@ -149,6 +173,11 @@ msgstr "Empresa"
 #: model:ir.model,name:eln_stock.model_stock_picking
 msgid "Picking List"
 msgstr "Albarán"
+
+#. module: eln_stock
+#: model:ir.model,name:eln_stock.model_stock_transfer_details_items
+msgid "Picking wizard items"
+msgstr "Elementos del asistente de albarán"
 
 #. module: eln_stock
 #: code:addons/eln_stock/res_partner.py:43
@@ -172,12 +201,17 @@ msgid "Route"
 msgstr "Ruta"
 
 #. module: eln_stock
+#: model:ir.model,name:eln_stock.model_stock_invoice_onshipping
+msgid "Stock Invoice Onshipping"
+msgstr "Factura en el envío de existencias"
+
+#. module: eln_stock
 #: model:ir.model,name:eln_stock.model_stock_move
 msgid "Stock Move"
 msgstr "Movimiento de existencias"
 
 #. module: eln_stock
-#: view:stock.move:eln_stock.view_move_search_add_partially_available
+#: view:stock.move:eln_stock.view_move_search_eln_stock
 msgid "Stock moves that are Partially Available"
 msgstr "Movimientos de existencias que están parcialmente disponibles"
 
@@ -192,6 +226,12 @@ msgstr "Realizados Hoy"
 #: view:stock.picking.unreserve.multi:eln_stock.stock_picking_unreserve_multi_form
 msgid "Unreserve"
 msgstr "Anular reservas"
+
+#. module: eln_stock
+#: code:addons/eln_stock/wizard/stock_invoice_onshipping.py:31
+#, python-format
+msgid "Warning!"
+msgstr "¡Advertencia!"
 
 #. module: eln_stock
 #: view:stock.move:eln_stock.view_move_picking_form_add_onchange

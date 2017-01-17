@@ -18,8 +18,8 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-# from . import stock_invoice_onshipping
 # from . import postmigration_reconcile_quants
+from . import stock_invoice_onshipping
 from . import stock_picking_assign_multi
 from . import stock_picking_unreserve_multi
 from . import stock_picking_cancel_multi

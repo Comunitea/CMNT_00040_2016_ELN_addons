@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2004-2013 QUIVAL, S.A. All Rights Reserved
+#    Copyright (C) 2004-2017 QUIVAL, S.A. All Rights Reserved
 #    $Pedro Gómez Campos$ <pegomez@elnogal.com>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -18,14 +18,15 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import osv, fields
-from openerp.tools.translate import _
+from openerp import api, _, exceptions, models, fields
 
+class StockInvoiceOnshipping(models.TransientModel):
+    _inherit = 'stock.invoice.onshipping'
 
-# class StockInvoiceOnshipping(osv.osv_memory):
-#     _inherit = 'stock.invoice.onshipping'
-
-#     def onchange_journal_id(self, cr, uid, ids, journal_id, context=None):
-#         res = super(StockInvoiceOnshipping, self).\
-#             onchange_journal_id(cr, uid, ids, journal_id, context=context)
-#         return res
+    @api.model
+    def view_init(self, fields_list):
+        active_ids = self.env.context.get('active_ids', [])
+        invalid_ids = self.env['stock.picking'].search([('id', 'in', active_ids), ('state', '!=', 'done')])
+        if invalid_ids:
+            raise exceptions.Warning(_("Warning!"), _("At least one of the selected picking lists are not in 'done' state and cannot be invoiced."))
+        return super(StockInvoiceOnshipping, self).view_init(fields_list)

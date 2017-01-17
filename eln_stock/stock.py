@@ -19,6 +19,7 @@
 #
 ##############################################################################
 from openerp import models, fields, api
+import openerp.addons.decimal_precision as dp
 
 
 class StockPicking(models.Model):
@@ -191,4 +192,31 @@ class StockProductionLot(models.Model):
             location_ids = [w.view_location_id.id for w in self.env['stock.warehouse'].search([])]
             lot.qty_available = lot.sudo().product_id.with_context(lot_id=lot.id, location=location_ids).qty_available
 
+
+class StockInventory(models.Model):
+    _inherit = "stock.inventory"
+    _order = 'date desc'
+
+    estimated_valuation = fields.Float('Estimated Valuation', digits=dp.get_precision('Account'), readonly=True)
+
+    def set_estimated_valuation(self):
+        estimated_valuation = 0.0
+        for line in self.line_ids:
+            diff = line.theoretical_qty - line.product_qty
+            if diff:
+                price_unit = line.product_id.standard_price
+                estimated_valuation -= diff * price_unit
+        self.estimated_valuation = estimated_valuation
+        
+    @api.one
+    def write(self, vals):
+        res = super(StockInventory, self).write(vals)
+        if vals.get('line_ids', False) or vals.get('state', False):
+            self.set_estimated_valuation()
+        return res
+
+    @api.one
+    def reset_real_qty(self):
+        super(StockInventory, self).reset_real_qty()
+        self.set_estimated_valuation()
 
