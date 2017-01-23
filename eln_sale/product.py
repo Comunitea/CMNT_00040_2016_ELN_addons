@@ -25,38 +25,14 @@ class product_product(orm.Model):
     _inherit = 'product.product'
 
     def name_search(self, cr, user, name='', args=None, operator='ilike', context=None, limit=100):
+        result = super(product_product, self).name_search(cr, user, name=name, args=args, operator=operator, context=context, limit=limit)
         prodpart = self.pool.get('partner.product')
-        if not args:
-            args = []
-        ids = []
         if name:
             if context.get('partner_id', False):
-                prodids = prodpart.search(cr, user, [('partner_id', '=', context['partner_id']), ('name', operator, name)],limit=limit,context=context)
+                prodids = prodpart.search(cr, user, [('partner_id', '=', context['partner_id']), ('name', '=', name)], limit=limit, context=context)
+                ids = []
                 if prodids:
                     ids = [x.product_id.id for x in prodpart.browse(cr, user, prodids)]
-
-            if not ids:
-                ids = self.search(cr, user, [('default_code','=',name)]+ args, limit=limit, context=context)
-            if not ids:
-                ids = self.search(cr, user, [('ean13','=',name)]+ args, limit=limit, context=context)
-            if not ids:
-                    # Do not merge the 2 next lines into one single search, SQL search performance would be abysmal
-                    # on a database with thousands of matching products, due to the huge merge+unique needed for the
-                    # OR operator (and given the fact that the 'name' lookup results come from the ir.translation table
-                    # Performing a quick memory merge of ids in Python will give much better performance
-                    ids = set()
-                    ids.update(self.search(cr, user, args + [('default_code',operator,name)], limit=limit, context=context))
-                    if len(ids) < limit:
-                        # we may underrun the limit because of dupes in the results, that's fine
-                        ids.update(self.search(cr, user, args + [('name',operator,name)], limit=(limit-len(ids)), context=context))
-                    ids = list(ids)
-            if not ids:
-                    ptrn = re.compile('(\[(.*?)\])')
-                    res = ptrn.search(name)
-                    if res:
-                        ids = self.search(cr, user, [('default_code','=', res.group(2))] + args, limit=limit, context=context)
-        else:
-            ids = self.search(cr, user, args, limit=limit, context=context)
-
-        result = self.name_get(cr, user, ids, context=context)
+                if ids:
+                    result = self.name_get(cr, user, ids, context=context)
         return result
