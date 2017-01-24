@@ -60,5 +60,11 @@ class AccountMove(models.Model):
             self._cr.execute(""" UPDATE account_move_line SET ref=%s WHERE move_id=%s""", (vals['ref'], self.id))
         return super(AccountMove, self).write(vals)
 
+    @api.multi
+    def button_cancel(self):
+        # Impide cancelar un asiento de un periodo cerrado
+        for move in self:
+            self.env['account.move.line']._update_journal_check(move.journal_id.id, move.period_id.id)
+        return super(AccountMove, self).button_cancel()
 
 
