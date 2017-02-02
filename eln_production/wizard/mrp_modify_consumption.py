@@ -23,8 +23,8 @@ import openerp.addons.decimal_precision as dp
 
 
 class MrpModifyConsumptionLine(models.TransientModel):
-
     _name = 'mrp.modify.consumption.line'
+    _order = 'product_id, move_id'
 
     product_id = fields.Many2one('product.product', 'Product', required=True)
     product_qty = fields.Float(
@@ -53,8 +53,9 @@ class MrpModifyConsumptionLine(models.TransientModel):
             if self.product_id.type != 'service':
                 production = self.wiz_id.production_id
                 self.move_id = production._make_consume_line_from_data(self.wiz_id.production_id, self.product_id, self.product_id.uom_id.id, self.product_qty, False, 0)
-                if self.location_id and self.location_id != self.move_id.location_id:
-                    self.move_id.write({'location_id': self.location_id.id})
+                self.move_id.write({'restrict_lot_id': self.lot_id.id,
+                                    'product_uom_qty': self.product_qty,
+                                    'location_id': self.location_id.id})
                 self.move_id.action_confirm()
 
     @api.multi
@@ -66,7 +67,6 @@ class MrpModifyConsumptionLine(models.TransientModel):
 
 
 class MrpModifyConsumption(models.TransientModel):
-
     _name = 'mrp.modify.consumption'
 
     production_id = fields.Many2one('mrp.production', 'Production')
