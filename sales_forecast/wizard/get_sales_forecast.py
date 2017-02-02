@@ -90,6 +90,8 @@ class get_sales_forecast(osv.osv_memory):
                         str((calendar.monthrange((int(time.strftime('%d-%m-%Y')[6:]) - 1),
                         (month + 1))[1])) + '-' + str(month + 1) + '-' +
                         str(int(time.strftime('%d-%m-%Y')[6:]) - 1)),
+                    ('type', 'in', ['out_invoice', 'out_refund']),
+                    ('state', 'in', ['open', 'paid']),
                     ('company_id','=', company_id)]
 
                 invoice_ids = inv_obj.search(cr, uid, domain)
@@ -99,17 +101,17 @@ class get_sales_forecast(osv.osv_memory):
                     #id of product of the line like key:
                     #{Product_Id: [(amount, benefits)]}
                     for inv in inv_obj.browse(cr, uid, invoice_ids):
+                        sign = inv.type in ['in_refund', 'out_refund'] and -1 or 1
                         for line in inv.invoice_line:
                             if line.account_analytic_id and line.product_id and line.account_analytic_id.id in form_analytic_ids:
                                 quantity = self.pool.get('product.uom')._compute_qty(cr, uid, line.uos_id.id,line.quantity, line.product_id.uom_id.id)
                                 if products.get(line.product_id.id):
-                                    new_val = (products[line.product_id.id][0][0] + quantity,
-                                               products[line.product_id.id][0][1] + line.price_subtotal)
+                                    new_val = (products[line.product_id.id][0][0] + sign * quantity,
+                                               products[line.product_id.id][0][1] + sign * line.price_subtotal)
                                     products[line.product_id.id][0] = new_val
                                 else:
                                     products[line.product_id.id] = []
-                                    products[line.product_id.id].append((quantity,
-                                                                    line.price_subtotal))
+                                    products[line.product_id.id].append((sign * quantity, sign * line.price_subtotal))
                     if products:
                         for product in products:
                             if form.percent_increase:
