@@ -44,7 +44,7 @@ class MrpProductProduce(models.TransientModel):
         if context.get('active_id') and context.get('default_mode', False) and \
                 context['default_mode'] == 'consume':
             lines = []
-            for move in production.move_lines:
+            for move in production.move_lines.sorted(key=lambda r: r.product_id.name_get()[0][1]):
                 total = move.product_uom_qty
                 for quant in move.reserved_quant_ids:
                     qty = quant.qty < total and quant.qty or total
@@ -56,8 +56,8 @@ class MrpProductProduce(models.TransientModel):
                     total -= qty
                 if total > 0:
                     lines.append([0, False, {'product_id': move.product_id.id,
-                                  'location_id': move.location_id.id,
                                   'product_qty': total,
+                                  'location_id': move.location_id.id,
                                   'move_id': move.id}])
             res['value']['consume_lines'] = lines
         return res
@@ -80,7 +80,6 @@ class MrpProductProduce(models.TransientModel):
         return super(MrpProductProduce, self).do_produce()
 
 class MrpProductProduceLine(models.TransientModel):
-
     _inherit = 'mrp.product.produce.line'
 
     location_id = fields.Many2one('stock.location', 'Location')
