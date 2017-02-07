@@ -39,13 +39,38 @@ class change_production_qty(osv.osv_memory):
         res = super(change_production_qty, self)._update_product_to_produce(cr, uid, prod, qty, context=context)
         uom_obj = self.pool.get('product.uom')
         move_lines_obj = self.pool.get('stock.move')
+        proc_obj = self.pool.get("procurement.order")
         for m in prod.move_created_ids:
             if m.product_uos:
                 uos_qty = uom_obj._compute_qty(cr, uid, m.product_uom.id, qty, m.product_uos.id)
                 move_lines_obj.write(cr, uid, [m.id], {'product_uos_qty': uos_qty})
+        procs = proc_obj.search(cr, uid, [('production_id', '=', prod.id)], context=context)
+        if procs:
+            procurement = proc_obj.browse(cr, uid, procs, context=context)
+            body = _('Manufacturing Order <em>%s</em> has changed the quantity: %s -> %s') % (procurement.production_id.name, procurement.product_qty, qty)
+            proc_obj.message_post(cr, uid, procs, body=body, context=context)
+            proc_obj.write(cr, uid, procs, {'product_qty': qty, 'product_uos_qty': uos_qty}, context=context)
+        return res
+
+    def change_prod_qty(self, cr, uid, ids, context=None):
+        """ Cuando se cambia la cantidad debe volver a comprobar las reservas, pues si ya estaban hechas
+        era para la cantidad anterior """
+        res = super(change_production_qty, self).change_prod_qty(cr, uid, ids, context=context)
+        record_id = context and context.get('active_id', False)
+        assert record_id, _('Active Id not found')
+        prod_obj = self.pool.get('mrp.production')
+        move_obj = self.pool.get('stock.move')
+        prod = prod_obj.browse(cr, uid, record_id, context=context)
+        # Solo actuamos sobre los movimientos que ya tenían algo reservado
+        # Si había sido forzada la disponibilidad o no se había reservado nunca lo dejamos como está
+        move_ids = [x.id for x in prod.move_lines
+                if x.state in ('confirmed', 'waiting', 'assigned') and len(x.reserved_quant_ids) > 0]
+        move_obj.do_unreserve(cr, uid, move_ids, context=context)
+        move_obj.action_assign(cr, uid, move_ids, context=context)
         return res
 
 change_production_qty()
+
 
 class mrp_workcenter(osv.osv):
     _inherit = 'mrp.workcenter'
