@@ -55,7 +55,7 @@ class MrpModifyConsumptionLine(models.TransientModel):
                 self.move_id = production._make_consume_line_from_data(self.wiz_id.production_id, self.product_id, self.product_id.uom_id.id, self.product_qty, False, 0)
                 self.move_id.write({'restrict_lot_id': self.lot_id.id,
                                     'product_uom_qty': self.product_qty,
-                                    'location_id': self.location_id.id})
+                                    'location_id': self.location_id and self.location_id.id or self.move_id.location_id.id})
                 self.move_id.action_confirm()
 
     @api.multi
