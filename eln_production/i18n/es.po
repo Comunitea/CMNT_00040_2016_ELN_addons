@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-22 15:28+0000\n"
-"PO-Revision-Date: 2016-12-22 16:35+0100\n"
+"POT-Creation-Date: 2017-02-07 17:54+0000\n"
+"PO-Revision-Date: 2017-02-07 18:59+0100\n"
 "Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -18,10 +18,10 @@ msgstr ""
 "X-Generator: Poedit 1.8.6\n"
 
 #. module: eln_production
-#: code:addons/eln_production/mrp.py:43
+#: code:addons/eln_production/mrp.py:60
 #, python-format
-msgid "Active Id is not found"
-msgstr "Id activo no se encuentra"
+msgid "Active Id not found"
+msgstr "Id. activo no encontrado"
 
 #. module: eln_production
 #: field:mrp.bom,alternatives_routing_ids:0
@@ -50,13 +50,13 @@ msgid "Bill of Material"
 msgstr "Lista de material"
 
 #. module: eln_production
-#: code:addons/eln_production/mrp.py:269
+#: code:addons/eln_production/mrp.py:291
 #, python-format
 msgid "BoM \"%s\" contains a BoM line with a product recursion: \"%s\"."
 msgstr "LdM \"%s\" contiene una línea de LdM con la repetición de un producto: \"%s\"."
 
 #. module: eln_production
-#: code:addons/eln_production/mrp.py:300
+#: code:addons/eln_production/mrp.py:322
 #, python-format
 msgid "BoM \"%s\" contains a phantom BoM line but the product \"%s\" does not have any BoM defined."
 msgstr "LdM \"%s\" contiene una LdM fantasma pero el producto \"%s\" no tiene ninguna LdM definida."
@@ -67,7 +67,7 @@ msgid "BoM line product should not be same as BoM product."
 msgstr "Un producto de línea de LdM no puede ser el mismo que el producto fabricado por la LdM"
 
 #. module: eln_production
-#: code:addons/eln_production/mrp.py:926
+#: code:addons/eln_production/mrp.py:948
 #, python-format
 msgid "Can not recalculate time because not exists objectives datas in the lines of the routing"
 msgstr "No puede recalcular tiempo porque no existen datos objetivos en las líneas de la ruta"
@@ -198,7 +198,7 @@ msgid "Done Production"
 msgstr "Realizar producción"
 
 #. module: eln_production
-#: code:addons/eln_production/mrp.py:473
+#: code:addons/eln_production/mrp.py:495
 #, python-format
 msgid "ERROR!"
 msgstr "¡Error!"
@@ -224,9 +224,9 @@ msgid "Entry qty (kg)"
 msgstr "Cant. entrada (kg)"
 
 #. module: eln_production
-#: code:addons/eln_production/mrp.py:491 code:addons/eln_production/mrp.py:926
-#: code:addons/eln_production/mrp.py:1007
-#: code:addons/eln_production/mrp.py:1017
+#: code:addons/eln_production/mrp.py:513 code:addons/eln_production/mrp.py:948
+#: code:addons/eln_production/mrp.py:1021
+#: code:addons/eln_production/mrp.py:1031
 #, python-format
 msgid "Error!"
 msgstr "¡Error!"
@@ -309,7 +309,7 @@ msgid "Information"
 msgstr "Información"
 
 #. module: eln_production
-#: code:addons/eln_production/mrp.py:269 code:addons/eln_production/mrp.py:300
+#: code:addons/eln_production/mrp.py:291 code:addons/eln_production/mrp.py:322
 #: code:addons/eln_production/wizard/mrp_product_produce.py:78
 #, python-format
 msgid "Invalid Action!"
@@ -374,12 +374,18 @@ msgid "Manufacturing Order"
 msgstr "Orden de producción"
 
 #. module: eln_production
+#: code:addons/eln_production/mrp.py:50
+#, python-format
+msgid "Manufacturing Order <em>%s</em> has changed the quantity: %s -> %s"
+msgstr "La orden de producción <em>%s</em> ha cambiado la cantidad: %s -> %s"
+
+#. module: eln_production
 #: view:mrp.production:eln_production.mrp_production_tree_view
 msgid "Manufacturing Orders"
 msgstr "Órdenes de producción"
 
 #. module: eln_production
-#: code:addons/eln_production/mrp.py:491
+#: code:addons/eln_production/mrp.py:513
 #, python-format
 msgid "Manufacturing order cannot be started in state \"%s\"!"
 msgstr "La orden de producción no se puede iniciar en estado \"%s\""
@@ -462,7 +468,7 @@ msgid "Out qty (kg)"
 msgstr "Cant. salida (kg)"
 
 #. module: eln_production
-#: code:addons/eln_production/mrp.py:695
+#: code:addons/eln_production/mrp.py:717
 #: code:addons/eln_production/stock_move.py:82
 #, python-format
 msgid "PROD: %s"
@@ -901,14 +907,14 @@ msgid "Yesterday"
 msgstr "Ayer"
 
 #. module: eln_production
-#: code:addons/eln_production/mrp.py:473
+#: code:addons/eln_production/mrp.py:495
 #, python-format
 msgid "You can not modify a work order associated at a production with a state other than 'validated'"
 msgstr "No se puede modificar una orden de trabajo asociada a una producción con un estado que no sea 'validada'"
 
 #. module: eln_production
-#: code:addons/eln_production/mrp.py:1007
-#: code:addons/eln_production/mrp.py:1017
+#: code:addons/eln_production/mrp.py:1021
+#: code:addons/eln_production/mrp.py:1031
 #, python-format
 msgid "You cannot delete a production which is not cancelled."
 msgstr "No se puede eliminar una producción que no esté cancelada."
