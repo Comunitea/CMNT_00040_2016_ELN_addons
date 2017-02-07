@@ -34,8 +34,8 @@ class mrp_production_merge(orm.TransientModel):
         """
         res = super(mrp_production_merge, self).default_get(cr, uid, fields, context=context)
         if context and 'active_ids' in context and context['active_ids']:
-            res.update({'invalid_production_ids':  context['active_ids']})
-
+            res.update({'invalid_production_ids':  context['active_ids'],
+                        'valid_production_id':  min(context['active_ids'])})
         return res
 
     def do_merge(self, cr, uid, ids, context=None):

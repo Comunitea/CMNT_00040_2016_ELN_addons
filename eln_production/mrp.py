@@ -39,10 +39,17 @@ class change_production_qty(osv.osv_memory):
         res = super(change_production_qty, self)._update_product_to_produce(cr, uid, prod, qty, context=context)
         uom_obj = self.pool.get('product.uom')
         move_lines_obj = self.pool.get('stock.move')
+        proc_obj = self.pool.get("procurement.order")
         for m in prod.move_created_ids:
             if m.product_uos:
                 uos_qty = uom_obj._compute_qty(cr, uid, m.product_uom.id, qty, m.product_uos.id)
                 move_lines_obj.write(cr, uid, [m.id], {'product_uos_qty': uos_qty})
+        procs = proc_obj.search(cr, uid, [('production_id', '=', prod.id)], context=context)
+        if procs:
+            procurement = proc_obj.browse(cr, uid, procs, context=context)
+            body = _('Manufacturing Order <em>%s</em> has changed the quantity: %s -> %s') % (procurement.production_id.name, procurement.product_qty, qty)
+            proc_obj.message_post(cr, uid, procs, body=body, context=context)
+            proc_obj.write(cr, uid, procs, {'product_qty': qty, 'product_uos_qty': uos_qty}, context=context)
         return res
 
     def change_prod_qty(self, cr, uid, ids, context=None):
