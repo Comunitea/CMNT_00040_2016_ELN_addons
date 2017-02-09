@@ -87,9 +87,13 @@ class SaleCommissionMakeSettle(models.TransientModel):
         settlement_ids = res['domain'][0][2]
         t_settle = self.env['sale.commission.settlement']
         for settle in t_settle.browse(settlement_ids):
+            line_vals = []
             for l in settle.lines:
                 atypical = l.invoice.partner_id.commercial_partner_id.atypical
                 total_atypical = l.settled_amount * (1 - (atypical / 100))
-                l.write({'atypical': atypical,
-                         'total_atypical': total_atypical})
+                vals = {'settlement': settle.id,
+                        'atypical': atypical,
+                        'total_atypical': total_atypical}
+                line_vals.append([l.id, vals])
+            settle.write({'lines': [(1, x, y) for x, y in line_vals]})
         return res
