@@ -301,7 +301,7 @@
         <menuitem parent="product_sheet_shipments_menu_parent" name="Product Sheet Shipments" id="product_sheet_shipments_menu"
             action="product_sheet_shipments_action" sequence="0" />
         
-         <record id="product_product_tree_view_add_field2" model="ir.ui.view">
+        <record id="product_product_tree_view_add_field2" model="ir.ui.view">
             <field name="name">product.product.tree.add.field2</field>
             <field name="model">product.product</field>
             <field name="inherit_id" ref="product.product_product_tree_view"/>
@@ -316,6 +316,26 @@
                <field name="lst_price" position="before">
                    <field name="qty_dispo"/>
                </field>
+            </field>
+        </record>
+
+        <record id="product_template_search_view" model="ir.ui.view">
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_search_view"/>
+            <field name="arch" type="xml">
+                <field name="name" position="attributes">
+                    <attribute name="filter_domain">['|', '|', ('default_code','ilike',self), ('name','ilike',self), ('ean13','=',self)]</attribute>
+                </field>
+            </field>
+        </record>
+
+        <record id="product_search_form_view" model="ir.ui.view">
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_search_form_view"/>
+            <field name="arch" type="xml">
+                <field name="name" position="attributes">
+                    <attribute name="filter_domain">['|', '|', ('default_code','ilike',self), ('name','ilike',self), ('ean13','=',self)]</attribute>
+                </field>
             </field>
         </record>
 
