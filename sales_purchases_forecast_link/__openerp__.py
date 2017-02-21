@@ -19,7 +19,7 @@
 #
 ##############################################################################
 {
-        "name" : "Sales Purchases Forecast Link",
+        "name" : "Sales and Purchases Forecast Link",
         "version" : "1.0",
         "author" : "Pexego",
         "website" : "http://www.pexego.es",
@@ -37,5 +37,4 @@
             ],
         "installable": True,
         'active': False
-
 }

@@ -25,22 +25,12 @@ class sales_purchase_forecast(osv.osv_memory):
     _name = 'sales.purchase.forecast'
 
     def generate_forecast(self, cr, uid, ids, context=None):
-
         if context is None:
             context = {}
-        validate_ids = []
         if context.get('active_ids', False):
             for cur in self.pool.get('sales.forecast').browse(cr, uid, context['active_ids'], context):
-                if cur.purchase_forecast_id:
-                    raise osv.except_osv(_('Error !'), _('Sales forecast "%s" already has an associated purchase forecast.') % cur.name)
-                if cur.state != 'approve':
-                    raise osv.except_osv(_('Error !'), _('Sales forecast "%s" must be in status "approve".') % cur.name)
-                else:
-                    validate_ids.append(cur.id)
-            if validate_ids:
-                self.pool.get('sales.forecast').generate_purchases_forecast(cr, uid, validate_ids, context)
+                self.pool.get('sales.forecast').generate_purchases_forecast(cr, uid, cur.id, context)
         else:
             raise osv.except_osv(_('Error !'), _('You must select at least one forecast.'))
         
         return {'type': 'ir.actions.act_window_close'}
-

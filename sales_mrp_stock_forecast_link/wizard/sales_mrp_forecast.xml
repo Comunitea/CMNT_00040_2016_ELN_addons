@@ -2,13 +2,13 @@
 
 <openerp>
     <data>
-        <record id="view_sales_purchase_forecast_wizard" model="ir.ui.view">
-            <field name="name">Sales purchase forecast wizard</field>
-            <field name="model">sales.purchase.forecast</field>
+        <record id="view_sales_mrp_forecast_wizard" model="ir.ui.view">
+            <field name="name">Sales mrp forecast wizard</field>
+            <field name="model">sales.mrp.forecast</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
-                <form string="Sales forecast to purchase forecast">
-                    <label string="Are you sure you want to create a purchase forecast for selected sales forecasts?"/>
+                <form string="Sales forecast to mrp forecast">
+                    <label string="Are you sure you want to create a mrp forecast for selected sales forecasts?"/>
                     <separator/>
                     <footer>
                         <button string="Cancel" icon='gtk-cancel' special="cancel" />
@@ -18,13 +18,13 @@
             </field>
         </record>
 
-        <act_window name="Generate purchase forecast"
-            res_model="sales.purchase.forecast"
+        <act_window name="Generate mrp forecast"
+            res_model="sales.mrp.forecast"
             src_model="sales.forecast"
             view_mode="form"
             target="new"
             key2="client_action_multi"
-            id="act_generate_purchase_forecast_sales"/>
+            id="act_generate_mrp_forecast_sales"/>
 
     </data>
 </openerp>

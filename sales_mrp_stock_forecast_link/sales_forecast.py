@@ -18,11 +18,11 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import osv
+from openerp.osv import osv, fields
 import time
+from openerp.tools.translate import _
 
 class sales_forecast(osv.osv):
-
     _inherit = 'sales.forecast'
 
     def generate_stock_forecast(self, cr, uid, ids, context=None):
@@ -30,212 +30,130 @@ class sales_forecast(osv.osv):
             context = {}
         forecast_obj = self.pool.get('forecast.kg.sold')
         forecast_line_obj = self.pool.get('forecast.kg.sold.line')
-        months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug',
-            'sep', 'oct', 'nov', 'dec']
-
+        months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 
+                  'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
+        name = ''
         lines = {}
+        new_id = False
         for cur in self.browse(cr, uid, ids):
             if cur.sales_forecast_lines:
-                new_id = forecast_obj.create(cr, uid, {'name': cur.name,
-                                                   'analytic_id': cur.analytic_id.id,
-                                                   'commercial_id': cur.commercial_id.id,
-                                                   'date': time.strftime('%d-%m-%Y'),
-                                                   'company_id': cur.company_id.id,
-
-                                                   'year': cur.year
-
+                name += (name and ' - ') + cur.name
+                new_id = forecast_obj.create(cr, uid, {'name': _('Forecast of kg sold. Origin: ') + name,
+                                                       'analytic_id': cur.analytic_id.id,
+                                                       'commercial_id': cur.commercial_id.id,
+                                                       'date': time.strftime('%d-%m-%Y'),
+                                                       'company_id': cur.company_id.id,
+                                                       'year': cur.year
                                      })
-                for month in range(0,12):
-
+                for month in range(0, 12):
                     for line in cur.sales_forecast_lines:
-                        if lines.get(line.product_id.format_id.id):
-                            lines[line.product_id.format_id.id] += (eval('o.' + (months[month] + '_qty'),{'o': line})) * line.product_id.weight_net
-                        elif lines.get('undefined'):
-                            lines['undefined'] += (eval('o.' + (months[month] + '_qty'),{'o': line})) * line.product_id.weight_net
+                        if line.product_id.format_id:
+                            if not lines.get((line.product_id.format_id.id, month)):
+                                lines[line.product_id.format_id.id, month] = 0
+                            lines[line.product_id.format_id.id, month] += (eval('o.' + (months[month] + '_qty'), {'o': line})) * line.product_id.weight_net
                         else:
-                            if line.product_id.format_id:
-                                lines[line.product_id.format_id.id] = (eval('o.' + (months[month] + '_qty'),{'o': line})) * line.product_id.weight_net
-                            else:
-                                lines['undefined'] = (eval('o.' + (months[month] + '_qty'),{'o': line})) * line.product_id.weight_net
-
-                    if lines:
-                        for format in lines:
-                            cur_forecast = forecast_obj.browse(cr, uid, new_id)
-                            l_formats = forecast_line_obj.search(cr, uid,
-                                ['|',('format_id','=', format), ('notes','=', format),
-                                ('kgsold_forecast_id', '=', cur_forecast.id)])
-                            if l_formats:
-                                l = forecast_line_obj.browse(cr, uid, l_formats[0])
-                                forecast_line_obj.write(cr,
-                                                        uid,
-                                                        l.id,
-                                                        {months[month] + '_kg': (eval('o.' + (months[month] + '_kg'),{'o': l})) + lines[format]})
-                            else:
-                                if format == 'undefined':
-                                    forecast_line_obj.create(cr, uid, {
-                                                        'kgsold_forecast_id': new_id,
-                                                        months[month] + '_kg': lines[format],
-                                                        'notes': 'undefined'
-                                                        })
-                                else:
-                                    forecast_line_obj.create(cr, uid, {
-                                                        'kgsold_forecast_id': new_id,
-                                                        months[month] + '_kg': lines[format],
-                                                        'format_id': format
-                                                        })
-
-                        lines = {}
+                            if not lines.get(('undefined', month)):
+                                lines['undefined', month] = 0
+                            lines['undefined', month] += (eval('o.' + (months[month] + '_qty'), {'o': line})) * line.product_id.weight_net
+                if lines:
+                    formats = list(set([element[0] for element in lines]))
+                    for element in formats:
+                        vals = {'kgsold_forecast_id': new_id,
+                                }
+                        if element == 'undefined':
+                            vals['notes'] = _('undefined')
+                        else:
+                            vals['format_id'] = element
+                        for month in range(0, 12):
+                            vals[months[month] + '_kg'] = lines[element, month]
+                        forecast_line_obj.create(cr, uid, vals)
         return new_id
 
     def generate_mrp_forecast(self, cr, uid, ids, context=None):
-
         if context is None:
             context = {}
-
         forecast_obj = self.pool.get('mrp.forecast')
         forecast_line_obj = self.pool.get('mrp.forecast.line')
-        prod = self.pool.get('product.product')
-        bom_obj = self.pool.get('mrp.bom')
         uom_obj = self.pool.get('product.uom')
-
         res = {}
-
-        months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul',
-                'aug', 'sep', 'oct', 'nov', 'dec']
-        def _get_bom_recursivity(line, factor):
-            product = self.pool.get('product.product').browse(cr,
-                                                            uid,
-                                                            line['product_id'])
-            boms = {}
-            for d in product.bom_ids:
-                if not d.bom_id:
-                    bom = d
-
-                    if bom.routing_id:
-                        y, x  = self.pool.get('mrp.bom')._bom_explode(cr,
-                                                                    uid,
-                                                                    bom,
-                                                                    factor / bom.product_qty,
-                                                                    properties=[])\
-                                                                    #
-                                                                    # addthis=False,
-                                                                    # level=0,
-                                                                    # routing_id=False)
-                        boms = x
-
-                        for l in y:
-
-                            product = self.pool.get('product.product').browse(cr,
-                                                                            uid,
-                                                                            l['product_id'])
-                            if product.supply_method == 'produce' and product.bom_ids:
-                                 for c in product.bom_ids:
-                                    if not c.bom_id:
-                                        bom = c
-                                        if bom.routing_id:
-                                             factor = self.pool.get('product.uom')._compute_qty(cr,
-                                                                                                uid,
-                                                                                                product.uom_id.id,
-                                                                                                l['product_qty'],
-                                                                                                bom.product_uom.id)
-                                             a = _get_bom_recursivity(l, factor)
-                                             if a:
-                                                 boms += a
-                                        break
-                    break
-
-            return boms
+        months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 
+                  'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
+        forecast_lines = []
+        forecasts = []
+        name = ''
+        user_company_id = self.pool.get('res.users').browse(cr, uid, uid).company_id
+        company_id = user_company_id and user_company_id.id or False
+        new_id = False
+        
+        def _get_bom_recursivity(bom, factor):
+            product_obj = self.pool.get('product.product')
+            uom_obj = self.pool.get('product.uom')
+            bom_obj = self.pool.get('mrp.bom')
+            res = []
+            res1, res2 = bom_obj._bom_explode(cr, uid, bom, bom.product_id, factor, properties=[])
+            res = res2
+            for item in res1:
+                product_id = product_obj.browse(cr, uid, item['product_id'])
+                bom_id = product_id.bom_ids and product_id.bom_ids[0]
+                if bom_id and not product_id.seller_ids: # Se fabrica
+                    factor = uom_obj._compute_qty(cr, uid,
+                                                item['product_uom'],
+                                                item['product_qty'],
+                                                bom_id.product_uom.id)
+                    factor = factor / bom_id.product_qty
+                    res += _get_bom_recursivity(bom_id, factor)
+            return res
+        
         for cur in self.browse(cr, uid, ids):
+            year = cur.year
             if cur.sales_forecast_lines:
-                new_id = forecast_obj.create(cr, uid, {'name': cur.name,
+                forecasts.append(cur.id)
+                name += (name and ' - ') + cur.name
+                for x in cur.sales_forecast_lines:
+                    forecast_lines.append(x.id)
+        if forecast_lines:
+            new_id = forecast_obj.create(cr, uid, {'name': _('Forecast of production hours. Origin: ') + name,
                                                    'date': time.strftime('%d-%m-%Y'),
-                                                   'company_id': cur.company_id.id,
-
-                                                   'year': cur.year
-                                   })
-
-                for month in range(0,12):
-
-                    for line in cur.sales_forecast_lines:
-
-                        if line.product_id.route_ids[0].name == 'Manufacture':
-
-                            if not line.product_id.bom_ids:
-                                break
-                            else:
-
-                                bom = line.product_id.bom_ids[0]
-                                if not bom.routing_id:
-                                    break
-                                else:
-                                    factor = uom_obj._compute_qty(cr, uid,
-                                                                line.product_id.uom_id.id,
-                                                                (eval('o.' + (months[month] + '_qty'),{'o': line})),
-                                                                 bom.product_uom.id)
-                                    res2, res1  = bom_obj._bom_explode(cr, uid, bom, line.product_id,  factor / bom.product_qty, properties=[])#, addthis=False, level=0, routing_id=False)
-
-                                    if res1:
-                                        lines = res1
-
-                                        # for r in res2:
-                                        #     product = prod.browse(cr, uid, r['product_id'])
-                                        #     if line.product_id.route_ids[0].name == 'Manufacture' and product.bom_ids:
-                                        #          for h in product.bom_ids:
-                                        #              if not h.bom_id:
-                                        #                  bom = h
-                                        #
-                                        #                  if bom.routing_id:
-                                        #                      factor = uom_obj._compute_qty(cr, uid,
-                                        #                                                 product.uom_id.id,
-                                        #                                                 r['product_qty'],
-                                        #                                                 bom.product_uom.id)
-                                        #                      res3 = _get_bom_recursivity(r, factor)
-                                        #                      if res3:
-                                        #                         lines += res3
-                                        #                  break
-                                    for a in lines:
-                                        if res.get(a['workcenter_id']):
-                                            res[a['workcenter_id']][0] += a['hour']
-                                            res[a['workcenter_id']][1] += a['real_time']
-                                        else:
-                                            res[a['workcenter_id']] = []
-                                            res[a['workcenter_id']].append(a['hour'])
-                                            res[a['workcenter_id']].append(a['real_time'])
-                    if res:
-                        for workcenter in res:
-                            cur_forecast = forecast_obj.browse(cr, uid, new_id)
-                            l_workcenters = forecast_line_obj.search(cr, uid,
-                                [('workcenter_id','=', workcenter),
-                                ('mrp_forecast_id', '=', cur_forecast.id)])
-
-                            #If there are already lines created for the same workcenter,
-                            #update the quantities. Else, I create a new line
-                            if l_workcenters:
-                                l = forecast_line_obj.browse(cr, uid, l_workcenters[0])
-                                if l.workcenter_id.id == workcenter:
-                                    forecast_line_obj.write(cr, uid, l.id,
-                                        {months[month] + '_hours': ((res[workcenter][0]) + \
-                                        (eval('o.' + (months[month] + '_hours'),{'o': l}))),
-                                        months[month] + '_real_time': ((res[workcenter][1]) + \
-                                        (eval('o.' + (months[month] + '_real_time'),{'o': l})))
-                                        })
-                            else:
-                                forecast_line_obj.create(cr, uid, {
-                                    'mrp_forecast_id': new_id,
-                                    'workcenter_id': workcenter,
-                                    months[month] + '_hours': res[workcenter][0],
-                                    months[month] + '_real_time': res[workcenter][1] })
-                        res = {}
+                                                   'company_id': company_id,
+                                                   'state': 'draft',
+                                                   'year': year
+                                                    })
+            for month in range(0, 12):
+                for l in forecast_lines:
+                    line = self.pool.get('sales.forecast.line').browse(cr, uid, l)
+                    if line.product_id.bom_ids and not line.product_id.seller_ids: # Se fabrica
+                        bom = line.product_id.bom_ids[0]
+                        if not bom.routing_id:
+                            break
+                        factor = uom_obj._compute_qty(cr, uid,
+                                                    line.product_id.uom_id.id,
+                                                    (eval('o.' + (months[month] + '_qty'), {'o': line})),
+                                                    bom.product_uom.id)
+                        factor = factor / bom.product_qty
+                        lines = _get_bom_recursivity(bom, factor)
+                        for x in lines:
+                            if not res.get((x['workcenter_id'], month)):
+                                res[x['workcenter_id'], month] = [0, 0]
+                            res[x['workcenter_id'], month][0] += x['hour']
+                            res[x['workcenter_id'], month][1] += 0 # En tiempo real ponemos 0. Se cubrirá a mano mes a mes.
+            if res:
+                workcenters = list(set([workcenter[0] for workcenter in res]))
+                for workcenter in workcenters:
+                    vals = {'mrp_forecast_id': new_id,
+                            'workcenter_id': workcenter}
+                    for month in range(0, 12):
+                        vals[months[month] + '_hours'] = res[workcenter, month][0]
+                        vals[months[month] + '_real_time'] = res[workcenter, month][1]
+                    forecast_line_obj.create(cr, uid, vals)
 
         return new_id
 
-
     def action_validate(self, cr, uid, ids, context=None):
-
         if context is None:
             context = {}
         self.generate_stock_forecast(cr, uid, ids, context=context)
         self.generate_mrp_forecast(cr, uid, ids, context=context)
-        return super(sales_forecast, self).action_validate(cr,uid, ids, context=context)
+        
+        return super(sales_forecast, self).action_validate(cr, uid, ids, context=context)
 
-
+sales_forecast()

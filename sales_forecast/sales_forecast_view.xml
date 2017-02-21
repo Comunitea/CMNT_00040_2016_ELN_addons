@@ -9,28 +9,28 @@
             <field name="arch" type="xml">
                 <form string="Sales forecast">
                     <header>
-                        <button name="action_cancel" states="draft,done" string="Cancel"  icon="gtk-cancel"/>
-                        <button name="action_draft" states="cancel,done,approve" string="Set to Draft"  icon="gtk-convert"/>
-                        <button name="action_done" states="draft" string="Confirm" icon="gtk-apply" />
-                        <button name="action_validate" states="done" string="Approve" icon="gtk-go-forward" />
-                        <field name="state" widget="statusbar" statusbar_visible="draft,done, approve, cancel"
+                        <button name="action_cancel" states="draft,done" string="Cancel" type="object" icon="gtk-cancel"/>
+                        <button name="action_draft" states="cancel,done,approve" string="Set to Draft" type="object" icon="gtk-convert"/>
+                        <button name="action_done" states="draft" string="Confirm" type="object" icon="gtk-apply"/>
+                        <button name="action_validate" states="done" string="Approve" type="object" icon="gtk-go-forward"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,done,approve,cancel"
                                        statusbar_colors='{"cancel":"red","draft":"blue"}'/>
                     </header>
                     <group col="6" colspan="4">
                         <group col="4" colspan="4">
-                            <field name="name"/>
-                            <field name="date" required="1"/>
-                            <field name="commercial_id"/>
-                            <field name="company_id" widget="selection"/>
-                            <field name="analytic_id" required="0" />
-                            <field name="pricelist_id" attrs="{'readonly':[('is_merged','=', True)], 'required':[('is_merged','=', False)]}" />
-                            <field name="year" required="0"/>
+                            <field name="name" attrs="{'readonly':[('state','in',('approve','cancel'))]}"/>
+                            <field name="date" required="1" attrs="{'readonly':[('state','in',('approve','cancel'))]}"/>
+                            <field name="commercial_id" attrs="{'readonly':[('state','in',('approve','cancel'))]}"/>
+                            <field name="company_id" widget="selection" attrs="{'readonly':[('state','in',('approve','cancel'))]}"/>
+                            <field name="analytic_id" required="0" attrs="{'readonly':[('state','in',('approve','cancel'))]}"/>
+                            <field name="pricelist_id" attrs="{'readonly':['|',('is_merged','=',True),('state','in',('approve','cancel'))], 'required':[('is_merged','=',False)]}" />
+                            <field name="year" required="0" attrs="{'readonly':[('state','in',('approve','cancel'))]}"/>
                             <field name="is_merged" invisible="1" />
                         </group>
                     </group>
                     <notebook colspan="4">
                         <page string="Lines">
-                            <field colspan="4" name="sales_forecast_lines" nolabel="1" >
+                            <field colspan="4" name="sales_forecast_lines" nolabel="1" attrs="{'readonly':[('state','in',('approve','cancel'))]}">
                                 <tree editable="top" string="">
                                     <field name="product_id"/>
                                     <field name="total_qty"/>
@@ -153,7 +153,7 @@
             </field>
         </record>
 
-        <menuitem id="menu_sales_forecast" name="Sales forecasts"
+        <menuitem id="menu_sales_forecasts" name="Sales forecasts"
                 parent="base.menu_base_partner" sequence="6" />
 
         <record id="view_sales_forecast_filter" model="ir.ui.view">
@@ -191,12 +191,11 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="context">{"search_default_create_uid":uid}</field>
-
         </record>
 
         <menuitem id="menu_sales_forecast_all"
                   name="Sales forecasts"
-                  parent="menu_sales_forecast"
+                  parent="menu_sales_forecasts"
                   action="action_view_sales_forecast_form"
                   sequence="2"/>
 

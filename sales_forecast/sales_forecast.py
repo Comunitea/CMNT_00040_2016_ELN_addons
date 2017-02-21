@@ -24,7 +24,6 @@ import time
 from openerp.tools.translate import _
 
 class sales_forecast(osv.osv):
-
     _name = 'sales.forecast'
     _description = 'Sales forecast'
     _columns = {
@@ -52,51 +51,55 @@ class sales_forecast(osv.osv):
         'state': 'draft',
         'commercial_id': lambda obj, cr, uid, context: uid,
         'is_merged': False,
+        'company_id': lambda self, cr, uid, c: self.pool.get('res.company')._company_default_get(cr, uid, 'sales.forecast', context=c),
+        'date': lambda *a: time.strftime("%Y-%m-%d"),
+        'year': lambda *a: time.strftime("%Y"),
     }
 
     def action_done(self, cr, uid, ids, context=None):
-        months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug',
-            'sep', 'oct', 'nov', 'dec']
+        months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 
+                  'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
         if context is None:
             user = self.pool.get('res.users').browse(cr, uid, uid, context)
             context = {
                 'lang': user.context_lang
             }
-
+        pricelist_obj = self.pool.get('product.pricelist')
+        pricelist_version_obj = self.pool.get('product.pricelist.version')
+        forecast_line_obj = self.pool.get('sales.forecast.line')
         for o in self.browse(cr, uid, ids, context=context):
-
             if o.sales_forecast_lines and o.pricelist_id:
-                pricelist_version_ids = self.pool.get('product.pricelist.version').search(cr, uid, [
-                                                        ('pricelist_id', '=', o.pricelist_id.id),
-                                                        '|',
-                                                        ('date_start', '=', False),
-                                                        ('date_start', '<=', o.date),
-                                                        '|',
-                                                        ('date_end', '=', False),
-                                                        ('date_end', '>=', o.date),
+                pricelist_version_ids = pricelist_version_obj.search(cr, uid, [
+                                                    ('pricelist_id', '=', o.pricelist_id.id),
+                                                    '|',
+                                                    ('date_start', '=', False),
+                                                    ('date_start', '<=', o.date),
+                                                    '|',
+                                                    ('date_end', '=', False),
+                                                    ('date_end', '>=', o.date),
                                                     ])
-
                 if not pricelist_version_ids:
                     raise osv.except_osv(_('Warning !'), _("The pricelist has no active version !\nPlease create or activate one."))
                 products_version = []
-                if self.pool.get('product.pricelist.version').browse(cr, uid, pricelist_version_ids[0]).items_id:
-                    for item in self.pool.get('product.pricelist.version').browse(cr, uid, pricelist_version_ids[0]).items_id:
+                if pricelist_version_obj.browse(cr, uid, pricelist_version_ids[0]).items_id:
+                    for item in pricelist_version_obj.browse(cr, uid, pricelist_version_ids[0]).items_id:
                         if item.product_id:
                             products_version.append(item.product_id.id)
                     for line in o.sales_forecast_lines:
-                        if not line.product_id.id in products_version:
-                            raise osv.except_osv(_('Warning !'), _("The product [%s] %s is not in the selected pricelist !") % (line.product_id.default_code, line.product_id.name))
-                        for m in range(0,12):
-                            qty = (eval('o.' + (months[m] + '_qty'),{'o': line}))
-                            price = self.pool.get('product.pricelist').price_get(cr, uid, [o.pricelist_id.id],
-                            line.product_id.id, qty or 1.0, None, {
-                                'uom': line.product_id.uom_id.id,
-                                'date': o.date,
-                                })[o.pricelist_id.id]
+                        #if not line.product_id.id in products_version:
+                        #    raise osv.except_osv(_('Warning !'), _("The product [%s] %s is not in the selected pricelist !") % (line.product_id.default_code, line.product_id.name))
+                        for m in range(0, 12):
+                            qty = (eval('o.' + (months[m] + '_qty'), {'o': line}))
+                            price = pricelist_obj.price_get(cr, uid, 
+                                                         [o.pricelist_id.id],
+                                                         line.product_id.id, qty or 1.0,
+                                                         None, 
+                                                         {'uom': line.product_id.uom_id.id,
+                                                          'date': o.date,}
+                                                        )[o.pricelist_id.id]
                             if price:
                                 price_total = qty * price
-                                self.pool.get('sales.forecast.line').write(cr, uid, line.id, {months[m] + '_amount': price_total})
-
+                                forecast_line_obj.write(cr, uid, line.id, {months[m] + '_amount': price_total})
             self.write(cr, uid, ids, {'state': 'done'})
         return True
 
@@ -139,18 +142,18 @@ class sales_forecast(osv.osv):
         old_ids = []
         res = {}
         lines = []
-        company = self.pool.get('res.users').browse(cr, uid, uid).company_id and self.pool.get('res.users').browse(cr, uid, uid).company_id.id or False
+        user_company_id = self.pool.get('res.users').browse(cr, uid, uid).company_id
+        company_id = user_company_id and user_company_id.id or False
         new_id = forecast_obj.create(cr, uid, {'name': _('Sales forecast MERGED. '),
                                                    #'analytic_id': cur.analytic_id.id,
                                                    'commercial_id': uid,
                                                    'date': time.strftime('%d-%m-%Y'),
-                                                   'company_id': company,
+                                                   'company_id': company_id,
                                                    'state': 'draft',
                                                    'is_merged': 'True',
                                                     })
-
         months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun',
-                'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
+                  'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
         for porder in self.browse(cr, uid, ids, context=context):
             forecast_obj.write(cr, uid, porder.id,{'merged_into_id': new_id})
             old_ids.append(porder.id)
@@ -160,29 +163,25 @@ class sales_forecast(osv.osv):
             for line in forecast_line_obj.browse(cr, uid, lines):
                 if not res.get(line.product_id.id):
                     res[line.product_id.id] = {}
-                for month in range(0,12):
+                for month in range(0, 12):
                     if not res[line.product_id.id].get(months[month] + '_qty'):
                         res[line.product_id.id][months[month] + '_qty'] = 0.0
                         res[line.product_id.id][months[month] + '_amount'] = 0.0
-                    res[line.product_id.id][months[month] + '_qty'] = res[line.product_id.id][months[month] + '_qty'] + (eval('o.' + (months[month] + '_qty'),{'o': line}))
-                    res[line.product_id.id][months[month] + '_amount'] = res[line.product_id.id][months[month] + '_amount'] + (eval('o.' + (months[month] + '_amount'),{'o': line}))
-
+                    res[line.product_id.id][months[month] + '_qty'] += (eval('o.' + (months[month] + '_qty'), {'o': line}))
+                    res[line.product_id.id][months[month] + '_amount'] += (eval('o.' + (months[month] + '_amount'), {'o': line}))
         if res:
             for product in res:
                 nwline = forecast_line_obj.create(cr, uid, {
                                 'sales_forecast_id': new_id,
                                 'actual_cost': product_obj.browse(cr, uid, product).standard_price,
                                 'product_id': product})
-                for month in range(0,12):
+                for month in range(0, 12):
                     forecast_line_obj.write(cr, uid, nwline, {
                         months[month] + '_qty': res[product][months[month] + '_qty'],
                         months[month] + '_amount': res[product][months[month] + '_amount']})
-                        #months[month] + '_amount_total': res[product][months[month] + '_qty'] * product_obj.browse(cr, uid, product).standard_price})
-
-        # make triggers pointing to the old purchases forecast to the new forecast
-        if old_ids:
-            for old_id in old_ids:
-                wf_service.trg_validate(uid, 'sales.forecast', old_id, 'action_cancel', cr)
+        #if old_ids:
+        #    for old_id in old_ids:
+        #        wf_service.trg_validate(uid, 'sales.forecast', old_id, 'action_cancel', cr)
         return new_id
 
     def write(self, cr, uid, ids, vals, context=None):
@@ -192,7 +191,6 @@ class sales_forecast(osv.osv):
             context = {}
         if isinstance(ids, (int, long)):
             ids = [ids]
-
         #Hacemos el cambio si ha fijado el pricelist_id y is_merged es true
         if vals.get('is_merged', False) :
             vals.update({'pricelist_id': False})
@@ -201,9 +199,19 @@ class sales_forecast(osv.osv):
 
         return super(sales_forecast, self).write(cr, uid, ids, vals, context=context)
 
+    def unlink(self, cr, uid, ids, context=None):
+        """ Unlink the forecast.
+        @return: True
+        """
+        if context is None:
+            context = {}
+        if any(x.state == 'approve' for x in self.browse(cr, uid, ids, context=context)):
+            raise osv.except_osv(_('Error!'),  _('You cannot delete an approved forecast.'))
+
+        return super(sales_forecast, self).unlink(cr, uid, ids, context=context)
+
 
 class sales_forecast_line(osv.osv):
-
     _name = 'sales.forecast.line'
     _description = 'Sales forecast lines'
 
@@ -229,8 +237,7 @@ class sales_forecast_line(osv.osv):
         'name': fields.char('Name', size=255, required=True),
         'sales_forecast_id': fields.many2one('sales.forecast', 'Sales forecast',
                                                 required=True, ondelete='cascade'),
-        'product_id': fields.many2one('product.product', 'Product',
-                                        required=True),
+        'product_id': fields.many2one('product.product', 'Product', required=True),
         'jan_qty': fields.float('Qty', digits=(16,2)),
         'jan_amount': fields.float('€', digits=(16,2)),
         'feb_qty': fields.float('Qty', digits=(16,2)),

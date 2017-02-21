@@ -23,7 +23,7 @@ from openerp.tools.translate import _
 
 class scale_sales_forecast(osv.osv_memory):
     _name = "scale.sales.forecast"
-    _description = "Preload a scale sales forecast"
+    _description = "Preload a scaled sales forecast"
     _columns = {
         'percent_increase': fields.float('% Increase', digits=(16,2))
     }
@@ -34,8 +34,8 @@ class scale_sales_forecast(osv.osv_memory):
         new_ids = []
         if not ids:
             return
-        months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug',
-            'sep', 'oct', 'nov', 'dec']
+        months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 
+                  'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
 
         if context.get('active_ids', []):
             forecast_obj = self.pool.get('sales.forecast')
@@ -45,7 +45,6 @@ class scale_sales_forecast(osv.osv_memory):
                 val_percent_increase = self.browse(cr, uid, ids)[0].percent_increase
 
                 default.update({'name' : reg_original.name + ' SCALED ' + str(val_percent_increase) + '%'})
-                default.update({'purchase_forecast_id': False})
                 default.update({'sales_forecast_lines': False})
                 
                 new_id = forecast_obj.copy(cr, uid, reg_id, default, context)
@@ -58,7 +57,7 @@ class scale_sales_forecast(osv.osv_memory):
                     default = {}
                     default.update({'sales_forecast_id': new_id})
                     for m in range(0,12):
-                        qty = (eval('o.' + (months[m] + '_qty'),{'o': line}))
+                        qty = (eval('o.' + (months[m] + '_qty'), {'o': line}))
                         qty = qty * (1 + (val_percent_increase / 100))
                         default.update({months[m] + '_qty': qty})
                         default.update({months[m] + '_amount': 0})

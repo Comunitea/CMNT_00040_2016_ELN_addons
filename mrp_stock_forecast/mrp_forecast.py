@@ -25,15 +25,16 @@ from openerp.tools.translate import _
 
 class mrp_forecast(osv.osv):
     _name = 'mrp.forecast'
-    _description = 'Forecast of producion hours'
+    _description = 'Forecast of production hours'
     _columns = {
         'name': fields.char('Name', size=255, required=True),
         'date': fields.date('Date'),
         'mrp_forecast_lines': fields.one2many('mrp.forecast.line',
-                                                'mrp_forecast_id', 'Lines'),
+                                              'mrp_forecast_id', 'Lines'),
         'company_id': fields.many2one('res.company', 'Company'),
         'state': fields.selection([
                                 ('draft','Draft'),
+                                ('done', 'Done'),
                                 ('approve', 'Approved'),
                                 ('cancel', 'Cancel')], string="State",
                                 required=True, readonly=True),
@@ -43,7 +44,14 @@ class mrp_forecast(osv.osv):
     }
     _defaults = {
         'state': 'draft',
+        'company_id': lambda self, cr, uid, c: self.pool.get('res.company')._company_default_get(cr, uid, 'mrp.forecast', context=c),
+        'date': lambda *a: time.strftime("%Y-%m-%d"),
+        'year': lambda *a: time.strftime("%Y"),
     }
+
+    def action_done(self, cr, uid, ids, context=None):
+        self.write(cr, uid, ids, {'state': 'done'})
+        return True
 
     def action_validate(self, cr, uid, ids, context=None):
         self.write(cr, uid, ids, {'state': 'approve'})
@@ -58,27 +66,24 @@ class mrp_forecast(osv.osv):
         return True
 
     def do_merge(self, cr, uid, ids, context=None):
-
-
         wf_service = netsvc.LocalService("workflow")
         forecast_obj = self.pool.get('mrp.forecast')
         forecast_line_obj = self.pool.get('mrp.forecast.line')
-
         old_ids = []
         res = {}
         lines = []
-        company = self.pool.get('res.users').browse(cr, uid, uid).company_id and self.pool.get('res.users').browse(cr, uid, uid).company_id.id or False
+        users_obj = self.pool.get('res.users')
+        company = users_obj.browse(cr, uid, uid).company_id and users_obj.browse(cr, uid, uid).company_id.id or False
         new_id = forecast_obj.create(cr, uid, {'name': _('MRP forecast MERGED. '),
                                                    #'analytic_id': cur.analytic_id.id,
                                                    'date': time.strftime('%d-%m-%Y'),
                                                    'company_id': company,
                                                    'state': 'draft'
                                                     })
-
         months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun',
-                'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
+                  'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
         for porder in self.browse(cr, uid, ids, context=context):
-            forecast_obj.write(cr, uid, porder.id,{'merged_into_id': new_id})
+            forecast_obj.write(cr, uid, porder.id, {'merged_into_id': new_id})
             old_ids.append(porder.id)
             for l in porder.mrp_forecast_lines:
                 lines.append(l.id)
@@ -86,34 +91,38 @@ class mrp_forecast(osv.osv):
             for line in forecast_line_obj.browse(cr, uid, lines):
                 if not res.get(line.workcenter_id.id):
                     res[line.workcenter_id.id] = {}
-                for month in range(0,12):
+                for month in range(0, 12):
                     if not res[line.workcenter_id.id].get(months[month] + '_real_time'):
                         res[line.workcenter_id.id][months[month] + '_real_time'] = 0.0
                     if not res[line.workcenter_id.id].get(months[month] + '_hours'):
                         res[line.workcenter_id.id][months[month] + '_hours'] = 0.0
-                    res[line.workcenter_id.id][months[month] + '_real_time'] = res[line.workcenter_id.id][months[month] + '_real_time'] + (eval('o.' + (months[month] + '_real_time'),{'o': line}))
-                    res[line.workcenter_id.id][months[month] + '_hours'] = res[line.workcenter_id.id][months[month] + '_hours'] + (eval('o.' + (months[month] + '_hours'),{'o': line}))
-
-
-        #res = {product_id:{'ene_qty': 100.00, 'feb_qty':2500.00}}
+                    res[line.workcenter_id.id][months[month] + '_real_time'] += (eval('o.' + (months[month] + '_real_time'), {'o': line}))
+                    res[line.workcenter_id.id][months[month] + '_hours'] += (eval('o.' + (months[month] + '_hours'), {'o': line}))
         if res:
             for workcenter in res:
                 nwline = forecast_line_obj.create(cr, uid, {
                                 'mrp_forecast_id': new_id,
-
                                 'workcenter_id': workcenter})
-                for month in range(0,12):
+                for month in range(0, 12):
                     forecast_line_obj.write(cr, uid, nwline, {
                                months[month] + '_hours': res[workcenter][months[month] + '_hours'],
                                months[month] + '_real_time': res[workcenter][months[month] + '_real_time']})
-
-            # make triggers pointing to the old purchases forecast to the new forecast
-        if old_ids:
-            for old_id in old_ids:
-                wf_service.trg_validate(uid, 'mrp.forecast', old_id, 'action_cancel', cr)
+        #if old_ids:
+        #    for old_id in old_ids:
+        #        wf_service.trg_validate(uid, 'mrp.forecast', old_id, 'action_cancel', cr)
         return new_id
 
-mrp_forecast()
+    def unlink(self, cr, uid, ids, context=None):
+        """ Unlink the forecast.
+        @return: True
+        """
+        if context is None:
+            context = {}
+        if any(x.state == 'approve' for x in self.browse(cr, uid, ids, context=context)):
+            raise osv.except_osv(_('Error!'),  _('You cannot delete an approved forecast.'))
+
+        return super(mrp_forecast, self).unlink(cr, uid, ids, context=context)
+
 
 class mrp_forecast_line(osv.osv):
     _name = 'mrp.forecast.line'
@@ -153,7 +162,6 @@ class mrp_forecast_line(osv.osv):
         'nov_hours': fields.float('Nov Hrs'),
         'dec_hours': fields.float('Dec Hrs'),
         'total_hours': fields.function(_get_total_hours, type="float", digits=(16,2), string="Total Hrs", readonly=True, store=True),
-
         'jan_real_time': fields.float('Jan Real Time'),
         'feb_real_time': fields.float('Feb Real Time'),
         'mar_real_time': fields.float('Mar Real Time'),
@@ -168,8 +176,6 @@ class mrp_forecast_line(osv.osv):
         'dec_real_time': fields.float('Dec Real Time'),
         'total_real_time': fields.function(_get_total_real_time, type="float", digits=(16,2), string="Total Real Time", readonly=True, store=True),
     }
-    
     _defaults = {
         'name': lambda x, y, z, c: x.pool.get('ir.sequence').get(y, z, 'mrp.forecast.line') or '/'
     }
-mrp_forecast_line()

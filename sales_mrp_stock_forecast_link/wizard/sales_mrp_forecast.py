@@ -18,5 +18,19 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-import sales_forecast
-import wizard
+from openerp.osv import osv
+from openerp.tools.translate import _
+
+class sales_mrp_forecast(osv.osv_memory):
+    _name = 'sales.mrp.forecast'
+
+    def generate_forecast(self, cr, uid, ids, context=None):
+        if context is None:
+            context = {}
+        if context.get('active_ids', False):
+            for cur in self.pool.get('sales.forecast').browse(cr, uid, context['active_ids'], context):
+                self.pool.get('sales.forecast').generate_mrp_forecast(cr, uid, cur.id, context)
+        else:
+            raise osv.except_osv(_('Error !'), _('You must select at least one forecast.'))
+        
+        return {'type': 'ir.actions.act_window_close'}

@@ -3,23 +3,18 @@
 <openerp>
     <data>
          <record id="view_mrp_forecast_merge" model="ir.ui.view">
-            <field name="name">Merge MRP Forecast</field>
+            <field name="name">Merge MRP forecast</field>
             <field name="model">merge.mrp.forecast</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
                <form string="Merge mrp forecast">
-                    <separator string="Are you sure you want to merge these forecasts ?" colspan="4"/>
-                       <newline/>
-                    <label string="
-Please note that: &#10; &#10;
-Orders will only be merged if: &#10;
-* MRP Forecasts belong to the same company &#10;
-* MRP Forecasts have to be in 'draft' status &#10;
-" colspan="4"/>
-                    <newline/>
-                    <separator string="" colspan="4" />
-                    <button special="cancel" string="Cancel" icon="gtk-cancel"/>
-                    <button name="merge_orders" string="Merge orders" type="object" icon="gtk-convert"/>
+                    <h3>Please note that:</h3>
+                    <li>The selected forecasts will be merged into a new one.</li>
+                    <li>The forecasts used will not be deleted, only a new one will be created.</li>
+                    <footer>
+                        <button special="cancel" string="Cancel" icon="gtk-cancel"/>
+                        <button name="merge_mrp_forecast" string="Merge mrp forecast" type="object" icon="gtk-convert"/>
+                    </footer>
                 </form>
             </field>
         </record>
@@ -35,25 +30,19 @@ Orders will only be merged if: &#10;
             groups=""
             id="action_view_merge_mrp_forecast"/>
 
-
-                 <record id="view_stock_forecast_merge" model="ir.ui.view">
-            <field name="name">Merge stock Forecast</field>
+        <record id="view_stock_forecast_merge" model="ir.ui.view">
+            <field name="name">Merge stock forecast</field>
             <field name="model">merge.stock.forecast</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
                <form string="Merge stock forecast">
-                    <separator string="Are you sure you want to merge these forecasts ?" colspan="4"/>
-                       <newline/>
-                    <label string="
-Please note that: &#10; &#10;
-Orders will only be merged if: &#10;
-* stock Forecasts belong to the same company &#10;
-* stock Forecasts have to be in 'draft' status &#10;
-" colspan="4"/>
-                    <newline/>
-                    <separator string="" colspan="4" />
-                    <button special="cancel" string="Cancel" icon="gtk-cancel"/>
-                    <button name="merge_orders" string="Merge orders" type="object" icon="gtk-convert"/>
+                    <h3>Please note that:</h3>
+                    <li>The selected forecasts will be merged into a new one.</li>
+                    <li>The forecasts used will not be deleted, only a new one will be created.</li>
+                    <footer>
+                        <button special="cancel" string="Cancel" icon="gtk-cancel"/>
+                        <button name="merge_stock_forecast" string="Merge stock forecast" type="object" icon="gtk-convert"/>
+                    </footer>
                 </form>
             </field>
         </record>

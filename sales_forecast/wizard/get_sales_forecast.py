@@ -24,7 +24,6 @@ import calendar
 import time
 
 class get_sales_forecast(osv.osv_memory):
-
     _name = 'get.sales.forecast'
     _description = 'Preload a sales forecast'
     _columns = {
@@ -81,19 +80,18 @@ class get_sales_forecast(osv.osv_memory):
                                                    'company_id': company_id,
                                                    'state': 'draft'
                                                     })
-            for month in range(12):
+            for month in range(0, 12):
                 #I find all the invoices in for each month last year.
-                domain =  \
-                    [('date_invoice','>=',str('01-' + str(month + 1) +
+                domain = \
+                    [('date_invoice', '>=', str('01-' + str(month + 1) +
                         '-' + str(int(time.strftime('%d-%m-%Y')[6:]) - 1))),
-                    ('date_invoice','<=',
+                    ('date_invoice', '<=',
                         str((calendar.monthrange((int(time.strftime('%d-%m-%Y')[6:]) - 1),
                         (month + 1))[1])) + '-' + str(month + 1) + '-' +
                         str(int(time.strftime('%d-%m-%Y')[6:]) - 1)),
                     ('type', 'in', ['out_invoice', 'out_refund']),
                     ('state', 'in', ['open', 'paid']),
-                    ('company_id','=', company_id)]
-
+                    ('company_id', '=', company_id)]
                 invoice_ids = inv_obj.search(cr, uid, domain)
                 if invoice_ids:
                     #If invoices, step through lines that share the selected
@@ -139,7 +137,6 @@ class get_sales_forecast(osv.osv_memory):
                                     'sales_forecast_id': new_id,
                                     'product_id': product,
                                     months[month] + '_qty': qty})
-
                         products = {}
 
         value = {
