@@ -30,6 +30,7 @@ from openerp.addons.product import _common
 from openerp.tools import float_compare, float_is_zero
 import openerp.addons.decimal_precision as dp
 from openerp import models, api
+from openerp.tools.float_utils import float_round
 
 
 class change_production_qty(osv.osv_memory):
@@ -49,6 +50,7 @@ class change_production_qty(osv.osv_memory):
             procurement = proc_obj.browse(cr, uid, procs, context=context)
             body = _('Manufacturing Order <em>%s</em> has changed the quantity: %s -> %s') % (procurement.production_id.name, procurement.product_qty, qty)
             proc_obj.message_post(cr, uid, procs, body=body, context=context)
+            uos_qty = prod.product_uos and uom_obj._compute_qty(cr, uid, prod.product_uom.id, qty, prod.product_uos.id) or 0.0
             proc_obj.write(cr, uid, procs, {'product_qty': qty, 'product_uos_qty': uos_qty}, context=context)
         return res
 
@@ -80,11 +82,13 @@ class mrp_workcenter(osv.osv):
 
 mrp_workcenter()
 
+
 def rounding(f, r):
     import math
     if not r:
         return f
     return math.ceil(f / r) * r
+
 
 class mrp_bom(osv.osv):
     _inherit = 'mrp.bom'
@@ -99,231 +103,6 @@ class mrp_bom(osv.osv):
     _constraints = [
         (_check_product, 'BoM line product should not be same as BoM product.', ['product_id']),
     ]
-    # def _bom_explode_bis(self, cr, uid, bom, product, factor, properties=None, level=0, routing_id=False, previous_products=None, master_bom=None, context=None):
-    #
-    #
-    #
-    #     """ Finds Products and Work Centers for related BoM for manufacturing order.
-    #     @param bom: BoM of particular product template.
-    #     @param product: Select a particular variant of the BoM. If False use BoM without variants.
-    #     @param factor: Factor represents the quantity, but in UoM of the BoM, taking into account the numbers produced by the BoM
-    #     @param properties: A List of properties Ids.
-    #     @param level: Depth level to find BoM lines starts from 10.
-    #     @param previous_products: List of product previously use by bom explore to avoid recursion
-    #     @param master_bom: When recursion, used to display the name of the master bom
-    #     @return: result: List of dictionaries containing product details.
-    #              result2: List of dictionaries containing Work Center details.
-    #     """
-    #     result, result2 = super(mrp_bom, self)._bom_explode\
-    #             (self, cr, uid, bom, product, factor, properties=None, level=0, routing_id=False, previous_products=None, master_bom=None, context=None)
-    #
-    #
-    #
-    #     #SI ES PHANTOM SUSTITUYE PRODUCTO POR LISTA DE MATERIALES
-    #     ##
-    #             ## Estaba así
-    #             # def _bom_explode(self, cr, uid, bom, factor, properties=[], addthis=False, level=0, routing_id=False):
-    #             # """ Finds Products and Work Centers for related BoM for manufacturing order.
-    #             # @param bom: BoM of particular product.
-    #             # @param factor: Factor of product UoM.
-    #             # @param properties: A List of properties Ids.
-    #             # @param addthis: If BoM found then True else False.
-    #             # @param level: Depth level to find BoM lines starts from 10.
-    #             # @return: result: List of dictionaries containing product details.
-    #             #          result2: List of dictionaries containing Work Center details.
-    #             # """
-    #     def _get_vals(wc_use, operators, operators_n, factor, bom, wc, routing):
-    #
-    #         qty_per_cycle = self.pool.get('product.uom')._compute_qty(cr, uid, wc_use.uom_id.id, wc_use.qty_per_cycle, bom.product_uom.id)
-    #         oper = []
-    #         if operators_n and operators:
-    #             for op in range(0, (operators_n)):
-    #                 oper.append(operators[op])
-    #         return{
-    #             'name': tools.ustr(wc_use.name) + u' - '  + tools.ustr(bom.product_id.name),
-    #             'routing_id': routing.id,
-    #             'workcenter_id': wc.id,
-    #             'sequence': level+(wc_use.sequence or 0),
-    #             'operators_ids': oper and [(6,0,oper)] or False,
-    #             'cycle': wc_use.cycle_nbr * (factor * bom.product_qty),
-    #             'time_start': wc_use.time_start,
-    #             'time_stop': wc_use.time_stop,
-    #             'hour': float((wc_use.operators_number * ((factor * bom.product_qty)/(qty_per_cycle or 1.0)))/(operators_n or 1.0)),
-    #             'real_time': float((wc_use.operators_number * ((factor * bom.product_qty)/(qty_per_cycle or 1.0)))/(operators_n or 1.0))
-    #
-    #                 }
-    #
-    #     routing = (routing_id and routing_obj.browse(cr, uid, routing_id)) or bom.routing_id or False
-    #     if routing:
-    #         for wc_use in routing.workcenter_lines:
-    #             wc = wc_use.workcenter_id
-    #             d, m = divmod(factor, wc_use.workcenter_id.capacity_per_cycle)
-    #             mult = (d + (m and 1.0 or 0.0))
-    #             cycle = mult * wc_use.cycle_nbr
-    #             result2.append({
-    #                 'name': tools.ustr(wc_use.name) + ' - ' + tools.ustr(bom.product_tmpl_id.name_get()[0][1]),
-    #                 'workcenter_id': wc.id,
-    #                 'sequence': level + (wc_use.sequence or 0),
-    #                 'cycle': cycle,
-    #                 'hour': float(wc_use.hour_nbr * mult + ((wc.time_start or 0.0) + (wc.time_stop or 0.0) + cycle * (wc.time_cycle or 0.0)) * (wc.time_efficiency or 1.0)),
-    #             })
-    #     routing_obj = self.pool.get('mrp.routing')
-    #     factor = factor / (bom.product_efficiency or 1.0)
-    #     factor = rounding(factor, bom.product_rounding)
-    #     if factor < bom.product_rounding:
-    #         factor = bom.product_rounding
-    #     result = []
-    #     result2 = []
-    #     phantom = False
-    #     if bom.type == 'phantom' and not bom.bom_line_ids:
-    #                 # #def _bom_find(self, cr, uid, product_tmpl_id=None, product_id=None, properties=None, context=None):
-    #                 # """
-    #                 # Finds BoM for particular product and product uom.
-    #                 # @param product_tmpl_id: Selected product.
-    #                 # @param product_uom: Unit of measure of a product.
-    #                 # @param properties: List of related properties.
-    #                 # @return: False or BoM id
-    #                 # newbom = self._bom_find(cr, uid, bom.product_id.id, bom.product_uom.id, properties)
-    #                 # """
-    #         newbom = self._bom_find(cr, uid, bom.product_tmpl_id.id, bom.product_id.id, properties)
-    #
-    #         if newbom:
-    #             res = self._bom_explode(cr, uid, self.browse(cr, uid, [newbom])[0], factor*bom.product_qty, properties, level=level+10)
-    #             result = result + res[0]
-    #             result2 = result2 + res[1]
-    #             phantom = True
-    #         else:
-    #             phantom = False
-    #     if not phantom:
-    #         if newbom and not bom.bom_lines_ids:
-    #             result.append(
-    #             {
-    #                 'name': bom.product_id.name,
-    #                 'product_id': bom.product_id.id,
-    #                 'product_qty': bom.product_qty * factor,
-    #                 'product_uom': bom.product_uom.id,
-    #                 'product_uos_qty': bom.product_uos and bom.product_uos_qty * factor or False,
-    #                 'product_uos': bom.product_uos and bom.product_uos.id or False,
-    #             })
-    #         routing = (routing_id and routing_obj.browse(cr, uid, routing_id)) or bom.routing_id or False
-    #         if routing:
-    #             for wc_use in routing.workcenter_lines:
-    #                 wc = wc_use.workcenter_id
-    #                 operators = []
-    #                 if wc_use.operators_ids:
-    #                     for oper in wc_use.operators_ids:
-    #                         operators.append(oper.id)
-    #                 result2.append(_get_vals(wc_use, operators, wc_use.operators_number, factor, bom, wc, routing))
-    #
-    #         for bom2 in bom.bom_lines:
-    #             res = self._bom_explode(cr, uid, bom2, factor, properties, level=level+10)
-    #             result = result + res[0]
-    #             result2 = result2 + res[1]
-    #     return result, result2
-
-    def _bom_explode_bis_2(self, cr, uid, bom, product, factor, properties=None, level=0, routing_id=False, previous_products=None, master_bom=None, context=None):
-            """ Finds Products and Work Centers for related BoM for manufacturing order.
-            @param bom: BoM of particular product template.
-            @param product: Select a particular variant of the BoM. If False use BoM without variants.
-            @param factor: Factor represents the quantity, but in UoM of the BoM, taking into account the numbers produced by the BoM
-            @param properties: A List of properties Ids.
-            @param level: Depth level to find BoM lines starts from 10.
-            @param previous_products: List of product previously use by bom explore to avoid recursion
-            @param master_bom: When recursion, used to display the name of the master bom
-            @return: result: List of dictionaries containing product details.
-                     result2: List of dictionaries containing Work Center details.
-            """
-            #TODO ESTA FUNCION HAY QUE REVISARLA. ESTA SOBREESCRITA.
-            uom_obj = self.pool.get("product.uom")
-            routing_obj = self.pool.get('mrp.routing')
-            master_bom = master_bom or bom
-
-            def _factor(factor, product_efficiency, product_rounding):
-                factor = factor / (product_efficiency or 1.0)
-                factor = _common.ceiling(factor, product_rounding)
-                if factor < product_rounding:
-                    factor = product_rounding
-                return factor
-
-            def _get_vals(wc_use, operators, operators_n, factor, bom, wc, routing):
-                qty_per_cycle = self.pool.get('product.uom')._compute_qty(cr, uid, wc_use.uom_id.id, wc_use.qty_per_cycle, bom.product_uom.id)
-                oper = []
-                if operators_n and operators:
-                    for op in range(0, (operators_n)):
-                        oper.append(operators[op])
-                return{
-                    'name': tools.ustr(wc_use.name) + u' - '  + tools.ustr(bom.product_id.name),
-                    'routing_id': routing.id,
-                    'workcenter_id': wc.id,
-                    'sequence': level+(wc_use.sequence or 0),
-                    'operators_ids': oper and [(6,0,oper)] or False,
-                    'cycle': wc_use.cycle_nbr * (factor * bom.product_qty),
-                    'time_start': wc_use.time_start,
-                    'time_stop': wc_use.time_stop,
-                    'hour': float((wc_use.operators_number * ((factor * bom.product_qty)/(qty_per_cycle or 1.0)))/(operators_n or 1.0)),
-                    'real_time': float((wc_use.operators_number * ((factor * bom.product_qty)/(qty_per_cycle or 1.0)))/(operators_n or 1.0))
-                }
-
-            factor = _factor(factor, bom.product_efficiency, bom.product_rounding)
-
-            result = []
-            result2 = []
-
-            routing = (routing_id and routing_obj.browse(cr, uid, routing_id)) or bom.routing_id or False
-            if routing:
-                for wc_use in routing.workcenter_lines:
-                    wc = wc_use.workcenter_id
-                    operators = []
-                    if wc_use.operators_ids:
-                        for oper in wc_use.operators_ids:
-                            operators.append(oper.id)
-                    #SE CAMBIA E SE AÑADE LA FUNCION _GET_VALS
-                    result2.append(_get_vals(wc_use, operators, wc_use.operators_number, factor, bom, wc, routing))
-
-            for bom_line_id in bom.bom_line_ids:
-
-                if self._skip_bom_line(cr, uid, bom_line_id, product, context=context):
-                    continue
-                if set(map(int, bom_line_id.property_ids or [])) - set(properties or []):
-                    continue
-
-                if previous_products and bom_line_id.product_id.product_tmpl_id.id in previous_products:
-                    raise osv.except_osv(_('Invalid Action!'), _('BoM "%s" contains a BoM line with a product recursion: "%s".') % (master_bom.name,bom_line_id.product_id.name_get()[0][1]))
-
-                quantity = _factor(bom_line_id.product_qty * factor, bom_line_id.product_efficiency, bom_line_id.product_rounding)
-                bom_id = self._bom_find(cr, uid, product_id=bom_line_id.product_id.id, properties=properties, context=context)
-                #If BoM should not behave like PhantoM, just add the product, otherwise explode further
-                #para este caso, siempre que unproducto tenga bom_id, deberemos de tratarlo como phantom (lo hacía antes así)
-                bom_line_type = False
-                if bom_id:
-                    bom_line_type = bom_line_id.type
-                    bom_line_id.type = "phantom"
-
-                if bom_line_id.type != "phantom" and (not bom_id or self.browse(cr, uid, bom_id, context=context).type != "phantom"):
-                    result.append({
-                        'name': bom_line_id.product_id.name,
-                        'product_id': bom_line_id.product_id.id,
-                        'product_qty': quantity,
-                        'product_uom': bom_line_id.product_uom.id,
-                        'product_uos_qty': bom_line_id.product_uos and _factor(bom_line_id.product_uos_qty * factor, bom_line_id.product_efficiency, bom_line_id.product_rounding) or False,
-                        'product_uos': bom_line_id.product_uos and bom_line_id.product_uos.id or False,
-                    })
-                elif bom_id:
-                    all_prod = [bom.product_tmpl_id.id] + (previous_products or [])
-                    bom2 = self.browse(cr, uid, bom_id, context=context)
-                    # We need to convert to units/UoM of chosen BoM
-                    factor2 = uom_obj._compute_qty(cr, uid, bom_line_id.product_uom.id, quantity, bom2.product_uom.id)
-                    quantity2 = factor2 / bom2.product_qty
-                    res = self._bom_explode(cr, uid, bom2, bom_line_id.product_id, quantity2,
-                        properties=properties, level=level + 10, previous_products=all_prod, master_bom=master_bom, context=context)
-                    result = result + res[0]
-                    result2 = result2 + res[1]
-                else:
-                    raise osv.except_osv(_('Invalid Action!'), _('BoM "%s" contains a phantom BoM line but the product "%s" does not have any BoM defined.') % (master_bom.name,bom_line_id.product_id.name_get()[0][1]))
-
-                if bom_id:
-                    bom_line_id.type = bom_line_type
-            return result, result2
 
     def _bom_explode(self, cr, uid, bom, product, factor, properties=None, level=0, routing_id=False, previous_products=None, master_bom=None, context=None):
         result, result2 = super(mrp_bom,self)._bom_explode(cr, uid, bom, product, factor, properties=None, level=0, routing_id=False, previous_products=None, master_bom=None, context=None)
@@ -344,16 +123,16 @@ class mrp_bom(osv.osv):
                 for op in range(0, (operators_n)):
                     oper.append(operators[op])
             return{
-                'name': tools.ustr(wc_use.name) + u' - '  + tools.ustr(bom.product_id.name),
+                'name': tools.ustr(wc_use.name) + u' - ' + tools.ustr(bom.product_id.name),
                 'routing_id': routing.id,
                 'workcenter_id': wc.id,
-                'sequence': level+(wc_use.sequence or 0),
-                'operators_ids': oper and [(6,0,oper)] or False,
+                'sequence': level + (wc_use.sequence or 0),
+                'operators_ids': oper and [(6, 0, oper)] or False,
                 'cycle': wc_use.cycle_nbr * (factor * bom.product_qty),
                 'time_start': wc_use.time_start,
                 'time_stop': wc_use.time_stop,
-                'hour': float((wc_use.operators_number * ((factor * bom.product_qty)/(qty_per_cycle or 1.0)))/(operators_n or 1.0)),
-                'real_time': float((wc_use.operators_number * ((factor * bom.product_qty)/(qty_per_cycle or 1.0)))/(operators_n or 1.0))
+                'hour': float(((factor * bom.product_qty) / (qty_per_cycle or 1.0)) * (wc.time_efficiency or 1.0)),
+                #'real_time': float(((factor * bom.product_qty) / (qty_per_cycle or 1.0)) * (wc.time_efficiency or 1.0)),
             }
 
         factor = _factor(factor, bom.product_efficiency, bom.product_rounding)
@@ -517,7 +296,6 @@ class mrp_production_workcenter_line(osv.osv):
 
 
 class hrEmployee(models.Model):
-
     _inherit = 'hr.employee'
 
     def search(self, cr, uid, args, offset=0, limit=None, order=None,
@@ -557,7 +335,6 @@ class hrEmployee(models.Model):
 
 
 class mrpRouting(models.Model):
-
     _inherit = 'mrp.routing'
 
     def search(self, cr, uid, args, offset=0, limit=None, order=None,
@@ -660,10 +437,9 @@ class mrp_production(osv.osv):
                                           type='many2one', relation='mrp.workcenter',
                                           string='Work Center', help="Work center of the first operation of the route."), #Uso para operaciones de agrupacion, filtrado, etc.
         'color_production': fields.function(_get_color_production, type="integer", string="Color production", readonly=True),
-        'theo_cost': fields.float('Theorical Cost', digits_compute=dp.get_precision('Product Price')),
+        'theo_cost': fields.float('Theorical Cost', digits_compute=dp.get_precision('Product Price'), copy=False),
         'sequence': fields.integer('Sequence', help="Used to order the production planning kanban view"),
     }
-
     _order = 'name desc'
 
     def modify_consumption(self, cr, uid, ids, context=None):
@@ -709,13 +485,12 @@ class mrp_production(osv.osv):
         return amount
 
     def _make_production_produce_line(self, cr, uid, production, context=None):
-
         move_id = super (mrp_production, self)._make_production_produce_line(cr, uid, production, context=context)
         #Lo cambio para no sobreescribir toda la función
         stock_move = self.pool.get('stock.move')
         stock_move_id = stock_move.browse(cr, uid, move_id)
         move_name = _('PROD: %s') % production.name
-        stock_move_id.write ({'name' : move_name})
+        stock_move_id.write({'name' : move_name})
 
         if production.product_id and production.product_id.sample_location:
             location = self.pool.get('stock.location')
@@ -741,59 +516,7 @@ class mrp_production(osv.osv):
                     }
                 move = stock_move.create(cr, uid, data, context=context)
                 stock_move.action_confirm(cr, uid, [move], context=context)
-
         return move_id
-
-
-
-    # def _make_production_produce_line(self, cr, uid, production, context=None):
-    #     import ipdb; ipdb.set_trace()
-    #     stock_move = self.pool.get('stock.move')
-    #     location = self.pool.get('stock.location')
-    #     source_location_id = production.product_id.product_tmpl_id.property_stock_production.id
-    #     destination_location_id = production.location_dest_id.id
-    #     move_name = _('PROD: %s') % production.name
-    #     data = {
-    #         'name': move_name,
-    #         'date': production.date_planned,
-    #         'product_id': production.product_id.id,
-    #         'product_uom_qty': production.product_qty,
-    #         'product_uom': production.product_uom.id,
-    #         'product_uos_qty': production.product_uos and production.product_uos_qty or False,
-    #         'product_uos': production.product_uos and production.product_uos.id or False,
-    #         'location_id': source_location_id,
-    #         'location_dest_id': destination_location_id,
-    #         'move_dest_id': production.move_prod_id.id,
-    #         'state': 'waiting',
-    #         'company_id': production.company_id.id,
-    #     }
-    #     move_id = stock_move.create(cr, uid, data, context=context)
-    #     production.write({'move_created_ids': [(6, 0, [move_id])]}, context=context)
-    #
-    #     if production.product_id and production.product_id.sample_location:
-    #         destloc = location.search(cr, uid, [('sample_location', '=', True)])
-    #         if destloc:
-    #             destination_location_id = destloc[0]
-    #             source_location_id = production.product_id.product_tmpl_id.property_stock_production.id
-    #             move_name = _('PROD: %s') % production.name
-    #             data2 = {
-    #                 'name': move_name,
-    #                 'date': production.date_planned,
-    #                 'product_id': production.product_id.id,
-    #                 'product_uom_qty': production.product_id.qty_sample,
-    #                 'product_uom': production.product_uom.id,
-    #                 'product_uos_qty': production.product_uos and production.product_uos_qty or False,
-    #                 'product_uos': production.product_uos and production.product_uos.id or False,
-    #                 'location_id': source_location_id,
-    #                 'location_dest_id': destination_location_id,
-    #                 'move_dest_id': production.move_prod_id.id,
-    #                 'state': 'waiting',
-    #                 'company_id': production.company_id.id,
-    #             }
-    #             move = stock_move.create(cr, uid, data2, context=context)
-    #             production.write({'move_created_ids': [(6, 0, [move_id,move])]}, context=context)
-    #     return move_id
-
 
     def product_qty_change(self, cr, uid, ids, product_id, product_qty, product_uom, product_uos, context=None):
         #import ipdb; ipdb.set_trace()
@@ -906,31 +629,51 @@ class mrp_production(osv.osv):
         print "action_finished"
         #import ipdb; ipdb.set_trace()
         for production in self.browse(cr, uid, ids, context=context):
-            self.write(cr, uid, production.id, {'date_finished': time.strftime('%Y-%m-%d %H:%M:%S'), 'state': 'finished'})
+            self.write(cr, uid, production.id, {'state': 'finished'})
         return True
 
     def action_validated(self, cr, uid, ids, context=None):
         print "action_validate"
         #import ipdb; ipdb.set_trace()
+        tmpl_obj = self.pool.get('product.template')
         for production in self.browse(cr, uid, ids, context=context):
-            self.write(cr, uid, production.id, {'state': 'validated'})
+            bom = production.bom_id
+            finished_qty = sum([x.product_uom_qty
+                                for x in production.move_created_ids2
+                                if x.state in ('done') and not x.scrapped])
+            theo_cost = tmpl_obj._calc_price(cr, uid, bom, test=True, context=context) * finished_qty
+            self.write(cr, uid, production.id, {'state': 'validated', 'theo_cost': theo_cost})
         return True
 
     def action_close(self, cr, uid, ids, context=None):
         print "action_close"
         #import ipdb; ipdb.set_trace()
+        tmpl_obj = self.pool.get('product.template')
+        precision = self.pool['decimal.precision'].precision_get(cr, uid, 'Product Price')
         for production in self.browse(cr, uid, ids, context=context):
-            #self.action_produce(cr, uid, production.id, production.product_qty, 'consume_produce', 'consume', context=context)
-            # self.action_produce(cr, uid, production.id, production.product_qty, 'consume_produce', context=context)
+            date = max([x.date
+                        for x in production.move_created_ids2
+                        if x.state in ('done') and not x.scrapped] or [None])
+            for move in production.move_lines2.filtered(lambda r: r.state in ('done')):
+                # Establecemos en los movimiento de consumos los precios de coste de producto que tenía en la fecha
+                # que se realizó el producto finalizado, para que coincida con la misma posición
+                # en la que se calcula el theo_cost. Esto es debido a que los consumos se pueden hacer más
+                # tarde que la validación del producto terminado (action_validated)
+                price_unit = tmpl_obj.get_history_price(cr, uid, move.product_id.product_tmpl_id.id,
+                                                        move.company_id.id,
+                                                        date=date)
+                # Aplicamos el redondeo que tendría el campo standard_price,
+                # ya que get_history_price devuelve el valor sin precision
+                price_unit = float_round(price_unit, precision_digits=precision) 
+                price_unit = price_unit or move.product_id.standard_price
+                move.write({'price_unit': price_unit})
             self.write(cr, uid, production.id, {'state': 'closed'})
         return True
 
     def action_recalculate_time(self, cr, uid, ids, properties=[],context=None):
-
         workcenter_line_obj = self.pool.get('mrp.production.workcenter.line')
         for production in self.browse(cr, uid, ids):
             time = 0.00
-
             if production.workcenter_lines:
                 for line in production.workcenter_lines:
                     if line.operators_ids:
@@ -946,8 +689,6 @@ class mrp_production(osv.osv):
                             workcenter_line_obj.write(cr, uid, line.id, {'real_time': time})
                         else:
                             raise osv.except_osv(_('Error!'),  _('Can not recalculate time because not exists objectives datas in the lines of the routing'))
-
-
         return True
 
     def action_cancel(self, cr, uid, ids, context=None):
@@ -964,7 +705,6 @@ class mrp_production(osv.osv):
             procs = proc_obj.search(cr, uid, [('production_id', 'in', ids)], context=context)
             if procs:
                 proc_obj.write(cr, uid, procs, {'state': 'cancel'}, context=context)
-
         return res
 
     def action_in_production(self, cr, uid, ids, context=None):
@@ -981,7 +721,6 @@ class mrp_production(osv.osv):
     def action_production_end(self, cr, uid, ids, context=None):
         uom_obj = self.pool.get("product.uom")
         bom_obj = self.pool.get("mrp.bom")
-        tmpl_obj = self.pool.get('product.template')
         prod_line_obj = self.pool.get('mrp.production.product.line')
         res = super(mrp_production, self).\
             action_production_end(cr, uid, ids, context=context)
@@ -1002,9 +741,6 @@ class mrp_production(osv.osv):
             for line in prod_lines:
                 line['production_id'] = prod.id
                 prod_line_obj.create(cr, uid, line)
-            theo_cost = tmpl_obj._calc_price(cr, uid, bom, test=True,
-                                             context=context)
-            prod.write({'theo_cost': finished_qty * theo_cost})
         return res
 
     def unlink(self, cr, uid, ids, context=None):
