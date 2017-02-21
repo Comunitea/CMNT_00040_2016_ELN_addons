@@ -25,21 +25,17 @@ class purchases_forecast(osv.osv):
     _inherit = 'purchases.forecast'
 
     def generate_master_procurement_schedule(self, cr, uid, ids, context=None):
-
-        purchase_obj = self.pool.get('purchases.forecast')
-        purchase_line_obj = self.pool.get('purchases.forecast.line')
         proc_obj = self.pool.get('stock.plannings')
         product_obj = self.pool.get('product.product')
         warehouse_obj = self.pool.get('stock.warehouse')
         months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun',
-                'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
-
+                  'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
         # periods = {month: {'id_producto': (prev, real)}}
         periods = {}
 
         for cur in self.browse(cr, uid, ids):
             if cur.purchases_forecast_lines:
-                for month in range(0,12):
+                for month in range(0, 12):
                     year = cur.date[:4]
                     month = str(month)
                     periods[month] = {}
@@ -57,7 +53,7 @@ class purchases_forecast(osv.osv):
                             complet_first_date = year+"-"+month_+"-01"
 
                         if periods[month].get(line.product_id.id, False):
-                            periods[month][line.product_id.id][0] = periods[month][line.product_id.id][0] + eval('o.' + (months[int(month)] + '_qty'),{'o': line})
+                            periods[month][line.product_id.id][0] += eval('o.' + (months[int(month)] + '_qty'), {'o': line})
                         else:
                             periods[month][line.product_id.id] = []
                             purchases_lines = self.pool.get('purchase.order.line').search(cr, uid, [('product_id','=',line.product_id.id),('date_planned', '<=', complet_last_date), ('date_planned','>=', complet_first_date)])
@@ -66,13 +62,11 @@ class purchases_forecast(osv.osv):
                                 for pline in self.pool.get('purchase.order.line').browse(cr, uid, purchases_lines):
                                     qty += pline.product_qty
 
-                            periods[month][line.product_id.id].append((eval('o.' + (months[int(month)] + '_qty'),{'o': line}), qty))
+                            periods[month][line.product_id.id].append((eval('o.' + (months[int(month)] + '_qty'), {'o': line}), qty))
 
                 if periods:
-
                     for period in periods:
                         # month: {'sale': {'id_producto': cantidad}, 'purchase': {'id_producto': cantidad}}
-
                         if period:
                             new_ids = []
                             warehouse = warehouse_obj.search(cr, uid, [('company_id','=', cur.company_id.id)])

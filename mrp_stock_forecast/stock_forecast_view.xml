@@ -2,41 +2,49 @@
 
 <openerp>
     <data>
-
         <record id="view_forecast_kg_sold_form" model="ir.ui.view">
             <field name="name">forecast.kg.sold.form</field>
             <field name="model">forecast.kg.sold</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
-                <form string="Forecast Kg Sold">
+                <form string="Forecast kg sold">
+                    <header>
+                        <button name="action_cancel" states="draft,done" string="Cancel" type="object" icon="gtk-cancel"/>
+                        <button name="action_draft" states="cancel,done,approve" string="Set to Draft" type="object" icon="gtk-convert"/>
+                        <button name="action_done" states="draft" string="Confirm" type="object" icon="gtk-apply"/>
+                        <button name="action_validate" states="done" string="Approve" type="object" icon="gtk-go-forward"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,done,approve,cancel"
+                                       statusbar_colors='{"cancel":"red","draft":"blue"}'/>
+                    </header>
                     <group col="6" colspan="4">
                         <group col="4" colspan="4">
-                            <field name="name"/>
-                            <field name="date"/>
-                            <field name="commercial_id"/>
-                            <field name="company_id" widget="selection"/>
-                            <field name="analytic_id"/>
-                            <field name="year"/>
+                            <field name="name" attrs="{'readonly':[('state','in',('approve','cancel'))]}"/>
+                            <field name="date" attrs="{'readonly':[('state','in',('approve','cancel'))]}"/>
+                            <field name="commercial_id" attrs="{'readonly':[('state','in',('approve','cancel'))]}"/>
+                            <field name="company_id" widget="selection" attrs="{'readonly':[('state','in',('approve','cancel'))]}"/>
+                            <field name="analytic_id" attrs="{'readonly':[('state','in',('approve','cancel'))]}"/>
+                            <field name="year" attrs="{'readonly':[('state','in',('approve','cancel'))]}"/>
                         </group>
                     </group>
                     <notebook colspan="4">
                         <page string="Lines">
-                            <field colspan="4" name="kgsold_forecast_lines" nolabel="1" >
+                            <field colspan="4" name="kgsold_forecast_lines" nolabel="1" attrs="{'readonly':[('state','in',('approve','cancel'))]}">
                                 <tree editable="top" string="">
                                     <field name="format_id"/>
                                     <field name="notes" attrs="{'invisible':[('format_id', '!=', False)]}"/>
-                                    <field name="jan_kg"/>
-                                    <field name="feb_kg"/>
-                                    <field name="mar_kg"/>
-                                    <field name="apr_kg"/>
-                                    <field name="may_kg"/>
-                                    <field name="jun_kg"/>
-                                    <field name="jul_kg"/>
-                                    <field name="aug_kg"/>
-                                    <field name="sep_kg"/>
-                                    <field name="oct_kg"/>
-                                    <field name="nov_kg"/>
-                                    <field name="dec_kg"/>
+                                    <field name="total_kg" sum="Total kg"/>
+                                    <field name="jan_kg" sum="Jan kg"/>
+                                    <field name="feb_kg" sum="Feb kg"/>
+                                    <field name="mar_kg" sum="Mar kg"/>
+                                    <field name="apr_kg" sum="Apr kg"/>
+                                    <field name="may_kg" sum="May kg"/>
+                                    <field name="jun_kg" sum="Jun kg"/>
+                                    <field name="jul_kg" sum="Jul kg"/>
+                                    <field name="aug_kg" sum="Aug kg"/>
+                                    <field name="sep_kg" sum="Sep kg"/>
+                                    <field name="oct_kg" sum="Oct kg"/>
+                                    <field name="nov_kg" sum="Nov kg"/>
+                                    <field name="dec_kg" sum="Dec kg"/>
                                 </tree>
                                 <form string="">
                                     <field name="format_id" colspan="4"/>
@@ -91,14 +99,6 @@
                                     </group>
                                 </form>
                             </field>
-                            <group>
-                                <field name="state"/>
-                            </group>
-
-                                <button name="action_cancel" states="draft,done" string="Cancel"  icon="gtk-cancel"/>
-                                <button name="action_draft" states="cancel,done" string="Set to Draft"  icon="gtk-convert"/>
-                                <button name="action_validate" states="draft" string="Approve" icon="gtk-go-forward" />
-
                         </page>
                     </notebook>
                 </form>
@@ -110,7 +110,7 @@
             <field name="model">forecast.kg.sold</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree string="Forecasts Kg Sold" >
+                <tree string="Forecasts Kg Sold" colors="gray:state=='cancel';blue:state=='done';green:state=='approve';black:state=='draft'">
                     <field name="name"/>
                     <field name="analytic_id"/>
                     <field name="commercial_id"/>
@@ -120,8 +120,8 @@
             </field>
         </record>
 
-        <menuitem id="menu_kg_sold" name="Forecast kg sold"
-                parent="stock.menu_stock_sched" sequence="6" groups=""/>
+        <menuitem id="menu_stock_forecasts" name="Stock forecasts"
+                parent="stock.menu_stock_root" sequence="5"/>
 
         <record id="view_forecast_kg_sold_filter" model="ir.ui.view">
             <field name="name">forecast.kg.sold.list.select</field>
@@ -146,17 +146,16 @@
         </record>
 
         <record id="action_view_forecast_kg_sold_form" model="ir.actions.act_window">
-            <field name="name">Forecast Kg Sold</field>
+            <field name="name">Forecast kg sold</field>
             <field name="res_model">forecast.kg.sold</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="context">{"search_default_create_uid":uid}</field>
-
         </record>
 
-        <menuitem id="menu_forecast_kg_sold_all"
+        <menuitem id="menu_forecast_kg_sold"
                   name="Forecasts kg sold"
-                  parent="menu_kg_sold"
+                  parent="menu_stock_forecasts"
                   action="action_view_forecast_kg_sold_form"
                   sequence="2"/>
 

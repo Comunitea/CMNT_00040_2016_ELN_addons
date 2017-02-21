@@ -37,7 +37,7 @@ class merge_sales_forecast(osv.osv_memory):
         """
         if context is None:
             context={}
-        res = super(merge_sales_forecast, self).fields_view_get(cr, uid, view_id=view_id, view_type=view_type, context=context, toolbar=toolbar,submenu=False)
+        res = super(merge_sales_forecast, self).fields_view_get(cr, uid, view_id=view_id, view_type=view_type, context=context, toolbar=toolbar, submenu=False)
         if context.get('active_model','') == 'sales.forecast' and len(context['active_ids']) < 2:
             raise osv.except_osv(_('Warning'),
             _('Please select multiple sales forecasts to merge in the list view.'))
@@ -57,14 +57,13 @@ class merge_sales_forecast(osv.osv_memory):
 
         """
         sales_obj = self.pool.get('sales.forecast')
-        #proc_obj = self.pool.get('procurement.order')
         mod_obj =self.pool.get('ir.model.data')
         if context is None:
             context = {}
         result = mod_obj._get_id(cr, uid, 'sales_forecast', 'view_sales_forecast_filter')
         id = mod_obj.read(cr, uid, result, ['res_id'])
 
-        allorder = sales_obj.do_merge(cr, uid, context.get('active_ids',[]), context)
+        allorder = sales_obj.do_merge(cr, uid, context.get('active_ids', []), context)
 
         return {
             'domain': "[('id','=',%d)]" % allorder,

@@ -6,16 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-10 14:49+0000\n"
-"PO-Revision-Date: 2017-01-10 16:09+0100\n"
-"Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
+"POT-Creation-Date: 2017-02-20 21:00+0000\n"
+"PO-Revision-Date: 2017-02-20 22:19+0100\n"
+"Last-Translator: Pedro <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"Language: es_ES\n"
-"X-Generator: Poedit 1.8.6\n"
+"Language: es\n"
+"X-Generator: Poedit 1.8.11\n"
 
 #. module: sales_forecast
 #: field:get.sales.forecast,percent_increase:0
@@ -63,16 +62,6 @@ msgstr "Abr €"
 #: view:sales.forecast:sales_forecast.view_sales_forecast_form
 msgid "April"
 msgstr "Abril"
-
-#. module: sales_forecast
-#: view:merge.sales.forecast:sales_forecast.view_sales_forecast_merge
-msgid "Are you sure you want to merge these forecasts?"
-msgstr "¿Está seguro de que quiere fusionar estas previsiones?"
-
-#. module: sales_forecast
-#: view:scale.sales.forecast:sales_forecast.view_sales_forecast_scale
-msgid "Are you sure you want to scale these forecasts?"
-msgstr "¿Seguro que desea escalar estas previsiones?"
 
 #. module: sales_forecast
 #: view:sales.forecast:sales_forecast.view_sales_forecast_form
@@ -181,6 +170,12 @@ msgstr "Realizado"
 #: selection:sales.forecast,state:0
 msgid "Draft"
 msgstr "Borrador"
+
+#. module: sales_forecast
+#: code:addons/sales_forecast/sales_forecast.py:209
+#, python-format
+msgid "Error!"
+msgstr "¡Error!"
 
 #. module: sales_forecast
 #: view:sales.forecast:sales_forecast.view_sales_forecast_form
@@ -439,35 +434,20 @@ msgid "October"
 msgstr "Octubre"
 
 #. module: sales_forecast
+#: view:scale.sales.forecast:sales_forecast.view_sales_forecast_scale
+msgid "Only quantities are scaled."
+msgstr "Only quantities are scaled."
+
+#. module: sales_forecast
 #: view:sales.forecast:sales_forecast.view_sales_forecast_form
 msgid "Origin"
 msgstr "Origen"
 
 #. module: sales_forecast
-#: view:scale.sales.forecast:sales_forecast.view_sales_forecast_scale
-msgid ""
-"Please note that: \n"
-" \n"
-" * Only quantities are scaled. \n"
-" * The amounts will be filled to zeros"
-msgstr ""
-"Tenga en cuenta que: \n"
-" \n"
-" * Sólamente las cantidades serán escaladas. \n"
-" * Los importes se llenarán con ceros"
-
-#. module: sales_forecast
 #: view:merge.sales.forecast:sales_forecast.view_sales_forecast_merge
-msgid ""
-"Please note that: \n"
-" \n"
-" Sales forecasts will only be merged if: \n"
-" * Sales forecasts belong to the same company"
-msgstr ""
-"Tenga en cuenta que: \n"
-" \n"
-"Las previsiones de ventas sólo se fusionarán si: \n"
-"* Las previsiones de ventas pertenecen a la misma empresa"
+#: view:scale.sales.forecast:sales_forecast.view_sales_forecast_scale
+msgid "Please note that:"
+msgstr "Tenga en cuenta que:"
 
 #. module: sales_forecast
 #: code:addons/sales_forecast/wizard/merge_sales_forecast.py:43
@@ -482,7 +462,7 @@ msgstr "Precargar una previsión de ventas"
 
 #. module: sales_forecast
 #: model:ir.model,name:sales_forecast.model_scale_sales_forecast
-msgid "Preload a scale sales forecast"
+msgid "Preload a scaled sales forecast"
 msgstr "Precargar una previsión de ventas escalada"
 
 #. module: sales_forecast
@@ -511,8 +491,11 @@ msgid "Sales Forecast Merge"
 msgstr "Sales Forecast Merge"
 
 #. module: sales_forecast
+#: code:addons/sales_forecast/wizard/merge_sales_forecast.py:70
 #: code:addons/sales_forecast/wizard/merge_sales_forecast.py:71
+#: code:addons/sales_forecast/wizard/scale_sales_forecast.py:72
 #: code:addons/sales_forecast/wizard/scale_sales_forecast.py:73
+#: code:addons/sales_forecast/wizard/scale_sales_forecast.py:85
 #: code:addons/sales_forecast/wizard/scale_sales_forecast.py:86
 #, python-format
 msgid "Sales Forecasts"
@@ -527,16 +510,11 @@ msgid "Sales forecast"
 msgstr "Previsión de ventas"
 
 #. module: sales_forecast
-#: model:res.groups,name:sales_forecast.group_approve_sale_forecast
-#: model:res.groups,name:sales_forecast.group_approve_sales_forecast
-msgid "Sales forecast / Manager"
-msgstr "Previsión de ventas / Manager"
-
-#. module: sales_forecast
 #: code:addons/sales_forecast/sales_forecast.py:143
+#: code:addons/sales_forecast/sales_forecast.py:147
 #, python-format
 msgid "Sales forecast MERGED. "
-msgstr "Sales forecast MERGED. "
+msgstr "Previsión de ventas FUSIONADA. "
 
 #. module: sales_forecast
 #: model:ir.model,name:sales_forecast.model_sales_forecast_line
@@ -544,8 +522,8 @@ msgid "Sales forecast lines"
 msgstr "Lineas previsión de ventas"
 
 #. module: sales_forecast
-#: model:ir.ui.menu,name:sales_forecast.menu_sales_forecast
 #: model:ir.ui.menu,name:sales_forecast.menu_sales_forecast_all
+#: model:ir.ui.menu,name:sales_forecast.menu_sales_forecasts
 #: view:sales.forecast:sales_forecast.view_sales_forecast_tree
 msgid "Sales forecasts"
 msgstr "Previsiones de ventas"
@@ -593,7 +571,18 @@ msgid "State"
 msgstr "Estado"
 
 #. module: sales_forecast
+#: view:scale.sales.forecast:sales_forecast.view_sales_forecast_scale
+msgid "The amounts will be filled to zeros."
+msgstr "Los importes se llenarán con ceros."
+
+#. module: sales_forecast
+#: view:merge.sales.forecast:sales_forecast.view_sales_forecast_merge
+msgid "The forecasts used will not be deleted, only a new one will be created."
+msgstr "Las previsiones usadas no se borrarán, solo se creará una nueva."
+
+#. module: sales_forecast
 #: code:addons/sales_forecast/sales_forecast.py:80
+#: code:addons/sales_forecast/sales_forecast.py:82
 #, python-format
 msgid ""
 "The pricelist has no active version !\n"
@@ -607,6 +596,11 @@ msgstr ""
 #, python-format
 msgid "The product [%s] %s is not in the selected pricelist !"
 msgstr "El producto [%s] %s no está en la tarifa de precios seleccionada!"
+
+#. module: sales_forecast
+#: view:merge.sales.forecast:sales_forecast.view_sales_forecast_merge
+msgid "The selected forecasts will be merged into a new one."
+msgstr "Las previsiones seleccionadas serán fusionadas en una nueva."
 
 #. module: sales_forecast
 #: field:sales.forecast.line,total_qty:0
@@ -632,6 +626,7 @@ msgstr "Atención"
 
 #. module: sales_forecast
 #: code:addons/sales_forecast/sales_forecast.py:80
+#: code:addons/sales_forecast/sales_forecast.py:82
 #: code:addons/sales_forecast/sales_forecast.py:88
 #, python-format
 msgid "Warning !"
@@ -646,6 +641,12 @@ msgstr "Cuando este campo está marcado, la tarifa de precios no se usará para 
 #: field:sales.forecast,year:0
 msgid "Year"
 msgstr "Año"
+
+#. module: sales_forecast
+#: code:addons/sales_forecast/sales_forecast.py:209
+#, python-format
+msgid "You cannot delete an approved forecast."
+msgstr "No puede borrar una previsión aprobada."
 
 #. module: sales_forecast
 #: field:sales.forecast.line,apr_amount:0

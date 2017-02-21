@@ -19,7 +19,7 @@
 #
 ##############################################################################
 {
-        "name" : "Sales Purchases Forecast Link",
+        "name" : "Sales, Mrp and Stock Forecast Link",
         "version" : "1.0",
         "author" : "Pexego",
         "website" : "http://www.pexego.es",
@@ -32,7 +32,8 @@
         "depends" : ['base','sales_forecast','mrp_stock_forecast','mrp'],
         "init_xml" : [],
         "demo_xml" : [],
-        "data" : [
+        "data" : ['wizard/sales_mrp_forecast.xml',
+                  'wizard/sales_stock_forecast.xml'
             ],
         "installable": True,
         'active': False

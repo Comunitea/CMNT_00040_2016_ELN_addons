@@ -3,19 +3,19 @@
 <openerp>
     <data>
 
-    <record model="ir.rule" id="forecast_kg_sold_comp_rule">
-        <field name="name">Forecast kg sold multi-company</field>
-        <field name="model_id" ref="model_forecast_kg_sold"/>
-        <field name="global" eval="True"/>
-        <field name="domain_force">['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
-    </record>
+        <record model="ir.rule" id="forecast_kg_sold_comp_rule">
+            <field name="name">Forecast kg sold multi-company</field>
+            <field name="model_id" ref="model_forecast_kg_sold"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
+        </record>
 
-    <record model="ir.rule" id="mrp_forecast_sold_comp_rule">
-        <field name="name">Mrp forecast multi-company</field>
-        <field name="model_id" ref="model_mrp_forecast"/>
-        <field name="global" eval="True"/>
-        <field name="domain_force">['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
-    </record>
+        <record model="ir.rule" id="mrp_forecast_sold_comp_rule">
+            <field name="name">Mrp forecast multi-company</field>
+            <field name="model_id" ref="model_mrp_forecast"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
+        </record>
 
     </data>
 </openerp>

@@ -37,13 +37,13 @@ class merge_mrp_forecast(osv.osv_memory):
         """
         if context is None:
             context={}
-        res = super(merge_mrp_forecast, self).fields_view_get(cr, uid, view_id=view_id, view_type=view_type, context=context, toolbar=toolbar,submenu=False)
+        res = super(merge_mrp_forecast, self).fields_view_get(cr, uid, view_id=view_id, view_type=view_type, context=context, toolbar=toolbar, submenu=False)
         if context.get('active_model','') == 'mrp.forecast' and len(context['active_ids']) < 2:
             raise osv.except_osv(_('Warning'),
-            _('Please select multiple order to merge in the list view.'))
+            _('Please select multiple mrp forecasts to merge in the list view.'))
         return res
 
-    def merge_orders(self, cr, uid, ids, context=None):
+    def merge_mrp_forecast(self, cr, uid, ids, context=None):
         """
              To merge similar type of purchases forecasts.
 
@@ -56,14 +56,11 @@ class merge_mrp_forecast(osv.osv_memory):
              @return: purchase order view
 
         """
-        order_obj = self.pool.get('mrp.forecast')
-        #proc_obj = self.pool.get('procurement.order')
-        mod_obj =self.pool.get('ir.model.data')
+        mrp_obj = self.pool.get('mrp.forecast')
         if context is None:
             context = {}
 
-
-        allorder = order_obj.do_merge(cr, uid, context.get('active_ids',[]), context)
+        allorder = mrp_obj.do_merge(cr, uid, context.get('active_ids', []), context)
 
         return {'type': 'ir.actions.act_window_close'}
 
@@ -85,13 +82,13 @@ class merge_stock_forecast(osv.osv_memory):
         """
         if context is None:
             context={}
-        res = super(merge_stock_forecast, self).fields_view_get(cr, uid, view_id=view_id, view_type=view_type, context=context, toolbar=toolbar,submenu=False)
+        res = super(merge_stock_forecast, self).fields_view_get(cr, uid, view_id=view_id, view_type=view_type, context=context, toolbar=toolbar, submenu=False)
         if context.get('active_model','') == 'forecast.kg.sold' and len(context['active_ids']) < 2:
             raise osv.except_osv(_('Warning'),
-            _('Please select multiple order to merge in the list view.'))
+            _('Please select multiple stock forecasts to merge in the list view.'))
         return res
 
-    def merge_orders(self, cr, uid, ids, context=None):
+    def merge_stock_forecast(self, cr, uid, ids, context=None):
         """
              To merge similar type of purchases forecasts.
 
@@ -104,15 +101,13 @@ class merge_stock_forecast(osv.osv_memory):
              @return: purchase order view
 
         """
-        order_obj = self.pool.get('forecast.kg.sold')
-        #proc_obj = self.pool.get('procurement.order')
-        mod_obj =self.pool.get('ir.model.data')
+        stock_obj = self.pool.get('forecast.kg.sold')
         if context is None:
             context = {}
 
-
-        allorder = order_obj.do_merge(cr, uid, context.get('active_ids',[]), context)
+        allorder = stock_obj.do_merge(cr, uid, context.get('active_ids', []), context)
 
         return {'type': 'ir.actions.act_window_close'}
+
 merge_mrp_forecast()
 

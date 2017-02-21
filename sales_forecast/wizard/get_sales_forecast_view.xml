@@ -2,26 +2,26 @@
 
 <openerp>
     <data>
-         <record id="get_sales_forecast_wzd_view" model="ir.ui.view">
+        <record id="get_sales_forecast_wzd_view" model="ir.ui.view">
             <field name="name">Get Sales Forecast</field>
             <field name="model">get.sales.forecast</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
-            <form string="Get sales forecast">
-                <group>
-                    <field name="name"/>
-                    <field name="account_id"/>
-                    <field name="include_child_ids"/>
-                    <field name="percent_increase"/>
-                </group>
-                <newline/>
-                <footer>
-                    <button icon="gtk-cancel" special="cancel" string="Cancel"/>
-                    <button string='Get' icon="gtk-execute" name="get_sales_forecast" type="object"/>
-                </footer>
-            </form>
+                <form string="Get sales forecast">
+                    <group>
+                        <field name="name"/>
+                        <field name="account_id"/>
+                        <field name="include_child_ids"/>
+                        <field name="percent_increase"/>
+                    </group>
+                    <newline/>
+                    <footer>
+                        <button icon="gtk-cancel" special="cancel" string="Cancel"/>
+                        <button string='Get' icon="gtk-execute" name="get_sales_forecast" type="object"/>
+                    </footer>
+                </form>
             </field>
-         </record>
+        </record>
 
         <record id="get_sales_forecast_action" model="ir.actions.act_window">
             <field name="name">Get sales forecast</field>
@@ -34,7 +34,7 @@
 
         <menuitem
             action="get_sales_forecast_action" icon="STOCK_EXECUTE"
-            id="menu_get_sales_forecast" parent="menu_sales_forecast"
+            id="menu_get_sales_forecast" parent="menu_sales_forecasts"
             sequence="1"/>
 
     </data>

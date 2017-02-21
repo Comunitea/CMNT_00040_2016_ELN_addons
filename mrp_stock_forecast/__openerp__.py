@@ -28,14 +28,11 @@
         "depends" : ['mrp','base', 'stock', 'product_format'],
         "init_xml" : [],
         "demo_xml" : [],
-        "data" : [
-                    'stock_forecast_view.xml',
-                    'mrp_forecast_view.xml',
-                    'mrp_forecast_workflow.xml',
-                    'stock_forecast_workflow.xml',
-                    'wizard/merge_forecasts_view.xml',
-                    'security/ir.model.access.csv',
-                    'security/security.xml'
+        "data" : ['security/ir.model.access.csv',
+                  'security/security.xml',
+                  'mrp_forecast_view.xml',
+                  'stock_forecast_view.xml',
+                  'wizard/merge_forecasts_view.xml',
             ],
         "installable": True,
         'active': False

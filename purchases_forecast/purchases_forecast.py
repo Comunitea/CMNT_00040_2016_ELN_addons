@@ -24,7 +24,6 @@ from openerp import netsvc
 from openerp.tools.translate import _
 
 class purchases_forecast(osv.osv):
-
     _name = 'purchases.forecast'
     _description = 'Purchases forecast'
     _columns = {
@@ -49,6 +48,9 @@ class purchases_forecast(osv.osv):
     _defaults = {
         'state': 'draft',
         'commercial_id': lambda obj, cr, uid, context: uid,
+        'company_id': lambda self, cr, uid, c: self.pool.get('res.company')._company_default_get(cr, uid, 'purchases.forecast', context=c),
+        'date': lambda *a: time.strftime("%Y-%m-%d"),
+        'year': lambda *a: time.strftime("%Y"),
     }
 
     def action_done(self, cr, uid, ids, context=None):
@@ -94,7 +96,8 @@ class purchases_forecast(osv.osv):
         old_ids = []
         res = {}
         lines = []
-        company = self.pool.get('res.users').browse(cr, uid, uid).company_id and self.pool.get('res.users').browse(cr, uid, uid).company_id.id or False
+        users_obj = self.pool.get('res.users')
+        company = users_obj.browse(cr, uid, uid).company_id and users_obj.browse(cr, uid, uid).company_id.id or False
         new_id = forecast_obj.create(cr, uid, {'name': _('Purchases forecast MERGED. '),
                                                    #'analytic_id': cur.analytic_id.id,
                                                    'commercial_id': uid,
@@ -102,11 +105,10 @@ class purchases_forecast(osv.osv):
                                                    'company_id': company,
                                                    'state': 'draft'
                                                     })
-
         months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun',
-                'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
+                  'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
         for porder in self.browse(cr, uid, ids, context=context):
-            forecast_obj.write(cr, uid, porder.id,{'merged_into_id': new_id})
+            forecast_obj.write(cr, uid, porder.id, {'merged_into_id': new_id})
             old_ids.append(porder.id)
             for l in porder.purchases_forecast_lines:
                 lines.append(l.id)
@@ -114,31 +116,38 @@ class purchases_forecast(osv.osv):
             for line in forecast_line_obj.browse(cr, uid, lines):
                 if not res.get(line.product_id.id):
                     res[line.product_id.id] = {}
-                for month in range(0,12):
+                for month in range(0, 12):
                     if not res[line.product_id.id].get(months[month] + '_qty'):
                         res[line.product_id.id][months[month] + '_qty'] = 0.0
-                    res[line.product_id.id][months[month] + '_qty'] = res[line.product_id.id][months[month] + '_qty'] + (eval('o.' + (months[month] + '_qty'),{'o': line}))
-
+                    res[line.product_id.id][months[month] + '_qty'] += (eval('o.' + (months[month] + '_qty'), {'o': line}))
         if res:
             for product in res:
                 nwline = forecast_line_obj.create(cr, uid, {
                                 'purchases_forecast_id': new_id,
                                 'actual_cost': product_obj.browse(cr, uid, product).standard_price,
                                 'product_id': product})
-                for month in range(0,12):
+                for month in range(0, 12):
                     forecast_line_obj.write(cr, uid, nwline, {
                                months[month] + '_qty': res[product][months[month] + '_qty'],
                                months[month] + '_amount_total': res[product][months[month] + '_qty'] * product_obj.browse(cr, uid, product).standard_price})
-
-            # make triggers pointing to the old purchases forecast to the new forecast
-        if old_ids:
-            for old_id in old_ids:
-                wf_service.trg_validate(uid, 'purchases.forecast', old_id, 'action_cancel', cr)
+        #if old_ids:
+        #    for old_id in old_ids:
+        #        wf_service.trg_validate(uid, 'purchases.forecast', old_id, 'action_cancel', cr)
         return new_id
+
+    def unlink(self, cr, uid, ids, context=None):
+        """ Unlink the forecast.
+        @return: True
+        """
+        if context is None:
+            context = {}
+        if any(x.state == 'approve' for x in self.browse(cr, uid, ids, context=context)):
+            raise osv.except_osv(_('Error!'),  _('You cannot delete an approved forecast.'))
+
+        return super(purchases_forecast, self).unlink(cr, uid, ids, context=context)
 
 
 class purchases_forecast_line(osv.osv):
-
     _name = 'purchases.forecast.line'
     _description = 'Purchases forecast lines'
 
@@ -166,52 +175,39 @@ class purchases_forecast_line(osv.osv):
         for line in self.browse(cr, uid, ids, context=context):
             c.update({'to_date': time.strftime('%Y-%m-%d %H:%M:%S')})
             res[line.id] = self.pool.get('product.product').browse(cr, uid, line.product_id.id, context=c).qty_available
-
         return res
+
     _columns = {
         'name': fields.char('Name', size=255, required=True),
         'purchases_forecast_id': fields.many2one('purchases.forecast', 'Purchases forecast',
                                                 required=True, ondelete='cascade'),
-        'product_id': fields.many2one('product.product', 'Product',
-                                        required=True),
+        'product_id': fields.many2one('product.product', 'Product', required=True),
         'actual_stock': fields.function(_get_actual_stock, type="float",
                                     digits=(16,2), string="Actual Stock", readonly=True),
         'actual_cost':fields.float('Cost €'),
         'jan_qty': fields.float('Qty'),
-
         'jan_amount_total': fields.float('Total €', digits=(16,2)),
         'feb_qty': fields.float('Qty'),
-
         'feb_amount_total': fields.float('Total €', digits=(16,2)),
         'mar_qty': fields.float('Qty'),
-
         'mar_amount_total': fields.float('Total €', digits=(16,2)),
         'apr_qty': fields.float('Qty'),
-
         'apr_amount_total': fields.float('Total €', digits=(16,2)),
         'may_qty': fields.float('Qty'),
-
         'may_amount_total': fields.float('Total €', digits=(16,2)),
         'jun_qty': fields.float('Qty'),
-
         'jun_amount_total': fields.float('Total €', digits=(16,2)),
         'jul_qty': fields.float('Qty'),
-
         'jul_amount_total': fields.float('Total €', digits=(16,2)),
         'aug_qty': fields.float('Qty'),
-
         'aug_amount_total': fields.float('Total €', digits=(16,2)),
         'sep_qty': fields.float('Qty'),
-
         'sep_amount_total': fields.float('Total €', digits=(16,2)),
         'oct_qty': fields.float('Qty'),
-
         'oct_amount_total': fields.float('Total €', digits=(16,2)),
         'nov_qty': fields.float('Qty'),
-
         'nov_amount_total': fields.float('Total €', digits=(16,2)),
         'dec_qty': fields.float('Qty'),
-
         'dec_amount_total': fields.float('Total €', digits=(16,2)),
         'total_qty': fields.function(_get_total_qty, type="float",
                                     digits=(16,2), string="Total Qty.", readonly=True),
@@ -221,8 +217,6 @@ class purchases_forecast_line(osv.osv):
     _defaults = {
         'name': lambda x, y, z, c: x.pool.get('ir.sequence').get(y, z, 'purchases.forecast.line') or '/'
     }
-
-
 
     def on_change_qty(self, cr, uid, ids, qty=0.0, field='', product_id=False, context=None):
         if context is None:
