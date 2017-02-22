@@ -131,8 +131,8 @@ class mrp_bom(osv.osv):
                 'cycle': wc_use.cycle_nbr * (factor * bom.product_qty),
                 'time_start': wc_use.time_start,
                 'time_stop': wc_use.time_stop,
-                'hour': float(((factor * bom.product_qty) / (qty_per_cycle or 1.0)) * (wc.time_efficiency or 1.0)),
-                #'real_time': float(((factor * bom.product_qty) / (qty_per_cycle or 1.0)) * (wc.time_efficiency or 1.0)),
+                'hour': float(((factor * bom.product_qty) * (wc_use.hour_nbr or 1.0) / (qty_per_cycle or 1.0)) * (wc.time_efficiency or 1.0)),
+                'real_time': float(((factor * bom.product_qty) * (wc_use.hour_nbr or 1.0) / (qty_per_cycle or 1.0)) * (wc.time_efficiency or 1.0)),
             }
 
         factor = _factor(factor, bom.product_efficiency, bom.product_rounding)
