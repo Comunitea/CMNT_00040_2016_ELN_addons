@@ -25,27 +25,11 @@ from openerp import models, api
 class AccountMoveLine(models.Model):
     _inherit = "account.move.line"
 
-    #Función pendiente de aplicar. Util en los pagos para ver numero de factura.
-    #def name_get(self, cr, uid, ids, context=None):
-    #    if not ids:
-    #        return []
-    #    result = []
-    #    for line in self.browse(cr, uid, ids, context=context):
-    #        if line.ref and line.invoice and line.invoice.number:
-    #            result.append((line.id, (line.move_id.name or '')+' ['+line.invoice.number+']'+' ('+line.ref+')'))
-    #        elif line.ref:
-    #            result.append((line.id, (line.move_id.name or '')+' ('+line.ref+')'))
-    #        elif line.invoice and line.invoice.number:
-    #            result.append((line.id, (line.move_id.name or '')+' ['+line.invoice.number+']'))
-    #        else:
-    #            result.append((line.id, line.move_id.name))
-    #    return result
-
     @api.multi
-    def unlink(self):
+    def unlink(self, check=True):
         domain = [('move_line_id', 'in', self._ids)]
         voucher_lines = self.env['account.voucher.line'].search(domain)
         if voucher_lines:
             voucher_lines.unlink()
-        res = super(AccountMoveLine, self).unlink()
+        res = super(AccountMoveLine, self).unlink(check=check)
         return res
