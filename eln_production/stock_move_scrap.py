@@ -19,16 +19,11 @@
 #
 ##############################################################################
 from openerp.osv import osv, fields
-
+from openerp.tools.translate import _
 
 class stock_move_scrap(osv.osv_memory):
     _inherit = "stock.move.scrap"
 
-    _columns = {
-        'prodlot_id': fields.many2one('stock.production.lot', 'Lot'),
-        'track_production': fields.boolean('Track production', readonly=True)
-    }
-    
     def default_get(self, cr, uid, fields, context=None):
         """ Get default values
         @param self: The object pointer.
@@ -43,8 +38,7 @@ class stock_move_scrap(osv.osv_memory):
         res = super(stock_move_scrap, self).default_get(cr, uid, fields, context=context)
 
         move = self.pool.get('stock.move').browse(cr, uid, context['active_id'], context=context)
-        if move.product_id and move.product_id.track_production:
-            res.update({'track_production': True})
+
         if 'restrict_lot_id' in fields:
             if move.restrict_lot_id:
                 res.update({'restrict_lot_id': move.restrict_lot_id.id})
@@ -60,13 +54,14 @@ class stock_move_scrap(osv.osv_memory):
         @param context: A standard dictionary
         @return:
         """
-        
         if context is None:
             context = {}
         move_obj = self.pool.get('stock.move')
         move_ids = context['active_ids']
 
         for data in self.browse(cr, uid, ids):
+            if not data.restrict_lot_id and (data.product_id.track_production or data.product_id.track_all):
+                raise osv.except_osv(_('Warning!'), _('You must assign a serial number for the product %s') % (data.product_id.name))
             if data.restrict_lot_id:
                 move_obj.write(cr, uid, move_ids, {'restrict_lot_id': data.restrict_lot_id.id}, context=context)
 
