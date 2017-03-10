@@ -22,30 +22,30 @@ from openerp import models, fields, api
 
 
 class AccountAnalyticJournal(models.Model):
-
     _inherit = 'account.analytic.journal'
 
     analytic_cost_journal = fields.Many2one('account.analytic.journal',
                                             'Analytic cost journal')
 
 
-class AccountInvoice(models.Model):
-
-    _inherit = 'account.invoice'
+class AccountMoveLine(models.Model):
+    _inherit = 'account.move.line'
 
     @api.multi
-    def invoice_validate(self):
+    def create_analytic_lines(self):
+        res = super(AccountMoveLine, self).create_analytic_lines()
         t_uom = self.env['product.uom']
         product_tmpl_obj = self.env['product.template']
-        for invoice in self:
-            if invoice.type not in ('out_invoice', 'out_refund'):
+        for line in self:
+            if not line.invoice:
+                continue 
+            if line.invoice.type not in ('out_invoice', 'out_refund'):
                 continue
-            company_currency = self.company_id.currency_id
-            currency = self.currency_id.with_context(date=self.date_invoice)
-            sign = -1 if self.type == 'out_invoice' else 1
-            for analytic_move in invoice.mapped(
-                    'move_id.line_id.analytic_lines'):
-                if not analytic_move.product_id:
+            company_currency = line.invoice.company_id.currency_id
+            currency = line.invoice.currency_id.with_context(date=line.invoice.date_invoice)
+            sign = -1 if line.invoice.type == 'out_invoice' else 1
+            for analytic_move in line.mapped('analytic_lines'):
+                if not analytic_move.product_id or not analytic_move.journal_id.analytic_cost_journal:
                     continue
                 from_unit = analytic_move.product_uom_id.id
                 product_unit = analytic_move.product_id.uom_id.id
@@ -57,7 +57,7 @@ class AccountInvoice(models.Model):
                 price_unit = 0
                 quant_qty = 0
                 if analytic_move.product_id.type != 'service':
-                    for picking_id in self.picking_ids:
+                    for picking_id in line.invoice.picking_ids:
                         for move_line in picking_id.move_lines:
                             if move_line.product_id == analytic_move.product_id:
                                 for quant in move_line.quant_ids:
@@ -68,9 +68,9 @@ class AccountInvoice(models.Model):
                 if quant_qty:
                     price_unit = price_unit / quant_qty
                 if not price_unit:
-                    date = self.date_invoice
+                    date = line.invoice.date_invoice
                     price_unit = product_tmpl_obj.get_history_price(analytic_move.product_id.product_tmpl_id.id, 
-                                                                    self.company_id.id, 
+                                                                    line.invoice.company_id.id, 
                                                                     date=date) 
                 price_unit = price_unit or analytic_move.product_id.standard_price
                 amount = currency.compute(
@@ -81,4 +81,5 @@ class AccountInvoice(models.Model):
                         {'journal_id':
                          analytic_move.journal_id.analytic_cost_journal.id,
                          'amount': amount})
-        return super(AccountInvoice, self).invoice_validate()
+
+        return res
