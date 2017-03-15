@@ -49,14 +49,38 @@ class ModifyInvoiceAnalyticAccountWzd(models.TransientModel):
             if invoice.state not in ('open', 'paid') or not invoice.move_id:
                 raise exceptions.Warning(_('Invalid Action!'), 
                     _('The analytic account can not be modified using this wizard, because the invoice is not validated.'))
+
+            # Establecemos nueva analítica en la factura
             for line in invoice.invoice_line:
-                # Establecemos nueva analítica en la factura
                 line.account_analytic_id = self.analytic_account_id
-            for line_id in invoice.move_id.line_id:
-                # Establecemos nueva analítica en los apuntes generados por la factura
-                # Para ello suponemos que todos los apuntes con producto establecido corresponden a una linea de factura
-                if line_id.product_id: 
-                    line_id.analytic_account_id = self.analytic_account_id
+
+            # Establecemos nueva analítica en los apuntes generados por la factura
+            # Para ello suponemos que todos los apuntes con producto establecido corresponden a una linea de factura
+            # Además primero vemos cuantos apuntes se generarían al crear el asiento con analítica, para
+            # despues ver cuales de los generados se corresponden con ellos, y así establecer la cuenta analítica
+            # solo en esos apuntes
+            lines_with_analytic = [ail for ail in self.env['account.invoice.line'].move_line_get(invoice.id)
+                                    if ail.get('account_analytic_id', False)]
+            for line_id in invoice.move_id.line_id.filtered(lambda x: x.product_id):
+                if self.analytic_account_id:
+                    key_account = (line_id.product_id.id,
+                                   line_id.product_uom_id and line_id.product_uom_id.id,
+                                   line_id.quantity or 0.0,
+                                   line_id.credit or line_id.debit or 0.0,
+                                   line_id.tax_code_id and line_id.tax_code_id.id)
+                    for line_with_analytic in lines_with_analytic:
+                        key_invoice = (line_with_analytic['product_id'],
+                                       line_with_analytic['uos_id'],
+                                       line_with_analytic['quantity'],
+                                       line_with_analytic['price'],
+                                       line_with_analytic['tax_code_id'])
+                        if key_invoice == key_account:
+                            line_id.analytic_account_id = self.analytic_account_id
+                            self.pool.get('account.move.line').create_analytic_lines(self._cr, self._uid, [line_id.id], self._context)
+                            lines_with_analytic.remove(line_with_analytic)
+                            break
+                else:
+                    line_id.analytic_account_id = False
                     self.pool.get('account.move.line').create_analytic_lines(self._cr, self._uid, [line_id.id], self._context)
         return res
 
