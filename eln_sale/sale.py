@@ -277,13 +277,6 @@ class sale_order_line(orm.Model):
             res['value']['product_uos_qty'] = 1.0
             res['value']['product_uos'] = uos
 
-        if context.get('uom_qty_change', False) and 'th_weight' not in res['value']:
-            # En Diciembre 2015 se añadió el valor en contexto 'uom_qty_change' 
-            # para evitar que al cambiar la cantidad de producto 
-            # se cambiase la unidad de medida
-            # pero no se tuvo en cuenta que el peso sí debe cambiar.
-            res['value']['th_weight'] = qty * prod_obj.weight
-
         return res
 
     def product_uom_change(self, cr, uid, ids, pricelist, product, qty=0,
