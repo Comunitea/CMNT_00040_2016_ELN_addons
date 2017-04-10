@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- BALANCE NORMAL
+        Modificación del comportamiento cuentas 5523 y 5524.
+        Originalmente a 12450 iba debit(5523) y debit(5524); y a 32400 credit(5523) y credit(5524)
+        Según interpretación asesor fiscal debe ir el saldo de 5523 y 5524 en código 12450
+        -->
+        <record model="account.balance.reporting.template.line" id="l10n_es_account_balance_report.es_balance_normal_12450">
+            <field name="current_value">5353, 5354, 5523, 5524</field>
+        </record>
+
+        <record model="account.balance.reporting.template.line" id="l10n_es_account_balance_report.es_balance_normal_32400">
+            <field name="current_value">5103, 5104, 5113, 5114, 5123, 5124, 5133, 5134, 5143, 5144, 5563, 5564</field>
+        </record>
+
+        <!-- BALANCE ABREVIADO
+        Modificación del comportamiento cuentas 5523 y 5524.
+        Originalmente a 12400 iba debit(5523) y debit(5524); y a 32400 credit(5523) y credit(5524)
+        Según interpretación asesor fiscal debe ir el saldo de 5523 y 5524 en código 12400
+        -->
+        <record model="account.balance.reporting.template.line" id="l10n_es_account_balance_report.es_balance_abreviado_12400">
+            <field name="current_value">5303, 5304, 5313, 5314, 5323, 5324, 5333, 5334, 5343, 5344, 5353, 5354, 5393, 5394, 5523, 5524, 593, 5943, 5944, 5953, 5954</field>
+        </record>
+
+        <record model="account.balance.reporting.template.line" id="l10n_es_account_balance_report.es_balance_abreviado_32400">
+            <field name="current_value">5103, 5104, 5113, 5114, 5123, 5124, 5133, 5134, 5143, 5144, 5563, 5564</field>
+        </record>
+
+        <!-- BALANCE PYMES
+        Modificación del comportamiento cuentas 5523 y 5524.
+        Originalmente a 12400 iba debit(5523) y debit(5524); y a 32400 credit(5523) y credit(5524)
+        Según interpretación asesor fiscal debe ir el saldo de 5523 y 5524 en código 12400
+        -->
+        <record model="account.balance.reporting.template.line" id="l10n_es_account_balance_report.es_balance_pymes_12400">
+            <field name="current_value">5303, 5304, 5313, 5314, 5323, 5324, 5333, 5334, 5343, 5344, 5353, 5354, 5393, 5394, 5523, 5524, 5933, 5934, 5943, 5944, 5953, 5954</field>
+        </record>
+
+        <record model="account.balance.reporting.template.line" id="l10n_es_account_balance_report.es_balance_pymes_32400">
+            <field name="current_value">5103, 5104, 5113, 5114, 5123, 5124, 5133, 5134, 5143, 5144, 5563, 5564</field>
+        </record>
+
+    </data>
+</openerp>
