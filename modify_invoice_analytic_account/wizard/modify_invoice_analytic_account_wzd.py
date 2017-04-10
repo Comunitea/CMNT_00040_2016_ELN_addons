@@ -66,13 +66,13 @@ class ModifyInvoiceAnalyticAccountWzd(models.TransientModel):
                     key_account = (line_id.product_id.id,
                                    line_id.product_uom_id and line_id.product_uom_id.id,
                                    line_id.quantity or 0.0,
-                                   line_id.credit or line_id.debit or 0.0,
+                                   abs(line_id.credit or line_id.debit or 0.0),
                                    line_id.tax_code_id and line_id.tax_code_id.id)
                     for line_with_analytic in lines_with_analytic:
                         key_invoice = (line_with_analytic['product_id'],
                                        line_with_analytic['uos_id'],
                                        line_with_analytic['quantity'],
-                                       line_with_analytic['price'],
+                                       abs(line_with_analytic['price']),
                                        line_with_analytic['tax_code_id'])
                         if key_invoice == key_account:
                             line_id.analytic_account_id = self.analytic_account_id
