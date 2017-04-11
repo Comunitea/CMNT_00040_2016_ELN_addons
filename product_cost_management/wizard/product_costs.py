@@ -239,7 +239,7 @@ class product_costs_line(osv.osv_memory):
         if not context.get('cron', False):
             value = {
                 'domain': str([('id', 'in', lines)]),
-                'view_type': 'tree',
+                'view_type': 'form',
                 'view_mode': 'tree',
                 'res_model': 'product.costs.line',
                 'type': 'ir.actions.act_window',
@@ -281,7 +281,7 @@ class product_costs_line(osv.osv_memory):
 
         value = {
             'domain': str([('id', 'in', lines_ids)]),
-            'view_type': 'tree',
+            'view_type': 'form',
             'view_mode': 'tree',
             'res_model': 'product.costs.line',
             'type': 'ir.actions.act_window',
