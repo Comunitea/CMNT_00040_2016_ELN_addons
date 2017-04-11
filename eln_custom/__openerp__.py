@@ -47,6 +47,7 @@
     "init_xml" : [],
     "data" : ['security/eln_custom_security.xml',
               'security/ir.model.access.csv',
+              'data/balance_reporting_template.xml',
               'route_view.xml',
               'res_partner_view.xml',
               'product_view.xml',
