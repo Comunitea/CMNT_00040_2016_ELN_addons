@@ -49,3 +49,23 @@ class purchase_order(orm.Model):
     _defaults = {
         'invoice_method': 'picking',
     }
+
+
+class procurement_order(orm.Model):
+    _inherit = 'procurement.order'
+
+    def _calc_new_qty_price(self, cr, uid, procurement, po_line=None, cancel=False, context=None):
+        res = super(procurement_order, self)._calc_new_qty_price(cr, uid, procurement, po_line=po_line, cancel=cancel, context=context)
+        # En la función original cuando se llama a price_get no se tiene en cuenta la compañía del abastecimiento,
+        # y cuando es llamada desde planificadores usa la del usuario (generalmente admin) lo cual es un error en caso de multicompañía
+        if res:
+            qty = res[0]
+            price = po_line.price_unit
+            if qty != po_line.product_qty:
+                pricelist_obj = self.pool.get('product.pricelist')
+                pricelist_id = po_line.order_id.partner_id.property_product_pricelist_purchase.id
+                ctx_company = dict(context or {}, force_company=procurement.company_id.id)
+                uom_id = procurement.product_id.uom_po_id.id
+                price = pricelist_obj.price_get(cr, uid, [pricelist_id], procurement.product_id.id, qty, po_line.order_id.partner_id.id, dict(ctx_company, uom=uom_id))[pricelist_id]
+            res = qty, price
+        return res
