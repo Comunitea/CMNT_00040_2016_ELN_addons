@@ -18,17 +18,17 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import orm, fields
-from openerp import models, api
+from openerp import models, api, fields
 
 
-class stock_warehouse(orm.Model):
+class StockWarehouse(models.Model):
     _inherit = "stock.warehouse"
     
-#    Añadimos este check para indicar si el almacen es depósito.
-    _columns = {
-        'good_warehouse': fields.boolean('Good Warehouse', help="Check the good warehouse field if the warehouse is a good warehouse."),
-    }
+    # Añadimos este check para indicar si el almacén es depósito.
+    good_warehouse = fields.Boolean(
+        string='Good Warehouse',
+        help="Check the good warehouse field if the warehouse is a good warehouse.",
+        default=False)
 
 
 class StockPickingType(models.Model):

@@ -18,54 +18,52 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import orm, fields
+from openerp import models, api, fields
+#from openerp.osv import orm, fields
 
 
-class purchase_order(orm.Model):
+class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
+        
+    @api.multi
+    def _get_products_names(self):
+        for purchase in self:
+            stream = [line.product_id.name 
+                      for line in purchase.order_line
+                      if line.product_id and line.product_id.name]
+            purchase.lines_product_name_str = u" ###, ".join(stream)
 
-    def _get_products_names(self, cr, uid, ids, field_name, args, context=None):
-        if context is None:
-            context = {}
-        res = {}
-
-        lang = ('lang' in context and context['lang'])
-
-        for cur_obj in self.browse(cr, uid, ids, context={'lang':lang}):
-            stream = []
-            res[cur_obj.id] = "[]"
-            if cur_obj.order_line:
-                for line in cur_obj.order_line:
-                    if line.product_id and line.product_id.name:
-                        stream.append(line.product_id.name)
-                res[cur_obj.id] = u" ###, ".join(stream)
-
-        return res
-
-    _columns = {
-        'lines_product_name_str': fields.function(_get_products_names, method=True, string='Lines', type='char', size=255, readonly=True),
-        'container_numbers': fields.char('Container numbers', size=32, help="Container numbers assigned to the order.", readonly=False, states={'done': [('readonly', True)],'cancel': [('readonly', True)]}),
-    }
-    _defaults = {
-        'invoice_method': 'picking',
-    }
+    lines_product_name_str = fields.Char(compute='_get_products_names',
+                                         string='Lines',
+                                         size=255,
+                                         readonly=True)
+    container_numbers = fields.Char(string='Container numbers',
+                                    size=64,
+                                    help="Container numbers assigned to the order.",
+                                    readonly=False,
+                                    states={'done': [('readonly', True)],'cancel': [('readonly', True)]})
+    invoice_method = fields.Selection(default='picking')
 
 
-class procurement_order(orm.Model):
+
+class ProcurementOrder(models.Model):
     _inherit = 'procurement.order'
 
-    def _calc_new_qty_price(self, cr, uid, procurement, po_line=None, cancel=False, context=None):
-        res = super(procurement_order, self)._calc_new_qty_price(cr, uid, procurement, po_line=po_line, cancel=cancel, context=context)
-        # En la función original cuando se llama a price_get no se tiene en cuenta la compañía del abastecimiento,
-        # y cuando es llamada desde planificadores usa la del usuario (generalmente admin) lo cual es un error en caso de multicompañía
-        if res:
-            qty = res[0]
-            price = po_line.price_unit
-            if qty != po_line.product_qty:
-                pricelist_obj = self.pool.get('product.pricelist')
-                pricelist_id = po_line.order_id.partner_id.property_product_pricelist_purchase.id
-                ctx_company = dict(context or {}, force_company=procurement.company_id.id)
-                uom_id = procurement.product_id.uom_po_id.id
-                price = pricelist_obj.price_get(cr, uid, [pricelist_id], procurement.product_id.id, qty, po_line.order_id.partner_id.id, dict(ctx_company, uom=uom_id))[pricelist_id]
-            res = qty, price
-        return res
+    @api.model
+    def _calc_new_qty_price(self, procurement, po_line=None, cancel=False):
+        """
+        En la función original cuando se llama a price_get no se tiene en cuenta la compañía del abastecimiento,
+        y cuando es llamada desde planificadores usa la del usuario (generalmente admin) lo cual es un error en caso de multicompañía
+        """
+        qty, price = super(ProcurementOrder, self)._calc_new_qty_price(procurement=procurement, po_line=po_line, cancel=cancel)
+        if not po_line:
+            po_line = procurement.purchase_line_id
+        price = po_line.price_unit
+        if qty != po_line.product_qty:
+            pricelist_id = po_line.order_id.partner_id.property_product_pricelist_purchase.id
+            uom_id = procurement.product_id.uom_po_id.id
+            pricelist_obj = self.env['product.pricelist'].\
+                            with_context(force_company=procurement.company_id.id, uom=uom_id).\
+                            browse(pricelist_id)
+            price = pricelist_obj.price_get(procurement.product_id.id, qty, po_line.order_id.partner_id.id)[pricelist_id]
+        return qty, price
