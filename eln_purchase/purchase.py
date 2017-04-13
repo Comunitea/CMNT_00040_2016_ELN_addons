@@ -24,7 +24,7 @@ from openerp import models, api, fields
 
 class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
-        
+
     @api.multi
     def _get_products_names(self):
         for purchase in self:
@@ -44,6 +44,31 @@ class PurchaseOrder(models.Model):
                                     states={'done': [('readonly', True)],'cancel': [('readonly', True)]})
     invoice_method = fields.Selection(default='picking')
 
+    @api.multi
+    def set_order_line_status(self, status):
+        res = super(PurchaseOrder, self).set_order_line_status(status=status)
+        proc_obj = self.env['procurement.order']
+        if status == 'cancel':
+            order_line_ids = []
+            for order in self:
+                order_line_ids += [po_line.id for po_line in order.order_line]
+            procs = proc_obj.search([('purchase_line_id', 'in', order_line_ids),
+                                     ('state', '!=', 'done')])
+            procs.write({'state': 'cancel'})
+        return res
+
+class PurchaseOrderLine(models.Model):
+    _inherit = 'purchase.order.line'
+
+    @api.multi
+    def unlink(self):
+        proc_obj = self.env['procurement.order']
+        order_line_ids = [po_line.id for po_line in self]
+        procs = proc_obj.search([('purchase_line_id', 'in', order_line_ids),
+                                 ('state', '!=', 'done')])
+        res = super(PurchaseOrderLine, self).unlink()
+        procs.write({'state': 'cancel'})
+        return res
 
 
 class ProcurementOrder(models.Model):
