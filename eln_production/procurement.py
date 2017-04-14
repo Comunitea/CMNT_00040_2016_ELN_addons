@@ -26,10 +26,11 @@ class procurement_order(osv.osv):
 
     def _prepare_mo_vals(self, cr, uid, procurement, context=None):
         res = super(procurement_order, self)._prepare_mo_vals(cr, uid, procurement, context=context)
-        if res:
+        if res: # Establecemos la prioridad de la producción
             product_obj = self.pool.get('product.product')
-            virtual_available = product_obj._product_available(cr, uid, [procurement.product_id.id],
-                context={'location': procurement.location_id.id})[procurement.product_id.id]['virtual_available']
+            product_available = product_obj._product_available(cr, uid, [procurement.product_id.id],
+                context={'location': procurement.location_id.id})[procurement.product_id.id]
+            qty_to_compare = product_available['qty_available'] - product_available['outgoing_qty']
 
             orderpoint_obj = self.pool.get('stock.warehouse.orderpoint') 
             company_id = res.get('company_id', False) or procurement[0].company_id.id
@@ -43,14 +44,14 @@ class procurement_order(osv.osv):
                 max_qty = max(op.product_min_qty, op.product_max_qty)
                 security_qty = op.product_security_qty
             
-            if virtual_available <= 0:
-                res.update(priority='2') #Urgente
-            elif virtual_available <= security_qty:
-                res.update(priority='1') #Normal
-            elif virtual_available <= min_qty:
-                res.update(priority='0') #No urgente
+            if qty_to_compare <= 0:
+                res.update(priority='2') # Urgente
+            elif qty_to_compare <= security_qty:
+                res.update(priority='1') # Normal
+            elif qty_to_compare <= min_qty:
+                res.update(priority='0') # No urgente
             else:
-                res.update(priority='0') #No urgente
+                res.update(priority='0') # No urgente
 
         return res
         
