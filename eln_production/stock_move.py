@@ -21,6 +21,7 @@
 from openerp.osv import osv, fields
 from openerp.tools.translate import _
 
+
 class stock_move(osv.osv):
     _inherit = 'stock.move'
 
@@ -90,6 +91,7 @@ class stock_move(osv.osv):
 
 class stock_location(osv.osv):
     _inherit = 'stock.location'
+
     _columns = {
         'sample_location': fields.boolean('Sample location')
     }

@@ -18,12 +18,13 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
 from openerp.osv import osv, fields
 import openerp.addons.decimal_precision as dp
 
+
 class stock_warehouse_orderpoint(osv.osv):
     _inherit = 'stock.warehouse.orderpoint'
+
     _columns = {
         'product_security_qty': fields.float('Security Quantity', required=True,
             digits_compute=dp.get_precision('Product Unit of Measure'),

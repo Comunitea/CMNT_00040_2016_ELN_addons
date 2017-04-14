@@ -20,8 +20,10 @@
 ##############################################################################
 from openerp.osv import osv, fields
 
+
 class stock_production_lot(osv.osv):
     _inherit = 'stock.production.lot'
+
     def get_moves(self, cr, uid, ids, context=None):
         res = []
         z = ids
@@ -35,6 +37,7 @@ class stock_production_lot(osv.osv):
                         res.append(id)
         res = list(set(res))
         return res
+
     def get_moves_up(self, cr, uid, ids, context=None):
         res = []
         z = ids
@@ -44,13 +47,12 @@ class stock_production_lot(osv.osv):
                 res.append(move)
         res = list(set(res))
         return res
+
     def _get_moves_traceability(self, cr, uid, ids, field_name, arg, context=None):
         res = {}
         moves = []
         if context is None: context = {}
         for line in self.browse(cr, uid, ids):
-            # POST-MIGRATION: No hay lote en los movimientos, Adaptar?
-            # parents = self.pool.get('stock.move').search(cr, uid, [('prodlot_id', '=', line.id),('state', '!=', 'cancel')])
             parents = []
             if parents:
                 for par in parents:
@@ -64,13 +66,12 @@ class stock_production_lot(osv.osv):
                 res[line.id] = moves
 
         return res
+
     def _get_moves_traceability_up(self, cr, uid, ids, field_name, arg, context=None):
         res = {}
         moves = []
         if context is None: context = {}
         for line in self.browse(cr, uid, ids):
-            # POST-MIGRATION: No hay lote en los movimientos, Adaptar?
-            # parents = self.pool.get('stock.move').search(cr, uid, [('prodlot_id', '=', line.id),('state', '!=', 'cancel')])
             parents = []
             if parents:
                 for par in parents:
@@ -84,6 +85,7 @@ class stock_production_lot(osv.osv):
                 res[line.id] = moves
 
         return res
+
     def _get_weight_x_qty(self, cr, uid, move_id, context=None):
         res = {}
         if context is None: context = {}
@@ -95,6 +97,7 @@ class stock_production_lot(osv.osv):
                 else:
                     res = move_id.product_qty
         return res
+
     def _get_balance(self, cr, uid, ids, field_name, arg, context=None):
         res = {}
         data_pool = self.pool.get('ir.model.data')
@@ -139,8 +142,10 @@ class stock_production_lot(osv.osv):
     }
 stock_production_lot()
 
+
 class stock_move(osv.osv):
     _inherit = 'stock.move'
+
     def _get_weight_x_qty(self, cr, uid, ids, field_name, arg, context=None):
         res = {}
         if context is None: context = {}
@@ -157,4 +162,5 @@ class stock_move(osv.osv):
     _columns = {
         'qty_weight': fields.function(_get_weight_x_qty, type="float", string="Weight x Qty", readonly=True)
     }
+
 stock_move()
