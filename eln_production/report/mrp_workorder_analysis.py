@@ -18,10 +18,10 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
 from openerp.osv import fields,osv
 from openerp import tools
 import openerp.addons.decimal_precision as dp
+
 
 class mrp_workorder(osv.osv):
     _inherit = 'mrp.workorder'
@@ -56,5 +56,3 @@ class mrp_workorder(osv.osv):
                 group by
                     w.costs_hour, mp.product_id, mp.name, wl.state, wl.date_planned, wl.production_id, wl.workcenter_id
         )""")
-
-

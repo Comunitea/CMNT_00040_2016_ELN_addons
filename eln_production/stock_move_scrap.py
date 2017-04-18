@@ -21,6 +21,7 @@
 from openerp.osv import osv, fields
 from openerp.tools.translate import _
 
+
 class stock_move_scrap(osv.osv_memory):
     _inherit = "stock.move.scrap"
 
