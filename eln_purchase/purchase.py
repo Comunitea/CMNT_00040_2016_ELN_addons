@@ -46,6 +46,8 @@ class PurchaseOrder(models.Model):
 
     @api.multi
     def set_order_line_status(self, status):
+        # No queremos que el abastecimiento se establezca a
+        # estado 'exception', sino a 'cancel'
         res = super(PurchaseOrder, self).set_order_line_status(status=status)
         proc_obj = self.env['procurement.order']
         if status == 'cancel':
@@ -57,14 +59,16 @@ class PurchaseOrder(models.Model):
             procs.write({'state': 'cancel'})
         return res
 
+
 class PurchaseOrderLine(models.Model):
     _inherit = 'purchase.order.line'
 
     @api.multi
     def unlink(self):
+        # No queremos que el abastecimiento se establezca a
+        # estado 'exception', sino a 'cancel'
         proc_obj = self.env['procurement.order']
-        order_line_ids = [po_line.id for po_line in self]
-        procs = proc_obj.search([('purchase_line_id', 'in', order_line_ids),
+        procs = proc_obj.search([('purchase_line_id', 'in', self.ids),
                                  ('state', '!=', 'done')])
         res = super(PurchaseOrderLine, self).unlink()
         procs.write({'state': 'cancel'})
