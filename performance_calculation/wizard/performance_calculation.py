@@ -239,7 +239,7 @@ class performance_calculation(orm.TransientModel):
         qty = 0.0
 
         for move in self.pool.get('stock.move').browse(cr, uid, ids):
-            if move.state not in ('done'):
+            if move.state != 'done':
                 continue
             if not move.scrapped:
                 qty += move.product_uom_qty
@@ -251,7 +251,7 @@ class performance_calculation(orm.TransientModel):
         qty = 0.0
 
         for move in self.pool.get('stock.move').browse(cr, uid, ids):
-            if move.state not in ('done'):
+            if move.state != 'done':
                 continue
             if not move.scrapped:
                 qty += move.product_uom_qty

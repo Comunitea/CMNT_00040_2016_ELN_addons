@@ -210,7 +210,7 @@ class partner(osv.osv):
                 else:
                     total += sum([x.amount_total
                                 for x in order.picking_ids
-                                if x.state not in ('cancel') and x.invoice_state in ('2binvoiced')])
+                                if x.state != 'cancel' and x.invoice_state == '2binvoiced'])
             res[id] = total
         return res
 

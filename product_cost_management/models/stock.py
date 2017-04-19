@@ -58,7 +58,7 @@ class StockMove(models.Model):
         for move in self.browse(cr, uid, ids, context=context):
             # Adapt standard price on production moves if
             # the product cost_method is 'average'
-            if (move.location_id.usage in ('production')) and \
+            if (move.location_id.usage == 'production') and \
                     (move.product_id.cost_method == 'average'):
                 product = move.product_id
                 prod_tmpl_id = move.product_id.product_tmpl_id.id
@@ -91,7 +91,7 @@ class StockMove(models.Model):
     def action_done(self, cr, uid, ids, context=None):
         res = super(StockMove, self).action_done(cr, uid, ids, context=context)
         move_ids = [x.id for x in self.browse(cr, uid, ids, context=context)
-                    if x.state in ('done') and not x.scrapped and x.production_id]
+                    if x.state == 'done' and not x.scrapped and x.production_id]
         if move_ids:
             self.quant_price_update_after_produce(cr, uid, move_ids, context=context)
             self.product_price_update_after_produce(cr, uid, move_ids, context=context)

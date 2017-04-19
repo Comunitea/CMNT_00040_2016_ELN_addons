@@ -220,7 +220,7 @@ class product_costs_line(osv.osv_memory):
                             'theoric_cost': theoric,
                             'real_cost': real,
                             'forecasted_cost': forecasted,
-                            'inventory': (element.cost_type in ('inventory')),
+                            'inventory': (element.cost_type == 'inventory'),
                             'total': (element.cost_type in ('total', 'inventory'))
                             }
                     if context.get('register_costs', True):
@@ -230,10 +230,10 @@ class product_costs_line(osv.osv_memory):
                         prod_cost_line.create(cr, uid, vals)
                         
                     vals = {}
-                    if element.cost_type in ('inventory'):#seria el valor a coger para actualizar los costes en la produccion
-                        valor_para_la_entrada = theoric #El ultimo valor tipo inventario encontrado para actualizar el producto
+                    if element.cost_type == 'inventory': # Sería el valor a coger para actualizar los costes en la produccion
+                        valor_para_la_entrada = theoric  # El último valor tipo inventario encontrado para actualizar el producto
                         value = {'inventory_cost': theoric, 'forecasted_price': forecasted}
-                    if context.get('update_costs', False) and element.cost_type in ('total'):
+                    if context.get('update_costs', False) and element.cost_type == 'total':
                         prod.write(cr, uid, product.id, {'cost_price_for_pricelist': forecasted})
 
         if not context.get('cron', False):

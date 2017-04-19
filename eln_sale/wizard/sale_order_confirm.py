@@ -37,7 +37,7 @@ class sale_order_confirm(orm.TransientModel):
 
         data_sale = self.pool.get('sale.order').read(cr, uid, context['active_ids'], ['state', 'order_line'], context=context)
         for record in data_sale:
-            if record['state'] not in ('draft',):
+            if record['state'] != 'draft':
                 raise orm.except_orm(_('Warning'), _("Selected Sale(s) cannot be confirmed as they are not in 'Draft' state!"))
             if not record['order_line']:
                 raise orm.except_orm(_('Warning'), _("You cannot confirm a sale order which has no line."))
