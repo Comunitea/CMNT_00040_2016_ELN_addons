@@ -71,7 +71,7 @@ class stock_move(osv.osv):
         prodlot_obj = self.pool.get('stock.production.lot')
         
         for move in self.browse(cr, 1, ids, context=context):
-            if move.move_dest_id.id and move.location_dest_id.usage in ('transit') and move.company_id != move.move_dest_id.company_id:
+            if move.move_dest_id.id and move.location_dest_id.usage == 'transit' and move.company_id != move.move_dest_id.company_id:
                 super(stock_move, self).action_done(cr, 1, [move.id], context)
                 if move.prodlot_id.id: #Si tenemos lote para enviar comprobamos si ya existe en la compañía destino uno relacionado
                     lot_dest_ids = prodlot_obj.search(cr, 1, [('multicompany_prodlot_id', '=', move.prodlot_id.id)])
@@ -99,7 +99,7 @@ class stock_move(osv.osv):
             context = {}
 
         for move in self.browse(cr, 1, ids, context=context):
-            if move.cancel_cascade and move.move_dest_id.id and move.location_dest_id.usage in ('transit') and move.company_id != move.move_dest_id.company_id:
+            if move.cancel_cascade and move.move_dest_id.id and move.location_dest_id.usage == 'transit' and move.company_id != move.move_dest_id.company_id:
                 res = super(stock_move, self).action_cancel(cr, 1, [move.id], context)
             else:
                 res = super(stock_move, self).action_cancel(cr, uid, [move.id], context)

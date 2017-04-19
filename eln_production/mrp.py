@@ -606,7 +606,7 @@ class mrp_production(osv.osv):
             bom = production.bom_id
             finished_qty = sum([x.product_uom_qty
                                 for x in production.move_created_ids2
-                                if x.state in ('done') and not x.scrapped])
+                                if x.state == 'done' and not x.scrapped])
             theo_cost = tmpl_obj._calc_price(cr, uid, bom, test=True, context=context) * finished_qty
             self.write(cr, uid, production.id, {'state': 'validated', 'theo_cost': theo_cost})
         return True
@@ -618,8 +618,8 @@ class mrp_production(osv.osv):
         for production in self.browse(cr, uid, ids, context=context):
             date = max([x.date
                         for x in production.move_created_ids2
-                        if x.state in ('done') and not x.scrapped] or [None])
-            for move in production.move_lines2.filtered(lambda r: r.state in ('done')):
+                        if x.state == 'done' and not x.scrapped] or [None])
+            for move in production.move_lines2.filtered(lambda r: r.state == 'done'):
                 # Establecemos en los movimiento de consumos los precios de coste de producto que tenía en la fecha
                 # que se realizó el producto finalizado, para que coincida con la misma posición
                 # en la que se calcula el theo_cost. Esto es debido a que los consumos se pueden hacer más
@@ -692,7 +692,7 @@ class mrp_production(osv.osv):
             bom = prod.bom_id
             finished_qty = sum([x.product_uom_qty
                                 for x in prod.move_created_ids2 
-                                if x.state in ('done') and not x.scrapped])
+                                if x.state == 'done' and not x.scrapped])
             factor = uom_obj._compute_qty(cr, uid, prod.product_uom.id,
                                           finished_qty,
                                           bom.product_uom.id)
@@ -723,7 +723,7 @@ class mrp_production(osv.osv):
         for production in self.browse(cr, uid, ids, context=context):
             if production.state in ('draft', 'confirmed', 'ready', 'in_production'):
                 self.action_cancel(cr, uid, [production.id], context=context)
-            if production.state in ('cancel'):
+            if production.state == 'cancel':
                 move_obj.unlink(cr, uid, [x.id for x in production.move_created_ids2], context=context)
                 move_obj.unlink(cr, uid, [x.id for x in production.move_lines2], context=context)
                 res = super(mrp_production, self).unlink(cr, uid, [production.id], context=context)
