@@ -23,7 +23,6 @@ import openerp.addons.decimal_precision as dp
 
 
 class StockPicking(models.Model):
-
     _inherit = 'stock.picking'
     _order = 'id desc'
 
@@ -34,8 +33,9 @@ class StockPicking(models.Model):
     @api.multi
     def _get_address(self):
         for pick in self:
-            pick.address = pick.partner_id.street + ' ' + \
-                pick.partner_id.street2
+            partner = pick.partner_id
+            pick.address = (partner.street or '') + \
+                (partner.street2 and (' ' + partner.street2) or '')
 
     @api.model
     def _search_address(self, operator, operand):
@@ -73,6 +73,7 @@ class StockPicking(models.Model):
             res.update({'partner_id': op.picking_id.partner_id.id})
             
         return res
+
 
 class StockIncoterms(models.Model):
     _inherit = "stock.incoterms"
