@@ -58,7 +58,6 @@
                     <field name="zip"/>
                     <field name="city"/>
                     <field name="state_id"/>
-                    <field name="contact_address" invisible="1"/>
                 </field>
             </field>
         </record>
