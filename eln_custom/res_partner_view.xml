@@ -62,5 +62,18 @@
             </field>
         </record>
 
+        <record id="res_partner_kanban_view_custom" model="ir.ui.view">
+            <field name="name">res.partner.kanban.custom</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.res_partner_kanban_view"/>
+            <field name="arch" type="xml">
+                <kanban position="attributes">
+                    <attribute name="edit">false</attribute>
+                    <attribute name="quick_create">false</attribute>
+                    <attribute name="group_create">false</attribute>
+                </kanban>
+            </field>
+        </record>
+
    </data>
 </openerp>
