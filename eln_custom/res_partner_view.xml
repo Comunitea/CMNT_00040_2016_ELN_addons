@@ -40,7 +40,7 @@
                     <field name="state_id"/>
                 </field>
                 <filter string="Country" position="before">
-                    <filter string="Zip" context="{'group_by': 'zip'}"/>
+                    <filter string="ZIP" context="{'group_by': 'zip'}"/>
                     <filter string="City" context="{'group_by': 'city'}"/>
                     <filter string="State" context="{'group_by': 'state_id'}"/>
                 </filter>
