@@ -38,7 +38,6 @@
                 'account_analytic_plans',
                 'acc_analytic_acc_distribution_between',
                 'sale_early_payment_discount',
-                'eln_edi',
                 'document',
                 'l10n_es_partner',
                 'l10n_es_account_balance_report',

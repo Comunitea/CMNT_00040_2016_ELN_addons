@@ -20,6 +20,6 @@
 #
 ##############################################################################
 
-import eln_edi
-import wizard
-import stock
+from . import models
+from . import wizard
+from . import report

@@ -128,7 +128,6 @@ sale_order()'''
 
 class res_partner(orm.Model):
     _inherit = 'res.partner'
-
     _columns = {
         'section_code': fields.property(
             type='char', 
@@ -136,8 +135,6 @@ class res_partner(orm.Model):
             size=9,
             method=True,
             help="Código de sección/proveedor o sucursal. Ejemplo: para Alcampo se refiere a la Sección/Proveedor(SSS/PPPPP)."),
-        #'section_code': fields.char('Section/Supplier or Branch', size=9,
-        #                                   help="Código de sección/proveedor o sucursal. Ejemplo: para Alcampo se refiere a la Sección/Proveedor(SSS/PPPPP)."),
         'department_code_edi': fields.char('Internal department code', size=3,
                                            help="Internal department code for edi when required by customer. Only El Corte Inglés customer requires this code currently."),
         'product_marking_code': fields.char('Product marking instructions code', size=3,
@@ -152,11 +149,13 @@ class res_partner(orm.Model):
         'gln_rf': fields.char('GLN Receptor Factura', size=13, help="GLN (Receptor de la factura / A quien se factura)"),
         'gln_co': fields.char('GLN Comprador', size=13, help="GLN (Comprador / Quien pide)"),
         'gln_rm': fields.char('GLN Receptor Mercancía', size=13, help="GLN (Receptor de la mercancía / Quien recibe)"),
+        'gln_desadv': fields.char('GLN Receptor Albarán (DESADV)', size=13, help="GLN (Receptor del albarán logístico (DESADV)"),
+        'edi_picking_numeric': fields.boolean('Only numeric picking name (DESADV)',
+                               help='Check if customer requires the picking name as numeric in DESADV documents. Ex. AS/X00123->00123'),
     }
 
 
 class payment_mode(orm.Model):
-
     _inherit = 'payment.mode'
     _columns = {
         'edi_code': fields.selection([('42', 'A una cuenta bancaria'), ('14E', 'Giro bancario'),
@@ -165,7 +164,6 @@ class payment_mode(orm.Model):
     }
 
 class product_uom(orm.Model):
-
     _inherit = 'product.uom'
     _columns = {
         'edi_code': fields.selection([('PCE', '[PCE] Unidades'), ('KGM', '[KGM] Kilogramos'),
@@ -238,9 +236,7 @@ stock_move()'''
 
 
 class account_tax(orm.Model):
-
     _inherit = "account.tax"
-
     _columns = {
         'edi_code': fields.selection([('VAT', '[VAT] IVA'), ('ENV', '[ENV] Punto Verde'),
                                     ('EXT', '[EXT] Exento de IVA'), ('ACT', '[ACT] Impuesto de Alcoholes')], 'Código impuesto para EDI', select=1,
@@ -248,9 +244,7 @@ class account_tax(orm.Model):
     }
 
 class account_invoice_tax(orm.Model):
-
     _inherit = 'account.invoice.tax'
-
     _columns = {
         'tax_id': fields.many2one('account.tax', 'Tax'),
     }
@@ -378,11 +372,17 @@ class account_invoice(orm.Model):
 
 class res_company(orm.Model):
     _inherit = 'res.company'
-
     _columns = {
         'gln_ef': fields.char(string='GLN Emisor Factura', help="GLN (Emisor del documento)"),
         'gln_ve': fields.char(string='GLN Vendedor', help="GLN (Vendedor de la mercancía)"),
         'edi_code': fields.char(string='EDI filename prefix', help='Company prefix for edi filename'),
         'gs1': fields.char(string='GS1 code', help='AECOC GS1 code of the Company. Used to coding GTIN-13, GTIN-14, GS1-128, SSCC, etc. Required for EDI DESADV interchanges.'),
         'edi_rm': fields.char(string='Registro Mercantil', size=35, help="Registro Mercantil del emisor de la factura y el vendedor"),
+    }
+
+class stock_picking(orm.Model):
+
+    _inherit = 'stock.picking'
+    _columns = {
+        'edi_docs': fields.one2many('edi.doc','picking_id','Documentos EDI'),
     }

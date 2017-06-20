@@ -3,17 +3,6 @@
 <openerp>
     <data>
 
-        <record id="view_picking_out_form_replace_name" model="ir.ui.view">
-            <field name="name">stock.picking.out.form.replace_name</field>
-            <field name="model">stock.move</field>
-            <field name="inherit_id" ref="stock.view_move_picking_form"/>
-            <field name="arch" type="xml">
-                <field name="name" position="attributes">
-                    <attribute name="colspan">4</attribute>
-                </field>
-            </field>
-        </record>
-
         <record id="view_picking_out_form_custom" model="ir.ui.view">
             <field name="name">stock.picking.out.form.custom</field>
             <field name="model">stock.picking</field>
