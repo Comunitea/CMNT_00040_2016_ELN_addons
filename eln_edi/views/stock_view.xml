@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="edi_packing_form_view" model="ir.ui.view">
+            <field name="name">edi.packing.form</field>
+            <field name="model">edi.packing</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Packing">
+                    <group>
+                        <field name="picking_id"/>
+                        <field name="pack_id"/>
+                        <field name="product_id"/>
+                        <field name="product_qty"/>
+                        <field name="product_uom_id"/>
+                        <field name="lot_id"/>
+                        <field name="product_pack"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="edi_packing_tree_view" model="ir.ui.view">
+            <field name="name">edi.packing.tree</field>
+            <field name="model">edi.packing</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Packing">
+                    <field name="product_id"/>
+                    <field name="product_qty"/>
+                    <field name="product_uom_id"/>
+                    <field name="lot_id"/>
+                    <field name="product_pack"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="edi_pack_form_view" model="ir.ui.view">
+            <field name="name">edi.pack.form</field>
+            <field name="model">edi.pack</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Pack">
+                    <group>
+                        <field name="code"/>
+                        <field name="name"/>
+                        <field name="note"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+        <record id="edi_pack_tree_view" model="ir.ui.view">
+            <field name="name">edi.pack.form</field>
+            <field name="model">edi.pack</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Pack">
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="note"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record id="view_picking_form_add_page_edi_packing" model="ir.ui.view">
+            <field name="name">view_picking_form_add_page_edi_packing</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <notebook position="inside">
+                    <page string="EDI" 
+                    attrs="{'invisible': ['|', ('picking_type_code', '!=', 'outgoing'), ('state', '!=', 'done')]}">
+                        <separator string="EDI documents"/>
+                        <button name="%(action_edi_export_picking)d" type="action" string="Exportar Albaranes EDI"/>
+                        <field name="edi_docs" select="1" readonly="1"/>
+                        <separator string="Packing"/>
+                        <button name="action_print_desadv_label" type="object" string="Print DESADV label"/>
+                        <button name="modify_edi_packing" type="object" states="done" string="Set EDI packing"/>
+                        <button name="restore_edi_packing" type="object" states="done" string="Restore EDI packing"/>
+                        <field name="packing_ids" readonly="1"/>
+                        <h3></h3>
+                        <h3>Please note that:</h3>
+                        <li>If the packaging is not established, the shipment will be considered as a single pallet.</li>
+                    </page>   
+                </notebook>
+            </field>
+        </record>
+
+    </data>
+</openerp>

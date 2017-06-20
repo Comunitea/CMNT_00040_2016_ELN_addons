@@ -8,15 +8,17 @@
             <field name="arch" type="xml">
                 <form string="Exportar">
                     <label string="¿Desea exportar los modelos seleccionados?"/>
-                    <button name="export_files" string="Sí" type="object" icon="gtk-ok" default_focus="1"/>
-                    <button special="cancel" string="No" icon="gtk-cancel"/>
+                    <footer>
+                        <button name="export_files" string="Sí" type="object" icon="gtk-ok" default_focus="1"/>
+                        <button special="cancel" string="No" icon="gtk-cancel"/>
+                    </footer>
                 </form>
             </field>
         </record>
         <!-- Pedido de venta-->
         <!-- No se esta usando -->
 <!--    <act_window
-            id="action edi_export" name="Exportar pedidos EDI"
+            id="action_edi_export" name="Exportar pedidos EDI"
             res_model="edi.export"
             src_model="sale.order"
             view_type="form"
@@ -27,7 +29,7 @@
         /> -->
         <!-- Albarán-->
         <act_window
-            id="action edi_export_picking" name="Exportar Albaranes EDI"
+            id="action_edi_export_picking" name="Exportar Albaranes EDI"
             res_model="edi.export"
             src_model="stock.picking"
             view_type="form"
@@ -38,7 +40,7 @@
             />
         <!-- Factura -->
          <act_window
-            id="action edi_export_invoice" name="Exportar Facturas EDI"
+            id="action_edi_export_invoice" name="Exportar Facturas EDI"
             res_model="edi.export"
             src_model="account.invoice"
             view_type="form"

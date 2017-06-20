@@ -19,7 +19,6 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
 from openerp.tools.translate import _
 from openerp.osv import fields, orm
 from edi_logging import logger
@@ -29,11 +28,16 @@ import time
 from openerp import tools
 import codecs
 from unidecode import unidecode
+from dateutil import tz
 log = logger("export_edi")
+from base64 import b64encode
+from reportlab.lib import units
+from reportlab.graphics import renderPM
+from reportlab.graphics.barcode import createBarcodeDrawing
+from reportlab.graphics.shapes import Drawing
 
 
 class edi_export (orm.TransientModel):
-
     _name = "edi.export"
     _columns = {
         'configuration': fields.many2one('edi.configuration', 'Configuración',
@@ -67,12 +71,12 @@ class edi_export (orm.TransientModel):
                 doc_type = 'ordrsp'
                 sale_order_id = obj.id
             elif context['active_model'] == u'stock.picking':
-                name = str(obj.id) + ' - ' + obj.number
-                gln_ef = obj.company_id.partner_id.gln_ef
-                gln_ve = obj.company_id.partner_id.gln_ve
+                name = str(obj.id) + ' - ' + obj.name
+                gln_ef = obj.company_id.gln_ef
+                gln_ve = obj.company_id.gln_ve
                 gln_de = obj.partner_id.gln_de
-                gln_rf = obj.sale_id and obj.sale_id.partner_invoice_id.gln or obj.gln_rf
-                gln_co = obj.sale_id and obj.sale_id.partner_id.gln or obj.gln_co
+                gln_rf = obj.partner_id.gln_rf
+                gln_co = obj.partner_id.gln_co
                 gln_rm = obj.partner_id.gln_rm
                 doc_type = 'desadv'
                 picking_id = obj.id
@@ -159,22 +163,6 @@ class edi_export (orm.TransientModel):
         if not invoice.origin:
             errors += _('The invoice not have origin.\n')
 
-        #if invoice.type == 'out_refund':
-        #    if not invoice.origin_invoices_ids and not \
-        #            invoice.origin_invoices_ids[0].picking_ids:
-        #        errors += _('The invoice not have associated pickings.\n')
-        #    if not invoice.origin_invoices_ids and not \
-        #            invoice.origin_invoices_ids[0].sale_order_ids:
-        #        errors += _('The invoice not have associated pickings.\n')
-        #else:
-        #    if not invoice.picking_ids:
-        #        errors += _('The invoice not have associated pickings.\n')
-        #    if not invoice.sale_order_ids:
-        #        errors += _('The invoice not have associated sales.\n')
-        #if invoice.type == 'out_refund':
-        #    if not invoice.origin_invoices_ids:
-        #        errors += _('The refund invoice not have an original associated.\n')
-
         for line in invoice.invoice_line:
             if line.product_id.default_code == 'DPP':
                 if not invoice.early_payment_discount:
@@ -258,7 +246,7 @@ class edi_export (orm.TransientModel):
         date = datetime.strptime(date_str, '%Y-%m-%d %H:%M:%S')
         return date.strftime('%Y%m%d%H%M')
 
-    def parse_invoice(self, cr, uid, invoice, file_name):
+    def parse_invoice(self, cr, uid, invoice, file_name, context=None):
 
         def parse_address(address, gln_val):
             address_data = ''
@@ -586,166 +574,290 @@ class edi_export (orm.TransientModel):
     def check_picking_data(self, picking):
         errors = ''
 
-        if not picking.partner_id.gln:
-            errors += _('\nThe partner %s not have gln') % picking.partner_id.name
-        if not picking.min_date:
-            errors += _('\nThe picking not have min date')
-        if not picking.company_id.partner_id.gln:
-            errors += _('\nThe partner %s not have gln') % picking.company_id.partner_id.name
-        if not picking.partner_id.gln:
-            errors += _('\nThe address %s not have gln') % picking.partner_id.name
+        if not picking.company_id.gln_ef or not picking.company_id.gln_ve:
+            errors += _('The company %s not have some GLN defined.\n') % \
+                picking.company_id.name
+        if not picking.partner_id.gln_de or \
+           not picking.partner_id.gln_rf or \
+           not picking.partner_id.gln_co or \
+           not picking.partner_id.gln_rm:
+            errors += _('The partner %s not have some GLN defined.\n') % \
+                picking.partner_id.name
+        if picking.supplier_id and \
+           (not picking.supplier_id.commercial_partner_id.gln_de and \
+            not picking.supplier_id.commercial_partner_id.gln_desadv):
+            errors += _('The supplier %s not have recipient GLN defined.\n') % \
+                picking.supplier_id.commercial_partner_id.name
         if not picking.company_id.gs1:
             errors += _('\nThe company %s not have gs1') % picking.company_id.name
-        for move in picking.move_lines:
+        for move in picking.move_lines.filtered(lambda r: r.state == 'done'):
             if not move.product_id.ean13:
                 errors += _('\nThe product %s not have ean13') % move.product_id.name
             if not move.product_id.dun14:
                 errors += _('\nThe product %s not have dun14') % move.product_id.name
-            if not move.prodlot_id:
-                errors += _('\nThe product %s not have lot') % move.product_id.name
-            elif not move.prodlot_id.use_date:
-                errors += _('\nThe lot %s not have use date') % move.prodlot_id.name
-
         if errors:
             raise orm.except_orm(_('Data error'), errors)
 
+    def get_sscc(self, picking, num):
+        """Calculo del codigo SSCC y el digito de control"""
+        sscc = '1' + picking.company_id.gs1
+        pick_num = str(picking.id)
+        pick_num = pick_num[len(pick_num)-7:] if len(pick_num) > 7 else pick_num
+        pick_num = int(pick_num)
+        sscc += self.parse_number(pick_num, 7, 0) + self.parse_number(num, 2, 0)
+        # Calculo del digito de control
+        pair_num = sum([int(sscc[i:i+1]) for i in range(len(sscc)) if (i+1)%2==0])
+        odd_num = sum([int((sscc[i:i+1])) for i in range(len(sscc)) if (i+1)%2!=0])
+        total_num = pair_num + odd_num * 3
+        # Se busca el multiplo de 12
+        aux_num = total_num
+        while aux_num % 10 != 0:
+            aux_num += 1
+        control = aux_num - total_num
+        return str(sscc) + str(control)
 
-    def parse_picking(self, picking, file_name):
-        def get_sscc(picking, num):
-            """Calculo del codigo SSCC y el digito de control"""
-            sscc = '1' + picking.company_id.gs1
-            pick_num = picking.name
-            sscc += pick_num[pick_num.index('/')+1:] + self.parse_number(num, 4, 2)
-            # Calculo del digito de control
-            pair_num = sum([int(sscc[i:i+1]) for i in range(len(sscc)) if (i+1)%2==0])
-            odd_num = sum([int((sscc[i:i+1])) for i in range(len(sscc)) if (i+1)%2!=0])
-            total_num = pair_num + odd_num * 3
-            # Se busca el multiplo de 12
-            aux_num = total_num
-            while aux_num % 12 != 0:
-                aux_num += 1
-            control = aux_num - total_num
+    def get_gs1_128_barcode_image(self, value, width, barWidth = 0.05 * units.inch, fontSize = 30, humanReadable = True):
+        barcode = createBarcodeDrawing('Code128', value = value, barWidth = barWidth, fontSize = fontSize, humanReadable = humanReadable)
+        drawing_width = width
+        barcode_scale = drawing_width / barcode.width
+        drawing_height = barcode.height * barcode_scale
+        drawing = Drawing(drawing_width, drawing_height)
+        drawing.scale(barcode_scale, barcode_scale)
+        drawing.add(barcode, name='barcode')
+        data = b64encode(renderPM.drawToString(drawing, fmt = 'PNG'))
+        return data
 
-            return sscc + str(control)
+    def get_packing_ids(self, cr, uid, picking, context):
+        t_uom = self.pool.get('product.uom')
+        packing_ids = {}
+        if picking.packing_ids:
+            line_ids = picking.packing_ids.sorted(key=lambda a: (a.product_pack, a.product_id, a.lot_id))
+            for line in line_ids:
+                if line.product_pack not in packing_ids:
+                    packing_ids[line.product_pack] = []
+                product_qty_uos = t_uom._compute_qty(cr, uid, line.product_uom_id.id, line.product_qty, line.product_id.uos_id.id)
+                packing_ids[line.product_pack].append({'product_id': line.product_id,
+                                                       'product_uom_id': line.product_uom_id,
+                                                       'product_qty': line.product_qty, 
+                                                       'product_qty_uos': product_qty_uos, 
+                                                       'lot_id': line.lot_id})
+        else:
+            line_ids = picking.pack_operation_ids.filtered(lambda r: r.product_qty > 0.0)
+            line_ids = line_ids.sorted(key=lambda a: (a.product_id, a.lot_id))
+            packing_ids[1] = []
+            for line in line_ids:
+                product_qty_uos = t_uom._compute_qty(cr, uid, line.product_uom_id.id, line.product_qty, line.product_id.uos_id.id)
+                packing_ids[1].append({'product_id': line.product_id,
+                                       'product_uom_id': line.product_uom_id,
+                                       'product_qty': line.product_qty, 
+                                       'product_qty_uos': product_qty_uos, 
+                                       'lot_id': line.lot_id})
+        return packing_ids
+        
+    def parse_picking(self, cr, uid, picking, file_name, context=None):
 
-        def parse_move(move):
-            """Se parsean los campos de la linea a excepcion del identificador
-               y el numero de linea.
-            """
-            product = move.product_id
-            move_line = ''
-            move_line += self.parse_string(product.ean13, 17)
-            move_line += self.parse_string(product.partner_product_code, 35)
-            move_line += self.parse_string(product.default_code, 35)
-            move_line += self.parse_string(product.name, 35)
-            move_line += self.parse_string('', 3)
+        def parse_address(address):
+            address_data = ''
+            address_data += self.parse_string(address.name, 35)
+            address_data += self.parse_string(address.street, 35)
+            address_data += self.parse_string(address.city, 35)
+            address_data += self.parse_string(address.zip, 5)
+            return address_data
 
-            move_line += self.parse_number(move.product_uos_qty, 15, 0)
-            move_line += self.parse_number(not move.sale_line_id and move.product_uos_qty or 0, 15, 0)
-            move_line += self.parse_number(move.sale_line_id and move.sale_line_id.product_uos_qty or 0, 15, 0)
-            #unidades por caja
-            move_line += self.parse_number(move.product_qty / move.product_uos_qty, 15, 0)
-
-            #peso neto de la linea
-            move_line += self.parse_number(move.product_qty * product.weight_net, 15, 0)
-
-            move_line += self.parse_string(move.picking_id.partner_id.gln, 25)
-
-            #codigo alcampo eci
-            move_line += self.parse_number(move.partner_id.product_marking_code, 25, 0)
-
-            move_line += self.parse_long_date(move.prodlot_id.use_date)
-            move_line += move.prodlot_id.life_date and self.parse_long_date(move.prodlot_id.life_date) or self.parse_string('', 12)
-            move_line += self.parse_long_date(move.prodlot_id.date)
-            move_line += self.parse_string('', 12)
-
-            move_line += self.parse_number('', 15, 0)
-            move_line += self.parse_string('BX', 3)
-            move_line += self.parse_string(move.prodlot_id.name, 18)
-            move_line += self.parse_number(product.dun14, 14, 0)
-            return move_line
+        user_tz = self.pool['res.users'].browse(cr, uid, uid).tz
+        from_zone = tz.gettz('UTC')
+        to_zone = tz.gettz(user_tz)
 
         self.check_picking_data(picking)
-        # f = file(file_name,'w') Usamos la línea de abajo por fallo al convertir acentos
         f = codecs.open(file_name, 'w', 'utf-8')
+
+        gln_de = picking.partner_id.gln_de
+        gln_rf = picking.partner_id.gln_rf
+        gln_co = picking.partner_id.gln_co
+        gln_rm = picking.partner_id.gln_rm
+        gln_desadv = picking.partner_id.commercial_partner_id.gln_desadv or picking.partner_id.gln_de
+        if picking.partner_id.commercial_partner_id.edi_picking_numeric:
+            picking_name = ''.join(c for c in picking.name if c.isdigit())
+        else:
+            picking_name = picking.name
+
+        # Identificador de registro - 0
         picking_data = '0'
-        picking_data += self.parse_number(picking.partner_id.gln, 13, 0)
-        picking_data += self.parse_string(picking.name, 35)
+
+        # Buzón de destino
+        picking_data += self.parse_number(gln_de, 13, 0)
+        
+        # Número de aviso de expedición
+        picking_data += self.parse_string(picking_name, 35)
+        
+        # Tipo de documento
         picking_data += self.parse_string('351', 3)
+        
+        # Función del mensaje
         picking_data += self.parse_string('9', 3)
-        picking_data += self.parse_long_date(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
-        picking_data += self.parse_long_date(picking.min_date)
-        picking_data += self.parse_long_date(picking.min_date)
-        picking_data += self.parse_string(picking.name, 35)
-        picking_data += self.parse_string(picking.sale_id.name, 35)
-        picking_data += self.parse_short_date(picking.sale_id.date_confirm)
-        picking_data += self.parse_string('', 4)
-        picking_data += self.parse_number(picking.company_id.partner_id.gln, 13, 0)
-        picking_data += self.parse_number('', 13, 0)
-        picking_data += self.parse_number(picking.partner_id.gln, 13, 0)
-        picking_data += self.parse_number(picking.partner_id.gln, 13, 0)
-        picking_data += self.parse_number(picking.partner_id.gln, 13, 0)
-        picking_data += self.parse_number(picking.company_id.partner_id.gln, 13, 0)
+        
+        # Fecha / hora de emisión del aviso de expedición
+        date = picking.date_done or datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        date = datetime.strptime(date, '%Y-%m-%d %H:%M:%S').replace(tzinfo=from_zone).astimezone(to_zone)
+        date = datetime.strftime(date, '%Y-%m-%d %H:%M:%S')
+        picking_data += self.parse_long_date(date)
+        
+        # Fecha / hora de entrega de mercancía
+        date = picking.requested_date
+        picking_data += self.parse_short_date(date) if date else ' ' * 8
+        picking_data += self.parse_string('', 4) # Aunque la fecha es corta, debería ser la larga
+        
+        # Fecha de envío 
+        date = picking.date_done or datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        date = datetime.strptime(date, '%Y-%m-%d %H:%M:%S').replace(tzinfo=from_zone).astimezone(to_zone)
+        date = datetime.strftime(date, '%Y-%m-%d %H:%M:%S')
+        picking_data += self.parse_long_date(date)
+        
+        # Número de albarán
+        picking_data += self.parse_string(picking_name, 35)
+        
+        # Número del pedido
+        picking_data += self.parse_string(picking.client_order_ref, 35)
+        
+        # Fecha del pedido (AAAAMMDD)
+        date = picking.sale_id.requested_date or picking.sale_id.date_order or picking.date
+        picking_data += self.parse_short_date(date[:10]) if date else ' ' * 8
+        picking_data += self.parse_string('', 4) # Aunque la fecha es corta, se mantiene el tamaño de la larga
 
-        picking_data += self.parse_string(picking.partner_id.department_code_edi, 10)
+        # Código EAN origen del mensaje (Operador logístico o proveedor)
+        picking_data += self.parse_number(picking.company_id.gln_ef, 13, 0)
+        
+        # Código EAN proveedor de la mercancía (Sólo si es distinto del anterior)
+        if picking.supplier_id:
+            gln_proveedor = picking.supplier_id.commercial_partner_id.gln_desadv or \
+                            picking.supplier_id.commercial_partner_id.gln_de
+            picking_data += self.parse_number(gln_proveedor, 13, 0)
+        else:
+            picking_data += self.parse_number('', 13, 0)
 
+        # Código EAN destino del mensaje
+        picking_data += self.parse_number(gln_desadv, 13, 0)
+
+        # Código EAN lugar de entrega mercancía
+        picking_data += self.parse_number(gln_rm, 13, 0)
+
+        # Código EAN Comprador
+        picking_data += self.parse_number(gln_co, 13, 0)
+
+        # Código EAN punto de recogida
+        picking_data += self.parse_number(picking.company_id.gln_ef, 13, 0)
+
+        # Departamento interno
+        picking_data += self.parse_string(picking.partner_id.commercial_partner_id.department_code_edi, 10)
+
+        # Medio de transporte (30=Transporte por carretera, 20=Trasporte ferroviario)
         picking_data += self.parse_string('30', 3)
+
+        # Código EAN del transportista
         picking_data += self.parse_number('', 13, 0)
+        
+        # Matrícula del camión
         picking_data += self.parse_string('', 35)
-        picking_data += self.parse_string('', 338)
+        
+        # Espacio reservado para etiqueta si la genera GENERIX
+        picking_data += parse_address(picking.company_id)
+        picking_data += parse_address(picking.partner_id.commercial_partner_id)
+        picking_data += parse_address(picking.partner_id)
+        picking_data += self.parse_string('', 8)
+        
         f.write(picking_data)
-        picking_data = '\n11'
+        
+        # Identificador de registro - 1
+        picking_data = '\r\n1'
+        # Número de identificación en la jerarquía de niveles de empaquetamiento
+        picking_data += self.parse_number(1, 1, 0)
         if picking.packing_ids:
-            picking_data += self.parse_number(len([x.id for x in picking.packing_ids if x.move_ids]), 12, 0)
+            picking_data += self.parse_number(len(list(set([x.product_pack for x in picking.packing_ids]))), 12, 0)
             picking_data += self.parse_string(picking.packing_ids[0].pack_id.code, 3)
         # Si no se han configurado los packs se añaden todas las lineas a un palet.
         else:
             picking_data += self.parse_number(1, 12, 0)
-            picking_data += self.parse_string(201, 3)
+            picking_data += self.parse_string('201', 3)
         f.write(picking_data)
 
-        num = 1
-        #Si no se ha configurado el embalaje se añaden las lineas en un unico palet
-        if not picking.packing_ids:
-            picking_data = '\n2' + self.parse_number(num, 12, 0) + self.parse_number(1, 12, 0)
-            total_qty = 0.0
-            for move in picking.move_lines:
-                total_qty += move.product_uos_qty
+        packing_ids = self.get_packing_ids(cr, uid, picking, context)
+        for k, val in packing_ids.items():
+            num = k
+            # Identificador de registro – 2
+            picking_data = '\r\n2'
+            # Número de identificación en la jerarquía de niveles de empaquetamiento
+            picking_data += self.parse_number(num, 12, 0)
+            # Nivel jerárquico del que depende el nivel actual
+            picking_data += self.parse_number(1, 12, 0)
+            # Número de paquetes dentro de esta unidad de embalaje
+            total_qty = sum([v['product_qty_uos'] for v in val])
             picking_data += self.parse_number(total_qty, 15, 0)
-
+            # Tipo de embalaje
             picking_data += self.parse_string('CT', 3)
-            picking_data += '      33EBJ '
-
-            picking_data += self.parse_string(get_sscc(picking, num), 35)
-            num_lin = 1
-            for move in picking.move_lines:
-                picking_data += '\n3'
-                picking_data += self.parse_number(num_lin, 4, 0)
-                picking_data += parse_move(move)
-                num_lin += 1
-
+            # Instrucción de manipulación (DDE = Solamente si tiene localizaciones)
+            picking_data += self.parse_string('', 3)
+            # Instrucción de manipulación (9 = Solamente si tiene localizaciones)
+            picking_data += self.parse_string('', 3)
+            # Instrucciones de marcaje (33E)
+            picking_data += self.parse_string('33E', 3)
+            # Código Seriado de Unidad de Envío (BJ)
+            picking_data += self.parse_string('BJ', 3)
+            # SSCC de la unidad de expedición
+            picking_data += self.parse_string(self.get_sscc(picking, num), 35)
             f.write(picking_data)
-        for packing in picking.packing_ids:
-            if not packing.move_ids:
-                continue
-            picking_data = '\n2' + self.parse_number(num, 12, 0) + self.parse_number(1, 12, 0)
-            total_qty = 0.0
-            for move in packing.move_ids:
-                total_qty += move.product_uos_qty
-            picking_data += self.parse_number(total_qty, 15, 0)
-
-            picking_data += self.parse_string('CT', 3)
-            picking_data += '      33EBJ '
-
-            picking_data += self.parse_string(get_sscc(picking, num), 35)
+            # LINEAS
             num_lin = 1
-            for move in packing.move_ids:
-                picking_data += '\n3'
+            for v in val:
+                # Identificador de registro – 3
+                picking_data = '\r\n3'
+                # Número de línea
                 picking_data += self.parse_number(num_lin, 4, 0)
-                picking_data += parse_move(move)
+                # Código EAN del artículo
+                picking_data += self.parse_string(v['product_id'].ean13, 17)
+                # Número del artículo según comprador
+                picking_data += self.parse_string(v['product_id'].partner_product_code, 35)
+                # Número del artículo según vendedor
+                picking_data += self.parse_string(v['product_id'].default_code, 35)
+                # Descripción del artículo
+                picking_data += self.parse_string(v['product_id'].with_context(lang=picking.partner_id.lang).name, 35)
+                # Descripción del artículo codificada
+                picking_data += self.parse_string('', 3)
+                # Cantidad enviada total
+                picking_data += self.parse_number(v['product_qty'], 15, 3)
+                # Cantidad enviada gratuita
+                picking_data += self.parse_number('0', 15, 3)
+                # Cantidad pedida por el comprador
+                picking_data += self.parse_number(v['product_qty'], 15, 3)
+                # Número de Unidades de Consumo en la Unidad de Expedición (Unidades x caja)
+                qty = round(1 / (v['product_id'].uos_coeff or 1))
+                picking_data += self.parse_number(qty, 15, 3)
+                # Peso neto total de la linea
+                picking_data += self.parse_number(v['product_qty'] * v['product_id'].weight_net, 15, 3)
+                # Punto de entrega final
+                picking_data += self.parse_string(gln_rm, 25)
+                # Marca número de lote / Fecha de caducidad (36E = El corte inglés, 17 = Alcampo)
+                picking_data += self.parse_string(picking.partner_id.commercial_partner_id.product_marking_code, 3)
+                # Fecha de caducidad
+                #move_line += self.parse_long_date(move.prodlot_id.use_date)
+                picking_data += self.parse_string('', 12)
+                # Fecha de consumo preferente
+                #move_line += move.prodlot_id.life_date and self.parse_long_date(move.prodlot_id.life_date) or self.parse_string('', 12)
+                picking_data += self.parse_string('', 12)
+                # Fecha de fabricación
+                #move_line += self.parse_long_date(move.prodlot_id.date)
+                picking_data += self.parse_string('', 12)
+                # Fecha de empaquetado
+                picking_data += self.parse_string('', 12)
+                # Cantidad dividida
+                picking_data += self.parse_number('0', 15, 0)
+                # Calificador número de lote (BX)
+                picking_data += self.parse_string('BX', 3)
+                # Número de lote
+                picking_data += self.parse_string(v['lot_id'].name, 18)
+                # DUN14 Caja
+                picking_data += self.parse_number(v['product_id'].dun14, 14, 0)
+                f.write(picking_data)
                 num_lin += 1
-            f.write(picking_data)
-            num += 1
         f.close()
 
     def export_files(self, cr, uid, ids, context=None):
@@ -758,12 +870,12 @@ class edi_export (orm.TransientModel):
                 raise orm.except_orm(_('Partner error'), _('Edi filename not established in partner'))
             elif context['active_model'] == u'stock.picking':
                 file_name = '%s%sEDI%s%s%s.ASC' % (path,os.sep, obj.company_id.edi_code, obj.name.replace('/','').replace('\\',''), obj.partner_id.commercial_partner_id.edi_filename)
-                self.parse_picking(obj, file_name)
+                self.parse_picking(cr, uid, obj, file_name, context)
             elif context['active_model'] == u'account.invoice':
                 if obj.state not in ('open', 'paid'):
                     raise orm.except_orm(_('Invoice error'), _('Validate the invoice before.'))
                 file_name = '%s%sINV%s%s%s.ASC' % (path,os.sep, obj.company_id.edi_code, obj.number.replace('/','').replace('\\',''), obj.partner_id.commercial_partner_id.edi_filename)
-                self.parse_invoice(cr, uid, obj, file_name)
+                self.parse_invoice(cr, uid, obj, file_name, context)
             self.create_doc(cr, uid, wizard.id, obj, file_name, context)
             # data_pool = self.pool.get('ir.model.data')
             # action_model,action_id = data_pool.get_object_reference(cr, uid, 'eln_edi', "act_edi_doc")
