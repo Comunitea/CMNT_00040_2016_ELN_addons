@@ -42,6 +42,31 @@
             <field name="context">{'default_type': 'in_invoice', 'type': 'in_invoice', 'journal_type': 'purchase', 'no_journal': True}</field>
         </record>
 
+        <!-- El módulo l10n_es_aeat_mod340 pone como required el campo 'reference'
+             y el módulo l10n_es_aeat_sii el campo supplier_invoice_number, lo cual hace que sean required los dos campos.
+             Sin embargo el módulo l10n_es_aeat_mod340 no es coherente, pues en los registros a exportar toma como valor:
+             invoice.supplier_invoice_number or invoice.reference or '', pero obliga a introducir 'reference', con lo
+             que si hay un valor en 'supplier_invoice_number', además de en 'reference',
+             no exportará al fichero BOE el valor obligatorio, sino el otro.
+             Por otro lado en los informes mod340_report.rml y vat_book.rml si muestra solo el campo reference.
+             Lo ponemos como NO REQUIRED, ya que nosotros no presentamos el modelo 340, solo lo usamos como ayuda
+             provisional para obtener cierta información.
+             Hay que tener en cuenta que si generamos cualquiera de los informes anteriores para periodos de 07/2017 en adelante,
+             la columna que mostrará el número de factura estará vacío, pues con la aplicación del SII el que rellenaremos
+             será 'supplier_invoice_number'.
+             SE PODRÁ ELIMINAR ESTA CUSTOMIZACION CUANDO SE MODIFIQUE
+             l10n_es_aeat_mod340 EN ESTE SENTIDO O SI LO DESINSTALAMOS
+        -->
+        <record id="invoice_supplier_mod340_form_custom" model="ir.ui.view">
+            <field name="name">account.invoice.supplier.mod340.form.custom</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form"/>
+            <field name="arch" type="xml">
+                <field name="reference" position="attributes">
+                    <attribute name="required">0</attribute>
+                </field>
+            </field>
+        </record>
 
         <!--<record id="invoice_form_add_early_payment_button_eln_account" model="ir.ui.view">-->
             <!--<field name="name">account.invoice.form_add_early_payment_button</field>-->
