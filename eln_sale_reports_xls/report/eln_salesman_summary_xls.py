@@ -24,7 +24,7 @@ class ElnSalesmanSummaryXlsParser(report_sxw.rml_parse):
 
 
 class ElnSalesmanSummaryXls(report_xls):
-    column_sizes = [30, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15]
+    column_sizes = [30, 12, 12, 12, 7, 12, 12, 12, 7, 12, 12, 12, 7, 15]
 
     def __init__(self, name, table, rml=False, parser=False,
                  header=True, store=False):
@@ -97,15 +97,15 @@ class ElnSalesmanSummaryXls(report_xls):
             ('b', 1, 0, 'text', _('VENTAS'), None, style1),
             ('c', 1, 0, 'text', _('COSTE'), None, style1),
             ('d', 1, 0, 'text', _('BENEFICIO'), None, style1),
-            ('e', 1, 0, 'text', _('BENEFICIO %'), None, style1),
+            ('e', 1, 0, 'text', _('% BEN'), None, style1),
             ('f', 1, 0, 'text', _('VENTAS'), None, style1),
             ('g', 1, 0, 'text', _('COSTE'), None, style1),
             ('h', 1, 0, 'text', _('BENEFICIO'), None, style1),
-            ('i', 1, 0, 'text', _('BENEFICIO %'), None, style1),
+            ('i', 1, 0, 'text', _('% BEN'), None, style1),
             ('j', 1, 0, 'text', _('VENTAS'), None, style1),
             ('k', 1, 0, 'text', _('COSTE'), None, style1),
             ('l', 1, 0, 'text', _('BENEFICIO'), None, style1),
-            ('m', 1, 0, 'text', _('BENEFICIO %'), None, style1),
+            ('m', 1, 0, 'text', _('% BEN'), None, style1),
             ('n', 1, 0, 'text', _('TOTAL VENTAS'), None, style1),
         ]
         row_data = self.xls_row_template(c_specs, [x[0] for x in c_specs])
@@ -143,12 +143,12 @@ class ElnSalesmanSummaryXls(report_xls):
                 col4 = 'e' if c == 'valquin' else \
                     ('i' if c == 'indir_valquin' else 'm')
                 c_specs += [
-                    (col1, 1, 0, 'number', sale, None, None),
-                    (col2, 1, 0, 'number', cost, None, None),
-                    (col3, 1, 0, 'number', benefit, None, None),
-                    (col4, 1, 0, 'number', benefit_per, None, None)]
+                    (col1, 1, 0, 'number', sale, None, self.aml_cell_style_decimal),
+                    (col2, 1, 0, 'number', cost, None, self.aml_cell_style_decimal),
+                    (col3, 1, 0, 'number', benefit, None, self.aml_cell_style_decimal),
+                    (col4, 1, 0, 'number', benefit_per, None, self.aml_cell_style_decimal)]
                 sale_total += sale
-            c_specs += [('n', 1, 0, 'number', sale_total, None, None)]
+            c_specs += [('n', 1, 0, 'number', sale_total, None, self.aml_cell_style_decimal)]
             row_data = self.xls_row_template(c_specs,
                                              [x[0] for x in c_specs])
             row_pos = self.xls_write_row(self.ws, row_pos, row_data)
@@ -198,22 +198,23 @@ class ElnSalesmanSummaryXls(report_xls):
         # TOTAL SALES
         sale_start = rowcol_to_cell(init_pos, 13)
         sale_end = rowcol_to_cell(end_pos, 13)
-        total_toal_sales = 'SUM(' + sale_start + ':' + sale_end + ')'
+        total_total_sales = 'SUM(' + sale_start + ':' + sale_end + ')'
+
         c_specs = [
             ('a', 1, 0, 'text', _('TOTALES'), None, None),
-            ('b', 1, 0, 'number', None, val_sales, None),
-            ('c', 1, 0, 'number', None, val_cost, None),
-            ('d', 1, 0, 'number', None, val_benefit, None),
-            ('e', 1, 0, 'number', None, val_benefit_per, None),
-            ('f', 1, 0, 'number', None, in_val_sales, None),
-            ('g', 1, 0, 'number', None, None, None),
-            ('h', 1, 0, 'number', None, None, None),
-            ('i', 1, 0, 'number', None, None, None),
-            ('j', 1, 0, 'number', None, qui_sales, None),
-            ('k', 1, 0, 'number', None, qui_cost, None),
-            ('l', 1, 0, 'number', None, qui_benefit, None),
-            ('m', 1, 0, 'number', None, qui_benefit_per, None),
-            ('n', 1, 0, 'number', None, total_toal_sales, None),
+            ('b', 1, 0, 'number', None, val_sales, self.aml_cell_style_decimal),
+            ('c', 1, 0, 'number', None, val_cost, self.aml_cell_style_decimal),
+            ('d', 1, 0, 'number', None, val_benefit, self.aml_cell_style_decimal),
+            ('e', 1, 0, 'number', None, val_benefit_per, self.aml_cell_style_decimal),
+            ('f', 1, 0, 'number', None, in_val_sales, self.aml_cell_style_decimal),
+            ('g', 1, 0, 'number', None, None, self.aml_cell_style_decimal),
+            ('h', 1, 0, 'number', None, None, self.aml_cell_style_decimal),
+            ('i', 1, 0, 'number', None, None, self.aml_cell_style_decimal),
+            ('j', 1, 0, 'number', None, qui_sales, self.aml_cell_style_decimal),
+            ('k', 1, 0, 'number', None, qui_cost, self.aml_cell_style_decimal),
+            ('l', 1, 0, 'number', None, qui_benefit, self.aml_cell_style_decimal),
+            ('m', 1, 0, 'number', None, qui_benefit_per, self.aml_cell_style_decimal),
+            ('n', 1, 0, 'number', None, total_total_sales, self.aml_cell_style_decimal),
         ]
         row_data = self.xls_row_template(c_specs, [x[0] for x in c_specs])
         row_pos = self.xls_write_row(self.ws, row_pos, row_data)

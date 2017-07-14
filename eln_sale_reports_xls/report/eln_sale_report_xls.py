@@ -7,6 +7,7 @@ from openerp.addons.report_xls.report_xls import report_xls
 from datetime import datetime
 from openerp.report import report_sxw
 # from openerp.addons.report_xls.utils import _render
+from openerp.addons.report_xls.utils import rowcol_to_cell
 from openerp.tools.translate import _
 
 
@@ -24,7 +25,7 @@ class ElnSaleReportXlsParser(report_sxw.rml_parse):
 
 
 class ElnSaleReportXls(report_xls):
-    column_sizes = [30, 20, 10, 10, 20, 15, 15, 15, 15, 20, 15, 15, 15, 15]
+    column_sizes = [30, 8, 8, 8, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12]
 
     def __init__(self, name, table, rml=False, parser=False,
                  header=True, store=False):
@@ -113,12 +114,12 @@ class ElnSaleReportXls(report_xls):
             ('b', 3, 0, 'text', _('% RENT'), None, style1),
             ('c', 2, 0, 'text', _('ACUMULADOS'), None, style1),
             ('d', 1, 0, 'text', _('DEL DÍA'), None, style1),
-            ('e', 1, 0, 'text', _('AÑO ANTERIOR'), None, style1),
-            ('f', 1, 0, 'text', _('PRESUPUESTO'), None, style1),
+            ('e', 1, 0, 'text', _('AÑO ANT.'), None, style1),
+            ('f', 1, 0, 'text', _('PRESUP.'), None, style1),
             ('g', 2, 0, 'text', _('ACUMULADOS'), None, style1),
             ('h', 1, 0, 'text', _('DEL DÍA'), None, style1),
-            ('i', 1, 0, 'text', _('AÑO ANTERIOR'), None, style1),
-            ('j', 1, 0, 'text', _('PRESUPUESTO'), None, style1),
+            ('i', 1, 0, 'text', _('AÑO ANT.'), None, style1),
+            ('j', 1, 0, 'text', _('PRESUP.'), None, style1),
         ]
         row_data = self.xls_row_template(c_specs, [x[0] for x in c_specs])
         row_pos = self.xls_write_row(self.ws, row_pos, row_data)
@@ -127,7 +128,7 @@ class ElnSaleReportXls(report_xls):
             ('a', 1, 0, 'text', None, None, None),
             ('b', 1, 0, 'text', _('ACTUAL'), None, style1),
             ('c', 1, 0, 'text', _('ANT.'), None, style1),
-            ('d', 1, 0, 'text', _('A.ANT.'), None, style1),
+            ('d', 1, 0, 'text', _('A. ANT.'), None, style1),
             ('e', 1, 0, 'text', _('ACTUALES'), None, style1),
             ('f', 1, 0, 'text', _('ANTERIORES'), None, style1),
             ('g', 1, 0, 'text', None, None, style1),
@@ -154,25 +155,73 @@ class ElnSaleReportXls(report_xls):
                 / val['ly_base'] if val['ly_base'] else 0.0
             c_specs = [
                 ('a', 1, 0, 'text', acc_name, None, None),
-                ('b', 1, 0, 'text', str(round(margin, 2)), None, None),
-                ('c', 1, 0, 'text', str(round(ld_margin, 2)), None, None),
-                ('d', 1, 0, 'text', str(round(ly_margin, 2)), None, None),
-                ('e', 1, 0, 'text', str(round(val['base'], 2)), None, None),
-                ('f', 1, 0, 'text', str(round(val['ld_base'], 2)), None, None),
-                ('g', 1, 0, 'text',
-                    str(round(val['base'] - val['ld_base'], 2)), None,
-                    None),
-                ('h', 1, 0, 'text', str(round(val['ly_base'], 2)), None, None),
-                ('i', 1, 0, 'text', str(round(val['quot1'], 2)), None, None),
-                ('j', 1, 0, 'text', str(round(val['kg'], 2)), None, None),
-                ('k', 1, 0, 'text', str(round(val['ld_kg'], 2)), None, None),
-                ('l', 1, 0, 'text', str(round(val['kg'] - val['ld_kg'], 2)),
-                    None, None),
-                ('m', 1, 0, 'text', str(round(val['ly_kg'], 2)), None, None),
-                ('n', 1, 0, 'text', str(round(val['quot2'], 2)), None, None),
+                ('b', 1, 0, 'number', round(margin, 2), None, self.aml_cell_style_decimal),
+                ('c', 1, 0, 'number', round(ld_margin, 2), None, self.aml_cell_style_decimal),
+                ('d', 1, 0, 'number', round(ly_margin, 2), None, self.aml_cell_style_decimal),
+                ('e', 1, 0, 'number', round(val['base'], 2), None, self.aml_cell_style_decimal),
+                ('f', 1, 0, 'number', round(val['ld_base'], 2), None, self.aml_cell_style_decimal),
+                ('g', 1, 0, 'number', round(val['base'] - val['ld_base'], 2), None, self.aml_cell_style_decimal),
+                ('h', 1, 0, 'number', round(val['ly_base'], 2), None, self.aml_cell_style_decimal),
+                ('i', 1, 0, 'number', round(val['quot1'], 2), None, self.aml_cell_style_decimal),
+                ('j', 1, 0, 'number', round(val['kg'], 2), None, self.aml_cell_style_decimal),
+                ('k', 1, 0, 'number', round(val['ld_kg'], 2), None, self.aml_cell_style_decimal),
+                ('l', 1, 0, 'number', round(val['kg'] - val['ld_kg'], 2), None, self.aml_cell_style_decimal),
+                ('m', 1, 0, 'number', round(val['ly_kg'], 2), None, self.aml_cell_style_decimal),
+                ('n', 1, 0, 'number', round(val['quot2'], 2), None, self.aml_cell_style_decimal),
             ]
             row_data = self.xls_row_template(c_specs, [x[0] for x in c_specs])
             row_pos = self.xls_write_row(self.ws, row_pos, row_data)
+        return row_pos
+
+    def _print_totals(self, data, row_pos):
+        init_pos = 5
+        end_pos = row_pos - 2
+        
+        # Calculamos importes totales y coste total para calcular % rent total
+        base, ld_base, ly_base = 0, 0, 0
+        cost, ld_cost, ly_cost = 0, 0, 0
+        for acc_name in data:
+            val = data[acc_name]
+            base += val['base'] if val['base'] else 0.0
+            ld_base += val['ld_base'] if val['ld_base'] else 0.0
+            ly_base += val['ly_base'] if val['ly_base'] else 0.0
+            cost += val['p_price'] if val['p_price'] else 0.0
+            ld_cost += val['ld_p_price'] if val['ld_p_price'] else 0.0
+            ly_cost += val['ly_p_price'] if val['ly_p_price'] else 0.0
+        margin = ((base - cost) * 100) / base if base else 0.0
+        ld_margin = ((ld_base - ld_cost) * 100) / ld_base if ld_base else 0.0
+        ly_margin = ((ly_base - ly_cost) * 100) / ly_base if ly_base else 0.0
+
+        # RENT
+        val_margin = round(margin, 2)
+        val_ld_margin = round(ld_margin, 2)
+        val_ly_margin = round(ly_margin, 2)
+        
+        # EUROS - KILOS
+        val_sum = {}
+        for i in range(4, 14): 
+            cell_start = rowcol_to_cell(init_pos, i)
+            cell_end = rowcol_to_cell(end_pos, i)
+            val_sum[i] = 'SUM(' + cell_start + ':' + cell_end + ')'
+
+        c_specs = [
+            ('a', 1, 0, 'text', _('TOTALES'), None, None),
+            ('b', 1, 0, 'number', val_margin, None, self.aml_cell_style_decimal),
+            ('c', 1, 0, 'number', val_ld_margin, None, self.aml_cell_style_decimal),
+            ('d', 1, 0, 'number', val_ly_margin, None, self.aml_cell_style_decimal),
+            ('e', 1, 0, 'number', None, val_sum[4], self.aml_cell_style_decimal),
+            ('f', 1, 0, 'number', None, val_sum[5], self.aml_cell_style_decimal),
+            ('g', 1, 0, 'number', None, val_sum[6], self.aml_cell_style_decimal),
+            ('h', 1, 0, 'number', None, val_sum[7], self.aml_cell_style_decimal),
+            ('i', 1, 0, 'number', None, val_sum[8], self.aml_cell_style_decimal),
+            ('j', 1, 0, 'number', None, val_sum[9], self.aml_cell_style_decimal),
+            ('k', 1, 0, 'number', None, val_sum[10], self.aml_cell_style_decimal),
+            ('l', 1, 0, 'number', None, val_sum[11], self.aml_cell_style_decimal),
+            ('m', 1, 0, 'number', None, val_sum[12], self.aml_cell_style_decimal),
+            ('n', 1, 0, 'number', None, val_sum[13], self.aml_cell_style_decimal),
+        ]
+        row_data = self.xls_row_template(c_specs, [x[0] for x in c_specs])
+        row_pos = self.xls_write_row(self.ws, row_pos, row_data)
         return row_pos
 
     def generate_xls_report(self, _p, _xs, data, objects, wb):
@@ -189,6 +238,12 @@ class ElnSaleReportXls(report_xls):
 
         # Values
         row_pos = self._print_report_values(data, row_pos)
+        
+        # Print empty row to define column sizes
+        row_pos = self.print_empty_row(row_pos)
+
+        # Totals
+        row_pos = self._print_totals(data, row_pos)
 
 
 ElnSaleReportXls('report.eln_sale_report_xls',
