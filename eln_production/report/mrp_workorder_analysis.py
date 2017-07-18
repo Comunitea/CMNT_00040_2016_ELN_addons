@@ -28,6 +28,7 @@ class mrp_workorder(osv.osv):
 
     _columns = {
         'product_weight': fields.float('Product Weight', digits_compute=dp.get_precision('Stock Weight'), readonly=True),
+        'planified_time': fields.float('Planified time', readonly=True),
     }
 
     def init(self, cr):
@@ -47,6 +48,7 @@ class mrp_workorder(osv.osv):
                     count(*) as nbr,
                     sum(mp.product_qty) as product_qty,
                     sum(mp.product_qty*pt.weight_net) as product_weight,
+                    sum((extract(epoch from wl.date_finished - wl.date_start))/3600) as planified_time,
                     wl.state as state
                 from mrp_production_workcenter_line wl
                     left join mrp_workcenter w on (w.id = wl.workcenter_id)
