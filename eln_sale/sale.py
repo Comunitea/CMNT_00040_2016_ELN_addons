@@ -36,7 +36,7 @@ class sale_order(orm.Model):
         dates_list = []
         for order in self.browse(cr, uid, ids, context=context):
             dates_list = []
-            for pick in order.picking_ids:
+            for pick in order.picking_ids.filtered(lambda r: r.state != 'cancel'):
                 dates_list.append(pick.effective_date)
             if dates_list:
                 res[order.id] = min(dates_list)

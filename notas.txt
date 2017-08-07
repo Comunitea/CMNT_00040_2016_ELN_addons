@@ -358,6 +358,15 @@ En principio no se usa este método porque está en uso crm_claim_rma que lo trata
 y por eso no lo modifico
 
 
+FECHA EFECTIVA EN DISTINTO MES FECHA FACTURA
+=============================================
+select so.name, so.effective_date, ai.number, ai.date_invoice, so.id, ai.id, extract(MONTH from so.effective_date), extract(MONTH from ai.date_invoice), so.company_id
+from sale_order_invoice_rel soi
+inner join sale_order so on so.id = soi.order_id
+inner join account_invoice ai on ai.id = soi.invoice_id
+--where so.effective_date <> ai.date_invoice
+where extract(MONTH from so.effective_date) <> extract(MONTH from ai.date_invoice)
+order by so.company_id, so.name
 
 
 
