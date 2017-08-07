@@ -6,16 +6,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-31 14:29+0000\n"
-"PO-Revision-Date: 2016-08-31 16:30+0200\n"
-"Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
+"POT-Creation-Date: 2017-08-07 07:39+0000\n"
+"PO-Revision-Date: 2017-08-07 10:02+0200\n"
+"Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
 "Language: es\n"
-"X-Generator: Poedit 1.8.6\n"
+"X-Generator: Poedit 2.0.3\n"
 
 #. module: eln_sale
 #: view:sale.shop:eln_sale.view_shop_form
@@ -124,14 +124,10 @@ msgstr "Nombre mostrado"
 
 #. module: eln_sale
 #: view:sale.order:eln_sale.view_sales_order_filter
-#: field:stock.move,effective_date:0 field:stock.picking,effective_date:0
+#: field:sale.report,effective_date:0 field:stock.move,effective_date:0
+#: field:stock.picking,effective_date:0
 msgid "Effective Date"
 msgstr "Fecha efectiva"
-
-#. module: eln_sale
-#: field:product.product,commission_free:0
-msgid "Free of commission"
-msgstr "Sin comisión"
 
 #. module: eln_sale
 #: view:sale.shop:eln_sale.view_shop_form
@@ -152,7 +148,7 @@ msgstr "ID"
 #. module: eln_sale
 #: model:ir.actions.act_window,help:eln_sale.action_shop_form
 msgid "If you have more than one sale_type reselling your company products, you can create and manage that from here. Whenever you will record a new quotation or sales order, it has to be linked to a sale_type. The sale_type also defines the warehouse from which the products will be delivered for each particular sales."
-msgstr "If you have more than one sale_type reselling your company products, you can create and manage that from here. Whenever you will record a new quotation or sales order, it has to be linked to a sale_type. The sale_type also defines the warehouse from which the products will be delivered for each particular sales."
+msgstr "Si tiene más de un tipo de venta que vende los productos de su empresa, puede crear y administrarlo desde aquí. Cada vez que grabe una nueva cotización o orden de venta, debe vincularse a un tipo de venta. El tipo de venta también define el almacén desde el cual se entregarán los productos para cada venta en particular."
 
 #. module: eln_sale
 #: view:sale.order:eln_sale.view_sales_order_filter
@@ -279,6 +275,11 @@ msgid "Sales Order Line"
 msgstr "Línea pedido de venta"
 
 #. module: eln_sale
+#: model:ir.model,name:eln_sale.model_sale_report
+msgid "Sales Orders Statistics"
+msgstr "Estadísticas pedidos de venta"
+
+#. module: eln_sale
 #: view:sale.shop:eln_sale.view_shop_form
 #: view:sale.shop:eln_sale.view_shop_tree
 msgid "Sales Shop"
@@ -302,7 +303,6 @@ msgstr "Movimiento de existencias"
 
 #. module: eln_sale
 #: field:sale.order,supplier_id:0 field:sale.shop,supplier_id:0
-#: view:stock.move:eln_sale.view_move_search_add_supplier
 #: field:stock.move,supplier_id:0 field:stock.picking,supplier_id:0
 msgid "Supplier"
 msgstr "Proveedor"
@@ -352,6 +352,11 @@ msgid "Warning"
 msgstr "Atención"
 
 #. module: eln_sale
+#: field:product.product,without_early_payment:0
+msgid "Without early payment"
+msgstr "Sin Pronto Pago"
+
+#. module: eln_sale
 #: code:addons/eln_sale/wizard/sale_order_confirm.py:43
 #, python-format
 msgid "You cannot confirm a sale order which has no line."
@@ -365,7 +370,7 @@ msgstr "[('commercial_partner_id', '=', commercial_partner_id)]"
 #. module: eln_sale
 #: field:sale.order,commercial_partner_id:0
 msgid "unknown"
-msgstr "Desconocido"
+msgstr "desconocido"
 
 #. module: eln_sale
 #: view:sale.order:eln_sale.view_elnsale_sale_form

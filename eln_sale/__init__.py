@@ -24,3 +24,4 @@ import product
 import sale
 import stock
 import sale_shop
+import report
