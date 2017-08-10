@@ -6,16 +6,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-07-18 17:25+0000\n"
-"PO-Revision-Date: 2017-07-18 19:28+0200\n"
-"Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
+"POT-Creation-Date: 2017-08-10 16:14+0000\n"
+"PO-Revision-Date: 2017-08-10 18:23+0200\n"
+"Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
 "Language: es\n"
-"X-Generator: Poedit 1.8.6\n"
+"X-Generator: Poedit 2.0.3\n"
 
 #. module: eln_production
 #: code:addons/eln_production/mrp.py:59
@@ -55,7 +55,7 @@ msgid "BoM line product should not be same as BoM product."
 msgstr "Un producto de línea de LdM no puede ser el mismo que el producto fabricado por la LdM"
 
 #. module: eln_production
-#: code:addons/eln_production/mrp.py:655
+#: code:addons/eln_production/mrp.py:663
 #, python-format
 msgid "Can not recalculate time because not exists objectives datas in the lines of the routing"
 msgstr "No puede recalcular tiempo porque no existen datos objetivos en las líneas de la ruta"
@@ -186,7 +186,7 @@ msgid "Done Production"
 msgstr "Realizar producción"
 
 #. module: eln_production
-#: code:addons/eln_production/mrp.py:266
+#: code:addons/eln_production/mrp.py:270
 #, python-format
 msgid "ERROR!"
 msgstr "¡Error!"
@@ -212,8 +212,8 @@ msgid "Entry qty (kg)"
 msgstr "Cant. entrada (kg)"
 
 #. module: eln_production
-#: code:addons/eln_production/mrp.py:284 code:addons/eln_production/mrp.py:655
-#: code:addons/eln_production/mrp.py:721 code:addons/eln_production/mrp.py:731
+#: code:addons/eln_production/mrp.py:288 code:addons/eln_production/mrp.py:663
+#: code:addons/eln_production/mrp.py:729 code:addons/eln_production/mrp.py:739
 #, python-format
 msgid "Error!"
 msgstr "¡Error!"
@@ -370,7 +370,7 @@ msgid "Manufacturing Orders"
 msgstr "Órdenes de producción"
 
 #. module: eln_production
-#: code:addons/eln_production/mrp.py:284
+#: code:addons/eln_production/mrp.py:288
 #, python-format
 msgid "Manufacturing order cannot be started in state \"%s\"!"
 msgstr "La orden de producción no se puede iniciar en estado \"%s\""
@@ -417,6 +417,13 @@ msgid "Name"
 msgstr "Nombre"
 
 #. module: eln_production
+#: selection:mrp.production,production_type:0
+#: selection:mrp.production.workcenter.line,production_type:0
+#: selection:mrp.workorder,production_type:0
+msgid "Normal"
+msgstr "Normal"
+
+#. module: eln_production
 #: view:mrp.production:eln_production.mrp_production_form_inherit_10
 msgid "Notas"
 msgstr "Notas"
@@ -453,7 +460,7 @@ msgid "Out qty (kg)"
 msgstr "Cant. salida (kg)"
 
 #. module: eln_production
-#: code:addons/eln_production/mrp.py:462
+#: code:addons/eln_production/mrp.py:470
 #: code:addons/eln_production/stock_move.py:83
 #, python-format
 msgid "PROD: %s"
@@ -546,6 +553,11 @@ msgid "Production"
 msgstr "Producción"
 
 #. module: eln_production
+#: field:mrp.workorder,production_lead_time:0
+msgid "Production Lead time"
+msgstr "Tiempo de entrega de producción"
+
+#. module: eln_production
 #: field:mrp.production.workcenter.line,production_stops_ids:0
 msgid "Production Stops"
 msgstr "Paradas"
@@ -626,6 +638,13 @@ msgid "Resume Work Order"
 msgstr "Reanudar orden de trabajo"
 
 #. module: eln_production
+#: selection:mrp.production,production_type:0
+#: selection:mrp.production.workcenter.line,production_type:0
+#: selection:mrp.workorder,production_type:0
+msgid "Rework"
+msgstr "Retrabajo"
+
+#. module: eln_production
 #: model:ir.model,name:eln_production.model_mrp_routing
 #: field:mrp.production.workcenter.line,routing_id:0
 msgid "Routing"
@@ -646,6 +665,13 @@ msgstr "Procesos productivos"
 #: view:mrp.production.workcenter.line:eln_production.view_mrp_production_workcenter_line_kanban
 msgid "Ruta:"
 msgstr "Ruta:"
+
+#. module: eln_production
+#: selection:mrp.production,production_type:0
+#: selection:mrp.production.workcenter.line,production_type:0
+#: selection:mrp.workorder,production_type:0
+msgid "Sample"
+msgstr "Muestra"
 
 #. module: eln_production
 #: field:product.product,sample_location:0
@@ -697,6 +723,13 @@ msgstr "Cambiar a borrador"
 #: field:mrp.modify.consumption.line,location_id:0
 msgid "Source location"
 msgstr "Ubicación origen"
+
+#. module: eln_production
+#: selection:mrp.production,production_type:0
+#: selection:mrp.production.workcenter.line,production_type:0
+#: selection:mrp.workorder,production_type:0
+msgid "Special"
+msgstr "Especial"
 
 #. module: eln_production
 #: view:mrp.production:eln_production.mrp_production_form_inherit_10
@@ -812,6 +845,13 @@ msgid "Traceability up"
 msgstr "Trazabilidad hacia arriba"
 
 #. module: eln_production
+#: field:mrp.production,production_type:0
+#: field:mrp.production.workcenter.line,production_type:0
+#: field:mrp.workorder,production_type:0
+msgid "Type of production"
+msgstr "Tipo de producción"
+
+#. module: eln_production
 #: field:mrp.routing.workcenter,uom_id:0
 msgid "UoM"
 msgstr "UdM"
@@ -898,13 +938,13 @@ msgid "Yesterday"
 msgstr "Ayer"
 
 #. module: eln_production
-#: code:addons/eln_production/mrp.py:266
+#: code:addons/eln_production/mrp.py:270
 #, python-format
 msgid "You can not modify a work order associated at a production with a state other than 'validated'"
 msgstr "No se puede modificar una orden de trabajo asociada a una producción con un estado que no sea 'validada'"
 
 #. module: eln_production
-#: code:addons/eln_production/mrp.py:721 code:addons/eln_production/mrp.py:731
+#: code:addons/eln_production/mrp.py:729 code:addons/eln_production/mrp.py:739
 #, python-format
 msgid "You cannot delete a production which is not cancelled."
 msgstr "No se puede eliminar una producción que no esté cancelada."

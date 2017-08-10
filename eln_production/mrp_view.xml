@@ -159,6 +159,7 @@
                         <field name="workcenter_id" select="1" widget="selection"/>
                         <field name="production_id"/>
                         <field name="production_state"/>
+                        <field name="production_type"/>
                         <field name="sequence"/>
                     </group>
                     <notebook colspan="4">
@@ -316,6 +317,10 @@
 
                 <field name="date_planned" position="after">
                     <field name="date_end_planned"/>
+                </field>
+
+                <field name="origin" position="after">
+                    <field name="production_type"/>
                 </field>
 
                 <field name="product_uos_qty" position="attributes">

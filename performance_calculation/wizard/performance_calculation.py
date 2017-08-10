@@ -25,7 +25,6 @@ from openerp.tools.translate import _
 
 
 class performance_calculation(orm.TransientModel):
-
     _name = 'performance.calculation'
     _columns = {
         'name': fields.char('Name', size=255, required=True),
@@ -48,30 +47,28 @@ class performance_calculation(orm.TransientModel):
     }
 
     def _get_moves_by_filters(self, cr, uid, ids, context=None):
-
-        domain = []
         result = []
+        domain = [('production_state','=','done'), ('production_type','=','normal')]
 
         form = self.browse(cr, uid, ids[0], context)
 
         if form.date_start and form.date_stop:
-            domain.append(('date_start','>=', form.date_start))
-            domain.append(('date_start','<=', form.date_stop))
-            domain.append(('date_finished','<=', form.date_stop))
-            domain.append(('date_finished','>=', form.date_start))
+            domain.append(('date_start','>=',form.date_start))
+            domain.append(('date_start','<=',form.date_stop))
+            domain.append(('date_finished','<=',form.date_stop))
+            domain.append(('date_finished','>=',form.date_start))
         if form.routing_id:
             domain.append(('routing_id','=',form.routing_id.id))
         if form.product_id:
-            domain.append(('product','=',form.product_id.id)),
+            domain.append(('product','=',form.product_id.id))
         if form.workcenter_id:
-            domain.append(('workcenter_id','=', form.workcenter_id.id))
+            domain.append(('workcenter_id','=',form.workcenter_id.id))
 
         result = self.pool.get('mrp.production.workcenter.line').search(cr, uid, domain)
 
         return result
 
     def _get_name_by_filters(self, cr, uid, ids, context=None):
-
         report_name_comp = ''
 
         for form in self.browse(cr, uid, ids, context):
@@ -200,20 +197,19 @@ class performance_calculation(orm.TransientModel):
                     'indicator_id': indicator_id}
 
     def _get_productions_by_filters(self, cr, uid, ids, context=None):
-
-        domain = [('state','=','done')]
         result = []
         result2 = []
+        domain = [('state','=','done'), ('production_type','=','normal')]
 
         form = self.browse(cr, uid, ids[0], context)
         prod_obj = self.pool.get('mrp.production')
         prodwork_line = self.pool.get('mrp.production.workcenter.line')
 
         if form.date_start and form.date_stop:
-            domain.append(('date_start','>=', form.date_start))
-            domain.append(('date_start','<=', form.date_stop))
-            domain.append(('date_finished','<=', form.date_stop))
-            domain.append(('date_finished','>=', form.date_start))
+            domain.append(('date_start','>=',form.date_start))
+            domain.append(('date_start','<=',form.date_stop))
+            domain.append(('date_finished','<=',form.date_stop))
+            domain.append(('date_finished','>=',form.date_start))
         if form.routing_id:
             domain.append(('routing_id','=',form.routing_id.id))
         if form.product_id:
@@ -223,10 +219,10 @@ class performance_calculation(orm.TransientModel):
 
         if form.workcenter_id:
             if result:
-                result2 = prodwork_line.search(cr, uid, [('production_id','in', result),('workcenter_id','=', form.workcenter_id.id)])
+                result2 = prodwork_line.search(cr, uid, [('production_id','in',result), ('workcenter_id','=',form.workcenter_id.id)])
                 result = []
             else:
-                result2 = prodwork_line.search(cr, uid, [('workcenter_id','=', form.workcenter_id.id)])
+                result2 = prodwork_line.search(cr, uid, [('workcenter_id','=',form.workcenter_id.id)])
             if result2:
                 for obj in prodwork_line.browse(cr, uid, result2):
                     result.append(obj.production_id.id)
@@ -235,7 +231,6 @@ class performance_calculation(orm.TransientModel):
         return result
 
     def _calc_finished_qty(self, cr, uid, ids, context=None):
-
         qty = 0.0
 
         for move in self.pool.get('stock.move').browse(cr, uid, ids):
@@ -247,7 +242,6 @@ class performance_calculation(orm.TransientModel):
         return qty
 
     def _calc_real_finished_qty(self, cr, uid, ids, context=None):
-
         qty = 0.0
 
         for move in self.pool.get('stock.move').browse(cr, uid, ids):
@@ -261,7 +255,6 @@ class performance_calculation(orm.TransientModel):
         return qty
 
     def _get_theorical_cost(self, cr, uid, ids, product_uom_qty=0.0, bom_id=False, context=None):
-
         bom_obj = self.pool.get('mrp.bom')
         tmpl_obj = self.pool.get('product.template')
         bom_point = bom_obj.browse(cr, uid, bom_id)
@@ -270,7 +263,6 @@ class performance_calculation(orm.TransientModel):
         return updated_price * product_uom_qty
 
     def _get_real_cost(self, cr, uid, ids, context=None):
-
         real_cost = 0.0
 
         for move in self.pool.get('stock.move').browse(cr, uid, ids):
@@ -283,7 +275,6 @@ class performance_calculation(orm.TransientModel):
     def generate_report_scrap_and_usage(self, cr, uid, ids, context=None):
         if context is None:
             context = {}
-
         indicator_id = False
         prod_obj = self.pool.get('mrp.production')
         company_id = self.pool.get('res.users').browse(cr, uid, uid).company_id and self.pool.get('res.users').browse(cr, uid, uid).company_id.id or False
@@ -324,13 +315,11 @@ class performance_calculation(orm.TransientModel):
                             uid,self._prepare_scrap_indicator_line(cr,\
                             uid, ids, prod.product_id.id, prod.product_uom.id, qty_finished,\
                             real_qty_finished, qty_scrap, theo_cost, real_real_cost, usage, scrap, prod.id, indicator_id, context=context))
-
         return indicator_id
 
     def generate_performance_calculation(self, cr, uid, ids, context=None):
         if context is None:
             context = {}
-
         indicator_id = False
         tot_qty_prod = 0.0
         tot_qty_scrap = 0.0
@@ -361,7 +350,6 @@ class performance_calculation(orm.TransientModel):
                     'type': 'ir.actions.act_window',
                     'res_id': new_id
                     }
-
             else:
                 name_report = self._get_name_by_filters(cr, uid, [form.id], context=context)
                 line_ids = self._get_moves_by_filters(cr, uid, [form.id], context=context)
@@ -423,11 +411,10 @@ class performance_calculation(orm.TransientModel):
                             quality = (self._get_quality(cr, uid, ids, obj.qty, qty, context=context)) * 100
 
                         if form.report_type == 'oee':
-                            availability,performance,quality,oee = self._get_oee(cr, uid, ids, estimated_time, rout.hour_nbr, qty_per_cycle, factor, times_for_availability, times_for_performance, obj.qty, qty, context=context)
+                            availability, performance, quality, oee = self._get_oee(cr, uid, ids, estimated_time, rout.hour_nbr, qty_per_cycle, factor, times_for_availability, times_for_performance, obj.qty, qty, context=context)
 
                         if form.report_type != 'scrap_and_usage':
                             self.pool.get('mrp.indicators.line').create(cr,uid,self._prepare_indicator_line(cr, uid, ids, obj, stop_time, availability, performance, quality, oee, indicator_id, qty, context=context))
-
 
                     if indicator_id:
                         ind = self.pool.get('mrp.indicators').browse(cr, uid, indicator_id)
