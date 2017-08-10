@@ -29,6 +29,8 @@ class mrp_workorder(osv.osv):
     _columns = {
         'product_weight': fields.float('Product Weight', digits_compute=dp.get_precision('Stock Weight'), readonly=True),
         'planified_time': fields.float('Planified time', readonly=True),
+        'production_lead_time': fields.float('Production Lead time', readonly=True),
+        'production_type': fields.selection([('normal','Normal'), ('rework','Rework'), ('sample','Sample'), ('special','Special')], 'Type of production', readonly=True),
     }
 
     def init(self, cr):
@@ -48,7 +50,9 @@ class mrp_workorder(osv.osv):
                     count(*) as nbr,
                     sum(mp.product_qty) as product_qty,
                     sum(mp.product_qty*pt.weight_net) as product_weight,
-                    sum((extract(epoch from wl.date_finished - wl.date_start))/3600) as planified_time,
+                    sum(extract(epoch from wl.date_finished - wl.date_start)/3600)::decimal(16,2) as planified_time,
+                    sum(extract(epoch from wl.date_finished - mp.create_date)/3600)::decimal(16,2) as production_lead_time,
+                    mp.production_type as production_type,
                     wl.state as state
                 from mrp_production_workcenter_line wl
                     left join mrp_workcenter w on (w.id = wl.workcenter_id)
@@ -56,5 +60,5 @@ class mrp_workorder(osv.osv):
                     left join product_product pp on (pp.id = mp.product_id)
                     left join product_template pt on (pt.id = pp.product_tmpl_id)
                 group by
-                    w.costs_hour, mp.product_id, mp.name, wl.state, wl.date_planned, wl.production_id, wl.workcenter_id
+                    w.costs_hour, mp.product_id, mp.name, wl.state, wl.date_planned, wl.production_id, wl.workcenter_id, mp.production_type
         )""")

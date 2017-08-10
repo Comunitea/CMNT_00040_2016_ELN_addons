@@ -178,6 +178,7 @@ class mrp_routing_workcenter(osv.osv):
 
 mrp_routing_workcenter()
 
+
 class production_stops(osv.osv):
     _name = 'production.stops'
     _columns = {
@@ -186,6 +187,7 @@ class production_stops(osv.osv):
         'time': fields.float('Time', required=True),
         'production_workcenter_line_id': fields.many2one('mrp.production.workcenter.line', 'Production workcenter line')
     }
+
 
 class mrp_production_workcenter_line(osv.osv):
     _inherit = 'mrp.production.workcenter.line'
@@ -255,6 +257,10 @@ class mrp_production_workcenter_line(osv.osv):
         'color_stock': fields.function(_get_color_stock, type="integer", string="Color stock", readonly=True),
         'routing_id': fields.many2one('mrp.routing', 'Routing', readonly=True),
         'real_time': fields.float('Real time'),
+        'production_type': fields.related('production_id','production_type',
+            type='selection',
+            selection=[('normal','Normal'), ('rework','Rework'), ('sample','Sample'), ('special','Special')],
+            string='Type of production', readonly=True),
     }
 
     def write(self, cr, uid, ids, vals, context=None, update=True):
@@ -367,6 +373,7 @@ class mrpRouting(models.Model):
             res = recs.name_get()
         return res
 
+
 class mrp_production(osv.osv):
     _inherit = 'mrp.production'
 
@@ -409,6 +416,10 @@ class mrp_production(osv.osv):
         'color_production': fields.function(_get_color_production, type="integer", string="Color production", readonly=True),
         'theo_cost': fields.float('Theorical Cost', digits_compute=dp.get_precision('Product Price'), copy=False),
         'sequence': fields.integer('Sequence', help="Used to order the production planning kanban view"),
+        'production_type': fields.selection([('normal','Normal'), ('rework','Rework'), ('sample','Sample'), ('special','Special')], 'Type of production'),
+    }
+    _defaults = {
+        'production_type': 'normal',
     }
     _order = 'name desc'
 
