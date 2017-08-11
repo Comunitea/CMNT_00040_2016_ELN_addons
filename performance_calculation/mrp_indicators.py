@@ -56,7 +56,7 @@ class mrp_indicators_line(orm.Model):
         'availability': fields.float('Availability'),
         'performance': fields.float('Performance'),
         'quality': fields.float('Quality'),
-        'indicator_id': fields.many2one('mrp.indicators', 'Indicator', required=True)
+        'indicator_id': fields.many2one('mrp.indicators', 'Indicator', ondelete='cascade', required=True)
     }
 
 
@@ -68,12 +68,11 @@ class mrp_indicators_averages(orm.Model):
         'availability': fields.float('Availability'),
         'performance': fields.float('Performance'),
         'quality': fields.float('Quality'),
-        'indicator_id': fields.many2one('mrp.indicators', 'Incicator', required=True)
+        'indicator_id': fields.many2one('mrp.indicators', 'Incicator', ondelete='cascade', required=True)
     }
 
 
 class mrp_indicators_scrap(orm.Model):
-
     _name = 'mrp.indicators.scrap'
     _columns = {
         'name': fields.char('Name', size=255, required=True),
@@ -86,7 +85,6 @@ class mrp_indicators_scrap(orm.Model):
 
 
 class mrp_indicators_scrap_line(orm.Model):
-
     _name = 'mrp.indicators.scrap.line'
     _columns = {
         'name': fields.char('Name', size=255, required=True),
@@ -101,5 +99,5 @@ class mrp_indicators_scrap_line(orm.Model):
         'theorical_cost': fields.float('Theorical cost', digits_compute=dp.get_precision('Product Unit of Measure')),
         'scrap_cost': fields.float('Scrap', digits_compute=dp.get_precision('Product Unit of Measure'), select=True),
         'usage_cost': fields.float('Usage', digits_compute=dp.get_precision('Product Unit of Measure'), select=True),
-        'indicator_id': fields.many2one('mrp.indicators.scrap', 'Indicator', required=True),
+        'indicator_id': fields.many2one('mrp.indicators.scrap', 'Indicator', ondelete='cascade', required=True),
     }
