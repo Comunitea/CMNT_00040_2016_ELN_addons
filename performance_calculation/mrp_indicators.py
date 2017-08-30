@@ -33,6 +33,7 @@ class mrp_indicators(orm.Model):
         'company_id': fields.many2one('res.company', 'Company'),
         'report_name': fields.char('Report', size=255)
     }
+    _order = 'date desc, id desc'
 
 
 class mrp_indicators_line(orm.Model):
@@ -82,6 +83,7 @@ class mrp_indicators_scrap(orm.Model):
         'company_id': fields.many2one('res.company', 'Company'),
         'report_name': fields.char('Report', size=255)
     }
+    _order = 'date desc, id desc'
 
 
 class mrp_indicators_scrap_line(orm.Model):

@@ -154,57 +154,60 @@
             <field name="inherit_id" eval="False"/>
             <field name="arch" type="xml">
                 <form string="Work Orders">
+                    <header>
+                        <button name="button_start_working" string="Start" states="draft" class="oe_highlight"/>
+                        <button name="button_resume" string="Resume" states="pause" class="oe_highlight"/>
+                        <button name="button_done" string="Finished" states="startworking" class="oe_highlight"/>
+                        <button name="button_pause" string="Pending" states="startworking"/>
+                        <button name="button_draft" string="Set Draft" states="cancel"/>
+                        <button name="button_cancel" string="Cancel" states="draft,startworking"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,startworking"/>
+                    </header>
                     <group col="6" colspan="4">
-                        <field colspan="4" name="name" select="1"/>
-                        <field name="workcenter_id" select="1" widget="selection"/>
+                        <field colspan="6" name="name" select="1"/>
                         <field name="production_id"/>
                         <field name="production_state"/>
-                        <field name="production_type"/>
+                        <field name="workcenter_id" select="1" widget="selection"/>
                         <field name="sequence"/>
+                        <field name="routing_id"/>
+                        <field name="production_type"/>
                     </group>
                     <notebook colspan="4">
                     <page string="Information">
-                        <group colspan="2" col="2">
-                            <separator string="Planned Date" colspan="2"/>
-                            <field name="date_planned"/>
-                            <field name="date_planned_end"/>
-                        </group>
+                        <group colspan="4" col="4">
+                            <group colspan="2" col="2">
+                                <separator string="Planned Date" colspan="2"/>
+                                <field name="date_planned"/>
+                                <field name="date_planned_end"/>
+                            </group>
 
-                        <group colspan="2" col="2">
-                            <separator string="Estimation" colspan="2"/>
-                            <field name="hour" widget="float_time" string="Est. Time"/>
-                        </group>
+                            <group colspan="2" col="2">
+                                <separator string="Real" colspan="2"/>
+                                <field name="date_start" readonly="0"/>
+                                <field name="date_finished" readonly="0"/>
+                                <field name="real_time" widget="float_time"/>
+                                <field name="time_start" widget="float_time"/>
+                                <field name="time_stop" widget="float_time"/>
+                            </group>
 
-                        <group colspan="2" col="2">
-                            <separator string="Real" colspan="2"/>
-                            <field name="date_start" readonly="0"/>
-                            <field name="date_finished" readonly="0"/>
-                            <field name="real_time" widget="float_time"/>
-                            <field name="time_start" widget="float_time"/>
-                            <field name="time_stop" widget="float_time"/>
-                        </group>
+                            <group colspan="2" col="2">
+                                <separator string="Product to Produce" colspan="2"/>
+                                <field name="product"/>
+                                <field name="qty"/>
+                                <field name="uom" widget="selection"/>
+                            </group>
 
-                        <group colspan="2" col="2">
-                            <separator string="Product to Produce" colspan="2"/>
-                            <field name="product"/>
-                            <field name="qty"/>
-                            <field name="uom" widget="selection"/>
-                        </group>
+                            <group colspan="2" col="2">
+                                <separator string="Consumptions" colspan="2"/>
+                                <field name="gasoleo_start"/>
+                                <field name="gasoleo_stop"/>
+                            </group>
 
-                        <group colspan="2" col="2">
-                            <separator string="Consumptions" colspan="2"/>
-                            <field name="gasoleo_start"/>
-                            <field name="gasoleo_stop"/>
-                        </group>
-                        <separator string="" colspan="4"/>
-                        <group colspan="8" col="8">
-                            <field name="state"/>
-                            <button name="button_cancel" string="Cancel" states="draft,startworking" icon="gtk-stop"/>
-                            <button name="button_draft" string="Set Draft" states="cancel" icon="gtk-convert"/>
-                            <button name="button_start_working" string="Start" states="draft" icon="terp-gtk-jump-to-ltr"/>
-                            <button name="button_resume" string="Resume" states="pause" icon="gtk-media-pause"/>
-                            <button name="button_pause" string="Pending" states="startworking" icon="gtk-media-pause"/>
-                            <button name="button_done" string="Finished" states="startworking" icon="terp-check"/>
+                            <group colspan="2" col="2">
+                                <separator string="Estimation" colspan="2"/>
+                                <field name="hour" widget="float_time" string="Est. Time"/>
+                            </group>
+
                         </group>
                     </page>
                     <page string="Operators">
@@ -256,9 +259,6 @@
                     ('date_planned', '&gt;=', (datetime.date.today()+datetime.timedelta(days=1)).strftime('%%Y-%%m-%%d 00:00:00')),
                     ('date_planned', '&lt;=', (datetime.date.today()+datetime.timedelta(days=1)).strftime('%%Y-%%m-%%d 23:59:59'))]"/>
                 </filter>
-                <filter string="Scheduled Month" position="after">
-                    <filter string="Work Center" icon="terp-go-month" domain="[]" context="{'group_by':'workcenter_id'}"/>
-                </filter>
             </field>
         </record>
 
@@ -270,7 +270,6 @@
             <field name="arch" type="xml">
                 <tree colors="blue:state in ('draft','confirmed','ready');red:state in ('picking_except');black:state in ('finished','validated','closed');gray:state in ('done','cancel');green:state in ('in_production') " string="Manufacturing Orders">
                     <field name="name"/>
-                    <field name="sequence" widget="handle" invisible="1"/>
                     <field name="date_planned"/>
                     <field name="product_id"/>
                     <field name="product_qty" sum="Total Qty"/>
@@ -341,12 +340,17 @@
                             string="Compute Data" type="object"
                             icon="terp-stock_format-scientific"
                             colspan="2" />
-                        <button name="action_recalculate_time" states="draft,confirmed,ready,finished,validated,closed"
-                            string="Recalculate Time" type="object"
-                            icon="terp-stock_format-scientific"
-                            colspan="2" />
                         <field colspan="4" name="workcenter_lines" nolabel="1">
                             <form string="Production Work Centers">
+                                <header>
+                                    <button name="button_start_working" string="Start" states="draft" class="oe_highlight"/>
+                                    <button name="button_resume" string="Resume" states="pause" class="oe_highlight"/>
+                                    <button name="button_done" string="Finished" states="startworking" class="oe_highlight"/>
+                                    <button name="button_pause" string="Pending" states="startworking"/>
+                                    <button name="button_draft" string="Set Draft" states="cancel"/>
+                                    <button name="button_cancel" string="Cancel" states="draft,startworking"/>
+                                    <field name="state" widget="statusbar" statusbar_visible="draft,startworking"/>
+                                </header>
                                 <group>
                                     <field name="name"/>
                                     <field name="workcenter_id" widget="selection"/>
@@ -354,29 +358,31 @@
                                 </group>
                                 <notebook colspan="4">
                                     <page string ="Information">
-                                        <group colspan="2" col="2">
-                                            <separator string="Planned Date" colspan="2"/>
-                                            <field name="date_planned"/>
-                                            <field name="date_planned_end"/>
-                                        </group>
-                                        <group colspan="2" col="2">
-                                            <separator string="Real" colspan="2"/>
-                                            <field name="date_start" readonly="0"/>
-                                            <field name="date_finished" readonly="0"/>
-                                            <field name="real_time" widget="float_time"/>
-                                            <field name="time_start" widget="float_time"/>
-                                           <field name="time_stop" widget="float_time"/>
-                                        </group>
-                                        <group colspan="2" col="2">
-                                            <separator string="Product to Produce" colspan="2"/>
-                                            <field name="product"/>
-                                            <field name="qty"/>
-                                            <field name="uom" widget="selection"/>
-                                        </group>
-                                        <group colspan="2" col="2">
-                                           <separator string="Consumptions" colspan="2"/>
-                                           <field name="gasoleo_start"/>
-                                           <field name="gasoleo_stop"/>
+                                        <group colspan="4" col="4">
+                                           <group colspan="2" col="2">
+                                               <separator string="Planned Date" colspan="2"/>
+                                               <field name="date_planned"/>
+                                               <field name="date_planned_end"/>
+                                            </group>
+                                            <group colspan="2" col="2">
+                                                <separator string="Real" colspan="2"/>
+                                                <field name="date_start" readonly="0"/>
+                                                <field name="date_finished" readonly="0"/>
+                                                <field name="real_time" widget="float_time"/>
+                                                <field name="time_start" widget="float_time"/>
+                                               <field name="time_stop" widget="float_time"/>
+                                            </group>
+                                            <group colspan="2" col="2">
+                                                <separator string="Product to Produce" colspan="2"/>
+                                                <field name="product"/>
+                                                <field name="qty"/>
+                                                <field name="uom" widget="selection"/>
+                                            </group>
+                                            <group colspan="2" col="2">
+                                               <separator string="Consumptions" colspan="2"/>
+                                               <field name="gasoleo_start"/>
+                                               <field name="gasoleo_stop"/>
+                                            </group>
                                         </group>
                                     </page>
                                     <page string="Operators">
@@ -399,16 +405,6 @@
                                     </page>
                                 </notebook>
                                 <newline/>
-                                <group colspan="8" col="8">
-                                    <separator colspan="8"/>
-                                    <field name="state"/>
-                                    <button name="button_cancel" string="Cancel" states="draft,startworking" icon="gtk-stop" help="Cancel Order"/>
-                                    <button name="button_draft" string="Set Draft" states="cancel" icon="gtk-convert" help="Set to Draft"/>
-                                    <button name="button_start_working" string="Start" states="draft" icon="terp-gtk-jump-to-ltr" help="Start Working"/>
-                                    <button name="button_resume" string="Resume" states="pause" icon="gtk-media-pause" help="Resume Work Order"/>
-                                    <button name="button_pause" string="Pending" states="startworking" icon="gtk-media-pause" help="Pause Work Order"/>
-                                    <button name="button_done" string="Finished" states="startworking" icon="terp-check" help="Finish Order"/>
-                                </group>
                             </form>
                             <tree string="Production Work Centers">
                                 <field name="sequence"/>
@@ -447,8 +443,7 @@
             <field name="model">mrp.production</field>
             <field name="type">kanban</field>
             <field name="arch" type="xml">
-                <kanban default_group_by="workcenter_id" default_order="sequence asc, priority desc, date_planned desc, name asc" edit="true" quick_create="false">
-                    <field name="sequence"/>
+                <kanban default_group_by="priority" default_order="priority desc, date_planned desc, name asc" edit="true" quick_create="false">
                     <field name="name"/>
                     <field name="product_id"/>
                     <field name="product_qty"/>
@@ -529,68 +524,50 @@
             <field name="model">mrp.production.workcenter.line</field>
             <field name="type">kanban</field>
             <field name="arch" type="xml">
-                <kanban default_group_by="workcenter_id" >
+                <kanban default_group_by="workcenter_id" default_order="sequence asc, priority desc, id asc" edit="true" quick_create="false">
+                    <field name="sequence"/>
+                    <field name="name"/>
                     <field name="product"/>
                     <field name="qty"/>
                     <field name="uom"/>
-                    <field name="hour" sum="Tiempo Est. Total"/>
-                    <field name="stock"/>
-                    <field name="date_expected"/>
-                    <!--field name="partner_name"/-->
-                    <field name="color_stock"/>
+                    <field name="product_uos_qty"/>
+                    <field name="product_uos"/>
+                    <field name="date_planned"/>
+                    <field name="priority"/>
                     <field name="routing_id"/>
+                    <field name="production_state"/>
+                    <field name="color_production"/>
+                    <field name="kanban_name"/>
+                    <field name="hour" sum="Tiempo estimado (h)"/>
                     <templates>
-                        <t t-name="production_workcenter_line_details">
-                            <ul class="oe_kanban_tooltip">
-                                <li><b>Product: </b> <field name="product"/></li>
-                            </ul>
-                        </t>
-                         <t t-name="kanban-box">
-                           <div t-attf-class="#{kanban_color(record.color_stock.raw_value)} #{border || ''">
-                               <div class="oe_kanban_box oe_kanban_color_border">
-                                   <table class="oe_kanban_table oe_kanban_box_header oe_kanban_color_bgdark oe_kanban_color_border oe_kanban_draghandle">
-                                    <tr>
-                                        <td align="left" valign="middle" class="oe_kanban_title" tooltip="production_workcenter_line_details">
-                                            <field name="product"/>
-                                        </td>
-                                    </tr>
-                                    </table>
-                                     <div class="oe_kanban_box_content oe_kanban_color_bglight oe_kanban_box_show_onclick_trigger oe_kanban_color_border">
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color_production.raw_value || record.state.raw_value)} oe_kanban_card">
+                                <div class="oe_dropdown_toggle oe_dropdown_kanban" groups="mrp.group_mrp_manager">
+                                    <span class="oe_e">í</span>
+                                    <ul class="oe_dropdown_menu">
+                                        <li><a type="edit">Edit...</a></li>
+                                    </ul>
+                                </div>
+                                <div class="oe_kanban_content">
+                                    <h4 class="text-center">
+                                        <strong>
+                                            <a type="object" name="open_mrp_production_form">
+                                                <field name="kanban_name"/>
+                                            </a>
+                                        </strong>
+                                    </h4>
+                                    <div class="oe_kanban_box_content oe_kanban_color_bglight oe_kanban_box_show_onclick_trigger oe_kanban_color_border">
                                         <div>
-                                            <b>
-                                                <field name="qty"/>
-                                                <field name="uom"/>
-                                            </b>
+                                            <b><field name="product"/></b>
                                         </div>
                                         <div>
-                                            <b>
-                                                Ruta: </b><field name="routing_id"/>
-
+                                            <b><field name="product_uos_qty"/> <field name="product_uos"/></b>
                                         </div>
+                                        <!--
                                         <div>
-                                            <b>
-                                                Tiempo:  </b><field name="hour" string="Tiempo estimado" widget="float_time"/>
-
+                                            <b><field name="priority"/> - <field name="production_state"/></b>
                                         </div>
-                                        <div>
-                                            <b>
-                                            Planificada: </b><field name="date_planned"/>
-
-                                        </div>
-                                        <div>
-                                            <b>
-                                            Real:  </b><field name="date_start"/>
-
-                                        </div>
-                                    </div>
-
-                                    <div class="oe_kanban_buttons_set oe_kanban_color_border oe_kanban_color_bglight oe_kanban_box_show_onclick">
-                                        <div class="oe_kanban_left">
-                                            <a string="Edit" icon="gtk-edit" type="edit"/>
-                                            <a string="Change Color" icon="color-picker" type="color" name="color"/>
-                                        </div>
-
-                                        <br class="oe_kanban_clear"/>
+                                        -->
                                     </div>
                                 </div>
                             </div>
@@ -600,14 +577,24 @@
             </field>
         </record>
 
-        <record model="ir.actions.act_window" id="mrp_operations.mrp_production_wc_action_form">
-            <field name="name">Work Orders</field>
+        <record model="ir.actions.act_window" id="mrp_operations.mrp_production_wc_action_planning">
+            <field name="name">Work Orders Planning</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">mrp.production.workcenter.line</field>
             <field name="view_type">form</field>
-            <field name="view_mode">tree,form,gantt,calendar,graph,kanban</field>
-            <field name="search_view_id" ref="mrp_operations.view_mrp_production_workcenter_form_view_filter"/>
-            <field name="help">Work Orders is the list of operations to be performed for each manufacturing order. Once you start the first work order of a manufacturing order, the manufacturing order is automatically marked as started. Once you finish the latest operation of a manufacturing order, the MO is automatically done and the related products are produced.</field>
+            <field name="domain">[('production_state','in',('ready','confirmed','in_production'))]</field>
+            <field name="view_mode">kanban,gantt,tree,form,graph,calendar</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to start a new work order.
+              </p><p>
+                To manufacture or assemble products, and use raw materials and
+                finished products you must also handle manufacturing operations.
+                Manufacturing operations are often called Work Orders. The various
+                operations will have different impacts on the costs of
+                manufacturing and planning depending on the available workload.
+              </p>
+            </field>
         </record>
 
     </data>
