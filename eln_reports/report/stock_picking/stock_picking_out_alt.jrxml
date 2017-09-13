@@ -482,7 +482,7 @@ EN EL ARCHIVO packing_list_alt, PONER EL VALOR A true]]></parameterDescription>
 	<field name="Paquetes-packages_uos" class="java.lang.Integer">
 		<fieldDescription><![CDATA[/data/record/packages_uos]]></fieldDescription>
 	</field>
-	<variable name="L" class="java.util.Locale">
+	<variable name="L" class="java.util.Locale" resetType="Page">
 		<variableExpression><![CDATA[new Locale($F{Idioma-lang}.split("_")[0],$F{Idioma-lang}.split("_")[1])]]></variableExpression>
 		<initialValueExpression><![CDATA[new Locale($F{Idioma-lang}.split("_")[0],$F{Idioma-lang}.split("_")[1])]]></initialValueExpression>
 	</variable>

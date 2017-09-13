@@ -118,7 +118,7 @@
             <field name="value_unpickle" eval="'ir.actions.report.xml, ' +str(report_purchase_order_jasper2)" />
         </record>
 
-        <!-- STOCK PICKING OUT (Std) - ALBARAN ENVIO ESTANDAR -->
+        <!-- STOCK PICKING OUT (STD) - ALBARAN ENVIO ESTANDAR -->
         <record id="report_stock_picking_out_std_jasper" model="ir.actions.report.xml">
             <field name="string">Stock picking out (Std)</field>
             <field name="auto">True</field>
@@ -141,7 +141,30 @@
             <field name="value_unpickle" eval="'ir.actions.report.xml, ' +str(report_stock_picking_out_std_jasper)" />
         </record>
 
-        <!-- STOCK PICKING OUT (Alt) - ALBARAN ENVIO ALTERNATIVO -->
+        <!-- STOCK PICKING OUT (STD) - ALBARAN ENVIO ESTANDAR - 2 COPIAS -->
+        <record id="report_stock_picking_out_std_2x_jasper" model="ir.actions.report.xml">
+            <field name="string">Stock picking out 2x (Std)</field>
+            <field name="auto">True</field>
+            <field name="model">stock.picking</field>
+            <field name="jasper_model_id" ref="stock.model_stock_picking"/>
+            <field name="name">Stock picking out 2x (Std)</field>
+            <field name="report_name">stock_picking_out_std_2x</field>
+            <field name="rml">eln_reports/report/stock_picking/stock_picking_out_std_2x.jrxml</field>
+            <field name="report_rml">eln_reports/report/stock_picking/stock_picking_out_std_2x.jrxml</field>
+            <field name="menu">True</field>
+            <field name="header">False</field>
+            <field name="jasper_report">True</field>
+            <field name="jasper_output">pdf</field>
+        </record>
+
+        <record id="report_stock_picking_out_std_2x_values" model="ir.values">
+            <field name="name">Stock picking out 2x (Std)</field>
+            <field name="model">stock.picking</field>
+            <field name="key2" eval="'client_print_multi'" />
+            <field name="value_unpickle" eval="'ir.actions.report.xml, ' +str(report_stock_picking_out_std_2x_jasper)" />
+        </record>
+
+        <!-- STOCK PICKING OUT (ALT) - ALBARAN ENVIO ALTERNATIVO -->
         <record id="report_stock_picking_out_alt_jasper" model="ir.actions.report.xml">
             <field name="string">Stock picking out (Alt)</field>
             <field name="auto">True</field>
@@ -162,6 +185,29 @@
             <field name="model">stock.picking</field>
             <field name="key2" eval="'client_print_multi'" />
             <field name="value_unpickle" eval="'ir.actions.report.xml, ' +str(report_stock_picking_out_alt_jasper)" />
+        </record>
+
+        <!-- STOCK PICKING OUT (ALT) - ALBARAN ENVIO ALTERNATIVO - 2 COPIAS -->
+        <record id="report_stock_picking_out_alt_2x_jasper" model="ir.actions.report.xml">
+            <field name="string">Stock picking out 2x (Alt)</field>
+            <field name="auto">True</field>
+            <field name="model">stock.picking</field>
+            <field name="jasper_model_id" ref="stock.model_stock_picking"/>
+            <field name="name">Stock picking out 2x (Alt)</field>
+            <field name="report_name">stock_picking_out_alt_2x</field>
+            <field name="rml">eln_reports/report/stock_picking/stock_picking_out_alt_2x.jrxml</field>
+            <field name="report_rml">eln_reports/report/stock_picking/stock_picking_out_alt_2x.jrxml</field>
+            <field name="menu">True</field>
+            <field name="header">False</field>
+            <field name="jasper_report">True</field>
+            <field name="jasper_output">pdf</field>
+        </record>
+
+        <record id="report_stock_picking_out_alt_2x_values" model="ir.values">
+            <field name="name">Stock picking out 2x (Alt)</field>
+            <field name="model">stock.picking</field>
+            <field name="key2" eval="'client_print_multi'" />
+            <field name="value_unpickle" eval="'ir.actions.report.xml, ' +str(report_stock_picking_out_alt_2x_jasper)" />
         </record>
 
         <!-- FACTURA -->
@@ -195,6 +241,7 @@
             id="report_planning_webkit_html"
             report_type="webkit"
             auto="False"
+            menu="False"
             />
 
         <record id="eln_reports.report_planning_webkit_html" model="ir.actions.report.xml">
