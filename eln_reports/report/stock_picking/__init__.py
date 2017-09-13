@@ -19,3 +19,6 @@
 #
 ##############################################################################
 from . import stock_picking_out_std_report_parser
+from . import stock_picking_out_std_report_parser_2x
+from . import stock_picking_out_alt_report_parser
+from . import stock_picking_out_alt_report_parser_2x

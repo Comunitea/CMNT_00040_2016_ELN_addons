@@ -1,0 +1,7 @@
+Se hace una versión del reporte para imprimir dos copias del albarán.
+Sólo se debe usar para un único albarán, para más no tiene sentido.
+El motivo es poder imprimir un único pdf con las dos copias y así poder usar función de grapado o clasificado
+en la impresora.
+Cualquier cambio se hará sobre la versión individual y quedará reflejada automáticamente en la versión 2x
+En caso de traducciones se harán sobre versión individual y luego se duplicará el archivo .properties y renombrará
+poniendo 2x_ antes del idioma. Ej: stock_picking_out_std_en_us.properties -> stock_picking_out_std_2x_en_us.properties
