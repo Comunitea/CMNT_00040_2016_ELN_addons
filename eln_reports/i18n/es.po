@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-09-13 10:13+0000\n"
-"PO-Revision-Date: 2017-09-13 12:43+0200\n"
+"PO-Revision-Date: 2017-09-14 11:03+0200\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -560,7 +560,7 @@ msgstr "Tarifa de compra"
 #. module: eln_reports
 #: model:ir.actions.report.xml,name:eln_reports.report_purchase_order_jasper2
 msgid "Purchase order jasper"
-msgstr "Purchase order jasper"
+msgstr "Pedido de compra"
 
 #. module: eln_reports
 #: report:addons/eln_reports/report/planning_report/planning_report_webkit.mako:30
