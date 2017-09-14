@@ -24,7 +24,7 @@ from datetime import datetime
 from openerp.tools.translate import _
 
 
-def parser( cr, uid, ids, data, context ):
+def parser(cr, uid, ids, data, context):
     name = 'report.purchase_order'
     model = 'purchase.order'
     data_source = 'model'
@@ -34,11 +34,12 @@ def parser( cr, uid, ids, data, context ):
         delivery_address = data['form']['delivery_address']
         signed = data['form']['signed']
         parameters = {}
-
-        parameters['lang'] = language
-
         parameters['delivery_address'] = delivery_address
         parameters['signed'] = signed
+        parameters['lang'] = language
+        if 'lang' in context:
+            context['lang'] = language
+
     return {
         'ids': ids,
         'name': name,

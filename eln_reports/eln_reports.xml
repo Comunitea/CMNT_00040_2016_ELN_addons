@@ -41,7 +41,7 @@
             <field name="jasper_output">pdf</field>
         </record>
 
-        <record id="report_ligistic_sheet_products_values" model="ir.values">
+        <record id="report_logistic_sheet_products_values" model="ir.values">
             <field name="name">Product logistics sheet</field>
             <field name="model">product.template</field>
             <field name="key2" eval="'client_print_multi'" />
@@ -72,7 +72,7 @@
             <field name="value_unpickle" eval="'ir.actions.report.xml, ' +str(report_product_datasheet_jasper)" />
         </record>
 
-        <!-- PARTE DE CONTROL (No funciona falaa al exportar plantilla nivel3 x res.partner.address??)-->
+        <!-- PARTE DE CONTROL (No funciona falla al exportar plantilla nivel3 x res.partner.address??)-->
          <record id="report_control_part_jasper" model="ir.actions.report.xml">
             <field name="string">Control part</field>
             <field name="auto">True</field>
@@ -96,7 +96,7 @@
         </record>
 
         <!-- INFORME DE COMPRA -->
-        <record id="report_purchase_order_jasper2" model="ir.actions.report.xml">
+        <record id="report_purchase_order_jasper" model="ir.actions.report.xml">
             <field name="string">Purchase order jasper</field>
             <field name="auto">True</field>
             <field name="model">purchase.order</field>
@@ -106,16 +106,17 @@
             <field name="rml">eln_reports/report/purchase_order/purchase_order.jrxml</field>
             <field name="report_rml">eln_reports/report/purchase_order/purchase_order.jrxml</field>
             <field name="menu">True</field>
+            <field name="multi">True</field>
             <field name="header">False</field>
             <field name="jasper_report">True</field>
             <field name="jasper_output">pdf</field>
         </record>
 
-        <record id="report_sheet_products_values2" model="ir.values">
+        <record id="report_purchase_order_values2" model="ir.values">
             <field name="name">Purchase order jasper</field>
             <field name="model">purchase.order</field>
             <field name="key2" eval="'client_print_multi'" />
-            <field name="value_unpickle" eval="'ir.actions.report.xml, ' +str(report_purchase_order_jasper2)" />
+            <field name="value_unpickle" eval="'ir.actions.report.xml, ' +str(report_purchase_order_jasper)" />
         </record>
 
         <!-- STOCK PICKING OUT (STD) - ALBARAN ENVIO ESTANDAR -->
