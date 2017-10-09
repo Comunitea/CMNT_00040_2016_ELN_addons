@@ -617,7 +617,8 @@ class mrp_production(osv.osv):
             bom = production.bom_id
             finished_qty = sum([x.product_uom_qty
                                 for x in production.move_created_ids2
-                                if x.state == 'done' and not x.scrapped])
+                                if x.state == 'done' and 
+                                (not x.scrapped or (x.scrapped and x.location_id.usage == 'production'))])
             theo_cost = tmpl_obj._calc_price(cr, uid, bom, test=True, context=context) * finished_qty
             self.write(cr, uid, production.id, {'state': 'validated', 'theo_cost': theo_cost})
         return True

@@ -96,15 +96,23 @@ class performance_calculation(orm.TransientModel):
 
         return stop_time
 
-    def _get_total_scrap_qty(self, cr, uid, ids, obj, context=None):
-        qty = 0.0
+    def _get_total_qty(self, cr, uid, ids, obj, context=None):
+        qty_finished = 0.0
+        qty_real_finished = 0.0
+        qty_scrap = 0.0
 
-        moves = self.pool.get('stock.move').search(cr, uid, [('production_id','=',obj.production_id.id),('scrapped','=',True)])
-        if moves:
-            for mo in moves:
-                qty += self.pool.get('stock.move').browse(cr, uid, mo).product_uom_qty
+        moves = self.pool.get('stock.move').search(cr, uid, [('production_id','=',obj.production_id.id), ('state','=','done')])
+        for move in self.pool.get('stock.move').browse(cr, uid, moves):
+            if not move.scrapped or (move.scrapped and move.location_id.usage == 'production'):
+                qty_finished += move.product_uom_qty
+            if move.scrapped:
+                qty_scrap += move.product_uom_qty
+            if not move.scrapped:
+                qty_real_finished += move.product_uom_qty
+            elif move.location_id.usage == 'internal':
+                qty_real_finished -= move.product_uom_qty
 
-        return qty
+        return qty_finished, qty_real_finished, qty_scrap
 
     def _get_availability(self, cr, uid, ids, stop_time=0.0, estimated_time=0.0, time_cycle=0.0, qty_cycle=0.0, factor=0.0, context=None):
         #Availability = [(Tiempo x ciclo / Qty x ciclo)*Qty a fabricar] /
@@ -156,13 +164,13 @@ class performance_calculation(orm.TransientModel):
                 'company_id': company_id,
                 'report_name': form.report_type + " - " + name_report}
 
-    def _prepare_indicator_line(self, cr, uid, ids, obj, stop_time, availability, performance, quality, oee, indicator_id, qty, context=None):
+    def _prepare_indicator_line(self, cr, uid, ids, obj, stop_time, availability, performance, quality, oee, indicator_id, qty_finished, qty_scrap, context=None):
         form = self.browse(cr, uid, ids[0])
         return {
                 'name': "INDL/ " +   form.name + "/ " + time.strftime('%Y-%m-%d %H:%M:%S'),
                 'date': obj.date_start and (datetime.strptime(obj.date_start, "%Y-%m-%d %H:%M:%S")).strftime('%Y-%m-%d') or False,
                 'workcenter_id': obj.workcenter_id and obj.workcenter_id.id or False,
-                'qty': obj.qty,
+                'qty': qty_finished,
                 'product_id': obj.product and obj.product.id or False,
                 'stop_time': stop_time,
                 'real_time': obj.real_time,
@@ -174,8 +182,8 @@ class performance_calculation(orm.TransientModel):
                 'quality': quality ,
                 'oee': oee,
                 'indicator_id': indicator_id,
-                'qty_scraps': qty,
-                'qty_good': obj.qty - qty}
+                'qty_scraps': qty_scrap,
+                'qty_good': qty_finished - qty_scrap}
 
     def _prepare_scrap_indicator_line(self, cr, uid, ids, product_id=False, product_uom=False, qty_finished=0.0, real_qty_finished=0.0,\
         qty_scrap=0.0, theo_cost=0.0, real_cost=0.0, usage=0.0, scrap=0.0, production_id=False, indicator_id=False, context=None):
@@ -236,7 +244,7 @@ class performance_calculation(orm.TransientModel):
         for move in self.pool.get('stock.move').browse(cr, uid, ids):
             if move.state != 'done':
                 continue
-            if not move.scrapped:
+            if not move.scrapped or (move.scrapped and move.location_id.usage == 'production'):
                 qty += move.product_uom_qty
 
         return qty
@@ -249,7 +257,7 @@ class performance_calculation(orm.TransientModel):
                 continue
             if not move.scrapped:
                 qty += move.product_uom_qty
-            else:
+            elif move.location_id.usage == 'internal':
                 qty -= move.product_uom_qty
 
         return qty
@@ -266,8 +274,9 @@ class performance_calculation(orm.TransientModel):
         real_cost = 0.0
 
         for move in self.pool.get('stock.move').browse(cr, uid, ids):
-            if not move.scrapped and move.state != 'cancel':
-                # real_cost += (move.product_id.standard_price * move.product_uom_qty)
+            if move.state != 'done':
+                continue
+            if not move.scrapped:
                 real_cost += (move.price_unit * move.product_uom_qty)
 
         return real_cost
@@ -360,7 +369,9 @@ class performance_calculation(orm.TransientModel):
                         obj = self.pool.get('mrp.production.workcenter.line').browse(cr, uid, line, context)
 
                         stop_time = 0.0
-                        qty = 0.0
+                        qty_finished = 0.0
+                        qty_real_finished = 0.0
+                        qty_scrap = 0
                         availability = 0.0
                         performance = 0.0
                         quality = 0.0
@@ -374,7 +385,8 @@ class performance_calculation(orm.TransientModel):
                         stop_time = self._get_total_stop_time(cr, uid, ids, obj, context=context)
                         times_for_availability = stop_time + obj.time_start + obj.time_stop
                         times_for_performance = obj.real_time - stop_time
-                        qty = self._get_total_scrap_qty(cr, uid, ids, obj, context=context)
+                        qty = self._get_total_qty(cr, uid, ids, obj, context=context)
+                        qty_finished, qty_real_finished, qty_scrap = self._get_total_qty(cr, uid, ids, obj, context=context)
                         name_routing_workcenter = ((obj.name).split('-')[0])[:-1]
 
                         routings = self.pool.get('mrp.routing.workcenter').search(cr,
@@ -384,12 +396,11 @@ class performance_calculation(orm.TransientModel):
                                                                                 ('name', 'like', name_routing_workcenter)])
                         if routings:
                             rout = self.pool.get('mrp.routing.workcenter').browse(cr, uid, routings[0])
-                            factor =  self.pool.get('product.uom')._compute_qty(cr, uid, obj.production_id.product_uom.id,  obj.production_id.product_qty,  obj.production_id.bom_id.product_uom.id)
+                            factor =  self.pool.get('product.uom')._compute_qty(cr, uid, obj.production_id.product_uom.id, obj.production_id.product_qty, obj.production_id.bom_id.product_uom.id)
                             qty_per_cycle = self.pool.get('product.uom')._compute_qty(cr, uid, rout.uom_id.id, rout.qty_per_cycle, obj.production_id.bom_id.product_uom.id)
-
                             estimated_time = float((rout.hour_nbr / (qty_per_cycle or 1.0)) * factor)
                         ########################### TOTALS ###########################
-                        tot_qty_scrap += qty
+                        tot_qty_scrap += qty_scrap
                         tot_qty_prod += obj.qty
                         tot_hours_cycle += rout.hour_nbr
                         tot_qty_cycle += qty_per_cycle
@@ -408,13 +419,13 @@ class performance_calculation(orm.TransientModel):
                             performance = (self._get_performance(cr, uid, ids, estimated_time, times_for_performance, context=context)) * 100
 
                         if form.report_type == 'quality':
-                            quality = (self._get_quality(cr, uid, ids, obj.qty, qty, context=context)) * 100
+                            quality = (self._get_quality(cr, uid, ids, qty_finished, qty_scrap, context=context)) * 100
 
                         if form.report_type == 'oee':
-                            availability, performance, quality, oee = self._get_oee(cr, uid, ids, estimated_time, rout.hour_nbr, qty_per_cycle, factor, times_for_availability, times_for_performance, obj.qty, qty, context=context)
+                            availability, performance, quality, oee = self._get_oee(cr, uid, ids, estimated_time, rout.hour_nbr, qty_per_cycle, factor, times_for_availability, times_for_performance, qty_finished, qty_scrap, context=context)
 
                         if form.report_type != 'scrap_and_usage':
-                            self.pool.get('mrp.indicators.line').create(cr,uid,self._prepare_indicator_line(cr, uid, ids, obj, stop_time, availability, performance, quality, oee, indicator_id, qty, context=context))
+                            self.pool.get('mrp.indicators.line').create(cr, uid, self._prepare_indicator_line(cr, uid, ids, obj, stop_time, availability, performance, quality, oee, indicator_id, qty_finished, qty_scrap, context=context))
 
                     if indicator_id:
                         ind = self.pool.get('mrp.indicators').browse(cr, uid, indicator_id)
