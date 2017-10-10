@@ -96,15 +96,23 @@ class performance_calculation(orm.TransientModel):
 
         return stop_time
 
-    def _get_total_scrap_qty(self, cr, uid, ids, obj, context=None):
-        qty = 0.0
+    def _get_total_qty(self, cr, uid, ids, obj, context=None):
+        qty_finished = 0.0
+        qty_real_finished = 0.0
+        qty_scrap = 0.0
 
-        moves = self.pool.get('stock.move').search(cr, uid, [('production_id','=',obj.production_id.id),('scrapped','=',True)])
-        if moves:
-            for mo in moves:
-                qty += self.pool.get('stock.move').browse(cr, uid, mo).product_uom_qty
+        moves = self.pool.get('stock.move').search(cr, uid, [('production_id','=',obj.production_id.id), ('state','=','done')])
+        for move in self.pool.get('stock.move').browse(cr, uid, moves):
+            if not move.scrapped or (move.scrapped and move.location_id.usage == 'production'):
+                qty_finished += move.product_uom_qty
+            if move.scrapped:
+                qty_scrap += move.product_uom_qty
+            if not move.scrapped:
+                qty_real_finished += move.product_uom_qty
+            elif move.location_id.usage == 'internal':
+                qty_real_finished -= move.product_uom_qty
 
-        return qty
+        return qty_finished, qty_real_finished, qty_scrap
 
     def _get_availability(self, cr, uid, ids, stop_time=0.0, estimated_time=0.0, time_cycle=0.0, qty_cycle=0.0, factor=0.0, context=None):
         #Availability = [(Tiempo x ciclo / Qty x ciclo)*Qty a fabricar] /
@@ -113,12 +121,12 @@ class performance_calculation(orm.TransientModel):
         a = time_cycle / (qty_cycle or 1.0)
         b = (a * factor) + stop_time
 
-        return (estimated_time/ (b or 1.0 ))
+        return (estimated_time / (b or 1.0 ))
 
     def _get_performance(self, cr, uid, ids, estimated_time=0.0, real_time=0.0, context=None):
         #Efficiency / Performance = [(Tiempo x ciclo / Qty x ciclo) * Qty a fabricar] /
         #                           [Real time - Stops] * 100
-        return (estimated_time/(real_time or 1.0))
+        return (estimated_time / (real_time or 1.0))
 
     def _get_quality(self, cr, uid, ids, total_qty=0.0, scrap_qty=0.0, context=None):
         #Quality = ((Total qty - Scraps qty) / Total qty) * 100
@@ -130,13 +138,13 @@ class performance_calculation(orm.TransientModel):
         p = self._get_performance(cr, uid, ids, estimated_time, real_time, context=context)
         q = self._get_quality(cr, uid, ids, total_qty, qty_scrap, context=context)
         oee = (a * p * q) * 100
-        return (a*100),(p*100),(q*100),oee
+        return (a*100), (p*100), (q*100), oee
 
     def _get_total_availability(self, cr, uid, ids, stop_time=0.0, estimated_time=0.0, time_cycle=0.0, qty_cycle=0.0, factor=0.0, context=None):
-        return (estimated_time/(((time_cycle/(qty_cycle or 1.0))*factor) + stop_time) or 1.0 )
+        return (estimated_time / (((time_cycle / (qty_cycle or 1.0)) * factor) + stop_time) or 1.0 )
 
     def _get_total_performance(self, cr, uid, ids, estimated_time=0.0, real_time=0.0, context=None):
-        return (estimated_time/(real_time or 1.0))
+        return (estimated_time / (real_time or 1.0))
 
     def _get_total_quality(self, cr, uid, ids, total_qty=0.0, scrap_qty=0.0, context=None):
         return ((total_qty - scrap_qty) / (total_qty or 1.0))
@@ -146,7 +154,7 @@ class performance_calculation(orm.TransientModel):
         p = self._get_total_performance(cr, uid, ids, estimated_time, real_time, context=context)
         q = self._get_total_quality(cr, uid, ids, total_qty, qty_scrap, context=context)
         oee = (a * p * q) * 100
-        return (a*100),(p*100),(q*100),oee
+        return (a*100), (p*100), (q*100), oee
 
     def _prepare_indicator(self, cr, uid, ids, name_report, company_id, context=None):
         form = self.browse(cr, uid, ids[0])
@@ -156,17 +164,17 @@ class performance_calculation(orm.TransientModel):
                 'company_id': company_id,
                 'report_name': form.report_type + " - " + name_report}
 
-    def _prepare_indicator_line(self, cr, uid, ids, obj, stop_time, availability, performance, quality, oee, indicator_id, qty, context=None):
+    def _prepare_indicator_line(self, cr, uid, ids, obj, stop_time, availability, performance, quality, oee, indicator_id, qty_finished, qty_scrap, context=None):
         form = self.browse(cr, uid, ids[0])
         return {
                 'name': "INDL/ " +   form.name + "/ " + time.strftime('%Y-%m-%d %H:%M:%S'),
                 'date': obj.date_start and (datetime.strptime(obj.date_start, "%Y-%m-%d %H:%M:%S")).strftime('%Y-%m-%d') or False,
                 'workcenter_id': obj.workcenter_id and obj.workcenter_id.id or False,
-                'qty': obj.qty,
+                'qty': qty_finished,
                 'product_id': obj.product and obj.product.id or False,
                 'stop_time': stop_time,
                 'real_time': obj.real_time,
-                'tic_time': obj.hour,
+                'tic_time': qty_finished * obj.hour / obj.qty,
                 'gasoleo_start':obj.gasoleo_start,
                 'gasoleo_stop': obj.gasoleo_stop,
                 'availability': availability ,
@@ -174,8 +182,8 @@ class performance_calculation(orm.TransientModel):
                 'quality': quality ,
                 'oee': oee,
                 'indicator_id': indicator_id,
-                'qty_scraps': qty,
-                'qty_good': obj.qty - qty}
+                'qty_scraps': qty_scrap,
+                'qty_good': qty_finished - qty_scrap}
 
     def _prepare_scrap_indicator_line(self, cr, uid, ids, product_id=False, product_uom=False, qty_finished=0.0, real_qty_finished=0.0,\
         qty_scrap=0.0, theo_cost=0.0, real_cost=0.0, usage=0.0, scrap=0.0, production_id=False, indicator_id=False, context=None):
@@ -227,7 +235,6 @@ class performance_calculation(orm.TransientModel):
                 for obj in prodwork_line.browse(cr, uid, result2):
                     result.append(obj.production_id.id)
 
-
         return result
 
     def _calc_finished_qty(self, cr, uid, ids, context=None):
@@ -236,7 +243,7 @@ class performance_calculation(orm.TransientModel):
         for move in self.pool.get('stock.move').browse(cr, uid, ids):
             if move.state != 'done':
                 continue
-            if not move.scrapped:
+            if not move.scrapped or (move.scrapped and move.location_id.usage == 'production'):
                 qty += move.product_uom_qty
 
         return qty
@@ -249,25 +256,29 @@ class performance_calculation(orm.TransientModel):
                 continue
             if not move.scrapped:
                 qty += move.product_uom_qty
-            else:
+            elif move.location_id.usage == 'internal':
                 qty -= move.product_uom_qty
 
         return qty
 
-    def _get_theorical_cost(self, cr, uid, ids, product_uom_qty=0.0, bom_id=False, context=None):
-        bom_obj = self.pool.get('mrp.bom')
-        tmpl_obj = self.pool.get('product.template')
-        bom_point = bom_obj.browse(cr, uid, bom_id)
-        updated_price = tmpl_obj._calc_price(cr, uid, bom_point, test=True,
-                                             context=context)
-        return updated_price * product_uom_qty
+    def _get_theo_cost(self, cr, uid, ids, production, product_uom_qty=0.0, context=None):
+        theorical_cost = 0.0
+        if production.theo_cost:
+            theorical_cost = production.theo_cost * product_uom_qty
+        else:
+            tmpl_obj = self.pool.get('product.template')
+            updated_price = tmpl_obj._calc_price(cr, uid, production.bom_id, test=True,
+                                                 context=context)
+            theorical_cost = updated_price * product_uom_qty
+        return theorical_cost
 
     def _get_real_cost(self, cr, uid, ids, context=None):
         real_cost = 0.0
 
         for move in self.pool.get('stock.move').browse(cr, uid, ids):
-            if not move.scrapped and move.state != 'cancel':
-                # real_cost += (move.product_id.standard_price * move.product_uom_qty)
+            if move.state != 'done':
+                continue
+            if not move.scrapped:
                 real_cost += (move.price_unit * move.product_uom_qty)
 
         return real_cost
@@ -297,9 +308,7 @@ class performance_calculation(orm.TransientModel):
                         qty_finished = self._calc_finished_qty(cr, uid, [x.id for x in prod.move_created_ids2], context=context)
                         real_qty_finished = self._calc_real_finished_qty(cr, uid, [x.id for x in prod.move_created_ids2], context=context)
                         qty_scrap = qty_finished - real_qty_finished
-                        theo_cost = prod.theo_cost
-                        if not theo_cost:
-                            theo_cost = self._get_theorical_cost(cr, uid, ids, qty_finished, prod.bom_id.id, context=context)
+                        theo_cost = self._get_theo_cost(cr, uid, ids, prod, qty_finished, context=context)
                         real_cost = self._get_real_cost(cr, uid, [x.id for x in prod.move_lines2], context=context)
 
                         #scrap = (real_cost / (qty_finished or 1.0)) * qty_scrap
@@ -360,7 +369,9 @@ class performance_calculation(orm.TransientModel):
                         obj = self.pool.get('mrp.production.workcenter.line').browse(cr, uid, line, context)
 
                         stop_time = 0.0
-                        qty = 0.0
+                        qty_finished = 0.0
+                        qty_real_finished = 0.0
+                        qty_scrap = 0
                         availability = 0.0
                         performance = 0.0
                         quality = 0.0
@@ -374,7 +385,7 @@ class performance_calculation(orm.TransientModel):
                         stop_time = self._get_total_stop_time(cr, uid, ids, obj, context=context)
                         times_for_availability = stop_time + obj.time_start + obj.time_stop
                         times_for_performance = obj.real_time - stop_time
-                        qty = self._get_total_scrap_qty(cr, uid, ids, obj, context=context)
+                        qty_finished, qty_real_finished, qty_scrap = self._get_total_qty(cr, uid, ids, obj, context=context)
                         name_routing_workcenter = ((obj.name).split('-')[0])[:-1]
 
                         routings = self.pool.get('mrp.routing.workcenter').search(cr,
@@ -384,11 +395,12 @@ class performance_calculation(orm.TransientModel):
                                                                                 ('name', 'like', name_routing_workcenter)])
                         if routings:
                             rout = self.pool.get('mrp.routing.workcenter').browse(cr, uid, routings[0])
-                            factor =  self.pool.get('product.uom')._compute_qty(cr, uid, obj.production_id.product_uom.id,  obj.production_id.product_qty,  obj.production_id.bom_id.product_uom.id)
+                            # factor =  self.pool.get('product.uom')._compute_qty(cr, uid, obj.production_id.product_uom.id, obj.production_id.product_qty, obj.production_id.bom_id.product_uom.id)
+                            factor = qty_finished
                             qty_per_cycle = self.pool.get('product.uom')._compute_qty(cr, uid, rout.uom_id.id, rout.qty_per_cycle, obj.production_id.bom_id.product_uom.id)
                             estimated_time = float((rout.hour_nbr / (qty_per_cycle or 1.0)) * factor)
                         ########################### TOTALS ###########################
-                        tot_qty_scrap += qty
+                        tot_qty_scrap += qty_scrap
                         tot_qty_prod += obj.qty
                         tot_hours_cycle += rout.hour_nbr
                         tot_qty_cycle += qty_per_cycle
@@ -407,13 +419,13 @@ class performance_calculation(orm.TransientModel):
                             performance = (self._get_performance(cr, uid, ids, estimated_time, times_for_performance, context=context)) * 100
 
                         if form.report_type == 'quality':
-                            quality = (self._get_quality(cr, uid, ids, obj.qty, qty, context=context)) * 100
+                            quality = (self._get_quality(cr, uid, ids, qty_finished, qty_scrap, context=context)) * 100
 
                         if form.report_type == 'oee':
-                            availability, performance, quality, oee = self._get_oee(cr, uid, ids, estimated_time, rout.hour_nbr, qty_per_cycle, factor, times_for_availability, times_for_performance, obj.qty, qty, context=context)
+                            availability, performance, quality, oee = self._get_oee(cr, uid, ids, estimated_time, rout.hour_nbr, qty_per_cycle, factor, times_for_availability, times_for_performance, qty_finished, qty_scrap, context=context)
 
                         if form.report_type != 'scrap_and_usage':
-                            self.pool.get('mrp.indicators.line').create(cr,uid,self._prepare_indicator_line(cr, uid, ids, obj, stop_time, availability, performance, quality, oee, indicator_id, qty, context=context))
+                            self.pool.get('mrp.indicators.line').create(cr, uid, self._prepare_indicator_line(cr, uid, ids, obj, stop_time, availability, performance, quality, oee, indicator_id, qty_finished, qty_scrap, context=context))
 
                     if indicator_id:
                         ind = self.pool.get('mrp.indicators').browse(cr, uid, indicator_id)
@@ -436,17 +448,6 @@ class performance_calculation(orm.TransientModel):
                             t_performance = tperformance / (nline or 1.0)
                             t_quality = tquality / (nline or 1.0)
                             t_oee = toee / (nline or 1.0)
-                            #if form.report_type == 'availability':
-                            #    t_availability = (self._get_availabilily(cr, uid, ids, tot_times_for_availability, tot_estimated_time, tot_hours_cycle, tot_qty_cycle, tot_factor, context=context)) * 100
-
-                            #if form.report_type == 'performance':
-                            #    t_performance = (self._get_performance(cr, uid, ids, tot_estimated_time, tot_times_for_performance, context=context)) * 100
-
-                            #if form.report_type == 'quality':
-                            #    t_quality = (self._get_quality(cr, uid, ids, tot_qty_prod, tot_qty_scrap, context=context)) * 100
-
-                            #if form.report_type == 'oee':
-                            #    t_availability,t_performance,t_quality,t_oee = self._get_total_oee(cr, uid, ids, tot_estimated_time, tot_hours_cycle, tot_qty_cycle, tot_factor, tot_times_for_availability, tot_times_for_performance, tot_qty_prod, tot_qty_scrap, context=context)
 
                             if form.report_type != 'scrap_and_usage':
                                 self.pool.get('mrp.indicators.averages').create(cr,uid, {

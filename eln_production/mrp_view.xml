@@ -207,7 +207,6 @@
                                 <separator string="Estimation" colspan="2"/>
                                 <field name="hour" widget="float_time" string="Est. Time"/>
                             </group>
-
                         </group>
                     </page>
                     <page string="Operators">

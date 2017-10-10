@@ -630,10 +630,7 @@ class mrp_production(osv.osv):
         tmpl_obj = self.pool.get('product.template')
         for production in self.browse(cr, uid, ids, context=context):
             bom = production.bom_id
-            finished_qty = sum([x.product_uom_qty
-                                for x in production.move_created_ids2
-                                if x.state == 'done' and not x.scrapped])
-            theo_cost = tmpl_obj._calc_price(cr, uid, bom, test=True, context=context) * finished_qty
+            theo_cost = tmpl_obj._calc_price(cr, uid, bom, test=True, context=context)
             self.write(cr, uid, production.id, {'state': 'validated', 'theo_cost': theo_cost})
         return True
 
