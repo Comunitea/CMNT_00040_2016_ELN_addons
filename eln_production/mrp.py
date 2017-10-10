@@ -114,17 +114,19 @@ class mrp_bom(osv.osv):
                 factor = product_rounding
             return factor
 
-        def _get_vals(wc_use, operators, operators_n, factor, bom, wc, routing):
+        def _get_vals(wc_use, operators, operators_n, factor, bom, wc, routing, context=None):
             qty_per_cycle = self.pool.get('product.uom')._compute_qty(cr, uid, wc_use.uom_id.id, wc_use.qty_per_cycle, bom.product_uom.id)
             oper = []
             if operators_n and operators:
                 for op in range(0, (operators_n)):
                     oper.append(operators[op])
+            user = self.pool.get('res.users').browse(cr, uid, uid, context)
+            lang = user and user.lang or u'es_ES'
             return{
-                'name': tools.ustr(wc_use.name) + u' - ' + tools.ustr(bom.product_id.name),
+                'name': tools.ustr(wc_use.name) + u' - ' + tools.ustr(bom.product_id.with_context(lang=lang).name),
                 'routing_id': routing.id,
                 'workcenter_id': wc.id,
-                'sequence': level + (wc_use.sequence or 0),
+                'sequence': 0, # level + (wc_use.sequence or 0), # Ponemos siempre 0 porque vamos a usar para ordenar en kanban
                 'operators_ids': oper and [(6, 0, oper)] or False,
                 'cycle': wc_use.cycle_nbr * (factor * bom.product_qty),
                 'time_start': wc_use.time_start,
@@ -144,7 +146,7 @@ class mrp_bom(osv.osv):
                 if wc_use.operators_ids:
                     for oper in wc_use.operators_ids:
                         operators.append(oper.id)
-                result2.append(_get_vals(wc_use, operators, wc_use.operators_number, factor, bom, wc, routing))
+                result2.append(_get_vals(wc_use, operators, wc_use.operators_number, factor, bom, wc, routing, context))
 
         return result, result2
 
@@ -196,40 +198,29 @@ class mrp_production_workcenter_line(osv.osv):
         access_rights_uid = access_rights_uid or uid
         workcenter_obj = self.pool.get('mrp.workcenter')
         order = workcenter_obj._order
+        workcenter_line_obj = self.pool.get('mrp.production.workcenter.line')
+
         if read_group_order == 'workcenter_id desc':
-            # lame hack to allow reverting search, should just work in the trivial case
             order = "%s desc" % order
+
         workcenter_ids = workcenter_obj._search(cr, uid, [], order=order,
                                       access_rights_uid=access_rights_uid, context=context)
         result = workcenter_obj.name_get(cr, access_rights_uid, workcenter_ids, context=context)
+
         # restore order of the search
-        result.sort(lambda x,y: cmp(workcenter_ids.index(x[0]), workcenter_ids.index(y[0])))
-        return result, {}
+        result.sort(lambda x, y: cmp(workcenter_ids.index(x[0]), workcenter_ids.index(y[0])))
+
+        fold = {}
+        for workcenter in workcenter_obj.browse(cr, access_rights_uid, workcenter_ids, context=context):
+            domain = [('workcenter_id', '=', workcenter.id), ('production_state', 'in', ('ready','confirmed','in_production'))]
+            count = workcenter_line_obj._search(cr, uid, domain, order=order,
+                                      access_rights_uid=access_rights_uid, context=context, limit=1)
+            fold[workcenter.id] = False if count else True
+        return result, fold
 
     _group_by_full = {
         'workcenter_id': _read_group_workcenter_ids
     }
-
-    def _get_color_stock(self, cr, uid, ids, field_names, arg, context=None):
-        res = {}
-        mvs = []
-        moves = []
-        for line in self.browse(cr, uid, ids, context=context):
-            res[line.id] = 0
-            if line.product:
-                moves = self.pool.get('stock.move').search(cr, uid, [('picking_type_id.code','=','outgoing'),('state','not in',('done','cancel'))])
-                if moves:
-                    for move in moves:
-                        obj = self.pool.get('stock.move').browse(cr,uid, move)
-                        if obj.date_expected[:10] == time.strftime('%Y-%m-%d'):
-                            mvs.append(obj.id)
-                if mvs and line.stock < 0:
-                    res[line.id] = 2
-                elif not mvs and line.stock < 0:
-                    res[line.id] = 3
-                elif line.stock > 0:
-                    res[line.id] = 4
-        return res
 
     def _get_date_stop(self, cr, uid, ids, field_names, arg, context=None):
         res = {}
@@ -239,7 +230,12 @@ class mrp_production_workcenter_line(osv.osv):
                 start = datetime.strptime(line.date_expected, "%Y-%m-%d %H:%M:%S")
                 stop = start + timedelta(hours=line.hour)
                 res[line.id] = stop.strftime("%Y-%m-%d %H:%M:%S")
+        return res
 
+    def _get_kanban_name(self, cr, uid, ids, field_names, arg, context=None):
+        res = {}
+        for line in self.browse(cr, uid, ids, context=context):
+            res[line.id] = line.production_id.name + u' - ' + ((line.name).split('-')[0])[:-1]
         return res
 
     _columns = {
@@ -250,27 +246,35 @@ class mrp_production_workcenter_line(osv.osv):
         'gasoleo_start': fields.float('Gasoleo start'),
         'gasoleo_stop': fields.float('Gasoleo stop'),
         'color': fields.integer('Color Index'),
-        'move_id': fields.related('production_id', 'move_prod_id', type='many2one',relation='stock.move', string='Move', readonly=True),
+        'move_id': fields.related('production_id', 'move_prod_id', type='many2one', relation='stock.move', string='Move', readonly=True),
         'date_expected': fields.related('move_id', 'date_expected', type='datetime', string='date', readonly=True),
         'date_stop': fields.function(_get_date_stop, type="datetime", string="Date stop", readonly=True),
-        'stock': fields.related('product', 'real_virtual_available', type='float', string='Stock', readonly=True),
-        'color_stock': fields.function(_get_color_stock, type="integer", string="Color stock", readonly=True),
-        'routing_id': fields.many2one('mrp.routing', 'Routing', readonly=True),
+        'color_production': fields.related('production_id', 'color_production', type="integer", string="Color production", readonly=True),
+        'routing_id': fields.related('production_id', 'routing_id', type='many2one', relation='mrp.routing', string='Routing', readonly=True),
         'real_time': fields.float('Real time'),
-        'production_type': fields.related('production_id','production_type',
+        'priority': fields.related('production_id', 'priority',
+            type='selection',
+            selection=[('0', 'Not urgent'), ('1', 'Normal'), ('2', 'Urgent'), ('3', 'Very Urgent')],
+            string='Priority', readonly=True, store=True),
+        'production_type': fields.related('production_id', 'production_type',
             type='selection',
             selection=[('normal','Normal'), ('rework','Rework'), ('sample','Sample'), ('special','Special')],
             string='Type of production', readonly=True),
+        'product_uos_qty': fields.related('production_id', 'product_uos_qty', type='float', relation='product.uom', string='Product UoS Quantity', readonly=True),
+        'product_uos': fields.related('production_id', 'product_uos', type='many2one', relation='product.uom', string='Product UoS', readonly=True),
+        'kanban_name': fields.function(_get_kanban_name, type="char", string="Kanban name", readonly=True),
     }
 
-    def write(self, cr, uid, ids, vals, context=None, update=True):
-        if not isinstance(ids, list):
-            ids = [ids]
-        for prod in self.browse(cr, uid, ids, context=context):
-            if vals.get('workcenter_id', False):
-                if prod.production_id.state <> 'validated' and update:
-                    raise osv.except_osv(_("ERROR!"), _("You can not modify a work order associated at a production with a state other than 'validated'") )
-        return super(mrp_production_workcenter_line, self).write(cr, uid, ids, vals, context=context)
+    _order = "id"
+
+    #def write(self, cr, uid, ids, vals, context=None, update=True):
+    #    if not isinstance(ids, list):
+    #        ids = [ids]
+    #    for prod in self.browse(cr, uid, ids, context=context):
+    #        if vals.get('workcenter_id', False):
+    #            if prod.production_id.state <> 'validated' and update:
+    #                raise osv.except_osv(_("ERROR!"), _("You can not modify a work order associated at a production with a state other than 'validated'") )
+    #    return super(mrp_production_workcenter_line, self).write(cr, uid, ids, vals, context=context)
 
     def modify_production_order_state(self, cr, uid, ids, action):
         """ Modifies production order state if work order state is changed.
@@ -291,6 +295,27 @@ class mrp_production_workcenter_line(osv.osv):
         else:
             return super(mrp_production_workcenter_line, self).modify_production_order_state(cr, uid, ids, action)
         return
+
+    def open_mrp_production_form(self, cr, uid, ids, context=None):
+        if not context:
+            context = {}
+        if not ids:
+            return False
+        workcenter_line_obj = self.pool.get('mrp.production.workcenter.line')
+        production_id = workcenter_line_obj.browse(cr, uid, ids[0], context).production_id
+        if not production_id:
+            return False
+        return {
+            'name':"MRP Production",
+            'view_mode': 'form',
+            'view_type': 'form',
+            'res_model': 'mrp.production',
+            'res_id': production_id.id,
+            'type': 'ir.actions.act_window',
+            'nodestroy': True,
+            'target': 'current',
+            'context': context
+        }
 
 
 class hrEmployee(models.Model):
@@ -377,12 +402,6 @@ class mrpRouting(models.Model):
 class mrp_production(osv.osv):
     _inherit = 'mrp.production'
 
-    def _get_workcenter_id(self, cr, uid, ids, name, args, context=None):
-        res = {}
-        for production in self.browse(cr, uid, ids, context=context):
-            res[production.id] = production.routing_id and production.routing_id.workcenter_lines and production.routing_id.workcenter_lines[0].workcenter_id.id
-        return res
-    
     def _get_color_production(self, cr, uid, ids, field_name, arg, context=None):
         res = {}
         if ids:
@@ -401,7 +420,7 @@ class mrp_production(osv.osv):
 
     _columns = {
         'date_planned': fields.datetime('Scheduled Date', required=True, select=1, copy=False),  #  Avoid Readonly
-        'routing_id': fields.many2one('mrp.routing', string='Routing', on_delete='set null', readonly=True, states={'draft':[('readonly',False)],'confirmed':[('readonly',False)],'ready':[('readonly',False)]}, help="The list of operations (list of work centers) to produce the finished product. The routing is mainly used to compute work center costs during operations and to plan future loads on work centers based on production plannification."),
+        'routing_id': fields.many2one('mrp.routing', string='Routing', ondelete='restrict', readonly=True, states={'draft':[('readonly',False)],'confirmed':[('readonly',False)],'ready':[('readonly',False)]}, help="The list of operations (list of work centers) to produce the finished product. The routing is mainly used to compute work center costs during operations and to plan future loads on work centers based on production plannification."),
         'date_end_planned': fields.datetime('Date end Planned'),
         'state': fields.selection([('draft','New'),('confirmed','Waiting Goods'),('ready','Ready to Produce'),('in_production','Production Started'),('finished', 'Finished'),('validated', 'Validated'),('closed', 'Closed'),('cancel','Cancelled'),('done','Done')],'State', readonly=True,
                                     help='When the production order is created the state is set to \'Draft\'.\n If the order is confirmed the state is set to \'Waiting Goods\'.\n If any exceptions are there, the state is set to \'Picking Exception\'.\
@@ -410,12 +429,8 @@ class mrp_production(osv.osv):
         'workcenter_lines': fields.one2many('mrp.production.workcenter.line', 'production_id', 'Work Centers Utilisation'),  # remove readonly state
         'origin': fields.char('Source Document', readonly=False,  states={'cancel':[('readonly', True)], 'done':[('readonly', True)]},
             help="Reference of the document that generated this production order request.", copy=False),
-        'workcenter_id': fields.function(_get_workcenter_id, method=True, store=True, 
-                                          type='many2one', relation='mrp.workcenter',
-                                          string='Work Center', help="Work center of the first operation of the route."), #Uso para operaciones de agrupacion, filtrado, etc.
         'color_production': fields.function(_get_color_production, type="integer", string="Color production", readonly=True),
-        'theo_cost': fields.float('Theorical Cost', digits=(16,6), copy=False), # Coste teórico unitario producto terminado al momento de realizar la producción
-        'sequence': fields.integer('Sequence', help="Used to order the production planning kanban view"),
+        'theo_cost': fields.float('Theorical Cost', digits_compute=dp.get_precision('Product Price'), copy=False),
         'production_type': fields.selection([('normal','Normal'), ('rework','Rework'), ('sample','Sample'), ('special','Special')], 'Type of production'),
     }
     _defaults = {
@@ -641,26 +656,6 @@ class mrp_production(osv.osv):
                 price_unit = price_unit or move.product_id.standard_price
                 move.write({'price_unit': price_unit})
             self.write(cr, uid, production.id, {'state': 'closed'})
-        return True
-
-    def action_recalculate_time(self, cr, uid, ids, properties=[],context=None):
-        workcenter_line_obj = self.pool.get('mrp.production.workcenter.line')
-        for production in self.browse(cr, uid, ids):
-            time = 0.00
-            if production.workcenter_lines:
-                for line in production.workcenter_lines:
-                    if line.operators_ids:
-                        real_operators = len([x.id for x in line.operators_ids])
-                        real_qty = line.qty
-                        wc = self.pool.get('mrp.routing.workcenter').search(cr, uid, [('routing_id','=',production.routing_id.id), ('workcenter_id','=',line.workcenter_id.id),('sequence','=',line.sequence)])
-                        if wc:
-                            wco = self.pool.get('mrp.routing.workcenter').browse(cr, uid, wc[0])
-                            obj_operators = wco.operators_number
-                            obj_qty = wco.qty_per_cycle
-                            time = float((obj_operators * (real_qty/obj_qty or 1.0))/(real_operators or 1.0))
-                            workcenter_line_obj.write(cr, uid, line.id, {'real_time': time})
-                        else:
-                            raise osv.except_osv(_('Error!'),  _('Can not recalculate time because not exists objectives datas in the lines of the routing'))
         return True
 
     def action_cancel(self, cr, uid, ids, context=None):

@@ -391,7 +391,7 @@ class performance_calculation(orm.TransientModel):
                         routings = self.pool.get('mrp.routing.workcenter').search(cr,
                                                                                 uid,
                                                                                 [('routing_id', '=', obj.routing_id.id),
-                                                                                ('workcenter_id', '=', obj.workcenter_id.id),
+                                                                               #('workcenter_id', '=', obj.workcenter_id.id),
                                                                                 ('name', 'like', name_routing_workcenter)])
                         if routings:
                             rout = self.pool.get('mrp.routing.workcenter').browse(cr, uid, routings[0])

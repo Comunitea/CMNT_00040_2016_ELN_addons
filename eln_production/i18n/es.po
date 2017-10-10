@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-10 16:14+0000\n"
-"PO-Revision-Date: 2017-08-10 18:23+0200\n"
+"POT-Creation-Date: 2017-08-30 09:42+0000\n"
+"PO-Revision-Date: 2017-08-30 11:59+0200\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -55,22 +55,11 @@ msgid "BoM line product should not be same as BoM product."
 msgstr "Un producto de línea de LdM no puede ser el mismo que el producto fabricado por la LdM"
 
 #. module: eln_production
-#: code:addons/eln_production/mrp.py:663
-#, python-format
-msgid "Can not recalculate time because not exists objectives datas in the lines of the routing"
-msgstr "No puede recalcular tiempo porque no existen datos objetivos en las líneas de la ruta"
-
-#. module: eln_production
 #: view:mrp.modify.consumption:eln_production.mrp_modify_consumption_form
 #: view:mrp.production:eln_production.mrp_production_form_inherit_10
 #: view:mrp.production.workcenter.line:eln_production.mrp_production_workcenter_form_view_inherit
 msgid "Cancel"
 msgstr "Cancelar"
-
-#. module: eln_production
-#: view:mrp.production:eln_production.mrp_production_form_inherit_10
-msgid "Cancel Order"
-msgstr "Cancelar orden"
 
 #. module: eln_production
 #: view:mrp.workcenter:eln_production.mrp_workcenter_view
@@ -81,11 +70,6 @@ msgstr "Información de capacidad"
 #: field:mrp.routing.workcenter,capacity_per_cycle:0
 msgid "Capacity per Cycle"
 msgstr "Capacidad por ciclo"
-
-#. module: eln_production
-#: view:mrp.production.workcenter.line:eln_production.view_mrp_production_workcenter_line_kanban
-msgid "Change Color"
-msgstr "Cambiar color"
 
 #. module: eln_production
 #: model:ir.model,name:eln_production.model_change_production_qty
@@ -109,13 +93,9 @@ msgstr "Índice de color"
 
 #. module: eln_production
 #: field:mrp.production,color_production:0
+#: field:mrp.production.workcenter.line,color_production:0
 msgid "Color production"
 msgstr "Color production"
-
-#. module: eln_production
-#: field:mrp.production.workcenter.line,color_stock:0
-msgid "Color stock"
-msgstr "Color stock"
 
 #. module: eln_production
 #: view:mrp.production:eln_production.mrp_production_form_inherit_10
@@ -186,18 +166,8 @@ msgid "Done Production"
 msgstr "Realizar producción"
 
 #. module: eln_production
-#: code:addons/eln_production/mrp.py:270
-#, python-format
-msgid "ERROR!"
-msgstr "¡Error!"
-
-#. module: eln_production
-#: view:mrp.production.workcenter.line:eln_production.view_mrp_production_workcenter_line_kanban
-msgid "Edit"
-msgstr "Editar"
-
-#. module: eln_production
 #: view:mrp.production:eln_production.view_mrp_production_kanban
+#: view:mrp.production.workcenter.line:eln_production.view_mrp_production_workcenter_line_kanban
 msgid "Edit..."
 msgstr "Editar…"
 
@@ -212,8 +182,8 @@ msgid "Entry qty (kg)"
 msgstr "Cant. entrada (kg)"
 
 #. module: eln_production
-#: code:addons/eln_production/mrp.py:288 code:addons/eln_production/mrp.py:663
-#: code:addons/eln_production/mrp.py:729 code:addons/eln_production/mrp.py:739
+#: code:addons/eln_production/mrp.py:294 code:addons/eln_production/mrp.py:727
+#: code:addons/eln_production/mrp.py:737
 #, python-format
 msgid "Error!"
 msgstr "¡Error!"
@@ -234,7 +204,6 @@ msgid "Extra Information"
 msgstr "Información extra"
 
 #. module: eln_production
-#: view:mrp.production:eln_production.mrp_production_form_inherit_10
 #: view:mrp.production.workcenter.line:eln_production.mrp_production_workcenter_tree_view_inherit
 msgid "Finish Order"
 msgstr "Finalizar orden"
@@ -307,6 +276,11 @@ msgid "Inventory Locations"
 msgstr "Ubicaciones de inventario"
 
 #. module: eln_production
+#: field:mrp.production.workcenter.line,kanban_name:0
+msgid "Kanban name"
+msgstr "Nombre Kanban"
+
+#. module: eln_production
 #: field:mrp.modify.consumption,__last_update:0
 #: field:mrp.modify.consumption.line,__last_update:0
 #: field:production.stops,__last_update:0
@@ -370,7 +344,7 @@ msgid "Manufacturing Orders"
 msgstr "Órdenes de producción"
 
 #. module: eln_production
-#: code:addons/eln_production/mrp.py:288
+#: code:addons/eln_production/mrp.py:294
 #, python-format
 msgid "Manufacturing order cannot be started in state \"%s\"!"
 msgstr "La orden de producción no se puede iniciar en estado \"%s\""
@@ -418,10 +392,16 @@ msgstr "Nombre"
 
 #. module: eln_production
 #: selection:mrp.production,production_type:0
+#: selection:mrp.production.workcenter.line,priority:0
 #: selection:mrp.production.workcenter.line,production_type:0
 #: selection:mrp.workorder,production_type:0
 msgid "Normal"
 msgstr "Normal"
+
+#. module: eln_production
+#: selection:mrp.production.workcenter.line,priority:0
+msgid "Not urgent"
+msgstr "No urgente"
 
 #. module: eln_production
 #: view:mrp.production:eln_production.mrp_production_form_inherit_10
@@ -460,14 +440,13 @@ msgid "Out qty (kg)"
 msgstr "Cant. salida (kg)"
 
 #. module: eln_production
-#: code:addons/eln_production/mrp.py:470
+#: code:addons/eln_production/mrp.py:488
 #: code:addons/eln_production/stock_move.py:83
 #, python-format
 msgid "PROD: %s"
 msgstr "PROD: %s"
 
 #. module: eln_production
-#: view:mrp.production:eln_production.mrp_production_form_inherit_10
 #: view:mrp.production.workcenter.line:eln_production.mrp_production_workcenter_tree_view_inherit
 msgid "Pause Work Order"
 msgstr "Pausar orden de trabajo"
@@ -480,11 +459,6 @@ msgid "Pending"
 msgstr "Pendiente"
 
 #. module: eln_production
-#: view:mrp.production.workcenter.line:eln_production.view_mrp_production_workcenter_line_kanban
-msgid "Planificada:"
-msgstr "Planificada:"
-
-#. module: eln_production
 #: field:mrp.workorder,planified_time:0
 msgid "Planified time"
 msgstr "Tiempo planificado"
@@ -494,6 +468,11 @@ msgstr "Tiempo planificado"
 #: view:mrp.production.workcenter.line:eln_production.mrp_production_workcenter_form_view_inherit
 msgid "Planned Date"
 msgstr "Fecha planeada"
+
+#. module: eln_production
+#: field:mrp.production.workcenter.line,priority:0
+msgid "Priority"
+msgstr "Prioridad"
 
 #. module: eln_production
 #: view:mrp.bom:eln_production.mrp_bom_form_view_add_fields
@@ -532,6 +511,16 @@ msgid "Product Produce Consume lines"
 msgstr "Líneas de consumo de los producto producidos"
 
 #. module: eln_production
+#: field:mrp.production.workcenter.line,product_uos:0
+msgid "Product UoS"
+msgstr "UdV del producto"
+
+#. module: eln_production
+#: field:mrp.production.workcenter.line,product_uos_qty:0
+msgid "Product UoS Quantity"
+msgstr "Cantidad de producto en UdV"
+
+#. module: eln_production
 #: field:mrp.workorder,product_weight:0
 msgid "Product Weight"
 msgstr "Peso producto"
@@ -541,11 +530,6 @@ msgstr "Peso producto"
 #: view:mrp.production.workcenter.line:eln_production.mrp_production_workcenter_form_view_inherit
 msgid "Product to Produce"
 msgstr "Producto a producir"
-
-#. module: eln_production
-#: view:mrp.production.workcenter.line:eln_production.view_mrp_production_workcenter_line_kanban
-msgid "Product:"
-msgstr "Producto: "
 
 #. module: eln_production
 #: field:mrp.modify.consumption,production_id:0
@@ -610,19 +594,9 @@ msgid "Real time"
 msgstr "Tiempo real"
 
 #. module: eln_production
-#: view:mrp.production.workcenter.line:eln_production.view_mrp_production_workcenter_line_kanban
-msgid "Real:"
-msgstr "Real:"
-
-#. module: eln_production
 #: field:production.stops,reason:0
 msgid "Reason"
 msgstr "Razón"
-
-#. module: eln_production
-#: view:mrp.production:eln_production.mrp_production_form_inherit_10
-msgid "Recalculate Time"
-msgstr "Recalcular tiempo"
 
 #. module: eln_production
 #: view:mrp.production:eln_production.mrp_production_form_inherit_10
@@ -632,7 +606,6 @@ msgid "Resume"
 msgstr "Reanudar"
 
 #. module: eln_production
-#: view:mrp.production:eln_production.mrp_production_form_inherit_10
 #: view:mrp.production.workcenter.line:eln_production.mrp_production_workcenter_tree_view_inherit
 msgid "Resume Work Order"
 msgstr "Reanudar orden de trabajo"
@@ -662,11 +635,6 @@ msgid "Routings"
 msgstr "Procesos productivos"
 
 #. module: eln_production
-#: view:mrp.production.workcenter.line:eln_production.view_mrp_production_workcenter_line_kanban
-msgid "Ruta:"
-msgstr "Ruta:"
-
-#. module: eln_production
 #: selection:mrp.production,production_type:0
 #: selection:mrp.production.workcenter.line,production_type:0
 #: selection:mrp.workorder,production_type:0
@@ -684,11 +652,6 @@ msgid "Sample location"
 msgstr "Ubicación de muestras"
 
 #. module: eln_production
-#: view:mrp.production:eln_production.view_mrp_production_filter_add_states
-msgid "Scheduled Month"
-msgstr "Mes planificado"
-
-#. module: eln_production
 #: model:ir.model,name:eln_production.model_stock_move_scrap
 msgid "Scrap Products"
 msgstr "Desechar productos"
@@ -704,19 +667,9 @@ msgid "Security stock to determine priority on procurement orders."
 msgstr "Stock de seguridad usado para determinar prioridad en ódenes de producción."
 
 #. module: eln_production
-#: field:mrp.production,sequence:0
-msgid "Sequence"
-msgstr "Secuencia"
-
-#. module: eln_production
 #: view:mrp.production:eln_production.mrp_production_form_inherit_10
 #: view:mrp.production.workcenter.line:eln_production.mrp_production_workcenter_form_view_inherit
 msgid "Set Draft"
-msgstr "Cambiar a borrador"
-
-#. module: eln_production
-#: view:mrp.production:eln_production.mrp_production_form_inherit_10
-msgid "Set to Draft"
 msgstr "Cambiar a borrador"
 
 #. module: eln_production
@@ -739,15 +692,9 @@ msgid "Start"
 msgstr "Iniciar"
 
 #. module: eln_production
-#: view:mrp.production:eln_production.mrp_production_form_inherit_10
 #: view:mrp.production.workcenter.line:eln_production.mrp_production_workcenter_tree_view_inherit
 msgid "Start Working"
 msgstr "Empezar a trabajar"
-
-#. module: eln_production
-#: field:mrp.production.workcenter.line,stock:0
-msgid "Stock"
-msgstr "Stock"
 
 #. module: eln_production
 #: model:ir.model,name:eln_production.model_stock_move
@@ -761,18 +708,8 @@ msgstr "Coste teórico"
 
 #. module: eln_production
 #: view:mrp.production.workcenter.line:eln_production.view_mrp_production_workcenter_line_kanban
-msgid "Tiempo Est. Total"
-msgstr "Tiempo Est. Total"
-
-#. module: eln_production
-#: view:mrp.production.workcenter.line:eln_production.view_mrp_production_workcenter_line_kanban
-msgid "Tiempo estimado"
-msgstr "Tiempo estimado"
-
-#. module: eln_production
-#: view:mrp.production.workcenter.line:eln_production.view_mrp_production_workcenter_line_kanban
-msgid "Tiempo:"
-msgstr "Tiempo:"
+msgid "Tiempo estimado (h)"
+msgstr "Tiempo estimado (h)"
 
 #. module: eln_production
 #: field:production.stops,time:0
@@ -862,9 +799,9 @@ msgid "Update"
 msgstr "Actualizar"
 
 #. module: eln_production
-#: help:mrp.production,sequence:0
-msgid "Used to order the production planning kanban view"
-msgstr "Usado para ordenar la vista kanban del planning de produccion"
+#: selection:mrp.production.workcenter.line,priority:0
+msgid "Urgent"
+msgstr "Urgente"
 
 #. module: eln_production
 #: view:mrp.production:eln_production.mrp_production_form_inherit_10
@@ -875,6 +812,11 @@ msgstr "Validar producción"
 #: view:mrp.production:eln_production.view_mrp_production_filter_add_states
 msgid "Validated"
 msgstr "Validada"
+
+#. module: eln_production
+#: selection:mrp.production.workcenter.line,priority:0
+msgid "Very Urgent"
+msgstr "Muy urgente"
 
 #. module: eln_production
 #: code:addons/eln_production/stock_move_scrap.py:65
@@ -894,8 +836,6 @@ msgstr "Asistente"
 
 #. module: eln_production
 #: model:ir.model,name:eln_production.model_mrp_workcenter
-#: view:mrp.production:eln_production.view_mrp_production_filter_add_states
-#: field:mrp.production,workcenter_id:0
 #: view:mrp.workcenter:eln_production.mrp_workcenter_view
 msgid "Work Center"
 msgstr "Centro de producción"
@@ -923,11 +863,6 @@ msgid "Work Orders"
 msgstr "Órdenes de trabajo"
 
 #. module: eln_production
-#: help:mrp.production,workcenter_id:0
-msgid "Work center of the first operation of the route."
-msgstr "Centro de producción de la primera operación de la ruta."
-
-#. module: eln_production
 #: view:mrp.production.workcenter.line:eln_production.workcenter_line_calendar
 msgid "Workcenter"
 msgstr "Centro de trabajo"
@@ -938,13 +873,7 @@ msgid "Yesterday"
 msgstr "Ayer"
 
 #. module: eln_production
-#: code:addons/eln_production/mrp.py:270
-#, python-format
-msgid "You can not modify a work order associated at a production with a state other than 'validated'"
-msgstr "No se puede modificar una orden de trabajo asociada a una producción con un estado que no sea 'validada'"
-
-#. module: eln_production
-#: code:addons/eln_production/mrp.py:729 code:addons/eln_production/mrp.py:739
+#: code:addons/eln_production/mrp.py:727 code:addons/eln_production/mrp.py:737
 #, python-format
 msgid "You cannot delete a production which is not cancelled."
 msgstr "No se puede eliminar una producción que no esté cancelada."
