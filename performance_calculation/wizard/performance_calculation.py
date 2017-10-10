@@ -380,13 +380,12 @@ class performance_calculation(orm.TransientModel):
                         routings = self.pool.get('mrp.routing.workcenter').search(cr,
                                                                                 uid,
                                                                                 [('routing_id', '=', obj.routing_id.id),
-                                                                                ('workcenter_id', '=', obj.workcenter_id.id),
+                                                                               #('workcenter_id', '=', obj.workcenter_id.id),
                                                                                 ('name', 'like', name_routing_workcenter)])
                         if routings:
                             rout = self.pool.get('mrp.routing.workcenter').browse(cr, uid, routings[0])
                             factor =  self.pool.get('product.uom')._compute_qty(cr, uid, obj.production_id.product_uom.id,  obj.production_id.product_qty,  obj.production_id.bom_id.product_uom.id)
                             qty_per_cycle = self.pool.get('product.uom')._compute_qty(cr, uid, rout.uom_id.id, rout.qty_per_cycle, obj.production_id.bom_id.product_uom.id)
-
                             estimated_time = float((rout.hour_nbr / (qty_per_cycle or 1.0)) * factor)
                         ########################### TOTALS ###########################
                         tot_qty_scrap += qty
