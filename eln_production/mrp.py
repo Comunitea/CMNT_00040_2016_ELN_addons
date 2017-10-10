@@ -414,7 +414,7 @@ class mrp_production(osv.osv):
                                           type='many2one', relation='mrp.workcenter',
                                           string='Work Center', help="Work center of the first operation of the route."), #Uso para operaciones de agrupacion, filtrado, etc.
         'color_production': fields.function(_get_color_production, type="integer", string="Color production", readonly=True),
-        'theo_cost': fields.float('Theorical Cost', digits_compute=dp.get_precision('Product Price'), copy=False),
+        'theo_cost': fields.float('Theorical Cost', digits=(16,6), copy=False), # Coste teórico unitario producto terminado al momento de realizar la producción
         'sequence': fields.integer('Sequence', help="Used to order the production planning kanban view"),
         'production_type': fields.selection([('normal','Normal'), ('rework','Rework'), ('sample','Sample'), ('special','Special')], 'Type of production'),
     }
@@ -615,11 +615,7 @@ class mrp_production(osv.osv):
         tmpl_obj = self.pool.get('product.template')
         for production in self.browse(cr, uid, ids, context=context):
             bom = production.bom_id
-            finished_qty = sum([x.product_uom_qty
-                                for x in production.move_created_ids2
-                                if x.state == 'done' and 
-                                (not x.scrapped or (x.scrapped and x.location_id.usage == 'production'))])
-            theo_cost = tmpl_obj._calc_price(cr, uid, bom, test=True, context=context) * finished_qty
+            theo_cost = tmpl_obj._calc_price(cr, uid, bom, test=True, context=context)
             self.write(cr, uid, production.id, {'state': 'validated', 'theo_cost': theo_cost})
         return True
 
