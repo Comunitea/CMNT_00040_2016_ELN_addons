@@ -46,8 +46,6 @@
               'wizard/product_logistics_sheet_report_wizard_view.xml',
               'security/ir.model.access.csv',
               'eln_reports.xml',
-              'stock_view.xml',
-              'report/out_picking_report_view.xml',
               'views/layouts_custom.xml',
               'views/valued_picking_report_custom.xml',
              ],
