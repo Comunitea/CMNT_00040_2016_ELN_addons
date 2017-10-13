@@ -189,7 +189,7 @@
             <field name="auto">True</field>
             <field name="model">account.invoice</field>
             <field name="jasper_model_id" ref="account.model_account_invoice"/>
-            <field name="name">invoice</field>
+            <field name="name">Customer invoice</field>
             <field name="report_name">invoice_report_jasper</field>
             <field name="report_rml">eln_reports/report/invoice/invoice.jrxml</field>
             <field name="jasper_report">True</field>
@@ -197,7 +197,7 @@
         </record>
 
         <record id="report_invoice_values" model="ir.values">
-            <field name="name">Invoice</field>
+            <field name="name">Customer invoice</field>
             <field name="model">account.invoice</field>
             <field name="key2" eval="'client_print_multi'" />
             <field name="value_unpickle" eval="'ir.actions.report.xml, ' +str(invoice_report_jasper)" />
