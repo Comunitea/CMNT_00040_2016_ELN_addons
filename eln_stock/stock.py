@@ -175,17 +175,19 @@ class StockMove(models.Model):
             Para poder filtrar movimientos por el partner_id vamos a hacer que todos los movimientos que pertenezcan a un
             albaran (que tenga establecido el partner_id) escriban ese valor si no tienen ya uno. Se hará al transferir el movimiento.
         """
-        self = self.with_context(mail_notrack=False)
-        # La linea anterior arregla que cuando se transfiere un albarán no registra el cambio de estado.
-        # Se fuerza el contexto para que lo haga correctamente.
-        # Viene del módulo stock en stock.py linea 1476. En el método do_transfer se pasa el contexto modificado en la llamada a
-        # action_done de stock_move:
-        # 1475:       if todo_move_ids and not context.get('do_only_split'):
-        # 1476:           self.pool.get('stock.move').action_done(cr, uid, todo_move_ids, context=notrack_context)
         res = super(StockMove, self).action_done()
         for move in self:
             if not move.partner_id and move.picking_id.partner_id:
                 move.write({'partner_id': move.picking_id.partner_id.id})
+        return res
+
+    @api.multi
+    def write(self, vals):
+        if self.env.context.get('mail_notrack') and vals.get('state') == 'done':
+            self = self.with_context(mail_notrack=False)
+            # La linea anterior corrige el tracking de cambio de estado (a 'done') al transferir un albarán.
+            # Solo lo estaba haciendo bien cuando se generaba un backorder.
+        res = super(StockMove, self).write(vals)
         return res
 
 
