@@ -61,7 +61,7 @@ class AccountMoveLine(models.Model):
                         for move_line in picking_id.move_lines:
                             if move_line.product_id == analytic_move.product_id:
                                 for quant in move_line.quant_ids:
-                                    if quant_qty < 0:
+                                    if quant.qty < 0:
                                         continue
                                     price_unit += quant.cost * quant.qty
                                     quant_qty += quant.qty
