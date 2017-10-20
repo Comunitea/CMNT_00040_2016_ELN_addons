@@ -95,28 +95,40 @@ class account_invoice_line(orm.Model):
                                                            uom_id.id)
             self.uom_qty = uom_qty
 
-    @api.one
+    @api.multi
     @api.depends('quantity', 'product_id', 'uos_id', 'invoice_id.date_invoice', 'invoice_id.currency_id')
     def _get_cost_subtotal(self):
-        if self.invoice_id.type not in ('out_invoice', 'out_refund'):
-            self.cost_subtotal = 0.0
-        else:
-            product_tmpl_obj = self.env['product.template']
-            t_uom = self.env['product.uom']
-            date = self.invoice_id.date_invoice or fields2.Date.context_today(self)
-            price_unit = product_tmpl_obj.get_history_price(self.product_id.product_tmpl_id.id,
-                                                            self.company_id.id,
-                                                            date=date)
-            price_unit = price_unit or self.with_context(force_company=self.company_id.id).product_id.standard_price
-            from_unit = self.uos_id.id
-            to_unit = self.product_id.uom_id.id
-            uom_qty = self.quantity
+        product_tmpl_obj = self.env['product.template']
+        t_uom = self.env['product.uom']
+        for line in self:
+            if line.invoice_id.type not in ('out_invoice', 'out_refund'):
+                line.cost_subtotal = 0.0
+                continue
+            price_unit = 0
+            quant_qty = 0
+            if line.product_id.type != 'service':
+                for picking_id in line.invoice_id.picking_ids:
+                    for move_line in picking_id.move_lines.filtered(lambda r: r.product_id == line.product_id):
+                        for quant in move_line.quant_ids.filtered(lambda r: r.qty > 0):
+                            price_unit += quant.cost * quant.qty
+                            quant_qty += quant.qty
+            if quant_qty:
+                price_unit = price_unit / quant_qty
+            if not price_unit:
+                date = line.invoice_id.date_invoice or fields2.Date.context_today(self)
+                price_unit = product_tmpl_obj.get_history_price(line.product_id.product_tmpl_id.id,
+                                                                line.company_id.id,
+                                                                date=date)
+            price_unit = price_unit or line.with_context(force_company=line.company_id.id).product_id.standard_price
+            from_unit = line.uos_id.id
+            to_unit = line.product_id.uom_id.id
+            uom_qty = line.quantity
             if from_unit != to_unit:
-                uom_qty = t_uom._compute_qty(from_unit, self.quantity, to_unit)
-            sign = -1 if self.price_subtotal < 0 else 1
-            self.cost_subtotal = abs(price_unit * uom_qty) * sign
-            if self.invoice_id:
-                self.cost_subtotal = self.invoice_id.currency_id.round(self.cost_subtotal)
+                uom_qty = t_uom._compute_qty(from_unit, line.quantity, to_unit)
+            sign = -1 if line.price_subtotal < 0 else 1
+            line.cost_subtotal = abs(price_unit * uom_qty) * sign
+            if line.invoice_id:
+                line.cost_subtotal = line.invoice_id.currency_id.round(line.cost_subtotal)
 
     uom_qty = fields2.Float('Uom Qty', compute=_get_uom_qty)
     cost_subtotal = fields2.Float('Cost Subtotal', compute=_get_cost_subtotal, store=True)
