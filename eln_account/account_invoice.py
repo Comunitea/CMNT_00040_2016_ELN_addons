@@ -113,9 +113,8 @@ class account_invoice_line(orm.Model):
             uom_qty = self.quantity
             if from_unit != to_unit:
                 uom_qty = t_uom._compute_qty(from_unit, self.quantity, to_unit)
-            sign = self.price_subtotal
             sign = -1 if self.price_subtotal < 0 else 1
-            self.cost_subtotal = price_unit * uom_qty * sign
+            self.cost_subtotal = abs(price_unit * uom_qty) * sign
             if self.invoice_id:
                 self.cost_subtotal = self.invoice_id.currency_id.round(self.cost_subtotal)
 
