@@ -95,9 +95,35 @@ class account_invoice_line(orm.Model):
                                                            uom_id.id)
             self.uom_qty = uom_qty
 
-    uom_qty = fields2.Float('Uom Qty', compute=_get_uom_qty)
+    @api.one
+    @api.depends('quantity', 'product_id', 'uos_id', 'invoice_id.date_invoice', 'invoice_id.currency_id')
+    def _get_cost_subtotal(self):
+        if self.invoice_id.type not in ('out_invoice', 'out_refund'):
+            self.cost_subtotal = 0.0
+        else:
+            product_tmpl_obj = self.env['product.template']
+            t_uom = self.env['product.uom']
+            date = self.invoice_id.date_invoice or fields2.Date.context_today(self)
+            price_unit = product_tmpl_obj.get_history_price(self.product_id.product_tmpl_id.id,
+                                                            self.company_id.id,
+                                                            date=date)
+            price_unit = price_unit or self.with_context(force_company=self.company_id.id).product_id.standard_price
+            from_unit = self.uos_id.id
+            to_unit = self.product_id.uom_id.id
+            uom_qty = self.quantity
+            if from_unit != to_unit:
+                uom_qty = t_uom._compute_qty(from_unit, self.quantity, to_unit)
+            sign = self.price_subtotal
+            sign = -1 if self.price_subtotal < 0 else 1
+            self.cost_subtotal = price_unit * uom_qty * sign
+            if self.invoice_id:
+                self.cost_subtotal = self.invoice_id.currency_id.round(self.cost_subtotal)
 
-    def uos_id_change(self, cr, uid, ids, product, uom, qty=0, name='', type='out_invoice', partner_id=False, fposition_id=False, price_unit=False, address_invoice_id=False, currency_id=False, context=None, company_id=None):
+    uom_qty = fields2.Float('Uom Qty', compute=_get_uom_qty)
+    cost_subtotal = fields2.Float('Cost Subtotal', compute=_get_cost_subtotal, store=True)
+
+    def uos_id_change(self, cr, uid, ids, product, uom, qty=0, name='', type='out_invoice', partner_id=False,
+                      fposition_id=False, price_unit=False, address_invoice_id=False, currency_id=False, context=None, company_id=None):
         """
         Modificamos para no permitir poner cualquier tipo de unidad en la linea de factura.
         Ahora solo aceptará alguna que pertenezca a la misma categoria que la unidad de medida por defecto del producto.
@@ -114,7 +140,8 @@ class account_invoice_line(orm.Model):
                 update_res = True
                 uom = (prod.uos_id and prod.uos_id.id) or (prod.uom_id and prod.uom_id.id) or False
 
-        res = super(account_invoice_line, self).uos_id_change(cr, uid, ids, product, uom, qty, name, type, partner_id, fposition_id, price_unit, address_invoice_id, currency_id, context, company_id)
+        res = super(account_invoice_line, self).uos_id_change(cr, uid, ids, product, uom, qty, name, type, partner_id,
+                                                              fposition_id, price_unit, address_invoice_id, currency_id, context, company_id)
 
         if update_res:
             res['value']['uos_id'] = uom or False
