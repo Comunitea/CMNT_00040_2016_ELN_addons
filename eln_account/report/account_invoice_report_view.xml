@@ -8,9 +8,13 @@
             <field name="inherit_id" ref="account.view_account_invoice_report_search"/>
             <field name="arch" type="xml">
                 <field name="categ_id" position="after">
-                    <field name="period_id" />
-                    <field name="number" />
+                    <field name="period_id"/>
+                    <field name="number"/>
                 </field>
+                <filter string="Refund" position="after">
+                    <separator/>
+                    <filter string="Sales Journal" domain="['&amp;', ['journal_id','ilike','ventas'], '|', ('type','=','out_invoice'),('type','=','out_refund')]"/>
+                </filter>
             </field>
         </record>
 

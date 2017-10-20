@@ -27,18 +27,35 @@ class account_invoice_report(osv.osv):
 
     _columns = {
         'number': fields.char('Number', readonly=True),
+        'cost_total': fields.float('Total Cost', readonly=True),
+        'benefit_total': fields.float('Total Benefit', readonly=True),
     }
     
     _depends = {
         'account.invoice': ['number'],
+        'account.invoice.line': ['cost_subtotal'],
     }
 
     def _select(self):
-        return  super(account_invoice_report, self)._select() + ", sub.number"
+        select_str = """
+        , sub.number, sub.cost_total, sub.price_total - sub.cost_total as benefit_total
+        """
+        return super(account_invoice_report, self)._select() + select_str
 
     def _sub_select(self):
-        return  super(account_invoice_report, self)._sub_select() + ", ai.number"
+        select_str = """
+        , ai.number,
+        SUM(CASE
+             WHEN ai.type::text = ANY (ARRAY['out_refund'::character varying::text, 'in_invoice'::character varying::text])
+                THEN - ail.cost_subtotal
+                ELSE ail.cost_subtotal
+            END) AS cost_total
+        """
+        return super(account_invoice_report, self)._sub_select() + select_str
 
     def _group_by(self):
-        return super(account_invoice_report, self)._group_by() + ", ai.number"
+        group_by_str = """
+        , ai.number
+        """
+        return super(account_invoice_report, self)._group_by() + group_by_str
 
