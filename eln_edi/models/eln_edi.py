@@ -152,6 +152,9 @@ class res_partner(orm.Model):
         'gln_desadv': fields.char('GLN Receptor Albarán (DESADV)', size=13, help="GLN (Receptor del albarán logístico (DESADV)"),
         'edi_picking_numeric': fields.boolean('Only numeric picking name (DESADV)',
                                help='Check if customer requires the picking name as numeric in DESADV documents. Ex. AS/X00123->00123'),
+        'edi_invoice_copy': fields.boolean('Send invoice copy to payer',
+                           help='Check if customer requires send invoice copy to payer. For example IFA GROUP requires a copy of the invoice sent to its associates.'),
+        'edi_note': fields.text('Notes'),
     }
 
 
