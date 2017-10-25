@@ -158,15 +158,27 @@
 
                 <notebook position="inside">
                     <page string="EDI" attrs="{'invisible': [('parent_id', '!=', False), ('is_company','=',False)]}">
-                        <group>
-                            <field name="edi_filename"/>
-                            <field name="edi_date_required"/>
-                            <field name="edi_uos_as_uom_on_kgm_required"/>
-                            <field name="section_code" select="2"/>
-                            <field name="department_code_edi" select="2"/>
-                            <field name="product_marking_code" select="2"/>
-                            <field name="edi_picking_numeric"/>
-                            <field name="gln_desadv" select="2"/>
+                        <group col="4" colspan="6">
+                            <group col="2" colspan="2" string="General">
+                                <field name="edi_filename"/>
+                                <field name="department_code_edi" select="2"/>
+                            </group>
+                            <group col="2" colspan="2" string="">
+                            </group>
+                            <group col="2" colspan="2" string="INVOICE">
+                                <field name="edi_date_required"/>
+                                <field name="edi_uos_as_uom_on_kgm_required"/>
+                                <field name="section_code" select="2"/>
+                                <field name="edi_invoice_copy"/>
+                            </group>
+                            <group col="2" colspan="2" string="DESADV">
+                                <field name="product_marking_code" select="2"/>
+                                <field name="edi_picking_numeric"/>
+                                <field name="gln_desadv" select="2"/>
+                            </group>
+                        </group>
+                        <group string="Notes">
+                            <field name="edi_note" nolabel="1"/>
                         </group>
                     </page>
                 </notebook>

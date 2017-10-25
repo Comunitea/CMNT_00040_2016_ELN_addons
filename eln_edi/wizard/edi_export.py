@@ -417,6 +417,16 @@ class edi_export (orm.TransientModel):
             else:
                 invoice_data += self.parse_short_date(payment.date_maturity) + self.parse_number(payment.debit, 18, 3)
         invoice_data += (' ' * 26) * (3 - len(payments))
+
+        # Posiciones no usadas
+        invoice_data += (' ' * 12)
+
+        # Envío copia de factura. Ej. Grupo IFA debe recibir copia de la factura enviada a sus asociados para realizar el pago
+        if invoice.partner_id.commercial_partner_id.edi_invoice_copy:
+            invoice_data += '1'
+        else:
+            invoice_data += '0'
+
         f.write(invoice_data)
 
         # descuentos globales        
