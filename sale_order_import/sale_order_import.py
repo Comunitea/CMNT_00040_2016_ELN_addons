@@ -82,7 +82,7 @@ class sale_order_import(orm.TransientModel):
 
                 picking_i = 0
                 date_i = 1
-                unknown_i = 2
+                order_ref_i = 2
                 partner_code_i = 3
                 product_code_i = 4
                 sign_i = 5
@@ -131,7 +131,7 @@ class sale_order_import(orm.TransientModel):
                             'date_order': datetime.strptime(ln[date_i], '%d%m%Y').strftime('%Y-%m-%d') or time.strftime('%Y-%m-%d'),
                             'requested_date': datetime.strptime(ln[date_i], '%d%m%Y').strftime('%Y-%m-%d') or time.strftime('%Y-%m-%d'),
                             'shop_id': wizard.shop_id.id,
-                            'client_order_ref': False,
+                            'client_order_ref': ln[order_ref_i].strip() or False,
                             'partner_id': partner.id,
                             'partner_invoice_id': invoice_dir,
                             'partner_shipping_id': shipping_dir.id,
