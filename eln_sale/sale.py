@@ -185,10 +185,10 @@ class sale_order(orm.Model):
                     partner_ship.commercial_partner_id.user_id.id or False)
         return res
 
-    def onchange_partner_id3(self, cr, uid, ids, part, early_payment_discount=False, payment_term=False, shop=False):
+    def onchange_partner_id3(self, cr, uid, ids, part, early_payment_discount=False, payment_term=False, shop=False, context=None):
         """extend this event for change the pricelist when the shop is to indirect invoice"""
-        res = self.onchange_partner_id2(cr, uid, ids, part, early_payment_discount, payment_term)
-        partner_obj = self.pool.get('res.partner').browse(cr, uid, part)
+        res = self.onchange_partner_id2(cr, uid, ids, part, early_payment_discount, payment_term, context=context)
+        partner_obj = self.pool.get('res.partner').browse(cr, uid, part, context)
         res['value']['commercial_partner_id'] = \
             partner_obj.commercial_partner_id.id
         if not part:
@@ -196,7 +196,7 @@ class sale_order(orm.Model):
             return res
 
         if shop:
-            shop_obj = self.pool.get('sale.shop').browse(cr, uid, shop)
+            shop_obj = self.pool.get('sale.shop').browse(cr, uid, shop, context)
 
             if shop_obj.pricelist_id and shop_obj.pricelist_id.id:
                 res['value']['pricelist_id'] = shop_obj.pricelist_id.id
@@ -212,9 +212,8 @@ class sale_order(orm.Model):
         else:
             res['value']['pricelist_id'] = \
                 partner_obj.commercial_partner_id.property_product_pricelist.id
-
-
         return res
+
 
 class sale_order_line(orm.Model):
     _inherit = 'sale.order.line'
