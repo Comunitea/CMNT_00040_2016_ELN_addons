@@ -20,8 +20,7 @@
 ##############################################################################
 
 import base64, StringIO, csv
-from openerp.osv import orm, fields, osv
-from openerp.addons.decimal_precision import decimal_precision as dp
+from openerp.osv import orm, fields
 from openerp import _
 from openerp import netsvc
 import time
@@ -57,10 +56,8 @@ class sale_order_import(orm.TransientModel):
         return res
 
     def sale_order_import(self, cr, uid, ids, context=None):
-
         if context is None:
             context = {}
-
         mod_obj = self.pool.get('ir.model.data')
         result_view = mod_obj.get_object_reference(cr, uid, 'sale_order_import', 'sale_order_import_result_view')
         sale_obj = self.pool.get('sale.order')
@@ -68,8 +65,7 @@ class sale_order_import(orm.TransientModel):
         product_obj = self.pool.get('product.product')
         dp = self.pool.get('decimal.precision').precision_get(cr, uid, 'Product UoS')
 
-        for wizard in self.browse(cr, uid, ids , context):
-            #import ipdb; ipdb.set_trace()
+        for wizard in self.browse(cr, uid, ids, context):
             if wizard.file_type == 'model_apolo':
                 csv_separator = '|'
                 decimal_separator = ','
@@ -99,16 +95,22 @@ class sale_order_import(orm.TransientModel):
                     if ln[sign_i] == '-' or ln[picking_i] == '': # Solo vamos a procesar lineas positivas y con numero de albaran
                         continue
                     if ln[picking_i] != old_picking: # Cabecera
-                        if (sale_obj.search(cr, uid, [('origin', '=', ('ALB.' + ln[picking_i])), ('state', '!=', 'cancel')]) or False): # Ya existe el albaran en el sistema
+                        if (sale_obj.search(cr, uid, [('origin', '=', ('ALB.' + ln[picking_i])), ('state', '!=', 'cancel')], context=context) or False): # Ya existe el albaran en el sistema
                             _logger.info(_("Error: document '%s' is already in the system!") %(ln[picking_i]))
                             err_msg = _("Error processing sale with origin '%s': document is already in the system!") %(ln[picking_i])
                             if not (err_log.find(err_msg) >= 0):
                                 err_log += '\n' + err_msg
                             continue
-                        partner_id = self.pool.get('res.partner').search(cr, uid, [('ref', '=', ln[partner_code_i].strip())]) or False
+                        partner_id = self.pool.get('res.partner').search(cr, uid, [('ref', '=', ln[partner_code_i].strip())], context=context) or False
                         if not partner_id:
                             _logger.info(_("Error: customer with ref '%s' not found!") %(ln[partner_code_i].strip()))
                             err_msg = _("Error processing sale with origin '%s': customer with ref '%s' not found!") %(ln[picking_i], ln[partner_code_i].strip())
+                            if not (err_log.find(err_msg) >= 0):
+                                err_log += '\n' + err_msg
+                            continue
+                        if len(partner_id) > 1:
+                            _logger.info(_("Error: several customers with same ref '%s'!") %(ln[partner_code_i].strip()))
+                            err_msg = _("Error processing sale with origin '%s': several customers with same ref '%s'!") %(ln[picking_i], ln[partner_code_i].strip())
                             if not (err_log.find(err_msg) >= 0):
                                 err_log += '\n' + err_msg
                             continue
@@ -116,12 +118,12 @@ class sale_order_import(orm.TransientModel):
                         old_picking = ln[picking_i]
 
                         shipping_dir = self.pool.get('res.partner').browse(cr, uid, partner_id, context)
-                        partner = shipping_dir.parent_id and self.pool.get('res.partner').browse(cr, uid, shipping_dir.parent_id.id, context) or shipping_dir
+                        partner = shipping_dir.commercial_partner_id
                         addr = self.pool.get('res.partner').address_get(cr, uid, [partner.id], ['delivery', 'invoice', 'contact'])
                         invoice_dir = addr['invoice']
 
                         if not partner.property_product_pricelist:
-                            _logger.info(_("Error: customer with ref '%s' whitout pricelist!") %(ln[partner_code_i].strip()))
+                            _logger.info(_("Error: customer with ref '%s' without pricelist!") %(ln[partner_code_i].strip()))
                             err_msg = _("Error processing sale with origin '%s': customer with ref '%s' whithout pricelist!") %(ln[picking_i], ln[partner_code_i].strip())
                             if not (err_log.find(err_msg) >= 0):
                                 err_log += '\n' + err_msg
@@ -139,24 +141,27 @@ class sale_order_import(orm.TransientModel):
                             'fiscal_position': partner.property_account_position.id,
                             'payment_term': partner.property_payment_term.id,
                             'payment_mode_id': partner.customer_payment_mode.id,
-                            'early_payment_discount': 0.0,
+                            'early_payment_discount': False,
                             'user_id' : partner.user_id and partner.user_id.id or uid,
                             'origin' : ('ALB.' + ln[picking_i]),
                             'note': "",
                         }
-                        order_id = sale_obj.create(cr, uid, values)
-                        sales_created.append(order_id)
                         # Ahora voy a ejecutar los onchanges para actualizar valores
+                        ctx = dict(context, no_check_risk=True)
                         data = {}
-                        data.update(sale_obj.onchange_shop_id2(cr, uid, [order_id], wizard.shop_id.id, partner.id)['value'])
-                        data.update(sale_obj.onchange_partner_id2(cr, uid, [order_id], partner.id, 0.0, partner.property_payment_term.id, context)['value'])
+                        data.update(sale_obj.onchange_shop_id2(cr, uid, [], wizard.shop_id.id, partner.id)['value'])
+                        data.update(sale_obj.onchange_partner_id3(cr, uid, [], partner.id, False, partner.property_payment_term.id, wizard.shop_id.id, ctx)['value'])
                         if 'partner_shipping_id' in data and data['partner_shipping_id']:
                             del data['partner_shipping_id']
-                        sale_obj.write(cr, uid, [order_id], data)
+                        values.update(data)
+                        order_id = sale_obj.create(cr, uid, values, context)
+                        sales_created.append(order_id)
+                        so = sale_obj.browse(cr, uid, order_id, context)
+                        # sale_obj.write(cr, uid, [order_id], data, context=context)
                         _logger.info(_("Created sale order with origin '%s'.") %(ln[picking_i]))
 
                     # Creamos lineas de pedido
-                    product_id = product_obj.search(cr, uid, [('default_code', '=', ln[product_code_i].strip())]) or False
+                    product_id = product_obj.search(cr, uid, [('default_code', '=', ln[product_code_i].strip())], context=context) or False
                     if not product_id:
                         _logger.info(_("Error: product with ref '%s' not found!") %(ln[product_code_i].strip()))
                         err_msg = _("Error processing sale with origin '%s': product with ref '%s' not found!") %(ln[picking_i], ln[product_code_i].strip())
@@ -171,18 +176,18 @@ class sale_order_import(orm.TransientModel):
                         continue
                     product_uom_qty = round(str2float(ln[quantity_i], decimal_separator), dp)
 
-                    product_aux = product_obj.browse(cr, uid, [product_id[0]])[0]
+                    product_aux = product_obj.browse(cr, uid, [product_id[0]], context)[0]
                     t_uom = self.pool.get('product.uom')
                     uom_id = product_aux.uom_id and product_aux.uom_id.id
                     uos_id = product_aux.uos_id and product_aux.uos_id.id
 
-                    #si la unidad es kg interpretamos que la cantidad la pasan en UdV
-                    #se le avisara para que la pasen en UdM
-                    #Por tanto convertimos la cantidad a UdM
+                    # si la unidad es kg interpretamos que la cantidad la pasan en UdV
+                    # se le avisara para que la pasen en UdM
+                    # Por tanto convertimos la cantidad a UdM
                     kgm_uom = self.pool.get('ir.model.data').xmlid_to_res_id(cr, uid, 'product.product_uom_kgm')
                     if uom_id == kgm_uom:
                         product_uom_qty = t_uom._compute_qty(cr, uid, uos_id, product_uom_qty, uom_id)
-                    #FIN conversion graneles
+                    # FIN conversion graneles
                     product_uos_qty = t_uom._compute_qty(cr, uid, uom_id, product_uom_qty, uos_id)
                     values = {
                         'order_id': order_id,
@@ -194,32 +199,33 @@ class sale_order_import(orm.TransientModel):
                         'product_uos': uos_id,
                         'pre_prodlot': ln[lot_i].strip() or False,
                     }
-                    c = context.copy()
-                    c.update(partner_id=partner.id, address_id=shipping_dir.id)
-                    line_id = sale_line_obj.create(cr, uid, values, c)
-                    so = sale_obj.browse(cr, uid, order_id)
                     # Ahora voy a ejecutar los onchanges para actualizar valores
                     data = {}
-                    #Llamo al onchange del producto
+                    # Llamo al onchange del producto
                     ctx = dict(context, partner_id=so.partner_id.id, quantity=product_uom_qty,
                                    pricelist=so.pricelist_id.id, shop=so.shop_id.id, uom=False)  # FALSE SHOP POST-MIGRATION
-                    data.update(sale_line_obj.product_id_change(cr, uid, [line_id], so.pricelist_id.id, product_id[0], product_uom_qty,
+                    data.update(sale_line_obj.product_id_change(cr, uid, [], so.pricelist_id.id, product_id[0], product_uom_qty,
                                                                 uom_id, product_uos_qty, uos_id, '', so.partner_id.id, False, True, so.date_order,
                                                                 False, so.fiscal_position.id, False, context=ctx)['value'])
                     if 'product_uom_qty' in data and data['product_uom_qty']:
                         del data['product_uom_qty']
                     if 'tax_id' in data and data['tax_id']:
                         data['tax_id'] = [(6, 0, data['tax_id'])]
-                    #En lugar de hacer write sobre la linea lo hago sobre la cabecera para que dispare correctamente algunos campos funcion como el descuento por pronto pago
-                    #sale_line_obj.write(cr, uid, [line_id], data)
-                    sale_obj.write(cr, uid, [order_id], {'order_line': [(1, line_id, data)]})
-                    #-------
+                    values.update(data)
+                    c = context.copy()
+                    c.update(partner_id=partner.id, address_id=shipping_dir.id)
+                    line_id = sale_line_obj.create(cr, uid, values, c)
+                    # Si en un futuro necesitamos hacer write sobre la linea entonces hacerlo a traves de la cabecera,
+                    # para que dispare correctamente algunos campos función como el descuento por pronto pago.
+                    # hacemos data = {'campo': lo_que_sea} y luego la siguiente linea:
+                    # sale_obj.write(cr, uid, [order_id], {'order_line': [(1, line_id, data)]}, context)
+                    # -------
                     _logger.info(_("Created sale order line with origin '%s' and product '%s'.") %(so.name, ln[product_code_i].strip()))
                 _logger.info(u"<-------------------  IMPORT PROCESS END  ------------------->" )
                 if wizard.import_actions == 'sale_and_picking':
                     wf_service = netsvc.LocalService("workflow")
                     for sale_id in sales_created:
-                        so = sale_obj.browse(cr, uid, sale_id)
+                        so = sale_obj.browse(cr, uid, sale_id, context)
                         if so and so.order_line and so.state == 'draft':
                             _logger.info(_("Confirming sale order with id '%s'.") %(sale_id))
                             wf_service.trg_validate(uid, 'sale.order', sale_id, 'order_confirm', cr) #Suponemos que los pedidos ya se han servido y no comprobamos riesgo
