@@ -57,16 +57,17 @@ class sale_order_line(osv.osv):
     }
 sale_order_line()
 
+
 class sale_order(osv.osv):
     _inherit = 'sale.order'
 
     # Inherited onchange function
     def onchange_partner_id(self, cr, uid, ids, part, context=None):
         if context is None:
-            context=context
+            context = {}
         result = super(sale_order,self).onchange_partner_id(cr, uid, ids, part, context=context)
-        if part:
-            partner = self.pool.get('res.partner').browse(cr, uid, part).commercial_partner_id
+        if part and not context.get('no_check_risk', False):
+            partner = self.pool.get('res.partner').browse(cr, uid, part, context).commercial_partner_id
             if partner.credit_limit and partner.available_risk < 0.0:
                 result['warning'] = {
                     'title': _('Credit Limit Exceeded'),
@@ -117,25 +118,25 @@ class partner(osv.osv):
         for partner in self.browse(cr, uid, ids, context):
             accounts = []
             if partner.property_account_receivable:
-                accounts.append( partner.property_account_receivable.id )
+                accounts.append(partner.property_account_receivable.id)
             if partner.property_account_payable:
-                accounts.append( partner.property_account_payable.id )
-            line_ids = self.pool.get('account.move.line').search( cr, uid, [
-                ('partner_id','=',partner.id),
+                accounts.append(partner.property_account_payable.id)
+            line_ids = self.pool.get('account.move.line').search(cr, uid, [
+                ('partner_id', '=', partner.id),
                 ('account_id', 'in', accounts),
-                ('reconcile_id','=',False),
-                ('date_maturity','<',today),
+                ('reconcile_id', '=', False),
+                ('date_maturity', '<', today),
             ], context=context)
             # Those that have amount_residual == 0, will mean that they're circulating. The payment request has been sent
             # to the bank but have not yet been reconciled (or the date_maturity has not been reached).
             amount = 0.0
-            for line in self.pool.get('account.move.line').browse( cr, uid, line_ids, context ):
+            for line in self.pool.get('account.move.line').browse(cr, uid, line_ids, context):
                 if line.currency_id:
                     sign = line.amount_currency < 0 and -1 or 1
                 else:
                     sign = (line.debit - line.credit) < 0 and -1 or 1
                 if line.reconcile_partial_id:
-                     amount += line.debit - line.credit
+                    amount += line.debit - line.credit
                 else:
                     amount += sign * line.amount_residual
             res[partner.id] = amount
@@ -147,19 +148,19 @@ class partner(osv.osv):
         for partner in self.browse(cr, uid, ids, context):
             accounts = []
             if partner.property_account_receivable:
-                accounts.append( partner.property_account_receivable.id )
+                accounts.append(partner.property_account_receivable.id)
             if partner.property_account_payable:
-                accounts.append( partner.property_account_payable.id )
-            line_ids = self.pool.get('account.move.line').search( cr, uid, [
-                ('partner_id','=',partner.id),
+                accounts.append(partner.property_account_payable.id)
+            line_ids = self.pool.get('account.move.line').search(cr, uid, [
+                ('partner_id', '=', partner.id),
                 ('account_id', 'in', accounts),
-                ('reconcile_id','=',False),
-                '|', ('date_maturity','>=',today), ('date_maturity','=',False)
+                ('reconcile_id', '=', False),
+                '|', ('date_maturity', '>=', today), ('date_maturity', '=', False)
             ], context=context)
             # Those that have amount_residual == 0, will mean that they're circulating. The payment request has been sent
             # to the bank but have not yet been reconciled (or the date_maturity has not been reached).
             amount = 0.0
-            for line in self.pool.get('account.move.line').browse( cr, uid, line_ids, context ):
+            for line in self.pool.get('account.move.line').browse(cr, uid, line_ids, context):
                 if line.currency_id:
                     sign = line.amount_currency < 0 and -1 or 1
                 else:
@@ -175,13 +176,13 @@ class partner(osv.osv):
         res = {}
         today = time.strftime('%Y-%m-%d')
         for id in ids:
-            invids = self.pool.get('account.invoice').search( cr, uid, [
-                ('partner_id','child_of',[id]),
-                ('state','=','draft'),
-                '|', ('date_due','>=',today), ('date_due','=',False)
+            invids = self.pool.get('account.invoice').search(cr, uid, [
+                ('partner_id', 'child_of', [id]),
+                ('state', '=', 'draft'),
+                '|', ('date_due', '>=', today), ('date_due', '=', False)
             ], context=context )
             val = 0.0
-            for invoice in self.pool.get('account.invoice').browse( cr, uid, invids, context ):
+            for invoice in self.pool.get('account.invoice').browse(cr, uid, invids, context):
                 # Note that even if the invoice is in 'draft' state it can have an account.move because it
                 # may have been validated and brought back to draft. Here we'll only consider invoices with
                 # NO account.move as those will be added in other fields.
@@ -196,27 +197,49 @@ class partner(osv.osv):
 
     def _pending_orders_amount(self, cr, uid, ids, name, arg, context=None):
         res = {}
+        tax_obj = self.pool.get('account.tax')
         for id in ids:
-            sids = self.pool.get('sale.order').search( cr, uid, [
-                ('partner_id', 'child_of', [id]),
-                ('order_policy', 'not in', ['no_bill']),
-                ('invoice_ids', '=', False), #Esta condicion es posible que no sea necesaria
-                ('state', 'not in', ['draft', 'cancel', 'wait_risk', 'sent'])
-            ], context=context)
             total = 0.0
-            for order in self.pool.get('sale.order').browse(cr, uid, sids, context):
-                if not order.picking_ids:
-                    total += order.amount_total
-                else:
-                    total += sum([x.amount_total
-                                for x in order.picking_ids
-                                if x.state != 'cancel' and x.invoice_state == '2binvoiced'])
+            mids = self.pool.get('stock.move').search(cr, uid, [
+                ('partner_id', 'child_of', [id]),
+                ('state', 'not in', ['draft', 'cancel']),
+                ('procurement_id', '!=', False),
+                ('invoice_state', '=', '2binvoiced')], context=context)
+
+            for move in self.pool.get('stock.move').browse(cr, uid, mids, context).filtered(
+                  lambda r: r.procurement_id.sale_line_id != False): # Se filtra aquí en lugar de en el search porque es más rápido.
+                line = move.procurement_id.sale_line_id
+                sign = move.picking_id.picking_type_code == "outgoing" and 1 or -1
+                # line_amount_total = (move.product_uom_qty * (line.price_unit * (1-(line.discount or 0.0)/100.0)))
+                line_amount_total = tax_obj.compute_all(cr, uid,
+                                                        line.tax_id,
+                                                        line.price_unit * (1-(line.discount or 0.0)/100.0),
+                                                        move.product_uom_qty,
+                                                        line.product_id.id,
+                                                        line.order_partner_id.commercial_partner_id.id)['total_included']
+                total += sign * line_amount_total
+
+            sids = self.pool.get('sale.order.line').search(cr, uid, [
+                ('order_partner_id', 'child_of', [id]),
+                ('state', 'not in', ['draft', 'cancel']),
+                ('invoiced', '=', False),
+                '|', ('product_id', '=', False),
+                ('product_id.type', '=', 'service')], context=context)
+            for sline in self.pool.get('sale.order.line').browse(cr, uid, sids, context):
+                # line_amount_total = sline.price_subtotal
+                line_amount_total = tax_obj.compute_all(cr, uid,
+                                                        sline.tax_id,
+                                                        sline.price_unit * (1-(sline.discount or 0.0)/100.0),
+                                                        sline.product_uom_qty,
+                                                        sline.product_id.id,
+                                                        sline.order_partner_id.commercial_partner_id.id)['total_included']
+                total += line_amount_total
             res[id] = total
         return res
 
     def _total_debt(self, cr, uid, ids, name, arg, context=None):
         res = {}
-        for partner in self.browse( cr, uid, ids, context ):
+        for partner in self.browse(cr, uid, ids, context):
             pending_orders = partner.pending_orders_amount or 0.0
             unpayed = partner.unpayed_amount or 0.0
             pending = partner.pending_amount or 0.0

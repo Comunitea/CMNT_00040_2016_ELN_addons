@@ -88,8 +88,12 @@ class open_risk_window(osv.osv_memory):
         """
         if context is None:
             context = {}
+        partner_obj = self.pool.get('res.partner')
         if not context.get('risk_partner_id', False):  # Si no trae el parametro se supone que se llama desde el cliente
-            context.update({'risk_partner_id': context.get('active_id', False)})
+            partner_id = partner_obj.browse(cr, uid, context.get('active_id', False), context)
+        else:
+            partner_id = partner_obj.browse(cr, uid, context.get('risk_partner_id', False), context)
+        context.update({'risk_partner_id': partner_id.commercial_partner_id.id})
         res = super(open_risk_window, self).default_get(cr, uid, fields,
                                                         context=context)
         return res
