@@ -204,6 +204,7 @@ class partner(osv.osv):
                 ('partner_id', 'child_of', [id]),
                 ('state', 'not in', ['draft', 'cancel']),
                 ('procurement_id', '!=', False),
+                ('location_id.usage', '!=', 'transit'), # La regla de seguridad (custom) de stock_move no filtra esta ubicación por compañía.
                 ('invoice_state', '=', '2binvoiced')], context=context)
 
             for move in self.pool.get('stock.move').browse(cr, uid, mids, context).filtered(
