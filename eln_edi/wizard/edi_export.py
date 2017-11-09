@@ -649,6 +649,7 @@ class edi_export (orm.TransientModel):
                 packing_ids[line.product_pack].append({'product_id': line.product_id,
                                                        'product_uom_id': line.product_uom_id,
                                                        'product_qty': line.product_qty, 
+                                                       'product_uos_id': line.product_id.uos_id,
                                                        'product_qty_uos': product_qty_uos, 
                                                        'lot_id': line.lot_id})
         else:
@@ -660,6 +661,7 @@ class edi_export (orm.TransientModel):
                 packing_ids[1].append({'product_id': line.product_id,
                                        'product_uom_id': line.product_uom_id,
                                        'product_qty': line.product_qty, 
+                                       'product_uos_id': line.product_id.uos_id,
                                        'product_qty_uos': product_qty_uos, 
                                        'lot_id': line.lot_id})
         return packing_ids

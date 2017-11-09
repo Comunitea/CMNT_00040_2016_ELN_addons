@@ -18,5 +18,33 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-import desadv_parser
-import gs1_128_parser
+from openerp import models, api
+from openerp.exceptions import except_orm
+from openerp.tools.translate import _
+from datetime import datetime as dt
+
+
+class Gs1_128Parser(models.AbstractModel):
+    """
+    """
+    _name = 'report.eln_edi.gs1_128_report'
+
+    @api.multi
+    def render_html(self, data=None):
+        report_obj = self.env['report']
+        report_name = 'eln_edi.gs1_128_report'
+        if not data:
+            raise except_orm(_('Error'),
+                             _('You must print it from a wizard'))
+        line_objs = {}
+        for picking_id in data['lines_dic']:
+            picking = self.env['stock.picking'].browse(int(picking_id))
+            line_objs[picking] = data['lines_dic'][picking_id]
+
+        docargs = {
+            'doc_ids': [],
+            'doc_model': 'stock.picking',
+            'docs': line_objs.keys(),
+            'line_objs': line_objs
+        }
+        return report_obj.render(report_name, docargs)

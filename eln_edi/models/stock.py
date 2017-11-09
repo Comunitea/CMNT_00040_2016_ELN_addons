@@ -19,6 +19,7 @@
 #
 ##############################################################################
 from openerp import models, api, fields
+from datetime import datetime
 import openerp.addons.decimal_precision as dp
 
 
@@ -45,6 +46,63 @@ class StockPicking(models.Model):
                                           })
         custom_data = {'lines_dic': p_dic}
         rep_name = 'eln_edi.desadv_report'
+        rep_action = self.env['report'].get_action(self, rep_name)
+        rep_action['data'] = custom_data
+        return rep_action
+    
+    @api.multi
+    def action_print_gs1_128_label(self):
+        # TODO: Hay que comprobar si en un mismo paquete (palet) van distintos productos
+        # o bien el mismo producto con distintos lotes.
+        # En ese caso habría que avisar o bien hacer una etiqueta por cada producto y lote
+        p_dic = {}
+        edi_obj = self.env['edi.export']
+        for picking in self:
+            packing_ids = edi_obj.get_packing_ids(picking)
+            for k, val in packing_ids.items():
+                if picking.id not in p_dic:
+                    p_dic[picking.id] = []
+                pack_sscc = edi_obj.get_sscc(picking, k)
+                #import ipdb; ipdb.set_trace()
+                pack_lot = val[0]['lot_id']
+                pack_dun14 = val[0]['product_id'].dun14 or ('0' + val[0]['product_id'].ean13)
+                pack_name = val[0]['product_id'].name
+                pack_uos_qty = int(val[0]['product_qty_uos'])
+                pack_uos = val[0]['product_uos_id'].name
+                pack_date = datetime.strptime(pack_lot.use_date[:10], '%Y-%m-%d').strftime('%d-%m-%Y')
+                pack_qty_len = len(str(pack_uos_qty))
+                pack_qty_len = pack_qty_len if pack_qty_len%2==0 else pack_qty_len + 1
+                # \xf1 = FNC1 -> Sólo al principio o después de longitud variable si no es al final
+                codes = str('\xf1') + \
+                        str('02') + str(pack_dun14) + \
+                        str('37') + str(edi_obj.parse_number(pack_uos_qty, pack_qty_len, 0)) + str('\xf1') + \
+                        str('10') + str(pack_lot.name[:20])
+                humanReadable1 = '(02)' + str(pack_dun14) + \
+                                '(37)' + str(edi_obj.parse_number(pack_uos_qty, pack_qty_len, 0)) + \
+                                '(10)' + str(pack_lot.name[:20])
+                pack_gs1_128_l1 = edi_obj.get_gs1_128_barcode_image(codes, width=1200, humanReadable=False)
+                codes = str('\xf1') + \
+                        str('00') + pack_sscc + \
+                        str('15') + str(datetime.strptime(pack_lot.use_date[:10], '%Y-%m-%d').strftime('%y%m%d'))
+                humanReadable2 = '(00)' + pack_sscc + \
+                                '(15)' + str(datetime.strptime(pack_lot.use_date[:10], '%Y-%m-%d').strftime('%y%m%d'))
+                pack_gs1_128_l2 = edi_obj.get_gs1_128_barcode_image(codes, width=1200, humanReadable=False)
+                p_dic[picking.id].append({'product_pack': k,
+                                          'total_pack': len(packing_ids),
+                                          'pack_name': pack_name,
+                                          'pack_sscc': pack_sscc,
+                                          'pack_dun14': pack_dun14,
+                                          'pack_uos_qty': pack_uos_qty,
+                                          'pack_uos': pack_uos,
+                                          'pack_lot': pack_lot.name[:20],
+                                          'pack_date': pack_date,
+                                          'pack_gs1_128_l1': pack_gs1_128_l1,
+                                          'humanReadable1': humanReadable1,
+                                          'pack_gs1_128_l2': pack_gs1_128_l2,
+                                          'humanReadable2': humanReadable2
+                                          })
+        custom_data = {'lines_dic': p_dic}
+        rep_name = 'eln_edi.gs1_128_report'
         rep_action = self.env['report'].get_action(self, rep_name)
         rep_action['data'] = custom_data
         return rep_action

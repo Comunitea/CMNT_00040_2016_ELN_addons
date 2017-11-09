@@ -2,16 +2,6 @@
 <openerp>
     <data>
 
-       <report
-          string="DESADV label"
-          id="report_print_desadv_labels"
-          model="stock.picking"
-          report_type="qweb-pdf"
-          name="eln_edi.desadv_report"
-          file="eln_edi.desadv_report"
-          menu="False"
-        />
-
         <record id="print_desadv_paperformat" model="report.paperformat">
             <field name="name">DESADV label</field>
             <field name="default" eval="False"/>
@@ -25,8 +15,45 @@
             <field name="dpi">90</field>
         </record>
 
+        <record id="print_GS1_128_paperformat" model="report.paperformat">
+            <field name="name">GS1-128 label</field>
+            <field name="default" eval="False"/>
+            <field name="format">A4</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">15</field>
+            <field name="margin_bottom">10</field>
+            <field name="margin_left">0</field>
+            <field name="margin_right">0</field>
+            <field name="header_spacing">0</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report
+          string="DESADV label"
+          id="report_print_desadv_labels"
+          model="stock.picking"
+          report_type="qweb-pdf"
+          name="eln_edi.desadv_report"
+          file="eln_edi.desadv_report"
+          menu="False"
+        />
+
         <record id="report_print_desadv_labels" model="ir.actions.report.xml">
             <field name="paperformat_id" ref="print_desadv_paperformat"/>
+        </record>
+
+        <report
+          string="GS1-128 label"
+          id="report_print_gs1_128_labels"
+          model="stock.picking"
+          report_type="qweb-pdf"
+          name="eln_edi.gs1_128_report"
+          file="eln_edi.gs1_128_report"
+          menu="False"
+        />
+
+        <record id="report_print_gs1_128_labels" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="print_GS1_128_paperformat"/>
         </record>
 
     </data>
