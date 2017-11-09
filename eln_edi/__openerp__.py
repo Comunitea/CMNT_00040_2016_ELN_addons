@@ -64,6 +64,7 @@
         'data/eln_edi_data.xml',
         'views/eln_edi_view.xml',
         "views/desadv_report.xml",
+        "views/gs1_128_report.xml",
         "views/report.xml",
         'wizard/edi_import_view.xml',
         'wizard/edi_export_view.xml',
