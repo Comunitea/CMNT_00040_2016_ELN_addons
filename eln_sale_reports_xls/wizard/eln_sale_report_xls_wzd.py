@@ -43,6 +43,7 @@ class ElnSaleReportXlsWzd(models.TransientModel):
         ly_end_date = '-'.join([last_y, m, d])
         domain = [
             ('picking_type_code', '=', 'outgoing'),
+            ('invoice_state', '!=', 'none'),
             ('state', 'not in', ['draft', 'cancel']),
             '|',
             '&',
@@ -53,9 +54,10 @@ class ElnSaleReportXlsWzd(models.TransientModel):
             ('effective_date', '<=', ly_end_date),
         ]
         for pick in t_pick.search(domain):
-            if not pick.sale_id or pick.invoice_state == 'none':
+            sale_id = pick.sale_id
+            if not sale_id:
                 continue
-            acc = pick.sale_id.project_id
+            acc = sale_id.project_id
             if acc not in res:
                 res[acc] = {
                     'base': 0.0,

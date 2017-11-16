@@ -75,12 +75,13 @@ class ElnSaleReportXls(report_xls):
             '08': _('AGOSTO'),
             '09': _('SEPTIEMBRE'),
             '10': _('OCTUBRE'),
-            '11': _('NOBIEMBRE'),
+            '11': _('NOVIEMBRE'),
             '12': _('DICIEMBRE'),
         }
         month = months[date_split[1]]
+        report_date = datetime.strptime(objects.date, '%Y-%m-%d').strftime('%d/%m/%Y')
         report_name = ' - '.join(["INFORME DIARIO DE VENTAS", month + ' ' +
-                                 year])
+                                 year, '(A FECHA:' + report_date + ')'])
         c_specs = [('report_name', self.nbr_columns, 0, 'text', report_name)]
         row_data = self.xls_row_template(c_specs, [x[0] for x in c_specs])
         row_pos = self.xls_write_row(
