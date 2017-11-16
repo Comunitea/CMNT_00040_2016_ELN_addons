@@ -7,14 +7,16 @@
         <field name="model">eln.salesman.summary.xls.wzd</field>
         <field name="type">form</field>
         <field name="arch" type="xml">
-            <group string= "Select summary date">
-                <field name="start_date"/>
-                <field name="end_date"/>
-            </group>
-            <footer>
-                <button name="create_xls_report" string="Print summary" type="object" class="oe_highlight" icon="gtk-print"/>
-                <button special="cancel" string="Cancel" icon="gtk-close"/>
-            </footer>
+            <form string="Select summary date">
+                <group>
+                    <field name="start_date"/>
+                    <field name="end_date"/>
+                </group>
+                <footer>
+                    <button name="create_xls_report" string="Print summary" type="object" class="oe_highlight" icon="gtk-print"/>
+                    <button special="cancel" string="Cancel" icon="gtk-close"/>
+                </footer>
+            </form>
         </field>
       </record>
 

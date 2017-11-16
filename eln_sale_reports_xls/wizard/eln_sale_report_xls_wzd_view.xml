@@ -7,13 +7,15 @@
         <field name="model">eln.sale.report.xls.wzd</field>
         <field name="type">form</field>
         <field name="arch" type="xml">
-            <group string= "Select report date">
-                <field name="date"/>
-            </group>
-            <footer>
-                <button name="create_xls_report" string="Print report" type="object" class="oe_highlight" icon="gtk-print"/>
-                <button special="cancel" string="Cancel" icon="gtk-close"/>
-            </footer>
+            <form string="Select report date">
+                <group>
+                    <field name="date"/>
+                </group>
+                <footer>
+                    <button name="create_xls_report" string="Print report" type="object" class="oe_highlight" icon="gtk-print"/>
+                    <button special="cancel" string="Cancel" icon="gtk-close"/>
+                </footer>
+            </form>
         </field>
       </record>
 

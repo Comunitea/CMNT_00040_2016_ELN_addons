@@ -59,9 +59,12 @@ class ElnSalesmanSummaryXls(report_xls):
             _xs['center'])
 
     def print_title(self, objects, row_pos):
-        report_name = '  '.join([_("Resumen ventas por representante"),
-                                objects.start_date,
-                                objects.end_date])
+        start_date = datetime.strptime(objects.start_date, '%Y-%m-%d').strftime('%d/%m/%Y')
+        end_date = datetime.strptime(objects.end_date, '%Y-%m-%d').strftime('%d/%m/%Y')
+        report_name = ' '.join([_("Resumen ventas por representante:"),
+                                start_date,
+                                '-',
+                                end_date])
         c_specs = [('report_name', self.nbr_columns, 0, 'text', report_name)]
         row_data = self.xls_row_template(c_specs, [x[0] for x in c_specs])
         row_pos = self.xls_write_row(
