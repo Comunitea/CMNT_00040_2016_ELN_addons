@@ -6,16 +6,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-13 08:38+0000\n"
-"PO-Revision-Date: 2016-12-13 09:39+0100\n"
-"Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
+"POT-Creation-Date: 2017-11-16 12:11+0000\n"
+"PO-Revision-Date: 2017-11-16 13:15+0100\n"
+"Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
 "Language: es\n"
-"X-Generator: Poedit 1.8.6\n"
+"X-Generator: Poedit 2.0.3\n"
 
 #. module: eln_sale_commission
 #: code:addons/eln_sale_commission/models/settlement.py:43
@@ -47,12 +47,17 @@ msgstr "Comisión"
 #. module: eln_sale_commission
 #: field:sale.commission.settlement.line,date_from:0
 msgid "From"
-msgstr "De:"
+msgstr "De"
 
 #. module: eln_sale_commission
 #: view:sale.commission.settlement.line:eln_sale_commission.view_settlement_line_search
 msgid "Invoice"
 msgstr "Factura"
+
+#. module: eln_sale_commission
+#: model:ir.model,name:eln_sale_commission.model_account_invoice_line
+msgid "Invoice Line"
+msgstr "Línea de factura"
 
 #. module: eln_sale_commission
 #: field:account.invoice.line.agent,invoiced_amount:0
@@ -76,6 +81,12 @@ msgstr "Empresa"
 #: model:ir.model,name:eln_sale_commission.model_sale_order_line
 msgid "Sales Order Line"
 msgstr "Línea pedido de venta"
+
+#. module: eln_sale_commission
+#: view:sale.commission.settlement.line:eln_sale_commission.view_settlement_line_search
+#: field:sale.commission.settlement.line,user_id:0
+msgid "Salesperson"
+msgstr "Comercial"
 
 #. module: eln_sale_commission
 #: model:ir.actions.act_window,name:eln_sale_commission.action_settlemment

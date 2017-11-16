@@ -74,6 +74,9 @@ class SettlementLine(models.Model):
     total_atypical = fields.Float('Total without atypical', readonly=True)
     date_from = fields.Date(related="settlement.date_from", string="From", store=True)
     date_to = fields.Date(related="settlement.date_to", string="To", store=True)
+    user_id = fields.Many2one(
+        comodel_name="res.users", related="agent_line.invoice_line.invoice_id.user_id",
+        store=True)
 
 
 class SaleCommissionMakeSettle(models.TransientModel):
