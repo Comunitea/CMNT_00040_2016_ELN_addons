@@ -37,6 +37,7 @@
                     <filter string="Shipping Address" name="group_partner_shipping" context="{'group_by': 'partner_shipping_id'}"/>
                     <filter string="Invoice" name="group_invoice" context="{'group_by': 'invoice'}"/>
                     <filter string="Settlement" name="group_settlement" context="{'group_by': 'settlement'}"/>
+                    <filter string="Salesperson" name="group_salesperson" context="{'group_by': 'user_id'}"/>
                 </filter>
             </field>
         </record>
