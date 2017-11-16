@@ -36,5 +36,6 @@ class StockPickingType(models.Model):
 
     @api.multi
     def name_get(self):
-        return [(pt.id, pt.warehouse_id.name + ' - ' + pt.name)
+        return [(pt.id, (pt.warehouse_id and
+                (pt.warehouse_id.name + ' - ') or '') + pt.name)
                 for pt in self]
