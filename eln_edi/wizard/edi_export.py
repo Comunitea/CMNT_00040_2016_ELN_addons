@@ -94,33 +94,33 @@ class edi_export (orm.TransientModel):
                 raise orm.except_orm(_('Error'),
                                      _('El modelo no es ni un pedido ni un albarán ni una factura.'))
 
-            if not doc_obj.search(cr, uid, [('name', '=', name)], context=context):
-                f = open(file_name)
-                values = {
-                    'name': name,
-                    'file_name': file_name.split('/')[-1],
-                    'status': 'export',
-                    'date': time.strftime('%Y-%m-%d %H:%M:%S'),
-                    'date_process': time.strftime('%Y-%m-%d %H:%M:%S'),
-                    'type': doc_type,
-                    'sale_order_id': sale_order_id,
-                    'picking_id': picking_id,
-                    'invoice_id': invoice_id,
-                    'gln_ef': gln_ef,
-                    'gln_ve': gln_ve,
-                    'gln_de': gln_de,
-                    'gln_rf': gln_rf,
-                    'gln_co': gln_co,
-                    'gln_rm': gln_rm,
-                    'message': f.read(),
-                }
-                f.close()
-                file_id = doc_obj.create(cr, uid, values, context)
-                log.info(u"Exportado %s " % file_name)
-            else:
-                file_id = doc_obj.search(cr, uid, [('name', '=', name)], context=context)
-                f = open(file_name)
-                doc_obj.write(cr, uid, file_id, {'message': f.read()}, context)
+            f = open(file_name)
+            values = {
+                'name': name,
+                'file_name': file_name.split('/')[-1],
+                'status': 'export',
+                'date': time.strftime('%Y-%m-%d %H:%M:%S'),
+                'date_process': time.strftime('%Y-%m-%d %H:%M:%S'),
+                'type': doc_type,
+                'sale_order_id': sale_order_id,
+                'picking_id': picking_id,
+                'invoice_id': invoice_id,
+                'gln_ef': gln_ef,
+                'gln_ve': gln_ve,
+                'gln_de': gln_de,
+                'gln_rf': gln_rf,
+                'gln_co': gln_co,
+                'gln_rm': gln_rm,
+                'message': f.read(),
+            }
+            f.close()
+            file_id = doc_obj.create(cr, uid, values, context) # Creamos siempre un nuevo registro, no actualizamos el existente. Si queremos actualizar, borramos esta linea y usamos el if de abajo.
+            #if not doc_obj.search(cr, uid, [('name', '=', name)], context=context):
+            #    file_id = doc_obj.create(cr, uid, values, context)
+            #    log.info(u"Exportado %s " % file_name)
+            #else:
+            #    file_id = doc_obj.search(cr, uid, [('name', '=', name)], context=context)
+            #    doc_obj.write(cr, uid, file_id, values, context)
 
         return file_id
 
