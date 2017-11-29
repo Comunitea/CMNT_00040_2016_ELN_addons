@@ -246,6 +246,7 @@ class account_tax(orm.Model):
                                      help="Código para el tipo de impuesto a incluir en el fichero EDI (si ninguno se usará VAT)."),
     }
 
+
 class account_invoice_tax(orm.Model):
     _inherit = 'account.invoice.tax'
     _columns = {
@@ -371,7 +372,13 @@ class account_invoice(orm.Model):
                 'account.invoice.line': (_get_invoice_line, ['price_unit', 'invoice_line_tax_id', 'quantity', 'discount', 'invoice_id'], 20),
             },
             multi='all'),
+        'edi_not_send_invoice': fields.boolean('Not send invoice by EDI'),
     }
+
+    _defaults = {
+        'edi_not_send_invoice': False,
+    }
+
 
 class res_company(orm.Model):
     _inherit = 'res.company'
@@ -382,6 +389,7 @@ class res_company(orm.Model):
         'gs1': fields.char(string='GS1 code', help='AECOC GS1 code of the Company. Used to coding GTIN-13, GTIN-14, GS1-128, SSCC, etc. Required for EDI DESADV interchanges.'),
         'edi_rm': fields.char(string='Registro Mercantil', size=35, help="Registro Mercantil del emisor de la factura y el vendedor"),
     }
+
 
 class stock_picking(orm.Model):
 

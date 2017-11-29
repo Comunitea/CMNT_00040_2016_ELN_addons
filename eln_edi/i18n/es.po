@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-11-09 16:31+0000\n"
-"PO-Revision-Date: 2017-11-09 17:39+0100\n"
+"POT-Creation-Date: 2017-11-29 10:44+0000\n"
+"PO-Revision-Date: 2017-11-29 11:47+0100\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -315,6 +315,11 @@ msgstr "Documentos EDI"
 
 #. module: eln_edi
 #: view:account.invoice:eln_edi.view_edi_account_invoice_add_contract_form
+msgid "Documentos Generados"
+msgstr "Documentos Generados"
+
+#. module: eln_edi
+#: view:account.invoice:eln_edi.view_edi_account_invoice_add_contract_form
 #: model:ir.ui.menu,name:eln_edi.menu_edi
 #: view:res.company:eln_edi.company_add_edi_code
 #: view:res.partner:eln_edi.view_edi_res_partner_form
@@ -326,6 +331,18 @@ msgstr "EDI"
 #: help:res.partner,product_marking_code:0
 msgid "EDI (DESADV). Code specifying product marking instructions. Segment: PCI, Tag: 4233. Example: 36E, 17, ..."
 msgstr "EDI (DESADV). Código para el tipo de instrucciones de marcaje del producto. Segmento: PCI, Etiqueta: 4233. Ejemplo: 36E, 17, ..."
+
+#. module: eln_edi
+#: model:ir.filters,name:eln_edi.filter_edi_generado_tree1
+#: model:ir.filters,name:eln_edi.filter_edi_generado_tree3
+msgid "EDI Generado"
+msgstr "EDI Generado"
+
+#. module: eln_edi
+#: model:ir.filters,name:eln_edi.filter_edi_no_generado_tree1
+#: model:ir.filters,name:eln_edi.filter_edi_no_generado_tree3
+msgid "EDI No Generado"
+msgstr "EDI No Generado"
 
 #. module: eln_edi
 #: view:stock.picking:eln_edi.view_picking_form_add_page_edi_packing
@@ -454,6 +471,7 @@ msgid "Exportar Albaranes EDI"
 msgstr "Exportar Albaranes EDI"
 
 #. module: eln_edi
+#: view:account.invoice:eln_edi.view_edi_account_invoice_add_contract_form
 #: model:ir.actions.act_window,name:eln_edi.action_edi_export_invoice
 msgid "Exportar Facturas EDI"
 msgstr "Exportar Facturas EDI"
@@ -650,7 +668,7 @@ msgid "Invoice Tax"
 msgstr "Impuesto de factura"
 
 #. module: eln_edi
-#: code:addons/eln_edi/wizard/edi_export.py:888
+#: code:addons/eln_edi/wizard/edi_export.py:890
 #, python-format
 msgid "Invoice error"
 msgstr "Invoice error"
@@ -820,6 +838,11 @@ msgstr "Nombre"
 #: field:edi.doc,file_name:0
 msgid "Nombre fichero"
 msgstr "Nombre fichero"
+
+#. module: eln_edi
+#: field:account.invoice,edi_not_send_invoice:0
+msgid "Not send invoice by EDI"
+msgstr "No enviar factura por EDI"
 
 #. module: eln_edi
 #: field:edi.pack,note:0 view:res.partner:eln_edi.view_edi_res_partner_form
@@ -1154,7 +1177,7 @@ msgid "Usuario"
 msgstr "Usuario"
 
 #. module: eln_edi
-#: code:addons/eln_edi/wizard/edi_export.py:888
+#: code:addons/eln_edi/wizard/edi_export.py:890
 #, python-format
 msgid "Validate the invoice before."
 msgstr "Factura no validada."
