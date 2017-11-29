@@ -884,6 +884,8 @@ class edi_export (orm.TransientModel):
                 file_name = '%s%sEDI%s%s%s.ASC' % (path,os.sep, obj.company_id.edi_code, obj.name.replace('/','').replace('\\',''), obj.partner_id.commercial_partner_id.edi_filename)
                 self.parse_picking(cr, uid, obj, file_name, context)
             elif context['active_model'] == u'account.invoice':
+                if obj.edi_not_send_invoice:
+                    continue
                 if obj.state not in ('open', 'paid'):
                     raise orm.except_orm(_('Invoice error'), _('Validate the invoice before.'))
                 file_name = '%s%sINV%s%s%s.ASC' % (path,os.sep, obj.company_id.edi_code, obj.number.replace('/','').replace('\\',''), obj.partner_id.commercial_partner_id.edi_filename)
