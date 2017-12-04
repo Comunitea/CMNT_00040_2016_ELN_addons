@@ -1,0 +1,129 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* stock_pack_operation_analysis
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-10-09 14:01+0000\n"
+"PO-Revision-Date: 2017-10-09 16:02+0200\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: es\n"
+"X-Generator: Poedit 2.0.3\n"
+
+#. module: stock_pack_operation_analysis
+#: view:stock.pack.operation.analysis:stock_pack_operation_analysis.stock_pack_operation_analysis_graph_search
+#: field:stock.pack.operation.analysis,company_id:0
+msgid "Company"
+msgstr "Compañia"
+
+#. module: stock_pack_operation_analysis
+#: view:stock.pack.operation.analysis:stock_pack_operation_analysis.stock_pack_operation_analysis_graph_search
+#: field:stock.pack.operation.analysis,date:0
+msgid "Date"
+msgstr "Fecha"
+
+#. module: stock_pack_operation_analysis
+#: field:stock.pack.operation.analysis,location_dest_id:0
+msgid "Destination Location"
+msgstr "Ubicación destino"
+
+#. module: stock_pack_operation_analysis
+#: field:stock.pack.operation.analysis,display_name:0
+msgid "Display Name"
+msgstr "Nombre mostrado"
+
+#. module: stock_pack_operation_analysis
+#: view:stock.pack.operation.analysis:stock_pack_operation_analysis.stock_pack_operation_analysis_graph_search
+msgid "Group By"
+msgstr "Agrupar Por"
+
+#. module: stock_pack_operation_analysis
+#: field:stock.pack.operation.analysis,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: stock_pack_operation_analysis
+#: view:stock.pack.operation.analysis:stock_pack_operation_analysis.stock_pack_operation_analysis_graph_search
+#: field:stock.pack.operation.analysis,categ_id:0
+msgid "Internal Category"
+msgstr "Categoría interna"
+
+#. module: stock_pack_operation_analysis
+#: view:stock.pack.operation.analysis:stock_pack_operation_analysis.stock_pack_operation_analysis_graph_search
+msgid "Last 12 Months"
+msgstr "Últimos 12 meses"
+
+#. module: stock_pack_operation_analysis
+#: field:stock.pack.operation.analysis,__last_update:0
+msgid "Last Modified on"
+msgstr "Last Modified on"
+
+#. module: stock_pack_operation_analysis
+#: view:stock.pack.operation.analysis:stock_pack_operation_analysis.stock_pack_operation_analysis_graph_search
+#: field:stock.pack.operation.analysis,lot_id:0
+msgid "Lot/Serial Number"
+msgstr "Lote/Nº de serie"
+
+#. module: stock_pack_operation_analysis
+#: model:ir.actions.act_window,name:stock_pack_operation_analysis.action_stock_pack_operation_analysis_graph
+#: model:ir.actions.act_window,name:stock_pack_operation_analysis.action_stock_pack_operation_analysis_graph_from_picking
+#: model:ir.ui.menu,name:stock_pack_operation_analysis.menu_stock_pack_operation_analysis_graph
+#: view:stock.pack.operation.analysis:stock_pack_operation_analysis.stock_pack_operation_analysis_graph
+#: view:stock.pack.operation.analysis:stock_pack_operation_analysis.stock_pack_operation_analysis_graph_search
+msgid "Pack Operation Analysis"
+msgstr "Análisis de operaciones"
+
+#. module: stock_pack_operation_analysis
+#: view:stock.pack.operation.analysis:stock_pack_operation_analysis.stock_pack_operation_analysis_graph_search
+#: field:stock.pack.operation.analysis,partner_id:0
+msgid "Partner"
+msgstr "Empresa"
+
+#. module: stock_pack_operation_analysis
+#: view:stock.pack.operation.analysis:stock_pack_operation_analysis.stock_pack_operation_analysis_graph_search
+msgid "Previous Month"
+msgstr "Mes anterior"
+
+#. module: stock_pack_operation_analysis
+#: view:stock.pack.operation.analysis:stock_pack_operation_analysis.stock_pack_operation_analysis_graph_search
+msgid "Previous Year"
+msgstr "Año anterior"
+
+#. module: stock_pack_operation_analysis
+#: view:stock.pack.operation.analysis:stock_pack_operation_analysis.stock_pack_operation_analysis_graph_search
+#: field:stock.pack.operation.analysis,product_id:0
+msgid "Product"
+msgstr "Producto"
+
+#. module: stock_pack_operation_analysis
+#: field:stock.pack.operation.analysis,product_qty:0
+msgid "Quantity"
+msgstr "Cantidad"
+
+#. module: stock_pack_operation_analysis
+#: field:stock.pack.operation.analysis,location_id:0
+msgid "Source Location"
+msgstr "Ubicación origen"
+
+#. module: stock_pack_operation_analysis
+#: view:stock.pack.operation.analysis:stock_pack_operation_analysis.stock_pack_operation_analysis_graph_search
+#: field:stock.pack.operation.analysis,picking_id:0
+msgid "Stock Picking"
+msgstr "Albarán"
+
+#. module: stock_pack_operation_analysis
+#: view:stock.pack.operation.analysis:stock_pack_operation_analysis.stock_pack_operation_analysis_graph_search
+msgid "This Month"
+msgstr "Este mes"
+
+#. module: stock_pack_operation_analysis
+#: view:stock.pack.operation.analysis:stock_pack_operation_analysis.stock_pack_operation_analysis_graph_search
+msgid "This Year"
+msgstr "Este año"
