@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="stock_pack_operation_analysis_graph" model="ir.ui.view">
+             <field name="name">stock.pack.operation.analysis.graph</field>
+             <field name="model">stock.pack.operation.analysis</field>
+             <field name="arch" type="xml">
+                 <graph string="Pack Operation Analysis" type="pivot" stacked="True">
+                     <field name="product_id" type="row"/>
+                     <field name="lot_id" type="row"/>
+                     <field name="date" type="col" interval="month"/>
+                     <field name="product_qty" type="measure"/>
+                 </graph>
+             </field>
+        </record>
+
+        <record id="stock_pack_operation_analysis_graph_search" model="ir.ui.view">
+            <field name="name">stock.pack.operation.analysis.graph.search</field>
+            <field name="model">stock.pack.operation.analysis</field>
+            <field name="arch" type="xml">
+                <search string="Pack Operation Analysis">
+                    <field name="product_id"/>
+                    <field name="picking_id"/>
+                    <field name="partner_id"/>
+                    <field name="categ_id"/>
+                    <field name="company_id"/>
+                    <separator/>
+                    <filter string="This Year" name="year" domain="
+                    [('date','&lt;=', time.strftime('%%Y-12-31 00:00:00')),
+                    ('date','&gt;=', time.strftime('%%Y-01-01 23:59:59'))]"/>
+                    <filter string="Previous Year" name="previous_year" domain="
+                    [('date','&gt;=',(context_today()-relativedelta(years=1)).strftime('%%Y-01-01 00:00:00')),
+                    ('date','&lt;=',(context_today()-relativedelta(years=1)).strftime('%%Y-12-31 23:59:59'))]"/>
+                    <filter string="This Month" name="this_month" domain="
+                    [('date','&lt;',(context_today()+relativedelta(months=1)).strftime('%%Y-%%m-01 00:00:00')),
+                    ('date','&gt;=',time.strftime('%%Y-%%m-01'))]"/>
+                    <filter string="Previous Month" name="previous_month" domain="
+                    [('date','&gt;=',(context_today()-relativedelta(months=1)).strftime('%%Y-%%m-01')),
+                    ('date','&lt;',time.strftime('%%Y-%%m-01 00:00:00'))]"/>
+                    <filter string="Last 12 Months" name="last_12_months" domain="
+                    [('date','&gt;=',(context_today()-relativedelta(months=12)).strftime('%%Y-%%m-01 00:00:00')),
+                    ('date','&lt;',time.strftime('%%Y-%%m-01 00:00:00'))]"/>
+                    <group expand="1" string="Group By">
+                        <filter string="Product" name="Product" context="{'group_by':'product_id'}"/>
+                        <filter string="Lot/Serial Number" name="Lot" context="{'group_by':'lot_id'}"/>
+                        <filter string="Stock Picking" name="Picking" context="{'group_by':'picking_id'}"/>
+                        <filter string="Partner" name="Partner" context="{'group_by':'partner_id'}"/>
+                        <filter string="Date" name="Fecha" context="{'group_by':'date'}"/>
+                        <filter string="Internal Category" name="Category" context="{'group_by':'categ_id'}"/>
+                        <filter string="Company" name="Company" context="{'group_by':'company_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_stock_pack_operation_analysis_graph" model="ir.actions.act_window">
+            <field name="name">Pack Operation Analysis</field>
+            <field name="res_model">stock.pack.operation.analysis</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">graph</field>
+            <field name="search_view_id" ref="stock_pack_operation_analysis_graph_search"/>
+            <field name="view_id" ref="stock_pack_operation_analysis_graph"/>
+            <field name="context">{'search_default_this_month':1}</field>
+        </record>
+
+        <menuitem action="action_stock_pack_operation_analysis_graph" id="menu_stock_pack_operation_analysis_graph" parent="stock.next_id_61"/>
+
+        <record id="action_stock_pack_operation_analysis_graph_from_picking" model="ir.actions.act_window">
+            <field name="name">Pack Operation Analysis</field>
+            <field name="res_model">stock.pack.operation.analysis</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">graph</field>
+            <field name="context">{}</field>
+            <field name="domain">[('picking_id', 'in', active_ids)]</field>
+        </record>
+
+        <record model="ir.values" id="stock_pack_operation_analysis_graph_from_picking">
+            <field name="model_id" ref="stock.model_stock_picking" />
+            <field name="name">Show Stock Pack Opeation Analisys</field>
+            <field name="key2">client_action_multi</field>
+            <field name="value" eval="'ir.actions.act_window,' + str(ref('action_stock_pack_operation_analysis_graph_from_picking'))" />
+            <field name="key">action</field>
+            <field name="model">stock.picking</field>
+        </record>
+    
+    </data>
+</openerp>
