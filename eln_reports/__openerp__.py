@@ -48,6 +48,7 @@
               'eln_reports.xml',
               'views/layouts_custom.xml',
               'views/valued_picking_report_custom.xml',
+              'views/report_saleorder_proforma.xml',
              ],
 
     "demo_xml": [],

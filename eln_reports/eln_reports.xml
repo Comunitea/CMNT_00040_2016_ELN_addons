@@ -229,5 +229,15 @@
             auto="True"
             header="False"
             />
+
+        <report
+            id="report_sale_order_proforma"
+            string="Proforma Invoice"
+            model="sale.order"
+            report_type="qweb-pdf"
+            file="eln_reports.report_saleorder_proforma"
+            name="eln_reports.report_saleorder_proforma"
+        />
+
     </data>
 </openerp>
