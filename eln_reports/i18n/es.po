@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-13 08:10+0000\n"
-"PO-Revision-Date: 2017-10-13 10:26+0200\n"
+"POT-Creation-Date: 2017-12-05 09:55+0000\n"
+"PO-Revision-Date: 2017-12-05 10:59+0100\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -172,6 +172,11 @@ msgid "Customer Payment Term"
 msgstr "Plazo de pago de cliente"
 
 #. module: eln_reports
+#: model:ir.actions.report.xml,name:eln_reports.invoice_report_jasper
+msgid "Customer invoice"
+msgstr "Factura de cliente"
+
+#. module: eln_reports
 #: report:addons/eln_reports/report/planning_report/planning_report_webkit.mako:28
 msgid "DUN-14/EAN-13"
 msgstr "DUN-14/EAN-13"
@@ -322,11 +327,6 @@ msgid "Invoice state"
 msgstr "Invoice state"
 
 #. module: eln_reports
-#: model:ir.actions.report.xml,name:eln_reports.invoice_report_jasper
-msgid "Customer invoice"
-msgstr "Factura de cliente"
-
-#. module: eln_reports
 #: field:purchase.order,invoice_vat:0
 msgid "Invoice vat"
 msgstr "Invoice vat"
@@ -389,7 +389,7 @@ msgid "Latest Full Reconciliation Date"
 msgstr "Última fecha de conciliación completa"
 
 #. module: eln_reports
-#: field:out.picking.report,lot_id:0
+#: field:out.picking.report,lot_id:0 view:website:stock.report_picking
 msgid "Lot"
 msgstr "Lote"
 
@@ -425,6 +425,11 @@ msgstr "¡Ninguna cabecera definida para este informe de Webkit!"
 #: view:website:stock.report_picking
 msgid "Order (Origin)"
 msgstr "Pedido (Origen)"
+
+#. module: eln_reports
+#: view:website:eln_reports.report_saleorder_document_proforma
+msgid "PROFORMA INVOICE N°"
+msgstr "FACTURA PROFORMA N°"
 
 #. module: eln_reports
 #: view:website:stock.report_picking
@@ -540,6 +545,11 @@ msgstr "Ficha técnica de producto"
 #: report:addons/eln_reports/report/planning_report/planning_report_webkit.mako:29
 msgid "Producto"
 msgstr "Producto"
+
+#. module: eln_reports
+#: model:ir.actions.report.xml,name:eln_reports.report_sale_order_proforma
+msgid "Proforma Invoice"
+msgstr "Factura proforma"
 
 #. module: eln_reports
 #: model:ir.model,name:eln_reports.model_purchase_order
@@ -895,6 +905,11 @@ msgstr "Renderizador de Webkit"
 #: model:ir.model,name:eln_reports.model_mrp_workcenter
 msgid "Work Center"
 msgstr "Centro de producción"
+
+#. module: eln_reports
+#: view:website:eln_reports.report_saleorder_document_proforma
+msgid "eln_reports.report_saleorder_document_proforma"
+msgstr "eln_reports.report_saleorder_document_proforma"
 
 #. module: eln_reports
 #: field:planning.report.wizard,name:0
