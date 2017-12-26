@@ -19,7 +19,9 @@
 #############################################################################
 from openerp.osv import osv, fields
 
+
 class purchase(osv.osv):
+    _inherit = 'purchase.order'
     
     def _work_done(self, cr, uid, ids, name, arg=None, context=None):
         res = {}
@@ -31,17 +33,19 @@ class purchase(osv.osv):
                 if work_order_state == 'done':
                     res[purchase_order_id] = True
         return res
-    _inherit = 'purchase.order' 
+
     _columns = {
-            'work_order_id':fields.many2one('work.order', 'Work order', required=False),
-            'work_done': fields.function(_work_done, method=True, type='boolean', string='order completed', store=False),
-                    }
-        
+        'work_order_id': fields.many2one('work.order', 'Work order', required=False),
+        'work_done': fields.function(_work_done, method=True, type='boolean', string='order completed', store=False),
+    }
+
 purchase()
+
 
 class purchase_order_line(osv.osv):
     _inherit = 'purchase.order.line'
     _columns = {
-            'element_id': fields.many2one('maintenance.element', 'Element', required=False),
-                }
+        'element_id': fields.many2one('maintenance.element', 'Element', required=False),
+    }
+
 purchase_order_line()

@@ -6,27 +6,27 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-01 10:00+0000\n"
-"PO-Revision-Date: 2016-09-01 12:04+0200\n"
-"Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
+"POT-Creation-Date: 2017-12-26 15:41+0000\n"
+"PO-Revision-Date: 2017-12-26 16:43+0100\n"
+"Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
 "Language: es\n"
-"X-Generator: Poedit 1.8.6\n"
+"X-Generator: Poedit 2.0.3\n"
 
 #. module: maintenance
 #: model:email.template,report_name:maintenance.email_template_work_order
 msgid ""
 "${(object.name or\n"
-"\t\t\t\t'').replace('/','_')}_${object.state == 'draft' and 'draft' or ''}\n"
-"\t\t\t"
+"                '').replace('/','_')}_${object.state == 'draft' and 'draft' or ''}\n"
+"            "
 msgstr ""
 "${(object.name or\n"
-"\t\t\t\t'').replace('/','_')}_${object.state == 'draft' and 'draft' or ''}\n"
-"\t\t\t"
+"                '').replace('/','_')}_${object.state == 'draft' and 'draft' or ''}\n"
+"            "
 
 #. module: maintenance
 #: field:work.order,general_account_id:0
@@ -55,8 +55,8 @@ msgstr "Diario analítico"
 
 #. module: maintenance
 #: field:intervention.request,solicitante_id:0
-msgid "Applicant "
-msgstr "Solicitante "
+msgid "Applicant"
+msgstr "Solicitante"
 
 #. module: maintenance
 #: field:work.order,purchase_ids:0
@@ -140,6 +140,12 @@ msgid "Complete name"
 msgstr "Nombre completo"
 
 #. module: maintenance
+#: model:ir.ui.menu,name:maintenance.menu_maintenance_config
+msgid "Configuration"
+msgstr "Configuración"
+
+#. module: maintenance
+#: view:intervention.request:maintenance.view_intervention_request_filter
 #: selection:intervention.request,state:0
 msgid "Confirmed"
 msgstr "Confirmado"
@@ -210,6 +216,7 @@ msgid "Detection"
 msgstr "Detección"
 
 #. module: maintenance
+#: view:work.order:maintenance.view_work_order_filter
 #: field:work.order,descargo:0
 msgid "Discharge"
 msgstr "Descargo"
@@ -225,6 +232,7 @@ msgid "Display Name"
 msgstr "Nombre mostrado"
 
 #. module: maintenance
+#: view:work.order:maintenance.view_work_order_filter
 #: selection:work.order,state:0
 msgid "Done"
 msgstr "Finalizado"
@@ -235,7 +243,10 @@ msgid "Done order"
 msgstr "Finalizar orden"
 
 #. module: maintenance
-#: selection:intervention.request,state:0 selection:work.order,state:0
+#: view:intervention.request:maintenance.view_intervention_request_filter
+#: selection:intervention.request,state:0
+#: view:work.order:maintenance.view_work_order_filter
+#: selection:work.order,state:0
 msgid "Draft"
 msgstr "Borrador"
 
@@ -287,6 +298,12 @@ msgstr "Equipo"
 #: view:maintenance.element:maintenance.maintenance_element_form_view
 msgid "Equipo padre"
 msgstr "Equipo padre"
+
+#. module: maintenance
+#: code:addons/maintenance/intervention_request.py:159
+#, python-format
+msgid "Error!"
+msgstr "¡Error!"
 
 #. module: maintenance
 #: field:intervention.request,fecha_estimada:0
@@ -384,7 +401,7 @@ msgstr "ID"
 #. module: maintenance
 #: help:intervention.request,message_unread:0 help:work.order,message_unread:0
 msgid "If checked new messages require your attention."
-msgstr "If checked new messages require your attention."
+msgstr "Si se marca, los nuevos mensajes requieren su atención"
 
 #. module: maintenance
 #: view:intervention.request:maintenance.intervention_request_form_view
@@ -392,8 +409,7 @@ msgid "Information"
 msgstr "Información"
 
 #. module: maintenance
-#: field:maintenance.type,inicio:0 field:work.order,fecha_inicio:0
-#: field:work.order,initial_date:0
+#: field:maintenance.type,inicio:0 field:work.order,initial_date:0
 msgid "Initial date"
 msgstr "Fecha inicial"
 
@@ -478,6 +494,11 @@ msgstr "Mantenimiento"
 #: view:maintenance.element:maintenance.maintenance_element_form_view
 msgid "Maintenance Type"
 msgstr "Tipo de mantenimiento"
+
+#. module: maintenance
+#: model:ir.actions.report.xml,name:maintenance.report_work_order
+msgid "Maintenance Work Order"
+msgstr "Orden de trabajo de mantenimiento"
 
 #. module: maintenance
 #: model:ir.actions.act_window,name:maintenance.action_maintenance_element_tree
@@ -573,6 +594,7 @@ msgid "Notes"
 msgstr "Notas"
 
 #. module: maintenance
+#: view:work.order:maintenance.view_work_order_filter
 #: selection:work.order,state:0
 msgid "Open"
 msgstr "Abierto"
@@ -586,6 +608,11 @@ msgstr "Abrir orden"
 #: field:work.order,tipo_parada:0
 msgid "Operation condition"
 msgstr "Condición de operación"
+
+#. module: maintenance
+#: model:res.groups,name:maintenance.group_maintenance_operator
+msgid "Operator"
+msgstr "Operador"
 
 #. module: maintenance
 #: field:work.order,hijas_ids:0
@@ -619,6 +646,7 @@ msgid "Other concepts total"
 msgstr "Total otros conceptos"
 
 #. module: maintenance
+#: view:work.order:maintenance.view_work_order_filter
 #: selection:work.order,state:0
 msgid "Pending approval"
 msgstr "Pendiente de aprobación"
@@ -652,6 +680,16 @@ msgstr "Producto hora festiva"
 #: field:hr.employee,producto_hora_nocturna_id:0
 msgid "Product night hour"
 msgstr "Producto hora nocturna"
+
+#. module: maintenance
+#: model:res.groups,comment:maintenance.group_maintenance_user
+msgid "Puede crear SI"
+msgstr "Puede crear SI"
+
+#. module: maintenance
+#: model:res.groups,comment:maintenance.group_maintenance_operator
+msgid "Puede crear SI y OT. No puede validar OT"
+msgstr "Puede crear SI y OT. No puede validar OT"
 
 #. module: maintenance
 #: model:ir.model,name:maintenance.model_purchase_order
@@ -689,6 +727,11 @@ msgstr "Informe"
 #: field:intervention.request,fecha_solicitud:0 field:work.order,fecha:0
 msgid "Request date"
 msgstr "Fecha de solicitud"
+
+#. module: maintenance
+#: model:res.groups,comment:maintenance.group_maintenance_manager
+msgid "Responsable"
+msgstr "Responsable"
 
 #. module: maintenance
 #: view:work.order:maintenance.view_work_order_filter
@@ -770,13 +813,13 @@ msgstr "Total"
 
 #. module: maintenance
 #: field:work.order,total_servicios_externos:0
-msgid "Total external                                                                services"
+msgid "Total external services"
 msgstr "Total servicios externos"
 
 #. module: maintenance
 #: field:work.order,total_servicios_internos:0
-msgid "Total internal                                                                services"
-msgstr "Total internal                                                                services"
+msgid "Total internal services"
+msgstr "Total servicios internos"
 
 #. module: maintenance
 #: field:maintenance.type,martes:0
@@ -816,14 +859,12 @@ msgstr "Aviso"
 
 #. module: maintenance
 #: field:intervention.request,website_message_ids:0
-#: field:purchase.order,website_message_ids:0
 #: field:work.order,website_message_ids:0
 msgid "Website Messages"
 msgstr "Mensajes del sitio web"
 
 #. module: maintenance
 #: help:intervention.request,website_message_ids:0
-#: help:purchase.order,website_message_ids:0
 #: help:work.order,website_message_ids:0
 msgid "Website communication history"
 msgstr "Historial de comunicaciones del sitio web"
@@ -837,6 +878,16 @@ msgstr "Miércoles"
 #: selection:maintenance.type,intervalo:0
 msgid "Weekly"
 msgstr "Semanalmente"
+
+#. module: maintenance
+#: field:intervention.request,work_order_ids:0
+msgid "Work Order"
+msgstr "Orden de trabajo"
+
+#. module: maintenance
+#: view:intervention.request:maintenance.intervention_request_form_view
+msgid "Work Orders"
+msgstr "Órdenes de trabajo"
 
 #. module: maintenance
 #: model:email.template,subject:maintenance.email_template_work_order
@@ -862,6 +913,12 @@ msgid "Yearly"
 msgstr "Anual"
 
 #. module: maintenance
+#: code:addons/maintenance/intervention_request.py:159
+#, python-format
+msgid "You cannot delete a confirmed intervention request."
+msgstr "No puede eliminar una solicitud de intervención que ya está confirmada."
+
+#. module: maintenance
 #: selection:work.order,descargo:0
 msgid "block"
 msgstr "Bloque"
@@ -870,11 +927,6 @@ msgstr "Bloque"
 #: selection:maintenance.type,type:0
 msgid "corrective"
 msgstr "Correctivo"
-
-#. module: maintenance
-#: view:work.order:maintenance.view_work_order_filter
-msgid "discharge"
-msgstr "Descargo"
 
 #. module: maintenance
 #: field:intervention.request,efecto:0 field:work.order,efecto:0
@@ -925,8 +977,3 @@ msgstr "Producto asociado"
 #: view:maintenance.type:maintenance.view_maintenance_type_filter
 msgid "tipo"
 msgstr "Tipo"
-
-#. module: maintenance
-#: model:ir.actions.report.xml,name:maintenance.report_work_order
-msgid "work.order"
-msgstr "work.order"

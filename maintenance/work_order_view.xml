@@ -1,117 +1,123 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openerp>
-	<data>
-		<!--Email template -->
-		<record id="email_template_work_order" model="email.template">
-			<field name="name">Work order - Send by Email</field>
-			<field name="subject">Work order</field>
-			<field name="model_id" ref="maintenance.model_work_order" />
-			<field name="auto_delete" eval="True" />
-			<field name="report_template" ref="report_work_order" />
-			<field name="report_name">${(object.name or
-				'').replace('/','_')}_${object.state == 'draft' and 'draft' or ''}
-			</field>
-		</record>
-		<record model="ir.ui.view" id="work_order_other_services_tree_view">
-			<field name="name">work.order.other.services.tree</field>
-			<field name="model">work.order.other.services</field>
-			<field name="type">tree</field>
-			<field name="arch" type="xml">
-				<tree string="Other concepts">
-					<field name="code" />
-					<field name="quantity" />
-					<field name="employee_id" />
-				</tree>
-			</field>
-		</record>
-		<record model="ir.ui.view" id="work_order_other_services_form_view">
-			<field name="name">work.order.other.services.form</field>
-			<field name="model">work.order.other.services</field>
-			<field name="type">form</field>
-			<field name="arch" type="xml">
-				<form string="Timesheet">
-					<group>
-						<field name="code" />
-						<field name="quantity" />
-						<field name="product_id" />
-						<field name="employee_id" />
-					</group>
-				</form>
-			</field>
-		</record>
-		<record model="ir.ui.view" id="work_order_time_report_tree_view">
-			<field name="name">work.order.time.report.tree</field>
-			<field name="model">work.order.time.report</field>
-			<field name="type">tree</field>
-			<field name="arch" type="xml">
-				<tree string="Timesheet">
-					<field name="date" />
-					<field name="horas_normal" widget="float_time" />
-					<field name="horas_nocturnas" widget="float_time" />
-					<field name="horas_festivas" widget="float_time" />
-					<field name="employee_id" />
-				</tree>
-			</field>
-		</record>
-		<record model="ir.ui.view" id="work_order_time_report_form_view">
-			<field name="name">work.order.time.report.form</field>
-			<field name="model">work.order.time.report</field>
-			<field name="type">form</field>
-			<field name="arch" type="xml">
-				<form string="Timesheet">
-					<group>
-						<group>
-							<field name="date" />
-							<field name="employee_id" />
-						</group>
+    <data>
+        <!--Email template -->
+        <record id="email_template_work_order" model="email.template">
+            <field name="name">Work order - Send by Email</field>
+            <field name="subject">Work order</field>
+            <field name="model_id" ref="maintenance.model_work_order" />
+            <field name="auto_delete" eval="True" />
+            <field name="report_template" ref="report_work_order" />
+            <field name="report_name">${(object.name or
+                '').replace('/','_')}_${object.state == 'draft' and 'draft' or ''}
+            </field>
+        </record>
 
-						<group>
-							<field name="horas_normal" widget="float_time" />
-							<field name="horas_nocturnas" widget="float_time" />
-							<field name="horas_festivas" widget="float_time" />
-						</group>
-					</group>
-				</form>
-			</field>
-		</record>
-		<record model="ir.ui.view" id="work_order_calendar_view">
-			<field name="name">work.order.Calendar</field>
-			<field name="model">work.order</field>
-			<field name="type">calendar</field>
-			<field name="arch" type="xml">
-				<calendar string="Work orders" date_start="initial_date"
-					date_stop="final_date" color="assigned_department_id">
-					<field name="name" />
-				</calendar>
-			</field>
-		</record>
-		<record model="ir.ui.view" id="work_order_tree_view">
-			<field name="name">work.order.tree</field>
-			<field name="model">work.order</field>
-			<field name="type">tree</field>
-			<field name="arch" type="xml">
-				<tree string="Work orders"
-					colors="grey:state in ('cancelled','done');blue:state in ('open','pending')">
-					<field name="name" />
-					<field name="fecha" />
-					<field name="origin_department_id" />
-					<field name="assigned_department_id" />
-					<field name="maintenance_type_id" />
-					<field name="descargo" />
-					<field name="initial_date" />
-					<field name="final_date" />
-					<field name="responsable_id" />
-					<field name="state" />
-				</tree>
-			</field>
-		</record>
-		<record model="ir.ui.view" id="work_order_form_view">
-			<field name="name">work.order.form</field>
-			<field name="model">work.order</field>
-			<field name="type">form</field>
-			<field name="arch" type="xml">
-				<form string="Work order">
-					<header>
+        <record model="ir.ui.view" id="work_order_other_services_tree_view">
+            <field name="name">work.order.other.services.tree</field>
+            <field name="model">work.order.other.services</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Other concepts">
+                    <field name="code" />
+                    <field name="quantity" />
+                    <field name="employee_id" />
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="work_order_other_services_form_view">
+            <field name="name">work.order.other.services.form</field>
+            <field name="model">work.order.other.services</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Timesheet">
+                    <group>
+                        <field name="code" />
+                        <field name="quantity" />
+                        <field name="product_id" />
+                        <field name="employee_id" />
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="work_order_time_report_tree_view">
+            <field name="name">work.order.time.report.tree</field>
+            <field name="model">work.order.time.report</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Timesheet">
+                    <field name="date" />
+                    <field name="horas_normal" widget="float_time" />
+                    <field name="horas_nocturnas" widget="float_time" />
+                    <field name="horas_festivas" widget="float_time" />
+                    <field name="employee_id" />
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="work_order_time_report_form_view">
+            <field name="name">work.order.time.report.form</field>
+            <field name="model">work.order.time.report</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Timesheet">
+                    <group>
+                        <group>
+                            <field name="date" />
+                            <field name="employee_id" />
+                        </group>
+                        <group>
+                            <field name="horas_normal" widget="float_time" />
+                            <field name="horas_nocturnas" widget="float_time" />
+                            <field name="horas_festivas" widget="float_time" />
+                        </group>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="work_order_calendar_view">
+            <field name="name">work.order.Calendar</field>
+            <field name="model">work.order</field>
+            <field name="type">calendar</field>
+            <field name="arch" type="xml">
+                <calendar string="Work orders" date_start="initial_date"
+                    date_stop="final_date" color="assigned_department_id">
+                    <field name="name" />
+                </calendar>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="work_order_tree_view">
+            <field name="name">work.order.tree</field>
+            <field name="model">work.order</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Work orders"
+                    colors="grey:state in ('cancelled','done');blue:state in ('open','pending')">
+                    <field name="name" />
+                    <field name="fecha" />
+                    <field name="origin_department_id" />
+                    <field name="assigned_department_id" />
+                    <field name="maintenance_type_id" />
+                    <field name="descargo" />
+                    <field name="initial_date" />
+                    <field name="final_date" />
+                    <field name="responsable_id" />
+                    <field name="state" />
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="work_order_form_view">
+            <field name="name">work.order.form</field>
+            <field name="model">work.order</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Work order">
+                    <header>
                         <button name="send_email" type="object" string="Enviar correo"
                                 states="draft,open,pending,done"/>
                         <button name="work_order_open" type="object"
@@ -123,116 +129,116 @@
                         <button name="work_order_cancel" type="object" string="Cancel order"
                                 states="draft,open,pending"/>
                         <field name="state" widget="statusbar"/>
-					</header>
-					<group>
-						<group>
-							<field name="name"/>
-							<field name="general_account_id"/>
-						</group>
-						<group string = "Fechas">
-							<field name="fecha"/>
-							<field name="initial_date"/>
-							<field name="final_date"/>
-						</group>
-					</group>
-					<notebook colspan="4">
-						<page string="General Information">
-							<group col="6" colspan="4">
-								<group col="2">
-									<field name="grupo" attrs="{'invisible':True}"/>
-									<field name="request_id"/>
-									<field name="origin_department_id"/>
-									<field name="deteccion" widget="char"/>
-									<field name="responsable_id"/>
-								</group>
-								<group col="2">
-									<field name="maintenance_type_id"/>
-									<field name="assigned_department_id"/>
-									<field name="sintoma" widget="char"/>
-									<field name="tipo_parada"/>
-								</group>
-								<group col="2">
-									<field name="survey_id"/>
-									<field name="descargo"/>
-									<field name="efecto" widget="char"/>
-									<field name="padre_id" domain="[('id', '!=', id)]"/>
-								</group>
-							</group>
-							<group col="6" colspan="4">
-								<group colspan="2" col="2" string="Description">
-									<field name="descripcion" nolabel="1"/>
-								</group>
-								<group colspan="2" col="2" string="Note">
-									<field name="note" nolabel="1"/>
-								</group>
+                    </header>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="general_account_id"/>
+                        </group>
+                        <group string="Fechas">
+                            <field name="fecha"/>
+                            <field name="initial_date"/>
+                            <field name="final_date"/>
+                        </group>
+                    </group>
+                    <notebook colspan="4">
+                        <page string="General Information">
+                            <group col="6" colspan="4">
+                                <group col="2">
+                                    <field name="grupo" attrs="{'invisible':True}"/>
+                                    <field name="request_id"/>
+                                    <field name="origin_department_id"/>
+                                    <field name="deteccion" widget="char"/>
+                                    <field name="responsable_id"/>
+                                </group>
+                                <group col="2">
+                                    <field name="maintenance_type_id"/>
+                                    <field name="assigned_department_id"/>
+                                    <field name="sintoma" widget="char"/>
+                                    <field name="tipo_parada"/>
+                                </group>
+                                <group col="2">
+                                    <field name="survey_id"/>
+                                    <field name="descargo"/>
+                                    <field name="efecto" widget="char"/>
+                                    <field name="padre_id" domain="[('id', '!=', id)]"/>
+                                </group>
+                            </group>
+                            <group col="6" colspan="4">
+                                <group colspan="2" col="2" string="Description">
+                                    <field name="descripcion" nolabel="1"/>
+                                </group>
+                                <group colspan="2" col="2" string="Note">
+                                    <field name="note" nolabel="1"/>
+                                </group>
+                                <group colspan="2" col="2" string="Instructions">
+                                    <field name="instrucciones" nolabel="1"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Elements">
+                            <field name="elements_ids" nolabel="1" colspan="4"/>
+                        </page>
+                        <page string="Related movements">
+                            <field name="purchase_ids" colspan="4" nolabel="1"/>
+                            <newline/>
+                            <field name="stock_moves_ids" colspan="4" nolabel="1"/>
+                        </page>
+                        <page string="Timesheet">
+                            <field name="horas_ids" colspan="4" nolabel="1"/>
+                            <newline/>
+                            <field name="other_service_ids" colspan="4" nolabel="1"/>
+                        </page>
+                        <page string="Auxiliary orders">
+                            <field name="hijas_ids" colspan="4" nolabel="1" domain="[('id', '!=', id)]"/>
+                        </page>
+                    </notebook>
+                </form>
+            </field>
+        </record>
 
-								<group colspan="2" col="2" string="Instructions">
-									<field name="instrucciones" nolabel="1"/>
-								</group>
-							</group>
-						</page>
-						<page string="Elements">
-							<field name="elements_ids" nolabel="1" colspan="4"/>
-						</page>
-						<page string="Related movements">
-							<field name="purchase_ids" colspan="4" nolabel="1"/>
-							<newline/>
-							<field name="stock_moves_ids" colspan="4" nolabel="1"/>
-						</page>
-						<page string="Timesheet">
-							<field name="horas_ids" colspan="4" nolabel="1"/>
-							<newline/>
-							<field name="other_service_ids" colspan="4" nolabel="1"/>
-						</page>
-						<page string="Auxiliary orders">
-							<field name="hijas_ids" colspan="4" nolabel="1" domain="[('id', '!=', id)]"/>
-						</page>
-					</notebook>
-				</form>
-			</field>
-		</record>
+        <record id="view_work_order_filter" model="ir.ui.view">
+            <field name="name">work.order.filter</field>
+            <field name="model">work.order</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Search">
+                    <field name="name" />
+                    <field name="assigned_department_id" />
+                    <field name="maintenance_type_id" />
+                    <field name="responsable_id" />
+                    <separator/>
+                    <filter string="Draft" domain="[('state','=','draft')]"/>
+                    <filter string="Open" domain="[('state','=','open')]"/>
+                    <filter string="Pending approval" domain="[('state','=','pending')]"/>
+                    <filter string="Done" domain="[('state','=','done')]"/>
+                    <separator/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Assigned department" domain="[]"
+                            context="{'group_by':'assigned_department_id'}" />
+                        <filter string="Maintenance type" domain="[]"
+                            context="{'group_by':'maintenance_type_id'}" />
+                        <filter string="Responsible" domain="[]"
+                            context="{'group_by':'responsable_id'}" />
+                        <filter string="Discharge" domain="[]" context="{'group_by':'descargo'}" />
+                        <filter string="State" domain="[]" context="{'group_by':'state'}" />
+                    </group>
+                </search>
+            </field>
+        </record>
 
+        <record id="action_work_order_tree" model="ir.actions.act_window">
+            <field name="name">Work orders</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">work.order</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar</field>
+            <field name="view_id" ref="work_order_tree_view" />
+            <field name="search_view_id" ref="view_work_order_filter" />
+        </record>
 
-
-		<record id="view_work_order_filter" model="ir.ui.view">
-			<field name="name">work.order.filter</field>
-			<field name="model">work.order</field>
-                        <field name="type">search</field>
-			<field name="arch" type="xml">
-				<search string="Search">
-					<field name="name" />
-					<field name="assigned_department_id" />
-					<field name="maintenance_type_id" />
-					<field name="responsable_id" />
-                                        <newline/>
-					<group expand="0" string="Group By...">
-						<filter string="Assigned department" domain="[]"
-							context="{'group_by':'assigned_department_id'}" />
-						<filter string="Maintenance type" domain="[]"
-							context="{'group_by':'maintenance_type_id'}" />
-						<filter string="Responsible" domain="[]"
-							context="{'group_by':'responsable_id'}" />
-						<filter string="discharge" domain="[]" context="{'group_by':'descargo'}" />
-						<filter string="State" domain="[]" context="{'group_by':'state'}" />
-					</group>
-				</search>
-			</field>
-		</record>
-
-
-		<record id="action_work_order_tree" model="ir.actions.act_window">
-			<field name="name">Work orders</field>
-			<field name="type">ir.actions.act_window</field>
-			<field name="res_model">work.order</field>
-			<field name="view_type">form</field>
-			<field name="view_mode">tree,form,calendar</field>
-			<field name="view_id" ref="work_order_tree_view" />
-			<field name="search_view_id" ref="view_work_order_filter" />
-			
-		</record>
-
-		<menuitem action="action_work_order_tree" id="menu_work_order_tree"
-			parent="menu_maintenance" sequence="30" />
+        <menuitem action="action_work_order_tree" id="menu_work_order_tree"
+            parent="menu_maintenance" sequence="2" groups="group_maintenance_operator"/>
 
 	</data>
 </openerp>
