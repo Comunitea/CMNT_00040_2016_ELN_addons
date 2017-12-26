@@ -96,7 +96,7 @@
         </record>
 
         <menuitem action="action_maintenance_type_tree" id="menu_maintenance_type_tree"
-            parent="menu_maintenance" sequence="30" groups="group_maintenance_manager"/>
+            parent="menu_maintenance_config" sequence="2"/>
 
 	</data>
 </openerp>

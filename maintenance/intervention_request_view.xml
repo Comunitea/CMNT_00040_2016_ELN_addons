@@ -90,7 +90,10 @@
                 <search>
                     <field name="name" />
                     <field name="maintenance_type_id" />
-                    <newline/>
+                    <separator/>
+                    <filter string="Draft" domain="[('state','=','draft')]"/>
+                    <filter string="Confirmed" domain="[('state','=','confirmed')]"/>
+                    <separator/>
                     <group expand="0" string="Group By...">
                         <filter string="State" domain="[]" context="{'group_by':'state'}" />
                         <filter string="Maintenance type" domain="[]"
@@ -113,7 +116,7 @@
         </record>
 
         <menuitem action="action_intervention_request_tree" id="menu_intervention_request_tree"
-            parent="menu_maintenance" sequence="30" groups="group_maintenance_user"/>
+            parent="menu_maintenance" sequence="1" groups="group_maintenance_user"/>
 
     </data>
 </openerp>

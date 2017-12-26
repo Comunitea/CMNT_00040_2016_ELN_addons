@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-12-26 11:09+0000\n"
-"PO-Revision-Date: 2017-12-26 12:15+0100\n"
+"POT-Creation-Date: 2017-12-26 15:41+0000\n"
+"PO-Revision-Date: 2017-12-26 16:43+0100\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -56,7 +56,7 @@ msgstr "Diario analítico"
 #. module: maintenance
 #: field:intervention.request,solicitante_id:0
 msgid "Applicant"
-msgstr "Applicant"
+msgstr "Solicitante"
 
 #. module: maintenance
 #: field:work.order,purchase_ids:0
@@ -140,6 +140,12 @@ msgid "Complete name"
 msgstr "Nombre completo"
 
 #. module: maintenance
+#: model:ir.ui.menu,name:maintenance.menu_maintenance_config
+msgid "Configuration"
+msgstr "Configuración"
+
+#. module: maintenance
+#: view:intervention.request:maintenance.view_intervention_request_filter
 #: selection:intervention.request,state:0
 msgid "Confirmed"
 msgstr "Confirmado"
@@ -210,6 +216,7 @@ msgid "Detection"
 msgstr "Detección"
 
 #. module: maintenance
+#: view:work.order:maintenance.view_work_order_filter
 #: field:work.order,descargo:0
 msgid "Discharge"
 msgstr "Descargo"
@@ -225,6 +232,7 @@ msgid "Display Name"
 msgstr "Nombre mostrado"
 
 #. module: maintenance
+#: view:work.order:maintenance.view_work_order_filter
 #: selection:work.order,state:0
 msgid "Done"
 msgstr "Finalizado"
@@ -235,7 +243,10 @@ msgid "Done order"
 msgstr "Finalizar orden"
 
 #. module: maintenance
-#: selection:intervention.request,state:0 selection:work.order,state:0
+#: view:intervention.request:maintenance.view_intervention_request_filter
+#: selection:intervention.request,state:0
+#: view:work.order:maintenance.view_work_order_filter
+#: selection:work.order,state:0
 msgid "Draft"
 msgstr "Borrador"
 
@@ -583,6 +594,7 @@ msgid "Notes"
 msgstr "Notas"
 
 #. module: maintenance
+#: view:work.order:maintenance.view_work_order_filter
 #: selection:work.order,state:0
 msgid "Open"
 msgstr "Abierto"
@@ -634,6 +646,7 @@ msgid "Other concepts total"
 msgstr "Total otros conceptos"
 
 #. module: maintenance
+#: view:work.order:maintenance.view_work_order_filter
 #: selection:work.order,state:0
 msgid "Pending approval"
 msgstr "Pendiente de aprobación"
@@ -914,11 +927,6 @@ msgstr "Bloque"
 #: selection:maintenance.type,type:0
 msgid "corrective"
 msgstr "Correctivo"
-
-#. module: maintenance
-#: view:work.order:maintenance.view_work_order_filter
-msgid "discharge"
-msgstr "Descargo"
 
 #. module: maintenance
 #: field:intervention.request,efecto:0 field:work.order,efecto:0
