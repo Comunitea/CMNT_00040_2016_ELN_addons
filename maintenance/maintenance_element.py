@@ -20,13 +20,15 @@
 from openerp.osv import osv, fields
 from collections import deque
 
-class maintenance_element(osv.osv):
 
-    def _get_planta(self,cr ,uid, ids, field_name, args=None, context=None):
+class maintenance_element(osv.osv):
+    _name = 'maintenance.element'
+
+    def _get_planta(self, cr, uid, ids, field_name, args=None, context=None):
         result = {}
         elements = self.pool.get('maintenance.element').browse(cr, uid, ids, context)
         for element in elements:
-            result[element.id]  = element.name
+            result[element.id] = element.name
             elemento_aux = element
             while elemento_aux.padre_id:
                 result[element.id] = elemento_aux.padre_id.name
@@ -46,7 +48,7 @@ class maintenance_element(osv.osv):
                     element_aux = element_aux.padre_id
                 for elemento in arbol:
                     result[element.id] += elemento.name + u"/"
-                result[element.id]=result[element.id][:-1]
+                result[element.id] = result[element.id][:-1]
             else:
                 result[element.id] = element.name
         return result
@@ -62,31 +64,27 @@ class maintenance_element(osv.osv):
             res[m.id] = u' / '.join(reversed(names))
         return res
 
-    _name = 'maintenance.element'
     _columns = {
-            'name':fields.char('Name', size=60, required=True, readonly=False),
-            'description': fields.text('Description'),
-            'type':fields.selection([
-                ('linea', 'Linea'),
-                ('instalaciones', 'Instalaciones'),
-                ('equipos', 'Equipo'),
-                 ], 'Type', select=True),
-            'padre_id':fields.many2one('maintenance.element', 'Father', required=False),
-            'hijo_ids':fields.one2many('maintenance.element', 'padre_id', 'Hijos', required=False),
-            'complete_name': fields.function(_complete_name, type='char', size=256, string="Complete name",
-                            store={'maintenance.element': (lambda self, cr, uid, ids, c={}: ids, ['name', 'padre_id'], 10)}),
-            'product_id':fields.many2one('product.product', 'product associated', required=False),
-            'asset_id':fields.many2one('account.asset.asset', 'Active', required=False),
-            'analytic_account_id':fields.many2one('account.analytic.account', 'Analytic account'),
-            'analytic_journal_id':fields.many2one('account.analytic.journal', 'Analytic journal'),
-            'codigo':fields.char('Code', size=64, required=False, readonly=False),
-            'maintenance_type_ids':fields.many2many('maintenance.type', 'maintenanceelement_maintenancetype_rel', 'element_id', 'type_id', 'Maintenance type'),
-            'planta':fields.function(_get_planta, method=True, type='char', string='Floor', store=False),
-            'nombre_sin_planta':fields.function(_nombre_sin_planta, method=True, type='char', string='Name without floor',
-                                                  store = {
-                                               'maintenance.element': (lambda self, cr, uid, ids, c={}: ids, ['name','padre_id'], 10),
-                                               }),
-            #'order_ids':fields.many2many('maintenance.element', 'maintenanceelement_workorder_rel', 'element_id', 'order_id', 'Work order', required=False),
+        'name': fields.char('Name', size=60, required=True, readonly=False),
+        'description': fields.text('Description'),
+        'type': fields.selection([
+            ('linea', 'Linea'),
+            ('instalaciones', 'Instalaciones'),
+            ('equipos', 'Equipo'),
+            ], 'Type', select=True),
+        'padre_id': fields.many2one('maintenance.element', 'Father', required=False),
+        'hijo_ids': fields.one2many('maintenance.element', 'padre_id', 'Hijos', required=False),
+        'complete_name': fields.function(_complete_name, type='char', size=256, string="Complete name",
+                         store={'maintenance.element': (lambda self, cr, uid, ids, c={}: ids, ['name', 'padre_id'], 10)}),
+        'product_id': fields.many2one('product.product', 'product associated', required=False),
+        'asset_id': fields.many2one('account.asset.asset', 'Active', required=False),
+        'analytic_account_id': fields.many2one('account.analytic.account', 'Analytic account'),
+        'analytic_journal_id': fields.many2one('account.analytic.journal', 'Analytic journal'),
+        'codigo': fields.char('Code', size=64, required=False, readonly=False),
+        'maintenance_type_ids': fields.many2many('maintenance.type', 'maintenanceelement_maintenancetype_rel', 'element_id', 'type_id', 'Maintenance type'),
+        'planta': fields.function(_get_planta, method=True, type='char', string='Floor', store=False),
+        'nombre_sin_planta': fields.function(_nombre_sin_planta, method=True, type='char', string='Name without floor',
+                             store = {'maintenance.element': (lambda self, cr, uid, ids, c={}: ids, ['name','padre_id'], 10)}),
+    }
 
-                    }
 maintenance_element()

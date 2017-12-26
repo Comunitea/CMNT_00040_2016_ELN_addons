@@ -4,7 +4,6 @@
         <record model="ir.ui.view" id="intervention_request_calendar_view">
             <field name="name">intervention.request.Calendar</field>
             <field name="model">intervention.request</field>
-            
             <field name="type">calendar</field>
             <field name="arch" type="xml">
                 <calendar string="Intervention request" date_start="fecha_solicitud"
@@ -43,14 +42,13 @@
                         <button name="send_email" type="object" string="Send email" states="draft,confirmed,cancelled" />
                         <button name="create_work_order" type="object" string="Create work order" states="draft" />
                         <button name="%(cancel_intervetion_request_type_tree)d" type="action" string="Cancel" states="draft" />
-                        <field name="state" widget="statusbar" statusbar_visible="draft,confirmed, cancelled" />
+                        <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,cancelled" />
                     </header>
                     <group col="6" colspan="4">
                         <group colspan="4" col="4">
                             <field name="name" />
                             <field name="solicitante_id"/>
-                             <field name="department_id"/>
-                            
+                            <field name="department_id"/>
                         </group>
                         <group colspan="2" col="2">
                             <field name="fecha_estimada"/>
@@ -59,18 +57,17 @@
                     </group>
                     <group col="6" colspan="4" string="Information">
                         <group colspan="3" col="2">
-                                <field name="sintoma" widget="char"/>
-                                <field name="efecto" widget="char"/>
-                <field name="maintenance_type_id"/>
-                             <field name="deteccion" widget="char"/>
-                             <field name="element_ids"/>
-                           
-                            
+                            <field name="sintoma" widget="char"/>
+                            <field name="efecto" widget="char"/>
+                            <field name="maintenance_type_id"/>
+                            <field name="deteccion" widget="char"/>
+                            <field name="element_ids"/>
                         </group>
                         <group colspan="3" col="2">
-                             
                             <field name="instrucciones" />
-                           
+                        </group>
+                        <group colspan="6" col="4" string="Work Orders">
+                            <field name="work_order_ids" nolabel="1"/>
                         </group>
                     </group>
                     <notebook colspan="4">
@@ -79,14 +76,11 @@
                         </page>
                     </notebook>
                     <group attrs="{'invisible':[('state','!=','cancelled')]}" colspan="4">
-                            <field name="motivo_cancelacion" />
+                        <field name="motivo_cancelacion" />
                     </group>
-
                 </form>
             </field>
         </record>
-
-
 
         <record id="view_intervention_request_filter" model="ir.ui.view">
             <field name="name">intervention.request.filter</field>
@@ -108,7 +102,6 @@
             </field>
         </record>
 
-
         <record id="action_intervention_request_tree" model="ir.actions.act_window">
             <field name="name">Intervention request</field>
             <field name="type">ir.actions.act_window</field>
@@ -117,11 +110,10 @@
             <field name="view_mode">tree,form,calendar</field>
             <field name="view_id" ref="intervention_request_tree_view" />
             <field name="search_view_id" ref="view_intervention_request_filter" />
-           
         </record>
 
         <menuitem action="action_intervention_request_tree" id="menu_intervention_request_tree"
-            parent="menu_maintenance" sequence="30" />
+            parent="menu_maintenance" sequence="30" groups="group_maintenance_user"/>
 
     </data>
 </openerp>

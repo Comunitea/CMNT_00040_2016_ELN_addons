@@ -19,22 +19,25 @@
 #############################################################################
 from openerp.osv import fields, osv
 
+
 class hr_employee(osv.osv):
-    def _get_categories(self, cr , uid, ids, field_name, args=None, context=None):
+    _inherit = 'hr.employee'
+
+    def _get_categories(self, cr, uid, ids, field_name, args=None, context=None):
         result = {}
         employees = self.pool.get('hr.employee').browse(cr, uid, ids, context)
         for employee in employees:
-            result[employee.id]=""
+            result[employee.id] = ""
             for category in employee.category_ids:
-                result[employee.id]+=category.name+","
-            result[employee.id]=result[employee.id][:-1]
+                result[employee.id] += category.name + ","
+            result[employee.id] = result[employee.id][:-1]
         return result
     
-    _inherit = 'hr.employee'
     _columns = {
-            'producto_hora_nocturna_id':fields.many2one('product.product', 'Product night hour', required=False),
-            'producto_hora_festiva_id':fields.many2one('product.product', 'Product festive hour', required=False), 
-            'externo':fields.boolean('External employee', required=False), 
-            'categories':fields.function(_get_categories, method=True, type='char', string='Categories', store=False),
-                    }
+        'producto_hora_nocturna_id': fields.many2one('product.product', 'Product night hour', required=False),
+        'producto_hora_festiva_id': fields.many2one('product.product', 'Product festive hour', required=False), 
+        'externo': fields.boolean('External employee', required=False), 
+        'categories': fields.function(_get_categories, method=True, type='char', string='Categories', store=False),
+    }
+
 hr_employee()

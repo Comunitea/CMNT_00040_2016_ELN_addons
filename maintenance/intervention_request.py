@@ -18,39 +18,42 @@
 #
 #############################################################################
 from openerp.osv import osv, fields
+from datetime import datetime, date
+from openerp.tools.translate import _
 
 
 class intervention_request(osv.osv):
     _name = "intervention.request"
     _inherit = ['mail.thread']
     _columns = {
-            'company_id': fields.many2one('res.company','Company',required=True,select=1, states={'confirmed':[('readonly',True)], 'approved':[('readonly',True)]}),
-            'maintenance_type_id':fields.many2one('maintenance.type', 'maintenance type', required=False),
-            'name':fields.char('Nombre', size=64, required=True, readonly=False),
-            'solicitante_id':fields.many2one('res.users', 'Applicant ', required=True),
-            'element_ids':fields.many2one('maintenance.element', 'Maintenance elements'),
-            'department_id':fields.many2one('hr.department', 'Department', required=False),
-            'fecha_estimada': fields.date('Estimated date'),
-            'motivo_cancelacion' : fields.text('Reason for cancellation'),
-            'fecha_solicitud': fields.date('Request date', required=True),
-            'instrucciones': fields.text('Instructions'),
-            'state':fields.selection([
-                ('draft', 'Draft'),
-                ('confirmed', 'Confirmed'),
-                ('cancelled', 'Cancelled'),
-                 ], 'State', select=True, readonly=False),
-            'note': fields.text('Notes'),
-            'deteccion':fields.text('Detection'),
-            'sintoma':fields.text('Sign'),
-            'efecto':fields.text('effect')
-                    }
+        'company_id': fields.many2one('res.company', 'Company', required=True, select=1, states={'confirmed':[('readonly',True)], 'approved':[('readonly',True)]}),
+        'maintenance_type_id': fields.many2one('maintenance.type', 'maintenance type', required=False),
+        'name': fields.char('Nombre', size=64, required=True, readonly=False),
+        'solicitante_id': fields.many2one('res.users', 'Applicant', required=True),
+        'element_ids': fields.many2one('maintenance.element', 'Maintenance elements'),
+        'department_id': fields.many2one('hr.department', 'Department', required=False),
+        'fecha_estimada': fields.datetime('Estimated date'),
+        'motivo_cancelacion': fields.text('Reason for cancellation'),
+        'fecha_solicitud': fields.datetime('Request date', required=True),
+        'instrucciones': fields.text('Instructions'),
+        'state':fields.selection([
+            ('draft', 'Draft'),
+            ('confirmed', 'Confirmed'),
+            ('cancelled', 'Cancelled'),
+            ], 'State', select=True, readonly=False),
+        'note': fields.text('Notes'),
+        'deteccion': fields.text('Detection'),
+        'sintoma': fields.text('Sign'),
+        'efecto': fields.text('effect'),
+        'work_order_ids': fields.one2many('work.order', 'request_id', 'Work Order', required=False, readonly=True),
+    }
     _defaults = {
         'state': 'draft',
         'name': lambda obj, cr, uid, context: obj.pool.get('ir.sequence').get(cr, uid, 'intervention.request'),
-        'fecha_solicitud':fields.date.context_today,
+        'fecha_solicitud': datetime.today(),
         'company_id': lambda self,cr,uid,c: self.pool.get('res.company')._company_default_get(cr, uid, 'intervention.request', context=c),
         'solicitante_id': lambda obj, cr, uid, context: uid,
-        }
+    }
     _order = "fecha_solicitud asc"
     
     def copy(self, cr, uid, id, default=None, context=None):
@@ -66,26 +69,26 @@ class intervention_request(osv.osv):
             context = {}
         if not ids:
             return False
-        wizard_id = self.pool.get('cancel.intervention.request.wizard').create(cr, uid, {'intervention_request_id':ids[0]}, context)
+        wizard_id = self.pool.get('cancel.intervention.request.wizard').create(cr, uid, {'intervention_request_id': ids[0]}, context)
         return {
             'name':"Cancelar solicitud",
             'view_mode': 'form',
             'view_type': 'form',
             'res_model': 'cancel.intervention.request.wizard',
-            'res_id':wizard_id,
+            'res_id': wizard_id,
             'type': 'ir.actions.act_window',
             'nodestroy': True,
             'target': 'new',
             'domain': '[]',
             'context': context
         }
+
     def confirm(self, cr, uid, ids, context=None):
         if context is None:
             context = {}
         self.write(cr, uid, ids, {'state': 'confirmed'})
         return True
-    
-    
+
     def open_work_order(self, cr, uid, order_id, context=None):
         data_pool = self.pool.get('ir.model.data')
         if not context:
@@ -98,7 +101,6 @@ class intervention_request(osv.osv):
         return action
     
     def create_work_order(self, cr, uid, ids, context=None):
-
         if not context:
             context = {}
         intervention_requests = self.pool.get('intervention.request').browse(cr, uid, ids, context)
@@ -108,23 +110,22 @@ class intervention_request(osv.osv):
             else:
                 survey = None
             vals_order = {
-                          'request_id':intervention.id,
-                          'elements_ids' : intervention.element_ids and [(6, 0, [intervention.element_ids.id])] or False,
-                          'origin_department_id': intervention.department_id.id,
-                          'instrucciones':intervention.instrucciones,
-                          'maintenance_type_id':intervention.maintenance_type_id.id,
-                          'survey_id':survey,
-                          'deteccion':intervention.deteccion,
-                          'sintoma':intervention.sintoma,
-                          'efecto':intervention.efecto,
-                          'company_id':intervention.company_id.id,
-                          'fecha':intervention.fecha_solicitud,
-                          }
+                      'request_id':intervention.id,
+                      'elements_ids' : intervention.element_ids and [(6, 0, [intervention.element_ids.id])] or False,
+                      'origin_department_id': intervention.department_id.id,
+                      'instrucciones': intervention.instrucciones,
+                      'maintenance_type_id': intervention.maintenance_type_id.id,
+                      'survey_id': survey,
+                      'deteccion': intervention.deteccion,
+                      'sintoma': intervention.sintoma,
+                      'efecto': intervention.efecto,
+                      'company_id': intervention.company_id.id,
+                      'fecha': intervention.fecha_solicitud,
+            }
             order_id = self.pool.get('work.order').create(cr, uid, vals_order, context)
-            self.pool.get('intervention.request').write(cr, uid, ids, {'state':'confirmed'}, context)
+            self.pool.get('intervention.request').write(cr, uid, ids, {'state': 'confirmed'}, context)
             return self.open_work_order(cr, uid, order_id, context)    
-    
-    
+
     def send_email(self, cr, uid, ids, context=None):
         ir_model_data = self.pool.get('ir.model.data')
         template_id = False
@@ -150,5 +151,12 @@ class intervention_request(osv.osv):
             'target': 'new',
             'context': ctx,
         }
+
+    def unlink(self, cr, uid, ids, context=None):
+        if context is None:
+            context = {}
+        if any(x.state == 'confirmed' for x in self.browse(cr, uid, ids, context=context)):
+            raise osv.except_osv(_('Error!'),  _('You cannot delete a confirmed intervention request.'))
+        return super(intervention_request, self).unlink(cr, uid, ids, context=context)
+
 intervention_request()
-        

@@ -19,7 +19,10 @@
 #############################################################################
 from openerp.osv import osv, fields
 
+
 class stock(osv.osv):
+    _inherit = 'stock.move' 
+
     def _work_done(self, cr, uid, ids, name, arg=None, context=None):
         res = {}
         for stock_move_id in ids:
@@ -31,15 +34,17 @@ class stock(osv.osv):
                     res[stock_move_id] = True
         return res    
     
-    _inherit = 'stock.move' 
     _columns = {
-            'element_id':fields.many2one('maintenance.element', 'Element', required=False),
-            'work_order_id':fields.many2one('work.order', 'Work order', required=False),
-            'work_done': fields.function(_work_done, method=True, type='boolean', string='Order completed', store=False),
-                    }
+        'element_id': fields.many2one('maintenance.element', 'Element', required=False),
+        'work_order_id': fields.many2one('work.order', 'Work order', required=False),
+        'work_done': fields.function(_work_done, method=True, type='boolean', string='Order completed', store=False),
+    }
+
 stock()
 
+
 class stock_picking(osv.osv):
+    _inherit = 'stock.picking'
     
     def _work_done(self, cr, uid, ids, name, arg=None, context=None):
         res = {}
@@ -52,11 +57,9 @@ class stock_picking(osv.osv):
                     res[stock_picking_id] = True
         return res    
     
-    _inherit = 'stock.picking'
     _columns = {
-            'work_order_id':fields.many2one('work.order', 'Work order', required=False),
-            'work_done': fields.function(_work_done, method=True, type='boolean', string='Order completed', store=False),
-                    }
-stock_picking()
+        'work_order_id': fields.many2one('work.order', 'Work order', required=False),
+        'work_done': fields.function(_work_done, method=True, type='boolean', string='Order completed', store=False),
+    }
 
-    
+stock_picking()
