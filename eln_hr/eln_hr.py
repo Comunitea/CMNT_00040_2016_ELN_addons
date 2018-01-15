@@ -63,7 +63,7 @@ class hr_employee(orm.Model):
         'carnet_conducir_b': fields.boolean('Carnet de conducir B'),
         'carnet_conducir_c': fields.boolean('Carnet de conducir C'),
         'carnet_conducir_c1': fields.boolean('Carnet de conducir C1'),
-        'observaciones': fields.char('Observaciones', size=255),
+        'observaciones': fields.text('Observaciones'),
     }
 
     _defaults = {
