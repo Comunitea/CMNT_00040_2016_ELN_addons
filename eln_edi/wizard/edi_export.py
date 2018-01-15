@@ -739,13 +739,13 @@ class edi_export (orm.TransientModel):
         # Código EAN origen del mensaje (Operador logístico o proveedor)
         picking_data += self.parse_number(picking.company_id.gln_ef, 13, 0)
         
-        # Código EAN proveedor de la mercancía (Sólo si es distinto del anterior)
+        # Código EAN proveedor de la mercancía. El de la compañía si mercancía propia, sino el del proveedor de la mercancía.
         if picking.supplier_id:
             gln_proveedor = picking.supplier_id.commercial_partner_id.gln_desadv or \
                             picking.supplier_id.commercial_partner_id.gln_de
             picking_data += self.parse_number(gln_proveedor, 13, 0)
         else:
-            picking_data += self.parse_number('', 13, 0)
+            picking_data += self.parse_number(picking.company_id.gln_ef, 13, 0)
 
         # Código EAN destino del mensaje
         picking_data += self.parse_number(gln_desadv, 13, 0)
