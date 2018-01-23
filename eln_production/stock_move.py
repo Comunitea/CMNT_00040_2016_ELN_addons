@@ -42,22 +42,13 @@ class stock_move(osv.osv):
     def write(self, cr, uid, ids, vals, context=None):
         if context is None:
             context = {}
-
         if isinstance(ids,(int,long)):
             ids = [ids]
         # Escribir el campo main_production_move si se le ha pasado en contexto
         # para que el action_produce de mrp.production sepa escribirlo.
         if context.get('main_production_move', False):
             vals.update({'consumed_for': context['main_production_move']})
-        res = super(stock_move, self).write(cr, uid, ids, vals, context=context)
-        if vals.get('prodlot_id', False):
-            for move in self.browse(cr, uid, ids):
-                if move.production_ids and move.production_ids[0].picking_id and move.production_ids[0].picking_id.move_lines:
-                    for line in move.production_ids[0].picking_id.move_lines:
-                        if line.product_id and line.product_id.id == move.product_id.id \
-                                and (line.prodlot_id and line.prodlot_id.id != vals['prodlot_id'] or not line.prodlot_id):
-                            self.pool.get('stock.move').write(cr, uid, line.id, {'prodlot_id': vals['prodlot_id']})
-        return res
+        return super(stock_move, self).write(cr, uid, ids, vals, context=context)
 
 
     def product_id_change_mrp_productions(self, cr, uid, ids, prod_id=False, production_name='', context=None):
@@ -85,8 +76,29 @@ class stock_move(osv.osv):
             'location_dest_id': destination_location_id,
             'state': 'waiting',
         }
-
         return {'value': result}
+
+    def action_scrap(self, cr, uid, ids, product_qty, location_id, restrict_lot_id=False, restrict_partner_id=False, context=None):
+        """ Move the scrap/damaged product into scrap location
+        @param product_qty: Scraped product quantity
+        @param location_id: Scrap location
+        @return: Scraped lines
+        """
+        res = []
+        for move in self.browse(cr, uid, ids, context=context):
+            new_moves = super(stock_move, self).action_scrap(cr, uid, [move.id], product_qty, location_id,
+                                                            restrict_lot_id=restrict_lot_id,
+                                                            restrict_partner_id=restrict_partner_id, context=context)
+            if move.procurement_id:
+                # Si el movimiento que se va a desechar tiene procurement_id asociado, el nuevo(s) movimiento(s) de scrap lo mantiene.
+                # Con este cambio evitamos que lo herede, ya que sino provoca que se tenga en cuenta en el cálculo de abastecimientos
+                # en el método subtract_procurements si el abastecimiento no está en estado 'cancel' o 'done', haciendo que se considere
+                # como cantidad virtualmente abastecida.
+                # Generalmente ocurre en producciones no 'done' (por tanto, abastecimiento en ejecución)
+                # y con movimientos de scrap.
+                self.write(cr, uid, new_moves, {'procurement_id': False}, context=context)
+            res.extend(new_moves)
+        return res
 
 
 class stock_location(osv.osv):
