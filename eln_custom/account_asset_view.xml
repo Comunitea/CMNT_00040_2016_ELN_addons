@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="view_account_asset_asset_tree">
+            <field name="name">account.asset.asset.tree.custom</field>
+            <field name="model">account.asset.asset</field>
+            <field name="inherit_id" ref="account_asset.view_account_asset_asset_tree"/>
+            <field name="arch" type="xml">
+                <field name="purchase_date" position="after">
+                    <field name="method_time" invisible="1"/>
+                    <field name="method_number" attrs="{'invisible': [('method_time', '!=', 'number')]}"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>
