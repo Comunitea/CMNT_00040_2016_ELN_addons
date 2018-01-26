@@ -65,7 +65,7 @@ class sale_order(osv.osv):
     def onchange_partner_id(self, cr, uid, ids, part, context=None):
         if context is None:
             context = {}
-        result = super(sale_order,self).onchange_partner_id(cr, uid, ids, part, context=context)
+        result = super(sale_order, self).onchange_partner_id(cr, uid, ids, part, context=context)
         if part and not context.get('no_check_risk', False):
             partner = self.pool.get('res.partner').browse(cr, uid, part, context).commercial_partner_id
             if partner.credit_limit and partner.available_risk < 0.0:
@@ -105,6 +105,29 @@ class sale_order(osv.osv):
             ('wait_risk', 'Waiting Risk Approval'),
             ], 'Order State', readonly=True, help=_("Gives the state of the quotation or sale order. The exception state is automatically set when a cancel operation occurs in the invoice validation (Invoice Exception) or in the packing list process (Shipping Exception). The 'Waiting Schedule' state is set when the invoice is confirmed but waiting for the scheduler to run on the date 'Date Ordered'."), select=True),
     }
+
+    def test_risk(self, cr, uid, ids, context=None):
+        """ Hace un test de riesgo para un determinado pedido de venta.
+        @return: True : ha pasado el test
+                False : no ha pasado el test
+        """
+        if context is None:
+            context = {}
+        res = True
+        for order in self.browse(cr, uid, ids, context=context):
+            partner_id = order.partner_id.commercial_partner_id
+            if not partner_id.risk_insurance_status:
+                res = True
+            else:
+                if order.order_policy == 'no_bill':
+                    res = partner_id.risk_insurance_status not in ('denied', 'incidents')
+                else:
+                    if partner_id.risk_insurance_status not in ('company_granted', 'insurance_granted'):
+                        res = False
+                    else:
+                        res = (partner_id.available_risk - order.amount_total) >= 0.0
+        return res
+
 sale_order()
 
 
