@@ -229,18 +229,17 @@ class sale_order_line(orm.Model):
             if uos:
                 qty_uom = 0.0
                 if self.pool.get('product.uom').browse(cursor, user, uos).category_id.id == product_obj.uos_id.category_id.id:
-                    if qty_uos:
-                        if product_obj.uos_coeff:
-                            qty_uom = qty_uos / product_obj.uos_coeff
-                        if not fpos and partner_id:
-                            partner = self.pool.get('res.partner').browse(cursor, user, partner_id, context=context)
-                            fpos = partner.property_account_position and partner.property_account_position.id or False
-                        res = self.product_id_change(cursor, user, ids, pricelist, product,
-                            qty=qty_uom, uom=False, qty_uos=qty_uos, uos=uos, name=name,
-                            partner_id=partner_id, lang=lang, update_tax=update_tax,
-                            date_order=date_order, fiscal_position=fpos, context=context)
-                        if 'product_uom' in res['value']:
-                            del res['value']['product_uom']
+                    if product_obj.uos_coeff:
+                        qty_uom = qty_uos / product_obj.uos_coeff
+                    if not fpos and partner_id:
+                        partner = self.pool.get('res.partner').browse(cursor, user, partner_id, context=context)
+                        fpos = partner.property_account_position and partner.property_account_position.id or False
+                    res = self.product_id_change(cursor, user, ids, pricelist, product,
+                        qty=qty_uom, uom=False, qty_uos=qty_uos, uos=uos, name=name,
+                        partner_id=partner_id, lang=lang, update_tax=update_tax,
+                        date_order=date_order, fiscal_position=fpos, context=context)
+                    if 'product_uom' in res['value']:
+                        del res['value']['product_uom']
         return res
 
     def product_id_change(self, cr, uid, ids, pricelist, product, qty=0,
