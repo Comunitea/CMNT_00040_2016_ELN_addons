@@ -40,6 +40,7 @@
     "init_xml" : [],
     "data" : [
                 'data/stock_production_lot_seq.xml',
+                'data/ir_cron.xml',
                 'mrp_workflow.xml',
                 'wizard/mrp_modify_consumption.xml',
                 'mrp_view.xml',

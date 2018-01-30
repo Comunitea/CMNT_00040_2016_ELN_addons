@@ -735,4 +735,39 @@ class mrp_production(osv.osv):
 
         return res
 
+    def update_production_priority(self, cr, uid, ids, context=None):
+        if context is None:
+            context = {}
+        product_obj = self.pool.get('product.product')
+        orderpoint_obj = self.pool.get('stock.warehouse.orderpoint')
+
+        dom = [('priority', '!=', '3'), ('state', 'in', ['confirmed', 'ready'])]
+        production_ids = ids or self.search(cr, uid, dom)
+
+        for production in self.browse(cr, uid, production_ids, context):
+            product_available = product_obj._product_available(cr, uid, [production.product_id.id],
+                context={'location': production.location_dest_id.id})[production.product_id.id]
+            qty_to_compare = product_available['qty_available'] - product_available['outgoing_qty']
+            company_id = production.company_id
+            dom = company_id and [('company_id', '=', company_id.id)] or []
+            dom.append(('product_id', '=', production.product_id.id))
+            orderpoint_ids = orderpoint_obj.search(cr, uid, dom)
+            min_qty = security_qty = 0
+            if orderpoint_ids:
+                op = orderpoint_obj.browse(cr, uid, orderpoint_ids[0], context)
+                min_qty = min(op.product_min_qty, op.product_max_qty)
+                security_qty = op.product_security_qty
+            if qty_to_compare <= 0:
+                priority = '2' # Urgente
+            elif qty_to_compare <= security_qty:
+                priority = '1' # Normal
+            elif qty_to_compare <= min_qty:
+                priority = '0' # No urgente
+            else:
+                priority = '0' # No urgente
+            if production.priority != priority:
+                production.write({'priority': priority})
+
+        return True
+
 mrp_production()
