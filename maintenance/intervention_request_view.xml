@@ -27,6 +27,8 @@
                     <field name="fecha_estimada" />
                     <field name="fecha_solicitud" />
                     <field name="maintenance_type_id" />
+                    <field name="ttr" avg="MTTR"/>
+                    <field name="tbf" avg="MTTR" />
                     <field name="state" />
                 </tree>
             </field>
@@ -65,6 +67,9 @@
                         </group>
                         <group colspan="3" col="2">
                             <field name="instrucciones" />
+                            <field name="type" invisible="1" />
+                            <field name="ttr" attrs="{'invisible': [('type', '!=', 'correctivo')]}"/>
+                            <field name="tbf" attrs="{'invisible': [('type', '!=', 'correctivo')]}"/>
                         </group>
                         <group colspan="6" col="4" string="Work Orders">
                             <field name="work_order_ids" nolabel="1"/>
@@ -94,6 +99,8 @@
                     <filter string="Draft" domain="[('state','=','draft')]"/>
                     <filter string="Confirmed" domain="[('state','=','confirmed')]"/>
                     <separator/>
+                    <filter string="Correctivo" domain="[('type','=','correctivo')]"/>
+                    <separator/>
                     <group expand="0" string="Group By...">
                         <filter string="State" domain="[]" context="{'group_by':'state'}" />
                         <filter string="Maintenance type" domain="[]"
@@ -105,12 +112,24 @@
             </field>
         </record>
 
+        <record id="view_intervention_request_graph" model="ir.ui.view">
+             <field name="name">intervention.request.graph</field>
+             <field name="model">intervention.request</field>
+             <field name="arch" type="xml">
+                 <graph string="Intervention request analysis" type="pivot">
+                    <field name="maintenance_type_id" type="row"/>
+                    <field name="fecha_solicitud" interval="month" type="col"/>
+                    <field name="ttr" type="measure"/>
+                 </graph>
+             </field>
+        </record>
+
         <record id="action_intervention_request_tree" model="ir.actions.act_window">
             <field name="name">Intervention request</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">intervention.request</field>
             <field name="view_type">form</field>
-            <field name="view_mode">tree,form,calendar</field>
+            <field name="view_mode">tree,form,calendar,graph</field>
             <field name="view_id" ref="intervention_request_tree_view" />
             <field name="search_view_id" ref="view_intervention_request_filter" />
         </record>

@@ -25,6 +25,52 @@ from openerp.tools.translate import _
 class intervention_request(osv.osv):
     _name = "intervention.request"
     _inherit = ['mail.thread']
+
+    def _get_ttr(self, cr, uid, ids, field_name, arg, context=None):
+        res = dict.fromkeys(ids, 0.0)
+        for intervention in self.browse(cr, uid, ids, context=context):
+            if not intervention.maintenance_type_id:
+                continue
+            if intervention.maintenance_type_id.type != 'correctivo':
+                continue
+            # Time to repair (TTR)
+            create_date = datetime.strptime(intervention.fecha_solicitud, '%Y-%m-%d %H:%M:%S')
+            final_date = intervention.work_order_ids.mapped('final_date')
+            date_finished = final_date and all(final_date) and datetime.strptime(max(final_date), '%Y-%m-%d %H:%M:%S')
+            if date_finished and create_date:
+                ttr = date_finished - create_date
+                ttr = ttr and round(ttr.total_seconds() / 3600, 2) or 0.0
+            else:
+                ttr = 0.0
+            res[intervention.id] = ttr
+        return res
+
+    def _get_tbf(self, cr, uid, ids, field_name, arg, context=None):
+        res = dict.fromkeys(ids, 0.0)
+        for intervention in self.browse(cr, uid, ids, context=context):
+            if not intervention.maintenance_type_id:
+                continue
+            if intervention.maintenance_type_id.type != 'correctivo':
+                continue
+            # Time between fails (TBF)
+            create_date = datetime.strptime(intervention.fecha_solicitud, '%Y-%m-%d %H:%M:%S')
+            domain = [('maintenance_type_id.type', '=', 'correctivo'),
+                      ('fecha_solicitud', '>', intervention.fecha_solicitud),
+                      ('id', '!=', intervention.id)]
+            next_maintenance = self.search(cr, uid, domain, order='fecha_solicitud', limit=1)
+            if next_maintenance:
+                intervention2 = self.pool.get('intervention.request').browse(cr, uid, next_maintenance, context=context)
+                date_finished = datetime.strptime(intervention2.fecha_solicitud, '%Y-%m-%d %H:%M:%S')
+                if date_finished and create_date:
+                    tbf = date_finished - create_date
+                    tbf = tbf and round(tbf.total_seconds() / 3600, 2) or 0.0
+                else:
+                    tbf = 0.0
+            else:
+                tbf = 0.0
+            res[intervention.id] = tbf
+        return res
+
     _columns = {
         'company_id': fields.many2one('res.company', 'Company', required=True, select=1, states={'confirmed':[('readonly',True)], 'approved':[('readonly',True)]}),
         'maintenance_type_id': fields.many2one('maintenance.type', 'maintenance type', required=False),
@@ -46,6 +92,12 @@ class intervention_request(osv.osv):
         'sintoma': fields.text('Sign'),
         'efecto': fields.text('effect'),
         'work_order_ids': fields.one2many('work.order', 'request_id', 'Work Order', required=False, readonly=True),
+        'ttr': fields.function(_get_ttr, type="float", string="TTR", readonly=True, help='Time to repair in hours', group_operator='avg'),
+        'tbf': fields.function(_get_tbf, type="float", string="TBF", readonly=True, help='Time between fails in hours', group_operator='avg'),
+        'type': fields.related('maintenance_type_id', 'type',
+            type='selection',
+            selection=[('gama', 'gamma'), ('correctivo', 'correctivo'), ('legal', 'legal'), ('preventivo', 'preventivo')],
+            string='Type', readonly=True, store=True),
     }
     _defaults = {
         'state': 'draft',

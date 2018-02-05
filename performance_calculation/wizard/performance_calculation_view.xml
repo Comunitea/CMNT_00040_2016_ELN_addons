@@ -31,11 +31,10 @@
                         <field name="workcenter_id" colspan="3" attrs="{'readonly':[('by_workcenter_id', '=', False)],'required':[('by_workcenter_id','=',True)]}"/>
                     </group>
                     <newline/>
-                    <group colspan="4" col="6">
+                    <footer>
                         <button icon="gtk-cancel" special="cancel" string="Cancel"/>
                         <button string='Generate' icon="gtk-execute" name="generate_performance_calculation" type="object"/>
-                    </group>
-                    
+                    </footer>
                </form>
             </field>
         </record>

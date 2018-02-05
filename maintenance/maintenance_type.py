@@ -30,7 +30,7 @@ class maintenance_type(osv.osv):
         'descripcion': fields.text('Description'),
         'type': fields.selection([
             ('gama', 'gamma'),
-            ('correctivo', 'corrective'),
+            ('correctivo', 'correctivo'),
             ('legal', 'legal'),
             ('preventivo', 'preventivo'),
             ], 'Type', select=True, required=True, readonly=False),

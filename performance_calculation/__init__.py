@@ -21,3 +21,4 @@
 import wizard
 import mrp_indicators
 import stock
+import mrp

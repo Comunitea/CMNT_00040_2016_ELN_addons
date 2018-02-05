@@ -29,7 +29,7 @@ class mrp_workorder(osv.osv):
     _columns = {
         'product_weight': fields.float('Product Weight', digits_compute=dp.get_precision('Stock Weight'), readonly=True),
         'planified_time': fields.float('Planified time', readonly=True),
-        'production_lead_time': fields.float('Production Lead time', readonly=True),
+        'production_lead_time': fields.float('Production Lead time', readonly=True, group_operator='avg'),
         'production_type': fields.selection([('normal','Normal'), ('rework','Rework'), ('sample','Sample'), ('special','Special')], 'Type of production', readonly=True),
     }
 

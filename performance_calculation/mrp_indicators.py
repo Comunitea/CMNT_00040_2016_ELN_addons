@@ -22,12 +22,12 @@ from openerp.osv import orm, fields
 from openerp.addons.decimal_precision import decimal_precision as dp
 
 
-class mrp_indicators(orm.Model):
-    _name = 'mrp.indicators'
+class mrp_indicators_oee(orm.Model):
+    _name = 'mrp.indicators.oee'
     _columns = {
         'name': fields.char('Name', size=255, required=True),
-        'line_ids': fields.one2many('mrp.indicators.line', 'indicator_id', 'Lines'),
-        'line_average_ids': fields.one2many('mrp.indicators.averages', 'indicator_id', 'Averages'),
+        'line_ids': fields.one2many('mrp.indicators.oee.line', 'indicator_id', 'Lines'),
+        'line_summary_ids': fields.one2many('mrp.indicators.oee.summary', 'indicator_id', 'Summary'),
         'date': fields.date('Date'),
         'user_id': fields.many2one('res.users', 'User'),
         'company_id': fields.many2one('res.company', 'Company'),
@@ -36,12 +36,13 @@ class mrp_indicators(orm.Model):
     _order = 'date desc, id desc'
 
 
-class mrp_indicators_line(orm.Model):
-    _name = 'mrp.indicators.line'
+class mrp_indicators_oee_line(orm.Model):
+    _name = 'mrp.indicators.oee.line'
     _columns = {
         'name': fields.char('Name', size=255, required=True),
         'date': fields.date('Date'),
         'workcenter_id': fields.many2one('mrp.workcenter', 'Workcenter'),
+        'production_id': fields.many2one('mrp.production', 'Production', select=True),
         'qty': fields.float('Qty', digits_compute=dp.get_precision('Product Unit of Measure'), required=True),
         'qty_scraps': fields.float('Scraps', digits_compute=dp.get_precision('Product Unit of Measure')),
         'qty_good': fields.float('Real qty', digits_compute=dp.get_precision('Product Unit of Measure')),
@@ -57,19 +58,20 @@ class mrp_indicators_line(orm.Model):
         'availability': fields.float('Availability'),
         'performance': fields.float('Performance'),
         'quality': fields.float('Quality'),
-        'indicator_id': fields.many2one('mrp.indicators', 'Indicator', ondelete='cascade', required=True)
+        'indicator_id': fields.many2one('mrp.indicators.oee', 'Indicator', ondelete='cascade', required=True)
     }
 
 
-class mrp_indicators_averages(orm.Model):
-    _name = 'mrp.indicators.averages'
+class mrp_indicators_oee_summary(orm.Model):
+    _name = 'mrp.indicators.oee.summary'
     _columns = {
         'name': fields.char('Name', size=255, required=True),
+        'workcenter_id': fields.many2one('mrp.workcenter', 'Workcenter'),
         'oee': fields.float('OEE'),
         'availability': fields.float('Availability'),
         'performance': fields.float('Performance'),
         'quality': fields.float('Quality'),
-        'indicator_id': fields.many2one('mrp.indicators', 'Incicator', ondelete='cascade', required=True)
+        'indicator_id': fields.many2one('mrp.indicators.oee', 'Indicator', ondelete='cascade', required=True)
     }
 
 
@@ -94,7 +96,7 @@ class mrp_indicators_scrap_line(orm.Model):
         'production_id': fields.many2one('mrp.production', 'Production', select=True),
         'product_id': fields.many2one('product.product', 'Product', select=True),
         'product_uom': fields.many2one('product.uom', 'Unit of Measure'),
-        'real_qty': fields.float('Real qty.', digits_compute=dp.get_precision('Product Unit of Measure')),
+        'real_qty': fields.float('Real qty', digits_compute=dp.get_precision('Product Unit of Measure')),
         'theorical_qty':fields.float('Total qty.', digits_compute=dp.get_precision('Product Unit of Measure')),
         'scrap_qty': fields.float('Scrap qty.', digits_compute=dp.get_precision('Product Unit of Measure')),
         'real_cost': fields.float('Real cost', digits_compute=dp.get_precision('Product Unit of Measure')),
@@ -102,4 +104,48 @@ class mrp_indicators_scrap_line(orm.Model):
         'scrap_cost': fields.float('Scrap', digits_compute=dp.get_precision('Product Unit of Measure'), select=True),
         'usage_cost': fields.float('Usage', digits_compute=dp.get_precision('Product Unit of Measure'), select=True),
         'indicator_id': fields.many2one('mrp.indicators.scrap', 'Indicator', ondelete='cascade', required=True),
+    }
+
+
+class mrp_indicators_overweight(orm.Model):
+    _name = 'mrp.indicators.overweight'
+    _columns = {
+        'name': fields.char('Name', size=255, required=True),
+        'line_ids': fields.one2many('mrp.indicators.overweight.line', 'indicator_id', 'Lines'),
+        'line_summary_ids': fields.one2many('mrp.indicators.overweight.summary', 'indicator_id', 'Summary'),
+        'date': fields.date('Date'),
+        'user_id': fields.many2one('res.users', 'User'),
+        'company_id': fields.many2one('res.company', 'Company'),
+        'report_name': fields.char('Report', size=255)
+    }
+    _order = 'date desc, id desc'
+
+
+class mrp_indicators_overweight_line(orm.Model):
+    _name = 'mrp.indicators.overweight.line'
+    _columns = {
+        'name': fields.char('Name', size=255, required=True),
+        'date': fields.date('Date'),
+        'production_id': fields.many2one('mrp.production', 'Production', select=True),
+        'workcenter_id': fields.many2one('mrp.workcenter', 'Workcenter'),
+        'product_id': fields.many2one('product.product', 'Product', select=True),
+        'product_uom': fields.many2one('product.uom', 'Unit of Measure'),
+        'qty_nominal': fields.float('Qty nominal', digits_compute=dp.get_precision('Product Unit of Measure')),
+        'qty_consumed': fields.float('Qty consumed', digits_compute=dp.get_precision('Product Unit of Measure')),
+        'overweight': fields.float('Overweight (%)'),
+        'overweight_abs': fields.float('Overweight Abs'),
+        'indicator_id': fields.many2one('mrp.indicators.overweight', 'Indicator', ondelete='cascade', required=True),
+    }
+
+
+class mrp_indicators_overweight_summary(orm.Model):
+    _name = 'mrp.indicators.overweight.summary'
+    _columns = {
+        'name': fields.char('Name', size=255, required=True),
+        'workcenter_id': fields.many2one('mrp.workcenter', 'Workcenter'),
+        'qty_nominal': fields.float('Qty nominal', digits_compute=dp.get_precision('Product Unit of Measure')),
+        'qty_consumed': fields.float('Qty consumed', digits_compute=dp.get_precision('Product Unit of Measure')),
+        'overweight': fields.float('Overweight (%)'),
+        'overweight_abs': fields.float('Overweight Abs'),
+        'indicator_id': fields.many2one('mrp.indicators.overweight', 'Indicator', ondelete='cascade', required=True)
     }
