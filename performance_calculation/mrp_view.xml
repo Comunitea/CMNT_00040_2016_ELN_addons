@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>
+
+        <record id="mrp_production_form_inherit_10" model="ir.ui.view">
+            <field name="name">mrp.production.form.inherit_10</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="priority" position="after">
+                    <field name="lead_time"/>
+                    <field name="overweight"/>
+                    <field name="ind_scrap"/>
+                    <field name="ind_usage"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="mrp_production_workcenter_form_view_inherit" model="ir.ui.view">
+            <field name="name">mrp.production.workcenter.line.form</field>
+            <field name="model">mrp.production.workcenter.line</field>
+            <field name="inherit_id" ref="eln_production.mrp_production_workcenter_form_view_inherit"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <page string="Production stops" position="after">
+                    <page string="Indicators" nolabel="0">
+                        <group colspan="2" col="2">
+                            <field name="availability"/>
+                            <field name="performance"/>
+                            <field name="quality"/>
+                            <field name="oee"/>
+                        </group>
+                    </page>
+                </page>
+            </field>
+        </record>
+
+        <record id="mrp_production_form_inherit_10" model="ir.ui.view">
+            <field name="name">mrp.production.form.inherit_10</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="eln_production.mrp_production_form_inherit_10"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <page string="Extra Information" position="inside">
+                    <group>
+                        <field name="lead_time"/>
+                        <field name="overweight"/>
+                        <field name="ind_scrap"/>
+                        <field name="ind_usage"/>
+                    </group>
+                </page>
+                <page string="Production stops" position="after">
+                    <page string="Indicators">
+                        <group colspan="2" col="2">
+                            <field name="availability"/>
+                            <field name="performance"/>
+                            <field name="quality"/>
+                            <field name="oee"/>
+                        </group>
+                    </page>
+                </page>
+            </field>
+        </record>
+
+    </data>
+</openerp>

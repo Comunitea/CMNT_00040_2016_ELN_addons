@@ -1,30 +1,26 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* maintenance
+#	* maintenance
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-12-26 15:41+0000\n"
-"PO-Revision-Date: 2017-12-26 16:43+0100\n"
+"POT-Creation-Date: 2018-02-05 17:27+0000\n"
+"PO-Revision-Date: 2018-02-05 17:27+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
-"Language: es\n"
-"X-Generator: Poedit 2.0.3\n"
 
 #. module: maintenance
 #: model:email.template,report_name:maintenance.email_template_work_order
-msgid ""
-"${(object.name or\n"
+msgid "${(object.name or\n"
 "                '').replace('/','_')}_${object.state == 'draft' and 'draft' or ''}\n"
 "            "
-msgstr ""
-"${(object.name or\n"
+msgstr "${(object.name or\n"
 "                '').replace('/','_')}_${object.state == 'draft' and 'draft' or ''}\n"
 "            "
 
@@ -110,7 +106,8 @@ msgid "Cancell request"
 msgstr "Cancelar solicitud"
 
 #. module: maintenance
-#: selection:intervention.request,state:0 selection:work.order,state:0
+#: selection:intervention.request,state:0
+#: selection:work.order,state:0
 msgid "Cancelled"
 msgstr "Cancelado"
 
@@ -130,7 +127,8 @@ msgid "Codigo"
 msgstr "Código"
 
 #. module: maintenance
-#: field:intervention.request,company_id:0 field:work.order,company_id:0
+#: field:intervention.request,company_id:0
+#: field:work.order,company_id:0
 msgid "Company"
 msgstr "Compañía"
 
@@ -156,6 +154,11 @@ msgid "Contractual"
 msgstr "Contrata"
 
 #. module: maintenance
+#: view:intervention.request:maintenance.view_intervention_request_filter
+msgid "Correctivo"
+msgstr "Correctivo"
+
+#. module: maintenance
 #: view:intervention.request:maintenance.intervention_request_form_view
 msgid "Create work order"
 msgstr "Crear orden de trabajo"
@@ -163,8 +166,10 @@ msgstr "Crear orden de trabajo"
 #. module: maintenance
 #: field:cancel.intervention.request.wizard,create_uid:0
 #: field:intervention.request,create_uid:0
-#: field:maintenance.element,create_uid:0 field:maintenance.type,create_uid:0
-#: field:work.order,create_uid:0 field:work.order.other.services,create_uid:0
+#: field:maintenance.element,create_uid:0
+#: field:maintenance.type,create_uid:0
+#: field:work.order,create_uid:0
+#: field:work.order.other.services,create_uid:0
 #: field:work.order.time.report,create_uid:0
 msgid "Created by"
 msgstr "Created by"
@@ -172,8 +177,10 @@ msgstr "Created by"
 #. module: maintenance
 #: field:cancel.intervention.request.wizard,create_date:0
 #: field:intervention.request,create_date:0
-#: field:maintenance.element,create_date:0 field:maintenance.type,create_date:0
-#: field:work.order,create_date:0 field:work.order.other.services,create_date:0
+#: field:maintenance.element,create_date:0
+#: field:maintenance.type,create_date:0
+#: field:work.order,create_date:0
+#: field:work.order.other.services,create_date:0
 #: field:work.order.time.report,create_date:0
 msgid "Created on"
 msgstr "Created on"
@@ -211,7 +218,8 @@ msgid "Description"
 msgstr "Descripción"
 
 #. module: maintenance
-#: field:intervention.request,deteccion:0 field:work.order,deteccion:0
+#: field:intervention.request,deteccion:0
+#: field:work.order,deteccion:0
 msgid "Detection"
 msgstr "Detección"
 
@@ -225,7 +233,8 @@ msgstr "Descargo"
 #: field:cancel.intervention.request.wizard,display_name:0
 #: field:intervention.request,display_name:0
 #: field:maintenance.element,display_name:0
-#: field:maintenance.type,display_name:0 field:work.order,display_name:0
+#: field:maintenance.type,display_name:0
+#: field:work.order,display_name:0
 #: field:work.order.other.services,display_name:0
 #: field:work.order.time.report,display_name:0
 msgid "Display Name"
@@ -256,7 +265,8 @@ msgid "Días excluidos"
 msgstr "Días excluidos"
 
 #. module: maintenance
-#: field:purchase.order.line,element_id:0 field:stock.move,element_id:0
+#: field:purchase.order.line,element_id:0
+#: field:stock.move,element_id:0
 msgid "Element"
 msgstr "Equipo"
 
@@ -300,7 +310,7 @@ msgid "Equipo padre"
 msgstr "Equipo padre"
 
 #. module: maintenance
-#: code:addons/maintenance/intervention_request.py:159
+#: code:addons/maintenance/intervention_request.py:211
 #, python-format
 msgid "Error!"
 msgstr "¡Error!"
@@ -346,7 +356,8 @@ msgid "Final date"
 msgstr "Fecha final"
 
 #. module: maintenance
-#: field:maintenance.element,planta:0 field:work.order,planta:0
+#: field:maintenance.element,planta:0
+#: field:work.order,planta:0
 msgid "Floor"
 msgstr "Planta"
 
@@ -392,14 +403,18 @@ msgstr "Holds the Chatter summary (number of messages, ...). This summary is dir
 
 #. module: maintenance
 #: field:cancel.intervention.request.wizard,id:0
-#: field:intervention.request,id:0 field:maintenance.element,id:0
-#: field:maintenance.type,id:0 field:work.order,id:0
-#: field:work.order.other.services,id:0 field:work.order.time.report,id:0
+#: field:intervention.request,id:0
+#: field:maintenance.element,id:0
+#: field:maintenance.type,id:0
+#: field:work.order,id:0
+#: field:work.order.other.services,id:0
+#: field:work.order.time.report,id:0
 msgid "ID"
 msgstr "ID"
 
 #. module: maintenance
-#: help:intervention.request,message_unread:0 help:work.order,message_unread:0
+#: help:intervention.request,message_unread:0
+#: help:work.order,message_unread:0
 msgid "If checked new messages require your attention."
 msgstr "Si se marca, los nuevos mensajes requieren su atención"
 
@@ -409,7 +424,8 @@ msgid "Information"
 msgstr "Información"
 
 #. module: maintenance
-#: field:maintenance.type,inicio:0 field:work.order,initial_date:0
+#: field:maintenance.type,inicio:0
+#: field:work.order,initial_date:0
 msgid "Initial date"
 msgstr "Fecha inicial"
 
@@ -440,6 +456,11 @@ msgid "Intervention request"
 msgstr "Solicitud de intervención"
 
 #. module: maintenance
+#: view:intervention.request:maintenance.view_intervention_request_graph
+msgid "Intervention request analysis"
+msgstr "Análisis solicitud de intervención"
+
+#. module: maintenance
 #: field:intervention.request,message_is_follower:0
 #: field:work.order,message_is_follower:0
 msgid "Is a Follower"
@@ -455,7 +476,8 @@ msgstr "Fecha del último mensaje"
 #: field:cancel.intervention.request.wizard,__last_update:0
 #: field:intervention.request,__last_update:0
 #: field:maintenance.element,__last_update:0
-#: field:maintenance.type,__last_update:0 field:work.order,__last_update:0
+#: field:maintenance.type,__last_update:0
+#: field:work.order,__last_update:0
 #: field:work.order.other.services,__last_update:0
 #: field:work.order.time.report,__last_update:0
 msgid "Last Modified on"
@@ -463,8 +485,10 @@ msgstr "Last Modified on"
 
 #. module: maintenance
 #: field:cancel.intervention.request.wizard,write_uid:0
-#: field:intervention.request,write_uid:0 field:maintenance.element,write_uid:0
-#: field:maintenance.type,write_uid:0 field:work.order,write_uid:0
+#: field:intervention.request,write_uid:0
+#: field:maintenance.element,write_uid:0
+#: field:maintenance.type,write_uid:0
+#: field:work.order,write_uid:0
 #: field:work.order.other.services,write_uid:0
 #: field:work.order.time.report,write_uid:0
 msgid "Last Updated by"
@@ -473,8 +497,10 @@ msgstr "Last Updated by"
 #. module: maintenance
 #: field:cancel.intervention.request.wizard,write_date:0
 #: field:intervention.request,write_date:0
-#: field:maintenance.element,write_date:0 field:maintenance.type,write_date:0
-#: field:work.order,write_date:0 field:work.order.other.services,write_date:0
+#: field:maintenance.element,write_date:0
+#: field:maintenance.type,write_date:0
+#: field:work.order,write_date:0
+#: field:work.order.other.services,write_date:0
 #: field:work.order.time.report,write_date:0
 msgid "Last Updated on"
 msgstr "Last Updated on"
@@ -510,7 +536,8 @@ msgid "Maintenance element"
 msgstr "Elemento de mantenimiento"
 
 #. module: maintenance
-#: field:intervention.request,element_ids:0 field:work.order,elements_ids:0
+#: field:intervention.request,element_ids:0
+#: field:work.order,elements_ids:0
 msgid "Maintenance elements"
 msgstr "Elementos de mantenimiento"
 
@@ -537,12 +564,14 @@ msgid "Mantenimiento"
 msgstr "Mantenimiento"
 
 #. module: maintenance
-#: field:intervention.request,message_ids:0 field:work.order,message_ids:0
+#: field:intervention.request,message_ids:0
+#: field:work.order,message_ids:0
 msgid "Messages"
 msgstr "Mensajes"
 
 #. module: maintenance
-#: help:intervention.request,message_ids:0 help:work.order,message_ids:0
+#: help:intervention.request,message_ids:0
+#: help:work.order,message_ids:0
 msgid "Messages and communication history"
 msgstr "Historial de comunicaciones y mensajes"
 
@@ -557,7 +586,8 @@ msgid "Monthly"
 msgstr "Mensual"
 
 #. module: maintenance
-#: field:maintenance.element,name:0 field:maintenance.type,name:0
+#: field:maintenance.element,name:0
+#: field:maintenance.type,name:0
 #: field:work.order,name:0
 msgid "Name"
 msgstr "Nombre"
@@ -620,7 +650,8 @@ msgid "Ordenes hijas"
 msgstr "Órdenes hijas"
 
 #. module: maintenance
-#: field:stock.move,work_done:0 field:stock.picking,work_done:0
+#: field:stock.move,work_done:0
+#: field:stock.picking,work_done:0
 msgid "Order completed"
 msgstr "Orden completa"
 
@@ -724,7 +755,8 @@ msgid "Report"
 msgstr "Informe"
 
 #. module: maintenance
-#: field:intervention.request,fecha_solicitud:0 field:work.order,fecha:0
+#: field:intervention.request,fecha_solicitud:0
+#: field:work.order,fecha:0
 msgid "Request date"
 msgstr "Fecha de solicitud"
 
@@ -755,14 +787,16 @@ msgid "Send email"
 msgstr "Enviar correo"
 
 #. module: maintenance
-#: field:intervention.request,sintoma:0 field:work.order,sintoma:0
+#: field:intervention.request,sintoma:0
+#: field:work.order,sintoma:0
 msgid "Sign"
 msgstr "Síntoma"
 
 #. module: maintenance
 #: view:intervention.request:maintenance.view_intervention_request_filter
 #: field:intervention.request,state:0
-#: view:work.order:maintenance.view_work_order_filter field:work.order,state:0
+#: view:work.order:maintenance.view_work_order_filter
+#: field:work.order,state:0
 msgid "State"
 msgstr "Estado"
 
@@ -788,9 +822,29 @@ msgid "Sunday"
 msgstr "Domingo"
 
 #. module: maintenance
+#: field:intervention.request,tbf:0
+msgid "TBF"
+msgstr "TBF"
+
+#. module: maintenance
+#: field:intervention.request,ttr:0
+msgid "TTR"
+msgstr "TTR"
+
+#. module: maintenance
 #: field:maintenance.type,jueves:0
 msgid "Thursday"
 msgstr "Jueves"
+
+#. module: maintenance
+#: help:intervention.request,tbf:0
+msgid "Time between fails in hours"
+msgstr "Time between fails in hours"
+
+#. module: maintenance
+#: help:intervention.request,ttr:0
+msgid "Time to repair in hours"
+msgstr "Time to repair in hours"
 
 #. module: maintenance
 #: view:work.order:maintenance.work_order_form_view
@@ -827,7 +881,9 @@ msgid "Tuesday"
 msgstr "Martes"
 
 #. module: maintenance
-#: field:maintenance.element,type:0 field:maintenance.type,type:0
+#: field:intervention.request,type:0
+#: field:maintenance.element,type:0
+#: field:maintenance.type,type:0
 msgid "Type"
 msgstr "Tipo"
 
@@ -859,12 +915,14 @@ msgstr "Aviso"
 
 #. module: maintenance
 #: field:intervention.request,website_message_ids:0
+#: field:purchase.order,website_message_ids:0
 #: field:work.order,website_message_ids:0
 msgid "Website Messages"
 msgstr "Mensajes del sitio web"
 
 #. module: maintenance
 #: help:intervention.request,website_message_ids:0
+#: help:purchase.order,website_message_ids:0
 #: help:work.order,website_message_ids:0
 msgid "Website communication history"
 msgstr "Historial de comunicaciones del sitio web"
@@ -891,7 +949,8 @@ msgstr "Órdenes de trabajo"
 
 #. module: maintenance
 #: model:email.template,subject:maintenance.email_template_work_order
-#: field:purchase.order,work_order_id:0 field:stock.move,work_order_id:0
+#: field:purchase.order,work_order_id:0
+#: field:stock.move,work_order_id:0
 #: field:stock.picking,work_order_id:0
 #: view:work.order:maintenance.work_order_form_view
 #: field:work.order.other.services,work_order_id:0
@@ -913,7 +972,7 @@ msgid "Yearly"
 msgstr "Anual"
 
 #. module: maintenance
-#: code:addons/maintenance/intervention_request.py:159
+#: code:addons/maintenance/intervention_request.py:211
 #, python-format
 msgid "You cannot delete a confirmed intervention request."
 msgstr "No puede eliminar una solicitud de intervención que ya está confirmada."
@@ -924,16 +983,19 @@ msgid "block"
 msgstr "Bloque"
 
 #. module: maintenance
+#: selection:intervention.request,type:0
 #: selection:maintenance.type,type:0
-msgid "corrective"
-msgstr "Correctivo"
+msgid "correctivo"
+msgstr "correctivo"
 
 #. module: maintenance
-#: field:intervention.request,efecto:0 field:work.order,efecto:0
+#: field:intervention.request,efecto:0
+#: field:work.order,efecto:0
 msgid "effect"
 msgstr "Efecto"
 
 #. module: maintenance
+#: selection:intervention.request,type:0
 #: selection:maintenance.type,type:0
 msgid "gamma"
 msgstr "Gama"
@@ -944,6 +1006,7 @@ msgid "last execution"
 msgstr "Última ejecución"
 
 #. module: maintenance
+#: selection:intervention.request,type:0
 #: selection:maintenance.type,type:0
 msgid "legal"
 msgstr "Legal"
@@ -964,6 +1027,7 @@ msgid "order completed"
 msgstr "Orden finalizada"
 
 #. module: maintenance
+#: selection:intervention.request,type:0
 #: selection:maintenance.type,type:0
 msgid "preventivo"
 msgstr "Preventivo"
@@ -977,3 +1041,4 @@ msgstr "Producto asociado"
 #: view:maintenance.type:maintenance.view_maintenance_type_filter
 msgid "tipo"
 msgstr "Tipo"
+

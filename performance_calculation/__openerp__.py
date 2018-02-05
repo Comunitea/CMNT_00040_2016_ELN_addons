@@ -34,6 +34,7 @@
                     "wizard/reworks_view.xml",
                     "stock_view.xml",
                     "stock_move_view.xml",
+                    "mrp_view.xml",
                     "security/ir.model.access.csv"
                     ],
     'demo_xml': [],

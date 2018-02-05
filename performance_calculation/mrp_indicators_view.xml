@@ -2,9 +2,9 @@
 
 <openerp>
     <data>
-         <record id="mrp_indicators_form" model="ir.ui.view">
-            <field name="name">mrp.indicators.form</field>
-            <field name="model">mrp.indicators</field>
+        <record id="mrp_indicators_oee_form" model="ir.ui.view">
+            <field name="name">mrp.indicators.oee.form</field>
+            <field name="model">mrp.indicators.oee</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Indicators">
@@ -17,53 +17,54 @@
                         <newline/>
                         <field name="report_name" colspan="4"/>
                     </group>
-
                     <notebook colspan="5">
                         <page string="Lines">
                             <field name="line_ids" colspan="4" nolabel="1" widget="one2many_list" readonly="1">
                                 <tree string="Lines">
-                                   <field name="date"/>
-                                   <field name="workcenter_id"/>
-                                   <field name="product_id"/>
-                                   <field name="qty"/>
-                                   <field name="qty_good"/>
-                                   <field name="qty_scraps"/>
-                                   <field name="stop_time" widget="float_time"/>
-                                   <field name="real_time" widget="float_time"/>
-                                   <field name="tic_time" widget="float_time"/>
-                                   <field name="availability" widget="progressbar"/>
-                                   <field name="availability" string="%"/>
-                                   <field name="performance" widget="progressbar"/>
-                                   <field name="performance" string="%"/>
-                                   <field name="quality" widget="progressbar"/>
-                                   <field name="quality" string="%"/>
-                                   <field name="oee" widget="progressbar"/>
-                                   <field name="oee" string="%"/>
-                                </tree>
-                            </field>
-                            <newline/>
-                             <field name="line_average_ids" colspan="4" nolabel="1" widget="one2many_list" readonly="1">
-                                <tree string="Averages">
-                                   <field name="name"/>
-
-                                   <field name="availability" widget="progressbar"/>
-                                   <field name="availability" string="%"/>
-                                   <field name="performance" widget="progressbar"/>
-                                   <field name="performance" string="%"/>
-                                   <field name="quality" widget="progressbar"/>
-                                   <field name="quality" string="%"/>
-                                   <field name="oee" widget="progressbar"/>
-                                   <field name="oee" string="%"/>
+                                    <field name="date"/>
+                                    <field name="workcenter_id"/>
+                                    <field name="product_id"/>
+                                    <field name="qty"/>
+                                    <field name="qty_good"/>
+                                    <field name="qty_scraps"/>
+                                    <field name="stop_time" widget="float_time"/>
+                                    <field name="real_time" widget="float_time"/>
+                                    <field name="tic_time" widget="float_time"/>
+                                    <field name="availability" widget="progressbar"/>
+                                    <field name="availability" string="%"/>
+                                    <field name="performance" widget="progressbar"/>
+                                    <field name="performance" string="%"/>
+                                    <field name="quality" widget="progressbar"/>
+                                    <field name="quality" string="%"/>
+                                    <field name="oee" widget="progressbar"/>
+                                    <field name="oee" string="%"/>
                                 </tree>
                             </field>
                         </page>
-                     </notebook>
+                        <page string="Summary">
+                            <field name="line_summary_ids" colspan="4" nolabel="1" widget="one2many_list" readonly="1">
+                                <tree string="Summary">
+                                    <field name="name"/>
+                                    <field name="workcenter_id"/>
+                                    <field name="availability" widget="progressbar"/>
+                                    <field name="availability" string="%"/>
+                                    <field name="performance" widget="progressbar"/>
+                                    <field name="performance" string="%"/>
+                                    <field name="quality" widget="progressbar"/>
+                                    <field name="quality" string="%"/>
+                                    <field name="oee" widget="progressbar"/>
+                                    <field name="oee" string="%"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
                 </form>
             </field>
         </record>
-        <record id="mrp_indicators_tree" model="ir.ui.view">
-            <field name="name">mrp.indicators.tree</field>
-            <field name="model">mrp.indicators</field>
+
+        <record id="mrp_indicators_oee_tree" model="ir.ui.view">
+            <field name="name">mrp.indicators.oee.tree</field>
+            <field name="model">mrp.indicators.oee</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
                 <tree string="Indicators">
@@ -74,12 +75,13 @@
                 </tree>
             </field>
         </record>
-         <record id="view_mrp_indicators_filter" model="ir.ui.view">
-            <field name="name">mrp.indicators.list.select</field>
-            <field name="model">mrp.indicators</field>
+
+        <record id="mrp_indicators_oee_filter" model="ir.ui.view">
+            <field name="name">mrp.indicators.oee.list.select</field>
+            <field name="model">mrp.indicators.oee</field>
             <field name="type">search</field>
             <field name="arch" type="xml">
-                <search string="Search Indicators">
+                <search string="Search Indicators OEE">
                     <field name="name"
                         filter_domain="[('name','ilike',self)]"/>
                     <field name="date"/>
@@ -88,20 +90,20 @@
             </field>
         </record>
 
-        <record id="action_mrp_indicators" model="ir.actions.act_window">
-            <field name="name">Indicators</field>
-             <field name="type">ir.actions.act_window</field>
-            <field name="res_model">mrp.indicators</field>
+        <record id="action_mrp_indicators_oee" model="ir.actions.act_window">
+            <field name="name">OEE</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">mrp.indicators.oee</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
-            <field name="search_view_id" ref="view_mrp_indicators_filter"/>
-             <field name="context">{}</field>
+            <field name="search_view_id" ref="mrp_indicators_oee_filter"/>
+            <field name="context">{}</field>
         </record>
-        <menuitem id="menus_indicators_mrp" name="Indicators"
-            parent="mrp.next_id_77" sequence="5"/>
-        <menuitem action="action_mrp_indicators" id="mrp_indicators_menu" parent="menus_indicators_mrp" sequence="20"/>
 
-        <record id="mrp_scrap_and_usage_form" model="ir.ui.view">
+        <menuitem name="Indicators" id="menus_indicators_mrp" parent="mrp.next_id_77" sequence="5"/>
+        <menuitem action="action_mrp_indicators_oee" id="mrp_indicators_menu" parent="menus_indicators_mrp" sequence="20"/>
+
+        <record id="mrp_indicators_scrap_form" model="ir.ui.view">
             <field name="name">mrp.indicators.scrap.form</field>
             <field name="model">mrp.indicators.scrap</field>
             <field name="type">form</field>
@@ -116,27 +118,27 @@
                         <newline/>
                         <field name="report_name" colspan="4"/>
                     </group>
-
                     <notebook colspan="5">
                         <page string="Lines">
                             <field name="line_ids" colspan="4" nolabel="1" widget="one2many_list" readonly="1">
                                 <tree string="Lines">
-                                   <field name="date"/>
-                                   <field name="production_id"/>
-                                   <field name="product_id"/>
-                                   <field name="real_qty" sum="Total Real Qty"/>
-                                   <field name="theorical_qty" sum="Total Theoric Qty"/>
-                                   <field name="real_cost" sum="Total Real Cost"/>
-                                   <field name="theorical_cost" sum="Total Theoric Cost"/>
-                                   <field name="scrap_cost" sum="Total Scrap"/>
-                                   <field name="usage_cost" sum="Total Usage"/>
+                                    <field name="date"/>
+                                    <field name="production_id"/>
+                                    <field name="product_id"/>
+                                    <field name="real_qty" sum="Total Real Qty"/>
+                                    <field name="theorical_qty" sum="Total Theoric Qty"/>
+                                    <field name="real_cost" sum="Total Real Cost"/>
+                                    <field name="theorical_cost" sum="Total Theoric Cost"/>
+                                    <field name="scrap_cost" sum="Total Scrap"/>
+                                    <field name="usage_cost" sum="Total Usage"/>
                                 </tree>
                             </field>
                         </page>
-                     </notebook>
+                    </notebook>
                 </form>
             </field>
         </record>
+
         <record id="mrp_indicators_scrap_tree" model="ir.ui.view">
             <field name="name">mrp.indicators.scrap.tree</field>
             <field name="model">mrp.indicators.scrap</field>
@@ -150,7 +152,8 @@
                 </tree>
             </field>
         </record>
-         <record id="view_mrp_indicators_scrap_filter" model="ir.ui.view">
+
+        <record id="mrp_indicators_scrap_filter" model="ir.ui.view">
             <field name="name">mrp.indicators.scrap.list.select</field>
             <field name="model">mrp.indicators.scrap</field>
             <field name="type">search</field>
@@ -166,15 +169,103 @@
 
         <record id="action_mrp_indicators_scrap" model="ir.actions.act_window">
             <field name="name">Scrap and Usage</field>
-             <field name="type">ir.actions.act_window</field>
+            <field name="type">ir.actions.act_window</field>
             <field name="res_model">mrp.indicators.scrap</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
-            <field name="search_view_id" ref="view_mrp_indicators_scrap_filter"/>
-             <field name="context">{}</field>
+            <field name="search_view_id" ref="mrp_indicators_scrap_filter"/>
+            <field name="context">{}</field>
         </record>
+
         <menuitem action="action_mrp_indicators_scrap" id="mrp_indicators_scrap_menu" parent="menus_indicators_mrp" sequence="22"/>
 
+        <record id="mrp_indicators_overweight_form" model="ir.ui.view">
+            <field name="name">mrp.indicators.overweight.form</field>
+            <field name="model">mrp.indicators.overweight</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Overweight">
+                    <group col="4" colspan="4">
+                        <field name="name"/>
+                        <field name="date"/>
+                        <newline/>
+                        <field name="user_id"/>
+                        <field name="company_id"/>
+                        <newline/>
+                        <field name="report_name" colspan="4"/>
+                    </group>
+                    <notebook colspan="5">
+                        <page string="Lines">
+                            <field name="line_ids" colspan="4" nolabel="1" widget="one2many_list" readonly="1">
+                                <tree string="Lines" colors="red:overweight&lt;0.0;green:overweight==0.0">
+                                    <field name="date"/>
+                                    <field name="production_id"/>
+                                    <field name="product_id"/>
+                                    <field name="qty_nominal" sum="Total Nominal Qty"/>
+                                    <field name="qty_consumed" sum="Total Consumed Qty"/>
+                                    <field name="overweight_abs" string="Overweight -" widget="progressbar" attrs="{'invisible': [('overweight', '&gt;=', 0.0)]}"/>
+                                    <field name="overweight" string="%"/>
+                                    <field name="overweight_abs" string="Overweight +" widget="progressbar" attrs="{'invisible': [('overweight', '&lt;', 0.0)]}"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Summary">
+                            <field name="line_summary_ids" colspan="4" nolabel="1" widget="one2many_list" readonly="1">
+                                <tree string="Summary">
+                                    <field name="name"/>
+                                    <field name="workcenter_id"/>
+                                    <field name="qty_nominal"/>
+                                    <field name="qty_consumed"/>
+                                    <field name="overweight_abs" string="Overweight -" widget="progressbar" attrs="{'invisible': [('overweight', '&gt;=', 0.0)]}"/>
+                                    <field name="overweight" string="%"/>
+                                    <field name="overweight_abs" string="Overweight +" widget="progressbar" attrs="{'invisible': [('overweight', '&lt;', 0.0)]}"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </form>
+            </field>
+        </record>
+
+        <record id="mrp_indicators_overweight_tree" model="ir.ui.view">
+            <field name="name">mrp.indicators.overweight.tree</field>
+            <field name="model">mrp.indicators.overweight</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Indicators overweight">
+                    <field name="name"/>
+                    <field name="date"/>
+                    <field name="user_id"/>
+                    <field name="company_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="mrp_indicators_overweight_filter" model="ir.ui.view">
+            <field name="name">mrp.indicators.overweight.list.select</field>
+            <field name="model">mrp.indicators.overweight</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Search Indicators overweight">
+                    <field name="name"
+                        filter_domain="[('name','ilike',self)]"/>
+                    <field name="date"/>
+                    <field name="user_id"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_mrp_indicators_overweight" model="ir.actions.act_window">
+            <field name="name">Overweight</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">mrp.indicators.overweight</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="mrp_indicators_overweight_filter"/>
+            <field name="context">{}</field>
+        </record>
+
+        <menuitem action="action_mrp_indicators_overweight" id="mrp_indicators_overweight_menu" parent="menus_indicators_mrp" sequence="24"/>
 
     </data>
 </openerp>
