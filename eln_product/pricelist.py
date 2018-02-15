@@ -28,6 +28,7 @@ import openerp.addons.decimal_precision as dp
 
 class product_pricelist_item(orm.Model):
     _inherit = "product.pricelist.item"
+    _order = "sequence, min_quantity desc, name"
 
     def _get_price_calculated(self, cr, uid, ids, name, arg, context=None):
         """ return the price calculated if it's possible for price list item """
@@ -62,6 +63,9 @@ class product_pricelist_item(orm.Model):
             type='float',
             digits_compute=dp.get_precision('Product Price'),
             string="Price Calculated"),
+        'ean13': fields.related('product_id', 'ean13', type='char', string="EAN13", readonly=True),
+        'uom': fields.related('product_id', 'uom_id', type='many2one', relation='product.uom', string="UoM", readonly=True),
+        'uos': fields.related('product_id', 'uos_id', type='many2one', relation='product.uom', string="UoS", readonly=True),
     }
     _defaults = {
         'price_calculated': lambda *a: 0,
