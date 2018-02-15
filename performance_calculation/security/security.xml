@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="0">
+
+        <record model="ir.rule" id="performance_calculation_oee_company_rule">
+            <field name="name">performance calculation oee multi-company</field>
+            <field name="model_id" ref="model_mrp_indicators_oee"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">['|',('company_id', '=', False),('company_id', 'child_of', [user.company_id.id])]</field>
+        </record>
+
+        <record model="ir.rule" id="performance_calculation_scrap_company_rule">
+            <field name="name">performance calculation scrap multi-company</field>
+            <field name="model_id" ref="model_mrp_indicators_scrap"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">['|',('company_id', '=', False),('company_id', 'child_of', [user.company_id.id])]</field>
+        </record>
+
+        <record model="ir.rule" id="performance_calculation_overweight_company_rule">
+            <field name="name">performance calculation overweight multi-company</field>
+            <field name="model_id" ref="model_mrp_indicators_overweight"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">['|',('company_id', '=', False),('company_id', 'child_of', [user.company_id.id])]</field>
+        </record>
+
+    </data>
+</openerp>

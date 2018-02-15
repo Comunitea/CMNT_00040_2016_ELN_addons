@@ -87,11 +87,12 @@ class performance_calculation(orm.TransientModel):
         for move in production.move_created_ids2:
             if move.state != 'done':
                 continue
-            if not move.scrapped or (move.scrapped and move.location_id.usage == 'production'):
+            scrapped_move = move.location_dest_id.scrap_location
+            if not scrapped_move or (scrapped_move and move.location_id.usage == 'production'):
                 qty_finished += move.product_uom_qty
-            if move.scrapped:
+            if scrapped_move:
                 qty_scrap += move.product_uom_qty
-            if not move.scrapped:
+            if not scrapped_move:
                 qty_real_finished += move.product_uom_qty
             elif move.location_id.usage == 'internal':
                 qty_real_finished -= move.product_uom_qty
@@ -142,14 +143,17 @@ class performance_calculation(orm.TransientModel):
         theo_cost = real_real_cost = 0.0
         scrap = usage = 0.0
         if prod:
-            qty_finished = self._calc_finished_qty(cr, uid, [x.id for x in prod.move_created_ids2], context=context)
-            real_qty_finished = self._calc_real_finished_qty(cr, uid, [x.id for x in prod.move_created_ids2], context=context)
+            qty_finished = self._calc_finished_qty(cr, uid, ids, prod, context=context)
+            real_qty_finished = self._calc_real_finished_qty(cr, uid, ids, prod, context=context)
             qty_scrap = qty_finished - real_qty_finished
             theo_cost = self._get_theo_cost(cr, uid, ids, prod, qty_finished, context=context)
-            real_cost = self._get_real_cost(cr, uid, [x.id for x in prod.move_lines2], context=context)
+            real_cost = self._get_real_cost(cr, uid, ids, prod, context=context)
             scrap = qty_scrap * (theo_cost / qty_finished)
             for move in prod.move_lines2:
-                if move.scrapped and move.state != 'cancel':
+                if move.state != 'done':
+                    continue
+                scrapped_move = move.location_dest_id.scrap_location
+                if scrapped_move:
                     scrap += (move.price_unit * move.product_uom_qty)
             usage = real_cost - theo_cost
             real_real_cost = real_cost + scrap
@@ -171,7 +175,10 @@ class performance_calculation(orm.TransientModel):
             theorical_weight = qty_real_finished * prod.product_id.weight_net
             used_weight = 0.0
             for move in prod.move_lines2:
-                if move.state == 'done' and not move.scrapped:
+                if move.state != 'done':
+                    continue
+                scrapped_move = move.location_dest_id.scrap_location
+                if not scrapped_move:
                     used_weight += move.product_uom_qty * move.product_id.weight_net
             overweight = 100 * (used_weight - theorical_weight) / (theorical_weight or 1.0)
         return {
@@ -285,21 +292,23 @@ class performance_calculation(orm.TransientModel):
                     result.append(obj.production_id.id)
         return result
 
-    def _calc_finished_qty(self, cr, uid, ids, context=None):
+    def _calc_finished_qty(self, cr, uid, ids, production, context=None):
         qty = 0.0
-        for move in self.pool.get('stock.move').browse(cr, uid, ids):
+        for move in production.move_created_ids2:
             if move.state != 'done':
                 continue
-            if not move.scrapped or (move.scrapped and move.location_id.usage == 'production'):
+            scrapped_move = move.location_dest_id.scrap_location
+            if not scrapped_move or (scrapped_move and move.location_id.usage == 'production'):
                 qty += move.product_uom_qty
         return qty
 
-    def _calc_real_finished_qty(self, cr, uid, ids, context=None):
+    def _calc_real_finished_qty(self, cr, uid, ids, production, context=None):
         qty = 0.0
-        for move in self.pool.get('stock.move').browse(cr, uid, ids):
+        for move in production.move_created_ids2:
             if move.state != 'done':
                 continue
-            if not move.scrapped:
+            scrapped_move = move.location_dest_id.scrap_location
+            if not scrapped_move:
                 qty += move.product_uom_qty
             elif move.location_id.usage == 'internal':
                 qty -= move.product_uom_qty
@@ -316,12 +325,13 @@ class performance_calculation(orm.TransientModel):
             theorical_cost = updated_price * product_uom_qty
         return theorical_cost
 
-    def _get_real_cost(self, cr, uid, ids, context=None):
+    def _get_real_cost(self, cr, uid, ids, production, context=None):
         real_cost = 0.0
-        for move in self.pool.get('stock.move').browse(cr, uid, ids):
+        for move in production.move_lines2:
             if move.state != 'done':
                 continue
-            if not move.scrapped:
+            scrapped_move = move.location_dest_id.scrap_location
+            if not scrapped_move:
                 real_cost += (move.price_unit * move.product_uom_qty)
         return real_cost
 
@@ -387,7 +397,7 @@ class performance_calculation(orm.TransientModel):
                 vals = {}
                 if ind.line_ids:
                     for line in ind.line_ids:
-                        workcenter = line.workcenter_id and line.workcenter_id.id
+                        workcenter = line.workcenter_id and line.workcenter_id.id or False
                         if workcenter not in vals.keys():
                             vals[workcenter] = {}
                             vals[workcenter]['availability'] = 0.0
@@ -465,7 +475,7 @@ class performance_calculation(orm.TransientModel):
                 vals = {}
                 if ind.line_ids:
                     for line in ind.line_ids:
-                        workcenter = line.workcenter_id and line.workcenter_id.id
+                        workcenter = line.workcenter_id and line.workcenter_id.id or False
                         if workcenter not in vals.keys():
                             vals[workcenter] = {}
                             vals[workcenter]['used_weight'] = 0.0
