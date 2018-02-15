@@ -50,10 +50,8 @@ class product_costs_line(osv.osv_memory):
         'real_cost': 0.0,
         'forecasted_cost': 0.0
     }
-    #_order = 'sequence asc, id asc'
 
     def _get_costs(self, cr, uid, ids, element_id=False, product_id=False, context=None):
-
         theoric = 0.0
         real = 0.0
         forecasted = 0.0
@@ -63,10 +61,6 @@ class product_costs_line(osv.osv_memory):
         loc_facade = self.pool.get('stock.location')
         uom_obj = self.pool.get('product.uom')
         bom_obj = self.pool.get('mrp.bom')
-        budline_facade = self.pool.get('budget.line')
-        buditem_facade = self.pool.get('budget.item')
-        sale_forecast = self.pool.get('sales.forecast')
-        sale_forecast_line = self.pool.get('sales.forecast.line')
         if element_id and product_id:
             element = element_facade.browse(cr, uid, element_id)
             product = product_facade.browse(cr, uid, product_id)
@@ -78,11 +72,6 @@ class product_costs_line(osv.osv_memory):
             time_start = "01-01-" + year + " 00:00:01"
             first_day, last_day = calendar.monthrange(int(year), 12)
             time_stop = str(last_day) + "-12-" + year + " 23:59:59"
-            #elif element.time == 'last_twelve_months':
-            #    time_stop = time.strftime('%Y-%m-%d %H:%M:%S')
-            #    start = datetime.date.today() + \
-            #             relativedelta(months=-12)
-            #    time_start = start.strftime("%Y-%m-%d") + " 00:00:01"
             # THEORIC COST
             if element.cost_type == 'bom':
                 if product.bom_ids:
@@ -96,15 +85,14 @@ class product_costs_line(osv.osv_memory):
                             productb = product_facade.browse(cr, uid, r['product_id'])
                             if productb:
                                 theoric += productb.standard_price * r['product_qty']
-								#Si el producto tiene lista de materiales y se usa en la estructura de costes
-								#calculamos de forma recursiva el valor forecasted_price
+                                #Si el producto tiene lista de materiales y se usa en la estructura de costes
+                                #calculamos de forma recursiva el valor forecasted_price
                                 if 'bom' in [x.cost_type for x in productb.cost_structure_id.elements]:
                                     c = context.copy()
                                     c['cron'] = True
                                     c['update_costs'] = False
                                     c['register_costs'] = False
                                     c['product_id'] = productb.id
-                                    
                                     cost = self.get_product_costs(cr, uid, ids, c)
                                     forecasted_price = cost.get('forecasted_price', False) or productb.forecasted_price or productb.standard_price or 0.0
                                 else:
@@ -133,7 +121,7 @@ class product_costs_line(osv.osv_memory):
                             for wc_use in bom.routing_id.workcenter_lines:
                                 wc = wc_use.workcenter_id
                                 qty_per_cycle = uom_obj._compute_qty(cr, uid, wc_use.uom_id.id, wc_use.qty_per_cycle, product.uom_id.id)
-                                hours += float((wc_use.hour_nbr / qty_per_cycle)  * (wc.time_efficiency or 1.0) * (wc_use.operators_number or 1.0))
+                                hours += float((wc_use.hour_nbr / qty_per_cycle) * (wc.time_efficiency or 1.0) * (wc_use.operators_number or 1.0) / (wc.performance_factor or 1.0))
                             theoric = element.cost_ratio * hours * 60
                             forecasted = theoric
             elif element.cost_type == 'total':
@@ -145,10 +133,6 @@ class product_costs_line(osv.osv_memory):
             # REAL COST
             cost = 0.0
             context.update({'to_date': time_stop[:10]})
-            obj_product = product_facade.browse(cr,
-                                                uid,
-                                                product_id,
-                                                context=context)
             # DATA FOR WHERE CLAUSE
             # Destination location
             domain = ['|',
@@ -248,7 +232,6 @@ class product_costs_line(osv.osv_memory):
         return value
 
     def show_product_costs(self, cr, uid, ids, context=None):
-
         if context is None:
             context = {}
         prod_cost = self.pool.get('product.cost')
