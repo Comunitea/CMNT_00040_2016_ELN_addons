@@ -76,6 +76,10 @@ class mrp_workcenter(osv.osv):
 
     _columns = {
         'operators_ids': fields.many2many('hr.employee', 'hr_employee_mrp_workcenter_rel', 'workcenter_id', 'employee_id', string='Operators'),
+        'performance_factor' : fields.float('Performance', size=8, required=True, help="Performance factor for this workcenter"),
+    }
+    _defaults = {
+        'performance_factor' : 1
     }
 
 mrp_workcenter()
@@ -122,6 +126,7 @@ class mrp_bom(osv.osv):
                     oper.append(operators[op])
             user = self.pool.get('res.users').browse(cr, uid, uid, context)
             lang = user and user.lang or u'es_ES'
+            hour = float(((factor * bom.product_qty) * (wc_use.hour_nbr or 1.0) / (qty_per_cycle or 1.0)) * (wc.time_efficiency or 1.0) / (wc.performance_factor or 1.0))
             return{
                 'name': tools.ustr(wc_use.name) + u' - ' + tools.ustr(bom.product_id.with_context(lang=lang).name),
                 'routing_id': routing.id,
@@ -131,8 +136,8 @@ class mrp_bom(osv.osv):
                 'cycle': wc_use.cycle_nbr * (factor * bom.product_qty),
                 'time_start': wc_use.time_start,
                 'time_stop': wc_use.time_stop,
-                'hour': float(((factor * bom.product_qty) * (wc_use.hour_nbr or 1.0) / (qty_per_cycle or 1.0)) * (wc.time_efficiency or 1.0)),
-                'real_time': float(((factor * bom.product_qty) * (wc_use.hour_nbr or 1.0) / (qty_per_cycle or 1.0)) * (wc.time_efficiency or 1.0)),
+                'hour': hour,
+                'real_time': hour,
             }
 
         factor = _factor(factor, bom.product_efficiency, bom.product_rounding)
