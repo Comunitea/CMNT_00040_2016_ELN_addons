@@ -1,0 +1,137 @@
+<!--
+  Generated template for the SlideopPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+    <ion-navbar color="primary">
+        <button ion-button icon-only menuToggle>
+          <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title>Op. {{ op.id }}</ion-title>
+        <ion-buttons end>
+          <button ion-button >
+            <ion-icon name="log-out"></ion-icon>
+          </button>
+      </ion-buttons>
+    </ion-navbar>
+    <h2 class="danger" [hidden]="message == ''">{{ message }}</h2>
+</ion-header>
+
+
+<ion-content padding>
+
+  <div *ngIf="!op" style="text-align: center" no-lines >    
+    <ion-spinner name="circles"></ion-spinner><br>
+    <b>Cargando...</b>
+  </div>
+
+  
+  <ion-slides #slides pager (ionSlideDidChange)="slideChanged()" class ="alignTop">
+      
+        <ion-slide [ngStyle]="{'background-color': op.state}" class ="alignTop">
+          <ion-label color="primary">{{op.product_id_name}}</ion-label>
+          <ion-item>
+            <ion-label color="odoo">{{op.location_id_name}} >></ion-label>
+          </ion-item>
+          <ion-item>
+              <ion-label color="odoo" class='bold'> {{op.package_id_name || 'No Pack'}} [{{op.lot_id_name || 'No lot'}}]</ion-label>
+          </ion-item>
+         
+          <ion-item>
+            <ion-icon class='itemIcons' name="archive" [hidden]= 'op.product_id' item-start></ion-icon>
+            <ion-icon class='itemIcons' name="open" [hidden]= '!op.product_id' item-start></ion-icon>
+            <ion-label color="primary">Qty: {{ op.total_qty }} {{ op.product_uom_name }}</ion-label>
+          </ion-item>
+          <ion-item>
+              <ion-label color="primary">>> {{op.location_dest_id_name}}</ion-label>
+              <ion-label color="primary" [hidden]='!op.result_package_id'> [{{op.result_package_id}}]</ion-label>
+          </ion-item>
+          <h2 class="danger" [hidden]= 'package_id_change == 0'>Cambiando paquete. Confirma </h2>
+          
+        </ion-slide>
+      
+        <ion-slide [ngStyle]="{'background-color': op.state}" class ="alignTop">
+          <ion-label [hidden] = 'origin || op.pda_done' color='danger'> No has confirmado origen</ion-label>
+          
+          <ion-label color="primary">{{op.product_id_name}}</ion-label>
+          <ion-item>
+              <ion-label color="primary" class='bold'> {{op.package_id_name || 'No Pack'}} [{{op.lot_id_name || 'No lot'}}]</ion-label>
+          </ion-item>
+
+          <ion-item> 
+            <ion-icon class='itemIcons' name="archive" [hidden]= 'op.product_id' item-start></ion-icon>
+            <ion-icon class='itemIcons' name="open" [hidden]= '!op.product_id' item-start></ion-icon>
+            <ion-label color="odoo">
+              Qty: {{ op.total_qty }} {{ op.product_uom_name }}
+            </ion-label>
+          </ion-item>
+          <form [formGroup]="qtyForm">
+            <ion-item [hidden]='op.pda_done' >
+               
+              <ion-label color="odoo" item-start>Hecho: </ion-label>
+              <ion-input #qty [formControl]="qtyForm.controls['qty']" type="text" name="qty" placeholder = "{{ op.qty_done || 0.00}} {{ op.product_uom_name }}"></ion-input>
+              <button ion-button icon-only item-end clear (click)="submitQty()">
+                <ion-icon name="cart"></ion-icon>
+              </button>
+            </ion-item>   
+            <ion-item [hidden]='op.result_package_id == 0'>
+                <ion-label color="primary">
+                  Paquete Destino {{op.result_package_id_name}}
+                </ion-label>
+              </ion-item>
+              <ion-item [hidden]='op.location_dest_id == 0'>
+                <ion-label color="primary">
+                  Ubicación Destino: {{op.location_dest_id_name}}
+                </ion-label>
+              </ion-item>         
+          </form>      
+          
+        </ion-slide>
+      
+        <ion-slide [ngStyle]="{'background-color': op.state}" class ="alignTop">
+          <ion-label [hidden] = 'origin || op.pda_done' class = 'danger' > No has confirmado origen</ion-label>        
+
+          <ion-label color="primary">{{op.product_id_name}}</ion-label>
+          <ion-item>
+              <ion-label color="primary" class='bold'> {{op.package_id_name || 'No Pack'}} [{{op.lot_id_name || 'No lot'}}]</ion-label>
+          </ion-item>
+
+          <ion-item [hidden] = 'op.qty_done == 0'>
+            <ion-label color="primary">
+              Qty: {{ op.total_qty }} {{ op.product_uom_name }}
+            </ion-label>
+          </ion-item>
+          <ion-item [hidden] = '!op.qty_done == 0'>
+            <ion-label color="primary">
+              Qty: {{op.qty_done }} de {{ op.total_qty }} {{ op.product_uom_name }}
+            </ion-label>
+          </ion-item>
+          <ion-item [hidden]='op.result_package_id == 0'>
+            <ion-label color="odoo">
+              A {{op.result_package_id_name}}
+            </ion-label>
+          </ion-item>
+          <ion-item [hidden]='op.location_dest_id == 0'>
+            <ion-label color="odoo">
+              A  {{op.location_dest_id_name}}
+            </ion-label>
+          </ion-item>
+        </ion-slide>
+      
+
+  </ion-slides>
+
+  
+ 
+</ion-content>
+<ion-footer [hidden]='op.pda_done' >
+
+  <form [formGroup]="credentialsForm" class ="alignBottom">
+    <ion-item >
+      <ion-input #scan [formControl]="credentialsForm.controls['scan']" type="text" name="scan" placeholder = "Scan" autofocus ></ion-input>
+    </ion-item>
+    <button ion-button type="submit" block (click)="submitScan()">Scan</button>
+   </form>
+</ion-footer>
