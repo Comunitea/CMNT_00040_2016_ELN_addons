@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+         <record id="stock_move_warehouse_app" model="ir.ui.view">
+            <field name="name">stock.move.form</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock.view_move_form"/>
+            <field name="arch" type="xml">
+                 <xpath expr="//field[@name='product_id']" position="before">
+
+                     <label for="restrict_package_id" class="oe_inline"/>
+                    <div class="oe_inline">
+                        <field name="restrict_package_id" on_change="onchange_restrict_package_id(restrict_package_id,location_dest_id,partner_id)" class="oe_inline"/>
+                         <field name="package_qty"
+                                attrs="{'invisible': [('restrict_package_id', '=', 'False')]}"
+                                on_change="onchange_package_qty(package_qty,restrict_package_id)" class="oe_inline"/>
+                     </div>
+
+                 </xpath>
+                 <xpath expr="//field[@name='name']" position="before">
+
+                    <field name="restrict_lot_id"/>
+                    <field name="result_package_id" on_change="onchange_result_package_id(result_package_id)"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>

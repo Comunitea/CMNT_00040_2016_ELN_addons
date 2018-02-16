@@ -1,0 +1,90 @@
+<!--
+  Generated template for the ManualPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar color="primary">
+      <button ion-button icon-only menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+      <ion-title>Movimiento manual</ion-title>
+      <ion-buttons end>
+        
+        <button ion-button >
+          <ion-icon name="log-out"></ion-icon>
+        </button>
+    </ion-buttons>
+  </ion-navbar>
+  <h2 class="danger" [hidden]="message == ''">{{ message }}</h2>
+</ion-header>
+<ion-content>
+  
+    <ion-list>
+        <ion-item-group> 
+          <ion-item no-lines>
+            
+            <ion-label color="odoo" item-start class="bold" onclick="set_origin()">
+              ORIGEN
+            </ion-label>
+            <ion-icon name="repeat" item-end color="danger" (click)="reset_form()"></ion-icon>
+          </ion-item>
+      
+          <ion-item [hidden] = "!restrict_package_id">
+            <button ion-button outline item-end>{{restrict_package_id_name}}</button>
+            <ion-toggle [(ngModel)]="package_qty"  (ionChange)="change_package_qty()" item-start></ion-toggle>
+          </ion-item>
+          
+          <ion-item>
+              <ion-label color="primary" >Lote</ion-label>
+              <button ion-button outline item-end>{{restrict_lot_id_name}}</button>
+          </ion-item>
+          <ion-item>
+              <ion-label color="primary" >Articulo</ion-label>
+              <button ion-button outline item-end>{{product_id_name}}</button>
+          </ion-item>
+          <ion-item [hidden] = "package_qty">
+            <ion-label color="primary">Qty</ion-label>
+            <!--ion-input [(ngModel)]='product_qty' type="number" item-end style="align-self: flex-end; max-width: 50%;"></ion-input-->
+            <button ion-button outline item-end (click)="inputQty()">{{ product_qty }} {{ uom }}</button>
+          </ion-item>
+          <ion-item>
+              <ion-label color="primary" >De</ion-label>
+              <button ion-button outline item-end>{{location_id_name}}</button>
+          </ion-item>
+        </ion-item-group>
+
+        <ion-item-group [hidden]="state==0">
+          <ion-item no-lines>
+            <ion-label color="odoo" class="bold" item-start onclick="set_dest()">
+              DESTINO
+            </ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-icon name="log-out" [hidden] = "result_package_id == 0" item-start color="danger" (click)="no_result_package()"></ion-icon>
+            <ion-icon name="log-in" [hidden] = "result_package_id != 0" item-start color="secondary" (click)="no_result_package(false)"></ion-icon>
+            <button ion-button outline item-end>{{result_package_id_name}}</button>
+          </ion-item>
+          <ion-item>
+            <ion-label color="primary">A</ion-label>
+            <button ion-button outline item-end>{{location_dest_id_name}}</button>
+          </ion-item>
+        </ion-item-group>
+      </ion-list>
+  
+  
+  
+</ion-content>
+<ion-footer>
+    <form [formGroup]="barcodeForm" class ="alignBottom">
+        <ion-item>
+           <ion-label color="odoo" item-start>Scan: </ion-label>
+           <ion-input #scan [formControl]="barcodeForm.controls['scan']" type="text" name="scan" placeholder = "Scan"  autofocus></ion-input>
+          
+           <button ion-button icon-only item-end clear (click)="submitScan()">
+             <ion-icon name="barcode"></ion-icon>
+           </button>
+         </ion-item>   
+       </form>
+</ion-footer>
