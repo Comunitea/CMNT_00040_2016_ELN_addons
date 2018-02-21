@@ -15,12 +15,14 @@ import { File } from '@ionic-native/file';
 //Paginas
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
+import { ProductionPage } from '../pages/production/production';
 
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
+    ProductionPage,
   ],
   imports: [
     BrowserModule,
@@ -33,6 +35,7 @@ import { HomePage } from '../pages/home/home';
   entryComponents: [
     MyApp,
     HomePage,
+    ProductionPage,
   ],
   providers: [
     StatusBar,

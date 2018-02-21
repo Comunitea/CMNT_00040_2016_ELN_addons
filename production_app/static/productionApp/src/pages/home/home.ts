@@ -2,9 +2,9 @@ import {NavController, NavParams, AlertController} from 'ionic-angular';
 import {Component} from '@angular/core';    
 import {Network} from '@ionic-native/network';
 import {Storage} from '@ionic/storage';
-// import {PROXY} from '../../providers/constants/constants';
+import {PROXY} from '../../providers/constants/constants';
+import {ProductionPage} from '../../pages/production/production';
 
-//import  * as odoo from '../../providers/odoo-connector/odoo.js';
 
 
 declare var OdooApi: any;
@@ -99,7 +99,8 @@ export class HomePage {
                         user.id = value[0].id;
                         user.name = value[0].name;
                         user.login = value[0].login;
-                        self.navCtrl.setRoot(TreepickPage); //-> me voy para la home page
+                        // me voy para página de producción
+                        self.navCtrl.setRoot(ProductionPage); 
 
                     } 
                     else {
