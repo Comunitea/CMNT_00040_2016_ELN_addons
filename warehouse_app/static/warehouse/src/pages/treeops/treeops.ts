@@ -33,7 +33,7 @@ export class TreeopsPage {
     this.myScanPackage.setFocus();
      }
   
-  op_fields = ['id', 'pda_checked', 'pda_done', 'product_id', 'location_id_name', 'location_dest_id_name', 'product_uom_name', 'package_id_name', 'result_package_id_name', 'lot_id_name', 'product_qty', 'qty_done', 'product_id_name', 'package_id', 'lot_id', 'location_id']
+  op_fields = ['id', 'pda_checked', 'pda_done', 'product_id', 'product_uom','product_qty', 'qty_done', 'package_id', 'lot_id', 'location_id']
   pick_fields = ['id', 'name', 'location_id_name', 'location_dest_id_name', 'min_date', 'picking_type_id_name', 'state', 'partner_id_name', 'done_ops', 'all_ops']
   items = [];
   picks = [];
@@ -55,7 +55,8 @@ export class TreeopsPage {
   treeForm: FormGroup;
   ops = []
   model_fields = {'stock.quant.package': 'package_id', 'stock.location': 'location_id', 'stock.production.lot': 'lot_id'}
-
+  whatOps: string
+  
   constructor(public navCtrl: NavController, public navParams: NavParams,  private formBuilder: FormBuilder,public alertCtrl: AlertController, private storage: Storage) {
     
     this.items = [];
@@ -69,7 +70,7 @@ export class TreeopsPage {
     this.pick_type = 'pick_type'
     this.selected_picking = {}
     this.scan = '';
-    
+    this.whatOps = 'Todas'
     this.treeForm = this.formBuilder.group({
       scan: ['']
     });
@@ -80,7 +81,13 @@ export class TreeopsPage {
   ionViewWillEnter(){
     this.loadList();
   }
-  
+  seeAll(){
+    if (this.whatOps=='Todas'){
+      this.whatOps='Pendientes'
+    }
+    else
+      {this.whatOps='Todas'}
+  }
 
   ionViewLoaded() {
     
@@ -113,8 +120,8 @@ export class TreeopsPage {
                       }
                     for (var key in self.items) {
                       newOP = {'index': key, 
-                                'id': self.items[key]['id'],
-                              'pda_done': self.items[key['pda_done']]}
+                               'id': self.items[key]['id'],
+                               'pda_done': self.items[key['pda_done']]}
                       self.ops.push(newOP)
                     }
                     self.record_count = self.items.length;
@@ -231,7 +238,7 @@ export class TreeopsPage {
               odoo.call(model, method, values).then(
                 function (value) {
 
-                  self.cargar = false;
+                  
                   setTimeout(() => {
                     var res = self.findId(value);
                     if (res) {
@@ -251,9 +258,7 @@ export class TreeopsPage {
                           self.presentAlert('Falla!', 'Imposible conectarse');
                       }
                   );
-                  self.cargar = false;
-
-             
+            
               }
               
               
@@ -285,7 +290,7 @@ export class TreeopsPage {
                 function (value) {
                   object_id = value;
                   self.cargar = false;
-                  self.ionViewLoaded()
+                  self.loadList()
                 },
                 function () {
                   self.cargar = false;
@@ -331,8 +336,8 @@ export class TreeopsPage {
               odoo.call(model, method, values).then(
                 function (value) {
                   object_id = value;
-                  self.cargar = false;
-                  self.ionViewLoaded()
+                  /*self.ionViewLoaded()*/
+                  self.loadList();
                 },
                 function () {
                   self.cargar = false;
@@ -349,9 +354,6 @@ export class TreeopsPage {
 
              
               }
-              
-              this.loadList()
-              
           });
   }
 

@@ -17,7 +17,7 @@
 .home{
     background:color($colors, primary);
     color:color($colors, light);
-    margin-top:30px;
+    margin-top:20px;
 }
 
 .toolbar-title{
@@ -60,7 +60,7 @@
 }
 h2 {
     color: color($colors, odootext);
-    padding-bottom: 10px;
+    padding-bottom: 8px;
 }
 .danger {
     color: color($colors, danger);
@@ -76,7 +76,8 @@ button {
     color: color($colors, secondary);
 }
 .ion-badge .ion-item {
-    padding: 0px
+    padding: 0px;
+    margin: 0px
 }
 .op_change {
     color: color($colors, danger);
@@ -95,12 +96,13 @@ button {
     //height: 710px;
     border-top: none;
     border-bottom:none;
-    margin-bottom: -5px;
+    margin-bottom: 0px;
     
 }
 ion-label{
     white-space: pre-line!important;
-    line-height: 16pt;
+    line-height: 12pt;
+    margin: 0;
 }
 .all0 {
     margin: 0px;
@@ -122,3 +124,65 @@ ion-toast.toastOk {
 
 .pickwaiting {color: color($colors, sales);}
 .pickdone {color: color($colors, odoo);}
+
+.ok{
+    font-weight: bold;
+    background-color:color($colors, odoolight); 
+    color: color($colors, odoo);
+}
+.no_ok{
+    font-weight: bold;
+    background-color:color($colors, odoo); 
+    color: color($colors, odoolight);
+}
+ion-badge {
+    width: 60pt;
+}
+.buttonProduct{
+    width: 100%;
+    height: 20pt;
+    font-weight: bold;
+    color: color($colors, product);
+    border: none; 
+    background-color: color($colors, light);
+    
+}
+.buttonProduct .button-inner{
+    justify-content:flex-start;
+    /*font-size: small;*/
+}
+.buttonProduct:hover{
+    background-color: color($colors, product)!important;
+    color: color($colors, light);
+}
+.buttonOp{
+    width: 75%;
+    /*font-weight: bold;*/
+    color: color($colors, product);
+    border: none; 
+    /*background-color: color($colors, light);*/
+    background-color: color($colors, product)!important;
+    color: color($colors, light);
+}
+.buttonOp_ok{
+    width: 75%;
+    /*font-weight: bold;*/
+    color: color($colors, product);
+    border: none; 
+    /*background-color: color($colors, odoolight);*/
+}
+.buttonOp .button-inner{
+    justify-content:flex-end;
+    font-size: small;
+}
+.buttonOp_ok .button-inner{
+    justify-content:flex-end;
+    font-size: small;
+}
+.buttonOp:hover{
+    background-color: color($colors, product)!important;
+    color: color($colors, light);
+}
+.badge_0 {
+    background-color: color($colors, odoopriamry)
+}

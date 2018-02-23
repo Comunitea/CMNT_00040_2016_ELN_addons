@@ -68,7 +68,8 @@ class StockLocationRack(models.Model):
                             'picking_order': picking_order,
                             'picking_order_dec': picking_order_dec,
                             'rotation': rack.rotation,
-                            'rack_id': rack.id}
+                            'rack_id': rack.id,
+                            'company_id': False}
                     domain_location = [('loc_barcode','=', loc_barcode), ('warehouse_id', '=', rack.warehouse_id.id)]
                     location = self.env['stock.location'].search(domain_location)
                     if location:

@@ -62,6 +62,7 @@ export class TreepickPage {
       } else {
           var con = val;
           var domain = [];
+          domain.push(['pack_operation_ids', '!=', '[]'])
           var odoo = new OdooApi(PROXY, con.db);
           odoo.login(con.username, con.password).then(
             function (uid) {
@@ -167,14 +168,14 @@ showtreeop_ids(pick_id) {
 
 doAsign(pick_id){
   this.change_pick_value(pick_id, 'user_id', this.uid);
-  this.user='assigned';
-  this.filter_picks(this.picking_type_id);
+  /*this.user='assigned';
+  this.filter_picks(this.picking_type_id);*/
 }
 doDeAsign(pick_id){
   
   this.change_pick_value(pick_id, 'user_id', false);
-  this.user='no_assigned';
-  this.filter_picks(this.picking_type_id);
+  /*this.user='no_assigned';
+  this.filter_picks(this.picking_type_id);*/
 }
 change_pick_value(id, field, new_value){
   var self = this;
@@ -198,9 +199,12 @@ change_pick_value(id, field, new_value){
             odoo.call(model, method, values).then(
               function (value) {
                 if (new_value){
-                  self.user=''
-                }else {self.user='no_assigned'}
-
+                  self.user='assigned'
+                }
+                else {
+                  self.user='no_assigned'
+                }
+                self.get_picks();
               },
               function () {
                 self.cargar = false;

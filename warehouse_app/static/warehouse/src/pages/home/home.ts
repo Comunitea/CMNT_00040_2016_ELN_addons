@@ -17,7 +17,7 @@ export class HomePage {
 
   loginData = {password: '', username: ''};
   CONEXION = {
-      url: 'http://192.168.0.10',
+      url: '192.168.0.112',
       port: '8069',
       db: 'pistola',
       username: '',

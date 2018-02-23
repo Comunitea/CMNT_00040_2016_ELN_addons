@@ -154,8 +154,10 @@ class StockMove(models.Model):
 
         }
         print vals
+
         new_move = self.env['stock.move'].create(vals)
         if new_move:
+
             new_move.action_done()
             return {'message': 'OK', 'id': new_move.id}
         else:

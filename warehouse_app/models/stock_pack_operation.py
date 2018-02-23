@@ -49,25 +49,23 @@ class StockPackOperation (models.Model):
     @api.multi
     def get_app_names(self):
         for op in self:
+            op.pda_product_id = op.product_id or op.package_id.product_id or op.lot_id.product_id
 
-            product_id = op.product_id or op.package_id.product_id or op.lot_id.product_id
-            op.product_id_name = product_id and product_id.display_name
-            op.product_uom_name = product_id and product_id.uom_id.name
+            op.product_uom = op.product_id and op.product_id.uom_id
             op.total_qty = op.product_id and op.product_qty or op.package_id and op.package_id.package_qty
             op.real_lot_id = op.lot_id or op.package_id.lot_id
 
-    package_id_name = fields.Char(related='package_id.name')
-    location_dest_id_name =  fields.Char(related='location_dest_id.name')
-    location_id_name = fields.Char(related="location_id.name")
-    result_package_id_name = fields.Char(related='result_package_id.name')
-    product_uom_name = fields.Char('Unit of measure', compute = get_app_names, multi=True)
-
-    product_id_name = fields.Char('Product name', compute=get_app_names, multi=True)
+    #package_id_name = fields.Char(related='package_id.name')
+    location_dest_id_barcode =  fields.Char(related='location_dest_id.loc_barcode')
+    location_id_barcode = fields.Char(related="location_id.loc_barcode")
+    #result_package_id_name = fields.Char(related='result_package_id.name')
+    pda_product_id = fields.Many2one('product.product', compute = get_app_names, multi=True)
+    product_uom = fields.Many2one('product.uom', compute = get_app_names, multi=True)
     pda_done = fields.Boolean ('Pda done', help='True if done from PDA')
     pda_checked = fields.Boolean('Pda checked', help='True if visited in PDA')
     total_qty = fields.Float('Real qty', compute=get_app_names, multi=True)
     real_lot_id = fields.Many2one('stock.production.lot', 'Real lot', compute=get_app_names, multi=True)
-    lot_id_name = fields.Char(related='real_lot_id.name')
+    #lot_id_name = fields.Char(related='real_lot_id.name')
     #orig_package_id = fields.Many2one('stock.quant.package', 'Orig. package')
     #orig_lot_id = fields.Many2one('stock.production.lot', 'Orig. lot')
     #orig_qty = fields.Float('Orig qty')
@@ -223,7 +221,6 @@ class StockPackOperation (models.Model):
                        'message': 'No hay suficiente cantidad en el paquete'}
 
         elif field == 'package_id':
-
             print "Cambiar paquete origen"
             new_package = self.env['stock.quant.package'].browse([value])
             if self.env['stock.quant.package'].check_inter(op.package_id, new_package):
@@ -240,10 +237,21 @@ class StockPackOperation (models.Model):
                 res = {'result': False,
                        'message': 'Paquete incompatible'}
 
+        elif field == 'location_id' and not op.package_id:
+            print "Cambiar DXestino"
+            new_location_id = self.env['stock.location'].browse(value)
+            vals = {'location_id': new_location_id.id}
+
+            if op.write(vals):
+                res = {'result': True,
+                       'message': 'Nuevo destino %s'%op.location_id.name}
+            else:
+                res = {'result': False,
+                       'message': 'Error al escribir'}
 
         elif field == 'location_dest_id' and not op.result_package_id:
             print "Cambiar DXestino"
-            new_location_dest_id = self.env['stock.location'].name_to_id(value)
+            new_location_dest_id = self.env['stock.location'].browse(value)
             vals = {'location_dest_id': new_location_dest_id.id}
 
             if op.write(vals):
@@ -255,11 +263,13 @@ class StockPackOperation (models.Model):
 
         elif field == 'result_package_id':
             print "Cambiar paquete de destino"
-            new_package = self.env['stock.quant.package'].name_to_id(value)
-            if new_package.multi:
-                location_dest_id = new_package.location_id.id
-                vals = {'location_dest_id': location_dest_id,
-                        'result_package_id': new_package}
+            new_package = self.env['stock.quant.package'].browse(value)
+            if not new_package.multi:
+                location_dest_id = new_package.location_id and new_package.location_id.id or op.location_dest_id.id
+                vals = {'result_package_id': new_package.id}
+                if new_package.location_id:
+                    vals['location_dest_id'] = new_package.location_id.id
+
                 if op.write(vals):
                     res = {'result': True,
                            'message': 'Nuevo destino %s' % op.result_package_id.name}
