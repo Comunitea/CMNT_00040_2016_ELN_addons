@@ -46,6 +46,6 @@ class StockProductionLot(models.Model):
             else:
                 lot.location_id = False
 
-    location_id = fields.Many2one('Location', compute="get_lot_location_id", multi=True)
+    location_id = fields.Many2one('stock.location', compute="get_lot_location_id", multi=True)
     available_qty = fields.Float('Qty', compute="get_lot_location_id", multi=True)
     uom_id = fields.Many2one(related='product_id.uom_id')

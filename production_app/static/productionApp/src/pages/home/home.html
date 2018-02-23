@@ -1,18 +1,44 @@
-<ion-header>
-  <ion-navbar>
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
-    <ion-title>Home</ion-title>
-  </ion-navbar>
-</ion-header>
+<ion-content>  
+  <form (ngSubmit)="this.conectarApp(true)">
 
-<ion-content padding>
-  <h3>Ionic Menu Starter</h3>
+   <div>{{mensaje}}</div>
+   
+   <div style="text-align: center">
+       <img src="assets/imgs/icon.png" alt="Almacén"/>                        
+   </div> 
 
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will show you the way.
-  </p>
+   <ion-list *ngIf="!cargar">
+     <ion-item>
+       <ion-label color="primary" stacked>Usuario</ion-label>
+       <ion-input type="email"  [(ngModel)]="CONEXION.username" required name='username' placeholder="Ingresa Usuario"></ion-input>
+     </ion-item>
 
-  <button ion-button secondary menuToggle>Toggle Menu</button>
+     <ion-item>
+       <ion-label color="primary" stacked>Contraseña</ion-label>
+       <ion-input type="password" [(ngModel)]="CONEXION.password" required name='password'  placeholder="Ingresa Contraseña"></ion-input>
+     </ion-item>
+     <ion-item>
+      <ion-label color="primary" stacked>URL</ion-label>
+      <ion-input [(ngModel)]="CONEXION.url" required name='url'  placeholder="Ingresa url"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label color="primary" stacked>Port</ion-label>
+      <ion-input type="number" [(ngModel)]="CONEXION.port" required name='port'  placeholder="Ingresa puerto"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label color="primary" stacked>Base de datos</ion-label>
+      <ion-input [(ngModel)]="CONEXION.db" required name='db'  placeholder="Ingresa base de datos"></ion-input>
+    </ion-item>
+     <ion-item>
+       <button ion-button block type="submit">Login</button>
+     </ion-item>
+     <div style="text-align: center">
+     </div>
+   </ion-list>
+ </form>
+ 
+ <div *ngIf="cargar" style="text-align: center">    
+   <ion-spinner name="circles"></ion-spinner><br>
+   <b>Verificando...</b>
+ </div>
 </ion-content>
