@@ -24,9 +24,6 @@
 
 
 <ion-content padding>
-    <button ion-button color="light" outline>Light Outline</button>
-    <button ion-button outline>Primary Outline</button>
-    <button ion-button color="secondary" outline>Secondary Outline</button>
-    <button ion-button color="danger" outline>Danger Outline</button>
-    <button ion-button color="dark" outline>Dark Outline</button>
+     <ion-item [hidden]='line' color ="danger"> No hay Línea seleccionda</ion-item>
+     <ion-item *ngIf="line">{{line.name}}</ion-item>
 </ion-content>
