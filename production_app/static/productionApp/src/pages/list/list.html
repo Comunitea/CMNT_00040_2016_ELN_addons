@@ -1,45 +1,25 @@
-<!-- <ion-header>
-  <ion-navbar>
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
-    <ion-title>List</ion-title>
-  </ion-navbar>
-</ion-header>
-
-<ion-content>
-  <ion-list>
-    <button ion-item *ngFor="let item of items" (click)="itemTapped($event, item)">
-      <ion-icon [name]="item.icon" item-start></ion-icon>
-      {{item.title}}
-      <div class="item-note" item-end>
-        {{item.note}}
-      </div>
-    </button>
-  </ion-list>
-  <div *ngIf="selectedItem" padding>
-    You navigated here from <b>{{selectedItem.title}}</b>
-  </div>
-</ion-content>
- -->
 <ion-header>
-    <ion-navbar>
-        <ion-title>
-            Adivina el número secreto
-        </ion-title>
+    <ion-navbar color="primary">
+        <button ion-button icon-only menuToggle>
+          <ion-icon name="menu"></ion-icon>
+        </button>
+
+        <ion-title>Lista de Líneas</ion-title>
+
+        <ion-buttons end>
+            <button ion-button >
+            <ion-icon name="log-out"></ion-icon>
+            </button>
+        </ion-buttons>
     </ion-navbar>
 </ion-header>
 <ion-content padding>
-    <ion-input type="number" min="1" max="100" [(ngModel)]="num" placeholder="Introduce un número del 1 al 100"></ion-input>
-    <p>El número secreto es {{ mayorMenor }} que {{num}}</p>
-    <ion-card *ngIf="mayorMenor=='igual'">
-        <ion-card-header>
-            ¡¡¡Enhorabuena!!!
-        </ion-card-header>
-         <ion-card-content>
-            Has acertado, el número secreto es el {{ num }}
-        </ion-card-content>
-    </ion-card>
-    <button *ngIf="mayorMenor!='igual'" ion-button block (click)="compruebaNumero()">Adivina</button>
-    <button *ngIf="mayorMenor=='igual'" ion-button block (click)="reinicia()">Volver a Jugar</button>
+    <ion-list>
+        <ion-item [hidden]='lines.length>0' color ="danger"> No hay Líneas</ion-item>
+        <button ion-item *ngFor="let line of lines" (click)="lineSelected(line)">
+            <ion-icon name="send"></ion-icon>
+            {{ line.name }}
+        </button>  
+    </ion-list>
+
 </ion-content>

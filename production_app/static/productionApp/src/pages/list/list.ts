@@ -1,72 +1,49 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, AlertController } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
+import { HomePage } from '../../pages/home/home';
+
 
 @Component({
   selector: 'page-list',
   templateUrl: 'list.html'
 })
 export class ListPage {
-    // selectedItem: any;
-    // icons: string[];
-    // items: Array<{title: string, note: string, icon: string}>;
+    lines = [];
 
-    // constructor(public navCtrl: NavController, public navParams: NavParams) {
-    //   // If we navigated to this page, we will have an item available as a nav param
-    //   this.selectedItem = navParams.get('item');
-
-    //   // Let's populate this page with some filler content for funzies
-    //   this.icons = ['flask', 'wifi', 'beer', 'football', 'basketball', 'paper-plane',
-    //   'american-football', 'boat', 'bluetooth', 'build'];
-
-    //   this.items = [];
-    //   for (let i = 1; i < 11; i++) {
-    //     this.items.push({
-    //       title: 'Item ' + i,
-    //       note: 'This is item #' + i,
-    //       icon: this.icons[Math.floor(Math.random() * this.icons.length)]
-    //     });
-    //   }
-    // }
-
-    // itemTapped(event, item) {
-    //   // That's right, we're pushing to ourselves!
-    //   this.navCtrl.push(ListPage, {
-    //     item: item
-    //   });
-    // }
-
-    num:number;
-    mayorMenor: string = '...';
-    numSecret: number = this.numAleatorio(0,100);
-
-    constructor(public navCtrl: NavController){
-
+    constructor(public navCtrl: NavController, private storage: Storage, public alertCtrl: AlertController){
+        this.lines = [];
+        this.getLines();
     }
 
-    numAleatorio(a,b){
-        return Math.round(Math.random()*(b-a)+parseInt(a));
+    presentAlert(titulo, texto) {
+        const alert = this.alertCtrl.create({
+            title: titulo,
+            subTitle: texto,
+            buttons: ['Ok']
+        });
+        alert.present();
     }
 
-    compruebaNumero(){
-        if(this.num){
-            if(this.numSecret < this.num){
-                this.mayorMenor = 'menor';
+    getLines(){
+        this.storage.get('CONEXION').then((con_data) => {
+            if (con_data == null) {
+                this.navCtrl.setRoot(HomePage, {borrar: true, login: null});
+            } else {
+                var odoo = new OdooApi(con_data.url, con_data.db);
+                odoo.login(con_data.username, con_data.password).then( (uid) => {
+                    var domain = [];
+                    var fields = ['id', 'name'];
+                    odoo.search_read('mrp.workcenter', domain, fields, 0, 0).then((lines) => {
+                        this.lines = lines;
+                    });
+                });
             }
-             else if(this.numSecret > this.num){
-            this.mayorMenor = 'mayor';
-            }
-        else{
-            this.mayorMenor = 'igual';
-        }
-        }
-       
+        });
+    }
+    lineSelected(line) {
+        this.presentAlert('Ok!', line.name);
     }
 
-    reinicia(){
-        // reiniciamos las variables
-        this.num = null;
-        this.mayorMenor = '...';
-        this.numSecret = this.numAleatorio(0,100);
-    }
 
 }

@@ -3,7 +3,7 @@ import {Component} from '@angular/core';
 import {Network} from '@ionic-native/network';
 import {Storage} from '@ionic/storage';
 import {PROXY} from '../../providers/constants/constants';
-import {ProductionPage} from '../../pages/production/production';
+import {ListPage} from '../../pages/list/list';
 
 
 
@@ -43,7 +43,7 @@ export class HomePage {
             if (val == null) {//no existe datos
                 self.presentAlert('Falla!', 'Imposible conectarse');
             } else {
-                self.navCtrl.setRoot(HomePage);
+                self.navCtrl.setRoot(ListPage);
             }
             self.cargar = false;
         });
@@ -100,7 +100,7 @@ export class HomePage {
                         user.name = value[0].name;
                         user.login = value[0].login;
                         // me voy para página de producción
-                        self.navCtrl.setRoot(ProductionPage); 
+                        self.navCtrl.setRoot(ListPage); 
 
                     } 
                     else {
