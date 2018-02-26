@@ -17,11 +17,11 @@ export class HomePage {
 
   loginData = {password: '', username: ''};
   CONEXION = {
-      url: 'http://192.168.0.10',
-      port: '8069',
-      db: 'pistola',
-      username: '',
-      password: '',
+      url: 'http://192.168.0.119',
+      port: '9069',
+      db: 'nogal_dev',
+      username: 'admin',
+      password: 'admin',
   };
   cargar = true;
   mensaje = '';
