@@ -65,7 +65,7 @@ export class ManualPage {
   total_package_qty = 0;
   models = []
   last_scan = ''
-  input: number = 0;
+  input: number = 0;barcodeForm: FormGroup;
   
   constructor(public navCtrl: NavController, public toastCtrl: ToastController, public navParams: NavParams, private formBuilder: FormBuilder, public storage: Storage,  public alertCtrl: AlertController) {
     this.move['restrict_package'] ="Restrict package";

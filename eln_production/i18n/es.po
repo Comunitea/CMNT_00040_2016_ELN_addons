@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-30 09:42+0000\n"
-"PO-Revision-Date: 2017-08-30 11:59+0200\n"
+"POT-Creation-Date: 2018-02-15 17:18+0000\n"
+"PO-Revision-Date: 2018-02-15 18:22+0100\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
 "Language: es\n"
-"X-Generator: Poedit 2.0.3\n"
+"X-Generator: Poedit 2.0.6\n"
 
 #. module: eln_production
 #: code:addons/eln_production/mrp.py:59
@@ -182,8 +182,8 @@ msgid "Entry qty (kg)"
 msgstr "Cant. entrada (kg)"
 
 #. module: eln_production
-#: code:addons/eln_production/mrp.py:294 code:addons/eln_production/mrp.py:727
-#: code:addons/eln_production/mrp.py:737
+#: code:addons/eln_production/mrp.py:299 code:addons/eln_production/mrp.py:729
+#: code:addons/eln_production/mrp.py:739
 #, python-format
 msgid "Error!"
 msgstr "¡Error!"
@@ -344,7 +344,7 @@ msgid "Manufacturing Orders"
 msgstr "Órdenes de producción"
 
 #. module: eln_production
-#: code:addons/eln_production/mrp.py:294
+#: code:addons/eln_production/mrp.py:299
 #, python-format
 msgid "Manufacturing order cannot be started in state \"%s\"!"
 msgstr "La orden de producción no se puede iniciar en estado \"%s\""
@@ -440,8 +440,8 @@ msgid "Out qty (kg)"
 msgstr "Cant. salida (kg)"
 
 #. module: eln_production
-#: code:addons/eln_production/mrp.py:488
-#: code:addons/eln_production/stock_move.py:83
+#: code:addons/eln_production/mrp.py:493
+#: code:addons/eln_production/stock_move.py:74
 #, python-format
 msgid "PROD: %s"
 msgstr "PROD: %s"
@@ -457,6 +457,21 @@ msgstr "Pausar orden de trabajo"
 #: view:mrp.production.workcenter.line:eln_production.mrp_production_workcenter_tree_view_inherit
 msgid "Pending"
 msgstr "Pendiente"
+
+#. module: eln_production
+#: field:mrp.workcenter,performance_factor:0
+msgid "Performance"
+msgstr "Rendimiento"
+
+#. module: eln_production
+#: view:mrp.workcenter:eln_production.mrp_workcenter_view
+msgid "Performance Information"
+msgstr "Información de rendimiento"
+
+#. module: eln_production
+#: help:mrp.workcenter,performance_factor:0
+msgid "Performance factor for this workcenter"
+msgstr "Factor de rendimiento para este centro de trabajo"
 
 #. module: eln_production
 #: field:mrp.workorder,planified_time:0
@@ -873,7 +888,7 @@ msgid "Yesterday"
 msgstr "Ayer"
 
 #. module: eln_production
-#: code:addons/eln_production/mrp.py:727 code:addons/eln_production/mrp.py:737
+#: code:addons/eln_production/mrp.py:729 code:addons/eln_production/mrp.py:739
 #, python-format
 msgid "You cannot delete a production which is not cancelled."
 msgstr "No se puede eliminar una producción que no esté cancelada."

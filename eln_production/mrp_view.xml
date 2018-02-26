@@ -19,22 +19,26 @@
                     </group>
                     <notebook colspan="4">
                         <page string="General Information">
-                            <group col="2" colspan="2">
-                                <separator colspan="2" string="Capacity Information"/>
-                                <field name="time_efficiency"/>
-                           </group>
-                           <group col="4" colspan="2">
-                               <separator colspan="4" string="Costing Information"/>
-                               <field name="product_id" on_change="on_change_product_cost(product_id)"/>
-                               <field name="costs_hour"/>
-                               <field name="costs_hour_account_id" groups="analytic.group_analytic_accounting"/>
-                               <!--<field name="costs_cycle"/>
-                               <field name="costs_cycle_account_id" groups="analytic.group_analytic_accounting"/>-->
-                               <field name="costs_journal_id" attrs="{'required':[('costs_hour_account_id', '=', True)]}" groups="analytic.group_analytic_accounting"/>
-                               <field name="costs_general_account_id" attrs="{'required':[('costs_hour_account_id', '=', True)]}" groups="analytic.group_analytic_accounting"/>
-                           </group>
-                           <separator colspan="4" string="Description"/>
-                           <field colspan="4" name="note" nolabel="1"/>
+                            <group col="4" colspan="2">
+                                <group col="2" colspan="2">
+                                    <separator colspan="2" string="Performance Information"/>
+                                    <field name="performance_factor"/>
+                                </group>
+                                <group col="2" colspan="2">
+                                    <separator colspan="2" string="Capacity Information"/>
+                                    <field name="time_efficiency" readonly="1"/>
+                                </group>
+                            </group>
+                            <group col="4" colspan="2">
+                                <separator colspan="4" string="Costing Information"/>
+                                <field name="product_id" on_change="on_change_product_cost(product_id)"/>
+                                <field name="costs_hour"/>
+                                <field name="costs_hour_account_id" groups="analytic.group_analytic_accounting"/>
+                                <field name="costs_journal_id" attrs="{'required':[('costs_hour_account_id', '=', True)]}" groups="analytic.group_analytic_accounting"/>
+                                <field name="costs_general_account_id" attrs="{'required':[('costs_hour_account_id', '=', True)]}" groups="analytic.group_analytic_accounting"/>
+                            </group>
+                            <separator colspan="4" string="Description"/>
+                            <field colspan="4" name="note" nolabel="1"/>
                         </page>
                         <page string="Operators">
                             <separator colspan="4" string="Operators"/>

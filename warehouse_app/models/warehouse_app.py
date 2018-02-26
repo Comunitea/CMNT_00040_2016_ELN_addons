@@ -17,7 +17,9 @@ SEARCH_OPTIONS= {'stock.quant.package':'name',
 FIELD_NAME = {'stock.quant.package':'name',
         'stock.production.lot': 'name',
         'stock.location': 'loc_barcode',
-        'product.product': 'display_name'
+        'product.product': 'display_name',
+
+
         }
 
 FIELDS = {'stock.quant.package': ['id', 'name', 'lot_id', 'lot_id_name', 'location_id', 'location_id_name', 'package_qty', 'multi', 'product_id', 'product_id_name', 'uom'],
@@ -43,7 +45,7 @@ class WarehouseApp (models.Model):
 
     @api.model
     def get_object_id(self, vals):
-
+        #import ipdb; ipdb.set_trace()
         print "Recibo %s"%vals
         res = {}
         model = vals.get('model', False)

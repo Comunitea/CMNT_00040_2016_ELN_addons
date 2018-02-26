@@ -6,16 +6,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-21 22:26+0000\n"
-"PO-Revision-Date: 2016-04-22 00:29+0200\n"
-"Last-Translator: Pedro <pegomez@elnogal.com>\n"
+"POT-Creation-Date: 2018-02-15 17:38+0000\n"
+"PO-Revision-Date: 2018-02-15 18:42+0100\n"
+"Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"Language: es_ES\n"
-"X-Generator: Poedit 1.8.6\n"
+"Plural-Forms: \n"
+"Language: es\n"
+"X-Generator: Poedit 2.0.6\n"
 
 #. module: eln_product
 #: code:addons/eln_product/wizard/send_datasheet.py:48
@@ -72,7 +72,7 @@ msgstr "Autor"
 #. module: eln_product
 #: help:mail.compose.message.product.datasheet,author_id:0
 msgid "Author of the message. If not set, email_from may hold an email address that did not match any partner."
-msgstr "Author of the message. If not set, email_from may hold an email address that did not match any partner."
+msgstr "Autor del mensaje. Si no se establece, email_from puede contener una dirección de correo que no coincida con la de ninguna empresa."
 
 #. module: eln_product
 #: field:mail.compose.message.product.datasheet,author_avatar:0
@@ -82,7 +82,7 @@ msgstr "Avatar del autor"
 #. module: eln_product
 #: help:mail.compose.message.product.datasheet,body:0
 msgid "Automatically sanitized HTML contents"
-msgstr "Automatically sanitized HTML contents"
+msgstr "Contenido HTML automáticamente saneado"
 
 #. module: eln_product
 #: view:product.product:eln_product.product_normal_form_view_add_datasheet2
@@ -300,6 +300,11 @@ msgid "Display Name"
 msgstr "Nombre mostrado"
 
 #. module: eln_product
+#: field:product.pricelist.item,ean13:0
+msgid "EAN13"
+msgstr "EAN13"
+
+#. module: eln_product
 #: selection:mail.compose.message.product.datasheet,type:0
 msgid "Email"
 msgstr "Email"
@@ -492,7 +497,7 @@ msgstr "Message Record Name"
 #. module: eln_product
 #: help:mail.compose.message.product.datasheet,type:0
 msgid "Message type: email for email message, notification for system message, comment for other messages such as user replies"
-msgstr "Message type: email for email message, notification for system message, comment for other messages such as user replies"
+msgstr "Tipo de mensaje: email para mensajes de correo, notification para mensajes de sistema, comment para otros tipos de mensaje como respuestas de usuarios."
 
 #. module: eln_product
 #: help:mail.compose.message.product.datasheet,message_id:0
@@ -1015,6 +1020,16 @@ msgid "Units per box"
 msgstr "Unidades por caja"
 
 #. module: eln_product
+#: field:product.pricelist.item,uom:0
+msgid "UoM"
+msgstr "UdM"
+
+#. module: eln_product
+#: field:product.pricelist.item,uos:0
+msgid "UoS"
+msgstr "UdV"
+
+#. module: eln_product
 #: field:mail.compose.message.product.datasheet,use_active_domain:0
 msgid "Use active domain"
 msgstr "Usar el dominio activo"
@@ -1093,6 +1108,11 @@ msgstr "Escrito por"
 #, python-format
 msgid "You"
 msgstr "Tú"
+
+#. module: eln_product
+#: view:product.template:eln_product.product_template_search_view
+msgid "['|', '|', ('default_code','ilike',self), ('name','ilike',self), ('ean13','=',self)]"
+msgstr "['|', '|', ('default_code','ilike',self), ('name','ilike',self), ('ean13','=',self)]"
 
 #. module: eln_product
 #: field:product.product,fat_saturates:0
