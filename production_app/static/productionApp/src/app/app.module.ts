@@ -16,6 +16,8 @@ import { File } from '@ionic-native/file';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { ProductionPage } from '../pages/production/production';
+import { ListPage } from '../pages/list/list';
+
 
 
 @NgModule({
@@ -23,6 +25,7 @@ import { ProductionPage } from '../pages/production/production';
     MyApp,
     HomePage,
     ProductionPage,
+    ListPage,
   ],
   imports: [
     BrowserModule,
@@ -36,6 +39,7 @@ import { ProductionPage } from '../pages/production/production';
     MyApp,
     HomePage,
     ProductionPage,
+    ListPage,
   ],
   providers: [
     StatusBar,
