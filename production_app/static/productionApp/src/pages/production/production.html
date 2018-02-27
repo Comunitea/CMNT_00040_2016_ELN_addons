@@ -6,13 +6,24 @@
 -->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>production</ion-title>
-  </ion-navbar>
+    <ion-navbar color="primary">
+        <button ion-button icon-only menuToggle>
+          <ion-icon name="menu"></ion-icon>
+        </button>
+
+        <ion-title>Producción</ion-title>
+
+        <ion-buttons end>
+            <button ion-button >
+            <ion-icon name="log-out"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
-
+     <ion-item [hidden]='line' color ="danger"> No hay Línea seleccionda</ion-item>
+     <ion-item *ngIf="line">{{line.name}}</ion-item>
 </ion-content>

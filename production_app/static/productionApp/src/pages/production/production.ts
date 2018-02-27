@@ -15,11 +15,13 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class ProductionPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-  }
+    constructor(public navCtrl: NavController, public navParams: NavParams) {
+        // this.exist_line = false;
+        this.line = this.navParams.get('line');
+        // if (this.line) {
+        //     this.exist_line = true;
+        // }
+    }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad ProductionPage');
-  }
 
 }
