@@ -44,7 +44,7 @@
         <ion-item text-wrap *ngFor="let pick of picks; trackBy: index;" class="all0" >
                      
             <ion-label color="primary" (click)="showtreeop_ids(pick.id)" [ngClass]="{'pickwaiting': pick.state_2=='waiting', 'pìckdone': pick.state_2=='done'}">
-              {{pick.name}} ({{pick.state_2}} {{pick.picking_type_id_name}})
+              {{pick.name}} <!--({{pick.state_2}} {{pick.picking_type_id_name}})-->
             </ion-label>  
         
             <button ion-button icon-only item-end  (click)="doAsign(pick.id)" [hidden]="pick.user_id">Asignar

@@ -193,8 +193,8 @@ export class TreeopsPage {
     console.log("Do op")
   }
 
-  openOp(op_id, index){
-    this.navCtrl.push(SlideopPage, {op_id: op_id, index: index, ops: this.ops});
+  openOp(op_id){
+    this.navCtrl.push(SlideopPage, {op_id: op_id, index: 1, ops: this.ops});
   }
 
   submitScan (){

@@ -23,7 +23,7 @@ class StockQuant(models.Model):
                     lot_id=False, owner_id=False, src_package_id=False,
                     dest_package_id=False):
 
-        super(StockQuant, self).quants_move(
+        return super(StockQuant, self).quants_move(
             quants, move, location_to, location_from=location_from,
             lot_id=lot_id, owner_id=owner_id, src_package_id=src_package_id,
             dest_package_id=self._context.get('result_package_id', dest_package_id))
