@@ -28,6 +28,8 @@ class ProductPricelist(models.Model):
 
     _inherit ="product.pricelist"
 
+    in_app = fields.Boolean('Pricelist in APP')
+
     def _price_rule_get_multi(self, cr, uid, pricelist, products_by_qty_by_partner, context=None):
 
         context = context or {}
@@ -69,7 +71,7 @@ class TablePricelistPrices(models.Model):
         t_pricelist = self.env["product.pricelist"]
         domain = [('sale_ok', '=', True)]
         prod_objs = t_product.search(domain)
-        domain = [('type', '=', 'sale')]
+        domain = [('type', '=', 'sale'), ('in_app', '=', True)]
         pricelist_objs = t_pricelist.search(domain, order="id")
 
         for product in prod_objs:
@@ -78,7 +80,7 @@ class TablePricelistPrices(models.Model):
                                                    [(product, 1.0, False)])
             product_table = table[product.id]
             for pricelist in pricelist_objs:
-                
+
                 if pricelist.id in product_table.keys():
                     price = product_table[pricelist.id]
 
@@ -99,4 +101,8 @@ class TablePricelistPrices(models.Model):
                     else:
                         if price != rec_table.price:
                             rec_table.price = price
+
+        # Borro todos los precios a 0 para no sincronizarlos
+        sql1 = "delete from table_pricelist_price where price <= 0.00"
+        self.cr.execute(sql1)
         return True
