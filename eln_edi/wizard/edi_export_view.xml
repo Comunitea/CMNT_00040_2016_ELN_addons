@@ -9,8 +9,25 @@
                 <form string="Exportar">
                     <label string="¿Desea exportar los modelos seleccionados?"/>
                     <footer>
-                        <button name="export_files" string="Sí" type="object" icon="gtk-ok" default_focus="1"/>
                         <button special="cancel" string="No" icon="gtk-cancel"/>
+                        <button name="export_files" string="Sí" type="object" icon="gtk-ok" default_focus="1"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <record id="wizard_edi_export_coacsu" model="ir.ui.view">
+            <field name="name">wizard.edi.export.coacsu</field>
+            <field name="model">edi.export</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Exportar">
+                    <label string="Do you want to export the payment relation with the selected invoices?"/>
+                    <group>
+                        <field name="date_due"/>
+                    </group>
+                    <footer>
+                        <button special="cancel" string="No" icon="gtk-cancel"/>
+                        <button name="export_files" string="Sí" type="object" icon="gtk-ok" context="{'coacsu': True}" default_focus="1"/>
                     </footer>
                 </form>
             </field>
@@ -49,6 +66,16 @@
             view_id="wizard_edi_export"
             key2="client_action_multi"
             />
-
+        <!-- COACSU -->
+         <act_window
+            id="action_edi_export_coacsu" name="Exportar Relación Facturas EDI"
+            res_model="edi.export"
+            src_model="account.invoice"
+            view_type="form"
+            view_mode="form"
+            target="new"
+            view_id="wizard_edi_export_coacsu"
+            key2="client_action_multi"
+            />
     </data>
 </openerp>
