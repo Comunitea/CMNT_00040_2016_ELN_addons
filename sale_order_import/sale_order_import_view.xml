@@ -13,7 +13,7 @@
                         <separator string="Select your file :" colspan="4"/>
                         <field name="file" filename="file_name" colspan="4"/>
                         <field name="file_name" colspan="4"/>
-                        <field name="file_type" on_change="onchange_file_type(file_type)"/>
+                        <field name="file_type"/>
                         <field name="shop_id" required="1" colspan="2"/>
                         <field name="import_actions" colspan="2"/>
                     </group>

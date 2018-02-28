@@ -18,189 +18,160 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import orm, fields
+
+from openerp import models, fields, api, _
 from datetime import datetime
 from dateutil import tz
-from dateutil.relativedelta import relativedelta
-from openerp.tools.translate import _
 import time
-from openerp import api
 
 
-class sale_order(orm.Model):
+class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
-    def _get_effective_date(self, cr, uid, ids, name, arg, context=None):
+    supplier_id = fields.Many2one(
+        string="Supplier",
+        comodel_name='res.partner',
+        readonly=True, select=True,
+        domain = [('supplier','=',True)],
+        states={'draft': [('readonly', False)]})
+    order_policy = fields.Selection(selection_add=[('no_bill', 'No bill')])
+    supplier_cip = fields.Char(
+        string="CIP", size=32, readonly=True,
+        states={'draft': [('readonly', False)],'waiting_date': [('readonly', False)],'manual': [('readonly', False)],'progress': [('readonly', False)]},
+        help="Código interno del proveedor.")
+    shop_id = fields.Many2one(
+        string="Sale type",
+        comodel_name='sale.shop',
+        required=True)
+    commercial_partner_id = fields.Many2one(
+        comodel_name='res.partner',
+        invisible=True)
+    effective_date = fields.Date(
+        string="Effective Date",
+        compute="_get_effective_date", store=True,
+        help="Date on which the first Delivery Order was delivered.")
+
+    @api.multi
+    @api.depends('state')
+    def _get_effective_date(self):
         """Read the shipping effective date from the related packings"""
-        res = {}
-        dates_list = []
-        for order in self.browse(cr, uid, ids, context=context):
-            dates_list = []
-            for pick in order.picking_ids.filtered(lambda r: r.state != 'cancel'):
-                dates_list.append(pick.effective_date)
-            if dates_list:
-                res[order.id] = min(dates_list)
-            else:
-                res[order.id] = False
-        return res
+        for order in self:
+            if order.state in ('cancel', 'draft'):
+                order.effective_date = False
 
-    _columns = {
-        'supplier_id': fields.many2one('res.partner', 'Supplier', readonly=True,domain = [('supplier','=',True)],states={'draft': [('readonly', False)]}, select=True),
-        'order_policy': fields.selection([
-            ('prepaid', 'Pay before delivery'),
-            ('manual', 'Deliver & invoice on demand'),
-            ('picking', 'Invoice based on deliveries'),
-            ('postpaid', 'Invoice on order after delivery'),
-            ('no_bill', 'No bill')
-        ], 'Invoice Policy', required=True, readonly=True, states={'draft': [('readonly', False)]}, change_default=True),
-        'supplier_cip': fields.char('CIP', help="Código interno del proveedor.", size=32, readonly=True, states={'draft': [('readonly', False)],'waiting_date': [('readonly', False)],'manual': [('readonly', False)],'progress': [('readonly', False)]}),
-        'shop_id': fields.many2one('sale.shop', 'Sale type', required=True),
-        'commercial_partner_id': fields.many2one('res.partner', invisible=True),
-        'effective_date': fields.function(_get_effective_date, type='date',
-            store=True, string='Effective Date',
-            help="Date on which the first Delivery Order was delivered."),
-    }
+    @api.onchange('shop_id')
+    def onchange_shop_id(self):
+        if self.shop_id:
+            if self.shop_id.project_id and not self.project_id:
+                self.project_id = self.shop_id.project_id.id
+            if self.shop_id.company_id:
+                self.company_id = self.shop_id.company_id.id
+            if self.shop_id.pricelist_id:
+                self.pricelist_id = self.shop_id.pricelist_id.id
+            if self.shop_id.supplier_id:
+                self.supplier_id = self.shop_id.supplier_id.id
+            if self.shop_id.order_policy:
+                self.order_policy = self.shop_id.order_policy
+            if self.shop_id.warehouse_id:
+                self.warehouse_id = self.shop_id.warehouse_id.id
+            if self.partner_id:
+                partner_id = self.partner_id.commercial_partner_id
+                if self.shop_id.indirect_invoicing:
+                    if partner_id.property_product_pricelist_indirect_invoicing:
+                        self.pricelist_id = partner_id.property_product_pricelist_indirect_invoicing.id
+                else:
+                    if partner_id.property_product_pricelist:
+                        self.pricelist_id = partner_id.property_product_pricelist.id
+        else:
+            self.pricelist_id = False
 
-    def onchange_shop_id(self, cr, uid, ids, shop_id):
-        v = {}
-        if shop_id:
-            shop = self.pool.get('sale.shop').browse(cr, uid, shop_id)
-            v['project_id'] = shop.project_id.id
-            v['company_id'] = shop.company_id.id
-            # overriden by the customer priceslist if existing
-            if shop.pricelist_id.id:
-                v['pricelist_id'] = shop.pricelist_id.id
-            if shop.supplier_id.id:
-                v['supplier_id'] = shop.supplier_id.id
-            if shop.order_policy:
-                v['order_policy'] = shop.order_policy
-            if shop.warehouse_id:
-                v['warehouse_id'] = shop.warehouse_id.id
-            v['order_policy'] = shop.order_policy
-            v['supplier_id'] = shop.supplier_id.id
-
-        return {'value': v}
-
-    def onchange_shop_id2(self, cr, uid, ids, shop_id, partner_id=False, project_id=False):
-        res = self.onchange_shop_id(cr, uid, ids, shop_id)
-        if project_id:
-            res['value']['project_id'] = project_id
-        if not shop_id:
-            res['value']['pricelist_id'] = False
-            return res
-
-        if partner_id:
-            shop_obj = self.pool.get('sale.shop').browse(cr, uid, shop_id)
-            partner_obj = self.pool.get('res.partner').browse(cr, uid, partner_id)
-
-            if shop_obj.indirect_invoicing:
-                if partner_obj.property_product_pricelist_indirect_invoicing:
-                    res['value']['pricelist_id'] = partner_obj.property_product_pricelist_indirect_invoicing.id
-            else:
-                if partner_obj.property_product_pricelist:
-                    res['value']['pricelist_id'] = partner_obj.property_product_pricelist.id
-
-        return res
-
-    def action_ship_create(self, cr, uid, ids, context=None):
-        res = super(sale_order, self).action_ship_create(cr, uid, ids,
-                                                         context=context)
-        user_tz = self.pool['res.users'].browse(cr, uid, uid).tz
+    @api.multi
+    def action_ship_create(self):
+        res = super(SaleOrder, self).action_ship_create()
+        user_tz = self.env['res.users'].browse(self._uid).tz
         from_zone = tz.gettz('UTC')
         to_zone = tz.gettz(user_tz)
-        for order in self.browse(cr, uid, ids):
-            if order.picking_ids:
-                for picking in order.picking_ids:
-                    if order.requested_date:
-                        datetime_requested = \
-                            datetime.strptime(order.requested_date,
-                                              '%Y-%m-%d %H:%M:%S').\
-                            replace(tzinfo=from_zone).astimezone(to_zone)
-    
-                        date_requested = datetime.strftime(datetime_requested,
-                                                           '%Y-%m-%d')
-                        date_effective = date_requested
-                    else:
-                        date_requested = False
-                        datetime_effective = \
-                            datetime.strptime(order.commitment_date,
-                                              '%Y-%m-%d %H:%M:%S').\
-                            replace(tzinfo=from_zone).astimezone(to_zone)
-    
-                        date_effective = datetime.strftime(datetime_effective,
-                                                           '%Y-%m-%d')
-                    vals = {'note': order.note,
-                            'requested_date': date_requested,
-                            'effective_date': date_effective,
-                            }
-                    if order.supplier_id and picking.state != 'cancel' \
-                            and not picking.supplier_id:
-                        vals.update({'supplier_id': order.supplier_id.id})
-                    self.pool.get('stock.picking').write(cr, uid, picking.id,
-                                                         vals)
+        for order in self:
+            for picking in order.picking_ids:
+                if order.requested_date:
+                    datetime_requested = \
+                        datetime.strptime(order.requested_date,
+                                          '%Y-%m-%d %H:%M:%S').\
+                        replace(tzinfo=from_zone).astimezone(to_zone)
+                    date_requested = datetime.strftime(datetime_requested,
+                                                       '%Y-%m-%d')
+                    date_effective = date_requested
+                else:
+                    date_requested = False
+                    datetime_effective = \
+                        datetime.strptime(order.commitment_date,
+                                          '%Y-%m-%d %H:%M:%S').\
+                        replace(tzinfo=from_zone).astimezone(to_zone)
+                    date_effective = datetime.strftime(datetime_effective,
+                                                       '%Y-%m-%d')
+                vals = {'note': order.note,
+                        'requested_date': date_requested,
+                        'effective_date': date_effective,
+                        }
+                if order.supplier_id and picking.state != 'cancel' \
+                        and not picking.supplier_id:
+                    vals.update({'supplier_id': order.supplier_id.id})
+                picking.write(vals)
         return res
 
-    def onchange_partner_id(self, cr, uid, ids, part, context=None):
-        res = super(sale_order, self).onchange_partner_id(cr, uid, ids, part, context)
-        company_id = self.pool.get('res.users').browse(cr, uid, [uid]).company_id.id
-        partner = self.pool.get('res.partner').browse(cr, uid, part)
-        commercial_partner = partner.commercial_partner_id.id
-        rec = self.pool.get('account.analytic.default').account_get(cr, uid, product_id=False, partner_id=commercial_partner, user_id=uid,
-                                                                    date=time.strftime('%Y-%m-%d'),company_id=company_id, context={})
-        if rec:
-            res['value']['project_id'] = rec.analytic_id.id
-        else:
+    @api.multi
+    def onchange_partner_id(self, part):
+        res = super(SaleOrder, self).onchange_partner_id(part)
+        if not part:
             res['value']['project_id'] = False
-
-        #Modificamos para que la dirección de factura sea la que tenga la empresa padre
-        addr = self.pool.get('res.partner').address_get(cr, uid, [commercial_partner], ['invoice'])
-        res['value']['partner_invoice_id'] = \
-            addr['invoice']
+            res['value']['partner_invoice_id'] = False
+            res['value']['user_id'] = False
+            return res
+        company_id = self.env['res.users'].browse(self._uid).company_id.id
+        partner = self.env['res.partner'].browse(part)
+        rec = self.env['account.analytic.default'].account_get(
+                    product_id=False, partner_id=partner.commercial_partner_id.id,
+                    user_id=self._uid, date=time.strftime('%Y-%m-%d'), company_id=company_id)
+        res['value']['project_id'] = rec and rec.analytic_id.id or False
+        # Modificamos para que la dirección de factura sea la que tenga la empresa padre
+        addr = partner.commercial_partner_id.address_get(['invoice'])
+        res['value']['partner_invoice_id'] = addr['invoice']
         dedicated_salesman = False
         if res['value'].get('partner_shipping_id', False):
             part_ship_id = res['value']['partner_shipping_id']
-            partner_ship = self.pool.get('res.partner').browse(cr, uid,
-                                                               part_ship_id)
+            partner_ship = self.env['res.partner'].browse(part_ship_id)
             dedicated_salesman = partner_ship.user_id and \
                 partner_ship.user_id.id or False
         if dedicated_salesman:
             res['value']['user_id'] = dedicated_salesman
         return res
 
-    def onchange_delivery_id(self, cr, uid, ids, company_id, partner_id,
-                             delivery_id, fiscal_position, context=None):
-        res = super(sale_order, self).onchange_delivery_id(cr, uid, ids,
-                                                           company_id,
-                                                           partner_id,
-                                                           delivery_id,
-                                                           fiscal_position,
-                                                           context=context)
+    @api.multi
+    def onchange_delivery_id(self, company_id, partner_id, delivery_id, fiscal_position):
+        res = super(SaleOrder, self).onchange_delivery_id(
+                company_id, partner_id, delivery_id, fiscal_position)
         if delivery_id:
-            partner_ship = self.pool.get('res.partner').browse(cr, uid,
-                                                               delivery_id,
-                                                               context)
+            partner_ship = self.env['res.partner'].browse(delivery_id)
             res['value']['user_id'] = partner_ship.user_id and \
                 partner_ship.user_id.id or \
                 (partner_ship.commercial_partner_id.user_id and
                     partner_ship.commercial_partner_id.user_id.id or False)
         return res
 
-    def onchange_partner_id3(self, cr, uid, ids, part, early_payment_discount=False, payment_term=False, shop=False, context=None):
+    @api.multi
+    def onchange_partner_id3(self, part, early_payment_discount=False, payment_term=False, shop=False):
         """extend this event for change the pricelist when the shop is to indirect invoice"""
-        res = self.onchange_partner_id2(cr, uid, ids, part, early_payment_discount, payment_term, context=context)
-        partner_obj = self.pool.get('res.partner').browse(cr, uid, part, context)
+        res = self.onchange_partner_id2(part, early_payment_discount, payment_term)
+        partner_obj = self.env['res.partner'].browse(part)
         res['value']['commercial_partner_id'] = \
             partner_obj.commercial_partner_id.id
         if not part:
             res['value']['pricelist_id'] = False
             return res
-
         if shop:
-            shop_obj = self.pool.get('sale.shop').browse(cr, uid, shop, context)
-
-            if shop_obj.pricelist_id and shop_obj.pricelist_id.id:
+            shop_obj = self.env['sale.shop'].browse(shop)
+            if shop_obj.pricelist_id:
                 res['value']['pricelist_id'] = shop_obj.pricelist_id.id
-
             if shop_obj.indirect_invoicing:
                 if partner_obj.commercial_partner_id.property_product_pricelist_indirect_invoicing:
                     res['value']['pricelist_id'] = \
@@ -215,39 +186,16 @@ class sale_order(orm.Model):
         return res
 
 
-class sale_order_line(orm.Model):
+class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
-    def product_uos_change(self, cursor, user, ids, pricelist, product, qty=0,
-            uom=False, qty_uos=0, uos=False, name='', partner_id=False,
-            lang=False, update_tax=True, date_order=False, fpos=False, context=None):
-        res = {}
-        if context is None:
-            context = {}
-        if product:
-            product_obj = self.pool.get('product.product').browse(cursor, user, product)
-            if uos:
-                qty_uom = 0.0
-                if self.pool.get('product.uom').browse(cursor, user, uos).category_id.id == product_obj.uos_id.category_id.id:
-                    if product_obj.uos_coeff:
-                        qty_uom = qty_uos / product_obj.uos_coeff
-                    if not fpos and partner_id:
-                        partner = self.pool.get('res.partner').browse(cursor, user, partner_id, context=context)
-                        fpos = partner.property_account_position and partner.property_account_position.id or False
-                    res = self.product_id_change(cursor, user, ids, pricelist, product,
-                        qty=qty_uom, uom=False, qty_uos=qty_uos, uos=uos, name=name,
-                        partner_id=partner_id, lang=lang, update_tax=update_tax,
-                        date_order=date_order, fiscal_position=fpos, context=context)
-                    if 'product_uom' in res['value']:
-                        del res['value']['product_uom']
-        return res
-
-    def product_id_change(self, cr, uid, ids, pricelist, product, qty=0,
-                          uom=False, qty_uos=0, uos=False, name='',
-                          partner_id=False,
-                          lang=False, update_tax=True, date_order=False,
-                          packaging=False,
-                          fiscal_position=False, flag=False, context=None):
+    @api.multi
+    def product_id_change(self, pricelist, product, qty=0,
+            uom=False, qty_uos=0, uos=False, name='',
+            partner_id=False,
+            lang=False, update_tax=True, date_order=False,
+            packaging=False,
+            fiscal_position=False, flag=False):
         """
         Heredamos para poner por defecto una unidad de venta y convertir a unidad principal
         """
@@ -255,31 +203,29 @@ class sale_order_line(orm.Model):
             return {'value': {'th_weight': 0,
                     'product_uos_qty': qty}, 'domain': {'product_uom': [],
                     'product_uos': []}}
-        prod_obj = self.pool.get('product.product').browse(cr, uid, product,
-                                                           context=context)
+        prod_obj = self.env['product.product'].browse(product)
         set_uos = False
         if not uos and prod_obj.uos_id:
             uos = prod_obj.uos_id.id
             qty_uos = 1.0
             uom = False  # Hará que haga la conversión de uos a uom
             set_uos = True
-
-        res = super(sale_order_line, self).product_id_change(cr, uid, ids,
-                                                             pricelist, product, qty=qty,
-                                                             uom=uom, qty_uos=qty_uos, uos=uos, name=name,
-                                                             partner_id=partner_id,
-                                                             lang=lang, update_tax=update_tax, date_order=date_order,
-                                                             packaging=packaging,
-                                                             fiscal_position=fiscal_position, flag=flag, context=context)
+        res = super(SaleOrderLine, self).product_id_change(
+                pricelist, product, qty=qty,
+                uom=uom, qty_uos=qty_uos, uos=uos, name=name,
+                partner_id=partner_id,
+                lang=lang, update_tax=update_tax, date_order=date_order,
+                packaging=packaging,
+                fiscal_position=fiscal_position, flag=flag)
         if set_uos:
             res['value']['product_uos_qty'] = 1.0
             res['value']['product_uos'] = uos
-
         return res
 
-    def product_uom_change(self, cr, uid, ids, pricelist, product, qty=0,
+    @api.multi
+    def product_uom_change(self, pricelist, product, qty=0,
             uom=False, qty_uos=0, uos=False, name='', partner_id=False,
-            lang=False, update_tax=True, date_order=False, context=None):
+            lang=False, update_tax=True, date_order=False):
         """
         Modificamos para que solo permita seleccionar una unidad de medida de la misma categoría y si
         se selecciona una de diferente categoría pone la que tiene por defecto el producto.
@@ -289,17 +235,17 @@ class sale_order_line(orm.Model):
         Con todo esto evitamos sobre todo problemas en precios en facturas (_get_price_unit_invoice)
         """
         if product:
-            product_obj = self.pool.get('product.product')
-            product_obj = product_obj.browse(cr, uid, product, context=context)
+            product_obj = self.env['product.product'].browse(product)
             uom = product_obj.uom_id and product_obj.uom_id.id or False
             uos = product_obj.uos_id and product_obj.uos_id.id or False
 
-        res = super(sale_order_line, self).product_uom_change(cr, uid, ids, pricelist, product, qty, uom, qty_uos, uos, name, partner_id, lang, update_tax, date_order, context)
+        res = super(SaleOrderLine, self).product_uom_change(
+                pricelist, product, qty, uom, qty_uos, uos, name,
+                partner_id, lang, update_tax, date_order)
 
         res['value']['product_uom'] = uom
         res['value']['product_uos'] = uos
 
         if product:
             res['domain'] = {'product_uom': [('category_id', '=', product_obj.uom_id.category_id.id)]} #Esto sobra porque tenemos fijada la uom y no se permite cambiar
-
         return res

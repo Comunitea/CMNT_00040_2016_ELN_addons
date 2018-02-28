@@ -19,29 +19,22 @@
 #
 ##############################################################################
 
-from openerp.osv import orm
-from openerp import _
+from openerp import models, api, exceptions, _
 
 
-class sale_order_confirm(orm.TransientModel):
+class SaleOrderConfirm(models.TransientModel):
     """
     This wizard will confirm the all the selected draft sales orders
     """
-
     _name = "sale.order.confirm"
 
-
-    def sale_order_confirm(self, cr, uid, ids, context=None):
-        if context is None:
-            context = {}
-
-        data_sale = self.pool.get('sale.order').read(cr, uid, context['active_ids'], ['state', 'order_line'], context=context)
+    @api.multi 
+    def sale_order_confirm(self):
+        data_sale = self.env['sale.order'].browse(self._context['active_ids'])
         for record in data_sale:
-            if record['state'] != 'draft':
-                raise orm.except_orm(_('Warning'), _("Selected Sale(s) cannot be confirmed as they are not in 'Draft' state!"))
-            if not record['order_line']:
-                raise orm.except_orm(_('Warning'), _("You cannot confirm a sale order which has no line."))
+            if record.state != 'draft':
+                raise exceptions.Warning(_('Warning'), _("Selected Sale(s) cannot be confirmed as they are not in 'Draft' state!"))
+            if not record.order_line:
+                raise exceptions.Warning(_('Warning'), _("You cannot confirm a sale order which has no line."))
         for record in data_sale:
-            self.pool.get('sale.order').signal_workflow(cr, uid, [record['id']], 'draft_to_risk')
-            #wf_service.trg_validate(uid, 'sale.order', record['id'], 'order_confirm', cr)
-        return {'type': 'ir.actions.act_window_close'}
+            record.signal_workflow('draft_to_risk')

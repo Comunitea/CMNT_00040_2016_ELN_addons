@@ -18,38 +18,28 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import orm, fields
-from datetime import datetime
-from dateutil.relativedelta import relativedelta
+
+from openerp import models, fields
 
 
-# POST-MIGRATION: NO HAY SALE SHOP, RECREAMOS EL OBJETO ETIQUETANDOLO COMO TIPOE VENTA
-class sale_shop(orm.Model):
+class SaleShop(models.Model):
     _name = 'sale.shop'
     _description = 'Sale Type'
-    _columns = {
-        # CAMPOS COPIADOS DE LA 6.1
-        'name': fields.char('Type Name', size=64, required=True),
-        'payment_default_id': fields.many2one('account.payment.term', 'Default Payment Term'),
-        'warehouse_id': fields.many2one('stock.warehouse', 'Warehouse'),
-        'pricelist_id': fields.many2one('product.pricelist', 'Pricelist'),
-        'project_id': fields.many2one('account.analytic.account', 'Analytic Account', domain=[('parent_id', '!=', False)]),
-        'company_id': fields.many2one('res.company', 'Company', required=False),
-        # CAMPOS POR DEFECTO
-        'supplier_id': fields.many2one('res.partner', 'Supplier', select=True),
-        'order_policy': fields.selection([
-            ('prepaid', 'Pay before delivery'),
-            ('manual', 'Deliver & invoice on demand'),
-            ('picking', 'Invoice based on deliveries'),
-            ('postpaid', 'Invoice on order after delivery'),
-            ('no_bill', 'No bill'),
-            ], 'Invoice Policy',
-                    help="""The Invoice Policy is used to synchronise invoice and delivery operations.
-  - The 'Pay before delivery' choice will first generate the invoice and then generate the picking order after the payment of this invoice.
-  - The 'Deliver & Invoice on demand' will create the picking order directly and wait for the user to manually click on the 'Invoice' button to generate the draft invoice based on the sale order or the sale order lines.
-  - The 'Invoice on order after delivery' choice will generate the draft invoice based on sales order after all picking lists have been finished.
-  - The 'Invoice based on deliveries' choice is used to create an invoice during the picking process.
-  - The 'No bill' choice is used to not create an invoice."""
-            ),
-        'indirect_invoicing': fields.boolean('Indirect Invoicing', help="Check the indirect invoicing field if the shop is a shop of indirect invoicing."),
-    }
+
+    name = fields.Char('Type Name', size=64, required=True)
+    payment_default_id = fields.Many2one(string="Default Payment Term", comodel_name='account.payment.term')
+    warehouse_id = fields.Many2one(string="Warehouse", comodel_name='stock.warehouse')
+    pricelist_id = fields.Many2one(string="Pricelist", comodel_name='product.pricelist')
+    project_id = fields.Many2one(string="Analytic Account", comodel_name='account.analytic.account', domain=[('parent_id', '!=', False)])
+    company_id = fields.Many2one(string="Company", comodel_name='res.company')
+    supplier_id = fields.Many2one(string="Supplier", comodel_name='res.partner', select=True)
+    order_policy = fields.Selection([
+        ('manual', 'On Demand'), 
+        ('picking', 'On Delivery Order'), 
+        ('prepaid', 'Before Delivery'), 
+        ('no_bill', 'No bill')], string="Create Invoice", 
+        help="On demand: A draft invoice can be created from the sales order when needed. \nOn delivery order: A draft invoice can be created from the delivery order when the products have been delivered. \nBefore delivery: A draft invoice is created from the sales order and must be paid before the products can be delivered.")
+    indirect_invoicing = fields.Boolean(
+        string='Indirect Invoicing',
+        default=False,
+        help="Check the indirect invoicing field if the shop is a shop of indirect invoicing.")

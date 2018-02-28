@@ -19,30 +19,25 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import orm, fields
+
+from openerp import models, fields
 
 
-
-class res_partner(orm.Model):
+class ResPartner(models.Model):
     _inherit = 'res.partner'
-    _columns = {
-        'product_ids': fields.one2many('partner.product', 'partner_id', 'Price list'),
-        'property_product_pricelist_indirect_invoicing': fields.property(
-            type='many2one',
-            relation='product.pricelist',
-            domain=[('type','=','sale')],
-            string="Sale Pricelist (Indirect Invoicing)",
-            help="This pricelist will be used, instead of the default one, for indirect sales invoicing to the current partner"),
-    }
+
+    product_ids = fields.One2many('partner.product', 'partner_id', 'Price list')
+    property_product_pricelist_indirect_invoicing = fields.Many2one(
+        string='Sale Pricelist (Indirect Invoicing)',
+        comodel_name='product.pricelist',
+        domain="[('type','=','sale')]",
+        company_dependent=True,
+        help='This pricelist will be used, instead of the default one, for indirect sales invoicing to the current partner')
 
 
-class partner_product(orm.Model):
+class PartnerProduct(models.Model):
     _name = 'partner.product'
-    _columns = {
-        'name': fields.char('Product Code', size=32, required=True),
-        'product_id': fields.many2one('product.product', 'Product', required=True),
-        'partner_id': fields.many2one('res.partner', 'Partner', required=True),
-    }
-
-
-
+    
+    name = fields.Char('Product Code', size=32, required=True)
+    product_id = fields.Many2one(string="Product", comodel_name='product.product', required=True)
+    partner_id = fields.Many2one(string="Partner", comodel_name='res.partner', required=True)

@@ -8,13 +8,13 @@
             <field name="model">sale.order.confirm</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
-            <form string="Confirm Draft Sales Orders">
-                <separator string="Confirm Draft Sales Orders" colspan="4"/>
-                    <group colspan="4" col="6">
+                <form string="Confirm Draft Sales Orders">
+                    <separator string="Confirm Draft Sales Orders" colspan="4"/>
+                    <footer>
                         <button icon="gtk-cancel" special="cancel" string="Close"/>
                         <button icon="terp-camera_test" string="Confirm Sales Orders" name="sale_order_confirm" type="object" default_focus="1"/>
-                   </group>
-            </form>
+                    </footer>
+                </form>
             </field>
         </record>
 
