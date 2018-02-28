@@ -19,11 +19,49 @@
             </button>
         </ion-buttons>
     </ion-navbar>
-
 </ion-header>
 
 
 <ion-content padding>
      <ion-item [hidden]='line' color ="danger"> No hay Línea seleccionda</ion-item>
      <ion-item *ngIf="line">{{line.name}}</ion-item>
+
+    <!-- PANTALA INICIAL-->
+    <button ion-button icon-start *ngIf="state == 'waiting'" (click)="confirmProduction()">
+        <ion-icon name="star"></ion-icon>
+        Producción
+    </button>
+    <button ion-button icon-end  *ngIf="state == 'waiting'" (click)="beginLogistics()">
+        <ion-icon name="star"></ion-icon>
+        Logística
+    </button>
+
+    <!-- PANTALA 2-->
+    <button ion-button icon-start *ngIf="state == 'confirmed'" (click)="setupProduction()">
+        <ion-icon name="star"></ion-icon>
+        Comenzar Preparación
+    </button>
+
+    <!-- PANTALA 3-->
+    <button ion-button icon-start *ngIf="state == 'setup'" (click)="startProduction()">
+        <ion-icon name="star"></ion-icon>
+        Empezar Producción
+    </button>
+     <!-- PANTALA 4-->
+    <button ion-button icon-start *ngIf="state == 'started'" (click)="finishProduction()">
+        <ion-icon name="star"></ion-icon>
+        Finalizar Producción / Empezar Limpieza
+    </button>
+
+    <button ion-button icon-start *ngIf="state == 'started'" (click)="stopProduction()">
+        <ion-icon name="star"></ion-icon>
+        Parar Producción
+    </button>
+    <button ion-button icon-start *ngIf="state == 'stoped'" (click)="restartProduction()">
+    <ion-icon name="star"></ion-icon>
+        Reaunudar Producción
+    </button>
+
+   
+     <ion-item color ="danger">Esatado: {{states['waiting']}}</ion-item>
 </ion-content>

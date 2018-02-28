@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 
 /**
  * Generated class for the ProductionPage page.
@@ -15,12 +15,48 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class ProductionPage {
 
-    constructor(public navCtrl: NavController, public navParams: NavParams) {
-        // this.exist_line = false;
+    constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController) {
         this.line = this.navParams.get('line');
-        // if (this.line) {
-        //     this.exist_line = true;
-        // }
+        this.state = 'waiting';
+        this.states = {
+            'waiting': 'ESPERANDO PRODUCCIÖN',
+            'confirmed': 'PRODUCCIÓN CONFIRMADA',
+            'setup': 'PREPARACIÓN PRODUCCION',
+            'started': 'PRODUCCIÓN INICIADA',
+            'stoped': 'PRODUCCIÓN PARADA',
+            // 'finished': 'PRODUCCIÓN FINALIZADA'
+        };
+    }
+
+    presentAlert(titulo, texto) {
+        const alert = this.alertCtrl.create({
+            title: titulo,
+            subTitle: texto,
+            buttons: ['Ok']
+        });
+        alert.present();
+    }
+    beginLogistics() {
+        this.presentAlert('Parar proucción', 'EN DESAROLLO')
+    }
+
+    confirmProduction() {
+        this.state = 'confirmed'
+    }
+    setupProduction() {
+        this.state = 'setup'
+    }
+    startProduction() {
+        this.state = 'started'
+    }
+    finishProduction() {
+        this.state = 'waiting'
+    }
+    stopProduction() {
+        this.state = 'stoped'
+    }
+    restartProduction() {
+        this.state = 'started'
     }
 
 

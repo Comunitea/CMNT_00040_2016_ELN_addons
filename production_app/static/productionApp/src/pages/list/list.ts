@@ -11,10 +11,12 @@ declare var OdooApi: any;
   templateUrl: 'list.html'
 })
 export class ListPage {
-    lines = [];
+    lines = []
+    selected_line = false;
 
     constructor(public navCtrl: NavController, private storage: Storage, public alertCtrl: AlertController){
         this.lines = [];
+        this.selected_line = false;
         this.getLines();
     }
 
@@ -31,6 +33,7 @@ export class ListPage {
         this.storage.get('CONEXION').then((con_data) => {
             var odoo = new OdooApi(con_data.url, con_data.db);
             if (con_data == null) {
+                console.log('No hay conexión');
                 this.navCtrl.setRoot(HomePage, {borrar: true, login: null});
             } else {
                 odoo.login(con_data.username, con_data.password).then( (uid) => {
@@ -44,9 +47,29 @@ export class ListPage {
         });
     }
     lineSelected(line) {
-        this.presentAlert('Ok!', line.name);
-        this.navCtrl.setRoot(ProductionPage, {line:line});
+        this.selected_line = line
+        this.loadProduction(line)
+        
     }
+    loadProduction(line) {
+        this.storage.set('line', line);
+        this.storage.get('CONEXION').then((con_data) => {
+            var odoo = new OdooApi(con_data.url, con_data.db);
+            if (con_data == null) {
+                console.log('No hay conexión');
+                this.navCtrl.setRoot(HomePage, {borrar: true, login: null});
+            } else {
+                odoo.login(con_data.username, con_data.password).then( (uid) => {
+                    var model = 'mrp.production.workcenter.line'
+                    var method = 'app_get_production'
+                    var values = {'line_id': line.id}
+                    odoo.call(model, method, values).then((res) => {
+                        var line = this.storage.get('line')
+                        this.navCtrl.setRoot(ProductionPage, {'line':this.selected_line});
+                    });
 
-
+                });
+            }
+        });
+    }
 }
