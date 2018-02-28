@@ -1,10 +1,10 @@
 import {NavController, NavParams, AlertController} from 'ionic-angular';
-import {Component} from '@angular/core';    
+import {Component} from '@angular/core';
 import {Network} from '@ionic-native/network';
 import {Storage} from '@ionic/storage';
+
 import {TreepickPage} from '../../pages/treepick/treepick'; 
 /*import {PROXY} from '../../providers/constants/constants';*/
-
 //import  * as odoo from '../../providers/odoo-connector/odoo.js';
 
 
@@ -17,11 +17,13 @@ export class HomePage {
 
   loginData = {password: '', username: ''};
   CONEXION = {
+
       url: 'http://odoopistola.com',
       port: '80',
       db: 'pistola',
       username: 'admin',
       password: 'admin',
+
   };
   /*CONEXION = {
     url: 'http://elnapp.livingodoo.com',
@@ -32,10 +34,10 @@ export class HomePage {
 };*/
   cargar = true;
   mensaje = '';
-  
+
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private storage: Storage, public alertCtrl: AlertController, private network: Network) {
-    
+
             var borrar = this.navParams.get('borrar');
             this.CONEXION.username = (this.navParams.get('login') == undefined)? '' : this.navParams.get('login');
             if (borrar == true) {
@@ -44,22 +46,22 @@ export class HomePage {
             } else {
               this.conectarApp(false);
             }
-        } 
-        
+        }
+
   loginSinDatos() {
           var self = this;
           this.storage.get('res.users').then((val) => {
               if (val == null) {//no existe datos
-  
+
                   self.presentAlert('Falla!', 'Imposible conectarse');
               } else {
-  
+
                   self.navCtrl.setRoot(HomePage);
               }
               self.cargar = false;
           });
       }
-  
+
   presentAlert(titulo, texto) {
         const alert = this.alertCtrl.create({
             title: titulo,
@@ -68,7 +70,7 @@ export class HomePage {
         });
         alert.present();
     }
-  
+
   conectarApp(verificar) {
     var self = this;
 
@@ -77,7 +79,7 @@ export class HomePage {
     con = self.CONEXION;
     this.storage.get('CONEXION').then((val) => {
       var con;
-      if (val == null) {//no existe datos         
+      if (val == null) {//no existe datos
           self.cargar = false;
           con = self.CONEXION;
           if (con.username.length < 3 || con.password.length < 3) {
@@ -101,10 +103,10 @@ export class HomePage {
       var odoo = new OdooApi(con.url, con.db);
       odoo.login(con.username, con.password).then(
           function (uid) {
-            
+
             odoo.search('res.users', [['login', '=', con.username]], ['id', 'login', 'image', 'name']).then(
               function (value) {
-            
+
                 var user = {id: null, name: null, image: null, login: null, cliente_id: null};
                 //self.mensaje += JSON.stringify(value);
                 if (value.length > 0) {
@@ -114,11 +116,11 @@ export class HomePage {
                       user.login = value[0].login;
                       self.navCtrl.setRoot(TreepickPage); //-> me voy para la home page
 
-                  } 
+                  }
                   else {
                       self.cargar = false;
                       return self.presentAlert('Falla!', 'Usuario incorrecto');
-                  } 
+                  }
                 })
           })
     });
@@ -130,7 +132,7 @@ export class HomePage {
 
     var model = 'warehouse.app'
     var method = 'get_object_id'
-    
+
     this.storage.get('CONEXION').then((val) => {
       if (val == null) {
         console.log('No hay conexión');
@@ -159,13 +161,13 @@ export class HomePage {
                   );
                   self.cargar = false;
 
-             
+
               }
               return object_id
-              
+
           });
-    
-      
+
+
         }
 
 }
