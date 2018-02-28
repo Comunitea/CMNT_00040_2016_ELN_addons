@@ -19,6 +19,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+
 from openerp.tools.translate import _
 from openerp.osv import fields, orm
 from edi_logging import logger
@@ -29,39 +30,44 @@ from openerp import tools
 import codecs
 from unidecode import unidecode
 from dateutil import tz
-log = logger("export_edi")
 from base64 import b64encode
 from reportlab.lib import units
 from reportlab.graphics import renderPM
 from reportlab.graphics.barcode import createBarcodeDrawing
 from reportlab.graphics.shapes import Drawing
+import operator
+log = logger("export_edi")
 
 
 class edi_export (orm.TransientModel):
     _name = "edi.export"
     _columns = {
-        'configuration': fields.many2one('edi.configuration', 'Configuración',
-                                         required=True),
+        'configuration': fields.many2one('edi.configuration', 'Configuración', required=True),
+        'date_due': fields.date('Date Due', required=True),
+    }
+    _defaults = {
+        'date_due': fields.date.context_today,
     }
 
     def default_get(self, cr, uid, fields, context=None):
-        res = super(edi_export, self).default_get(cr, uid, fields,
-                                                  context=context)
-
-        conf_ids = self.pool.get('edi.configuration').search(cr, uid, [])
-        if not conf_ids:
-            raise orm.except_orm(_('Error'),
-                                 _('No existen configuraciones EDI.'))
-
-        res.update({'configuration': conf_ids[0]})
+        res = super(edi_export, self).default_get(cr, uid, fields, context=context)
+        date_due = False
+        conf_ids = self.pool.get('edi.configuration').get_configuration(cr, uid, [])
+        if context['active_model'] == u'account.invoice' :
+            invoice_ids = self.pool.get(context['active_model']).browse(cr, uid, context['active_ids'])
+            date_due = max([x.date_due for x in invoice_ids if x.date_due])
+        res.update({
+            'configuration': conf_ids[0].id,
+            'date_due': date_due
+        })
         return res
 
     def create_doc(self, cr, uid, ids, obj, file_name, context):
         doc_obj = self.pool.get('edi.doc')
         if obj:
             name = gln_ef = gln_ve = gln_co = gln_rf = gln_rm = gln_de = \
-                doc_type = sale_order_id = picking_id = invoice_id = False
-
+                doc_type = sale_order_id = picking_id = invoice_id = \
+                coacsu_invoice_ids = False
             if context['active_model'] == u'sale.order':
                 name = str(obj.id) + ' - ' + obj.number
                 gln_ef = obj.partner_id.gln_ef
@@ -73,27 +79,47 @@ class edi_export (orm.TransientModel):
             elif context['active_model'] == u'stock.picking':
                 name = str(obj.id) + ' - ' + obj.name
                 gln_ef = obj.company_id.gln_ef
-                gln_ve = obj.company_id.gln_ve
+                gln_ve = obj.partner_id.commercial_partner_id.gln_ve or obj.company_id.gln_ve
                 gln_de = obj.partner_id.gln_de
                 gln_rf = obj.partner_id.gln_rf
                 gln_co = obj.partner_id.gln_co
                 gln_rm = obj.partner_id.gln_rm
+                gln_proveedor = obj.supplier_id and \
+                    (obj.supplier_id.commercial_partner_id.gln_desadv or 
+                     obj.supplier_id.commercial_partner_id.gln_de)
+                gln_desadv = obj.partner_id.commercial_partner_id.gln_desadv or obj.partner_id.gln_de
                 doc_type = 'desadv'
                 picking_id = obj.id
             elif context['active_model'] == u'account.invoice':
-                name = str(obj.id) + ' - ' + obj.number
-                gln_ef = obj.company_id.gln_ef
-                gln_ve = obj.company_id.gln_ve
-                gln_de = obj.picking_ids and obj.picking_ids[0].partner_id.gln_de or obj.partner_id.gln_de
-                gln_rf = obj.picking_ids and obj.picking_ids[0].partner_id.gln_rf or obj.partner_id.gln_rf
-                gln_co = obj.picking_ids and obj.picking_ids[0].partner_id.gln_co or obj.partner_id.gln_co
-                gln_rm = obj.picking_ids and obj.picking_ids[0].partner_id.gln_rm or obj.partner_id.gln_rm
-                doc_type = 'invoic'
-                invoice_id = obj.id
+                if not context.get('coacsu', False): 
+                    name = str(obj.id) + ' - ' + obj.number
+                    invoice_part = obj.partner_id
+                    picking_part = obj.picking_ids and obj.picking_ids[0].partner_id or False
+                    gln_ef = obj.company_id.gln_ef
+                    gln_ve = picking_part and picking_part.commercial_partner_id.gln_ve or \
+                             invoice_part.commercial_partner_id.gln_ve or obj.company_id.gln_ve
+                    gln_de = picking_part and picking_part.gln_de or invoice_part.gln_de
+                    gln_rf = picking_part and picking_part.gln_rf or invoice_part.gln_rf
+                    gln_co = picking_part and picking_part.gln_co or invoice_part.gln_co
+                    gln_rm = picking_part and picking_part.gln_rm or invoice_part.gln_rm
+                    doc_type = 'invoic'
+                    invoice_id = obj.id
+                else:
+                    name = file_name.replace('.ASC','').split('/')[-1]
+                    invoice_part = obj[0].partner_id
+                    picking_part = obj[0].picking_ids and obj[0].picking_ids[0].partner_id or False
+                    gln_ef = obj[0].company_id.gln_ef
+                    gln_ve = picking_part and picking_part.commercial_partner_id.gln_ve or \
+                             invoice_part.commercial_partner_id.gln_ve or obj[0].company_id.gln_ve
+                    gln_de = picking_part and picking_part.gln_de or invoice_part.gln_de
+                    gln_rf = picking_part and picking_part.gln_rf or invoice_part.gln_rf
+                    gln_co = picking_part and picking_part.gln_co or invoice_part.gln_co
+                    gln_rm = picking_part and picking_part.gln_rm or invoice_part.gln_rm
+                    doc_type = 'coacsu'
+                    invoice_ids = [x.id for x in obj]
+                    coacsu_invoice_ids = [(6, 0, invoice_ids)]
             else:
-                raise orm.except_orm(_('Error'),
-                                     _('El modelo no es ni un pedido ni un albarán ni una factura.'))
-
+                raise orm.except_orm(_('Error'), _('El modelo no es ni un pedido ni un albarán ni una factura.'))
             f = open(file_name)
             values = {
                 'name': name,
@@ -105,6 +131,7 @@ class edi_export (orm.TransientModel):
                 'sale_order_id': sale_order_id,
                 'picking_id': picking_id,
                 'invoice_id': invoice_id,
+                'coacsu_invoice_ids': coacsu_invoice_ids,
                 'gln_ef': gln_ef,
                 'gln_ve': gln_ve,
                 'gln_de': gln_de,
@@ -135,9 +162,17 @@ class edi_export (orm.TransientModel):
 
     def check_invoice_data(self, invoice):
         errors = ''
-
-        if not invoice.company_id.gln_ef or not invoice.company_id.gln_ve:
-            errors += _('The company %s not have some GLN defined.\n') % \
+        invoice_part = invoice.partner_id
+        picking_part = invoice.picking_ids and invoice.picking_ids[0].partner_id or False
+        gln_ef = invoice.company_id.gln_ef
+        gln_ve1 = invoice.company_id.gln_ve
+        gln_ve2 = picking_part and picking_part.commercial_partner_id.gln_ve or invoice_part.commercial_partner_id.gln_ve
+        gln_de = picking_part and picking_part.gln_de or invoice_part.gln_de
+        gln_rf = picking_part and picking_part.gln_rf or invoice_part.gln_rf
+        gln_co = picking_part and picking_part.gln_co or invoice_part.gln_co
+        gln_rm = picking_part and picking_part.gln_rm or invoice_part.gln_rm
+        if not self.check_ean13(gln_ef) or not self.check_ean13(gln_ve1):
+            errors += _('The company %s not have some GLN defined correctly.\n') % \
                 invoice.company_id.name
         if not invoice.company_id.edi_rm:
             errors += _('The company %s not have trade register defined.\n') % \
@@ -148,21 +183,17 @@ class edi_export (orm.TransientModel):
         if not invoice.company_id.partner_id.vat:
             errors += _('The partner %s not have vat.\n') % \
                 invoice.company_id.partner_id.name
-
-        if not (invoice.picking_ids and invoice.picking_ids[0].partner_id.gln_de or invoice.partner_id.gln_de) or \
-           not (invoice.picking_ids and invoice.picking_ids[0].partner_id.gln_rf or invoice.partner_id.gln_rf) or \
-           not (invoice.picking_ids and invoice.picking_ids[0].partner_id.gln_co or invoice.partner_id.gln_co) or \
-           not (invoice.picking_ids and invoice.picking_ids[0].partner_id.gln_rm or invoice.partner_id.gln_rm):
-            errors += _('The partner %s not have some GLN defined.\n') % \
+        if not self.check_ean13(gln_de) or not self.check_ean13(gln_rf) or \
+           not self.check_ean13(gln_co) or not self.check_ean13(gln_rm) or \
+           (gln_ve2 and not self.check_ean13(gln_ve2)):
+            errors += _('The partner %s not have some GLN defined correctly.\n') % \
                 invoice.partner_id.name
-
         if not invoice.date_invoice:
             errors += _('The invoice not have date.\n')
         if not invoice.payment_mode_id.edi_code:
             errors += _('The invoice payment type is not defined or not have a edi code asigned.\n')
         if not invoice.origin:
             errors += _('The invoice not have origin.\n')
-
         for line in invoice.invoice_line:
             if line.product_id.default_code == 'DPP':
                 if not invoice.early_payment_discount:
@@ -171,13 +202,6 @@ class edi_export (orm.TransientModel):
             if not line.product_id.ean13:
                 errors += _('The product %s not have EAN.\n') % \
                     line.product_id.name
-            #if invoice.partner_id.commercial_partner_id.edi_date_required and not \
-            #        line.stock_move_id.date_expected:
-            #    errors += _('the line %s requires date expected in the move.') % line.product_id.name
-            #if not line.stock_move_id.procurement_id.sale_line_id:
-            #    errors += _('The product %s not have a sale\n') % line.product_id.name
-            #if not line.stock_move_id.picking_id:
-            #    errors += _('The product %s not have a picking\n') % line.product_id.name
         if errors:
             raise orm.except_orm(_('Data error'), errors)
 
@@ -246,14 +270,32 @@ class edi_export (orm.TransientModel):
         date = datetime.strptime(date_str, '%Y-%m-%d %H:%M:%S')
         return date.strftime('%Y%m%d%H%M')
 
+    @staticmethod
+    def check_ean13(eancode):
+        if not eancode or not eancode.isdigit():
+            return False
+        if not len(eancode) == 13:
+            return False
+        sum_digits = 0
+        ean_len = int(len(eancode))
+        for i in range(ean_len - 1):
+            pos = int(ean_len - 2 - i)
+            if (not i % 2): # Es par
+                sum_digits += 3 * int(eancode[pos])
+            else: # Es impar
+                sum_digits += int(eancode[pos])
+        check = 10 - operator.mod(sum_digits, 10)
+        if check == 10:
+            check = 0
+        return check == int(eancode[-1])
+
     def parse_invoice(self, cr, uid, invoice, file_name, context=None):
 
         def parse_address(address, gln_val):
             address_data = ''
-            #address_data += self.parse_number(address.gln, 13, 0)
             address_data += self.parse_number(gln_val, 13, 0)
             address_data += self.parse_string(address.name, 35)
-            address_data += self.parse_string(False, 35) #Reg. Mercantil
+            address_data += self.parse_string(False, 35) # Reg. Mercantil
             address_data += self.parse_string(address.street, 35)
             address_data += self.parse_string(address.city, 35)
             address_data += self.parse_string(address.zip, 9)
@@ -264,10 +306,15 @@ class edi_export (orm.TransientModel):
         self.check_invoice_data(invoice)
         f = codecs.open(file_name, 'w', 'utf-8')
 
-        gln_de = invoice.picking_ids and invoice.picking_ids[0].partner_id.gln_de or invoice.partner_id.gln_de
-        gln_rf = invoice.picking_ids and invoice.picking_ids[0].partner_id.gln_rf or invoice.partner_id.gln_rf
-        gln_co = invoice.picking_ids and invoice.picking_ids[0].partner_id.gln_co or invoice.partner_id.gln_co
-        gln_rm = invoice.picking_ids and invoice.picking_ids[0].partner_id.gln_rm or invoice.partner_id.gln_rm
+        invoice_part = invoice.partner_id
+        picking_part = invoice.picking_ids and invoice.picking_ids[0].partner_id or False
+        gln_ef = invoice.company_id.gln_ef
+        gln_ve = picking_part and picking_part.commercial_partner_id.gln_ve or \
+                 invoice_part.commercial_partner_id.gln_ve or invoice.company_id.gln_ve
+        gln_de = picking_part and picking_part.gln_de or invoice_part.gln_de
+        gln_rf = picking_part and picking_part.gln_rf or invoice_part.gln_rf
+        gln_co = picking_part and picking_part.gln_co or invoice_part.gln_co
+        gln_rm = picking_part and picking_part.gln_rm or invoice_part.gln_rm
 
         invoice_data += self.parse_number(gln_de, 13, 0)
         # datos de cabecera
@@ -300,7 +347,7 @@ class edi_export (orm.TransientModel):
         #invoice_data += self.parse_string(invoice.comment and invoice.comment.replace('\n','').replace('\r',''), 131)
         invoice_data += self.parse_string(False, 131)
 
-        origin = [] #Vamos a comprobar si es una factura resumen. En ese caso no pondremos en la cabecera el num alb y pedido
+        origin = [] # Vamos a comprobar si es una factura resumen. En ese caso no pondremos en la cabecera el num alb y pedido
 
         for line in invoice.invoice_line:
             if line.origin:
@@ -309,7 +356,7 @@ class edi_export (orm.TransientModel):
             if len(origin) > 1:
                 break
         
-        if len(origin) > 1: #Factura resumen
+        if len(origin) > 1: # Factura resumen
             # numero de albaran
             invoice_data += self.parse_string(False, 17)
             # numero de pedido
@@ -373,7 +420,7 @@ class edi_export (orm.TransientModel):
 
         # emisor factura
         address_data = ''
-        address_data += self.parse_number(invoice.company_id.gln_ef, 13, 0)
+        address_data += self.parse_number(gln_ef, 13, 0)
         address_data += self.parse_string(invoice.company_id.partner_id.name, 35)
         address_data += self.parse_string(invoice.company_id.edi_rm, 35)
         address_data += self.parse_string(invoice.company_id.street, 35)
@@ -382,7 +429,7 @@ class edi_export (orm.TransientModel):
         address_data += self.parse_string(invoice.company_id.vat, 17)
         
         # vendedor
-        address_data += self.parse_number(invoice.company_id.gln_ve, 13, 0)
+        address_data += self.parse_number(gln_ve, 13, 0)
         address_data += self.parse_string(invoice.company_id.partner_id.name, 35)
         address_data += self.parse_string(invoice.company_id.edi_rm, 35)
         address_data += self.parse_string(invoice.company_id.street, 35)
@@ -533,7 +580,7 @@ class edi_export (orm.TransientModel):
                     line_data += self.parse_number(imp, 5, 2)
                     line_data += self.parse_number((line.price_subtotal * (imp/100.0)), 18, 3)
             else:
-            #revisar para coviran portugal, es posible que haya que poner ceros
+            # revisar para coviran portugal, es posible que haya que poner ceros
                 line_data += 'EXT' + ' ' * 23
 
             # fecha de entrega
@@ -565,7 +612,7 @@ class edi_export (orm.TransientModel):
 
         f.write(total_data)
 
-        #impuestos de la factura
+        # impuestos de la factura
         for tax in invoice.tax_line:
             tax_data = '\r\nTAX'
             tax_data += self.parse_string(tax.tax_id.edi_code or u'VAT', 3)
@@ -583,20 +630,28 @@ class edi_export (orm.TransientModel):
 
     def check_picking_data(self, picking):
         errors = ''
-
-        if not picking.company_id.gln_ef or not picking.company_id.gln_ve:
-            errors += _('The company %s not have some GLN defined.\n') % \
+        gln_ef = picking.company_id.gln_ef
+        gln_ve1 = picking.company_id.gln_ve
+        gln_ve2 = picking.partner_id.commercial_partner_id.gln_ve
+        gln_de = picking.partner_id.gln_de
+        gln_rf = picking.partner_id.gln_rf
+        gln_co = picking.partner_id.gln_co
+        gln_rm = picking.partner_id.gln_rm
+        gln_proveedor = picking.supplier_id and \
+            (picking.supplier_id.commercial_partner_id.gln_desadv or 
+             picking.supplier_id.commercial_partner_id.gln_de)
+        gln_desadv = picking.partner_id.commercial_partner_id.gln_desadv or picking.partner_id.gln_de
+        if not self.check_ean13(gln_ef) or not self.check_ean13(gln_ve1):
+            errors += _('The company %s not have some GLN defined correctly.\n') % \
                 picking.company_id.name
-        if not picking.partner_id.gln_de or \
-           not picking.partner_id.gln_rf or \
-           not picking.partner_id.gln_co or \
-           not picking.partner_id.gln_rm:
-            errors += _('The partner %s not have some GLN defined.\n') % \
+        if not self.check_ean13(gln_de) or not self.check_ean13(gln_rf) or \
+           not self.check_ean13(gln_co) or not self.check_ean13(gln_rm) or \
+           not self.check_ean13(gln_desadv) or \
+           (gln_ve2 and not self.check_ean13(gln_ve2)):
+            errors += _('The partner %s not have some GLN defined correctly.\n') % \
                 picking.partner_id.name
-        if picking.supplier_id and \
-           (not picking.supplier_id.commercial_partner_id.gln_de and \
-            not picking.supplier_id.commercial_partner_id.gln_desadv):
-            errors += _('The supplier %s not have recipient GLN defined.\n') % \
+        if picking.supplier_id and not self.check_ean13(gln_proveedor):
+            errors += _('The supplier %s not have recipient GLN defined correctly.\n') % \
                 picking.supplier_id.commercial_partner_id.name
         if not picking.company_id.gs1:
             errors += _('\nThe company %s not have gs1') % picking.company_id.name
@@ -683,11 +738,16 @@ class edi_export (orm.TransientModel):
         self.check_picking_data(picking)
         f = codecs.open(file_name, 'w', 'utf-8')
 
+        gln_ef = picking.company_id.gln_ef
         gln_de = picking.partner_id.gln_de
         gln_rf = picking.partner_id.gln_rf
         gln_co = picking.partner_id.gln_co
         gln_rm = picking.partner_id.gln_rm
+        gln_proveedor = picking.supplier_id and \
+            (picking.supplier_id.commercial_partner_id.gln_desadv or 
+             picking.supplier_id.commercial_partner_id.gln_de)
         gln_desadv = picking.partner_id.commercial_partner_id.gln_desadv or picking.partner_id.gln_de
+
         if picking.partner_id.commercial_partner_id.edi_picking_numeric:
             picking_name = ''.join(c for c in picking.name if c.isdigit())
         else:
@@ -737,15 +797,13 @@ class edi_export (orm.TransientModel):
         picking_data += self.parse_string('', 4) # Aunque la fecha es corta, se mantiene el tamaño de la larga
 
         # Código EAN origen del mensaje (Operador logístico o proveedor)
-        picking_data += self.parse_number(picking.company_id.gln_ef, 13, 0)
+        picking_data += self.parse_number(gln_ef, 13, 0)
         
         # Código EAN proveedor de la mercancía. El de la compañía si mercancía propia, sino el del proveedor de la mercancía.
         if picking.supplier_id:
-            gln_proveedor = picking.supplier_id.commercial_partner_id.gln_desadv or \
-                            picking.supplier_id.commercial_partner_id.gln_de
             picking_data += self.parse_number(gln_proveedor, 13, 0)
         else:
-            picking_data += self.parse_number(picking.company_id.gln_ef, 13, 0)
+            picking_data += self.parse_number(gln_ef, 13, 0)
 
         # Código EAN destino del mensaje
         picking_data += self.parse_number(gln_desadv, 13, 0)
@@ -757,7 +815,7 @@ class edi_export (orm.TransientModel):
         picking_data += self.parse_number(gln_co, 13, 0)
 
         # Código EAN punto de recogida
-        picking_data += self.parse_number(picking.company_id.gln_ef, 13, 0)
+        picking_data += self.parse_number(gln_ef, 13, 0)
 
         # Departamento interno
         picking_data += self.parse_string(picking.partner_id.commercial_partner_id.department_code_edi, 10)
@@ -872,27 +930,115 @@ class edi_export (orm.TransientModel):
                 num_lin += 1
         f.close()
 
+    def check_coacsu_data(self, invoice_ids):
+        errors = ''
+        gln_ve = invoice_ids[0].partner_id.commercial_partner_id.gln_ve or \
+                 invoice_ids[0].company_id.gln_ve
+        gln_de_coa = invoice_ids[0].partner_id.commercial_partner_id.gln_de_coa
+        gln_rm_coa = invoice_ids[0].partner_id.commercial_partner_id.gln_rm_coa
+        for invoice in invoice_ids:
+            if invoice.state not in ('open', 'paid'):
+                raise orm.except_orm(_('Invoice error'), _('Validate the invoices before.'))
+            gln_ve_aux = invoice.partner_id.commercial_partner_id.gln_ve or \
+                     invoice.company_id.gln_ve
+            gln_de_coa_aux = invoice.partner_id.commercial_partner_id.gln_de_coa
+            gln_rm_coa_aux = invoice.partner_id.commercial_partner_id.gln_rm_coa
+            if gln_ve != gln_ve_aux:
+                errors += _('Se han seleccionado facturas con distintos GLN de vendedor. [gln_ve]\n')
+            if gln_de_coa != gln_de_coa_aux:
+                errors += _('Se han seleccionado facturas con distintos GLN de destinatario COACSU. [gln_de_coa]\n')
+            if gln_rm_coa != gln_rm_coa_aux:
+                errors += _('Se han seleccionado facturas con distintos GLN de receptor mensaje COACSU.[gln_rm_coa]\n')
+            invoice_part = invoice.partner_id
+            picking_part = invoice.picking_ids and invoice.picking_ids[0].partner_id or False
+            gln_rf = picking_part and picking_part.gln_rf or invoice_part.gln_rf
+            if not self.check_ean13(gln_rf):
+                errors += _('The partner %s not have some GLN defined correctly. [gln_rf]\n') % \
+                    invoice.partner_id.name
+            if not invoice.date_invoice:
+                errors += _('The invoice not have date.\n')
+        if not self.check_ean13(gln_ve) or not self.check_ean13(gln_de_coa) or not self.check_ean13(gln_rm_coa):
+            errors += _('Some partners do not have a GLN defined correctly. [gln_ve / gln_de_coa / gln_rm_coa]\n')
+        if errors:
+            raise orm.except_orm(_('Data error'), errors)
+
+    def parse_coacsu(self, cr, uid, invoice_ids, file_name, date_due, context=None):
+        self.check_coacsu_data(invoice_ids)
+        f = codecs.open(file_name, 'w', 'utf-8')
+        gln_ve = invoice_ids[0].partner_id.commercial_partner_id.gln_ve or \
+                 invoice_ids[0].company_id.gln_ve
+        gln_de_coa = invoice_ids[0].partner_id.commercial_partner_id.gln_de_coa
+        gln_rm_coa = invoice_ids[0].partner_id.commercial_partner_id.gln_rm_coa
+
+        # Id de registro - CAB
+        coacsu_data = 'CAB'
+        # EAN buzón de destino
+        coacsu_data += self.parse_number(gln_de_coa, 13, 0)
+        # Número de relación de factura
+        number = file_name.replace('.ASC','').split('/')[-1]
+        coacsu_data += self.parse_string(number, 35)
+        # Fecha generación mensaje
+        coacsu_data += self.parse_long_date(time.strftime('%Y-%m-%d %H:%M:%S'))
+        # EAN emisor del mensaje
+        coacsu_data += self.parse_number(gln_ve, 13, 0)
+        # EAN receptor del mensaje
+        coacsu_data += self.parse_number(gln_rm_coa, 13, 0)
+        # Divisa de referencia
+        coacsu_data += self.parse_string(invoice_ids[0].currency_id.name or u'EUR', 3)
+        # Condiciones de pago
+        coacsu_data += self.parse_string(u'1', 3)
+        # Fecha de vencimiento
+        coacsu_data += self.parse_string(self.parse_short_date(date_due), 12)
+        # Importe total relación facturas
+        imp_total = sum([x.amount_total for x in invoice_ids])
+        coacsu_data += self.parse_number(imp_total, 18, 3)
+        f.write(coacsu_data)
+        
+        # RELACION DE FACTURAS
+        for invoice in invoice_ids:
+            # Id de registro - DOC
+            coacsu_data = '\r\nDOC'
+            # Número de factura
+            coacsu_data += self.parse_string(invoice.number, 35)
+            # Fecha factura
+            coacsu_data += self.parse_string(self.parse_short_date(invoice.date_invoice), 12)
+            # EAN receptor factura
+            invoice_part = invoice.partner_id
+            picking_part = invoice.picking_ids and invoice.picking_ids[0].partner_id or False
+            gln_rf = picking_part and picking_part.gln_rf or invoice_part.gln_rf
+            coacsu_data += self.parse_number(gln_rf, 13, 0)
+            # Importe factura
+            coacsu_data += self.parse_number(invoice.amount_total, 18, 3)
+            f.write(coacsu_data)
+        f.close()
+
     def export_files(self, cr, uid, ids, context=None):
         wizard = self.browse(cr, uid, ids[0])
         path = wizard.configuration.ftpbox_path + "/out"
-        for obj in self.pool.get(context['active_model']).browse(cr, uid, context['active_ids']):
-            if not obj.company_id.edi_code:
+        if not (context.get('coacsu', False) and context['active_model'] == u'account.invoice'):
+            for obj in self.pool.get(context['active_model']).browse(cr, uid, context['active_ids']):
+                if not obj.company_id.edi_code:
+                    raise orm.except_orm(_('Company error'), _('Edi code not established in company'))
+                if not obj.partner_id.commercial_partner_id.edi_filename:
+                    raise orm.except_orm(_('Partner error'), _('Edi filename not established in partner'))
+                if context['active_model'] == u'stock.picking':
+                    file_name = '%s%sEDI%s%s%s.ASC' % (path, os.sep, obj.company_id.edi_code, obj.name.replace('/','').replace('\\',''), obj.partner_id.commercial_partner_id.edi_filename)
+                    self.parse_picking(cr, uid, obj, file_name, context)
+                elif context['active_model'] == u'account.invoice':
+                    if obj.edi_not_send_invoice:
+                        continue
+                    if obj.state not in ('open', 'paid'):
+                        raise orm.except_orm(_('Invoice error'), _('Validate the invoice before.'))
+                    file_name = '%s%sINV%s%s%s.ASC' % (path, os.sep, obj.company_id.edi_code, obj.number.replace('/','').replace('\\',''), obj.partner_id.commercial_partner_id.edi_filename)
+                    self.parse_invoice(cr, uid, obj, file_name, context)
+                self.create_doc(cr, uid, wizard.id, obj, file_name, context)
+        else:
+            invoice_ids = self.pool.get(context['active_model']).browse(cr, uid, context['active_ids'])
+            if not invoice_ids[0].company_id.edi_code:
                 raise orm.except_orm(_('Company error'), _('Edi code not established in company'))
-            if not obj.partner_id.commercial_partner_id.edi_filename:
+            if not invoice_ids[0].partner_id.commercial_partner_id.edi_filename:
                 raise orm.except_orm(_('Partner error'), _('Edi filename not established in partner'))
-            elif context['active_model'] == u'stock.picking':
-                file_name = '%s%sEDI%s%s%s.ASC' % (path,os.sep, obj.company_id.edi_code, obj.name.replace('/','').replace('\\',''), obj.partner_id.commercial_partner_id.edi_filename)
-                self.parse_picking(cr, uid, obj, file_name, context)
-            elif context['active_model'] == u'account.invoice':
-                if obj.edi_not_send_invoice:
-                    continue
-                if obj.state not in ('open', 'paid'):
-                    raise orm.except_orm(_('Invoice error'), _('Validate the invoice before.'))
-                file_name = '%s%sINV%s%s%s.ASC' % (path,os.sep, obj.company_id.edi_code, obj.number.replace('/','').replace('\\',''), obj.partner_id.commercial_partner_id.edi_filename)
-                self.parse_invoice(cr, uid, obj, file_name, context)
-            self.create_doc(cr, uid, wizard.id, obj, file_name, context)
-            # data_pool = self.pool.get('ir.model.data')
-            # action_model,action_id = data_pool.get_object_reference(cr, uid, 'eln_edi', "act_edi_doc")
-            # action = self.pool.get(action_model).read(cr, uid, action_id, context=context)
-        # return action
-        return
+            file_name = '%s%sCOA%s%s.ASC' % (path, os.sep, invoice_ids[0].company_id.edi_code, wizard.id)
+            self.parse_coacsu(cr, uid, invoice_ids, file_name, wizard.date_due, context)
+            self.create_doc(cr, uid, wizard.id, invoice_ids, file_name, context)
+        return True

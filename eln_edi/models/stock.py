@@ -63,7 +63,6 @@ class StockPicking(models.Model):
                 if picking.id not in p_dic:
                     p_dic[picking.id] = []
                 pack_sscc = edi_obj.get_sscc(picking, k)
-                #import ipdb; ipdb.set_trace()
                 pack_lot = val[0]['lot_id']
                 pack_dun14 = val[0]['product_id'].dun14 or ('0' + val[0]['product_id'].ean13)
                 pack_name = val[0]['product_id'].name
