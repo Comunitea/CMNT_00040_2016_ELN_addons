@@ -71,14 +71,14 @@ class TablePricelistPrices(models.Model):
         prod_objs = t_product.search(domain)
         domain = [('type', '=', 'sale')]
         pricelist_objs = t_pricelist.search(domain, order="id")
-        import ipdb; ipdb.set_trace()
+
         for product in prod_objs:
-            print product.display_name
+
             table = pricelist_objs.price_get_multi(products_by_qty_by_partner=
                                                    [(product, 1.0, False)])
             product_table = table[product.id]
             for pricelist in pricelist_objs:
-                print pricelist.name
+                
                 if pricelist.id in product_table.keys():
                     price = product_table[pricelist.id]
 
