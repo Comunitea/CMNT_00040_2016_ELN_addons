@@ -4,7 +4,7 @@ import { ViewChild } from '@angular/core';
 import { Slides } from 'ionic-angular';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ToastController } from 'ionic-angular';
-import { PROXY } from '../../providers/constants/constants';
+/*import { PROXY } from '../../providers/constants/constants';*/
 /**
  * Generated class for the SlideopPage page.
  *
@@ -15,6 +15,7 @@ import { PROXY } from '../../providers/constants/constants';
 import { HostListener } from '@angular/core';
 import { HomePage } from '../home/home';
 import { TreeopsPage } from '../treeops/treeops';
+import { TreepickPage } from '../treepick/treepick';
 import { Storage } from '@ionic/storage';
 import { AuxProvider } from '../../providers/aux/aux'
 
@@ -69,6 +70,7 @@ export class SlideopPage {
   constructor(public navCtrl: NavController, public toastCtrl: ToastController, public navParams: NavParams, private formBuilder: FormBuilder, public alertCtrl: AlertController, private storage: Storage) {
     
     this.op_id = this.navParams.data.op_id;
+    
     this.reconfirm = false
     this.ops = this.navParams.data.ops;
     if (!this.ops){
@@ -117,6 +119,7 @@ export class SlideopPage {
     for (field in ['id', 'package_id', 'lot_id', 'product_id', 'qty_done', 'product_qty', 'result_package_id', 'location_dest_id', 'pda_product_id']){
     }
   }
+  goHome(){this.navCtrl.setRoot(TreepickPage, {borrar: true, login: null});}
 
   cargarOP(){
     var self = this;
@@ -125,7 +128,7 @@ export class SlideopPage {
           self.navCtrl.setRoot(HomePage, {borrar: true, login: null});
       } else {
           var con = val;
-          var odoo = new OdooApi(PROXY, con.db);
+          var odoo = new OdooApi(con.url, con.db);
           odoo.login(con.username, con.password).then(
             function (uid) {
               odoo.search_read(self.model, self.domain, self.op_fields, 0, 0).then(
@@ -200,7 +203,7 @@ export class SlideopPage {
       } else {
           console.log('Hay conexión');
           var con = val;
-          var odoo = new OdooApi(PROXY, con.db);
+          var odoo = new OdooApi(con.url, con.db);
           odoo.login(con.username, con.password).then(
             function (uid) {
               odoo.call(model, method, values).then(
@@ -244,7 +247,15 @@ submitScan(){
   }
 scanValue(model, scan){
     if (this.op['pda_done']){return}
-    var values = {'model':  [model], 'search_str' : scan};
+    var domain
+    var values
+    if (model=='stock.production.lot'){
+      domain = [['product_id', '=', this.op['product_id'][0]]];
+      values = {'model':  [model], 'search_str' : scan, 'domain': domain};
+    }
+    else {
+      values = {'model':  [model], 'search_str' : scan}
+    }
     this.submit(values);
 }
   get_id(val){
@@ -320,7 +331,7 @@ submit (values){
     } else {
         console.log('Hay conexión');
         var con = val;
-        var odoo = new OdooApi(PROXY, con.db);
+        var odoo = new OdooApi(con.url, con.db);
         odoo.login(con.username, con.password).then(
           function (uid) {
             odoo.call(model, method, values).then(
@@ -523,7 +534,7 @@ submit (values){
       } else {
           console.log('Hay conexión');
           var con = val;
-          var odoo = new OdooApi(PROXY, con.db);
+          var odoo = new OdooApi(con.url, con.db);
           odoo.login(con.username, con.password).then(
             function (uid) {
               odoo.call(model, method, values).then(
@@ -583,7 +594,7 @@ submit (values){
         } else {
             console.log('Hay conexión');
             var con = val;
-            var odoo = new OdooApi(PROXY, con.db);
+            var odoo = new OdooApi(con.url, con.db);
             odoo.login(con.username, con.password).then(
               function (uid) {
                 odoo.call(model, method, values).then(

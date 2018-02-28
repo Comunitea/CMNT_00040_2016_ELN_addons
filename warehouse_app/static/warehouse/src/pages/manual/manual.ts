@@ -4,7 +4,7 @@ import { ViewChild } from '@angular/core';
 import { Slides } from 'ionic-angular';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ToastController } from 'ionic-angular';
-import { PROXY } from '../../providers/constants/constants';
+/*import { PROXY } from '../../providers/constants/constants';*/
 
 import { HostListener } from '@angular/core';
 import { HomePage } from '../home/home';
@@ -153,7 +153,7 @@ export class ManualPage {
       } else {
           console.log('Hay conexión');
           var con = val;
-          var odoo = new OdooApi(PROXY, con.db);
+          var odoo = new OdooApi(con.templateUrl, con.db);
           odoo.login(con.username, con.password).then(
             function (uid) {
               odoo.call(model, method, values).then(
@@ -395,7 +395,7 @@ export class ManualPage {
       } else {
           console.log('Hay conexión');
           var con = val;
-          var odoo = new OdooApi(PROXY, con.db);
+          var odoo = new OdooApi(con.url, con.db);
           odoo.login(con.username, con.password).then(
             function (uid) {
               odoo.call(model, method, values).then(

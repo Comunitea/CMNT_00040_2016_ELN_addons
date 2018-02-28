@@ -12,8 +12,8 @@
       <ion-title>{{ op['picking_id'] && op['picking_id'][1]}} [{{ op['id']}}]</ion-title>
       <ion-buttons end>
         
-        <button ion-button >
-          <ion-icon name="log-out"></ion-icon>
+        <button ion-button (click)="goHome()">
+          <ion-icon name="home"></ion-icon>
         </button>
     </ion-buttons>
   </ion-navbar>

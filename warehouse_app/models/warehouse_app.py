@@ -51,7 +51,7 @@ class WarehouseApp (models.Model):
         model = vals.get('model', False)
         return_object = vals.get('return_object', False)
         field_value = {}
-
+        default_domain = vals.get('domain', False)
         if not model:
             search_options = SEARCH_OPTIONS.keys()
         elif model == ['stock.qty']:
@@ -69,6 +69,8 @@ class WarehouseApp (models.Model):
                 for option in search_options:
                     model = option
                     domain = [(SEARCH_OPTIONS[option], '=', search_str)]
+                    if default_domain:
+                        domain += default_domain
                     object_id = self.env[model].search(domain, limit=1)
                     if object_id:
                         break

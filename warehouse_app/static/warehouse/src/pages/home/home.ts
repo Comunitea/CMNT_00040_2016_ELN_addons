@@ -3,7 +3,7 @@ import {Component} from '@angular/core';
 import {Network} from '@ionic-native/network';
 import {Storage} from '@ionic/storage';
 import {TreepickPage} from '../../pages/treepick/treepick'; 
-import {PROXY} from '../../providers/constants/constants';
+/*import {PROXY} from '../../providers/constants/constants';*/
 
 //import  * as odoo from '../../providers/odoo-connector/odoo.js';
 
@@ -17,12 +17,19 @@ export class HomePage {
 
   loginData = {password: '', username: ''};
   CONEXION = {
-      url: 'http://192.168.0.119',
-      port: '9069',
-      db: 'nogal_dev',
+      url: 'http://odoopistola.com',
+      port: '80',
+      db: 'pistola',
       username: 'admin',
       password: 'admin',
   };
+  /*CONEXION = {
+    url: 'http://elnapp.livingodoo.com',
+    port: '80',
+    db: 'elnapp',
+    username: 'admin',
+    password: 'admin',
+};*/
   cargar = true;
   mensaje = '';
   
@@ -91,7 +98,7 @@ export class HomePage {
       self.cargar = true;
       //var odoo = new Odoo(con);
 
-      var odoo = new OdooApi(PROXY, con.db);
+      var odoo = new OdooApi(con.url, con.db);
       odoo.login(con.username, con.password).then(
           function (uid) {
             
@@ -131,7 +138,7 @@ export class HomePage {
       } else {
           console.log('Hay conexión');
           var con = val;
-          var odoo = new OdooApi(PROXY, con.db);
+          var odoo = new OdooApi(con.url, con.db);
           odoo.login(con.username, con.password).then(
             function (uid) {
               odoo.call(model, method, values).then(
