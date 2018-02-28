@@ -2,7 +2,7 @@
 
 <openerp>
     <data>
-        <!--POST-MIGRATION comentaod-->
+
         <record id="view_partner_form_add_list_price" model="ir.ui.view">
             <field name="name">res.partner.form.add.listprice</field>
             <field name="model">res.partner</field>
@@ -27,11 +27,9 @@
             <field name="inherit_id" ref="product.view_partner_property_form"/>
             <field name="type">form</field>
             <field name="arch" type="xml">
-
                 <field name="property_product_pricelist" position="after">
                     <field name="property_product_pricelist_indirect_invoicing"/>
                 </field>
-                
             </field>
         </record>
 

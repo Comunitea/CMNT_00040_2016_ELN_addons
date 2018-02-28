@@ -6,16 +6,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-07 07:39+0000\n"
-"PO-Revision-Date: 2017-08-07 10:02+0200\n"
-"Last-Translator: <>\n"
+"POT-Creation-Date: 2018-02-25 23:18+0000\n"
+"PO-Revision-Date: 2018-02-26 00:36+0100\n"
+"Last-Translator: Pedro <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
 "Language: es\n"
-"X-Generator: Poedit 2.0.3\n"
+"X-Generator: Poedit 2.0.6\n"
 
 #. module: eln_sale
 #: view:sale.shop:eln_sale.view_shop_form
@@ -26,6 +26,11 @@ msgstr "Contabilidad"
 #: field:sale.shop,project_id:0
 msgid "Analytic Account"
 msgstr "Cuenta analítica"
+
+#. module: eln_sale
+#: selection:sale.shop,order_policy:0
+msgid "Before Delivery"
+msgstr "Antes del envío"
 
 #. module: eln_sale
 #: field:sale.order,supplier_cip:0 field:stock.picking,supplier_cip:0
@@ -53,6 +58,11 @@ msgid "Close"
 msgstr "Cerrar"
 
 #. module: eln_sale
+#: field:sale.order,commercial_partner_id:0
+msgid "Commercial partner id"
+msgstr "Commercial partner id"
+
+#. module: eln_sale
 #: field:sale.shop,company_id:0
 msgid "Company"
 msgstr "Compañía"
@@ -67,6 +77,11 @@ msgstr "Confirmar pedidos en presupuesto"
 #: view:sale.order.confirm:eln_sale.sale_order_confirm_view_form
 msgid "Confirm Sales Orders"
 msgstr "Confirmar pedidos de ventas"
+
+#. module: eln_sale
+#: field:sale.shop,order_policy:0
+msgid "Create Invoice"
+msgstr "Crear Factura"
 
 #. module: eln_sale
 #: field:partner.product,create_uid:0 field:sale.order.confirm,create_uid:0
@@ -99,11 +114,6 @@ msgstr "Fecha en la que el pedido fue entregado."
 #: field:sale.shop,payment_default_id:0
 msgid "Default Payment Term"
 msgstr "Plazo de pago por defecto"
-
-#. module: eln_sale
-#: selection:sale.shop,order_policy:0
-msgid "Deliver & invoice on demand"
-msgstr "Entrega & Factura manual"
 
 #. module: eln_sale
 #: view:sale.order:eln_sale.view_sales_order_filter
@@ -158,21 +168,6 @@ msgid "Indirect Invoicing"
 msgstr "Facturación Indirecta"
 
 #. module: eln_sale
-#: field:sale.shop,order_policy:0
-msgid "Invoice Policy"
-msgstr "Política de facturación"
-
-#. module: eln_sale
-#: selection:sale.shop,order_policy:0
-msgid "Invoice based on deliveries"
-msgstr "Facturar desde albaranes"
-
-#. module: eln_sale
-#: selection:sale.shop,order_policy:0
-msgid "Invoice on order after delivery"
-msgstr "Facturar después de la entrega"
-
-#. module: eln_sale
 #: field:partner.product,__last_update:0
 #: field:sale.order.confirm,__last_update:0 field:sale.shop,__last_update:0
 msgid "Last Modified on"
@@ -196,16 +191,32 @@ msgid "No bill"
 msgstr "No facturar"
 
 #. module: eln_sale
+#: selection:sale.shop,order_policy:0
+msgid "On Delivery Order"
+msgstr "Sobre la orden de entrega"
+
+#. module: eln_sale
+#: selection:sale.shop,order_policy:0
+msgid "On Demand"
+msgstr "Bajo demanda"
+
+#. module: eln_sale
+#: help:sale.shop,order_policy:0
+msgid ""
+"On demand: A draft invoice can be created from the sales order when needed. \n"
+"On delivery order: A draft invoice can be created from the delivery order when the products have been delivered. \n"
+"Before delivery: A draft invoice is created from the sales order and must be paid before the products can be delivered."
+msgstr ""
+"Bajo demanda: Se puede crear una factura borrador desde el pedido de venta cuando sea necesario.\n"
+"Sobre la orden de entrega: Se puede crear una factura borrador desde la orden de entrega cuando los productos hayan sido entregados.\n"
+"Antes de la entrega: Se crea una factura borrador del pedido de venta, y debe ser pagada antes de que los productos puedan ser entregados."
+
+#. module: eln_sale
 #: model:ir.model,name:eln_sale.model_res_partner
 #: field:partner.product,partner_id:0
 #: view:stock.move:eln_sale.view_move_search_add_supplier
 msgid "Partner"
 msgstr "Empresa"
-
-#. module: eln_sale
-#: selection:sale.shop,order_policy:0
-msgid "Pay before delivery"
-msgstr "Pagar antes de la entrega"
 
 #. module: eln_sale
 #: model:ir.model,name:eln_sale.model_stock_picking
@@ -286,7 +297,7 @@ msgid "Sales Shop"
 msgstr "Tipos de ventas"
 
 #. module: eln_sale
-#: code:addons/eln_sale/wizard/sale_order_confirm.py:41
+#: code:addons/eln_sale/wizard/sale_order_confirm.py:36
 #, python-format
 msgid "Selected Sale(s) cannot be confirmed as they are not in 'Draft' state!"
 msgstr "¡Los pedidos seleccionados no pueden ser confirmados si no están en estado 'Presupuesto'!"
@@ -306,23 +317,6 @@ msgstr "Movimiento de existencias"
 #: field:stock.move,supplier_id:0 field:stock.picking,supplier_id:0
 msgid "Supplier"
 msgstr "Proveedor"
-
-#. module: eln_sale
-#: help:sale.shop,order_policy:0
-msgid ""
-"The Invoice Policy is used to synchronise invoice and delivery operations.\n"
-"  - The 'Pay before delivery' choice will first generate the invoice and then generate the picking order after the payment of this invoice.\n"
-"  - The 'Deliver & Invoice on demand' will create the picking order directly and wait for the user to manually click on the 'Invoice' button to generate the draft invoice based on the sale order or the sale order lines.\n"
-"  - The 'Invoice on order after delivery' choice will generate the draft invoice based on sales order after all picking lists have been finished.\n"
-"  - The 'Invoice based on deliveries' choice is used to create an invoice during the picking process.\n"
-"  - The 'No bill' choice is used to not create an invoice."
-msgstr ""
-"La Política de Facturación se usa para sincronizar las operaciones de factura y entrega.\n"
-"  - La opción 'Pagar antes de la entrega' generará primero la factura, y creará el albarán después del pago de la factura.\n"
-"  - La opción 'Entrega y Factura manual' creará el albarán directamente y esperará a que el usuario haga click en el botón 'Factura' para generar el borrador de la factura basada en el pedido de venta o las líneas del pedido de venta.\n"
-"  - La opción 'Facturar después de la entrega' generará el borrador de la factura basada en el pedido de venta después de haber terminado toda la fase del albarán.\n"
-"  - La opción 'Facturar desde albaranes' se usa para crear la factura durante la fase del albarán.\n"
-"  - La opción 'No facturar' se usa para no crear facturas."
 
 #. module: eln_sale
 #: help:res.partner,property_product_pricelist_indirect_invoicing:0
@@ -345,8 +339,8 @@ msgid "Warehouse"
 msgstr "Almacén"
 
 #. module: eln_sale
-#: code:addons/eln_sale/wizard/sale_order_confirm.py:41
-#: code:addons/eln_sale/wizard/sale_order_confirm.py:43
+#: code:addons/eln_sale/wizard/sale_order_confirm.py:36
+#: code:addons/eln_sale/wizard/sale_order_confirm.py:38
 #, python-format
 msgid "Warning"
 msgstr "Atención"
@@ -357,7 +351,7 @@ msgid "Without early payment"
 msgstr "Sin Pronto Pago"
 
 #. module: eln_sale
-#: code:addons/eln_sale/wizard/sale_order_confirm.py:43
+#: code:addons/eln_sale/wizard/sale_order_confirm.py:38
 #, python-format
 msgid "You cannot confirm a sale order which has no line."
 msgstr "No puede confirmar un pedido de venta sin líneas."
@@ -366,11 +360,6 @@ msgstr "No puede confirmar un pedido de venta sin líneas."
 #: view:sale.order:eln_sale.view_elnsale_sale_form
 msgid "[('commercial_partner_id', '=', commercial_partner_id)]"
 msgstr "[('commercial_partner_id', '=', commercial_partner_id)]"
-
-#. module: eln_sale
-#: field:sale.order,commercial_partner_id:0
-msgid "unknown"
-msgstr "desconocido"
 
 #. module: eln_sale
 #: view:sale.order:eln_sale.view_elnsale_sale_form
