@@ -1,0 +1,185 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* process_sale_order
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-12-07 20:02+0000\n"
+"PO-Revision-Date: 2015-12-07 20:02+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: process_sale_order
+#: model:ir.ui.menu,name:process_sale_order.menu_table_pricelist_prices
+msgid " Table pricelist prices"
+msgstr " Tabla de precios de tarifas"
+
+#. module: process_sale_order
+#: model:ir.actions.act_window,help:process_sale_order.action_qualitative_note
+msgid "<p class=\"oe_view_nocontent_create\">\n"
+"                    Click here to create a new qualitative comment\n"
+"                </p><p>\n"
+"                    We use it to pass information between sales and purchases\n"
+"                </p>\n"
+"\n"
+"            "
+msgstr "<p class=\"oe_view_nocontent_create\">\n"
+"                    Clic para crear un nuevo comentario cualitativo\n"
+"                </p><p>\n"
+"                    Lo usamos para pasar información entre ventas y compras\n"
+"                </p>\n"
+"\n"
+"            "
+
+#. module: process_sale_order
+#: model:ir.actions.act_window,help:process_sale_order.action_table_pricelist_prices
+msgid "<p class=\"oe_view_nocontent_create\">\n"
+"                Table of prices for app movile\n"
+"                </p><p>\n"
+"                Read only Model\n"
+"                </p>\n"
+"            "
+msgstr "<p class=\"oe_view_nocontent_create\">\n"
+"                Tabla de precios para la app móvil\n"
+"                </p><p>\n"
+"                Modelo de sólo lectura\n"
+"                </p>\n"
+"            "
+
+#. module: process_sale_order
+#: view:table.pricelist.prices:process_sale_order.table_pricelist_prices_view_search
+msgid "Change Filter"
+msgstr "Filtro tarifa variable"
+
+#. module: process_sale_order
+#: field:qualitative.note,code:0
+msgid "Code"
+msgstr "Code"
+
+#. module: process_sale_order
+#: view:sale.order:process_sale_order.midban_sale_view_order_form
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: process_sale_order
+#: view:sale.order:process_sale_order.view_order_form_add_customer_comment
+msgid "Customer comment"
+msgstr "Nota del cliente"
+
+#. module: process_sale_order
+#: field:sale.order.line,do_onchange:0
+msgid "Do onchange"
+msgstr "Hacer onchange"
+
+#. module: process_sale_order
+#: code:addons/process_sale_order/sale.py:302
+#, python-format
+msgid "Error"
+msgstr "Error"
+
+#. module: process_sale_order
+#: field:qualitative.note,name:0
+msgid "Name"
+msgstr "Name"
+
+#. module: process_sale_order
+#: field:table.pricelist.prices,price:0
+msgid "Price"
+msgstr "Precio"
+
+#. module: process_sale_order
+#: field:sale.order.line,price_udv:0
+msgid "Price UdV"
+msgstr "Precio UdV"
+
+#. module: process_sale_order
+#: view:table.pricelist.prices:process_sale_order.table_pricelist_prices_view_search
+#: field:table.pricelist.prices,pricelist_id:0
+msgid "Pricelist"
+msgstr "Tarifa"
+
+#. module: process_sale_order
+#: model:ir.model,name:process_sale_order.model_product_product
+#: view:table.pricelist.prices:process_sale_order.table_pricelist_prices_view_search
+#: field:table.pricelist.prices,product_id:0
+msgid "Product"
+msgstr "Producto"
+
+#. module: process_sale_order
+#: model:ir.model,name:process_sale_order.model_product_template
+msgid "Product Template"
+msgstr "Plantilla de producto"
+
+#. module: process_sale_order
+#: model:ir.ui.menu,name:process_sale_order.menu_qualitative_comment
+msgid "Qualitative Comments"
+msgstr "Comentarios cualitativos"
+
+#. module: process_sale_order
+#: view:qualitative.note:process_sale_order.qualitative_note_view_form
+#: view:qualitative.note:process_sale_order.qualitative_note_view_tree
+msgid "Qualitative Note"
+msgstr "Nota cualitativa"
+
+#. module: process_sale_order
+#: view:table.pricelist.prices:process_sale_order.table_pricelist_prices_view_form
+msgid "Recalculate Table"
+msgstr "Recalcular tabla"
+
+#. module: process_sale_order
+#: field:sale.order.line,product_code:0
+msgid "Reference"
+msgstr "Reference"
+
+#. module: process_sale_order
+#: model:ir.model,name:process_sale_order.model_sale_order
+msgid "Sales Order"
+msgstr "Pedido de venta"
+
+#. module: process_sale_order
+#: model:ir.model,name:process_sale_order.model_sale_order_line
+msgid "Sales Order Line"
+msgstr "Línea pedido de venta"
+
+#. module: process_sale_order
+#: model:ir.model,name:process_sale_order.model_stock_move
+msgid "Stock Move"
+msgstr "Movimiento de existencias"
+
+#. module: process_sale_order
+#: model:ir.actions.act_window,name:process_sale_order.action_table_pricelist_prices
+msgid "Table Pricelist prices"
+msgstr "Tabla de precios de tarifa"
+
+#. module: process_sale_order
+#: view:table.pricelist.prices:process_sale_order.table_pricelist_prices_view_form
+msgid "Table of prices"
+msgstr "Tabla de precios"
+
+#. module: process_sale_order
+#: model:ir.ui.menu,name:process_sale_order.menu_table_pricelist_prices_purchase
+msgid "Table pricelist prices"
+msgstr "Tabla de precios de tarifa"
+
+#. module: process_sale_order
+#: view:table.pricelist.prices:process_sale_order.table_pricelist_prices_view_tree
+msgid "Variable Pticelist"
+msgstr "Tarifa variable"
+
+#. module: process_sale_order
+#: code:addons/process_sale_order/sale.py:303
+#, python-format
+msgid "You can't sale product %s in                                      different sale units"
+msgstr "No puedes vender el producto %s en diferentes unidades de venta"
+
+#. module: process_sale_order
+#: model:ir.actions.act_window,name:process_sale_order.action_qualitative_note
+msgid "action.qualitative.note"
+msgstr "action.qualitative.note"
+
