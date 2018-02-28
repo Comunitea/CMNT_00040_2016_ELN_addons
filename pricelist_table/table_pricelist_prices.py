@@ -24,11 +24,17 @@ import openerp.addons.decimal_precision as dp
 
 import time
 
+class ProductTemplate(models.Model):
+
+    _inherit ="product.template"
+
+    sale_app = fields.Boolean("Sale in app")
+
 class ProductPricelist(models.Model):
 
     _inherit ="product.pricelist"
 
-    in_app = fields.Boolean('Pricelist in APP')
+    in_app = fields.Boolean('Pricelist in APP', default=False)
 
     def _price_rule_get_multi(self, cr, uid, pricelist, products_by_qty_by_partner, context=None):
 
@@ -75,12 +81,12 @@ class TablePricelistPrices(models.Model):
         pricelist_objs = t_pricelist.search(domain, order="id")
 
         for product in prod_objs:
-
+            #print product.display_name
             table = pricelist_objs.price_get_multi(products_by_qty_by_partner=
                                                    [(product, 1.0, False)])
             product_table = table[product.id]
             for pricelist in pricelist_objs:
-
+                #print pricelist.name
                 if pricelist.id in product_table.keys():
                     price = product_table[pricelist.id]
 
@@ -103,6 +109,6 @@ class TablePricelistPrices(models.Model):
                             rec_table.price = price
 
         # Borro todos los precios a 0 para no sincronizarlos
-        sql1 = "delete from table_pricelist_price where price <= 0.00"
-        self.cr.execute(sql1)
+        sql1 = "delete from table_pricelist_prices where price <= 0.00"
+        self._cr.execute(sql1)
         return True
