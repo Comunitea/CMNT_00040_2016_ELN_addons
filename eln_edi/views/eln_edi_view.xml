@@ -334,7 +334,7 @@
             <field name="name">EDI No Generado</field>
             <field name="model_id">account.invoice</field>
             <field name="action_id" ref="account.action_invoice_tree3"/>
-            <field name="domain">[('edi_docs', '=', False),('edi_not_send_invoice', '=', False),('partner_id.commercial_partner_id.edi_invoice_active', '!=', False),('journal_id.name', 'ilike', 'ventas')]</field>
+            <field name="domain">[('edi_docs', '=', False),('edi_not_send_invoice', '=', False),('partner_id.commercial_partner_id.edi_invoic_active', '!=', False),('journal_id.name', 'ilike', 'ventas')]</field>
             <field name="user_id" eval="False"/>
         </record>
         <record id="filter_coacsu_generado_tree1" model="ir.filters">

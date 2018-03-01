@@ -161,9 +161,9 @@ class res_partner(orm.Model):
                                help='Check if customer requires the picking name as numeric in DESADV documents. Ex. AS/X00123->00123'),
         'edi_invoice_copy': fields.boolean('Send invoice copy to payer',
                             help='Check if customer requires send invoice copy to payer. For example IFA GROUP requires a copy of the invoice sent to its associates.'),
-        'edi_invoic_active': fields.boolean('Active'),
-        'edi_desadv_active': fields.boolean('Active'),
-        'edi_coacsu_active': fields.boolean('Active'),
+        'edi_invoic_active': fields.boolean('Invoic active'),
+        'edi_desadv_active': fields.boolean('Desadv active'),
+        'edi_coacsu_active': fields.boolean('Coacsu active'),
         'edi_note': fields.text('Notes'),
     }
     _defaults = {
