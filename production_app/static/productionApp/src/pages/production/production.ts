@@ -24,7 +24,7 @@ export class ProductionPage {
             'setup': 'PREPARACIÓN PRODUCCION',
             'started': 'PRODUCCIÓN INICIADA',
             'stoped': 'PRODUCCIÓN PARADA',
-            // 'finished': 'PRODUCCIÓN FINALIZADA'
+            'finished': 'PRODUCCIÓN FINALIZADA'
         };
     }
 
@@ -50,6 +50,7 @@ export class ProductionPage {
         this.state = 'started'
     }
     finishProduction() {
+        this.state = 'finished'
         this.state = 'waiting'
     }
     stopProduction() {

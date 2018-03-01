@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>    
+    
+    <record id="app_registry_tree_view" model="ir.ui.view" >
+        <field name="name">app.registry.tree.view</field>
+        <field name="model">app.registry</field>
+        <field name="arch" type="xml">
+            <tree string="App Registrys">
+                <field name="name"/>
+                <field name="wc_line_id"/>
+                <field name="production_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="app_registry_form_view" model="ir.ui.view">
+        <field name="name">app.registry.form.view</field>
+        <field name="model">app.registry</field>
+        <field name="arch" type="xml">
+            <form string="App Registrys">
+            <header>
+                <field name="state" widget="statusbar"/>
+            </header>
+            <sheet string="App Registrys">
+                <group>
+                    <field name="name"/>
+                    <field name="wc_line_id"/>
+                    <field name="production_id" />
+                </group>
+            </sheet>
+            </form>
+        </field>
+    </record>
+
+     <record id="app_registry_filter_view" model="ir.ui.view">
+        <field name="name">app.registry.filter.view</field>
+        <field name="model">app.registry</field>
+        <field name="arch" type="xml">
+            <search string="Search Work Orders">
+                <field name="name"/>
+                <field name="wc_line_id"/>
+                <field name="state"/>
+                <separator/>
+                <filter string="Set-Up" domain="[('state','=','setup')]"/>
+                <filter string="Started" domain="[('state','=','started')]"/>
+                <separator/>
+                <group expand="0" string="Group By">
+                    <filter string="Work Center" icon="terp-go-home" domain="[]" context="{'group_by':'wc_line_id'}"/>
+                    <filter string="Status" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'state'}"/>
+                </group>
+             </search>
+        </field>
+    </record>
+
+    <record id="action_app_registry" model="ir.actions.act_window" >
+        <field name="name">App Registrys</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">app.registry</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_app_registry" name="App Registrys" parent="mrp.menu_mrp_planning"
+              action="action_app_registry" sequence="3"/>
+
+    </data>
+</openerp>

@@ -9,13 +9,15 @@
     "category": "Custom",
     'license': 'AGPL-3',
     'depends': [
-        'mrp',
+        'eln_production',
     ],
     'contributors': [
         "Comunitea ",
         "Javier Colmenero <javier@comunitea.com>"
     ],
     "data": [
+        'views/app_registry_view.xml',
+        "security/ir.model.access.csv",
     ],
     "demo": [
     ],
