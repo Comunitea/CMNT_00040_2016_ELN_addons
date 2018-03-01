@@ -138,7 +138,6 @@ class SaleOrderImport(models.TransientModel):
                         values = {
                             'date_order': datetime.strptime(ln[date_i], '%d%m%Y').strftime('%Y-%m-%d') or time.strftime('%Y-%m-%d'),
                             'requested_date': datetime.strptime(ln[date_i], '%d%m%Y').strftime('%Y-%m-%d') or time.strftime('%Y-%m-%d'),
-                            'shop_id': wizard.shop_id.id,
                             'client_order_ref': ln[order_ref_i].strip() or False,
                             'partner_id': partner.id,
                             'partner_invoice_id': invoice_dir,
@@ -151,6 +150,11 @@ class SaleOrderImport(models.TransientModel):
                             'user_id' : partner.user_id and partner.user_id.id or self.env.uid,
                             'origin' : ('ALB.' + ln[picking_i]),
                             'note': "",
+                            'shop_id': wizard.shop_id.id,
+                            'project_id': wizard.shop_id.project_id.id,
+                            'supplier_id': wizard.shop_id.supplier_id.id,
+                            'order_policy': wizard.shop_id.order_policy,
+                            'warehouse_id': wizard.shop_id.warehouse_id.id,
                         }
                         # Ahora voy a ejecutar los onchanges para actualizar valores
                         data = {}
