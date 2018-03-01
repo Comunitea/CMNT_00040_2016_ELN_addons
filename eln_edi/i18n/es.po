@@ -6,9 +6,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-28 17:57+0000\n"
-"PO-Revision-Date: 2018-02-28 19:08+0100\n"
-"Last-Translator: <>\n"
+"POT-Creation-Date: 2018-02-28 23:29+0000\n"
+"PO-Revision-Date: 2018-03-01 00:33+0100\n"
+"Last-Translator: Pedro <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -67,8 +67,7 @@ msgid "ALBARÁN"
 msgstr "ALBARÁN"
 
 #. module: eln_edi
-#: field:edi.modify.packing.line,active:0 field:res.partner,edi_coacsu_active:0
-#: field:res.partner,edi_desadv_active:0 field:res.partner,edi_invoic_active:0
+#: field:edi.modify.packing.line,active:0
 msgid "Active"
 msgstr "Activo"
 
@@ -149,6 +148,11 @@ msgstr "Marcar si el cliente requiere el nombre de albarán como númerico en do
 #: selection:payment.mode,edi_code:0
 msgid "Cheque"
 msgstr "Cheque"
+
+#. module: eln_edi
+#: field:res.partner,edi_coacsu_active:0
+msgid "Coacsu active"
+msgstr "Coacsu activo"
 
 #. module: eln_edi
 #: field:edi.pack,code:0
@@ -294,6 +298,11 @@ msgstr "Date error"
 #: view:res.partner:eln_edi.view_edi_res_partner_form
 msgid "Datos EDI"
 msgstr "Datos EDI"
+
+#. module: eln_edi
+#: field:res.partner,edi_desadv_active:0
+msgid "Desadv active"
+msgstr "Desadv activo"
 
 #. module: eln_edi
 #: field:edi.doc,date:0
@@ -710,6 +719,11 @@ msgstr "Código Departamento Interno"
 #: help:res.partner,department_code_edi:0
 msgid "Internal department code for edi when required by customer. Only El Corte Inglés customer requires this code currently."
 msgstr "Códido Departamento Interno, cuando lo pide el cliente. Sólo El Corte Inglés requiere este código actualmente."
+
+#. module: eln_edi
+#: field:res.partner,edi_invoic_active:0
+msgid "Invoic active"
+msgstr "Invoic activo"
 
 #. module: eln_edi
 #: model:ir.model,name:eln_edi.model_account_invoice
