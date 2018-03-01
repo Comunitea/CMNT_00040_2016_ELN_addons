@@ -10,7 +10,9 @@
             <tree string="App Registrys">
                 <field name="name"/>
                 <field name="wc_line_id"/>
+                <field name="workcenter_id"/>
                 <field name="production_id"/>
+                <field name="state" widget="statusbar"/>
             </tree>
         </field>
     </record>
@@ -41,6 +43,8 @@
             <search string="Search Work Orders">
                 <field name="name"/>
                 <field name="wc_line_id"/>
+                <field name="workcenter_id"/>
+                <field name="production_id"/>
                 <field name="state"/>
                 <separator/>
                 <filter string="Set-Up" domain="[('state','=','setup')]"/>
@@ -48,6 +52,7 @@
                 <separator/>
                 <group expand="0" string="Group By">
                     <filter string="Work Center" icon="terp-go-home" domain="[]" context="{'group_by':'wc_line_id'}"/>
+                    <filter string="Liner" icon="terp-go-home" domain="[]" context="{'group_by':'workcenter_id'}"/>
                     <filter string="Status" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'state'}"/>
                 </group>
              </search>

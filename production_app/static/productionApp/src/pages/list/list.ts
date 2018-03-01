@@ -11,12 +11,11 @@ declare var OdooApi: any;
   templateUrl: 'list.html'
 })
 export class ListPage {
-    lines = []
-    selected_line = false;
+    workcenters = []
+    selected_workcenter = false;
 
     constructor(public navCtrl: NavController, private storage: Storage, public alertCtrl: AlertController){
-        this.lines = [];
-        this.selected_line = false;
+        this.workcenters = [];
         this.getLines();
     }
 
@@ -39,20 +38,19 @@ export class ListPage {
                 odoo.login(con_data.username, con_data.password).then( (uid) => {
                     var domain = [];
                     var fields = ['id', 'name'];
-                    odoo.search_read('mrp.workcenter', domain, fields, 0, 0).then((lines) => {
-                        this.lines = lines;
+                    odoo.search_read('mrp.workcenter', domain, fields, 0, 0).then((workcenters) => {
+                        this.workcenters = workcenters;
                     });
                 });
             }
         });
     }
-    lineSelected(line) {
-        this.selected_line = line
-        this.loadProduction(line)
+    workcenterSelected(workcenter) {
+        this.loadProduction(workcenter)
         
     }
-    loadProduction(line) {
-        this.storage.set('line', line);
+    loadProduction(workcenter) {
+        this.storage.set('workcenter', workcenter);
         this.storage.get('CONEXION').then((con_data) => {
             var odoo = new OdooApi(con_data.url, con_data.db);
             if (con_data == null) {
@@ -60,14 +58,19 @@ export class ListPage {
                 this.navCtrl.setRoot(HomePage, {borrar: true, login: null});
             } else {
                 odoo.login(con_data.username, con_data.password).then( (uid) => {
-                    var model = 'mrp.production.workcenter.line'
-                    var method = 'app_get_production'
-                    var values = {'line_id': line.id}
-                    odoo.call(model, method, values).then((res) => {
-                        var line = this.storage.get('line')
-                        this.navCtrl.setRoot(ProductionPage, {'line':this.selected_line});
-                    });
-
+                    var model = 'app.registry'
+                    var method = 'app_get_registry'
+                    var values = {'workcenter_id': workcenter.id}
+                    odoo.call(model, method, values).then(
+                        (reg) => {
+                        console.log(reg)
+                        this.navCtrl.setRoot(ProductionPage, reg);
+                        },
+                        () => {
+                            console.log('ERROR EN METHODO app_get_registry DE app.regustry:')
+                            this.presentAlert('Falla!', 'Ocurrio un error al obtener el registro de la aplicación');
+                        }
+                    );
                 });
             }
         });

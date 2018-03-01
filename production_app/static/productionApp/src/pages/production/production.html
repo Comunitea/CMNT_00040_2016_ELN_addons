@@ -23,8 +23,8 @@
 
 
 <ion-content padding>
-     <ion-item [hidden]='line' color ="danger"> No hay Línea seleccionda</ion-item>
-     <ion-item *ngIf="line">{{line.name}}</ion-item>
+     <ion-item [hidden]='workcenter' color ="danger"> No hay Línea seleccionda</ion-item>
+     <ion-item *ngIf="workcenter">{{workcenter}}</ion-item>
 
     <!-- PANTALA INICIAL-->
     <button ion-button icon-start *ngIf="state == 'waiting'" (click)="confirmProduction()">
@@ -63,5 +63,5 @@
     </button>
 
    
-     <ion-item color ="danger">Esatado: {{states['waiting']}}</ion-item>
+     <ion-item color ="danger">Esatado: {{states[state]}}</ion-item>
 </ion-content>

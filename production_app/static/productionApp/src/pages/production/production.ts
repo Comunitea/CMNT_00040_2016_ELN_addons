@@ -16,7 +16,7 @@ import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angu
 export class ProductionPage {
 
     constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController) {
-        this.line = this.navParams.get('line');
+        this.workcenter = this.navParams.get('workcenter_id')[1];
         this.state = 'waiting';
         this.states = {
             'waiting': 'ESPERANDO PRODUCCIÖN',
@@ -37,7 +37,7 @@ export class ProductionPage {
         alert.present();
     }
     beginLogistics() {
-        this.presentAlert('Parar proucción', 'EN DESAROLLO')
+        this.presentAlert('Logistica', 'PENDIENTE DESAROLLO')
     }
 
     confirmProduction() {
