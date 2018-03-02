@@ -37,7 +37,8 @@ class AppRegistry(models.Model):
     @api.model
     def get_existing_registry(self, workcenter_id):
         res = False
-        domain = [('workcenter_id', '=', workcenter_id), ('state', '!=', 'finished')]
+        domain = [('workcenter_id', '=', workcenter_id),
+                  ('state', '!=', 'finished')]
         reg_obj = self.search(domain, limit=1)
         if reg_obj:
             res = reg_obj
@@ -45,7 +46,8 @@ class AppRegistry(models.Model):
 
     @api.model
     def create_new_registry(self, workcenter_id):
-        domain = [('workcenter_id', '=', workcenter_id), ('state', '!=', 'done')]
+        domain = [('workcenter_id', '=', workcenter_id),
+                  ('state', '!=', 'done')]
         wcl = self.env['mrp.production.workcenter.line']
         wcl_obj = wcl.search(domain, limit=1, order='sequence')
         if not wcl_obj:
@@ -74,32 +76,68 @@ class AppRegistry(models.Model):
             res.update(reg.read()[0])
         return res
 
-    @api.multi
-    def confirm_production(self):
-        self.ensure_one()
-        self.state = 'confirmed'
+    @api.model
+    def confirm_production(self, values):
+        res = {}
+        reg = False
+        if values.get('registry_id', False):
+            reg = self.browse(values['registry_id'])
+        if reg:
+            reg.state = 'confirmed'
+            res = reg.read()[0]
+        return res
 
-    @api.multi
-    def setup_production(self):
-        self.ensure_one()
-        self.state = 'setup'
+    @api.model
+    def setup_production(self, values):
+        res = {}
+        reg = False
+        if values.get('registry_id', False):
+            reg = self.browse(values['registry_id'])
+        if reg:
+            reg.state = 'setup'
+            res = reg.read()[0]
+        return res
 
-    @api.multi
-    def start_production(self):
-        self.ensure_one()
-        self.state = 'started'
+    @api.model
+    def start_production(self, values):
+        res = {}
+        reg = False
+        if values.get('registry_id', False):
+            reg = self.browse(values['registry_id'])
+        if reg:
+            reg.state = 'started'
+            res = reg.read()[0]
+        return res
 
-    @api.multi
-    def stop_production(self):
-        self.ensure_one()
-        self.state = 'stoped'
+    @api.model
+    def stop_production(self, values):
+        res = {}
+        reg = False
+        if values.get('registry_id', False):
+            reg = self.browse(values['registry_id'])
+        if reg:
+            reg.state = 'stoped'
+            res = reg.read()[0]
+        return res
 
-    @api.multi
-    def restart_production(self):
-        self.ensure_one()
-        self.state = 'restarted'
+    @api.model
+    def restart_production(self, values):
+        res = {}
+        reg = False
+        if values.get('registry_id', False):
+            reg = self.browse(values['registry_id'])
+        if reg:
+            reg.state = 'restarted'
+            res = reg.read()[0]
+        return res
 
-    @api.multi
-    def finish_production(self):
-        self.ensure_one()
-        self.state = 'finished'
+    @api.model
+    def finish_production(self, values):
+        res = {}
+        reg = False
+        if values.get('registry_id', False):
+            reg = self.browse(values['registry_id'])
+        if reg:
+            reg.state = 'finished'
+            res = reg.read()[0]
+        return res
