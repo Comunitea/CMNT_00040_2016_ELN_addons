@@ -9,11 +9,11 @@
       <button ion-button icon-only menuToggle>
         <ion-icon name="menu"></ion-icon>
       </button>
-      <ion-title>Operacion {{ op['id']}} {{ op['picking_id']}} STATE = {{state}}</ion-title>
+      <ion-title>{{ op['picking_id'] && op['picking_id'][1]}} [{{ op['id']}}]</ion-title>
       <ion-buttons end>
         
-        <button ion-button >
-          <ion-icon name="log-out"></ion-icon>
+        <button ion-button (click)="goHome()">
+          <ion-icon name="home"></ion-icon>
         </button>
     </ion-buttons>
   </ion-navbar>
@@ -88,7 +88,7 @@
           </ion-item>
         </ion-item-group>
 
-        <ion-item-group >
+        <!--ion-item-group >
         <ion-item no-lines>
           <ion-label color="odoo" class="bold">
             op selected {{ state }} Waiting {{waiting }}
@@ -104,7 +104,7 @@
             Package destino : {{ op_selected['result_package_id']}} Location : {{ op_selected['location_dest_id']}} 
           </ion-item>
           
-        </ion-item-group>
+        </ion-item-group-->
       </ion-list>
   
       

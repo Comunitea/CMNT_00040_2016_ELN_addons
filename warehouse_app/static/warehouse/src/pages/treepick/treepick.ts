@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
-import { PROXY } from '../../providers/constants/constants';
+/*import { PROXY } from '../../providers/constants/constants';*/
 import { AuxProvider } from '../../providers/aux/aux'
 /**
  * Generated class for the TreepickPage page.
@@ -36,6 +36,8 @@ export class TreepickPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, private storage: Storage, public Configs: AuxProvider) {
     
     this.states_show = Configs.get_pick_states_visible();
+    if (this.navCtrl.getPrevious()){this.navCtrl.remove(this.navCtrl.getPrevious().index, 2);}
+
     this.uid = 0
     this.picks = [];
     this.picking_types = [];
@@ -52,7 +54,7 @@ export class TreepickPage {
   ionViewWillEnter(){
     this.filter_picks(0) ;
   }
- 
+  logOut(){this.navCtrl.setRoot(HomePage, {borrar: true, login: null});}
 
   get_picks(){
     var self = this
@@ -63,7 +65,7 @@ export class TreepickPage {
           var con = val;
           var domain = [];
           domain.push(['pack_operation_ids', '!=', '[]'])
-          var odoo = new OdooApi(PROXY, con.db);
+          var odoo = new OdooApi(con.url, con.db);
           odoo.login(con.username, con.password).then(
             function (uid) {
               self.uid = uid;
@@ -110,7 +112,7 @@ export class TreepickPage {
           self.navCtrl.setRoot(HomePage, {borrar: true, login: null});
       } else {
           var con = val;
-          var odoo = new OdooApi(PROXY, con.db);
+          var odoo = new OdooApi(con.url, con.db);
           odoo.login(con.username, con.password).then(
             function (uid) {
               odoo.search_read('stock.picking.type', [['show_in_pda', '=', true]], ['id', 'name', 'short_name'], 0, 0).then(
@@ -193,7 +195,7 @@ change_pick_value(id, field, new_value){
     } else {
         console.log('Hay conexión');
         var con = val;
-        var odoo = new OdooApi(PROXY, con.db);
+        var odoo = new OdooApi(con.url, con.db);
         odoo.login(con.username, con.password).then(
           function (uid) {
             odoo.call(model, method, values).then(
@@ -242,7 +244,7 @@ doTransfer(id){
     } else {
         console.log('Hay conexión');
         var con = val;
-        var odoo = new OdooApi(PROXY, con.db);
+        var odoo = new OdooApi(con.url, con.db);
         odoo.login(con.username, con.password).then(
           function (uid) {
             odoo.call(model, method, values).then(

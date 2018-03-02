@@ -1,6 +1,6 @@
 import { Component, ViewChild} from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
-import { PROXY } from '../../providers/constants/constants';
+/*import { PROXY } from '../../providers/constants/constants';*/
 import {FormBuilder, FormGroup } from '@angular/forms';
 
 import { HostListener } from '@angular/core';
@@ -40,7 +40,7 @@ export class TreeopsPage {
   pick = {};
   cargar = true;
   pick_id = 0
-  limit = 5
+  limit = 25
   offset = 0
   model = 'stock.pack.operation'
   domain = []
@@ -96,6 +96,8 @@ export class TreeopsPage {
     },150);
     
      }
+  goHome(){this.navCtrl.setRoot(TreepickPage, {borrar: true, login: null});}
+  
   loadList(){
     var self = this;
     self.items = []
@@ -106,7 +108,7 @@ export class TreeopsPage {
         } else {
             console.log('hay');
             var con = val;
-            var odoo = new OdooApi(PROXY, con.db);
+            var odoo = new OdooApi(con.url, con.db);
             
             odoo.login(con.username, con.password).then(
               function (uid) {
@@ -193,8 +195,8 @@ export class TreeopsPage {
     console.log("Do op")
   }
 
-  openOp(op_id, index){
-    this.navCtrl.push(SlideopPage, {op_id: op_id, index: index, ops: this.ops});
+  openOp(op_id){
+    this.navCtrl.push(SlideopPage, {op_id: op_id, index: 1, ops: this.ops})
   }
 
   submitScan (){
@@ -232,7 +234,7 @@ export class TreeopsPage {
       } else {
           console.log('Hay conexión');
           var con = val;
-          var odoo = new OdooApi(PROXY, con.db);
+          var odoo = new OdooApi(con.url, con.db);
           odoo.login(con.username, con.password).then(
             function (uid) {
               odoo.call(model, method, values).then(
@@ -283,7 +285,7 @@ export class TreeopsPage {
       } else {
           console.log('Hay conexión');
           var con = val;
-          var odoo = new OdooApi(PROXY, con.db);
+          var odoo = new OdooApi(con.url, con.db);
           odoo.login(con.username, con.password).then(
             function (uid) {
               odoo.call(model, method, values).then(
@@ -330,7 +332,7 @@ export class TreeopsPage {
       } else {
           console.log('Hay conexión');
           var con = val;
-          var odoo = new OdooApi(PROXY, con.db);
+          var odoo = new OdooApi(con.url, con.db);
           odoo.login(con.username, con.password).then(
             function (uid) {
               odoo.call(model, method, values).then(

@@ -13,9 +13,10 @@
       </button>
       <ion-title>{{ pick.name}} [{{ pick.done_ops }} / {{pick.all_ops}}]</ion-title>
       <ion-buttons end>
-        <button ion-button icon-right>
-        <ion-icon name="log-out"></ion-icon>
-      </button></ion-buttons>
+        <button ion-button (click)="goHome()">
+          <ion-icon name="home"></ion-icon>
+        </button>
+      </ion-buttons>
   </ion-navbar>        
   <!--ion-item no-lines class='noPadding'>   
     <ion-label class='noPadding' color="primary"> {{ pick.picking_type_id_name}} </ion-label>
@@ -48,7 +49,7 @@
             <!--ion-label (click)="openOp(item.id, index)" color = "odoo" class="all0" [ngClass]="{'pdaChecked': !item.pda_checked}">
               {{item.product_id[1] || ''}}
             </ion-label--> 
-            <button ion-button item-end (click)="openOp(item.id, index)" class='buttonProduct'> {{item.product_id[1] || ''}}</button>
+            <button ion-button item-end (click)="openOp(item.id)" class='buttonProduct'> {{item.product_id[1] || ''}}</button>
           </ion-item>
           <ion-item class="all0" >
               
