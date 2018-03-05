@@ -22,6 +22,7 @@ export class ProductionPage {
         this.workcenter = false // avoid fail next line for not declared
         this.workcenter = this.navParams.get('workcenter_id')[1];
         this.registry_id = this.navParams.get('id');
+        this.production = this.navParams.get('production_id')[1];
         this.state = this.navParams.get('state');
         this.states = {
             'waiting': 'ESPERANDO PRODUCCIÖN',

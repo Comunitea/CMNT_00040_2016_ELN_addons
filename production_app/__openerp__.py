@@ -18,6 +18,7 @@
     "data": [
         'views/app_registry_view.xml',
         'views/mrp_view.xml',
+        'views/product_view.xml',
         "security/ir.model.access.csv",
     ],
     "demo": [

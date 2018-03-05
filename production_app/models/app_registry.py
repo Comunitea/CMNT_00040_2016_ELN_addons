@@ -18,7 +18,6 @@ APP_STATES = [
 
 class AppRegistry(models.Model):
     _name = 'app.registry'
-    _rec = 'wc_line_id'
 
     wc_line_id = fields.Many2one('mrp.production.workcenter.line',
                                  'Work Order', readonly=True)
@@ -40,8 +39,8 @@ class AppRegistry(models.Model):
                                      compute="_get_durations")
 
     # RELATED FIELDS
-    # name = fields.Char('Workcenter Line', related="wc_line_id.name",
-    #                    readonly=True)
+    name = fields.Char('Workcenter Line', related="wc_line_id.name",
+                       readonly=True)
     production_id = fields.Many2one('mrp.production', 'Production',
                                     related="wc_line_id.production_id",
                                     readonly=True)
@@ -214,3 +213,11 @@ class AppRegistry(models.Model):
             })
             res = reg.read()[0]
         return res
+
+
+class QualityCheckLine(models.Model):
+    _name = 'quality.check.line'
+
+    name = fields.Char('Name')
+    pqc_id = fields.Many2one('product.quality.check', 'Quality Check')
+    check = fields.Boolean('Check')
