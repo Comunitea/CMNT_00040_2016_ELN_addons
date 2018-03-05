@@ -48,9 +48,14 @@
         Empezar Producción
     </button>
      <!-- PANTALA 4-->
-    <button ion-button icon-start *ngIf="state == 'started'" (click)="finishProduction()">
+    <button ion-button icon-start *ngIf="state == 'started'" (click)="cleanProduction()">
         <ion-icon name="star"></ion-icon>
         Finalizar Producción / Empezar Limpieza
+    </button>
+     <!-- PANTALA 5-->
+    <button ion-button icon-start *ngIf="state == 'cleaning'" (click)="finishProduction()">
+        <ion-icon name="star"></ion-icon>
+        Finalizar Producción
     </button>
 
     <button ion-button icon-start *ngIf="state == 'started'" (click)="stopProduction()">

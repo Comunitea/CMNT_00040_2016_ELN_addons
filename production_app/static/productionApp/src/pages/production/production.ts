@@ -29,6 +29,7 @@ export class ProductionPage {
             'setup': 'PREPARACIÓN PRODUCCION',
             'started': 'PRODUCCIÓN INICIADA',
             'stoped': 'PRODUCCIÓN PARADA',
+            'cleaning': 'PRODUCCIÓN EN LIMPIEZA',
             'finished': 'PRODUCCIÓN FINALIZADA'
         };
     }
@@ -100,6 +101,16 @@ export class ProductionPage {
         var values =  {'registry_id': this.registry_id};
         this.callRegistry('start_production', values).then( (res) => {
             console.log("PRODUCCIÓN EMPEZADA:") 
+            this.state = res.state;
+        })
+        .catch( (err) => {
+            console.log(err) 
+        });
+    }
+    cleanProduction() {
+        var values =  {'registry_id': this.registry_id};
+        this.callRegistry('clean_production', values).then( (res) => {
+            console.log("PRODUCCIÓN EN LIMPIEZA:") 
             this.state = res.state;
         })
         .catch( (err) => {

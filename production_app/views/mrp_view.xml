@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>    
+
+    <record id="mrp_production_workcenter_form_view_registry" model="ir.ui.view">
+        <field name="name">mrp_production_workcenter_form_view_registry</field>
+        <field name="model">mrp.production.workcenter.line</field>
+        <field name="inherit_id" ref="eln_production.mrp_production_workcenter_form_view_inherit"/>
+        <field name="arch" type="xml">
+            <notebook position="inside">
+                <page string="App">
+                    <group>
+                        <field name="registry_id"/>
+                        <field name="app_state" widget="statusbar"/>
+                    </group>
+                </page>
+            </notebook>
+        </field>
+    </record>
+
+   
+    </data>
+</openerp>
