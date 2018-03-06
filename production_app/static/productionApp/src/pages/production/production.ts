@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
+import { HomePage } from '../../pages/home/home';
 
 /**
  * Generated class for the ProductionPage page.
@@ -17,9 +18,11 @@ declare var OdooApi: any;
   templateUrl: 'production.html',
 })
 export class ProductionPage {
- 
+    workcenter;
+    registry_id;
+    state;
+    states;
     constructor(public navCtrl: NavController, private storage: Storage, public navParams: NavParams, public alertCtrl: AlertController) {
-        this.workcenter = false // avoid fail next line for not declared
         this.workcenter = this.navParams.get('workcenter_id')[1];
         this.registry_id = this.navParams.get('id');
         this.production = this.navParams.get('production_id')[1];
@@ -33,6 +36,28 @@ export class ProductionPage {
             'cleaning': 'PRODUCCIÓN EN LIMPIEZA',
             'finished': 'PRODUCCIÓN FINALIZADA'
         };
+    }
+
+    logOut(){
+        let confirm = this.alertCtrl.create({
+          title: 'Salir de la Aplicación?',
+          message: 'Estás seguro que deseas salir de la aplicación?',
+          buttons: [
+            {
+              text: 'No',
+              handler: () => {
+                console.log('Disagree clicked');
+              }
+            },
+            {
+              text: 'Si',
+              handler: () => {
+                this.navCtrl.setRoot(HomePage, {borrar: true, login: null});
+              }
+            }
+          ]
+        });
+        confirm.present();
     }
 
     presentAlert(titulo, texto) {

@@ -12,11 +12,32 @@ declare var OdooApi: any;
 })
 export class ListPage {
     workcenters = []
-    selected_workcenter = false;
 
     constructor(public navCtrl: NavController, private storage: Storage, public alertCtrl: AlertController){
         this.workcenters = [];
         this.getLines();
+    }
+
+    logOut(){
+        let confirm = this.alertCtrl.create({
+          title: 'Salir de la Aplicación?',
+          message: 'Estás seguro que deseas salir de la aplicación?',
+          buttons: [
+            {
+              text: 'No',
+              handler: () => {
+                console.log('Disagree clicked');
+              }
+            },
+            {
+              text: 'Si',
+              handler: () => {
+                this.navCtrl.setRoot(HomePage, {borrar: true, login: null});
+              }
+            }
+          ]
+        });
+        confirm.present();
     }
 
     presentAlert(titulo, texto) {
