@@ -17,6 +17,8 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { ProductionPage } from '../pages/production/production';
 import { ListPage } from '../pages/list/list';
+import { ChecksModalPage } from '../pages/checks-modal/checks-modal';
+
 
 
 
@@ -26,6 +28,7 @@ import { ListPage } from '../pages/list/list';
     HomePage,
     ProductionPage,
     ListPage,
+    ChecksModalPage,
   ],
   imports: [
     BrowserModule,
@@ -40,6 +43,7 @@ import { ListPage } from '../pages/list/list';
     HomePage,
     ProductionPage,
     ListPage,
+    ChecksModalPage,
   ],
   providers: [
     StatusBar,

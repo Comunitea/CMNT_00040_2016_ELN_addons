@@ -44,6 +44,9 @@ class AppRegistry(models.Model):
     production_id = fields.Many2one('mrp.production', 'Production',
                                     related="wc_line_id.production_id",
                                     readonly=True)
+    product_id = fields.Many2one('product.product', 'Product',
+                                 related="production_id.product_id",
+                                 readonly=True)
     _sql_constraints = [
         ('wc_line_id_uniq', 'unique(wc_line_id)',
          'The workcenter line must be unique !'),
@@ -180,7 +183,7 @@ class AppRegistry(models.Model):
             reg = self.browse(values['registry_id'])
         if reg:
             reg.write({
-                'state': 'restarted',
+                'state': 'started',
             })
             res = reg.read()[0]
         return res
@@ -213,6 +216,20 @@ class AppRegistry(models.Model):
             })
             res = reg.read()[0]
         return res
+
+    @api.model
+    def get_quality_checks(self, values):
+        product_id = values.get('product_id', False)
+        quality_type = values.get('quality_type', False)
+        product = self.env['product.product'].browse(product_id)
+        domain = [('quality_type', '=', quality_type)]
+        fields = ['id', 'name', 'value_type']
+        res = product.quality_check_ids.search_read(domain, fields)
+        res2 = []
+        for dic in res:
+            dic.update({'value': False})
+            res2.append(dic)
+        return res2
 
 
 class QualityCheckLine(models.Model):

@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, ModalController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { HomePage } from '../../pages/home/home';
+import { ChecksModalPage } from '../../pages/checks-modal/checks-modal';
 
 /**
  * Generated class for the ProductionPage page.
@@ -20,12 +21,18 @@ declare var OdooApi: any;
 export class ProductionPage {
     workcenter;
     registry_id;
+    production;
+    product;
     state;
     states;
-    constructor(public navCtrl: NavController, private storage: Storage, public navParams: NavParams, public alertCtrl: AlertController) {
+    constructor(public navCtrl: NavController, private storage: Storage, 
+                public navParams: NavParams, public alertCtrl: AlertController, 
+                public modalCtrl: ModalController) {
         this.workcenter = this.navParams.get('workcenter_id')[1];
         this.registry_id = this.navParams.get('id');
         this.production = this.navParams.get('production_id')[1];
+        this.product_id = this.navParams.get('product_id')[0];
+        this.product = this.navParams.get('product_id')[1];
         this.state = this.navParams.get('state');
         this.states = {
             'waiting': 'ESPERANDO PRODUCCIÖN',
@@ -106,8 +113,10 @@ export class ProductionPage {
     confirmProduction() {
         var values =  {'registry_id': this.registry_id};
         this.callRegistry('confirm_production', values).then( (res) => {
-            console.log("PRODUCCIÓN CONFIRMADA:") 
-            this.state = res.state;
+            console.log("PRODUCCIÓN CONFIRMADA:")
+            if (res) {
+                this.state = res.state;
+            }
         })
         .catch( (err) => {
             console.log(err) 
@@ -117,7 +126,9 @@ export class ProductionPage {
         var values =  {'registry_id': this.registry_id};
         this.callRegistry('setup_production', values).then( (res) => {
             console.log("PRODUCCIÓN EN PREPARACIÖN:") 
-            this.state = res.state;
+            if (res) {
+                this.state = res.state;
+            }
         })
         .catch( (err) => {
             console.log(err) 
@@ -127,7 +138,9 @@ export class ProductionPage {
         var values =  {'registry_id': this.registry_id};
         this.callRegistry('start_production', values).then( (res) => {
             console.log("PRODUCCIÓN EMPEZADA:") 
-            this.state = res.state;
+            if (res) {
+                this.state = res.state;
+            }
         })
         .catch( (err) => {
             console.log(err) 
@@ -137,7 +150,9 @@ export class ProductionPage {
         var values =  {'registry_id': this.registry_id};
         this.callRegistry('clean_production', values).then( (res) => {
             console.log("PRODUCCIÓN EN LIMPIEZA:") 
-            this.state = res.state;
+            if (res) {
+                this.state = res.state;
+            }
         })
         .catch( (err) => {
             console.log(err) 
@@ -147,7 +162,9 @@ export class ProductionPage {
         var values =  {'registry_id': this.registry_id};
         this.callRegistry('finish_production', values).then( (res) => {
             console.log("PRODUCCIÓN FINALIZADA:") 
-            this.state = res.state;
+            if (res) {
+                this.state = res.state;
+            }
         })
         .catch( (err) => {
             console.log(err) 
@@ -157,7 +174,9 @@ export class ProductionPage {
         var values =  {'registry_id': this.registry_id};
         this.callRegistry('stop_production', values).then( (res) => {
             console.log("PRODUCCIÓN PARADA:") 
-            this.state = res.state;
+            if (res) {
+                this.state = res.state;
+            }
         })
         .catch( (err) => {
             console.log(err) 
@@ -167,11 +186,31 @@ export class ProductionPage {
         var values =  {'registry_id': this.registry_id};
         this.callRegistry('restart_production', values).then( (res) => {
             console.log("PRODUCCIÓN REINICIADA:") 
-            this.state = res.state;
+            if (res) {
+                this.state = res.state;
+            }
         })
         .catch( (err) => {
             console.log(err) 
         });
+    }
+
+    openModal() {
+        var mydata = {
+            'product_id': this.product_id,
+            'quality_type': 'start'
+        }
+        let myModal = this.modalCtrl.create(ChecksModalPage, mydata);
+        myModal.onDidDismiss(data => {
+            this.save_quality_checks(data);
+        });
+
+        myModal.present();
+    }
+
+    save_quality_checks(data){
+        console.log("RESULTADO A GUARDAR")
+        console.log(data)
     }
 
 
