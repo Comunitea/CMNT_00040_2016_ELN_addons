@@ -10,7 +10,17 @@ import { TreepickPage } from '../pages/treepick/treepick';
 import { TreeopsPage } from '../pages/treeops/treeops';
 import { SlideopPage } from '../pages/slideop/slideop';
 import { ManualPage } from '../pages/manual/manual';
+import { ShowinfoPage } from '../pages/showinfo/showinfo';
+
+import { ProductPage} from '../pages/product/product'
+import { LotPage} from '../pages/lot/lot'
+import { PackagePage} from '../pages/package/package'
+import { LocationPage} from '../pages/location/location'
+
+
 import { AuxProvider } from '../providers/aux/aux'
+import { AppSoundProvider } from '../providers/app-sound/app-sound'
+
 @Component({
   templateUrl: 'app.html'
 })
@@ -22,18 +32,18 @@ export class MyApp {
   rootPage:any = HomePage;
   pages: Array<{title: string, component: any, param: string}>;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, public Configs: AuxProvider ) {
+  ops_filter = "Todas"/*o pendientes*/ 
+
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, public auxProvider: AuxProvider ) {
     
     this.initializeApp();
-    this.Configs = new AuxProvider()
     this.pages = [
       { title: 'Mis albaranes', component: HomePage , param: 'assigned'},
-      { title: 'Sin asignar', component: TreepickPage, param: 'no_assigned' },
+      { title: 'Sin asignar', component: TreepickPage, param: 'no_assigned'},
       { title: 'Mov. Manual', component: ManualPage, param: 'new_move'},
-      { title: 'Info Etiqueta', component: HomePage, param: 'info'},
+      { title: 'Info Etiqueta', component: ShowinfoPage, param: 'info'},
       { title: 'Borrar Datos', component: HomePage, param: 'delete'},
       { title: 'Imprimir etiqueta', component: HomePage, param: 'print_tag'},
-
     ]
     }
 
@@ -49,7 +59,9 @@ export class MyApp {
   openPage(page) {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
-    this.nav.setRoot(page.component, {user: page.param}) ;
+    if (page.param=='assigned') {this.auxProvider.filter_user = 'assigned';}
+    if (page.param=='no_assigned') {this.auxProvider.filter_user = 'no_assigned';}
+    this.nav.setRoot(page.component, {filter_user: page.param}) ;
     
   }
   

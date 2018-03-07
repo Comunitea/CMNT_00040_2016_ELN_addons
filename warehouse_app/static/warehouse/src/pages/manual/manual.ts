@@ -153,7 +153,7 @@ export class ManualPage {
       } else {
           console.log('Hay conexión');
           var con = val;
-          var odoo = new OdooApi(con.templateUrl, con.db);
+          var odoo = new OdooApi(con.url, con.db);
           odoo.login(con.username, con.password).then(
             function (uid) {
               odoo.call(model, method, values).then(

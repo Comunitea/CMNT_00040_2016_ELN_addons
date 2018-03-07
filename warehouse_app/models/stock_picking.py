@@ -12,7 +12,6 @@ WAREHOUSE_STATES = [
     ('process', 'In process'),
     ('process_working', 'Working in progress'),
     ('waiting_validation', 'Waiting validatiton'),
-
     ('done', 'Done')]
 
 class StockPickingType(models.Model):
@@ -49,6 +48,11 @@ class StockPicking(models.Model):
             pick.remaining_ops = pick.all_ops - pick.done_ops
             pick.ops_str = "Faltan {:02d} de {:02d}".format(pick.remaining_ops, pick.all_ops)
 
+    @api.multi
+    def _compute_allow_validate(self):
+        for pick in self:
+            pick.allow_validate = (pick.state=='assigned' and pick.done_ops>0)
+
     user_id = fields.Many2one('res.users', 'Operator')
     state_2 = fields.Selection(WAREHOUSE_STATES, string ="Warehouse barcode statue", compute="_compute_state2")
     done_ops = fields.Integer('Done ops', compute="_compute_ops", multi=True)
@@ -59,7 +63,7 @@ class StockPicking(models.Model):
     location_id_name = fields.Char(related="location_id.name")
     location_dest_id_name = fields.Char(related="location_dest_id.name")
     picking_type_id_name = fields.Char(related="picking_type_id.short_name")
-
+    allow_validate = fields.Boolean("Permitir validar", compute="_compute_allow_validate")
 
     @api.multi
     def do_transfer(self):
@@ -79,18 +83,17 @@ class StockPicking(models.Model):
         pick = self.browse[id]
         return pick.confirm_pda_done(transfer)
 
-
     @api.model
     def doTransfer(self, vals):
         id = vals.get('id', False)
         pick = self.browse([id])
+        pick.pack_operation_ids.filtered(lambda x:not x.pda_done).unlink()
+
         if any(op.pda_done for op in pick.pack_operation_ids):
             pick.pack_operation_ids.put_in_pack()
             pick.do_transfer()
             return True
         return False
-
-
 
     @api.model
     def change_pick_value(self, vals):
@@ -99,7 +102,6 @@ class StockPicking(models.Model):
         value = vals.get('value', False)
         id = vals.get('id', False)
         pick = self.browse([id])
-
         if field == 'user_id' and (not pick.user_id or pick.user_id.id == self._uid):
             pick.write({'user_id': value})
         else:

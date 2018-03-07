@@ -32,33 +32,31 @@ export class TreepickPage {
   states_show = []
   user= ''
   picking_type_id = 0
-
-  constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, private storage: Storage, public Configs: AuxProvider) {
+  filter_user = ''
+  constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, private storage: Storage, public auxProvider: AuxProvider) {
     
-    this.states_show = Configs.get_pick_states_visible();
+    this.states_show = auxProvider.get_pick_states_visible();
     if (this.navCtrl.getPrevious()){this.navCtrl.remove(this.navCtrl.getPrevious().index, 2);}
-
+    
     this.uid = 0
     this.picks = [];
     this.picking_types = [];
     this.picking_type_id = 0
     this.domain_types = []
-    this.user = this.navParams.data.user || 'assigned'
+    this.filter_user = this.auxProvider.filter_user
     this.domain_state = ['state', 'in', this.states_show]
-    this.fields = ['id', 'name', 'state', 'state_2', 'done_ops', 'partner_id_name', 'location_id_name', 'location_dest_id_name', 'ops_str', 'picking_type_id_name', 'user_id'];
+    this.fields = ['id', 'name', 'state', 'partner_id_name', 'location_id_name', 'location_dest_id_name', 'picking_type_id_name', 'user_id', 'allow_validate'];
     this.get_picking_types();
-    //this.filter_picks(0) ;
-    
-    
-        }
-  ionViewWillEnter(){
     this.filter_picks(0) ;
-  }
+    }
+  
   logOut(){this.navCtrl.setRoot(HomePage, {borrar: true, login: null});}
 
   get_picks(){
     var self = this
-    this.storage.get('CONEXION').then((val) => {
+    self.cargar = true
+    self.picks=[];
+    self.storage.get('CONEXION').then((val) => {
       if (val == null) {
           self.navCtrl.setRoot(HomePage, {borrar: true, login: null});
       } else {
@@ -69,9 +67,9 @@ export class TreepickPage {
           odoo.login(con.username, con.password).then(
             function (uid) {
               self.uid = uid;
-              if (self.domain_state!=[]) { domain.push(self.domain_state);}
-              if (self.domain_types!=[]) { domain.push(self.domain_types);}
-              if (self.user=='assigned') { domain.push(['user_id', '=', uid]);} else {domain.push(['user_id','=', false]);}
+              if (self.domain_state!=[]) {domain.push(self.domain_state);}
+              if (self.domain_types!=[]) {domain.push(self.domain_types);}
+              if (self.auxProvider.filter_user=='assigned') {domain.push(['user_id', '=', uid]);} else {domain.push(['user_id','=', false]);}
               console.log(domain)
               odoo.search_read('stock.picking', domain, self.fields, 0, 0).then(
                 function (value) {
@@ -79,76 +77,42 @@ export class TreepickPage {
                   for (var key in value) {
                     self.picks.push(value[key]);
                   }
-
-                  for (var i in self.picks){
-                    var pick = self.picks[i];
-                    pick['allow_validate'] = (pick['state'] == 'assigned' && pick['ops_done'] >= 1);
-                    }
-
                   self.cargar = false;
                   self.storage.set('stock.picking', value);
                 },
                 function () {
-                  self.cargar = false;
                   self.presentAlert('Falla!', 'Imposible conectarse');
                 }
                           );
                       },
                       function () {
-                          self.cargar = false;
                           self.presentAlert('Falla!', 'Imposible conectarse');
                       }
                   );
-                  self.cargar = false;
+                  
               }
           });
       
 
   }        
-  get_picking_types(){
-    var self = this
-    this.storage.get('CONEXION').then((val) => {
-      if (val == null) {
-          self.navCtrl.setRoot(HomePage, {borrar: true, login: null});
-      } else {
-          var con = val;
-          var odoo = new OdooApi(con.url, con.db);
-          odoo.login(con.username, con.password).then(
-            function (uid) {
-              odoo.search_read('stock.picking.type', [['show_in_pda', '=', true]], ['id', 'name', 'short_name'], 0, 0).then(
-                function (value) {
-                  self.picking_types = []
-                  for (var key in value) {
-                    self.picking_types.push(value[key]);
-                  }
-                  self.storage.set('stock.picking.type', value);
-                },
-                function () {
-                  self.cargar = false;
-                  self.presentAlert('Falla!', 'Imposible conectarse');
-                }
-                          );
-                      },
-                      function () {
-                          self.cargar = false;
-                          self.presentAlert('Falla!', 'Imposible conectarse');
-                      }
-                  );
-                  self.cargar = false;
-              }
-          });
-      
+get_picking_types(){
+  this.storage.get('stock.picking.type').then((val) => {
+    this.picking_types = [];
+    for (var key in val) {
+      this.picking_types.push(val[key]);
+    }
+  })
+}
 
-  }  
-filter_picks(picking_type_id){
+filter_picks(picking_type_id=0){
 
-  var self = this
-  self.picking_type_id = picking_type_id
-  if (picking_type_id==0)
-    {self.domain_types =  ['picking_type_id', '!=', false];}
+  if (Boolean(picking_type_id)){
+    this.picking_type_id = picking_type_id}
+  if (this.picking_type_id==0)
+    {this.domain_types =  ['picking_type_id', '!=', false];}
   else 
-    {self.domain_types = ['picking_type_id', '=', picking_type_id];}
-  self.get_picks();
+    {this.domain_types = ['picking_type_id', '=', this.picking_type_id];}
+  this.get_picks();
 }
 
 presentAlert(titulo, texto) {
@@ -164,7 +128,6 @@ ionViewDidLoad() {
 
 }
 showtreeop_ids(pick_id) {
-  
   this.navCtrl.push(TreeopsPage, {picking_id: pick_id});
 }
 
@@ -185,7 +148,7 @@ change_pick_value(id, field, new_value){
   var method = 'change_pick_value'
   var values = {'id': id, 'field': field, 'value': new_value}
   var object_id
-
+  self.cargar = true
 
   self.storage.get('CONEXION').then((val) => {
 
@@ -201,12 +164,14 @@ change_pick_value(id, field, new_value){
             odoo.call(model, method, values).then(
               function (value) {
                 if (new_value){
-                  self.user='assigned'
+                  self.filter_user='assigned'
+                  self.auxProvider.filter_user = 'assigned'
                 }
                 else {
-                  self.user='no_assigned'
+                  self.filter_user='no_assigned'
+                  self.auxProvider.filter_user = 'no_assigned'
                 }
-                self.get_picks();
+                self.filter_picks();
               },
               function () {
                 self.cargar = false;
@@ -233,9 +198,8 @@ doTransfer(id){
   var model = 'stock.picking'
   var method = 'doTransfer'
   var values = {'id': id}
-  var self = this;
   var object_id = {}
-
+  self.cargar = true
   
   this.storage.get('CONEXION').then((val) => {
     if (val == null) {
@@ -250,8 +214,7 @@ doTransfer(id){
             odoo.call(model, method, values).then(
               function (value) {
                 object_id = value;
-                self.cargar = false;
-                this.navCtrl.push(TreepickPage);
+                self.filter_picks()
               },
               function () {
                 self.cargar = false;

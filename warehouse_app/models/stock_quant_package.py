@@ -30,7 +30,6 @@ class StockProductionLot(models.Model):
     @api.multi
     def get_lot_location_id(self, location_id=False):
         for lot in self:
-
             if location_id:
                 internal_quants = lot.quant_ids.\
                     filtered(lambda x: x.location_id.id == location_id and x.location_id.usage == 'internal')

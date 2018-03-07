@@ -32,15 +32,16 @@ export class SlideopPage {
   @ViewChild('scan') myScan ;
   @ViewChild('qty') myQty ;
 
-  @HostListener('document:keydown', ['$event'])
-  handleKeyboardEvent(event: KeyboardEvent) { 
-    if (!this.myScan._isFocus){this.myScan.setFocus()};
-     }
+  //@HostListener('document:keydown', ['$event'])
+  //handleKeyboardEvent(event: KeyboardEvent) { 
+  //  if (!this.myScan._isFocus){this.myScan.setFocus()};
+  //   }
   
   op = {}
   op_selected = {};
   model = 'stock.pack.operation'
-  op_fields = ['id', 'pda_checked', 'picking_id', 'pda_done', 'product_id', 'pda_product_id', 'location_id', 'location_id_barcode', 'location_dest_id_barcode', 'location_dest_id', 'product_uom', 'lot_id', 'package_id', 'result_package_id', 'total_qty', 'qty_done']
+  op_fields = ['id', 'pda_checked', 'picking_id', 'pda_done', 'product_id', 'pda_product_id', 'location_id', 'location_id_barcode', 'location_dest_id_barcode', 'location_dest_id', 'product_uom', 'lot_id', 'package_id', 'result_package_id', 'product_qty', 'total_qty', 'qty_done']
+  pick_fields = ['id', 'state','user_id']
   domain = []
   isPaquete: boolean = true;
   isProducto: boolean = false;
@@ -66,11 +67,12 @@ export class SlideopPage {
   last_read: number = 0
   reconfirm: boolean 
   waiting: number = 0
+  pick = []
 
   constructor(public navCtrl: NavController, public toastCtrl: ToastController, public navParams: NavParams, private formBuilder: FormBuilder, public alertCtrl: AlertController, private storage: Storage) {
     
     this.op_id = this.navParams.data.op_id;
-    
+    this.pick = []
     this.reconfirm = false
     this.ops = this.navParams.data.ops;
     if (!this.ops){
@@ -112,6 +114,7 @@ export class SlideopPage {
   resetForm(){
     this.resetValues();
     this.cargarOP();
+   
 
   }
   get_op_selected(){
@@ -120,6 +123,31 @@ export class SlideopPage {
     }
   }
   goHome(){this.navCtrl.setRoot(TreepickPage, {borrar: true, login: null});}
+
+  cargarPick(){
+    this.storage.get('CONEXION').then((val) => {
+      if (val == null) {
+          this.navCtrl.setRoot(HomePage, {borrar: true, login: null});
+      } 
+      else {
+        var self = this
+        var con = val;
+        var odoo = new OdooApi(con.url, con.db);
+        odoo.login(con.username, con.password).then(
+          function (uid) {
+          var model = 'stock.picking';
+          var fields = self.pick_fields;
+          var domain = [['id','=', self.op['picking_id'][0]]];
+          odoo.search_read(model, domain, fields, 0, 1).then((value) => {
+            self.pick = value[0];}
+            ); 
+          },
+          function () {
+            self.cargar = false;
+            self.presentAlert('Falla!', 'Imposible conectarse');
+          });
+      }});
+    }
 
   cargarOP(){
     var self = this;
@@ -134,9 +162,8 @@ export class SlideopPage {
               odoo.search_read(self.model, self.domain, self.op_fields, 0, 0).then(
                 function (value) {
                   self.op = value[0];
+                  if (self.op['picking_id']){self.cargarPick()}
                   self.cargar = false;
-                  self.storage.set('stock.pack.operation', value);
-                  self.storage.set('stock.picking', self.op['picking_id']);
                   if (self.op['result_package_id'])
                     { self.result_package_id = 0;
                       self.op_selected['result_package_id'] = self.op['result_package_id'];}
@@ -190,6 +217,7 @@ export class SlideopPage {
 
 
   change_op_value(id, field, value){
+    if (this.check_changes()){return}
     var self = this;
     var model = 'stock.pack.operation';
     var method = 'change_op_value';
@@ -241,12 +269,26 @@ export class SlideopPage {
   }
 
 submitScan(){
-    var values = {'model':  ['stock.quant.package', 'stock.production.lot', 'stock.location'], 'search_str' : this.barcodeForm.value['scan']};
-    this.barcodeForm.reset();
-    this.submit(values);
+  if (this.check_changes()){return}
+  var values = {'model':  ['stock.quant.package', 'stock.production.lot', 'stock.location'], 'search_str' : this.barcodeForm.value['scan']};
+  this.barcodeForm.reset();
+  this.submit(values);
   }
+
+check_changes(){
+  var res = false;
+  if (this.op['pda_done']){
+    this.presentToast ("Ya está hecha. No puedes modificar");
+    res = true
+    }
+  if (!Boolean(this.pick['user_id'])) {
+    this.presentToast ("No está asignado el picking");
+    res = true
+    }
+  return res
+}
 scanValue(model, scan){
-    if (this.op['pda_done']){return}
+    if (this.check_changes()){return}
     var domain
     var values
     if (model=='stock.production.lot'){
@@ -318,9 +360,8 @@ check_state(){
 
 
 submit (values){
-
+  if (this.check_changes()){return}
   var self = this
-  if (self.op['pda_done']){return}
   var model = 'warehouse.app'
   var method = 'get_object_id'
   var confirm = false
@@ -522,8 +563,6 @@ submit (values){
 
   getObjectId(values){
     var self = this;
-    
-
     var model = 'warehouse.app'
     var method = 'get_object_id'
     
@@ -579,9 +618,8 @@ submit (values){
     }
 
     doOp(id){
-
+      if (this.check_changes()){return}
       var self = this;
-      if (self.op['pda_done']){return}
       var model = 'stock.pack.operation'
       var method = 'doOp'
       var values = {'id': id}
@@ -633,8 +671,8 @@ submit (values){
   
 
   inputQty() {
+    if (this.check_changes()){return}
     var self = this;
-    if (self.op['pda_done']){return}
     if (self.state == 0) {return}
     let alert = this.alertCtrl.create({
       title: 'Qty',
@@ -642,8 +680,10 @@ submit (values){
       inputs: [
         {
           name: 'qty',
-          placeholder: self.op['product_qty'].toString()
+          placeholder: self.op['total_qty'].toString()
         },
+       
+      
       ],
       buttons: [
         {
@@ -657,6 +697,7 @@ submit (values){
           handler: (data) => {
             console.log('Saved clicked');
             console.log(data.qty);
+
             if (data.qty<0){
               self.presentAlert('Error!', 'La cantidad debe ser mayor que 0');
             }

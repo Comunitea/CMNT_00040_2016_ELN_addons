@@ -20,6 +20,14 @@ import { TreeopsPage } from '../pages/treeops/treeops';
 import { SlideopPage } from '../pages/slideop/slideop';
 import { ManualPage } from '../pages/manual/manual'
 import { AuxProvider } from '../providers/aux/aux';
+import { ShowinfoPage } from '../pages/showinfo/showinfo';
+import { ProductPage} from '../pages/product/product'
+import { LotPage} from '../pages/lot/lot'
+import { PackagePage} from '../pages/package/package'
+import { LocationPage} from '../pages/location/location'
+
+import { NativeAudio } from '@ionic-native/native-audio';
+import { AppSoundProvider } from '../providers/app-sound/app-sound';
 
 @NgModule({
   declarations: [
@@ -28,7 +36,12 @@ import { AuxProvider } from '../providers/aux/aux';
     TreepickPage,
     TreeopsPage,
     SlideopPage,
-    ManualPage
+    ManualPage,
+    ShowinfoPage,
+    LotPage,
+    LocationPage,
+    PackagePage,
+    ProductPage
   ],
   imports: [
     BrowserModule,
@@ -44,7 +57,12 @@ import { AuxProvider } from '../providers/aux/aux';
     TreepickPage,
     TreeopsPage,
     SlideopPage,
-    ManualPage
+    ManualPage,
+    ShowinfoPage,
+    LotPage,
+    LocationPage,
+    PackagePage,
+    ProductPage
   ],
   providers: [
     StatusBar,
@@ -52,7 +70,9 @@ import { AuxProvider } from '../providers/aux/aux';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     File,
     Network,
-    AuxProvider
+    AuxProvider,
+    NativeAudio,
+    AppSoundProvider
   ]
 })
 export class AppModule {}

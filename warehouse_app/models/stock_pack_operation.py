@@ -87,14 +87,14 @@ class StockPackOperation (models.Model):
 
         if new_package.qty == self.product_qty:
             vals = {'package_id': new_package.id,
-                    'location_id': new_package.location_id,
-                    'lot_id': new_package.lot_id,
+                    'location_id': new_package.location_id and new_package.location_id.id,
+                    'lot_id': new_package.lot_id and new_package.lot_id.id,
                     'product_id': False}
         else:
             vals = {'package_id': new_package.id,
-                    'location_id': new_package.location_id,
-                    'lot_id': new_package.lot_id,
-                    'product_id': new_package.product_id,
+                    'location_id': new_package.location_id  and new_package.location_id.id,
+                    'lot_id': new_package.lot_id and new_package.lot_id.id,
+                    'product_id': new_package.product_id.id,
                     'product_qty': self.package_id.package_qty}
 
         self.write(vals)
@@ -134,7 +134,6 @@ class StockPackOperation (models.Model):
     @api.model
     def doOp(self, vals):
         print"####--- Do op  ---###\n%s\n###############################################" % vals
-
         id = vals.get('id', False)
         do_id = vals.get('do_id', True)
         op = self.browse([id])
@@ -156,7 +155,8 @@ class StockPackOperation (models.Model):
 
     @api.multi
     def put_in_pack(self):
-        for op in self.filtered(lambda x:not x.result_package_id):
+
+        for op in self.filtered(lambda x:not x.result_package_id and x.location_dest_id.usage == 'internal'):
             if not op.result_package_id:
                 op.result_package_id = self.env['stock.quant.package'].create(op.get_new_pack_values())
 
@@ -171,7 +171,6 @@ class StockPackOperation (models.Model):
     @api.model
     def change_op_value(self, vals):
         print  "####--- Cambiar valores en las operaciones ---###\n###############################################\n%s"%vals
-
         field = vals.get('field', False)
         value = vals.get('value', False)
         id = vals.get('id', False)
@@ -198,7 +197,7 @@ class StockPackOperation (models.Model):
                               'product_qty': new_qty,
                               'product_id': op.package_id.product_id.id,
                               'product_uom_id': op.package_id.product_id.uom_id.id,
-                              'lot_id': op.package_id.lot_id.id}
+                              'lot_id': op.package_id.lot_id and op.package_id.lot_id.id}
                 op_ok = op.write(op_vals)
                 res = {'result': True,
                        'message': 'Cantidad hecha:%s' % op.qty_done}
@@ -237,19 +236,18 @@ class StockPackOperation (models.Model):
                 res = {'result': False,
                        'message': 'Paquete incompatible'}
 
-        elif field == 'location_id' and not op.package_id:
-            print "Cambiar DXestino"
+        elif field == 'location_id' and (not op.package_id or (op.package_id and op.package_id.location_id)):
+            print "Cambiar Destino"
             new_location_id = self.env['stock.location'].browse(value)
             vals = {'location_id': new_location_id.id}
-
             if op.write(vals):
                 res = {'result': True,
-                       'message': 'Nuevo destino %s'%op.location_id.name}
+                       'message': 'Nuevo destino %s' % op.location_id.name}
             else:
                 res = {'result': False,
                        'message': 'Error al escribir'}
 
-        elif field == 'location_dest_id' and not op.result_package_id:
+        elif field == 'location_dest_id' and (not (op.result_package_id and op.result_package_id.location_id)):
             print "Cambiar DXestino"
             new_location_dest_id = self.env['stock.location'].browse(value)
             vals = {'location_dest_id': new_location_dest_id.id}
