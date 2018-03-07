@@ -37,6 +37,10 @@ class AppRegistry(models.Model):
     cleaning_end = fields.Datetime('Cleaning End')
     cleaning_duration = fields.Float('Cleaning Duration',
                                      compute="_get_durations")
+    qc_line_ids = fields.One2many('quality.check.line', 'registry_id',
+                                  'Quality Checks', readonly=True)
+    stop_line_ids = fields.One2many('stop.line', 'registry_id',
+                                    'Production Stops', readonly=True)
 
     # RELATED FIELDS
     name = fields.Char('Workcenter Line', related="wc_line_id.name",
@@ -172,7 +176,9 @@ class AppRegistry(models.Model):
             reg.write({
                 'state': 'stoped',
             })
+            stop_obj = reg.create_stop()
             res = reg.read()[0]
+            res.update({'stop_id': stop_obj.id})
         return res
 
     @api.model
@@ -185,6 +191,10 @@ class AppRegistry(models.Model):
             reg.write({
                 'state': 'started',
             })
+            stop_id = values.get('stop_id', False)
+            if stop_id:
+                self.env['stop.line'].browse(stop_id).write({
+                    'stop_end': fields.Datetime.now()})
             res = reg.read()[0]
         return res
 
@@ -231,10 +241,67 @@ class AppRegistry(models.Model):
             res2.append(dic)
         return res2
 
+    @api.model
+    def app_save_quality_checks(self, values):
+        registry_id = values.get('registry_id', False)
+        lines = values.get('lines', [])
+        for dic in lines:
+            vals = {
+                'registry_id': registry_id,
+                'pqc_id': dic.get('id', False),
+                'date': fields.Datetime.now(),
+                'value': str(dic.get('value', False))
+            }
+            self.env['quality.check.line'].create(vals)
+        return True
+
+    @api.multi
+    def validate(self):
+        self.write({'state': 'validated'})
+
+    @api.multi
+    def create_stop(self):
+        self.ensure_one()
+        vals = {
+            'registry_id': self.id,
+            'stop_start': fields.Datetime.now(),
+            'cause': 'technical',
+            'reason': 'Porque estoy desarrollando este percal',
+        }
+        res = self.env['stop.line'].create(vals)
+        return res
+
 
 class QualityCheckLine(models.Model):
     _name = 'quality.check.line'
 
-    name = fields.Char('Name')
-    pqc_id = fields.Many2one('product.quality.check', 'Quality Check')
-    check = fields.Boolean('Check')
+    registry_id = fields.Many2one('app.registry', 'Registry', readonly=True)
+    pqc_id = fields.Many2one('product.quality.check', 'Quality Check',
+                             readonly=False)
+    date = fields.Datetime('Date', readonly=False)
+    value = fields.Text('Value', readonly=False)
+
+
+class StopLines(models.Model):
+    _name = 'stop.line'
+
+    registry_id = fields.Many2one('app.registry', 'Registry', readonly=True)
+    stop_start = fields.Datetime('Stop Start', readonly=False)
+    stop_end = fields.Datetime('Stop End', readonly=False)
+    stop_duration = fields.Float('Stop Duration',
+                                 compute="_get_duration")
+
+    reason = fields.Text('Reason', readonly=False)
+    cause = fields.Selection([
+        ('technical', 'Technical'),
+        ('organizative', 'organizative')], 'Cause')
+
+    @api.multi
+    @api.depends('stop_start', 'stop_end')
+    def _get_duration(self):
+        for r in self:
+            if r.stop_start and r.stop_end:
+                stop_start = fields.Datetime.from_string(r.stop_start)
+                stop_end = fields.Datetime.from_string(r.stop_end)
+                td = stop_end - stop_start
+                r.stop_duration = td.total_seconds() / 3600

@@ -25,9 +25,10 @@
 <ion-content padding>
      <ion-item [hidden]='workcenter' color ="danger"> No hay Línea seleccionda</ion-item>
      <ion-item *ngIf="production"> Producción: {{production}}</ion-item>
+     <ion-item *ngIf="production"> Producto: {{producto}}</ion-item>
      <ion-item *ngIf="workcenter">Centro Trabajo: {{workcenter}}</ion-item>
 
-     <button ion-button block (click)="openModal()">Open Modal</button>
+     <!-- <button ion-button block (click)="openModal()">Open Modal</button> -->
 
     <!-- PANTALA INICIAL-->
     <button ion-button icon-start *ngIf="state == 'waiting'" (click)="confirmProduction()">

@@ -22,6 +22,7 @@
         <field name="arch" type="xml">
             <form string="App Registrys">
             <header>
+                <button name="validate" class="oe_highlight" string="Validate" type="object" states="finished" groups="base.group_user"/>
                 <field name="state" widget="statusbar"/>
             </header>
             <sheet string="App Registrys">
@@ -48,6 +49,34 @@
                         <field name="cleaning_duration" widget="float_time"/>
                     </group>
                 </group>
+                <notebook>
+                    <page string="Quality Checks">
+                        <group string="QualityChecks">
+                            <field name="qc_line_ids" nolabel="1">
+                                <tree>
+                                    <field name="pqc_id"/>
+                                    <field name="value"/>
+                                    <field name="create_uid"/>
+                                    <field name="date"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </page>
+                    <page string="Production Stops">
+                        <group string="Stops">
+                            <field name="stop_line_ids" nolabel="1">
+                                <tree>
+                                    <field name="cause"/>
+                                    <field name="reason"/>
+                                    <field name="create_uid"/>
+                                    <field name="stop_start"/>
+                                    <field name="stop_end"/>
+                                    <field name="stop_duration"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </page>
+                </notebook>
             </sheet>
             </form>
         </field>

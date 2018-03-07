@@ -23,8 +23,10 @@ export class ProductionPage {
     registry_id;
     production;
     product;
+    product_id;
     state;
     states;
+    last_stop_id;
     constructor(public navCtrl: NavController, private storage: Storage, 
                 public navParams: NavParams, public alertCtrl: AlertController, 
                 public modalCtrl: ModalController) {
@@ -34,6 +36,7 @@ export class ProductionPage {
         this.product_id = this.navParams.get('product_id')[0];
         this.product = this.navParams.get('product_id')[1];
         this.state = this.navParams.get('state');
+        this.last_stop_id = false;
         this.states = {
             'waiting': 'ESPERANDO PRODUCCIÖN',
             'confirmed': 'PRODUCCIÓN CONFIRMADA',
@@ -114,9 +117,7 @@ export class ProductionPage {
         var values =  {'registry_id': this.registry_id};
         this.callRegistry('confirm_production', values).then( (res) => {
             console.log("PRODUCCIÓN CONFIRMADA:")
-            if (res) {
-                this.state = res.state;
-            }
+            this.state = res['state'];
         })
         .catch( (err) => {
             console.log(err) 
@@ -126,21 +127,18 @@ export class ProductionPage {
         var values =  {'registry_id': this.registry_id};
         this.callRegistry('setup_production', values).then( (res) => {
             console.log("PRODUCCIÓN EN PREPARACIÖN:") 
-            if (res) {
-                this.state = res.state;
-            }
+            this.state = res['state'];
         })
         .catch( (err) => {
             console.log(err) 
         });
     }
     startProduction() {
+        this.openModal();
         var values =  {'registry_id': this.registry_id};
         this.callRegistry('start_production', values).then( (res) => {
             console.log("PRODUCCIÓN EMPEZADA:") 
-            if (res) {
-                this.state = res.state;
-            }
+            this.state = res['state'];
         })
         .catch( (err) => {
             console.log(err) 
@@ -150,9 +148,7 @@ export class ProductionPage {
         var values =  {'registry_id': this.registry_id};
         this.callRegistry('clean_production', values).then( (res) => {
             console.log("PRODUCCIÓN EN LIMPIEZA:") 
-            if (res) {
-                this.state = res.state;
-            }
+            this.state = res['state'];
         })
         .catch( (err) => {
             console.log(err) 
@@ -162,9 +158,7 @@ export class ProductionPage {
         var values =  {'registry_id': this.registry_id};
         this.callRegistry('finish_production', values).then( (res) => {
             console.log("PRODUCCIÓN FINALIZADA:") 
-            if (res) {
-                this.state = res.state;
-            }
+            this.state = res['state'];
         })
         .catch( (err) => {
             console.log(err) 
@@ -175,7 +169,8 @@ export class ProductionPage {
         this.callRegistry('stop_production', values).then( (res) => {
             console.log("PRODUCCIÓN PARADA:") 
             if (res) {
-                this.state = res.state;
+                this.state = res['state'];
+                this.last_stop_id = res['stop_id']
             }
         })
         .catch( (err) => {
@@ -183,11 +178,15 @@ export class ProductionPage {
         });
     }
     restartProduction() {
-        var values =  {'registry_id': this.registry_id};
+        var values =  {
+            'registry_id': this.registry_id,
+            'stop_id': this.last_stop_id
+        }
         this.callRegistry('restart_production', values).then( (res) => {
             console.log("PRODUCCIÓN REINICIADA:") 
             if (res) {
-                this.state = res.state;
+                this.state = res['state'];
+                this.last_stop_id = false
             }
         })
         .catch( (err) => {
@@ -202,15 +201,25 @@ export class ProductionPage {
         }
         let myModal = this.modalCtrl.create(ChecksModalPage, mydata);
         myModal.onDidDismiss(data => {
-            this.save_quality_checks(data);
+            this.saveQualityChecks(data);
         });
 
         myModal.present();
     }
 
-    save_quality_checks(data){
+    saveQualityChecks(data){
         console.log("RESULTADO A GUARDAR")
         console.log(data)
+        var values = {
+            'registry_id': this.registry_id,
+            'lines': data
+        }
+        this.callRegistry('app_save_quality_checks', values).then( (res) => {
+            console.log("RESULTADO GUARDADO") 
+        })
+        .catch( (err) => {
+            console.log("Error al guardar Quality Checks") 
+        });
     }
 
 

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController, AlertController } from 'ionic-angular';
 import { HomePage } from '../../pages/home/home';
 import { Storage } from '@ionic/storage';
 
@@ -20,9 +20,9 @@ declare var OdooApi: any;
 export class ChecksModalPage {
     product_id;
     quality_type;
-    quality_checks = [];
+    quality_checks;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, private storage: Storage) {
+    constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, private storage: Storage, public alertCtrl: AlertController) {
         this.product_id = this.navParams.get('product_id');
         this.quality_type = this.navParams.get('quality_type');
         this.getQualityChecks()
