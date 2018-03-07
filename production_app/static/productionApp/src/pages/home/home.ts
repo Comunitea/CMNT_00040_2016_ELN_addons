@@ -2,7 +2,7 @@ import {NavController, NavParams, AlertController} from 'ionic-angular';
 import {Component} from '@angular/core';    
 import {Network} from '@ionic-native/network';
 import {Storage} from '@ionic/storage';
-import {PROXY} from '../../providers/constants/constants';
+// import {PROXY} from '../../providers/constants/constants';
 import {ListPage} from '../../pages/list/list';
 
 
@@ -86,7 +86,7 @@ export class HomePage {
 
     self.cargar = true;
     //var odoo = new Odoo(con);
-    var odoo = new OdooApi(PROXY, con.db);
+    var odoo = new OdooApi(con.url, con.db);
     odoo.login(con.username, con.password).then(
         function (uid) {
             odoo.search('res.users', [['login', '=', con.username]], ['id', 'login', 'image', 'name']).then(
@@ -126,7 +126,7 @@ export class HomePage {
             } else {
                 console.log('Hay conexión');
                 var con = val;
-                var odoo = new OdooApi(PROXY, con.db);
+                var odoo = new OdooApi(con.url, con.db);
                 odoo.login(con.username, con.password).then(
                 function (uid) {
                     odoo.call(model, method, values).then(
