@@ -27,6 +27,8 @@ export class ProductionPage {
     state;
     states;
     last_stop_id;
+    cdb;
+    weight;
     constructor(public navCtrl: NavController, private storage: Storage, 
                 public navParams: NavParams, public alertCtrl: AlertController, 
                 public modalCtrl: ModalController) {
@@ -38,7 +40,7 @@ export class ProductionPage {
         this.state = this.navParams.get('state');
         this.last_stop_id = false;
         this.states = {
-            'waiting': 'ESPERANDO PRODUCCIÖN',
+            'waiting': 'ESPERANDO PRODUCCIÓN',
             'confirmed': 'PRODUCCIÓN CONFIRMADA',
             'setup': 'PREPARACIÓN PRODUCCION',
             'started': 'PRODUCCIÓN INICIADA',
@@ -154,8 +156,47 @@ export class ProductionPage {
             console.log(err) 
         });
     }
+    promptFinishData() {
+        let alert = this.alertCtrl.create({
+            title: 'Login',
+            inputs: [
+              {
+                name: 'cdb',
+                placeholder: 'CdB'
+              },
+              {
+                name: 'weight',
+                placeholder: 'Weight',
+                type: 'numeric'
+              }
+            ],
+            buttons: [
+              {
+                text: 'Cancel',
+                role: 'cancel',
+                handler: data => {
+                  console.log('Cancel clicked');
+                }
+              },
+              {
+                text: 'OK',
+                handler: data => {
+                  this.cdb = data.cdb;
+                  this.weight = data.weight;
+                  this.writeFinishProductionData();
+                }
+              }
+            ]
+        });
+        alert.present();
+    }
     finishProduction() {
-        var values =  {'registry_id': this.registry_id};
+        this.promptFinishData();
+    }
+    writeFinishProductionData() {
+        var values =  {'registry_id': this.registry_id, 
+                       'cdb': this.cdb, 
+                       'weight': this.weight};
         this.callRegistry('finish_production', values).then( (res) => {
             console.log("PRODUCCIÓN FINALIZADA:") 
             this.state = res['state'];
@@ -206,7 +247,6 @@ export class ProductionPage {
 
         myModal.present();
     }
-
     saveQualityChecks(data){
         console.log("RESULTADO A GUARDAR")
         console.log(data)

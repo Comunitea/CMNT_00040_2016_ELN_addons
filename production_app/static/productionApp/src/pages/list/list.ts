@@ -84,8 +84,13 @@ export class ListPage {
                     var values = {'workcenter_id': workcenter.id}
                     odoo.call(model, method, values).then(
                         (reg) => {
-                        console.log(reg)
-                        this.navCtrl.setRoot(ProductionPage, reg);
+                            console.log(reg)
+                            if (reg.id) {
+                                this.navCtrl.setRoot(ProductionPage, reg);
+                            }
+                            else{
+                                this.presentAlert('Aviso!', 'No hay órdenes de trabajo planificadas');
+                            }
                         },
                         () => {
                             console.log('ERROR EN METHODO app_get_registry DE app.regustry:')

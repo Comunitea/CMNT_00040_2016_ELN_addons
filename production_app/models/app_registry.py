@@ -41,6 +41,10 @@ class AppRegistry(models.Model):
                                   'Quality Checks', readonly=True)
     stop_line_ids = fields.One2many('stop.line', 'registry_id',
                                     'Production Stops', readonly=True)
+    barcode = fields.Char('Barcode', readonly=True)
+    weight = fields.Float('Weight', readonly=True)
+    qty = fields.Float('Quantity', readonly=True)
+    lot_id = fields.Many2one('stock.production.lot', 'Lot', readonly=True)
 
     # RELATED FIELDS
     name = fields.Char('Workcenter Line', related="wc_line_id.name",
@@ -222,7 +226,9 @@ class AppRegistry(models.Model):
         if reg:
             reg.write({
                 'state': 'finished',
-                'cleaning_end': fields.Datetime.now()
+                'cleaning_end': fields.Datetime.now(),
+                'barcode': values.get('cdb', ''),
+                'weight': values.get('weight', 0.00)
             })
             res = reg.read()[0]
         return res
@@ -232,7 +238,8 @@ class AppRegistry(models.Model):
         product_id = values.get('product_id', False)
         quality_type = values.get('quality_type', False)
         product = self.env['product.product'].browse(product_id)
-        domain = [('quality_type', '=', quality_type)]
+        domain = [('quality_type', '=', quality_type),
+                  ('id', 'in', product.quality_check_ids.ids)]
         fields = ['id', 'name', 'value_type']
         res = product.quality_check_ids.search_read(domain, fields)
         res2 = []
