@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_app_registry,app.registry,model_app_registry,base.group_user,1,1,1,1
+access_product_quality_check,product.quality.check,model_product_quality_check,base.group_user,1,1,1,1
+access_quality_check_line,quality.check.line,model_quality_check_line,base.group_user,1,1,1,1
+access_stop_line,stop.line,model_stop_line,base.group_user,1,1,1,1
