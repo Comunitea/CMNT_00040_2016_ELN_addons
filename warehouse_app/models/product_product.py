@@ -12,9 +12,15 @@ class ProductProduct(models.Model):
 
     _inherit = 'product.product'
 
+    @api.model
+    def _get_product_quants(self):
+        domain = [('product_id', '=', self.id), ('location_id.usage', '=', 'internal')]
+        quant_ids = self.env['stock.quant'].search(domain)
+        self.quant_ids = quant_ids
+
     default_stock_location_id = fields.Many2one('stock.location', "Default stock location")
-    #default_stock_location_id_name = fields.Char(related='default_stock_location_id.name')
-    #uom_id_name = fields.Char(related='uom_id.name')
+    quant_ids = fields.One2many('stock.quant', compute="_get_product_quants")
+
 
     @api.model
     def get_stock_location_id(self):

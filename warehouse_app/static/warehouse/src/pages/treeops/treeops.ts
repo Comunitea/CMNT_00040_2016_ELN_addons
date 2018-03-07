@@ -66,27 +66,32 @@ export class TreeopsPage {
     this.domain = [['picking_id', '=', this.pick_id]];
     this.pick_domain = [['id', '=', this.pick_id]];
     this.record_count = 0;    
-    this.pick_name = 'Nombre albarán'
-    this.pick_type = 'pick_type'
-    this.selected_picking = {}
+    this.pick_name = 'Nombre albarán';
+    this.pick_type = 'pick_type';
+    this.selected_picking = {};
     this.scan = '';
-    this.whatOps = 'Todas'
+    this.storage.get('WhatOps').then((val) => {
+      if (val==null) {
+        this.whatOps='Todas'} 
+      else {
+        this.whatOps = val}
+      })
     this.treeForm = this.formBuilder.group({
       scan: ['']
     });
-    
-
   }
 
   ionViewWillEnter(){
     this.loadList();
   }
+
   seeAll(){
     if (this.whatOps=='Todas'){
       this.whatOps='Pendientes'
     }
     else
       {this.whatOps='Todas'}
+    this.storage.set('WhatOps', this.whatOps); 
   }
 
   ionViewLoaded() {
@@ -121,7 +126,7 @@ export class TreeopsPage {
                       self.items.push(value[key]);                      
                       }
                     for (var key in self.items) {
-                      newOP = {'index': key, 
+                      newOP = {'index': key , 
                                'id': self.items[key]['id'],
                                'pda_done': self.items[key['pda_done']]}
                       self.ops.push(newOP)
@@ -195,8 +200,8 @@ export class TreeopsPage {
     console.log("Do op")
   }
 
-  openOp(op_id){
-    this.navCtrl.push(SlideopPage, {op_id: op_id, index: 1, ops: this.ops})
+  openOp(op_id, op_id_index){
+    this.navCtrl.push(SlideopPage, {op_id: op_id, index: op_id_index, ops: this.ops})
   }
 
   submitScan (){

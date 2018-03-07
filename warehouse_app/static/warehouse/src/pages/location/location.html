@@ -1,0 +1,67 @@
+<!--
+  Generated template for the ProductPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+    <ion-navbar>
+      <ion-title>LOT: {{item && item.display_name || "Cargando ..."}}</ion-title>
+    </ion-navbar>
+  
+  </ion-header>
+  <ion-content>
+      <div *ngIf="!cargar" style="text-align: center">    
+        <ion-spinner name="circles"></ion-spinner><br>
+        <b>Cargando...</b>
+      </div>
+  
+      <ion-list *ngIf="cargar">
+        <ion-item-group> 
+          
+          <ion-item class="all0">
+              <ion-badge item-end class="ion-info w100" >
+                  {{item.product_id.display_name}}
+              </ion-badge>
+          </ion-item>
+          <ion-item class="all0">
+              <ion-label></ion-label>
+              <ion-badge item-end class="ion-info w50">
+                  QTY {{item.qty_available}} {{item.uom_id.name}}
+              </ion-badge>
+          </ion-item>
+          <ion-item class="all0">
+              <ion-label></ion-label>
+              <ion-badge item-end class="ion-info w33">
+                  CAD {{item.usage}}
+              </ion-badge>
+              <ion-badge item-end class="ion-info w33" >
+                  DEL {{item.removal_date}}
+              </ion-badge>
+              <ion-badge item-end class="ion-info w33" >
+                  DEL {{item.removal_date}}
+              </ion-badge>
+          </ion-item>
+        </ion-item-group>    
+  
+        <ion-item-group [hidden] = "!item['quant_ids']">
+          <ion-item  no-lines class="all0">
+              <ion-label></ion-label>
+              <ion-badge item-start color="odoolight" class="ion-info w50">LOTE </ion-badge>
+              <ion-badge item-start color="odoolight" class="ion-info w50">UBICACION </ion-badge>
+  
+          </ion-item>
+          <ion-item *ngFor="let subitem of item['quant_ids']; trackBy: index;" no-lines class="all0">
+            <ion-label></ion-label>
+            <ion-badge  item-start color="odoo" class="ion-info w50" (click)="open('lot', subitem['lot_id']['id'])">
+              {{subitem['display_name']}}
+            </ion-badge>
+            <ion-badge item-start color="white" class="ion-info w50" (click)="open('location', subitem['location_id']['id'])">
+              {{subitem['location_id']['name']}}
+            </ion-badge>
+          </ion-item>
+        </ion-item-group>
+              
+      </ion-list>
+  </ion-content>

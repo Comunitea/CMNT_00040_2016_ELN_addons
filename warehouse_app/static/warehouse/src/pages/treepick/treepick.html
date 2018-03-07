@@ -33,19 +33,19 @@
 
 <ion-content padding>
   
-    <div *ngIf="!picks" style="text-align: center">    
+    <div *ngIf="cargar" style="text-align: center">    
       <ion-spinner name="circles"></ion-spinner><br>
       <b>Cargando...</b>
     </div>
    
     <ion-list >         
-        <ion-item [hidden]='picks.length>0' color ="danger"> No hay albaranes</ion-item>
+        <ion-item [hidden]='picks.length>0 || cargar' color ="danger"> No hay albaranes</ion-item>
 
         <ion-item text-wrap *ngFor="let pick of picks; trackBy: index;" class="all0" >
-                     
-            <ion-label color="primary" (click)="showtreeop_ids(pick.id)" [ngClass]="{'pickwaiting': pick.state_2=='waiting', 'pìckdone': pick.state_2=='done'}">
+            <ion-label></ion-label>
+            <button ion-button item-start class="buttonProduct" (click)="showtreeop_ids(pick.id)" [ngClass]="{'pìckdone': pick.state=='done'}">
               {{pick.name}} <!--({{pick.state_2}} {{pick.picking_type_id_name}})-->
-            </ion-label>  
+            </button>  
         
             <button ion-button icon-only item-end  (click)="doAsign(pick.id)" [hidden]="pick.user_id">Asignar
                 <!--ion-icon name="person-add" color="secondary" ></ion-icon-->
@@ -53,8 +53,7 @@
             <button ion-button icon-only item-end  (click)="doDeAsign(pick.id)" [hidden]="!pick.user_id">Liberar
                 <!--ion-icon name="people" color="danger" ></ion-icon-->
             </button>
-            <button ion-button item-end  (click)="doTransfer(pick.id)" [hidden]='pick.done_ops == 0'>
-              {{pick.ops_str}}
+            <button ion-button icon-only item-end  (click)="doTransfer(pick.id)" [hidden]='!pick.allow_transfer'>Validar
             </button>
         </ion-item>
     </ion-list> 
