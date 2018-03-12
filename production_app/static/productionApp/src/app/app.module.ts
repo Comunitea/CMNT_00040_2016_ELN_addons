@@ -18,6 +18,7 @@ import { HomePage } from '../pages/home/home';
 import { ProductionPage } from '../pages/production/production';
 import { ListPage } from '../pages/list/list';
 import { ChecksModalPage } from '../pages/checks-modal/checks-modal';
+import { OdooProvider } from '../providers/odoo/odoo';
 
 
 
@@ -51,6 +52,7 @@ import { ChecksModalPage } from '../pages/checks-modal/checks-modal';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     File,
     Network,
+    OdooProvider,
   ]
 })
 export class AppModule {}

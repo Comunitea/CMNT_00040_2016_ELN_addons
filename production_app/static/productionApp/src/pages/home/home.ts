@@ -12,11 +12,12 @@ declare var OdooApi: any;
   selector: 'page-home',
   templateUrl: 'home.html'
 })
+
 export class HomePage {
 
     loginData = {password: '', username: ''};
     CONEXION = {
-        url: 'http://192.168.0.119',
+        url: 'http://nogalproduction.com',
         port: '9069',
         db: 'nogal_dev',
         username: 'admin',

@@ -3,6 +3,8 @@ import { IonicPage, NavController, NavParams, AlertController, ModalController }
 import { Storage } from '@ionic/storage';
 import { HomePage } from '../../pages/home/home';
 import { ChecksModalPage } from '../../pages/checks-modal/checks-modal';
+import { OdooProvider } from '../../providers/odoo/odoo';
+
 
 /**
  * Generated class for the ProductionPage page.
@@ -31,7 +33,8 @@ export class ProductionPage {
     weight;
     constructor(public navCtrl: NavController, private storage: Storage, 
                 public navParams: NavParams, public alertCtrl: AlertController, 
-                public modalCtrl: ModalController) {
+                public modalCtrl: ModalController,
+                private odooCon: OdooProvider) {
         this.workcenter = this.navParams.get('workcenter_id')[1];
         this.registry_id = this.navParams.get('id');
         this.production = this.navParams.get('production_id')[1];
@@ -80,36 +83,7 @@ export class ProductionPage {
         });
         alert.present();
     }
-    callRegistry(method, values) {
-        var method = method
-        var values = values
-        var promise = new Promise( (resolve, reject) => {
-            this.storage.get('CONEXION').then((con_data) => {
-                var odoo = new OdooApi(con_data.url, con_data.db);
-                if (con_data == null) {
-                    console.log('No hay conexión');
-                    this.navCtrl.setRoot(HomePage, {borrar: true, login: null});
-                } else {
-                    odoo.login(con_data.username, con_data.password).then( (uid) => {
-                        var model = 'app.registry'
-                        // var method = method
-                        // var values = values
-                        odoo.call(model, method, values).then(
-                            (res) => {
-                            console.log(res)
-                            resolve(res);
-                        })
-                        .catch( () => {
-                            console.log('ERROR en el método ' + method + 'del modelo app.regustry')
-                            this.presentAlert('Falla!', 'Ocurrio un error al obtener el registro de la aplicación');
-                            reject();
-                        });
-                    });
-                }
-            });
-        });
-        return promise
-    }
+    
 
     beginLogistics() {
         this.presentAlert('Logistica', 'PENDIENTE DESAROLLO')
@@ -117,7 +91,7 @@ export class ProductionPage {
 
     confirmProduction() {
         var values =  {'registry_id': this.registry_id};
-        this.callRegistry('confirm_production', values).then( (res) => {
+        this.odooCon.callRegistry('confirm_production', values).then( (res) => {
             console.log("PRODUCCIÓN CONFIRMADA:")
             this.state = res['state'];
         })
@@ -127,7 +101,7 @@ export class ProductionPage {
      }
     setupProduction() {
         var values =  {'registry_id': this.registry_id};
-        this.callRegistry('setup_production', values).then( (res) => {
+        this.odooCon.callRegistry('setup_production', values).then( (res) => {
             console.log("PRODUCCIÓN EN PREPARACIÖN:") 
             this.state = res['state'];
         })
@@ -138,7 +112,7 @@ export class ProductionPage {
     startProduction() {
         this.openModal();
         var values =  {'registry_id': this.registry_id};
-        this.callRegistry('start_production', values).then( (res) => {
+        this.odooCon.callRegistry('start_production', values).then( (res) => {
             console.log("PRODUCCIÓN EMPEZADA:") 
             this.state = res['state'];
         })
@@ -148,7 +122,7 @@ export class ProductionPage {
     }
     cleanProduction() {
         var values =  {'registry_id': this.registry_id};
-        this.callRegistry('clean_production', values).then( (res) => {
+        this.odooCon.callRegistry('clean_production', values).then( (res) => {
             console.log("PRODUCCIÓN EN LIMPIEZA:") 
             this.state = res['state'];
         })
@@ -158,7 +132,7 @@ export class ProductionPage {
     }
     promptFinishData() {
         let alert = this.alertCtrl.create({
-            title: 'Login',
+            title: 'Finalizar Producción',
             inputs: [
               {
                 name: 'cdb',
@@ -197,7 +171,7 @@ export class ProductionPage {
         var values =  {'registry_id': this.registry_id, 
                        'cdb': this.cdb, 
                        'weight': this.weight};
-        this.callRegistry('finish_production', values).then( (res) => {
+        this.odooCon.callRegistry('finish_production', values).then( (res) => {
             console.log("PRODUCCIÓN FINALIZADA:") 
             this.state = res['state'];
         })
@@ -207,7 +181,7 @@ export class ProductionPage {
     }
     stopProduction() {
         var values =  {'registry_id': this.registry_id};
-        this.callRegistry('stop_production', values).then( (res) => {
+        this.odooCon.callRegistry('stop_production', values).then( (res) => {
             console.log("PRODUCCIÓN PARADA:") 
             if (res) {
                 this.state = res['state'];
@@ -223,7 +197,7 @@ export class ProductionPage {
             'registry_id': this.registry_id,
             'stop_id': this.last_stop_id
         }
-        this.callRegistry('restart_production', values).then( (res) => {
+        this.odooCon.callRegistry('restart_production', values).then( (res) => {
             console.log("PRODUCCIÓN REINICIADA:") 
             if (res) {
                 this.state = res['state'];
@@ -254,7 +228,7 @@ export class ProductionPage {
             'registry_id': this.registry_id,
             'lines': data
         }
-        this.callRegistry('app_save_quality_checks', values).then( (res) => {
+        this.odooCon.callRegistry('app_save_quality_checks', values).then( (res) => {
             console.log("RESULTADO GUARDADO") 
         })
         .catch( (err) => {
