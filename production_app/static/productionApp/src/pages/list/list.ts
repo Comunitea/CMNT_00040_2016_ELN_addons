@@ -3,6 +3,7 @@ import { NavController, NavParams, AlertController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { HomePage } from '../../pages/home/home';
 import { ProductionPage } from '../../pages/production/production';
+import { ProductionProvider } from '../../providers/production/production';
 
 declare var OdooApi: any;
 
@@ -13,7 +14,9 @@ declare var OdooApi: any;
 export class ListPage {
     workcenters = []
 
-    constructor(public navCtrl: NavController, private storage: Storage, public alertCtrl: AlertController){
+    constructor(public navCtrl: NavController, private storage: Storage, 
+                public alertCtrl: AlertController, 
+                private prodData: ProductionProvider){
         this.workcenters = [];
         this.getLines();
     }
@@ -86,6 +89,7 @@ export class ListPage {
                         (reg) => {
                             console.log(reg)
                             if (reg.id) {
+                                this.prodData.initData(reg);
                                 this.navCtrl.setRoot(ProductionPage, reg);
                             }
                             else{

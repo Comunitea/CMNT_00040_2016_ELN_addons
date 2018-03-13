@@ -1,8 +1,7 @@
 import {NavController, NavParams, AlertController} from 'ionic-angular';
 import {Component} from '@angular/core';    
-import {Network} from '@ionic-native/network';
+
 import {Storage} from '@ionic/storage';
-// import {PROXY} from '../../providers/constants/constants';
 import {ListPage} from '../../pages/list/list';
 
 
@@ -26,7 +25,8 @@ export class HomePage {
     cargar = true;
     mensaje = '';
   
-    constructor(public navCtrl: NavController, public navParams: NavParams, private storage: Storage, public alertCtrl: AlertController, private network: Network) {
+    constructor(public navCtrl: NavController, public navParams: NavParams, 
+                private storage: Storage, public alertCtrl: AlertController) {
     
         var borrar = this.navParams.get('borrar');
         this.CONEXION.username = (this.navParams.get('login') == undefined)? '' : this.navParams.get('login');

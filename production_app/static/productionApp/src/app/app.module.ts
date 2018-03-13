@@ -19,6 +19,7 @@ import { ProductionPage } from '../pages/production/production';
 import { ListPage } from '../pages/list/list';
 import { ChecksModalPage } from '../pages/checks-modal/checks-modal';
 import { OdooProvider } from '../providers/odoo/odoo';
+import { ProductionProvider } from '../providers/production/production';
 
 
 
@@ -53,6 +54,7 @@ import { OdooProvider } from '../providers/odoo/odoo';
     File,
     Network,
     OdooProvider,
+    ProductionProvider,
   ]
 })
 export class AppModule {}
