@@ -18,6 +18,8 @@ import { HomePage } from '../pages/home/home';
 import { ProductionPage } from '../pages/production/production';
 import { ListPage } from '../pages/list/list';
 import { ChecksModalPage } from '../pages/checks-modal/checks-modal';
+
+//Paginas
 import { OdooProvider } from '../providers/odoo/odoo';
 import { ProductionProvider } from '../providers/production/production';
 

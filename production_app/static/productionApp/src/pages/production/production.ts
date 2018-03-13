@@ -63,14 +63,13 @@ export class ProductionPage {
         alert.present();
     }
     
-
     beginLogistics() {
-        this.presentAlert('Logistica', 'PENDIENTE DESAROLLO')
+        this.presentAlert('Logistica', 'PENDIENTE DESAROLLO, LLAMAR APP ALMACÉN')
     }
 
     confirmProduction() {
         this.prodData.setStep('confirm_production');
-     }
+    }
     setupProduction() {
         this.prodData.setStep('setup_production');
     }

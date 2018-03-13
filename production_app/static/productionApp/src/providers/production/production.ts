@@ -42,15 +42,25 @@ export class ProductionProvider {
         this.last_stop_id = false;
     }
 
-    setStep(method) {
+    manageOdooFail(){
+        console.log("Guardo para escribir luego")
+    }
+
+    odooRegistry(method){
         var values =  {'registry_id': this.registry_id};
         this.odooCon.callRegistry(method, values).then( (res) => {
             this.state = res['state'];
         })
         .catch( (err) => {
-            console.log(err) 
+            this.manageOdooFail()
         });
     }
+
+    setStep(method) {
+       this.odooRegistry(method)
+    }
+
+
 
 
 

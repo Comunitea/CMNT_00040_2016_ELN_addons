@@ -110,6 +110,10 @@ export class HomePage {
                     } 
                 })
           })
+            .catch( () => {
+                this.presentAlert('Error!', 'No se pudo conectar contra odoo');
+                // TODO DESARROLLAR UN RETRY
+            });
     });
   }
 

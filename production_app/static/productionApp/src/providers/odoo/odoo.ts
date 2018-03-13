@@ -33,23 +33,21 @@ export class OdooProvider {
             this.storage.get('CONEXION').then((con_data) => {
                 var odoo = new OdooApi(con_data.url, con_data.db);
                 if (con_data == null) {
-                    console.log('No hay conexión');
-                    // this.navCtrl.setRoot(HomePage, {borrar: true, login: null});
+                    console.log('No hay datos de conexión del storage');
+                    reject();
                 } else {
                     odoo.login(con_data.username, con_data.password).then( (uid) => {
-                        var model = 'app.registry'
-                        // var method = method
-                        // var values = values
-                        odoo.call(model, method, values).then(
-                            (res) => {
-                            console.log(res)
-                            resolve(res);
-                        })
-                        .catch( () => {
-                            console.log('ERROR en el método ' + method + 'del modelo app.regustry')
-                            this.presentAlert('Falla!', 'Ocurrio un error al obtener el registro de la aplicación');
-                            reject();
-                        });
+                            var model = 'app.registry'
+                            odoo.call(model, method, values).then((res) => {
+                                resolve(res);
+                            })
+                            .catch( () => {
+                                console.log('ERROR en el método ' + method + 'del modelo app.regustry')
+                                reject();
+                            });
+                    })
+                    .catch( () => {
+                        reject();
                     });
                 }
             });

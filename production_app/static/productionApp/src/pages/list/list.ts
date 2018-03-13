@@ -81,26 +81,32 @@ export class ListPage {
                 console.log('No hay conexión');
                 this.navCtrl.setRoot(HomePage, {borrar: true, login: null});
             } else {
-                odoo.login(con_data.username, con_data.password).then( (uid) => {
-                    var model = 'app.registry'
-                    var method = 'app_get_registry'
-                    var values = {'workcenter_id': workcenter.id}
-                    odoo.call(model, method, values).then(
-                        (reg) => {
-                            console.log(reg)
-                            if (reg.id) {
-                                this.prodData.initData(reg);
-                                this.navCtrl.setRoot(ProductionPage, reg);
+                odoo.login(con_data.username, con_data.password).then(
+                    (uid) => {
+                        var model = 'app.registry'
+                        var method = 'app_get_registry'
+                        var values = {'workcenter_id': workcenter.id}
+                        odoo.call(model, method, values).then(
+                            (reg) => {
+                                console.log(reg)
+                                if (reg.id) {
+                                    // Init data in provider, so can serve to production page
+                                    this.prodData.initData(reg);
+                                    this.navCtrl.setRoot(ProductionPage);
+                                }
+                                else{
+                                    this.presentAlert('Aviso!', 'No hay órdenes de trabajo planificadas');
+                                }
+                            },
+                            () => {
+                                console.log('ERROR EN METHODO app_get_registry DE app.regustry:')
+                                this.presentAlert('Falla!', 'Ocurrio un error al obtener el registro de la aplicación');
                             }
-                            else{
-                                this.presentAlert('Aviso!', 'No hay órdenes de trabajo planificadas');
-                            }
-                        },
-                        () => {
-                            console.log('ERROR EN METHODO app_get_registry DE app.regustry:')
-                            this.presentAlert('Falla!', 'Ocurrio un error al obtener el registro de la aplicación');
-                        }
-                    );
+                        );
+                    },
+                )
+                .catch( () => {
+                    this.presentAlert('Error!', 'No se pudo conectar contra odoo');
                 });
             }
         });

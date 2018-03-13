@@ -57,9 +57,6 @@
         
         Producción
     </button>
-    <button ion-button full  color="secondary" *ngIf="prodData.state == 'waiting'" (click)="beginLogistics()">
-        Logística
-    </button>
 
     <!-- PANTALA 2-->
     <button ion-button full *ngIf="prodData.state == 'confirmed'" (click)="setupProduction()">
@@ -85,9 +82,13 @@
     <button ion-button full *ngIf="prodData.state == 'stoped'" (click)="restartProduction()">
         Reaunudar Producción
     </button>
+    <!-- *ngIf="prodData.state == 'waiting'" -->
+    <button ion-button full  color="secondary"  (click)="beginLogistics()">
+        Logística
+    </button>
 
 </ion-content>
 <ion-footer>
-    <ion-item color ="primary">{{prodData.states[state]}}</ion-item>
+    <ion-item color ="primary">{{prodData.states[prodData.state]}}</ion-item>
 </ion-footer>
 
