@@ -51,7 +51,7 @@ class edi_export (orm.TransientModel):
 
     def default_get(self, cr, uid, fields, context=None):
         res = super(edi_export, self).default_get(cr, uid, fields, context=context)
-        date_due = False
+        date_due = time.strftime('%Y-%m-%d')
         conf_ids = self.pool.get('edi.configuration').get_configuration(cr, uid, [])
         if context['active_model'] == u'account.invoice' :
             invoice_ids = self.pool.get(context['active_model']).browse(cr, uid, context['active_ids'])
