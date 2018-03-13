@@ -205,7 +205,6 @@ class SaleOrderImport(models.TransientModel):
                         'product_uom': uom_id,
                         'product_uos_qty': product_uos_qty,
                         'product_uos': uos_id,
-                        'pre_prodlot': ln[lot_i].strip() or False,
                     }
                     # Ahora voy a ejecutar los onchanges para actualizar valores
                     data = {}

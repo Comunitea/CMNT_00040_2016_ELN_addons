@@ -19,62 +19,10 @@
 #
 ##############################################################################
 
-from openerp.osv import osv, fields
-from datetime import datetime
-from dateutil.relativedelta import relativedelta
-from openerp import _
-import time
+from openerp import models, fields
 
-class sale_order(osv.osv):
+
+class SaleOrder(models.Model):
     _inherit = 'sale.order'
-    
-    def _prepare_order_line_move(self, cr, uid, order, line, picking_id, date_planned, context=None):
 
-        res = super(sale_order, self)._prepare_order_line_move(cr, uid, order, line, picking_id, date_planned, context=None)
-        
-        if line.pre_prodlot:
-            prodlot_obj = self.pool.get('stock.production.lot')
-            lot_id = prodlot_obj.search(cr, uid, [('name', '=', line.pre_prodlot), ('product_id', '=', line.product_id.id)])
-            if lot_id:
-                res.update({'prodlot_id': lot_id[0]})
-
-        return res
-
-    def copy(self, cr, uid, id, default=None, context=None):
-        if not default:
-            default = {}
-        default.update({
-            'origin': '',
-        })
-        return super(sale_order, self).copy(cr, uid, id, default, context)
-
-sale_order()
-
-class sale_order_line(osv.osv):
-    _inherit = 'sale.order.line'
-
-    _columns = {
-        'pre_prodlot': fields.char('Pre Production Lot', help="This lot is used to try to assign a existing lot in the picking output if possible.", size=64),
-    }
-    
-    _defaults = {
-        'pre_prodlot': False,
-    }
-
-    def copy_data(self, cr, uid, id, default=None, context=None):
-        if not default:
-            default = {}
-        default.update({
-            'pre_prodlot': False,
-        })
-        return super(sale_order_line, self).copy_data(cr, uid, id, default, context=context)
-
-    def copy(self, cr, uid, id, default=None, context=None):
-        if not default:
-            default = {}
-        default.update({
-            'pre_prodlot': False,
-        })
-        return super(sale_order_line, self).copy(cr, uid, id, default, context=context)
-
-sale_order_line()
+    origin = fields.Char(copy=False)
