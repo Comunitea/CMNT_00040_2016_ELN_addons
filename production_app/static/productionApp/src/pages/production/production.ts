@@ -158,13 +158,13 @@ export class ProductionPage {
 
     setupProduction() {
         this.prodData.setupProduction();
-        this.timer.startTimer()
+        this.timer.startTimer()  // Set-Up timer
         
     }
 
     startProduction() {
-        this.openModal();
-        this.prodData.restartProduction();
+        this.openModal();  // Production timer setted when modal is closed
+        this.prodData.startProduction();
       
        
     }
