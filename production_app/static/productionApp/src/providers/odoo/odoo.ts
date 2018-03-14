@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { AlertController} from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
 /*
@@ -13,17 +12,7 @@ declare var OdooApi: any;
 @Injectable()
 export class OdooProvider {
 
-    constructor(private storage: Storage,  public alertCtrl: AlertController) {
-        console.log('Hello OdooProvider Provider');
-    }
-
-    presentAlert(titulo, texto) {
-        const alert = this.alertCtrl.create({
-            title: titulo,
-            subTitle: texto,
-            buttons: ['Ok']
-        });
-        alert.present();
+    constructor(private storage: Storage) {
     }
 
     callRegistry(method, values) {

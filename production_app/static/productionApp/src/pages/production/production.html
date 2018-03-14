@@ -58,6 +58,7 @@
         Producción
     </button>
 
+    <timer *ngIf="prodData.state != 'waiting'" [timeInSeconds]="0"></timer>
     <!-- PANTALA 2-->
     <button ion-button full *ngIf="prodData.state == 'confirmed'" (click)="setupProduction()">
         Comenzar Preparación

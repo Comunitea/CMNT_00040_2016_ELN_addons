@@ -46,7 +46,7 @@ export class ProductionProvider {
         console.log("Guardo para escribir luego")
     }
 
-    odooRegistry(method){
+    setStepAsync(method) {
         var values =  {'registry_id': this.registry_id};
         this.odooCon.callRegistry(method, values).then( (res) => {
             this.state = res['state'];
@@ -56,8 +56,35 @@ export class ProductionProvider {
         });
     }
 
-    setStep(method) {
-       this.odooRegistry(method)
+    confirmProduction() {
+        this.state = 'confirmed'
+        this.setStepAsync('confirm_production');
+    }
+
+    setupProduction() {
+        this.state = 'setup'
+        this.setStepAsync('setup_production');
+    }
+    startProduction() {
+        this.state = 'start'
+        this.setStepAsync('start_production');
+    }
+    stopProduction() {
+        this.state = 'stoped'
+        this.setStepAsync('stop_production');
+
+    }
+    restartProduction() {
+        this.state = 'started'
+        this.setStepAsync('restart_production');
+    }
+    cleanProduction() {
+        this.state = 'cleaning'
+        this.setStepAsync('clean_production');
+    }
+    finishProduction() {
+        this.state = 'finished'
+        this.setStepAsync('finish_production');
     }
 
 

@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, ModalController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { HomePage } from '../../pages/home/home';
 import { ChecksModalPage } from '../../pages/checks-modal/checks-modal';
 import { OdooProvider } from '../../providers/odoo/odoo';
 import { ProductionProvider } from '../../providers/production/production';
+import { TimerComponent } from '../../components/timer/timer';
 
 
 /**
@@ -25,6 +26,9 @@ export class ProductionPage {
     last_stop_id;
     cdb;
     weight;
+
+    @ViewChild(TimerComponent) timer: TimerComponent;
+
     constructor(public navCtrl: NavController, private storage: Storage, 
                 public navParams: NavParams, public alertCtrl: AlertController, 
                 public modalCtrl: ModalController,
@@ -62,24 +66,7 @@ export class ProductionPage {
         });
         alert.present();
     }
-    
-    beginLogistics() {
-        this.presentAlert('Logistica', 'PENDIENTE DESAROLLO, LLAMAR APP ALMACÉN')
-    }
 
-    confirmProduction() {
-        this.prodData.setStep('confirm_production');
-    }
-    setupProduction() {
-        this.prodData.setStep('setup_production');
-    }
-    startProduction() {
-        this.openModal();
-        this.prodData.setStep('start_production');
-    }
-    cleanProduction() {
-        this.prodData.setStep('clean_production');
-    }
     promptFinishData() {
         let alert = this.alertCtrl.create({
             title: 'Finalizar Producción',
@@ -114,9 +101,7 @@ export class ProductionPage {
         });
         alert.present();
     }
-    finishProduction() {
-        this.promptFinishData();
-    }
+    
     writeFinishProductionData() {
         var values =  {'registry_id': this.prodData.registry_id, 
                        'cdb': this.cdb, 
@@ -130,7 +115,62 @@ export class ProductionPage {
         });
 
     }
+
+    openModal() {
+        var mydata = {
+            'product_id': this.prodData.product_id,
+            'quality_type': 'start'
+        }
+        let myModal = this.modalCtrl.create(ChecksModalPage, mydata);
+        myModal.onDidDismiss(data => {
+            this.saveQualityChecks(data);
+            this.timer.restartTimer();
+        });
+
+        myModal.present();
+    }
+
+    saveQualityChecks(data){
+        console.log("RESULTADO A GUARDAR")
+        console.log(data)
+        var values = {
+            'registry_id': this.prodData.registry_id,
+            'lines': data
+        }
+        this.odooCon.callRegistry('app_save_quality_checks', values).then( (res) => {
+            console.log("RESULTADO GUARDADO") 
+        })
+        .catch( (err) => {
+            console.log("Error al guardar Quality Checks") 
+        });
+    }
+    
+    // ************************************************************************
+    // ************************* BUTONS FUNCTIONS *****************************
+    // ************************************************************************
+    beginLogistics() {
+        this.presentAlert('Logistica', 'PENDIENTE DESAROLLO, LLAMAR APP ALMACÉN')
+    }
+
+    confirmProduction() {
+        this.prodData.confirmProduction();
+    }
+
+    setupProduction() {
+        this.prodData.setupProduction();
+        this.timer.startTimer()
+        
+    }
+
+    startProduction() {
+        this.openModal();
+        this.prodData.restartProduction();
+      
+       
+    }
+
     stopProduction() {
+        this.timer.pauseTimer()
         var values =  {'registry_id': this.prodData.registry_id};
         this.odooCon.callRegistry('stop_production', values).then( (res) => {
             console.log("PRODUCCIÓN PARADA:") 
@@ -143,7 +183,9 @@ export class ProductionPage {
             console.log(err) 
         });
     }
+
     restartProduction() {
+        this.timer.resumeTimer()
         var values =  {
             'registry_id': this.prodData.registry_id,
             'stop_id': this.last_stop_id
@@ -160,32 +202,22 @@ export class ProductionPage {
         });
     }
 
-    openModal() {
-        var mydata = {
-            'product_id': this.prodData.product_id,
-            'quality_type': 'start'
-        }
-        let myModal = this.modalCtrl.create(ChecksModalPage, mydata);
-        myModal.onDidDismiss(data => {
-            this.saveQualityChecks(data);
-        });
-
-        myModal.present();
-    }
-    saveQualityChecks(data){
-        console.log("RESULTADO A GUARDAR")
-        console.log(data)
-        var values = {
-            'registry_id': this.prodData.registry_id,
-            'lines': data
-        }
-        this.odooCon.callRegistry('app_save_quality_checks', values).then( (res) => {
-            console.log("RESULTADO GUARDADO") 
-        })
-        .catch( (err) => {
-            console.log("Error al guardar Quality Checks") 
-        });
+    cleanProduction() {
+        this.timer.restartTimer();
+        this.prodData.setStepAsync('clean_production');
     }
 
+    finishProduction() {
+        this.timer.pauseTimer()
+        this.promptFinishData();
+    }
+    sleep(milliseconds) {
+      var start = new Date().getTime();
+      for (var i = 0; i < 1e7; i++) {
+        if ((new Date().getTime() - start) > milliseconds){
+          break;
+        }
+      }
+    }
 
 }

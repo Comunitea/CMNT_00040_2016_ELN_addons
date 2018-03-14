@@ -11,7 +11,6 @@ import { HttpModule } from '@angular/http';
 import { IonicStorageModule } from '@ionic/storage';
 import { Network } from '@ionic-native/network';
 import { File } from '@ionic-native/file';
-
 //Paginas
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -19,10 +18,12 @@ import { ProductionPage } from '../pages/production/production';
 import { ListPage } from '../pages/list/list';
 import { ChecksModalPage } from '../pages/checks-modal/checks-modal';
 
-//Paginas
+//Providers
 import { OdooProvider } from '../providers/odoo/odoo';
 import { ProductionProvider } from '../providers/production/production';
 
+//Componentes
+import { TimerComponent } from '../components/timer/timer';
 
 
 
@@ -33,6 +34,7 @@ import { ProductionProvider } from '../providers/production/production';
     ProductionPage,
     ListPage,
     ChecksModalPage,
+    TimerComponent
   ],
   imports: [
     BrowserModule,
