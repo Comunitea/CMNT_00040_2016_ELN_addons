@@ -33,7 +33,6 @@ export class ProductionPage {
                 public navParams: NavParams, public alertCtrl: AlertController, 
                 public modalCtrl: ModalController,
                 private odooCon: OdooProvider, private prodData: ProductionProvider) {
-        this.last_stop_id = false;
     }
 
     logOut(){

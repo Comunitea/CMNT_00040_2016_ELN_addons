@@ -21,7 +21,6 @@ export class ProductionProvider {
     freq_checks: Object[];
     last_stop_id;
 
-    last_stop_id;
     cdb;
     weight;
 
@@ -125,7 +124,7 @@ export class ProductionProvider {
 
     setStepAsync(method) {
         var values =  {'registry_id': this.registry_id};
-        if (method == 'start'){
+        if (method == 'restart_production'){
             values['stop_id'] = this.last_stop_id
         }
         this.odooCon.callRegistry(method, values).then( (res) => {
