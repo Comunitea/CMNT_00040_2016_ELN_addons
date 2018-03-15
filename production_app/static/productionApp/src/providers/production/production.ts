@@ -16,6 +16,10 @@ export class ProductionProvider {
     product_id;
     state;
     states;
+
+    start_checks: Object[];
+    freq_checks: Object[];
+
     last_stop_id;
     cdb;
     weight;
@@ -30,6 +34,30 @@ export class ProductionProvider {
             'cleaning': 'PRODUCCIÓN EN LIMPIEZA',
             'finished': 'PRODUCCIÓN FINALIZADA'
         };
+    }
+
+    // Gets all the data needed fom the app.regystry model
+    loadProduction(workcenter){
+        var promise = new Promise( (resolve, reject) => {
+            var values = {'workcenter_id': workcenter.id}
+            var method = 'app_get_registry'
+            this.odooCon.callRegistry(method, values).then( (res) => {
+                console.log("EEEE")
+                console.log(res)
+                if (res.id){
+                    this.initData(res);
+                    resolve(res);
+                }
+                else {
+                    var err = {'title': 'Aviso', 'msg': 'No hay ordenes de trabajo planificadas.'}
+                    reject(err)
+                }
+            })
+            .catch( (err) => {
+                reject(err);
+            });
+        });
+        return promise
     }
 
     initData(data) {

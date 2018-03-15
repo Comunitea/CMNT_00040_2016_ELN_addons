@@ -21,9 +21,10 @@ export class OdooProvider {
         var promise = new Promise( (resolve, reject) => {
             this.storage.get('CONEXION').then((con_data) => {
                 var odoo = new OdooApi(con_data.url, con_data.db);
+                // this.navCtrl.setRoot(HomePage, {borrar: true, login: null});
                 if (con_data == null) {
-                    console.log('No hay datos de conexión del storage');
-                    reject();
+                    var err = {'title': 'Error!', 'msg': 'No hay datos para establecer la conexión'}
+                    reject(err);
                 } else {
                     odoo.login(con_data.username, con_data.password).then( (uid) => {
                             var model = 'app.registry'
@@ -31,12 +32,13 @@ export class OdooProvider {
                                 resolve(res);
                             })
                             .catch( () => {
-                                console.log('ERROR en el método ' + method + 'del modelo app.regustry')
-                                reject();
+                                var err = {'title': 'Error!', 'msg': 'Fallo al llamar al método ' + method + 'del modelo app.regustry'}
+                                reject(err);
                             });
                     })
                     .catch( () => {
-                        reject();
+                        var err = {'title': 'Error!', 'msg': 'No se pudo conectar con Odoo'}
+                        reject(err);
                     });
                 }
             });

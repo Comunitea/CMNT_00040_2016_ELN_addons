@@ -122,9 +122,11 @@ export class ProductionPage {
             'quality_type': 'start'
         }
         let myModal = this.modalCtrl.create(ChecksModalPage, mydata);
+
+        // When modal closes
         myModal.onDidDismiss(data => {
             this.saveQualityChecks(data);
-            this.timer.restartTimer();
+            this.timer.restartTimer(); // Production timer on
         });
 
         myModal.present();
@@ -158,7 +160,7 @@ export class ProductionPage {
 
     setupProduction() {
         this.prodData.setupProduction();
-        this.timer.startTimer()  // Set-Up timer
+        this.timer.startTimer()  // Set-Up timer on
         
     }
 
