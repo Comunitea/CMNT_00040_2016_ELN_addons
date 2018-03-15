@@ -236,11 +236,9 @@ class AppRegistry(models.Model):
     @api.model
     def get_quality_checks(self, values):
         product_id = values.get('product_id', False)
-        quality_type = values.get('quality_type', False)
         product = self.env['product.product'].browse(product_id)
-        domain = [('quality_type', '=', quality_type),
-                  ('id', 'in', product.quality_check_ids.ids)]
-        fields = ['id', 'name', 'value_type']
+        domain = [('id', 'in', product.quality_check_ids.ids)]
+        fields = ['id', 'name', 'value_type', 'quality_type']
         res = product.quality_check_ids.search_read(domain, fields)
         res2 = []
         for dic in res:

@@ -125,27 +125,14 @@ export class ProductionPage {
 
         // When modal closes
         myModal.onDidDismiss(data => {
-            this.saveQualityChecks(data);
+            this.prodData.saveQualityChecks(data);  // TODO CONVERT IN PROMISE
             this.timer.restartTimer(); // Production timer on
         });
 
         myModal.present();
     }
 
-    saveQualityChecks(data){
-        console.log("RESULTADO A GUARDAR")
-        console.log(data)
-        var values = {
-            'registry_id': this.prodData.registry_id,
-            'lines': data
-        }
-        this.odooCon.callRegistry('app_save_quality_checks', values).then( (res) => {
-            console.log("RESULTADO GUARDADO") 
-        })
-        .catch( (err) => {
-            console.log("Error al guardar Quality Checks") 
-        });
-    }
+
     
     // ************************************************************************
     // ************************* BUTONS FUNCTIONS *****************************
@@ -165,10 +152,8 @@ export class ProductionPage {
     }
 
     startProduction() {
-        this.openModal();  // Production timer setted when modal is closed
         this.prodData.startProduction();
-      
-       
+        this.openModal();  // Production timer setted when modal is clos   
     }
 
     stopProduction() {
@@ -206,20 +191,13 @@ export class ProductionPage {
 
     cleanProduction() {
         this.timer.restartTimer();
-        this.prodData.setStepAsync('clean_production');
+        this.prodData.cleanProduction();
     }
 
     finishProduction() {
         this.timer.pauseTimer()
+        this.prodData.finishProduction();
         this.promptFinishData();
-    }
-    sleep(milliseconds) {
-      var start = new Date().getTime();
-      for (var i = 0; i < 1e7; i++) {
-        if ((new Date().getTime() - start) > milliseconds){
-          break;
-        }
-      }
     }
 
 }

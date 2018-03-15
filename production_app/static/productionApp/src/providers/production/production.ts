@@ -45,6 +45,7 @@ export class ProductionProvider {
 
                 if ('id' in reg){
                     this.initData(reg);
+                    this.getQualityChecks();  // Load Quality Checks. TODO PUT PROMISE SYNTAX
                     resolve(reg);
                 }
                 else {
@@ -67,6 +68,53 @@ export class ProductionProvider {
         this.product = data.product_id[1];
         this.state = data.state;
         this.last_stop_id = false;
+        this.start_checks = [];
+        this.freq_checks = [];
+    }
+    
+    // Load Quality checks in each type list
+    loadQualityChecks(q_checks) {
+        for (let indx in q_checks) {
+            var qc = q_checks[indx];
+            if (qc.quality_type == 'start'){
+                this.start_checks.push(qc);
+            }
+            else{
+                this.freq_checks.push(qc);
+            }
+        }
+        console.log("START CHECKS");
+        console.log(this.start_checks);
+        console.log("FREQ CHECKS");
+        console.log(this.freq_checks);
+    }
+
+    // Ask odoo for quality checks
+    getQualityChecks() {
+        var values =  {'product_id': this.product_id};
+        var method = 'get_quality_checks'
+        this.odooCon.callRegistry(method, values).then( (res) => {
+            this.loadQualityChecks(res)
+        })
+        .catch( (err) => {
+            // Si hay error aquí, convertir esta funcion en promesa y controlarla.
+            console.log(err) 
+        });
+    }
+
+    saveQualityChecks(data){
+        console.log("RESULTADO A GUARDAR")
+        console.log(data)
+        var values = {
+            'registry_id': this.registry_id,
+            'lines': data
+        }
+        this.odooCon.callRegistry('app_save_quality_checks', values).then( (res) => {
+            console.log("RESULTADO GUARDADO") 
+        })
+        .catch( (err) => {
+            this.manageOdooFail()
+        });
     }
 
     manageOdooFail(){
@@ -76,7 +124,7 @@ export class ProductionProvider {
     setStepAsync(method) {
         var values =  {'registry_id': this.registry_id};
         this.odooCon.callRegistry(method, values).then( (res) => {
-            this.state = res['state'];
+            // this.state = res['state'];
         })
         .catch( (err) => {
             this.manageOdooFail()
@@ -93,7 +141,7 @@ export class ProductionProvider {
         this.setStepAsync('setup_production');
     }
     startProduction() {
-        this.state = 'start'
+        this.state = 'started'
         this.setStepAsync('start_production');
     }
     stopProduction() {
