@@ -41,12 +41,11 @@ export class ProductionProvider {
         var promise = new Promise( (resolve, reject) => {
             var values = {'workcenter_id': workcenter.id}
             var method = 'app_get_registry'
-            this.odooCon.callRegistry(method, values).then( (res) => {
-                console.log("EEEE")
-                console.log(res)
-                if (res.id){
-                    this.initData(res);
-                    resolve(res);
+            this.odooCon.callRegistry(method, values).then( (reg: Object) => {
+
+                if ('id' in reg){
+                    this.initData(reg);
+                    resolve(reg);
                 }
                 else {
                     var err = {'title': 'Aviso', 'msg': 'No hay ordenes de trabajo planificadas.'}
