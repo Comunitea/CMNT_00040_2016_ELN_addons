@@ -23,7 +23,7 @@ declare var OdooApi: any;
   templateUrl: 'production.html',
 })
 export class ProductionPage {
-    last_stop_id;
+    
     cdb;
     weight;
 
@@ -158,35 +158,12 @@ export class ProductionPage {
 
     stopProduction() {
         this.timer.pauseTimer()
-        var values =  {'registry_id': this.prodData.registry_id};
-        this.odooCon.callRegistry('stop_production', values).then( (res) => {
-            console.log("PRODUCCIÓN PARADA:") 
-            if (res) {
-                this.prodData.state = res['state'];
-                this.last_stop_id = res['stop_id']
-            }
-        })
-        .catch( (err) => {
-            console.log(err) 
-        });
+        this.prodData.stopProduction();
     }
 
     restartProduction() {
-        this.timer.resumeTimer()
-        var values =  {
-            'registry_id': this.prodData.registry_id,
-            'stop_id': this.last_stop_id
-        }
-        this.odooCon.callRegistry('restart_production', values).then( (res) => {
-            console.log("PRODUCCIÓN REINICIADA:") 
-            if (res) {
-                this.prodData.state = res['state'];
-                this.last_stop_id = false
-            }
-        })
-        .catch( (err) => {
-            console.log(err) 
-        });
+        this.timer.resumeTimer();
+        this.prodData.restartProduction();
     }
 
     cleanProduction() {

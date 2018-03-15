@@ -19,6 +19,7 @@ export class ProductionProvider {
 
     start_checks: Object[];
     freq_checks: Object[];
+    last_stop_id;
 
     last_stop_id;
     cdb;
@@ -34,6 +35,7 @@ export class ProductionProvider {
             'cleaning': 'PRODUCCIÓN EN LIMPIEZA',
             'finished': 'PRODUCCIÓN FINALIZADA'
         };
+        this.last_stop_id = false;
     }
 
     // Gets all the data needed fom the app.regystry model
@@ -123,8 +125,17 @@ export class ProductionProvider {
 
     setStepAsync(method) {
         var values =  {'registry_id': this.registry_id};
+        if (method == 'start'){
+            values['stop_id'] = this.last_stop_id
+        }
         this.odooCon.callRegistry(method, values).then( (res) => {
             // this.state = res['state'];
+            if (method == 'stop_production'){
+                this.last_stop_id = res['stop_id'];
+            }
+            if (method == 'restart_production'){
+                this.last_stop_id = false;
+            }
         })
         .catch( (err) => {
             this.manageOdooFail()
