@@ -163,6 +163,7 @@
                             <group col="2" colspan="2" string="GENERAL">
                                 <field name="edi_filename"/>
                                 <field name="department_code_edi" select="2"/>
+                                <field name="edi_supplier_cip" select="2"/>
                                 <field name="gln_ve" placeholder="Si es diferente al de la Compañía" select="2"/>
                             </group>
                             <group col="2" colspan="2" string="COACSU">

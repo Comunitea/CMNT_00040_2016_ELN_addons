@@ -818,7 +818,7 @@ class edi_export (orm.TransientModel):
         picking_data += self.parse_number(gln_ef, 13, 0)
 
         # Departamento interno
-        picking_data += self.parse_string(picking.partner_id.commercial_partner_id.department_code_edi, 10)
+        picking_data += self.parse_string(picking.partner_id.commercial_partner_id.edi_supplier_cip, 10)
 
         # Medio de transporte (30=Transporte por carretera, 20=Trasporte ferroviario)
         picking_data += self.parse_string('30', 3)
