@@ -13,6 +13,7 @@
                 <field name="value_type"/>
                 <!-- <field name="product_id"/> -->
                 <field name="workcenter_id"/>
+                <field name="repeat"/>
             </tree>
         </field>
     </record>
@@ -29,6 +30,7 @@
                     <field name="value_type"/>
                     <!-- <field name="product_id"/> -->
                     <field name="workcenter_id"/>
+                    <field name="repeat"/>
                 </group>
                 <group string="Associated Products">
                     <field name="product_ids" nolabel="1">

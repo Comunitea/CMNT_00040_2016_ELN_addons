@@ -26,6 +26,7 @@ export class ProductionPage {
     
     cdb;
     weight;
+    interval_list: Any[] = [];
 
     @ViewChild(TimerComponent) timer: TimerComponent;
 
@@ -115,20 +116,52 @@ export class ProductionPage {
 
     }
 
-    openModal() {
+    openModal(qtype, qchecks) {
         var mydata = {
             'product_id': this.prodData.product_id,
-            'quality_type': 'start'
+            'quality_type': qtype,
+            'quality_checks': qchecks
         }
         let myModal = this.modalCtrl.create(ChecksModalPage, mydata);
 
         // When modal closes
         myModal.onDidDismiss(data => {
             this.prodData.saveQualityChecks(data);  // TODO CONVERT IN PROMISE
-            this.timer.restartTimer(); // Production timer on
+            if (qtype == 'start'){
+                this.timer.restartTimer();  // Production timer on
+            } 
         });
 
         myModal.present();
+    }
+
+    clearIntervales(){
+        for (let indx in this.interval_list){
+            let int = this.interval_list[indx];
+            clearInterval(int);
+        }
+    }
+
+    scheduleIntervals(delay, qchecks){
+        let timerId = setInterval(() => 
+        {
+            this.openModal('freq', qchecks)
+        }, delay*60*1000);
+        this.interval_list.push(timerId);
+    }
+
+    scheduleChecks(){
+        var checks_by_delay = {};
+        for (let i in this.prodData.freq_checks){
+            let qc = this.prodData.freq_checks[i];
+            if (!(qc.repeat in checks_by_delay)){
+                checks_by_delay[qc.repeat] = [];
+            }
+            checks_by_delay[qc.repeat].push(qc) 
+        }
+        for (let key in checks_by_delay){
+            this.scheduleIntervals(key, checks_by_delay[key]);
+        }
     }
 
 
@@ -152,11 +185,13 @@ export class ProductionPage {
 
     startProduction() {
         this.prodData.startProduction();
-        this.openModal();  // Production timer setted when modal is clos   
+
+        this.openModal('start', this.prodData.start_checks);  // Production timer setted when modal is clos   
+        this.scheduleChecks();
     }
 
     stopProduction() {
-        this.timer.pauseTimer()
+        this.timer.pauseTimer();
         this.prodData.stopProduction();
     }
 
@@ -166,6 +201,7 @@ export class ProductionPage {
     }
 
     cleanProduction() {
+        this.clearIntervales();
         this.timer.restartTimer();
         this.prodData.cleanProduction();
     }

@@ -27,8 +27,8 @@ export class ChecksModalPage {
                 private storage: Storage, public alertCtrl: AlertController, private prodData: ProductionProvider) {
         this.product_id = this.navParams.get('product_id');
         this.quality_type = this.navParams.get('quality_type');
-        this.quality_checks = []
-        this.getQualityChecks(this.quality_type)
+        this.quality_checks = this.navParams.get('quality_checks');
+        // this.getQualityChecks(this.quality_type)
     }
     presentAlert(titulo, texto) {
         const alert = this.alertCtrl.create({
@@ -39,14 +39,14 @@ export class ChecksModalPage {
         alert.present();
     }
 
-    getQualityChecks(quality_type) {
-        if (quality_type == 'start') {
-            this.quality_checks = this.prodData.start_checks;
-        }
-        else{
-            this.quality_checks = this.prodData.freq_checks;
-        }
-    }
+    // getQualityChecks(quality_type) {
+    //     if (quality_type == 'start') {
+    //         this.quality_checks = this.prodData.start_checks;
+    //     }
+    //     else{
+    //         this.quality_checks = this.prodData.freq_checks;
+    //     }
+    // }
      
     ionViewDidLoad() {
         console.log('ionViewDidLoad ChecksModalPage');

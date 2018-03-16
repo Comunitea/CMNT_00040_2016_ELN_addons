@@ -238,7 +238,7 @@ class AppRegistry(models.Model):
         product_id = values.get('product_id', False)
         product = self.env['product.product'].browse(product_id)
         domain = [('id', 'in', product.quality_check_ids.ids)]
-        fields = ['id', 'name', 'value_type', 'quality_type']
+        fields = ['id', 'name', 'value_type', 'quality_type', 'repeat']
         res = product.quality_check_ids.search_read(domain, fields)
         res2 = []
         for dic in res:
