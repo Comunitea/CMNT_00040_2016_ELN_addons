@@ -14,6 +14,9 @@
         <ion-title>Producción</ion-title>
 
         <ion-buttons end>
+            <button ion-button (click)='openUsersModal()'>
+                <ion-icon name="people"></ion-icon>
+            </button>
             <button ion-button (click)='logOut()'>
                 <ion-icon name="log-out"></ion-icon>
             </button>
@@ -23,8 +26,7 @@
 
 
 <ion-content padding>
-     <ion-item [hidden]='prodData.workcenter' color ="danger"> No hay Línea seleccionda</ion-item>
-
+    <ion-item [hidden]='prodData.workcenter' color ="danger"> No hay Línea seleccionda</ion-item>
     <ion-card *ngIf="prodData.production">
         <ion-card-header>
             Producción
@@ -55,7 +57,7 @@
     <!-- PANTALA INICIAL-->
     <button ion-button full *ngIf="prodData.state == 'waiting'" (click)="confirmProduction()">
         
-        Producción
+       Confirmar Producción
     </button>
 
     <timer *ngIf="prodData.state != 'waiting'" [timeInSeconds]="0"></timer>
@@ -70,7 +72,7 @@
     </button>
      <!-- PANTALA 4-->
     <button ion-button full *ngIf="prodData.state == 'started'" (click)="cleanProduction()">
-        Finalizar Producción / Empezar Limpieza
+        Empezar Limpieza
     </button>
      <!-- PANTALA 5-->
     <button ion-button full *ngIf="prodData.state == 'cleaning'" (click)="finishProduction()">

@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, AlertController, ModalController }
 import { Storage } from '@ionic/storage';
 import { HomePage } from '../../pages/home/home';
 import { ChecksModalPage } from '../../pages/checks-modal/checks-modal';
+import { UsersModalPage } from '../../pages/users-modal/users-modal';
 import { OdooProvider } from '../../providers/odoo/odoo';
 import { ProductionProvider } from '../../providers/production/production';
 import { TimerComponent } from '../../components/timer/timer';
@@ -26,7 +27,7 @@ export class ProductionPage {
     
     cdb;
     weight;
-    interval_list: Any[] = [];
+    interval_list: any[] = [];
 
     @ViewChild(TimerComponent) timer: TimerComponent;
 
@@ -133,6 +134,13 @@ export class ProductionPage {
         });
 
         myModal.present();
+    }
+
+    openUsersModal(){
+        var mydata = {
+        }
+        let usersModal = this.modalCtrl.create(UsersModalPage, mydata);
+        usersModal.present();
     }
 
     clearIntervales(){
