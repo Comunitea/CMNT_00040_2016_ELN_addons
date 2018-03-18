@@ -46,4 +46,34 @@ export class OdooProvider {
         return promise
     }
 
+    searchRead(model, domain, fields){
+        var model = model;
+        var domain = domain;
+        var fields = fields;
+        var promise = new Promise( (resolve, reject) => {
+            this.storage.get('CONEXION').then((con_data) => {
+                var odoo = new OdooApi(con_data.url, con_data.db);
+                if (con_data == null) {
+                    var err = {'title': 'Error!', 'msg': 'No hay datos para establecer la conexión'}
+                    reject(err);
+                } else {
+                    odoo.login(con_data.username, con_data.password).then( (uid) => {
+                        odoo.search_read(model, domain, fields, 0, 0).then((res) => {
+                            resolve(res);
+                        })
+                        .catch( () => {
+                            var err = {'title': 'Error!', 'msg': 'Fallo al llamar al hacer search_read'}
+                            reject(err);
+                        });
+                    })
+                    .catch( () => {
+                        var err = {'title': 'Error!', 'msg': 'No se pudo conectar con Odoo'}
+                        reject(err);
+                    });
+                }
+            });
+        });
+        return promise
+    }
+
 }

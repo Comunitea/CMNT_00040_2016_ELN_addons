@@ -1,6 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, ModalController } from 'ionic-angular';
-import { Storage } from '@ionic/storage';
 import { HomePage } from '../../pages/home/home';
 import { ChecksModalPage } from '../../pages/checks-modal/checks-modal';
 import { UsersModalPage } from '../../pages/users-modal/users-modal';
@@ -8,15 +7,6 @@ import { OdooProvider } from '../../providers/odoo/odoo';
 import { ProductionProvider } from '../../providers/production/production';
 import { TimerComponent } from '../../components/timer/timer';
 
-
-/**
- * Generated class for the ProductionPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-
-declare var OdooApi: any;
 
 @IonicPage()
 @Component({
@@ -31,7 +21,7 @@ export class ProductionPage {
 
     @ViewChild(TimerComponent) timer: TimerComponent;
 
-    constructor(public navCtrl: NavController, private storage: Storage, 
+    constructor(public navCtrl: NavController,
                 public navParams: NavParams, public alertCtrl: AlertController, 
                 public modalCtrl: ModalController,
                 private odooCon: OdooProvider, private prodData: ProductionProvider) {
@@ -162,10 +152,10 @@ export class ProductionPage {
         var checks_by_delay = {};
         for (let i in this.prodData.freq_checks){
             let qc = this.prodData.freq_checks[i];
-            if (!(qc.repeat in checks_by_delay)){
-                checks_by_delay[qc.repeat] = [];
+            if (!(qc['repeat'] in checks_by_delay)){
+                checks_by_delay[qc['repeat']] = [];
             }
-            checks_by_delay[qc.repeat].push(qc) 
+            checks_by_delay[qc['repeat']].push(qc) 
         }
         for (let key in checks_by_delay){
             this.scheduleIntervals(key, checks_by_delay[key]);

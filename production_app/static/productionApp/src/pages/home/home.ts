@@ -3,6 +3,7 @@ import {Component} from '@angular/core';
 
 import {Storage} from '@ionic/storage';
 import {ListPage} from '../../pages/list/list';
+import { ProductionProvider } from '../../providers/production/production';
 
 
 
@@ -26,7 +27,8 @@ export class HomePage {
     mensaje = '';
   
     constructor(public navCtrl: NavController, public navParams: NavParams, 
-                private storage: Storage, public alertCtrl: AlertController) {
+                private storage: Storage, public alertCtrl: AlertController,
+                private prodData: ProductionProvider) {
     
         var borrar = this.navParams.get('borrar');
         this.CONEXION.username = (this.navParams.get('login') == undefined)? '' : this.navParams.get('login');
@@ -96,12 +98,16 @@ export class HomePage {
                     var user = {id: null, name: null, image: null, login: null, cliente_id: null};
                     //self.mensaje += JSON.stringify(value);
                     if (value.length > 0) {
-                        self.storage.set('CONEXION', con);
-                        user.id = value[0].id;
-                        user.name = value[0].name;
-                        user.login = value[0].login;
-                        // me voy para página de producción
-                        self.navCtrl.setRoot(ListPage); 
+                        self.storage.set('CONEXION', con).then(() => {
+                            user.id = value[0].id;
+                            user.name = value[0].name;
+                            user.login = value[0].login;
+                            self.prodData.loadUsers(user);
+                            //todo debería ser una promesa?
+                            // me voy para página de producción
+                            self.navCtrl.setRoot(ListPage); 
+                        })
+                        
 
                     } 
                     else {
@@ -116,46 +122,5 @@ export class HomePage {
             });
     });
   }
-
-    getObjectId(values){
-        var self = this;
-        var object_id = {}
-
-        var model = 'warehouse.app'
-        var method = 'get_object_id'
-        
-        this.storage.get('CONEXION').then((val) => {
-            if (val == null) {
-                console.log('No hay conexión');
-                self.navCtrl.setRoot(HomePage, {borrar: true, login: null});
-            } else {
-                console.log('Hay conexión');
-                var con = val;
-                var odoo = new OdooApi(con.url, con.db);
-                odoo.login(con.username, con.password).then(
-                function (uid) {
-                    odoo.call(model, method, values).then(
-                        function (value) {
-                            object_id = value;
-                            self.cargar = false;
-                        },
-                        function () {
-                            self.cargar = false;
-                            self.presentAlert('Falla!', 'Imposible conectarse');
-                        }
-                    );
-                } ,
-                function () {
-                    self.cargar = false;
-                        self.presentAlert('Falla!', 'Imposible conectarse');
-                    }
-                );
-                self.cargar = false;
-            }
-            return object_id   
-        });
-        
-          
-    }
 
 }

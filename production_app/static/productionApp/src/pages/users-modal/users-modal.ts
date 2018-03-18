@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
+import { ProductionProvider } from '../../providers/production/production';
 
 /**
  * Generated class for the UsersModalPage page.
@@ -16,7 +17,8 @@ import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angul
 export class UsersModalPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-              public viewCtrl: ViewController) {
+              public viewCtrl: ViewController,
+              private prodData: ProductionProvider) {
   }
 
   ionViewDidLoad() {
@@ -24,7 +26,13 @@ export class UsersModalPage {
   }
 
   closeModal() {
-        this.viewCtrl.dismiss(this.quality_checks);
+        this.viewCtrl.dismiss();
+  }
+    setActive(user){
+        console.log(user.name);
+    }
+    logIn(user) {
+        console.log(user.name);
     }
 
 }

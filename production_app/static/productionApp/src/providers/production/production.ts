@@ -9,6 +9,8 @@ import { OdooProvider } from '../odoo/odoo';
 */
 @Injectable()
 export class ProductionProvider {
+    users: any;
+    active_user: Object;
     workcenter;
     registry_id;
     production;
@@ -35,6 +37,17 @@ export class ProductionProvider {
             'finished': 'PRODUCCIÓN FINALIZADA'
         };
         this.last_stop_id = false;
+    }
+
+    //Gets Users from odoo, maybe a promise?
+    loadUsers(active_user){
+        this.active_user = active_user;
+        this.odooCon.searchRead('res.users', [], ['id', 'name', 'login', 'image']).then( (res) => {
+            this.users = res;
+        })
+        .catch( (err) => {
+            console.log("deberia ser una promesa, y devolver error, controlarlo en la página y lanzar excepción")
+        });
     }
 
     // Gets all the data needed fom the app.regystry model

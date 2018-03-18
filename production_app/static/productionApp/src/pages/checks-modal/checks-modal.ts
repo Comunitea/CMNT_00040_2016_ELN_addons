@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { IonicPage,  NavParams, ViewController} from 'ionic-angular';
-import { HomePage } from '../../pages/home/home';
 import { ProductionProvider } from '../../providers/production/production';
 
 /**
@@ -10,7 +9,6 @@ import { ProductionProvider } from '../../providers/production/production';
  * Ionic pages and navigation.
  */
 
-declare var OdooApi: any;
 
 @IonicPage()
 @Component({
@@ -27,14 +25,6 @@ export class ChecksModalPage {
         this.product_id = this.navParams.get('product_id');
         this.quality_type = this.navParams.get('quality_type');
         this.quality_checks = this.navParams.get('quality_checks');
-    }
-    presentAlert(titulo, texto) {
-        const alert = this.alertCtrl.create({
-            title: titulo,
-            subTitle: texto,
-            buttons: ['Ok']
-        });
-        alert.present();
     }
      
     ionViewDidLoad() {

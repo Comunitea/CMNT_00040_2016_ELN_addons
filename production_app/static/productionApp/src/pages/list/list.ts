@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, AlertController } from 'ionic-angular';
+import { NavController, AlertController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { HomePage } from '../../pages/home/home';
 import { ProductionPage } from '../../pages/production/production';
