@@ -36,8 +36,6 @@
                     <group>
                         <field name="qty"/>
                         <field name="lot_id"/>
-                        <field name="barcode"/>
-                        <field name="weight"/>
                     </group>
                 </group>
                 <group colspan="4" col="6">

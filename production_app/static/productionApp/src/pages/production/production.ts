@@ -89,14 +89,22 @@ export class ProductionPage {
             title: 'Finalizar Producción',
             inputs: [
               {
-                name: 'cdb',
-                placeholder: 'CdB'
+                name: 'qty',
+                placeholder: 'Cantidad',
+                label: 'Cantidad',
+                type: 'number'
               },
               {
-                name: 'weight',
-                placeholder: 'Weight',
-                type: 'numeric'
-              }
+                name: 'lot',
+                placeholder: 'Lote',
+                id: 'Lote',
+                type: 'text'
+              },
+              {
+                name: 'date',
+                placeholder: 'Fecha caducidad',
+                type: 'date'
+              },
             ],
             buttons: [
               {
@@ -109,28 +117,15 @@ export class ProductionPage {
               {
                 text: 'OK',
                 handler: data => {
-                  this.cdb = data.cdb;
-                  this.weight = data.weight;
-                  this.writeFinishProductionData();
+                  this.prodData.qty = data.qty;
+                  this.prodData.lot_name = data.lot;
+                  this.prodData.lot_date = data.date;
+                  this.prodData.finishProduction();
                 }
               }
             ]
         });
         alert.present();
-    }
-    
-    writeFinishProductionData() {
-        var values =  {'registry_id': this.prodData.registry_id, 
-                       'cdb': this.cdb, 
-                       'weight': this.weight};
-        this.odooCon.callRegistry('finish_production', values).then( (res) => {
-            console.log("PRODUCCIÓN FINALIZADA:") 
-            this.prodData.state = res['state'];
-        })
-        .catch( (err) => {
-            console.log(err) 
-        });
-
     }
 
     openModal(qtype, qchecks) {
@@ -274,7 +269,6 @@ export class ProductionPage {
     finishProduction() {
         this.promptNextStep('Finalizar producción').then( () => {
             this.timer.pauseTimer()
-            this.prodData.finishProduction();
             this.promptFinishData();
         })
         .catch( () => {});

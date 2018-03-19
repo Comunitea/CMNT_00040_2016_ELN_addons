@@ -27,8 +27,9 @@ export class ProductionProvider {
 
     last_stop_id;
 
-    cdb;
-    weight;
+    qty;
+    lot_name;
+    lot_date;
 
     constructor(private odooCon: OdooProvider) {
         this.states = {
@@ -175,6 +176,11 @@ export class ProductionProvider {
         if (method == 'restart_production'){
             values['stop_id'] = this.last_stop_id
         }
+        if (method == 'finish_production'){
+            values['qty'] = this.qty
+            values['lot_name'] = this.lot_name
+            values['lot_date'] = this.lot_date
+        }           
         this.odooCon.callRegistry(method, values).then( (res) => {
             // this.state = res['state'];
             if (method == 'stop_production'){
@@ -219,9 +225,5 @@ export class ProductionProvider {
         this.state = 'finished'
         this.setStepAsync('finish_production');
     }
-
-
-
-
 
 }

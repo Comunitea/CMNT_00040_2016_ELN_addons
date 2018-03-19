@@ -54,6 +54,7 @@ import { TimerComponent } from '../components/timer/timer';
     ProductionPage,
     ListPage,
     ChecksModalPage,
+    UsersModalPage,
     ReasonsModalPage,
   ],
   providers: [

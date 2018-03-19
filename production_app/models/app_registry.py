@@ -42,8 +42,6 @@ class AppRegistry(models.Model):
                                   'Quality Checks', readonly=True)
     stop_line_ids = fields.One2many('stop.line', 'registry_id',
                                     'Production Stops', readonly=True)
-    barcode = fields.Char('Barcode', readonly=True)
-    weight = fields.Float('Weight', readonly=True)
     qty = fields.Float('Quantity', readonly=True)
     lot_id = fields.Many2one('stock.production.lot', 'Lot', readonly=True)
 
@@ -219,17 +217,37 @@ class AppRegistry(models.Model):
         return res
 
     @api.model
+    def get_lot(self, values, reg):
+        lot_id = False
+        spl = self.env['stock.production.lot']
+        product_id = reg.product_id.id
+        lot_name = values.get('lot_name', '')
+        lot_date = values.get('lot_date', '')
+        lot_date = lot_date if lot_date else False
+        if product_id and lot_name:
+            domain = [('name', '=', lot_name), ('product_id', '=', product_id)]
+            lot_obj = spl.search(domain, limit=1)
+            if not lot_obj:
+                vals = {'name': lot_name,
+                        'product_id': product_id,
+                        'use_date': lot_date}
+                lot_obj = spl.create(vals)
+            lot_id = lot_obj.id
+        return lot_id
+
+    @api.model
     def finish_production(self, values):
         res = {}
         reg = False
         if values.get('registry_id', False):
             reg = self.browse(values['registry_id'])
         if reg:
+            lot_id = self.get_lot(values, reg)
             reg.write({
                 'state': 'finished',
                 'cleaning_end': fields.Datetime.now(),
-                'barcode': values.get('cdb', ''),
-                'weight': values.get('weight', 0.00)
+                'qty': values.get('weight', 0.00),
+                'lot_id': lot_id,
             })
             res = reg.read()[0]
         return res
