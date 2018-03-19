@@ -11,7 +11,7 @@ import { OdooProvider } from '../odoo/odoo';
 export class ProductionProvider {
     users: any;
     active_user: Object;
-    workcenter;
+    workcenter: Object = {};
     registry_id;
     production;
     product;
@@ -75,7 +75,8 @@ export class ProductionProvider {
     }
 
     initData(data) {
-        this.workcenter = data.workcenter_id[1];
+        this.workcenter['id'] = data.workcenter_id[0];
+        this.workcenter['name'] = data.workcenter_id[1];
         this.registry_id = data.id;
         this.production = data.production_id[1];
         this.product_id = data.product_id[0];

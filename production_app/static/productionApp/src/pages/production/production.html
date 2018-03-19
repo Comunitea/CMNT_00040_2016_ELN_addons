@@ -7,9 +7,9 @@
 <ion-header>
 
     <ion-navbar color="primary">
-        <button ion-button icon-only menuToggle>
+<!--         <button ion-button icon-only menuToggle>
           <ion-icon name="menu"></ion-icon>
-        </button>
+        </button> -->
 
         <ion-title>Producción</ion-title>
 
@@ -48,7 +48,7 @@
             Centro Trabajo
          </ion-card-header>
         <ion-card-content>
-            {{prodData.workcenter}}
+            {{prodData.workcenter.name}}
         </ion-card-content>
     </ion-card>
 
@@ -88,6 +88,9 @@
     <!-- *ngIf="prodData.state == 'waiting'" -->
     <button ion-button full  color="secondary"  (click)="beginLogistics()">
         Logística
+    </button>
+    <button ion-button full *ngIf="prodData.state == 'finished'" (click)="loadNextProduction()">
+        Siguiente
     </button>
 
 </ion-content>

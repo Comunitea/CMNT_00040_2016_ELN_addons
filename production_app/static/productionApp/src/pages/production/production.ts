@@ -49,6 +49,31 @@ export class ProductionPage {
         confirm.present();
     }
 
+    promptNextStep(msg){
+        var promise = new Promise( (resolve, reject) => {
+            let confirm = this.alertCtrl.create({
+              title: 'Confirmar',
+              message: msg,
+              buttons: [
+                {
+                  text: 'No',
+                  handler: () => {
+                    reject();
+                  }
+                },
+                {
+                  text: 'Si',
+                  handler: () => {
+                    resolve();
+                  }
+                }
+              ]
+            });
+            confirm.present();
+        });
+        return promise
+    }
+
     presentAlert(titulo, texto) {
         const alert = this.alertCtrl.create({
             title: titulo,
@@ -172,42 +197,61 @@ export class ProductionPage {
     }
 
     confirmProduction() {
-        this.prodData.confirmProduction();
+        this.promptNextStep('Confirmar producción?').then( () => {
+            this.prodData.confirmProduction();
+        });
     }
 
     setupProduction() {
-        this.prodData.setupProduction();
-        this.timer.startTimer()  // Set-Up timer on
-        
+        this.promptNextStep('Empezar preparación?').then( () => {
+            this.prodData.setupProduction();
+            this.timer.startTimer()  // Set-Up timer on
+        });
     }
 
     startProduction() {
-        this.prodData.startProduction();
-
-        this.openModal('start', this.prodData.start_checks);  // Production timer setted when modal is clos   
-        this.scheduleChecks();
+        this.promptNextStep('Terminar preparación y empezar producción').then( () => {
+            this.prodData.startProduction();
+            this.openModal('start', this.prodData.start_checks);  // Production timer setted when modal is clos   
+            this.scheduleChecks();
+        });
     }
 
     stopProduction() {
-        this.timer.pauseTimer();
-        this.prodData.stopProduction();
+        this.promptNextStep('Registrar una parada?').then( () => {
+            this.timer.pauseTimer();
+            this.prodData.stopProduction();
+        });
     }
 
     restartProduction() {
-        this.timer.resumeTimer();
-        this.prodData.restartProduction();
+        this.promptNextStep('Reanudar producción').then( () => {
+            this.timer.resumeTimer();
+            this.prodData.restartProduction();
+        });
     }
 
     cleanProduction() {
-        this.clearIntervales();
-        this.timer.restartTimer();
-        this.prodData.cleanProduction();
+        this.promptNextStep('Empezar limpieza?').then( () => {
+            this.clearIntervales();
+            this.timer.restartTimer();
+            this.prodData.cleanProduction();
+        });
     }
 
     finishProduction() {
-        this.timer.pauseTimer()
-        this.prodData.finishProduction();
-        this.promptFinishData();
+        this.promptNextStep('Finalizar producción').then( () => {
+            this.timer.pauseTimer()
+            this.prodData.finishProduction();
+            this.promptFinishData();
+        });
+    }
+    loadNextProduction(){
+        this.prodData.loadProduction(this.prodData.workcenter).then( (res) => {
+        })
+        .catch( (err) => {
+            this.presentAlert(err.title, err.msg);
+        }); 
     }
 
 }
