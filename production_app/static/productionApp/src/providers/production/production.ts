@@ -18,6 +18,7 @@ export class ProductionProvider {
     product_id;
     state;
     states;
+    stop_reason_id;
 
     start_checks: Object[];
     freq_checks: Object[];
@@ -168,10 +169,10 @@ export class ProductionProvider {
         console.log("Guardo para escribir luego")
     }
 
-    setStepAsync(method, stop_reason_id) {
+    setStepAsync(method) {
         var values =  {'registry_id': this.registry_id};
         if (method == 'stop_production'){
-            values['reason_id'] = stop_reason_id
+            values['reason_id'] = this.stop_reason_id
         }
         if (method == 'restart_production'){
             values['stop_id'] = this.last_stop_id
@@ -210,7 +211,8 @@ export class ProductionProvider {
     }
     stopProduction(reason_id) {
         this.state = 'stoped'
-        this.setStepAsync('stop_production', reason_id);
+        this.stop_reason_id = reason_is
+        this.setStepAsync('stop_production');
 
     }
     restartProduction() {
