@@ -16,18 +16,18 @@ import { ProductionProvider } from '../../providers/production/production';
 })
 export class UsersModalPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,
-              public viewCtrl: ViewController,
-              private prodData: ProductionProvider) {
-  }
+    constructor(public navCtrl: NavController, public navParams: NavParams,
+                public viewCtrl: ViewController,
+                private prodData: ProductionProvider) {
+    }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad UsersModalPage');
-  }
+    ionViewDidLoad() {
+        console.log('ionViewDidLoad UsersModalPage');
+    }
 
-  closeModal() {
+    closeModal() {
         this.viewCtrl.dismiss();
-  }
+    }
     setActive(user){
         console.log(user.name);
     }

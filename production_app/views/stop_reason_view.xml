@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>    
+    
+    <record id="stop_reason_tree_view" model="ir.ui.view" >
+        <field name="name">stop.reason.tree.view</field>
+        <field name="model">stop.reason</field>
+        <field name="arch" type="xml">
+            <tree string="Stop Reasons">
+                <field name="name"/>
+                <field name="reason_type"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="stop_reason_form_view" model="ir.ui.view">
+        <field name="name">stop.reason.form.view</field>
+        <field name="model">stop.reason</field>
+        <field name="arch" type="xml">
+            <form string="Stop Reasons">
+                <sheet string="App Registrys">
+                    <group>
+                        <field name="name"/>
+                        <field name="reason_type"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+     <record id="stop_reason_filter_view" model="ir.ui.view">
+        <field name="name">stop.reason.filter.view</field>
+        <field name="model">stop.reason</field>
+        <field name="arch" type="xml">
+            <search string="Search Work Orders">
+                <field name="name"/>
+                <separator/>
+                <filter string="Technical Reason" domain="[('reason_type','=','technical')]"/>
+                <filter string="Organizative reasons" domain="[('reason_type','=','organizative')]"/>
+                <separator/>
+                <group expand="0" string="Group By">
+                    <filter string="Reason Type" domain="[]" context="{'group_by':'reason_type'}"/>
+                </group>
+             </search>
+        </field>
+    </record>
+
+    <record id="action_stop_reason" model="ir.actions.act_window" >
+        <field name="name">Stop Reasons</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">stop.reason</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_stop_reason" name="Stop Reasons" parent="mrp.menu_mrp_planning"
+              action="action_stop_reason" sequence="5"/>
+
+    </data>
+</openerp>

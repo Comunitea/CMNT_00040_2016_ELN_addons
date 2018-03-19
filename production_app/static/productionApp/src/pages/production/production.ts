@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, AlertController, ModalController }
 import { HomePage } from '../../pages/home/home';
 import { ChecksModalPage } from '../../pages/checks-modal/checks-modal';
 import { UsersModalPage } from '../../pages/users-modal/users-modal';
+import { ReasonsModalPage } from '../../pages/reasons-modal/reasons-modal';
 import { OdooProvider } from '../../providers/odoo/odoo';
 import { ProductionProvider } from '../../providers/production/production';
 import { TimerComponent } from '../../components/timer/timer';
@@ -152,10 +153,28 @@ export class ProductionPage {
     }
 
     openUsersModal(){
-        var mydata = {
-        }
+        var mydata = {}
         let usersModal = this.modalCtrl.create(UsersModalPage, mydata);
         usersModal.present();
+    }
+
+    openReasonsModal(){
+        var promise = new Promise( (resolve, reject) => {
+            var mydata = {}
+            let reasonsModal = this.modalCtrl.create(ReasonsModalPage, mydata);
+            reasonsModal.present();
+
+            // When modal closes
+            reasonsModal.onDidDismiss(reason_id => {
+                if (reason_id == 0){
+                    reject(reason_id)
+                }
+                else{
+                    resolve(reason_id);
+                }
+            });
+        });
+        return promise;
     }
 
     clearIntervales(){
@@ -199,14 +218,16 @@ export class ProductionPage {
     confirmProduction() {
         this.promptNextStep('Confirmar producción?').then( () => {
             this.prodData.confirmProduction();
-        });
+        })
+        .catch( () => {});
     }
 
     setupProduction() {
         this.promptNextStep('Empezar preparación?').then( () => {
             this.prodData.setupProduction();
             this.timer.startTimer()  // Set-Up timer on
-        });
+        })
+        .catch( () => {});
     }
 
     startProduction() {
@@ -214,21 +235,31 @@ export class ProductionPage {
             this.prodData.startProduction();
             this.openModal('start', this.prodData.start_checks);  // Production timer setted when modal is clos   
             this.scheduleChecks();
-        });
+        })
+        .catch( () => {});
     }
 
     stopProduction() {
         this.promptNextStep('Registrar una parada?').then( () => {
-            this.timer.pauseTimer();
-            this.prodData.stopProduction();
-        });
+            this.openReasonsModal().then( (reason_id) => {
+                console.log("STOP MODAL RES");
+                console.log(reason_id);
+                this.timer.pauseTimer();
+                this.prodData.stopProduction(reason_id);
+            })
+            .catch( () => {
+                console.log("Pues no hago nada")
+            })
+        })
+        .catch( () => {});
     }
 
     restartProduction() {
         this.promptNextStep('Reanudar producción').then( () => {
             this.timer.resumeTimer();
             this.prodData.restartProduction();
-        });
+        })
+        .catch( () => {});
     }
 
     cleanProduction() {
@@ -236,7 +267,8 @@ export class ProductionPage {
             this.clearIntervales();
             this.timer.restartTimer();
             this.prodData.cleanProduction();
-        });
+        })
+        .catch( () => {});
     }
 
     finishProduction() {
@@ -244,7 +276,8 @@ export class ProductionPage {
             this.timer.pauseTimer()
             this.prodData.finishProduction();
             this.promptFinishData();
-        });
+        })
+        .catch( () => {});
     }
     loadNextProduction(){
         this.prodData.loadProduction(this.prodData.workcenter).then( (res) => {

@@ -21,6 +21,10 @@ export class ProductionProvider {
 
     start_checks: Object[];
     freq_checks: Object[];
+
+    technical_reasons: Object[];
+    organizative_reasons: Object[];
+
     last_stop_id;
 
     cdb;
@@ -37,16 +41,43 @@ export class ProductionProvider {
             'finished': 'PRODUCCIÓN FINALIZADA'
         };
         this.last_stop_id = false;
+        this.technical_reasons = [];
+        this.organizative_reasons = [];
     }
 
     //Gets Users from odoo, maybe a promise?
-    loadUsers(active_user){
+    getUsers(active_user){
         this.active_user = active_user;
         this.odooCon.searchRead('res.users', [], ['id', 'name', 'login', 'image']).then( (res) => {
             this.users = res;
         })
         .catch( (err) => {
-            console.log("deberia ser una promesa, y devolver error, controlarlo en la página y lanzar excepción")
+            console.log("GET USERS deberia ser una promesa, y devolver error, controlarlo en la página y lanzar excepción")
+        });
+    }
+    // Load Quality checks in each type list
+    loadReasons(reasons) {
+        for (let indx in reasons) {
+            var r = reasons[indx];
+            if (r.reason_type == 'technical'){
+                this.technical_reasons.push(r);
+            }
+            else{
+                this.organizative_reasons.push(r);
+            }
+        }
+        console.log("ORGANIZATIVE REASONS");
+        console.log(this.organizative_reasons);
+        console.log("TECHNICAL REASONS");
+        console.log(this.technical_reasons);
+    }
+    //Gets Users from odoo, maybe a promise?
+    getStopReasons(){
+        this.odooCon.searchRead('stop.reason', [], ['id', 'name', 'reason_type']).then( (res) => {
+            this.loadReasons(res)
+        })
+        .catch( (err) => {
+            console.log(" GET REASONS ERROR deberia ser una promesa, y devolver error, controlarlo en la página y lanzar excepción")
         });
     }
 
@@ -136,8 +167,11 @@ export class ProductionProvider {
         console.log("Guardo para escribir luego")
     }
 
-    setStepAsync(method) {
+    setStepAsync(method, stop_reason_id) {
         var values =  {'registry_id': this.registry_id};
+        if (method == 'stop_production'){
+            values['reason_id'] = stop_reason_id
+        }
         if (method == 'restart_production'){
             values['stop_id'] = this.last_stop_id
         }
@@ -168,9 +202,9 @@ export class ProductionProvider {
         this.state = 'started'
         this.setStepAsync('start_production');
     }
-    stopProduction() {
+    stopProduction(reason_id) {
         this.state = 'stoped'
-        this.setStepAsync('stop_production');
+        this.setStepAsync('stop_production', reason_id);
 
     }
     restartProduction() {

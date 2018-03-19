@@ -18,6 +18,7 @@ import { ProductionPage } from '../pages/production/production';
 import { ListPage } from '../pages/list/list';
 import { ChecksModalPage } from '../pages/checks-modal/checks-modal';
 import { UsersModalPage } from '../pages/users-modal/users-modal';
+import { ReasonsModalPage } from '../pages/reasons-modal/reasons-modal';
 
 //Providers
 import { OdooProvider } from '../providers/odoo/odoo';
@@ -36,6 +37,7 @@ import { TimerComponent } from '../components/timer/timer';
     ListPage,
     ChecksModalPage,
     UsersModalPage,
+    ReasonsModalPage,
     TimerComponent
   ],
   imports: [
@@ -52,7 +54,7 @@ import { TimerComponent } from '../components/timer/timer';
     ProductionPage,
     ListPage,
     ChecksModalPage,
-    UsersModalPage,
+    ReasonsModalPage,
   ],
   providers: [
     StatusBar,

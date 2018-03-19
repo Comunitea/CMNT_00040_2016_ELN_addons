@@ -1,0 +1,41 @@
+import { Component } from '@angular/core';
+import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
+import { ProductionProvider } from '../../providers/production/production';
+
+/**
+ * Generated class for the ReasonsModalPage page.
+ *
+ * See https://ionicframework.com/docs/components/#navigation for more info on
+ * Ionic pages and navigation.
+ */
+
+@IonicPage()
+@Component({
+  selector: 'page-reasons-modal',
+  templateUrl: 'reasons-modal.html',
+})
+export class ReasonsModalPage {
+    reasons: Object[];
+    constructor(public navCtrl: NavController, public navParams: NavParams, 
+                public viewCtrl: ViewController,
+                private prodData: ProductionProvider) {
+        this.reasons = [];
+    }
+
+    ionViewDidLoad() {
+        console.log('ionViewDidLoad ReasonsModalPage');
+    }
+    closeModal() {
+        this.viewCtrl.dismiss(0);
+    }
+    reasonSelected(reason) {
+        this.viewCtrl.dismiss(reason.id);
+    }
+    selectOrganizative(reason){
+        this.reasons = this.prodData.organizative_reasons
+    }
+    selectTechnical(reason){
+        this.reasons = this.prodData.technical_reasons
+    }
+
+}
