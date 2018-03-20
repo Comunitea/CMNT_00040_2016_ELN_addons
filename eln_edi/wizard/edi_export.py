@@ -338,7 +338,7 @@ class edi_export (orm.TransientModel):
         # codigo de sección de proveedor.
         # Hay una excepción para El Corte Inglés. En las facturas enviamos el código departamento interno en lugar de la sección.
         # En en fichero se sigue enviando también en la posición original el departamento interno, aunque en el mapeo de generix no se tiene en cuenta
-        if invoice.partner_id.edi_filename == u'ECI':
+        if invoice.partner_id.commercial_partner_id.edi_filename == u'ECI':
             invoice_data += self.parse_string(invoice.partner_id.commercial_partner_id.department_code_edi, 9)
         else:
             invoice_data += self.parse_string(invoice.partner_id.commercial_partner_id.section_code, 9)
@@ -818,7 +818,11 @@ class edi_export (orm.TransientModel):
         picking_data += self.parse_number(gln_ef, 13, 0)
 
         # Departamento interno
-        picking_data += self.parse_string(picking.partner_id.commercial_partner_id.edi_supplier_cip, 10)
+        # Hay una excepción para El Corte Inglés. En el desadv enviamos el código departamento interno en lugar del código de proveedor.
+        if picking.partner_id.commercial_partner_id.edi_filename == u'ECI':
+            picking_data += self.parse_string(picking.partner_id.commercial_partner_id.department_code_edi, 10)
+        else:
+            picking_data += self.parse_string(picking.partner_id.commercial_partner_id.edi_supplier_cip, 10)
 
         # Medio de transporte (30=Transporte por carretera, 20=Trasporte ferroviario)
         picking_data += self.parse_string('30', 3)
