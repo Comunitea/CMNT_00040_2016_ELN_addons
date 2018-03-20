@@ -49,3 +49,4 @@ class ProductQualityChecks(models.Model):
     value_type = fields.Selection(VALUE_TYPES, 'Value Type')
     workcenter_id = fields.Many2one('mrp.workcenter', 'Work Center',
                                     readonly=False)
+    repeat = fields.Integer('Repeatch each')

@@ -7,13 +7,16 @@
 <ion-header>
 
     <ion-navbar color="primary">
-        <button ion-button icon-only menuToggle>
+<!--         <button ion-button icon-only menuToggle>
           <ion-icon name="menu"></ion-icon>
-        </button>
+        </button> -->
 
         <ion-title>Producción</ion-title>
 
         <ion-buttons end>
+            <button ion-button (click)='openUsersModal()'>
+                <ion-icon name="people"></ion-icon>
+            </button>
             <button ion-button (click)='logOut()'>
                 <ion-icon name="log-out"></ion-icon>
             </button>
@@ -23,74 +26,75 @@
 
 
 <ion-content padding>
-     <ion-item [hidden]='workcenter' color ="danger"> No hay Línea seleccionda</ion-item>
-<!--      <ion-item *ngIf="production"> Producción: {{production}}</ion-item>
-     <ion-item *ngIf="product"> Producto: {{product}}</ion-item>
-     <ion-item *ngIf="workcenter"> Centro Trabajo: {{workcenter}}</ion-item> -->
-
-    <ion-card *ngIf="production">
+    <ion-item [hidden]='prodData.workcenter' color ="danger"> No hay Línea seleccionda</ion-item>
+    <ion-card *ngIf="prodData.production">
         <ion-card-header>
             Producción
          </ion-card-header>
         <ion-card-content>
-            {{production}}
+            {{prodData.production}}
         </ion-card-content>
     </ion-card>
-    <ion-card *ngIf="product">
+    <ion-card *ngIf="prodData.product">
         <ion-card-header>
             Producto
          </ion-card-header>
         <ion-card-content>
-            {{product}}
+            {{prodData.product}}
         </ion-card-content>
     </ion-card>
-    <ion-card *ngIf="workcenter">
+    <ion-card *ngIf="prodData.workcenter">
         <ion-card-header>
             Centro Trabajo
          </ion-card-header>
         <ion-card-content>
-            {{workcenter}}
+            {{prodData.workcenter.name}}
         </ion-card-content>
     </ion-card>
 
      <!-- <button ion-button block (click)="openModal()">Open Modal</button> -->
 
     <!-- PANTALA INICIAL-->
-    <button ion-button full *ngIf="state == 'waiting'" (click)="confirmProduction()">
+    <button ion-button full *ngIf="prodData.state == 'waiting'" (click)="confirmProduction()">
         
-        Producción
-    </button>
-    <button ion-button full  color="secondary" *ngIf="state == 'waiting'" (click)="beginLogistics()">
-        Logística
+       Confirmar Producción
     </button>
 
+    <timer *ngIf="prodData.state != 'waiting'" [timeInSeconds]="0"></timer>
     <!-- PANTALA 2-->
-    <button ion-button full *ngIf="state == 'confirmed'" (click)="setupProduction()">
+    <button ion-button full *ngIf="prodData.state == 'confirmed'" (click)="setupProduction()">
         Comenzar Preparación
     </button>
 
     <!-- PANTALA 3-->
-    <button ion-button full *ngIf="state == 'setup'" (click)="startProduction()">
+    <button ion-button full *ngIf="prodData.state == 'setup'" (click)="startProduction()">
         Empezar Producción
     </button>
      <!-- PANTALA 4-->
-    <button ion-button full *ngIf="state == 'started'" (click)="cleanProduction()">
-        Finalizar Producción / Empezar Limpieza
+    <button ion-button full *ngIf="prodData.state == 'started'" (click)="cleanProduction()">
+        Empezar Limpieza
     </button>
      <!-- PANTALA 5-->
-    <button ion-button full *ngIf="state == 'cleaning'" (click)="finishProduction()">
+    <button ion-button full *ngIf="prodData.state == 'cleaning'" (click)="finishProduction()">
         Finalizar Producción
     </button>
 
-    <button ion-button full *ngIf="state == 'started'" (click)="stopProduction()">
+    <button ion-button full *ngIf="prodData.state == 'started'" (click)="stopProduction()">
         Parar Producción
     </button>
-    <button ion-button full *ngIf="state == 'stoped'" (click)="restartProduction()">
+    <button ion-button full *ngIf="prodData.state == 'stoped'" (click)="restartProduction()">
         Reaunudar Producción
+    </button>
+    <!-- *ngIf="prodData.state == 'waiting'" -->
+    <button ion-button full  color="secondary"  (click)="beginLogistics()">
+        Logística
+    </button>
+    <button ion-button full color="danger" *ngIf="prodData.state == 'finished'" (click)="loadNextProduction()">
+        Siguiente
     </button>
 
 </ion-content>
 <ion-footer>
-    <ion-item color ="primary">{{states[state]}}</ion-item>
+    <ion-item color ="primary">{{prodData.states[prodData.state]}}</ion-item>
 </ion-footer>
 

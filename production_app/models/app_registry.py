@@ -18,6 +18,7 @@ APP_STATES = [
 
 class AppRegistry(models.Model):
     _name = 'app.registry'
+    _order = 'id desc'
 
     wc_line_id = fields.Many2one('mrp.production.workcenter.line',
                                  'Work Order', readonly=True)
@@ -41,8 +42,6 @@ class AppRegistry(models.Model):
                                   'Quality Checks', readonly=True)
     stop_line_ids = fields.One2many('stop.line', 'registry_id',
                                     'Production Stops', readonly=True)
-    barcode = fields.Char('Barcode', readonly=True)
-    weight = fields.Float('Weight', readonly=True)
     qty = fields.Float('Quantity', readonly=True)
     lot_id = fields.Many2one('stock.production.lot', 'Lot', readonly=True)
 
@@ -180,7 +179,7 @@ class AppRegistry(models.Model):
             reg.write({
                 'state': 'stoped',
             })
-            stop_obj = reg.create_stop()
+            stop_obj = reg.create_stop(values.get('reason_id', False))
             res = reg.read()[0]
             res.update({'stop_id': stop_obj.id})
         return res
@@ -218,17 +217,37 @@ class AppRegistry(models.Model):
         return res
 
     @api.model
+    def get_lot(self, values, reg):
+        lot_id = False
+        spl = self.env['stock.production.lot']
+        product_id = reg.product_id.id
+        lot_name = values.get('lot_name', '')
+        lot_date = values.get('lot_date', '')
+        lot_date = lot_date if lot_date else False
+        if product_id and lot_name:
+            domain = [('name', '=', lot_name), ('product_id', '=', product_id)]
+            lot_obj = spl.search(domain, limit=1)
+            if not lot_obj:
+                vals = {'name': lot_name,
+                        'product_id': product_id,
+                        'use_date': lot_date}
+                lot_obj = spl.create(vals)
+            lot_id = lot_obj.id
+        return lot_id
+
+    @api.model
     def finish_production(self, values):
         res = {}
         reg = False
         if values.get('registry_id', False):
             reg = self.browse(values['registry_id'])
         if reg:
+            lot_id = self.get_lot(values, reg)
             reg.write({
                 'state': 'finished',
                 'cleaning_end': fields.Datetime.now(),
-                'barcode': values.get('cdb', ''),
-                'weight': values.get('weight', 0.00)
+                'qty': values.get('weight', 0.00),
+                'lot_id': lot_id,
             })
             res = reg.read()[0]
         return res
@@ -236,11 +255,9 @@ class AppRegistry(models.Model):
     @api.model
     def get_quality_checks(self, values):
         product_id = values.get('product_id', False)
-        quality_type = values.get('quality_type', False)
         product = self.env['product.product'].browse(product_id)
-        domain = [('quality_type', '=', quality_type),
-                  ('id', 'in', product.quality_check_ids.ids)]
-        fields = ['id', 'name', 'value_type']
+        domain = [('id', 'in', product.quality_check_ids.ids)]
+        fields = ['id', 'name', 'value_type', 'quality_type', 'repeat']
         res = product.quality_check_ids.search_read(domain, fields)
         res2 = []
         for dic in res:
@@ -267,13 +284,12 @@ class AppRegistry(models.Model):
         self.write({'state': 'validated'})
 
     @api.multi
-    def create_stop(self):
+    def create_stop(self, reason_id):
         self.ensure_one()
         vals = {
             'registry_id': self.id,
             'stop_start': fields.Datetime.now(),
-            'cause': 'technical',
-            'reason': 'Porque estoy desarrollando este percal',
+            'reason_id': reason_id
         }
         res = self.env['stop.line'].create(vals)
         return res
@@ -293,15 +309,11 @@ class StopLines(models.Model):
     _name = 'stop.line'
 
     registry_id = fields.Many2one('app.registry', 'Registry', readonly=True)
+    reason_id = fields.Many2one('stop.reason', 'Reason')
     stop_start = fields.Datetime('Stop Start', readonly=False)
     stop_end = fields.Datetime('Stop End', readonly=False)
     stop_duration = fields.Float('Stop Duration',
                                  compute="_get_duration")
-
-    reason = fields.Text('Reason', readonly=False)
-    cause = fields.Selection([
-        ('technical', 'Technical'),
-        ('organizative', 'organizative')], 'Cause')
 
     @api.multi
     @api.depends('stop_start', 'stop_end')

@@ -1,17 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, ModalController } from 'ionic-angular';
-import { Storage } from '@ionic/storage';
 import { HomePage } from '../../pages/home/home';
 import { ChecksModalPage } from '../../pages/checks-modal/checks-modal';
+import { UsersModalPage } from '../../pages/users-modal/users-modal';
+import { ReasonsModalPage } from '../../pages/reasons-modal/reasons-modal';
+import { OdooProvider } from '../../providers/odoo/odoo';
+import { ProductionProvider } from '../../providers/production/production';
+import { TimerComponent } from '../../components/timer/timer';
 
-/**
- * Generated class for the ProductionPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-
-declare var OdooApi: any;
 
 @IonicPage()
 @Component({
@@ -19,35 +15,17 @@ declare var OdooApi: any;
   templateUrl: 'production.html',
 })
 export class ProductionPage {
-    workcenter;
-    registry_id;
-    production;
-    product;
-    product_id;
-    state;
-    states;
-    last_stop_id;
+    
     cdb;
     weight;
-    constructor(public navCtrl: NavController, private storage: Storage, 
+    interval_list: any[] = [];
+
+    @ViewChild(TimerComponent) timer: TimerComponent;
+
+    constructor(public navCtrl: NavController,
                 public navParams: NavParams, public alertCtrl: AlertController, 
-                public modalCtrl: ModalController) {
-        this.workcenter = this.navParams.get('workcenter_id')[1];
-        this.registry_id = this.navParams.get('id');
-        this.production = this.navParams.get('production_id')[1];
-        this.product_id = this.navParams.get('product_id')[0];
-        this.product = this.navParams.get('product_id')[1];
-        this.state = this.navParams.get('state');
-        this.last_stop_id = false;
-        this.states = {
-            'waiting': 'ESPERANDO PRODUCCIÓN',
-            'confirmed': 'PRODUCCIÓN CONFIRMADA',
-            'setup': 'PREPARACIÓN PRODUCCION',
-            'started': 'PRODUCCIÓN INICIADA',
-            'stoped': 'PRODUCCIÓN PARADA',
-            'cleaning': 'PRODUCCIÓN EN LIMPIEZA',
-            'finished': 'PRODUCCIÓN FINALIZADA'
-        };
+                public modalCtrl: ModalController,
+                private odooCon: OdooProvider, private prodData: ProductionProvider) {
     }
 
     logOut(){
@@ -72,6 +50,31 @@ export class ProductionPage {
         confirm.present();
     }
 
+    promptNextStep(msg){
+        var promise = new Promise( (resolve, reject) => {
+            let confirm = this.alertCtrl.create({
+              title: 'Confirmar',
+              message: msg,
+              buttons: [
+                {
+                  text: 'No',
+                  handler: () => {
+                    reject();
+                  }
+                },
+                {
+                  text: 'Si',
+                  handler: () => {
+                    resolve();
+                  }
+                }
+              ]
+            });
+            confirm.present();
+        });
+        return promise
+    }
+
     presentAlert(titulo, texto) {
         const alert = this.alertCtrl.create({
             title: titulo,
@@ -80,95 +83,28 @@ export class ProductionPage {
         });
         alert.present();
     }
-    callRegistry(method, values) {
-        var method = method
-        var values = values
-        var promise = new Promise( (resolve, reject) => {
-            this.storage.get('CONEXION').then((con_data) => {
-                var odoo = new OdooApi(con_data.url, con_data.db);
-                if (con_data == null) {
-                    console.log('No hay conexión');
-                    this.navCtrl.setRoot(HomePage, {borrar: true, login: null});
-                } else {
-                    odoo.login(con_data.username, con_data.password).then( (uid) => {
-                        var model = 'app.registry'
-                        // var method = method
-                        // var values = values
-                        odoo.call(model, method, values).then(
-                            (res) => {
-                            console.log(res)
-                            resolve(res);
-                        })
-                        .catch( () => {
-                            console.log('ERROR en el método ' + method + 'del modelo app.regustry')
-                            this.presentAlert('Falla!', 'Ocurrio un error al obtener el registro de la aplicación');
-                            reject();
-                        });
-                    });
-                }
-            });
-        });
-        return promise
-    }
 
-    beginLogistics() {
-        this.presentAlert('Logistica', 'PENDIENTE DESAROLLO')
-    }
-
-    confirmProduction() {
-        var values =  {'registry_id': this.registry_id};
-        this.callRegistry('confirm_production', values).then( (res) => {
-            console.log("PRODUCCIÓN CONFIRMADA:")
-            this.state = res['state'];
-        })
-        .catch( (err) => {
-            console.log(err) 
-        });
-     }
-    setupProduction() {
-        var values =  {'registry_id': this.registry_id};
-        this.callRegistry('setup_production', values).then( (res) => {
-            console.log("PRODUCCIÓN EN PREPARACIÖN:") 
-            this.state = res['state'];
-        })
-        .catch( (err) => {
-            console.log(err) 
-        });
-    }
-    startProduction() {
-        this.openModal();
-        var values =  {'registry_id': this.registry_id};
-        this.callRegistry('start_production', values).then( (res) => {
-            console.log("PRODUCCIÓN EMPEZADA:") 
-            this.state = res['state'];
-        })
-        .catch( (err) => {
-            console.log(err) 
-        });
-    }
-    cleanProduction() {
-        var values =  {'registry_id': this.registry_id};
-        this.callRegistry('clean_production', values).then( (res) => {
-            console.log("PRODUCCIÓN EN LIMPIEZA:") 
-            this.state = res['state'];
-        })
-        .catch( (err) => {
-            console.log(err) 
-        });
-    }
     promptFinishData() {
         let alert = this.alertCtrl.create({
-            title: 'Login',
+            title: 'Finalizar Producción',
             inputs: [
               {
-                name: 'cdb',
-                placeholder: 'CdB'
+                name: 'qty',
+                placeholder: 'Cantidad',
+                label: 'Cantidad',
+                type: 'number'
               },
               {
-                name: 'weight',
-                placeholder: 'Weight',
-                type: 'numeric'
-              }
+                name: 'lot',
+                placeholder: 'Lote',
+                id: 'Lote',
+                type: 'text'
+              },
+              {
+                name: 'date',
+                placeholder: 'Fecha caducidad',
+                type: 'date'
+              },
             ],
             buttons: [
               {
@@ -181,86 +117,168 @@ export class ProductionPage {
               {
                 text: 'OK',
                 handler: data => {
-                  this.cdb = data.cdb;
-                  this.weight = data.weight;
-                  this.writeFinishProductionData();
+                  this.prodData.qty = data.qty;
+                  this.prodData.lot_name = data.lot;
+                  this.prodData.lot_date = data.date;
+                  this.prodData.finishProduction();
                 }
               }
             ]
         });
         alert.present();
     }
-    finishProduction() {
-        this.promptFinishData();
-    }
-    writeFinishProductionData() {
-        var values =  {'registry_id': this.registry_id, 
-                       'cdb': this.cdb, 
-                       'weight': this.weight};
-        this.callRegistry('finish_production', values).then( (res) => {
-            console.log("PRODUCCIÓN FINALIZADA:") 
-            this.state = res['state'];
-        })
-        .catch( (err) => {
-            console.log(err) 
-        });
-    }
-    stopProduction() {
-        var values =  {'registry_id': this.registry_id};
-        this.callRegistry('stop_production', values).then( (res) => {
-            console.log("PRODUCCIÓN PARADA:") 
-            if (res) {
-                this.state = res['state'];
-                this.last_stop_id = res['stop_id']
-            }
-        })
-        .catch( (err) => {
-            console.log(err) 
-        });
-    }
-    restartProduction() {
-        var values =  {
-            'registry_id': this.registry_id,
-            'stop_id': this.last_stop_id
-        }
-        this.callRegistry('restart_production', values).then( (res) => {
-            console.log("PRODUCCIÓN REINICIADA:") 
-            if (res) {
-                this.state = res['state'];
-                this.last_stop_id = false
-            }
-        })
-        .catch( (err) => {
-            console.log(err) 
-        });
-    }
 
-    openModal() {
+    openModal(qtype, qchecks) {
         var mydata = {
-            'product_id': this.product_id,
-            'quality_type': 'start'
+            'product_id': this.prodData.product_id,
+            'quality_type': qtype,
+            'quality_checks': qchecks
         }
         let myModal = this.modalCtrl.create(ChecksModalPage, mydata);
+
+        // When modal closes
         myModal.onDidDismiss(data => {
-            this.saveQualityChecks(data);
+            this.prodData.saveQualityChecks(data);  // TODO CONVERT IN PROMISE
+            if (qtype == 'start'){
+                this.timer.restartTimer();  // Production timer on
+            } 
         });
 
         myModal.present();
     }
-    saveQualityChecks(data){
-        console.log("RESULTADO A GUARDAR")
-        console.log(data)
-        var values = {
-            'registry_id': this.registry_id,
-            'lines': data
-        }
-        this.callRegistry('app_save_quality_checks', values).then( (res) => {
-            console.log("RESULTADO GUARDADO") 
-        })
-        .catch( (err) => {
-            console.log("Error al guardar Quality Checks") 
-        });
+
+    openUsersModal(){
+        var mydata = {}
+        let usersModal = this.modalCtrl.create(UsersModalPage, mydata);
+        usersModal.present();
     }
 
+    openReasonsModal(){
+        var promise = new Promise( (resolve, reject) => {
+            var mydata = {}
+            let reasonsModal = this.modalCtrl.create(ReasonsModalPage, mydata);
+            reasonsModal.present();
+
+            // When modal closes
+            reasonsModal.onDidDismiss(reason_id => {
+                if (reason_id == 0){
+                    reject(reason_id)
+                }
+                else{
+                    resolve(reason_id);
+                }
+            });
+        });
+        return promise;
+    }
+
+    clearIntervales(){
+        for (let indx in this.interval_list){
+            let int = this.interval_list[indx];
+            clearInterval(int);
+        }
+    }
+
+    scheduleIntervals(delay, qchecks){
+        let timerId = setInterval(() => 
+        {
+            this.openModal('freq', qchecks)
+        }, delay*60*1000);
+        this.interval_list.push(timerId);
+    }
+
+    scheduleChecks(){
+        var checks_by_delay = {};
+        for (let i in this.prodData.freq_checks){
+            let qc = this.prodData.freq_checks[i];
+            if (!(qc['repeat'] in checks_by_delay)){
+                checks_by_delay[qc['repeat']] = [];
+            }
+            checks_by_delay[qc['repeat']].push(qc) 
+        }
+        for (let key in checks_by_delay){
+            this.scheduleIntervals(key, checks_by_delay[key]);
+        }
+    }
+
+
+    
+    // ************************************************************************
+    // ************************* BUTONS FUNCTIONS *****************************
+    // ************************************************************************
+    beginLogistics() {
+        this.presentAlert('Logistica', 'PENDIENTE DESAROLLO, LLAMAR APP ALMACÉN')
+    }
+
+    confirmProduction() {
+        this.promptNextStep('Confirmar producción?').then( () => {
+            this.prodData.confirmProduction();
+        })
+        .catch( () => {});
+    }
+
+    setupProduction() {
+        this.promptNextStep('Empezar preparación?').then( () => {
+            this.prodData.setupProduction();
+            this.timer.startTimer()  // Set-Up timer on
+        })
+        .catch( () => {});
+    }
+
+    startProduction() {
+        this.promptNextStep('Terminar preparación y empezar producción').then( () => {
+            this.prodData.startProduction();
+            this.openModal('start', this.prodData.start_checks);  // Production timer setted when modal is clos   
+            this.scheduleChecks();
+        })
+        .catch( () => {});
+    }
+
+    stopProduction() {
+        this.promptNextStep('Registrar una parada?').then( () => {
+            this.openReasonsModal().then( (reason_id) => {
+                console.log("STOP MODAL RES");
+                console.log(reason_id);
+                this.timer.pauseTimer();
+                this.prodData.stopProduction(reason_id);
+            })
+            .catch( () => {
+                console.log("Pues no hago nada")
+            })
+        })
+        .catch( () => {});
+    }
+
+    restartProduction() {
+        this.promptNextStep('Reanudar producción').then( () => {
+            this.timer.resumeTimer();
+            this.prodData.restartProduction();
+        })
+        .catch( () => {});
+    }
+
+    cleanProduction() {
+        this.promptNextStep('Empezar limpieza?').then( () => {
+            this.clearIntervales();
+            this.timer.restartTimer();
+            this.prodData.cleanProduction();
+        })
+        .catch( () => {});
+    }
+
+    finishProduction() {
+        this.promptNextStep('Finalizar producción').then( () => {
+            this.timer.pauseTimer()
+            this.promptFinishData();
+        })
+        .catch( () => {});
+    }
+    loadNextProduction(){
+        this.prodData.loadProduction(this.prodData.workcenter).then( (res) => {
+        })
+        .catch( (err) => {
+            this.presentAlert(err.title, err.msg);
+        }); 
+    }
 
 }

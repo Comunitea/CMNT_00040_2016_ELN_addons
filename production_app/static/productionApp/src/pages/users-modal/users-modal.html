@@ -1,0 +1,30 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>Usuarios</ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content padding>
+    <button ion-button full (click)="closeModal()">
+        Ok
+    </button>  
+    <ion-list > 
+        <ion-item-sliding *ngFor="let user of prodData.users">        
+            <ion-item >
+            {{user.name}}
+            </ion-item>
+            <ion-item-options side="left">
+                <button ion-button (click)="logIn(user)">
+                    <ion-icon name="log-in"></ion-icon>
+                    Log In
+                </button>  
+                <button ion-button color="danger" (click)="setActive(user)">
+                    <ion-icon name="star"></ion-icon>
+                    Activar
+                </button>
+            </ion-item-options>
+        </ion-item-sliding>
+    </ion-list> 
+
+</ion-content>
+
+

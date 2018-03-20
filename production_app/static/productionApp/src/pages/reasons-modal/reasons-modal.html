@@ -1,0 +1,35 @@
+<!--
+  Generated template for the ReasonsModalPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Motivos de parada</ion-title>
+    <ion-buttons end>
+        <button ion-button (click)="closeModal()">
+            Atrás
+        </button>
+        </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+    <button ion-button full (click)="selectTechnical()">
+        Causas técnicas
+    </button>
+    <button ion-button full (click)="selectOrganizative()">
+        Causas Organizaticas
+    </button>
+   <ion-list>
+<!--         <ion-item [hidden]='reasons.length>0' color ="danger"> No hay motivos de parada</ion-item> -->
+        <button ion-item *ngFor="let reason of reasons" (click)="reasonSelected(reason)">
+            <ion-icon name="text"></ion-icon>
+            {{ reason.name }}
+        </button>  
+    </ion-list>
+</ion-content>

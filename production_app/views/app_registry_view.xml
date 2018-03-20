@@ -36,8 +36,6 @@
                     <group>
                         <field name="qty"/>
                         <field name="lot_id"/>
-                        <field name="barcode"/>
-                        <field name="weight"/>
                     </group>
                 </group>
                 <group colspan="4" col="6">
@@ -74,8 +72,7 @@
                         <group string="Stops">
                             <field name="stop_line_ids" nolabel="1">
                                 <tree>
-                                    <field name="cause"/>
-                                    <field name="reason"/>
+                                    <field name="reason_id"/>
                                     <field name="create_uid"/>
                                     <field name="stop_start"/>
                                     <field name="stop_end"/>

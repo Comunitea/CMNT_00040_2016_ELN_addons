@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { enableProdMode, ErrorHandler, NgModule } from '@angular/core';
+import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 
 
@@ -11,14 +11,21 @@ import { HttpModule } from '@angular/http';
 import { IonicStorageModule } from '@ionic/storage';
 import { Network } from '@ionic-native/network';
 import { File } from '@ionic-native/file';
-
 //Paginas
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { ProductionPage } from '../pages/production/production';
 import { ListPage } from '../pages/list/list';
 import { ChecksModalPage } from '../pages/checks-modal/checks-modal';
+import { UsersModalPage } from '../pages/users-modal/users-modal';
+import { ReasonsModalPage } from '../pages/reasons-modal/reasons-modal';
 
+//Providers
+import { OdooProvider } from '../providers/odoo/odoo';
+import { ProductionProvider } from '../providers/production/production';
+
+//Componentes
+import { TimerComponent } from '../components/timer/timer';
 
 
 
@@ -29,6 +36,9 @@ import { ChecksModalPage } from '../pages/checks-modal/checks-modal';
     ProductionPage,
     ListPage,
     ChecksModalPage,
+    UsersModalPage,
+    ReasonsModalPage,
+    TimerComponent
   ],
   imports: [
     BrowserModule,
@@ -44,6 +54,8 @@ import { ChecksModalPage } from '../pages/checks-modal/checks-modal';
     ProductionPage,
     ListPage,
     ChecksModalPage,
+    UsersModalPage,
+    ReasonsModalPage,
   ],
   providers: [
     StatusBar,
@@ -51,6 +63,8 @@ import { ChecksModalPage } from '../pages/checks-modal/checks-modal';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     File,
     Network,
+    OdooProvider,
+    ProductionProvider,
   ]
 })
 export class AppModule {}
