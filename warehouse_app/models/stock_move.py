@@ -95,6 +95,7 @@ class StockMove(models.Model):
 
     @api.model
     def pda_move(self, vals):
+        import ipdb; ipdb.set_trace()
         restrict_package_id = vals.get('restrict_package_id', False) or False
         location_dest_id = vals.get('location_dest_id', False)
         result_package_id = vals.get('result_package_id', 0)

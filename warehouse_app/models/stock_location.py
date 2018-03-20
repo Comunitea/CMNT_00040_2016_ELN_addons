@@ -20,18 +20,22 @@ class StockLocationRack(models.Model):
     name = fields.Char('Name', required=1)
     warehouse_id = fields.Many2one('stock.warehouse', string='Warehouse')
     code = fields.Char('Code', required=1)
-    sequence = fields.Integer('Sequence')
+    sequence = fields.Integer('Sequence', default=0)
     x_number = fields.Integer('Pos X', required=1)
     y_number = fields.Integer('Pos Y count', required=1)
     z_number = fields.Integer('Pos Z count', required=1)
     index = fields.Selection(INDEX_SELECTION, 'Index pos')
     parent_id = fields.Many2one('stock.location', string="Parent location", required=1)
     rotation = fields.Selection(INDEX_ROTATION, 'Rotation', default='medium')
+    need_check = fields.Boolean("Need check", default=True, help="Need check in PDA")
+
 
     @api.multi
     def update_rack_loc_ids(self):
 
         for rack in self:
+            if rack.sequence:
+                raise ValidationError("Need sequence in rack. Please reorder racks if neccesary")
             usage = self.parent_id.usage
             loc_order = str(rack.sequence).zfill(3)
             for y in range(1, rack.y_number+1):
@@ -88,6 +92,8 @@ class StockLocation (models.Model):
     rack_id = fields.Many2one('stock.location.rack')
     warehouse_id = fields.Many2one('stock.warehouse')
     rotation = fields.Selection(INDEX_ROTATION, 'Rotation')
+    need_check = fields.Boolean("Need check", default=False, help="Need check in ")
+
 
     @api.model
     def name_to_id(self, name):

@@ -19,9 +19,9 @@ export class HomePage {
   loginData = {password: '', username: ''};
   CONEXION = {
 
-      url: 'http://odoopistola.com',
+      url: '',
       port: '80',
-      db: 'pistola',
+      db: '',
       username: 'admin',
       password: 'admin',
 
@@ -64,6 +64,7 @@ export class HomePage {
           });
       }
 
+
   presentAlert(titulo, texto) {
         const alert = this.alertCtrl.create({
             title: titulo,
@@ -75,11 +76,10 @@ export class HomePage {
 
   conectarApp(verificar) {
     var self = this;
-
-
     var con;
     con = self.CONEXION;
     this.storage.get('CONEXION').then((val) => {
+      
       var con;
       if (val == null) {//no existe datos
           self.cargar = false;
@@ -88,13 +88,14 @@ export class HomePage {
 
               if (verificar) {
                   self.presentAlert('Alerta!', 'Por favor ingrese usuario y contraseña');
-              }
+                  }
               return;
           }
 
       } else {
           //si los trae directamente ya fueron verificados
-          con = val;
+         
+          con=val;
           if (con.username.length < 3 || con.password.length < 3) {
               return self.cargar = false;
           }
@@ -126,8 +127,13 @@ export class HomePage {
                       self.cargar = false;
                       return self.presentAlert('Falla!', 'Usuario incorrecto');
                   }
-                })
-          })
+                },
+                function (uid) {self.presentAlert('Alerta!', 'Por favor ingrese usuario y contraseña');}
+            )
+          },
+          function (uid) {
+              self.cargar = false;
+              self.presentAlert('Alerta!', 'Por favor ingrese usuario y contraseña');})
     });
   }
   get_picking_types(){

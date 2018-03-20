@@ -40,5 +40,26 @@
             <field name="current_value">5103, 5104, 5113, 5114, 5123, 5124, 5133, 5134, 5143, 5144, 5563, 5564</field>
         </record>
 
+        <!-- PYG NORMAL
+        Originalmente a 41430 y a 40900 iba cuenta 746. Debe estar en una sola. La quitamos de 41430.
+        -->
+        <record model="account.balance.reporting.template.line" id="l10n_es_account_balance_report.es_pyg_normal_41430">
+            <field name="current_value"></field>
+        </record>
+        <!-- PYG ABREVIADO
+        Originalmente a 41430 iba 746 y a 40900 nada. Debe estar en la 40900.
+        -->
+        <record model="account.balance.reporting.template.line" id="l10n_es_account_balance_report.es_pyg_abreviado_40900">
+            <field name="current_value">746</field>
+        </record>
+        <record model="account.balance.reporting.template.line" id="l10n_es_account_balance_report.es_pyg_abreviado_41430">
+            <field name="current_value"></field>
+        </record>
+        <!-- PYG PYMES
+        Originalmente a 41430 y a 40900 iba cuenta 746. Debe estar en una sola. La quitamos de 41430.
+        -->
+        <record model="account.balance.reporting.template.line" id="l10n_es_account_balance_report.es_pyg_pymes_41430">
+            <field name="current_value"></field>
+        </record>
     </data>
 </openerp>

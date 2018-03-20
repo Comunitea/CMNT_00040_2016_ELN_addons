@@ -32,6 +32,7 @@
                                     <field name='sale_order_id' readonly="1" select="2"/>
                                     <field name='picking_id' readonly="1" select="2"/>
                                     <field name='invoice_id' readonly="1" select="2"/>
+                                    <!-- <field name='coacsu_invoice_ids' readonly="1" widget="many2many_tags"/> -->
                                 </group>
                                 <group col="2" colspan="2">
                                     <separator colspan="2" string="Envio"/>
@@ -76,6 +77,7 @@
                 </tree>
             </field>
         </record>
+
         <record model="ir.actions.act_window" id="act_edi_doc">
             <field name="name">Documentos EDI</field>
             <field name="res_model">edi.doc</field>
@@ -155,23 +157,29 @@
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="base.view_partner_form" />
             <field name="arch" type="xml">
-
                 <notebook position="inside">
                     <page string="EDI" attrs="{'invisible': [('parent_id', '!=', False), ('is_company','=',False)]}">
                         <group col="4" colspan="6">
-                            <group col="2" colspan="2" string="General">
+                            <group col="2" colspan="2" string="GENERAL">
                                 <field name="edi_filename"/>
                                 <field name="department_code_edi" select="2"/>
+                                <field name="edi_supplier_cip" select="2"/>
+                                <field name="gln_ve" placeholder="Si es diferente al de la Compañía" select="2"/>
                             </group>
-                            <group col="2" colspan="2" string="">
+                            <group col="2" colspan="2" string="COACSU">
+                                <field name="edi_coacsu_active"/>
+                                <field name="gln_de_coa"/>
+                                <field name="gln_rm_coa"/>
                             </group>
-                            <group col="2" colspan="2" string="INVOICE">
+                            <group col="2" colspan="2" string="INVOIC">
+                                <field name="edi_invoic_active"/>
                                 <field name="edi_date_required"/>
                                 <field name="edi_uos_as_uom_on_kgm_required"/>
                                 <field name="section_code" select="2"/>
                                 <field name="edi_invoice_copy"/>
                             </group>
                             <group col="2" colspan="2" string="DESADV">
+                                <field name="edi_desadv_active"/>
                                 <field name="product_marking_code" select="2"/>
                                 <field name="edi_picking_numeric"/>
                                 <field name="gln_desadv" select="2"/>
@@ -266,14 +274,36 @@
                 </field>
                 <notebook position="inside" >
                     <page string="EDI">
-                        <group col="4">
-                            <field name="edi_not_send_invoice"/>
-                            <newline/>
-                            <button name="%(action_edi_export_invoice)d" type="action" string="Exportar Facturas EDI"
-                                attrs="{'invisible':[('edi_not_send_invoice','=',True)]}" colspan="2"/>
-                        </group>
-                        <separator colspan="4" string="Documentos Generados"/>
-                        <field name="edi_docs" select="1" readonly="1" colspan="4" nolabel="1"/>
+                        <notebook position="inside">
+                            <page string="Invoices">
+                                <group col="4">
+                                    <field name="edi_not_send_invoice"/>
+                                    <newline/>
+                                    <button name="%(action_edi_export_invoice)d" type="action" string="Exportar Facturas EDI"
+                                        attrs="{'invisible':[('edi_not_send_invoice','=',True)]}" colspan="2"/>
+                                </group>
+                                <separator colspan="4" string="Documentos Generados"/>
+                                <field name="edi_docs" select="1" readonly="1" colspan="4" nolabel="1">
+                                    <tree string="Documentos EDI">
+                                        <field name="name"/>
+                                        <field name="type"/>
+                                        <field name="date"/>
+                                        <field name="status"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Invoice summary">
+                                <separator colspan="4" string="Documentos Generados"/>
+                                <field name="invoice_coacsu_ids" readonly="1" colspan="4" nolabel="1">
+                                    <tree string="Documentos EDI">
+                                        <field name="name"/>
+                                        <field name="type"/>
+                                        <field name="date"/>
+                                        <field name="status"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
                     </page>
                 </notebook>
             </field>
@@ -291,7 +321,7 @@
             <field name="name">EDI No Generado</field>
             <field name="model_id">account.invoice</field>
             <field name="action_id" ref="account.action_invoice_tree1"/>
-            <field name="domain">[('edi_docs', '=', False),('edi_not_send_invoice', '=', False),('partner_id.commercial_partner_id.edi_filename', '!=', False),('journal_id.name', 'ilike', 'ventas')]</field>
+            <field name="domain">[('edi_docs', '=', False),('edi_not_send_invoice', '=', False),('partner_id.commercial_partner_id.edi_invoic_active', '!=', False),('journal_id.name', 'ilike', 'ventas')]</field>
             <field name="user_id" eval="False"/>
         </record>
         <record id="filter_edi_generado_tree3" model="ir.filters">
@@ -305,7 +335,21 @@
             <field name="name">EDI No Generado</field>
             <field name="model_id">account.invoice</field>
             <field name="action_id" ref="account.action_invoice_tree3"/>
-            <field name="domain">[('edi_docs', '=', False),('edi_not_send_invoice', '=', False),('partner_id.commercial_partner_id.edi_filename', '!=', False),('journal_id.name', 'ilike', 'ventas')]</field>
+            <field name="domain">[('edi_docs', '=', False),('edi_not_send_invoice', '=', False),('partner_id.commercial_partner_id.edi_invoic_active', '!=', False),('journal_id.name', 'ilike', 'ventas')]</field>
+            <field name="user_id" eval="False"/>
+        </record>
+        <record id="filter_coacsu_generado_tree1" model="ir.filters">
+            <field name="name">COA Generado</field>
+            <field name="model_id">account.invoice</field>
+            <field name="action_id" ref="account.action_invoice_tree1"/>
+            <field name="domain">[('invoice_coacsu_ids', '!=', False)]</field>
+            <field name="user_id" eval="False"/>
+        </record>
+        <record id="filter_coacsu_no_generado_tree1" model="ir.filters">
+            <field name="name">COA No Generado</field>
+            <field name="model_id">account.invoice</field>
+            <field name="action_id" ref="account.action_invoice_tree1"/>
+            <field name="domain">[('invoice_coacsu_ids', '=', False),('partner_id.commercial_partner_id.edi_coacsu_active', '!=', False),('journal_id.name', 'ilike', 'ventas')]</field>
             <field name="user_id" eval="False"/>
         </record>
 

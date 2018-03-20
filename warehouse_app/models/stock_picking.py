@@ -14,6 +14,18 @@ WAREHOUSE_STATES = [
     ('waiting_validation', 'Waiting validatiton'),
     ('done', 'Done')]
 
+class StockTransferDetails(models.TransientModel):
+    _name = 'stock.transfer_details'
+    _description = 'Picking wizard'
+
+    @api.model
+    def do_detailed_transfer(self):
+        res = super(StockTransferDetails, self).do_detailed_transfer()
+        if self._context.get('no_transfer', True):
+            for op in self.picking_id.pack_operation_ids:
+                op.picking_order = op.location_id.picking_order
+        return res
+
 class StockPickingType(models.Model):
     _inherit = "stock.picking.type"
 
@@ -107,3 +119,32 @@ class StockPicking(models.Model):
         else:
             return False
         return True
+
+    @api.model
+    def _prepare_pack_ops(self, picking, quants, forced_qties):
+        """Get the owner from the moves instead of the picking.
+
+        The only case we need to fix is the one of receptions. In that case, we
+        do not receive any quants (because there is no quant reservation). We
+        group the moves by product and owner, and run the original method
+        separately for each one.
+
+        """
+
+        if not self.picking_type.show_in_pda:
+            return super(StockPicking, self)._prepare_pack_ops(picking, quants,
+                                                          forced_qties)
+
+        vals = super(StockPicking, self)._prepare_pack_ops(picking, quants, forced_qties)
+
+        location_order = {}
+
+        for val in vals:
+            id = val['location_id']
+            if id in location_order.keys():
+                val['picking_order'] = location_order[id]
+            else:
+                location_order[id] = self.env['stock.location'].search_read([('id', '=', id)], ['picking_order'])
+                val['picking_order'] = location_order[id]
+
+        return vals

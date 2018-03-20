@@ -10,7 +10,7 @@ class MrpProductionWorkcenterLine(models.Model):
     _inherit = 'mrp.production.workcenter.line'
 
     registry_id = fields.Many2one('app.registry', 'App Regystry',
-                                  readonly=False)
+                                  readonly=True)
 
     app_state = fields.Selection(APP_STATES, 'State',
                                  related='registry_id.state', store=True,

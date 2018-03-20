@@ -42,6 +42,8 @@ class AppRegistry(models.Model):
                                   'Quality Checks', readonly=True)
     stop_line_ids = fields.One2many('stop.line', 'registry_id',
                                     'Production Stops', readonly=True)
+    operator_ids = fields.One2many('operator.line', 'registry_id',
+                                    'Operators', readonly=True)
     qty = fields.Float('Quantity', readonly=True)
     lot_id = fields.Many2one('stock.production.lot', 'Lot', readonly=True)
 
@@ -310,6 +312,26 @@ class StopLines(models.Model):
 
     registry_id = fields.Many2one('app.registry', 'Registry', readonly=True)
     reason_id = fields.Many2one('stop.reason', 'Reason')
+    stop_start = fields.Datetime('Stop Start', readonly=False)
+    stop_end = fields.Datetime('Stop End', readonly=False)
+    stop_duration = fields.Float('Stop Duration',
+                                 compute="_get_duration")
+
+    @api.multi
+    @api.depends('stop_start', 'stop_end')
+    def _get_duration(self):
+        for r in self:
+            if r.stop_start and r.stop_end:
+                stop_start = fields.Datetime.from_string(r.stop_start)
+                stop_end = fields.Datetime.from_string(r.stop_end)
+                td = stop_end - stop_start
+                r.stop_duration = td.total_seconds() / 3600
+
+class OperatorLines(models.Model):
+    _name = 'operator.line'
+
+    registry_id = fields.Many2one('app.registry', 'Registry', readonly=True)
+    operator_id = fields.Many2one('hr.employee', 'Operator')
     stop_start = fields.Datetime('Stop Start', readonly=False)
     stop_end = fields.Datetime('Stop End', readonly=False)
     stop_duration = fields.Float('Stop Duration',

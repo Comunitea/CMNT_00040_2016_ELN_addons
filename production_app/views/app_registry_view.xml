@@ -81,6 +81,18 @@
                             </field>
                         </group>
                     </page>
+                    <page string="Operators">
+                        <group string="Operators">
+                            <field name="operator_ids" nolabel="1">
+                                <tree>
+                                    <field name="operator_id"/>
+                                    <field name="stop_start"/>
+                                    <field name="stop_end"/>
+                                    <field name="stop_duration" widget="float_time"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </page>
                 </notebook>
             </sheet>
             </form>

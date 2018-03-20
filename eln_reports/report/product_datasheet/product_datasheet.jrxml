@@ -784,7 +784,7 @@
 									<bottomPen lineWidth="0.5" lineStyle="Solid"/>
 									<rightPen lineWidth="1.0" lineStyle="Solid"/>
 								</box>
-								<textField isStretchWithOverflow="true" pattern="#,##0.0" isBlankWhenNull="true">
+								<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
 									<reportElement positionType="Float" x="0" y="0" width="40" height="13"/>
 									<box>
 										<topPen lineWidth="0.0" lineStyle="Solid"/>

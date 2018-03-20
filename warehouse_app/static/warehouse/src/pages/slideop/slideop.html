@@ -49,7 +49,7 @@
          
           <ion-item [hidden] = "package_qty">
             <ion-label color="primary">Qty</ion-label>
-            <button ion-button outline item-end (click)="inputQty()"  class='buttonOp_ok'> {{ op.total_qty }} {{ op.product_uom && op.product_uom[1]}}</button>
+            <button ion-button outline item-end (click)="inputQty()"  class='buttonOp_ok'> {{ op.qty_done }} {{ op.product_uom && op.product_uom[1]}}</button>
           </ion-item>
           <ion-item>
               <ion-label color="primary" >De</ion-label>
@@ -85,9 +85,12 @@
             [ngClass]="{'buttonOp_ok': waiting != 5, 'buttonOp': waiting == 5}">
               {{op.location_dest_id && op.location_dest_id[1]}}
             </button>
+            <ion-toggle [(ngModel)]="op.location_dest_id_need_check"></ion-toggle>
           </ion-item>
         </ion-item-group>
-
+        <ion-item>
+          Estado: {{state}} Espero {{waiting}}
+        </ion-item>
       </ion-list>
   
       
@@ -100,7 +103,7 @@
            <ion-input #scan [formControl]="barcodeForm.controls['scan']" type="text" name="scan" placeholder = "Scan"  autofocus></ion-input>
           
            <button ion-button icon-only item-end clear (click)="submitScan()">
-             <ion-icon name="barcode"></ion-icon>
+             <ion-icon name="barcode"></ion-icon>                  
            </button>
          </ion-item>   
        </form>
