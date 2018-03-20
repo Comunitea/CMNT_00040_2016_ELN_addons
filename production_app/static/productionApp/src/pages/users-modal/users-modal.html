@@ -1,23 +1,26 @@
 <ion-header>
     <ion-navbar>
-        <ion-title>Usuarios</ion-title>
+        <ion-title>Operarios</ion-title>
+        <ion-buttons end>
+            <button ion-button (click)="closeModal()">
+                Atrás
+            </button>
+    </ion-buttons>
     </ion-navbar>
 </ion-header>
 <ion-content padding>
-    <button ion-button full (click)="closeModal()">
-        Ok
-    </button>  
+    <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
     <ion-list > 
-        <ion-item-sliding *ngFor="let user of prodData.users">        
+        <ion-item-sliding *ngFor="let operator of items">        
             <ion-item >
-            {{user.name}}
+            {{operator.name}}
             </ion-item>
             <ion-item-options side="left">
-                <button ion-button (click)="logIn(user)">
+                <button ion-button (click)="logIn(operator)">
                     <ion-icon name="log-in"></ion-icon>
                     Log In
                 </button>  
-                <button ion-button color="danger" (click)="setActive(user)">
+                <button ion-button color="danger" (click)="setActive(operator)">
                     <ion-icon name="star"></ion-icon>
                     Activar
                 </button>

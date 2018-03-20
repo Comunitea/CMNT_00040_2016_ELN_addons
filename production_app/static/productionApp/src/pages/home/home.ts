@@ -102,7 +102,7 @@ export class HomePage {
                             user.id = value[0].id;
                             user.name = value[0].name;
                             user.login = value[0].login;
-                            self.prodData.getUsers(user);
+                            self.prodData.getOperators();
                             self.prodData.getStopReasons();
                             //todo debería ser una promesa?
                             // me voy para página de producción

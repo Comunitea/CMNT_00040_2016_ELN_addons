@@ -13,9 +13,10 @@
     </ion-navbar>
 </ion-header>
 <ion-content padding>
+    <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
     <ion-list>
-        <ion-item [hidden]='workcenters.length>0' color ="danger"> No hay Líneas</ion-item>
-        <button ion-item *ngFor="let workcenter of workcenters" (click)="workcenterSelected(workcenter)">
+        <!-- <ion-item [hidden]='items.length>0' color ="danger"> No hay Líneas</ion-item> -->
+        <button ion-item *ngFor="let workcenter of items" (click)="workcenterSelected(workcenter)">
             <ion-icon name="send"></ion-icon>
             {{ workcenter.name }}
         </button>  

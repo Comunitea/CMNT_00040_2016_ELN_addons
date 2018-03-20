@@ -9,8 +9,7 @@ import { OdooProvider } from '../odoo/odoo';
 */
 @Injectable()
 export class ProductionProvider {
-    users: any;
-    active_user: Object;
+    operators: any;
     workcenter: Object = {};
     registry_id;
     production;
@@ -47,14 +46,13 @@ export class ProductionProvider {
         this.organizative_reasons = [];
     }
 
-    //Gets Users from odoo, maybe a promise?
-    getUsers(active_user){
-        this.active_user = active_user;
-        this.odooCon.searchRead('res.users', [], ['id', 'name', 'login', 'image']).then( (res) => {
-            this.users = res;
+    //Gets operators from odoo, maybe a promise?
+    getOperators(){
+        this.odooCon.searchRead('hr.employee', [], ['id', 'name']).then( (res) => {
+            this.operators = res;
         })
         .catch( (err) => {
-            console.log("GET USERS deberia ser una promesa, y devolver error, controlarlo en la página y lanzar excepción")
+            console.log("GET operators deberia ser una promesa, y devolver error, controlarlo en la página y lanzar excepción")
         });
     }
     // Load Quality checks in each type list
@@ -73,7 +71,6 @@ export class ProductionProvider {
         console.log("TECHNICAL REASONS");
         console.log(this.technical_reasons);
     }
-    //Gets Users from odoo, maybe a promise?
     getStopReasons(){
         this.odooCon.searchRead('stop.reason', [], ['id', 'name', 'reason_type']).then( (res) => {
             this.loadReasons(res)
@@ -211,7 +208,7 @@ export class ProductionProvider {
     }
     stopProduction(reason_id) {
         this.state = 'stoped'
-        this.stop_reason_id = reason_is
+        this.stop_reason_id = reason_id
         this.setStepAsync('stop_production');
 
     }
