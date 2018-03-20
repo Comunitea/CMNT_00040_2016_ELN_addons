@@ -25,7 +25,7 @@
         </ion-segment>
         <ion-segment *ngIf="picking_types">
           <ion-segment-button value="All" (click)="filter_picks(0)"><ion-icon name="apps"></ion-icon></ion-segment-button>
-          <ion-segment-button *ngFor="let pick_type of picking_types" value="{{ pick_type.name}}" (click)="filter_picks(pick_type.id)">{{ pick_type.short_name || pick_type.name }}</ion-segment-button>
+          <ion-segment-button *ngFor="let pick_type of picking_types" value="{{ pick_type && pick_type['name']}}" (click)="filter_picks(pick_type && pick_type.id)">{{ pick_type && pick_type.short_name || pick_type && pick_type.name }}</ion-segment-button>
         </ion-segment>
 </div>
 
@@ -43,15 +43,15 @@
 
         <ion-item text-wrap *ngFor="let pick of picks; trackBy: index;" class="all0" >
             <ion-label></ion-label>
-            <button ion-button item-start class="buttonProduct" (click)="showtreeop_ids(pick.id)" [ngClass]="{'pìckdone': pick.state=='done'}">
-              {{pick.name}} <!--({{pick.state_2}} {{pick.picking_type_id_name}})-->
+            <button ion-button item-start class="buttonProduct w75" (click)="showtreeop_ids(pick.id)" [ngClass]="{'pìckdone': pick.state=='done'}">
+              {{pick.name}} <({{pick.state}} {{pick.picking_type_id_name}})>
             </button>  
         
             <button ion-button icon-only item-end  (click)="doAsign(pick.id)" [hidden]="pick.user_id">Asignar
-                <!--ion-icon name="person-add" color="secondary" ></ion-icon-->
+                
             </button>  
             <button ion-button icon-only item-end  (click)="doDeAsign(pick.id)" [hidden]="!pick.user_id">Liberar
-                <!--ion-icon name="people" color="danger" ></ion-icon-->
+                
             </button>
             <button ion-button icon-only item-end  (click)="doTransfer(pick.id)" [hidden]='!pick.allow_transfer'>Validar
             </button>

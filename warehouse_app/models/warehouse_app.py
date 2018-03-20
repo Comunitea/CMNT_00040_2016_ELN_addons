@@ -4,7 +4,7 @@
 
 
 from openerp import api, models, fields
-import openerp.addons.decimal_precision as dp
+
 
 from openerp.exceptions import ValidationError
 
@@ -25,12 +25,12 @@ FIELDS = {'stock.quant.package': ['id', 'name', 'lot_id', 'lot_id_name', 'locati
           'product.product': ['id', 'name', 'ean13', 'default_code', 'default_stock_location_id', 'default_stock_location_id_name', 'track_all']}
 
 
-INFO_FIELDS = {'stock.quant.package': ['id', 'name', 'lot_id', 'location_id','package_qty', 'multi', 'product_id', 'uom', 'quant_ids', 'children_ids'],
+INFO_FIELDS = {'stock.quant.package': ['id', 'name', 'lot_id', 'location_id','package_qty', 'multi', 'product_id', 'uom_id', 'quant_ids', 'children_ids'],
               'stock.production.lot': ['id', 'name', 'product_id', 'use_date', 'removal_date', 'qty_available', 'quant_ids', 'display_name', 'uom_id'],
               'stock.location': ['id', 'name', 'usage', 'loc_barcode'],
               'product.product': ['id', 'display_name', 'name', 'ean13', 'default_code', 'default_stock_location_id', 'track_all', 'uom_id', 'qty_available', 'quant_ids']}
 
-INFO_FIELDS_M2O = {'stock.quant.package': ['id', 'name', 'location_id', 'package_qty', 'multi', 'product_id', 'uom'],
+INFO_FIELDS_M2O = {'stock.quant.package': ['id', 'name', 'location_id', 'package_qty', 'multi', 'product_id', 'uom_id'],
                   'stock.production.lot': ['id', 'name', 'use_date', 'location_id', 'qty_available', 'display_name', 'uom_id'],
                   'stock.location': ['id', 'name', 'usage', 'loc_barcode'],
                   'stock.quant':['id', 'display_name', 'lot_id', 'location_id', 'qty', 'reservation_id', 'in_date'],
@@ -78,7 +78,7 @@ class WarehouseApp (models.Model):
 
     def get_m2o_vals(self, object_id, field):
          print "-----------%s"%object_id
-         import ipdb; ipdb.set_trace()
+         #import ipdb; ipdb.set_trace()
          if object_id[field]:
              sub_values = {}
              submodel = object_id.fields_get(field)[field]['relation']

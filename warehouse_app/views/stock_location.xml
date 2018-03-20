@@ -29,7 +29,8 @@
                     <field name="picking_order"/>
                 </field>
                 <field name="usage" position="after">
-                    <field name="rotation"/>
+                    <field name="rotation"/>need_check
+                    <field name="need_check"/>
                 </field>
 
             </field>

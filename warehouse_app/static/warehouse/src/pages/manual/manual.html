@@ -25,32 +25,32 @@
         <ion-item-group> 
           <ion-item no-lines>
             <ion-label color="odoo" item-start class="bold" onclick="set_origin()">
-              ORIGEN
+              ORIGEN {{state}} {{tracking }}
             </ion-label>
             <ion-icon name="repeat" item-end color="danger" (click)="reset_form()"></ion-icon>
           </ion-item>
       
-          <ion-item [hidden] = "!restrict_package_id">
-            <button ion-button outline item-end>{{restrict_package_id_name}}</button>
-            <ion-toggle [(ngModel)]="package_qty"  (ionChange)="change_package_qty()" item-start></ion-toggle>
+          <ion-item [hidden] = "!move.restrict_package_id">
+            <button ion-button outline item-end>{{move.restrict_package_id && move.restrict_package_id.name}}</button>
+            <ion-toggle [(ngModel)]="move.package_qty"  (ionChange)="change_package_qty()" item-start></ion-toggle>
           </ion-item>
           
-          <ion-item>
+          <ion-item [hidden] = "!move.restrict_lot_id">
               <ion-label color="primary" >Lote</ion-label>
-              <button ion-button outline item-end>{{restrict_lot_id_name}}</button>
+              <button ion-button outline item-end>{{move.restrict_lot_id && move.restrict_lot_id.name}}</button>
           </ion-item>
-          <ion-item>
+          <ion-item >
               <ion-label color="primary" >Articulo</ion-label>
-              <button ion-button outline item-end>{{product_id_name}}</button>
+              <button ion-button outline item-end [hidden] = "!move.product_id">{{move.product_id && move.product_id.name}}</button>
           </ion-item>
-          <ion-item [hidden] = "package_qty">
+          <ion-item [hidden] = "state==0">
             <ion-label color="primary">Qty</ion-label>
             <!--ion-input [(ngModel)]='product_qty' type="number" item-end style="align-self: flex-end; max-width: 50%;"></ion-input-->
-            <button ion-button outline item-end (click)="inputQty()">{{ product_qty }} {{ uom }}</button>
+            <button ion-button outline item-end (click)="inputQty()">{{ move.product_qty }} {{ move.uom_id && move.uom_id.name}}</button>
           </ion-item>
           <ion-item>
               <ion-label color="primary" >De</ion-label>
-              <button ion-button outline item-end>{{location_id_name}}</button>
+              <button ion-button outline item-end>{{move.location_id && move.location_id.name || "Ubicación Orig."}}</button>
           </ion-item>
         </ion-item-group>
 
@@ -60,14 +60,14 @@
               DESTINO
             </ion-label>
           </ion-item>
-          <ion-item>
-            <ion-icon name="log-out" [hidden] = "result_package_id == 0" item-start color="danger" (click)="no_result_package()"></ion-icon>
-            <ion-icon name="log-in" [hidden] = "result_package_id != 0" item-start color="secondary" (click)="no_result_package(false)"></ion-icon>
-            <button ion-button outline item-end>{{result_package_id_name}}</button>
+          <ion-item >
+            <ion-icon name="log-out" [hidden] = "!move.result_package_id" item-start color="danger" (click)="no_result_package()"></ion-icon>
+            <ion-icon name="log-in" [hidden] = "move.result_package_id" item-start color="secondary" (click)="no_result_package(false)"></ion-icon>
+            <button ion-button outline item-end [hidden] = "!move.result_package_id">{{move.result_package_id && move.result_package_id.name}}</button>
           </ion-item>
           <ion-item>
             <ion-label color="primary">A</ion-label>
-            <button ion-button outline item-end>{{location_dest_id_name}}</button>
+            <button ion-button outline item-end>{{move.location_dest_id && move.location_dest_id.name || "Ubicación Dest."}}</button>
           </ion-item>
         </ion-item-group>
       </ion-list>

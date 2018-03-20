@@ -6,19 +6,18 @@
 -->
 <ion-header>
   
-  
   <ion-navbar color="primary">
       <button ion-button icon-only menuToggle>
         <ion-icon name="menu"></ion-icon>
       </button>
-      <ion-title>{{ pick.name}} [{{ pick.done_ops }} / {{pick.all_ops}}]</ion-title>
+      <ion-title>{{ pick['name']}} [{{ pick['remaining_ops'] }} / {{pick['pack_operation_count']}}]</ion-title>
       <ion-buttons end>
         <button ion-button (click)="goHome()">
           <ion-icon name="home"></ion-icon>
         </button>
       </ion-buttons>
   </ion-navbar>        
-  <!--ion-item no-lines class='noPadding'>   
+  <!--ion-item no-lines class='noPadding'>   show_in_PDA
     <ion-label class='noPadding' color="primary"> {{ pick.picking_type_id_name}} </ion-label>
   </ion-item-->
   
@@ -26,7 +25,7 @@
 
 <ion-content padding>
   
-    <div *ngIf="!items" style="text-align: center" no-lines >    
+    <div *ngIf="!pick" style="text-align: center" no-lines >    
       <ion-spinner name="circles"></ion-spinner><br>
       <b>Cargando...</b>
     </div>
@@ -34,31 +33,41 @@
   <ion-list class="noPadding">
     <ion-item-group>
       
-      <ion-item class='all0'>   
+      <ion-item no-lines class='all0'>   
         <ion-label></ion-label>
-        <button ion-button item-start (click)="seeAll()">{{whatOps}}</button>
-        <button ion-button item-end (click)="doTransfer(pick.id)" [hidden]='pick.state == done || pick.done_ops == 0' color='odoo'>Validar</button>
-        <button ion-button item-end (click)="doAssign(false)" [hidden]='pick.user_id'>Liberar</button>
-        <button ion-button item-end (click)="doAssign(pick.id)" [hidden]='!pick.user_id'>Asignarme</button>
+        <ion-badge item-end color='odoo' (click)="seeAll()">{{whatOps}}</ion-badge>
+        <ion-badge item-end (click)="doTransfer(pick.id)" [hidden]='pick.state == "done" || pick.done_ops == 0' color='odoo'>Validar</ion-badge>
+        <!--button ion-button item-end (click)="doAssign(false)" [hidden]='pick.user_id'>Liberar</button-->
+        <ion-badge item-end (click)="doAssign(pick.id)" [hidden]='!pick.user_id' color='odoo'>Asignarme</ion-badge>
         <!--button ion-button item-end (click)="refresh(pick.id)">Refrescar</button-->
       </ion-item>
       <ion-item no-lines class='all0'>   
-        <ion-badge color="primary">{{pick.state}} </ion-badge>
-        <ion-label color="primary">{{pick.location_id_name}} >> {{ pick.location_dest_id_name}}</ion-label>          
+        <ion-label></ion-label>
+        
+        <ion-badge item-start color="odoo" (click)="open('stock.location', pick['location_id'] && pick['location_id'].id)">
+          {{pick['location_id'] && pick.location_id.name}}
+        </ion-badge>       
+        {{aux.location_badge}}
+        <ion-badge item-start color="odoo" (click)="open('stock.location', pick['location_dest_id'] && pick['location_dest_id'].id)">
+          {{ pick['location_dest_id'] && pick.location_dest_id.name}}
+        </ion-badge>          
+        <ion-badge item-start color="primary">{{pick['state']}} </ion-badge>
+
         </ion-item>
-      </ion-item-group>        
-    <ion-item-group *ngFor="let item of items; trackBy: index;">
+      </ion-item-group>    
+    
+      <ion-item-group *ngFor="let item of pick.pack_operation_ids; trackBy: index;">
       <ion-item-group [hidden] = "whatOps=='Pendientes' && item.pda_done">
         <ion-item no-lines class="all0">
           <ion-label></ion-label>
-          <button ion-button item-end (click)="openOp(item.id, item.index)" class='buttonProduct w100'> {{item.product_id[1] || ''}}</button>
+          <button ion-button item-end (click)="openOp(item.id, item.index)" class='buttonProduct w100'> {{item.pda_product_id.name || ''}}</button>
         </ion-item>
         <ion-item class="all0">
           <ion-label></ion-label>
-          <ion-badge item-end class="ion-info">
-              {{item.package_id[0] && item['package_id'][1] || item.lot_id[0] && item['lot_id'][1]}}
+          <ion-badge item-end class="ion-info" [hidden] = "!item.package_id && !item.lot_id">
+              {{item.package_id && item['package_id']['name'] || item.lot_id && item['lot_id'][1]}}
           </ion-badge> 
-          <ion-badge item-end class="ion-info" color='danger'[ngClass]="{'badge_0': item.pda_done}">{{ item.product_qty - item.qty_done }} {{item.product_uom[1]}}</ion-badge> 
+          <ion-badge item-end class="ion-info" color='danger'[ngClass]="{'badge_0': item.pda_done}">{{ item.product_qty - item.qty_done }} {{item.product_uom && item.product_uom.name}}</ion-badge> 
         </ion-item>
       </ion-item-group>
     </ion-item-group>
@@ -67,7 +76,7 @@
 
   </ion-content>
   <ion-footer>
-    <form [formGroup]="treeForm" class ="alignBottom">
+      <form [formGroup]="treeForm" class ="alignBottom">
      <ion-item  >
         <ion-label color="odoo" item-start>Scan: </ion-label>
         <ion-input #scanPackage [formControl]="treeForm.controls['scan']" type="text" name="scan" placeholder = "Scan"  autofocus></ion-input>

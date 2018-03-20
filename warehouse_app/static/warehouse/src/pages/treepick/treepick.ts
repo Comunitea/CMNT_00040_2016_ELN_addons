@@ -62,7 +62,8 @@ export class TreepickPage {
       } else {
           var con = val;
           var domain = [];
-          domain.push(['pack_operation_ids', '!=', '[]'])
+          domain.push(['pack_operation_exist', '!=', false])
+          
           var odoo = new OdooApi(con.url, con.db);
           odoo.login(con.username, con.password).then(
             function (uid) {
@@ -70,6 +71,7 @@ export class TreepickPage {
               if (self.domain_state!=[]) {domain.push(self.domain_state);}
               if (self.domain_types!=[]) {domain.push(self.domain_types);}
               if (self.auxProvider.filter_user=='assigned') {domain.push(['user_id', '=', uid]);} else {domain.push(['user_id','=', false]);}
+              //domain = [self.domain_types]
               console.log(domain)
               odoo.search_read('stock.picking', domain, self.fields, 0, 0).then(
                 function (value) {
@@ -95,7 +97,7 @@ export class TreepickPage {
       
 
   }        
-get_picking_types(){
+get_picking_types2(){
   this.storage.get('stock.picking.type').then((val) => {
     this.picking_types = [];
     for (var key in val) {
@@ -103,6 +105,44 @@ get_picking_types(){
     }
   })
 }
+get_picking_types(){
+  var self = this
+  this.storage.get('CONEXION').then((val) => {
+    if (val == null) {
+        self.navCtrl.setRoot(HomePage, {borrar: true, login: null});
+    } else {
+        var con = val;
+        var odoo = new OdooApi(con.url, con.db);
+        odoo.login(con.username, con.password).then(
+          function (uid) {
+            odoo.search_read('stock.picking.type', [['show_in_pda', '=', true]], ['id', 'name', 'short_name'], 0, 0).then(
+              function (value) {
+                self.picking_types = [];
+                for (var key in value) {
+                  self.picking_types.push(value[key]);
+                }
+                self.storage.set('stock.picking.type', value);
+              },
+              function () {
+                self.cargar = false;
+                self.presentAlert('Falla!', 'Imposible conectarse');
+              }
+                        );
+                    },
+                    function () {
+                        self.cargar = false;
+                        self.presentAlert('Falla!', 'Imposible conectarse');
+                    }
+                );
+                self.cargar = false;
+            }
+        });
+    
+
+}  
+
+
+
 
 filter_picks(picking_type_id=0){
 
@@ -239,3 +279,4 @@ doTransfer(id){
   
     }
 }
+

@@ -3,44 +3,11 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 
-from openerp import api, models, fields
+from openerp import api, models, fields, _
 import openerp.addons.decimal_precision as dp
 
 from openerp.exceptions import ValidationError
 
-class StockQuantPackage(models.Model):
-    _inherit = 'stock.quant.package'
-
-    @api.multi
-    def get_package_info(self):
-        for package in self:
-            if package.children_ids:
-                package.multi = True
-                package.product_id = False
-                package.package_qty = 0.00
-                lot_id = False
-            else:
-                package.multi = False
-                package.package_qty = sum(quant.qty for quant in package.quant_ids)
-                package.product_id = package.quant_ids and package.quant_ids[0].product_id or False
-                package.lot_id = package.quant_ids and package.quant_ids[0].lot_id or False
-
-    package_qty = fields.Float('Quantity',
-                               digits_compute=dp.get_precision('Product Unit of Measure'),
-                               compute=get_package_info, multi=True)
-    product_id = fields.Many2one('product.product', 'Product', compute=get_package_info, multi=True)
-    lot_id = fields.Many2one('stock.production.lot', 'Lot', compute=get_package_info, multi=True)
-    multi = fields.Boolean('Multi', compute=get_package_info, multi=True)
-    product_id_name = fields.Char(related='product_id.display_name')
-
-    @api.model
-    def check_inter(self, old, new):
-        return (old.product_id == new.product_id) and new.package_qty > 0
-
-    @api.model
-    def name_to_id(self, name):
-        package = self.search([('name','=',name)], limit=1)
-        return package or False
 
 class StockPackOperation (models.Model):
 
@@ -55,20 +22,19 @@ class StockPackOperation (models.Model):
             op.total_qty = op.product_id and op.product_qty or op.package_id and op.package_id.package_qty
             op.real_lot_id = op.lot_id or op.package_id.lot_id
 
-    #package_id_name = fields.Char(related='package_id.name')
+
     location_dest_id_barcode =  fields.Char(related='location_dest_id.loc_barcode')
     location_id_barcode = fields.Char(related="location_id.loc_barcode")
-    #result_package_id_name = fields.Char(related='result_package_id.name')
+    location_dest_id_need_check = fields.Boolean(related="location_dest_id.need_check")
+    location_id_need_check = fields.Boolean(related="location_id.need_check")
+    picking_order = fields.Integer("Picking order")
     pda_product_id = fields.Many2one('product.product', compute = get_app_names, multi=True)
     product_uom = fields.Many2one('product.uom', compute = get_app_names, multi=True)
-    pda_done = fields.Boolean ('Pda done', help='True if done from PDA')
-    pda_checked = fields.Boolean('Pda checked', help='True if visited in PDA')
+    pda_done = fields.Boolean ('Pda done', help='True if done from PDA', default=False, copy=False)
+    pda_checked = fields.Boolean('Pda checked', help='True if visited in PDA', default=False, copy=False)
     total_qty = fields.Float('Real qty', compute=get_app_names, multi=True)
     real_lot_id = fields.Many2one('stock.production.lot', 'Real lot', compute=get_app_names, multi=True)
-    #lot_id_name = fields.Char(related='real_lot_id.name')
-    #orig_package_id = fields.Many2one('stock.quant.package', 'Orig. package')
-    #orig_lot_id = fields.Many2one('stock.production.lot', 'Orig. lot')
-    #orig_qty = fields.Float('Orig qty')
+
 
     def change_package_id_from_pda(self, id, new_package_id):
         return self.browse([id]).change_package_id(new_package_id)
@@ -88,10 +54,12 @@ class StockPackOperation (models.Model):
         if new_package.qty == self.product_qty:
             vals = {'package_id': new_package.id,
                     'location_id': new_package.location_id and new_package.location_id.id,
+                    'qty_done': 0.00,
                     'lot_id': new_package.lot_id and new_package.lot_id.id,
                     'product_id': False}
         else:
             vals = {'package_id': new_package.id,
+                    'qty_done': 0.00,
                     'location_id': new_package.location_id  and new_package.location_id.id,
                     'lot_id': new_package.lot_id and new_package.lot_id.id,
                     'product_id': new_package.product_id.id,
@@ -137,18 +105,95 @@ class StockPackOperation (models.Model):
         id = vals.get('id', False)
         do_id = vals.get('do_id', True)
         op = self.browse([id])
-        qty = vals.get('qty', op.qty_done or 0)
-
+        qty = vals.get('qty_done', op.qty_done or 0)
+        import ipdb; ipdb.set_trace()
 
         if not op:
             return False
         if do_id:
-            qty_done = qty or op.product_qty
+            qty_done = float(qty) or op.product_qty
         else:
-            qty_done = 0.00
+            qty_done = 0.0
+
+        next_id = op.return_next_op(do_id)
         op.write({'pda_done': do_id,
                  'qty_done': qty_done})
-        return True
+
+        if do_id:
+            print "Next op:%s" % next_id
+            quants = op.return_quants_to_select(id, op.product_qty - qty_done)
+            new_op = []
+            for quant in quants:
+                new_op += [op.create_new_op_from_pda(quant, op.get_result_package())]
+
+            if new_op:
+                return new_op[0]
+
+        return next_id
+
+    def get_result_package(self):
+        #POara heredar si es necesario
+        if self.result_package_id:
+            return self.result_package_id.create({}).id
+        else:
+            return False
+
+
+    def return_quants_to_select(self, id = False, qty=0):
+        quants = []
+        move_id = self.linked_move_operation_ids and self.linked_move_operation_ids[0].move_id
+        if move_id:
+            quants = self.env['stock.quant'].quants_get_prefered_domain(move_id.location_id, move_id.product_id,
+                                                                        qty,
+                                                                        prefered_domain_list=[[('reservation_id', '=', False)]])
+        return quants
+
+    @api.model
+    def create_new_op_from_pda(self, quant_tupple, result_package_id = False):
+        import ipdb; ipdb.set_trace()
+
+        quant = quant_tupple[0]
+        product_qty = quant_tupple[1]
+        if product_qty==0:
+            product_qty = self.product_qty - self.qty_done
+
+        if quant.package_id and product_qty == quant.package_qty:
+            new_op = self.copy({
+                'product_qty': product_qty,
+                'product_id': False,
+                'package_id': quant.package_id and quant.package_id.id,
+                'lot_id': quant.package_id.lot_id and quant.package_id.lot_id.id,
+                'location_id': quant.package_id.location_id and quant.package_id.location_id.id})
+        else:
+            new_op = self.copy({
+                'product_qty': product_qty,
+                'product_id': quant.product_id.id,
+                'package_id': quant.package_id and quant.package_id.id,
+                'result_package_id': result_package_id,
+                'lot_id': quant.lot_id and quant.lot_id.id,
+                'location_id': quant.location_id and quant.location_id.id})
+
+        move_id = self.linked_move_operation_ids and self.linked_move_operation_ids[0].move_id
+        new_vals = {'move_id': move_id.id,
+                   'operation_id' : new_op.id}
+        new_link = self.linked_move_operation_ids.create(new_vals)
+        self.env['stock.quant'].quants_reserve([quant_tupple], move_id, new_link)
+        return new_op.id
+
+    @api.model
+    def return_next_op(self, pda_done=False):
+        domain=[('picking_id', '=', self.picking_id.id), ('pda_done', '=', not pda_done)]
+        ids = self.env['stock.pack.operation'].search_read(domain, ['id'])
+        next_id = False
+        for id in ids:
+            if next_id:
+                return id['id']
+            print "comparo %s con %s"%(self.id, id['id'])
+            if id['id'] == self.id:
+                next_id = True
+                print "Nexr op:%s"%next_id
+        return 0
+
 
     def get_new_pack_values(self):
         return {'location_id': self.location_dest_id.id}
