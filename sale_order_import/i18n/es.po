@@ -6,15 +6,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-11-05 19:07+0000\n"
-"PO-Revision-Date: 2017-11-05 20:17+0100\n"
+"POT-Creation-Date: 2018-02-25 23:39+0000\n"
+"PO-Revision-Date: 2018-02-26 00:41+0100\n"
 "Last-Translator: Pedro <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: es_ES\n"
-"X-Generator: Poedit 2.0\n"
+"Plural-Forms: \n"
+"Language: es\n"
+"X-Generator: Poedit 2.0.6\n"
 
 #. module: sale_order_import
 #: field:sale.order.import,import_actions:0
@@ -58,13 +59,13 @@ msgid "Created on"
 msgstr "Created on"
 
 #. module: sale_order_import
-#: code:addons/sale_order_import/sale_order_import.py:223
+#: code:addons/sale_order_import/sale_order_import.py:224
 #, python-format
 msgid "Created sale order line with origin '%s' and product '%s'."
 msgstr "Creada línea de venta con origen '%s' y producto '%s'."
 
 #. module: sale_order_import
-#: code:addons/sale_order_import/sale_order_import.py:161
+#: code:addons/sale_order_import/sale_order_import.py:167
 #, python-format
 msgid "Created sale order with origin '%s'."
 msgstr "Creado pedido de venta con origen '%s'."
@@ -81,9 +82,9 @@ msgid "Error processing sale with origin '%s': customer with ref '%s' not found!
 msgstr "Error procesando venta con origen '%s': cliente con ref '%s' no encontrado."
 
 #. module: sale_order_import
-#: code:addons/sale_order_import/sale_order_import.py:127
+#: code:addons/sale_order_import/sale_order_import.py:133
 #, python-format
-msgid "Error processing sale with origin '%s': customer with ref '%s' whithout pricelist!"
+msgid "Error processing sale with origin '%s': customer with ref '%s' without pricelist!"
 msgstr "Error procesando venta con origen '%s': cliente con ref '%s' sin tarifa de precios."
 
 #. module: sale_order_import
@@ -93,13 +94,13 @@ msgid "Error processing sale with origin '%s': document is already in the system
 msgstr "Error procesando venta con origen '%s': el documento ya está en el sistema."
 
 #. module: sale_order_import
-#: code:addons/sale_order_import/sale_order_import.py:173
+#: code:addons/sale_order_import/sale_order_import.py:178
 #, python-format
 msgid "Error processing sale with origin '%s': product with ref '%s' found multiple times!"
 msgstr "Error procesando venta con origen '%s': producto con ref '%s' se ha encontrado varias veces."
 
 #. module: sale_order_import
-#: code:addons/sale_order_import/sale_order_import.py:167
+#: code:addons/sale_order_import/sale_order_import.py:172
 #, python-format
 msgid "Error processing sale with origin '%s': product with ref '%s' not found!"
 msgstr "Error procesando venta con origen '%s': producto con ref '%s' no encontrado."
@@ -117,7 +118,7 @@ msgid "Error: customer with ref '%s' not found!"
 msgstr "Error: cliente con ref '%s' no encontrado."
 
 #. module: sale_order_import
-#: code:addons/sale_order_import/sale_order_import.py:126
+#: code:addons/sale_order_import/sale_order_import.py:132
 #, python-format
 msgid "Error: customer with ref '%s' without pricelist!"
 msgstr "Error: cliente con ref '%s' sin tarifa de precios."
@@ -129,13 +130,13 @@ msgid "Error: document '%s' is already in the system!"
 msgstr "Error: documento '%s' ya está en el sistema."
 
 #. module: sale_order_import
-#: code:addons/sale_order_import/sale_order_import.py:172
+#: code:addons/sale_order_import/sale_order_import.py:177
 #, python-format
 msgid "Error: product with ref '%s' found multiple times!"
 msgstr "Error: producto con ref '%s' encontrado varias veces."
 
 #. module: sale_order_import
-#: code:addons/sale_order_import/sale_order_import.py:166
+#: code:addons/sale_order_import/sale_order_import.py:171
 #, python-format
 msgid "Error: product with ref '%s' not found!"
 msgstr "Error: producto con ref '%s' no encontrado."

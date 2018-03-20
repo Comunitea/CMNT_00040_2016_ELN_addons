@@ -18,21 +18,20 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import orm, fields
-import re
 
-class product_product(orm.Model):
+from openerp import models, api
+
+
+class ProductProduct(models.Model):
     _inherit = 'product.product'
 
-    def name_search(self, cr, user, name='', args=None, operator='ilike', context=None, limit=100):
-        result = super(product_product, self).name_search(cr, user, name=name, args=args, operator=operator, context=context, limit=limit)
-        prodpart = self.pool.get('partner.product')
-        if name:
-            if context.get('partner_id', False):
-                prodids = prodpart.search(cr, user, [('partner_id', '=', context['partner_id']), ('name', '=', name)], limit=limit, context=context)
-                ids = []
-                if prodids:
-                    ids = [x.product_id.id for x in prodpart.browse(cr, user, prodids)]
-                if ids:
-                    result = self.name_get(cr, user, ids, context=context)
-        return result
+    @api.model
+    def name_search(self, name='', args=None, operator='ilike', limit=80):
+        res = super(ProductProduct, self).name_search(name=name, args=args, operator=operator, limit=limit)
+        prodpart = self.env['partner.product']
+        if name and self._context.get('partner_id', False):
+            prodids = prodpart.search([('partner_id', '=', self._context.get('partner_id')), ('name', '=', name)], limit=limit)
+            if prodids:
+                products = prodids.mapped('product_id')
+                res = products.name_get()
+        return res
