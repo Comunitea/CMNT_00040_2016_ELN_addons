@@ -86,8 +86,8 @@
                             <field name="operator_ids" nolabel="1">
                                 <tree>
                                     <field name="operator_id"/>
-                                    <field name="stop_start"/>
-                                    <field name="stop_end"/>
+                                    <field name="date_in"/>
+                                    <field name="date_out"/>
                                     <field name="stop_duration" widget="float_time"/>
                                 </tree>
                             </field>

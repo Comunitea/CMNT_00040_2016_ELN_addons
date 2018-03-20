@@ -43,7 +43,7 @@ class AppRegistry(models.Model):
     stop_line_ids = fields.One2many('stop.line', 'registry_id',
                                     'Production Stops', readonly=True)
     operator_ids = fields.One2many('operator.line', 'registry_id',
-                                    'Operators', readonly=True)
+                                   'Operators', readonly=True)
     qty = fields.Float('Quantity', readonly=True)
     lot_id = fields.Many2one('stock.production.lot', 'Lot', readonly=True)
 
@@ -296,6 +296,42 @@ class AppRegistry(models.Model):
         res = self.env['stop.line'].create(vals)
         return res
 
+    @api.multi
+    def create_operator_line(self, operator_id):
+        self.ensure_one()
+        vals = {
+            'registry_id': self.id,
+            'operator_id': operator_id,
+            'date_in': fields.Datetime.now()
+        }
+        res = self.env['operator.line'].create(vals)
+        return res
+
+    @api.model
+    def log_in_operator(self, values):
+        res = {}
+        reg = False
+        if values.get('registry_id', False):
+            reg = self.browse(values['registry_id'])
+
+        if reg and values.get('operator_id', False):
+            op_obj = reg.create_operator_line(values['operator_id'])
+            res = {'operator_line_id': op_obj.id}
+        return res
+
+    @api.model
+    def log_out_operator(self, values):
+        res = {}
+        reg = False
+        if values.get('registry_id', False):
+            reg = self.browse(values['registry_id'])
+
+        operator_line_id = values.get('operator_line_id', False)
+        if reg and operator_line_id:
+                self.env['operator.line'].browse(operator_line_id).write({
+                    'date_out': fields.Datetime.now()})
+        return res
+
 
 class QualityCheckLine(models.Model):
     _name = 'quality.check.line'
@@ -327,22 +363,23 @@ class StopLines(models.Model):
                 td = stop_end - stop_start
                 r.stop_duration = td.total_seconds() / 3600
 
+
 class OperatorLines(models.Model):
     _name = 'operator.line'
 
     registry_id = fields.Many2one('app.registry', 'Registry', readonly=True)
     operator_id = fields.Many2one('hr.employee', 'Operator')
-    stop_start = fields.Datetime('Stop Start', readonly=False)
-    stop_end = fields.Datetime('Stop End', readonly=False)
-    stop_duration = fields.Float('Stop Duration',
+    date_in = fields.Datetime('Date Int', readonly=False)
+    date_out = fields.Datetime('Date Out', readonly=False)
+    stop_duration = fields.Float('Hours',
                                  compute="_get_duration")
 
     @api.multi
-    @api.depends('stop_start', 'stop_end')
+    @api.depends('date_in', 'date_out')
     def _get_duration(self):
         for r in self:
-            if r.stop_start and r.stop_end:
-                stop_start = fields.Datetime.from_string(r.stop_start)
-                stop_end = fields.Datetime.from_string(r.stop_end)
-                td = stop_end - stop_start
+            if r.date_in and r.date_out:
+                date_in = fields.Datetime.from_string(r.date_in)
+                date_out = fields.Datetime.from_string(r.date_out)
+                td = date_out - date_in
                 r.stop_duration = td.total_seconds() / 3600

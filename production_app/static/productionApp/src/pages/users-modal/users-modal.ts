@@ -32,11 +32,14 @@ export class UsersModalPage {
     closeModal() {
         this.viewCtrl.dismiss();
     }
-    setActive(user){
-        console.log(user.name);
+    setActive(operator){
+        console.log(operator.name);
     }
-    logIn(user) {
-        console.log(user.name);
+    logInOperator(operator) {
+        this.prodData.logInOperator(operator.id);
+    }
+    logOutOperator(operator) {
+        this.prodData.logOutOperator(operator.id);
     }
     initializeItems() {
         this.items = this.prodData.operators

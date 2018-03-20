@@ -1,5 +1,5 @@
 <ion-header>
-    <ion-navbar>
+    <ion-navbar color="secondary">
         <ion-title>Operarios</ion-title>
         <ion-buttons end>
             <button ion-button (click)="closeModal()">
@@ -16,10 +16,14 @@
             {{operator.name}}
             </ion-item>
             <ion-item-options side="left">
-                <button ion-button (click)="logIn(operator)">
+                <button [hidden]="prodData.operatorsById[operator.id]['log'] == 'in'" ion-button (click)="logInOperator(operator)">
                     <ion-icon name="log-in"></ion-icon>
-                    Log In
-                </button>  
+                    Entrada
+                </button> 
+                <button  [hidden]="prodData.operatorsById[operator.id]['log'] == 'out'" ion-button (click)="logOutOperator(operator)">
+                    <ion-icon name="log-out"></ion-icon>
+                    Salida
+                </button>   
             </ion-item-options>
             <ion-item-options side="right">
                 <button ion-button color="danger" (click)="setActive(operator)">

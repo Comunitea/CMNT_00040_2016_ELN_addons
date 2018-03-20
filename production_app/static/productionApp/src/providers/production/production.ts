@@ -10,6 +10,7 @@ import { OdooProvider } from '../odoo/odoo';
 @Injectable()
 export class ProductionProvider {
     operators: any;
+    operatorsById: Object = {};
     workcenter: Object = {};
     registry_id;
     production;
@@ -26,6 +27,7 @@ export class ProductionProvider {
     organizative_reasons: Object[];
 
     last_stop_id;
+    operator_line_id;
 
     qty;
     lot_name;
@@ -42,6 +44,7 @@ export class ProductionProvider {
             'finished': 'PRODUCCIÓN FINALIZADA'
         };
         this.last_stop_id = false;
+        this.operator_line_id = false;
         this.technical_reasons = [];
         this.organizative_reasons = [];
     }
@@ -50,11 +53,42 @@ export class ProductionProvider {
     getOperators(){
         this.odooCon.searchRead('hr.employee', [], ['id', 'name']).then( (res) => {
             this.operators = res;
+            for (let indx in res) {
+                let op = res[indx];
+                this.operatorsById[op.id] = {'name': op.name, 'active': false, 'operator_line_id': false, 'log': 'out'}    
+            }
+            console.log("OPERATORSBYID")
+            console.log(this.operatorsById)
         })
         .catch( (err) => {
             console.log("GET operators deberia ser una promesa, y devolver error, controlarlo en la página y lanzar excepción")
         });
     }
+
+    logInOperator(operator_id){
+        this.operatorsById[operator_id]['log'] = 'in'
+        var values =  {'registry_id': this.registry_id, 'operator_id': operator_id};
+        this.odooCon.callRegistry('log_in_operator', values).then( (res) => {
+            // this.operator_line_id = res['operator_line_id'];
+            this.operatorsById[operator_id]['operator_line_id'] = res['operator_line_id'];
+        })
+        .catch( (err) => {
+            this.manageOdooFail()
+        });
+    }
+
+    logOutOperator(operator_id){
+        this.operatorsById[operator_id]['log'] = 'out'
+        let operator_line_id = this.operatorsById[operator_id]['operator_line_id']
+        var values =  {'registry_id': this.registry_id, 'operator_line_id': operator_line_id};
+        this.odooCon.callRegistry('log_out_operator', values).then( (res) => {
+            this.operatorsById[operator_id]['operator_line_id'] = false;
+        })
+        .catch( (err) => {
+            this.manageOdooFail()
+        });
+    }
+
     // Load Quality checks in each type list
     loadReasons(reasons) {
         for (let indx in reasons) {
