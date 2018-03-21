@@ -184,7 +184,8 @@ class AppRegistry(models.Model):
             reg.write({
                 'state': 'stoped',
             })
-            stop_obj = reg.create_stop(values.get('reason_id', operator_id))
+            stop_obj = reg.create_stop(values.get('reason_id', False),
+                                       operator_id)
             res = reg.read()[0]
             res.update({'stop_id': stop_obj.id})
         return res
