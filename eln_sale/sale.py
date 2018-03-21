@@ -25,6 +25,8 @@ from dateutil.relativedelta import relativedelta
 from openerp.tools.translate import _
 import time
 from openerp import api
+import logging
+_logger = logging.getLogger(__name__)
 
 
 class sale_order(orm.Model):
@@ -59,6 +61,11 @@ class sale_order(orm.Model):
         'effective_date': fields.function(_get_effective_date, type='date',
             store=True, string='Effective Date',
             help="Date on which the first Delivery Order was delivered."),
+        'chanel': fields.selection([('erp', 'ERP'), ('telesale', 'telesale'),
+                                    ('tablet', 'Tablet'),
+                                    ('other', 'Other'),
+                                    ('ecomerce', 'E-comerce')], 'Chanel',
+                                   readonly=True),
     }
 
     def onchange_shop_id(self, cr, uid, ids, shop_id):
@@ -213,6 +220,19 @@ class sale_order(orm.Model):
             res['value']['pricelist_id'] = \
                 partner_obj.commercial_partner_id.property_product_pricelist.id
         return res
+
+    @api.model
+    def create_and_confirm(self, vals):
+        res = self.create(vals)
+        if res:
+            #res.check_route()
+            res.action_button_confirm()
+            _logger.info("APP. Respuesta a create_and_confirm <%s> "
+                         %(res))
+            return res.id
+        _logger.info("APP. Respuesta ERROR!! create_and_confirm <%s> "
+                         %(res))
+        return False
 
 
 class sale_order_line(orm.Model):
