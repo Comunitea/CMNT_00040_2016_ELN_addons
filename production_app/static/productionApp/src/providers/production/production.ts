@@ -28,6 +28,7 @@ export class ProductionProvider {
 
     last_stop_id;
     operator_line_id;
+    active_operator_id: number = 0;
 
     qty;
     lot_name;
@@ -77,8 +78,15 @@ export class ProductionProvider {
         });
     }
 
+    setActiveOperator(operator_id){
+        this.active_operator_id = operator_id;
+    }
+
     logOutOperator(operator_id){
         this.operatorsById[operator_id]['log'] = 'out'
+        if (this.active_operator_id = operator_id){
+            this.active_operator_id = 0;
+        }
         let operator_line_id = this.operatorsById[operator_id]['operator_line_id']
         var values =  {'registry_id': this.registry_id, 'operator_line_id': operator_line_id};
         this.odooCon.callRegistry('log_out_operator', values).then( (res) => {

@@ -9,30 +9,86 @@
     </ion-navbar>
 </ion-header>
 <ion-content padding>
-    <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
-    <ion-list > 
-        <ion-item-sliding *ngFor="let operator of items">        
-            <ion-item >
-            {{operator.name}}
-            </ion-item>
-            <ion-item-options side="left">
-                <button [hidden]="prodData.operatorsById[operator.id]['log'] == 'in'" ion-button (click)="logInOperator(operator)">
-                    <ion-icon name="log-in"></ion-icon>
-                    Entrada
-                </button> 
-                <button  [hidden]="prodData.operatorsById[operator.id]['log'] == 'out'" ion-button (click)="logOutOperator(operator)">
-                    <ion-icon name="log-out"></ion-icon>
-                    Salida
-                </button>   
-            </ion-item-options>
-            <ion-item-options side="right">
-                <button ion-button color="danger" (click)="setActive(operator)">
-                    <ion-icon name="star"></ion-icon>
-                    Activar
-                </button>
-            </ion-item-options>
-        </ion-item-sliding>
-    </ion-list> 
+    <div padding>
+      <ion-segment [(ngModel)]="mode">
+            <ion-segment-button value="out">
+                Fuera
+            </ion-segment-button>
+            <ion-segment-button value="in">
+                Dentro
+            </ion-segment-button>
+             <ion-segment-button value="rfid">
+                RFID
+            </ion-segment-button>
+          </ion-segment>
+    </div>
+
+    <div [ngSwitch]="mode">
+        <div *ngSwitchCase="'out'">
+            <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
+            <ion-list> 
+                <ion-item-sliding *ngFor="let operator of getLogedOut()">        
+                    <ion-item >
+                    {{operator.name}}
+                    </ion-item>
+                    <ion-item-options side="left">
+                        <button [hidden]="prodData.operatorsById[operator.id]['log'] == 'in'" ion-button (click)="logInOperator(operator)">
+                            <ion-icon name="log-in"></ion-icon>
+                            Entrada
+                        </button> 
+                        <button  [hidden]="prodData.operatorsById[operator.id]['log'] == 'out'" ion-button (click)="logOutOperator(operator)">
+                            <ion-icon name="log-out"></ion-icon>
+                            Salida
+                        </button>   
+                    </ion-item-options>
+<!--                     <ion-item-options side="right">
+                        <button ion-button color="danger" (click)="setActive(operator)">
+                            <ion-icon name="star"></ion-icon>
+                            Activar
+                        </button>
+                    </ion-item-options> -->
+                </ion-item-sliding>
+            </ion-list> 
+        </div>
+
+        <div *ngSwitchCase="'in'">
+            <ion-card *ngIf="prodData.active_operator_id !== 0">
+                <ion-card-header>
+                    Operario Activo:
+                 </ion-card-header>
+                <ion-card-content>
+                     {{prodData.operatorsById[prodData.active_operator_id]['name']}}
+                </ion-card-content>
+            </ion-card>
+           <!--  <ion-list-header *ngIf="prodData.active_operator_id !== 0">
+            {{prodData.operatorsById[prodData.active_operator_id]['name']}}
+            </ion-list-header> -->
+            <ion-list> 
+                <ion-item-sliding *ngFor="let operator of getLogedIn()">        
+                    <ion-item >
+                    {{operator.name}}
+                    </ion-item>
+                    <ion-item-options side="left">
+                        <button [hidden]="prodData.operatorsById[operator.id]['log'] == 'in'" ion-button (click)="logInOperator(operator)">
+                            <ion-icon name="log-in"></ion-icon>
+                            Entrada
+                        </button> 
+                        <button  [hidden]="prodData.operatorsById[operator.id]['log'] == 'out'" ion-button (click)="logOutOperator(operator)">
+                            <ion-icon name="log-out"></ion-icon>
+                            Salida
+                        </button>   
+                    </ion-item-options>
+                    <ion-item-options side="right">
+                        <button ion-button color="danger" (click)="setActive(operator)">
+                            <ion-icon name="star"></ion-icon>
+                            Activar
+                        </button>
+                    </ion-item-options>
+                </ion-item-sliding>
+            </ion-list> 
+        </div>
+
+    </div>
 
 </ion-content>
 

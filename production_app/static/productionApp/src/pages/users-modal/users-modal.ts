@@ -18,6 +18,8 @@ export class UsersModalPage {
 
     searchQuery: string = '';
     items: Object[];
+    items2: Object[] = [];
+    mode: string = 'out';
 
     constructor(public navCtrl: NavController, public navParams: NavParams,
                 public viewCtrl: ViewController,
@@ -33,16 +35,31 @@ export class UsersModalPage {
         this.viewCtrl.dismiss();
     }
     setActive(operator){
-        console.log(operator.name);
+        this.prodData.setActiveOperator(operator.id);
     }
     logInOperator(operator) {
         this.prodData.logInOperator(operator.id);
+
+        //Remove from loged out list
+        this.items = this.items.filter(obj => obj['id'] !== operator.id);
+
+        // Push to loged in list
+        this.items2.push(operator);
     }
     logOutOperator(operator) {
         this.prodData.logOutOperator(operator.id);
+
+        //Remove from loged in list
+        this.items2 = this.items2.filter(obj => obj['id'] !== operator.id);
+
+        // Push to loged out list
+        this.items.push(operator);
+
+
     }
     initializeItems() {
-        this.items = this.prodData.operators
+        this.items = this.prodData.operators.filter(obj => this.prodData.operatorsById[obj.id]['log'] == 'out');
+        this.items2 = this.prodData.operators.filter(obj => this.prodData.operatorsById[obj.id]['log'] == 'in');
     }
     getItems(ev: any) {
         // Reset items back to all of the items
@@ -59,5 +76,12 @@ export class UsersModalPage {
             })
         }
     }
+    getLogedOut() {
+        return this.items;
+    }
+    getLogedIn() {
+        return this.items2;
+    }
+
 
 }
