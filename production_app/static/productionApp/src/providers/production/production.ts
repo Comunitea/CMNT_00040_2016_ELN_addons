@@ -194,7 +194,8 @@ export class ProductionProvider {
         console.log(data)
         var values = {
             'registry_id': this.registry_id,
-            'lines': data
+            'lines': data,
+            'active_operator_id': this.active_operator_id
         }
         this.odooCon.callRegistry('app_save_quality_checks', values).then( (res) => {
             console.log("RESULTADO GUARDADO") 
@@ -212,6 +213,7 @@ export class ProductionProvider {
         var values =  {'registry_id': this.registry_id};
         if (method == 'stop_production'){
             values['reason_id'] = this.stop_reason_id
+            values['active_operator_id'] = this.active_operator_id
         }
         if (method == 'restart_production'){
             values['stop_id'] = this.last_stop_id

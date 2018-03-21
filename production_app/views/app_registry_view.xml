@@ -62,8 +62,8 @@
                                 <tree>
                                     <field name="pqc_id"/>
                                     <field name="value"/>
-                                    <field name="create_uid"/>
                                     <field name="date"/>
+                                    <field name="operator_id"/>
                                 </tree>
                             </field>
                         </group>
@@ -73,10 +73,10 @@
                             <field name="stop_line_ids" nolabel="1">
                                 <tree>
                                     <field name="reason_id"/>
-                                    <field name="create_uid"/>
                                     <field name="stop_start"/>
                                     <field name="stop_end"/>
                                     <field name="stop_duration" widget="float_time"/>
+                                    <field name="operator_id"/>
                                 </tree>
                             </field>
                         </group>

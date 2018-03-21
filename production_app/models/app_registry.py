@@ -175,13 +175,16 @@ class AppRegistry(models.Model):
     def stop_production(self, values):
         res = {}
         reg = False
+        operator_id = False
+        if values.get('active_operator_id', False):  # Can be 0
+            operator_id = values['active_operator_id']
         if values.get('registry_id', False):
             reg = self.browse(values['registry_id'])
         if reg:
             reg.write({
                 'state': 'stoped',
             })
-            stop_obj = reg.create_stop(values.get('reason_id', False))
+            stop_obj = reg.create_stop(values.get('reason_id', operator_id))
             res = reg.read()[0]
             res.update({'stop_id': stop_obj.id})
         return res
@@ -271,12 +274,16 @@ class AppRegistry(models.Model):
     def app_save_quality_checks(self, values):
         registry_id = values.get('registry_id', False)
         lines = values.get('lines', [])
+        operator_id = False
+        if values.get('active_operator_id', False):  # Can be 0
+            operator_id = values['active_operator_id']
         for dic in lines:
             vals = {
                 'registry_id': registry_id,
                 'pqc_id': dic.get('id', False),
                 'date': fields.Datetime.now(),
-                'value': str(dic.get('value', False))
+                'value': str(dic.get('value', False)),
+                'operator_id': operator_id
             }
             self.env['quality.check.line'].create(vals)
         return True
@@ -286,12 +293,13 @@ class AppRegistry(models.Model):
         self.write({'state': 'validated'})
 
     @api.multi
-    def create_stop(self, reason_id):
+    def create_stop(self, reason_id, operator_id):
         self.ensure_one()
         vals = {
             'registry_id': self.id,
             'stop_start': fields.Datetime.now(),
-            'reason_id': reason_id
+            'reason_id': reason_id,
+            'operator_id': operator_id
         }
         res = self.env['stop.line'].create(vals)
         return res
@@ -341,6 +349,7 @@ class QualityCheckLine(models.Model):
                              readonly=False)
     date = fields.Datetime('Date', readonly=False)
     value = fields.Text('Value', readonly=False)
+    operator_id = fields.Many2one('hr.employee', 'Operator')
 
 
 class StopLines(models.Model):
@@ -352,6 +361,7 @@ class StopLines(models.Model):
     stop_end = fields.Datetime('Stop End', readonly=False)
     stop_duration = fields.Float('Stop Duration',
                                  compute="_get_duration")
+    operator_id = fields.Many2one('hr.employee', 'Operator')
 
     @api.multi
     @api.depends('stop_start', 'stop_end')
