@@ -57,7 +57,7 @@ msgstr "Fin limpieza"
 #. module: production_app
 #: field:app.registry,cleaning_start:0
 msgid "Cleaning Start"
-msgstr "Inicio Limpieza"
+msgstr "Inicio limpieza"
 
 #. module: production_app
 #: view:app.registry:production_app.app_registry_form_view
@@ -67,7 +67,7 @@ msgstr "Tiempos limpieza"
 #. module: production_app
 #: field:product.quality.check,quality_type:0
 msgid "Control Type"
-msgstr "Typo control"
+msgstr "Tipo control"
 
 #. module: production_app
 #: field:app.registry,create_uid:0
@@ -247,7 +247,7 @@ msgstr "Producción confirmada"
 #. module: production_app
 #: field:app.registry,production_duration:0
 msgid "Production Duration"
-msgstr "Duración producciónn"
+msgstr "Duración producción"
 
 #. module: production_app
 #: field:app.registry,production_end:0
@@ -277,7 +277,7 @@ msgstr "Producción iniciada"
 #. module: production_app
 #: selection:app.registry,state:0
 msgid "Production Stoped"
-msgstr "Producción Stoped"
+msgstr "roducción parada"
 
 #. module: production_app
 #: view:app.registry:production_app.app_registry_form_view
@@ -376,12 +376,12 @@ msgstr "Duración preparación"
 #. module: production_app
 #: field:app.registry,setup_end:0
 msgid "Setup End"
-msgstr "Fin Preparación"
+msgstr "Fin preparación"
 
 #. module: production_app
 #: field:app.registry,setup_start:0
 msgid "Setup Start"
-msgstr "Inicio Preparación"
+msgstr "Inicio preparación"
 
 #. module: production_app
 #: selection:product.quality.check,quality_type:0
