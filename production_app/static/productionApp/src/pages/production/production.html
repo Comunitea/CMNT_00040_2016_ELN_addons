@@ -14,6 +14,9 @@
         <ion-title>Producción</ion-title>
 
         <ion-buttons end>
+            <button ion-button full (click)="beginLogistics()">
+                <ion-icon name="clipboard"></ion-icon>
+            </button>
             <button ion-button (click)='openUsersModal()'>
                 <ion-icon name="people"></ion-icon>
             </button>
@@ -84,10 +87,6 @@
     </button>
     <button ion-button full *ngIf="prodData.state == 'stoped'" (click)="restartProduction()">
         Reaunudar Producción
-    </button>
-    <!-- *ngIf="prodData.state == 'waiting'" -->
-    <button ion-button full  color="secondary"  (click)="beginLogistics()">
-        Logística
     </button>
     <button ion-button full color="danger" *ngIf="prodData.state == 'finished'" (click)="loadNextProduction()">
         Siguiente

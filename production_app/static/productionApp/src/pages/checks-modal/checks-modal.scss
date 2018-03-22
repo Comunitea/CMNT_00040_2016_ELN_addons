@@ -1,8 +1,9 @@
-$primary-color: #A52A2A;
 
 page-checks-modal {
     ion-label{
-        color: $primary-color;
-        font-size: 20px;
+        text-align: left;
+        font-size: 1em !important;
+        font-weight: bold;
+        color: black !important
     }
 }
