@@ -255,6 +255,12 @@ class AppRegistry(models.Model):
                 'qty': values.get('weight', 0.00),
                 'lot_id': lot_id,
             })
+            operators_loged = self.env['operator.line']
+            for op in reg.operator_ids:
+                if not op.date_out:
+                    operators_loged += op
+            if operators_loged:
+                operators_loged.write({'date_out': fields.Datetime.now()})
             res = reg.read()[0]
         return res
 
@@ -267,7 +273,7 @@ class AppRegistry(models.Model):
         res = product.quality_check_ids.search_read(domain, fields)
         res2 = []
         for dic in res:
-            dic.update({'value': False})
+            dic.update({'value': ''})
             res2.append(dic)
         return res2
 

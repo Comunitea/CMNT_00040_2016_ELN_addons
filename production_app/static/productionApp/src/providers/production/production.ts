@@ -12,6 +12,7 @@ export class ProductionProvider {
     operators: any;
     operatorsById: Object = {};
     workcenter: Object = {};
+    loged_ids: number[] = [];
     registry_id;
     production;
     product;
@@ -67,7 +68,14 @@ export class ProductionProvider {
     }
 
     logInOperator(operator_id){
+        if (this.loged_ids.length === 0){
+            this.setActiveOperator(operator_id)
+        }
         this.operatorsById[operator_id]['log'] = 'in'
+        var index = this.loged_ids.indexOf(operator_id);
+        if (index <= -1) {
+            this.loged_ids.push(operator_id)
+        }
         var values =  {'registry_id': this.registry_id, 'operator_id': operator_id};
         this.odooCon.callRegistry('log_in_operator', values).then( (res) => {
             // this.operator_line_id = res['operator_line_id'];
@@ -84,6 +92,10 @@ export class ProductionProvider {
 
     logOutOperator(operator_id){
         this.operatorsById[operator_id]['log'] = 'out'
+        var index = this.loged_ids.indexOf(operator_id);
+        if (index > -1) {
+            this.loged_ids.splice(index, 1);
+        }
         if (this.active_operator_id = operator_id){
             this.active_operator_id = 0;
         }
@@ -95,6 +107,13 @@ export class ProductionProvider {
         .catch( (err) => {
             this.manageOdooFail()
         });
+    }
+
+    setLogedTimes(){
+        for (let indx in this.loged_ids) {
+            let operator_id =  this.loged_ids[indx]
+            this.logInOperator(operator_id)
+        }
     }
 
     // Load Quality checks in each type list
@@ -132,6 +151,7 @@ export class ProductionProvider {
                 if ('id' in reg){
                     this.initData(reg);
                     this.getQualityChecks();  // Load Quality Checks. TODO PUT PROMISE SYNTAX
+                    this.setLogedTimes();  // Load Quality Checks. TODO PUT PROMISE SYNTAX
                     resolve(reg);
                 }
                 else {

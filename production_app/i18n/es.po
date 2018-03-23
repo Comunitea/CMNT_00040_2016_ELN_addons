@@ -227,7 +227,7 @@ msgstr "Controles Calidad"
 #. module: production_app
 #: field:product.quality.check,product_ids:0
 msgid "Product ids"
-msgstr "Productos ids"
+msgstr "Producto"
 
 #. module: production_app
 #: field:app.registry,production_id:0

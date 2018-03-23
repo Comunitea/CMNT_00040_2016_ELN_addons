@@ -28,7 +28,7 @@
    <ion-list>
 <!--         <ion-item [hidden]='reasons.length>0' color ="danger"> No hay motivos de parada</ion-item> -->
         <button ion-item *ngFor="let reason of reasons" (click)="reasonSelected(reason)">
-            <ion-icon name="text"></ion-icon>
+            <!-- <ion-icon name="text"></ion-icon> -->
             {{ reason.name }}
         </button>  
     </ion-list>

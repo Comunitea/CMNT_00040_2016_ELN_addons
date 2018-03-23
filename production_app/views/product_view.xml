@@ -101,6 +101,9 @@
                         <field name="quality_check_ids" nolabel="1">
                             <tree>
                                 <field name="name"/>
+                                <field name="quality_type"/>
+                                <field name="value_type"/>
+                                <field name="repeat"/>
                             </tree>
                         </field>
                     </group>
