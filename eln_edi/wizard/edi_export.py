@@ -768,16 +768,19 @@ class edi_export (orm.TransientModel):
         # Función del mensaje
         picking_data += self.parse_string('9', 3)
         
-        # Fecha / hora de emisión del aviso de expedición
+        # Fecha de emisión del aviso de expedición
         date = picking.date_done or datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         date = datetime.strptime(date, '%Y-%m-%d %H:%M:%S').replace(tzinfo=from_zone).astimezone(to_zone)
-        date = datetime.strftime(date, '%Y-%m-%d %H:%M:%S')
-        picking_data += self.parse_long_date(date)
+        date = datetime.strftime(date, '%Y-%m-%d')
+        picking_data += self.parse_short_date(date) # Hay que enviar fecha corta auunque el campo tenga espacio para fecha larga
+        picking_data += self.parse_string('', 4) # Se rellena el resto del campo
         
         # Fecha / hora de entrega de mercancía
-        date = picking.requested_date
-        picking_data += self.parse_short_date(date) if date else ' ' * 8
-        picking_data += self.parse_string('', 4) # Aunque la fecha es corta, debería ser la larga
+        date = picking.requested_date # Esta es fecha corta. Si el cliente requiere la hora hay que leerlo del pedido o redefinir el campo.
+        if date: # Hay que enviar fecha larga, aunque el campo no la incluye.
+            date = datetime.strptime(date, '%Y-%m-%d').replace(tzinfo=from_zone).astimezone(to_zone)
+            date = datetime.strftime(date, '%Y-%m-%d %H:%M:%S')
+        picking_data += self.parse_long_date(date) if date else ' ' * 12
         
         # Fecha de envío 
         date = picking.date_done or datetime.now().strftime('%Y-%m-%d %H:%M:%S')

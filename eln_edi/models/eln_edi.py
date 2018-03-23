@@ -161,7 +161,7 @@ class res_partner(orm.Model):
         'gln_co': fields.char('GLN Comprador', size=13, help="GLN (Comprador / Quien pide)"),
         'gln_rm': fields.char('GLN Receptor Mercancía', size=13, help="GLN (Receptor de la mercancía / Quien recibe)"),
         'gln_desadv': fields.char('GLN Receptor Albarán (DESADV)', size=13, help="GLN (Receptor del albarán logístico (DESADV)"),
-        'gln_de_coa': fields.char('GLN Destinatario', size=13, help="GLN (Destinatario de la relación de facturas)"), # COACSU
+        'gln_de_coa': fields.char('GLN Destinatario COA', size=13, help="GLN (Destinatario de la relación de facturas)"), # COACSU
         'gln_rm_coa': fields.char('GLN Receptor Mensaje', size=13, help="GLN (Receptor del mensaje de la relación de facturas)"), # COACSU
         'edi_picking_numeric': fields.boolean('Only numeric picking name (DESADV)',
                                help='Check if customer requires the picking name as numeric in DESADV documents. Ex. AS/X00123->00123'),
