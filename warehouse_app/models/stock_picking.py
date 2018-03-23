@@ -12,8 +12,19 @@ WAREHOUSE_STATES = [
     ('process', 'In process'),
     ('process_working', 'Working in progress'),
     ('waiting_validation', 'Waiting validatiton'),
-
     ('done', 'Done')]
+
+class StockTransferDetails(models.TransientModel):
+    _name = 'stock.transfer_details'
+    _description = 'Picking wizard'
+
+    @api.model
+    def do_detailed_transfer(self):
+        res = super(StockTransferDetails, self).do_detailed_transfer()
+        if self._context.get('no_transfer', True):
+            for op in self.picking_id.pack_operation_ids:
+                op.picking_order = op.location_id.picking_order
+        return res
 
 class StockPickingType(models.Model):
     _inherit = "stock.picking.type"
@@ -49,6 +60,11 @@ class StockPicking(models.Model):
             pick.remaining_ops = pick.all_ops - pick.done_ops
             pick.ops_str = "Faltan {:02d} de {:02d}".format(pick.remaining_ops, pick.all_ops)
 
+    @api.multi
+    def _compute_allow_validate(self):
+        for pick in self:
+            pick.allow_validate = (pick.state=='assigned' and pick.done_ops>0)
+
     user_id = fields.Many2one('res.users', 'Operator')
     state_2 = fields.Selection(WAREHOUSE_STATES, string ="Warehouse barcode statue", compute="_compute_state2")
     done_ops = fields.Integer('Done ops', compute="_compute_ops", multi=True)
@@ -59,7 +75,7 @@ class StockPicking(models.Model):
     location_id_name = fields.Char(related="location_id.name")
     location_dest_id_name = fields.Char(related="location_dest_id.name")
     picking_type_id_name = fields.Char(related="picking_type_id.short_name")
-
+    allow_validate = fields.Boolean("Permitir validar", compute="_compute_allow_validate")
 
     @api.multi
     def do_transfer(self):
@@ -79,18 +95,17 @@ class StockPicking(models.Model):
         pick = self.browse[id]
         return pick.confirm_pda_done(transfer)
 
-
     @api.model
     def doTransfer(self, vals):
         id = vals.get('id', False)
         pick = self.browse([id])
+        pick.pack_operation_ids.filtered(lambda x:not x.pda_done).unlink()
+
         if any(op.pda_done for op in pick.pack_operation_ids):
             pick.pack_operation_ids.put_in_pack()
             pick.do_transfer()
             return True
         return False
-
-
 
     @api.model
     def change_pick_value(self, vals):
@@ -99,9 +114,37 @@ class StockPicking(models.Model):
         value = vals.get('value', False)
         id = vals.get('id', False)
         pick = self.browse([id])
-
         if field == 'user_id' and (not pick.user_id or pick.user_id.id == self._uid):
             pick.write({'user_id': value})
         else:
             return False
         return True
+
+    @api.model
+    def _prepare_pack_ops(self, picking, quants, forced_qties):
+        """Get the owner from the moves instead of the picking.
+
+        The only case we need to fix is the one of receptions. In that case, we
+        do not receive any quants (because there is no quant reservation). We
+        group the moves by product and owner, and run the original method
+        separately for each one.
+
+        """
+
+        if not self.picking_type.show_in_pda:
+            return super(StockPicking, self)._prepare_pack_ops(picking, quants,
+                                                          forced_qties)
+
+        vals = super(StockPicking, self)._prepare_pack_ops(picking, quants, forced_qties)
+
+        location_order = {}
+
+        for val in vals:
+            id = val['location_id']
+            if id in location_order.keys():
+                val['picking_order'] = location_order[id]
+            else:
+                location_order[id] = self.env['stock.location'].search_read([('id', '=', id)], ['picking_order'])
+                val['picking_order'] = location_order[id]
+
+        return vals

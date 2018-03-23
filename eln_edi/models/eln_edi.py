@@ -31,17 +31,21 @@ class edi_doc(orm.Model):
     _description = "Documento EDI"
     _columns = {
         'name': fields.char('Referencia', size=255, required=True),
-        'file_name':fields.char('Nombre fichero', size=64),
-        'type': fields.selection([('orders', 'Pedido'), ('ordrsp', 'Respuesta Pedido'), 
-                                  ('desadv', 'Albarán'), ('recadv', 'Confirmación mercancía'), 
-                                  ('invoic', 'Factura')], 'Tipo de documento', select=1),
+        'file_name': fields.char('Nombre fichero', size=64),
+        'type': fields.selection([('orders', 'Pedido'),
+                                  ('ordrsp', 'Respuesta Pedido'), 
+                                  ('desadv', 'Albarán'),
+                                  ('recadv', 'Confirmación mercancía'), 
+                                  ('invoic', 'Factura'),
+                                  ('coacsu', 'Relación de facturas')], 'Tipo de documento', select=1),
         'date': fields.datetime('Descargado el', size=255),
         'date_process': fields.datetime('Procesado el', size=255),
         'status': fields.selection([('draft', 'Sin procesar'), ('imported', 'Importado'),
                                     ('export', 'Exportado'), ('error', 'Con incidencias')], 'Estado', select=1),
-        'sale_order_id': fields.many2one('sale.order','Pedido', ondelete='restrict'),
-        'picking_id' : fields.many2one('stock.picking','Albarán', ondelete='restrict'),
-        'invoice_id' : fields.many2one('account.invoice','Factura', ondelete='restrict'),
+        'sale_order_id': fields.many2one('sale.order', 'Pedido', ondelete='restrict'),
+        'picking_id': fields.many2one('stock.picking', 'Albarán', ondelete='restrict'),
+        'invoice_id': fields.many2one('account.invoice', 'Factura', ondelete='restrict'),
+        'coacsu_invoice_ids': fields.many2many('account.invoice', 'account_invoice_coacsu_rel', 'invoice_id', 'edi_doc_id', 'COACSU'),
         'send_date': fields.datetime('Fecha del último envío', select=1),
         'message': fields.text('Mensaje'),
         'gln_ef': fields.char('GLN Emisor Factura', size=60, help="GLN (Emisor del documento)"),
@@ -76,9 +80,9 @@ class edi_configuration(orm.Model):
     def get_configuration(self, cr, uid, ids):
         ids = self.pool.get('edi.configuration').search(cr, uid, [])
         if not ids:
-            raise osv.except_osv(_("No hay una configuración EDI. "),_("Falta configuración"))
-        else :
-            return pool.get('edi.configuration').browse(cr, uid, ids[0])
+            raise orm.except_orm(_('Error'), _('No existen configuraciones EDI.'))
+        else:
+            return self.pool.get('edi.configuration').browse(cr, uid, ids[0])
 
 
 # -------------------------- PERSONALIZACIONES CON CAMPOS DE EDI ------------------------------------
@@ -130,11 +134,17 @@ class res_partner(orm.Model):
     _inherit = 'res.partner'
     _columns = {
         'section_code': fields.property(
-            type='char', 
-            string="Section/Supplier or Branch", 
+            type='char',
+            string="Section/Supplier or Branch",
             size=9,
             method=True,
             help="Código de sección/proveedor o sucursal. Ejemplo: para Alcampo se refiere a la Sección/Proveedor(SSS/PPPPP)."),
+        'edi_supplier_cip': fields.property(
+            type='char',
+            string="CIP (EDI)",
+            size=9,
+            method=True,
+            help="Código interno del proveedor."),
         'department_code_edi': fields.char('Internal department code', size=3,
                                            help="Internal department code for edi when required by customer. Only El Corte Inglés customer requires this code currently."),
         'product_marking_code': fields.char('Product marking instructions code', size=3,
@@ -145,16 +155,27 @@ class res_partner(orm.Model):
                                            help='Check if customer requires invoicing products with UoM kg interpreting UoM = UoS. (1 bag of 5 kg is 1 bag, not 5 kg)'),
         'edi_filename': fields.char('EDI filename suffix', size=3,
                                            help='Partner suffix for edi filename.'),
+        'gln_ve': fields.char('GLN Vendedor', size=13, help="GLN (Vendedor de la mercancía). Si se establece, se usará éste en lugar del definido en la Compañía."),
         'gln_de': fields.char('GLN Destinatario', size=13, help="GLN (Destinatario de la factura / Quien paga)"),
         'gln_rf': fields.char('GLN Receptor Factura', size=13, help="GLN (Receptor de la factura / A quien se factura)"),
         'gln_co': fields.char('GLN Comprador', size=13, help="GLN (Comprador / Quien pide)"),
         'gln_rm': fields.char('GLN Receptor Mercancía', size=13, help="GLN (Receptor de la mercancía / Quien recibe)"),
         'gln_desadv': fields.char('GLN Receptor Albarán (DESADV)', size=13, help="GLN (Receptor del albarán logístico (DESADV)"),
+        'gln_de_coa': fields.char('GLN Destinatario', size=13, help="GLN (Destinatario de la relación de facturas)"), # COACSU
+        'gln_rm_coa': fields.char('GLN Receptor Mensaje', size=13, help="GLN (Receptor del mensaje de la relación de facturas)"), # COACSU
         'edi_picking_numeric': fields.boolean('Only numeric picking name (DESADV)',
                                help='Check if customer requires the picking name as numeric in DESADV documents. Ex. AS/X00123->00123'),
         'edi_invoice_copy': fields.boolean('Send invoice copy to payer',
-                           help='Check if customer requires send invoice copy to payer. For example IFA GROUP requires a copy of the invoice sent to its associates.'),
+                            help='Check if customer requires send invoice copy to payer. For example IFA GROUP requires a copy of the invoice sent to its associates.'),
+        'edi_invoic_active': fields.boolean('Invoic active'),
+        'edi_desadv_active': fields.boolean('Desadv active'),
+        'edi_coacsu_active': fields.boolean('Coacsu active'),
         'edi_note': fields.text('Notes'),
+    }
+    _defaults = {
+        'edi_invoic_active': False,
+        'edi_desadv_active': False,
+        'edi_coacsu_active': False,
     }
 
 
@@ -351,6 +372,7 @@ class account_invoice(orm.Model):
             multi='all'),
         'num_contract': fields.char('Contract Number', size=128),
         'edi_docs': fields.one2many('edi.doc', 'invoice_id', 'Documentos EDI'),
+        'invoice_coacsu_ids': fields.many2many('edi.doc', 'account_invoice_coacsu_rel', 'edi_doc_id', 'invoice_id', 'COACSU'),
         'amount_untaxed': fields.function(_amount_all, digits_compute=dp.get_precision('Account'), string='Untaxed',
             store={
                 'account.invoice': (lambda self, cr, uid, ids, c={}: ids, ['invoice_line'], 20),
@@ -374,7 +396,6 @@ class account_invoice(orm.Model):
             multi='all'),
         'edi_not_send_invoice': fields.boolean('Not send invoice by EDI'),
     }
-
     _defaults = {
         'edi_not_send_invoice': False,
     }
@@ -392,7 +413,6 @@ class res_company(orm.Model):
 
 
 class stock_picking(orm.Model):
-
     _inherit = 'stock.picking'
     _columns = {
         'edi_docs': fields.one2many('edi.doc','picking_id','Documentos EDI'),

@@ -6,18 +6,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-11-29 10:44+0000\n"
-"PO-Revision-Date: 2017-11-29 11:47+0100\n"
-"Last-Translator: <>\n"
+"POT-Creation-Date: 2018-02-28 23:29+0000\n"
+"PO-Revision-Date: 2018-03-01 00:33+0100\n"
+"Last-Translator: Pedro <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: es_ES\n"
-"X-Generator: Poedit 2.0.3\n"
+"X-Generator: Poedit 2.0.6\n"
 
 #. module: eln_edi
-#: code:addons/eln_edi/wizard/edi_export.py:602
+#: code:addons/eln_edi/wizard/edi_export.py:657
 #, python-format
 msgid ""
 "\n"
@@ -27,7 +27,7 @@ msgstr ""
 "La compañía %s no tiene GS1"
 
 #. module: eln_edi
-#: code:addons/eln_edi/wizard/edi_export.py:607
+#: code:addons/eln_edi/wizard/edi_export.py:662
 #, python-format
 msgid ""
 "\n"
@@ -37,7 +37,7 @@ msgstr ""
 "El producto %s no tiene DUN14"
 
 #. module: eln_edi
-#: code:addons/eln_edi/wizard/edi_export.py:605
+#: code:addons/eln_edi/wizard/edi_export.py:660
 #, python-format
 msgid ""
 "\n"
@@ -102,6 +102,23 @@ msgid "CANTIDAD:"
 msgstr "CANTIDAD:"
 
 #. module: eln_edi
+#: model:ir.filters,name:eln_edi.filter_coacsu_generado_tree1
+msgid "COA Generado"
+msgstr "COA Generado"
+
+#. module: eln_edi
+#: model:ir.filters,name:eln_edi.filter_coacsu_no_generado_tree1
+msgid "COA No Generado"
+msgstr "COA No Generado"
+
+#. module: eln_edi
+#: field:account.invoice,invoice_coacsu_ids:0
+#: field:edi.doc,coacsu_invoice_ids:0
+#: view:res.partner:eln_edi.view_edi_res_partner_form
+msgid "COACSU"
+msgstr "COACSU"
+
+#. module: eln_edi
 #: view:edi.import:eln_edi.wizard_edi_import
 #: view:edi.modify.packing:eln_edi.edi_modify_packing_form
 msgid "Cancel"
@@ -133,6 +150,11 @@ msgid "Cheque"
 msgstr "Cheque"
 
 #. module: eln_edi
+#: field:res.partner,edi_coacsu_active:0
+msgid "Coacsu active"
+msgstr "Coacsu activo"
+
+#. module: eln_edi
 #: field:edi.pack,code:0
 msgid "Code"
 msgstr "Código"
@@ -140,7 +162,7 @@ msgstr "Código"
 #. module: eln_edi
 #: field:payment.mode,edi_code:0
 msgid "Codigo EDI"
-msgstr "Codigo EDI"
+msgstr "Código EDI"
 
 #. module: eln_edi
 #: field:edi.configuration,salesman:0
@@ -153,7 +175,8 @@ msgid "Companies"
 msgstr "Compañías"
 
 #. module: eln_edi
-#: code:addons/eln_edi/wizard/edi_export.py:880
+#: code:addons/eln_edi/wizard/edi_export.py:1021
+#: code:addons/eln_edi/wizard/edi_export.py:1038
 #, python-format
 msgid "Company error"
 msgstr "Error de compañía"
@@ -251,15 +274,21 @@ msgid "DESADV label"
 msgstr "Etiqueta DESADV (GS1-128)"
 
 #. module: eln_edi
-#: code:addons/eln_edi/wizard/edi_export.py:182
-#: code:addons/eln_edi/wizard/edi_export.py:609
+#: code:addons/eln_edi/wizard/edi_export.py:206
+#: code:addons/eln_edi/wizard/edi_export.py:664
+#: code:addons/eln_edi/wizard/edi_export.py:963
 #, python-format
 msgid "Data error"
 msgstr "Data error"
 
 #. module: eln_edi
-#: code:addons/eln_edi/wizard/edi_export.py:237
-#: code:addons/eln_edi/wizard/edi_export.py:245
+#: field:edi.export,date_due:0
+msgid "Date Due"
+msgstr "Fecha de vencimiento"
+
+#. module: eln_edi
+#: code:addons/eln_edi/wizard/edi_export.py:261
+#: code:addons/eln_edi/wizard/edi_export.py:269
 #, python-format
 msgid "Date error"
 msgstr "Date error"
@@ -269,6 +298,11 @@ msgstr "Date error"
 #: view:res.partner:eln_edi.view_edi_res_partner_form
 msgid "Datos EDI"
 msgstr "Datos EDI"
+
+#. module: eln_edi
+#: field:res.partner,edi_desadv_active:0
+msgid "Desadv active"
+msgstr "Desadv activo"
 
 #. module: eln_edi
 #: field:edi.doc,date:0
@@ -292,6 +326,11 @@ msgid "Display Name"
 msgstr "Nombre mostrado"
 
 #. module: eln_edi
+#: view:edi.export:eln_edi.wizard_edi_export_coacsu
+msgid "Do you want to export the payment relation with the selected invoices?"
+msgstr "¿Desea exportar la relación de pagos con las facturas seleccionadas?"
+
+#. module: eln_edi
 #: view:edi.doc:eln_edi.edi_doc_form
 msgid "Documento"
 msgstr "Documento"
@@ -307,6 +346,7 @@ msgid "Documentos"
 msgstr "Documentos"
 
 #. module: eln_edi
+#: view:account.invoice:eln_edi.view_edi_account_invoice_add_contract_form
 #: field:account.invoice,edi_docs:0 view:edi.doc:eln_edi.edi_doc_tree
 #: model:ir.actions.act_window,name:eln_edi.act_edi_doc
 #: field:stock.picking,edi_docs:0
@@ -365,19 +405,21 @@ msgid "EDI lines requires picking date"
 msgstr "Las lineas de factura requieren fecha de albarán"
 
 #. module: eln_edi
-#: code:addons/eln_edi/wizard/edi_export.py:880
+#: code:addons/eln_edi/wizard/edi_export.py:1021
+#: code:addons/eln_edi/wizard/edi_export.py:1038
 #, python-format
 msgid "Edi code not established in company"
 msgstr "Código GLN no establecido en la compañía"
 
 #. module: eln_edi
-#: code:addons/eln_edi/wizard/edi_export.py:882
+#: code:addons/eln_edi/wizard/edi_export.py:1023
+#: code:addons/eln_edi/wizard/edi_export.py:1040
 #, python-format
 msgid "Edi filename not established in partner"
 msgstr "Nombre de archivo EDI no fijado en el partner"
 
 #. module: eln_edi
-#: code:addons/eln_edi/wizard/edi_export.py:95
+#: code:addons/eln_edi/wizard/edi_export.py:122
 #, python-format
 msgid "El modelo no es ni un pedido ni un albarán ni una factura."
 msgstr "El modelo no es ni un pedido ni un albarán ni una factura."
@@ -398,10 +440,10 @@ msgid "Envio"
 msgstr "Envío"
 
 #. module: eln_edi
+#: code:addons/eln_edi/models/eln_edi.py:83
 #: code:addons/eln_edi/report/desadv_parser.py:37
 #: code:addons/eln_edi/report/gs1_128_parser.py:37
-#: code:addons/eln_edi/wizard/edi_export.py:53
-#: code:addons/eln_edi/wizard/edi_export.py:94
+#: code:addons/eln_edi/wizard/edi_export.py:122
 #: code:addons/eln_edi/wizard/edi_import.py:47
 #: code:addons/eln_edi/wizard/edi_import.py:98
 #: code:addons/eln_edi/wizard/edi_import.py:106
@@ -419,31 +461,31 @@ msgid "Error"
 msgstr "Error"
 
 #. module: eln_edi
-#: code:addons/eln_edi/wizard/edi_export.py:208
+#: code:addons/eln_edi/wizard/edi_export.py:232
 #, python-format
 msgid "Error parsing"
 msgstr "Error parsing"
 
 #. module: eln_edi
-#: code:addons/eln_edi/wizard/edi_export.py:245
+#: code:addons/eln_edi/wizard/edi_export.py:269
 #, python-format
 msgid "Error parsing long date"
 msgstr "Error parsing long date"
 
 #. module: eln_edi
-#: code:addons/eln_edi/wizard/edi_export.py:208
+#: code:addons/eln_edi/wizard/edi_export.py:232
 #, python-format
 msgid "Error parsing number"
 msgstr "Error parsing number"
 
 #. module: eln_edi
-#: code:addons/eln_edi/wizard/edi_export.py:238
+#: code:addons/eln_edi/wizard/edi_export.py:262
 #, python-format
 msgid "Error parsing short date"
 msgstr "Error parsing short date"
 
 #. module: eln_edi
-#: code:addons/eln_edi/wizard/edi_export.py:231
+#: code:addons/eln_edi/wizard/edi_export.py:255
 #, python-format
 msgid "Error parsing!"
 msgstr "Error parsing!"
@@ -461,6 +503,7 @@ msgstr "Exportado"
 
 #. module: eln_edi
 #: view:edi.export:eln_edi.wizard_edi_export
+#: view:edi.export:eln_edi.wizard_edi_export_coacsu
 msgid "Exportar"
 msgstr "Exportar"
 
@@ -477,6 +520,11 @@ msgid "Exportar Facturas EDI"
 msgstr "Exportar Facturas EDI"
 
 #. module: eln_edi
+#: model:ir.actions.act_window,name:eln_edi.action_edi_export_coacsu
+msgid "Exportar Relación Facturas EDI"
+msgstr "Exportar Relación Facturas EDI"
+
+#. module: eln_edi
 #: view:website:eln_edi.gs1_128_report
 msgid "F. CONSUMO"
 msgstr "F. CONSUMO"
@@ -485,12 +533,6 @@ msgstr "F. CONSUMO"
 #: field:edi.doc,invoice_id:0 selection:edi.doc,type:0
 msgid "Factura"
 msgstr "Factura"
-
-#. module: eln_edi
-#: code:addons/eln_edi/models/eln_edi.py:79
-#, python-format
-msgid "Falta configuración"
-msgstr "Falta configuración"
 
 #. module: eln_edi
 #: field:edi.doc,send_date:0
@@ -508,10 +550,15 @@ msgid "Ficheros pendientes de procesar"
 msgstr "Ficheros pendientes de procesar"
 
 #. module: eln_edi
-#: code:addons/eln_edi/wizard/edi_export.py:169
+#: code:addons/eln_edi/wizard/edi_export.py:200
 #, python-format
 msgid "Found early payment discount lines, but there is not set any percentage on the invoice.\n"
 msgstr "Se encontraron líneas con descuento por pronto pago, pero no se ha establecido ningún porcentaje en la factura.\n"
+
+#. module: eln_edi
+#: view:res.partner:eln_edi.view_edi_res_partner_form
+msgid "GENERAL"
+msgstr "GENERAL"
 
 #. module: eln_edi
 #: help:edi.doc,gln_co:0 help:res.partner,gln_co:0
@@ -522,6 +569,11 @@ msgstr "GLN (Comprador / Quien pide)"
 #: help:edi.doc,gln_de:0 help:res.partner,gln_de:0
 msgid "GLN (Destinatario de la factura / Quien paga)"
 msgstr "GLN (Destinatario de la factura / Quien paga)"
+
+#. module: eln_edi
+#: help:res.partner,gln_de_coa:0
+msgid "GLN (Destinatario de la relación de facturas)"
+msgstr "GLN (Destinatario de la relación de facturas)"
 
 #. module: eln_edi
 #: help:edi.doc,gln_ef:0 help:res.company,gln_ef:0
@@ -544,9 +596,19 @@ msgid "GLN (Receptor del albarán logístico (DESADV)"
 msgstr "GLN (Receptor del albarán logístico (DESADV)"
 
 #. module: eln_edi
+#: help:res.partner,gln_rm_coa:0
+msgid "GLN (Receptor del mensaje de la relación de facturas)"
+msgstr "GLN (Receptor del mensaje de la relación de facturas)"
+
+#. module: eln_edi
 #: help:edi.doc,gln_ve:0 help:res.company,gln_ve:0
 msgid "GLN (Vendedor de la mercancía)"
 msgstr "GLN (Vendedor de la mercancía)"
+
+#. module: eln_edi
+#: help:res.partner,gln_ve:0
+msgid "GLN (Vendedor de la mercancía). Si se establece, se usará éste en lugar del definido en la Compañía."
+msgstr "GLN (Vendedor de la mercancía). Si se establece, se usará éste en lugar del definido en la Compañía."
 
 #. module: eln_edi
 #: field:edi.doc,gln_co:0 field:res.partner,gln_co:0
@@ -555,6 +617,7 @@ msgstr "GLN Comprador"
 
 #. module: eln_edi
 #: field:edi.doc,gln_de:0 field:res.partner,gln_de:0
+#: field:res.partner,gln_de_coa:0
 msgid "GLN Destinatario"
 msgstr "GLN Destinatario"
 
@@ -574,12 +637,17 @@ msgid "GLN Receptor Factura"
 msgstr "GLN Receptor Factura"
 
 #. module: eln_edi
+#: field:res.partner,gln_rm_coa:0
+msgid "GLN Receptor Mensaje"
+msgstr "GLN Receptor Mensaje"
+
+#. module: eln_edi
 #: field:edi.doc,gln_rm:0 field:res.partner,gln_rm:0
 msgid "GLN Receptor Mercancía"
 msgstr "GLN Receptor Mercancía"
 
 #. module: eln_edi
-#: field:edi.doc,gln_ve:0 field:res.company,gln_ve:0
+#: field:edi.doc,gln_ve:0 field:res.company,gln_ve:0 field:res.partner,gln_ve:0
 msgid "GLN Vendedor"
 msgstr "GLN Vendedor"
 
@@ -597,11 +665,6 @@ msgstr "Etiqueta GS1-128"
 #: view:website:eln_edi.gs1_128_report
 msgid "GS1:"
 msgstr "GS1:"
-
-#. module: eln_edi
-#: view:res.partner:eln_edi.view_edi_res_partner_form
-msgid "General"
-msgstr "General"
 
 #. module: eln_edi
 #: selection:payment.mode,edi_code:0
@@ -629,8 +692,8 @@ msgstr "ID"
 
 #. module: eln_edi
 #: view:res.partner:eln_edi.view_edi_res_partner_form
-msgid "INVOICE"
-msgstr "INVOICE"
+msgid "INVOIC"
+msgstr "INVOIC"
 
 #. module: eln_edi
 #: view:edi.doc:eln_edi.edi_doc_form
@@ -650,12 +713,17 @@ msgstr "Importado"
 #. module: eln_edi
 #: field:res.partner,department_code_edi:0
 msgid "Internal department code"
-msgstr "Código Departamento Interno "
+msgstr "Código Departamento Interno"
 
 #. module: eln_edi
 #: help:res.partner,department_code_edi:0
 msgid "Internal department code for edi when required by customer. Only El Corte Inglés customer requires this code currently."
 msgstr "Códido Departamento Interno, cuando lo pide el cliente. Sólo El Corte Inglés requiere este código actualmente."
+
+#. module: eln_edi
+#: field:res.partner,edi_invoic_active:0
+msgid "Invoic active"
+msgstr "Invoic activo"
 
 #. module: eln_edi
 #: model:ir.model,name:eln_edi.model_account_invoice
@@ -668,10 +736,21 @@ msgid "Invoice Tax"
 msgstr "Impuesto de factura"
 
 #. module: eln_edi
-#: code:addons/eln_edi/wizard/edi_export.py:890
+#: code:addons/eln_edi/wizard/edi_export.py:941
+#: code:addons/eln_edi/wizard/edi_export.py:1031
 #, python-format
 msgid "Invoice error"
 msgstr "Invoice error"
+
+#. module: eln_edi
+#: view:account.invoice:eln_edi.view_edi_account_invoice_add_contract_form
+msgid "Invoice summary"
+msgstr "Relación de facturas"
+
+#. module: eln_edi
+#: view:account.invoice:eln_edi.view_edi_account_invoice_add_contract_form
+msgid "Invoices"
+msgstr "Facturas"
 
 #. module: eln_edi
 #: view:website:eln_edi.gs1_128_report
@@ -786,7 +865,7 @@ msgid "No existe unidad de medida %s."
 msgstr "No existe unidad de medida %s."
 
 #. module: eln_edi
-#: code:addons/eln_edi/wizard/edi_export.py:54
+#: code:addons/eln_edi/models/eln_edi.py:83
 #: code:addons/eln_edi/wizard/edi_import.py:47
 #: code:addons/eln_edi/wizard/edi_import.py:156
 #, python-format
@@ -812,16 +891,10 @@ msgid "No existen ningún producto con ean13v %s."
 msgstr "No existen ningún producto con ean13v %s."
 
 #. module: eln_edi
-#: code:addons/eln_edi/models/eln_edi.py:79
-#, python-format
-msgid "No hay una configuración EDI. "
-msgstr "No hay una configuración EDI. "
-
-#. module: eln_edi
 #: code:addons/eln_edi/wizard/edi_import.py:320
 #, python-format
 msgid "No se encontraron movimientos con las características requeridas.Es posible que el paquete, el lote o la cantidad estén mal asignados en el fichero"
-msgstr "No se encontraron movimientos con las características requeridas.Es posible que el paquete, el lote o la cantidad estén mal asignados en el fichero"
+msgstr "No se encontraron movimientos con las características requeridas. Es posible que el paquete, el lote o la cantidad estén mal asignados en el fichero"
 
 #. module: eln_edi
 #: code:addons/eln_edi/wizard/edi_import.py:211
@@ -910,7 +983,8 @@ msgid "Partner"
 msgstr "Empresa"
 
 #. module: eln_edi
-#: code:addons/eln_edi/wizard/edi_export.py:882
+#: code:addons/eln_edi/wizard/edi_export.py:1023
+#: code:addons/eln_edi/wizard/edi_export.py:1040
 #, python-format
 msgid "Partner error"
 msgstr "Partner error"
@@ -931,7 +1005,7 @@ msgid "Payment Mode"
 msgstr "Modo de pago"
 
 #. module: eln_edi
-#: code:addons/eln_edi/wizard/edi_export.py:409
+#: code:addons/eln_edi/wizard/edi_export.py:456
 #, python-format
 msgid "Payment error"
 msgstr "Payment error"
@@ -1023,6 +1097,11 @@ msgstr "Registro Mercantil del emisor de la factura y el vendedor"
 
 #. module: eln_edi
 #: selection:edi.doc,type:0
+msgid "Relación de facturas"
+msgstr "Relación de facturas"
+
+#. module: eln_edi
+#: selection:edi.doc,type:0
 msgid "Respuesta Pedido"
 msgstr "Respuesta Pedido"
 
@@ -1040,6 +1119,24 @@ msgstr "Ruta ftpbox (Sin / al final)"
 #: view:website:eln_edi.desadv_report view:website:eln_edi.gs1_128_report
 msgid "SSCC:"
 msgstr "SSCC:"
+
+#. module: eln_edi
+#: code:addons/eln_edi/wizard/edi_export.py:949
+#, python-format
+msgid "Se han seleccionado facturas con distintos GLN de destinatario COACSU. [gln_de_coa]\n"
+msgstr "Se han seleccionado facturas con distintos GLN de destinatario COACSU. [gln_de_coa]\n"
+
+#. module: eln_edi
+#: code:addons/eln_edi/wizard/edi_export.py:951
+#, python-format
+msgid "Se han seleccionado facturas con distintos GLN de receptor mensaje COACSU.[gln_rm_coa]\n"
+msgstr "Se han seleccionado facturas con distintos GLN de receptor mensaje COACSU.[gln_rm_coa]\n"
+
+#. module: eln_edi
+#: code:addons/eln_edi/wizard/edi_export.py:947
+#, python-format
+msgid "Se han seleccionado facturas con distintos GLN de vendedor. [gln_ve]\n"
+msgstr "Se han seleccionado facturas con distintos GLN de vendedor. [gln_ve]\n"
 
 #. module: eln_edi
 #: field:res.partner,section_code:0
@@ -1067,9 +1164,20 @@ msgid "Si es activado, el módulo no realizará conexiones al ftp. Sólo trabaja
 msgstr "Si es activado, el módulo no realizará conexiones al ftp. Sólo trabajará con los ficheros y documentos pendientes de importación."
 
 #. module: eln_edi
+#: view:res.partner:eln_edi.view_edi_res_partner_form
+msgid "Si es diferente al de la Compañía"
+msgstr "Si es diferente al de la Compañía"
+
+#. module: eln_edi
 #: selection:edi.doc,status:0
 msgid "Sin procesar"
 msgstr "Sin procesar"
+
+#. module: eln_edi
+#: code:addons/eln_edi/wizard/edi_export.py:961
+#, python-format
+msgid "Some partners do not have a GLN defined correctly. [gln_ve / gln_de_coa / gln_rm_coa]\n"
+msgstr "Algún cliente no tiene un GLN definido correctamente. [gln_ve / gln_de_coa / gln_rm_coa]\n"
 
 #. module: eln_edi
 #: field:edi.packing,picking_id:0
@@ -1078,6 +1186,7 @@ msgstr "Albarán"
 
 #. module: eln_edi
 #: view:edi.export:eln_edi.wizard_edi_export
+#: view:edi.export:eln_edi.wizard_edi_export_coacsu
 msgid "Sí"
 msgstr "Sí"
 
@@ -1088,58 +1197,65 @@ msgid "Tax"
 msgstr "Impuesto"
 
 #. module: eln_edi
-#: code:addons/eln_edi/wizard/edi_export.py:140
-#: code:addons/eln_edi/wizard/edi_export.py:588
+#: code:addons/eln_edi/wizard/edi_export.py:175
+#: code:addons/eln_edi/wizard/edi_export.py:645
 #, python-format
-msgid "The company %s not have some GLN defined.\n"
-msgstr "La compañía %s no tiene algún GLN definido.\n"
+msgid "The company %s not have some GLN defined correctly.\n"
+msgstr "La compañía %s no tiene algún GLN definido correctamente.\n"
 
 #. module: eln_edi
-#: code:addons/eln_edi/wizard/edi_export.py:143
+#: code:addons/eln_edi/wizard/edi_export.py:178
 #, python-format
 msgid "The company %s not have trade register defined.\n"
 msgstr "La compañía %s no tiene el Registro Mercantil definido.\n"
 
 #. module: eln_edi
-#: code:addons/eln_edi/wizard/edi_export.py:160
+#: code:addons/eln_edi/wizard/edi_export.py:192
+#: code:addons/eln_edi/wizard/edi_export.py:959
 #, python-format
 msgid "The invoice not have date.\n"
 msgstr "La factura no tiene fecha\n"
 
 #. module: eln_edi
-#: code:addons/eln_edi/wizard/edi_export.py:164
+#: code:addons/eln_edi/wizard/edi_export.py:196
 #, python-format
 msgid "The invoice not have origin.\n"
 msgstr "La factura no tiene origen.\n"
 
 #. module: eln_edi
-#: code:addons/eln_edi/wizard/edi_export.py:162
+#: code:addons/eln_edi/wizard/edi_export.py:194
 #, python-format
 msgid "The invoice payment type is not defined or not have a edi code asigned.\n"
 msgstr "El tipo de pago de la factura no está definido o no tiene un código edi asignado.\n"
 
 #. module: eln_edi
-#: code:addons/eln_edi/wizard/edi_export.py:231
+#: code:addons/eln_edi/wizard/edi_export.py:255
 #, python-format
 msgid "The length of \"%s\" is greater of %s."
 msgstr "La longitud de \"%s\" es mayor de %s."
 
 #. module: eln_edi
-#: code:addons/eln_edi/wizard/edi_export.py:156
-#: code:addons/eln_edi/wizard/edi_export.py:594
+#: code:addons/eln_edi/wizard/edi_export.py:189
+#: code:addons/eln_edi/wizard/edi_export.py:651
 #, python-format
-msgid "The partner %s not have some GLN defined.\n"
-msgstr "La empresa %s no tiene algún GLN definido.\n"
+msgid "The partner %s not have some GLN defined correctly.\n"
+msgstr "La empresa %s no tiene algún GLN definido correctamente.\n"
 
 #. module: eln_edi
-#: code:addons/eln_edi/wizard/edi_export.py:146
-#: code:addons/eln_edi/wizard/edi_export.py:149
+#: code:addons/eln_edi/wizard/edi_export.py:956
+#, python-format
+msgid "The partner %s not have some GLN defined correctly. [gln_rf]\n"
+msgstr "La empresa %s no tiene algún GLN definido correctamente. [gln_rf]\n"
+
+#. module: eln_edi
+#: code:addons/eln_edi/wizard/edi_export.py:181
+#: code:addons/eln_edi/wizard/edi_export.py:184
 #, python-format
 msgid "The partner %s not have vat.\n"
 msgstr "La empresa %s no tiene CIF/NIF.\n"
 
 #. module: eln_edi
-#: code:addons/eln_edi/wizard/edi_export.py:172
+#: code:addons/eln_edi/wizard/edi_export.py:203
 #, python-format
 msgid "The product %s not have EAN.\n"
 msgstr "El producto %s no tiene EAN\n"
@@ -1150,10 +1266,10 @@ msgid "The stock operation where the packing has been made"
 msgstr "The stock operation where the packing has been made"
 
 #. module: eln_edi
-#: code:addons/eln_edi/wizard/edi_export.py:599
+#: code:addons/eln_edi/wizard/edi_export.py:654
 #, python-format
-msgid "The supplier %s not have recipient GLN defined.\n"
-msgstr "The supplier %s not have recipient GLN defined.\n"
+msgid "The supplier %s not have recipient GLN defined correctly.\n"
+msgstr "The supplier %s not have recipient GLN defined correctly.\n"
 
 #. module: eln_edi
 #: field:edi.doc,type:0
@@ -1177,13 +1293,19 @@ msgid "Usuario"
 msgstr "Usuario"
 
 #. module: eln_edi
-#: code:addons/eln_edi/wizard/edi_export.py:890
+#: code:addons/eln_edi/wizard/edi_export.py:1031
 #, python-format
 msgid "Validate the invoice before."
 msgstr "Factura no validada."
 
 #. module: eln_edi
-#: code:addons/eln_edi/wizard/edi_export.py:225
+#: code:addons/eln_edi/wizard/edi_export.py:941
+#, python-format
+msgid "Validate the invoices before."
+msgstr "Validar la facturas primero."
+
+#. module: eln_edi
+#: code:addons/eln_edi/wizard/edi_export.py:249
 #, python-format
 msgid ""
 "Warning on EDI invoice. The length of \"%s\" is greater of %s.\n"
@@ -1277,7 +1399,7 @@ msgid "split"
 msgstr "Dividir"
 
 #. module: eln_edi
-#: code:addons/eln_edi/wizard/edi_export.py:409
+#: code:addons/eln_edi/wizard/edi_export.py:456
 #, python-format
 msgid "the invoice have %s payments, max 3 payments"
 msgstr "La factura tiene %s pagos, máximo 3 pagos"

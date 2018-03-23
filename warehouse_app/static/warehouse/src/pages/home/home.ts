@@ -6,7 +6,8 @@ import {Storage} from '@ionic/storage';
 import {TreepickPage} from '../../pages/treepick/treepick'; 
 /*import {PROXY} from '../../providers/constants/constants';*/
 //import  * as odoo from '../../providers/odoo-connector/odoo.js';
-
+import { AuxProvider } from '../../providers/aux/aux'
+import { ShowinfoPage } from '../showinfo/showinfo';
 
 declare var OdooApi: any;
 @Component({
@@ -18,9 +19,9 @@ export class HomePage {
   loginData = {password: '', username: ''};
   CONEXION = {
 
-      url: 'http://odoopistola.com',
+      url: '',
       port: '80',
-      db: 'pistola',
+      db: '',
       username: 'admin',
       password: 'admin',
 
@@ -36,7 +37,7 @@ export class HomePage {
   mensaje = '';
 
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private storage: Storage, public alertCtrl: AlertController, private network: Network) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private storage: Storage, public alertCtrl: AlertController, private network: Network, public auxProvider: AuxProvider) {
 
             var borrar = this.navParams.get('borrar');
             this.CONEXION.username = (this.navParams.get('login') == undefined)? '' : this.navParams.get('login');
@@ -46,6 +47,7 @@ export class HomePage {
             } else {
               this.conectarApp(false);
             }
+            
         }
 
   loginSinDatos() {
@@ -62,6 +64,7 @@ export class HomePage {
           });
       }
 
+
   presentAlert(titulo, texto) {
         const alert = this.alertCtrl.create({
             title: titulo,
@@ -73,11 +76,10 @@ export class HomePage {
 
   conectarApp(verificar) {
     var self = this;
-
-
     var con;
     con = self.CONEXION;
     this.storage.get('CONEXION').then((val) => {
+      
       var con;
       if (val == null) {//no existe datos
           self.cargar = false;
@@ -86,13 +88,14 @@ export class HomePage {
 
               if (verificar) {
                   self.presentAlert('Alerta!', 'Por favor ingrese usuario y contraseña');
-              }
+                  }
               return;
           }
 
       } else {
           //si los trae directamente ya fueron verificados
-          con = val;
+         
+          con=val;
           if (con.username.length < 3 || con.password.length < 3) {
               return self.cargar = false;
           }
@@ -114,18 +117,57 @@ export class HomePage {
                       user.id = value[0].id;
                       user.name = value[0].name;
                       user.login = value[0].login;
+                      self.auxProvider.filter_user='assigned'
                       self.navCtrl.setRoot(TreepickPage); //-> me voy para la home page
+                      //self.navCtrl.setRoot(TreepickPage);
+                      //self.navCtrl.setRoot(ShowinfoPage)
 
                   }
                   else {
                       self.cargar = false;
                       return self.presentAlert('Falla!', 'Usuario incorrecto');
                   }
-                })
-          })
+                },
+                function (uid) {self.presentAlert('Alerta!', 'Por favor ingrese usuario y contraseña');}
+            )
+          },
+          function (uid) {
+              self.cargar = false;
+              self.presentAlert('Alerta!', 'Por favor ingrese usuario y contraseña');})
     });
   }
+  get_picking_types(){
+    var self = this
+    this.storage.get('CONEXION').then((val) => {
+      if (val == null) {
+          self.navCtrl.setRoot(HomePage, {borrar: true, login: null});
+      } else {
+          var con = val;
+          var odoo = new OdooApi(con.url, con.db);
+          odoo.login(con.username, con.password).then(
+            function (uid) {
+              odoo.search_read('stock.picking.type', [['show_in_pda', '=', true]], ['id', 'name', 'short_name'], 0, 0).then(
+                function (value) {
+                  
+                  self.storage.set('stock.picking.type', value);
+                },
+                function () {
+                  self.cargar = false;
+                  self.presentAlert('Falla!', 'Imposible conectarse');
+                }
+                          );
+                      },
+                      function () {
+                          self.cargar = false;
+                          self.presentAlert('Falla!', 'Imposible conectarse');
+                      }
+                  );
+                  self.cargar = false;
+              }
+          });
+      
 
+  }  
   getObjectId(values){
     var self = this;
     var object_id = {}

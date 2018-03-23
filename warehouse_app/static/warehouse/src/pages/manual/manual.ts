@@ -39,64 +39,37 @@ export class ManualPage {
 
   
   
-  move_id = 0
+  
   model = 'stock.move'
-  move_fields = ['id', 'product_id', 'lot_id', 'restrict_package_id', 'result_package_id', 'restrict_lot_id', 'package_qty', 'location_id', 'location_dest_id']
-  move = ['id', 'product_id', 'product_id_name', 'restrict_package_id', 'restrict_package_id_name', 'result_package_id', 'result_package_id_name', 'restrict_lot_id', 'restrict_lot_id_name', 'package_qty', 'location_id', 'location_dest_id', 'location_id_name', 'location_dest_id_name']
+  move = {}
   domain = []
   package_qty: boolean = true;
   message = ''
   state: number = 0; /* 0 origen 1 destino 2 validar */
   scan_id: string = ''
-  restrict_package_id = 0;
-  restrict_package_id_name = '';
-  restrict_lot_id = 0;
-  restrict_lot_id_name = '';
-  result_package_id = 0;
-  result_package_id_name = '';
-  location_id = 0;
-  location_id_name = '';
-  location_dest_id = 0;
-  location_dest_id_name = '';
-  product_qty = 0;
-  product_id = 0;
-  product_id_name = '';
-  uom = '';
-  total_package_qty = 0;
+  
   models = []
   last_scan = ''
   input: number = 0;
   barcodeForm: FormGroup;
-  
+  tracking = 'none'
+
   constructor(public navCtrl: NavController, public toastCtrl: ToastController, public navParams: NavParams, private formBuilder: FormBuilder, public storage: Storage,  public alertCtrl: AlertController) {
-    this.move['restrict_package'] ="Restrict package";
-    this.reset_form();
+
     this.input = 0;
     this.models =  ['stock.quant.package', 'stock.production.lot', 'stock.location', 'product.product']
-    
+    this.reset_form();
+    this.tracking = 'lot';
   }
 
   reset_form(){
+    
     this.state = 0;
     this.scan_id = '';
     this.last_scan = ''
     this.barcodeForm = this.formBuilder.group({scan: ['']});
-    this.restrict_package_id = 0;
-    this.restrict_package_id_name = '';
-    this.restrict_lot_id = 0;
-    this.restrict_lot_id_name = '';
-    this.product_qty = 0;
-    this.total_package_qty = 0;
-    this.package_qty = false;
-    this.result_package_id = 0;
-    this.result_package_id_name = '';
-    this.location_id = 0;
-    this.location_id_name = '';
-    this.location_dest_id = 0;
-    this.location_dest_id_name = '';
-    this.product_id = 0;
-    this.product_id_name = '';
-    this.uom = '';
+    this.move = {};
+    this['move']['product_qty'] =0;
   }
 
   ionViewDidLoad() {
@@ -128,12 +101,35 @@ export class ManualPage {
     });
     alert.present();
   }
-  check_state(state){
-    var self = this;
-    if (self.restrict_lot_id * self.product_qty * self.location_id * self.product_id != 0){self.state=1}
-    else if (self.restrict_lot_id * self.location_id * self.product_id != 0){self.state=1}
-    if (self.state==1 && self.location_dest_id!=0){self.state=2}
 
+  check_state(state=0){
+    if (!Boolean(this.move)){
+      state==0; 
+      return
+    }
+    if (this.tracking == 'none') {
+      if (Boolean(this.move['location_id']) && Boolean(this.move['product_id'])){
+        this.state=1
+      }
+    }
+    else if (this.tracking == 'serial') {
+      if (Boolean(this.move['location_id']) && Boolean(this.move['restrict_lot_id'])){
+        this.state=1
+      }
+    }
+    else {
+      if (Boolean(this.move['product_id']) && Boolean(this.move['location_id']) && Boolean(this.move['restrict_lot_id'])){
+        this.state=1
+      }
+    }
+    
+    if (this.state==2 && !this['move']['location_dest_id']['need_check']){
+      this.process_move()
+    }
+    if (this.state==1 && Boolean(this.move['location_dest_id']) && Boolean(this.move['product_qty'])){
+      this.state=2
+    }
+    
   }
 
   submit (values){
@@ -153,38 +149,38 @@ export class ManualPage {
       } else {
           console.log('Hay conexión');
           var con = val;
-          var odoo = new OdooApi(con.templateUrl, con.db);
+          var odoo = new OdooApi(con.url, con.db);
           odoo.login(con.username, con.password).then(
             function (uid) {
               odoo.call(model, method, values).then(
-                function (value) {
+                function (res) {
                   //AQUI DECIDO QUE HACER EN FUNCION DE LO QUE RECIBO
                   //Estoy scaneando ORIGEN
-                  if (value['id'] == 0){
-                    self.presentToast(value['message'], false);
-                    return value;
+                  if (res['id'] == 0){
+                    self.presentToast(res['message'], false);
+                    return false;
                 }
                   else if (self.state==0) {
-                    if (origenModels.indexOf(value.model)!=-1){                      
-                      if (value.model == 'stock.quant.package'){self.set_package(self.state, value['fields'])}
-                      else if (value.model == 'stock.location'){self.set_location(self.state, value['fields'])}
-                      else if (value.model == 'stock.production.lot'){self.set_lot(self.state, value['fields'])}
-                      else if (value.model == 'product.product'){self.set_lot(self.state, value['fields'])}
+                    if (origenModels.indexOf(res.model)!=-1){                      
+                      if (res.model == 'stock.quant.package'){self.set_package(res['values'])}
+                      else if (res.model == 'stock.location'){self.set_location(res['values'])}
+                      else if (res.model == 'stock.production.lot'){self.set_lot(res['values'])}
+                      else if (res.model == 'product.product'){self.set_product(res['values'])}
                       
                       } 
                     }
                   else if (self.state>=1) {
-                    if (destModels.indexOf(value.model)!=-1){
+                    if (destModels.indexOf(res.model)!=-1){
                       self.last_scan = values['search_str']    
-                      if (value.model == 'stock.quant.package'){self.set_package(self.state, value['fields'])}
-                      else if (value.model == 'stock.location'){self.set_location(self.state, value['fields'])}
+                      if (res.model == 'stock.quant.package'){self.set_package(res['values'])}
+                      else if (res.model == 'stock.location'){self.set_location(res['values'])}
                       
                     } 
                   }
-                  self.scan_id = value['id'];
-                  self.check_state(self.state);
+                  self.scan_id = res['id'];
+                  self.check_state();
                   self.myScan.setFocus();
-                  return value;
+                  return true;
                   },
                 function () {
                   
@@ -212,97 +208,151 @@ export class ManualPage {
     //self.state = 1
   }
 
-  set_package(state, values){
-    var self = this;
-    if (self.state==0){
-      self.reset_form();
-      self.restrict_lot_id = values['lot_id'];
-      self.restrict_lot_id_name = values['lot_id_name'];
-      self.restrict_package_id = values['id'];
-      self.restrict_package_id_name = values['name'];
-      self.product_qty = values['package_qty'];
-      self.total_package_qty = values['package_qty'];
-      self.package_qty = true;
-      self.location_id = values['location_id'];
-      self.location_id_name = values['location_id_name'];
-      self.product_id = values['product_id'];
-      self.product_id_name = values['product_id_name'];
-      self.uom = values['uom'];
-      self.result_package_id = values['id'];
-      self.result_package_id_name = values['name'];
+  set_package(values){
+
+    let obj = {'id': values['id'], 'name': values['name'], 'location_id': values['location_id'], 'multi': values['multi'], 'product_id': values['product_id'], 'package_qty': values['package_qty']}
+
+    //ORIGEN IMPLICA RESET DEL MOVIMIENTO
+    if (this.state==0){
+      
+      this.reset_form();
+      this['move']['restrict_package_id'] = obj;
+      this['move']['result_package_id'] = obj;
+      this['move']['location_id'] = values['location_id'];
+      this['move']['package_qty']= values['package_qty']
+      this.package_qty = true;
+      if (Boolean(obj.multi)){
+        this['move']['total_package_qty'] = 1;
+        this['move']['product_qty'] = 1;  
+        this['move']['result_package_id'] = obj;
+        this.tracking = 'none';
       }
-    else if (self.state==1){
-      if (!values['multi'] && values['lot_id'] && values['lot_id'] != self.restrict_lot_id){
-        self.presentToast('Paquete no válido. Lote distinto al inicial', true);
-        self.result_package_id = 0;
-        self.location_dest_id = 0;
-        self.result_package_id_name = '';
-        self.location_dest_id_name = '';
+      this['move']['total_package_qty'] = values['package_qty'];
+      this['move']['product_qty'] = values['package_qty'];
+      this['move']['restrict_lot_id'] = values['lot_id'];
+      this['move']['product_id'] = values['product_id'];
+      this['move']['uom_id'] = values['uom'];
+      this.tracking = values['product_id']['tracking']
+      }
+    //DESTINO  
+    else if (this.state==1) {
+      if (this['move']['restrict_package_id']['multi']) {
+        this.presentAlert("Error de paquete", "Es un paquete multi")
+      }
+      else if (Boolean(this['move']['restrict_lot_id']) && values['lot_id']['id'] != this['move']['restrict_lot_id']['id']){
+        this.presentToast('Paquete no válido. Lote distinto al inicial', true);
+        this['move']['result_package_id'] = {};
+        this['move']['location_dest_id'] = {};
         return;
       }
-      self.result_package_id = values['id'];
-      self.result_package_id_name = values['name'];}
+      else {
+        this['move']['result_package_id'] = obj;
+        this['move']['location_dest_id'] = values['location_id']
+      }
+    }
+      
   }
 
   no_result_package(reset=true){
-    var self = this;
     if (reset){
-      self.result_package_id = 0;
-      self.result_package_id_name = '';
+      this['move']['result_package_id'] = {};
       }
     else {
-      if (self.product_qty == self.total_package_qty){
-        self.result_package_id = self.restrict_package_id;
-        self.result_package_id_name = self.restrict_package_id_name;}
+      if (this['move']['product_qty'] == this['move']['total_package_qty']){
+        this['move']['result_package_id'] = this['move']['restrict_package_id'];
+        }
       else {
-        self.result_package_id = -1;
-        self.result_package_id_name = 'Nuevo';}
+        this['move']['result_package_id'] = {'id': -1, name: 'Nuevo', 'location_id': {}};
+      }    
+    }
+  }
+  set_lot(values){
+    if (this.state != 0){
+      this.presentAlert('Lote erróneo', 'Debes reiniciar para cambiar el lote');
+      return;
+    }
+    let location_id
+    let obj = {'id': values['id'], 'name': values['display_name'], 'product_id': values['product_id'], 'location_id': values['location_id'], 'qty_available': values['qty_available']}
+    console.log (values)
+    
+    if (values['product_id']['tracking'] =='serial'){
+      location_id = this['move']['location_id']
+      this.reset_form();
+    }
+    
+      
+    this['move']['restrict_lot_id'] = obj;
+    
+    if (Boolean(values['location_id'])){
+      this['move']['location_id'] = location_id;
+      }
+    
+    this['move']['product_qty'] = values['qty_available'];
+    this['move']['product_id'] = values['product_id'];
+    this['move']['uom_id'] = values['uom_id'];
+    this.tracking = values['product_id']['tracking'];
+  }
+
+  set_location(values){
+    let obj = {'id': values['id'], 'name': values['name']}
+    if (this.state==0){
+      
+      if (Boolean(this['move']['restrict_package_id']) && this['move']['location_id']!= obj) {
+        this.presentAlert ('Error de paquete', 'La ubicación de origen debe ser la misma que la del paquete');
+        return
+      }
+      if (Boolean(this['move']['restrict_lot_id']) && Boolean(this['move']['restrict_lot_id']['location_id']) && this['move']['location_id']!= obj) {
+        this.presentAlert ('Error de lote', 'La ubicación de origen debe ser la misma que la del lote');
+        return
+      }
+      this['move']['location_id'] = obj;
+ 
+    }
+    else if (this.state==1){
+      if (!Boolean(this['move']['restrict_package_id']) && Boolean(this['move']['result_package_id']) && this['move']['result_package_id']['id']!=-1 && Boolean(this['move']['result_package_id']['location_id']) && this['move']['location_id']['id']!= obj['id']) {
+        this.presentAlert ('Error de paquete', 'Si quieres empaquetar, la ubicación de destino debe ser la misma que la del paquete de destino');
+        return
+      }
+      if (Boolean(this['move']['restrict_package_id']) && Boolean(this['move']['result_package_id']) && this['move']['result_package_id']['id']!=-1 && Boolean(this['move']['result_package_id']['location_id']) && this['move']['location_id']['id'] == obj['id']) {
+        this.presentAlert ('Error de destino', 'Si quieres mover de un paquete, la ubicación de destino debe ser distinta del origen');
+        return
+      }
+      this['move']['location_dest_id'] = obj;
     }
   }
 
-  set_lot(state, values){
-    var self = this;
-    self.reset_form();
-    if (self.state==0){
-      self.restrict_lot_id = values['id'];
-      self.restrict_lot_id_name = values['name'];
-      self.location_id = values['location_id'];
-      self.location_id_name = values['location_id_name'];
-      self.product_id = values['product_id'];
-      self.product_id_name = values['product_id_name'];
-      self.uom = values['uom'];}
-  }
+  set_product(values){
+    let obj = {'id': values['id'], 'name': values['display_name'], 'tracking': values['tracking'], 'qty_available': values['qty_available'] }
 
-  set_location(state, values){
-      var self = this;
-    if (self.state==0){
-      self.location_id = values['id'];
-      self.location_id_name = values['name'];
-    }
-
-    else if (self.state==1){
-      self.location_dest_id = values['id'];
-      self.location_dest_id_name = values['name'];}
-    }
+    if (this.state==0){
+      if (Boolean(this['move']['restrict_package_id'])  && this['move']['restrict_package_id']['product_id'] && this['move']['restrict_package_id']['product_id']['id'] != obj['id']) {
+        this.presentAlert ('Error de producto', 'El paquete seleccionado tiene producto');
+        return
+      }
+      if (Boolean(this['move']['restrict_lot_id']) && this['move']['restrict_lot_id']['product_id'] && this['move']['restrict_lot_id']['product_id']['id'] != obj['id']) {
+        this.presentAlert ('Error de producto', 'El lote seleccionado tiene producto');
+        return
+      }
+      this['move']['product_id'] = obj;
+      this.tracking = obj['tracking']
+     }
+  }  
 
   change_package_qty(){
-    var self = this;
-    if (self.package_qty){
-      self.product_qty = self.total_package_qty;
+    if (this['move']['package_qty']){
+      this['move']['product_qty'] = this['move']['total_package_qty'];
       }
   }
 
-
   inputQty() {
-    var self = this;
-    if (self.state==0){return}
+    if (this.state==0){return}
     let alert = this.alertCtrl.create({
       title: 'Qty',
       message: 'Cantidad a mover',
       inputs: [
         {
           name: 'qty',
-          placeholder: self.product_qty.toString()
+          placeholder: this['move']['product_qty'].toString()
         },
       ],
       buttons: [
@@ -317,24 +367,26 @@ export class ManualPage {
           handler: (data) => {
             console.log('Saved clicked');
             console.log(data.qty);
-            if (self.restrict_package_id != 0 && data.qty>self.total_package_qty ){
-              self.presentAlert('Error!', 'La cantidad debe ser menor que la contenida en el paquete');
+            if (data.qty<0){
+              this.presentAlert('Error!', 'La cantidad debe ser mayor que 0');
             }
-            else if (data.qty<0){
-              self.presentAlert('Error!', 'La cantidad debe ser mayor que 0');
+            else if (Boolean(this['move']['restrict_package_id']) && data.qty > this['move']['restrict_package_id']['package_qty']){
+              this.presentAlert('Error!', 'La cantidad debe ser menor que la contenida en el paquete');
             }
-            else if (data.qty) {
-              self.product_qty = data.qty
-              self.check_state(0);
+            else if (Boolean(this['move']['restrict_lot_id']) && data.qty > this['move']['restrict_lot_id']['qty_available']){
+              this.presentAlert('Error!', 'La cantidad debe ser menor que la disponible para ese lote');
             }
-            self.input = 0;
+            
+            this['move']['product_qty'] = data.qty
+            this.check_state(0);
+            this.input = 0;
 
           }
         }
       ]
     });
 
-    self.input = alert._state;
+    this.input = alert._state;
     alert.present();
   }
 
@@ -350,42 +402,35 @@ export class ManualPage {
       showCloseButton: showClose,
       closeButtonText: 'Ok',
       cssClass: toastClass
-    });
-    toast.onDidDismiss(() => {
+      });
+      toast.onDidDismiss(() => {
       self.myScan.setFocus();
     });
     toast.present();
   }
-
+  get_move_values (move){
+    var values = {'restrict_package_id': move['restrict_package_id'] && move['restrict_package_id']['id'],
+                  'product_id': move['product_id']['id'],
+                  'product_qty': move['product_qty'],
+                  'restrict_lot_id': move['restrict_lot_id'] && move['restrict_lot_id']['id'],
+                  'location_id': move['location_id']['id'],
+                  'result_package_id': move['result_package_id'] && move['result_package_id']['id'],
+                  'location_dest_id': move['location_dest_id']['id'],
+                  'package_qty': move['package_qty'],
+                  'product_uom_qty': move['product_qty'],
+                  'origin': 'PDA move'}
+    return values
+  }
 
   process_move(){
-
-
-
-
     /* CREAR Y PROCESAR UN MOVIMEINTO */
     var self = this
-    var values = {'restrict_package_id': self.restrict_package_id,
-                  'product_id': self.product_id,
-                  'restrict_lot_id': self.restrict_lot_id,
-                  'location_id': self.location_id,
-                  'result_package_id': self.result_package_id,
-                  'location_dest_id': self.location_dest_id,
-                  'package_qty': self.package_qty,
-                  'product_uom_qty': self.product_qty}
-    values ['origin'] = 'PDA move'
-    var field = ''
-    var fields = ['restrict_package_id', 'result_package_id', 'product_id', 'lot_id', 'result_package_id', 'location_id', 'location_dest_id']
-    for (var key in fields){
-      field = fields[key];
-      if (self[field]!= 0) {values[field] = self[field]}}
-    values['package_qty'] = self.package_qty;
-    values['product_qty'] = self.product_qty;
-
+    var values = self.get_move_values(self['move'])
+    
+    
     var model = 'stock.move'
     var method = 'pda_move'
     console.log(values)
-
 
     self.storage.get('CONEXION').then((val) => {
 

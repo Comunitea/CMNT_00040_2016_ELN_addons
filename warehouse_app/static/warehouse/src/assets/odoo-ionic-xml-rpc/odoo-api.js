@@ -237,7 +237,7 @@ this.call = function(model, method, values) {
             params: [odoo_api.odoo_db, odoo_api.odoo_uid, odoo_api.odoo_password,
                     model, method, values],
             timeout: 10000,
-            context: ctx,
+            context: odoo_api.context,
             success: function(response, status, jqXHR) {
                 if (response[0]) {
                     resolve(response[0]);

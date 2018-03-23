@@ -47,7 +47,8 @@ class StockMove(models.Model):
             res['value']['product_id'] = package.product_id.id
             res['value']['product_uom_qty'] = package.package_qty
             res['value']['product_uos_qty'] = self.onchange_quantity(cr, uid, ids, package.product_id.id, package.package_qty, package.product_id.uom_id.id, package.product_id.uos_id.id)['value']['product_uos_qty']
-            res['value']['restrict_lot_id'] = package.lot_id.id
+            if package.product_id.track_all:
+                res['value']['restrict_lot_id'] = package.lot_id.id
             res['value']['restrict_package_id'] = restrict_package_id
             res['value']['result_package_id'] = restrict_package_id
             res['value']['package_qty'] = True
@@ -82,6 +83,7 @@ class StockMove(models.Model):
 
     @api.multi
     def action_done(self):
+
         for move in self:
             ctx = move._context.copy()
             if move.restrict_package_id:
@@ -93,6 +95,7 @@ class StockMove(models.Model):
 
     @api.model
     def pda_move(self, vals):
+        import ipdb; ipdb.set_trace()
         restrict_package_id = vals.get('restrict_package_id', False) or False
         location_dest_id = vals.get('location_dest_id', False)
         result_package_id = vals.get('result_package_id', 0)
@@ -121,7 +124,7 @@ class StockMove(models.Model):
         if restrict_package_id:
             ##Paquete de origen
             restrict_package_id = self.env['stock.quant.package'].browse(restrict_package_id)
-            restrict_lot_id = restrict_package_id.lot_id.id
+            restrict_lot_id = restrict_package_id.lot_id and restrict_package_id.lot_id.id
             product_id = restrict_package_id.product_id
             if package_qty:
                 product_uom_qty = restrict_package_id.package_qty

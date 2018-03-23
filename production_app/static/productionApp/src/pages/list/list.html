@@ -1,24 +1,24 @@
 <ion-header>
     <ion-navbar color="primary">
-        <button ion-button icon-only menuToggle>
+<!--         <button ion-button icon-only menuToggle>
           <ion-icon name="menu"></ion-icon>
         </button>
-
+ -->
         <ion-title>Lista de Líneas</ion-title>
-
         <ion-buttons end>
-            <button ion-button >
+            <button ion-button (click)='logOut()'>
             <ion-icon name="log-out"></ion-icon>
             </button>
         </ion-buttons>
     </ion-navbar>
 </ion-header>
 <ion-content padding>
+    <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
     <ion-list>
-        <ion-item [hidden]='lines.length>0' color ="danger"> No hay Líneas</ion-item>
-        <button ion-item *ngFor="let line of lines" (click)="lineSelected(line)">
+        <!-- <ion-item [hidden]='items.length>0' color ="danger"> No hay Líneas</ion-item> -->
+        <button ion-item *ngFor="let workcenter of items" (click)="workcenterSelected(workcenter)">
             <ion-icon name="send"></ion-icon>
-            {{ line.name }}
+            {{ workcenter.name }}
         </button>  
     </ion-list>
 

@@ -32,15 +32,16 @@ export class SlideopPage {
   @ViewChild('scan') myScan ;
   @ViewChild('qty') myQty ;
 
-  @HostListener('document:keydown', ['$event'])
-  handleKeyboardEvent(event: KeyboardEvent) { 
-    if (!this.myScan._isFocus){this.myScan.setFocus()};
-     }
+  //@HostListener('document:keydown', ['$event'])
+  //handleKeyboardEvent(event: KeyboardEvent) { 
+  //  if (!this.myScan._isFocus){this.myScan.setFocus()};
+  //   }
   
   op = {}
   op_selected = {};
   model = 'stock.pack.operation'
-  op_fields = ['id', 'pda_checked', 'picking_id', 'pda_done', 'product_id', 'pda_product_id', 'location_id', 'location_id_barcode', 'location_dest_id_barcode', 'location_dest_id', 'product_uom', 'lot_id', 'package_id', 'result_package_id', 'total_qty', 'qty_done']
+  op_fields = ['id', 'pda_checked', 'picking_id', 'pda_done', 'product_id', 'pda_product_id', 'location_id', 'location_id_barcode', 'location_dest_id_barcode', 'location_dest_id', 'product_uom', 'lot_id', 'package_id', 'result_package_id', 'product_qty', 'total_qty', 'qty_done', 'location_dest_id_need_check']
+  pick_fields = ['id', 'state','user_id']
   domain = []
   isPaquete: boolean = true;
   isProducto: boolean = false;
@@ -66,11 +67,12 @@ export class SlideopPage {
   last_read: number = 0
   reconfirm: boolean 
   waiting: number = 0
+  pick = []
 
   constructor(public navCtrl: NavController, public toastCtrl: ToastController, public navParams: NavParams, private formBuilder: FormBuilder, public alertCtrl: AlertController, private storage: Storage) {
     
     this.op_id = this.navParams.data.op_id;
-    
+    this.pick = []
     this.reconfirm = false
     this.ops = this.navParams.data.ops;
     if (!this.ops){
@@ -80,28 +82,33 @@ export class SlideopPage {
     this.result_package_id = 0
     this.barcodeForm = this.formBuilder.group({scan: ['']});
     this.state = this.navParams.data.origin || 0;
+    this.resetValues()
     this.resetForm()
 
     }
-  
-  resetValues(){
+
+  resetOPValues(){ 
     this.waiting=0;
     this.package_dest_id_change = 0;
     this.package_id_change = 0;
     this.lot_id_change = 0;
     this.qty_change = false;
     this.location_id_change = 0;
-    this.message = '';
-    this.op = {};
-    this.domain = [['id', '=', this.op_id]];
-    this.model =  'stock.pack.operation';
     this.scan = ''
     this.state = 0;
     this.new_qty_done = 0;
     this.last_read = 0;
     this.op_selected = {'lot_id': 0, 'package_id': 0, 'location_id': 0, 'product_id': 0, 'location_dest_id': 0, 'result_package_id': 0}
-    
     this.input = 0;
+  }
+  
+  resetValues(){
+   
+    this.message = '';
+    this.op = {};
+    this.domain = [['id', '=', this.op_id]];
+    this.model =  'stock.pack.operation';
+    this.resetOPValues()
   }  
   
   no_result_package(reset=true){
@@ -110,10 +117,8 @@ export class SlideopPage {
     else {self.op_selected['result_package_id'] = [-1, 'Nuevo'];}
   }
   resetForm(){
-    this.resetValues();
     this.cargarOP();
-
-  }
+   }
   get_op_selected(){
     var field
     for (field in ['id', 'package_id', 'lot_id', 'product_id', 'qty_done', 'product_qty', 'result_package_id', 'location_dest_id', 'pda_product_id']){
@@ -121,8 +126,39 @@ export class SlideopPage {
   }
   goHome(){this.navCtrl.setRoot(TreepickPage, {borrar: true, login: null});}
 
+  cargarPick(){
+    this.storage.get('CONEXION').then((val) => {
+      if (val == null) {
+          this.navCtrl.setRoot(HomePage, {borrar: true, login: null});
+      } 
+      else {
+        var self = this
+        self.cargar = true;
+        var con = val;
+        var odoo = new OdooApi(con.url, con.db);
+        odoo.login(con.username, con.password).then(
+          function (uid) {
+          var model = 'stock.picking';
+          var fields = self.pick_fields;
+          var domain = [['id','=', self.op['picking_id'][0]]];
+          odoo.search_read(model, domain, fields, 0, 1).then((value) => {
+            self.pick = value[0];}
+            ); 
+          },
+          function () {
+            self.cargar = false;
+            self.presentAlert('Falla!', 'Imposible conectarse');
+          });
+      }});
+    }
+
   cargarOP(){
+    
     var self = this;
+    var last_id = self.op['id']
+    var qty_done = self.op_selected['qty_done']
+    var last_picking_id = self.op['picking_id']
+    self.resetOPValues();
     this.storage.get('CONEXION').then((val) => {
       if (val == null) {
           self.navCtrl.setRoot(HomePage, {borrar: true, login: null});
@@ -131,27 +167,36 @@ export class SlideopPage {
           var odoo = new OdooApi(con.url, con.db);
           odoo.login(con.username, con.password).then(
             function (uid) {
+              self.cargar = true;
               odoo.search_read(self.model, self.domain, self.op_fields, 0, 0).then(
                 function (value) {
+                  //self.resetValues()
                   self.op = value[0];
+                  if (self.op['id'] == last_id){
+                    self.op['qty_done'] = qty_done
+                  } else {
+                    self.op['qty_done'] = self.op['product_qty']
+                  }
+                  
+                  if (self.op['picking_id'] != last_picking_id){
+                    self.cargarPick()
+                  }
+
                   self.cargar = false;
-                  self.storage.set('stock.pack.operation', value);
-                  self.storage.set('stock.picking', self.op['picking_id']);
-                  if (self.op['result_package_id'])
-                    { self.result_package_id = 0;
-                      self.op_selected['result_package_id'] = self.op['result_package_id'];}
-                  if (!self.op['pda_checked'])
-                    {self.change_op_value(self.op_id, 'pda_checked', true);}
+                  if (self.op['result_package_id']){
+                    self.result_package_id = 0;
+                    self.op_selected['result_package_id'] = self.op['result_package_id'];
+                  }
                 },
                 function () {
                   self.cargar = false;
-                  self.presentAlert('Falla!', 'Imposible conectarse');
+                  self.presentAlert('Error !', 'Se ha producido un error al recargar la operacion');
                 }
                 );
                       },
                       function () {
                           self.cargar = false;
-                          self.presentAlert('Falla!', 'Imposible conectarse');
+                          self.presentAlert('Error !', 'Se ha producido un error al recargar la operacion');
                       }
                   );
                   self.cargar = false;
@@ -190,6 +235,7 @@ export class SlideopPage {
 
 
   change_op_value(id, field, value){
+    if (this.check_changes()){return}
     var self = this;
     var model = 'stock.pack.operation';
     var method = 'change_op_value';
@@ -206,6 +252,7 @@ export class SlideopPage {
           var odoo = new OdooApi(con.url, con.db);
           odoo.login(con.username, con.password).then(
             function (uid) {
+              self.cargar = true;
               odoo.call(model, method, values).then(
                 function (value) {
                   if (field=='pda_checked'){return;}
@@ -241,12 +288,26 @@ export class SlideopPage {
   }
 
 submitScan(){
-    var values = {'model':  ['stock.quant.package', 'stock.production.lot', 'stock.location'], 'search_str' : this.barcodeForm.value['scan']};
-    this.barcodeForm.reset();
-    this.submit(values);
+  if (this.check_changes()){return}
+  var values = {'model':  ['stock.quant.package', 'stock.production.lot', 'stock.location'], 'search_str' : this.barcodeForm.value['scan']};
+  this.barcodeForm.reset();
+  this.submit(values);
   }
+
+check_changes(){
+  var res = false;
+  if (this.op['pda_done']){
+    this.presentToast ("Ya está hecha. No puedes modificar");
+    res = true
+    }
+  if (!Boolean(this.pick['user_id'])) {
+    this.presentToast ("No está asignado el picking");
+    res = true
+    }
+  return res
+}
 scanValue(model, scan){
-    if (this.op['pda_done']){return}
+    if (this.check_changes()){return}
     var domain
     var values
     if (model=='stock.production.lot'){
@@ -318,9 +379,8 @@ check_state(){
 
 
 submit (values){
-
+  if (this.check_changes()){return}
   var self = this
-  if (self.op['pda_done']){return}
   var model = 'warehouse.app'
   var method = 'get_object_id'
   var confirm = false
@@ -383,6 +443,7 @@ submit (values){
                   }
                   //CASO 0. PAQUETE. CAMBIO CONFIRMADO
                   else if (value.model == 'stock.quant.package' && self.package_id_change == value.id) {
+                    self.cargar = true;
                     self.package_id_change = value.id;
                     self.change_op_value(self.op_id, 'package_id', value.id);
                     // Reiniciamos la configuración completa  ...
@@ -418,6 +479,7 @@ submit (values){
 
                   else if (value.model == 'stock.location' && self.location_id_change != 0){
                     if (self.location_id_change == value.id) {
+                      self.cargar = true;
                     self.presentToast('Cambio de ubicación de origen confirmado');
                     self.change_op_value(self.op_id, 'location_id', value.id);
                     self.location_id_change = 0;}
@@ -437,6 +499,7 @@ submit (values){
                   if (value.model == 'stock.location'){
                     if (value.id == location_dest_id && self.location_id_change == 0){
                       if (confirm) {
+                        self.cargar = true;
                         self.doOp(self.op['id']);
                       }  
                       else {
@@ -449,6 +512,7 @@ submit (values){
                       self.presentToast('Cambiando de ubiucación')
                     }
                     else if (value.id == self.location_id_change) {
+                      self.cargar = true;
                       self.change_op_value(self.op_id, 'location_dest_id', value.id);
                       self.location_id_change = 0 
                       self.presentToast('Cambio de ubicación de destino confirmado')
@@ -463,7 +527,9 @@ submit (values){
                   else if (value.model == 'stock.quant.package'){
                     if (value.id == result_package_id && self.package_dest_id_change == 0){
                       if (confirm) {
+                        self.cargar = true;
                         self.doOp(self.op['id']);
+                        
                       }  
                       else {
                         self.presentToast('ReScan para confirmar')
@@ -478,6 +544,7 @@ submit (values){
                     else if (self.package_dest_id_change == value.id){
                       self.package_dest_id_change = 0;
                       self.change_op_value(self.op_id, 'result_package_id', value.id);
+                      self.cargar = true;
                       self.presentToast('Confirmado cambio de paquete de destino')
                     }       
                   
@@ -486,17 +553,16 @@ submit (values){
                       self.presentToast('Cambio de paquete de destino cancelado')
                     }
                   }
-
-                  
-                  
+                  else if (self.op['location_dest_id_need_check'] && !Boolean(self.op['result_package_id']))
+                    { self.cargar = true;
+                      self.doOp(self.op['id']);
+                    }
                   // CASO 11. DESTINO + UBICACION DESTINO (<>) => CONFIRMA NUEVO UBICACION DESTINO >> CAMBIO DESTINO EN OP + CARGAR OP + CARGAR SLIDES
-                  
-
-            
-
-
                 }
                 self.check_state();
+                if (self.waiting>=4 && self.op['location_dest_id_need_check'] && !self.cargar){
+                    self.doOp(self.op['id']);
+                }
                 self.scan_id = value;
                 self.myScan.setFocus();
                 return value;
@@ -522,8 +588,6 @@ submit (values){
 
   getObjectId(values){
     var self = this;
-    
-
     var model = 'warehouse.app'
     var method = 'get_object_id'
     
@@ -563,6 +627,7 @@ submit (values){
     }
  
     get_next_op(id, index){
+
       var self = this;
       let domain = []
       
@@ -579,12 +644,13 @@ submit (values){
     }
 
     doOp(id){
-
+      if (this.check_changes()){return}
+      
       var self = this;
-      if (self.op['pda_done']){return}
+      self.cargar = true;
       var model = 'stock.pack.operation'
       var method = 'doOp'
-      var values = {'id': id}
+      var values = {'id': id, 'qty_done': self.op['qty_done']}
       var object_id;
       this.storage.get('CONEXION').then((val) => {
   
@@ -602,14 +668,14 @@ submit (values){
                     {setTimeout(() => {
                       self.ops[self.index]['pda_done'] = true
                       self.cargar = false;
-                      self.domain = self.get_next_op(id, self.index);
-                      if (self.domain.length == 0){
-                        self.navCtrl.push(TreeopsPage, {picking_id: self.op['picking_id'][0]});
-                        }
-                      else{
-                        self.cargarOP();             
-                        }                  
-                    }, 150);}
+                      if (Boolean(value)){
+                        self.domain = [['id', '=',value]];   
+                        self.cargarOP()
+                      }
+                      else {
+                        //self.navCtrl.push(TreeopsPage, {picking_id: self.op['picking_id'][0]});
+                      }
+                    }, 1);}
 
                   },
                   function () {
@@ -633,17 +699,19 @@ submit (values){
   
 
   inputQty() {
+    if (this.check_changes()){return}
     var self = this;
-    if (self.op['pda_done']){return}
-    if (self.state == 0) {return}
+    if (self.waiting < 1 && self.waiting > 4) {return}
     let alert = this.alertCtrl.create({
       title: 'Qty',
       message: 'Cantidad a mover',
       inputs: [
         {
           name: 'qty',
-          placeholder: self.op['product_qty'].toString()
+          placeholder: self.op['qty_done'].toString()
         },
+       
+      
       ],
       buttons: [
         {
@@ -657,6 +725,7 @@ submit (values){
           handler: (data) => {
             console.log('Saved clicked');
             console.log(data.qty);
+
             if (data.qty<0){
               self.presentAlert('Error!', 'La cantidad debe ser mayor que 0');
             }

@@ -28,6 +28,7 @@
     'website': 'www.elnogal.com',
     "depends" : ['sale',
                  'eln_custom',
+                 'eln_sale',
                  'sale_commission',
                  'eln_partner_discount'
                  ],

@@ -1,0 +1,69 @@
+<!--
+  Generated template for the ProductPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+    <ion-navbar>
+      <ion-title>PACK: {{item && item.name || "Cargando ..."}}</ion-title>
+    </ion-navbar>
+  
+  </ion-header>
+  <ion-content>
+      <div *ngIf="!cargar" style="text-align: center">    
+        <ion-spinner name="circles"></ion-spinner><br>
+        <b>Cargando...</b>
+      </div>
+  
+      <ion-list *ngIf="cargar">
+        <ion-item-group> 
+          <ion-item class="all0">
+            <ion-label></ion-label>
+            <ion-badge item-end class="ion-info w100" (click)="open('product.product', item.product_id.id)">
+                {{item.product_id.name}}
+            </ion-badge>
+          </ion-item>
+
+          <ion-item class="all0">
+              <ion-label></ion-label>
+              <ion-badge item-end class="ion-info w50"  (click)="open('stock.production.lot', item.lot_id.id)">
+                  LOT {{item.lot_id.name}}
+              </ion-badge>
+              <ion-badge item-end class="ion-info w50">
+                  {{item.package_qty}} {{item.uom_id.name}}
+              </ion-badge>
+          </ion-item>
+          
+          <ion-item class="all0">
+              <ion-label></ion-label>
+              
+              <ion-badge item-end class="ion-info w50"  (click)="open('stock.location', item.location_id.id)">
+                  UBI {{item.location_id.name}}
+              </ion-badge>
+          </ion-item>
+        </ion-item-group>    
+  
+        <ion-item-group [hidden] = "!item['quant_ids']">
+          <ion-item  no-lines class="all0">
+              <ion-label></ion-label>
+              <ion-badge item-start color="odoolight" class="ion-info w50">QTY </ion-badge>
+              <ion-badge item-start color="odoolight" class="ion-info w50">ENTRADA </ion-badge>
+  
+          </ion-item>
+          <ion-item *ngFor="let subitem of item['quant_ids']; trackBy: index;" no-lines class="all0">
+            <ion-label></ion-label>
+            <ion-badge item-start color="odoo" class="ion-info w50" [ngClass]="{'not_op_done': reservation_id != false}">
+                {{subitem.display_name}}
+            </ion-badge>
+            <ion-badge item-start color="white" class="ion-info w50">
+              {{subitem.in_date}}
+            </ion-badge>
+          </ion-item>
+
+        </ion-item-group>
+              
+      </ion-list>
+  </ion-content>
+  

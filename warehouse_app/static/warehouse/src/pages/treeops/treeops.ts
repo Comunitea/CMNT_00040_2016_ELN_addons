@@ -4,6 +4,7 @@ import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angu
 import {FormBuilder, FormGroup } from '@angular/forms';
 
 import { HostListener } from '@angular/core';
+import { AuxProvider } from '../../providers/aux/aux'
 
 
 /**
@@ -17,7 +18,8 @@ import { SlideopPage } from '../slideop/slideop';
 import { Storage } from '@ionic/storage';
 import { TreepickPage } from '../treepick/treepick'
 
- declare var OdooApi: any
+declare var OdooApi: any
+
 
 @IonicPage()
 @Component({
@@ -33,60 +35,54 @@ export class TreeopsPage {
     this.myScanPackage.setFocus();
      }
   
-  op_fields = ['id', 'pda_checked', 'pda_done', 'product_id', 'product_uom','product_qty', 'qty_done', 'package_id', 'lot_id', 'location_id']
-  pick_fields = ['id', 'name', 'location_id_name', 'location_dest_id_name', 'min_date', 'picking_type_id_name', 'state', 'partner_id_name', 'done_ops', 'all_ops']
-  items = [];
-  picks = [];
-  pick = {};
+  
+  pick
+  
   cargar = true;
   pick_id = 0
   limit = 25
   offset = 0
+  order = 'picking_order, product_id asc'
   model = 'stock.pack.operation'
   domain = []
   pick_domain = []
   record_count = 0
   isPaquete: boolean = true;
   isProducto: boolean = false;
-  pick_name = '';
-  pick_type = '';
-  selected_picking = {};
+  
   scan = ''
   treeForm: FormGroup;
-  ops = []
   model_fields = {'stock.quant.package': 'package_id', 'stock.location': 'location_id', 'stock.production.lot': 'lot_id'}
   whatOps: string
-  
+  aux: AuxProvider
   constructor(public navCtrl: NavController, public navParams: NavParams,  private formBuilder: FormBuilder,public alertCtrl: AlertController, private storage: Storage) {
-    
-    this.items = [];
-    this.picks = [];
+    this.aux = new AuxProvider
     this.pick = {};
     this.pick_id = this.navParams.data.picking_id;
-    this.domain = [['picking_id', '=', this.pick_id]];
-    this.pick_domain = [['id', '=', this.pick_id]];
     this.record_count = 0;    
-    this.pick_name = 'Nombre albarán'
-    this.pick_type = 'pick_type'
-    this.selected_picking = {}
     this.scan = '';
-    this.whatOps = 'Todas'
+    this.storage.get('WhatOps').then((val) => {
+      if (val==null) {
+        this.whatOps='Todas'} 
+      else {
+        this.whatOps = val}
+      })
     this.treeForm = this.formBuilder.group({
       scan: ['']
     });
-    
-
   }
 
   ionViewWillEnter(){
     this.loadList();
   }
+  ops
   seeAll(){
     if (this.whatOps=='Todas'){
       this.whatOps='Pendientes'
     }
     else
       {this.whatOps='Todas'}
+    this.storage.set('WhatOps', this.whatOps); 
   }
 
   ionViewLoaded() {
@@ -98,82 +94,59 @@ export class TreeopsPage {
      }
   goHome(){this.navCtrl.setRoot(TreepickPage, {borrar: true, login: null});}
   
-  loadList(){
-    var self = this;
-    self.items = []
-    this.storage.get('CONEXION').then((val) => {
-        if (val == null) {
-          console.log('No hay');
-          self.navCtrl.setRoot(HomePage, {borrar: true, login: null});
-        } else {
-            console.log('hay');
-            var con = val;
-            var odoo = new OdooApi(con.url, con.db);
-            
-            odoo.login(con.username, con.password).then(
-              function (uid) {
-                odoo.search_read(self.model, self.domain, self.op_fields, self.offset, self.limit).then(
-                  function (value) {
-                    self.items = [];
-                    var newOP = {};
-                    self.ops=[];
-                    for (var key in value) {
-                      self.items.push(value[key]);                      
-                      }
-                    for (var key in self.items) {
-                      newOP = {'index': key, 
-                               'id': self.items[key]['id'],
-                               'pda_done': self.items[key['pda_done']]}
-                      self.ops.push(newOP)
-                    }
-                    self.record_count = self.items.length;
-                    self.cargar = false;
-                    self.storage.set(self.model, value);                    
-                    },
-                    function () {self.navParams.data.op_id;
-                      self.cargar = false;
-                      self.presentAlert('Falla!', 'Imposible conectarse');
-                    }
-                  );
-                  },
-                        function () {
-                            self.cargar = false;
-                            self.presentAlert('Falla!', 'Imposible conectarse');
-                        }
-                    );
+  loadList(id = 0){
+    
+    var self = this
+    var model = 'warehouse.app'
+    var method = 'get_object_id'
+    if (id==0){
+      id = this.pick_id
+    }
+    var values = {'id': id, 'model': 'stock.picking'}
 
-            odoo.login(con.username, con.password).then(
-              function (uid) {
-                odoo.search_read('stock.picking', self.pick_domain, self.pick_fields).then(
-                  function (value) {
-                    for (var key in value) {
-                      self.picks.push(value[key]);                      
-                      }
-                    console.log("Pick " + self.picks['name']);
-                    self.pick = self.picks[0];
-                    self.cargar = false;
-                    self.storage.set('stock.picking', value);                    
-                    },
-                    function () {
-                      self.cargar = false;
-                      self.presentAlert('Falla!', 'Imposible conectarse');
-                    }
-                  );
-                  },
-                        function () {
-                            self.cargar = false;
-                            self.presentAlert('Falla!', 'Imposible conectarse');
-                        }
-                    );                     
-                    self.cargar = false;
-                };
-            self.selected_picking = {'pick': self.pick, 'ops': self.items}
-    })
-           
-  }
- 
+    self.storage.get('CONEXION').then((val) => {
+      if (val == null) {
+        console.log('No hay conexión');
+        self.navCtrl.setRoot(HomePage, {borrar: true, login: null});
+      } else {
+          console.log('Hay conexión');
+          var con = val;
+          var odoo = new OdooApi(con.url, con.db);
+          odoo.login(con.username, con.password).then(
+            function (uid) {
+              odoo.call(model, method, values).then(
+                function (res) {
+                  //AQUI DECIDO QUE HACER EN FUNCION DE LO QUE RECIBO
+                  //Estoy scaneando ORIGEN
+                  
+                  if (res['id']!=0){
+                    
+                    self.pick = res['values']
+                    self.record_count = self.pick['pack_operation_count']
+                    return true;
+                  }
+                },
+                function () {
+                  
+                  self.presentAlert('Falla!', 'Imposible conectarse');
+                  }
+                );
+              },
+            function () {
+              
+              self.presentAlert('Falla!', 'Imposible conectarse');
+              }
+            );
+        }
+      
+        });
+      
    
 
+    
+
+    }
+ 
   presentAlert(titulo, texto) {
     const alert = this.alertCtrl.create({
         title: titulo,
@@ -195,8 +168,8 @@ export class TreeopsPage {
     console.log("Do op")
   }
 
-  openOp(op_id){
-    this.navCtrl.push(SlideopPage, {op_id: op_id, index: 1, ops: this.ops})
+  openOp(op_id, op_id_index){
+    this.navCtrl.push(SlideopPage, {op_id: op_id, index: op_id_index, ops: this.pick['pack_operation_ids']})
   }
 
   submitScan (){
@@ -206,13 +179,12 @@ export class TreeopsPage {
 
   findId (value){
     
-    for (var op in this.items){
+    for (var op in this.pick['pack_operation_ids']){
       
-      var opObj = this.items[op];
+      var opObj = this.pick['pack_operation_ids'][op];
       console.log(opObj);
       if (opObj[this.model_fields[value['model']]][0] == value['id']){
-        return {'op_id': opObj['id'], 'index': op, 'ops': this.items, 'origin': true}
-
+        return {'op_id': opObj['id'], 'index': op, 'ops': this.pick['pack_operation_ids'], 'origin': true}
       }
     }
     return false
