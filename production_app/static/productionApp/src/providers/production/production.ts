@@ -10,7 +10,9 @@ import { OdooProvider } from '../odoo/odoo';
 @Injectable()
 export class ProductionProvider {
     operators: any;
+    lots: any;
     operatorsById: Object = {};
+    lotsById: Object = {};
     workcenter: Object = {};
     loged_ids: number[] = [];
     registry_id;
@@ -64,6 +66,22 @@ export class ProductionProvider {
         })
         .catch( (err) => {
             console.log("GET operators deberia ser una promesa, y devolver error, controlarlo en la página y lanzar excepción")
+        });
+    }
+
+    //Gets operators from odoo, maybe a promise?
+    getLots(){
+        this.odooCon.searchRead('stock.production.lot', [], ['id', 'name']).then( (res) => {
+            this.lots = res;
+            for (let indx in res) {
+                let lot = res[indx];
+                this.lotsById[lot.id] = {'name': lot.name}    
+            }
+            console.log("LOTSBYID")
+            console.log(this.lotsById)
+        })
+        .catch( (err) => {
+            console.log("GET lots deberia ser una promesa, y devolver error, controlarlo en la página y lanzar excepción")
         });
     }
 

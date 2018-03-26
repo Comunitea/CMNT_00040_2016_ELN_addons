@@ -30,22 +30,20 @@
 
 <ion-content padding>
     <ion-item [hidden]='prodData.workcenter' color ="danger"> No hay Línea seleccionda</ion-item>
-     <ion-card *ngIf="prodData.active_operator_id !== 0">
-        <ion-card-header>
-            Operario Activo
-         </ion-card-header>
-        <ion-card-content>
-            <div class="info-content">
-             {{prodData.operatorsById[prodData.active_operator_id]['name']}}
-            </div>
-        </ion-card-content>
-    </ion-card>
      <ion-card *ngIf="prodData.production">
         <ion-card-header>
             Información
          </ion-card-header>
          <ion-card-content>
             <ion-grid text-center>
+                <ion-row *ngIf="prodData.active_operator_id !== 0">
+                    <ion-col width-100>
+                        <div class="info-tittle">Operario Activo</div>
+                    </ion-col>
+                    <ion-col width-100>
+                        <div class="info-content">{{prodData.operatorsById[prodData.active_operator_id]['name']}}</div>
+                    </ion-col>
+                </ion-row>
                 <ion-row>
                     <ion-col width-50>
                         <div class="info-tittle">Centro Trabajo</div>
