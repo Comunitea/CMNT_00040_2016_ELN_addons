@@ -40,31 +40,39 @@
             </div>
         </ion-card-content>
     </ion-card>
-    <ion-card *ngIf="prodData.production">
+     <ion-card *ngIf="prodData.production">
         <ion-card-header>
             Información
          </ion-card-header>
-        <ion-card-content>
-            <div class="info-tittle">
-                Centro Trabajo
-            </div>
-            <div class="info-content">
-               {{prodData.workcenter.name}}
-            </div>
-
-            <div class="info-tittle">
-                Producción
-            </div>
-            <div class="info-content">
-                {{prodData.production}}
-            </div>
-
-            <div class="info-tittle">
-                Producto
-            </div>
-            <div class="info-content">
-               {{prodData.product}}
-            </div>
+         <ion-card-content>
+            <ion-grid text-center>
+                <ion-row>
+                    <ion-col width-50>
+                        <div class="info-tittle">Centro Trabajo</div>
+                    </ion-col>
+                    <ion-col width-50>
+                        <div class="info-tittle">Producción</div>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col width-50>
+                        <div class="info-content"> {{prodData.workcenter.name}}</div>
+                    </ion-col>
+                    <ion-col width-50>
+                        <div class="info-content">{{prodData.production}}</div>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col width-100>
+                        <div class="info-tittle"> Producto</div>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col width-100>
+                        <div class="info-content">{{prodData.product}}</div>
+                    </ion-col>
+                </ion-row>
+             </ion-grid>
         </ion-card-content>
     </ion-card>
 
