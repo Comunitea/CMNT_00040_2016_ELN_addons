@@ -208,6 +208,12 @@ class AppRegistry(models.Model):
         return res
 
     @api.model
+    def restart_and_clean_production(self, values):
+        self.restart_production(values)
+        res = self.clean_production(values)
+        return res
+
+    @api.model
     def clean_production(self, values):
         res = {}
         reg = False

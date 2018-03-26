@@ -237,6 +237,7 @@ export class ProductionPage {
     stopProduction() {
         this.promptNextStep('Registrar una parada?').then( () => {
             this.openReasonsModal().then( (reason_id) => {
+                this.clearIntervales();
                 console.log("STOP MODAL RES");
                 console.log(reason_id);
                 this.timer.pauseTimer();
@@ -249,10 +250,22 @@ export class ProductionPage {
         .catch( () => {});
     }
 
+    restartAndCleanProduction(){
+        this.promptNextStep('Reanudar producción y pasar a limpieza').then( () => {
+            this.scheduleChecks();
+            this.timer.resumeTimer();
+            this.prodData.restartAndCleanProduction();
+            this.openModal('start', this.prodData.start_checks);
+        })
+        .catch( () => {});
+    }
+
     restartProduction() {
         this.promptNextStep('Reanudar producción').then( () => {
+            this.scheduleChecks();
             this.timer.resumeTimer();
             this.prodData.restartProduction();
+            this.openModal('start', this.prodData.start_checks);
         })
         .catch( () => {});
     }

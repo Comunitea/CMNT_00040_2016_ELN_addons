@@ -235,7 +235,7 @@ export class ProductionProvider {
             values['reason_id'] = this.stop_reason_id
             values['active_operator_id'] = this.active_operator_id
         }
-        if (method == 'restart_production'){
+        if (method == 'restart_production' || method == 'restart_and_clean_production'){
             values['stop_id'] = this.last_stop_id
         }
         if (method == 'finish_production'){
@@ -248,7 +248,7 @@ export class ProductionProvider {
             if (method == 'stop_production'){
                 this.last_stop_id = res['stop_id'];
             }
-            if (method == 'restart_production'){
+            if (method == 'restart_production' || method == 'restart_and_clean_production'){
                 this.last_stop_id = false;
             }
         })
@@ -287,6 +287,10 @@ export class ProductionProvider {
     finishProduction() {
         this.state = 'finished'
         this.setStepAsync('finish_production');
+    }
+    restartAndCleanProduction(){
+        this.state = 'cleaning';
+        this.setStepAsync('restart_and_clean_production');
     }
 
 }
