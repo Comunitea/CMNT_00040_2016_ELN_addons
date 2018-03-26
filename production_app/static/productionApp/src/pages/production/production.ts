@@ -255,7 +255,6 @@ export class ProductionPage {
             this.scheduleChecks();
             this.timer.resumeTimer();
             this.prodData.restartAndCleanProduction();
-            this.openModal('start', this.prodData.start_checks);
         })
         .catch( () => {});
     }
