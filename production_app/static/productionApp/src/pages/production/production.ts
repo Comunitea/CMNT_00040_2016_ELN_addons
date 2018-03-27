@@ -85,23 +85,32 @@ export class ProductionPage {
         alert.present();
     }
 
-    openModal(qtype, qchecks) {
-        var mydata = {
-            'product_id': this.prodData.product_id,
-            'quality_type': qtype,
-            'quality_checks': qchecks
-        }
-        let myModal = this.modalCtrl.create(ChecksModalPage, mydata);
+    openChecksModal(qtype, qchecks) {
+        var promise = new Promise( (resolve, reject) => {
+            var mydata = {
+                'product_id': this.prodData.product_id,
+                'quality_type': qtype,
+                'quality_checks': qchecks
+            }
+            let myModal = this.modalCtrl.create(ChecksModalPage, mydata);
 
-        // When modal closes
-        myModal.onDidDismiss(data => {
-            this.prodData.saveQualityChecks(data);  // TODO CONVERT IN PROMISE
-            if (qtype == 'start'){
-                this.timer.restartTimer();  // Production timer on
-            } 
+            // When modal closes
+            myModal.onDidDismiss(data => {
+                if (Object.keys(data).length !== 0) {
+                    this.prodData.saveQualityChecks(data);
+                    if (qtype == 'start'){
+                        this.timer.restartTimer();  // Production timer on
+                    } 
+                    resolve();
+                }
+                else{
+                    reject();
+                }
+                
+            });
+
+            myModal.present();
         });
-
-        myModal.present();
     }
 
     openUsersModal(){
@@ -161,7 +170,7 @@ export class ProductionPage {
     scheduleIntervals(delay, qchecks){
         let timerId = setInterval(() => 
         {
-            this.openModal('freq', qchecks)
+            this.openChecksModal('freq', qchecks)
         }, delay*60*1000);
         this.interval_list.push(timerId);
     }
@@ -207,8 +216,11 @@ export class ProductionPage {
     startProduction() {
         this.promptNextStep('Terminar preparación y empezar producción').then( () => {
             this.prodData.startProduction();
-            this.openModal('start', this.prodData.start_checks);  // Production timer setted when modal is clos   
-            this.scheduleChecks();
+            this.openChecksModal('start', this.prodData.start_checks).then( () => {
+                this.scheduleChecks();
+                
+            })
+            .catch( () => {});
         })
         .catch( () => {});
     }
@@ -243,7 +255,7 @@ export class ProductionPage {
             this.scheduleChecks();
             this.timer.resumeTimer();
             this.prodData.restartProduction();
-            this.openModal('start', this.prodData.start_checks);
+            this.openChecksModal('start', this.prodData.start_checks).then(() => {}).catch(() => {});
         })
         .catch( () => {});
     }

@@ -141,7 +141,6 @@ export class ProductionProvider {
         }
     }
 
-    // Load Quality checks in each type list
     loadReasons(reasons) {
         for (let indx in reasons) {
             var r = reasons[indx];
