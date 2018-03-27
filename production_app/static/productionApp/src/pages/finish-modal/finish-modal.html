@@ -19,22 +19,43 @@
 
 
 <ion-content padding>
-   <ion-list *ngIf="!cargar">
-    <ion-item>
-        <ion-label color="primary" stacked>Cantidad</ion-label>
-        <ion-input type="number"  [(ngModel)]="qty" required name='qty' placeholder="Cantidad"></ion-input>
-    </ion-item>
-    <ion-item>
-       <ion-label color="primary" stacked>Lot</ion-label>
-       <ion-input type="text" [(ngModel)]="lot" required name='lot'  placeholder="Lote"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label color="primary" stacked>Fecha de cadicidad</ion-label>
-      <!-- <ion-input [(ngModel)]="date" required name='date'  placeholder="Fecha caducidad"></ion-input> -->
-      <ion-datetime displayFormat="DD/MM/YYYY" pickerFormat="DD  MM YYYY" max="2099-12-31" [(ngModel)]="date"></ion-datetime>
-    </ion-item>
+
+   <ion-list>
+        <ion-item *ngIf="mode !== 'show'">
+             <button ion-button full color= "secondary"(click)="showLots()">
+                Ver Lotes
+            </button>
+        </ion-item>
+
+        <ion-item *ngIf="mode !== 'show'">
+            <ion-label color="primary" stacked>Cantidad</ion-label>
+            <ion-input type="number"  [(ngModel)]="qty" required name='qty' placeholder="Introducir Cantidad"></ion-input>
+        </ion-item>
+
+
+        <ion-item *ngIf="mode !== 'show'">
+           <ion-label color="primary" stacked>Lot</ion-label>
+           <ion-input type="text" [(ngModel)]="lot" required name='lot'  placeholder="Introducir Lote"></ion-input>
+        </ion-item>
+
+        <ion-item *ngIf="mode !== 'show'">
+            <ion-label color="primary" stacked>Fecha de cadicidad</ion-label>
+          <ion-datetime displayFormat="DD/MM/YYYY" pickerFormat="DD MM YYYY" max="2099-12-31" placeholder="Introducir Caducidad" [(ngModel)]="date"></ion-datetime>
+        </ion-item>
    </ion-list>
-    <button ion-button full (click)="confirm()">
+
+   <ion-searchbar *ngIf="mode == 'show'" (ionInput)="getItems($event)"></ion-searchbar>
+    <ion-list *ngIf="mode === 'show'"> 
+         <button ion-item *ngFor="let lot of items" (click)="lotSelected(lot)">
+            {{ lot.name }}
+        </button>  
+    </ion-list> 
+
+   <button *ngIf="mode !== 'show'" ion-button   full (click)="confirm()">
         Confirmar
     </button>
+   
+    
+    
+
 </ion-content>

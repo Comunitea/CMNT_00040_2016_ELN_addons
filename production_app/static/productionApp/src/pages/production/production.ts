@@ -137,14 +137,14 @@ export class ProductionPage {
 
             // When modal closes
             finishModal.onDidDismiss(res => {
-                if (res) {
+                if (Object.keys(res).length === 0) {
+                    reject();
+                }
+                else {
                     this.prodData.qty = res.qty;
                     this.prodData.lot_name = res.lot;
                     this.prodData.lot_date = res.date;
                     this.prodData.finishProduction();
-                }
-                else {
-                    reject();
                 }
             });
         });
@@ -260,7 +260,7 @@ export class ProductionPage {
     finishProduction() {
         this.promptNextStep('Finalizar producción').then( () => {
             this.timer.pauseTimer()
-            this.openFinishModal();
+            this.openFinishModal().then(() => {}).catch(() => {});
         })
         .catch( () => {});
     }

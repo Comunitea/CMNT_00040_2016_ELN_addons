@@ -13,9 +13,14 @@ export class FinishModalPage {
     qty: number;
     lot: string;
     date: string;
+    lots: Object[];
+    items: Object[];
+    mode: string = 'default';
     constructor(public navCtrl: NavController, public navParams: NavParams, 
                 public viewCtrl: ViewController,
                 private prodData: ProductionProvider) {
+        this.lots = [];
+        this.items = [];
     }
 
     ionViewDidLoad() {
@@ -32,5 +37,32 @@ export class FinishModalPage {
     closeModal() {
         this.viewCtrl.dismiss({});
     }
+
+    showLots(){
+        this.mode = 'show'
+        this.lots = this.prodData.lots
+        this.items = this.prodData.lots
+    }
+    lotSelected(lot_obj){
+        this.mode = 'default';
+        this.lot = lot_obj.name
+        this.date = lot_obj.use_date.split(" ")[0]
+    }
+    getItems(ev: any) {
+        // Reset items back to all of the items
+       this.items = this.prodData.lots
+
+        // set val to the value of the searchbar
+        let val = ev.target.value;
+
+        // if the value is an empty string don't filter the items
+        if (val && val.trim() != '') {
+            this.items = this.items.filter((item) => {
+                return (item['name'].toLowerCase().indexOf(val.toLowerCase()) > -1);
+            })
+        }
+    }
+
+
 
 }

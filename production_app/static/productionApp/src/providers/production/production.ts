@@ -71,7 +71,10 @@ export class ProductionProvider {
 
     //Gets operators from odoo, maybe a promise?
     getLots(){
-        this.odooCon.searchRead('stock.production.lot', [], ['id', 'name']).then( (res) => {
+        var d = new Date();
+        d.setMonth(d.getMonth() - 3);
+        var limit_date = d.toISOString().split("T")[0];
+        this.odooCon.searchRead('stock.production.lot', [['create_date', '>=', limit_date]], ['id', 'name', 'use_date']).then( (res) => {
             this.lots = res;
             for (let indx in res) {
                 let lot = res[indx];
