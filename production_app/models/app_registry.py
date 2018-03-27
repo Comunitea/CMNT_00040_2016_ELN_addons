@@ -258,7 +258,7 @@ class AppRegistry(models.Model):
             reg.write({
                 'state': 'finished',
                 'cleaning_end': fields.Datetime.now(),
-                'qty': values.get('weight', 0.00),
+                'qty': values.get('qty', 0.00),
                 'lot_id': lot_id,
             })
             operators_loged = self.env['operator.line']

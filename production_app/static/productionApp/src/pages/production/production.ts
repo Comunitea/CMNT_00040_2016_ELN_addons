@@ -4,6 +4,7 @@ import { HomePage } from '../../pages/home/home';
 import { ChecksModalPage } from '../../pages/checks-modal/checks-modal';
 import { UsersModalPage } from '../../pages/users-modal/users-modal';
 import { ReasonsModalPage } from '../../pages/reasons-modal/reasons-modal';
+import { FinishModalPage } from '../../pages/finish-modal/finish-modal';
 import { OdooProvider } from '../../providers/odoo/odoo';
 import { ProductionProvider } from '../../providers/production/production';
 import { TimerComponent } from '../../components/timer/timer';
@@ -84,50 +85,6 @@ export class ProductionPage {
         alert.present();
     }
 
-    promptFinishData() {
-        let alert = this.alertCtrl.create({
-            title: 'Finalizar Producción',
-            inputs: [
-              {
-                name: 'qty',
-                placeholder: 'Cantidad',
-                label: 'Cantidad',
-                type: 'number'
-              },
-              {
-                name: 'lot',
-                placeholder: 'Lote',
-                id: 'Lote',
-                type: 'text'
-              },
-              {
-                name: 'date',
-                placeholder: 'Fecha caducidad',
-                type: 'date'
-              },
-            ],
-            buttons: [
-              {
-                text: 'Cancel',
-                role: 'cancel',
-                handler: data => {
-                  console.log('Cancel clicked');
-                }
-              },
-              {
-                text: 'OK',
-                handler: data => {
-                  this.prodData.qty = data.qty;
-                  this.prodData.lot_name = data.lot;
-                  this.prodData.lot_date = data.date;
-                  this.prodData.finishProduction();
-                }
-              }
-            ]
-        });
-        alert.present();
-    }
-
     openModal(qtype, qchecks) {
         var mydata = {
             'product_id': this.prodData.product_id,
@@ -166,6 +123,28 @@ export class ProductionPage {
                 }
                 else{
                     resolve(reason_id);
+                }
+            });
+        });
+        return promise;
+    }
+
+    openFinishModal(){
+        var promise = new Promise( (resolve, reject) => {
+            var mydata = {}
+            let finishModal = this.modalCtrl.create(FinishModalPage, mydata);
+            finishModal.present();
+
+            // When modal closes
+            finishModal.onDidDismiss(res => {
+                if (res) {
+                    this.prodData.qty = res.qty;
+                    this.prodData.lot_name = res.lot;
+                    this.prodData.lot_date = res.date;
+                    this.prodData.finishProduction();
+                }
+                else {
+                    reject();
                 }
             });
         });
@@ -281,7 +260,7 @@ export class ProductionPage {
     finishProduction() {
         this.promptNextStep('Finalizar producción').then( () => {
             this.timer.pauseTimer()
-            this.promptFinishData();
+            this.openFinishModal();
         })
         .catch( () => {});
     }

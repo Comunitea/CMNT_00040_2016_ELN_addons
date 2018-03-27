@@ -17,4 +17,13 @@ page-production {
     .info-content{
          color: $primary-color;
     }
+    .content-full{
+        height: 100%;
+    }
+    .content-one{
+        height: 55%;
+    }
+    .content-two{
+        height: 45%;
+    }
 }
