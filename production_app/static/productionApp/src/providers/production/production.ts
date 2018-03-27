@@ -12,7 +12,7 @@ export class ProductionProvider {
     operators: any;
     lots: any;
     operatorsById: Object = {};
-    lotsById: Object = {};
+    lotsByProduct: Object = {};
     workcenter: Object = {};
     loged_ids: number[] = [];
     registry_id;
@@ -74,14 +74,18 @@ export class ProductionProvider {
         var d = new Date();
         d.setMonth(d.getMonth() - 3);
         var limit_date = d.toISOString().split("T")[0];
-        this.odooCon.searchRead('stock.production.lot', [['create_date', '>=', limit_date]], ['id', 'name', 'use_date']).then( (res) => {
+        this.odooCon.searchRead('stock.production.lot', [['create_date', '>=', limit_date]], ['id', 'name', 'use_date',  'product_id']).then( (res) => {
             this.lots = res;
             for (let indx in res) {
                 let lot = res[indx];
-                this.lotsById[lot.id] = {'name': lot.name}    
+                let product_id = lot.product_id[0];
+                if (!(product_id in this.lotsByProduct)){
+                    this.lotsByProduct[product_id] = []
+                }
+                this.lotsByProduct[product_id].push(lot)
             }
             console.log("LOTSBYID")
-            console.log(this.lotsById)
+            console.log(this.lotsByProduct)
         })
         .catch( (err) => {
             console.log("GET lots deberia ser una promesa, y devolver error, controlarlo en la página y lanzar excepción")

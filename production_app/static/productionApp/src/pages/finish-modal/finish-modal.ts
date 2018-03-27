@@ -40,8 +40,10 @@ export class FinishModalPage {
 
     showLots(){
         this.mode = 'show'
-        this.lots = this.prodData.lots
-        this.items = this.prodData.lots
+        if (this.prodData.product_id in this.prodData.lotsByProduct){
+            this.lots = this.prodData.lotsByProduct[this.prodData.product_id]
+            this.items = this.prodData.lotsByProduct[this.prodData.product_id]
+        }
     }
     lotSelected(lot_obj){
         this.mode = 'default';
@@ -50,7 +52,7 @@ export class FinishModalPage {
     }
     getItems(ev: any) {
         // Reset items back to all of the items
-       this.items = this.prodData.lots
+       this.items = this.prodData.lotsByProduct[this.prodData.product_id]
 
         // set val to the value of the searchbar
         let val = ev.target.value;
