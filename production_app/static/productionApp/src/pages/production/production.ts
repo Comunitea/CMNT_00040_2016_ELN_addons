@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChildren, QueryList } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, ModalController } from 'ionic-angular';
 import { HomePage } from '../../pages/home/home';
 import { ChecksModalPage } from '../../pages/checks-modal/checks-modal';
@@ -19,9 +19,10 @@ export class ProductionPage {
     
     cdb;
     weight;
+    hidden_class: string = 'my-hide';
     interval_list: any[] = [];
 
-    @ViewChild(TimerComponent) timer: TimerComponent;
+    @ViewChildren(TimerComponent) timer: QueryList<TimerComponent>;
 
     constructor(public navCtrl: NavController,
                 public navParams: NavParams, public alertCtrl: AlertController, 
@@ -98,8 +99,8 @@ export class ProductionPage {
             myModal.onDidDismiss(data => {
                 if (Object.keys(data).length !== 0) {
                     this.prodData.saveQualityChecks(data);
-                    if (qtype == 'start'){
-                        this.timer.restartTimer();  // Production timer on
+                    if (qtype == 'start' && this.prodData.state == 'setup'){
+                        this.timer.toArray()[0].restartTimer();  // Production timer on
                     } 
                     resolve();
                 }
@@ -111,6 +112,7 @@ export class ProductionPage {
 
             myModal.present();
         });
+        return promise
     }
 
     openUsersModal(){
@@ -208,7 +210,7 @@ export class ProductionPage {
     setupProduction() {
         this.promptNextStep('Empezar preparación?').then( () => {
             this.prodData.setupProduction();
-            this.timer.startTimer()  // Set-Up timer on
+            this.timer.toArray()[0].startTimer()  // Set-Up timer on
         })
         .catch( () => {});
     }
@@ -218,7 +220,6 @@ export class ProductionPage {
             this.prodData.startProduction();
             this.openChecksModal('start', this.prodData.start_checks).then( () => {
                 this.scheduleChecks();
-                
             })
             .catch( () => {});
         })
@@ -227,12 +228,15 @@ export class ProductionPage {
 
     stopProduction() {
         this.promptNextStep('Registrar una parada?').then( () => {
+            this.hidden_class = 'my-hide'
             this.openReasonsModal().then( (reason_id) => {
+                this.hidden_class = 'none'
                 this.clearIntervales();
                 console.log("STOP MODAL RES");
                 console.log(reason_id);
-                this.timer.pauseTimer();
+                // this.timer.toArray()[0].pauseTimer();
                 this.prodData.stopProduction(reason_id);
+                this.timer.toArray()[1].restartTimer();
             })
             .catch( () => {
                 console.log("Pues no hago nada")
@@ -244,7 +248,7 @@ export class ProductionPage {
     restartAndCleanProduction(){
         this.promptNextStep('Reanudar producción y pasar a limpieza').then( () => {
             this.scheduleChecks();
-            this.timer.resumeTimer();
+            this.hidden_class = 'my-hide'
             this.prodData.restartAndCleanProduction();
         })
         .catch( () => {});
@@ -252,8 +256,10 @@ export class ProductionPage {
 
     restartProduction() {
         this.promptNextStep('Reanudar producción').then( () => {
+            this.hidden_class = 'my-hide'
             this.scheduleChecks();
-            this.timer.resumeTimer();
+            // this.timer.toArray()[0].resumeTimer();
+            this.timer.toArray()[1].pauseTimer();
             this.prodData.restartProduction();
             this.openChecksModal('start', this.prodData.start_checks).then(() => {}).catch(() => {});
         })
@@ -263,7 +269,7 @@ export class ProductionPage {
     cleanProduction() {
         this.promptNextStep('Empezar limpieza?').then( () => {
             this.clearIntervales();
-            this.timer.restartTimer();
+            this.timer.toArray()[0].restartTimer();
             this.prodData.cleanProduction();
         })
         .catch( () => {});
@@ -271,7 +277,7 @@ export class ProductionPage {
 
     finishProduction() {
         this.promptNextStep('Finalizar producción').then( () => {
-            this.timer.pauseTimer()
+            this.timer.toArray()[0].pauseTimer()
             this.openFinishModal().then(() => {}).catch(() => {});
         })
         .catch( () => {});
