@@ -77,17 +77,21 @@
             </ion-card>
         </div>
         <div  class="content-two">
+            <ion-card *ngIf="timer">
+                <ion-card-header>
+                    <span  *ngIf="prodData.state !== 'stoped'">Tiempo transcurrido</span>
+                    <span class="info-content" *ngIf="prodData.state === 'stoped'">Tiempo en parada</span>
+                </ion-card-header>
+                <ion-card-content>
+                    <button ion-button large block clear><timer [timeInSeconds]="0"></timer></button>
+                    <button [ngClass]="hidden_class" ion-button large block clear color="danger"><timer [timeInSeconds]="0"></timer></button>
+                </ion-card-content>
+            </ion-card>
             <!-- PANTALA INICIAL-->
             <button ion-button full *ngIf="prodData.state == 'waiting'" (click)="confirmProduction()">
                 
                Confirmar Producción
             </button>
-<!-- 
-            <timer  *ngIf="(prodData.state == 'waiting') || (prodData.state != 'stoped')" [timeInSeconds]="0"></timer>
-            <timer  *ngIf="(prodData.state == 'waiting') || (prodData.state == 'stoped') " [timeInSeconds]="0"></timer> -->
-
-            <timer  [timeInSeconds]="0"></timer>
-            <timer  [ngClass]="hidden_class" [timeInSeconds]="0"></timer>
             <!-- PANTALA 2-->
             <button ion-button full *ngIf="prodData.state == 'confirmed'" (click)="setupProduction()">
                 Comenzar Preparación

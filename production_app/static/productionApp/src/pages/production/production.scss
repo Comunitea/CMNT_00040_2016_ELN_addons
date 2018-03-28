@@ -29,5 +29,8 @@ page-production {
     .my-hide {
         display: none;
         visibility: hidden;
-} 
+    }
+    .stop-timer{
+        font-color: $primary-color;
+    } 
 }
