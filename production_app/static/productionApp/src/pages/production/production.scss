@@ -6,13 +6,31 @@ page-production {
     }
     ion-card-header {
         text-align: left;
-        font-size: 1.1em !important;
+        font-size: 1.4em !important;
         font-weight: bold;
 
     }
-    ion-card-content{
-        color: $primary-color;
+    .info-tittle{
         font-size: 1em !important;
-        text-align: center;
+        font-weight: bold;
     }
+    .info-content{
+         color: $primary-color;
+    }
+    .content-full{
+        height: 100%;
+    }
+    .content-one{
+        height: 55%;
+    }
+    .content-two{
+        height: 45%;
+    }
+    .my-hide {
+        display: none;
+        visibility: hidden;
+    }
+    .stop-timer{
+        font-color: $primary-color;
+    } 
 }

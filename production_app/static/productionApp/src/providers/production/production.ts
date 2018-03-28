@@ -10,7 +10,9 @@ import { OdooProvider } from '../odoo/odoo';
 @Injectable()
 export class ProductionProvider {
     operators: any;
+    lots: any;
     operatorsById: Object = {};
+    lotsByProduct: Object = {};
     workcenter: Object = {};
     loged_ids: number[] = [];
     registry_id;
@@ -67,6 +69,29 @@ export class ProductionProvider {
         });
     }
 
+    //Gets operators from odoo, maybe a promise?
+    getLots(){
+        var d = new Date();
+        d.setMonth(d.getMonth() - 3);
+        var limit_date = d.toISOString().split("T")[0];
+        this.odooCon.searchRead('stock.production.lot', [['create_date', '>=', limit_date]], ['id', 'name', 'use_date',  'product_id']).then( (res) => {
+            this.lots = res;
+            for (let indx in res) {
+                let lot = res[indx];
+                let product_id = lot.product_id[0];
+                if (!(product_id in this.lotsByProduct)){
+                    this.lotsByProduct[product_id] = []
+                }
+                this.lotsByProduct[product_id].push(lot)
+            }
+            console.log("LOTSBYID")
+            console.log(this.lotsByProduct)
+        })
+        .catch( (err) => {
+            console.log("GET lots deberia ser una promesa, y devolver error, controlarlo en la página y lanzar excepción")
+        });
+    }
+
     logInOperator(operator_id){
         if (this.loged_ids.length === 0){
             this.setActiveOperator(operator_id)
@@ -116,7 +141,6 @@ export class ProductionProvider {
         }
     }
 
-    // Load Quality checks in each type list
     loadReasons(reasons) {
         for (let indx in reasons) {
             var r = reasons[indx];
@@ -235,7 +259,7 @@ export class ProductionProvider {
             values['reason_id'] = this.stop_reason_id
             values['active_operator_id'] = this.active_operator_id
         }
-        if (method == 'restart_production'){
+        if (method == 'restart_production' || method == 'restart_and_clean_production'){
             values['stop_id'] = this.last_stop_id
         }
         if (method == 'finish_production'){
@@ -248,7 +272,7 @@ export class ProductionProvider {
             if (method == 'stop_production'){
                 this.last_stop_id = res['stop_id'];
             }
-            if (method == 'restart_production'){
+            if (method == 'restart_production' || method == 'restart_and_clean_production'){
                 this.last_stop_id = false;
             }
         })
@@ -287,6 +311,10 @@ export class ProductionProvider {
     finishProduction() {
         this.state = 'finished'
         this.setStepAsync('finish_production');
+    }
+    restartAndCleanProduction(){
+        this.state = 'cleaning';
+        this.setStepAsync('restart_and_clean_production');
     }
 
 }

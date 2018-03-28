@@ -99,5 +99,5 @@ export class ListPage {
                 return (item['name'].toLowerCase().indexOf(val.toLowerCase()) > -1);
             })
         }
-  }
+    }
 }

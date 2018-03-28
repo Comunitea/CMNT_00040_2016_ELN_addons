@@ -5,22 +5,40 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-
   <ion-navbar color="secondary">
-    <ion-title>ChecksModal</ion-title>
+    <ion-title>Controles Calidad</ion-title>
+    <ion-buttons end>
+        <button ion-button (click)="closeModal()">
+            Atrás
+        </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 
 <ion-content padding>
     <ion-item [hidden]='quality_checks.length>0' color ="danger"> No hay Quality Checks</ion-item>
+   <ion-card *ngIf="prodData.active_operator_id !== 0">
+        <ion-card-header>
+            Operario Activo
+         </ion-card-header>
+        <ion-card-content>
+            <div class="info-content">
+             {{prodData.operatorsById[prodData.active_operator_id]['name']}}
+            </div>
+        </ion-card-content>
+    </ion-card>
     <ion-list>
         <ion-item *ngFor="let qc of quality_checks">
             <ion-label stacked>{{ qc.name }}</ion-label>
-            <ion-checkbox  *ngIf="qc['value_type'] == 'check'" item-right disabled="false" [(ngModel)]="qc['value']"></ion-checkbox>    
+            <!-- <ion-checkbox  *ngIf="qc['value_type'] == 'check'" item-right disabled="false" [(ngModel)]="qc['value']"></ion-checkbox>   -->
+            <ion-select interface="popover" *ngIf="qc['value_type'] == 'check'" [(ngModel)]="qc['value']">
+                <ion-option value="Si">Si</ion-option> 
+                <ion-option value="No">No</ion-option> 
+            </ion-select>    
             <ion-input *ngIf="qc['value_type'] == 'numeric'" type="number" [(ngModel)]="qc['value']"></ion-input>
             <ion-input *ngIf="qc['value_type'] == 'text'"  type="text" [(ngModel)]="qc['value']" ></ion-input>
         </ion-item>  
     </ion-list>
-     <button ion-button block (click)="closeModal()">Confirmar</button>
+     <button ion-button block (click)="confirmModal()">Confirmar</button>
 </ion-content>

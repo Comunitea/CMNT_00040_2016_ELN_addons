@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-22 17:52+0000\n"
-"PO-Revision-Date: 2018-03-22 17:52+0000\n"
+"POT-Creation-Date: 2018-03-27 15:32+0000\n"
+"PO-Revision-Date: 2018-03-27 15:32+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -67,7 +67,7 @@ msgstr "Tiempos limpieza"
 #. module: production_app
 #: field:product.quality.check,quality_type:0
 msgid "Control Type"
-msgstr "Tipo control"
+msgstr "Typo control"
 
 #. module: production_app
 #: field:app.registry,create_uid:0
@@ -178,6 +178,16 @@ msgid "Lot"
 msgstr "Lote"
 
 #. module: production_app
+#: field:product.quality.check,max_value:0
+msgid "Maximum Value"
+msgstr "valor máximo"
+
+#. module: production_app
+#: field:product.quality.check,min_value:0
+msgid "Minimum Value"
+msgstr "Valor mínimo"
+
+#. module: production_app
 #: field:product.quality.check,name:0
 msgid "Name"
 msgstr "Nombre"
@@ -227,7 +237,7 @@ msgstr "Controles Calidad"
 #. module: production_app
 #: field:product.quality.check,product_ids:0
 msgid "Product ids"
-msgstr "Producto"
+msgstr "Productos ids"
 
 #. module: production_app
 #: field:app.registry,production_id:0
@@ -277,7 +287,7 @@ msgstr "Producción iniciada"
 #. module: production_app
 #: selection:app.registry,state:0
 msgid "Production Stoped"
-msgstr "roducción parada"
+msgstr "Producción Stoped"
 
 #. module: production_app
 #: view:app.registry:production_app.app_registry_form_view
@@ -350,6 +360,11 @@ msgstr "Registro"
 #: field:product.quality.check,repeat:0
 msgid "Repeatch each"
 msgstr "Repetir cada"
+
+#. module: production_app
+#: field:product.quality.check,required_text:0
+msgid "Required Text"
+msgstr "Texto obligatorio"
 
 #. module: production_app
 #: view:app.registry:production_app.app_registry_filter_view
@@ -510,5 +525,5 @@ msgstr "Centro de trabajo"
 #. module: production_app
 #: field:app.registry,name:0
 msgid "Workcenter Line"
-msgstr "Orden de trabajo
+msgstr "Orden de trabaj"
 

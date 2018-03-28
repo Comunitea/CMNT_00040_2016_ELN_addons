@@ -208,6 +208,12 @@ class AppRegistry(models.Model):
         return res
 
     @api.model
+    def restart_and_clean_production(self, values):
+        self.restart_production(values)
+        res = self.clean_production(values)
+        return res
+
+    @api.model
     def clean_production(self, values):
         res = {}
         reg = False
@@ -252,7 +258,7 @@ class AppRegistry(models.Model):
             reg.write({
                 'state': 'finished',
                 'cleaning_end': fields.Datetime.now(),
-                'qty': values.get('weight', 0.00),
+                'qty': values.get('qty', 0.00),
                 'lot_id': lot_id,
             })
             operators_loged = self.env['operator.line']
@@ -269,7 +275,8 @@ class AppRegistry(models.Model):
         product_id = values.get('product_id', False)
         product = self.env['product.product'].browse(product_id)
         domain = [('id', 'in', product.quality_check_ids.ids)]
-        fields = ['id', 'name', 'value_type', 'quality_type', 'repeat']
+        fields = ['id', 'name', 'value_type', 'quality_type', 'repeat',
+                  'required_text', 'max_value', 'min_value']
         res = product.quality_check_ids.search_read(domain, fields)
         res2 = []
         for dic in res:
