@@ -5,7 +5,6 @@ import { ChecksModalPage } from '../../pages/checks-modal/checks-modal';
 import { UsersModalPage } from '../../pages/users-modal/users-modal';
 import { ReasonsModalPage } from '../../pages/reasons-modal/reasons-modal';
 import { FinishModalPage } from '../../pages/finish-modal/finish-modal';
-import { OdooProvider } from '../../providers/odoo/odoo';
 import { ProductionProvider } from '../../providers/production/production';
 import { TimerComponent } from '../../components/timer/timer';
 
@@ -27,7 +26,7 @@ export class ProductionPage {
     constructor(public navCtrl: NavController,
                 public navParams: NavParams, public alertCtrl: AlertController, 
                 public modalCtrl: ModalController,
-                private odooCon: OdooProvider, private prodData: ProductionProvider) {
+                private prodData: ProductionProvider) {
     }
 
     logOut(){

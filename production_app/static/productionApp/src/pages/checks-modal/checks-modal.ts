@@ -22,6 +22,7 @@ export class ChecksModalPage {
 
     constructor(public navParams: NavParams, public viewCtrl: ViewController, 
                 private prodData: ProductionProvider, public alertCtrl: AlertController) {
+        this.product_id = this.prodData.product_id
         this.product_id = this.navParams.get('product_id');
         this.quality_type = this.navParams.get('quality_type');
         this.quality_checks = this.navParams.get('quality_checks');
