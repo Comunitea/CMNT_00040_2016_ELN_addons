@@ -85,7 +85,7 @@ export class ProductionPage {
         alert.present();
     }
 
-    openChecksModal(qtype, qchecks) {
+    openChecksModal(qtype, qchecks, restart_timer) {
         var promise = new Promise( (resolve, reject) => {
             var mydata = {
                 'product_id': this.prodData.product_id,
@@ -98,7 +98,7 @@ export class ProductionPage {
             myModal.onDidDismiss(data => {
                 if (Object.keys(data).length !== 0) {
                     this.prodData.saveQualityChecks(data);
-                    if (qtype == 'start' && this.prodData.state == 'setup'){
+                    if (qtype == 'start' && restart_timer){
                         this.timer.toArray()[0].restartTimer();  // Production timer on
                     } 
                     resolve();
@@ -171,7 +171,7 @@ export class ProductionPage {
     scheduleIntervals(delay, qchecks){
         let timerId = setInterval(() => 
         {
-            this.openChecksModal('freq', qchecks)
+            this.openChecksModal('freq', qchecks, false)
         }, delay*60*1000);
         this.interval_list.push(timerId);
     }
@@ -209,7 +209,7 @@ export class ProductionPage {
     setupProduction() {
         this.promptNextStep('Empezar preparación?').then( () => {
             this.prodData.setupProduction();
-            this.timer.toArray()[0].startTimer()  // Set-Up timer on
+            this.timer.toArray()[0].restartTimer()  // Set-Up timer on
         })
         .catch( () => {});
     }
@@ -217,7 +217,7 @@ export class ProductionPage {
     startProduction() {
         this.promptNextStep('Terminar preparación y empezar producción').then( () => {
             this.prodData.startProduction();
-            this.openChecksModal('start', this.prodData.start_checks).then( () => {
+            this.openChecksModal('start', this.prodData.start_checks, true).then( () => {
                 this.scheduleChecks();
             })
             .catch( () => {});
@@ -247,6 +247,7 @@ export class ProductionPage {
     restartAndCleanProduction(){
         this.promptNextStep('Reanudar producción y pasar a limpieza').then( () => {
             this.scheduleChecks();
+            this.timer.toArray()[0].restartTimer();
             this.hidden_class = 'my-hide'
             this.prodData.restartAndCleanProduction();
         })
@@ -256,11 +257,12 @@ export class ProductionPage {
     restartProduction() {
         this.promptNextStep('Reanudar producción').then( () => {
             this.hidden_class = 'my-hide'
-            this.scheduleChecks();
+            // this.scheduleChecks();
+            this.clearIntervales();
             // this.timer.toArray()[0].resumeTimer();
             this.timer.toArray()[1].pauseTimer();
             this.prodData.restartProduction();
-            this.openChecksModal('start', this.prodData.start_checks).then(() => {}).catch(() => {});
+            this.openChecksModal('start', this.prodData.start_checks, false).then(() => {}).catch(() => {});
         })
         .catch( () => {});
     }
@@ -276,6 +278,7 @@ export class ProductionPage {
 
     finishProduction() {
         this.promptNextStep('Finalizar producción').then( () => {
+            this.timer.toArray()[0].restartTimer()
             this.timer.toArray()[0].pauseTimer()
             this.openFinishModal().then(() => {}).catch(() => {});
         })
