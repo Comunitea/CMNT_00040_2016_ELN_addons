@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { OdooProvider } from '../odoo/odoo';
+import * as $ from 'jquery';
 
 /*
   Generated class for the ProductionProvider provider.
@@ -236,9 +237,19 @@ export class ProductionProvider {
     saveQualityChecks(data){
         console.log("RESULTADO A GUARDAR")
         console.log(data)
+
+        // We want to pass by value the object
+        var new_lines = []
+        for (var index in data){
+            var new_ = {}
+            var obj = data[index]
+            $.extend(new_, obj)
+            new_lines.push(new_) 
+
+        }
         var values = {
             'registry_id': this.registry_id,
-            'lines': data,
+            'lines': new_lines,
             'active_operator_id': this.active_operator_id
         }
         this.odooCon.callRegistry('app_save_quality_checks', values).then( (res) => {
@@ -272,9 +283,9 @@ export class ProductionProvider {
             if (method == 'stop_production'){
                 this.last_stop_id = res['stop_id'];
             }
-            if (method == 'restart_production' || method == 'restart_and_clean_production'){
-                this.last_stop_id = false;
-            }
+            // if (method == 'restart_production' || method == 'restart_and_clean_production'){
+            //     this.last_stop_id = false;
+            // }
         })
         .catch( (err) => {
             this.manageOdooFail()

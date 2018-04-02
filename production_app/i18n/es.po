@@ -267,7 +267,7 @@ msgstr "Fin producción"
 #. module: production_app
 #: selection:app.registry,state:0
 msgid "Production Finished"
-msgstr "Producción finalozada"
+msgstr "Producción finalizada"
 
 #. module: production_app
 #: selection:app.registry,state:0
