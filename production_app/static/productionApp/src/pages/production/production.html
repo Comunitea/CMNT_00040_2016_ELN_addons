@@ -77,7 +77,7 @@
             </ion-card>
         </div>
         <div  class="content-two">
-            <ion-card *ngIf="timer">
+            <ion-card *ngIf="(prodData.state != 'waiting')">
                 <ion-card-header>
                     <span  *ngIf="prodData.state !== 'stoped'">Tiempo transcurrido</span>
                     <span class="info-content" *ngIf="prodData.state === 'stoped'">Tiempo en parada</span>
@@ -116,7 +116,7 @@
             <button ion-button full *ngIf="prodData.state == 'stoped'" (click)="restartProduction()">
                 Reaunudar Producción
             </button>
-            <button ion-button full *ngIf="prodData.state == 'stoped'" (click)="restartProduction()">
+            <button ion-button full *ngIf="prodData.state == 'stoped'" (click)="restartAndCleanProduction()">
                 Reaunudar y Empezar limpieza
             </button>
             <button ion-button full color="danger" *ngIf="prodData.state == 'finished'" (click)="loadNextProduction()">
