@@ -36,7 +36,11 @@ class SaleOrder(models.Model):
         readonly=True, select=True,
         domain = [('supplier','=',True)],
         states={'draft': [('readonly', False)]})
-    order_policy = fields.Selection(selection_add=[('no_bill', 'No bill')])
+    order_policy = fields.Selection(selection_add=[('prepaid', 'Pay before delivery'),
+            ('manual', 'Deliver & invoice on demand'),
+            ('picking', 'Invoice based on deliveries'),
+            ('postpaid', 'Invoice on order after delivery'),
+            ('no_bill', 'No bill')])
     supplier_cip = fields.Char(
         string="CIP", size=32, readonly=True,
         states={'draft': [('readonly', False)],'waiting_date': [('readonly', False)],'manual': [('readonly', False)],'progress': [('readonly', False)]},
@@ -56,7 +60,7 @@ class SaleOrder(models.Model):
                                     ('tablet', 'Tablet'),
                                     ('other', 'Other'),
                                     ('ecomerce', 'E-comerce')], 'Chanel',
-                                   readonly=True),
+                                   readonly=True)
 
     @api.multi
     @api.depends('state')
@@ -74,27 +78,6 @@ class SaleOrder(models.Model):
                 res[order.id] = False
         return res
 
-    _columns = {
-        'supplier_id': fields.many2one('res.partner', 'Supplier', readonly=True,domain = [('supplier','=',True)],states={'draft': [('readonly', False)]}, select=True),
-        'order_policy': fields.selection([
-            ('prepaid', 'Pay before delivery'),
-            ('manual', 'Deliver & invoice on demand'),
-            ('picking', 'Invoice based on deliveries'),
-            ('postpaid', 'Invoice on order after delivery'),
-            ('no_bill', 'No bill')
-        ], 'Invoice Policy', required=True, readonly=True, states={'draft': [('readonly', False)]}, change_default=True),
-        'supplier_cip': fields.char('CIP', help="Código interno del proveedor.", size=32, readonly=True, states={'draft': [('readonly', False)],'waiting_date': [('readonly', False)],'manual': [('readonly', False)],'progress': [('readonly', False)]}),
-        'shop_id': fields.many2one('sale.shop', 'Sale type', required=True),
-        'commercial_partner_id': fields.many2one('res.partner', invisible=True),
-        'effective_date': fields.function(_get_effective_date, type='date',
-            store=True, string='Effective Date',
-            help="Date on which the first Delivery Order was delivered."),
-        'chanel': fields.selection([('erp', 'ERP'), ('telesale', 'telesale'),
-                                    ('tablet', 'Tablet'),
-                                    ('other', 'Other'),
-                                    ('ecomerce', 'E-comerce')], 'Chanel',
-                                   readonly=True),
-    }
 
     def onchange_shop_id(self, cr, uid, ids, shop_id):
         v = {}
