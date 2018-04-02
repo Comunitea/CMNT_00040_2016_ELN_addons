@@ -23,8 +23,6 @@ from openerp import models, fields, api, _
 from datetime import datetime
 from dateutil import tz
 import time
-
-from openerp import api
 import logging
 _logger = logging.getLogger(__name__)
 
@@ -54,6 +52,11 @@ class SaleOrder(models.Model):
         string="Effective Date",
         compute="_get_effective_date", store=True,
         help="Date on which the first Delivery Order was delivered.")
+    chanel = fields.Selection([('erp', 'ERP'), ('telesale', 'telesale'),
+                                    ('tablet', 'Tablet'),
+                                    ('other', 'Other'),
+                                    ('ecomerce', 'E-comerce')], 'Chanel',
+                                   readonly=True),
 
     @api.multi
     @api.depends('state')
@@ -61,7 +64,7 @@ class SaleOrder(models.Model):
         """Read the shipping effective date from the related packings"""
         res = {}
         dates_list = []
-        for order in self.browse(cr, uid, ids, context=context):
+        for order in self:
             dates_list = []
             for pick in order.picking_ids.filtered(lambda r: r.state != 'cancel'):
                 dates_list.append(pick.effective_date)
@@ -275,7 +278,6 @@ class SaleOrder(models.Model):
         _logger.info("APP. Respuesta ERROR!! create_and_confirm <%s> "
                          %(res))
         return False
-
 
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
