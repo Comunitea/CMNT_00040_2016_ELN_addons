@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { ProductionProvider } from '../../providers/production/production';
+import { OdooProvider } from '../../providers/odoo/odoo';
 
 /**
  * Generated class for the UsersModalPage page.
@@ -23,7 +24,8 @@ export class UsersModalPage {
 
     constructor(public navCtrl: NavController, public navParams: NavParams,
                 public viewCtrl: ViewController,
-                private prodData: ProductionProvider) {
+                private prodData: ProductionProvider,
+                private odooCon: OdooProvider) {
         this.initializeItems();
     }
 
@@ -58,8 +60,8 @@ export class UsersModalPage {
 
     }
     initializeItems() {
-        this.items = this.prodData.operators.filter(obj => this.prodData.operatorsById[obj.id]['log'] == 'out');
-        this.items2 = this.prodData.operators.filter(obj => this.prodData.operatorsById[obj.id]['log'] == 'in');
+        this.items = this.prodData.operators.filter(obj => this.odooCon.operatorsById[obj.id]['log'] == 'out');
+        this.items2 = this.prodData.operators.filter(obj => this.odooCon.operatorsById[obj.id]['log'] == 'in');
     }
     getItems(ev: any) {
         // Reset items back to all of the items

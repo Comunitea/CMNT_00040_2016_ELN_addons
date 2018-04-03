@@ -147,10 +147,13 @@ class AppRegistry(models.Model):
         reg = False
         if values.get('registry_id', False):
             reg = self.browse(values['registry_id'])
+        date = fields.Datetime.now()
+        if values.get('setup_start', False):
+            date = values['setup_start']
         if reg:
             reg.write({
                 'state': 'setup',
-                'setup_start': fields.Datetime.now()
+                'setup_start': date
             })
             res = reg.read()[0]
         return res
@@ -161,12 +164,15 @@ class AppRegistry(models.Model):
         reg = False
         if values.get('registry_id', False):
             reg = self.browse(values['registry_id'])
+        date = fields.Datetime.now()
+        if values.get('setup_end', False):
+            date = values['setup_end']
         if reg:
             reg.state = 'started'
             reg.write({
                 'state': 'started',
-                'setup_end': fields.Datetime.now(),
-                'production_start': fields.Datetime.now()
+                'setup_end': date,
+                'production_start': date
             })
             res = reg.read()[0]
         return res
@@ -184,8 +190,11 @@ class AppRegistry(models.Model):
             reg.write({
                 'state': 'stoped',
             })
+            date = fields.Datetime.now()
+            if values.get('stop_start', False):
+                date = values['stop_start']
             stop_obj = reg.create_stop(values.get('reason_id', False),
-                                       operator_id)
+                                       operator_id, date)
             res = reg.read()[0]
             res.update({'stop_id': stop_obj.id})
         return res
@@ -196,6 +205,9 @@ class AppRegistry(models.Model):
         reg = False
         if values.get('registry_id', False):
             reg = self.browse(values['registry_id'])
+        date = fields.Datetime.now()
+        if values.get('stop_end', False):
+            date = values['stop_end']
         if reg:
             reg.write({
                 'state': 'started',
@@ -203,7 +215,7 @@ class AppRegistry(models.Model):
             stop_id = values.get('stop_id', False)
             if stop_id:
                 self.env['stop.line'].browse(stop_id).write({
-                    'stop_end': fields.Datetime.now()})
+                    'stop_end': date})
             res = reg.read()[0]
         return res
 
@@ -219,11 +231,14 @@ class AppRegistry(models.Model):
         reg = False
         if values.get('registry_id', False):
             reg = self.browse(values['registry_id'])
+        date = fields.Datetime.now()
+        if values.get('cleaning_start', False):
+            date = values['cleaning_start']
         if reg:
             reg.write({
                 'state': 'cleaning',
-                'production_end': fields.Datetime.now(),
-                'cleaning_start': fields.Datetime.now()
+                'production_end': date,
+                'cleaning_start': date
             })
             res = reg.read()[0]
         return res
@@ -253,11 +268,14 @@ class AppRegistry(models.Model):
         reg = False
         if values.get('registry_id', False):
             reg = self.browse(values['registry_id'])
+        date = fields.Datetime.now()
+        if values.get('stop_start', False):
+            date = values['cleaning_end']
         if reg:
             lot_id = self.get_lot(values, reg)
             reg.write({
                 'state': 'finished',
-                'cleaning_end': fields.Datetime.now(),
+                'cleaning_end': date,
                 'qty': values.get('qty', 0.00),
                 'lot_id': lot_id,
             })
@@ -266,7 +284,7 @@ class AppRegistry(models.Model):
                 if not op.date_out:
                     operators_loged += op
             if operators_loged:
-                operators_loged.write({'date_out': fields.Datetime.now()})
+                operators_loged.write({'date_out': date})
             res = reg.read()[0]
         return res
 
@@ -291,11 +309,14 @@ class AppRegistry(models.Model):
         operator_id = False
         if values.get('active_operator_id', False):  # Can be 0
             operator_id = values['active_operator_id']
+        date = fields.Datetime.now()
+        if values.get('qc_date', False):
+            date = values['qc_date']
         for dic in lines:
             vals = {
                 'registry_id': registry_id,
                 'pqc_id': dic.get('id', False),
-                'date': fields.Datetime.now(),
+                'date': date,
                 'value': str(dic.get('value', False)),
                 'operator_id': operator_id
             }
@@ -307,11 +328,11 @@ class AppRegistry(models.Model):
         self.write({'state': 'validated'})
 
     @api.multi
-    def create_stop(self, reason_id, operator_id):
+    def create_stop(self, reason_id, operator_id, date_stop):
         self.ensure_one()
         vals = {
             'registry_id': self.id,
-            'stop_start': fields.Datetime.now(),
+            'stop_start': date_stop,
             'reason_id': reason_id,
             'operator_id': operator_id
         }
@@ -319,12 +340,12 @@ class AppRegistry(models.Model):
         return res
 
     @api.multi
-    def create_operator_line(self, operator_id):
+    def create_operator_line(self, operator_id, date_in):
         self.ensure_one()
         vals = {
             'registry_id': self.id,
             'operator_id': operator_id,
-            'date_in': fields.Datetime.now()
+            'date_in': date_in
         }
         res = self.env['operator.line'].create(vals)
         return res
@@ -335,9 +356,11 @@ class AppRegistry(models.Model):
         reg = False
         if values.get('registry_id', False):
             reg = self.browse(values['registry_id'])
-
+        date = fields.Datetime.now()
+        if values.get('date_in', False):
+            date = values['date_in']
         if reg and values.get('operator_id', False):
-            op_obj = reg.create_operator_line(values['operator_id'])
+            op_obj = reg.create_operator_line(values['operator_id'], date)
             res = {'operator_line_id': op_obj.id}
         return res
 
@@ -347,11 +370,13 @@ class AppRegistry(models.Model):
         reg = False
         if values.get('registry_id', False):
             reg = self.browse(values['registry_id'])
-
+        date = fields.Datetime.now()
+        if values.get('date_out', False):
+            date = values['date_out']
         operator_line_id = values.get('operator_line_id', False)
         if reg and operator_line_id:
                 self.env['operator.line'].browse(operator_line_id).write({
-                    'date_out': fields.Datetime.now()})
+                    'date_out': date})
         return res
 
 

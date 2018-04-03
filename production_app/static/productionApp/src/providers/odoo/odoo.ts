@@ -14,6 +14,9 @@ export class OdooProvider {
 
     pending_calls : Object[] = []
 
+    last_stop_id;
+    operatorsById: Object = {};
+
     constructor(private storage: Storage) {
     }
 
@@ -35,7 +38,18 @@ export class OdooProvider {
                     } else {
                         odoo.login(con_data.username, con_data.password).then( (uid) => {
                             var model = 'app.registry'
-                            odoo.call(model, method, values).then((res) => {
+                            odoo.call(model, method, values).then( (res) => {
+
+                                if (method == 'stop_production'){
+                                    this.last_stop_id = res['stop_id'];
+                                }
+                                if (method == 'log_in_operator'){
+                                    this.operatorsById[values['operator_id']]['operator_line_id'] = res['operator_line_id'];
+                                }
+                                if (method == 'log_out_operator'){
+                                    this.operatorsById[values['operator_id']]['operator_line_id'] = false;
+                                }
+
                                 this.pending_calls.splice(0, 1);
                                 this.pendingCalls().then( () => {
                                     resolve();

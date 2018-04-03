@@ -12,7 +12,7 @@ import * as $ from 'jquery';
 export class ProductionProvider {
     operators: any;
     lots: any;
-    operatorsById: Object = {};
+    
     lotsByProduct: Object = {};
     workcenter: Object = {};
     loged_ids: number[] = [];
@@ -22,7 +22,6 @@ export class ProductionProvider {
     product_id;
     state;
     states;
-    stop_reason_id;
 
     start_checks: Object[];
     freq_checks: Object[];
@@ -30,7 +29,6 @@ export class ProductionProvider {
     technical_reasons: Object[];
     organizative_reasons: Object[];
 
-    last_stop_id;
     operator_line_id;
     active_operator_id: number = 0;
 
@@ -48,7 +46,6 @@ export class ProductionProvider {
             'cleaning': 'PRODUCCIÓN EN LIMPIEZA',
             'finished': 'PRODUCCIÓN FINALIZADA'
         };
-        this.last_stop_id = false;
         this.operator_line_id = false;
         this.technical_reasons = [];
         this.organizative_reasons = [];
@@ -60,10 +57,10 @@ export class ProductionProvider {
             this.operators = res;
             for (let indx in res) {
                 let op = res[indx];
-                this.operatorsById[op.id] = {'name': op.name, 'active': false, 'operator_line_id': false, 'log': 'out'}    
+                this.odooCon.operatorsById[op.id] = {'name': op.name, 'active': false, 'operator_line_id': false, 'log': 'out'}    
             }
             console.log("OPERATORSBYID")
-            console.log(this.operatorsById)
+            console.log(this.odooCon.operatorsById)
         })
         .catch( (err) => {
             console.log("GET operators deberia ser una promesa, y devolver error, controlarlo en la página y lanzar excepción")
@@ -97,15 +94,15 @@ export class ProductionProvider {
         if (this.loged_ids.length === 0){
             this.setActiveOperator(operator_id)
         }
-        this.operatorsById[operator_id]['log'] = 'in'
+        this.odooCon.operatorsById[operator_id]['log'] = 'in'
         var index = this.loged_ids.indexOf(operator_id);
         if (index <= -1) {
             this.loged_ids.push(operator_id)
         }
-        var values =  {'registry_id': this.registry_id, 'operator_id': operator_id};
+        var values =  {'registry_id': this.registry_id, 'operator_id': operator_id, 'date_in': new Date().toLocaleString()};
         this.odooCon.callRegistry('log_in_operator', values).then( (res) => {
             // this.operator_line_id = res['operator_line_id'];
-            this.operatorsById[operator_id]['operator_line_id'] = res['operator_line_id'];
+            this.odooCon.operatorsById[operator_id]['operator_line_id'] = res['operator_line_id'];
         })
         .catch( (err) => {
             this.manageOdooFail()
@@ -117,7 +114,7 @@ export class ProductionProvider {
     }
 
     logOutOperator(operator_id){
-        this.operatorsById[operator_id]['log'] = 'out'
+        this.odooCon.operatorsById[operator_id]['log'] = 'out'
         var index = this.loged_ids.indexOf(operator_id);
         if (index > -1) {
             this.loged_ids.splice(index, 1);
@@ -125,10 +122,10 @@ export class ProductionProvider {
         if (this.active_operator_id = operator_id){
             this.active_operator_id = 0;
         }
-        let operator_line_id = this.operatorsById[operator_id]['operator_line_id']
-        var values =  {'registry_id': this.registry_id, 'operator_line_id': operator_line_id};
+        let operator_line_id = this.odooCon.operatorsById[operator_id]['operator_line_id']
+        var values =  {'registry_id': this.registry_id, 'operator_line_id': operator_line_id, 'date_out': new Date().toLocaleString()};
         this.odooCon.callRegistry('log_out_operator', values).then( (res) => {
-            this.operatorsById[operator_id]['operator_line_id'] = false;
+            this.odooCon.operatorsById[operator_id]['operator_line_id'] = false;
         })
         .catch( (err) => {
             this.manageOdooFail()
@@ -199,7 +196,6 @@ export class ProductionProvider {
         this.product_id = data.product_id[0];
         this.product = data.product_id[1];
         this.state = data.state;
-        this.last_stop_id = false;
         this.start_checks = [];
         this.freq_checks = [];
     }
@@ -250,7 +246,8 @@ export class ProductionProvider {
         var values = {
             'registry_id': this.registry_id,
             'lines': new_lines,
-            'active_operator_id': this.active_operator_id
+            'active_operator_id': this.active_operator_id,
+            'qc_date': new Date().toLocaleString()
         }
         this.odooCon.callRegistry('app_save_quality_checks', values).then( (res) => {
             console.log("RESULTADO GUARDADO") 
@@ -264,28 +261,12 @@ export class ProductionProvider {
         console.log("Guardo para escribir luego")
     }
 
-    setStepAsync(method) {
-        var values =  {'registry_id': this.registry_id};
-        if (method == 'stop_production'){
-            values['reason_id'] = this.stop_reason_id
-            values['active_operator_id'] = this.active_operator_id
-        }
-        if (method == 'restart_production' || method == 'restart_and_clean_production'){
-            values['stop_id'] = this.last_stop_id
-        }
-        if (method == 'finish_production'){
-            values['qty'] = this.qty
-            values['lot_name'] = this.lot_name
-            values['lot_date'] = this.lot_date
-        }           
+    setStepAsync(method, values) {
+        values['registry_id'] = this.registry_id;     
         this.odooCon.callRegistry(method, values).then( (res) => {
-            // this.state = res['state'];
             if (method == 'stop_production'){
-                this.last_stop_id = res['stop_id'];
+                this.odooCon.last_stop_id = res['stop_id'];
             }
-            // if (method == 'restart_production' || method == 'restart_and_clean_production'){
-            //     this.last_stop_id = false;
-            // }
         })
         .catch( (err) => {
             this.manageOdooFail()
@@ -294,38 +275,50 @@ export class ProductionProvider {
 
     confirmProduction() {
         this.state = 'confirmed'
-        this.setStepAsync('confirm_production');
+        this.setStepAsync('confirm_production', {});
     }
 
     setupProduction() {
         this.state = 'setup'
-        this.setStepAsync('setup_production');
+        var values = {'setup_start': new Date().toLocaleString()}
+        this.setStepAsync('setup_production', values);
     }
     startProduction() {
         this.state = 'started'
-        this.setStepAsync('start_production');
+        var values = {'setup_end': new Date().toLocaleString()}
+        this.setStepAsync('start_production', values);
     }
     stopProduction(reason_id) {
         this.state = 'stoped'
-        this.stop_reason_id = reason_id
-        this.setStepAsync('stop_production');
+        var values = {'reason_id': reason_id,
+                      'active_operator_id': this.active_operator_id,
+                      'stop_start': new Date().toLocaleString()}
+        this.setStepAsync('stop_production', values);
 
     }
     restartProduction() {
         this.state = 'started'
-        this.setStepAsync('restart_production');
+        var values = {'stop_id': this.odooCon.last_stop_id,
+                      'stop_end': new Date().toLocaleString()}
+        this.setStepAsync('restart_production', values);
     }
     cleanProduction() {
         this.state = 'cleaning'
-        this.setStepAsync('clean_production');
+        var values = {'cleaning_start': new Date().toLocaleString()}
+        this.setStepAsync('clean_production', values);
     }
     finishProduction() {
         this.state = 'finished'
-        this.setStepAsync('finish_production');
+        var values = {'qty': this.qty,
+                      'lot_name': this.lot_name,
+                      'lot_date': this.lot_date,
+                      'cleaning_end': new Date().toLocaleString()}
+        this.setStepAsync('finish_production', values);
     }
     restartAndCleanProduction(){
         this.state = 'cleaning';
-        this.setStepAsync('restart_and_clean_production');
+        var values = {'stop_id': this.odooCon.last_stop_id, 'stop_end': new Date().toLocaleString()};
+        this.setStepAsync('restart_and_clean_production', values);
     }
 
 }

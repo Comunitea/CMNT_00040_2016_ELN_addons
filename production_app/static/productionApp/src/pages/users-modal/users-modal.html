@@ -32,11 +32,11 @@
                     {{operator.name}}
                     </ion-item>
                     <ion-item-options side="left">
-                        <button [hidden]="prodData.operatorsById[operator.id]['log'] == 'in'" ion-button (click)="logInOperator(operator)">
+                        <button [hidden]="odooCon.operatorsById[operator.id]['log'] == 'in'" ion-button (click)="logInOperator(operator)">
                             <ion-icon name="log-in"></ion-icon>
                             Entrada
                         </button> 
-                        <button  [hidden]="prodData.operatorsById[operator.id]['log'] == 'out'" ion-button (click)="logOutOperator(operator)">
+                        <button  [hidden]="odooCon.operatorsById[operator.id]['log'] == 'out'" ion-button (click)="logOutOperator(operator)">
                             <ion-icon name="log-out"></ion-icon>
                             Salida
                         </button>   
@@ -57,23 +57,21 @@
                     Operario Activo
                  </ion-card-header>
                 <ion-card-content>
-                     {{prodData.operatorsById[prodData.active_operator_id]['name']}}
+                     {{odooCon.operatorsById[prodData.active_operator_id]['name']}}
                 </ion-card-content>
             </ion-card>
-           <!--  <ion-list-header *ngIf="prodData.active_operator_id !== 0">
-            {{prodData.operatorsById[prodData.active_operator_id]['name']}}
-            </ion-list-header> -->
+
             <ion-list> 
                 <ion-item-sliding *ngFor="let operator of getLogedIn()">        
                     <ion-item >
                     {{operator.name}}
                     </ion-item>
                     <ion-item-options side="left">
-                        <button [hidden]="prodData.operatorsById[operator.id]['log'] == 'in'" ion-button (click)="logInOperator(operator)">
+                        <button [hidden]="odooCon.operatorsById[operator.id]['log'] == 'in'" ion-button (click)="logInOperator(operator)">
                             <ion-icon name="log-in"></ion-icon>
                             Entrada
                         </button> 
-                        <button  [hidden]="prodData.operatorsById[operator.id]['log'] == 'out'" ion-button (click)="logOutOperator(operator)">
+                        <button  [hidden]="odooCon.operatorsById[operator.id]['log'] == 'out'" ion-button (click)="logOutOperator(operator)">
                             <ion-icon name="log-out"></ion-icon>
                             Salida
                         </button>   
