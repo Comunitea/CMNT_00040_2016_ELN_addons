@@ -168,6 +168,7 @@ export class ProductionPage {
             let int = this.interval_list[indx];
             clearInterval(int);
         }
+        this.interval_list = [];
     }
 
     scheduleIntervals(delay, qchecks){
@@ -248,7 +249,7 @@ export class ProductionPage {
 
     restartAndCleanProduction(){
         this.promptNextStep('Reanudar producción y pasar a limpieza').then( () => {
-            this.scheduleChecks();
+            this.clearIntervales();
             this.timer.toArray()[0].restartTimer();
             this.hidden_class = 'my-hide'
             this.prodData.restartAndCleanProduction();
@@ -259,9 +260,7 @@ export class ProductionPage {
     restartProduction() {
         this.promptNextStep('Reanudar producción').then( () => {
             this.hidden_class = 'my-hide'
-            // this.scheduleChecks();
-            this.clearIntervales();
-            // this.timer.toArray()[0].resumeTimer();
+            this.scheduleChecks();
             this.timer.toArray()[1].pauseTimer();
             this.prodData.restartProduction();
             this.openChecksModal('start', this.prodData.start_checks, false).then(() => {}).catch(() => {});

@@ -48,7 +48,9 @@ export class FinishModalPage {
     lotSelected(lot_obj){
         this.mode = 'default';
         this.lot = lot_obj.name
-        this.date = lot_obj.use_date.split(" ")[0]
+        if (lot_obj.use_date){
+            this.date = lot_obj.use_date.split(" ")[0]
+        }
     }
     getItems(ev: any) {
         // Reset items back to all of the items

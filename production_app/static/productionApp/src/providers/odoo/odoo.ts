@@ -38,6 +38,11 @@ export class OdooProvider {
                     } else {
                         odoo.login(con_data.username, con_data.password).then( (uid) => {
                             var model = 'app.registry'
+
+                            if (method == 'restart_production'){
+                                 var values['stop_id'] = this.last_stop_id,
+                            }
+
                             odoo.call(model, method, values).then( (res) => {
 
                                 if (method == 'stop_production'){
@@ -108,7 +113,9 @@ export class OdooProvider {
                            
                     })
                     .catch( () => {
-                        this.pending_calls.push({'method': method, 'values': values})
+                        if (method !== 'app_get_registry'){
+                            this.pending_calls.push({'method': method, 'values': values})
+                        }
                         var err = {'title': 'Error!', 'msg': 'No se pudo conectar con Odoo'}
                         reject(err);
                     });
