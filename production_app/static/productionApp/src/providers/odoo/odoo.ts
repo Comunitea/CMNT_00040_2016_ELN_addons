@@ -39,7 +39,7 @@ export class OdooProvider {
                         odoo.login(con_data.username, con_data.password).then( (uid) => {
                             var model = 'app.registry'
 
-                            if (method == 'restart_production'){
+                            if (method == 'restart_production' || method = 'restart_and_clean_production'){
                                 values['stop_id'] = this.last_stop_id;
                             }
 
