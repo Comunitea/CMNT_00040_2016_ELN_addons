@@ -40,7 +40,7 @@ export class OdooProvider {
                             var model = 'app.registry'
 
                             if (method == 'restart_production'){
-                                 var values['stop_id'] = this.last_stop_id,
+                                values['stop_id'] = this.last_stop_id;
                             }
 
                             odoo.call(model, method, values).then( (res) => {
