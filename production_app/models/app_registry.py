@@ -86,7 +86,7 @@ class AppRegistry(models.Model):
     def get_existing_registry(self, workcenter_id):
         res = False
         domain = [('workcenter_id', '=', workcenter_id),
-                  ('state', '!=', 'finished')]
+                  ('state', 'not in', ('finished', 'validated'))]
         reg_obj = self.search(domain, limit=1)
         if reg_obj:
             res = reg_obj
