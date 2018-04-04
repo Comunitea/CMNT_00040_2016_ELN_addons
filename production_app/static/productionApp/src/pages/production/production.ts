@@ -174,7 +174,7 @@ export class ProductionPage {
     scheduleIntervals(delay, qchecks){
         let timerId = setInterval(() => 
         {
-            this.openChecksModal('freq', qchecks, false)
+            this.openChecksModal('freq', qchecks, false).then(() => {}).catch(() => {});
         }, delay*60*1000);
         this.interval_list.push(timerId);
     }
@@ -219,8 +219,8 @@ export class ProductionPage {
 
     startProduction() {
         this.promptNextStep('Terminar preparación y empezar producción').then( () => {
-            this.prodData.startProduction();
             this.openChecksModal('start', this.prodData.start_checks, true).then( () => {
+                this.prodData.startProduction();
                 this.scheduleChecks();
             })
             .catch( () => {});

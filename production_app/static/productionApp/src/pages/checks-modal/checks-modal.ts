@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage,  NavParams, ViewController, AlertController} from 'ionic-angular';
 import { ProductionProvider } from '../../providers/production/production';
 import { OdooProvider } from '../../providers/odoo/odoo';
-
+import * as $ from 'jquery';
 
 /**
  * Generated class for the ChecksModalPage page.
@@ -28,7 +28,19 @@ export class ChecksModalPage {
         this.product_id = this.prodData.product_id
         this.product_id = this.navParams.get('product_id');
         this.quality_type = this.navParams.get('quality_type');
-        this.quality_checks = this.navParams.get('quality_checks');
+        this.quality_checks = this.initQualityChecks();
+    }
+
+    initQualityChecks(){
+        var qc_list = this.navParams.get('quality_checks');
+        var new_list = []
+        for (var index in qc_list){
+            var qc = qc_list[index];
+            var new_ = {};
+            $.extend(new_, qc);
+            new_list.push(new_); 
+        }
+        return new_list;
     }
      
     ionViewDidLoad() {
