@@ -39,11 +39,11 @@ class AppRegistry(models.Model):
     cleaning_duration = fields.Float('Cleaning Duration',
                                      compute="_get_durations")
     qc_line_ids = fields.One2many('quality.check.line', 'registry_id',
-                                  'Quality Checks', readonly=True)
+                                  'Quality Checks', readonly=False)
     stop_line_ids = fields.One2many('stop.line', 'registry_id',
-                                    'Production Stops', readonly=True)
+                                    'Production Stops', readonly=False)
     operator_ids = fields.One2many('operator.line', 'registry_id',
-                                   'Operators', readonly=True)
+                                   'Operators', readonly=False)
     qty = fields.Float('Quantity', readonly=True)
     lot_id = fields.Many2one('stock.production.lot', 'Lot', readonly=True)
 

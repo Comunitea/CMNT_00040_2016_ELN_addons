@@ -22,8 +22,8 @@
         <field name="arch" type="xml">
             <form string="App Registrys">
             <header>
+                <field name="state" widget="statusbar" clickable="1"/>
                 <button name="validate" class="oe_highlight" string="Validate" type="object" states="finished" groups="base.group_user"/>
-                <field name="state" widget="statusbar"/>
             </header>
             <sheet string="App Registrys">
                 <group>
