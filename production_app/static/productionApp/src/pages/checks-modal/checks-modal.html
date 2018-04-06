@@ -33,8 +33,8 @@
             <ion-label stacked>{{ qc.name }}</ion-label>
             <!-- <ion-checkbox  *ngIf="qc['value_type'] == 'check'" item-right disabled="false" [(ngModel)]="qc['value']"></ion-checkbox>   -->
             <ion-select interface="popover" *ngIf="qc['value_type'] == 'check'" [(ngModel)]="qc['value']">
-                <ion-option value="Si">Si</ion-option> 
-                <ion-option value="No">No</ion-option> 
+                <ion-option value="OK">OK</ion-option> 
+                <ion-option value="NO OK">NO OK</ion-option> 
             </ion-select>    
             <ion-input *ngIf="qc['value_type'] == 'numeric'" type="number" [(ngModel)]="qc['value']"></ion-input>
             <ion-input *ngIf="qc['value_type'] == 'text'"  type="text" [(ngModel)]="qc['value']" ></ion-input>

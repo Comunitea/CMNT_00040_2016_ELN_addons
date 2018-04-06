@@ -62,8 +62,8 @@ export class ChecksModalPage {
         for (let indx in this.quality_checks) {
             var qc = this.quality_checks[indx];
              if (qc.value_type == 'check'){
-                if ( qc.value !== 'Si'){
-                    this.presentAlert('Error de validación', 'El valor para ' + qc.name + ' tiene que ser: Si');
+                if ( qc.value !== 'OK'){
+                    this.presentAlert('Error de validación', 'El valor para ' + qc.name + ' tiene que ser: OK');
                     error = true;
                     // break;
                 }
