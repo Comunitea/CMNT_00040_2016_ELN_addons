@@ -180,7 +180,7 @@ msgstr "Lote"
 #. module: production_app
 #: field:product.quality.check,max_value:0
 msgid "Maximum Value"
-msgstr "valor máximo"
+msgstr "Valor máximo"
 
 #. module: production_app
 #: field:product.quality.check,min_value:0

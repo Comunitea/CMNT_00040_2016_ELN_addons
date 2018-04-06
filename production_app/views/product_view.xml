@@ -35,7 +35,7 @@
                    <group>
                         <field name="required_text" attrs="{'invisible': [('value_type', '!=', 'text')]}"/>
                         <field name="min_value" attrs="{'invisible': [('value_type', '!=', 'numeric')]}"/>
-                        <field name="min_value" attrs="{'invisible': [('value_type', '!=', 'numeric')]}"/>
+                        <field name="max_value" attrs="{'invisible': [('value_type', '!=', 'numeric')]}"/>
                     </group>
                 </group>
                 <group string="Associated Products">

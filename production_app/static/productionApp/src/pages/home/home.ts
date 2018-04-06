@@ -23,6 +23,13 @@ export class HomePage {
         username: 'admin',
         password: 'admin',
     };
+    CONEXION = {
+        url: 'http://nogalproduction.com',
+        port: '8069',
+        db: 'elnapp',
+        username: 'admin',
+        password: 'admin',
+    };
     cargar = true;
     mensaje = '';
   
