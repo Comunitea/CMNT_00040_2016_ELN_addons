@@ -23,6 +23,7 @@ export class FinishModalPage {
         this.lots = [];
         this.items = [];
         this.mode_step = this.navParams.get('mode_step');
+        this.date = this.prodData.product_use_date;
     }
 
     ionViewDidLoad() {

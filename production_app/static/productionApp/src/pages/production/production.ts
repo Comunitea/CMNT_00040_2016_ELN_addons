@@ -266,7 +266,7 @@ export class ProductionPage {
     restartProduction() {
         this.promptNextStep('Reanudar producción').then( () => {
             this.hidden_class = 'my-hide'
-            this.scheduleChecks();S
+            this.scheduleChecks();
             this.timer.toArray()[1].pauseTimer();
             this.prodData.restartProduction();
             this.openChecksModal('start', this.prodData.start_checks, false).then(() => {}).catch(() => {});

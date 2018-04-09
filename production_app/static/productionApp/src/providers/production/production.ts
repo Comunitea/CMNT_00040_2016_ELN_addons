@@ -35,6 +35,7 @@ export class ProductionProvider {
     qty;
     lot_name;
     lot_date;
+    product_use_date: string;
 
     constructor(private odooCon: OdooProvider) {
         this.states = {
@@ -239,6 +240,7 @@ export class ProductionProvider {
         this.state = data.state;
         this.start_checks = [];
         this.freq_checks = [];
+        this.product_use_date = data.product_use_date
     }
     
     // Load Quality checks in each type list

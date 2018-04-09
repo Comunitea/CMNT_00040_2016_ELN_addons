@@ -3,7 +3,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from openerp import api, models, fields
-
+from datetime import datetime, timedelta
 
 APP_STATES = [
     ('waiting', 'Waiting Production'),
@@ -130,7 +130,11 @@ class AppRegistry(models.Model):
         allowed_operators = []
         for op in reg.wc_line_id.operators_ids:
             allowed_operators.append({'id': op.id, 'name': op.name})
-        res.update(allowed_operators=allowed_operators)
+
+        use_time = reg.wc_line_id.production_id.product_id.use_time
+        use_date = (datetime.now() + timedelta(use_time)).strftime("%Y-%m-%d")
+        res.update(allowed_operators=allowed_operators,
+                   product_use_date=use_date)
         return res
 
     @api.model
@@ -181,7 +185,6 @@ class AppRegistry(models.Model):
                 lot_obj = spl.create(vals)
             lot_id = lot_obj.id
         return lot_id
-
 
     @api.model
     def start_production(self, values):
