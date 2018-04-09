@@ -126,6 +126,11 @@ class AppRegistry(models.Model):
             reg = self.create_new_registry(workcenter_id)
         if reg:
             res.update(reg.read()[0])
+
+        allowed_operators = []
+        for op in reg.wc_line_id.operators_ids:
+            allowed_operators.append({'id': op.id, 'name': op.name})
+        res.update(allowed_operators=allowed_operators)
         return res
 
     @api.model

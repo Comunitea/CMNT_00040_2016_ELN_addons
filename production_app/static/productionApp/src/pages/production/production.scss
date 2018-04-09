@@ -18,13 +18,13 @@ page-production {
          color: $primary-color;
     }
     .content-full{
-        height: 100%;
+        --height: 100%;
     }
     .content-one{
-        height: 55%;
+       --height: 55%;
     }
     .content-two{
-        height: 45%;
+        --height: 45%;
     }
     .my-hide {
         display: none;

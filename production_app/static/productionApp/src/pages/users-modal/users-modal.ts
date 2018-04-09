@@ -40,6 +40,9 @@ export class UsersModalPage {
         this.prodData.setActiveOperator(operator.id);
     }
     logInOperator(operator) {
+        if (this.items2.length === 0) {
+            this.setActive(operator);
+        }
         this.prodData.logInOperator(operator.id);
 
         //Remove from loged out list

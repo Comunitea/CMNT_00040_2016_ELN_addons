@@ -38,14 +38,14 @@
                  </ion-card-header>
                  <ion-card-content>
                     <ion-grid text-center>
-                        <ion-row *ngIf="prodData.active_operator_id !== 0">
+<!--                         <ion-row *ngIf="prodData.active_operator_id !== 0">
                             <ion-col width-100>
                                 <div class="info-tittle">Operario Activo</div>
                             </ion-col>
                             <ion-col width-100>
                                 <div class="info-content">{{odooCon.operatorsById[prodData.active_operator_id]['name']}}</div>
                             </ion-col>
-                        </ion-row>
+                        </ion-row> -->
                         <ion-row>
                             <ion-col width-50>
                                 <div class="info-tittle">Centro Trabajo</div>
@@ -73,6 +73,23 @@
                             </ion-col>
                         </ion-row>
                      </ion-grid>
+                </ion-card-content>
+            </ion-card>
+            <ion-card *ngIf="prodData.getLogInOperators().length !== 0">
+                <ion-card-header>
+                    Operadores Logueados
+                </ion-card-header>
+                <ion-card-content>
+                    <ion-list>
+                        <ion-item *ngFor="let op of prodData.getLogInOperators()">
+                            <div *ngIf="prodData.active_operator_id === op.id" class="info-content">                         
+                                {{ op.name }} ( Activo )
+                            </div>
+                            <div *ngIf="prodData.active_operator_id !== op.id" class="info-tittle">                         
+                                {{ op.name }}
+                            </div>
+                        </ion-item>                        
+                    </ion-list>
                 </ion-card-content>
             </ion-card>
         </div>

@@ -77,19 +77,36 @@ export class ProductionProvider {
     }
 
     //Gets operators from odoo, maybe a promise?
-    getOperators(){
-        this.odooCon.searchRead('hr.employee', [], ['id', 'name']).then( (res) => {
-            this.operators = res;
-            for (let indx in res) {
-                let op = res[indx];
-                this.odooCon.operatorsById[op.id] = {'name': op.name, 'active': false, 'operator_line_id': false, 'log': 'out'}    
-            }
-            console.log("OPERATORSBYID")
-            console.log(this.odooCon.operatorsById)
-        })
-        .catch( (err) => {
-            console.log("GET operators deberia ser una promesa, y devolver error, controlarlo en la página y lanzar excepción")
-        });
+    // getOperators(){
+    //     this.odooCon.searchRead('hr.employee', [], ['id', 'name']).then( (res) => {
+    //         this.operators = res;
+    //         for (let indx in res) {
+    //             let op = res[indx];
+    //             this.odooCon.operatorsById[op.id] = {'name': op.name, 'active': false, 'operator_line_id': false, 'log': 'out'}    
+    //         }
+    //         console.log("OPERATORSBYID")
+    //         console.log(this.odooCon.operatorsById)
+    //     })
+    //     .catch( (err) => {
+    //         console.log("GET operators deberia ser una promesa, y devolver error, controlarlo en la página y lanzar excepción")
+    //     });
+    // }
+
+    //Gets operators allowed from the current workorder
+    getAllowedOperators(reg){
+        var allowed_operators = reg['allowed_operators'];
+        this.operators = allowed_operators;
+        for (let indx in allowed_operators) {
+            let op = allowed_operators[indx];
+            this.odooCon.operatorsById[op.id] = {'name': op.name, 'active': false, 'operator_line_id': false, 'log': 'out'}    
+        }
+        console.log("OPERATORSALLOWEDBYID")
+        console.log(this.odooCon.operatorsById)
+    }
+
+    getLogInOperators(){
+        var items2 = this.operators.filter(obj => this.odooCon.operatorsById[obj.id]['log'] == 'in');
+        return items2;
     }
 
     //Gets operators from odoo, maybe a promise?
@@ -197,6 +214,7 @@ export class ProductionProvider {
                     this.initData(reg);
                     this.getQualityChecks();  // Load Quality Checks. TODO PUT PROMISE SYNTAX
                     this.setLogedTimes();  // Load Quality Checks. TODO PUT PROMISE SYNTAX
+                    this.getAllowedOperators(reg)
                     resolve(reg);
                 }
                 else {

@@ -68,6 +68,10 @@ export class ProductionPage {
                 {
                   text: 'Si',
                   handler: () => {
+                    if (this.prodData.active_operator_id === 0 ){
+                        this.presentAlert("Error!", "No puede continuar sin un operario activo");
+                        reject();
+                    }
                     resolve();
                   }
                 }
@@ -287,6 +291,7 @@ export class ProductionPage {
     }
     loadNextProduction(){
         this.prodData.loadProduction(this.prodData.workcenter).then( (res) => {
+            this.prodData.active_operator_id = 0;
         })
         .catch( (err) => {
             this.presentAlert(err.title, err.msg);
