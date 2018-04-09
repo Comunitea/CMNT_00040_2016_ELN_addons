@@ -145,9 +145,9 @@ export class ProductionPage {
         return promise;
     }
 
-    openFinishModal(){
+    openFinishModal(mode_step){
         var promise = new Promise( (resolve, reject) => {
-            var mydata = {}
+            var mydata = {'mode_step': mode_step}
             let finishModal = this.modalCtrl.create(FinishModalPage, mydata);
             finishModal.present();
 
@@ -160,7 +160,7 @@ export class ProductionPage {
                     this.prodData.qty = res.qty;
                     this.prodData.lot_name = res.lot;
                     this.prodData.lot_date = res.date;
-                    this.prodData.finishProduction();
+                    resolve();
                 }
             });
         });
@@ -223,11 +223,13 @@ export class ProductionPage {
 
     startProduction() {
         this.promptNextStep('Terminar preparación y empezar producción').then( () => {
-            this.openChecksModal('start', this.prodData.start_checks, true).then( () => {
-                this.prodData.startProduction();
-                this.scheduleChecks();
-            })
-            .catch( () => {});
+
+            this.openFinishModal("start").then(() => {
+               this.openChecksModal('start', this.prodData.start_checks, true).then( () => {
+                    this.prodData.startProduction();
+                    this.scheduleChecks();
+                }).catch(() => {});
+            }).catch(() => {});
         })
         .catch( () => {});
     }
@@ -264,7 +266,7 @@ export class ProductionPage {
     restartProduction() {
         this.promptNextStep('Reanudar producción').then( () => {
             this.hidden_class = 'my-hide'
-            this.scheduleChecks();
+            this.scheduleChecks();S
             this.timer.toArray()[1].pauseTimer();
             this.prodData.restartProduction();
             this.openChecksModal('start', this.prodData.start_checks, false).then(() => {}).catch(() => {});
@@ -277,6 +279,9 @@ export class ProductionPage {
             this.clearIntervales();
             this.timer.toArray()[0].restartTimer();
             this.prodData.cleanProduction();
+            this.openFinishModal("clean").then(() => {
+                this.prodData.finishProduction();
+            }).catch(() => {});
         })
         .catch( () => {});
     }
@@ -285,7 +290,6 @@ export class ProductionPage {
         this.promptNextStep('Finalizar producción').then( () => {
             this.timer.toArray()[0].restartTimer()
             this.timer.toArray()[0].pauseTimer()
-            this.openFinishModal().then(() => {}).catch(() => {});
         })
         .catch( () => {});
     }

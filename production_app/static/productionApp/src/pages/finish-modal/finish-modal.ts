@@ -16,11 +16,13 @@ export class FinishModalPage {
     lots: Object[];
     items: Object[];
     mode: string = 'default';
+    mode_step: string = 'start';
     constructor(public navCtrl: NavController, public navParams: NavParams, 
                 public viewCtrl: ViewController,
                 private prodData: ProductionProvider) {
         this.lots = [];
         this.items = [];
+        this.mode_step = this.navParams.get('mode_step');
     }
 
     ionViewDidLoad() {
@@ -28,7 +30,14 @@ export class FinishModalPage {
     }
 
     confirm() {
-        var res = {'qty': this.qty, 'lot': this.lot, 'date':this.date}
+        var res = {};
+        if (this.mode_step === 'clean') {
+            res['qty'] = this.qty;
+        }
+        else{
+            res['lot'] = this.lot
+            res['date'] = this.date
+        }
         console.log("res")
         console.log(res);
         this.viewCtrl.dismiss(res);

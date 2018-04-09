@@ -326,7 +326,9 @@ export class ProductionProvider {
     }
     startProduction() {
         this.state = 'started'
-        var values = {'setup_end': this.getUTCDateStr()}
+        var values = {'setup_end': this.getUTCDateStr(),
+                      'lot_name': this.lot_name,
+                      'lot_date': this.lot_date}
         this.setStepAsync('start_production', values);
     }
     stopProduction(reason_id) {
@@ -351,8 +353,6 @@ export class ProductionProvider {
     finishProduction() {
         this.state = 'finished'
         var values = {'qty': this.qty,
-                      'lot_name': this.lot_name,
-                      'lot_date': this.lot_date,
                       'cleaning_end': this.getUTCDateStr()}
         this.setStepAsync('finish_production', values);
     }

@@ -24,18 +24,18 @@
     </button>
    <ion-list>
 
-        <ion-item *ngIf="mode !== 'show'">
+        <ion-item *ngIf="(mode !== 'show') && (mode_step === 'clean')">
             <ion-label color="primary" stacked>Cantidad</ion-label>
             <ion-input type="number"  [(ngModel)]="qty" required name='qty' placeholder="Introducir Cantidad"></ion-input>
         </ion-item>
 
 
-        <ion-item *ngIf="mode !== 'show'">
+        <ion-item *ngIf="(mode !== 'show') && (mode_step === 'start')">
            <ion-label color="primary" stacked>Lot</ion-label>
            <ion-input type="text" [(ngModel)]="lot" required name='lot'  placeholder="Introducir Lote"></ion-input>
         </ion-item>
 
-        <ion-item *ngIf="mode !== 'show'">
+        <ion-item *ngIf="(mode !== 'show') && (mode_step === 'start')">
             <ion-label color="primary" stacked>Fecha de cadicidad</ion-label>
           <ion-datetime displayFormat="DD/MM/YYYY" pickerFormat="DD MM YYYY" max="2099-12-31" placeholder="Introducir Caducidad" [(ngModel)]="date"></ion-datetime>
         </ion-item>

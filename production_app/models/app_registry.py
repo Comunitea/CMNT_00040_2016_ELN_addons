@@ -164,6 +164,26 @@ class AppRegistry(models.Model):
         return res
 
     @api.model
+    def get_lot(self, values, reg):
+        lot_id = False
+        spl = self.env['stock.production.lot']
+        product_id = reg.product_id.id
+        lot_name = values.get('lot_name', '')
+        lot_date = values.get('lot_date', '')
+        lot_date = lot_date if lot_date else False
+        if product_id and lot_name:
+            domain = [('name', '=', lot_name), ('product_id', '=', product_id)]
+            lot_obj = spl.search(domain, limit=1)
+            if not lot_obj:
+                vals = {'name': lot_name,
+                        'product_id': product_id,
+                        'use_date': lot_date}
+                lot_obj = spl.create(vals)
+            lot_id = lot_obj.id
+        return lot_id
+
+
+    @api.model
     def start_production(self, values):
         res = {}
         reg = False
@@ -173,11 +193,13 @@ class AppRegistry(models.Model):
         if values.get('setup_end', False):
             date = values['setup_end']
         if reg:
+            lot_id = self.get_lot(values, reg)
             reg.state = 'started'
             reg.write({
                 'state': 'started',
                 'setup_end': date,
-                'production_start': date
+                'production_start': date,
+                'lot_id': lot_id,
             })
             res = reg.read()[0]
         return res
@@ -249,25 +271,6 @@ class AppRegistry(models.Model):
         return res
 
     @api.model
-    def get_lot(self, values, reg):
-        lot_id = False
-        spl = self.env['stock.production.lot']
-        product_id = reg.product_id.id
-        lot_name = values.get('lot_name', '')
-        lot_date = values.get('lot_date', '')
-        lot_date = lot_date if lot_date else False
-        if product_id and lot_name:
-            domain = [('name', '=', lot_name), ('product_id', '=', product_id)]
-            lot_obj = spl.search(domain, limit=1)
-            if not lot_obj:
-                vals = {'name': lot_name,
-                        'product_id': product_id,
-                        'use_date': lot_date}
-                lot_obj = spl.create(vals)
-            lot_id = lot_obj.id
-        return lot_id
-
-    @api.model
     def finish_production(self, values):
         res = {}
         reg = False
@@ -277,12 +280,10 @@ class AppRegistry(models.Model):
         if values.get('stop_start', False):
             date = values['cleaning_end']
         if reg:
-            lot_id = self.get_lot(values, reg)
             reg.write({
                 'state': 'finished',
                 'cleaning_end': date,
                 'qty': values.get('qty', 0.00),
-                'lot_id': lot_id,
             })
             operators_loged = self.env['operator.line']
             for op in reg.operator_ids:
