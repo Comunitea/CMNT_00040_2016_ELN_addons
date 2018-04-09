@@ -45,6 +45,7 @@ export class ProductionPage {
             {
               text: 'Si',
               handler: () => {
+                this.clearIntervales();
                 this.navCtrl.setRoot(HomePage, {borrar: true, login: null});
               }
             }
@@ -110,7 +111,10 @@ export class ProductionPage {
                     resolve();
                 }
                 else{
-                    reject();
+                    if (qchecks.length === 0)
+                        resolve();
+                    else
+                        reject();
                 }
                 
             });
