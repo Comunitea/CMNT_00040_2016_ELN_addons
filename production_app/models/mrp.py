@@ -15,3 +15,12 @@ class MrpProductionWorkcenterLine(models.Model):
     app_state = fields.Selection(APP_STATES, 'State',
                                  related='registry_id.state', store=True,
                                  readonly=True)
+
+
+class MrpWorkcenter(models.Model):
+    _inherit = 'mrp.workcenter'
+
+    reason_ids =\
+        fields.Many2many('stop.reason', rel='stop_reasons_workcenter_rel',
+                         id1="workcenter_id", id2="reason_id",
+                         domain=[('reason_type', '=', 'technical')])
