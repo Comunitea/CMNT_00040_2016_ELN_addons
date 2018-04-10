@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar color="secondary">
-    <ion-title>Motivos de parada</ion-title>
+    <ion-title><span>Motivos de parada</span></ion-title>
     <ion-buttons end>
         <button ion-button (click)="closeModal()">
             Atrás
@@ -29,7 +29,7 @@
 <!--         <ion-item [hidden]='reasons.length>0' color ="danger"> No hay motivos de parada</ion-item> -->
         <button ion-item *ngFor="let reason of reasons" (click)="reasonSelected(reason)">
             <!-- <ion-icon name="text"></ion-icon> -->
-            {{ reason.name }}
+            <span>{{ reason.name }}</span>
         </button>  
     </ion-list>
 </ion-content>

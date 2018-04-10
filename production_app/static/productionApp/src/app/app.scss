@@ -14,3 +14,19 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+
+.custom-font-size {
+    font-size: 2vh;
+}
+span {
+    font-size: 1.8vh;
+}
+ion-input{
+    font-size: 2vh;
+}
+.alert-header {
+  font-size: 2vh !important;
+}
+.alert-message {
+  font-size: 2vh !important;
+}

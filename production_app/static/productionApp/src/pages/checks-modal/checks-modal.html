@@ -6,7 +6,7 @@
 -->
 <ion-header>
   <ion-navbar color="secondary">
-    <ion-title>Controles Calidad</ion-title>
+    <ion-title><span class="custom-font-size">Controles Calidad</span></ion-title>
     <ion-buttons end>
         <button ion-button (click)="closeModal()">
             Atrás
@@ -18,23 +18,23 @@
 
 <ion-content padding>
     <ion-item [hidden]='quality_checks.length>0' color ="danger"> No hay Quality Checks</ion-item>
-   <ion-card *ngIf="prodData.active_operator_id !== 0">
+<!--    <ion-card *ngIf="prodData.active_operator_id !== 0">
         <ion-card-header>
-            Operario Activo
+            <span>Operario Activo</span>
          </ion-card-header>
         <ion-card-content>
             <div class="info-content">
-             {{odooCon.operatorsById[prodData.active_operator_id]['name']}}
+             <span>{{odooCon.operatorsById[prodData.active_operator_id]['name']}}</span>
             </div>
         </ion-card-content>
-    </ion-card>
+    </ion-card> -->
     <ion-list>
         <ion-item *ngFor="let qc of quality_checks">
-            <ion-label stacked>{{ qc.name }}</ion-label>
+            <ion-label stacked><span>{{ qc.name }}</span></ion-label>
             <!-- <ion-checkbox  *ngIf="qc['value_type'] == 'check'" item-right disabled="false" [(ngModel)]="qc['value']"></ion-checkbox>   -->
             <ion-select interface="popover" *ngIf="qc['value_type'] == 'check'" [(ngModel)]="qc['value']">
-                <ion-option value="OK">OK</ion-option> 
-                <ion-option value="NO OK">NO OK</ion-option> 
+                <ion-option value="OK"><span>OK</span></ion-option> 
+                <ion-option value="NO OK"><span>NO OK</span></ion-option> 
             </ion-select>    
             <ion-input *ngIf="qc['value_type'] == 'numeric'" type="number" [(ngModel)]="qc['value']"></ion-input>
             <ion-input *ngIf="qc['value_type'] == 'text'"  type="text" [(ngModel)]="qc['value']" ></ion-input>

@@ -11,7 +11,7 @@
           <ion-icon name="menu"></ion-icon>
         </button> -->
 
-        <ion-title>Producción</ion-title>
+        <ion-title><span class="custom-font-size">Producción</span></ion-title>
 
         <ion-buttons end>
             <button ion-button full (click)="beginLogistics()">
@@ -38,14 +38,6 @@
                  </ion-card-header>
                  <ion-card-content>
                     <ion-grid text-center>
-<!--                         <ion-row *ngIf="prodData.active_operator_id !== 0">
-                            <ion-col width-100>
-                                <div class="info-tittle">Operario Activo</div>
-                            </ion-col>
-                            <ion-col width-100>
-                                <div class="info-content">{{odooCon.operatorsById[prodData.active_operator_id]['name']}}</div>
-                            </ion-col>
-                        </ion-row> -->
                         <ion-row>
                             <ion-col width-50>
                                 <div class="info-tittle">Centro Trabajo</div>
@@ -75,23 +67,7 @@
                      </ion-grid>
                 </ion-card-content>
             </ion-card>
-            <ion-card *ngIf="prodData.getLogInOperators().length !== 0">
-                <ion-card-header>
-                    Operadores Logueados
-                </ion-card-header>
-                <ion-card-content>
-                    <ion-list>
-                        <ion-item *ngFor="let op of prodData.getLogInOperators()">
-                            <div *ngIf="prodData.active_operator_id === op.id" class="info-content">                         
-                                {{ op.name }} ( Activo )
-                            </div>
-                            <div *ngIf="prodData.active_operator_id !== op.id" class="info-tittle">                         
-                                {{ op.name }}
-                            </div>
-                        </ion-item>                        
-                    </ion-list>
-                </ion-card-content>
-            </ion-card>
+
         </div>
         <div  class="content-two">
             <ion-card *ngIf="(prodData.state != 'waiting')">
@@ -101,6 +77,7 @@
                 </ion-card-header>
                 <ion-card-content>
                     <button ion-button large block clear><timer [timeInSeconds]="0"></timer></button>
+                    <br/>
                     <button [ngClass]="hidden_class" ion-button large block clear color="danger"><timer [timeInSeconds]="0"></timer></button>
                 </ion-card-content>
             </ion-card>
@@ -127,7 +104,7 @@
                 Finalizar Producción
             </button>
 
-            <button ion-button full *ngIf="prodData.state == 'started'" (click)="stopProduction()">
+            <button ion-button full  color="danger" *ngIf="prodData.state == 'started'" (click)="stopProduction()">
                 Parar Producción
             </button>
             <button ion-button full *ngIf="prodData.state == 'stoped'" (click)="restartProduction()">
@@ -139,11 +116,29 @@
             <button ion-button full color="danger" *ngIf="prodData.state == 'finished'" (click)="loadNextProduction()">
                 Siguiente
             </button>
-
+        </div>
+        <div class="content-three">
+            <ion-card *ngIf="prodData.getLogInOperators().length !== 0">
+                <ion-card-header>
+                    Operadores Logueados
+                </ion-card-header>
+                <ion-card-content>
+                    <ion-list>
+                        <ion-item *ngFor="let op of prodData.getLogInOperators()">
+                            <div *ngIf="prodData.active_operator_id === op.id" class="info-content">                         
+                                <span>{{ op.name }} ( Activo )</span>
+                            </div>
+                            <div *ngIf="prodData.active_operator_id !== op.id" class="info-tittle">                         
+                                <span>{{ op.name }}</span>
+                            </div>
+                        </ion-item>                        
+                    </ion-list>
+                </ion-card-content>
+            </ion-card>
         </div>
     </div>
 </ion-content>
 <ion-footer>
-    <ion-item color ="primary">{{prodData.states[prodData.state]}}</ion-item>
+    <ion-item class="custom-font-size" color ="primary">{{prodData.states[prodData.state]}}</ion-item>
 </ion-footer>
 

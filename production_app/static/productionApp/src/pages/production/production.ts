@@ -87,7 +87,7 @@ export class ProductionPage {
         const alert = this.alertCtrl.create({
             title: titulo,
             subTitle: texto,
-            buttons: ['Ok']
+            buttons: ['Ok'],
         });
         alert.present();
     }

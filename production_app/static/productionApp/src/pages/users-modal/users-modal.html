@@ -1,6 +1,6 @@
 <ion-header>
     <ion-navbar color="secondary">
-        <ion-title>Operarios</ion-title>
+        <ion-title><span>Operarios</span></ion-title>
         <ion-buttons end>
             <button ion-button (click)="closeModal()">
                 Atrás
@@ -12,10 +12,10 @@
     <div padding>
       <ion-segment [(ngModel)]="mode">
             <ion-segment-button value="out">
-                Fuera
+                <span>Fuera</span>
             </ion-segment-button>
             <ion-segment-button value="in">
-                Dentro
+                <span>Dentro</span>
             </ion-segment-button>
             <!--  <ion-segment-button value="rfid">
                 RFID
@@ -25,20 +25,20 @@
 
     <div [ngSwitch]="mode">
         <div *ngSwitchCase="'out'">
-            <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
+            <ion-searchbar class="custom-font-size" (ionInput)="getItems($event)"></ion-searchbar>
             <ion-list> 
                 <ion-item-sliding *ngFor="let operator of getLogedOut()">        
                     <ion-item >
-                    {{operator.name}}
+                    <span>{{operator.name}}</span>
                     </ion-item>
                     <ion-item-options side="left">
                         <button [hidden]="odooCon.operatorsById[operator.id]['log'] == 'in'" ion-button (click)="logInOperator(operator)">
                             <ion-icon name="log-in"></ion-icon>
-                            Entrada
+                            <span class="button-size">Entrada</span>
                         </button> 
                         <button  [hidden]="odooCon.operatorsById[operator.id]['log'] == 'out'" ion-button (click)="logOutOperator(operator)">
                             <ion-icon name="log-out"></ion-icon>
-                            Salida
+                            <span class="button-size">Salida</span>
                         </button>   
                     </ion-item-options>
 <!--                     <ion-item-options side="right">
@@ -54,32 +54,32 @@
         <div *ngSwitchCase="'in'">
             <ion-card *ngIf="prodData.active_operator_id !== 0">
                 <ion-card-header>
-                    Operario Activo
+                    <span>Operario Activo</span>
                  </ion-card-header>
                 <ion-card-content>
-                     {{odooCon.operatorsById[prodData.active_operator_id]['name']}}
+                     <span>{{odooCon.operatorsById[prodData.active_operator_id]['name']}}</span>
                 </ion-card-content>
             </ion-card>
 
             <ion-list> 
                 <ion-item-sliding *ngFor="let operator of getLogedIn()">        
                     <ion-item >
-                    {{operator.name}}
+                     <span>{{operator.name}}</span>
                     </ion-item>
                     <ion-item-options side="left">
                         <button [hidden]="odooCon.operatorsById[operator.id]['log'] == 'in'" ion-button (click)="logInOperator(operator)">
                             <ion-icon name="log-in"></ion-icon>
-                            Entrada
+                            <span class="button-size">Entrada</span>
                         </button> 
                         <button  [hidden]="odooCon.operatorsById[operator.id]['log'] == 'out'" ion-button (click)="logOutOperator(operator)">
                             <ion-icon name="log-out"></ion-icon>
-                            Salida
+                            <span class="button-size">Salida</span>
                         </button>   
                     </ion-item-options>
                     <ion-item-options side="right">
                         <button ion-button color="danger" (click)="setActive(operator)">
                             <ion-icon name="star"></ion-icon>
-                            Activar
+                             <span class="button-size">Activar</span>
                         </button>
                     </ion-item-options>
                 </ion-item-sliding>
