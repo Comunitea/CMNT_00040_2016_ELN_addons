@@ -56,6 +56,7 @@ class AppRegistry(models.Model):
     product_id = fields.Many2one('product.product', 'Product',
                                  related="production_id.product_id",
                                  readonly=True)
+    workorder_id = fields.Many2one('work.order', 'Related Maintance Order')
     _sql_constraints = [
         ('wc_line_id_uniq', 'unique(wc_line_id)',
          'The workcenter line must be unique !'),
@@ -208,6 +209,14 @@ class AppRegistry(models.Model):
         return res
 
     @api.model
+    def create_maintenance_order(self, reg):
+        mt = self.env['maintenance.type'].\
+            search([('type', '=', 'correctivo')], limit=1)
+        wo = self.env['work.order'].create({'maintenance_type_id': mt.id})
+        reg.write({'workorder_id': wo.id})
+        return True
+
+    @api.model
     def stop_production(self, values):
         res = {}
         reg = False
@@ -225,6 +234,9 @@ class AppRegistry(models.Model):
                 date = values['stop_start']
             stop_obj = reg.create_stop(values.get('reason_id', False),
                                        operator_id, date)
+            create_mo = values.get('create_mo', False)
+            if create_mo:
+                self.create_maintenance_order(reg)
             res = reg.read()[0]
             res.update({'stop_id': stop_obj.id})
         return res

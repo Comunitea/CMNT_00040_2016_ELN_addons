@@ -25,7 +25,7 @@
                         <field name="reason_type"/>
                     </group>
                     <group string="Associated Workcenters" attrs="{'invisible': [('reason_type', '!=', 'technical')]}">
-                        <field name="workcenter_ids" nolabel="1" required="1">
+                        <field name="workcenter_ids" nolabel="1">
                             <tree>
                                 <field name="name"/>
                             </tree>

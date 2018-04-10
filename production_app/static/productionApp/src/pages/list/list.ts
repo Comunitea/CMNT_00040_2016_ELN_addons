@@ -75,7 +75,13 @@ export class ListPage {
     }
     workcenterSelected(workcenter) {
         this.prodData.loadProduction(workcenter).then( (res) => {
-            this.navCtrl.setRoot(ProductionPage);
+            this.prodData.getStopReasons(workcenter.id).then( (res) => {
+                this.navCtrl.setRoot(ProductionPage);
+            })
+            .catch( (err) => {
+                this.presentAlert("Error", "Falló al cargar los motivos técnicos para el centro de trabajo actual.");
+            }); 
+
         })
         .catch( (err) => {
             this.presentAlert(err.title, err.msg);

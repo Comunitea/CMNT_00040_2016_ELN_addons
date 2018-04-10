@@ -180,13 +180,15 @@ export class ProductionProvider {
         }
     }
 
-    loadReasons(reasons) {
+    loadReasons(reasons, workcenter_id) {
+        this.technical_reasons = []
+        this.organizative_reasons = []
         for (let indx in reasons) {
             var r = reasons[indx];
-            if (r.reason_type == 'technical'){
+            if ( (r.reason_type == 'technical') && ( r.workcenter_ids.indexOf(workcenter_id) ) ){
                 this.technical_reasons.push(r);
             }
-            else{
+            else if (r.reason_type == 'organizative'){
                 this.organizative_reasons.push(r);
             }
         }
@@ -195,13 +197,18 @@ export class ProductionProvider {
         console.log("TECHNICAL REASONS");
         console.log(this.technical_reasons);
     }
-    getStopReasons(){
-        this.odooCon.searchRead('stop.reason', [], ['id', 'name', 'reason_type']).then( (res) => {
-            this.loadReasons(res)
-        })
-        .catch( (err) => {
-            console.log(" GET REASONS ERROR deberia ser una promesa, y devolver error, controlarlo en la página y lanzar excepción")
+    getStopReasons(workcenter_id){
+        var promise = new Promise( (resolve, reject) => {
+            this.odooCon.searchRead('stop.reason', [], ['id', 'name', 'reason_type', 'workcenter_ids']).then( (res) => {
+                this.loadReasons(res, workcenter_id)
+                resolve();
+            })
+            .catch( (err) => {
+                console.log(" GET REASONS ERROR deberia ser una promesa, y devolver error, controlarlo en la página y lanzar excepción")
+                reject();
+            });
         });
+        return promise
     }
 
     // Gets all the data needed fom the app.regystry model
@@ -333,9 +340,10 @@ export class ProductionProvider {
                       'lot_date': this.lot_date}
         this.setStepAsync('start_production', values);
     }
-    stopProduction(reason_id) {
+    stopProduction(reason_id, create_mo) {
         this.state = 'stoped'
         var values = {'reason_id': reason_id,
+                      'create_mo': create_mo,
                       'active_operator_id': this.active_operator_id,
                       'stop_start': this.getUTCDateStr()}
         this.setStepAsync('stop_production', values);

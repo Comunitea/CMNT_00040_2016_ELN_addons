@@ -112,7 +112,7 @@ export class HomePage {
                             user.login = value[0].login;
                             // self.prodData.getOperators();
                             self.prodData.getLots();
-                            self.prodData.getStopReasons();
+                            // self.prodData.getStopReasons();
                             //todo debería ser una promesa?
                             // me voy para página de producción
                             self.navCtrl.setRoot(ListPage); 

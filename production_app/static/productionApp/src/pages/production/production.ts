@@ -137,12 +137,12 @@ export class ProductionPage {
             reasonsModal.present();
 
             // When modal closes
-            reasonsModal.onDidDismiss(reason_id => {
-                if (reason_id == 0){
-                    reject(reason_id)
+            reasonsModal.onDidDismiss((res) => {
+                if (res['reason_id'] == 0){
+                    reject(res)
                 }
                 else{
-                    resolve(reason_id);
+                    resolve(res);
                 }
             });
         });
@@ -241,13 +241,15 @@ export class ProductionPage {
     stopProduction() {
         this.promptNextStep('Registrar una parada?').then( () => {
             this.hidden_class = 'my-hide'
-            this.openReasonsModal().then( (reason_id) => {
+            this.openReasonsModal().then( (res) => {
+                var reason_id = res['reason_id']
+                var create_mo = res['create_mo']
                 this.hidden_class = 'none'
                 this.clearIntervales();
                 console.log("STOP MODAL RES");
                 console.log(reason_id);
                 // this.timer.toArray()[0].pauseTimer();
-                this.prodData.stopProduction(reason_id);
+                this.prodData.stopProduction(reason_id, create_mo);
                 this.timer.toArray()[1].restartTimer();
             })
             .catch( () => {
