@@ -15,6 +15,10 @@ class MrpProductionWorkcenterLine(models.Model):
     app_state = fields.Selection(APP_STATES, 'State',
                                  related='registry_id.state', store=True,
                                  readonly=True)
+    qc_line_ids = fields.One2many('quality.check.line', 'wc_line_id',
+                                  'Quality Checks', readonly=False)
+    operator_ids = fields.One2many('operator.line', 'wc_line_id',
+                                   'Operators', readonly=False)
 
 
 class MrpWorkcenter(models.Model):

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-27 15:32+0000\n"
-"PO-Revision-Date: 2018-03-27 15:32+0000\n"
+"POT-Creation-Date: 2018-04-10 11:58+0000\n"
+"PO-Revision-Date: 2018-04-10 11:58+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -38,6 +38,11 @@ msgstr "Registro App"
 #: view:product.quality.check:production_app.product_quality_check_form_view
 msgid "Associated Products"
 msgstr "Productos Asociados"
+
+#. module: production_app
+#: view:stop.reason:production_app.stop_reason_form_view
+msgid "Associated Workcenters"
+msgstr "Centros de Producción asociados"
 
 #. module: production_app
 #: selection:product.quality.check,value_type:0
@@ -143,6 +148,11 @@ msgid "ID"
 msgstr "ID"
 
 #. module: production_app
+#: view:mrp.production.workcenter.line:production_app.mrp_production_workcenter_form_view_registry
+msgid "Ins / Outs Operators"
+msgstr "Entradas / Salidas Operarios"
+
+#. module: production_app
 #: field:app.registry,__last_update:0
 #: field:operator.line,__last_update:0
 #: field:product.quality.check,__last_update:0
@@ -207,6 +217,8 @@ msgstr "Operador"
 #. module: production_app
 #: view:app.registry:production_app.app_registry_form_view
 #: field:app.registry,operator_ids:0
+#: view:mrp.production.workcenter.line:production_app.mrp_production_workcenter_form_view_registry
+#: field:mrp.production.workcenter.line,operator_ids:0
 msgid "Operators"
 msgstr "Operadores"
 
@@ -308,6 +320,8 @@ msgstr "Control calidad"
 #. module: production_app
 #: view:app.registry:production_app.app_registry_form_view
 #: field:app.registry,qc_line_ids:0
+#: view:mrp.production.workcenter.line:production_app.mrp_production_workcenter_form_view_registry
+#: field:mrp.production.workcenter.line,qc_line_ids:0
 #: view:product.quality.check:production_app.product_quality_check_form_view
 #: view:product.quality.check:production_app.product_quality_check_tree_view
 msgid "Quality Checks"
@@ -325,6 +339,7 @@ msgstr "Calidad check ids"
 
 #. module: production_app
 #: view:app.registry:production_app.app_registry_form_view
+#: view:mrp.production.workcenter.line:production_app.mrp_production_workcenter_form_view_registry
 msgid "QualityChecks"
 msgstr "Controles calidad"
 
@@ -350,11 +365,21 @@ msgid "Reason Type"
 msgstr "Tipo motivo"
 
 #. module: production_app
+#: field:mrp.workcenter,reason_ids:0
+msgid "Reason ids"
+msgstr "Motivos"
+
+#. module: production_app
 #: field:operator.line,registry_id:0
 #: field:quality.check.line,registry_id:0
 #: field:stop.line,registry_id:0
 msgid "Registry"
 msgstr "Registro"
+
+#. module: production_app
+#: field:app.registry,workorder_id:0
+msgid "Related Maintance Order"
+msgstr "Orden mantenimiento asociada"
 
 #. module: production_app
 #: field:product.quality.check,repeat:0
@@ -463,6 +488,11 @@ msgid "Technical Reason"
 msgstr "Motivo técnico"
 
 #. module: production_app
+#: view:mrp.workcenter:production_app.mrp_workcenter_view_add_technical_reasons
+msgid "Technical Reasons"
+msgstr "Motivos técnicos"
+
+#. module: production_app
 #: selection:product.quality.check,value_type:0
 msgid "Text"
 msgstr "Texto"
@@ -505,6 +535,7 @@ msgstr "Esperando producción"
 
 #. module: production_app
 #: field:app.registry,workcenter_id:0
+#: model:ir.model,name:production_app.model_mrp_workcenter
 #: field:product.quality.check,workcenter_id:0
 msgid "Work Center"
 msgstr "Centro de trabajo"
@@ -524,6 +555,13 @@ msgstr "Centro de trabajo"
 
 #. module: production_app
 #: field:app.registry,name:0
+#: field:operator.line,wc_line_id:0
+#: field:quality.check.line,wc_line_id:0
 msgid "Workcenter Line"
-msgstr "Orden de trabaj"
+msgstr "Orden de trabajo"
+
+#. module: production_app
+#: field:stop.reason,workcenter_ids:0
+msgid "Workcenter ids"
+msgstr "Workcenter ids"
 

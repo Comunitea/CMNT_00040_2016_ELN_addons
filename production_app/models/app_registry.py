@@ -346,7 +346,27 @@ class AppRegistry(models.Model):
 
     @api.multi
     def validate(self):
+        wc_line = self.wc_line_id
+        stop_values = []
+        for stop in self.stop_line_ids:
+            val = {'name': stop.operator_id.name,
+                   'reason': stop.reason_id.name,
+                   'time': stop.stop_duration}
+            stop_values.append((0, 0, val))
+
+        vals = {
+            'date_start': self.setup_start,
+            'date_finidhed': self.cleaning_end,
+            'real_time': self.production_duration,
+            'time_start': self.setup_duration,
+            'time_stop': self.cleaning_duration,
+            'production_stops_ids': stop_values or False
+        }
+        wc_line.write(vals)
+        self.qc_line_ids.write({'wc_line_id': wc_line.id})
+        self.operator_ids.write({'wc_line_id': wc_line.id})
         self.write({'state': 'validated'})
+        return
 
     @api.multi
     def create_stop(self, reason_id, operator_id, date_stop):
@@ -410,6 +430,8 @@ class QualityCheckLine(models.Model):
     date = fields.Datetime('Date', readonly=False)
     value = fields.Text('Value', readonly=False)
     operator_id = fields.Many2one('hr.employee', 'Operator')
+    wc_line_id = fields.Many2one('mrp.production.workcenter.line', 
+                                 'Workcenter Line', readonly=True)
 
 
 class StopLines(models.Model):
@@ -443,6 +465,8 @@ class OperatorLines(models.Model):
     date_out = fields.Datetime('Date Out', readonly=False)
     stop_duration = fields.Float('Hours',
                                  compute="_get_duration")
+    wc_line_id = fields.Many2one('mrp.production.workcenter.line', 
+                                 'Workcenter Line', readonly=True)
 
     @api.multi
     @api.depends('date_in', 'date_out')
