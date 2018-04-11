@@ -129,7 +129,7 @@ class AppRegistry(models.Model):
             res.update(reg.read()[0])
 
         allowed_operators = []
-        if op.wc_line_id:
+        if reg.wc_line_id:
             for op in reg.wc_line_id.operators_ids:
                 allowed_operators.append({'id': op.id, 'name': op.name})
 
