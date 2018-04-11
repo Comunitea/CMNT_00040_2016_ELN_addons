@@ -129,8 +129,9 @@ class AppRegistry(models.Model):
             res.update(reg.read()[0])
 
         allowed_operators = []
-        for op in reg.wc_line_id.operators_ids:
-            allowed_operators.append({'id': op.id, 'name': op.name})
+        if op.wc_line_id:
+            for op in reg.wc_line_id.operators_ids:
+                allowed_operators.append({'id': op.id, 'name': op.name})
 
         use_time = reg.wc_line_id.production_id.product_id.use_time
         use_date = (datetime.now() + timedelta(use_time)).strftime("%Y-%m-%d")
