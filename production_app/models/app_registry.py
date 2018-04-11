@@ -130,7 +130,7 @@ class AppRegistry(models.Model):
 
         if reg:
             allowed_operators = []
-            for op in reg.wc_line_id.operators_ids:
+            for op in reg.workcenter_id.operators_ids:
                 allowed_operators.append({'id': op.id, 'name': op.name})
 
             use_time = reg.wc_line_id.production_id.product_id.use_time
