@@ -5,47 +5,47 @@
     </ion-navbar>
     </ion-header>
     <ion-content class="my-home" center text-center>
-        <ion-grid text-center>
-            <ion-row>
-                 <ion-col width-40>
-                    <div style="text-align: center">
-                        <img src="../assets/imgs/nogal_background.jpeg" alt="ProductionAPP"/>                        
-                    </div> 
-                </ion-col>
-                <ion-col width-60>
-                    <form (ngSubmit)="this.conectarApp(true)">
-                        <ion-list *ngIf="!cargar">
-                            <ion-item>
-                               <ion-label color="primary" stacked><span class="custom-font-size">Usuario</span></ion-label>
-                               <ion-input type="email"  [(ngModel)]="CONEXION.username" required name='username' placeholder="Ingresa Usuario"></ion-input>
-                            </ion-item>
+        <form (ngSubmit)="this.conectarApp(true)">
+            <ion-grid text-center>
+                <ion-row>
+                     <ion-col width-40>
+                        <div style="text-align: center">
+                            <img src="assets/imgs/nogal_background.jpeg" alt="ProductionAPP"/>                        
+                        </div> 
+                    </ion-col>
+                    <ion-col width-60>
+                            <ion-list *ngIf="!cargar">
+                                <ion-item>
+                                   <ion-label color="primary" stacked><span class="custom-font-size">Usuario</span></ion-label>
+                                   <ion-input type="email"  [(ngModel)]="CONEXION.username" required name='username' placeholder="Ingresa Usuario"></ion-input>
+                                </ion-item>
 
-                             <ion-item>
-                               <ion-label color="primary" stacked><span class="custom-font-size">Contraseña</span></ion-label>
-                               <ion-input type="password" [(ngModel)]="CONEXION.password" required name='password'  placeholder="Ingresa Contraseña"></ion-input>
-                             </ion-item>
-                             <ion-item>
-                              <ion-label color="primary" stacked><span class="custom-font-size">URL</span></ion-label>
-                              <ion-input [(ngModel)]="CONEXION.url" required name='url'  placeholder="Ingresa url"></ion-input>
-                            </ion-item>
-                            <ion-item>
-                              <ion-label color="primary" stacked><span class="custom-font-size">Port</span></ion-label>
-                              <ion-input type="number" [(ngModel)]="CONEXION.port" required name='port'  placeholder="Ingresa puerto"></ion-input>
-                            </ion-item>
-                            <ion-item>
-                              <ion-label color="primary" stacked><span class="custom-font-size">Base  de datos</span></ion-label>
-                              <ion-input [(ngModel)]="CONEXION.db" required name='db'  placeholder="Ingresa base de datos"></ion-input>
-                            </ion-item>
-                       </ion-list>
-                    </form>
-                </ion-col>
-            </ion-row>
-            <ion-row>
-                <ion-col width-100>
-                  <button ion-button full type="submit"><span class="custom-font-size">Login</span></button>
-              </ion-col>
-            </ion-row>
-        </ion-grid>
+                                 <ion-item>
+                                   <ion-label color="primary" stacked><span class="custom-font-size">Contraseña</span></ion-label>
+                                   <ion-input type="password" [(ngModel)]="CONEXION.password" required name='password'  placeholder="Ingresa Contraseña"></ion-input>
+                                 </ion-item>
+                                 <ion-item>
+                                  <ion-label color="primary" stacked><span class="custom-font-size">URL</span></ion-label>
+                                  <ion-input [(ngModel)]="CONEXION.url" required name='url'  placeholder="Ingresa url"></ion-input>
+                                </ion-item>
+                                <ion-item>
+                                  <ion-label color="primary" stacked><span class="custom-font-size">Port</span></ion-label>
+                                  <ion-input type="number" [(ngModel)]="CONEXION.port" required name='port'  placeholder="Ingresa puerto"></ion-input>
+                                </ion-item>
+                                <ion-item>
+                                  <ion-label color="primary" stacked><span class="custom-font-size">Base  de datos</span></ion-label>
+                                  <ion-input [(ngModel)]="CONEXION.db" required name='db'  placeholder="Ingresa base de datos"></ion-input>
+                                </ion-item>
+                           </ion-list>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col width-100>
+                      <button ion-button full type="submit"><span class="custom-font-size">Login</span></button>
+                  </ion-col>
+                </ion-row>
+            </ion-grid>
+        </form>
            
 
 

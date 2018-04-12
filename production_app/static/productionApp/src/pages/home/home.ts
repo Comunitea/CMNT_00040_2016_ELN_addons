@@ -16,21 +16,21 @@ declare var OdooApi: any;
 export class HomePage {
 
     loginData = {password: '', username: ''};
-    // CONEXION = {
-    //     url: 'http://nogalproduction.com',
-    //     port: '9069',
-    //     db: 'nogal_dev',
-    //     username: 'admin',
-    //     password: 'admin',
-    // };
-
     CONEXION = {
-        url: 'http://elnapp.livingodoo.com',
-        port: '8069',
-        db: 'elnapp',
+        url: 'http://nogalproduction.com',
+        port: '9069',
+        db: 'nogal_dev',
         username: 'admin',
         password: 'admin',
     };
+
+    // CONEXION = {
+    //     url: 'http://elnapp.livingodoo.com',
+    //     port: '8069',
+    //     db: 'elnapp',
+    //     username: 'admin',
+    //     password: 'admin',
+    // };
     cargar = true;
     mensaje = '';
   
