@@ -57,6 +57,16 @@ page-production {
         margin: 4px;
         font-size: 2rem;
     }
+    .btn2 {
+        display:block;
+        height: 4vh;
+        width: 100%;
+        border: 1px ;
+        background-color: $danger-color;
+        color: white;
+        margin: 4px;
+        font-size: 2rem;
+    }
 
     @media (min-width:700px){
         .info-tittle{

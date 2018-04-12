@@ -100,55 +100,54 @@
              </ion-grid>
         </div>
         <div  class="content-two">
-            <ion-grid *ngIf="(prodData.state != 'waiting')">
+            <ion-grid>
                 <ion-row>
                     <ion-col width-100>
                         <span class="info-tittle"  *ngIf="prodData.state !== 'stoped'">Tiempo transcurrido</span>
                         <span class="info-tittle-red" *ngIf="prodData.state === 'stoped'">Tiempo en parada</span>
                     </ion-col>
                 </ion-row>
-               <ion-row>
+               <ion-row *ngIf="(prodData.state != 'waiting')">
                     <button ion-button large block clear><timer [timeInSeconds]="0"></timer></button>
                     <br/>
                     <button [ngClass]="hidden_class" ion-button large block clear color="danger"><timer [timeInSeconds]="0"></timer></button>
                 </ion-row>
                 <ion-row>
                     <ion-col width-100>
-                   <!-- PANTALA INICIAL-->
-                    <button class="btn" *ngIf="prodData.state == 'waiting'" (click)="confirmProduction()">
-                        
-                       Confirmar Producción
-                    </button>
-                    <!-- PANTALA 2-->
-                    <button class="btn" *ngIf="prodData.state == 'confirmed'" (click)="setupProduction()">
-                        Comenzar Preparación
-                    </button>
+                       <!-- PANTALA INICIAL-->
+                        <button class="btn" *ngIf="prodData.state == 'waiting'" (click)="confirmProduction()">
+                           Confirmar Producción
+                        </button>
+                        <!-- PANTALA 2-->
+                        <button class="btn" *ngIf="prodData.state == 'confirmed'" (click)="setupProduction()">
+                            Comenzar Preparación
+                        </button>
 
-                    <!-- PANTALA 3-->
-                    <button class="btn" *ngIf="prodData.state == 'setup'" (click)="startProduction()">
-                        Empezar Producción
-                    </button>
-                     <!-- PANTALA 4-->
-                    <button class="btn" *ngIf="prodData.state == 'started'" (click)="cleanProduction()">
-                        Empezar Limpieza
-                    </button>
-                     <!-- PANTALA 5-->
-                    <button class="btn"*ngIf="prodData.state == 'cleaning'" (click)="finishProduction()">
-                        Finalizar Producción
-                    </button>
+                        <!-- PANTALA 3-->
+                        <button class="btn" *ngIf="prodData.state == 'setup'" (click)="startProduction()">
+                            Empezar Producción
+                        </button>
+                         <!-- PANTALA 4-->
+                        <button class="btn" *ngIf="prodData.state == 'started'" (click)="cleanProduction()">
+                            Empezar Limpieza
+                        </button>
+                         <!-- PANTALA 5-->
+                        <button class="btn"*ngIf="prodData.state == 'cleaning'" (click)="finishProduction()">
+                            Finalizar Producción
+                        </button>
 
-                    <button class="btn"  color="danger" *ngIf="prodData.state == 'started'" (click)="stopProduction()">
-                        Parar Producción
-                    </button>
-                    <button  class="btn" *ngIf="prodData.state == 'stoped'" (click)="restartProduction()">
-                        Reaunudar Producción
-                    </button>
-                    <button class="btn" *ngIf="prodData.state == 'stoped'" (click)="restartAndCleanProduction()">
-                        Reaunudar y Empezar limpieza
-                    </button>
-                    <button class="btn" color="danger" *ngIf="prodData.state == 'finished'" (click)="loadNextProduction()">
-                        Siguiente
-                    </button>
+                        <button class="btn2"  color="danger" *ngIf="prodData.state == 'started'" (click)="stopProduction()">
+                            Parar Producción
+                        </button>
+                        <button  class="btn" *ngIf="prodData.state == 'stoped'" (click)="restartProduction()">
+                            Reaunudar Producción
+                        </button>
+                        <button class="btn" *ngIf="prodData.state == 'stoped'" (click)="restartAndCleanProduction()">
+                            Reaunudar y Empezar limpieza
+                        </button>
+                        <button class="btn2" color="danger" *ngIf="prodData.state == 'finished'" (click)="loadNextProduction()">
+                            Siguiente
+                        </button>
                     </ion-col>
                 </ion-row>
             </ion-grid>

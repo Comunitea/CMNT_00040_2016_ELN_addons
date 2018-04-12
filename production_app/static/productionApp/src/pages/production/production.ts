@@ -318,9 +318,8 @@ export class ProductionPage {
         this.promptNextStep('¿Empezar limpieza?').then( () => {
             this.clearIntervales();
             this.timer.toArray()[0].restartTimer();
-            this.prodData.cleanProduction();
             this.openFinishModal("clean").then(() => {
-                this.prodData.finishProduction();
+                this.prodData.cleanProduction();
             }).catch(() => {});
         })
         .catch( () => {});
@@ -330,6 +329,7 @@ export class ProductionPage {
         this.promptNextStep('¿Finalizar producción').then( () => {
             this.timer.toArray()[0].restartTimer()
             this.timer.toArray()[0].pauseTimer()
+            this.prodData.finishProduction();
         })
         .catch( () => {});
     }
