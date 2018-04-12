@@ -36,8 +36,10 @@ export class ProductionPage {
     }
 
     initProduction(){
-        this.timer.toArray()[0].initTimer();
-        this.timer.toArray()[1].initTimer();
+        if (this.timer.toArray().length != 0){
+            this.timer.toArray()[0].initTimer();
+            this.timer.toArray()[1].initTimer();
+        }
 
         var timer_1_states = ['setup', 'started', 'cleaning']
         if (timer_1_states.indexOf(this.prodData.state) >= 0){
