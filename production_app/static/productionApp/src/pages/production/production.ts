@@ -31,6 +31,26 @@ export class ProductionPage {
                 private odooCon: OdooProvider) {
     }
 
+    ionViewDidLoad() {
+        this.initProduction();
+    }
+
+    initProduction(){
+        this.timer.toArray()[0].initTimer();
+        this.timer.toArray()[1].initTimer();
+
+        var timer_1_states = ['setup', 'started', 'cleaning']
+        if (timer_1_states.indexOf(this.prodData.state) >= 0){
+            this.scheduleChecks();
+            this.timer.toArray()[0].restartTimer();
+        }
+        if (this.prodData.state == 'stoped'){
+            this.hidden_class = 'none'
+            this.timer.toArray()[0].restartTimer();
+            this.timer.toArray()[1].restartTimer();
+        }
+    }
+
     logOut(){
         let confirm = this.alertCtrl.create({
           title: 'Salir de la Aplicación?',
@@ -81,6 +101,18 @@ export class ProductionPage {
             confirm.present();
         });
         return promise
+    }
+
+    reloadProduction(){
+        this.promptNextStep('¿Recargar producción?').then( () => {
+            this.clearIntervales();
+            this.prodData.loadProduction(this.prodData.workcenter).then(() =>{
+                this.initProduction();
+            })
+            .catch( () => {});
+            })
+        .catch( () => {});
+        
     }
 
     presentAlert(titulo, texto) {
@@ -211,14 +243,14 @@ export class ProductionPage {
     }
 
     confirmProduction() {
-        this.promptNextStep('Confirmar producción?').then( () => {
+        this.promptNextStep('¿Confirmar producción?').then( () => {
             this.prodData.confirmProduction();
         })
         .catch( () => {});
     }
 
     setupProduction() {
-        this.promptNextStep('Empezar preparación?').then( () => {
+        this.promptNextStep('¿Empezar preparación?').then( () => {
             this.prodData.setupProduction();
             this.timer.toArray()[0].restartTimer()  // Set-Up timer on
         })
@@ -226,7 +258,7 @@ export class ProductionPage {
     }
 
     startProduction() {
-        this.promptNextStep('Terminar preparación y empezar producción').then( () => {
+        this.promptNextStep('¿Terminar preparación y empezar producción').then( () => {
 
             this.openFinishModal("start").then(() => {
                this.openChecksModal('start', this.prodData.start_checks, true).then( () => {
@@ -239,7 +271,7 @@ export class ProductionPage {
     }
 
     stopProduction() {
-        this.promptNextStep('Registrar una parada?').then( () => {
+        this.promptNextStep('¿Registrar una parada?').then( () => {
             this.hidden_class = 'my-hide'
             this.openReasonsModal().then( (res) => {
                 var reason_id = res['reason_id']
@@ -260,7 +292,7 @@ export class ProductionPage {
     }
 
     restartAndCleanProduction(){
-        this.promptNextStep('Reanudar producción y pasar a limpieza').then( () => {
+        this.promptNextStep('¿Reanudar producción y pasar a limpieza?').then( () => {
             this.clearIntervales();
             this.timer.toArray()[0].restartTimer();
             this.hidden_class = 'my-hide'
@@ -270,7 +302,7 @@ export class ProductionPage {
     }
 
     restartProduction() {
-        this.promptNextStep('Reanudar producción').then( () => {
+        this.promptNextStep('¿Reanudar producción?').then( () => {
             this.hidden_class = 'my-hide'
             this.scheduleChecks();
             this.timer.toArray()[1].pauseTimer();
@@ -281,7 +313,7 @@ export class ProductionPage {
     }
 
     cleanProduction() {
-        this.promptNextStep('Empezar limpieza?').then( () => {
+        this.promptNextStep('¿Empezar limpieza?').then( () => {
             this.clearIntervales();
             this.timer.toArray()[0].restartTimer();
             this.prodData.cleanProduction();
@@ -293,7 +325,7 @@ export class ProductionPage {
     }
 
     finishProduction() {
-        this.promptNextStep('Finalizar producción').then( () => {
+        this.promptNextStep('¿Finalizar producción').then( () => {
             this.timer.toArray()[0].restartTimer()
             this.timer.toArray()[0].pauseTimer()
         })

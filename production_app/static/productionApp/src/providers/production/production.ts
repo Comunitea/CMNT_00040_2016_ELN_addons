@@ -77,22 +77,6 @@ export class ProductionProvider {
         return today;
     }
 
-    //Gets operators from odoo, maybe a promise?
-    // getOperators(){
-    //     this.odooCon.searchRead('hr.employee', [], ['id', 'name']).then( (res) => {
-    //         this.operators = res;
-    //         for (let indx in res) {
-    //             let op = res[indx];
-    //             this.odooCon.operatorsById[op.id] = {'name': op.name, 'active': false, 'operator_line_id': false, 'log': 'out'}    
-    //         }
-    //         console.log("OPERATORSBYID")
-    //         console.log(this.odooCon.operatorsById)
-    //     })
-    //     .catch( (err) => {
-    //         console.log("GET operators deberia ser una promesa, y devolver error, controlarlo en la página y lanzar excepción")
-    //     });
-    // }
-
     //Gets operators allowed from the current workorder
     getAllowedOperators(reg){
         var allowed_operators = reg['allowed_operators'];
@@ -236,6 +220,7 @@ export class ProductionProvider {
 
     // Gets all the data needed fom the app.regystry model
     loadProduction(workcenter){
+        this.workcenter = workcenter
         var promise = new Promise( (resolve, reject) => {
             var values = {'workcenter_id': workcenter.id}
             var method = 'app_get_registry'
