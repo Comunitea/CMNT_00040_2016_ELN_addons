@@ -1,9 +1,19 @@
 timer {
     ion-icon{
         padding: 10px;
-        font-size: 2em;
+        font-size: 2rem;
     }
     .text-ion-button{
-        font-size: 2em;
+        font-size: 2rem;
+    }
+
+    @media (min-width:600px){
+        ion-icon{
+            padding: 10px;
+            font-size: 5rem;
+        }  
+        .text-ion-button{
+            font-size: 5rem;
+        }
     }
 }

@@ -110,6 +110,29 @@ export class ProductionProvider {
         return items2;
     }
 
+    getOperatorNames(){
+        let str_names = ''
+        var log_in_list = this.getLogInOperators()
+        for (let indx in log_in_list) {
+            let op = log_in_list[indx];
+            str_names += op.name + ', ' 
+        }
+        return str_names
+
+    }
+    getActiveOperatorName(){
+        let str_names = ''
+        var log_in_list = this.getLogInOperators()
+        for (let indx in log_in_list) {
+            let op = log_in_list[indx];
+            if (op.id === this.active_operator_id){
+                str_names = op.name;
+            }
+        }
+        return str_names
+
+    }
+
     //Gets operators from odoo, maybe a promise?
     getLots(){
         var d = new Date();
