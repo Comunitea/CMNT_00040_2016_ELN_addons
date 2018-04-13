@@ -2,8 +2,9 @@
 # © 2016 Comunitea Servicios Tecnológicos (<http://www.comunitea.com>)
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from openerp import models, fields
+from openerp import api, models, fields, _
 from .app_registry import APP_STATES
+from openerp import exceptions
 
 
 class MrpProductionWorkcenterLine(models.Model):
@@ -20,6 +21,14 @@ class MrpProductionWorkcenterLine(models.Model):
     operator_ids = fields.One2many('operator.line', 'wc_line_id',
                                    'Operators', readonly=False)
 
+    @api.multi
+    def action_cancel(self):
+        for pl in self:
+            if pl.registry_id:
+                raise exceptions.Warning(_("You cant cancel because one app \
+                                            registry is linked"))
+        return super(MrpProductionWorkcenterLine, self).unlink()
+
 
 class MrpWorkcenter(models.Model):
     _inherit = 'mrp.workcenter'
@@ -28,3 +37,20 @@ class MrpWorkcenter(models.Model):
         fields.Many2many('stop.reason', rel='stop_reasons_workcenter_rel',
                          id1="workcenter_id", id2="reason_id",
                          domain=[('reason_type', '=', 'technical')])
+
+
+class MrpProduction(models.Model):
+    _inherit = 'mrp.production'
+
+    @api.multi
+    def action_cancel(self):
+        pl_pool = self.env['mrp.production.workcenter.line']
+        for prod in self:
+            domain = [('production_id', '=', prod.id)]
+            prod_lines = pl_pool.search(domain)
+            for pl in prod_lines:
+                if pl.registry_id:
+                    raise exceptions.Warning(_("You cant cancel because one app \
+                                                registry is linked"))
+
+        return super(MrpProductionWorkcenterLine, self).unlink()

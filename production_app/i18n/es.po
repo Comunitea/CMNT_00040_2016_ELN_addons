@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-10 11:58+0000\n"
-"PO-Revision-Date: 2018-04-10 11:58+0000\n"
+"POT-Creation-Date: 2018-04-13 08:39+0000\n"
+"PO-Revision-Date: 2018-04-13 08:39+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -457,7 +457,7 @@ msgstr "Duración parada"
 #. module: production_app
 #: field:stop.line,stop_end:0
 msgid "Stop End"
-msgstr "Stop End"
+msgstr "Fin parada"
 
 #. module: production_app
 #: model:ir.actions.act_window,name:production_app.action_stop_reason
@@ -564,4 +564,16 @@ msgstr "Orden de trabajo"
 #: field:stop.reason,workcenter_ids:0
 msgid "Workcenter ids"
 msgstr "Workcenter ids"
+
+#. module: production_app
+#: code:addons/production_app/models/mrp.py:53
+#, python-format
+msgid "You cant cancel because one app                                                 registry is linked"
+msgstr "No puedes cancelar porque hay un registro de aplicación asociado."
+
+#. module: production_app
+#: code:addons/production_app/models/mrp.py:28
+#, python-format
+msgid "You cant cancel because one app                                             registry is linked"
+msgstr "No puedes cancelar porque hay un registro de aplicación asociado."
 
