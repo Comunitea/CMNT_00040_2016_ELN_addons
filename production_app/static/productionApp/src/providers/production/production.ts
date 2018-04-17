@@ -151,6 +151,7 @@ export class ProductionProvider {
         }
         var values =  {'registry_id': this.registry_id, 'operator_id': operator_id, 'date_in': this.getUTCDateStr()};
         this.odooCon.callRegistry('log_in_operator', values).then( (res) => {
+            this.odooCon.operatorsById[operator_id]['operator_line_id'] = res['operator_line_id'];
         })
         .catch( (err) => {
             this.manageOdooFail()
