@@ -210,10 +210,16 @@ class AppRegistry(models.Model):
         return res
 
     @api.model
-    def create_maintenance_order(self, reg):
+    def create_maintenance_order(self, reg, reason_id):
         mt = self.env['maintenance.type'].\
             search([('type', '=', 'correctivo')], limit=1)
-        wo = self.env['work.order'].create({'maintenance_type_id': mt.id})
+
+        note = ''
+        if reason_id:
+            reason_name = self.env['stop.reason'].browse(reason_id).name
+            note += 'Credo por app. ' + reason_name
+        wo = self.env['work.order'].create({'maintenance_type_id': mt.id,
+                                            'note': note})
         reg.write({'workorder_id': wo.id})
         return True
 
@@ -222,6 +228,7 @@ class AppRegistry(models.Model):
         res = {}
         reg = False
         operator_id = False
+        reason_id = values.get('reason_id', False)
         if values.get('active_operator_id', False):  # Can be 0
             operator_id = values['active_operator_id']
         if values.get('registry_id', False):
@@ -233,11 +240,10 @@ class AppRegistry(models.Model):
             date = fields.Datetime.now()
             if values.get('stop_start', False):
                 date = values['stop_start']
-            stop_obj = reg.create_stop(values.get('reason_id', False),
-                                       operator_id, date)
+            stop_obj = reg.create_stop(reason_id, operator_id, date)
             create_mo = values.get('create_mo', False)
             if create_mo:
-                self.create_maintenance_order(reg)
+                self.create_maintenance_order(reg, reason_id)
             res = reg.read()[0]
             res.update({'stop_id': stop_obj.id})
         return res
