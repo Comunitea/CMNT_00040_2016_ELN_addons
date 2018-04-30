@@ -1,0 +1,33 @@
+<!-- Generated template for the StockOperationComponent component -->
+
+
+<ion-item-sliding [hidden] = "whatOps=='Pendientes' && stock_operation.pda_done"  >
+    <ion-item no-lines>
+      <ion-item no-lines>
+        <ion-badge item-end class="w100 b-product" (click)="openOp(stock_operation.id, stock_operation.index)"> 
+            {{ stock_operation.pda_product_id.name || 'SIN PRODUCTO'}}
+        </ion-badge>
+      </ion-item>  
+      <ion-item no-lines>
+        <ion-badge item-end class="w50 b-qty" [ngClass]="{'b-checked':stock_operation.pda_done == true}" >
+            {{ stock_operation.product_qty - stock_operation.qty_done }} {{stock_operation.product_uom_id && stock_operation.product_uom_id.name}}
+        </ion-badge>
+        <ion-badge item-end class="w50 b-op" [hidden] = "!stock_operation.package_id " (click)="openform('stock.quant.package', stock_operation.package_id.id)">
+            {{ stock_operation['package_id']['name'] }}
+        </ion-badge>
+        <ion-badge item-end class="w50 b-op"  [hidden] = "!stock_operation.lot_id && !stock_operation.package_id" (click)="openform('stock.production.lot', stock_operation.lot_id.id)">
+            {{ stock_operation.lot_id.name }}
+        </ion-badge>
+
+        <!--ion-badge item-end class="b-op" (click)="openform('stock.location', stock_operation.location_id.id)">
+          {{ stock_operation.location_id.name }}
+        </ion-badge-->
+
+  </ion-item>
+</ion-item>
+  <ion-item-options side="right">
+    <button ion-button color="danger" [ngClass]="{'badge_0': stock_operation.pda_done}" (click)="doOp(stock_operation.id)"><ion-icon name="trash"></ion-icon>
+      {{stock_operation.pda_done && 'Deshacer' || !stock_operation.pda_done && 'Hacer'}}
+    </button>
+  </ion-item-options>
+</ion-item-sliding>

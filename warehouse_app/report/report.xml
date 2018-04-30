@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    <!-- Custom paperformat, maybe margin will be 0 -->
+    <record id="my_paperformat_report" model="report.paperformat">
+        <field name="name">My paperformat report</field>
+        <field name="default" eval="True"/>
+        <field name="format">custom</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">1</field>
+        <field name="margin_bottom">1</field>
+        <field name="margin_left">1</field>
+        <field name="margin_right">1</field>
+        <field name="page_height">29</field>
+        <field name="page_width">90</field>
+    </record>
+
+    <report
+          string="Product Tag"
+          id="report_print_product_tag"
+          model="product.product"
+          report_type="qweb-pdf"
+          name="warehouse_app.product_tag_report"
+          file="warehouse_app.product_tag_report"
+          menu="False"
+    />
+
+    <record id="report_print_product_tag" model="ir.actions.report.xml">
+          <field name="paperformat_id" ref="my_paperformat_report"/>
+    </record>
+
+    <report
+          string="Location Tag"
+          id="report_print_location_tag"
+          model="stock.location"
+          report_type="qweb-pdf"
+          name="warehouse_app.location_tag_report"
+          file="warehouse_app.location_tag_report"
+          menu="False"
+    />
+
+    <record id="report_print_location_tag" model="ir.actions.report.xml">
+          <field name="paperformat_id" ref="my_paperformat_report"/>
+    </record>
+
+    </data>
+</openerp>

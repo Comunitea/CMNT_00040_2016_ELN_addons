@@ -17,23 +17,30 @@ class StockPackOperation (models.Model):
     def get_app_names(self):
         for op in self:
             op.pda_product_id = op.product_id or op.package_id.product_id or op.lot_id.product_id
-
-            op.product_uom = op.product_id and op.product_id.uom_id
             op.total_qty = op.product_id and op.product_qty or op.package_id and op.package_id.package_qty
-            op.real_lot_id = op.lot_id or op.package_id.lot_id
+            
 
 
-    location_dest_id_barcode =  fields.Char(related='location_dest_id.loc_barcode')
-    location_id_barcode = fields.Char(related="location_id.loc_barcode")
-    location_dest_id_need_check = fields.Boolean(related="location_dest_id.need_check")
-    location_id_need_check = fields.Boolean(related="location_id.need_check")
+    
     picking_order = fields.Integer("Picking order")
     pda_product_id = fields.Many2one('product.product', compute = get_app_names, multi=True)
-    product_uom = fields.Many2one('product.uom', compute = get_app_names, multi=True)
     pda_done = fields.Boolean ('Pda done', help='True if done from PDA', default=False, copy=False)
     pda_checked = fields.Boolean('Pda checked', help='True if visited in PDA', default=False, copy=False)
     total_qty = fields.Float('Real qty', compute=get_app_names, multi=True)
-    real_lot_id = fields.Many2one('stock.production.lot', 'Real lot', compute=get_app_names, multi=True)
+    track_all = fields.Boolean(related='pda_product_id.track_all')
+    need_confirm = fields.Boolean(related="picking_id.picking_type_id.need_confirm")
+    uos_qty = fields.Float('Quantity (S.U.)',
+                           digits_compute=dp.
+                           get_precision('Product Unit of Measure'), compute="get_uos_values", multi=True)
+    uos_id = fields.Many2one('product.uom', 'Second Unit', related='product_id.uos_id')
+
+    @api.multi
+    def get_uos_values(self):
+        t_uom = self.env['product.uom']
+        for op in self:
+            #op.uos_id = op.move_lines.uos_id.id
+            op.uos_id = op.linked_move_operation_ids[0].move_id.product_uos
+            op.uos_qty = t_uom._compute_qty(op.product_uom_id.id, op.product_qty, op.uos_id.id)
 
 
     def change_package_id_from_pda(self, id, new_package_id):
@@ -105,8 +112,8 @@ class StockPackOperation (models.Model):
         id = vals.get('id', False)
         do_id = vals.get('do_id', True)
         op = self.browse([id])
+        create = vals.get('force_create', False)
         qty = vals.get('qty_done', op.qty_done or 0)
-        import ipdb; ipdb.set_trace()
 
         if not op:
             return False
@@ -115,21 +122,18 @@ class StockPackOperation (models.Model):
         else:
             qty_done = 0.0
 
-        next_id = op.return_next_op(do_id)
-        op.write({'pda_done': do_id,
-                 'qty_done': qty_done})
+        vals = {'pda_done': do_id,
+                 'qty_done': qty_done}
+        op.write(vals)
 
-        if do_id:
-            print "Next op:%s" % next_id
+        if create:
             quants = op.return_quants_to_select(id, op.product_qty - qty_done)
             new_op = []
             for quant in quants:
                 new_op += [op.create_new_op_from_pda(quant, op.get_result_package())]
-
             if new_op:
                 return new_op[0]
-
-        return next_id
+        return op.id
 
     def get_result_package(self):
         #POara heredar si es necesario
@@ -200,8 +204,7 @@ class StockPackOperation (models.Model):
 
     @api.multi
     def put_in_pack(self):
-
-        for op in self.filtered(lambda x:not x.result_package_id and x.location_dest_id.usage == 'internal'):
+        for op in self.filtered(lambda x:not x.result_package_id and x.location_dest_id.in_pack):
             if not op.result_package_id:
                 op.result_package_id = self.env['stock.quant.package'].create(op.get_new_pack_values())
 
@@ -344,4 +347,106 @@ class StockPackOperation (models.Model):
                 return move.move_prepare_partial()
 
 
+    @api.model
+    def get_available_lot(self, vals):
+        print "recuperando quants"
+        op = self.browse(vals.get('id'))
+        print "para la op %s"%op
+        product_id = op.product_id
+        lot_ids = self.env['stock.production.lot'].get_lot_ids(op.product_id.id, op.lot_id.id)
+        print lot_ids
+        return lot_ids
 
+
+
+    @api.model
+    def pda_change_lot(self, values):
+        lot_id = values.get('lot_id')
+        op_id = values.get('id')
+
+        lot = self.env['stock.production.lot'].search_read([('id','=', lot_id)], ['location_id'])
+        if op_id and lot and lot[0]['location_id']:
+            values = {'lot_id': lot_id, 'location_id': lot[0]['location_id'][0], 'pda_done': False, 'qty_done': 0.00}
+            self.browse(op_id).write(values)
+            return op_id
+        return False
+
+
+    @api.model
+    def pda_change_package(self, values):
+
+        package_id = values.get('package_id')
+        op_id = values.get('id', 0)
+        op = self.env['stock.quant.operation'].browse(op_id)
+        package = self.env['stock.quant.package'].search_read([('id', '=', package_id)],
+                                                              ['product_id', 'location_id', 'lot_id', 'qty',
+                                                               'package_qty'])
+        if not op:
+            return {'result': False, 'message': "No se ha encontrado la operación"}
+
+        if op.pda_done:
+            return {'result': False, 'message': "La operación ya está realizada"}
+
+        package = package and package[0]
+
+        if not package or package.multi:
+            return {'result': False, 'message': "No se ha encontrado el paquete o es multiproducto"}
+
+        if op.product_id != package.product_id and op.product_id.is_sustitutive(package.product_id.id):
+
+            if op.product_qty:
+                qty = op.package_id.package_qty
+            else:
+                qty = op.product_qty
+
+            if package.package_qty == qty:
+                qty = 1
+                product_id = False
+            else:
+                qty = package.package_qty
+                product_id = op.package_id.product_id.id
+
+            values = {'lot_id':  package.lot_id.id,
+                      'location_id': package.location_id.id,
+                      'package_id': package.id,
+                      'pda_done': False,
+                      'product_id': product_id,
+                      'product_qty': qty,
+                      'qty_done': 0.00,
+                      'location_dest_id': op.location_dest_id.id,
+                      'result_package_id': op.result_package_id and op.result_package_id.id,
+                      'uom_id': package.product_id.uom_id.id,
+                      'picking_id': op.picking_id.id
+                      }
+            op.unlink()
+            new_op = self.create(values)
+            return {'result': True, 'new_op': new_op.id}
+
+        elif op.product_id == package.product_id:
+
+            if op.product_qty:
+                qty = op.package_id.package_qty
+            else:
+                qty = op.product_qty
+
+            if package.package_qty == qty:
+                qty = 1
+                product_id = False
+            else:
+                qty = package.package_qty
+                product_id = op.package_id.product_id.id
+
+            values = {'lot_id':  package.lot_id.id,
+                      'location_id': package.location_id.id,
+                      'package_id': package.id,
+                      'pda_done': False,
+                      'product_id': product_id,
+                      'product_qty': qty,
+                      'qty_done': 0.00,
+                      'location_dest_id': op.location_dest_id.id,
+                      'resulta_package_id': op.result_package_id and op.result_package_id.id,
+                    }
+            res = op.write(values)
+            return {'result': res, 'new_op': False}
+
+        return False

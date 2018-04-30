@@ -14,6 +14,9 @@ class StockMove(models.Model):
     result_package_id = fields.Many2one('stock.quant.package', string="To package")
     package_qty = fields.Boolean('Package qty')
 
+    def pda_onchange_lot(self):
+        return
+
     def onchange_result_package_id(self, cr, uid, ids, result_package_id=False, context=None):
         if result_package_id:
             package = self.pool.get('stock.quant.package').browse(cr, uid, [result_package_id], context=context)
@@ -95,7 +98,7 @@ class StockMove(models.Model):
 
     @api.model
     def pda_move(self, vals):
-        import ipdb; ipdb.set_trace()
+
         restrict_package_id = vals.get('restrict_package_id', False) or False
         location_dest_id = vals.get('location_dest_id', False)
         result_package_id = vals.get('result_package_id', 0)

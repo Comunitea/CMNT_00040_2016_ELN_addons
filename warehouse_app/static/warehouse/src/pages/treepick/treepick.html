@@ -38,23 +38,25 @@
       <b>Cargando...</b>
     </div>
    
-    <ion-list >         
+    <ion-list *ngIf="!cargar">         
         <ion-item [hidden]='picks.length>0 || cargar' color ="danger"> No hay albaranes</ion-item>
 
-        <ion-item text-wrap *ngFor="let pick of picks; trackBy: index;" class="all0" >
-            <ion-label></ion-label>
-            <button ion-button item-start class="buttonProduct w75" (click)="showtreeop_ids(pick.id)" [ngClass]="{'pìckdone': pick.state=='done'}">
-              {{pick.name}} <({{pick.state}} {{pick.picking_type_id_name}})>
-            </button>  
+        <ion-item *ngFor="let pick of picks; trackBy: index;" 
+            item-start (click)="showtreeop_ids(pick.id, pick.model)" class="itemwaiting" [ngClass]="{'itemdone': pick.state=='done'}">
+              {{pick.name}}     
+            
+            <!--button ion-button item-start class="buttonProduct" (click)="showtreeop_ids(pick.id)" [ngClass]="{'pìckdone': pick.state=='done'}">
+              {{pick.name}} 
+            </button-->  
         
-            <button ion-button icon-only item-end  (click)="doAsign(pick.id)" [hidden]="pick.user_id">Asignar
+            <!--button ion-button icon-only item-end  (click)="doAsign(pick.id)" [hidden]="pick.user_id">Asignar
                 
             </button>  
             <button ion-button icon-only item-end  (click)="doDeAsign(pick.id)" [hidden]="!pick.user_id">Liberar
                 
             </button>
             <button ion-button icon-only item-end  (click)="doTransfer(pick.id)" [hidden]='!pick.allow_transfer'>Validar
-            </button>
+            </button-->
         </ion-item>
     </ion-list> 
     </ion-content>

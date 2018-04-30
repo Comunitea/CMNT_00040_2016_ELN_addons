@@ -1,21 +1,21 @@
 import { Component } from '@angular/core';
 
 /**
- * Generated class for the OdooComponent component.
+ * Generated class for the ProductionLotComponent component.
  *
  * See https://angular.io/api/core/Component for more info on Angular
  * Components.
  */
 @Component({
-  selector: 'odoo',
-  templateUrl: 'odoo.html'
+  selector: 'production-lot',
+  templateUrl: 'production-lot.html'
 })
-export class OdooComponent {
+export class ProductionLotComponent {
 
   text: string;
 
   constructor() {
-    console.log('Hello OdooComponent Component');
+    console.log('Hello ProductionLotComponent Component');
     this.text = 'Hello World';
   }
 

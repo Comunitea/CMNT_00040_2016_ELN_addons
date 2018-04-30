@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { enableProdMode, ErrorHandler, NgModule } from '@angular/core';
+import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 
 
@@ -26,8 +26,25 @@ import { LotPage} from '../pages/lot/lot'
 import { PackagePage} from '../pages/package/package'
 import { LocationPage} from '../pages/location/location'
 
+
+//Modal
+
+
+import { SelectLotPage } from '../pages/select-lot/select-lot'
+import { SelectPackagePage } from '../pages/select-package/select-package'
+//Provider
 import { NativeAudio } from '@ionic-native/native-audio';
 import { AppSoundProvider } from '../providers/app-sound/app-sound';
+import { OdooProvider } from '../providers/odoo-connector/odoo-connector';
+
+
+
+//component
+import { ProductProductComponent} from '../components/product-product/product-product'
+import { StockPickingComponent} from '../components/stock-picking/stock-picking'
+import { StockOperationComponent} from '../components/stock-operation/stock-operation'
+
+
 
 @NgModule({
   declarations: [
@@ -41,7 +58,11 @@ import { AppSoundProvider } from '../providers/app-sound/app-sound';
     LotPage,
     LocationPage,
     PackagePage,
-    ProductPage
+    ProductPage,
+    SelectLotPage,
+    ProductProductComponent,
+    StockPickingComponent,
+    StockOperationComponent
   ],
   imports: [
     BrowserModule,
@@ -62,7 +83,8 @@ import { AppSoundProvider } from '../providers/app-sound/app-sound';
     LotPage,
     LocationPage,
     PackagePage,
-    ProductPage
+    ProductPage,
+    SelectLotPage
   ],
   providers: [
     StatusBar,
@@ -72,7 +94,10 @@ import { AppSoundProvider } from '../providers/app-sound/app-sound';
     Network,
     AuxProvider,
     NativeAudio,
-    AppSoundProvider
+    AppSoundProvider,
+    OdooProvider,
+    
+    
   ]
 })
 export class AppModule {}

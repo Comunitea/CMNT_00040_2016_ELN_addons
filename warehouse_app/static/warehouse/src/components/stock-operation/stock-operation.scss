@@ -1,0 +1,29 @@
+stock-operation {
+
+    .p-product{
+        color: color($colors, operations);
+        font-weight: bold; 
+    }
+    
+    .b-product {
+        color: white;
+        border: none; 
+        background-color: color($colors, operations);
+    }
+    
+    .b-op {
+        color: color($colors, operations);
+        border: none; 
+        background-color: color($colors, odoolight);
+    }
+    .b-qty {
+        color: color($colors, odoo);
+        border: none; 
+        background-color: color($colors, odoolight);
+    }
+    .b-checked {
+        border: none; 
+        background-color: color($colors, odoolight);
+        color: color($colors, odooprimary);
+    }
+}

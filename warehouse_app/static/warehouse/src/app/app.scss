@@ -14,6 +14,8 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+
+
 .home{
     background:color($colors, primary);
     color:color($colors, light);
@@ -33,7 +35,7 @@
     text-align: center;
     font-weight: normal;
 }
-
+badge_checked
 .location,.icon, .desc{
     text-align: center;
 }
@@ -42,7 +44,57 @@
     width:100px;
     color: color($colors, odoo);
 }
+ion-badge {
+    width: 33%;
+    padding: 4px;
+    margin: 4px;
+}
+.all0 {
+    margin: 0px;
+    padding: 0px;
+}
 
+.w100{
+    width: 100%;
+    
+}
+.w75{
+    width: 75%;
+    
+}
+.w50{
+    width: 50%;
+    
+}
+.w33{
+    width: 33%;
+    
+}
+.item-block{
+    min-height: 1rem;
+}
+.item-md {
+    padding-left: 4px;
+}
+.label-md{
+    padding: 4px;
+    margin: 4px;
+}
+.badge-md {
+    padding: 4px;
+    
+}
+
+.item-md [item-left],
+.item-md [item-right],
+.item-md [item-start],
+.item-md [item-end] {
+  margin: 4px 4px 4px 0;
+}
+.itemdone {color: color($colors, itemdone);}
+.itemwaiting {color: color($colors, itemwaiting);}
+.itemerror {color: color($colors, itemerror);}
+/*
 .itemIcons {
     color: color($colors, odoo);
     font-size: larger;
@@ -108,7 +160,7 @@ ion-label{
     margin: 0px;
     padding: 0px;
 }
-.all0 .all0-inner {
+.all0 .all0-inner .ion-grid-inner{
     margin: 0px;
     padding: 0px;
 }
@@ -139,9 +191,7 @@ ion-toast.toastOk {
     background-color:color($colors, odoo); 
     color: color($colors, odoolight);
 }
-ion-badge {
-    width: 33%;
-}
+
 ion-button .button-inner {
     font-size: small;
 }
@@ -194,7 +244,7 @@ ion-button .button-inner {
 }
 .buttonProduct .button-inner{
     justify-content:flex-start;
-    /*font-size: small;*/
+    /*font-size: small;
 }
 .buttonProduct:hover{
     background-color: color($colors, product)!important;
@@ -202,19 +252,19 @@ ion-button .button-inner {
 }
 .buttonOp{
     width: 75%;
-    /*font-weight: bold;*/
+    
     color: color($colors, product);
     border: none; 
-    /*background-color: color($colors, light);*/
+    
     background-color: color($colors, product)!important;
     color: color($colors, light);
 }
 .buttonOp_ok{
     width: 75%;
-    /*font-weight: bold;*/
+    
     color: color($colors, product);
     border: none; 
-    /*background-color: color($colors, odoolight);*/
+    
 }
 .buttonOp .button-inner{
     justify-content:flex-end;
@@ -231,3 +281,7 @@ ion-button .button-inner {
 .badge_0 {
     background-color: color($colors, odooprimary)
 }
+.item-block {
+    min-height: 1rem
+}*/
+

@@ -1,162 +1,254 @@
-import { HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-
-
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/map';
+import { Storage } from '@ionic/storage';
 
 /*
-  Generated class for the OdooConnectorProvider provider.
+  Generated class for the OdooProvider provider.
 
   See https://angular.io/guide/dependency-injection for more info on providers
   and Angular DI.
 */
-
-export class BDUser {
-  id: number;
-  name: string;
- 
-  quantity: number;
-  constructor(values: Object = {}) {
-       Object.assign(this, values);
-  }
-} 
-
-class Cookies { // cookies doesn't work with Android default browser / Ionic
-
-    private session_id: string = null;
-
-    delete_sessionId() {
-        this.session_id = null;
-        document.cookie = "session_id=; expires=Wed, 29 Jun 2016 00:00:00 UTC";
-    }
-
-    get_sessionId() {
-        return document
-                .cookie.split("; ")
-                .filter(x => { return x.indexOf("session_id") === 0; })
-                .map(x => { return x.split("=")[1]; })
-                .pop() || this.session_id || "";
-    }
-
-    set_sessionId(val: string) {
-        document.cookie = `session_id=${val}`;
-        this.session_id = val;
-    }
-}
-
+declare var OdooApi: any;
 
 @Injectable()
-export class OdooConnectorProvider {
+export class OdooProvider {
 
-  private odoo_server: string;
-  private http_auth: string;
-  private db: string;
-  private db_user: string;
-  private db_pass: string
-  private cookies: Cookies;
-  private context: Object = {"lang": "es_ES"};
-
-  constructor(public http: HttpClient) {
-    console.log('Hello OdooConnectorProvider Provider');
-    
-  }
-  
-  public init(configs: any) {
-    this.odoo_server = 'odoopistola.com';
-    this.http_auth = configs.http_auth || null;
-    this.db = 'pistola';
-    this.db_user ='admin';
-    this.db_pass = 'admin';
-    //this.cookies = new Cookies();
-}
-
-  get_http_headers(){
-   
-    let $this = this;  
-    let headers = {
-      "Content-Type": "text/plain",
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Headers": "origin, x-requested-with, content-type",
-      "Access-Control-Allow-Methods": "PUT, GET, POST, DELETE, OPTIONS",
-      "X-Openerp-Session-Id": $this.cookies.get_sessionId()
-      };
-    return headers;
-  }
-
-  public login() {
-   
-    let $this = this;  
-    this.init('');
-    let params = {
-              db : this.db,
-              login : this.db_user,
-              password : this.db_pass
-          };
-    let headers = {
-      "Content-Type": "text/plain",
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Headers": "origin, x-requested-with, content-type",
-      "Access-Control-Allow-Methods": "PUT, GET, POST, DELETE, OPTIONS"
-      };  
-    this.http.post("http://odoopistola.com/web/session/authenticate", {params, headers})
-        .toPromise()
-        .then(function(result: any) {
-          console.log('Then .....');
-          console.log(result.result);
-          if (!result.result['uid']) {
-            console.log(result.result['uid'])
-              $this.cookies.delete_sessionId();
-              return Promise.reject({
-                  title: "wrong_login",
-                  message: "Username and password don't match",
-                  fullTrace: result
-              })
-        .catch(this.handleHttpErrors);;
-          }
-    $this.context = result.result['user_context'];
-    localStorage.setItem("user_context", result.result['user_context']) ;
-    $this.cookies.set_sessionId(result.result['session_id']);
-    console.log(localStorage.getItem('user_context'));
-    return Promise.resolve(result);
-      });
-  }
-
-  public getUsers() {
-    
-     let $this = this;  
-     //this.init('');
-     let params = {
-        //       db : this.db,
-          //     login : this.db_user,
-            //   password : this.db_pass,
-           
-            model: 'res.users',
-            domain: [],
-            fields: ['name'],
-            context: this.context
-        };
-     let headers = {
-       "Content-Type": "text/plain",
-       "Access-Control-Allow-Origin": "*",
-       "Access-Control-Allow-Headers": "origin, x-requested-with, content-type",
-       "Access-Control-Allow-Methods": "PUT, GET, POST, DELETE, OPTIONS"
-       };  
-     return new Promise(resolve => {
-       this.http.post("http://odoopistola.com/web/dataset/search_read", {params, headers}).subscribe (data=> {
-       resolve(data);}
-      )
+    context
+    uid
+    constructor(private storage: Storage) {
+      this.context = false
+      this.uid = 0
     }
-  )
-           
-     //$this.context = result.result['user_context'];
-     //localStorage.setItem("user_context", result.result['user_context']) ;
-     //$this.cookies.set_sessionId(result.result['session_id']);
-     //console.log(localStorage.getItem('user_context'));
-     //return Promise.resolve(result);
-       
+    
+    login(user, password){
+        var method = method
+        var values = values
+        var self = this
+        var promise = new Promise( (resolve, reject) => {
+            self.storage.get('CONEXION').then((con_data) => {
+                var odoo = new OdooApi(con_data.url, con_data.db);
+                // this.navCtrl.setRoot(HomePage, {borrar: true, login: null});
+                if (con_data == null) {
+                    var err = {'title': 'Error!', 'msg': 'No hay datos para establecer la conexión'}
+                    reject(err);
+                } else {
+                    
+                    odoo.login(con_data.username, con_data.password).then( (uid) => {
+                    self.uid = uid
+                    resolve(uid)
+                    })
+                    .catch( () => {
+                      var err = {'title': 'Error!', 'msg': 'No se pudo conectar con Odoo'}
+                      reject(err);
+                    });
+                }
+            });
+        });
+        return promise
+    }
+
+    execute(model, method, values) {
+        
+        var method = method
+        var values = values
+        var self = this
+        var promise = new Promise( (resolve, reject) => {
+            self.storage.get('CONEXION').then((con_data) => {
+                var odoo = new OdooApi(con_data.url, con_data.db);
+                odoo.context = self.context
+                // this.navCtrl.setRoot(HomePage, {borrar: true, login: null});
+                if (con_data == null) {
+                    var err = {'title': 'Error!', 'msg': 'No hay datos para establecer la conexión'}
+                    reject(err);
+                } else {
+                    odoo.login(con_data.username, con_data.password).then((uid) => {
+                            odoo.call(model, method, values).then((res) => {
+                                resolve(res);
+                            })
+                            .catch( () => {
+                                var err = {'title': 'Error!', 'msg': 'Fallo al llamar al método ' + method + 'del modelo app.regustry'}
+                                reject(err);
+                            });
+                    })
+                    .catch( () => {
+                        var err = {'title': 'Error!', 'msg': 'No se pudo conectar con Odoo'}
+                        reject(err);
+                    });
+                }
+            });
+        });
+        return promise
+    }
+    /*domain=None, fields=None, offset=0, limit=None, order=None, context=None*/
+    write (model, id, data){
+        
+        var self = this
+        var promise = new Promise( (resolve, reject) => {
+            self.storage.get('CONEXION').then((con_data) => {
+                var odoo = new OdooApi(con_data.url, con_data.db);
+                odoo.context = self.context
+                if (con_data == null) {
+                    var err = {'title': 'Error!', 'msg': 'No hay datos para establecer la conexión'}
+                    reject(err);
+                } else {
+                    odoo.login(con_data.username, con_data.password).then( (uid) => {
+                        odoo.write(model, id, data).then((res) => {
+                            resolve(res);
+                        })
+                        .catch( () => {
+                            var err = {'title': 'Error!', 'msg': 'Fallo al llamar al hacer un write'}
+                            reject(err);
+                        });
+                    })
+                    .catch( () => {
+                        var err = {'title': 'Error!', 'msg': 'No se pudo conectar con Odoo'}
+                        reject(err);
+                    });
+                }
+            });
+        });
+        return promise
+    }
+    searchRead_2(model, domain, fields, offset = 0, limit = 0, order = ''){
+      var model = model;
+      var domain = domain;
+      var fields = fields;
+      var self = this
+      var promise = new Promise( (resolve, reject) => {
+          self.storage.get('CONEXION').then((con_data) => {
+              var odoo = new OdooApi(con_data.url, con_data.db);
+              odoo.context = self.context
+              if (con_data == null) {
+                  var err = {'title': 'Error!', 'msg': 'No hay datos para establecer la conexión'}
+                  reject(err);
+              } else {
+                odoo.uid = this
+                odoo.search_read(model, domain, fields, offset, limit, order).then((res) => {
+                    resolve(res);
+                })
+                .catch( () => {
+                    var err = {'title': 'Error!', 'msg': 'Fallo al llamar al hacer search_read'}
+                    reject(err);
+                });
+                 
+              }
+          });
+      });
+      return promise
   }
 
 
+    searchRead(model, domain, fields, offset = 0, limit = 0, order = ''){
+        var model = model;
+        var domain = domain;
+        var fields = fields;
+        var self = this
+        var promise = new Promise( (resolve, reject) => {
+            self.storage.get('CONEXION').then((con_data) => {
+                var odoo = new OdooApi(con_data.url, con_data.db);
+                odoo.context = self.context
+                if (con_data == null) {
+                    var err = {'title': 'Error!', 'msg': 'No hay datos para establecer la conexión'}
+                    reject(err);
+                } else {
+                    odoo.login(con_data.username, con_data.password).then( (uid) => {
+                    
+                    odoo.search_read(model, domain, fields, offset, limit, order).then((res) => {
+                        resolve(res);
+                    })
+                    .catch( () => {
+                        var err = {'title': 'Error!', 'msg': 'Fallo al llamar al hacer search_read'}
+                        reject(err);
+                    });
+                    })
+                    .catch( () => {
+                        var err = {'title': 'Error!', 'msg': 'No se pudo conectar con Odoo'}
+                        reject(err);
+                    });
+                }
+            });
+        });
+        return promise
+    }
+
 }
+
+/*
+import { Injectable } from '@angular/core';
+import { Storage } from '@ionic/storage';
+
+/*
+  Generated class for the OdooProvider provider.
+
+  See https://angular.io/guide/dependency-injection for more info on providers
+  and Angular DI.
+
+declare var OdooApi: any;
+
+@Injectable()
+export class OdooProvider {
+
+    constructor(private storage: Storage) {
+    }
+
+    execute(model, method, values, ctx) {
+        var method = method
+        var values = values
+        var promise = new Promise( (resolve, reject) => {
+            this.storage.get('CONEXION').then((con_data) => {
+                var odoo = new OdooApi(con_data.url, con_data.db);
+                // this.navCtrl.setRoot(HomePage, {borrar: true, login: null});
+                if (con_data == null) {
+                    var err = {'title': 'Error!', 'msg': 'No hay datos para establecer la conexión'}
+                    reject(err);
+                } else {
+                    odoo.login(con_data.username, con_data.password).then( (uid) => {
+                            odoo.call(model, method, values, ctx).then((res) => {
+                                resolve(res);
+                            })
+                            .catch( () => {
+                                var err = {'title': 'Error!', 'msg': 'Fallo al llamar al método ' + method + 'del modelo app.regustry'}
+                                reject(err);
+                            });
+                    })
+                    .catch( () => {
+                        var err = {'title': 'Error!', 'msg': 'No se pudo conectar con Odoo'}
+                        reject(err);
+                    });
+                }
+            });
+        });
+        return promise
+    }
+
+    searchRead(model, domain, fields, order, limit, ){
+        var model = model;
+        var domain = domain;
+        var fields = fields;
+        var promise = new Promise( (resolve, reject) => {
+            this.storage.get('CONEXION').then((con_data) => {
+                var odoo = new OdooApi(con_data.url, con_data.db);
+                if (con_data == null) {
+                    var err = {'title': 'Error!', 'msg': 'No hay datos para establecer la conexión'}
+                    reject(err);
+                } else {
+                    odoo.login(con_data.username, con_data.password).then( (uid) => {
+                        odoo.search_read(model, domain, fields, 0, 0).then((res) => {
+                            resolve(res);
+                        })
+                        .catch( () => {
+                            var err = {'title': 'Error!', 'msg': 'Fallo al llamar al hacer search_read'}
+                            reject(err);
+                        });
+                    })
+                    .catch( () => {
+                        var err = {'title': 'Error!', 'msg': 'No se pudo conectar con Odoo'}
+                        reject(err);
+                    });
+                }
+            });
+        });
+        return promise
+    }
+
+}
+*/

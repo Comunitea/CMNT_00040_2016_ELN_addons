@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="mrp_routing_form_picking_type" model="ir.ui.view">
+            <field name="name">mrp.routing.picking.type</field>
+            <field name="model">mrp.routing</field>
+            <field name="inherit_id" ref="mrp.mrp_routing_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='code']" position="after">
+                    <field name="picking_type_id"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="mrp_production_picking_ids_inherit" model="ir.ui.view">
+            <field name="name">mrp.production.picking_id.inherit</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='move_lines']" position="before">
+
+                        <field nolabel="1" name="in_picking_id" readonly="1"/>
+
+                </xpath>
+                 <xpath expr="//field[@name='move_lines2']" position="before">
+
+                        <field nolabel="1" name="out_picking_id" readonly="1"/>
+
+                </xpath>
+                <xpath expr="//button[@name='button_confirm']" position="before">
+                    <button name="action_create_picking" type="object" states="confirmed,ready,in_production" string="Cancel Production" attrs="{'invisible':[('in_picking_id','=',False)]}" />
+                </xpath>
+            </field>
+        </record>
+
+
+    </data>
+</openerp>

@@ -27,3 +27,4 @@ class StockQuant(models.Model):
             quants, move, location_to, location_from=location_from,
             lot_id=lot_id, owner_id=owner_id, src_package_id=src_package_id,
             dest_package_id=self._context.get('result_package_id', dest_package_id))
+

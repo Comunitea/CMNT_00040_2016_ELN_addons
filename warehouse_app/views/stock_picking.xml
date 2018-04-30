@@ -38,12 +38,13 @@
 
         </field>
         </record>
+        
         <record id="view_stock_enter_transfer_details_warehouse_app" model="ir.ui.view">
             <field name="name">Enter transfer details</field>
             <field name="model">stock.transfer_details</field>
             <field name="inherit_id" ref="stock.view_stock_enter_transfer_details"/>
             <field name="arch" type="xml">
-                <xpath expr="//button[@name='do_detailed_transfer']" postion="before">
+                <xpath expr="//button[@name='do_detailed_transfer']" position="before">
                     <button name="do_detailed_transfer" string="_Apply Lots/packages" type="object" class="oe_highlight" context="{'no_transfer': False}"/>
                 </xpath>
 
@@ -55,10 +56,14 @@
             <field name="model">stock.picking.type</field>
             <field name="inherit_id" ref="stock.view_picking_type_form"/>
             <field name="arch" type="xml">
-                <field name="warehouse_id" position="after">
-                    <field name="show_in_pda"/>
-                    <field name="short_name"/>
-                </field>
+                <xpath expr="//group/field[@name='default_location_src_id']/.." position="after">
+                    <separator string="Info PDA"/>
+                    <group>
+                        <field name="show_in_pda"/>
+                        <field name="short_name"/>
+                        <field name="need_confirm"/>
+                    </group>
+                </xpath>
             </field>
         </record>
     </data>

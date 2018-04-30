@@ -1,0 +1,57 @@
+<!--
+  Generated template for the ProductPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+    <ion-navbar>
+      <ion-title>{{ "Paquetes" }}</ion-title>
+    </ion-navbar>
+
+  </ion-header>
+  <ion-content>
+      <div *ngIf="!op" style="text-align: center">
+        <ion-spinner name="circles"></ion-spinner><br>
+        <b>Cargando...</b>
+      </div>
+
+      <ion-list *ngIf="op">
+        <ion-item-group>
+          <ion-item>
+              <ion-badge item-end class="ion-info w100" >
+                  {{op.pda_product_id.display_name}}
+              </ion-badge>
+          </ion-item>
+        </ion-item-group>
+
+        <ion-item-group [hidden] = "!pack_ids">
+          <ion-item *ngFor="let pack_id of pack_ids; trackBy: index;" no-lines class="all0">
+
+
+            <ion-badge item-start  class="b-op w50" [ngClass]="{'badge_checked':op.pack_id.id == pack_id.id}" (click)="click_pack(pack_id.id)">
+             {{pack_id.display_name}}: {{pack_id.virtual_available}} de {{pack_id.qty_available }} {{this.op.product_uom_id.name}}
+            </ion-badge>
+            <ion-badge item-end  class="b-op" [ngClass]="{'badge_checked':op.pack_id.id == pack_id.id}">
+              {{pack_id.location_id}}
+            </ion-badge>
+            <!--button ion-button outline item-end [hidden]="op.pda_done || op.product_id.tracking.value == 'serial'" (click)="addQty(pack.id, 1.00)" ><ion-icon name="add"></ion-icon></button>
+            <button ion-button outline item-end [hidden]="op.pda_done" (click)="addQty(pack.id, -1.00)"><ion-icon name="remove"></ion-icon></button-->
+          </ion-item>
+        </ion-item-group>
+        <ion-item>
+            <!--button ion-button item-end color="odoo" class="w33" (click)="guardar()">Guardar</button-->
+            <button ion-button item-end color="primary" class ="w33" (click)="nuevo_pack()">Nuevo</button>
+            <button ion-button item-end color="primary" class ="w33" (click)="borrar_pack()">Quitar</button>
+          </ion-item>
+        <ion-item>
+          <!--button ion-button item-end color="odoo" class="w33" (click)="guardar()">Guardar</button-->
+          <button ion-button item-end color="primary" class ="w33" (click)="aplicar_pack()">{{ op.pack_id.name }}</button>
+          <button ion-button item-end color="danger" class ="w33" (click)="cancelar()">Cerrar</button>
+        </ion-item>
+      </ion-list>
+
+
+      <!--button ion-button color="danger" full (click)="cancelar()">Cancelar</button-->
+  </ion-content>

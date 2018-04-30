@@ -18,8 +18,13 @@ import { SlideopPage } from '../slideop/slideop';
 import { Storage } from '@ionic/storage';
 import { TreepickPage } from '../treepick/treepick'
 
-declare var OdooApi: any
+import { ComponentsModule } from '../../components/components.module'
+import { ProductProductComponent} from '../../components/product-product/product-product'
+import { StockPickingComponent} from '../../components/stock-picking/stock-picking'
+import { StockOperationComponent} from '../../components/stock-operation/stock-operation'
 
+
+import { OdooProvider } from '../../providers/odoo-connector/odoo-connector';
 
 @IonicPage()
 @Component({
@@ -29,6 +34,8 @@ declare var OdooApi: any
 export class TreeopsPage {
 
   @ViewChild('scanPackage') myScanPackage;
+  @ViewChild(StockOperationComponent) pack_operation: StockOperationComponent;
+  
 
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) { 
@@ -55,11 +62,13 @@ export class TreeopsPage {
   model_fields = {'stock.quant.package': 'package_id', 'stock.location': 'location_id', 'stock.production.lot': 'lot_id'}
   whatOps: string
   aux: AuxProvider
-  constructor(public navCtrl: NavController, public navParams: NavParams,  private formBuilder: FormBuilder,public alertCtrl: AlertController, private storage: Storage) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,  private formBuilder: FormBuilder,public alertCtrl: AlertController, private storage: Storage, private odoo: OdooProvider) {
     this.aux = new AuxProvider
     this.pick = {};
     this.pick_id = this.navParams.data.picking_id;
+    this.model = this.navParams.data.model || this.model;
     this.record_count = 0;    
+    this.cargar = true;
     this.scan = '';
     this.storage.get('WhatOps').then((val) => {
       if (val==null) {
@@ -74,15 +83,19 @@ export class TreeopsPage {
 
   ionViewWillEnter(){
     this.loadList();
+    this.pick['whatOps'] = this.whatOps
   }
-  ops
+  
   seeAll(){
     if (this.whatOps=='Todas'){
       this.whatOps='Pendientes'
     }
-    else
+    else if (this.whatOps=="Pendientes")
+      {this.whatOps='Realizadas'}
+    else if (this.whatOps=="Realizadas")
       {this.whatOps='Todas'}
-    this.storage.set('WhatOps', this.whatOps); 
+    this.aux.filter_user = this.whatOps
+    this.pick['whatOps'] = this.whatOps
   }
 
   ionViewLoaded() {
@@ -94,59 +107,28 @@ export class TreeopsPage {
      }
   goHome(){this.navCtrl.setRoot(TreepickPage, {borrar: true, login: null});}
   
-  loadList(id = 0){
-    
-    var self = this
+  loadList(id=0){
+    this.cargar = true;
     var model = 'warehouse.app'
     var method = 'get_object_id'
     if (id==0){
       id = this.pick_id
     }
-    var values = {'id': id, 'model': 'stock.picking'}
+    var values = {'id': id, 'model': this.model}
+    this.odoo.execute(model, method, values).then((res)=>{
+      this.cargar = false
+      if (res['id']!=0){
+        this.pick = res['values']
+        this.record_count = this.pick['pack_operation_count']
+        return true;
+      }
+    })
+    .catch(() => {
+      this.presentAlert('Error!', 'No se pudo recuperar la lista de operaciones contra odoo');
+    });
 
-    self.storage.get('CONEXION').then((val) => {
-      if (val == null) {
-        console.log('No hay conexión');
-        self.navCtrl.setRoot(HomePage, {borrar: true, login: null});
-      } else {
-          console.log('Hay conexión');
-          var con = val;
-          var odoo = new OdooApi(con.url, con.db);
-          odoo.login(con.username, con.password).then(
-            function (uid) {
-              odoo.call(model, method, values).then(
-                function (res) {
-                  //AQUI DECIDO QUE HACER EN FUNCION DE LO QUE RECIBO
-                  //Estoy scaneando ORIGEN
-                  
-                  if (res['id']!=0){
-                    
-                    self.pick = res['values']
-                    self.record_count = self.pick['pack_operation_count']
-                    return true;
-                  }
-                },
-                function () {
-                  
-                  self.presentAlert('Falla!', 'Imposible conectarse');
-                  }
-                );
-              },
-            function () {
-              
-              self.presentAlert('Falla!', 'Imposible conectarse');
-              }
-            );
-        }
-      
-        });
-      
-   
+  }
 
-    
-
-    }
- 
   presentAlert(titulo, texto) {
     const alert = this.alertCtrl.create({
         title: titulo,
@@ -167,9 +149,40 @@ export class TreeopsPage {
   notify_do_op(op_id){
     console.log("Do op")
   }
+  reorder_picks(){
+    this.cargar = true
+    var ops = []
+    ops = this.pick['pack_operation_ids']
+    var len1 = ops.length -1
+    var new_picks = []
+    var index = 0
+    for (var op in ops) {
+      index = len1 - Number(op)
+      new_picks.push(ops[index])
+    }
+    this.pick['pack_operation_ids'] = new_picks
+    this.cargar = false
+  }
+  filter_picks(){
+    let filter: boolean
+    let filter_picks = []
+    if (this.whatOps=='Todas') {
+      filter_picks = this.pick['pack_operation_ids']
+      return filter_picks
+    }
+    else if (this.whatOps=='Realizadas'){
+      filter=true
+    }
+    else {
+      filter=false
+    }
+    filter_picks = this.pick['pack_operation_ids'].filter(op => op.pda_done == filter)
+    return filter_picks
+
+  }
 
   openOp(op_id, op_id_index){
-    this.navCtrl.push(SlideopPage, {op_id: op_id, index: op_id_index, ops: this.pick['pack_operation_ids']})
+    this.navCtrl.push(SlideopPage, {op_id: op_id, index: op_id_index, ops: this.filter_picks()})
   }
 
   submitScan (){
@@ -195,98 +208,63 @@ export class TreeopsPage {
   getObjectId(values){
     var self = this;
     var object_id = {}
-
     var model = 'warehouse.app'
     var method = 'get_object_id'
-    
-    self.storage.get('CONEXION').then((val) => {
-      if (val == null) {
-        console.log('No hay conexión');
-        self.navCtrl.setRoot(HomePage, {borrar: true, login: null});
-      } else {
-          console.log('Hay conexión');
-          var con = val;
-          var odoo = new OdooApi(con.url, con.db);
-          odoo.login(con.username, con.password).then(
-            function (uid) {
-              odoo.call(model, method, values).then(
-                function (value) {
-
-                  
-                  setTimeout(() => {
-                    var res = self.findId(value);
+    this.odoo.execute(model, method, values).then((value)=>{
+      var res = self.findId(value);
                     if (res) {
                       self.navCtrl.push(SlideopPage, res);}
-                  },150);
-                  
-                  
-                },
-                function () {
-                  self.cargar = false;
-                  self.presentAlert('Falla!', 'Imposible conectarse');
-                }
-                          );
-                      },
-                      function () {
-                          self.cargar = false;
-                          self.presentAlert('Falla!', 'Imposible conectarse');
-                      }
-                  );
-            
-              }
-              
-              
-          });
+    })
+    .catch(() => {
+      this.presentAlert('Error!', 'No se pudo recuperar la lista de operaciones contra odoo');
+    });
+
+  }
+
+
+  doAssign(user_id){
+    this.cargar = true;
+    var self = this;
+    var object_id = {}
+    var values = {'user_id': user_id}
     
-      
+    var method = 'doAssign'
+    this.odoo.execute(this.model, method, values).then((value)=>{
+      if (value){
+        if (user_id){
+          this.aux.filter_user='Assigned';
         }
+        else {
+          this.aux.filter_user=''
+        }
+        this.navCtrl
+
+      }
+      else {
+        this.presentAlert('Error!', 'Error al escribir en Odoo');  
+      }
+    })
+    .catch(() => {
+      this.presentAlert('Error!', 'No se pudo recuperar el usuario');
+    });
+
+  }
 
       
   doTransfer(id){
     var self = this;
-    var model = 'stock.picking'
     var method = 'doTransfer'
     var values = {'id': id}
     var object_id = {}
-
-    
-    this.storage.get('CONEXION').then((val) => {
-      if (val == null) {
-        console.log('No hay conexión');
-        self.navCtrl.setRoot(HomePage, {borrar: true, login: null});
-      } else {
-          console.log('Hay conexión');
-          var con = val;
-          var odoo = new OdooApi(con.url, con.db);
-          odoo.login(con.username, con.password).then(
-            function (uid) {
-              odoo.call(model, method, values).then(
-                function (value) {
-                  object_id = value;
-                  self.cargar = false;
-                  self.loadList()
-                },
-                function () {
-                  self.cargar = false;
-                  self.presentAlert('Falla!', 'Imposible conectarse');
-                }
-                          );
-                      },
-                      function () {
-                          self.cargar = false;
-                          self.presentAlert('Falla!', 'Imposible conectarse');
-                      }
-                  );
-                  self.cargar = false;
-
-             
-              }
-              this.navCtrl.push(TreepickPage);
-              
-          });
-    
-      }
-
+    this.cargar = true;
+    this.odoo.execute(this.model, method, values).then((value)=>{
+      object_id = value;
+      this.navCtrl.push(TreepickPage)
+    })
+    .catch(() => {
+      this.presentAlert('Error!', 'No se pudo recuperar la lista de operaciones contra odoo');
+    });
+  }
   
   doOp(id, do_id){
     var self = this;
@@ -294,42 +272,15 @@ export class TreeopsPage {
     var method = 'doOp'
     var values = {'id': id, 'do_id': do_id}
     var object_id
-
-
-    this.storage.get('CONEXION').then((val) => {
-
-      if (val == null) {
-        console.log('No hay conexión');
-        self.navCtrl.setRoot(HomePage, {borrar: true, login: null});
-      } else {
-          console.log('Hay conexión');
-          var con = val;
-          var odoo = new OdooApi(con.url, con.db);
-          odoo.login(con.username, con.password).then(
-            function (uid) {
-              odoo.call(model, method, values).then(
-                function (value) {
-                  object_id = value;
-                  /*self.ionViewLoaded()*/
-                  self.loadList();
-                },
-                function () {
-                  self.cargar = false;
-                  self.presentAlert('Falla!', 'Imposible conectarse');
-                }
-                          );
-                      },
-                      function () {
-                          self.cargar = false;
-                          self.presentAlert('Falla!', 'Imposible conectarse');
-                      }
-                  );
-                  self.cargar = false;
-
-             
-              }
-          });
+    
+    this.odoo.execute(model, method, values).then((value)=>{
+      object_id = value;
+      self.cargar = false;
+      self.loadList()
+    })
+    .catch(() => {
+      this.presentAlert('Error!', 'No se pudo recuperar la lista de operaciones contra odoo');
+    });
   }
-
-
+    
 }

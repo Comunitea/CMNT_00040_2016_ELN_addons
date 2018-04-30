@@ -12,31 +12,54 @@ export class AuxProvider {
 
 
   pick_states_visible = []
+  user = {}
   filter_user = 'assigned'
+  picking_types = []
   location_badge
+  op_validate_button
+  auto: Boolean = true
+  uom_id: Boolean = true
   constructor() {
-
-    this.pick_states_visible = ['partially_available', 'assigned']
-    console.log('Hello AuxProvider Provider');
-    this.location_badge = "<ion-badge item-start color='odoo' (click)=\"open('stock.location', pick['location_dest_id'] && pick['location_dest_id'].id)\"{{ pick['location_dest_id'] && pick.location_dest_id.name}} </ion-badge>"
+    
+    this.pick_states_visible = ['partially_available', 'assigned', 'in_progress']
+    this.auto = true
+    this.filter_user = 'assigned'
+    this.picking_types = []
   }
 
-  
+}
+/*
+  set_user (user){
+    this.user = user
+  }
+  get_user () {
+    return this.user
+  }
 
+  set_auto (auto){
+    this.auto = auto
+  }
+  get_auto () {
+    return this.auto
+  }
+  set_picking_types(values){
+    this.picking_types = values
+  }
+  get_picking_types(){
+    return this.picking_types
+  }
   set_filter_user(new_filter){
     this.filter_user = new_filter
   }
   get_filter_user(){
     return this.filter_user
   }
-  set_pick_states_visible (new_states){
-    var self = this
-    self.pick_states_visible = new_states
-  }
-  get_pick_states_visible (){
-    var self = this;
-    return self.pick_states_visible
-  }
   
-  
-}
+  set_op_validate_button(op_validate_button){
+    this.op_validate_button = op_validate_button
+    
+  }
+  get_op_validate_button(){
+    return this.op_validate_button
+  }
+}*/

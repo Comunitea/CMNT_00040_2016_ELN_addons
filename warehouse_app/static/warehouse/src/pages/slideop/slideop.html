@@ -9,9 +9,10 @@
       <button ion-button icon-only menuToggle>
         <ion-icon name="menu"></ion-icon>
       </button>
-      <ion-title>{{ op['picking_id'] && op['picking_id'][1]}} [{{ op['id']}}] {{index}} Usuario: {{pick['user_id']}}</ion-title>
+      <ion-title>{{ op['picking_id'] && op['picking_id'][1]}} [{{ op_id }}] {{index}}</ion-title>
       <ion-buttons end>
-        
+         
+          
         <button ion-button (click)="goHome()">
           <ion-icon name="home"></ion-icon>
         </button>
@@ -20,11 +21,102 @@
   <h2 class="danger" [hidden]="message == ''">{{ message }}</h2>
 </ion-header>
 <ion-content>
-  <div *ngIf="!op" style="text-align: center">    
+  <div *ngIf="cargar" style="text-align: center">    
     <ion-spinner name="circles"></ion-spinner><br>
     <b>Cargando...</b>
   </div>
+  <div *ngIf="!cargar"> 
     <ion-list>
+      <ion-item-group> 
+        
+        <ion-item no-lines>
+            <ion-badge item-end text-wrap class="w100 b-product" (click)="openProduct(op.pda_product_id.id)"> 
+                {{ op.pda_product_id.display_name || 'SIN PRODUCTO'}}
+            </ion-badge>
+        </ion-item>
+        
+        <ion-item no-lines>
+          <ion-label class="l-op" >Qty:</ion-label>
+          <ion-badge item-end class="b-op w75"  [ngClass]="{'badge_checked':op.qty_done != 0.00}"  (click)="inputUomQty()">
+            {{op.qty_done}} de {{ op['product_qty']}} {{ op.product_uom_id.name}} 
+          </ion-badge> 
+          
+        </ion-item>
+        <ion-item>
+            <ion-badge item-end class="b-op w75" [ngClass]="{'badge_checked':op.qty_done != 0.00}"  (click)="inputUosQty()">
+                {{op.uos_qty_done}} de {{ op['uos_qty']}} {{ op.uos_id.name}} 
+              </ion-badge> 
+        </ion-item>  
+        <ion-item no-lines [hidden] = "!op.package_id">
+          <ion-label class="l-op" >Pack:</ion-label>
+          <ion-badge item-end class="b-op w75" [ngClass]="{'badge_checked':op.package_id.checked === true}" click)="showPackage(op.pda_product_id.id, op.product_qty)" >
+            {{ op['package_id']['name'] }}
+          </ion-badge> 
+        </ion-item>
+      <ion-item no-lines>
+        <ion-label class="l-op" >Lote:</ion-label>
+        <ion-badge item-end class="b-op w75"  [hidden] = "!op.lot_id && !op.package_id"  [ngClass]="{'badge_checked':op.lot_id.checked === true}" (click)="showSerial(op.pda_product_id.id, op.product_qty)" >
+          {{ op.lot_id.name }}
+        </ion-badge>
+
+      </ion-item>
+      <ion-item no-lines>
+        <ion-label class="l-op" >Origen:</ion-label>
+        <ion-badge item-end class="b-op w75" [ngClass]="{'badge_checked':op.location_id.checked === true}" (click)="badge_checked(op.location_id)">
+          {{ op.location_id.name }}
+        </ion-badge>
+      </ion-item>
+      <ion-item no-lines [hidden] = "!op.result_package_id" [ngClass]="{'badge_checked':op.result_package_id.checked === true}" (click)="badge_checked(op.result_package_id)">
+        <ion-label class="l-op" >Pack d.:</ion-label>  
+        <ion-badge item-end class="b-op w75" (click)="openform('stock.quant.package', op.result_package_id.id)">
+            {{ op.result_package_id.name }}
+          </ion-badge>
+        </ion-item>
+        <ion-item no-lines>
+          <ion-label class="l-op" >Destino:</ion-label>  
+          <ion-badge item-end class="b-op w75"  [ngClass]="{'badge_checked':op.location_dest_id.checked === true}" (click)="badge_checked(op.location_dest_id)">
+            {{ op.location_dest_id.name }}
+          </ion-badge>
+        </ion-item>
+        <ion-item no-lines>
+
+          <ion-icon class="bigsize" name="arrow-dropleft-circle" item-start color="primary" (click)="move_index(-1)"></ion-icon>
+          <ion-icon class="bigsize" name="arrow-dropright-circle" item-end color="primary" (click)="move_index(1)"></ion-icon>
+        </ion-item>
+       
+        <ion-item>
+            <ion-label color="dark">Avanzado</ion-label>
+            <ion-toggle [(ngModel)]="advance" ></ion-toggle>
+        </ion-item>
+        
+        <ion-item *ngIf="advance && !op.pda_done">
+            <ion-label color="dark">Op preparada</ion-label>
+            <ion-toggle [(ngModel)]="op_ready" ></ion-toggle>
+        </ion-item>
+        <ion-item *ngIf="advance">
+            <ion-label color="dark">Realizada</ion-label>
+            <ion-toggle [(ngModel)]="op.pda_done" ></ion-toggle>
+        </ion-item>
+        <ion-item *ngIf="advance && !op.pda_done">
+            <ion-label color="dark">Automatica</ion-label>
+            <ion-toggle [(ngModel)]="this.op.need_confirm" ></ion-toggle>
+        </ion-item>
+        <ion-item *ngIf="advance && !op.pda_done">
+            <ion-label color="dark">Resetear operacion</ion-label>
+            <ion-icon name="repeat" item-end color="danger" (click)="resetForm()"></ion-icon>
+        </ion-item>
+      </ion-item-group>
+      
+      <ion-item no-lines>
+        <button *ngIf="!op.pda_done && op_ready" class="w100" ion-button (click)="doOp(op_id, true)">
+            Aceptar ...
+        </button>
+         <button *ngIf="op.pda_done && advance" class="w100" ion-button (click)="doOp(op_id, false)">
+            Deshacer  ...
+        </button>
+      </ion-item>
+    </ion-list>
+    <!--ion-list>
         <ion-item-group> 
           <ion-item no-lines [ngClass]="{'no_ok': state==0, 'ok': state!=0}">
             <ion-label item-start>
@@ -67,8 +159,7 @@
           </ion-item>
           <ion-item>
             <ion-label></ion-label>
-            <!--ion-icon name="log-out" [hidden] = "op.result_package_id" item-start color="danger" (click)="no_result_package('orig')"></ion-icon>
-            <ion-icon name="log-in" [hidden] = "!op.result_package_id && op_selected.result_package_id" item-start color="secondary" (click)="no_result_package('none')"></ion-icon-->
+            
             <button ion-button name="log_out" [hidden] = "op.result_package_id" item-start color="odoo" (click)="no_result_package('orig')">Empaquetar</button>
             <button ion-button name="log_in" [hidden] = "!op.result_package_id && op_selected.result_package_id" item-start color="odoo" (click)="no_result_package('none')">Sin paquete</button>
             <button ion-button name="new_result_package" [hidden] = "result_package_id == -1" item-start color="odoo" (click)="no_result_package('new')">Nuevo</button>
@@ -91,10 +182,10 @@
         <ion-item>
           Estado: {{state}} Espero {{waiting}}
         </ion-item>
-      </ion-list>
+      </ion-list-->
   
       
-  
+    </div>
 </ion-content>
 <ion-footer>
     <form [formGroup]="barcodeForm" class ="alignBottom" [hidden] = "op['pda_done']">
@@ -108,5 +199,6 @@
          </ion-item>   
        </form>
 </ion-footer>
+
 
 

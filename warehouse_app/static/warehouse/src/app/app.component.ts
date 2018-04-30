@@ -12,14 +12,22 @@ import { SlideopPage } from '../pages/slideop/slideop';
 import { ManualPage } from '../pages/manual/manual';
 import { ShowinfoPage } from '../pages/showinfo/showinfo';
 
+//Modal
+
+import { SelectLotPage } from '../pages/select-lot/select-lot'
+
 import { ProductPage} from '../pages/product/product'
 import { LotPage} from '../pages/lot/lot'
 import { PackagePage} from '../pages/package/package'
 import { LocationPage} from '../pages/location/location'
 
-
+import { OdooProvider } from  '../providers/odoo-connector/odoo-connector'
 import { AuxProvider } from '../providers/aux/aux'
 import { AppSoundProvider } from '../providers/app-sound/app-sound'
+
+
+
+
 
 @Component({
   templateUrl: 'app.html'
@@ -38,12 +46,12 @@ export class MyApp {
     
     this.initializeApp();
     this.pages = [
-      { title: 'Mis albaranes', component: HomePage , param: 'assigned'},
+      { title: 'Mis trabajos', component: HomePage , param: 'assigned'},
       { title: 'Sin asignar', component: TreepickPage, param: 'no_assigned'},
-      { title: 'Mov. Manual', component: ManualPage, param: 'new_move'},
-      { title: 'Info Etiqueta', component: ShowinfoPage, param: 'info'},
+      { title: 'Manual', component: ManualPage, param: 'new_move'},
+      { title: 'Etiqueta', component: ShowinfoPage, param: 'info'},
       { title: 'Borrar Datos', component: HomePage, param: 'delete'},
-      { title: 'Imprimir etiqueta', component: HomePage, param: 'print_tag'},
+      { title: 'Imprimir', component: HomePage, param: 'print_tag'},
     ]
     }
 
