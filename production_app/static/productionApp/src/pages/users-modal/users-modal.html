@@ -1,29 +1,92 @@
 <ion-header>
-    <ion-navbar>
-        <ion-title>Usuarios</ion-title>
+    <ion-navbar color="secondary">
+        <ion-title><span>Operarios</span></ion-title>
+        <ion-buttons end>
+            <button ion-button (click)="closeModal()">
+                Atrás
+            </button>
+    </ion-buttons>
     </ion-navbar>
 </ion-header>
 <ion-content padding>
-    <button ion-button full (click)="closeModal()">
-        Ok
-    </button>  
-    <ion-list > 
-        <ion-item-sliding *ngFor="let user of prodData.users">        
-            <ion-item >
-            {{user.name}}
-            </ion-item>
-            <ion-item-options side="left">
-                <button ion-button (click)="logIn(user)">
-                    <ion-icon name="log-in"></ion-icon>
-                    Log In
-                </button>  
-                <button ion-button color="danger" (click)="setActive(user)">
-                    <ion-icon name="star"></ion-icon>
-                    Activar
-                </button>
-            </ion-item-options>
-        </ion-item-sliding>
-    </ion-list> 
+    <div padding>
+      <ion-segment [(ngModel)]="mode">
+            <ion-segment-button value="out">
+                <span>Fuera</span>
+            </ion-segment-button>
+            <ion-segment-button value="in">
+                <span>Dentro</span>
+            </ion-segment-button>
+            <!--  <ion-segment-button value="rfid">
+                RFID
+            </ion-segment-button> -->
+          </ion-segment>
+    </div>
+
+    <div [ngSwitch]="mode">
+        <div *ngSwitchCase="'out'">
+            <ion-searchbar class="custom-font-size" (ionInput)="getItems($event)"></ion-searchbar>
+            <ion-list> 
+                <ion-item-sliding *ngFor="let operator of getLogedOut()">        
+                    <ion-item >
+                    <span>{{operator.name}}</span>
+                    </ion-item>
+                    <ion-item-options side="left">
+                        <button [hidden]="odooCon.operatorsById[operator.id]['log'] == 'in'" ion-button (click)="logInOperator(operator)">
+                            <ion-icon name="log-in"></ion-icon>
+                            <span class="button-size">Entrada</span>
+                        </button> 
+                        <button  [hidden]="odooCon.operatorsById[operator.id]['log'] == 'out'" ion-button (click)="logOutOperator(operator)">
+                            <ion-icon name="log-out"></ion-icon>
+                            <span class="button-size">Salida</span>
+                        </button>   
+                    </ion-item-options>
+<!--                     <ion-item-options side="right">
+                        <button ion-button color="danger" (click)="setActive(operator)">
+                            <ion-icon name="star"></ion-icon>
+                            Activar
+                        </button>
+                    </ion-item-options> -->
+                </ion-item-sliding>
+            </ion-list> 
+        </div>
+
+        <div *ngSwitchCase="'in'">
+            <ion-card *ngIf="prodData.active_operator_id !== 0">
+                <ion-card-header>
+                    <span>Operario Activo</span>
+                 </ion-card-header>
+                <ion-card-content>
+                     <span>{{odooCon.operatorsById[prodData.active_operator_id]['name']}}</span>
+                </ion-card-content>
+            </ion-card>
+
+            <ion-list> 
+                <ion-item-sliding *ngFor="let operator of getLogedIn()">        
+                    <ion-item >
+                     <span>{{operator.name}}</span>
+                    </ion-item>
+                    <ion-item-options side="left">
+                        <button [hidden]="odooCon.operatorsById[operator.id]['log'] == 'in'" ion-button (click)="logInOperator(operator)">
+                            <ion-icon name="log-in"></ion-icon>
+                            <span class="button-size">Entrada</span>
+                        </button> 
+                        <button  [hidden]="odooCon.operatorsById[operator.id]['log'] == 'out'" ion-button (click)="logOutOperator(operator)">
+                            <ion-icon name="log-out"></ion-icon>
+                            <span class="button-size">Salida</span>
+                        </button>   
+                    </ion-item-options>
+                    <ion-item-options side="right">
+                        <button ion-button color="danger" (click)="setActive(operator)">
+                            <ion-icon name="star"></ion-icon>
+                             <span class="button-size">Activar</span>
+                        </button>
+                    </ion-item-options>
+                </ion-item-sliding>
+            </ion-list> 
+        </div>
+
+    </div>
 
 </ion-content>
 

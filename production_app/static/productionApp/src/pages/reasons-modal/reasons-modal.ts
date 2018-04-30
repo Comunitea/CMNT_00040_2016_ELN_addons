@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController, AlertController } from 'ionic-angular';
 import { ProductionProvider } from '../../providers/production/production';
 
 /**
@@ -17,7 +17,7 @@ import { ProductionProvider } from '../../providers/production/production';
 export class ReasonsModalPage {
     reasons: Object[];
     constructor(public navCtrl: NavController, public navParams: NavParams, 
-                public viewCtrl: ViewController,
+                public viewCtrl: ViewController,  public alertCtrl: AlertController,
                 private prodData: ProductionProvider) {
         this.reasons = [];
     }
@@ -29,7 +29,27 @@ export class ReasonsModalPage {
         this.viewCtrl.dismiss(0);
     }
     reasonSelected(reason) {
-        this.viewCtrl.dismiss(reason.id);
+
+        let confirm = this.alertCtrl.create({
+              title: 'Crear Orden de Mantenimiento?',
+              message: "Se creará una orden de mantenimiento asociada al registro de la aplicación",
+              buttons: [
+                {
+                  text: 'No',
+                  handler: () => {
+
+                    this.viewCtrl.dismiss({'reason_id': reason.id, 'create_mo': false});
+                  }
+                },
+                {
+                  text: 'Si',
+                  handler: () => {
+                    this.viewCtrl.dismiss({'reason_id': reason.id, 'create_mo': true});
+                  }
+                }
+              ]
+        });
+        confirm.present();
     }
     selectOrganizative(reason){
         this.reasons = this.prodData.organizative_reasons

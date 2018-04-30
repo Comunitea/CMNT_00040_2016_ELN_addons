@@ -1,16 +1,89 @@
-page-production {
-    ion-card{
-        --background-color: #8cd98c !important;
-    }
-    ion-card-header {
-        text-align: left;
-        font-size: 1.1em !important;
-        font-weight: bold;
+$primary-color: #488aff;
+$danger-color: #f53d3d;
 
+page-production {
+    ion-grid{
+        height: 100%;
     }
-    ion-card-content{
+    ion-row{
+        margin: 2px;
+    }
+
+    .info-tittle{
+        font-size: 1.2rem !important;
+        font-weight: bold;
+        }
+    .info-tittle-red{
+        font-size: 1.2rem !important;
+        font-weight: bold;
+        color: $danger-color
+    }
+    .info-content{
         color: $primary-color;
-        font-size: 1em !important;
-        text-align: center;
+        font-size: 1rem !important;
     }
+    .info-warning{
+        color: $danger-color;
+        font-size: 2rem !important;
+    }
+
+    .content-full{
+        height: 100%;
+        --border: solid 1px;
+        --overflow: hidden;
+    }
+    .content-one{
+       height: 60%;
+       --border: solid 1px;
+    }
+    .content-two{
+        height: 40%;
+        --border: solid 1px;
+    }
+    .my-hide {
+        display: none;
+        visibility: hidden;
+    }
+    .stop-timer{
+        font-color: $primary-color;
+    } 
+    .btn {
+        display:block;
+        height: 4vh;
+        width: 100%;
+        border: 1px ;
+        background-color: $primary-color;
+        color: white;
+        margin: 4px;
+        font-size: 2rem;
+    }
+    .btn2 {
+        display:block;
+        height: 4vh;
+        width: 100%;
+        border: 1px ;
+        background-color: $danger-color;
+        color: white;
+        margin: 4px;
+        font-size: 2rem;
+    }
+
+    @media (min-width:700px){
+        .info-tittle{
+            font-size: 3rem !important;
+        }
+        .info-tittle-red{
+            font-size: 3rem !important;
+        }
+        .info-content{
+            font-size: 2.5rem !important;
+        }
+        .btn {
+            font-size: 2.5rem;
+        }
+        .info-warning{
+            font-size: 5rem !important;
+    }
+    }
+
 }

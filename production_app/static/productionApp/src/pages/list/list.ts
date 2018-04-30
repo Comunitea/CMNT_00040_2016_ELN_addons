@@ -13,11 +13,14 @@ declare var OdooApi: any;
 })
 export class ListPage {
     workcenters = []
+    searchQuery: string = '';
+    items: Object[];
 
     constructor(public navCtrl: NavController, private storage: Storage, 
                 public alertCtrl: AlertController, 
                 private prodData: ProductionProvider){
         this.workcenters = [];
+        this.items = [];
         this.getLines();
     }
 
@@ -64,6 +67,7 @@ export class ListPage {
                     var fields = ['id', 'name'];
                     odoo.search_read('mrp.workcenter', domain, fields, 0, 0).then((workcenters) => {
                         this.workcenters = workcenters;
+                        this.initializeItems();
                     });
                 });
             }
@@ -71,10 +75,35 @@ export class ListPage {
     }
     workcenterSelected(workcenter) {
         this.prodData.loadProduction(workcenter).then( (res) => {
-            this.navCtrl.setRoot(ProductionPage);
+            this.prodData.getStopReasons(workcenter.id).then( (res) => {
+                this.navCtrl.setRoot(ProductionPage);
+            })
+            .catch( (err) => {
+                this.presentAlert("Error", "Falló al cargar los motivos técnicos para el centro de trabajo actual.");
+            }); 
+
         })
         .catch( (err) => {
             this.presentAlert(err.title, err.msg);
         }); 
+    }
+
+    initializeItems() {
+        this.items = this.workcenters
+    }
+
+    getItems(ev: any) {
+        // Reset items back to all of the items
+        this.initializeItems();
+
+        // set val to the value of the searchbar
+        let val = ev.target.value;
+
+        // if the value is an empty string don't filter the items
+        if (val && val.trim() != '') {
+            this.items = this.items.filter((item) => {
+                return (item['name'].toLowerCase().indexOf(val.toLowerCase()) > -1);
+            })
+        }
     }
 }

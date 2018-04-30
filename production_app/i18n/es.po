@@ -1,0 +1,579 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* production_app
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-04-13 08:39+0000\n"
+"PO-Revision-Date: 2018-04-13 08:39+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: production_app
+#: view:mrp.production.workcenter.line:production_app.mrp_production_workcenter_form_view_registry
+msgid "App"
+msgstr "App"
+
+#. module: production_app
+#: view:app.registry:production_app.app_registry_form_view
+#: view:app.registry:production_app.app_registry_tree_view
+#: model:ir.actions.act_window,name:production_app.action_app_registry
+#: model:ir.ui.menu,name:production_app.menu_app_registry
+#: view:stop.reason:production_app.stop_reason_form_view
+msgid "App Registrys"
+msgstr "Registros App"
+
+#. module: production_app
+#: field:mrp.production.workcenter.line,registry_id:0
+msgid "App Regystry"
+msgstr "Registro App"
+
+#. module: production_app
+#: view:product.quality.check:production_app.product_quality_check_form_view
+msgid "Associated Products"
+msgstr "Productos Asociados"
+
+#. module: production_app
+#: view:stop.reason:production_app.stop_reason_form_view
+msgid "Associated Workcenters"
+msgstr "Centros de Producción asociados"
+
+#. module: production_app
+#: selection:product.quality.check,value_type:0
+msgid "Check"
+msgstr "Check"
+
+#. module: production_app
+#: field:app.registry,cleaning_duration:0
+msgid "Cleaning Duration"
+msgstr "Duración limpieza"
+
+#. module: production_app
+#: field:app.registry,cleaning_end:0
+msgid "Cleaning End"
+msgstr "Fin limpieza"
+
+#. module: production_app
+#: field:app.registry,cleaning_start:0
+msgid "Cleaning Start"
+msgstr "Inicio limpieza"
+
+#. module: production_app
+#: view:app.registry:production_app.app_registry_form_view
+msgid "Cleaning Times"
+msgstr "Tiempos limpieza"
+
+#. module: production_app
+#: field:product.quality.check,quality_type:0
+msgid "Control Type"
+msgstr "Typo control"
+
+#. module: production_app
+#: field:app.registry,create_uid:0
+#: field:operator.line,create_uid:0
+#: field:product.quality.check,create_uid:0
+#: field:quality.check.line,create_uid:0
+#: field:stop.line,create_uid:0
+#: field:stop.reason,create_uid:0
+msgid "Created by"
+msgstr "Created by"
+
+#. module: production_app
+#: field:app.registry,create_date:0
+#: field:operator.line,create_date:0
+#: field:product.quality.check,create_date:0
+#: field:quality.check.line,create_date:0
+#: field:stop.line,create_date:0
+#: field:stop.reason,create_date:0
+msgid "Created on"
+msgstr "Created on"
+
+#. module: production_app
+#: field:quality.check.line,date:0
+msgid "Date"
+msgstr "Fecha"
+
+#. module: production_app
+#: field:operator.line,date_in:0
+msgid "Date Int"
+msgstr "Fecha entrada"
+
+#. module: production_app
+#: field:operator.line,date_out:0
+msgid "Date Out"
+msgstr "Fecha salida"
+
+#. module: production_app
+#: field:app.registry,display_name:0
+#: field:operator.line,display_name:0
+#: field:product.quality.check,display_name:0
+#: field:quality.check.line,display_name:0
+#: field:stop.line,display_name:0
+#: field:stop.reason,display_name:0
+msgid "Display Name"
+msgstr "Nombre mostrado"
+
+#. module: production_app
+#: view:product.quality.check:production_app.product_quality_check_filter_view
+#: selection:product.quality.check,quality_type:0
+msgid "Frequency"
+msgstr "Frecuencial"
+
+#. module: production_app
+#: view:app.registry:production_app.app_registry_filter_view
+#: view:product.quality.check:production_app.product_quality_check_filter_view
+#: view:stop.reason:production_app.stop_reason_filter_view
+msgid "Group By"
+msgstr "Agrupar por"
+
+#. module: production_app
+#: field:operator.line,stop_duration:0
+msgid "Hours"
+msgstr "Horas"
+
+#. module: production_app
+#: field:app.registry,id:0
+#: field:operator.line,id:0
+#: field:product.quality.check,id:0
+#: field:quality.check.line,id:0
+#: field:stop.line,id:0
+#: field:stop.reason,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: production_app
+#: view:mrp.production.workcenter.line:production_app.mrp_production_workcenter_form_view_registry
+msgid "Ins / Outs Operators"
+msgstr "Entradas / Salidas Operarios"
+
+#. module: production_app
+#: field:app.registry,__last_update:0
+#: field:operator.line,__last_update:0
+#: field:product.quality.check,__last_update:0
+#: field:quality.check.line,__last_update:0
+#: field:stop.line,__last_update:0
+#: field:stop.reason,__last_update:0
+msgid "Last Modified on"
+msgstr "Last Modified on"
+
+#. module: production_app
+#: field:app.registry,write_uid:0
+#: field:operator.line,write_uid:0
+#: field:product.quality.check,write_uid:0
+#: field:quality.check.line,write_uid:0
+#: field:stop.line,write_uid:0
+#: field:stop.reason,write_uid:0
+msgid "Last Updated by"
+msgstr "Last Updated by"
+
+#. module: production_app
+#: field:app.registry,write_date:0
+#: field:operator.line,write_date:0
+#: field:product.quality.check,write_date:0
+#: field:quality.check.line,write_date:0
+#: field:stop.line,write_date:0
+#: field:stop.reason,write_date:0
+msgid "Last Updated on"
+msgstr "Last Updated on"
+
+#. module: production_app
+#: field:app.registry,lot_id:0
+msgid "Lot"
+msgstr "Lote"
+
+#. module: production_app
+#: field:product.quality.check,max_value:0
+msgid "Maximum Value"
+msgstr "Valor máximo"
+
+#. module: production_app
+#: field:product.quality.check,min_value:0
+msgid "Minimum Value"
+msgstr "Valor mínimo"
+
+#. module: production_app
+#: field:product.quality.check,name:0
+msgid "Name"
+msgstr "Nombre"
+
+#. module: production_app
+#: selection:product.quality.check,value_type:0
+msgid "Numeric"
+msgstr "Numérico"
+
+#. module: production_app
+#: field:operator.line,operator_id:0
+#: field:quality.check.line,operator_id:0
+#: field:stop.line,operator_id:0
+msgid "Operator"
+msgstr "Operador"
+
+#. module: production_app
+#: view:app.registry:production_app.app_registry_form_view
+#: field:app.registry,operator_ids:0
+#: view:mrp.production.workcenter.line:production_app.mrp_production_workcenter_form_view_registry
+#: field:mrp.production.workcenter.line,operator_ids:0
+msgid "Operators"
+msgstr "Operadores"
+
+#. module: production_app
+#: selection:stop.reason,reason_type:0
+msgid "Organizative"
+msgstr "Organizativo"
+
+#. module: production_app
+#: view:stop.reason:production_app.stop_reason_filter_view
+msgid "Organizative reasons"
+msgstr "Causas organizativas"
+
+#. module: production_app
+#: field:app.registry,product_id:0
+#: model:ir.model,name:production_app.model_product_product
+msgid "Product"
+msgstr "Producto"
+
+#. module: production_app
+#: model:ir.actions.act_window,name:production_app.action_product_quality_check
+#: model:ir.actions.act_window,name:production_app.product_open_quality_check
+#: model:ir.ui.menu,name:production_app.menu_product_quality_check
+#: view:product.product:production_app.product_quality_checks_view
+msgid "Product Quality Checks"
+msgstr "Controles Calidad"
+
+#. module: production_app
+#: field:product.quality.check,product_ids:0
+msgid "Product ids"
+msgstr "Productos ids"
+
+#. module: production_app
+#: field:app.registry,production_id:0
+msgid "Production"
+msgstr "Producción"
+
+#. module: production_app
+#: selection:app.registry,state:0
+msgid "Production Cleaning"
+msgstr "Producción en limpieza"
+
+#. module: production_app
+#: selection:app.registry,state:0
+msgid "Production Confirmed"
+msgstr "Producción confirmada"
+
+#. module: production_app
+#: field:app.registry,production_duration:0
+msgid "Production Duration"
+msgstr "Duración producción"
+
+#. module: production_app
+#: field:app.registry,production_end:0
+msgid "Production End"
+msgstr "Fin producción"
+
+#. module: production_app
+#: selection:app.registry,state:0
+msgid "Production Finished"
+msgstr "Producción finalizada"
+
+#. module: production_app
+#: selection:app.registry,state:0
+msgid "Production Set-Up"
+msgstr "Producción en preparación"
+
+#. module: production_app
+#: field:app.registry,production_start:0
+msgid "Production Start"
+msgstr "Producción iniciada"
+
+#. module: production_app
+#: selection:app.registry,state:0
+msgid "Production Started"
+msgstr "Producción iniciada"
+
+#. module: production_app
+#: selection:app.registry,state:0
+msgid "Production Stoped"
+msgstr "Producción Stoped"
+
+#. module: production_app
+#: view:app.registry:production_app.app_registry_form_view
+#: field:app.registry,stop_line_ids:0
+msgid "Production Stops"
+msgstr "Paradas producción"
+
+#. module: production_app
+#: view:app.registry:production_app.app_registry_form_view
+msgid "Production Times"
+msgstr "Tiempos producción"
+
+#. module: production_app
+#: field:quality.check.line,pqc_id:0
+msgid "Quality Check"
+msgstr "Control calidad"
+
+#. module: production_app
+#: view:app.registry:production_app.app_registry_form_view
+#: field:app.registry,qc_line_ids:0
+#: view:mrp.production.workcenter.line:production_app.mrp_production_workcenter_form_view_registry
+#: field:mrp.production.workcenter.line,qc_line_ids:0
+#: view:product.quality.check:production_app.product_quality_check_form_view
+#: view:product.quality.check:production_app.product_quality_check_tree_view
+msgid "Quality Checks"
+msgstr "Controles calidad"
+
+#. module: production_app
+#: view:product.quality.check:production_app.product_quality_check_filter_view
+msgid "Quality Type"
+msgstr "Tipo Control"
+
+#. module: production_app
+#: field:product.product,quality_check_ids:0
+msgid "Quality check ids"
+msgstr "Calidad check ids"
+
+#. module: production_app
+#: view:app.registry:production_app.app_registry_form_view
+#: view:mrp.production.workcenter.line:production_app.mrp_production_workcenter_form_view_registry
+msgid "QualityChecks"
+msgstr "Controles calidad"
+
+#. module: production_app
+#: field:product.product,quant_ids:0
+msgid "Quant ids"
+msgstr "Quant ids"
+
+#. module: production_app
+#: field:app.registry,qty:0
+msgid "Quantity"
+msgstr "Cantidad"
+
+#. module: production_app
+#: field:stop.line,reason_id:0
+#: field:stop.reason,name:0
+msgid "Reason"
+msgstr "Motivo"
+
+#. module: production_app
+#: view:stop.reason:production_app.stop_reason_filter_view
+msgid "Reason Type"
+msgstr "Tipo motivo"
+
+#. module: production_app
+#: field:mrp.workcenter,reason_ids:0
+msgid "Reason ids"
+msgstr "Motivos"
+
+#. module: production_app
+#: field:operator.line,registry_id:0
+#: field:quality.check.line,registry_id:0
+#: field:stop.line,registry_id:0
+msgid "Registry"
+msgstr "Registro"
+
+#. module: production_app
+#: field:app.registry,workorder_id:0
+msgid "Related Maintance Order"
+msgstr "Orden mantenimiento asociada"
+
+#. module: production_app
+#: field:product.quality.check,repeat:0
+msgid "Repeatch each"
+msgstr "Repetir cada"
+
+#. module: production_app
+#: field:product.quality.check,required_text:0
+msgid "Required Text"
+msgstr "Texto obligatorio"
+
+#. module: production_app
+#: view:app.registry:production_app.app_registry_filter_view
+#: view:product.quality.check:production_app.product_quality_check_filter_view
+#: view:stop.reason:production_app.stop_reason_filter_view
+msgid "Search Work Orders"
+msgstr "Buscar órdenes trabajo"
+
+#. module: production_app
+#: view:app.registry:production_app.app_registry_form_view
+msgid "Set Up Times"
+msgstr "Tiempos preparación"
+
+#. module: production_app
+#: view:app.registry:production_app.app_registry_filter_view
+msgid "Set-Up"
+msgstr "Preparación"
+
+#. module: production_app
+#: field:app.registry,setup_duration:0
+msgid "Setup Duration"
+msgstr "Duración preparación"
+
+#. module: production_app
+#: field:app.registry,setup_end:0
+msgid "Setup End"
+msgstr "Fin preparación"
+
+#. module: production_app
+#: field:app.registry,setup_start:0
+msgid "Setup Start"
+msgstr "Inicio preparación"
+
+#. module: production_app
+#: selection:product.quality.check,quality_type:0
+msgid "Start Up"
+msgstr "De inicio"
+
+#. module: production_app
+#: view:product.quality.check:production_app.product_quality_check_filter_view
+msgid "Start-Up"
+msgstr "De inicio"
+
+#. module: production_app
+#: view:app.registry:production_app.app_registry_filter_view
+msgid "Started"
+msgstr "Iniciada"
+
+#. module: production_app
+#: field:app.registry,state:0
+#: field:mrp.production.workcenter.line,app_state:0
+msgid "State"
+msgstr "Estado"
+
+#. module: production_app
+#: view:app.registry:production_app.app_registry_filter_view
+msgid "Status"
+msgstr "Estado"
+
+#. module: production_app
+#: field:stop.line,stop_duration:0
+msgid "Stop Duration"
+msgstr "Duración parada"
+
+#. module: production_app
+#: field:stop.line,stop_end:0
+msgid "Stop End"
+msgstr "Fin parada"
+
+#. module: production_app
+#: model:ir.actions.act_window,name:production_app.action_stop_reason
+#: model:ir.ui.menu,name:production_app.menu_stop_reason
+#: view:stop.reason:production_app.stop_reason_form_view
+#: view:stop.reason:production_app.stop_reason_tree_view
+msgid "Stop Reasons"
+msgstr "Motivos parada"
+
+#. module: production_app
+#: field:stop.line,stop_start:0
+msgid "Stop Start"
+msgstr "Inicio parada"
+
+#. module: production_app
+#: view:app.registry:production_app.app_registry_form_view
+msgid "Stops"
+msgstr "Paradas"
+
+#. module: production_app
+#: selection:stop.reason,reason_type:0
+msgid "Technical"
+msgstr "Técnico"
+
+#. module: production_app
+#: view:stop.reason:production_app.stop_reason_filter_view
+msgid "Technical Reason"
+msgstr "Motivo técnico"
+
+#. module: production_app
+#: view:mrp.workcenter:production_app.mrp_workcenter_view_add_technical_reasons
+msgid "Technical Reasons"
+msgstr "Motivos técnicos"
+
+#. module: production_app
+#: selection:product.quality.check,value_type:0
+msgid "Text"
+msgstr "Texto"
+
+#. module: production_app
+#: sql_constraint:app.registry:0
+msgid "The workcenter line must be unique !"
+msgstr "La órden de trabajo debe ser única !"
+
+#. module: production_app
+#: field:stop.reason,reason_type:0
+msgid "Type"
+msgstr "Tipo"
+
+#. module: production_app
+#: view:app.registry:production_app.app_registry_form_view
+msgid "Validate"
+msgstr "Validar"
+
+#. module: production_app
+#: selection:app.registry,state:0
+msgid "Validated"
+msgstr "Validado"
+
+#. module: production_app
+#: field:quality.check.line,value:0
+msgid "Value"
+msgstr "Valor"
+
+#. module: production_app
+#: view:product.quality.check:production_app.product_quality_check_filter_view
+#: field:product.quality.check,value_type:0
+msgid "Value Type"
+msgstr "Tipo valor"
+
+#. module: production_app
+#: selection:app.registry,state:0
+msgid "Waiting Production"
+msgstr "Esperando producción"
+
+#. module: production_app
+#: field:app.registry,workcenter_id:0
+#: model:ir.model,name:production_app.model_mrp_workcenter
+#: field:product.quality.check,workcenter_id:0
+msgid "Work Center"
+msgstr "Centro de trabajo"
+
+#. module: production_app
+#: view:app.registry:production_app.app_registry_filter_view
+#: field:app.registry,wc_line_id:0
+#: model:ir.model,name:production_app.model_mrp_production_workcenter_line
+msgid "Work Order"
+msgstr "Orden de trabajo"
+
+#. module: production_app
+#: view:app.registry:production_app.app_registry_filter_view
+#: view:product.quality.check:production_app.product_quality_check_filter_view
+msgid "Workcenter"
+msgstr "Centro de trabajo"
+
+#. module: production_app
+#: field:app.registry,name:0
+#: field:operator.line,wc_line_id:0
+#: field:quality.check.line,wc_line_id:0
+msgid "Workcenter Line"
+msgstr "Orden de trabajo"
+
+#. module: production_app
+#: field:stop.reason,workcenter_ids:0
+msgid "Workcenter ids"
+msgstr "Workcenter ids"
+
+#. module: production_app
+#: code:addons/production_app/models/mrp.py:53
+#, python-format
+msgid "You cant cancel because one app                                                 registry is linked"
+msgstr "No puedes cancelar porque hay un registro de aplicación asociado."
+
+#. module: production_app
+#: code:addons/production_app/models/mrp.py:28
+#, python-format
+msgid "You cant cancel because one app                                             registry is linked"
+msgstr "No puedes cancelar porque hay un registro de aplicación asociado."
+

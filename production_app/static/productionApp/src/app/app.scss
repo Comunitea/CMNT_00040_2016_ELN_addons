@@ -14,3 +14,19 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+
+@media (min-width:700px){
+
+    span {
+        font-size: 2rem;
+    }
+    ion-input{
+        font-size: 2rem;
+    }
+    .alert-header {
+      font-size: 3rem !important;
+    }
+    .alert-message {
+      font-size: 2rem !important;
+    }
+}

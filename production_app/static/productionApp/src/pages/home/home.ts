@@ -23,6 +23,14 @@ export class HomePage {
         username: 'admin',
         password: 'admin',
     };
+
+    // CONEXION = {
+    //     url: 'http://elnapp.livingodoo.com',
+    //     port: '8069',
+    //     db: 'elnapp',
+    //     username: 'admin',
+    //     password: 'admin',
+    // };
     cargar = true;
     mensaje = '';
   
@@ -102,8 +110,9 @@ export class HomePage {
                             user.id = value[0].id;
                             user.name = value[0].name;
                             user.login = value[0].login;
-                            self.prodData.getUsers(user);
-                            self.prodData.getStopReasons();
+                            // self.prodData.getOperators();
+                            self.prodData.getLots();
+                            // self.prodData.getStopReasons();
                             //todo debería ser una promesa?
                             // me voy para página de producción
                             self.navCtrl.setRoot(ListPage); 

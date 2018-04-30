@@ -25,12 +25,18 @@
             <form string="Quality Checks">
             <sheet string="Quality Checks">
                 <group>
-                    <field name="name"/>
-                    <field name="quality_type"/>
-                    <field name="value_type"/>
-                    <!-- <field name="product_id"/> -->
-                    <field name="workcenter_id"/>
-                    <field name="repeat"/>
+                    <group>
+                        <field name="name"/>
+                        <field name="quality_type"/>
+                        <field name="value_type"/>
+                        <field name="workcenter_id"/>
+                        <field name="repeat"/>
+                    </group>
+                   <group>
+                        <field name="required_text" attrs="{'invisible': [('value_type', '!=', 'text')]}"/>
+                        <field name="min_value" attrs="{'invisible': [('value_type', '!=', 'numeric')]}"/>
+                        <field name="max_value" attrs="{'invisible': [('value_type', '!=', 'numeric')]}"/>
+                    </group>
                 </group>
                 <group string="Associated Products">
                     <field name="product_ids" nolabel="1">
@@ -101,6 +107,9 @@
                         <field name="quality_check_ids" nolabel="1">
                             <tree>
                                 <field name="name"/>
+                                <field name="quality_type"/>
+                                <field name="value_type"/>
+                                <field name="repeat"/>
                             </tree>
                         </field>
                     </group>

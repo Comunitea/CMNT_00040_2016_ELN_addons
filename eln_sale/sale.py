@@ -23,6 +23,8 @@ from openerp import models, fields, api, _
 from datetime import datetime
 from dateutil import tz
 import time
+import logging
+_logger = logging.getLogger(__name__)
 
 
 class SaleOrder(models.Model):
@@ -34,7 +36,11 @@ class SaleOrder(models.Model):
         readonly=True, select=True,
         domain = [('supplier','=',True)],
         states={'draft': [('readonly', False)]})
-    order_policy = fields.Selection(selection_add=[('no_bill', 'No bill')])
+    order_policy = fields.Selection(selection_add=[('prepaid', 'Pay before delivery'),
+            ('manual', 'Deliver & invoice on demand'),
+            ('picking', 'Invoice based on deliveries'),
+            ('postpaid', 'Invoice on order after delivery'),
+            ('no_bill', 'No bill')])
     supplier_cip = fields.Char(
         string="CIP", size=32, readonly=True,
         states={'draft': [('readonly', False)],'waiting_date': [('readonly', False)],'manual': [('readonly', False)],'progress': [('readonly', False)]},
@@ -50,11 +56,69 @@ class SaleOrder(models.Model):
         string="Effective Date",
         compute="_get_effective_date", store=True,
         help="Date on which the first Delivery Order was delivered.")
+    chanel = fields.Selection([('erp', 'ERP'), ('telesale', 'telesale'),
+                                    ('tablet', 'Tablet'),
+                                    ('other', 'Other'),
+                                    ('ecomerce', 'E-comerce')], 'Chanel',
+                                   readonly=True)
 
     @api.multi
     @api.depends('state')
     def _get_effective_date(self):
         """Read the shipping effective date from the related packings"""
+        res = {}
+        dates_list = []
+        for order in self:
+            dates_list = []
+            for pick in order.picking_ids.filtered(lambda r: r.state != 'cancel'):
+                dates_list.append(pick.effective_date)
+            if dates_list:
+                res[order.id] = min(dates_list)
+            else:
+                res[order.id] = False
+        return res
+
+
+    def onchange_shop_id(self, cr, uid, ids, shop_id):
+        v = {}
+        if shop_id:
+            shop = self.pool.get('sale.shop').browse(cr, uid, shop_id)
+            v['project_id'] = shop.project_id.id
+            v['company_id'] = shop.company_id.id
+            # overriden by the customer priceslist if existing
+            if shop.pricelist_id.id:
+                v['pricelist_id'] = shop.pricelist_id.id
+            if shop.supplier_id.id:
+                v['supplier_id'] = shop.supplier_id.id
+            if shop.order_policy:
+                v['order_policy'] = shop.order_policy
+            if shop.warehouse_id:
+                v['warehouse_id'] = shop.warehouse_id.id
+            v['order_policy'] = shop.order_policy
+            v['supplier_id'] = shop.supplier_id.id
+
+        return {'value': v}
+
+    def onchange_shop_id2(self, cr, uid, ids, shop_id, partner_id=False, project_id=False):
+        res = self.onchange_shop_id(cr, uid, ids, shop_id)
+        if project_id:
+            res['value']['project_id'] = project_id
+        if not shop_id:
+            res['value']['pricelist_id'] = False
+            return res
+
+        if partner_id:
+            shop_obj = self.pool.get('sale.shop').browse(cr, uid, shop_id)
+            partner_obj = self.pool.get('res.partner').browse(cr, uid, partner_id)
+
+            if shop_obj.indirect_invoicing:
+                if partner_obj.property_product_pricelist_indirect_invoicing:
+                    res['value']['pricelist_id'] = partner_obj.property_product_pricelist_indirect_invoicing.id
+            else:
+                if partner_obj.property_product_pricelist:
+                    res['value']['pricelist_id'] = partner_obj.property_product_pricelist.id
+
+        return res
         for order in self:
             if order.state in ('cancel', 'draft'):
                 order.effective_date = False
@@ -185,6 +249,18 @@ class SaleOrder(models.Model):
                 partner_obj.commercial_partner_id.property_product_pricelist.id
         return res
 
+    @api.model
+    def create_and_confirm(self, vals):
+        res = self.create(vals)
+        if res:
+            #res.check_route()
+            res.action_button_confirm()
+            _logger.info("APP. Respuesta a create_and_confirm <%s> "
+                         %(res))
+            return res.id
+        _logger.info("APP. Respuesta ERROR!! create_and_confirm <%s> "
+                         %(res))
+        return False
 
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'

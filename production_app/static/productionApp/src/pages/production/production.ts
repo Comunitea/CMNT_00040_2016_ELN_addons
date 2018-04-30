@@ -1,11 +1,12 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChildren, QueryList } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, ModalController } from 'ionic-angular';
 import { HomePage } from '../../pages/home/home';
 import { ChecksModalPage } from '../../pages/checks-modal/checks-modal';
 import { UsersModalPage } from '../../pages/users-modal/users-modal';
 import { ReasonsModalPage } from '../../pages/reasons-modal/reasons-modal';
-import { OdooProvider } from '../../providers/odoo/odoo';
+import { FinishModalPage } from '../../pages/finish-modal/finish-modal';
 import { ProductionProvider } from '../../providers/production/production';
+import { OdooProvider } from '../../providers/odoo/odoo';
 import { TimerComponent } from '../../components/timer/timer';
 
 
@@ -18,14 +19,38 @@ export class ProductionPage {
     
     cdb;
     weight;
+    hidden_class: string = 'my-hide';
     interval_list: any[] = [];
 
-    @ViewChild(TimerComponent) timer: TimerComponent;
+    @ViewChildren(TimerComponent) timer: QueryList<TimerComponent>;
 
     constructor(public navCtrl: NavController,
                 public navParams: NavParams, public alertCtrl: AlertController, 
                 public modalCtrl: ModalController,
-                private odooCon: OdooProvider, private prodData: ProductionProvider) {
+                private prodData: ProductionProvider,
+                private odooCon: OdooProvider) {
+    }
+
+    ionViewDidLoad() {
+        this.initProduction();
+    }
+
+    initProduction(){
+        if (this.timer.toArray().length != 0){
+            this.timer.toArray()[0].initTimer();
+            this.timer.toArray()[1].initTimer();
+        }
+
+        var timer_1_states = ['setup', 'started', 'cleaning']
+        if (timer_1_states.indexOf(this.prodData.state) >= 0){
+            this.scheduleChecks();
+            this.timer.toArray()[0].restartTimer();
+        }
+        if (this.prodData.state == 'stoped'){
+            this.hidden_class = 'none'
+            this.timer.toArray()[0].restartTimer();
+            this.timer.toArray()[1].restartTimer();
+        }
     }
 
     logOut(){
@@ -42,6 +67,7 @@ export class ProductionPage {
             {
               text: 'Si',
               handler: () => {
+                this.clearIntervales();
                 this.navCtrl.setRoot(HomePage, {borrar: true, login: null});
               }
             }
@@ -65,6 +91,10 @@ export class ProductionPage {
                 {
                   text: 'Si',
                   handler: () => {
+                    if (this.prodData.active_operator_id === 0 ){
+                        this.presentAlert("Error!", "No puede continuar sin un operario activo");
+                        reject();
+                    }
                     resolve();
                   }
                 }
@@ -75,76 +105,57 @@ export class ProductionPage {
         return promise
     }
 
+    reloadProduction(){
+        this.promptNextStep('¿Recargar producción?').then( () => {
+            this.clearIntervales();
+            this.prodData.loadProduction(this.prodData.workcenter).then(() =>{
+                this.initProduction();
+            })
+            .catch( () => {});
+            })
+        .catch( () => {});
+        
+    }
+
     presentAlert(titulo, texto) {
         const alert = this.alertCtrl.create({
             title: titulo,
             subTitle: texto,
-            buttons: ['Ok']
+            buttons: ['Ok'],
         });
         alert.present();
     }
 
-    promptFinishData() {
-        let alert = this.alertCtrl.create({
-            title: 'Finalizar Producción',
-            inputs: [
-              {
-                name: 'qty',
-                placeholder: 'Cantidad',
-                label: 'Cantidad',
-                type: 'number'
-              },
-              {
-                name: 'lot',
-                placeholder: 'Lote',
-                id: 'Lote',
-                type: 'text'
-              },
-              {
-                name: 'date',
-                placeholder: 'Fecha caducidad',
-                type: 'date'
-              },
-            ],
-            buttons: [
-              {
-                text: 'Cancel',
-                role: 'cancel',
-                handler: data => {
-                  console.log('Cancel clicked');
+    openChecksModal(qtype, qchecks, restart_timer) {
+        var promise = new Promise( (resolve, reject) => {
+            var mydata = {
+                'product_id': this.prodData.product_id,
+                'quality_type': qtype,
+                'quality_checks': qchecks
+            }
+            let myModal = this.modalCtrl.create(ChecksModalPage, mydata);
+
+            // When modal closes
+            myModal.onDidDismiss(data => {
+                if (Object.keys(data).length !== 0) {
+                    this.prodData.saveQualityChecks(data);
+                    if (qtype == 'start' && restart_timer){
+                        this.timer.toArray()[0].restartTimer();  // Production timer on
+                    } 
+                    resolve();
                 }
-              },
-              {
-                text: 'OK',
-                handler: data => {
-                  this.prodData.qty = data.qty;
-                  this.prodData.lot_name = data.lot;
-                  this.prodData.lot_date = data.date;
-                  this.prodData.finishProduction();
+                else{
+                    if (qchecks.length === 0)
+                        resolve();
+                    else
+                        reject();
                 }
-              }
-            ]
+                
+            });
+
+            myModal.present();
         });
-        alert.present();
-    }
-
-    openModal(qtype, qchecks) {
-        var mydata = {
-            'product_id': this.prodData.product_id,
-            'quality_type': qtype,
-            'quality_checks': qchecks
-        }
-        let myModal = this.modalCtrl.create(ChecksModalPage, mydata);
-
-        // When modal closes
-        myModal.onDidDismiss(data => {
-            this.prodData.saveQualityChecks(data);  // TODO CONVERT IN PROMISE
-            if (qtype == 'start'){
-                this.timer.restartTimer();  // Production timer on
-            } 
-        });
-
-        myModal.present();
+        return promise
     }
 
     openUsersModal(){
@@ -160,12 +171,34 @@ export class ProductionPage {
             reasonsModal.present();
 
             // When modal closes
-            reasonsModal.onDidDismiss(reason_id => {
-                if (reason_id == 0){
-                    reject(reason_id)
+            reasonsModal.onDidDismiss((res) => {
+                if (res['reason_id'] == 0){
+                    reject(res)
                 }
                 else{
-                    resolve(reason_id);
+                    resolve(res);
+                }
+            });
+        });
+        return promise;
+    }
+
+    openFinishModal(mode_step){
+        var promise = new Promise( (resolve, reject) => {
+            var mydata = {'mode_step': mode_step}
+            let finishModal = this.modalCtrl.create(FinishModalPage, mydata);
+            finishModal.present();
+
+            // When modal closes
+            finishModal.onDidDismiss(res => {
+                if (Object.keys(res).length === 0) {
+                    reject();
+                }
+                else {
+                    this.prodData.qty = res.qty;
+                    this.prodData.lot_name = res.lot;
+                    this.prodData.lot_date = res.date;
+                    resolve();
                 }
             });
         });
@@ -177,12 +210,13 @@ export class ProductionPage {
             let int = this.interval_list[indx];
             clearInterval(int);
         }
+        this.interval_list = [];
     }
 
     scheduleIntervals(delay, qchecks){
         let timerId = setInterval(() => 
         {
-            this.openModal('freq', qchecks)
+            this.openChecksModal('freq', qchecks, false).then(() => {}).catch(() => {});
         }, delay*60*1000);
         this.interval_list.push(timerId);
     }
@@ -211,36 +245,46 @@ export class ProductionPage {
     }
 
     confirmProduction() {
-        this.promptNextStep('Confirmar producción?').then( () => {
+        this.promptNextStep('¿Confirmar producción?').then( () => {
             this.prodData.confirmProduction();
         })
         .catch( () => {});
     }
 
     setupProduction() {
-        this.promptNextStep('Empezar preparación?').then( () => {
+        this.promptNextStep('¿Empezar preparación?').then( () => {
             this.prodData.setupProduction();
-            this.timer.startTimer()  // Set-Up timer on
+            this.timer.toArray()[0].restartTimer()  // Set-Up timer on
         })
         .catch( () => {});
     }
 
     startProduction() {
-        this.promptNextStep('Terminar preparación y empezar producción').then( () => {
-            this.prodData.startProduction();
-            this.openModal('start', this.prodData.start_checks);  // Production timer setted when modal is clos   
-            this.scheduleChecks();
+        this.promptNextStep('¿Terminar preparación y empezar producción').then( () => {
+
+            this.openFinishModal("start").then(() => {
+               this.openChecksModal('start', this.prodData.start_checks, true).then( () => {
+                    this.prodData.startProduction();
+                    this.scheduleChecks();
+                }).catch(() => {});
+            }).catch(() => {});
         })
         .catch( () => {});
     }
 
     stopProduction() {
-        this.promptNextStep('Registrar una parada?').then( () => {
-            this.openReasonsModal().then( (reason_id) => {
+        this.promptNextStep('¿Registrar una parada?').then( () => {
+            this.hidden_class = 'my-hide'
+            this.openReasonsModal().then( (res) => {
+                var reason_id = res['reason_id']
+                var create_mo = res['create_mo']
+                this.hidden_class = 'none'
+                this.clearIntervales();
                 console.log("STOP MODAL RES");
                 console.log(reason_id);
-                this.timer.pauseTimer();
-                this.prodData.stopProduction(reason_id);
+                // this.timer.toArray()[0].pauseTimer();
+                this.prodData.stopProduction(reason_id, create_mo);
+                this.timer.toArray()[1].restartTimer();
             })
             .catch( () => {
                 console.log("Pues no hago nada")
@@ -249,32 +293,49 @@ export class ProductionPage {
         .catch( () => {});
     }
 
+    restartAndCleanProduction(){
+        this.promptNextStep('¿Reanudar producción y pasar a limpieza?').then( () => {
+            this.clearIntervales();
+            this.timer.toArray()[0].restartTimer();
+            this.hidden_class = 'my-hide'
+            this.prodData.restartAndCleanProduction();
+        })
+        .catch( () => {});
+    }
+
     restartProduction() {
-        this.promptNextStep('Reanudar producción').then( () => {
-            this.timer.resumeTimer();
+        this.promptNextStep('¿Reanudar producción?').then( () => {
+            this.hidden_class = 'my-hide'
+            this.scheduleChecks();
+            this.timer.toArray()[1].pauseTimer();
             this.prodData.restartProduction();
+            this.openChecksModal('start', this.prodData.start_checks, false).then(() => {}).catch(() => {});
         })
         .catch( () => {});
     }
 
     cleanProduction() {
-        this.promptNextStep('Empezar limpieza?').then( () => {
+        this.promptNextStep('¿Empezar limpieza?').then( () => {
             this.clearIntervales();
-            this.timer.restartTimer();
-            this.prodData.cleanProduction();
+            this.timer.toArray()[0].restartTimer();
+            this.openFinishModal("clean").then(() => {
+                this.prodData.cleanProduction();
+            }).catch(() => {});
         })
         .catch( () => {});
     }
 
     finishProduction() {
-        this.promptNextStep('Finalizar producción').then( () => {
-            this.timer.pauseTimer()
-            this.promptFinishData();
+        this.promptNextStep('¿Finalizar producción').then( () => {
+            this.timer.toArray()[0].restartTimer()
+            this.timer.toArray()[0].pauseTimer()
+            this.prodData.finishProduction();
         })
         .catch( () => {});
     }
     loadNextProduction(){
         this.prodData.loadProduction(this.prodData.workcenter).then( (res) => {
+            this.prodData.active_operator_id = 0;
         })
         .catch( (err) => {
             this.presentAlert(err.title, err.msg);

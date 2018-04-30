@@ -3,7 +3,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from openerp import api, models, fields
-
+from datetime import datetime, timedelta
 
 APP_STATES = [
     ('waiting', 'Waiting Production'),
@@ -39,9 +39,11 @@ class AppRegistry(models.Model):
     cleaning_duration = fields.Float('Cleaning Duration',
                                      compute="_get_durations")
     qc_line_ids = fields.One2many('quality.check.line', 'registry_id',
-                                  'Quality Checks', readonly=True)
+                                  'Quality Checks', readonly=False)
     stop_line_ids = fields.One2many('stop.line', 'registry_id',
-                                    'Production Stops', readonly=True)
+                                    'Production Stops', readonly=False)
+    operator_ids = fields.One2many('operator.line', 'registry_id',
+                                   'Operators', readonly=False)
     qty = fields.Float('Quantity', readonly=True)
     lot_id = fields.Many2one('stock.production.lot', 'Lot', readonly=True)
 
@@ -54,6 +56,7 @@ class AppRegistry(models.Model):
     product_id = fields.Many2one('product.product', 'Product',
                                  related="production_id.product_id",
                                  readonly=True)
+    workorder_id = fields.Many2one('work.order', 'Related Maintance Order')
     _sql_constraints = [
         ('wc_line_id_uniq', 'unique(wc_line_id)',
          'The workcenter line must be unique !'),
@@ -84,7 +87,7 @@ class AppRegistry(models.Model):
     def get_existing_registry(self, workcenter_id):
         res = False
         domain = [('workcenter_id', '=', workcenter_id),
-                  ('state', '!=', 'finished')]
+                  ('state', 'not in', ('finished', 'validated'))]
         reg_obj = self.search(domain, limit=1)
         if reg_obj:
             res = reg_obj
@@ -124,6 +127,16 @@ class AppRegistry(models.Model):
             reg = self.create_new_registry(workcenter_id)
         if reg:
             res.update(reg.read()[0])
+
+        if reg:
+            allowed_operators = []
+            for op in reg.workcenter_id.operators_ids:
+                allowed_operators.append({'id': op.id, 'name': op.name})
+
+            use_time = reg.wc_line_id.production_id.product_id.use_time
+            use_date = (datetime.now() + timedelta(use_time)).strftime("%Y-%m-%d")
+            res.update(allowed_operators=allowed_operators,
+                       product_use_date=use_date)
         return res
 
     @api.model
@@ -145,73 +158,13 @@ class AppRegistry(models.Model):
         reg = False
         if values.get('registry_id', False):
             reg = self.browse(values['registry_id'])
+        date = fields.Datetime.now()
+        if values.get('setup_start', False):
+            date = values['setup_start']
         if reg:
             reg.write({
                 'state': 'setup',
-                'setup_start': fields.Datetime.now()
-            })
-            res = reg.read()[0]
-        return res
-
-    @api.model
-    def start_production(self, values):
-        res = {}
-        reg = False
-        if values.get('registry_id', False):
-            reg = self.browse(values['registry_id'])
-        if reg:
-            reg.state = 'started'
-            reg.write({
-                'state': 'started',
-                'setup_end': fields.Datetime.now(),
-                'production_start': fields.Datetime.now()
-            })
-            res = reg.read()[0]
-        return res
-
-    @api.model
-    def stop_production(self, values):
-        res = {}
-        reg = False
-        if values.get('registry_id', False):
-            reg = self.browse(values['registry_id'])
-        if reg:
-            reg.write({
-                'state': 'stoped',
-            })
-            stop_obj = reg.create_stop(values.get('reason_id', False))
-            res = reg.read()[0]
-            res.update({'stop_id': stop_obj.id})
-        return res
-
-    @api.model
-    def restart_production(self, values):
-        res = {}
-        reg = False
-        if values.get('registry_id', False):
-            reg = self.browse(values['registry_id'])
-        if reg:
-            reg.write({
-                'state': 'started',
-            })
-            stop_id = values.get('stop_id', False)
-            if stop_id:
-                self.env['stop.line'].browse(stop_id).write({
-                    'stop_end': fields.Datetime.now()})
-            res = reg.read()[0]
-        return res
-
-    @api.model
-    def clean_production(self, values):
-        res = {}
-        reg = False
-        if values.get('registry_id', False):
-            reg = self.browse(values['registry_id'])
-        if reg:
-            reg.write({
-                'state': 'cleaning',
-                'production_end': fields.Datetime.now(),
-                'cleaning_start': fields.Datetime.now()
+                'setup_start': date
             })
             res = reg.read()[0]
         return res
@@ -236,19 +189,130 @@ class AppRegistry(models.Model):
         return lot_id
 
     @api.model
+    def start_production(self, values):
+        res = {}
+        reg = False
+        if values.get('registry_id', False):
+            reg = self.browse(values['registry_id'])
+        date = fields.Datetime.now()
+        if values.get('setup_end', False):
+            date = values['setup_end']
+        if reg:
+            lot_id = self.get_lot(values, reg)
+            reg.state = 'started'
+            reg.write({
+                'state': 'started',
+                'setup_end': date,
+                'production_start': date,
+                'lot_id': lot_id,
+            })
+            res = reg.read()[0]
+        return res
+
+    @api.model
+    def create_maintenance_order(self, reg, reason_id):
+        mt = self.env['maintenance.type'].\
+            search([('type', '=', 'correctivo')], limit=1)
+
+        note = ''
+        if reason_id:
+            reason_name = self.env['stop.reason'].browse(reason_id).name
+            note += 'Credo por app. ' + reason_name
+        wo = self.env['work.order'].create({'maintenance_type_id': mt.id,
+                                            'note': note})
+        reg.write({'workorder_id': wo.id})
+        return True
+
+    @api.model
+    def stop_production(self, values):
+        res = {}
+        reg = False
+        operator_id = False
+        reason_id = values.get('reason_id', False)
+        if values.get('active_operator_id', False):  # Can be 0
+            operator_id = values['active_operator_id']
+        if values.get('registry_id', False):
+            reg = self.browse(values['registry_id'])
+        if reg:
+            reg.write({
+                'state': 'stoped',
+            })
+            date = fields.Datetime.now()
+            if values.get('stop_start', False):
+                date = values['stop_start']
+            stop_obj = reg.create_stop(reason_id, operator_id, date)
+            create_mo = values.get('create_mo', False)
+            if create_mo:
+                self.create_maintenance_order(reg, reason_id)
+            res = reg.read()[0]
+            res.update({'stop_id': stop_obj.id})
+        return res
+
+    @api.model
+    def restart_production(self, values):
+        res = {}
+        reg = False
+        if values.get('registry_id', False):
+            reg = self.browse(values['registry_id'])
+        date = fields.Datetime.now()
+        if values.get('stop_end', False):
+            date = values['stop_end']
+        if reg:
+            reg.write({
+                'state': 'started',
+            })
+            stop_id = values.get('stop_id', False)
+            if stop_id:
+                self.env['stop.line'].browse(stop_id).write({
+                    'stop_end': date})
+            res = reg.read()[0]
+        return res
+
+    @api.model
+    def restart_and_clean_production(self, values):
+        self.restart_production(values)
+        res = self.clean_production(values)
+        return res
+
+    @api.model
+    def clean_production(self, values):
+        res = {}
+        reg = False
+        if values.get('registry_id', False):
+            reg = self.browse(values['registry_id'])
+        date = fields.Datetime.now()
+        if values.get('cleaning_start', False):
+            date = values['cleaning_start']
+        if reg:
+            reg.write({
+                'state': 'cleaning',
+                'production_end': date,
+                'cleaning_start': date
+            })
+            res = reg.read()[0]
+        return res
+
+    @api.model
     def finish_production(self, values):
         res = {}
         reg = False
         if values.get('registry_id', False):
             reg = self.browse(values['registry_id'])
+        date = fields.Datetime.now()
+        if values.get('stop_start', False):
+            date = values['cleaning_end']
         if reg:
-            lot_id = self.get_lot(values, reg)
             reg.write({
                 'state': 'finished',
-                'cleaning_end': fields.Datetime.now(),
-                'qty': values.get('weight', 0.00),
-                'lot_id': lot_id,
+                'cleaning_end': date,
+                'qty': values.get('qty', 0.00),
             })
+            operators_loged = self.env['operator.line']
+            for op in reg.operator_ids:
+                if not op.date_out:
+                    operators_loged += op
+            if operators_loged:
+                operators_loged.write({'date_out': date})
             res = reg.read()[0]
         return res
 
@@ -257,11 +321,12 @@ class AppRegistry(models.Model):
         product_id = values.get('product_id', False)
         product = self.env['product.product'].browse(product_id)
         domain = [('id', 'in', product.quality_check_ids.ids)]
-        fields = ['id', 'name', 'value_type', 'quality_type', 'repeat']
+        fields = ['id', 'name', 'value_type', 'quality_type', 'repeat',
+                  'required_text', 'max_value', 'min_value']
         res = product.quality_check_ids.search_read(domain, fields)
         res2 = []
         for dic in res:
-            dic.update({'value': False})
+            dic.update({'value': ''})
             res2.append(dic)
         return res2
 
@@ -269,29 +334,97 @@ class AppRegistry(models.Model):
     def app_save_quality_checks(self, values):
         registry_id = values.get('registry_id', False)
         lines = values.get('lines', [])
+        operator_id = False
+        if values.get('active_operator_id', False):  # Can be 0
+            operator_id = values['active_operator_id']
+        date = fields.Datetime.now()
+        if values.get('qc_date', False):
+            date = values['qc_date']
         for dic in lines:
             vals = {
                 'registry_id': registry_id,
                 'pqc_id': dic.get('id', False),
-                'date': fields.Datetime.now(),
-                'value': str(dic.get('value', False))
+                'date': date,
+                'value': str(dic.get('value', False)),
+                'operator_id': operator_id
             }
             self.env['quality.check.line'].create(vals)
         return True
 
     @api.multi
     def validate(self):
+        wc_line = self.wc_line_id
+        stop_values = []
+        for stop in self.stop_line_ids:
+            val = {'name': stop.operator_id.name,
+                   'reason': stop.reason_id.name,
+                   'time': stop.stop_duration}
+            stop_values.append((0, 0, val))
+
+        vals = {
+            'date_start': self.setup_start,
+            'date_finidhed': self.cleaning_end,
+            'real_time': self.production_duration,
+            'time_start': self.setup_duration,
+            'time_stop': self.cleaning_duration,
+            'production_stops_ids': stop_values or False
+        }
+        wc_line.write(vals)
+        self.qc_line_ids.write({'wc_line_id': wc_line.id})
+        self.operator_ids.write({'wc_line_id': wc_line.id})
         self.write({'state': 'validated'})
+        return
 
     @api.multi
-    def create_stop(self, reason_id):
+    def create_stop(self, reason_id, operator_id, date_stop):
         self.ensure_one()
         vals = {
             'registry_id': self.id,
-            'stop_start': fields.Datetime.now(),
-            'reason_id': reason_id
+            'stop_start': date_stop,
+            'reason_id': reason_id,
+            'operator_id': operator_id
         }
         res = self.env['stop.line'].create(vals)
+        return res
+
+    @api.multi
+    def create_operator_line(self, operator_id, date_in):
+        self.ensure_one()
+        vals = {
+            'registry_id': self.id,
+            'operator_id': operator_id,
+            'date_in': date_in
+        }
+        res = self.env['operator.line'].create(vals)
+        return res
+
+    @api.model
+    def log_in_operator(self, values):
+        res = {}
+        reg = False
+        if values.get('registry_id', False):
+            reg = self.browse(values['registry_id'])
+        date = fields.Datetime.now()
+        if values.get('date_in', False):
+            date = values['date_in']
+        if reg and values.get('operator_id', False):
+            op_obj = reg.create_operator_line(values['operator_id'], date)
+            res = {'operator_line_id': op_obj.id}
+        return res
+
+    @api.model
+    def log_out_operator(self, values):
+        res = {}
+        reg = False
+        if values.get('registry_id', False):
+            reg = self.browse(values['registry_id'])
+        date = fields.Datetime.now()
+        if values.get('date_out', False):
+            date = values['date_out']
+        operator_line_id = values.get('operator_line_id', False)
+        if reg and operator_line_id:
+                self.env['operator.line'].browse(operator_line_id).write({
+                    'date_out': date})
         return res
 
 
@@ -303,6 +436,9 @@ class QualityCheckLine(models.Model):
                              readonly=False)
     date = fields.Datetime('Date', readonly=False)
     value = fields.Text('Value', readonly=False)
+    operator_id = fields.Many2one('hr.employee', 'Operator')
+    wc_line_id = fields.Many2one('mrp.production.workcenter.line', 
+                                 'Workcenter Line', readonly=True)
 
 
 class StopLines(models.Model):
@@ -314,6 +450,7 @@ class StopLines(models.Model):
     stop_end = fields.Datetime('Stop End', readonly=False)
     stop_duration = fields.Float('Stop Duration',
                                  compute="_get_duration")
+    operator_id = fields.Many2one('hr.employee', 'Operator')
 
     @api.multi
     @api.depends('stop_start', 'stop_end')
@@ -323,4 +460,27 @@ class StopLines(models.Model):
                 stop_start = fields.Datetime.from_string(r.stop_start)
                 stop_end = fields.Datetime.from_string(r.stop_end)
                 td = stop_end - stop_start
+                r.stop_duration = td.total_seconds() / 3600
+
+
+class OperatorLines(models.Model):
+    _name = 'operator.line'
+
+    registry_id = fields.Many2one('app.registry', 'Registry', readonly=True)
+    operator_id = fields.Many2one('hr.employee', 'Operator')
+    date_in = fields.Datetime('Date Int', readonly=False)
+    date_out = fields.Datetime('Date Out', readonly=False)
+    stop_duration = fields.Float('Hours',
+                                 compute="_get_duration")
+    wc_line_id = fields.Many2one('mrp.production.workcenter.line', 
+                                 'Workcenter Line', readonly=True)
+
+    @api.multi
+    @api.depends('date_in', 'date_out')
+    def _get_duration(self):
+        for r in self:
+            if r.date_in and r.date_out:
+                date_in = fields.Datetime.from_string(r.date_in)
+                date_out = fields.Datetime.from_string(r.date_out)
+                td = date_out - date_in
                 r.stop_duration = td.total_seconds() / 3600
