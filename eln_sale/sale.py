@@ -54,10 +54,12 @@ class SaleOrder(models.Model):
     @api.multi
     @api.depends('state')
     def _get_effective_date(self):
-        """Read the shipping effective date from the related packings"""
+        """Read the shipping effective date from the related pickings"""
         for order in self:
             if order.state in ('cancel', 'draft'):
                 order.effective_date = False
+            else:
+                order.update_effective_date()
 
     @api.onchange('shop_id')
     def onchange_shop_id(self):
@@ -184,6 +186,15 @@ class SaleOrder(models.Model):
             res['value']['pricelist_id'] = \
                 partner_obj.commercial_partner_id.property_product_pricelist.id
         return res
+
+    @api.multi
+    def update_effective_date(self):
+        for order in self:
+            pickings = order.picking_ids.filtered(lambda r: r.state != 'cancel' and r.effective_date)
+            dates_list = pickings.mapped('effective_date')
+            min_date = dates_list and min(dates_list) or False
+            if order.effective_date != min_date:
+                order.effective_date = min_date
 
 
 class SaleOrderLine(models.Model):
