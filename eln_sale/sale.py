@@ -197,7 +197,6 @@ class SaleOrder(models.Model):
                 partner_obj.commercial_partner_id.property_product_pricelist.id
         return res
 
-<<<<<<< HEAD
     @api.model
     def create_and_confirm(self, vals):
         res = self.create(vals)
@@ -210,7 +209,7 @@ class SaleOrder(models.Model):
         _logger.info("APP. Respuesta ERROR!! create_and_confirm <%s> "
                          %(res))
         return False
-=======
+
     @api.multi
     def update_effective_date(self):
         for order in self:
@@ -219,8 +218,6 @@ class SaleOrder(models.Model):
             min_date = dates_list and min(dates_list) or False
             if order.effective_date != min_date:
                 order.effective_date = min_date
-
->>>>>>> a004ec77d1c54dc56c0be448c8f038729252b9dc
 
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
