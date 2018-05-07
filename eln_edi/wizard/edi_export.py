@@ -338,7 +338,7 @@ class edi_export (orm.TransientModel):
         # codigo de sección de proveedor.
         # Hay una excepción para El Corte Inglés. En las facturas enviamos el código departamento interno en lugar de la sección.
         # En en fichero se sigue enviando también en la posición original el departamento interno, aunque en el mapeo de generix no se tiene en cuenta
-        if invoice.partner_id.edi_filename == u'ECI':
+        if invoice.partner_id.commercial_partner_id.edi_filename == u'ECI':
             invoice_data += self.parse_string(invoice.partner_id.commercial_partner_id.department_code_edi, 9)
         else:
             invoice_data += self.parse_string(invoice.partner_id.commercial_partner_id.section_code, 9)
@@ -768,16 +768,19 @@ class edi_export (orm.TransientModel):
         # Función del mensaje
         picking_data += self.parse_string('9', 3)
         
-        # Fecha / hora de emisión del aviso de expedición
+        # Fecha de emisión del aviso de expedición
         date = picking.date_done or datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         date = datetime.strptime(date, '%Y-%m-%d %H:%M:%S').replace(tzinfo=from_zone).astimezone(to_zone)
-        date = datetime.strftime(date, '%Y-%m-%d %H:%M:%S')
-        picking_data += self.parse_long_date(date)
+        date = datetime.strftime(date, '%Y-%m-%d')
+        picking_data += self.parse_short_date(date) # Hay que enviar fecha corta auunque el campo tenga espacio para fecha larga
+        picking_data += self.parse_string('', 4) # Se rellena el resto del campo
         
         # Fecha / hora de entrega de mercancía
-        date = picking.requested_date
-        picking_data += self.parse_short_date(date) if date else ' ' * 8
-        picking_data += self.parse_string('', 4) # Aunque la fecha es corta, debería ser la larga
+        date = picking.requested_date # Esta es fecha corta. Si el cliente requiere la hora hay que leerlo del pedido o redefinir el campo.
+        if date: # Hay que enviar fecha larga, aunque el campo no la incluye.
+            date = datetime.strptime(date, '%Y-%m-%d').replace(tzinfo=from_zone).astimezone(to_zone)
+            date = datetime.strftime(date, '%Y-%m-%d %H:%M:%S')
+        picking_data += self.parse_long_date(date) if date else ' ' * 12
         
         # Fecha de envío 
         date = picking.date_done or datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -818,7 +821,11 @@ class edi_export (orm.TransientModel):
         picking_data += self.parse_number(gln_ef, 13, 0)
 
         # Departamento interno
-        picking_data += self.parse_string(picking.partner_id.commercial_partner_id.edi_supplier_cip, 10)
+        # Hay una excepción para El Corte Inglés. En el desadv enviamos el código departamento interno en lugar del código de proveedor.
+        if picking.partner_id.commercial_partner_id.edi_filename == u'ECI':
+            picking_data += self.parse_string(picking.partner_id.commercial_partner_id.department_code_edi, 10)
+        else:
+            picking_data += self.parse_string(picking.partner_id.commercial_partner_id.edi_supplier_cip, 10)
 
         # Medio de transporte (30=Transporte por carretera, 20=Trasporte ferroviario)
         picking_data += self.parse_string('30', 3)

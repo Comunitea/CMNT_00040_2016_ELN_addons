@@ -62,14 +62,8 @@ class StockPicking(models.Model):
     def write(self, vals):
         res = super(StockPicking, self).write(vals)
         if 'effective_date' in vals:
-            for picking in self:
-                if picking.sale_id:
-                    pickings = picking.sale_id.picking_ids.filtered(lambda r: r.state != 'cancel' and r.effective_date)
-                    dates_list = pickings.mapped('effective_date')
-                    min_date = dates_list and min(dates_list) or False
-                    if picking.sale_id.effective_date != min_date:
-                        picking.sale_id.effective_date = min_date
-                #self._cr.execute("UPDATE stock_move SET effective_date=%s WHERE picking_id=%s", (new_date, picking.id))
+            orders = self.mapped('sale_id')
+            orders.update_effective_date()
         return res
 
 

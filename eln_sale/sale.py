@@ -65,63 +65,11 @@ class SaleOrder(models.Model):
     @api.multi
     @api.depends('state')
     def _get_effective_date(self):
-        """Read the shipping effective date from the related packings"""
-        res = {}
-        dates_list = []
-        for order in self:
-            dates_list = []
-            for pick in order.picking_ids.filtered(lambda r: r.state != 'cancel'):
-                dates_list.append(pick.effective_date)
-            if dates_list:
-                res[order.id] = min(dates_list)
-            else:
-                res[order.id] = False
-        return res
-
-
-    def onchange_shop_id(self, cr, uid, ids, shop_id):
-        v = {}
-        if shop_id:
-            shop = self.pool.get('sale.shop').browse(cr, uid, shop_id)
-            v['project_id'] = shop.project_id.id
-            v['company_id'] = shop.company_id.id
-            # overriden by the customer priceslist if existing
-            if shop.pricelist_id.id:
-                v['pricelist_id'] = shop.pricelist_id.id
-            if shop.supplier_id.id:
-                v['supplier_id'] = shop.supplier_id.id
-            if shop.order_policy:
-                v['order_policy'] = shop.order_policy
-            if shop.warehouse_id:
-                v['warehouse_id'] = shop.warehouse_id.id
-            v['order_policy'] = shop.order_policy
-            v['supplier_id'] = shop.supplier_id.id
-
-        return {'value': v}
-
-    def onchange_shop_id2(self, cr, uid, ids, shop_id, partner_id=False, project_id=False):
-        res = self.onchange_shop_id(cr, uid, ids, shop_id)
-        if project_id:
-            res['value']['project_id'] = project_id
-        if not shop_id:
-            res['value']['pricelist_id'] = False
-            return res
-
-        if partner_id:
-            shop_obj = self.pool.get('sale.shop').browse(cr, uid, shop_id)
-            partner_obj = self.pool.get('res.partner').browse(cr, uid, partner_id)
-
-            if shop_obj.indirect_invoicing:
-                if partner_obj.property_product_pricelist_indirect_invoicing:
-                    res['value']['pricelist_id'] = partner_obj.property_product_pricelist_indirect_invoicing.id
-            else:
-                if partner_obj.property_product_pricelist:
-                    res['value']['pricelist_id'] = partner_obj.property_product_pricelist.id
-
-        return res
         for order in self:
             if order.state in ('cancel', 'draft'):
                 order.effective_date = False
+            else:
+                order.update_effective_date()
 
     @api.onchange('shop_id')
     def onchange_shop_id(self):
@@ -249,6 +197,7 @@ class SaleOrder(models.Model):
                 partner_obj.commercial_partner_id.property_product_pricelist.id
         return res
 
+<<<<<<< HEAD
     @api.model
     def create_and_confirm(self, vals):
         res = self.create(vals)
@@ -261,6 +210,17 @@ class SaleOrder(models.Model):
         _logger.info("APP. Respuesta ERROR!! create_and_confirm <%s> "
                          %(res))
         return False
+=======
+    @api.multi
+    def update_effective_date(self):
+        for order in self:
+            pickings = order.picking_ids.filtered(lambda r: r.state != 'cancel' and r.effective_date)
+            dates_list = pickings.mapped('effective_date')
+            min_date = dates_list and min(dates_list) or False
+            if order.effective_date != min_date:
+                order.effective_date = min_date
+
+>>>>>>> a004ec77d1c54dc56c0be448c8f038729252b9dc
 
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
