@@ -27,7 +27,7 @@ class MrpProductionWorkcenterLine(models.Model):
             if pl.registry_id:
                 raise exceptions.Warning(_("You cant cancel because one app \
                                             registry is linked"))
-        return super(MrpProductionWorkcenterLine, self).unlink()
+        return super(MrpProductionWorkcenterLine, self).action_cancel()
 
 
 class MrpWorkcenter(models.Model):
@@ -53,4 +53,4 @@ class MrpProduction(models.Model):
                     raise exceptions.Warning(_("You cant cancel because one app \
                                                 registry is linked"))
 
-        return super(MrpProductionWorkcenterLine, self).unlink()
+        return super(MrpProduction, self).action_cancel()
