@@ -8,7 +8,7 @@
             <field name="arch" type="xml">
                  <xpath expr="//field[@name='restrict_lot_id']" position="before">
                      <field name="move_id"/>
-                     <field name="package_ids"/>
+                     <!--field name="package_ids" widget="many2many_tags"/-->
                     <field name="restrict_package_id" groups="stock.group_production_lot"
                             context="{'default_product_id': product_id}"/>
                  </xpath>

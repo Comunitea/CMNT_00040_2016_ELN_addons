@@ -17,7 +17,7 @@ import { HomePage } from '../home/home';
 import { SlideopPage } from '../slideop/slideop';
 import { Storage } from '@ionic/storage';
 import { TreepickPage } from '../treepick/treepick'
-
+import  { LocationPage } from '../location/location'
 import { ComponentsModule } from '../../components/components.module'
 import { ProductProductComponent} from '../../components/product-product/product-product'
 import { StockPickingComponent} from '../../components/stock-picking/stock-picking'
@@ -62,6 +62,7 @@ export class TreeopsPage {
   model_fields = {'stock.quant.package': 'package_id', 'stock.location': 'location_id', 'stock.production.lot': 'lot_id'}
   whatOps: string
   aux: AuxProvider
+
   constructor(public navCtrl: NavController, public navParams: NavParams,  private formBuilder: FormBuilder,public alertCtrl: AlertController, private storage: Storage, private odoo: OdooProvider) {
     this.aux = new AuxProvider
     this.pick = {};
@@ -106,7 +107,9 @@ export class TreeopsPage {
     
      }
   goHome(){this.navCtrl.setRoot(TreepickPage, {borrar: true, login: null});}
-  
+  loadOp(id=0){
+
+  }
   loadList(id=0){
     this.cargar = true;
     var model = 'warehouse.app'
@@ -180,6 +183,9 @@ export class TreeopsPage {
     return filter_picks
 
   }
+  openLocation(id){
+    this.navCtrl.push(LocationPage, {location_id: id})
+  }
 
   openOp(op_id, op_id_index){
     this.navCtrl.push(SlideopPage, {op_id: op_id, index: op_id_index, ops: this.filter_picks()})
@@ -201,9 +207,7 @@ export class TreeopsPage {
       }
     }
     return false
-
   }
-
 
   getObjectId(values){
     var self = this;
@@ -252,6 +256,7 @@ export class TreeopsPage {
 
       
   doTransfer(id){
+    this.cargar = true;
     var self = this;
     var method = 'doTransfer'
     var values = {'id': id}
@@ -266,7 +271,8 @@ export class TreeopsPage {
     });
   }
   
-  doOp(id, do_id){
+  doOp(index, id, do_id){
+    
     var self = this;
     var model = 'stock.pack.operation'
     var method = 'doOp'
@@ -275,12 +281,16 @@ export class TreeopsPage {
     
     this.odoo.execute(model, method, values).then((value)=>{
       object_id = value;
-      self.cargar = false;
-      self.loadList()
+      let op = self.pick['pack_operation_ids'][index]
+      op['pda_done'] = true,
+      op['qty_done'] = op['product_qty']
+      //self.loadList()
     })
     .catch(() => {
-      this.presentAlert('Error!', 'No se pudo recuperar la lista de operaciones contra odoo');
+      this.presentAlert('Error!', 'Error al marcar la operacion como realizada');
     });
   }
+
+  
     
 }

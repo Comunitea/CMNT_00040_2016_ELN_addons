@@ -36,9 +36,10 @@ class StockTransferDetails(models.TransientModel):
 class StockPickingType(models.Model):
     _inherit = "stock.picking.type"
 
-    show_in_pda = fields.Boolean("Show in PDA")
-    short_name = fields.Char("Short name in PDA")
-    need_confirm = fields.Boolean("Need confirm in PDA")
+    show_in_pda = fields.Boolean("Show in PDA", help="If checked, this picking type will be shown in pda")
+    short_name = fields.Char("Short name in PDA", help="Short name to show in PDA")
+    need_confirm = fields.Boolean("Need confirm in PDA", help="If checked, this force to process with button after all requeriments done")
+    process_from_tree = fields.Boolean("Process from pda tree ops", help="If checked, allow to process op with default values from pick tree ops in pda")
 
 class StockPicking(models.Model):
     _inherit = "stock.picking"

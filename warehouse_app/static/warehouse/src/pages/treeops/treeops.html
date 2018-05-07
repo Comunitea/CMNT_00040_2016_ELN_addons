@@ -26,10 +26,9 @@
   <!--ion-item no-lines class='noPadding'>   show_in_PDA
     <ion-label class='noPadding' color="primary"> {{ pick.picking_type_id_name}} </ion-label>
   </ion-item-->
+  
   <ion-item-group>
-    
-    <ion-item no-lines *ngIf="cargar">   
-        
+    <ion-item no-lines *ngIf="!cargar">   
         <ion-badge item-end color='odoo' (click)="seeAll()">{{whatOps}}</ion-badge>
         <ion-badge item-end (click)="doTransfer(pick.id)" [hidden]='pick.state == "done" || pick.done_ops == 0' color='odoo'>Validar</ion-badge>
       
@@ -38,30 +37,33 @@
         <ion-badge item-end (click)="doAssign(pick.user_id.id)" [hidden]='pick.user_id' color='odoo'>Asignar(me)</ion-badge>
         <!--button ion-button item-end (click)="refresh(pick.id)">Refrescar</button-->
     </ion-item>
-    <ion-item no-lines>           
-        <ion-badge item-end color="light" (click)="open('stock.location', pick['location_id'] && pick['location_id'].id)">
+    <ion-item no-lines *ngIf="!cargar">   
+        <ion-badge item-end color="light" (click)="openLocation(pick.location_id && pick.location_id.id)">
           {{pick['location_id'] && pick.location_id.name}}
         </ion-badge>       
-        <ion-badge item-end color="light" (click)="open('stock.location', pick['location_dest_id'] && pick['location_dest_id'].id)">
+        <ion-badge item-end color="light" (click)="openLocation(pick.location_dest_id && pick.location_dest_id.id)">
           {{ pick['location_dest_id'] && pick.location_dest_id.name}}
         </ion-badge>          
         <ion-badge item-end color="primary">{{pick.state && pick.state.name}} </ion-badge>
-
-      </ion-item>
+    </ion-item>
   </ion-item-group> 
 </ion-header>
 
 <ion-content nopadding>
-    <ion-item no-lines><ion-label></ion-label></ion-item>
-    <div *ngIf="!pick" style="text-align: center" no-lines >    
-      <ion-spinner name="circles"></ion-spinner><br>
-      <b>Cargando...</b>
-    </div>
-
-  <ion-list *ngIf="pick" class="all0">
-      <stock-operation *ngFor="let item of pick.pack_operation_ids; trackBy: index;" [stock_operation]="item" [pick] = 'pick' [whatOps]="whatOps"
-          [hidden]="whatOps=='Pendientes' && item.pda_done || whatOps=='Realizadas' && !item.pda_done">
-      </stock-operation>
+  <div *ngIf="cargar" style="text-align: center" no-lines >    
+    <ion-spinner name="circles"></ion-spinner><br>
+    <b>Cargando...</b>
+  </div>
+  <ion-item-group>
+     <ion-item no-lines style="height: 50px"></ion-item>
+     <ion-item no-lines></ion-item>
+  </ion-item-group>  
+ 
+   
+  <ion-list *ngIf="pick && !cargar" class="all0">
+    <stock-operation *ngFor="let item of pick.pack_operation_ids; let i = index" [stock_operation]="item" [pick] = 'pick' [whatOps]="whatOps" (notify) = "doOp(i, item.id, $event)"
+        [hidden]="whatOps=='Pendientes' && item.pda_done || whatOps=='Realizadas' && !item.pda_done">
+    </stock-operation>
   </ion-list>
    
 

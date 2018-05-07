@@ -39,7 +39,13 @@ class StockPackOperation (models.Model):
         t_uom = self.env['product.uom']
         for op in self:
             #op.uos_id = op.move_lines.uos_id.id
-            op.uos_id = op.linked_move_operation_ids[0].move_id.product_uos
+
+            op.uos_id = op.linked_move_operation_ids and op.linked_move_operation_ids[0].move_id.product_uos or False
+            if op.uos_id:
+                if op.picking_id.picking_type_id.code == "incoming":
+                    op.uos_id = op.pda_product_id.uom_po_id
+                else:
+                    op.uos_id = op.pda_product_id.uos_id
             op.uos_qty = t_uom._compute_qty(op.product_uom_id.id, op.product_qty, op.uos_id.id)
 
 

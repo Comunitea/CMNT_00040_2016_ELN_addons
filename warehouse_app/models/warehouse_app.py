@@ -13,7 +13,7 @@ from openerp.exceptions import ValidationError
 SEARCH_OPTIONS = {'stock.quant.package': 'name',
                   'stock.production.lot': 'name',
                   'stock.location': 'loc_barcode',
-                  'product.product': 'barcode'}
+                  'product.product': 'ean13'}
 
 FIELD_NAME = {'stock.quant.package': 'name',
               'stock.production.lot': 'name',
@@ -43,7 +43,7 @@ INFO_FIELDS_M2O = {'stock.quant.package': ['id', 'name', 'location_id', 'package
                   'res.users':  ['id', 'name'],
                   'stock.pack.operation': ['id', 'display_name', 'package_id', 'result_package_id', 'lot_id', 'pda_product_id', 'pda_done', 'product_qty', 'qty_done', 'track_all', 'picking_id', 'location_id', 'location_dest_id', 'product_uom_id', 'need_confirm', 'uos_id', 'uos_qty'],
                   'stock.pack.operation.lot': ['id', 'display_name', 'lot_id', 'qty', 'qty_todo'],
-                  'stock.picking.type': ['id', 'name', 'show_in_pda', 'short_name', 'code', ],
+                  'stock.picking.type': ['id', 'name', 'show_in_pda', 'short_name', 'code', 'process_from_tree'],
                   'stock.picking': ['id', 'name', 'picking_type_id', 'user_id', 'min_date', 'state', 'location_id', 'location_dest_id', 'wave_id',  'remaining_ops', 'pack_operation_count', 'pack_operation_ids'],
                   'stock.picking.wave': ['id', 'name', 'picking_type_id', 'user_id', 'min_date', 'state', 'location_id', 'location_dest_id', 'remaining_ops', 'pack_operation_count', 'pack_operation_ids'],
                   'product.product': ['id', 'display_name', 'ean13', 'name', 'default_code', 'default_stock_location_id', 'track_all', 'uom_id']}
@@ -170,7 +170,6 @@ class WarehouseApp (models.Model):
             sub_model_id_values.append(sub_values)
         return sub_model_id_values
 
-
     @api.model
     def get_object_id(self, vals):
 
@@ -287,5 +286,27 @@ class WarehouseApp (models.Model):
                 res = {'model': model, 'id': 0, 'name': FIELD_NAME[model], 'message': 'No se ha encontrado un %s para %s'%(model, search_str)}
 
         print "Retorno %s"%res
+        return res
+
+    @api.model
+    def get_scanned_object_id(self, vals):
+        ##values = {'model': ['stock.quant.package', 'stock.production.lot', 'stock.location', 'product.product'],
+        ##          'search_str': this.barcodeForm.value['scan']};
+        res =  {'model': '', 'id': 0}
+        search_str = vals.get('search_str')
+        search_str.upper()
+        print vals
+        print search_str
+        models = vals.get('model', [])
+        for model in models:
+            field = SEARCH_OPTIONS.get(model, False)
+            if field:
+                domain = [(field, '=', search_str)]
+                object_id = self.env[model].search_read(domain, ['id'], limit=1)
+                if object_id:
+                    id = object_id[0]['id']
+                    res = {'model': model, 'id': id}
+                    print res
+                    return res
         return res
 

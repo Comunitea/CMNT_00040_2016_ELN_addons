@@ -7,61 +7,108 @@
 <ion-header>
 
     <ion-navbar>
-      <ion-title>LOT: {{item && item.display_name || "Cargando ..."}}</ion-title>
+      <ion-title>{{location && location.name || "Cargando ..."}}</ion-title>
+      <ion-buttons end>
+          
+            <!--button ion-button (click)="reorder_picks()">
+              <ion-icon name="git-compare"></ion-icon>
+            </button>
+          
+            <button ion-button (click)="goHome()">
+              <ion-icon name="home"></ion-icon>
+            </button-->
+            <ion-toggle item-end [(ngModel)]="cabecera" ></ion-toggle>
+          </ion-buttons>
+      
     </ion-navbar>
   
   </ion-header>
   <ion-content>
-      <div *ngIf="!cargar" style="text-align: center">    
+      <div *ngIf="cargar" style="text-align: center">    
         <ion-spinner name="circles"></ion-spinner><br>
         <b>Cargando...</b>
       </div>
-  
-      <ion-list *ngIf="cargar">
-        <ion-item-group> 
-          
-          <ion-item class="all0">
-              <ion-badge item-end class="ion-info w100" >
-                  {{item.product_id.display_name}}
-              </ion-badge>
-          </ion-item>
-          <ion-item class="all0">
-              <ion-label></ion-label>
-              <ion-badge item-end class="ion-info w50">
-                  QTY {{item.qty_available}} {{item.uom_id.name}}
-              </ion-badge>
-          </ion-item>
-          <ion-item class="all0">
-              <ion-label></ion-label>
-              <ion-badge item-end class="ion-info w33">
-                  CAD {{item.usage}}
-              </ion-badge>
-              <ion-badge item-end class="ion-info w33" >
-                  DEL {{item.removal_date}}
-              </ion-badge>
-              <ion-badge item-end class="ion-info w33" >
-                  DEL {{item.removal_date}}
-              </ion-badge>
-          </ion-item>
-        </ion-item-group>    
-  
-        <ion-item-group [hidden] = "!item['quant_ids']">
-          <ion-item  no-lines class="all0">
-              <ion-label></ion-label>
-              <ion-badge item-start color="odoolight" class="ion-info w50">LOTE </ion-badge>
-              <ion-badge item-start color="odoolight" class="ion-info w50">UBICACION </ion-badge>
-  
-          </ion-item>
-          <ion-item *ngFor="let subitem of item['quant_ids']; trackBy: index;" no-lines class="all0">
-            <ion-label></ion-label>
-            <ion-badge  item-start color="odoo" class="ion-info w50" (click)="open('lot', subitem['lot_id']['id'])">
-              {{subitem['display_name']}}
-            </ion-badge>
-            <ion-badge item-start color="white" class="ion-info w50" (click)="open('location', subitem['location_id']['id'])">
-              {{subitem['location_id']['name']}}
-            </ion-badge>
-          </ion-item>
+      
+      <ion-list *ngIf="!cargar">
+    
+        <ion-item-group [hidden]='cabecera'> 
+            <ion-item>
+                <ion-label>Código de barras</ion-label>
+                <ion-note item-end>{{location.loc_barcode}}</ion-note>
+            </ion-item>
+            <ion-item>
+                <ion-label>Estantería:</ion-label>
+                <ion-note item-end>{{location.rack_name}}</ion-note>
+            </ion-item>
+            <ion-item>
+                <ion-label>Tipo de uso:</ion-label>
+                <ion-note item-end>{{location.usage}}</ion-note>
+            </ion-item>
+            <ion-item>
+                <ion-label>Necesita validación:</ion-label>
+                <ion-toggle [(ngModel)]="location.need_check" ></ion-toggle>
+            </ion-item>
+            <ion-item>
+                <ion-label>Necesita paquete:</ion-label>
+                <ion-toggle [(ngModel)]="location.in_pack" ></ion-toggle>
+            </ion-item>
+            <ion-item>
+                <ion-label>Nº líneas:</ion-label>
+                    <ion-badge color="white" item-end class="w20" (click)="inputlineas()">
+                        {{limit}}
+                    </ion-badge> 
+                </ion-item> 
         </ion-item-group>
-              
+        
+        <!--h3>
+                {{type}} - {{limit}} - {{offset}} - {{location.count}}
+        </h3-->
+        <div id="stock" [hidden]='!cabecera'>
+
+            <ion-item no-lines>
+                <button ion-button class="w33" (click)="load_stock(id, 'stock')"> 
+                        Stock
+                </button>
+                <button ion-button class="w33" (click)="load_stock(id, 'package')"> 
+                        Paquetes
+                </button>
+                <button ion-button class="w33" (click)="load_stock(id, 'lot')"> 
+                        Lotes
+                </button>
+                    
+            </ion-item>
+            <ion-item no-lines>
+                <ion-icon class="w25 " name="skip-backward" item-start color="primary" (click)="load_stock(id, type, 0, 0)"></ion-icon>
+                <ion-icon class="w25" name="rewind" item-start color="primary" (click)="load_stock(id, type, offset, -limit)"></ion-icon>
+                <ion-icon class="w25" name="fastforward" item-start color="primary" (click)="load_stock(id, type, offset, limit)"></ion-icon>
+                <ion-icon class="w25" name="skip-forward" item-start color="primary" (click)="load_stock(id, type, 0 , 0, true)"></ion-icon>
+            </ion-item>
+            <!--button ion-button class="w33" [hidden]="!offset" (click)="load_stock(id,'', -limit)"> 
+                Anteriores
+            </button>
+            <button ion-button class="w33" [hidden]="location.cuenta <= limit" (click)="load_stock(id, '', limit)"> 
+                Siguientes
+            </button-->
+            <ion-item-group *ngFor="let item of stock;">  
+            <ion-item no-lines>
+                
+                    <ion-badge text-wrap item-end class="w75 p-product"> 
+                            {{ item.product_id }}
+                    </ion-badge>
+                    <ion-badge item-end text-wrap class="w20 b-qty">
+                        {{ item.qty }} {{item.uom_name}}
+                    </ion-badge>
+            </ion-item>
+            <ion-item>
+                    <ion-badge [hidden]="!item.package_name" text-wrap  item-end class="b-qty">    
+                        {{ item.package_name }}
+                    </ion-badge>
+                    <ion-badge [hidden]="!item.lot_name" text-wrap item-end class="b-qty">
+                        {{item.lot_name}}
+                    </ion-badge>
+                    
+            </ion-item>
+            </ion-item-group>
+        </div>
       </ion-list>
   </ion-content>

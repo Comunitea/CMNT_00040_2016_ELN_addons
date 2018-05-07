@@ -60,7 +60,6 @@ import { StockOperationComponent} from '../components/stock-operation/stock-oper
     PackagePage,
     ProductPage,
     SelectLotPage,
-    ProductProductComponent,
     StockPickingComponent,
     StockOperationComponent
   ],

@@ -12,5 +12,4 @@ import product_product
 import stock_quant_package
 import warehouse_app
 import ir_actions_report_xml
-import mrp_production
 import stock_move_consume

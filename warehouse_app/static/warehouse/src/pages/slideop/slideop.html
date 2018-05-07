@@ -49,7 +49,7 @@
         </ion-item>  
         <ion-item no-lines [hidden] = "!op.package_id">
           <ion-label class="l-op" >Pack:</ion-label>
-          <ion-badge item-end class="b-op w75" [ngClass]="{'badge_checked':op.package_id.checked === true}" click)="showPackage(op.pda_product_id.id, op.product_qty)" >
+          <ion-badge item-end class="b-op w75" [ngClass]="{'badge_checked':op.package_id.checked === true}" (click)="showPackage(op.pda_product_id.id, op.product_qty)" >
             {{ op['package_id']['name'] }}
           </ion-badge> 
         </ion-item>
@@ -93,6 +93,7 @@
             <ion-label color="dark">Op preparada</ion-label>
             <ion-toggle [(ngModel)]="op_ready" ></ion-toggle>
         </ion-item>
+        
         <ion-item *ngIf="advance">
             <ion-label color="dark">Realizada</ion-label>
             <ion-toggle [(ngModel)]="op.pda_done" ></ion-toggle>
@@ -104,6 +105,10 @@
         <ion-item *ngIf="advance && !op.pda_done">
             <ion-label color="dark">Resetear operacion</ion-label>
             <ion-icon name="repeat" item-end color="danger" (click)="resetForm()"></ion-icon>
+        </ion-item>
+        <ion-item *ngIf="advance">
+          <ion-label color="dark">Uom to 2º uos</ion-label>
+          <ion-note item-end>{{ uom_to_uos }}</ion-note>
         </ion-item>
       </ion-item-group>
       

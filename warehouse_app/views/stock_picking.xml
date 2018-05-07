@@ -62,6 +62,7 @@
                         <field name="show_in_pda"/>
                         <field name="short_name"/>
                         <field name="need_confirm"/>
+                        <field name="process_from_tree"/>
                     </group>
                 </xpath>
             </field>

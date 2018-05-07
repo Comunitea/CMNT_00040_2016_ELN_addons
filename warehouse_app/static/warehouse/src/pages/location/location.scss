@@ -1,3 +1,12 @@
 page-location {
-
+    .p-product{
+        color: white;
+        border: none; 
+        background-color: color($colors, operations);
+    }
+    .b-qty {
+        color:  color($colors, operations);
+        border: none; 
+        background-color: color($colors, odoolight);
+    }
 }

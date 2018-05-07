@@ -1,5 +1,5 @@
 
-import { Component, ViewChild, Input} from '@angular/core';
+import { Component, ViewChild, Input, Output, EventEmitter } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 /*import { PROXY } from '../../providers/constants/constants';*/
 import {FormBuilder, FormGroup } from '@angular/forms';
@@ -54,10 +54,14 @@ export class StockOperationComponent {
   @Input() stock_operation: PackOperation
   @Input() pick: Pick
   @Input() whatOps: String
+
+  @Output() notify: EventEmitter <Boolean> = new EventEmitter<Boolean>();
+
+  op_val: {'id': 0, 'do_op': false}
   pda_done: Boolean
   id: number
   product_id: {}
-
+  process_from_tree: Boolean
   constructor (private navCtrl:NavController){
 
   }
@@ -68,6 +72,7 @@ export class StockOperationComponent {
   initOperation(){
     this.pda_done = this.stock_operation.pda_done
     this.id = this.stock_operation.id
+    this.process_from_tree = this.pick['picking_type_id']['process_from_tree']
   }
    
   filter_picks(){
@@ -88,7 +93,9 @@ export class StockOperationComponent {
 
   }
 
-
+  doOp(do_id: Boolean){
+    this.notify.emit(do_id)
+  }
   openOp(op_id, op_id_index){
     this.navCtrl.push(SlideopPage, {op_id: this.id, index: this.stock_operation.index, ops: this.filter_picks()})
   }

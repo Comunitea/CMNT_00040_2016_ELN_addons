@@ -95,7 +95,7 @@ class StockLocation (models.Model):
     rotation = fields.Selection(INDEX_ROTATION, 'Rotation')
     in_pack = fields.Boolean('Must be in pack', default=False, help = "If checked, al quants in this location be in pack, so  ops and moves must have result_package_id")
     need_check = fields.Boolean("Need check", default=False, help="Need check in ")
-
+    rack_name = fields.Char(related='rack_id.name')
 
     @api.model
     def name_to_id(self, name):
@@ -112,3 +112,163 @@ class StockLocation (models.Model):
         rep_action = self.env["report"].get_action(self, rep_name)
         rep_action['data'] = custom_data
         return rep_action
+
+    @api.model
+    def get_barcode_id(self, vals):
+        barcode = vals.get('barcode', False)
+        if barcode:
+            domain=[('loc_barcode', '=', barcode)]
+            location_id = self.search_read(domain, ['id'], limit=1)
+            if location_id:
+                id = location_id[0]
+            return id
+        return False
+
+    @api.model
+    def get_pda_info(self, vals):
+        print vals
+        id = vals.get('id', False)
+        type = vals.get('type', 'stock') ##stock, lot, package
+        limit = vals.get('limit', 5)
+        offset = vals.get('offset', 0)
+        last = vals.get('last', False)
+        if not id:
+            return False
+        location_id = self.browse([vals.get('id', False)])
+        fields = ['id', 'name', 'usage', 'rotation', 'need_check','in_pack', 'rack_name', 'loc_barcode', 'picking_order']
+        location = {}
+        vals = {}
+        for field in fields:
+            location[field] = location_id[field]
+        location['rack_name'] = location_id.rack_id.name
+        if location['usage']=='customer':
+            location['count'] = 0
+            location['offset'] = 0
+            info = {'location': location, 'stock': []}
+            return info
+
+        if type == "stock":
+            fields = u'count(sq.id), min(sq.id), ' \
+                     u'sq.product_id as pp_id, ' \
+                     u'pp.default_code, ' \
+                     u'pp.name_template as product_id, ' \
+                     u'spl.id as lot_id, ' \
+                     u'spl.name as lot_name, ' \
+                     u'sqp.id as package_id, ' \
+                     u'sqp.name as package_name, ' \
+                     u'sum(qty) as qty, ' \
+                     u'pu.id as uom_id, ' \
+                     u'pu.name as uom_name'
+            _from = u' from stock_quant sq ' \
+                    u'join product_product pp on pp.id = sq.product_id ' \
+                    u'join product_template pt on pt.id = pp.product_tmpl_id ' \
+                    u'join product_uom pu on pu.id = pt.uom_id ' \
+                    u'left join stock_production_lot spl on spl.id = sq.lot_id ' \
+                    u'left join stock_quant_package sqp on sqp.id = sq.package_id '
+            _where = u'where sq.location_id = %s'%id
+            _group = u'group by sq.product_id, ' \
+                     u'pp.id, sq.lot_id, sq.package_id, ' \
+                     u'spl.name, sqp.name, spl.id, sqp.id, pu.id, pu.name' \
+                     u' order by pp.id '
+
+
+            if last:
+                fields2 = u'count (sq.id) '
+                sql2 = u"select %s" % fields2
+                sql2 = u'%s %s' % (sql2, _from)
+                sql2 = u'%s %s' % (sql2, _where)
+                sql2 = u'%s %s' % (sql2, _group)
+                self._cr.execute(sql2)
+                count_all = len(self._cr.fetchall())
+                offset = max(0, count_all - limit)
+
+
+
+
+            sql = u"select %s"%fields
+            sql = u'%s %s'%(sql, _from)
+            sql = u'%s %s' % (sql, _where)
+            sql = u'%s %s' % (sql, _group)
+
+            _limit = u' limit %s offset %s'%(limit, offset)
+            sql = u'%s %s' % (sql, _limit)
+            self._cr.execute(sql)
+
+
+            res_all = list(self._cr.fetchall())
+            res = []
+            for val in res_all:
+                vals = {
+                    #'pp_id': val[2],
+                    'default_code': val[3] or '',
+                    'product_id': val[4] or '',
+                    #'lot_id': val[5],
+                    'lot_name': val[6] or '',
+                    #'package_id': val[7],
+                    'package_name': val[8] or '',
+                    'qty': val[9],
+                    'uom_name': val[11]
+                }
+                res.append(vals)
+
+        elif type == "lot":
+
+            domain = [('location_id','=', id)]
+
+            sql = "select lot_id from stock_quant where location_id=%s and not lot_id isnull group by lot_id order by lot_id"%id
+            if last:
+                self._cr.execute(sql)
+                res_all = self._cr.fetchall()
+                offset = max(len(all) - limit, 0)
+            sql = "%s limit %s offset %s"%(sql, limit, offset)
+            self._cr.execute(sql)
+            res_all = self._cr.fetchall()
+            lot_ids = self.env['stock.production.lot'].browse([row[0] for row in res_all]) #search([('id', 'in', res_all)], limit=limit, offset=offset)
+            res = []
+            for lot in lot_ids:
+                #q_ids = lot.quant_ids.filtered(lambda x: x.location_id == location_id)
+                #package_ids = q_ids.filtered(lambda x:x.package_id).mapped('package_id')
+
+                vals = {
+                    #'pp_id': lot.product_id and lot.product_id.id,
+                    'default_code': lot.product_id and lot.product_id.default_code or '',
+                    'product_id': lot.product_id and lot.product_id.name_template,
+                    #'lot_id': lot.id,
+                    'lot_name': lot.name,
+                    #'package_id': package_ids[0].id if len(package_ids)==1 else False,
+                    'package_name': '',# package_ids[0].name if len(package_ids)==1 else package_ids.mapped('name') or '',
+                    'qty': lot.qty_available,
+                    'uom_name': lot.product_id and lot.product_id.uom_id.name
+                }
+                res.append(vals)
+        elif type == "package":
+            domain = [('location_id', '=', id)]
+            if last:
+                all = self.env['stock.quant.package'].search_read(domain, ['id'], order='name asc')
+                offset = max(len(all) - limit, 0)
+
+            package_ids = self.env['stock.quant.package'].search(domain, order='name asc', limit=limit, offset=offset)
+            res = []
+            for lot in package_ids:
+                vals = {
+                    #'pp_id': lot.product_id and lot.product_id.id,
+                    'default_code': lot.product_id and lot.product_id.default_code or '',
+                    'product_id': lot.product_id and lot.product_id.name_template,
+                    #'lot_id': lot.lot_id and lot.lot_id.id,
+                    'lot_name': lot.lot_id and lot.lot_id.name or '',
+                    #'package_id':lot.id,
+                    'package_name': lot.name,
+                    'qty': lot.package_qty,
+                    'uom_name': lot.product_id and lot.product_id.uom_id.name
+                }
+                res.append(vals)
+
+        location['count'] = len(res)
+        location['offset'] = offset
+        info = {'location': location, 'stock': res}
+        return info
+
+
+
+
+

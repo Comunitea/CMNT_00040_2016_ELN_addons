@@ -174,6 +174,9 @@ export class SlideopPage {
   convert_uos_to_uom(qty){
     return (qty*this.uom_to_uos).toFixed(2)
   }
+  convert_to_fix(qty){
+    return (qty*1).toFixed(2)
+  }
   cargarOp(id=0){ 
     if (id==0){
       return
@@ -864,10 +867,10 @@ submit (values){
   get_uom_uos_qtys(uos, qty: number){
     if (uos){
       this.op['qty_done'] =  this.convert_uos_to_uom(qty);
-      this.op['uos_qty_done'] = qty.toFixed(2);
+      this.op['uos_qty_done'] = this.convert_to_fix(qty);
     }
     else {
-      this.op['qty_done'] = qty.toFixed(2);
+      this.op['qty_done'] = this.convert_to_fix(qty);
       this.op['uos_qty_done'] = this.convert_uom_to_uos(qty);
     }
   }

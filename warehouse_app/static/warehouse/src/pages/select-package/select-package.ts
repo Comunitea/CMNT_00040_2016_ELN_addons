@@ -18,7 +18,7 @@ export class SelectPackagePage {
   op
   pack_ids
   cargar
-  constructor(public viewCtrl: ViewController, public toastCtrl: ToastController, public storage: Storage, public navParams: NavParams, public alertCtrl: AlertController) {
+  constructor(public viewCtrl: ViewController, public toastCtrl: ToastController, public navParams: NavParams, public alertCtrl: AlertController) {
 
     this.op = this.navParams.data.op;
     this.pack_ids =  this.navParams.data.pack_ids;
