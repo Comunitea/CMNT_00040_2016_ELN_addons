@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="view_move_picking_tree" model="ir.ui.view">
+            <field name="name">stock.move.tree</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock.view_move_picking_tree" />
+            <field name="arch" type="xml">
+              <field name='string_availability_info' position="after">
+
+                <field name="move_orig_id_str"/>
+                <field name="prereserved_availability"/>
+              </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>

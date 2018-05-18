@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+         <record id="view_stock_enter_transfer_details_warehouse_app" model="ir.ui.view">
+            <field name="name">Enter transfer details</field>
+            <field name="model">stock.transfer_details</field>
+            <field name="inherit_id" ref="stock.view_stock_enter_transfer_details"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='do_detailed_transfer']" position="before">
+                    <button name="do_detailed_transfer" string="_Apply Lots/packages" type="object" class="oe_highlight" context="{'no_transfer': True}"/>
+                </xpath>
+
+            </field>
+        </record>
+
+         <record id="view_picking_inherit_form_warehouse_app" model="ir.ui.view">
+            <field name="name">stock.picking.form.inherit</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <div class="oe_right oe_button_box" position="inside">
+                    <button class="oe_stat_button"
+                            name="run_asociated_procurements"
+                            icon="fa-credit-card"
+                            type="object"
+                            string="Run Procurements">
+                    </button>
+                </div>
+                <!--xpath expr="//button[@name='do_enter_transfer_details']" position="attributes">
+                    <attribute name="attrs">{'invisible': ['|', ('state', 'not in', ['assigned', 'partially_available']), ('cross_company','=', True)]}</attribute>
+                    <attribute name="attrs">{'states': ''}</attribute>
+                </xpath>
+                <xpath expr="//button[@name='do_enter_transfer_details']" position="after">
+                    <button name="chained_do_transfer"
+                            string="Transfer (Cross company)"
+                            groups="stock.group_stock_user" type="object" class="oe_highlight"
+                            attrs="{'invisible': ['|', ('state', 'not in', ['assigned', 'partially_available']), ('cross_company','=', False)]}"/>
+                </xpath-->
+                <xpath expr="//button[@name='do_enter_transfer_details']" position="after">
+                    <button name="do_transfer"
+                            string="PDA Transfer"
+                            groups="stock.group_stock_user" type="object" class="oe_highlight"
+                            attrs="{'invisible': [('state', 'not in', ['assigned', 'partially_available'])]}"/>
+                </xpath>
+                <xpath expr="//page[@string='Operations']" position="after">
+                    <page string="Cross company operations" attrs="{'invisible': [('cross_company','=',False)]}">
+                        <field name="cross_company" invisible="1"/>
+                        <!--field name="parent_company_id"/>
+                        <field name="picking_orig_ids" nolabel="1" attrs="{'invisible': [('parent_company_id','=',False)]}"/-->
+                        <field name="cross_pack_operation_ids">
+                            <tree editable="0">
+                                <field name="package_id" groups="stock.group_tracking_lot"/>
+                                <field name="product_id" />
+                                <field name="product_uom_id" groups="product.group_uom"/>
+                                <field name="lot_id" groups="stock.group_production_lot"/>
+                                <field name="picking_id"/>
+                                <field name="owner_id" groups="stock.group_tracking_owner"/>
+                                <field name="product_qty"/>
+                                <field name="qty_done"/>
+                                <field name="location_id"/>
+                                <field name="location_dest_id"/>
+                                <field name="result_package_id" groups="stock.group_tracking_lot"/>
+                            </tree>
+                        </field>
+                        <p class="oe_grey" groups="stock.group_tracking_lot">
+                        If there is no product but a source package, this means the source package was moved entirely.  If there is a product and a source package, the product was taken from the source package.
+                        </p>
+                    </page>
+                </xpath>
+        </field>
+        </record>
+         <record id="view_picking_type_form_chained_ops" model="ir.ui.view">
+            <field name="name">Picking Types</field>
+            <field name="model">stock.picking.type</field>
+            <field name="inherit_id" ref="stock.view_picking_type_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='warehouse_id']" position="after">
+                    <field name="cross_company"/>
+
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</openerp>
