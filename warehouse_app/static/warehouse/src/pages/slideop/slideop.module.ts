@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
-import { SlideopPage } from './slideop';
+//import { SlideopPage } from './slideop';
 
 @NgModule({
   declarations: [
-    SlideopPage,
+  //  SlideopPage,
   ],
   imports: [
-    IonicPageModule.forChild(SlideopPage),
+  //  IonicPageModule.forChild(SlideopPage),
   ],
 })
 export class SlideopPageModule {}

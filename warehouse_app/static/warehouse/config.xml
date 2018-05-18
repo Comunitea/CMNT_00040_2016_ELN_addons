@@ -85,5 +85,5 @@
     <plugin name="cordova-plugin-file" spec="^6.0.1" />
     <plugin name="cordova-plugin-nativeaudio" spec="^3.0.9" />
     <plugin name="cordova-plugin-app-preferences" spec="^0.99.3" />
-    <engine name="android" spec="^6.2.2" />
+    <engine name="android" spec="6.4.0" />
 </widget>

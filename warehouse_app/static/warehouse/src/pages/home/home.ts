@@ -17,11 +17,18 @@ export class HomePage {
 
     loginData = {password: '', username: ''};
     CONEXION = {
-        url: 'http://192.168.0.120',
+        url: 'http://elnapp.livingodoo.com/',
+        port: '8069',
+        db: 'elnapp',
+        username: 'pdav',
+        password: 'cmnt',
+	};
+	CONEXION2 = {
+        url: 'http://192.168.0.120/',
         port: '8069',
         db: 'pistola',
-        username: 'kiko_nogal',
-        password: 'kiko',
+        username: 'pdav',
+        password: 'cmnt',
     };
     cargar = true;
     mensaje = '';
@@ -97,7 +104,7 @@ export class HomePage {
 				}})
 			.catch(() => {
 				this.cargar = false;
-				this.presentAlert('Error!', 'No se pudo recuperar el usuario odoo');
+				this.presentAlert('Error!', 'No se pudo 1 el usuario odoo');
 			});	
 		})
 		.catch(() => {

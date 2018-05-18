@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
-import { TreepickPage } from './treepick';
+// import { TreepickPage } from './treepick';
 
 @NgModule({
   declarations: [
-    TreepickPage,
+  //  TreepickPage,
   ],
   imports: [
-    IonicPageModule.forChild(TreepickPage),
+  //  IonicPageModule.forChild(TreepickPage),
   ],
 })
 export class TreepickPageModule {}

@@ -34,6 +34,7 @@ class StockPicking(models.Model):
     allow_validate = fields.Boolean("Permitir validar", compute="_compute_allow_validate")
     pda_op_ids = fields.One2many('stock.pack.operation', compute = "get_pda_operation")
     show_in_pda = fields.Boolean(related='picking_type_id.show_in_pda')
+
     @api.multi
     def confirm_pda_done(self, transfer=False):
         for pick in self.filtered(lambda x:x.state2 in ('process', 'assigned')):
@@ -137,6 +138,7 @@ class StockPicking(models.Model):
             pick.pda_op_ids = [(6, 0, pick[pick.cross_company_field_ops].ids)]
 
 
+
     @api.model
     def pda_do_transfer(self, vals):
         id = vals.get('id', False)
@@ -161,3 +163,28 @@ class StockPicking(models.Model):
             pick.do_transfer()
             return True
         return False
+
+    @api.model
+    def pda_do_assign(self, vals):
+        id = vals.get('id', False)
+        action = vals.get('action', False)
+        if action:
+            user_id = self.env.user.id
+        else:
+            user_id = False
+
+        return self.browse([id]).write({'user_id': user_id})
+
+
+    @api.model
+    def pda_do_prepare_partial(self, vals):
+        id = vals.get('id', False)
+        ctx = self._context.copy()
+        pick_sudo = self.sudo().browse([id])
+        company_id = pick_sudo.company_id.id
+        ctx.update(force_company=company_id)
+        pick = self.with_context(ctx).browse([id])
+        pick.action_assign()
+        if pick.state in ('assigned', 'partially_available'):
+            pick.do_prepare_partial()
+        return True

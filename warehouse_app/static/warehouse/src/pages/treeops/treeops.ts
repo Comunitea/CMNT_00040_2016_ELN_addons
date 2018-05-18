@@ -184,6 +184,7 @@ export class TreeopsPage {
 
   }
   openLocation(id){
+    return
     this.navCtrl.push(LocationPage, {location_id: id})
   }
 
@@ -226,17 +227,18 @@ export class TreeopsPage {
   }
 
 
-  doAssign(user_id){
+  doAssign(id, do_assign){
     this.cargar = true;
     var self = this;
     var object_id = {}
-    var values = {'user_id': user_id}
+    var values = {'id': id, 'action': do_assign}
     
-    var method = 'doAssign'
+    var method = 'pda_do_assign'
     this.odoo.execute(this.model, method, values).then((value)=>{
       if (value){
-        if (user_id){
+        if (value){
           this.aux.filter_user='Assigned';
+          this.loadList()
         }
         else {
           this.aux.filter_user=''
@@ -253,7 +255,23 @@ export class TreeopsPage {
     });
 
   }
-
+     
+  doPreparePartial(id){
+    var model = 'stock.picking'
+    var method = 'pda_do_prepare_partial'
+    var values = {'id': id}
+    this.odoo.execute(model, method, values).then((value)=>{
+      if (value) {
+        this.loadList()
+      }
+      else {
+        this.presentAlert('Error!', 'No se ha podido preparar el albarán');
+      }
+    })
+    .catch(() => {
+      this.presentAlert('Error!', 'No se pudo preparar el albarán')
+    });
+}
       
   doTransfer(id){
     this.cargar = true;

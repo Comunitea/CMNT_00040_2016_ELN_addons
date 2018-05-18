@@ -90,15 +90,17 @@
             <ion-label color="dark">Avanzado</ion-label>
             <ion-toggle [(ngModel)]="advance" ></ion-toggle>
         </ion-item>
-        
+        <ion-item *ngIf="advance">
+          <ion-label color="dark">Realizada</ion-label>
+          <ion-toggle [(ngModel)]="op.pda_done" ></ion-toggle>
+        </ion-item> 
+        <ion-item *ngIf="advance">
+          <ion-label color="dark">Uom to 2º uos</ion-label>
+          <ion-note item-end> {{ uom_to_uos }} </ion-note>
+        </ion-item>
         <ion-item *ngIf="advance && !op.pda_done">
             <ion-label color="dark">Op preparada</ion-label>
-            <ion-toggle [(ngModel)]="op_ready" ></ion-toggle>
-        </ion-item>
-        
-        <ion-item *ngIf="advance">
-            <ion-label color="dark">Realizada</ion-label>
-            <ion-toggle [(ngModel)]="op.pda_done" ></ion-toggle>
+            <ion-toggle [(ngModel)]="op_ready"></ion-toggle>
         </ion-item>
         <ion-item *ngIf="advance && !op.pda_done">
             <ion-label color="dark">Automatica</ion-label>
@@ -108,10 +110,7 @@
             <ion-label color="dark">Resetear operacion</ion-label>
             <ion-icon name="repeat" item-end color="danger" (click)="resetForm()"></ion-icon>
         </ion-item>
-        <ion-item *ngIf="advance">
-          <ion-label color="dark">Uom to 2º uos</ion-label>
-          <ion-note item-end>{{ uom_to_uos }}</ion-note>
-        </ion-item>
+        
       </ion-item-group>
       
       <ion-item no-lines>

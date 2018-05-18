@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
-import { TreeopsPage } from './treeops';
+//import { TreeopsPage } from './treeops';
 
 
 @NgModule({
   declarations: [
-    TreeopsPage,
+  //  TreeopsPage,
   ],
   imports: [
-    IonicPageModule.forChild(TreeopsPage),
+  //  IonicPageModule.forChild(TreeopsPage),
   ],
 })
 export class TreeopsPageModule {}

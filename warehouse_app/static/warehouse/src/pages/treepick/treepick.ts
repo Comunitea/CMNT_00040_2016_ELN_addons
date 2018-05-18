@@ -192,7 +192,7 @@ export class TreepickPage {
       this.error_odoo('get_picking_types')
     });	
   }
-    
+ 
   doTransfer(id){
     var model = 'stock.picking'
     var method = 'doTransfer'

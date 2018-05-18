@@ -21,7 +21,7 @@ export class AuxProvider {
   uom_id: Boolean = true
   constructor() {
     
-    this.pick_states_visible = ['partially_available', 'assigned', 'in_progress']
+    this.pick_states_visible = ['confirmed', 'partially_available', 'assigned', 'in_progress']
     this.auto = true
     this.filter_user = 'assigned'
     this.picking_types = []
