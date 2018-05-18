@@ -26,11 +26,19 @@ class StockPicking(models.Model):
                     pick2process_ids.add(next_move.picking_id.id)
 
         pick2process_ids = list(pick2process_ids)
+        """
+        Evito sudo y hago sudo usuario y con force company
+        """
         for pick_id in pick2process_ids:
             pick = self.sudo().browse(pick_id)  # Because of multicompany
-            if self.env['res.users'].browse(self._uid).company_id.id ==\
+            ctx = self._context.copy()
+            ctx.update(force_company=pick.company_id.id)
+            if self.env['res.users'].browse(self._uid).company_id.id !=\
                     pick.company_id.id:
-                pick = self.browse(pick_id)  # same company
+                user_id = pick.ic_user_id.id
+                pick = self.sudo(user_id).with_context(ctx).browse(pick_id)  # same company
+            else:
+                pick.browse(pick_id)
             pick.do_prepare_partial()
             if pick.state != 'done':
                 pick.do_transfer()
