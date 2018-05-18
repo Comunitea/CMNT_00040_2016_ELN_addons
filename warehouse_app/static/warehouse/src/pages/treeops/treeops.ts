@@ -185,7 +185,7 @@ export class TreeopsPage {
   }
   openLocation(id){
     return
-    this.navCtrl.push(LocationPage, {location_id: id})
+    //this.navCtrl.push(LocationPage, {location_id: id})
   }
 
   openOp(op_id, op_id_index){
