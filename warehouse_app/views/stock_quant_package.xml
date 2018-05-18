@@ -38,6 +38,7 @@
             <field name="arch" type="xml">
                 <field name="ref" position="after">
                     <field name="location_id" />
+                    <field name="virtual_available" />
                 </field>
             </field>
         </record>

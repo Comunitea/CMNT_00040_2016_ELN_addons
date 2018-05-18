@@ -36,7 +36,6 @@ class ProductProduct(models.Model):
 
     @api.multi
     def print_barcode_tag_report(self):
-        #import ipdb; ipdb.set_trace()
         self.ensure_one()
         custom_data = {
             'product_id': self.id,

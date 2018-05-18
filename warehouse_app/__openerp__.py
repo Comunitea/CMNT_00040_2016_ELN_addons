@@ -14,7 +14,7 @@
     "depends": [
         "stock", 
         "stock_picking_wave",
-        "base_report_to_printer"
+        "chained_transit_operations"
     ],
     "data": [
         'views/stock_picking.xml',

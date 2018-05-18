@@ -12,6 +12,7 @@ class StockPickingWave(models.Model):
 
     @api.model
     def _compute_ops(self):
+
         self.pack_operation_ids = self.picking_ids.mapped('pack_operation_ids')
         
 
@@ -19,25 +20,11 @@ class StockPickingWave(models.Model):
     @api.depends('picking_ids', 'picking_ids.pack_operation_ids')
     def _compute_fields(self):
         if self.picking_ids:
-            #self.picking_type_id = self.picking_ids[0].picking_type_id if all(
-            #    x.picking_type_id == self.picking_ids[0].picking_type_id for x in
-            #    self.picking_ids) else False
-            #self.pack_operation_exist = True if len(self.pack_operation_ids)>0 else False
-            #self.pack_operation_ids = self.picking_ids.mapped('pack_operation_ids')
+
             self.pack_operation_count = sum(x.pack_operation_count for x in self.picking_ids)
             self.remaining_ops = sum(x.remaining_ops for x in self.picking_ids)
             self.min_date = min(x.min_date for x in self.picking_ids)
             self.pack_operation_exists = self.pack_operation_count and True
-            #self.location_id = self.picking_ids[0].location_id if all(
-            #    x.location_id == self.picking_ids[0].location_id for x in
-            #    self.picking_ids) else self.picking_type_id.default_location_src_id
-            #self.location_dest_id = self.picking_ids[0].location_dest_id if all(
-            #    x.location_dest_id == self.picking_ids[0].location_dest_id for x in
-            #    self.picking_ids) else self.picking_type_id.default_location_dest_id
-            #import ipdb; ipdb.set_trace()
-            #self.priority = self.mapped('picking_ids').mapped('move_lines') and max(
-            #    self.mapped('picking_ids').mapped('move_lines').mapped('priority')) or '1'
-
 
     @api.multi
     def send_wave_to_pda(self):
@@ -50,7 +37,7 @@ class StockPickingWave(models.Model):
 
 
     pack_operation_ids = fields.One2many(
-        'stock.pack.operation', string='Related Packing Operations', compute="_compute_ops")
+        'stock.pack.operation', string='Related Packing Operations', compute="_compute_ops", compute_sudo=True)
     picking_type_id = fields.Many2one('stock.picking.type', 'Picking type')
     min_date = fields.Datetime('Scheduled Date',
                                help="Scheduled time for the first scheduled date in asociated picking",
@@ -60,13 +47,7 @@ class StockPickingWave(models.Model):
     pack_operation_count = fields.Integer('Total ops', compute="_compute_fields", store=True)
     remaining_ops = fields.Integer('Remaining ops', compute="_compute_fields", store=True)
     pack_operation_exist = fields.Boolean("Have pack operation", compute="_compute_fields", store=True)
-
-    #priority = fields.Selection(procurement.PROCUREMENT_PRIORITIES,
-    #                            string='Priority', compute='_compute_priority',
-    #                            store=True, index=True,
-    #                            help="Priority for this picking. Setting manually a value here would set it as priority for all the moves")
-    #state = fields.Selection(selection_add=[('assigned', 'PDA Ready')])
-    
+    show_in_pda = fields.Boolean(related="picking_type_id.show_in_pda")
     wave_id = fields.Many2one(
         'stock.picking.wave', string='Picking Wave',
         states={'done': [('readonly', True)]},

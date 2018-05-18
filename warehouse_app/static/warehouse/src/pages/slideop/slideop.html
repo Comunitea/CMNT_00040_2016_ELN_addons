@@ -58,7 +58,9 @@
         <ion-badge item-end class="b-op w75"  [hidden] = "!op.lot_id && !op.package_id"  [ngClass]="{'badge_checked':op.lot_id.checked === true}" (click)="showSerial(op.pda_product_id.id, op.product_qty)" >
           {{ op.lot_id.name }}
         </ion-badge>
-
+        <ion-badge item-end class="b-op w75"  [hidden] = "op.lot_id" [ngClass]="{'badge_checked':op.lot_id.checked === true}" (click)="showSerial(op.pda_product_id.id, op.product_qty)" >
+            Buscar ...
+          </ion-badge>
       </ion-item>
       <ion-item no-lines>
         <ion-label class="l-op" >Origen:</ion-label>

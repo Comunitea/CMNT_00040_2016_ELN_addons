@@ -231,7 +231,7 @@ export class SlideopPage {
       {
         if (!data) {return}
         if (!dest){
-          if (data['new_pack_id'] = this.op['package_id']['id']){
+          if (data['new_pack_id'] == this.op['package_id']['id']){
             this.op['package_id']['checked'] = true
             this.op['lot_id']['checked'] = true
             this.op['location_id']['checked'] = true
@@ -242,7 +242,7 @@ export class SlideopPage {
            }
           }
         else {
-          if (data['new_pack_id'] = this.op['result_package_id']['id']){
+          if (data['new_pack_id'] == this.op['result_package_id']['id']){
             this.op['result_package_id']['checked'] = true
             this.op['location_dest_id']['checked'] = true
             this.get_op_ready()
@@ -272,15 +272,17 @@ export class SlideopPage {
       let myModal = this.modalCtrl.create(SelectLotPage, {'op': this.op, 'lot_ids': lot_ids}); 
       myModal.present();
       myModal.onDidDismiss(data => 
-        {
+        { 
           if (data) {
-            if (data['new_lot_id'] = this.op['lot_id']['id']){
+            let new_lot_id = data['new_lot_id']
+            if (new_lot_id == this.op['lot_id']['id']){
               this.op['lot_id']['checked']=true
               this.op['location_id']['checked']=true
               this.get_op_ready()
             }
             else {
-              this.change_lot(data['new_lot_id'])
+              console.log(new_lot_id)
+              this.change_lot(new_lot_id)
             }
         }
         
@@ -320,8 +322,9 @@ export class SlideopPage {
   change_lot(new_lot_id){
     this.cargar = true
     var model = 'stock.pack.operation'
-    var method = 'change_lot'  
+    var method = 'pda_change_lot'  
     var values = {'lot_id': new_lot_id, 'id': this.op_id}
+    console.log(values)
     this.odoo.execute(this.model, method, values).then((res)=>{
       if (res) {
         if (res['id'] != 0){

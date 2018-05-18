@@ -65,8 +65,6 @@ export class TreepickPage {
   }
   get_waves(domain){
     this.cargar = true
-    
-    
     console.log(domain)
     this.odoo.searchRead('stock.picking.wave', domain, this.fields, 0, 0).then((value) =>{
       if (value) {
@@ -91,7 +89,7 @@ export class TreepickPage {
     
     this.cargar = true
     this.picks=[];
-    var domain = [];
+    let domain = [['show_in_pda', '=', true]];
     //domain.push(['pack_operation_exist', '!=', false])
 
     if (this.domain_state!=[]) {domain.push(this.domain_state);}

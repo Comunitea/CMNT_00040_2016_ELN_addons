@@ -18,7 +18,7 @@ import { SlideopPage } from '../slideop/slideop';
 import { Storage } from '@ionic/storage';
 import { TreepickPage } from '../treepick/treepick'
 import  { LocationPage } from '../location/location'
-import { ComponentsModule } from '../../components/components.module'
+//import { ComponentsModule } from '../../components/components.module'
 import { ProductProductComponent} from '../../components/product-product/product-product'
 import { StockPickingComponent} from '../../components/stock-picking/stock-picking'
 import { StockOperationComponent} from '../../components/stock-operation/stock-operation'
@@ -258,7 +258,7 @@ export class TreeopsPage {
   doTransfer(id){
     this.cargar = true;
     var self = this;
-    var method = 'doTransfer'
+    var method = 'pda_do_transfer'
     var values = {'id': id}
     var object_id = {}
     this.cargar = true;

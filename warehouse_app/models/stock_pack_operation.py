@@ -18,10 +18,7 @@ class StockPackOperation (models.Model):
         for op in self:
             op.pda_product_id = op.product_id or op.package_id.product_id or op.lot_id.product_id
             op.total_qty = op.product_id and op.product_qty or op.package_id and op.package_id.package_qty
-            
 
-
-    
     picking_order = fields.Integer("Picking order")
     pda_product_id = fields.Many2one('product.product', compute = get_app_names, multi=True)
     pda_done = fields.Boolean ('Pda done', help='True if done from PDA', default=False, copy=False)
@@ -160,8 +157,6 @@ class StockPackOperation (models.Model):
 
     @api.model
     def create_new_op_from_pda(self, quant_tupple, result_package_id = False):
-        import ipdb; ipdb.set_trace()
-
         quant = quant_tupple[0]
         product_qty = quant_tupple[1]
         if product_qty==0:
@@ -367,15 +362,32 @@ class StockPackOperation (models.Model):
 
     @api.model
     def pda_change_lot(self, values):
-        lot_id = values.get('lot_id')
-        op_id = values.get('id')
 
-        lot = self.env['stock.production.lot'].search_read([('id','=', lot_id)], ['location_id'])
-        if op_id and lot and lot[0]['location_id']:
-            values = {'lot_id': lot_id, 'location_id': lot[0]['location_id'][0], 'pda_done': False, 'qty_done': 0.00}
-            self.browse(op_id).write(values)
-            return op_id
-        return False
+        lot_id = values.get('lot_id', False)
+        op_id = values.get('id', False)
+        force_qty = values.get('force_qty', False)
+        op = self.env['stock.pack.operation'].browse(op_id)
+        if not op:
+            return {'result': False, 'message': "No se ha encontrado la operación"}
+        if op.pda_done:
+            return {'result': False, 'message': "La operación ya está realizada"}
+        lot = self.env['stock.production.lot'].search_read([('id','=', lot_id)], ['location_id', 'qty_available', 'virtual_available'])
+
+        if not lot:
+            return {'result': False, 'message': "No se ha encontrado el lote o es no tiene cantidad"}
+        lot = lot[0]
+        if not force_qty and (lot['virtual_available'] < op.product_qty or lot['qty_available'] <= 0.00):
+            return {'result': False, 'message': "No hay cantidad suficiente en el lote o está vacío"}
+
+        values = {'lot_id': lot_id,
+                  'pda_done': False,
+                  'qty_done': 0.00}
+        if lot['location_id'][0] and op.location_id.id != lot['location_id'][0]:
+            values['location_id'] = lot['location_id'][0]
+
+        self.browse(op_id).write(values)
+        return op_id
+
 
 
     @api.model
@@ -383,7 +395,7 @@ class StockPackOperation (models.Model):
 
         package_id = values.get('package_id')
         op_id = values.get('id', 0)
-        op = self.env['stock.quant.operation'].browse(op_id)
+        op = self.env['stock.pack.operation'].browse(op_id)
         package = self.env['stock.quant.package'].search_read([('id', '=', package_id)],
                                                               ['product_id', 'location_id', 'lot_id', 'qty',
                                                                'package_qty'])
@@ -392,8 +404,8 @@ class StockPackOperation (models.Model):
 
         if op.pda_done:
             return {'result': False, 'message': "La operación ya está realizada"}
-
-        package = package and package[0]
+        if package:
+            package = package and package[0]
 
         if not package or package.multi:
             return {'result': False, 'message': "No se ha encontrado el paquete o es multiproducto"}
