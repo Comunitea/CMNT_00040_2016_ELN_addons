@@ -88,6 +88,8 @@ class StockMove(models.Model):
     availability = fields.Float(string='Quantity Available', readonly=True, compute="_get_product_availability",
                                     help='Quantity in stock that can still be reserved for this move')
     ic_user_id = fields.Many2one(related="company_id.intercompany_user_id")
+
+
     def get_prev_moves(self):
         return self.filtered(lambda x:x.procure_method == 'make_to_order'
                                and not x.move_dest_id
@@ -99,6 +101,7 @@ class StockMove(models.Model):
 
     @api.multi
     def act_prev_chained_moves(self):
+        ##NO SE USA
         for move in self.get_prev_moves().filtered(lambda x: x.state in ('assigned')):
             lot_id = move.linked_move_operation_ids.mapped('lot_id')
             package_id = move.linked_move_operation_ids.mapped('package_id')
@@ -116,6 +119,7 @@ class StockMove(models.Model):
 
     @api.model
     def get_state_from_pre_move(self, state=False):
+
         print self.sudo().move_orig_id.picking_id.name
         prev_state = state or self.move_orig_id and self.sudo().move_orig_id.state or False
         if prev_state in ('partially_available', 'confirmed'):

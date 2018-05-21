@@ -36,14 +36,14 @@ import { AppSoundProvider } from '../providers/app-sound/app-sound'
 export class MyApp {
 
   @ViewChild(Nav) nav: Nav;
-  
+
   rootPage:any = HomePage;
   pages: Array<{title: string, component: any, param: string}>;
 
-  ops_filter = "Todas"/*o pendientes*/ 
+  ops_filter = "Todas"/*o pendientes*/
 
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, public auxProvider: AuxProvider ) {
-    
+
     this.initializeApp();
     this.pages = [
       { title: 'Mis trabajos', component: HomePage , param: 'assigned'},
@@ -55,7 +55,7 @@ export class MyApp {
     ]
     }
 
-    initializeApp(){  
+    initializeApp(){
     this.platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
@@ -70,8 +70,8 @@ export class MyApp {
     if (page.param=='assigned') {this.auxProvider.filter_user = 'assigned';}
     if (page.param=='no_assigned') {this.auxProvider.filter_user = 'no_assigned';}
     this.nav.setRoot(page.component, {filter_user: page.param}) ;
-    
+
   }
-  
+
 }
 

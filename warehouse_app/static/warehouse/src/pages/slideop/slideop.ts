@@ -260,6 +260,7 @@ export class SlideopPage {
   
   showSerial(product_id, qty){
     if (this.op['pda_done']){return}
+    this.cargar = true
     var method = 'get_available_lot'
     var values = {'product_id': product_id, 'qty': qty, 'op_id': this.op_id}
     var object_id;
@@ -279,13 +280,14 @@ export class SlideopPage {
               this.op['lot_id']['checked']=true
               this.op['location_id']['checked']=true
               this.get_op_ready()
+              this.cargar = false   
             }
             else {
               console.log(new_lot_id)
               this.change_lot(new_lot_id)
             }
+         
         }
-        
       })
     })
     .catch(() => {
@@ -344,44 +346,6 @@ export class SlideopPage {
     });
   }
 
-  
-  /*
-  cargarOP2(){
-    
-    var self = this;
-    var last_id = self.op['id']
-    var qty_done = self.op_selected['qty_done']
-    var last_picking_id = self.op['picking_id']
-    self.resetOPValues();
-    
-    
-    odoo.search_read(self.model, self.domain, self.op_fields, 0, 0).then(
-                function (value) {
-                  //self.resetValues()
-                  self.op = value[0];
-                  if (self.op['id'] == last_id){
-                    self.op['qty_done'] = qty_done
-                  } else {
-                    self.op['qty_done'] = self.op['product_qty']
-                  }
-                  
-                  if (self.op['picking_id'] != last_picking_id){
-                    self.cargarPick()
-                  }
-
-                  self.cargar = false;
-                  if (self.op['result_package_id']){
-                    self.result_package_id = 0;
-                    self.op_selected['result_package_id'] = self.op['result_package_id'];
-                  }
-                },
-                function () {
-                  self.cargar = false;
-                  self.presentAlert('Error !', 'Se ha producido un error al recargar la operacion');
-                }
-                );
-        }
-  */
 
   presentAlert(titulo, texto) {
     const alert = this.alertCtrl.create({
@@ -485,215 +449,6 @@ badge_checked(object){
   object.checked = !object.checked
   this.get_op_ready()
 }
-/*
-submit (values){
-  if (this.check_changes()){return}
-  var self = this
-  var model = 'warehouse.app'
-  var method = 'get_object_id'
-  var confirm = false
-  self.storage.get('CONEXION').then((val) => {
-    if (val == null) {
-      console.log('No hay conexión');
-      self.navCtrl.setRoot(HomePage, {borrar: true, login: null});
-    } else {
-        console.log('Hay conexión');
-        var con = val;
-        var odoo = new OdooApi(con.url, con.db);
-        odoo.login(con.username, con.password).then(
-          function (uid) {
-            odoo.call(model, method, values).then(
-              function (value) {
-                var lot_id = self.get_id(self.op['lot_id'])
-                var package_id = self.get_id(self.op['package_id'])
-                var result_package_id = self.get_id(self.op['result_package_id'])
-                var location_id = self.get_id(self.op['location_id'])
-                var location_dest_id = self.get_id(self.op['location_dest_id'])
-                //AQUI DECIDO QUE HACER EN FUNCION DE LO QUE RECIBO
-                confirm = self.reconfirm || (self.last_read==value.id)
-                self.last_read = value.id
-                if (self.state==0) {
-                    // CASO 0.LOTE. LOTE SELECCIONADO
-                  if (value.model == 'stock.production.lot' && self.lot_id_change == 0 && value.id == lot_id){
-                      self.op_selected['lot_id'] = value.id;
-                      
-                  }
-                  // CASO 0.LOTE.. CAMBIO LOTE
-                  else if (value.model == 'stock.production.lot' && self.lot_id_change == 0 && value.id != lot_id ){
-                    self.lot_id_change == value.id;
-                    self.presentToast('Cambiando lote. Repite scan para confirmar');
-                  }
-                  // CASO 0.LOTE.. CAMBIO LOTE ONFIRMADO/CANCELADO
-                  else if (value.model == 'stock.production.lot' && self.lot_id_change != 0){
-                    if (value.id != self.lot_id_change) {
-                      self.op_selected['lot_id'] = value.id;
-                      self.presentToast('Lote cambiado');
-                      self.lot_id_change = 0;
-                    }
-                    else {
-                      self.lot_id_change = 0;
-                      self.presentToast('Cancelado el cambio de lote')}
-                  }
-
-
-                  //CASO 0. PAQUETE. CONFIRMADO
-                  else if (value.model == 'stock.quant.package' && value.id == package_id) {
-                    self.package_id_change = 0;
-                    self.op_selected['lot_id'] = self.op['lot_id']
-                    self.op_selected['package_id'] = value.id;  
-                    self.op_selected['location_id'] = self.op['location_id']                    
-                  }
-                  //CASO 0. PAQUETE. CAMBIO
-                  else if (value.model == 'stock.quant.package' && self.package_id_change == 0 && value.id != package_id) {
-                    self.package_id_change = value.id;
-                    self.op_selected['lot_id'] = 0;
-                    self.op_selected['package_id'] = 0;                      
-                  }
-                  //CASO 0. PAQUETE. CAMBIO CONFIRMADO
-                  else if (value.model == 'stock.quant.package' && self.package_id_change == value.id) {
-                    self.cargar = true;
-                    self.package_id_change = value.id;
-                    self.change_op_value(self.op_id, 'package_id', value.id);
-                    // Reiniciamos la configuración completa  ...
-                  }
-                  //CASO 0. PAQUETE. CAMBIO CANCELADO/NUEVO CAMBIO
-                  else if (value.model == 'stock.quant.package' && self.package_id_change != 0 && self.package_id_change != value.id){
-                    if (value.id==self.op['package_id']){
-                      self.package_id_change = 0;
-                      self.op_selected['lot_id'] = self.op['lot_id']
-                      self.op_selected['location_id'] = self.op['location_id']
-                      self.presentToast('Cancelado cambio de paquete')
-                    }
-                    else {
-                      self.package_id_change = value.id;
-                      self.presentToast('Nuevo cambio de paquete.  Repite scan para confirmar')
-                    }
-
-                  }
-                    
-                  // SI HAY PAQUETE SE IGNORA
-                  // CASO 0. UBICACION. CONFIRMADA
-
-                  else if (value.model == 'stock.location' && value.id == location_id && self.location_id_change == 0){
-                    self.op_selected ['location_id'] = value.id;
-                  }
-
-                  // CASO 3. CAMIO DE UBICACION
-                  else if (value.model == 'stock.location' && package_id == false && self.location_id_change == 0 && value.id != location_id) {
-                    self.location_id_change = value.id;
-                    self.presentToast('Cambio de ubicación de origen. Repite scan para confirmar')
-
-                  }
-
-                  else if (value.model == 'stock.location' && self.location_id_change != 0){
-                    if (self.location_id_change == value.id) {
-                      self.cargar = true;
-                    self.presentToast('Cambio de ubicación de origen confirmado');
-                    self.change_op_value(self.op_id, 'location_id', value.id);
-                    self.location_id_change = 0;}
-                    else {
-                      self.presentToast('Cambio de ubicación de origen cancelado');
-                      self.location_id_change = 0;
-                    }
-                    
-                  }
-                // STATE = 1
-                }
-                
-
-                // YA HAY ORIGEN  
-                else if (self.state!=0) {
-                  // CASO 5. CANTIDAD + PAQUETE DESTINO => CONFIRMA OPERACION
-                  if (value.model == 'stock.location'){
-                    if (value.id == location_dest_id && self.location_id_change == 0){
-                      if (confirm) {
-                        self.cargar = true;
-                        self.doOp(self.op['id']);
-                      }  
-                      else {
-                        self.presentToast('ReScan para confirmar')
-                      }
-                    }
-
-                    else if (value.id != location_dest_id && self.location_id_change == 0) {
-                      self.location_id_change = value.id;
-                      self.presentToast('Cambiando de ubiucación')
-                    }
-                    else if (value.id == self.location_id_change) {
-                      self.cargar = true;
-                      self.change_op_value(self.op_id, 'location_dest_id', value.id);
-                      self.location_id_change = 0 
-                      self.presentToast('Cambio de ubicación de destino confirmado')
-                    }
-
-                    else if (value.id == self.location_id_change && self.location_id_change != 0) {
-                      self.location_id_change = 0 
-                      self.presentToast('Cancelado cambio de destino')
-                    }
-                    
-                  }
-                  else if (value.model == 'stock.quant.package'){
-                    if (value.id == result_package_id && self.package_dest_id_change == 0){
-                      if (confirm) {
-                        self.cargar = true;
-                        self.doOp(self.op['id']);
-                        
-                      }  
-                      else {('stock.quant.package', op.package_id.id)
-                        self.presentToast('ReScan para confirmar')
-                      }
-                    }
-
-                    else if (value.id != result_package_id && self.package_dest_id_change== 0){
-                      self.package_dest_id_change = value.id;
-                      self.presentToast('Cambiando de paquete de destino')
-                    }
-                  // CASO 13. CONFIRMAR CASO 12
-                    else if (self.package_dest_id_change == value.id){
-                      self.package_dest_id_change = 0;
-                      self.change_op_value(self.op_id, 'result_package_id', value.id);
-                      self.cargar = true;
-                      self.presentToast('Confirmado cambio de paquete de destino')
-                    }       
-                  
-                    else if (self.package_dest_id_change != 0 && self.package_id_change != value.id){
-                      self.package_dest_id_change = 0;
-                      self.presentToast('Cambio de paquete de destino cancelado')
-                    }
-                  }
-                  else if (self.op['location_dest_id_need_check'] && !Boolean(self.op['result_package_id']))
-                    { self.cargar = true;
-                      self.doOp(self.op['id']);
-                    }
-                  // CASO 11. DESTINO + UBICACION DESTINO (<>) => CONFIRMA NUEVO UBICACION DESTINO >> CAMBIO DESTINO EN OP + CARGAR OP + CARGAR SLIDES
-                }
-                self.check_state();
-                if (self.waiting>=4 && self.op['location_dest_id_need_check'] && !self.cargar){
-                    self.doOp(self.op['id']);
-                }
-                self.scan_id = value;
-                self.myScan.setFocus();
-                return value;
-                },
-              function () {
-                self.cargar = false;
-                self.presentAlert('Falla!', 'Imposible conectarse');
-                }
-              );
-            },
-          function () {
-            self.cargar = false;
-            self.presentAlert('Falla!', 'Imposible conectarse');
-            }
-          );
-        self.cargar = false;
-    
-      }
-    
-      });
-  }
-
-*/
   get_next_op(id, index){
     var self = this;
     let domain = []
@@ -729,12 +484,17 @@ submit (values){
     
     this.odoo.execute(this.model, method, values).then((res)=>{
       if (res) {
-        this.ops[this.index]['pda_done'] = do_id
-        if (do_id) {
-        this.get_next_op(id, this.index)}
-        this.cargarOp(this.op_id)
 
-      }
+        this.ops[this.index]['pda_done'] = do_id
+
+        if (res==id && do_id){
+          this.get_next_op(id, this.index)
+          this.cargarOp(this.op_id)
+        }
+        else {
+          this.cargarOp(Number(res))
+        }
+        }
       else {
         this.presentAlert('Falla!', 'Error al marcar la operación como realizada');
       }

@@ -35,16 +35,16 @@ export class TreeopsPage {
 
   @ViewChild('scanPackage') myScanPackage;
   @ViewChild(StockOperationComponent) pack_operation: StockOperationComponent;
-  
+
 
   @HostListener('document:keydown', ['$event'])
-  handleKeyboardEvent(event: KeyboardEvent) { 
+  handleKeyboardEvent(event: KeyboardEvent) {
     this.myScanPackage.setFocus();
      }
-  
-  
+
+
   pick
-  
+
   cargar = true;
   pick_id = 0
   limit = 25
@@ -56,7 +56,7 @@ export class TreeopsPage {
   record_count = 0
   isPaquete: boolean = true;
   isProducto: boolean = false;
-  
+
   scan = ''
   treeForm: FormGroup;
   model_fields = {'stock.quant.package': 'package_id', 'stock.location': 'location_id', 'stock.production.lot': 'lot_id'}
@@ -68,12 +68,12 @@ export class TreeopsPage {
     this.pick = {};
     this.pick_id = this.navParams.data.picking_id;
     this.model = this.navParams.data.model || this.model;
-    this.record_count = 0;    
+    this.record_count = 0;
     this.cargar = true;
     this.scan = '';
     this.storage.get('WhatOps').then((val) => {
       if (val==null) {
-        this.whatOps='Todas'} 
+        this.whatOps='Todas'}
       else {
         this.whatOps = val}
       })
@@ -86,7 +86,7 @@ export class TreeopsPage {
     this.loadList();
     this.pick['whatOps'] = this.whatOps
   }
-  
+
   seeAll(){
     if (this.whatOps=='Todas'){
       this.whatOps='Pendientes'
@@ -100,11 +100,11 @@ export class TreeopsPage {
   }
 
   ionViewLoaded() {
-    
+
     setTimeout(() => {
       this.myScanPackage.setFocus();
     },150);
-    
+
      }
   goHome(){this.navCtrl.setRoot(TreepickPage, {borrar: true, login: null});}
   loadOp(id=0){
@@ -148,7 +148,7 @@ export class TreeopsPage {
     this.offset = Math.min(0, this.offset - this.limit);
     this.loadList();
   }
-  
+
   notify_do_op(op_id){
     console.log("Do op")
   }
@@ -198,9 +198,9 @@ export class TreeopsPage {
   }
 
   findId (value){
-    
+
     for (var op in this.pick['pack_operation_ids']){
-      
+
       var opObj = this.pick['pack_operation_ids'][op];
       console.log(opObj);
       if (opObj[this.model_fields[value['model']]][0] == value['id']){
@@ -232,7 +232,7 @@ export class TreeopsPage {
     var self = this;
     var object_id = {}
     var values = {'id': id, 'action': do_assign}
-    
+
     var method = 'pda_do_assign'
     this.odoo.execute(this.model, method, values).then((value)=>{
       if (value){
@@ -247,7 +247,7 @@ export class TreeopsPage {
 
       }
       else {
-        this.presentAlert('Error!', 'Error al escribir en Odoo');  
+        this.presentAlert('Error!', 'Error al escribir en Odoo');
       }
     })
     .catch(() => {
@@ -255,8 +255,9 @@ export class TreeopsPage {
     });
 
   }
-     
+
   doPreparePartial(id){
+    this.cargar = true;
     var model = 'stock.picking'
     var method = 'pda_do_prepare_partial'
     var values = {'id': id}
@@ -272,7 +273,7 @@ export class TreeopsPage {
       this.presentAlert('Error!', 'No se pudo preparar el albarán')
     });
 }
-      
+
   doTransfer(id){
     this.cargar = true;
     var self = this;
@@ -288,15 +289,15 @@ export class TreeopsPage {
       this.presentAlert('Error!', 'No se pudo recuperar la lista de operaciones contra odoo');
     });
   }
-  
+
   doOp(index, id, do_id){
-    
+
     var self = this;
     var model = 'stock.pack.operation'
     var method = 'doOp'
     var values = {'id': id, 'do_id': do_id}
     var object_id
-    
+
     this.odoo.execute(model, method, values).then((value)=>{
       object_id = value;
       let op = self.pick['pack_operation_ids'][index]
@@ -309,6 +310,6 @@ export class TreeopsPage {
     });
   }
 
-  
-    
+
+
 }

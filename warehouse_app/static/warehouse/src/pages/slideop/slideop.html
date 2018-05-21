@@ -34,19 +34,6 @@
                 {{ op.pda_product_id.display_name || 'SIN PRODUCTO'}}
             </ion-badge>
         </ion-item>
-        
-        <ion-item no-lines>
-          <ion-label class="l-op" >Qty:</ion-label>
-          <ion-badge item-end class="b-op w75"  [ngClass]="{'badge_checked':op.qty_done != 0.00}"  (click)="inputUomQty()">
-            {{op.qty_done}} de {{ op['product_qty']}} {{ op.product_uom_id.name}} 
-          </ion-badge> 
-          
-        </ion-item>
-        <ion-item>
-            <ion-badge item-end class="b-op w75" [ngClass]="{'badge_checked':op.qty_done != 0.00}"  (click)="inputUosQty()">
-                {{op.uos_qty_done}} de {{ op['uos_qty']}} {{ op.uos_id.name}} 
-              </ion-badge> 
-        </ion-item>  
         <ion-item no-lines [hidden] = "!op.package_id">
           <ion-label class="l-op" >Pack:</ion-label>
           <ion-badge item-end class="b-op w75" [ngClass]="{'badge_checked':op.package_id.checked === true}" (click)="showPackage(op.pda_product_id.id, op.product_qty)" >
@@ -62,6 +49,19 @@
             Buscar ...
           </ion-badge>
       </ion-item>
+        <ion-item no-lines>
+          <ion-label class="l-op" >Qty:</ion-label>
+          <ion-badge item-end class="b-op w75"  [ngClass]="{'badge_checked':op.qty_done != 0.00}"  (click)="inputUomQty()">
+            {{op.qty_done}} de {{ op['product_qty']}} {{ op.product_uom_id.name}} 
+          </ion-badge> 
+          
+        </ion-item>
+        <ion-item>
+            <ion-badge item-end class="b-op w75" [ngClass]="{'badge_checked':op.qty_done != 0.00}"  (click)="inputUosQty()">
+                {{op.uos_qty_done}} de {{ op['uos_qty']}} {{ op.uos_id.name}} 
+              </ion-badge> 
+        </ion-item>  
+       
       <ion-item no-lines>
         <ion-label class="l-op" >Origen:</ion-label>
         <ion-badge item-end class="b-op w75" [ngClass]="{'badge_checked':op.location_id.checked === true}" (click)="badge_checked(op.location_id)">

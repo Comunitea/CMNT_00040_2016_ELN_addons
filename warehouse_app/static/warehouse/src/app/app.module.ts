@@ -67,7 +67,7 @@ import { StockOperationComponent} from '../components/stock-operation/stock-oper
     BrowserModule,
     HttpModule,
     IonicModule.forRoot(MyApp),
-    IonicStorageModule.forRoot()    
+    IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
 
@@ -95,8 +95,8 @@ import { StockOperationComponent} from '../components/stock-operation/stock-oper
     NativeAudio,
     AppSoundProvider,
     OdooProvider,
-    
-    
+
+
   ]
 })
 export class AppModule {}

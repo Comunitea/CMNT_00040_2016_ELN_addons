@@ -48,20 +48,6 @@ class StockPicking(models.Model):
         pick = self.browse[id]
         return pick.confirm_pda_done(transfer)
 
-    @api.model
-    def doTransfer(self, vals):
-        id = vals.get('id', False)
-        pick = self.browse([id])
-        pick.pack_operation_ids.filtered(lambda x:not x.pda_done or x.qty_done == 0).unlink()
-
-        if any(op.pda_done for op in pick.pack_operation_ids):
-            #reviso si es necesario poner en pack
-            pick.pack_operation_ids.put_in_pack()
-            for op in pick.pack_operation_ids:
-                op.product_qty = op.qty_done
-            pick.do_transfer()
-            return True
-        return False
 
     @api.model
     def change_pick_value(self, vals):
@@ -147,20 +133,18 @@ class StockPicking(models.Model):
         company_id = pick_sudo.company_id.id
         ctx.update(force_company=company_id)
         pick = self.with_context(ctx).browse([id])
-        if all(not x.pda_done for x in pick.pack_operation_ids):
-            pick.do_transfer()
-            return True
 
         pick.pack_operation_ids.filtered(lambda x: not x.pda_done or x.qty_done == 0).unlink()
-        if any(op.pda_done for op in pick.pack_operation_ids):
 
+        if any(op.pda_done for op in pick.pack_operation_ids):
             # reviso si es necesario poner en pack
-            pick.pack_operation_ids.put_in_pack()
+            # NO HAY PAQUETES pick.pack_operation_ids.put_in_pack()
             for op in pick.pack_operation_ids:
                 op.write({'product_qty': op.qty_done,
-                         'processed': 'true'})
+                          'processed': 'true'})
 
             pick.do_transfer()
+            pick.message_post(body="Este albarán ha sido validado desde la pda")
             return True
         return False
 

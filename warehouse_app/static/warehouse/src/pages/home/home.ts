@@ -16,17 +16,17 @@ import { OdooProvider } from '../../providers/odoo-connector/odoo-connector';
 export class HomePage {
 
     loginData = {password: '', username: ''};
-    CONEXION = {
+    CONEXION2 = {
         url: 'http://elnapp.livingodoo.com/',
         port: '8069',
         db: 'elnapp',
         username: 'pdav',
         password: 'cmnt',
 	};
-	CONEXION2 = {
+	CONEXION = {
         url: 'http://192.168.0.120/',
         port: '8069',
-        db: 'pistola',
+        db: 'pistola_2',
         username: 'pdav',
         password: 'cmnt',
     };

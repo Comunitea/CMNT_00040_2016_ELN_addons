@@ -38,7 +38,7 @@ class StockPackOperation (models.Model):
             #op.uos_id = op.move_lines.uos_id.id
 
             op.uos_id = op.linked_move_operation_ids and op.linked_move_operation_ids[0].move_id.product_uos or False
-            if op.uos_id:
+            if False and op.uos_id:
                 if op.picking_id.picking_type_id.code == "incoming":
                     op.uos_id = op.pda_product_id.uom_po_id
                 else:
@@ -115,7 +115,7 @@ class StockPackOperation (models.Model):
         id = vals.get('id', False)
         do_id = vals.get('do_id', True)
         op = self.browse([id])
-        create = vals.get('force_create', False)
+        create = vals.get('force_create', False) or True
         qty = vals.get('qty_done', op.qty_done or 0)
 
         if not op:
@@ -124,19 +124,20 @@ class StockPackOperation (models.Model):
             qty_done = float(qty) or op.product_qty
         else:
             qty_done = 0.0
-
         vals = {'pda_done': do_id,
-                 'qty_done': qty_done}
-        op.write(vals)
+                'qty_done': qty_done}
 
-        if create:
-            quants = op.return_quants_to_select(id, op.product_qty - qty_done)
+        if create and qty_done < op.product_qty:
+            qty = op.product_qty - qty_done
+            vals.update(product_qty=qty_done)
+            quants = op.return_quants_to_select(id, qty)
             new_op = []
             for quant in quants:
                 new_op += [op.create_new_op_from_pda(quant, op.get_result_package())]
-            if new_op:
-                return new_op[0]
-        return op.id
+            id = new_op[0]
+
+        op.write(vals)
+        return id
 
     def get_result_package(self):
         #POara heredar si es necesario
@@ -152,7 +153,7 @@ class StockPackOperation (models.Model):
         if move_id:
             quants = self.env['stock.quant'].quants_get_prefered_domain(move_id.location_id, move_id.product_id,
                                                                         qty,
-                                                                        prefered_domain_list=[[('reservation_id', '=', False)]])
+                                                                        prefered_domain_list=[[('lot_id', '!=', self.lot_id and self.lot_id.id), ('reservation_id', '=', False)]])
         return quants
 
     @api.model
@@ -165,6 +166,8 @@ class StockPackOperation (models.Model):
         if quant.package_id and product_qty == quant.package_qty:
             new_op = self.copy({
                 'product_qty': product_qty,
+                'qty_done': 0,
+                'pda_done': False,
                 'product_id': False,
                 'package_id': quant.package_id and quant.package_id.id,
                 'lot_id': quant.package_id.lot_id and quant.package_id.lot_id.id,
@@ -176,6 +179,8 @@ class StockPackOperation (models.Model):
                 'package_id': quant.package_id and quant.package_id.id,
                 'result_package_id': result_package_id,
                 'lot_id': quant.lot_id and quant.lot_id.id,
+                'qty_done': 0,
+                'pda_done': False,
                 'location_id': quant.location_id and quant.location_id.id})
 
         move_id = self.linked_move_operation_ids and self.linked_move_operation_ids[0].move_id

@@ -188,9 +188,7 @@ class StockPicking(models.Model):
 
     @api.multi
     def action_assign(self):
-        cross_company_picks = self.filtered(lambda x: x.cross_company)
-        if cross_company_picks:
-            cross_company_picks.chained_action_assign()
+        self.filtered(lambda x: x.cross_company).chained_action_assign()
         return super(StockPicking, self).action_assign()
 
 
@@ -260,7 +258,7 @@ class StockPicking(models.Model):
         This can be used to provide a button that rereserves taking into account the existing pack operations
         """
         for pick in self.browse(cr, uid, ids, context=context):
-            for prev_pick in pick.sudo().picking_orig_ids:
+            for prev_pick in pick.sudo().filtered(lambda x:x.cross_company).picking_orig_ids:
                 ctx = context.copy()
                 ctx.update(force_company=prev_pick.company_id.id)
                 prev_pick.with_context(ctx).rereserve_quants(prev_pick, move_ids=[x.id for x in prev_pick.move_lines
@@ -281,7 +279,7 @@ class StockPicking(models.Model):
 
 
     @api.multi
-    def do_prepare_partial(self):
+    def partial_do_prepare_partial(self):
         return self.partial_do_prepare_partial()
 
 
@@ -325,7 +323,7 @@ class StockPicking(models.Model):
 
     @api.cr_uid_ids_context
     def do_prepare_partial_v8(self, cr, uid, picking_ids, context=None):
-
+        ## Lo pongo aquí para comparar
         context = context or {}
         pack_operation_obj = self.pool.get('stock.pack.operation')
         # used to avoid recomputing the remaining quantities at each new pack operation created
