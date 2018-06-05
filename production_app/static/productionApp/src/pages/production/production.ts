@@ -8,6 +8,7 @@ import { FinishModalPage } from '../../pages/finish-modal/finish-modal';
 import { ProductionProvider } from '../../providers/production/production';
 import { OdooProvider } from '../../providers/odoo/odoo';
 import { TimerComponent } from '../../components/timer/timer';
+import { ConsumptionsPage } from '../../pages/consumptions/consumptions';
 
 
 @IonicPage()
@@ -243,6 +244,10 @@ export class ProductionPage {
     beginLogistics() {
         this.presentAlert('Logistica', 'PENDIENTE DESAROLLO, LLAMAR APP ALMACÉN')
     }
+    showConsumptions(workcenter) {
+        this.navCtrl.push(ConsumptionsPage)
+    }
+
 
     confirmProduction() {
         this.promptNextStep('¿Confirmar producción?').then( () => {

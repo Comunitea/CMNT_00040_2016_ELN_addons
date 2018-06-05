@@ -18,6 +18,7 @@ export class ProductionProvider {
     loged_ids: number[] = [];
     registry_id;
     production;
+    production_id;
     product;
     product_id;
     state;
@@ -28,6 +29,8 @@ export class ProductionProvider {
 
     technical_reasons: Object[];
     organizative_reasons: Object[];
+
+    consumptions: Object[];
 
     operator_line_id;
     active_operator_id: number = 0;
@@ -50,6 +53,7 @@ export class ProductionProvider {
         this.operator_line_id = false;
         this.technical_reasons = [];
         this.organizative_reasons = [];
+        this.consumptions = [];
     }
 
     getUTCDateStr(){
@@ -230,6 +234,7 @@ export class ProductionProvider {
                 if ('id' in reg){
                     this.initData(reg);
                     this.getQualityChecks();  // Load Quality Checks. TODO PUT PROMISE SYNTAX
+                    this.getConsumptions();  // Load Consumptions. TODO PUT PROMISE SYNTAX
                     this.setLogedTimes();  // Load Quality Checks. TODO PUT PROMISE SYNTAX
                     this.getAllowedOperators(reg)
                     resolve(reg);
@@ -250,6 +255,7 @@ export class ProductionProvider {
         this.workcenter['id'] = data.workcenter_id[0];
         this.workcenter['name'] = data.workcenter_id[1];
         this.registry_id = data.id;
+        this.production_id = data.production_id[0];
         this.production = data.production_id[1];
         this.product_id = data.product_id[0];
         this.product = data.product_id[1];
@@ -287,6 +293,47 @@ export class ProductionProvider {
             // Si hay error aquí, convertir esta funcion en promesa y controlarla.
             console.log(err) 
         });
+    }
+
+    loadConsumptions(moves) {
+        for (let indx in moves) {
+            var move = moves[indx];
+            var lot = '';
+            var state='Para consumir'
+            if (move['state'] == 'done' || move['state'] == 'cancel'){
+                state = 'Consumido'
+            }
+            if (move['restrict_lot_id']){
+                lot = move['restrict_lot_id'][1]
+            }
+            var vals = {
+                'product': move['product_id'][1],
+                'qty':  move['product_uom_qty'],
+                'uom': move['product_uom'][1],
+                'lot': lot,
+                'state': state
+            }
+            this.consumptions.push(vals);
+        }
+        console.log("MOVES");
+        console.log(moves);
+        console.log("LOADED CONSUMPTIONS");
+        console.log(this.consumptions);
+    }
+
+    getConsumptions(){
+        var promise = new Promise( (resolve, reject) => {
+            var domain = [['raw_material_production_id', '=', this.production_id]]
+            var fields = ['id', 'product_id', 'product_uom_qty', 'product_uom', 'restrict_lot_id', 'state']
+            this.odooCon.searchRead('stock.move', domain, fields).then( (res) => {
+                this.loadConsumptions(res)
+                resolve();
+            })
+            .catch( (err) => {
+                console.log("Error obteniendo consumos");
+            });
+        });
+        return promise
     }
 
     saveQualityChecks(data){

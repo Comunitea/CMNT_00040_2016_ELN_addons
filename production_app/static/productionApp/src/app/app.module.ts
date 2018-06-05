@@ -20,6 +20,7 @@ import { ChecksModalPage } from '../pages/checks-modal/checks-modal';
 import { UsersModalPage } from '../pages/users-modal/users-modal';
 import { ReasonsModalPage } from '../pages/reasons-modal/reasons-modal';
 import { FinishModalPage } from '../pages/finish-modal/finish-modal';
+import { ConsumptionsPage } from '../pages/consumptions/consumptions';
 
 //Providers
 import { OdooProvider } from '../providers/odoo/odoo';
@@ -40,6 +41,7 @@ import { TimerComponent } from '../components/timer/timer';
     UsersModalPage,
     ReasonsModalPage,
     FinishModalPage,
+    ConsumptionsPage,
     TimerComponent
   ],
   imports: [
@@ -58,6 +60,7 @@ import { TimerComponent } from '../components/timer/timer';
     ChecksModalPage,
     UsersModalPage,
     ReasonsModalPage,
+    ConsumptionsPage,
     FinishModalPage,
   ],
   providers: [
