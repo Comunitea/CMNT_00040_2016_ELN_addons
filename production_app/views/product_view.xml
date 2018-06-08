@@ -104,6 +104,7 @@
             <notebook position="inside">
                 <page string="Product Quality Checks">
                     <group string="Product Quality Checks">
+                        <field name="show_in_app"/>
                         <field name="quality_check_ids" nolabel="1">
                             <tree>
                                 <field name="name"/>

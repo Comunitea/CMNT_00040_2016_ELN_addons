@@ -24,6 +24,7 @@ class ProductProduct(models.Model):
         rel='product_quality_check_product_rel',
         id1='product_id', id2='quality_id'
     )
+    show_in_app = fields.Boolean('Show in app')
 
 
 class ProductQualityChecks(models.Model):

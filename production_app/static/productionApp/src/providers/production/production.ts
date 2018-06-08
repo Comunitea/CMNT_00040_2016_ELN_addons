@@ -81,13 +81,19 @@ export class ProductionProvider {
         return today;
     }
 
-    //Gets operators allowed from the current workorder
+    //Gets operators allowed, now all employees
     getAllowedOperators(reg){
         var allowed_operators = reg['allowed_operators'];
         this.operators = allowed_operators;
         for (let indx in allowed_operators) {
             let op = allowed_operators[indx];
-            this.odooCon.operatorsById[op.id] = {'name': op.name, 'active': false, 'operator_line_id': false, 'log': 'out'}    
+            let log = 'out';
+            let active = false;
+            if (op.id in this.odooCon.operatorsById){
+                log = this.odooCon.operatorsById[op.id].log
+                active = this.odooCon.operatorsById[op.id].active
+            }
+            this.odooCon.operatorsById[op.id] = {'name': op.name, 'let_active': op.let_active, 'active': active, 'operator_line_id': false, 'log': log}    
         }
         console.log("OPERATORSALLOWEDBYID")
         console.log(this.odooCon.operatorsById)
@@ -145,9 +151,9 @@ export class ProductionProvider {
     }
 
     logInOperator(operator_id){
-        if (this.loged_ids.length === 0){
-            this.setActiveOperator(operator_id)
-        }
+        // if (this.loged_ids.length === 0){
+        //     this.setActiveOperator(operator_id)
+        // }
         this.odooCon.operatorsById[operator_id]['log'] = 'in'
         var index = this.loged_ids.indexOf(operator_id);
         if (index <= -1) {
@@ -296,6 +302,7 @@ export class ProductionProvider {
     }
 
     loadConsumptions(moves) {
+        this.consumptions = [];
         for (let indx in moves) {
             var move = moves[indx];
             var lot = '';

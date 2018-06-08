@@ -114,6 +114,16 @@ class AppRegistry(models.Model):
         return res
 
     @api.model
+    def get_allowed_operators(self, active_ids):
+        res = []
+        for op in self.env['hr.employee'].search([]):
+            vals = {'id': op.id, 'name': op.name, 'let_active': False}
+            if op.id in active_ids:
+                vals['let_active'] = True
+            res.append(vals)
+        return res
+
+    @api.model
     def app_get_registry(self, vals):
         """
         Obtiene el registro que actua de controlador
@@ -129,13 +139,16 @@ class AppRegistry(models.Model):
             res.update(reg.read()[0])
 
         if reg:
-            allowed_operators = []
-            for op in reg.workcenter_id.operators_ids:
-                allowed_operators.append({'id': op.id, 'name': op.name})
+            active_operator_ids = reg.workcenter_id.operators_ids.ids
+            allowed_operators = self.get_allowed_operators(active_operator_ids)
+            # for op in reg.workcenter_id.operators_ids:
+            #     active_operators.append({'id': op.id, 'name': op.name})
 
             use_time = reg.wc_line_id.production_id.product_id.use_time
-            use_date = (datetime.now() + timedelta(use_time)).strftime("%Y-%m-%d")
+            use_date = (datetime.now() + timedelta(use_time)).\
+                strftime("%Y-%m-%d")
             res.update(allowed_operators=allowed_operators,
+                       active_operator_ids=active_operator_ids,
                        product_use_date=use_date)
         return res
 
@@ -437,7 +450,7 @@ class QualityCheckLine(models.Model):
     date = fields.Datetime('Date', readonly=False)
     value = fields.Text('Value', readonly=False)
     operator_id = fields.Many2one('hr.employee', 'Operator')
-    wc_line_id = fields.Many2one('mrp.production.workcenter.line', 
+    wc_line_id = fields.Many2one('mrp.production.workcenter.line',
                                  'Workcenter Line', readonly=True)
 
 
@@ -472,7 +485,7 @@ class OperatorLines(models.Model):
     date_out = fields.Datetime('Date Out', readonly=False)
     stop_duration = fields.Float('Hours',
                                  compute="_get_duration")
-    wc_line_id = fields.Many2one('mrp.production.workcenter.line', 
+    wc_line_id = fields.Many2one('mrp.production.workcenter.line',
                                  'Workcenter Line', readonly=True)
 
     @api.multi

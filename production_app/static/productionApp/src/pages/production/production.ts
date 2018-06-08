@@ -340,11 +340,16 @@ export class ProductionPage {
     }
     loadNextProduction(){
         this.prodData.loadProduction(this.prodData.workcenter).then( (res) => {
-            this.prodData.active_operator_id = 0;
+            // this.prodData.active_operator_id = 0;
         })
         .catch( (err) => {
             this.presentAlert(err.title, err.msg);
         }); 
+    }
+
+    consumeSelected(move) {
+        this.presentAlert('EEEE', 'Mostrar modal con lote a elegir y escribir qc')
+        console.log(move)
     }
 
 }
