@@ -10,8 +10,8 @@ import { ProductionProvider } from '../../providers/production/production';
 })
 export class FinishModalPage {
 
-    qty: number;
-    uos_qty: number;
+    qty;
+    uos_qty;
     lot: string;
     date: string;
     lots: Object[];

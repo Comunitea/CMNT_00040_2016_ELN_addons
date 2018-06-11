@@ -16,7 +16,8 @@ import { ProductionProvider } from '../../providers/production/production';
 })
 export class ScrapModalPage {
 
-    qty: number;
+    qty;
+    uos_qty;
     ctrl
 
     constructor(public navCtrl: NavController, public navParams: NavParams,

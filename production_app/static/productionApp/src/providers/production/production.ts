@@ -35,8 +35,11 @@ export class ProductionProvider {
     operator_line_id;
     active_operator_id: number = 0;
 
-    qty;
-    scrap_qty;
+    qty: number;
+    scrap_qty: number;
+    uom: string;
+    uos: string;
+    uos_coeff: number;
     lot_name;
     lot_date;
     product_use_date: string;
