@@ -151,9 +151,20 @@ class AppRegistry(models.Model):
             uom = reg.product_id.uom_id.name
             uos = reg.product_id.uos_id.name
             uos_coeff = reg.product_id.uos_coeff
+            change_lot_qc_id = self.env.ref('production_app.change_lot_qc').id
+
+            product_ids = [reg.product_id.id]
+            consume_ids1 = reg.production_id.move_lines.mapped('product_id')
+            consume_ids2 = reg.production_id.move_lines2.mapped('product_id')
+            if consume_ids1:
+                product_ids.extend(consume_ids1.ids)
+            if consume_ids2:
+                product_ids.extend(consume_ids2.ids)
             res.update(allowed_operators=allowed_operators,
                        active_operator_ids=active_operator_ids,
                        product_use_date=use_date,
+                       change_lot_qc_id=change_lot_qc_id,
+                       product_ids=product_ids,
                        uom=uom, uos=uos, uos_coeff=uos_coeff)
         return res
 

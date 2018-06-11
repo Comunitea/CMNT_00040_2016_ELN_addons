@@ -196,8 +196,8 @@
                     </ion-col>
                 </ion-row>
                 <ion-row *ngIf="(prodData.state == 'started') || (prodData.state == 'stoped') || (prodData.state == 'cleaning')">
-                     <ion-col width-100>
-                        <button ion-button full round (click)="scrapProduction()" color="danger">
+                     <ion-col text-center width-100>
+                        <button ion-button round (click)="scrapProduction()" color="dark">
                             Scrap
                         </button>
                     </ion-col>

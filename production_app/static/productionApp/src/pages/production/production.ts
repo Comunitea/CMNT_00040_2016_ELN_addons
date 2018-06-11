@@ -2,6 +2,7 @@ import { Component, ViewChildren, QueryList } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, ModalController } from 'ionic-angular';
 import { HomePage } from '../../pages/home/home';
 import { ChecksModalPage } from '../../pages/checks-modal/checks-modal';
+import { ConsumeModalPage } from '../../pages/consume-modal/consume-modal';
 import { UsersModalPage } from '../../pages/users-modal/users-modal';
 import { ReasonsModalPage } from '../../pages/reasons-modal/reasons-modal';
 import { FinishModalPage } from '../../pages/finish-modal/finish-modal';
@@ -153,6 +154,23 @@ export class ProductionPage {
                         reject();
                 }
                 
+            });
+
+            myModal.present();
+        });
+        return promise
+    }
+
+    openConsumeModal(move) {
+        this.prodData.consume_product_id = move.product_id
+        var promise = new Promise( (resolve, reject) => {
+
+            let myModal = this.modalCtrl.create(ConsumeModalPage, {});
+
+            // When modal closes
+            myModal.onDidDismiss(data => {
+                var vals = [data]
+                this.prodData.saveQualityChecks(vals);
             });
 
             myModal.present();
@@ -368,8 +386,10 @@ export class ProductionPage {
     }
 
     consumeSelected(move) {
-        this.presentAlert('EEEE', 'Mostrar modal con lote a elegir y escribir qc')
         console.log(move)
+        this.openConsumeModal(move).then( () => {
+            this.presentAlert('EEEE', 'Mostrar modal con lote a elegir y escribir qc')            
+        }).catch(() => {});
     }
 
     scrapProduction() {

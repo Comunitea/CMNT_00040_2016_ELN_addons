@@ -20,6 +20,7 @@
         'views/mrp_view.xml',
         'views/product_view.xml',
         'views/stop_reason_view.xml',
+        'data/app_data.xml',
         "security/ir.model.access.csv",
     ],
     "demo": [

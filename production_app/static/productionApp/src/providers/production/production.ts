@@ -16,11 +16,13 @@ export class ProductionProvider {
     lotsByProduct: Object = {};
     workcenter: Object = {};
     loged_ids: number[] = [];
+    product_ids: number[] = [];
     registry_id;
     production;
     production_id;
     product;
     product_id;
+    consume_product_id;
     state;
     states;
 
@@ -43,6 +45,7 @@ export class ProductionProvider {
     lot_name;
     lot_date;
     product_use_date: string;
+    change_lot_qc_id: number;
 
     constructor(private odooCon: OdooProvider) {
         this.states = {
@@ -136,7 +139,7 @@ export class ProductionProvider {
         var d = new Date();
         d.setMonth(d.getMonth() - 3);
         var limit_date = d.toISOString().split("T")[0];
-        this.odooCon.searchRead('stock.production.lot', [['create_date', '>=', limit_date]], ['id', 'name', 'use_date',  'product_id']).then( (res) => {
+        this.odooCon.searchRead('stock.production.lot', [['product_id', 'in', this.product_ids]], ['id', 'name', 'use_date',  'product_id']).then( (res) => {
             this.lots = res;
             for (let indx in res) {
                 let lot = res[indx];
@@ -246,6 +249,7 @@ export class ProductionProvider {
                     this.getQualityChecks();  // Load Quality Checks. TODO PUT PROMISE SYNTAX
                     this.getConsumptions();  // Load Consumptions. TODO PUT PROMISE SYNTAX
                     this.setLogedTimes();  // Load Quality Checks. TODO PUT PROMISE SYNTAX
+                    this.getLots();  // Load Quality Checks. TODO PUT PROMISE SYNTAX
                     this.getAllowedOperators(reg)
                     resolve(reg);
                 }
@@ -277,6 +281,8 @@ export class ProductionProvider {
         this.uom = data.uom;
         this.uos = data.uos;
         this.uos_coeff = data.uos_coeff;
+        this.change_lot_qc_id = data.change_lot_qc_id;
+        this.product_ids = data.product_ids
     }
     
     // Load Quality checks in each type list
@@ -323,6 +329,7 @@ export class ProductionProvider {
             }
             var vals = {
                 'product': move['product_id'][1],
+                'product_id': move['product_id'][0],
                 'qty':  move['product_uom_qty'],
                 'uom': move['product_uom'][1],
                 'lot': lot,

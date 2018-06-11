@@ -17,6 +17,7 @@ import { HomePage } from '../pages/home/home';
 import { ProductionPage } from '../pages/production/production';
 import { ListPage } from '../pages/list/list';
 import { ChecksModalPage } from '../pages/checks-modal/checks-modal';
+import { ConsumeModalPage } from '../pages/consume-modal/consume-modal';
 import { UsersModalPage } from '../pages/users-modal/users-modal';
 import { ReasonsModalPage } from '../pages/reasons-modal/reasons-modal';
 import { FinishModalPage } from '../pages/finish-modal/finish-modal';
@@ -43,6 +44,7 @@ import { TimerComponent } from '../components/timer/timer';
     ReasonsModalPage,
     FinishModalPage,
     ScrapModalPage,
+    ConsumeModalPage,
     ConsumptionsPage,
     TimerComponent
   ],
@@ -62,6 +64,7 @@ import { TimerComponent } from '../components/timer/timer';
     ChecksModalPage,
     UsersModalPage,
     ReasonsModalPage,
+    ConsumeModalPage,
     ConsumptionsPage,
     FinishModalPage,
     ScrapModalPage
