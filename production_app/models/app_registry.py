@@ -330,6 +330,20 @@ class AppRegistry(models.Model):
         return res
 
     @api.model
+    def scrap_production(self, values):
+        qty = values.get('scrap_qty', 0.00)
+        qty = float(qty)
+        location_id = 4   # Ubicación desechos 1
+        location_id = 23  # Ubicación desechos 2.
+        if values.get('registry_id', False):
+            reg = self.browse(values['registry_id'])
+        if reg and reg.production_id.move_created_ids:
+            lot_id = reg.lot_id.id
+            move = reg.production_id.move_created_ids[0]
+            move.action_scrap(qty, location_id, restrict_lot_id=lot_id)
+        return
+
+    @api.model
     def get_quality_checks(self, values):
         product_id = values.get('product_id', False)
         product = self.env['product.product'].browse(product_id)

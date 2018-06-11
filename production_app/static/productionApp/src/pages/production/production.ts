@@ -5,6 +5,7 @@ import { ChecksModalPage } from '../../pages/checks-modal/checks-modal';
 import { UsersModalPage } from '../../pages/users-modal/users-modal';
 import { ReasonsModalPage } from '../../pages/reasons-modal/reasons-modal';
 import { FinishModalPage } from '../../pages/finish-modal/finish-modal';
+import { ScrapModalPage } from '../../pages/scrap-modal/scrap-modal';
 import { ProductionProvider } from '../../providers/production/production';
 import { OdooProvider } from '../../providers/odoo/odoo';
 import { TimerComponent } from '../../components/timer/timer';
@@ -206,6 +207,25 @@ export class ProductionPage {
         return promise;
     }
 
+    openScrapModal(){
+        var promise = new Promise( (resolve, reject) => {
+            let scrapModal = this.modalCtrl.create(ScrapModalPage, {});
+            scrapModal.present();
+
+            // When modal closes
+            scrapModal.onDidDismiss(res => {
+                if (Object.keys(res).length === 0) {
+                    reject();
+                }
+                else {
+                    this.prodData.scrap_qty = res.qty;
+                    resolve();
+                }
+            });
+        });
+        return promise;
+    }
+
     clearIntervales(){
         for (let indx in this.interval_list){
             let int = this.interval_list[indx];
@@ -350,6 +370,12 @@ export class ProductionPage {
     consumeSelected(move) {
         this.presentAlert('EEEE', 'Mostrar modal con lote a elegir y escribir qc')
         console.log(move)
+    }
+
+    scrapProduction() {
+        this.openScrapModal().then(() => {
+            this.prodData.scrapProduction();
+        }).catch(() => {});
     }
 
 }

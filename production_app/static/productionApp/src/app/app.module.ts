@@ -20,6 +20,7 @@ import { ChecksModalPage } from '../pages/checks-modal/checks-modal';
 import { UsersModalPage } from '../pages/users-modal/users-modal';
 import { ReasonsModalPage } from '../pages/reasons-modal/reasons-modal';
 import { FinishModalPage } from '../pages/finish-modal/finish-modal';
+import { ScrapModalPage } from '../pages/scrap-modal/scrap-modal';
 import { ConsumptionsPage } from '../pages/consumptions/consumptions';
 
 //Providers
@@ -41,6 +42,7 @@ import { TimerComponent } from '../components/timer/timer';
     UsersModalPage,
     ReasonsModalPage,
     FinishModalPage,
+    ScrapModalPage,
     ConsumptionsPage,
     TimerComponent
   ],
@@ -62,6 +64,7 @@ import { TimerComponent } from '../components/timer/timer';
     ReasonsModalPage,
     ConsumptionsPage,
     FinishModalPage,
+    ScrapModalPage
   ],
   providers: [
     StatusBar,

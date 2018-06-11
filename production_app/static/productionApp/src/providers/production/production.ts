@@ -36,6 +36,7 @@ export class ProductionProvider {
     active_operator_id: number = 0;
 
     qty;
+    scrap_qty;
     lot_name;
     lot_date;
     product_use_date: string;
@@ -269,6 +270,7 @@ export class ProductionProvider {
         this.start_checks = [];
         this.freq_checks = [];
         this.product_use_date = data.product_use_date
+        this.scrap_qty = 0;
     }
     
     // Load Quality checks in each type list
@@ -433,6 +435,10 @@ export class ProductionProvider {
         this.state = 'cleaning';
         var values = {'stop_id': this.odooCon.last_stop_id, 'stop_end': this.getUTCDateStr()};
         this.setStepAsync('restart_and_clean_production', values);
+    }
+    scrapProduction(){
+        var values = {'scrap_qty': this.scrap_qty};
+        this.setStepAsync('scrap_production', values);
     }
 
 }

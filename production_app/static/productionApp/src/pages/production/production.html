@@ -167,17 +167,22 @@
                     </ion-col>
                 </ion-row>
                 <ion-row *ngIf="prodData.state === 'started'">
-                    <ion-col width-50>
+                    <ion-col width-33>
                         <button class="btn" *ngIf="prodData.state == 'started'" (click)="cleanProduction()">
                             Empezar Limpieza
                         </button>
                     </ion-col>
-                    <ion-col width-50>
+                    <ion-col width-33>
                          <button class="btn2"  color="danger" *ngIf="prodData.state == 'started'" (click)="stopProduction()">
                             Parar Producción
                         </button>
                     </ion-col>
-                </ion-row>
+<!--                      <ion-col width-33>
+                        <button class="btn" *ngIf="prodData.state == 'started'" (click)="scrapProduction()" color="danger">
+                            Scrap
+                        </button>
+                    </ion-col>
+ -->                </ion-row>
                 <ion-row *ngIf="prodData.state === 'stoped'">
                     <ion-col width-50>
                         <button  class="btn" *ngIf="prodData.state == 'stoped'" (click)="restartProduction()">
@@ -187,6 +192,13 @@
                     <ion-col width-50>
                         <button class="btn" *ngIf="prodData.state == 'stoped'" (click)="restartAndCleanProduction()">
                             Reaunudar y Empezar limpieza
+                        </button>
+                    </ion-col>
+                </ion-row>
+                <ion-row *ngIf="(prodData.state == 'started') || (prodData.state == 'stoped') || (prodData.state == 'cleaning')">
+                     <ion-col width-100>
+                        <button ion-button full round (click)="scrapProduction()" color="danger">
+                            Scrap
                         </button>
                     </ion-col>
                 </ion-row>
