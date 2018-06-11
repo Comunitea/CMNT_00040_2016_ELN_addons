@@ -346,8 +346,6 @@ export class ProductionProvider {
         console.log(moves);
         console.log("LOADED CONSUMPTIONS");
         console.log(this.consumptions);   
-        console.log("LOADED ALLOWED CONSUMPTIONS");
-        console.log(this.allowed_onsumptions);
     }
 
     getConsumptions(){
