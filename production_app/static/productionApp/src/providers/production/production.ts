@@ -33,6 +33,7 @@ export class ProductionProvider {
     organizative_reasons: Object[];
 
     consumptions: Object[];
+    allowed_consumptions: Object[];
 
     operator_line_id;
     active_operator_id: number = 0;
@@ -336,6 +337,9 @@ export class ProductionProvider {
                 'state': state
             }
             this.consumptions.push(vals);
+            if (move['show_in_app'] == true){
+                this.allowed_consumptions.push(vals);
+            }
         }
         console.log("MOVES");
         console.log(moves);
@@ -346,7 +350,7 @@ export class ProductionProvider {
     getConsumptions(){
         var promise = new Promise( (resolve, reject) => {
             var domain = [['raw_material_production_id', '=', this.production_id]]
-            var fields = ['id', 'product_id', 'product_uom_qty', 'product_uom', 'restrict_lot_id', 'state']
+            var fields = ['id', 'show_in_app', 'product_id', 'product_uom_qty', 'product_uom', 'restrict_lot_id', 'state']
             this.odooCon.searchRead('stock.move', domain, fields).then( (res) => {
                 this.loadConsumptions(res)
                 resolve();

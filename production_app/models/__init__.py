@@ -4,4 +4,5 @@
 import app_registry
 import mrp
 import product
+import stock
 import stop_reason
