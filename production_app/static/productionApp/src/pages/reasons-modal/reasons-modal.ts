@@ -29,27 +29,31 @@ export class ReasonsModalPage {
         this.viewCtrl.dismiss(0);
     }
     reasonSelected(reason) {
+        if (reason.reason_type == 'organizative'){
+            this.viewCtrl.dismiss({'reason_id': reason.id, 'create_mo': false});
+        }
+        else{
+            let confirm = this.alertCtrl.create({
+                  title: 'Crear Orden de Mantenimiento?',
+                  message: "Se creará una orden de mantenimiento asociada al registro de la aplicación",
+                  buttons: [
+                    {
+                      text: 'No',
+                      handler: () => {
 
-        let confirm = this.alertCtrl.create({
-              title: 'Crear Orden de Mantenimiento?',
-              message: "Se creará una orden de mantenimiento asociada al registro de la aplicación",
-              buttons: [
-                {
-                  text: 'No',
-                  handler: () => {
-
-                    this.viewCtrl.dismiss({'reason_id': reason.id, 'create_mo': false});
-                  }
-                },
-                {
-                  text: 'Si',
-                  handler: () => {
-                    this.viewCtrl.dismiss({'reason_id': reason.id, 'create_mo': true});
-                  }
-                }
-              ]
-        });
-        confirm.present();
+                        this.viewCtrl.dismiss({'reason_id': reason.id, 'create_mo': false});
+                      }
+                    },
+                    {
+                      text: 'Si',
+                      handler: () => {
+                        this.viewCtrl.dismiss({'reason_id': reason.id, 'create_mo': true});
+                      }
+                    }
+                  ]
+            });
+            confirm.present();
+        }
     }
     selectOrganizative(reason){
         this.reasons = this.prodData.organizative_reasons
