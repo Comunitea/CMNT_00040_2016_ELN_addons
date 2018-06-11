@@ -19,8 +19,10 @@
 
 
 <ion-content padding>
-    <ion-label color="primary" stacked><span>Cantidad</span></ion-label>
-    <ion-input type="number"  [(ngModel)]="qty" required name='qty' placeholder="Cantidad Scrap"></ion-input>
+    <ion-label color="primary" stacked><span>Cantidad en {{this.prodData.uom}}</span></ion-label>
+    <ion-input type="number"  [(ngModel)]="qty" required name='qty' (ionChange)='onchange_uom()' placeholder="Cantidad UdM"></ion-input>
+    <ion-label color="primary" stacked><span>Cantidad en {{this.prodData.uos}}</span></ion-label>
+    <ion-input type="number"  [(ngModel)]="uos_qty" required name='uos_qty' (ionChange)='onchange_uos()' placeholder="Cant. Segunda Unidad"></ion-input>
    
 
    <button ion-button full (click)="confirm()">

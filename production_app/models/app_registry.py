@@ -147,9 +147,14 @@ class AppRegistry(models.Model):
             use_time = reg.wc_line_id.production_id.product_id.use_time
             use_date = (datetime.now() + timedelta(use_time)).\
                 strftime("%Y-%m-%d")
+
+            uom = reg.product_id.uom_id.name
+            uos = reg.product_id.uos_id.name
+            uos_coeff = reg.product_id.uos_coeff
             res.update(allowed_operators=allowed_operators,
                        active_operator_ids=active_operator_ids,
-                       product_use_date=use_date)
+                       product_use_date=use_date,
+                       uom=uom, uos=uos, uos_coeff=uos_coeff)
         return res
 
     @api.model

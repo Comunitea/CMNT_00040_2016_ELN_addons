@@ -271,6 +271,9 @@ export class ProductionProvider {
         this.freq_checks = [];
         this.product_use_date = data.product_use_date
         this.scrap_qty = 0;
+        this.uom = data.uom;
+        this.uos = data.uos;
+        this.uos_coeff = data.uos_coeff;
     }
     
     // Load Quality checks in each type list
