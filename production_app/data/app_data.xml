@@ -5,7 +5,7 @@
         <record id="change_lot_qc" model="product.quality.check">
             <field name="name">Change Lot</field>
             <field name="quality_type">freq</field>
-            <field name="control_type">text</field>
+            <field name="value_type">text</field>
         </record>
     </data>
 </openerp>

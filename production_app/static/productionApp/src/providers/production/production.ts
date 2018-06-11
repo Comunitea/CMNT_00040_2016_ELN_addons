@@ -318,6 +318,7 @@ export class ProductionProvider {
 
     loadConsumptions(moves) {
         this.consumptions = [];
+        this.allowed_consumptions = [];
         for (let indx in moves) {
             var move = moves[indx];
             var lot = '';
@@ -344,7 +345,9 @@ export class ProductionProvider {
         console.log("MOVES");
         console.log(moves);
         console.log("LOADED CONSUMPTIONS");
-        console.log(this.consumptions);
+        console.log(this.consumptions);   
+        console.log("LOADED ALLOWED CONSUMPTIONS");
+        console.log(this.allowed_onsumptions);
     }
 
     getConsumptions(){
