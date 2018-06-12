@@ -104,22 +104,22 @@
                         </ion-col>
                     </ion-row>
                     <ion-row>
-                        <ion-col col-8>
+                        <ion-col col-12>
                             <span class="bold-header">Producto</span>
                         </ion-col>
-                        <ion-col col-4 text-right>
+                        <!-- <ion-col col-4 text-right>
                             <span class="bold-header" (click)="workcenterSelected(workcenter)">Lote</span>
-                        </ion-col>
+                        </ion-col> -->
                     </ion-row>
                     <ion-row *ngFor="let move of prodData.allowed_consumptions" class="grid2-row">
-                        <ion-col col-8>
+                        <ion-col col-12>
    <!--                          <button class="custom-font-size" ion-item (click)="consumeSelected(move)">
                             </button> -->
                             <span class="col-content" (click)="consumeSelected(move)">{{move.product}}</span>
                         </ion-col>
-                        <ion-col col-4 text-right>
+                       <!--  <ion-col col-4 text-right>
                             <span class="col-content">{{move.lot}}</span>
-                        </ion-col>
+                        </ion-col> -->
                     </ion-row>
                 </ion-grid>
             </div>

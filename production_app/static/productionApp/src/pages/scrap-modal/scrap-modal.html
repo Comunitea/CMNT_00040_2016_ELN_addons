@@ -20,10 +20,23 @@
 
 <ion-content padding>
     <ion-label color="primary" stacked><span>Cantidad en {{this.prodData.uom}}</span></ion-label>
-    <ion-input type="number"  [(ngModel)]="qty" required name='qty' (ionChange)='onchange_uom()' placeholder="Cantidad UdM"></ion-input>
-    <ion-label color="primary" stacked><span>Cantidad en {{this.prodData.uos}}</span></ion-label>
-    <ion-input type="number"  [(ngModel)]="uos_qty" required name='uos_qty' (ionChange)='onchange_uos()' placeholder="Cant. Segunda Unidad"></ion-input>
-   
+    <ion-input type="number"  [(ngModel)]="qty" required name='qty' placeholder="Cantidad UdM"></ion-input>
+
+  <!--   <ion-label color="primary" stacked><span>Motivo</span></ion-label>
+    <ion-input type="text"  [(ngModel)]="reason" required name='reason' placeholder="Motivo"></ion-input> -->
+    <!-- Diable secon unit -->
+    <!-- <ion-label color="primary" stacked><span>Cantidad en {{this.prodData.uos}}</span></ion-label>
+    <ion-input type="number"  [(ngModel)]="uos_qty" required name='uos_qty' (ionChange)='onchange_uos()' placeholder="Cant. Segunda Unidad"></ion-input> -->
+    <ion-label color="primary" stacked><span>Motivos</span></ion-label>
+    <ion-list>
+<!--         <ion-item [hidden]='reasons.length>0' color ="danger"> No hay motivos de parada</ion-item> -->
+        <button ion-item *ngFor="let reason of reasons" (click)="reasonSelected(reason)">
+            <!-- <ion-icon name="text"></ion-icon> -->
+            <span>{{ reason.name }}</span>
+        </button>  
+    </ion-list>
+
+    <span> Motivo Seleccionado </span> <span style="color:red">{{this.reason_name}} </span>
 
    <button ion-button full (click)="confirm()">
         Confirmar

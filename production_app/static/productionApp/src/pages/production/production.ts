@@ -148,6 +148,9 @@ export class ProductionPage {
                     resolve();
                 }
                 else{
+                    if (qtype == 'start' && restart_timer){
+                        this.timer.toArray()[0].restartTimer();  // Production timer on
+                    } 
                     if (qchecks.length === 0)
                         resolve();
                     else
@@ -237,6 +240,7 @@ export class ProductionPage {
                 }
                 else {
                     this.prodData.scrap_qty = res.qty;
+                    this.prodData.scrap_reason_id = res.reason_id;
                     resolve();
                 }
             });

@@ -31,6 +31,7 @@ export class ProductionProvider {
 
     technical_reasons: Object[];
     organizative_reasons: Object[];
+    scrap_reasons: Object[];
 
     consumptions: Object[];
     allowed_consumptions: Object[];
@@ -40,6 +41,7 @@ export class ProductionProvider {
 
     qty: number;
     scrap_qty: number;
+    scrap_reason_id: number;
     uom: string;
     uos: string;
     uos_coeff: number;
@@ -140,7 +142,7 @@ export class ProductionProvider {
         var d = new Date();
         d.setMonth(d.getMonth() - 3);
         var limit_date = d.toISOString().split("T")[0];
-        this.odooCon.searchRead('stock.production.lot', [['product_id', 'in', this.product_ids]], ['id', 'name', 'use_date',  'product_id']).then( (res) => {
+        this.odooCon.searchRead('stock.production.lot', [['product_id', 'in', this.product_ids], ['virtual_available', '>', 0]], ['id', 'name', 'use_date',  'product_id']).then( (res) => {
             this.lots = res;
             for (let indx in res) {
                 let lot = res[indx];
@@ -237,6 +239,24 @@ export class ProductionProvider {
         return promise
     }
 
+    getScrapReasons(){
+        var promise = new Promise( (resolve, reject) => {
+            this.odooCon.searchRead('scrap.reason', [], ['id', 'name']).then( (res) => {
+                this.scrap_reasons = [];
+                for (let indx in res) {
+                    var r = res[indx];
+                    this.scrap_reasons.push(r)
+                }
+                resolve();
+            })
+            .catch( (err) => {
+                console.log(" GET REASONS ERROR deberia ser una promesa, y devolver error, controlarlo en la página y lanzar excepción")
+                reject();
+            });
+        });
+        return promise
+    }
+
     // Gets all the data needed fom the app.regystry model
     loadProduction(workcenter){
         this.workcenter = workcenter
@@ -252,6 +272,7 @@ export class ProductionProvider {
                     this.setLogedTimes();  // Load Quality Checks. TODO PUT PROMISE SYNTAX
                     this.getLots();  // Load Quality Checks. TODO PUT PROMISE SYNTAX
                     this.getAllowedOperators(reg)
+                    this.getScrapReasons();
                     resolve(reg);
                 }
                 else {
@@ -455,7 +476,7 @@ export class ProductionProvider {
         this.setStepAsync('restart_and_clean_production', values);
     }
     scrapProduction(){
-        var values = {'scrap_qty': this.scrap_qty};
+        var values = {'scrap_qty': this.scrap_qty, 'scrap_reason_id': this.scrap_reason_id};
         this.setStepAsync('scrap_production', values);
     }
 

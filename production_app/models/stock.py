@@ -10,3 +10,4 @@ class StockMove(models.Model):
 
     show_in_app = fields.Boolean('Show in app',
                                  related='product_id.show_in_app')
+    reason_id = fields.Many2one('scrap.reason', 'Reason')

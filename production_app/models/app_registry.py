@@ -348,6 +348,8 @@ class AppRegistry(models.Model):
     @api.model
     def scrap_production(self, values):
         qty = values.get('scrap_qty', 0.00)
+        import ipdb; ipdb.set_trace()
+        reason_id = values.get('scrap_reason_id', False)
         qty = float(qty)
         location_id = 4   # Ubicación desechos 1
         location_id = 23  # Ubicación desechos 2.
@@ -357,6 +359,7 @@ class AppRegistry(models.Model):
             lot_id = reg.lot_id.id
             move = reg.production_id.move_created_ids[0]
             move.action_scrap(qty, location_id, restrict_lot_id=lot_id)
+            move.write({'reason_id': reason_id})
         return
 
     @api.model

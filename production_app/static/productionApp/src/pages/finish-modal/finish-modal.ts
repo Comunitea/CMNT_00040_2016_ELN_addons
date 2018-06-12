@@ -85,10 +85,7 @@ export class FinishModalPage {
         console.log(this.prodData.uom)
         if (this.ctrl !== 'not do'){
             var uos_coeff = this.prodData.uos_coeff;
-            if (uos_coeff == 0){
-                uos_coeff = 1
-            }
-            this.uos_qty = (this.qty / uos_coeff).toFixed(2);
+            this.uos_qty = (this.qty * uos_coeff).toFixed(2);
             this.ctrl = 'not do'
         }
         else{
@@ -99,7 +96,11 @@ export class FinishModalPage {
     onchange_uos() {
         console.log("b")
         if (this.ctrl !== 'not do'){
-            this.qty = (this.uos_qty * this.prodData.uos_coeff).toFixed(2);
+            var uos_coeff = this.prodData.uos_coeff;
+            if (uos_coeff == 0){
+                uos_coeff = 1
+            }
+            this.qty = (this.uos_qty / uos_coeff).toFixed(2);
             this.ctrl = 'not do'
         } 
         else{

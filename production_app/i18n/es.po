@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-13 08:39+0000\n"
-"PO-Revision-Date: 2018-04-13 08:39+0000\n"
+"POT-Creation-Date: 2018-06-12 16:00+0000\n"
+"PO-Revision-Date: 2018-06-12 16:00+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -25,7 +25,7 @@ msgstr "App"
 #: view:app.registry:production_app.app_registry_tree_view
 #: model:ir.actions.act_window,name:production_app.action_app_registry
 #: model:ir.ui.menu,name:production_app.menu_app_registry
-#: view:stop.reason:production_app.stop_reason_form_view
+#: view:scrap.reason:production_app.scrap_reason_form_view
 msgid "App Registrys"
 msgstr "Registros App"
 
@@ -40,9 +40,9 @@ msgid "Associated Products"
 msgstr "Productos Asociados"
 
 #. module: production_app
-#: view:stop.reason:production_app.stop_reason_form_view
-msgid "Associated Workcenters"
-msgstr "Centros de Producción asociados"
+#: view:stock.move:production_app.view_move_search_add_reason
+msgid "Available in App"
+msgstr "Disponible en App"
 
 #. module: production_app
 #: selection:product.quality.check,value_type:0
@@ -79,20 +79,22 @@ msgstr "Typo control"
 #: field:operator.line,create_uid:0
 #: field:product.quality.check,create_uid:0
 #: field:quality.check.line,create_uid:0
+#: field:scrap.reason,create_uid:0
 #: field:stop.line,create_uid:0
 #: field:stop.reason,create_uid:0
 msgid "Created by"
-msgstr "Created by"
+msgstr "Creado por"
 
 #. module: production_app
 #: field:app.registry,create_date:0
 #: field:operator.line,create_date:0
 #: field:product.quality.check,create_date:0
 #: field:quality.check.line,create_date:0
+#: field:scrap.reason,create_date:0
 #: field:stop.line,create_date:0
 #: field:stop.reason,create_date:0
 msgid "Created on"
-msgstr "Created on"
+msgstr "Creado en"
 
 #. module: production_app
 #: field:quality.check.line,date:0
@@ -114,6 +116,7 @@ msgstr "Fecha salida"
 #: field:operator.line,display_name:0
 #: field:product.quality.check,display_name:0
 #: field:quality.check.line,display_name:0
+#: field:scrap.reason,display_name:0
 #: field:stop.line,display_name:0
 #: field:stop.reason,display_name:0
 msgid "Display Name"
@@ -128,7 +131,6 @@ msgstr "Frecuencial"
 #. module: production_app
 #: view:app.registry:production_app.app_registry_filter_view
 #: view:product.quality.check:production_app.product_quality_check_filter_view
-#: view:stop.reason:production_app.stop_reason_filter_view
 msgid "Group By"
 msgstr "Agrupar por"
 
@@ -142,6 +144,7 @@ msgstr "Horas"
 #: field:operator.line,id:0
 #: field:product.quality.check,id:0
 #: field:quality.check.line,id:0
+#: field:scrap.reason,id:0
 #: field:stop.line,id:0
 #: field:stop.reason,id:0
 msgid "ID"
@@ -157,6 +160,7 @@ msgstr "Entradas / Salidas Operarios"
 #: field:operator.line,__last_update:0
 #: field:product.quality.check,__last_update:0
 #: field:quality.check.line,__last_update:0
+#: field:scrap.reason,__last_update:0
 #: field:stop.line,__last_update:0
 #: field:stop.reason,__last_update:0
 msgid "Last Modified on"
@@ -167,6 +171,7 @@ msgstr "Last Modified on"
 #: field:operator.line,write_uid:0
 #: field:product.quality.check,write_uid:0
 #: field:quality.check.line,write_uid:0
+#: field:scrap.reason,write_uid:0
 #: field:stop.line,write_uid:0
 #: field:stop.reason,write_uid:0
 msgid "Last Updated by"
@@ -177,6 +182,7 @@ msgstr "Last Updated by"
 #: field:operator.line,write_date:0
 #: field:product.quality.check,write_date:0
 #: field:quality.check.line,write_date:0
+#: field:scrap.reason,write_date:0
 #: field:stop.line,write_date:0
 #: field:stop.reason,write_date:0
 msgid "Last Updated on"
@@ -188,9 +194,14 @@ msgid "Lot"
 msgstr "Lote"
 
 #. module: production_app
+#: model:ir.model,name:production_app.model_mrp_production
+msgid "Manufacturing Order"
+msgstr "Órden de producción"
+
+#. module: production_app
 #: field:product.quality.check,max_value:0
 msgid "Maximum Value"
-msgstr "Valor máximo"
+msgstr "valor máximo"
 
 #. module: production_app
 #: field:product.quality.check,min_value:0
@@ -226,11 +237,6 @@ msgstr "Operadores"
 #: selection:stop.reason,reason_type:0
 msgid "Organizative"
 msgstr "Organizativo"
-
-#. module: production_app
-#: view:stop.reason:production_app.stop_reason_filter_view
-msgid "Organizative reasons"
-msgstr "Causas organizativas"
 
 #. module: production_app
 #: field:app.registry,product_id:0
@@ -354,15 +360,12 @@ msgid "Quantity"
 msgstr "Cantidad"
 
 #. module: production_app
+#: field:scrap.reason,name:0
+#: field:stock.move,reason_id:0
 #: field:stop.line,reason_id:0
 #: field:stop.reason,name:0
 msgid "Reason"
 msgstr "Motivo"
-
-#. module: production_app
-#: view:stop.reason:production_app.stop_reason_filter_view
-msgid "Reason Type"
-msgstr "Tipo motivo"
 
 #. module: production_app
 #: field:mrp.workcenter,reason_ids:0
@@ -392,9 +395,17 @@ msgid "Required Text"
 msgstr "Texto obligatorio"
 
 #. module: production_app
+#: model:ir.actions.act_window,name:production_app.action_scrap_reason
+#: model:ir.ui.menu,name:production_app.menu_scrap_reason
+#: view:scrap.reason:production_app.scrap_reason_form_view
+#: view:scrap.reason:production_app.scrap_reason_tree_view
+msgid "Scrap Reasons"
+msgstr "Motivos Scrap"
+
+#. module: production_app
 #: view:app.registry:production_app.app_registry_filter_view
 #: view:product.quality.check:production_app.product_quality_check_filter_view
-#: view:stop.reason:production_app.stop_reason_filter_view
+#: view:scrap.reason:production_app.scrap_reason_filter_view
 msgid "Search Work Orders"
 msgstr "Buscar órdenes trabajo"
 
@@ -424,6 +435,12 @@ msgid "Setup Start"
 msgstr "Inicio preparación"
 
 #. module: production_app
+#: field:product.product,show_in_app:0
+#: field:stock.move,show_in_app:0
+msgid "Show in app"
+msgstr "Mostrar en app"
+
+#. module: production_app
 #: selection:product.quality.check,quality_type:0
 msgid "Start Up"
 msgstr "De inicio"
@@ -450,6 +467,11 @@ msgid "Status"
 msgstr "Estado"
 
 #. module: production_app
+#: model:ir.model,name:production_app.model_stock_move
+msgid "Stock Move"
+msgstr "Movimiento de existencias"
+
+#. module: production_app
 #: field:stop.line,stop_duration:0
 msgid "Stop Duration"
 msgstr "Duración parada"
@@ -458,14 +480,6 @@ msgstr "Duración parada"
 #: field:stop.line,stop_end:0
 msgid "Stop End"
 msgstr "Fin parada"
-
-#. module: production_app
-#: model:ir.actions.act_window,name:production_app.action_stop_reason
-#: model:ir.ui.menu,name:production_app.menu_stop_reason
-#: view:stop.reason:production_app.stop_reason_form_view
-#: view:stop.reason:production_app.stop_reason_tree_view
-msgid "Stop Reasons"
-msgstr "Motivos parada"
 
 #. module: production_app
 #: field:stop.line,stop_start:0
@@ -481,11 +495,6 @@ msgstr "Paradas"
 #: selection:stop.reason,reason_type:0
 msgid "Technical"
 msgstr "Técnico"
-
-#. module: production_app
-#: view:stop.reason:production_app.stop_reason_filter_view
-msgid "Technical Reason"
-msgstr "Motivo técnico"
 
 #. module: production_app
 #: view:mrp.workcenter:production_app.mrp_workcenter_view_add_technical_reasons

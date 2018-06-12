@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>    
+    
+    <record id="view_move_form_add_reason" model="ir.ui.view">
+            <field name="name">stock.move.form</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock.view_move_form"/>
+            <field name="arch" type="xml">
+                <field name="priority" position="after">
+                    <field name="reason_id"/>
+                    <field name="show_in_app"/>
+                </field>
+            </field>
+    </record>
+
+    <record id="view_move_tree_add_reason" model="ir.ui.view">
+        <field name="name">stock.move.form</field>
+        <field name="model">stock.move</field>
+        <field name="inherit_id" ref="stock.view_move_form"/>
+        <field name="arch" type="xml">
+            <field name="state" position="before">
+                <field name="reason_id"/>
+                <field name="show_in_app" invisible="1"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_move_search_add_reason" model="ir.ui.view">
+        <field name="name">stock.move.form</field>
+        <field name="model">stock.move</field>
+        <field name="inherit_id" ref="stock.view_move_search"/>
+        <field name="arch" type="xml">
+            <field name="origin" position="after">
+                <field name="reason_id"/>
+            </field>
+
+            <filter name="ready" position="after">
+                <filter icon="terp-camera_test" string="Available in App" name="app_available" domain="[('show_in_app','=', True)]"/>
+            </filter>
+        </field>
+    </record>
+
+
+
+    </data>
+</openerp>

@@ -18,7 +18,10 @@ export class ScrapModalPage {
 
     qty;
     uos_qty;
-    ctrl
+    ctrl;
+    reason_id: number;
+    reason_name: string;
+    reasons: Object[];
 
     constructor(public navCtrl: NavController, public navParams: NavParams,
               public viewCtrl: ViewController,
@@ -26,6 +29,8 @@ export class ScrapModalPage {
         this.qty = 0.0;
         this.uos_qty = 0.0;
         this.ctrl = 'do';
+        this.reason_id=0;
+        this.reasons = this.prodData.scrap_reasons;
     }
 
     ionViewDidLoad() {
@@ -35,6 +40,7 @@ export class ScrapModalPage {
     confirm() {
         var res = {};
         res['qty'] = this.qty;
+        res['reason_id'] = this.reason_id;
         this.viewCtrl.dismiss(res);
     }
 
@@ -42,30 +48,36 @@ export class ScrapModalPage {
         this.viewCtrl.dismiss({});
     }
 
-    onchange_uom() {
-        console.log(this.prodData.uom)
-        if (this.ctrl !== 'not do'){
-            var uos_coeff = this.prodData.uos_coeff;
-            if (uos_coeff == 0){
-                uos_coeff = 1
-            }
-            this.uos_qty = (this.qty / uos_coeff).toFixed(2);
-            this.ctrl = 'not do'
-        }
-        else{
-            this.ctrl = 'do'
-        }
+    reasonSelected(reason) {
+        this.reason_id = reason.id
+        this.reason_name = reason.name
     }
 
-    onchange_uos() {
-        console.log("b")
-        if (this.ctrl !== 'not do'){
-            this.qty = (this.uos_qty * this.prodData.uos_coeff).toFixed(2);
-            this.ctrl = 'not do'
-        } 
-        else{
-            this.ctrl = 'do'
-        }  
-    }
+    // Diable second unit
+    // onchange_uom() {
+    //     console.log(this.prodData.uom)
+    //     if (this.ctrl !== 'not do'){
+    //         var uos_coeff = this.prodData.uos_coeff;
+    //         if (uos_coeff == 0){
+    //             uos_coeff = 1
+    //         }
+    //         this.uos_qty = (this.qty / uos_coeff).toFixed(2);
+    //         this.ctrl = 'not do'
+    //     }
+    //     else{
+    //         this.ctrl = 'do'
+    //     }
+    // }
+
+    // onchange_uos() {
+    //     console.log("b")
+    //     if (this.ctrl !== 'not do'){
+    //         this.qty = (this.uos_qty * this.prodData.uos_coeff).toFixed(2);
+    //         this.ctrl = 'not do'
+    //     } 
+    //     else{
+    //         this.ctrl = 'do'
+    //     }  
+    // }
 
 }
