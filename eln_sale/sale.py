@@ -64,26 +64,21 @@ class SaleOrder(models.Model):
     @api.onchange('shop_id')
     def onchange_shop_id(self):
         if self.shop_id:
+            self.company_id = self.shop_id.company_id
+            self.pricelist_id = self.shop_id.pricelist_id
+            self.supplier_id = self.shop_id.supplier_id
+            self.order_policy = self.shop_id.order_policy
+            self.warehouse_id = self.shop_id.warehouse_id
             if self.shop_id.project_id and not self.project_id:
-                self.project_id = self.shop_id.project_id.id
-            if self.shop_id.company_id:
-                self.company_id = self.shop_id.company_id.id
-            if self.shop_id.pricelist_id:
-                self.pricelist_id = self.shop_id.pricelist_id.id
-            if self.shop_id.supplier_id:
-                self.supplier_id = self.shop_id.supplier_id.id
-            if self.shop_id.order_policy:
-                self.order_policy = self.shop_id.order_policy
-            if self.shop_id.warehouse_id:
-                self.warehouse_id = self.shop_id.warehouse_id.id
+                self.project_id = self.shop_id.project_id
             if self.partner_id:
                 partner_id = self.partner_id.commercial_partner_id
                 if self.shop_id.indirect_invoicing:
                     if partner_id.property_product_pricelist_indirect_invoicing:
-                        self.pricelist_id = partner_id.property_product_pricelist_indirect_invoicing.id
+                        self.pricelist_id = partner_id.property_product_pricelist_indirect_invoicing
                 else:
                     if partner_id.property_product_pricelist:
-                        self.pricelist_id = partner_id.property_product_pricelist.id
+                        self.pricelist_id = partner_id.property_product_pricelist
         else:
             self.pricelist_id = False
 
