@@ -21,17 +21,10 @@ class StockTransferDetails(models.TransientModel):
         res = super(StockTransferDetails, self.with_context(ctx)).do_detailed_transfer()
         if self._context.get('no_transfer', True):
             for op in self.picking_id.pack_operation_ids:
-                op.picking_order = op.location_id.picking_order
+                op.picking_order = op.product_id.loc_row or op.location_id.picking_order
         return res
 
 
     @api.model
     def default_get(self, fields):
-        res = super(StockTransferDetails, self).default_get(fields)
-        if self._context.get('from_cross_company', False):
-            final_location_dest_id = self._context.get('final_location_dest_id', False)
-            for item in res['item_ids']:
-                item['final_location_dest_id'] = final_location_dest_id
-            for item in res['packop_ids']:
-                item['final_location_dest_id'] = final_location_dest_id
-        return res
+        return super(StockTransferDetails, self).default_get(fields)

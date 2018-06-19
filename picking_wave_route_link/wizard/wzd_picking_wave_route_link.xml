@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+        <!-- add picking to wave  -->
+        <record model="ir.ui.view" id="form_picking_wave_route_link">
+            <field name="name">form.picking.wave.route.link</field>
+            <field name="model">wzd.picking.wave.route.link</field>
+            <field name="arch" type="xml">
+                <form string="Create picking wave from selected routes">
+                    <separator string="Select a date"/>
+                    <group>
+                    <field name="requested_date" />
+                    <field name="link_pickings"/>
+                    </group>
+                    <footer>
+                        <button name="create_waves" type="object" string="Create routes" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!--  add picking to wave action -->
+        <record model="ir.actions.act_window" id="picking_wave_route_link_act">
+            <field name="name">Create picking wave</field>
+            <field name="res_model">wzd.picking.wave.route.link</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="form_picking_wave_route_link"/>
+            <field name="target">new</field>
+        </record>
+
+        <act_window id="action_picking_wave_route_link"
+
+            key2="client_action_multi" name="Create wave"
+            res_model="wzd.picking.wave.route.link" src_model="route"
+            view_mode="form" target="new" view_type="form"
+            />
+
+    </data>
+
+</openerp>

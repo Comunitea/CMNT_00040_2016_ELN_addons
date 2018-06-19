@@ -3,10 +3,10 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from openerp import api, models, fields, _
+
 from openerp.addons import decimal_precision as dp
 from openerp.exceptions import ValidationError
 from openerp.tools.float_utils import float_compare, float_round
-
 
 class ProcurementOrder(models.Model):
     _inherit = "procurement.order"
@@ -23,7 +23,6 @@ class ProcurementOrder(models.Model):
 
     @api.model
     def set_proc_last_move_dest_id(self):
-
         last_proc_move = self.sudo().get_last_move_dest_id()
         if last_proc_move:
             last = self.move_ids and self.move_ids[0]
@@ -42,3 +41,13 @@ class ProcurementOrder(models.Model):
         if procurement.location_id.usage == 'transit':
             procurement.set_proc_last_move_dest_id()
         return res
+
+    @api.multi
+    def run_sudo_proc(self):
+        domain = [('state', '=', 'confirmed'), ('orderpoint_id', '=', False)]
+        proc_pool = self.env['procurement.order'].search(domain, order="id asc")
+        for proc in proc_pool:
+            print proc.name
+            proc.sudo().run()
+        if proc_pool:
+            self.env['procurement.order'].run_sudo_proc()

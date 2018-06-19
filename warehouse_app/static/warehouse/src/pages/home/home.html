@@ -1,11 +1,52 @@
-<ion-content>  
+<ion-content>
   <form (ngSubmit)="this.conectarApp(true)">
+<ion-grid text-center>
+  <ion-row >
+    <ion-col  width-100 >
+        <div style="text-align: center">
+          <img style="height: 100px" src="assets/imgs/nogal_background.jpeg" alt="Warehouse APP"/>
+        </div>
+    </ion-col>
+  </ion-row>
+                <ion-row>
 
-   <div>{{mensaje}}</div>
-   
+                    <ion-col width-100>
+                            <ion-list *ngIf="!cargar">
+                                <ion-item>
+                                   <ion-label color="primary" stacked><span class="custom-font-size">Usuario</span></ion-label>
+                                   <ion-input type="email"  [(ngModel)]="CONEXION.username" required name='username' placeholder="Ingresa Usuario"></ion-input>
+                                </ion-item>
+
+                                 <ion-item>
+                                   <ion-label color="primary" stacked><span class="custom-font-size">Contraseña</span></ion-label>
+                                   <ion-input type="password" [(ngModel)]="CONEXION.password" required name='password'  placeholder="Ingresa Contraseña"></ion-input>
+                                 </ion-item>
+                                 <ion-item>
+                                  <ion-label color="primary" stacked><span class="custom-font-size">URL</span></ion-label>
+                                  <ion-input [(ngModel)]="CONEXION.url" required name='url'  placeholder="Ingresa url"></ion-input>
+                                </ion-item>
+                                <ion-item>
+                                  <ion-label color="primary" stacked><span class="custom-font-size">Port</span></ion-label>
+                                  <ion-input type="number" [(ngModel)]="CONEXION.port" required name='port'  placeholder="Ingresa puerto"></ion-input>
+                                </ion-item>
+                                <ion-item>
+                                  <ion-label color="primary" stacked><span class="custom-font-size">Base  de datos</span></ion-label>
+                                  <ion-input [(ngModel)]="CONEXION.db" required name='db'  placeholder="Ingresa base de datos"></ion-input>
+                                </ion-item>
+                           </ion-list>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col width-100>
+                      <button ion-button full type="submit"><span class="custom-font-size">Login</span></button>
+                  </ion-col>
+                </ion-row>
+            </ion-grid>
+   <!--div>{{mensaje}}</div>
+
    <div style="text-align: center">
-       <img src="assets/imgs/icon.png" alt="Almacén"/>                        
-   </div> 
+       <img src="assets/imgs/icon.png" alt="Almacén"/>
+   </div>
 
    <ion-list *ngIf="!cargar">
      <ion-item>
@@ -34,10 +75,10 @@
      </ion-item>
      <div style="text-align: center">
      </div>
-   </ion-list>
+   </ion-list-->
  </form>
- 
- <div *ngIf="cargar" style="text-align: center">    
+
+ <div *ngIf="cargar" style="text-align: center">
    <ion-spinner name="circles"></ion-spinner><br>
    <b>Verificando...</b>
  </div>

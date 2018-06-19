@@ -25,6 +25,7 @@ import { StockOperationComponent} from '../../components/stock-operation/stock-o
 
 
 import { OdooProvider } from '../../providers/odoo-connector/odoo-connector';
+import { BarcodeScanner } from '../../providers/odoo-connector/barcode_scanner';
 
 @IonicPage()
 @Component({
@@ -35,12 +36,6 @@ export class TreeopsPage {
 
   @ViewChild('scanPackage') myScanPackage;
   @ViewChild(StockOperationComponent) pack_operation: StockOperationComponent;
-
-
-  @HostListener('document:keydown', ['$event'])
-  handleKeyboardEvent(event: KeyboardEvent) {
-    this.myScanPackage.setFocus();
-     }
 
 
   pick
@@ -56,15 +51,16 @@ export class TreeopsPage {
   record_count = 0
   isPaquete: boolean = true;
   isProducto: boolean = false;
-
+  info_pick: boolean
   scan = ''
   treeForm: FormGroup;
   model_fields = {'stock.quant.package': 'package_id', 'stock.location': 'location_id', 'stock.production.lot': 'lot_id'}
   whatOps: string
   aux: AuxProvider
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,  private formBuilder: FormBuilder,public alertCtrl: AlertController, private storage: Storage, private odoo: OdooProvider) {
+  constructor(public Scanner: BarcodeScanner, public navCtrl: NavController, public navParams: NavParams,  private formBuilder: FormBuilder,public alertCtrl: AlertController, private storage: Storage, private odoo: OdooProvider) {
     this.aux = new AuxProvider
+    this.info_pick = true
     this.pick = {};
     this.pick_id = this.navParams.data.picking_id;
     this.model = this.navParams.data.model || this.model;
@@ -86,19 +82,13 @@ export class TreeopsPage {
     this.loadList();
     this.pick['whatOps'] = this.whatOps
   }
-
-  seeAll(){
-    if (this.whatOps=='Todas'){
-      this.whatOps='Pendientes'
-    }
-    else if (this.whatOps=="Pendientes")
-      {this.whatOps='Realizadas'}
-    else if (this.whatOps=="Realizadas")
-      {this.whatOps='Todas'}
+  seeAll2(){
     this.aux.filter_user = this.whatOps
-    this.pick['whatOps'] = this.whatOps
   }
-
+  
+  infopick(val){
+    this.info_pick = val
+  }
   ionViewLoaded() {
 
     setTimeout(() => {
@@ -108,7 +98,6 @@ export class TreeopsPage {
      }
   goHome(){this.navCtrl.setRoot(TreepickPage, {borrar: true, login: null});}
   loadOp(id=0){
-
   }
   loadList(id=0){
     this.cargar = true;
@@ -212,6 +201,8 @@ export class TreeopsPage {
 
   getObjectId(values){
     var self = this;
+
+    
     var object_id = {}
     var model = 'warehouse.app'
     var method = 'get_object_id'
@@ -229,11 +220,8 @@ export class TreeopsPage {
 
   doAssign(id, do_assign){
     this.cargar = true;
-    var self = this;
-    var object_id = {}
     var values = {'id': id, 'action': do_assign}
-
-    var method = 'pda_do_assign'
+    var method = 'pda_do_assign_from_pda'
     this.odoo.execute(this.model, method, values).then((value)=>{
       if (value){
         if (value){
@@ -258,10 +246,9 @@ export class TreeopsPage {
 
   doPreparePartial(id){
     this.cargar = true;
-    var model = 'stock.picking'
-    var method = 'pda_do_prepare_partial'
+    var method = 'pda_do_prepare_partial_from_pda'
     var values = {'id': id}
-    this.odoo.execute(model, method, values).then((value)=>{
+    this.odoo.execute(this.model, method, values).then((value)=>{
       if (value) {
         this.loadList()
       }
@@ -274,10 +261,32 @@ export class TreeopsPage {
     });
 }
 
+ask_doTransfer(id) {
+  let alert = this.alertCtrl.create({
+    title: 'Confirmación',
+    message: 'Finalizar albarán?',
+    buttons: [
+      {
+        text: 'No',
+        role: 'cancel',
+        handler: () => {
+        }
+      },
+      {
+        text: 'Si',
+        handler: () => {
+          this.doTransfer(id)
+        }
+      }
+    ]
+  });
+  alert.present();
+}
+
+
   doTransfer(id){
     this.cargar = true;
-    var self = this;
-    var method = 'pda_do_transfer'
+    var method = 'pda_do_transfer_from_pda'
     var values = {'id': id}
     var object_id = {}
     this.cargar = true;
@@ -312,4 +321,28 @@ export class TreeopsPage {
 
 
 
+
+find_op (scan){
+  let val: {}
+  for (var op in this.pick['pack_operation_ids']){
+    var opObj = this.pick['pack_operation_ids'][op];
+    console.log(opObj);
+    //Busco por lote
+    if (opObj['lot_id'] && opObj['lot_id']['name'] == scan || opObj['pda_product_id'] && opObj['pda_product_id']['ean13'] == scan){
+      val = {op_id: opObj['id'], index: op, ops: this.pick['pack_operation_ids'], origin: true}
+      return val
+    }
+
+  }
+
+  }
+Scan(scan){
+  let val = this.find_op(scan)
+  if (val){
+    this.navCtrl.push(SlideopPage, val)
+  }
+  else{
+    this.presentAlert('Aviso!', 'No he </hr> encontrado\n nada\n <' + scan + '>');
+  }
+}
 }

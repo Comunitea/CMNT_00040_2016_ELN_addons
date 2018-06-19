@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_tree_group_stock_pack_operation" model="ir.ui.view">
+            <field name="name">view.tree.group.spo</field>
+            <field name="model">stock.pack.operation.group</field>
+            <field name="arch" type="xml">
+                <tree editable="top">
+                    <field name="display_name" invisible="1"/>
+                    <field name="package_id" invisible="1"/>
+                    <field name="lot_id"/>
+                    <field name="pda_product_id"/>
+                    <field name="location_id"/>
+                    <field name="location_dest_id"/>
+                    <field name="product_qty"/>
+                    <field name="product_uom_id"/>
+                    <!--field name="uos_qty" invisible="1"/>
+                    <field name="uos_id" invisible="1"/>
+                    <field name="picking_names"/>
+                    <field name="pda_done" />
+                    <field name="qty_done"/>
+                    <field name="product_uom_id" invisible="1"/-->
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_form_group_stock_pack_operation" model="ir.ui.view">
+            <field name="name">view.tree.group.spo</field>
+            <field name="model">stock.pack.operation.group</field>
+            <field name="arch" type="xml">
+                <form><sheet>
+                    <group>
+                        <group>
+                            <field name="display_name"/>
+                            <field name="pda_product_id"/>
+                            <field name="package_id" invisible="1"/>
+                            <field name="lot_id"/>
+
+                        </group>
+
+                        <group>
+                            <field name="location_id"/>
+                            <field name="location_dest_id"/>
+                            <field name="picking_names"/>
+                        </group>
+                    </group>
+
+                    <group>
+
+                        <group string ="Cantidades UoM">
+                            <field name="product_qty"/>
+                            <field name="qty_done"/>
+                            <field name="product_uom_id"/>
+                        </group>
+                        <group string ="Cantidades UoS">
+                            <field name="uos_qty" />
+                            <field name="uos_qty_done"/>
+                            <field name="uos_id" />
+                        </group>
+
+                    </group>
+
+                    <notebook>
+                        <page name="ops" string="Operaciones">
+                            <field no_label="1" name ="op_ids"></field>
+                        </page>
+                        <page name="ops" string="Albaranes">
+                            <field no_label="1" name ="picking_ids"></field>
+                        </page>
+                    </notebook>
+
+                </sheet></form>
+            </field>
+        </record>
+
+
+
+        <record id="group_stock_pack_operation_view" model="ir.actions.act_window">
+            <field name="name">Agrupaciones de operaciones</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">stock.pack.operation.group</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="view_tree_group_stock_pack_operation"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    No hay ninguna agrupación
+                </p>
+            </field>
+        </record>
+        <menuitem action="group_stock_pack_operation_view" id="menu_group_stock_pack_operation_view" parent="stock.menu_stock_inventory_control" sequence="99"/>
+    </data>
+</openerp>

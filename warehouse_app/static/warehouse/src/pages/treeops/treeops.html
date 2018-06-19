@@ -12,38 +12,75 @@
       </button>
       <ion-title>{{ pick['name']}} [{{ pick['remaining_ops'] }} / {{pick['pack_operation_count']}}]</ion-title>
       <ion-buttons end>
-          
-        <button ion-button (click)="reorder_picks()">
-          <ion-icon name="git-compare"></ion-icon>
-        </button>
-      
-        <button ion-button (click)="goHome()">
-          <ion-icon name="home"></ion-icon>
-        </button>
-
+          <button ion-button item-end (click)="infopick(true)" *ngIf="!info_pick">
+              <ion-icon name="document"></ion-icon>              
+          </button>
+          <button ion-button item-end (click)="infopick(false)" *ngIf="info_pick">
+              <ion-icon name="list-box"></ion-icon>              
+          </button>
       </ion-buttons>
   </ion-navbar>        
   <!--ion-item no-lines class='noPadding'>   show_in_PDA
     <ion-label class='noPadding' color="primary"> {{ pick.picking_type_id_name}} </ion-label>
   </ion-item-->
   
-  <ion-item-group *ngIf="!cargar">
-    <ion-item no-lines>   
-      <ion-badge item-start (click)="doAssign(pick.id, false)" [hidden]='!pick.user_id' color='odoo'>Liber</ion-badge>
-      <ion-badge item-start (click)="doAssign(pick.id, true)" [hidden]='pick.user_id' color='odoo'>Asignar(me)</ion-badge>  
-      <ion-badge item-start (click)="seeAll()" color='odoo' >{{whatOps}}</ion-badge>
-      <ion-badge item-start (click)="doTransfer(pick.id)" [hidden]='pick.pack_operation_count == 0 || pick.state == "done" || (pick.pack_operation_count == pick.remaining_ops)' color='odoo'>Validar</ion-badge>
-      <ion-badge item-start (click)="doPreparePartial(pick.id)" [hidden]='pick.pack_operation_count != 0' color='odoo'>Preparar</ion-badge>
+  <ion-item-group *ngIf="!cargar && info_pick">
+    <ion-item no-lines>
+        <ion-label color='operations'>{{pick.user_id && pick.user_id.name || "Usuario" }} </ion-label>
+        <button ion-button item-end outline (click)="doAssign(pick.id, false)" [hidden]='!pick.user_id' color='odoo'>Liberar</button>
+        <button ion-button item-end outline (click)="doAssign(pick.id, true)" [hidden]='pick.user_id' color='odoo'>Asignar</button>
+      <!--ion-badge item-start (click)="doAssign(pick.id, false)" [hidden]='!pick.user_id' color='odoo'>Liber</ion-badge>
+      <ion-badge item-start (click)="doAssign(pick.id, true)" [hidden]='pick.user_id' color='odoo'>Asignar(me)</ion-badge-->  
     </ion-item>
-    <ion-item no-lines>   
-      <ion-badge item-start color="light" (click)="openLocation(pick.location_id && pick.location_id.id)">
+
+    <ion-item no-lines>
+        <ion-label color='operations'>
+            Operaciones
+        </ion-label>
+        
+        <!--button ion-button item-end outline (click)="reorder_picks()" color='odoo' >Reordenar</button-->
+        <ion-select [(ngModel)]="whatOps" interface="popover" (ionChange)='seeAll2'>
+            <ion-option value="Todas">Todas</ion-option>
+            <ion-option value="Pendientes">Pendientes</ion-option>
+            <ion-option value="Realizadas">Realizadas</ion-option>
+        </ion-select>
+        <button ion-button item-end (click)="reorder_picks()">
+            <ion-icon name="shuffle"></ion-icon>              
+        </button>
+        <!--button ion-button item-end outline (click)="seeAll()" color='odoo' >{{whatOps}}</button-->
+        <!--ion-badge item-start (click)="reorder_picks()" color='odoo' >Reordenar</ion-badge>
+        <ion-badge item-start (click)="seeAll()" color='odoo' >{{whatOps}}</ion-badge-->
+    </ion-item>
+    
+    <ion-item no-lines>
+        <ion-label color='operations'>
+            Acciones
+        </ion-label>
+      <button ion-button item-end outline (click)="doPreparePartial(pick.id)" [hidden]='pick.pack_operation_count != 0' color='odoo'>Preparar</button>
+      <button ion-button item-end outline (click)="ask_doTransfer(pick.id)" [hidden]='pick.pack_operation_count == 0 || pick.state == "done" || (pick.pack_operation_count == pick.remaining_ops)' color='odoo'>Validar</button>
+      <!--ion-badge item-start (click)="doTransfer(pick.id)" [hidden]='pick.pack_operation_count == 0 || pick.state == "done" || (pick.pack_operation_count == pick.remaining_ops)' color='odoo'>Validar</ion-badge>
+      <ion-badge item-start (click)="doPreparePartial(pick.id)" [hidden]='pick.pack_operation_count != 0' color='odoo'>Preparar</ion-badge-->
+    </ion-item>
+    <ion-item no-lines>    
+      <ion-badge item-start class="w50" color="light" (click)="openLocation(pick.location_id && pick.location_id.id)">
         {{pick['location_id'] && pick.location_id.name}}
       </ion-badge>       
-      <ion-badge item-start color="light" (click)="openLocation(pick.location_dest_id && pick.location_dest_id.id)">
+      <ion-badge item-start color="light" class="w50" (click)="openLocation(pick.location_dest_id && pick.location_dest_id.id)">
         {{ pick['location_dest_id'] && pick.location_dest_id.name}}
-      </ion-badge>          
-      <ion-badge item-start color="primary">{{pick.state && pick.state.name}} </ion-badge>
+      </ion-badge>   
     </ion-item>
+    <ion-item no-lines>    
+      <ion-badge item-start color="light" class="w100">
+        Pendientes {{ pick.remaining_ops}} de {{ pick.pack_operation_count}}
+      </ion-badge>   
+    </ion-item>
+    <ion-item no-lines color="odoo">    
+      <ion-label>
+        {{pick.state && pick.state.name}} // {{model == 'stock.picking.wave' && pick.picking_state.name}}
+      </ion-label>
+    </ion-item>
+    
+    
   </ion-item-group> 
 </ion-header>
 
@@ -52,13 +89,8 @@
     <ion-spinner name="circles"></ion-spinner><br>
     <b>Cargando...</b>
   </div>
-  <ion-item-group>
-     <ion-item no-lines style="height: 50px"></ion-item>
-     <ion-item no-lines></ion-item>
-  </ion-item-group>  
- 
    
-  <ion-list *ngIf="pick && !cargar" class="all0">
+  <ion-list *ngIf="pick && !cargar && !info_pick" class="all0">
     <stock-operation *ngFor="let item of pick.pack_operation_ids; let i = index" [stock_operation]="item" [pick] = 'pick' [whatOps]="whatOps" (notify) = "doOp(i, item.id, $event)"
         [hidden]="whatOps=='Pendientes' && item.pda_done || whatOps=='Realizadas' && !item.pda_done">
     </stock-operation>

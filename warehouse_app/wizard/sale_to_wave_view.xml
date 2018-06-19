@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+        <!-- add picking to wave  -->
+        <record model="ir.ui.view" id="sale_order_to_wave_form">
+            <field name="name">sale.order.to.wave.form</field>
+            <field name="model">sale.order.to.wave</field>
+            <field name="arch" type="xml">
+                <form string="Add pickings from selected sale order to wave">
+                    <separator string="Select a wave"/>
+                    <field name="wave_id" class="oe_inline"/>
+                    <footer>
+                        <button name="attach_pickings" type="object" string="Add to wave" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!--  add picking to wave action -->
+        <record model="ir.actions.act_window" id="sale_order_to_wave_act">
+            <field name="name">Add to Wave</field>
+            <field name="res_model">sale.order.to.wave</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="sale_order_to_wave_form"/>
+            <field name="target">new</field>
+        </record>
+
+        <act_window id="action_sale_order_to_wave"
+            multi="True"
+            key2="client_action_multi" name="Add to Wave"
+            res_model="sale.order.to.wave" src_model="sale.order"
+            view_mode="form" target="new" view_type="form"
+            />
+
+    </data>
+</openerp>

@@ -41,7 +41,6 @@ class StockMove(models.Model):
         context.update(cancel_event=True)
         package = self.pool.get('stock.quant.package').browse(cr, uid, [restrict_package_id], context=context)
         if package and not package.multi and package.product_id:
-
             res = self.onchange_product_id(cr, uid, ids,
                                            prod_id=package.product_id.id,
                                            loc_id=package.location_id.id,
@@ -65,6 +64,7 @@ class StockMove(models.Model):
 
     @api.model
     def move_prepare_partial(self):
+        #NO SE USA
         forced_qties = {}
         if self.state not in ('assigned', 'confirmed', 'waiting'):
             return
@@ -84,9 +84,15 @@ class StockMove(models.Model):
         self.picking_id.write({'recompute_pack_op': False})
         return new_op and new_op.id or False
 
+
+    @api.multi
+    def action_assign(self):
+        return super(StockMove, self).action_assign()
+
+
     @api.multi
     def action_done(self):
-
+        ctx = self._context.copy()
         for move in self:
             ctx = move._context.copy()
             if move.restrict_package_id:
@@ -98,30 +104,42 @@ class StockMove(models.Model):
 
     @api.model
     def pda_move(self, vals):
+        company_id = vals.get('company_id', False)
+        product_id = vals.get('product_id', False)
+        product_id = self.env['product.product'].get_pda_product(product_id)
+        location_id = vals.get('location_id', False)
 
-        restrict_package_id = vals.get('restrict_package_id', False) or False
+        if not company_id:
+            company_id = product_id.company_id.id
+        user_id = self.sudo().env['res.company'].browse(company_id).intercompany_user_id
+        self = self.sudo(user_id.id)
+        if self.env.user.company_id.id != company_id:
+            return {'message': 'Error de intercompañia', 'id': 0}
+
+        restrict_package_id = vals.get('restrict_package_id', False)
         location_dest_id = vals.get('location_dest_id', False)
-        result_package_id = vals.get('result_package_id', 0)
+        result_package_id = vals.get('result_package_id', False)
         create_new_result = False
         package_qty = vals.get('package_qty', False)
         product_uom_qty = vals.get('product_qty', 0.00)
 
-        if restrict_package_id == result_package_id and not package_qty:
+        if restrict_package_id and restrict_package_id == result_package_id and not package_qty:
             return {'message': 'No puedes mover un paquete si no es completo', 'id': 0}
         if product_uom_qty <=0:
             return {'message': 'No puedes una cantidad menor o igual a 0', 'id': 0}
 
-
         if result_package_id == 0:
             result_package_id = False
-        elif result_package_id > 0 and result_package_id != restrict_package_id:
-            result_package_id = self.env['stock.quant.package'].browse(result_package_id)
-            if result_package_id.location_id and result_package_id.location_id.id != location_dest_id:
-                return {'message': 'No puedes mover a un paquete que no está en la ubicación de destino', 'id': 0}
-            location_dest_id = location_dest_id
-            result_package_id = result_package_id.id
-        elif result_package_id < 0:
-            create_new_result = True
+        if result_package_id:
+            if result_package_id > 0 and result_package_id != restrict_package_id:
+                result_package_id = self.env['stock.quant.package'].browse(result_package_id)
+
+                if result_package_id.location_id and result_package_id.location_id.id != location_dest_id:
+                    return {'message': 'No puedes mover a un paquete que no está en la ubicación de destino', 'id': 0}
+                location_dest_id = location_dest_id
+                result_package_id = result_package_id.id
+            elif result_package_id < 0:
+                create_new_result = True
 
 
         if restrict_package_id:
@@ -138,13 +156,9 @@ class StockMove(models.Model):
         else:
             ##Sin paquete de origen
             restrict_lot_id = vals.get('restrict_lot_id', False)
-            product_id = self.env['product.product'].browse(vals.get('product_id', False))
-            location_id = vals.get('location_id', False)
-
 
         if create_new_result:
             result_package_id = self.env['stock.quant.package'].create({}).id
-
 
         vals = {
             'origin': 'PDA done: [%s]'%self.env.user.name,
@@ -157,13 +171,11 @@ class StockMove(models.Model):
             'location_id': location_id,
             'result_package_id': result_package_id,
             'location_dest_id': location_dest_id
-
         }
-        print vals
 
+        print vals
         new_move = self.env['stock.move'].create(vals)
         if new_move:
-
             new_move.action_done()
             return {'message': 'OK', 'id': new_move.id}
         else:

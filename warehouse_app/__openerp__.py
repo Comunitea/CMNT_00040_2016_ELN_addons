@@ -13,10 +13,10 @@
     "installable": True,
     "depends": [
         "stock", 
-        "stock_picking_wave",
-        "chained_transit_operations"
+        "picking_wave_route_link"
     ],
     "data": [
+        'security/ir.model.access.csv',
         'views/stock_picking.xml',
         'views/stock_location.xml',
         'views/stock_quant_package.xml',
@@ -24,7 +24,10 @@
         'views/stock_move.xml',
         'views/stock_picking_wave.xml',
         'views/printing_printer.xml',
-        'views/stock_move_consume_wzd.xml'
+        'views/stock_move_consume_wzd.xml',
+        'views/stock_pack_operation_group.xml',
+        'views/sale_order.xml',
+        'wizard/sale_to_wave_view.xml'
         #"report/report.xml",
         #"report/product_tag_report.xml",
         #"report/location_tag_report.xml",

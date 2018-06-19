@@ -51,15 +51,16 @@
       </ion-item>
         <ion-item no-lines>
           <ion-label class="l-op" >Qty:</ion-label>
+          
           <ion-badge item-end class="b-op w75"  [ngClass]="{'badge_checked':op.qty_done != 0.00}"  (click)="inputUomQty()">
             {{op.qty_done}} de {{ op['product_qty']}} {{ op.product_uom_id.name}} 
           </ion-badge> 
           
         </ion-item>
-        <ion-item>
+        <ion-item [hidden] = "op.uos_id.id == op.product_uom_id.id" >
             <ion-badge item-end class="b-op w75" [ngClass]="{'badge_checked':op.qty_done != 0.00}"  (click)="inputUosQty()">
                 {{op.uos_qty_done}} de {{ op['uos_qty']}} {{ op.uos_id.name}} 
-              </ion-badge> 
+            </ion-badge> 
         </ion-item>  
        
       <ion-item no-lines>
@@ -97,6 +98,10 @@
         <ion-item *ngIf="advance">
           <ion-label color="dark">Uom to 2º uos</ion-label>
           <ion-note item-end> {{ uom_to_uos }} </ion-note>
+        </ion-item>
+        <ion-item *ngIf="advance">
+          <ion-label color="dark">Location barcodes</ion-label>
+          <ion-note item-end> {{ op.location_id.loc_barcode }} >> {{ op.location_dest_id.loc_barcode }} </ion-note>
         </ion-item>
         <ion-item *ngIf="advance && !op.pda_done">
             <ion-label color="dark">Op preparada</ion-label>
@@ -197,7 +202,7 @@
     <form [formGroup]="barcodeForm" class ="alignBottom" [hidden] = "op['pda_done']">
         <ion-item>
            <ion-label color="odoo" item-start>Scan: </ion-label>
-           <ion-input #scan [formControl]="barcodeForm.controls['scan']" type="text" name="scan" placeholder = "Scan"  autofocus></ion-input>
+           <ion-input #scan [formControl]="barcodeForm.controls['scan']" type="text" name="scan" placeholder = "Scan"  (ionBlur) = "scanner(false)" (ionFocus)="scanner(true)"></ion-input>
           
            <button ion-button icon-only item-end clear (click)="submitScan()">
              <ion-icon name="barcode"></ion-icon>                  

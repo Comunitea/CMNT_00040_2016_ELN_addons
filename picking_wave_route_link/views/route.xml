@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="route_view_form_sequence" model="ir.ui.view">
+            <field name="name">route.view.form.sequence</field>
+            <field name="model">route</field>
+            <field name="inherit_id" ref="eln_custom.route_view_form"/>
+            <field name="arch" type="xml">
+
+                <field name="delivery_delay" position="after">
+                    <field name="ir_sequence_id" context="{'default_name': name, 'default_prefix': code}"/>
+                    <field name="picking_type_id" context="{'default_name': name, 'default_code': 'outgoing', 'default_sequence_id': ir_sequence_id}"/>
+                </field>
+
+            </field>
+        </record>
+    </data>
+</openerp>

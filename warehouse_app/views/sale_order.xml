@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+          <record id="sale_order_cancel_multi_form" model="ir.ui.view">
+            <field name="name">sale.order.cancel.multi.form</field>
+            <field name="model">sale.order.cancel.multi</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Cancel multi">
+                    <footer>
+                        <button name="cancel" string="Cancel" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window name="Cancel multi"
+            res_model="sale.order.cancel.multi"
+            src_model="sale.order"
+            view_id="sale_order_cancel_multi_form"
+            view_mode="form"
+            target="new"
+            key2="client_action_multi"
+            id="sale_order_cancel_multi_action"/>
+
+    </data>
+</openerp>

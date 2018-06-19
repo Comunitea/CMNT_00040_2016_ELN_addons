@@ -8,10 +8,10 @@ import openerp.addons.decimal_precision as dp
 
 from openerp.exceptions import ValidationError
 
-
 class StockPackOperation (models.Model):
 
     _inherit = 'stock.pack.operation'
+    order = 'picking_order, product_id, lot_id'
 
     @api.multi
     def get_app_names(self):
@@ -19,8 +19,10 @@ class StockPackOperation (models.Model):
             op.pda_product_id = op.product_id or op.package_id.product_id or op.lot_id.product_id
             op.total_qty = op.product_id and op.product_qty or op.package_id and op.package_id.package_qty
 
+    ean13 = fields.Char(related='pda_product_id.ean13')
     picking_order = fields.Integer("Picking order")
-    pda_product_id = fields.Many2one('product.product', compute = get_app_names, multi=True)
+    loc_row = fields.Char(related='product_id.loc_row', string="Picking order")
+    pda_product_id = fields.Many2one('product.product', string="Product", compute = get_app_names, multi=True)
     pda_done = fields.Boolean ('Pda done', help='True if done from PDA', default=False, copy=False)
     pda_checked = fields.Boolean('Pda checked', help='True if visited in PDA', default=False, copy=False)
     total_qty = fields.Float('Real qty', compute=get_app_names, multi=True)
@@ -29,20 +31,18 @@ class StockPackOperation (models.Model):
     uos_qty = fields.Float('Quantity (S.U.)',
                            digits_compute=dp.
                            get_precision('Product Unit of Measure'), compute="get_uos_values", multi=True)
-    uos_id = fields.Many2one('product.uom', 'Second Unit', related='product_id.uos_id')
+    uos_id = fields.Many2one('product.uom', 'Second Unit', compute="get_uos_values", multi=True)
+    group_id = fields.Integer("Numero de agrupación de operaciones", help="Si no agrupa, el group_id es elid de la operacion, con lo que hace una agrupación para el solo. Si se ")
 
+    @api.model
+    def set_not_group(self):
+        self.group_id = not self.group_id
     @api.multi
     def get_uos_values(self):
         t_uom = self.env['product.uom']
         for op in self:
             #op.uos_id = op.move_lines.uos_id.id
-
-            op.uos_id = op.linked_move_operation_ids and op.linked_move_operation_ids[0].move_id.product_uos or False
-            if False and op.uos_id:
-                if op.picking_id.picking_type_id.code == "incoming":
-                    op.uos_id = op.pda_product_id.uom_po_id
-                else:
-                    op.uos_id = op.pda_product_id.uos_id
+            op.uos_id = op.linked_move_operation_ids and op.linked_move_operation_ids[0].move_id.product_uos or op.pda_product_id.uos_id
             op.uos_qty = t_uom._compute_qty(op.product_uom_id.id, op.product_qty, op.uos_id.id)
 
 
@@ -133,8 +133,9 @@ class StockPackOperation (models.Model):
             quants = op.return_quants_to_select(id, qty)
             new_op = []
             for quant in quants:
-                new_op += [op.create_new_op_from_pda(quant, op.get_result_package())]
-            id = new_op[0]
+                if quant[0]:
+                    new_op += [op.create_new_op_from_pda(quant, op.get_result_package())]
+            id = new_op and new_op[0] or id
 
         op.write(vals)
         return id
@@ -214,12 +215,16 @@ class StockPackOperation (models.Model):
             if not op.result_package_id:
                 op.result_package_id = self.env['stock.quant.package'].create(op.get_new_pack_values())
 
-    @api.one
+    @api.multi
     def set_pda_done(self):
-        print  "####--- Marcar la operacion como realizada %s ---###\n###############################################"%self.id
-        self.pda_done = not self.pda_done
-        if self.pda_done and not self.result_package_id:
-            self.put_in_pack()
+        for op in self:
+            op.pda_done = not op.pda_done
+            op.qty_done = op.pda_done and (op.qty_done or op.product_qty) or 0.00
+            if op.pda_done and not op.result_package_id:
+                op.put_in_pack()
+
+        wave_ids = self.sudo().mapped('picking_id').mapped('wave_id')
+        wave_ids._compute_fields()
 
 
     @api.model

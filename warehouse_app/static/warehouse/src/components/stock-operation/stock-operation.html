@@ -10,7 +10,7 @@
     </ion-item>  
     <ion-item no-lines>
       <ion-badge item-start class="w50 b-qty" [ngClass]="{'b-checked':stock_operation.pda_done == true}" >
-          {{ stock_operation.product_qty - stock_operation.qty_done }} {{stock_operation.product_uom_id && stock_operation.product_uom_id.name}}
+          {{ stock_operation.qty_done }} de {{ stock_operation.product_qty }} {{stock_operation.product_uom_id && stock_operation.product_uom_id.name}}
       </ion-badge>
       <ion-badge item-start class="w50 b-op" [hidden] = "!stock_operation.package_id " (click)="openform('stock.quant.package', stock_operation.package_id.id)">
           {{ stock_operation['package_id']['name'] }}

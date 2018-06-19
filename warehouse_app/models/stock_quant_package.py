@@ -73,12 +73,27 @@ class StockProductionLot(models.Model):
 
     _inherit = 'stock.production.lot'
 
+    @api.model
+    def get_location_ids(self, vals):
+        id = vals.get('id', False)
+        sql = "select  sl.id, sl.name || ' / ' || sl2.name as complete_name, sum(qty),rc.name, rc.id from stock_quant sq " \
+              "join stock_location sl on sl.id = sq.location_id " \
+              "join stock_location sl2 on sl2.id = sl.location_id " \
+              "join res_company rc on rc.id = sq.company_id " \
+              "where sl.usage = 'internal' and sq.lot_id = %s " \
+              "group by sl.id, sl.name, sl2.name, rc.name, rc.id" % id
+        self._cr.execute(sql)
+        records = self._cr.fetchall()
+        print records
+        return records
+
     @api.multi
     def get_lot_location_id(self, location_id=False):
         for lot in self:
-            internal_quants = lot.quant_ids.filtered(lambda x: (x.location_id.usage == 'internal'))
-            if internal_quants:
-                lot.location_id = internal_quants[0].location_id
+            location_ids = lot.get_location_ids({'id': lot.id})
+            location_id = len(location_ids) == 1 and location_ids[0][0]
+            lot.location_id = location_id
+
 
     @api.model
     def get_available_lot(self, vals):
@@ -88,13 +103,13 @@ class StockProductionLot(models.Model):
         domain = [('product_id', '=', product_id)]
         lots = []
         lot_ids = self.env['stock.production.lot'].search(domain).filtered(lambda x: x.virtual_available >= qty or x.id == op_id)
-        print lot_ids
-        for lot_id in lot_ids:
+
+        for lot_id in lot_ids.filtered(lambda x: x.location_id):
             vals = {'id': lot_id.id,
                     'display_name': lot_id.display_name,
                     'virtual_available': lot_id.virtual_available,
                     'qty_available': lot_id.qty_available,
-                    'location_id': lot_id.location_id and lot_id.location_id.name,
+                    'location_id': lot_id.location_id and lot_id.location_id.display_name,
                     'use_date': lot_id.use_date}
             lots.append(vals)
         return lots

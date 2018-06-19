@@ -1,5 +1,10 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+
+import { ViewChild } from '@angular/core';
+//import { HostListener } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+
 /*import { PROXY } from '../../providers/constants/constants';*/
 
 /**
@@ -14,6 +19,7 @@ import { Storage } from '@ionic/storage';
 
 
 import { OdooProvider } from '../../providers/odoo-connector/odoo-connector';
+import { BarcodeScanner } from '../../providers/odoo-connector/barcode_scanner';
 import { AuxProvider } from '../../providers/aux/aux'
 
 
@@ -23,6 +29,12 @@ import { AuxProvider } from '../../providers/aux/aux'
   templateUrl: 'treepick.html',
 })
 export class TreepickPage {
+
+
+  @ViewChild('scan') myScan ;
+   
+  barcodeForm: FormGroup;
+  input   
 
   picks = [];
   cargar = true;
@@ -38,8 +50,9 @@ export class TreepickPage {
   login = false;
   filter_user = ''
   waves: boolean
-  constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, private storage: Storage, public auxProvider: AuxProvider,  private odoo: OdooProvider) {
-    
+
+  constructor(public Scanner: BarcodeScanner, public navCtrl: NavController, private formBuilder: FormBuilder, public navParams: NavParams, public alertCtrl: AlertController, private storage: Storage, public auxProvider: AuxProvider,  private odoo: OdooProvider) {
+    this.barcodeForm = this.formBuilder.group({scan: ['']});
     this.states_show = auxProvider.pick_states_visible;
     if (this.navCtrl.getPrevious()){this.navCtrl.remove(this.navCtrl.getPrevious().index, 2);}
     this.waves = true
@@ -66,6 +79,7 @@ export class TreepickPage {
   get_waves(domain){
     this.cargar = true
     console.log(domain)
+    //domain.push(['picking_state','=','assigned'])
     this.odoo.searchRead('stock.picking.wave', domain, this.fields, 0, 0).then((value) =>{
       if (value) {
         for (var key in value) {
@@ -208,6 +222,53 @@ export class TreepickPage {
     .catch(() => {
       this.error_odoo('get_picking_types')
     });	
+}
+
+Scan(scan){
+  this.cargar=true
+  let domain = [['name', '=', scan]]
+  let model = 'stock.picking'
+  let fields = 'id'
+  console.log(domain)
+  this.odoo.searchRead(model, domain, fields, 0,0).then((value)=>{
+    console.log(value)
+    if (value && value[0]){
+      this.navCtrl.push(TreeopsPage, {picking_id: value[0]['id'], model: 'stock.picking'});
+    }
+    else {
+      this.presentAlert('Aviso !', 'No se ha encontrado el albarán: ' + this.barcodeForm.value['scan']);
+      this.cargar=false
+    }
+
+  })
+  .catch(() => {
+    this.error_odoo('Error al recuperar el albarán escaneado')
+  });	
+
+
+}
+
+
+submitScan(){
+  this.cargar=true
+  let domain = [['name', '=',  this.barcodeForm.value['scan']]]
+  let model = 'stock.picking'
+  let fields = 'id'
+
+  this.odoo.searchRead(model, domain, fields, 0,0).then((value)=>{
+    if (value && value[0]){
+      this.navCtrl.push(TreeopsPage, {picking_id: value[0]['id'], model: 'stock.picking'});
+    }
+    else {
+      this.presentAlert('Aviso !', 'No se ha encontrado el albarán: ' + this.barcodeForm.value['scan']);
+    }
+
+  })
+  .catch(() => {
+    this.error_odoo('Error al recuperar el albarán escaneado')
+  });	
+
+
 }
 }
 

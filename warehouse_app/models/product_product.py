@@ -12,6 +12,7 @@ class ProductProduct(models.Model):
 
     _inherit = 'product.product'
 
+
     @api.model
     def _get_product_quants(self):
         domain = [('product_id', '=', self.id), ('location_id.usage', '=', 'internal')]

@@ -59,5 +59,17 @@
             </button-->
         </ion-item>
     </ion-list> 
-    </ion-content>
+</ion-content>
+<ion-footer>
+  <form [formGroup]="barcodeForm" class ="alignBottom">
+      <ion-item>
+         <ion-label color="odoo" item-start>Scan: </ion-label>
+         <ion-input #scan [formControl]="barcodeForm.controls['scan']" type="text" name="scan" placeholder = "Scan"  autofocus></ion-input>
+        
+         <button ion-button icon-only item-end clear (click)="submitScan()">
+           <ion-icon name="barcode"></ion-icon>
+         </button>
+       </ion-item>   
+     </form>
+</ion-footer>
   

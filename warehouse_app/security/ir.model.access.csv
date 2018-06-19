@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_stock_pack_operation_group_manager,stock.pack.operation.group manager,model_stock_pack_operation_group,stock.group_stock_manager,1,1,1,1
+access_stock_pack_operation_group_user,stock.pack.operation.group user,model_stock_pack_operation_group,stock.group_stock_user,1,1,1,1
+access_stock_pack_operation_group_all,stock.pack.operation.group all users,model_stock_pack_operation_group,base.group_user,1,0,0,0
+access_warehouse_app_user,warehouse.app.group user,model_warehouse_app,stock.group_stock_user,1,1,1,1

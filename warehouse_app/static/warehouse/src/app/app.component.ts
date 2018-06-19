@@ -7,25 +7,14 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { HomePage } from '../pages/home/home';
 import { TreepickPage } from '../pages/treepick/treepick';
-import { TreeopsPage } from '../pages/treeops/treeops';
-import { SlideopPage } from '../pages/slideop/slideop';
 import { ManualPage } from '../pages/manual/manual';
 import { ShowinfoPage } from '../pages/showinfo/showinfo';
-
+import {Storage} from '@ionic/storage';
 //Modal
-
-import { SelectLotPage } from '../pages/select-lot/select-lot'
-
-import { ProductPage} from '../pages/product/product'
-import { LotPage} from '../pages/lot/lot'
-import { PackagePage} from '../pages/package/package'
-import { LocationPage} from '../pages/location/location'
-
-import { OdooProvider } from  '../providers/odoo-connector/odoo-connector'
 import { AuxProvider } from '../providers/aux/aux'
-import { AppSoundProvider } from '../providers/app-sound/app-sound'
 
-
+import { HostListener } from '@angular/core';
+import { BarcodeScanner } from '../providers/odoo-connector/barcode_scanner';
 
 
 
@@ -37,14 +26,36 @@ export class MyApp {
 
   @ViewChild(Nav) nav: Nav;
 
+
+  @HostListener('document:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) { 
+    console.log("Desde treepick" + event.key)
+    this.Scanner.key_press(event).then((scan)=>{
+      if (scan){
+        console.log('from app')
+        console.log(this.nav)
+        console.log(this.nav.getActive())
+        console.log(this.nav.getActive().instance)
+        this.nav.getActive().instance.Scan(scan)
+      }
+    })
+  }
+
   rootPage:any = HomePage;
   pages: Array<{title: string, component: any, param: string}>;
 
   ops_filter = "Todas"/*o pendientes*/
-
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, public auxProvider: AuxProvider ) {
+  user={}
+  constructor(public Scanner: BarcodeScanner, public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, public auxProvider: AuxProvider, public storage: Storage ) {
 
     this.initializeApp();
+    this.Scanner.on()
+    this.storage.get('CONEXION').then((val) => {
+			
+			if (val != null && val.user){
+        this.user = val.user
+      }
+    })
     this.pages = [
       { title: 'Mis trabajos', component: HomePage , param: 'assigned'},
       { title: 'Sin asignar', component: TreepickPage, param: 'no_assigned'},

@@ -12,7 +12,7 @@ class StockQuant(models.Model):
     _inherit = "stock.quant"
 
 
-    @api.model
-    def quants_reserve(self, quants, move, link=False):
-        super(StockQuant, self).quants_reserve(quants=quants, move=move, link=link)
-        move.get_state_from_pre_move()
+    #@api.model
+    #def quants_reserve(self, quants, move, link=False):
+    #    super(StockQuant, self).quants_reserve(quants=quants, move=move, link=link)
+    #    #move.get_state_from_pre_move()

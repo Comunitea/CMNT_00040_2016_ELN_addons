@@ -31,16 +31,16 @@ import { ShowinfoPage } from '../pages/showinfo/showinfo';
 
 
 import { SelectLotPage } from '../pages/select-lot/select-lot'
-import { SelectPackagePage } from '../pages/select-package/select-package'
+//import { SelectPackagePage } from '../pages/select-package/select-package'
 //Provider
 import { NativeAudio } from '@ionic-native/native-audio';
 import { AppSoundProvider } from '../providers/app-sound/app-sound';
 import { OdooProvider } from '../providers/odoo-connector/odoo-connector';
-
+import { BarcodeScanner } from '../providers/odoo-connector/barcode_scanner';
 
 
 //component
-import { ProductProductComponent} from '../components/product-product/product-product'
+//import { ProductProductComponent} from '../components/product-product/product-product'
 import { StockPickingComponent} from '../components/stock-picking/stock-picking'
 import { StockOperationComponent} from '../components/stock-operation/stock-operation'
 
@@ -95,6 +95,7 @@ import { StockOperationComponent} from '../components/stock-operation/stock-oper
     NativeAudio,
     AppSoundProvider,
     OdooProvider,
+    BarcodeScanner,
 
 
   ]

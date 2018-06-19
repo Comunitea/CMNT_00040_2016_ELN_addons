@@ -7,56 +7,364 @@ from openerp.exceptions import ValidationError
 
 
 class StockPickingWave(models.Model):
-    _inherit = "stock.picking.wave"
+    _name = "stock.picking.wave"
+    _inherit = ["stock.picking.wave","mail.thread"]
+
+    @api.multi
+    def _get_wave_picking_ids(self):
+
+        # hago sql me salto permisos de compañia y no da error en la vista ????
+        def sort(element_ids):
+            return element_ids.sudo().sorted(key=lambda x:  (x.product_id.loc_row, x.product_id.id, x.lot_id.id))
+
+        for wave in self.filtered(lambda x: isinstance(x.id, int)):
+
+            sql = u"select sp.id from stock_picking sp " \
+                  u"join stock_move sm on sm.picking_id = sp.id " \
+                  u"join stock_picking_wave spw on spw.id = sp.wave_id "
+            where_int = u"where spw.id = %s and sm.move_dest_id isnull "%wave.id
+            groupby =  u"group by sp.id"
+            sql_int = sql + where_int + groupby
+            self._cr.execute(sql_int)
+            records = self._cr.fetchall()
+            out_ids = [record[0] for record in records]
 
 
-    @api.model
+            sql = "select sp2.id, sp2.name from stock_picking sp2 " \
+                  "where sp2.wave_id = %s and sp2.id not in " \
+                  "(select sp.id from stock_move sm " \
+                  "join stock_move sm2 on sm2.id = sm.move_dest_id " \
+                  "join stock_picking sp on sp.id = sm2.picking_id " \
+                  "join stock_picking_wave spw on spw.id = sp.wave_id " \
+                  "where spw.id = %s)"%(wave.id, wave.id)
+            self._cr.execute(sql)
+            records = self._cr.fetchall()
+            int_ids = [record[0] for record in records]
+
+            sql ="select sp.id from stock_picking sp " \
+                 "join stock_picking_wave spw on sp.wave_id = spw.id " \
+                 "where spw.id = %s"%wave.id
+            self._cr.execute(sql)
+            records = self._cr.fetchall()
+            ids = [record[0] for record in records]
+            print "Saco picking asociados"
+            wave.picking_out_ids = [(6, 0, self.env['stock.picking'].search([('id','in',out_ids)]).ids)]
+            wave.picking_int_ids = [(6, 0, self.env['stock.picking'].search([('id', 'in', int_ids)]).ids)]
+            print "Saco operaciones de la agrupacion %s" %wave.picking_int_ids
+            #las operaciones no tienen company_id, por lo tanto ....
+            wave.pack_operation_ids = sort(self.env['stock.pack.operation'].search([('picking_id', 'in', int_ids)]))
+            wave.pack_operation_out_ids = sort(self.env['stock.pack.operation'].search([('picking_id', 'in', out_ids)]))
+            wave.pack_operation_all_ids = sort(self.env['stock.pack.operation'].search([('picking_id', 'in', ids)]))
+        print "Llamo a set_state ...."
+
+        print "Llamo a set_state OK"
+
+
+    @api.multi
     def _compute_ops(self):
+        def sort(element_ids):
+            return element_ids.sorted(key=lambda x:  (x.product_id.loc_row, x.product_id.id, x.lot_id.id))
 
-        self.pack_operation_ids = self.picking_ids.mapped('pack_operation_ids')
-        
+        for wave in self.sudo():
+            wave.pack_operation_ids = sort(wave.picking_int_ids.mapped('pack_operation_ids'))
+            wave.pack_operation_out_ids = sort(wave.picking_out_ids.mapped('pack_operation_ids'))
+            wave.pack_operation_all_ids = sort(wave.picking_ids.mapped('pack_operation_ids'))
 
-    @api.one
-    @api.depends('picking_ids', 'picking_ids.pack_operation_ids')
+    @api.multi
     def _compute_fields(self):
-        if self.picking_ids:
+        print "Compute fields ...."
+        for wave in self:
+            print "%s, %s"%(wave.name, wave.id)
+            op_ids = wave.pack_operation_ids
+            print op_ids
+            wave.remaining_ops = sum(not x.pda_done for x in op_ids)
+            wave.pack_operation_count = len(op_ids)
+            wave.pack_operation_exist = wave.pack_operation_count != 0
+        print "Compute fields .... OK"
+        return
 
-            self.pack_operation_count = sum(x.pack_operation_count for x in self.picking_ids)
-            self.remaining_ops = sum(x.remaining_ops for x in self.picking_ids)
-            self.min_date = min(x.min_date for x in self.picking_ids)
-            self.pack_operation_exists = self.pack_operation_count and True
+    @api.multi
+    def get_state(self):
+        for wave in self:
+            if not wave.route_id and wave.picking_ids:
+                wave.min_date = min(x.min_date for x in wave.picking_ids)
+            wave.pack_operation_exist = wave.pack_operation_count != 0
+            states = list(set(x.state != 'cancel' and x.state for x in wave.picking_int_ids))
+            if 'draft' in states:
+                picking_state = 'draft'
+            elif 'waiting' in states:
+                picking_state = 'waiting'
+            elif all(x in ('confirmed', 'assigned', 'partially_available') for x in states):
+                if all(x.pack_operation_exist for x in wave.picking_int_ids):
+                    picking_state = 'assigned'
+                else:
+                    picking_state = 'confirmed'
+
+            elif all(x in ('done', 'cancel') for x in states):
+                picking_state = 'done'
+
+            elif 'confirmed' in states:
+                picking_state = 'confirmed'
+            elif 'partially_available' in states:
+                picking_state = 'partially_available'
+            elif 'assigned' in states:
+                picking_state = 'assigned'
+            else:
+                picking_state = 'draft'
+            wave.picking_state = picking_state
+
+    @api.multi
+    def change_process(self, action):
+        self.write({'state': action})
 
     @api.multi
     def send_wave_to_pda(self):
-        for wave in self: 
+        for wave in self.sudo():
             if wave.picking_ids == []:
                 raise ValidationError (_("Not picks are in this picking wave"))
-            wave.picking_ids.write({'user_id': wave.user_id.id})
+            if wave.user_id:
+                wave.sudo().picking_int_ids.write({'user_id': wave.user_id.id})
             wave.state = 'in_progress'
-            wave.picking_ids.set_picking_order()
+            wave.pda_action_assign()
+            wave.pda_do_prepare_partial()
+
+    @api.multi
+    def _is_wave_sqls(self):
+        for wave in self:
+            sql = "select not count(sm.id) = 0 as multicompany " \
+                  "from stock_move sm " \
+                  "join stock_picking sp on sp.id = sm.picking_id " \
+                  "join stock_picking_wave spw on spw.id = sp.wave_id " \
+                  "where spw.id = %s" % wave.id
+            self._cr.execute(sql)
+            records =self._cr.fetchall()
+            wave.multicompany = records and records[0] or False
+
+            sql = "select not count(sm.id) = 0  as chained " \
+                  "from stock_move sm " \
+                  "join stock_picking sp on sp.id = sm.picking_id " \
+                  "join stock_picking_wave spw on spw.id = sp.wave_id " \
+                  "where spw.id = %s and sm.move_dest_id isnull" %wave.id
+            self._cr.execute(sql)
+            records = self._cr.fetchall()
+            wave.chained = records and records[0] or False
 
 
+
+    pack_operation_all_ids = fields.One2many(
+        'stock.pack.operation', string='Related Packing Operations (Internal)', compute="_get_wave_picking_ids", multi=True)
+    pack_operation_out_ids = fields.One2many(
+        'stock.pack.operation', string='Related Packing Operations (Outgoing)', compute="_get_wave_picking_ids", multi=True)
     pack_operation_ids = fields.One2many(
-        'stock.pack.operation', string='Related Packing Operations', compute="_compute_ops", compute_sudo=True)
+        'stock.pack.operation', string='Related Packing Operations (Outgoing)', compute="_get_wave_picking_ids", multi=True)
+
+    multicompany = fields.Boolean('Is multicompany', compute="_is_wave_sqls",multi=True, help="Checked if is multicompany")
+    chained = fields.Boolean('Is chained wave', compute="_is_wave_sqls", multi=True, help = "Checked if cjained moves in pickings")
     picking_type_id = fields.Many2one('stock.picking.type', 'Picking type')
-    min_date = fields.Datetime('Scheduled Date',
-                               help="Scheduled time for the first scheduled date in asociated picking",
-                               compute="_compute_fields", store=True)
+
+    min_date = fields.Date('Scheduled Date',
+                               help="Scheduled time for the first scheduled date in asociated picking")
     location_id = fields.Many2one('stock.location', "Source Location Zone")
     location_dest_id = fields.Many2one('stock.location', "Dest Location Zone")
-    pack_operation_count = fields.Integer('Total ops', compute="_compute_fields", store=True)
-    remaining_ops = fields.Integer('Remaining ops', compute="_compute_fields", store=True)
-    pack_operation_exist = fields.Boolean("Have pack operation", compute="_compute_fields", store=True)
+    pack_operation_count = fields.Integer('Total ops', compute="_compute_fields", compute_sudo=True)
+    remaining_ops = fields.Integer('Remaining ops', compute="_compute_fields", compute_sudo=True)
+    pack_operation_exist = fields.Boolean("Have pack operation", compute="_compute_fields", compute_sudo=True)
     show_in_pda = fields.Boolean(related="picking_type_id.show_in_pda")
     wave_id = fields.Many2one(
         'stock.picking.wave', string='Picking Wave',
         states={'done': [('readonly', True)]},
         help='Picking wave associated to this picking')
-    pack_operation_exist = fields.Boolean(
-        'Has Pack Operations', compute='_compute_fields',
-        help='Check the existence of pack operation on the picking')
+    picking_out_ids = fields.One2many('stock.picking', compute="_get_wave_picking_ids", multi=True)
+    picking_int_ids = fields.One2many('stock.picking', compute="_get_wave_picking_ids", multi=True)
+    group_pack_operation_ids = fields.One2many('stock.pack.operation.group', 'wave_id')
+    color = fields.Integer(related='picking_type_id.color')
+    state = fields.Selection([('draft', 'Draft'), ('ready', 'Ready'), ('in_progress', 'Running'), ('done', 'Done'), ('cancel', 'Cancelled')], string="State", required=True, copy=False)
+    hide_done = fields.Boolean('Show pending works')
+    picking_state = fields.Selection([('draft', 'Draft'), ('waiting', 'Waiting'), ('confirmed', 'Reserved'), ('assigned', 'Ready'), ('done', 'Done')], string="Picking status",
+                                     compute="get_state", compute_sudo=True)
+    locked_in_pda = fields.Boolean('Locked in PDA')
+
+    @api.multi
+    def process_stop(self):
+        #TODO check si podemos deterne la oleada
+        ops = self.pack_operation_all_ids.filtered(lambda x: x.pda_done)
+        if ops:
+            raise ValidationError (_('This wave has operations done in pda'))
+        self.change_process('ready')
+
+    @api.multi
+    def process_start(self):
+        #TODO Check si podemos iniciarlo
+        # p.e. Todos los albaranes internos deben de estar reservados
+
+        ops = self.pack_operation_all_ids.filtered(lambda x: x.pda_done)
+        if ops:
+            raise ValidationError(_('This wave has operations done in pda'))
+        for wave_id in self:
+            wave_id.pda_action_assign_from_pda({'id': wave_id.id})
+        self.change_process('in_progress')
+
+    @api.multi
+    def confirm_picking(self):
+        #primero hago el action confirm de pickin_int
+        self.ensure_one()
+        self.sudo().write({'state': 'ready'})
+        ctx = self._context.copy()
+        ctx.update(force_sudo=True)
+        return self.sudo().picking_int_ids.with_context(ctx).action_assign()
+
+    @api.multi
+    def picking_int_ids_done(self):
+        ctx = self._context.copy()
+        ctx.update(force_user=True)
+        for wave in self.sudo():
+            for pick in wave.picking_int_ids:
+                body = u"<b>Albarán %s transferido <b><ul><li>El día %s</li><li>Usuario: %s</li>" % (
+                pick.name, fields.Datetime.now(), self.env.user.name)
+                if pick.state not in ('assigned', 'partially_available'):
+                    raise ValidationError(_('Some pickings are still waiting for goods. Please check or force their availability before transfer them.'))
+                pick._compute_ops()
+                if not pick.pack_operation_exist:
+                    raise ValidationError(_('Some pickings are asigned, but without operations, please do prepare partial.'))
+                wave.message_post(body)
+                pick.pda_do_transfer_from_pda({'id': pick.id})
+
+            # Preparamos los albaranes de salida asociados
+            for pick in wave.picking_out_ids:
+                if pick.state in ('cancel', 'done'):
+                    continue
+                pick.with_context(ctx).pda_action_assign()
+                #pick.with_context(ctx).do_prepare_partial()
+        return
+
+    @api.multi
+    def done(self):
+        ctx = self._context.copy()
+        ctx.update(force_user=True)
+        for wave in self:
+            for picking in wave.picking_out_ids:
+                if picking.state in ('cancel', 'done'):
+                    continue
+                if picking.backorder_id and not picking.pack_operation_exist:
+                    continue
+                if not picking.pack_operation_exist:
+                    raise ValidationError('Some pickings are asigned, but without operations, please do prepare partial.')
+                if picking.state not in ('assigned', 'confirmed', 'partially_available'):
+                    raise ValidationError('Some pickings are still waiting for goods. Please check or force their availability before setting this wave to done.')
+
+                picking.with_context(ctx).action_done()
+        return self.write({'state': 'done'})
+
+
+    @api.onchange('picking_ids')
+    def get_min_date(self):
+        for wave in self:
+            if not wave.route_id and wave.picking_ids:
+                wave.min_date = min(x.min_date for x in wave.picking_ids)
+
 
     @api.onchange('picking_type_id')
     def onchange_picking_type_id(self):
         self.location_id = self.picking_type_id.default_location_src_id
         self.location_dest_id = self.picking_type_id.default_location_dest_id
+
+
+    @api.multi
+    def pda_do_prepare_partial(self):
+        ctx = self._context.copy()
+        ctx.update(force_user=True)
+        message = "Do prepare partial por %s" % self.env.user.name
+        for pick in self.sudo().mapped('picking_int_ids'):
+            ic_user_id = pick.get_pda_ic()
+            pick.sudo(ic_user_id).message_post(message)
+            pick.sudo(ic_user_id).do_prepare_partial()
+        return True
+
+    @api.multi
+    def pda_action_assign(self):
+        ctx = self._context.copy()
+        ctx.update(force_user=True)
+        message = "Action assign por %s" % self.env.user.name
+        for pick in self.sudo().mapped('picking_int_ids'):
+            ic_user_id = pick.get_pda_ic()
+            pick.sudo(ic_user_id).message_post(message)
+            pick.sudo(ic_user_id).action_assign()
+        return True
+
+    @api.model
+    def pda_do_assign(self, action):
+        if action:
+            user_id = self.env.user.id
+        else:
+            user_id = False
+        self.do_assign(user_id)
+        ctx = self._context.copy()
+        ctx.update(force_user=True)
+        message = "Do assign por %s" % self.env.user.name
+        for pick in self.sudo().mapped('picking_int_ids'):
+            ic_user_id = pick.get_pda_ic()
+            pick.sudo(ic_user_id).message_post(message)
+            pick.sudo(ic_user_id).write({'user_id': ic_user_id})
+        return True
+
+    @api.model
+    def pda_do_transfer(self):
+        ctx = self._context.copy()
+        ctx.update(force_user=True)
+        message = "Do transfer por %s" % self.env.user.name
+        for pick in self.sudo().mapped('picking_int_ids'):
+            ic_user_id = pick.get_pda_ic()
+            pick.sudo(ic_user_id).message_post(message)
+            pick.sudo(ic_user_id).pda_do_transfer()
+        return True
+
+    @api.multi
+    def do_assign(self, user_id):
+        for wave_id in self:
+            body = u"<h3>Autoasignado desde PDA</h3><ul><li>El día %s</li><li>Usuario: %s</li>" % (
+                wave_id.min_date, self.env.user.name)
+            wave_id.message_post(body)
+            wave_id.write({'user_id': user_id})
+
+
+    @api.model
+    def pda_do_prepare_partial_from_pda(self, vals):
+        id = vals.get('id', False)
+        wave_id = self.browse(id)
+        return wave_id.pda_do_prepare_partial()
+
+    @api.model
+    def pda_do_transfer_from_pda(self, vals):
+
+        id = vals.get('id', False)
+        wave_id = self.browse(id)
+        picks_to_transfer = wave_id.picking_int_ids
+        message = "Do transfer de %s por %s" % (wave_id.name, self.env.user.name)
+        message += "De los picks: %s"%wave_id.picking_int_ids.mapped('name')
+        print message
+        wave_id.message_post(message)
+
+
+        for pick in wave_id.picking_int_ids:
+            vals['id'] = pick.id
+            res = pick.pda_do_transfer_from_pda(vals)
+        return True
+
+    @api.model
+    def pda_action_assign_from_pda(self, vals):
+        id = vals.get('id', False)
+        wave_id = self.browse(id)
+        return wave_id.pda_action_assign()
+
+    @api.model
+    def pda_do_assign_from_pda(self, vals):
+        id = vals.get('id', False)
+        wave_id = self.browse(id)
+        action = vals.get('action', False)
+        return wave_id.pda_do_assign(action)
+
+    @api.multi
+    def locked_from_pda(self, action=False):
+        val = {'locked_in_pda': action}
+        self.write(val)
+        self.picking_ids.write(val)

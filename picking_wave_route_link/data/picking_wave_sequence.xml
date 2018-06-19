@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>
+        <!-- Type -->
+        <record model="ir.sequence.type" id="seq_purchases_forecast_line">
+            <field name="name">Wave Route Link Sequence</field>
+            <field name="code">picking_wave_route_link</field>
+        </record>
+
+
+    </data>
+</openerp>

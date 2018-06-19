@@ -2,20 +2,77 @@
 # Copyright 2017 Comunitea - <comunitea@comunitea.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp import api, models, fields
+from openerp import api, models, fields, _
 
 from openerp.exceptions import ValidationError
-
+from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT, DEFAULT_SERVER_DATE_FORMAT
 
 class StockPickingType(models.Model):
     _inherit = "stock.picking.type"
+
+
+    ##TODO PARA HACER UNA VISTA COMO LA DE TIPO DE ALBARANES NO SE HACE DE MOMENTO
+
+    @api.multi
+    def _get_picking_wave_count(self):
+        result = {}
+        for type in self:
+            sql = "select count(id) from stock_picking_wave where min_date < '%s' and state='in_progress' and picking_type_id = %s"%(fields.Datetime.now(), type.id)
+
+            self._cr.execute(sql)
+            records =self._cr.fetchall()
+            count_wave_late = records and records[0][0] or 0
+            sql = "select " \
+                  "(select count(id) from stock_picking where state ='draft' and wave_id in (select id from stock_picking_wave where state ='in_progress' and picking_type_id = spw.picking_type_id)) as count_draft, " \
+                  "(select count(id) from stock_picking where state in ('confirmed', 'waiting') and wave_id in (select id from stock_picking_wave where state = 'in_progress' and picking_type_id = spw.picking_type_id)) as count_not_ready, " \
+                  "(select count(id) from stock_picking where state in ('assigned', 'partially_available') and wave_id in (select id from stock_picking_wave where state = 'in_progress'  and picking_type_id = spw.picking_type_id)) as count_ready, " \
+                  "(select count(id) from stock_picking where state ='done' and wave_id in (select id from stock_picking_wave where state = 'in_progress' and picking_type_id = spw.picking_type_id)) as count_done, " \
+                  "(select count(id) from stock_pack_operation where (picking_id in (select id from stock_picking where state not in ('cancel', 'draft') and wave_id in (select id from stock_picking_wave where state = 'in_progress'  and picking_type_id = spw.picking_type_id)) and pda_done=true)) as pda_done, " \
+                  "(select count(id) from stock_pack_operation where (picking_id in (select id from stock_picking where state not in ('cancel', 'draft') and wave_id in (select id from stock_picking_wave where state = 'in_progress' and picking_type_id = spw.picking_type_id)) and pda_done=false)) as pda_not_done, " \
+                  "spw.picking_type_id from stock_picking_wave spw " \
+                  "join stock_picking sp on sp.wave_id = spw.id where spw.picking_type_id = %s" \
+                  "group by spw.picking_type_id"%type.id
+
+            self._cr.execute(sql)
+            records = self._cr.fetchall()
+            record = records and records[0]
+            if records:
+
+                vals = {'count_picking_wave_draft': int(record[0]),
+                            'count_picking_wave': int(record[1] + record[2]),
+                            'count_picking_wave_waiting': int(record[1]),
+                            'count_picking_wave_ready': int(record[2]),
+                            'count_picking_wave_done': int(record[3]),
+                            'count_pda_done': int(record[4]),
+                            'count_pda_not_done': int(record[5]),
+                            'count_ops': record[4] + record[5],
+                            'count_wave_late': count_wave_late,
+                            'rate_count_pda_done': record[4] * 100/(record[4] + record[5]),
+                            'rate_picking_wave_late': count_wave_late * 100/(record[1] + record[2])
+                            }
+                type.count_picking_wave_waiting = int(record[1])
+                type.count_picking_wave_ready = int(record[2])
+
+        return
+
+    count_picking_wave_draft = fields.Integer(compute="_get_picking_wave_count", multi=True, help ="Agrupaciones en borrador")
+    count_picking_wave_done = fields.Integer(compute="_get_picking_wave_count", multi=True, help="Agrupaciones realizadas")
+    count_picking_wave_ready = fields.Integer(compute="_get_picking_wave_count", multi=True, help ="Agrupaciones con todos los albaranes reservados o con algo de disponibilidad")
+    count_picking_wave = fields.Integer(compute="_get_picking_wave_count", multi=True)
+    count_picking_wave_waiting = fields.Integer(compute="_get_picking_wave_count", multi=True, help ="Agrupaciones con albaranes en espera de otra operación o sin disponibilidad")
+    count_wave_late = fields.Integer(compute="_get_picking_wave_count", multi=True)
+    count_pda_done = fields.Integer(compute="_get_picking_wave_count", multi=True)
+    count_pda_not_done = fields.Integer(compute="_get_picking_wave_count", multi=True)
+    count_ops = fields.Integer(compute="_get_picking_wave_count", multi=True)
+    rate_count_pda_done = fields.Integer(compute="_get_picking_wave_count", multi=True)
+    rate_picking_wave_late = fields.Integer(compute="_get_picking_wave_count", multi=True)
+
+    ## HASTA AQUI
 
     show_in_pda = fields.Boolean("Show in PDA", help="If checked, this picking type will be shown in pda")
     short_name = fields.Char("Short name in PDA", help="Short name to show in PDA")
     need_confirm = fields.Boolean("Need confirm in PDA", help="If checked, this force to process with button after all requeriments done")
     process_from_tree = fields.Boolean("Process from pda tree ops", help="If checked, allow to process op with default values from pick tree ops in pda")
-
-
 
 
 
@@ -25,150 +82,188 @@ class StockPicking(models.Model):
     @api.multi
     def _compute_allow_validate(self):
         for pick in self:
-            pick.allow_validate = (pick.state=='assigned' and pick.done_ops>0)
-
-    ##copio la funcion de la version 10
-
+            pick.allow_validate = (pick.state == 'assigned' and pick.done_ops > 0)
 
     user_id = fields.Many2one('res.users', 'Operator')
     allow_validate = fields.Boolean("Permitir validar", compute="_compute_allow_validate")
-    pda_op_ids = fields.One2many('stock.pack.operation', compute = "get_pda_operation")
     show_in_pda = fields.Boolean(related='picking_type_id.show_in_pda')
+    locked_in_pda = fields.Boolean('Loked in PDA')
 
     @api.multi
-    def confirm_pda_done(self, transfer=False):
-        for pick in self.filtered(lambda x:x.state2 in ('process', 'assigned')):
-            pick.state2 = 'done'
-
-        if transfer:
-            self.filtered(lambda x:x.state == 'assigned').do_transfer()
-        return True
-
-    def confirm_from_pda(self, id, transfer=False):
-        pick = self.browse[id]
-        return pick.confirm_pda_done(transfer)
-
-
-    @api.model
-    def change_pick_value(self, vals):
-        print  "------------------- Cambiar valores en las albaranes ----------------\n%s"%vals
-        field = vals.get('field', False)
-        value = vals.get('value', False)
-        id = vals.get('id', False)
-        pick = self.browse([id])
-        if field == 'user_id' and (not pick.user_id or pick.user_id.id == self._uid):
-            pick.write({'user_id': value})
-        else:
-            return False
-        return True
-
-    @api.model
-    def _prepare_pack_ops(self, picking, quants, forced_qties):
-        return super(StockPicking, self)._prepare_pack_ops(picking, quants,forced_qties)
-
-        if not self.picking_type_id.show_in_pda:
-            return super(StockPicking, self)._prepare_pack_ops(picking, quants,
-                                                          forced_qties)
-
-        vals = super(StockPicking, self)._prepare_pack_ops(picking, quants, forced_qties)
-
-        location_order = {}
-
-        for val in vals:
-            id = val['location_id']
-            if id in location_order.keys():
-                val['picking_order'] = location_order[id]
-            else:
-                location_order[id] = self.env['stock.location'].search_read([('id', '=', id)], ['picking_order'])
-                val['picking_order'] = location_order[id]
-
-        return vals
-       
-
-    @api.multi
-    def action_cancel(self):
-        super(StockPicking, self).action_cancel()
-        self.filtered(lambda x: x.wave_id).write({'wave_id': False})
-        return True 
-        
-    
-    @api.model
-    def change_pick_value(self, vals):
-        
-        print  "------------------- Cambiar valores en las albaranes ----------------\n%s"%vals
-        field = vals.get('field', False)
-        value = vals.get('value', False)
-        id = vals.get('id', False)
-        pick = self.browse(id)
-
-        if field == 'user_id' and not pick.user_id and not pick.wave_id:
-            pick.write({'user_id': value})
-        else:
-            return False
-        return True
-
-    @api.one
-    def doAssign(self, vals):
-        picking = self.env['stock.picking'].browse(vals.get('id', False))
-        if picking:
-            picking.write({'user_id': vals.get('user_id', False)})
-
+    def write(self, vals):
+        if any(x.locked_in_pda for x in self) and not self._context('from_pda'):
+            raise ValidationError (_('This picking (%s) is pda locked'))
+        return super(StockPicking, self).write(vals)
 
     @api.multi
     def set_picking_order(self):
         return
 
+    @api.model
+    def pda_do_transfer_from_pda(self, vals):
+        id = vals.get('id', False)
+        user_id = self.get_pda_ic(id)
+        pick = self.sudo(user_id).browse(id)
+        body = u"<b>Transferido %s desde PDA</b><ul><li>El día %s</li><li>Usuario: %s</li>" % (pick.name, pick.date_done, pick.env.user.name)
+        print body
+        pick.message_post(body=body)
+        if pick.sudo().state in ('cancel', 'done'):
+            return False
+        return pick.pda_do_transfer()
+
     @api.multi
-    def get_pda_operation(self):
-        for pick in self:
-            pick.pda_op_ids = [(6, 0, pick[pick.cross_company_field_ops].ids)]
+    def pda_do_transfer(self):
+        self.ensure_one()
+        if self.sudo().state in ('cancel', 'done'):
+            return False
+        if self.company_id != self.env.user.company_id:
+            body = u"<b>Transferido desde PDA</b><ul><li>El día %s</li><li>Usuario: %s</li>" % (self.date_done, self.env.user.name)
+            self.message_post(body=body)
+            ctx = self._context.copy()
+            ctx.update(force_user=True)
+            user_id = self.get_pda_ic()
+            self = self.sudo(user_id).with_context(ctx)
+        #No puedo do transfer si pda done está vacío
+        if all(not op.pda_done for op in self.pack_operation_ids):
+            print "None operation done from pda"
+            return False
+            raise ValidationError(_("None operation done from pda"))
+        self.pack_operation_ids.filtered(lambda x: not x.pda_done or x.qty_done == 0).unlink()
+        # Escribo procesado y cantidad en la operación
+        for op in self.pack_operation_ids:
+            op.write({'product_qty': op.qty_done,
+                      'processed': 'true'})
 
-
-
-    @api.model
-    def pda_do_transfer(self, vals):
-        id = vals.get('id', False)
-        ctx = self._context.copy()
-        pick_sudo = self.sudo().browse([id])
-        company_id = pick_sudo.company_id.id
-        ctx.update(force_company=company_id)
-        pick = self.with_context(ctx).browse([id])
-
-        pick.pack_operation_ids.filtered(lambda x: not x.pda_done or x.qty_done == 0).unlink()
-
-        if any(op.pda_done for op in pick.pack_operation_ids):
-            # reviso si es necesario poner en pack
-            # NO HAY PAQUETES pick.pack_operation_ids.put_in_pack()
-            for op in pick.pack_operation_ids:
-                op.write({'product_qty': op.qty_done,
-                          'processed': 'true'})
-
-            pick.do_transfer()
-            pick.message_post(body="Este albarán ha sido validado desde la pda")
-            return True
-        return False
+        print "-------------------------------- Transfiriendo %s"%self.name
+        self.do_transfer()
+        print "-------------------------------- Transferido %s" % self.name
+        return True
 
     @api.model
-    def pda_do_assign(self, vals):
-        id = vals.get('id', False)
-        action = vals.get('action', False)
+    def pda_do_assign(self, action):
         if action:
             user_id = self.env.user.id
         else:
             user_id = False
-
-        return self.browse([id]).write({'user_id': user_id})
-
+        pick = self.get_pda_pick(self.id, "Autoasignado por %s")
+        if pick.state not in ('done', 'cancel'):
+            return pick.write({'user_id': user_id})
 
     @api.model
-    def pda_do_prepare_partial(self, vals):
+    def pda_do_prepare_partial_from_pda(self, vals):
         id = vals.get('id', False)
+        user_id = self.get_pda_ic(self, id)
+        message = "Do prepare partial por %s" % self.env.user.name
+        pick = self.sudo(user_id).browse(id)
+        if pick.state in ('cancel', 'done'):
+            return False
+        pick.message_post(message)
+        return pick.pda_do_prepare_partial()
+
+    @api.multi
+    def pda_do_prepare_partial(self):
+        self.ensure_one()
+        if self.company_id == self.env.user.company_id:
+            return self.do_prepare_partial()
         ctx = self._context.copy()
-        pick_sudo = self.sudo().browse([id])
-        company_id = pick_sudo.company_id.id
-        ctx.update(force_company=company_id)
-        pick = self.with_context(ctx).browse([id])
-        pick.action_assign()
-        if pick.state in ('assigned', 'partially_available'):
-            pick.do_prepare_partial()
+        ctx.update(force_user=True)
+        if self.state in ('assigned', 'partially_available'):
+            message = "Do prepare partial por %s "% self.env.user.name
+            self.message_post(message)
+            return self.do_prepare_partial()
+            self.mapped('wave_id')._get_picking_ids_status()
         return True
+
+    @api.multi
+    def pda_action_assign(self):
+        self.ensure_one()
+        if self.sudo().state in ('cancel', 'done'):
+            return False
+        if self.company_id == self.env.user.company_id:
+            res = self.action_assign()
+            if self.state == 'assigned':
+                self.pda_do_prepare_partial()
+            return res
+        ctx = self._context.copy()
+        ctx.update(force_user=True)
+        message = "Action assign por %s" % self.env.user.name
+        self.message_post(message)
+        res = self.with_context(ctx).action_assign()
+        if self.state == 'assigned':
+            self.with_context(ctx).pda_do_prepare_partial()
+        return res
+
+    @api.model
+    def pda_do_assign_from_pda(self, vals):
+        id = vals.get('id', False)
+        action = vals.get('action', False)
+        pick_id = self.sudo().browse(id)
+        if pick_id.sudo().state in ('cancel', 'done'):
+            return False
+        return pick_id.pda_do_assign(action)
+
+    @api.model
+    def pda_force_assign_from_pda(self, vals):
+        id = vals.get('id', False)
+        user_id = self.get_pda_ic(self, id)
+        message = "Force assign por %s" % self.env.user.name
+        pick = self.sudo(user_id).browse(id)
+        if pick.state in ('cancel', 'done'):
+            return False
+        pick.message_post(message)
+        return pick.pda_force_assign()
+
+    @api.multi
+    def pda_force_assign(self):
+
+        self.ensure_one()
+        if self.sudo().state in ('cancel', 'done'):
+            return False
+        if self.company_id == self.env.user.company_id:
+            return self.force_assign()
+        ctx = self._context.copy()
+        ctx.update(force_user=True)
+        message = "Force assign por %s" % self.env.user.name
+        self.message_post(message)
+        return self.with_context(ctx).force_assign()
+
+
+    @api.multi
+    def pda_action_cancel(self):
+        self.ensure_one()
+        if self.sudo().state in ('cancel', 'done'):
+            return False
+        if self.company_id == self.env.user.company_id:
+            return self.force_assign()
+        ctx = self._context.copy()
+        ctx.update(force_user=True)
+        message = "Action cancel por %s" % self.env.user.name
+        self.message_post(message)
+        return self.with_context(ctx).action_cancel()
+
+    @api.multi
+    def pda_do_unreserve(self):
+        self.ensure_one()
+        if self.sudo().state in ('cancel', 'done'):
+            return False
+        if self.company_id == self.env.user.company_id:
+            return self.do_unreserve()
+        ctx = self._context.copy()
+        ctx.update(force_user=True)
+        message = "Action do unreserve por %s" % self.env.user.name
+        self.message_post(message)
+        return self.with_context(ctx).do_unreserve()
+
+    @api.multi
+    def locked_from_pda(self, action=False):
+        for pick in self:
+            if pick.sudo().state in ('cancel', 'done'):
+                return False
+        self.write({'locked_in_pda': action})
+
+    @api.multi
+    def action_cancel(self):
+        super(StockPicking, self).action_cancel()
+        self.filtered(lambda x: x.wave_id).write({'wave_id': False})
+        return True
+

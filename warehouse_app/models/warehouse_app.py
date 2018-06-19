@@ -21,18 +21,22 @@ FIELD_NAME = {'stock.quant.package': 'name',
               'product.product': 'display_name'}
 
 FIELDS = {'stock.quant.package': ['id', 'name', 'lot_id', 'location_id', 'package_qty', 'multi', 'product_id', 'uom_id'],
-          'stock.production.lot': ['id', 'name', 'product_id','use_date', 'life_date', 'location_id'],
+          'stock.production.lot': ['id', 'name', 'qty_available', 'product_id','use_date', 'life_date', 'location_id', 'uom_id'],
           'stock.location': ['id', 'name', 'usage', 'loc_barcode'],
           'product.product': ['id', 'name', 'barcean13ode', 'default_code', 'default_stock_location_id', 'track_all']}
 
+DOMAIN = {'stock.production.lot': [('qty_available', '>', 0.00)],
+          'stock.quant.package': [],
+          'stock.location': [],
+          'product.product': []}
 
 INFO_FIELDS = {'stock.quant.package': ['id', 'name', 'lot_id', 'location_id','package_qty', 'multi', 'product_id', 'uom_id', 'quant_ids', 'children_ids'],
               'stock.production.lot': ['id', 'name', 'product_id', 'use_date', 'removal_date', 'qty_available', 'quant_ids', 'display_name', 'uom_id', 'location_id'],
               'stock.location': ['id', 'name', 'usage', 'loc_barcode', 'need_check'],
               'product.product': ['id', 'display_name', 'name', 'ean13', 'default_code', 'default_stock_location_id', 'track_all', 'uom_id', 'qty_available'],
-              'stock.picking': ['id', 'name', 'picking_type_id', 'user_id', 'min_date', 'state', 'location_id', 'location_dest_id', 'wave_id', 'remaining_ops', 'pack_operation_count', 'pack_operation_ids', 'cross_company'],
-              'stock.picking.wave': ['id', 'name', 'picking_type_id', 'user_id', 'min_date', 'state', 'location_id', 'location_dest_id', 'wave_id', 'remaining_ops', 'pack_operation_count', 'pack_operation_ids'],
-              'stock.pack.operation': ['id', 'display_name', 'package_id', 'result_package_id', 'lot_id', 'pda_product_id', 'pda_done', 'product_qty', 'qty_done', 'track_all', 'picking_id', 'location_id', 'location_dest_id', 'product_uom_id', 'need_confirm', 'uos_id', 'uos_qty'],
+              'stock.picking': ['id', 'name', 'picking_type_id', 'user_id', 'min_date', 'state', 'location_id', 'location_dest_id', 'wave_id', 'remaining_ops', 'pack_operation_count', 'pack_operation_ids'],
+              'stock.picking.wave': ['id', 'name', 'picking_type_id', 'user_id', 'min_date', 'state', 'picking_state', 'location_id', 'location_dest_id', 'wave_id', 'remaining_ops', 'pack_operation_count', 'pack_operation_ids'],
+              'stock.pack.operation': ['id', 'display_name', 'package_id', 'result_package_id', 'lot_id', 'pda_product_id', 'pda_done', 'product_qty', 'qty_done', 'track_all', 'picking_id', 'location_id', 'location_dest_id', 'product_uom_id', 'need_confirm', 'uos_id', 'uos_qty', 'ean13'],
               'stock.pack.operation.lot': ['id', 'display_name', 'lot_id', 'qty', 'qty_todo']}
 
 INFO_FIELDS_M2O = {'stock.quant.package': ['id', 'name', 'location_id', 'package_qty', 'multi', 'product_id', 'uom_id'],
@@ -41,11 +45,11 @@ INFO_FIELDS_M2O = {'stock.quant.package': ['id', 'name', 'location_id', 'package
                   'stock.quant':['id', 'display_name', 'lot_id', 'location_id', 'qty', 'reservation_id', 'in_date'],
                   'product.uom': ['id', 'name'],
                   'res.users':  ['id', 'name'],
-                  'stock.pack.operation': ['id', 'display_name', 'package_id', 'result_package_id', 'lot_id', 'pda_product_id', 'pda_done', 'product_qty', 'qty_done', 'track_all', 'picking_id', 'location_id', 'location_dest_id', 'product_uom_id', 'need_confirm', 'uos_id', 'uos_qty'],
+                  'stock.pack.operation': ['id', 'display_name', 'package_id', 'result_package_id', 'lot_id', 'pda_product_id', 'pda_done', 'product_qty', 'qty_done', 'track_all', 'picking_id', 'location_id', 'location_dest_id', 'product_uom_id', 'need_confirm', 'uos_id', 'uos_qty', 'ean13'],
                   'stock.pack.operation.lot': ['id', 'display_name', 'lot_id', 'qty', 'qty_todo'],
                   'stock.picking.type': ['id', 'name', 'show_in_pda', 'short_name', 'code', 'process_from_tree'],
-                  'stock.picking': ['id', 'name', 'picking_type_id', 'user_id', 'min_date', 'state', 'location_id', 'location_dest_id', 'wave_id',  'remaining_ops', 'pack_operation_count', 'pack_operation_ids', 'cross_company'],
-                  'stock.picking.wave': ['id', 'name', 'picking_type_id', 'user_id', 'min_date', 'state', 'location_id', 'location_dest_id', 'remaining_ops', 'pack_operation_count', 'pack_operation_ids', 'cross_company'],
+                  'stock.picking': ['id', 'name', 'picking_type_id', 'user_id', 'min_date', 'state', 'location_id', 'location_dest_id', 'wave_id',  'remaining_ops', 'pack_operation_count', 'pack_operation_ids'],
+                  'stock.picking.wave': ['id', 'name', 'picking_type_id', 'user_id', 'min_date', 'state', 'picking_state', 'location_id', 'location_dest_id', 'remaining_ops', 'pack_operation_count', 'pack_operation_ids'],
                   'product.product': ['id', 'display_name', 'ean13', 'name', 'default_code', 'default_stock_location_id', 'track_all', 'uom_id']}
 
 
@@ -63,48 +67,70 @@ class WarehouseApp (models.Model):
                 fields[field] = object_id[field]
         return fields
 
+    def check_context(self, ctx, model, id):
+        if model == 'stock.picking':
+            force_company = 1
+            ctx.update(force_company=force_company)
+            object_id = self.sudo().with_context(ctx).env[model].browse(id)
+        elif model == 'stock.production.lot':
+            force_company = self.env.user.company_id.id
+            ctx.update(force_company=force_company)
+            object_id = self.sudo().with_context(ctx).env[model].browse(id)
+        elif model in ('stock.quant.package', 'stock.location', 'product.product'):
+            domain = [('id', '=', id)]
+            company = self.env[model].sudo().search_read(domain, ['company_id'])
+            company_id = company and company[0]['company_id'][0]
+            if company_id == self.env.user.company_id.id:
+                object_id = self.env[model].browse(id)
+            else:
+                ctx.update(force_company=company_id)
+                object_id = self.with_context(ctx).env[model].browse(id)
+        else:
+            object_id = self.env[model].browse(id)
+
+        return object_id
+
+
     def get_selection(self, object_id, field):
-        print "SELECTION "
-        print object_id
-        print field
+
         value = [t for t in object_id.fields_get(field)[field]['selection'] if t[0].startswith(object_id[field])]
-        print value
         return value and {'value': value[0][0], 'name': value[0][1]} or ''
 
     @api.model
     def get_info_object(self, vals):
         model = vals.get('model', False)
         id = vals.get('id', False)
-        object_id = self.env[model].browse(id)
+        object_id = self.check_context(self._context.copy(), model, id)
+
         field_value = {}
         if not object_id:
             return False
-        for field in INFO_FIELDS[model]:
-            if object_id.fields_get(field)[field]['type'] == 'many2one':
-                field_value[field] = self.get_m2o_vals(object_id, field)
+        try:
+            for field in INFO_FIELDS[model]:
+                if object_id.fields_get(field)[field]['type'] == 'many2one':
+                    field_value[field] = self.get_m2o_vals(object_id, field)
 
-            elif object_id.fields_get(field)[field]['type'] == 'selection':
-                field_value[field] = self.get_selection(object_id, field)
-            elif object_id.fields_get(field)[field]['type'] == 'one2many':
-                field_value[field] = self.get_o2m_vals(object_id, field)
-            else:
-                field_value[field] = object_id[field]
-            print "---------%s\n\n\n%s\n\n"%(field, field_value)
-
-        res = {'model': model, 'id': id, 'values': field_value}
-
+                elif object_id.fields_get(field)[field]['type'] == 'selection':
+                    field_value[field] = self.get_selection(object_id, field)
+                elif object_id.fields_get(field)[field]['type'] == 'one2many':
+                    field_value[field] = self.get_o2m_vals(object_id, field)
+                else:
+                    field_value[field] = object_id[field]
+            res = {'model': model, 'id': id, 'values': field_value}
+        except ValidationError, e:
+            res.update(error = e)
         return res
 
 
     def get_m2o_vals(self, object_id, field):
-         print "-----------%s"%object_id
-         #import ipdb; ipdb.set_trace()
+
+
          if object_id[field]:
              sub_values = {}
              submodel = object_id.fields_get(field)[field]['relation']
-             print "-------------------%s"%field
+
              for sub_field in INFO_FIELDS_M2O[submodel]:
-                 print "-------------------%s  >>>  %s" % (field, sub_field)
+
                  if object_id[field].fields_get(sub_field)[sub_field]['type'] == 'many2one':
                      sub_values[sub_field] = self.get_m2o_val(object_id[field][sub_field])
 
@@ -134,17 +160,16 @@ class WarehouseApp (models.Model):
     def get_order_self(self, objs, field_to_order):
         ##  Si en el contexto viene algo como:
         ## 'o2m_order': {'pack_operation_ids': {'field': 'picking_order', 'reverse': False}}
-        print "Ordeno ....."
         sorted_ = self._context.get('o2m_order', False)
         if sorted_:
             sorted = sorted_.get(field_to_order, False)
             if sorted:
                 sorted_field = sorted.get('field') 
                 sorted_order = sorted.get('reverse', False)
-                print "-----------------SI"
+
                 return objs.sorted(lambda x: x[sorted_field], reverse=sorted_order)
 
-        print "-----------------NO"
+
         return objs
 
 
@@ -172,16 +197,12 @@ class WarehouseApp (models.Model):
 
     @api.model
     def get_object_id(self, vals):
-
-        print "Recibo %s con contexto %s" % (vals, self._context)
-
+        print vals
         model = vals.get('model', False)
         id = vals.get('id', False)
-        ##OPCION 1: Recibo id y model: Devuelvo get_info_object
 
         if id and model:
             res = self.get_info_object({'id': id, 'model': model})
-            print res
             return res
 
         order = vals.get('search_order', False)
@@ -203,14 +224,12 @@ class WarehouseApp (models.Model):
             res = self.get_info_object({'id': id, 'model': option})
         else:
             res = {'model': model, 'id': 0,  'message': 'No se ha encontrado un objeto para %s'%search_str}
-        print "Retorno %s"%res
         return res
 
 
     @api.model
     def print_tag(self, values):
         
-        print "Recibo %s"%values
         printer_barcode = values.get('printer_barcode', False)
         printer = False
         if printer_barcode:
@@ -237,8 +256,6 @@ class WarehouseApp (models.Model):
 
     @api.model
     def get_object_id_V10(self, vals):
-
-        print "Recibo %s"%vals
         res = {}
         model = vals.get('model', False)
         return_object = vals.get('return_object', False)
@@ -268,7 +285,6 @@ class WarehouseApp (models.Model):
                 id = vals.get('id', False)
                 if id:
                     object_id = self.env[model].browse(id)
-                    print model, id, object_id
             if object_id:
                 res = {'model': model, 'id': object_id.id, 'name': FIELD_NAME[model]}
                 if return_object:
@@ -284,19 +300,14 @@ class WarehouseApp (models.Model):
                     res['fields'] = field_value
             else:
                 res = {'model': model, 'id': 0, 'name': FIELD_NAME[model], 'message': 'No se ha encontrado un %s para %s'%(model, search_str)}
-
-        print "Retorno %s"%res
         return res
 
     @api.model
     def get_scanned_object_id(self, vals):
-        ##values = {'model': ['stock.quant.package', 'stock.production.lot', 'stock.location', 'product.product'],
-        ##          'search_str': this.barcodeForm.value['scan']};
         res =  {'model': '', 'id': 0}
         search_str = vals.get('search_str')
         search_str.upper()
-        print vals
-        print search_str
+
         models = vals.get('model', [])
         for model in models:
             field = SEARCH_OPTIONS.get(model, False)
@@ -306,7 +317,84 @@ class WarehouseApp (models.Model):
                 if object_id:
                     id = object_id[0]['id']
                     res = {'model': model, 'id': id}
-                    print res
                     return res
         return res
+
+
+    @api.model
+    def get_ids(self, vals):
+        model = vals.get('model', False)
+        search_str = vals.get('search_str', '')
+        search_domain = vals.get('search_domain', [])
+        id = vals.get('id', False)
+        if id:
+            domain = [('id','=',id)]
+            object_ids = self.env[model].search_read(domain, FIELDS[model])
+            return {'model': model, 'id': id, 'values': object_ids}
+        else:
+            search_options = list(set(SEARCH_OPTIONS.keys()) & set(model))
+            for option in search_options:
+                model = option
+                domain = search_domain + [(SEARCH_OPTIONS[option], '=', search_str)] + DOMAIN[option]
+                object_ids = self.env[model].search_read(domain, FIELDS[option])
+                if object_ids:
+                    break
+        ##SEGUN EL TIPO DE MODELO, HAGO UNOS FILTROS PARA NO ENVIAR DATOS INSERVIBLES
+        if option == 'stock.production.lot':
+            object_ids = [x for x in object_ids if x['qty_available'] > 0.00]
+
+        if not object_ids:
+            res = {'model': False, 'id': id, 'values': []}
+
+        else:
+            if len(object_ids) == 1:
+                id = object_ids[0]['id']
+            res = {'model': option, 'id': id, 'values': object_ids}
+        return res
+
+    @api.model
+    def get_scanned_id(self, vals):
+
+        models = vals.get('model', [])
+        search_str = vals.get('search_str', '')
+        product_id = vals.get('product_id', False)
+
+        #LO HAGO CON SQL POR VELOCIDAD Y COMPAÑIA
+        ids = []
+        model_str = ''
+
+        if 'stock.quant.package' in models:
+            sql = "select id from stock_quant_package where name = '%s' limit 1 "%search_str
+            self._cr.execute(sql)
+            ids = self._cr.fetchall()
+            model_str = 'package_id'
+        if ids == [] and 'stock.production.lot' in models:
+            sql = "select id from stock_production_lot where name = '%s' and (product_id = null or product_id = %s) order by product_id desc limit 1" %(search_str, product_id)
+            self._cr.execute(sql)
+            ids = self._cr.fetchall()
+            model_str = 'lot_id'
+        if ids == []  and 'stock.location' in models:
+            sql = "select id from stock_location where loc_barcode = '%s' limit 1" % search_str
+            self._cr.execute(sql)
+            ids = self._cr.fetchall()
+            model_str = 'location_id'
+        if ids == [] and 'product.product' in models:
+            sql = "select id from product_product where ean13 = '%s' limit 1" % search_str
+            self._cr.execute(sql)
+            ids = self._cr.fetchall()
+            model_str ="product_id"
+
+        if ids != []:
+            res = {'id': ids[0][0], 'model': model_str}
+        else:
+            res = {'id': False, 'model': ''}
+        print "---------------------\nFuncion get_scanned_id devuelve :\n %s\n--------------------------------" % res
+        return res
+
+
+
+
+
+
+
 

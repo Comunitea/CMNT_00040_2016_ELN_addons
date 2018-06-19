@@ -19,7 +19,7 @@ import { TreepickPage } from '../treepick/treepick';
 import { Storage } from '@ionic/storage';
 import { AuxProvider } from '../../providers/aux/aux'
 import { OdooProvider } from '../../providers/odoo-connector/odoo-connector'
-
+import { BarcodeScanner } from '../../providers/odoo-connector/barcode_scanner';
 //Modal
 
 import { SelectLotPage } from '../select-lot/select-lot'
@@ -35,12 +35,17 @@ export class SlideopPage {
 
   @ViewChild('scan') myScan ;
   @ViewChild('qty') myQty ;
-
-  //@HostListener('document:keydown', ['$event'])
-  //handleKeyboardEvent(event: KeyboardEvent) { 
-  //  if (!this.myScan._isFocus){this.myScan.setFocus()};
-  //   }
-    
+  /*
+  @HostListener('document:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) { 
+    console.log("Desde treepick" + event.key)
+    this.Scanner.key_press(event).then((scan)=>{
+      if (scan){
+        this.Scan(scan)
+      }
+    })
+  }
+  */
   model = 'stock.pack.operation'
   isPaquete: boolean = true;
   cargar = true;
@@ -73,7 +78,7 @@ export class SlideopPage {
   uom_to_uos: number = 1
   advance: boolean = false
 
-  constructor(public navCtrl: NavController,  private modalCtrl: ModalController, private toastCtrl: ToastController, public navParams: NavParams, private formBuilder: FormBuilder, private alertCtrl: AlertController, private aux: AuxProvider , private odoo: OdooProvider, private storage: Storage) {
+  constructor(public Scanner: BarcodeScanner, public navCtrl: NavController,  private modalCtrl: ModalController, private toastCtrl: ToastController, public navParams: NavParams, private formBuilder: FormBuilder, private alertCtrl: AlertController, private aux: AuxProvider , private odoo: OdooProvider, private storage: Storage) {
     this.cargar = true
     this.advance= false
     this.op_id = this.navParams.data.op_id;
@@ -82,6 +87,7 @@ export class SlideopPage {
     this.ops = this.navParams.data.ops;
     this.pick = this.navParams.data.pick;
     this.reconfirm = false
+    this.Scanner.on()
     if (!this.ops){
       this.presentToast('Aviso:No hay operaciones', false)
       }
@@ -227,8 +233,10 @@ export class SlideopPage {
       }
       let myModal = this.modalCtrl.create(SelectPackagePage, {'op': this.op, 'pack_ids': pack_ids, 'dest': dest}); 
       myModal.present();
+      this.Scanner.off()
       myModal.onDidDismiss(data => 
       {
+        this.Scanner.on()
         if (!data) {return}
         if (!dest){
           if (data['new_pack_id'] == this.op['package_id']['id']){
@@ -257,7 +265,62 @@ export class SlideopPage {
       this.presentAlert('Error!', 'No se pudo recuperar ejecutar la operación');
     });
   }    
-  
+  scanner(option){
+    if (option){
+      this.Scanner.on()
+    }
+    else{
+      this.Scanner.off()
+    }
+  }
+  serial_ok(new_lot_id){
+    if (new_lot_id == this.op['lot_id']['id']){
+      this.op['lot_id']['checked']=true
+      this.op['location_id']['checked']=true
+      this.get_op_ready()
+      this.cargar = false   
+    }
+    else {
+      console.log(this.op['lot_id'])
+      this.change_lot(new_lot_id)
+    }
+  }
+  location_ok(id, field){
+    if (this[field]['id'] == id){
+      this.op[field]['checked']=true
+      this.get_op_ready()
+      this.cargar = false 
+    }
+    else
+    {
+      console.log(this[field])
+    }
+  }
+  package_ok(package_id){
+    if (package_id == this.op['package_id']['id']){
+      this.op['package_id']['checked']=true
+      this.op['lot_id']['checked']=true
+      this.op['location_id']['checked']=true
+      this.get_op_ready()
+      this.cargar = false   
+    }
+    else {
+      console.log(this.op['package_id'])
+      //this.change_package(package_id)
+    }
+  }
+  result_package_ok(package_id){
+    if (package_id == this.op['result_package_id']['id']){
+      this.op['result_package_id']['checked']=true
+      this.op['location_dest_id']['checked']=true
+      this.get_op_ready()
+      this.cargar = false   
+    }
+    else {
+      console.log(this.op['result_package_id'])
+      //this.change_package(package_id)
+    }
+  }
   showSerial(product_id, qty){
     if (this.op['pda_done']){return}
     this.cargar = true
@@ -275,18 +338,7 @@ export class SlideopPage {
       myModal.onDidDismiss(data => 
         { 
           if (data) {
-            let new_lot_id = data['new_lot_id']
-            if (new_lot_id == this.op['lot_id']['id']){
-              this.op['lot_id']['checked']=true
-              this.op['location_id']['checked']=true
-              this.get_op_ready()
-              this.cargar = false   
-            }
-            else {
-              console.log(new_lot_id)
-              this.change_lot(new_lot_id)
-            }
-         
+            this.serial_ok(data['new_lot_id'])         
         }
       })
     })
@@ -376,79 +428,122 @@ export class SlideopPage {
     toast.present();
   }
 
-submitScan(){
-  if (this.op['pda_done']){return}
-  if (this.check_changes()){return}
-  var values = {'model':  ['stock.quant.package', 'stock.production.lot', 'stock.location'], 'search_str' : this.barcodeForm.value['scan']};
-  this.barcodeForm.reset();
-  this.submit(values);
+  Scan(scan){
+    console.log('Slide Op:' + scan)
+    if (this.op['pda_done']){return}
+    if (this.check_changes()){return}
+    // Compruebo si es algo de la operación lo que se ha escaneado
+    if (!this.find_scanned_in_op(scan))
+      {this.find_in_server(scan)}
   }
 
-check_changes(do_id=true){
-  var res = false;
-  if (this.op['pda_done'] && do_id){
-    this.presentToast ("Ya está hecha. No puedes modificar");
-    res = true
+
+  find_scanned_in_op(scan){
+    let product_id = this.op['pda_product_id']
+    let package_id = this.op['package_id'] || false
+    let result_package_id = this.op['result_package_id'] || false
+    let lot_id = this.op['lot_id'] || false
+    let location_id = this.op['location_id']
+    let location_dest_id = this.op['location_dest_id']
+    //Escaneo producto >>> Muestra lotes
+    let res = true
+    if (product_id && product_id['ean_13'] == scan) {this.showSerial(product_id['id'], this['op']['product_qty'])}
+    
+    //Escaneo paquete >>
+    else if (package_id && !package_id['checked'] && package_id['name'] == scan) {
+      this.package_ok(package_id['id'])
+      }
+    else if (package_id && package_id['checked'] && package_id['name'] == scan && this.last_scan == scan ) {
+      this.confirm_qties()
+      }
+    else if (result_package_id && package_id['checked'] && result_package_id['name'] == scan) {this.package_ok(package_id['id'])}
+
+    //Escaneo lote
+    else if (lot_id && !lot_id['checked'] && lot_id['name'] == scan) {this.serial_ok(lot_id['id'])}
+    else if (lot_id && lot_id['checked'] && lot_id['name'] == scan && this.last_scan == scan ) {this.confirm_qties()}
+    
+    //escaneo ubicaición
+    else if (location_id && !location_id.checked && location_id['loc_barcode']==scan) {this.location_ok(location_id['id'], 'location_id')}
+    else if (location_id && lot_id['checked'] && location_id['checked'] && location_id['loc_barcode']==scan && this.op['qty_done'] == 0 && this.last_scan == scan) {this.confirm_qties()}
+    else if (location_dest_id && !location_id.checked && !location_dest_id.checked && location_dest_id['loc_barcode']==scan) {this.location_ok(location_id['id'], 'location_dest_id')}
+    else if (this.op_ready && this.last_scan == scan){
+      //Si la operacion está lista y se repite el scan se hace la operacion
+      this.doOp(this.op_id, true)
     }
-  if (!Boolean(this.pick['user_id'])) {
-    this.presentToast ("No está asignado el picking");
-    res = true
+    else{
+      res = false
     }
-  return res
-}
-scanValue(model, scan){
+    this.last_scan = scan
+    return res
+  }
+
+  submitScan(){
+    if (this.op['pda_done']){return}
     if (this.check_changes()){return}
-    var domain
-    var values
-    if (model=='stock.production.lot'){
-      domain = [['product_id', '=', this.op['product_id'][0]]];
-      values = {'model':  [model], 'search_str' : scan, 'domain': domain};
+    this.find_in_server(this.barcodeForm.value['scan'])
     }
-    else {
-      values = {'model':  [model], 'search_str' : scan}
-    }
+
+  find_in_server(str){
+    var values = {'model':  ['stock.quant.package', 'stock.production.lot', 'stock.location', 'product.product'], 
+                  'search_str' :str, 
+                  'product_id': this.op['pda_product_id']['id']};
+    this.barcodeForm.reset();
     this.submit(values);
-}
+  }
+
+  check_changes(do_id=true){
+    var res = false;
+    if (this.op['pda_done'] && do_id){
+      this.presentToast ("Ya está hecha. No puedes modificar");
+      res = true
+      }
+    if (!Boolean(this.pick['user_id'])) {
+      this.presentToast ("No está asignado el picking");
+      res = true
+      }
+    return res
+  }
+
   get_id(val){
     return (val && val[0]) || false
-    
   }
 
 
-submit (values)  {
-  if (this.op['pda_done']){return}
-  if (this.check_changes()){return}
-  var model = 'warehouse.app'
-  var method = 'get_object_id'  
-  this.odoo.execute(this.model, method, values).then((res)=>{
-    if (res) {
-      if (res['id']== 0){
-        this.presentAlert('Scan', res['message']);
+  submit (values)  {
+    if (this.op['pda_done']){return}
+    if (this.check_changes()){return}
+    var model = 'warehouse.app'
+    var method = 'get_scanned_id'  
+    console.log(values)
+    this.odoo.execute(model, method, values).then((res)=>{
+      if (res) {
+        if (res['id']== 0){
+          this.presentAlert('Scan', res['message']);
+        }
+        else {
+          this.check_scan_value(res)
+        }
       }
       else {
-        this.check_scan_value(res)
+        this.presentAlert('Scan', 'Error al buscar values ' + ['search_str']);
       }
-    }
-    else {
-      this.presentAlert('Scan', 'Error al buscar values ' + ['search_str']);
-    }
-  })
-  .catch(() => {
-    this.presentAlert('Error!', 'No se pudo recuperar ejecutar la operación');
-  });
+    })
+    .catch(() => {
+      this.presentAlert('Error!', 'No se pudo recuperar ejecutar la operación');
+    });
 
-}
+  }
 
-check_scan_value(res){
-
-}
+  check_scan_value(res){
+    console.log(res)
+  } 
 
 
-badge_checked(object){
-  if (this.op['pda_done']){return}
-  object.checked = !object.checked
-  this.get_op_ready()
-}
+  badge_checked(object){
+    if (this.op['pda_done']){return}
+    object.checked = !object.checked
+    this.get_op_ready()
+  }
   get_next_op(id, index){
     var self = this;
     let domain = []
@@ -470,7 +565,7 @@ badge_checked(object){
     this.op_id = self.ops[index]['id']
     return self.ops[index]['id'];
   }
-  
+
 
   doOp(id, do_id=true){
     if (this.check_changes(do_id)){return}
@@ -504,65 +599,12 @@ badge_checked(object){
     });
     
   }
-  
-
-  inputQty2() {
+  confirm_qties(){
     if (this.op['pda_done']){return}
     if (this.check_changes()){return}
-    
-    var self = this;
-    
-    let alert = this.alertCtrl.create({
-      title: 'Qty',
-      message: 'Cantidad a mover',
-      inputs: [
-        {
-          name: 'qty',
-          placeholder: self.op['qty_done'].toString()
-        },
-       
-      
-      ],
-      buttons: [
-        {
-          text: 'Cancel',
-          handler: () => {
-            console.log('Cancel clicked');
-          }
-        },
-        {
-          text:'Qty Ok',
-          handler:(data)=>{
-            self.op['qty_done'] =  self.op['product_qty'];
-            self.input = 0;
-            this.get_op_ready()
-          }
-        },
-      
-        {
-          text: 'Save',
-          handler: (data) => {
-            console.log('Saved clicked');
-            console.log(data.qty);
-
-            if (data.qty<0){
-              self.presentAlert('Error!', 'La cantidad debe ser mayor que 0');
-            }
-            else if (data.qty) {
-              self.op['qty_done'] = data.qty
-              this.get_op_ready()
-              /*self.check_state();*/
-            }
-            self.input = 0;
-
-          }
-        }
-      ]
-    });
-
-    self.input = alert._state;
-    alert.present();
+    this.get_uom_uos_qtys(false, this.op['product_qty'])
   }
+
   inputUomQty(){
     this.inputQty(this.op['product_uom_id']['name'], this.op['product_qty'], this.op['qty_done'], false, 'Cantidades')
   }
@@ -588,17 +630,10 @@ badge_checked(object){
       ],
       buttons: [
         {
-          text: 'Cancelar',
-          handler: () => {
-            console.log('Cancel clicked');
-          }
-        },
-        {
           text:'Qty Ok',
           handler:(data)=>{
             this.get_uom_uos_qtys(uos, ordered_qty)
             self.input = 0;
-            this.get_op_ready()
           }
         },
       
@@ -613,7 +648,7 @@ badge_checked(object){
             }
             else if (data.qty) {
               this.get_uom_uos_qtys(uos, data.qty)
-              this.get_op_ready()
+              
               /*self.check_state();*/
             }
             self.input = 0;
@@ -636,5 +671,6 @@ badge_checked(object){
       this.op['qty_done'] = this.convert_to_fix(qty);
       this.op['uos_qty_done'] = this.convert_uom_to_uos(qty);
     }
+    this.get_op_ready()
   }
 }

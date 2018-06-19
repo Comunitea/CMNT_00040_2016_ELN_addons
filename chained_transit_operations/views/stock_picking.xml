@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
+
          <record id="view_stock_enter_transfer_details_warehouse_app" model="ir.ui.view">
             <field name="name">Enter transfer details</field>
             <field name="model">stock.transfer_details</field>
@@ -26,6 +27,35 @@
                             string="Run Procurements">
                     </button>
                 </div>
+                <xpath expr="//group[@string='General Informations']" position="after">
+                    <group name = "Related Pickings">
+                        <group string="Next Picks">
+                            <field name="pick_dest"/>
+                            <field name="pick_dest_ids" nolabel="1" attrs="{'invisible': [('pick_dest_ids', '=', '[]')]}" >
+                                <tree colors="green:state == 'done';gray:state in ('cancel','draft')">
+                                    <field name="company_id"/>
+                                    <field name="name"/>
+                                    <field name="origin"/>
+                                    <field name="state"/>
+                                </tree>
+                            </field>
+                        </group>
+                        <group string="Prev Picks">
+                            <field name="pick_orig"/>
+                            <field name="pick_orig_ids" nolabel="1">
+                                <tree colors="green:state == 'done';gray:state in ('cancel','draft')">
+                                    <field name="company_id"/>
+                                    <field name="name"/>
+                                    <field name="origin"/>
+                                    <field name="state"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </group>
+                </xpath>
+
+
+
                 <!--xpath expr="//button[@name='do_enter_transfer_details']" position="attributes">
                     <attribute name="attrs">{'invisible': ['|', ('state', 'not in', ['assigned', 'partially_available']), ('cross_company','=', True)]}</attribute>
                     <attribute name="attrs">{'states': ''}</attribute>
@@ -36,17 +66,11 @@
                             groups="stock.group_stock_user" type="object" class="oe_highlight"
                             attrs="{'invisible': ['|', ('state', 'not in', ['assigned', 'partially_available']), ('cross_company','=', False)]}"/>
                 </xpath-->
-                <xpath expr="//button[@name='do_enter_transfer_details']" position="after">
-                    <button name="do_transfer"
-                            string="PDA Transfer"
-                            groups="stock.group_stock_user" type="object" class="oe_highlight"
-                            attrs="{'invisible': [('state', 'not in', ['assigned', 'partially_available'])]}"/>
-                </xpath>
-                <xpath expr="//page[@string='Operations']" position="after">
+
+                <!--xpath expr="//page[@string='Operations']" position="after">
                     <page string="Cross company operations" attrs="{'invisible': [('cross_company','=',False)]}">
-                        <field name="cross_company" invisible="1"/>
-                        <!--field name="parent_company_id"/>
-                        <field name="picking_orig_ids" nolabel="1" attrs="{'invisible': [('parent_company_id','=',False)]}"/-->
+                        <field name="parent_company_id"/>
+                        <field name="picking_orig_ids" nolabel="1" attrs="{'invisible': [('parent_company_id','=',False)]}"/>
                         <field name="cross_pack_operation_ids">
                             <tree editable="0">
                                 <field name="package_id" groups="stock.group_tracking_lot"/>
@@ -66,20 +90,19 @@
                         If there is no product but a source package, this means the source package was moved entirely.  If there is a product and a source package, the product was taken from the source package.
                         </p>
                     </page>
-                </xpath>
+                </xpath-->
         </field>
         </record>
-         <record id="view_picking_type_form_chained_ops" model="ir.ui.view">
+        <delete model="ir.ui.view" id="view_picking_type_form_chained_ops"/>
+         <!--record id="view_picking_type_form_chained_ops" model="ir.ui.view">
             <field name="name">Picking Types</field>
             <field name="model">stock.picking.type</field>
             <field name="inherit_id" ref="stock.view_picking_type_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='warehouse_id']" position="after">
-                    <field name="cross_company"/>
-
                 </xpath>
             </field>
-        </record>
+        </record-->
 
     </data>
 </openerp>
