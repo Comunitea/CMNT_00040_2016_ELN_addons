@@ -91,22 +91,6 @@ class StockPicking(models.Model):
 
 
     launch_pack_operations = fields.Boolean("Launch Pack Operations", copy=False)
-
-    state3 = fields.Selection([
-        ('draft', 'Draft'), ('cancel', 'Cancelled'),
-        ('waiting', 'Waiting Another Operation'),
-        ('confirmed', 'Waiting Availability'),
-        ('partially_available', 'Partially Available'),
-        ('assigned', 'Available'), ('done', 'Done')], string='Status', compute='_compute_state_2',
-        copy=False, index=True, readonly=True, store=True, track_visibility='onchange',
-        help=" * Draft: not confirmed yet and will not be scheduled until confirmed\n"
-             " * Waiting Another Operation: waiting for another move to proceed before it becomes automatically available (e.g. in Make-To-Order flows)\n"
-             " * Waiting Availability: still waiting for the availability of products\n"
-             " * Partially Available: some products are available and reserved\n"
-             " * Ready to Transfer: products reserved, simply waiting for confirmation.\n"
-             " * Transferred: has been processed, can't be modified or cancelled anymore\n"
-             " * Cancelled: has been cancelled, can't be confirmed anymore")
-
     done_ops = fields.Integer('Done ops', compute="_compute_ops", multi=True, compute_sudo=True)
     pack_operation_count = fields.Integer('Total ops', compute="_compute_ops", store=True, copy=False, compute_sudo=True)
     remaining_ops = fields.Integer('Remining ops', compute="_compute_ops", compute_sudo=True, multi=True)
