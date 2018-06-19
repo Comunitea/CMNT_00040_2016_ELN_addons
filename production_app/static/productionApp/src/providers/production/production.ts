@@ -16,10 +16,13 @@ export class ProductionProvider {
     lotsByProduct: Object = {};
     workcenter: Object = {};
     loged_ids: number[] = [];
+    product_ids: number[] = [];
     registry_id;
     production;
+    production_id;
     product;
     product_id;
+    consume_product_id;
     state;
     states;
 
@@ -28,14 +31,24 @@ export class ProductionProvider {
 
     technical_reasons: Object[];
     organizative_reasons: Object[];
+    scrap_reasons: Object[];
+
+    consumptions: Object[];
+    allowed_consumptions: Object[];
 
     operator_line_id;
     active_operator_id: number = 0;
 
-    qty;
+    qty: number;
+    scrap_qty: number;
+    scrap_reason_id: number;
+    uom: string;
+    uos: string;
+    uos_coeff: number;
     lot_name;
     lot_date;
     product_use_date: string;
+    change_lot_qc_id: number;
 
     constructor(private odooCon: OdooProvider) {
         this.states = {
@@ -50,6 +63,7 @@ export class ProductionProvider {
         this.operator_line_id = false;
         this.technical_reasons = [];
         this.organizative_reasons = [];
+        this.consumptions = [];
     }
 
     getUTCDateStr(){
@@ -77,13 +91,19 @@ export class ProductionProvider {
         return today;
     }
 
-    //Gets operators allowed from the current workorder
+    //Gets operators allowed, now all employees
     getAllowedOperators(reg){
         var allowed_operators = reg['allowed_operators'];
         this.operators = allowed_operators;
         for (let indx in allowed_operators) {
             let op = allowed_operators[indx];
-            this.odooCon.operatorsById[op.id] = {'name': op.name, 'active': false, 'operator_line_id': false, 'log': 'out'}    
+            let log = 'out';
+            let active = false;
+            if (op.id in this.odooCon.operatorsById){
+                log = this.odooCon.operatorsById[op.id].log
+                active = this.odooCon.operatorsById[op.id].active
+            }
+            this.odooCon.operatorsById[op.id] = {'name': op.name, 'let_active': op.let_active, 'active': active, 'operator_line_id': false, 'log': log}    
         }
         console.log("OPERATORSALLOWEDBYID")
         console.log(this.odooCon.operatorsById)
@@ -122,7 +142,7 @@ export class ProductionProvider {
         var d = new Date();
         d.setMonth(d.getMonth() - 3);
         var limit_date = d.toISOString().split("T")[0];
-        this.odooCon.searchRead('stock.production.lot', [['create_date', '>=', limit_date]], ['id', 'name', 'use_date',  'product_id']).then( (res) => {
+        this.odooCon.searchRead('stock.production.lot', [['product_id', 'in', this.product_ids], ['virtual_available', '>', 0]], ['id', 'name', 'use_date',  'product_id']).then( (res) => {
             this.lots = res;
             for (let indx in res) {
                 let lot = res[indx];
@@ -141,9 +161,9 @@ export class ProductionProvider {
     }
 
     logInOperator(operator_id){
-        if (this.loged_ids.length === 0){
-            this.setActiveOperator(operator_id)
-        }
+        // if (this.loged_ids.length === 0){
+        //     this.setActiveOperator(operator_id)
+        // }
         this.odooCon.operatorsById[operator_id]['log'] = 'in'
         var index = this.loged_ids.indexOf(operator_id);
         if (index <= -1) {
@@ -219,6 +239,24 @@ export class ProductionProvider {
         return promise
     }
 
+    getScrapReasons(){
+        var promise = new Promise( (resolve, reject) => {
+            this.odooCon.searchRead('scrap.reason', [], ['id', 'name']).then( (res) => {
+                this.scrap_reasons = [];
+                for (let indx in res) {
+                    var r = res[indx];
+                    this.scrap_reasons.push(r)
+                }
+                resolve();
+            })
+            .catch( (err) => {
+                console.log(" GET REASONS ERROR deberia ser una promesa, y devolver error, controlarlo en la página y lanzar excepción")
+                reject();
+            });
+        });
+        return promise
+    }
+
     // Gets all the data needed fom the app.regystry model
     loadProduction(workcenter){
         this.workcenter = workcenter
@@ -230,8 +268,11 @@ export class ProductionProvider {
                 if ('id' in reg){
                     this.initData(reg);
                     this.getQualityChecks();  // Load Quality Checks. TODO PUT PROMISE SYNTAX
+                    this.getConsumptions();  // Load Consumptions. TODO PUT PROMISE SYNTAX
                     this.setLogedTimes();  // Load Quality Checks. TODO PUT PROMISE SYNTAX
+                    this.getLots();  // Load Quality Checks. TODO PUT PROMISE SYNTAX
                     this.getAllowedOperators(reg)
+                    this.getScrapReasons();
                     resolve(reg);
                 }
                 else {
@@ -250,6 +291,7 @@ export class ProductionProvider {
         this.workcenter['id'] = data.workcenter_id[0];
         this.workcenter['name'] = data.workcenter_id[1];
         this.registry_id = data.id;
+        this.production_id = data.production_id[0];
         this.production = data.production_id[1];
         this.product_id = data.product_id[0];
         this.product = data.product_id[1];
@@ -257,6 +299,12 @@ export class ProductionProvider {
         this.start_checks = [];
         this.freq_checks = [];
         this.product_use_date = data.product_use_date
+        this.scrap_qty = 0;
+        this.uom = data.uom;
+        this.uos = data.uos;
+        this.uos_coeff = data.uos_coeff;
+        this.change_lot_qc_id = data.change_lot_qc_id;
+        this.product_ids = data.product_ids
     }
     
     // Load Quality checks in each type list
@@ -287,6 +335,53 @@ export class ProductionProvider {
             // Si hay error aquí, convertir esta funcion en promesa y controlarla.
             console.log(err) 
         });
+    }
+
+    loadConsumptions(moves) {
+        this.consumptions = [];
+        this.allowed_consumptions = [];
+        for (let indx in moves) {
+            var move = moves[indx];
+            var lot = '';
+            var state='Para consumir'
+            if (move['state'] == 'done' || move['state'] == 'cancel'){
+                state = 'Consumido'
+            }
+            if (move['restrict_lot_id']){
+                lot = move['restrict_lot_id'][1]
+            }
+            var vals = {
+                'product': move['product_id'][1],
+                'product_id': move['product_id'][0],
+                'qty':  move['product_uom_qty'],
+                'uom': move['product_uom'][1],
+                'lot': lot,
+                'state': state
+            }
+            this.consumptions.push(vals);
+            if (move['show_in_app'] == true){
+                this.allowed_consumptions.push(vals);
+            }
+        }
+        console.log("MOVES");
+        console.log(moves);
+        console.log("LOADED CONSUMPTIONS");
+        console.log(this.consumptions);   
+    }
+
+    getConsumptions(){
+        var promise = new Promise( (resolve, reject) => {
+            var domain = [['raw_material_production_id', '=', this.production_id]]
+            var fields = ['id', 'show_in_app', 'product_id', 'product_uom_qty', 'product_uom', 'restrict_lot_id', 'state']
+            this.odooCon.searchRead('stock.move', domain, fields).then( (res) => {
+                this.loadConsumptions(res)
+                resolve();
+            })
+            .catch( (err) => {
+                console.log("Error obteniendo consumos");
+            });
+        });
+        return promise
     }
 
     saveQualityChecks(data){
@@ -379,6 +474,10 @@ export class ProductionProvider {
         this.state = 'cleaning';
         var values = {'stop_id': this.odooCon.last_stop_id, 'stop_end': this.getUTCDateStr()};
         this.setStepAsync('restart_and_clean_production', values);
+    }
+    scrapProduction(){
+        var values = {'scrap_qty': this.scrap_qty, 'scrap_reason_id': this.scrap_reason_id};
+        this.setStepAsync('scrap_production', values);
     }
 
 }

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data noupdate="1">
+        <record id="change_lot_qc" model="product.quality.check">
+            <field name="name">Change Lot</field>
+            <field name="quality_type">freq</field>
+            <field name="value_type">text</field>
+        </record>
+    </data>
+</openerp>

@@ -17,9 +17,12 @@ import { HomePage } from '../pages/home/home';
 import { ProductionPage } from '../pages/production/production';
 import { ListPage } from '../pages/list/list';
 import { ChecksModalPage } from '../pages/checks-modal/checks-modal';
+import { ConsumeModalPage } from '../pages/consume-modal/consume-modal';
 import { UsersModalPage } from '../pages/users-modal/users-modal';
 import { ReasonsModalPage } from '../pages/reasons-modal/reasons-modal';
 import { FinishModalPage } from '../pages/finish-modal/finish-modal';
+import { ScrapModalPage } from '../pages/scrap-modal/scrap-modal';
+import { ConsumptionsPage } from '../pages/consumptions/consumptions';
 
 //Providers
 import { OdooProvider } from '../providers/odoo/odoo';
@@ -40,6 +43,9 @@ import { TimerComponent } from '../components/timer/timer';
     UsersModalPage,
     ReasonsModalPage,
     FinishModalPage,
+    ScrapModalPage,
+    ConsumeModalPage,
+    ConsumptionsPage,
     TimerComponent
   ],
   imports: [
@@ -58,7 +64,10 @@ import { TimerComponent } from '../components/timer/timer';
     ChecksModalPage,
     UsersModalPage,
     ReasonsModalPage,
+    ConsumeModalPage,
+    ConsumptionsPage,
     FinishModalPage,
+    ScrapModalPage
   ],
   providers: [
     StatusBar,

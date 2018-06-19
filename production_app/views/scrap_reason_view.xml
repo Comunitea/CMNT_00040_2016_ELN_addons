@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>    
+    
+    <record id="scrap_reason_tree_view" model="ir.ui.view" >
+        <field name="name">scrap.reason.tree.view</field>
+        <field name="model">scrap.reason</field>
+        <field name="arch" type="xml">
+            <tree string="Scrap Reasons">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="scrap_reason_form_view" model="ir.ui.view">
+        <field name="name">scrap.reason.form.view</field>
+        <field name="model">scrap.reason</field>
+        <field name="arch" type="xml">
+            <form string="Scrap Reasons">
+                <sheet string="App Registrys">
+                    <group>
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+     <record id="scrap_reason_filter_view" model="ir.ui.view">
+        <field name="name">scrap.reason.filter.view</field>
+        <field name="model">scrap.reason</field>
+        <field name="arch" type="xml">
+            <search string="Search Work Orders">
+                <field name="name"/>
+             </search>
+        </field>
+    </record>
+
+    <record id="action_scrap_reason" model="ir.actions.act_window" >
+        <field name="name">Scrap Reasons</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">scrap.reason</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_scrap_reason" name="Scrap Reasons" parent="mrp.menu_mrp_planning"
+              action="action_scrap_reason" sequence="6"/>
+
+    </data>
+</openerp>

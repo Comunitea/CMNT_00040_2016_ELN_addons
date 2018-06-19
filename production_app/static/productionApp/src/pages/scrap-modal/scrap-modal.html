@@ -1,0 +1,45 @@
+<!--
+  Generated template for the FinishModalPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="secondary">
+    <ion-title><span>Scrap</span></ion-title>
+    <ion-buttons end>
+        <button ion-button (click)="closeModal()">
+            Atrás
+        </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+    <ion-label color="primary" stacked><span>Cantidad en {{this.prodData.uom}}</span></ion-label>
+    <ion-input type="number"  [(ngModel)]="qty" required name='qty' placeholder="Cantidad UdM"></ion-input>
+
+  <!--   <ion-label color="primary" stacked><span>Motivo</span></ion-label>
+    <ion-input type="text"  [(ngModel)]="reason" required name='reason' placeholder="Motivo"></ion-input> -->
+    <!-- Diable secon unit -->
+    <!-- <ion-label color="primary" stacked><span>Cantidad en {{this.prodData.uos}}</span></ion-label>
+    <ion-input type="number"  [(ngModel)]="uos_qty" required name='uos_qty' (ionChange)='onchange_uos()' placeholder="Cant. Segunda Unidad"></ion-input> -->
+    <ion-label color="primary" stacked><span>Motivos</span></ion-label>
+    <ion-list>
+<!--         <ion-item [hidden]='reasons.length>0' color ="danger"> No hay motivos de parada</ion-item> -->
+        <button ion-item *ngFor="let reason of reasons" (click)="reasonSelected(reason)">
+            <!-- <ion-icon name="text"></ion-icon> -->
+            <span>{{ reason.name }}</span>
+        </button>  
+    </ion-list>
+
+    <span> Motivo Seleccionado </span> <span style="color:red">{{this.reason_name}} </span>
+
+   <button ion-button full (click)="confirm()">
+        Confirmar
+    </button>
+   
+</ion-content>

@@ -2,12 +2,15 @@ import { Component, ViewChildren, QueryList } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, ModalController } from 'ionic-angular';
 import { HomePage } from '../../pages/home/home';
 import { ChecksModalPage } from '../../pages/checks-modal/checks-modal';
+import { ConsumeModalPage } from '../../pages/consume-modal/consume-modal';
 import { UsersModalPage } from '../../pages/users-modal/users-modal';
 import { ReasonsModalPage } from '../../pages/reasons-modal/reasons-modal';
 import { FinishModalPage } from '../../pages/finish-modal/finish-modal';
+import { ScrapModalPage } from '../../pages/scrap-modal/scrap-modal';
 import { ProductionProvider } from '../../providers/production/production';
 import { OdooProvider } from '../../providers/odoo/odoo';
 import { TimerComponent } from '../../components/timer/timer';
+import { ConsumptionsPage } from '../../pages/consumptions/consumptions';
 
 
 @IonicPage()
@@ -145,12 +148,32 @@ export class ProductionPage {
                     resolve();
                 }
                 else{
+                    if (qtype == 'start' && restart_timer){
+                        this.timer.toArray()[0].restartTimer();  // Production timer on
+                    } 
                     if (qchecks.length === 0)
                         resolve();
                     else
                         reject();
                 }
                 
+            });
+
+            myModal.present();
+        });
+        return promise
+    }
+
+    openConsumeModal(move) {
+        this.prodData.consume_product_id = move.product_id
+        var promise = new Promise( (resolve, reject) => {
+
+            let myModal = this.modalCtrl.create(ConsumeModalPage, {});
+
+            // When modal closes
+            myModal.onDidDismiss(data => {
+                var vals = [data]
+                this.prodData.saveQualityChecks(vals);
             });
 
             myModal.present();
@@ -205,6 +228,26 @@ export class ProductionPage {
         return promise;
     }
 
+    openScrapModal(){
+        var promise = new Promise( (resolve, reject) => {
+            let scrapModal = this.modalCtrl.create(ScrapModalPage, {});
+            scrapModal.present();
+
+            // When modal closes
+            scrapModal.onDidDismiss(res => {
+                if (Object.keys(res).length === 0) {
+                    reject();
+                }
+                else {
+                    this.prodData.scrap_qty = res.qty;
+                    this.prodData.scrap_reason_id = res.reason_id;
+                    resolve();
+                }
+            });
+        });
+        return promise;
+    }
+
     clearIntervales(){
         for (let indx in this.interval_list){
             let int = this.interval_list[indx];
@@ -243,6 +286,10 @@ export class ProductionPage {
     beginLogistics() {
         this.presentAlert('Logistica', 'PENDIENTE DESAROLLO, LLAMAR APP ALMACÉN')
     }
+    showConsumptions(workcenter) {
+        this.navCtrl.push(ConsumptionsPage)
+    }
+
 
     confirmProduction() {
         this.promptNextStep('¿Confirmar producción?').then( () => {
@@ -335,11 +382,24 @@ export class ProductionPage {
     }
     loadNextProduction(){
         this.prodData.loadProduction(this.prodData.workcenter).then( (res) => {
-            this.prodData.active_operator_id = 0;
+            // this.prodData.active_operator_id = 0;
         })
         .catch( (err) => {
             this.presentAlert(err.title, err.msg);
         }); 
+    }
+
+    consumeSelected(move) {
+        console.log(move)
+        this.openConsumeModal(move).then( () => {
+            this.presentAlert('EEEE', 'Mostrar modal con lote a elegir y escribir qc')            
+        }).catch(() => {});
+    }
+
+    scrapProduction() {
+        this.openScrapModal().then(() => {
+            this.prodData.scrapProduction();
+        }).catch(() => {});
     }
 
 }

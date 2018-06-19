@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController, AlertController } from 'ionic-angular';
 import { ProductionProvider } from '../../providers/production/production';
 import { OdooProvider } from '../../providers/odoo/odoo';
 
@@ -25,6 +25,7 @@ export class UsersModalPage {
     constructor(public navCtrl: NavController, public navParams: NavParams,
                 public viewCtrl: ViewController,
                 private prodData: ProductionProvider,
+                public alertCtrl: AlertController,
                 private odooCon: OdooProvider) {
         this.initializeItems();
     }
@@ -33,16 +34,32 @@ export class UsersModalPage {
         console.log('ionViewDidLoad UsersModalPage');
     }
 
+    presentAlert(titulo, texto) {
+        const alert = this.alertCtrl.create({
+            title: titulo,
+            subTitle: texto,
+            buttons: ['Ok'],
+        });
+        alert.present();
+    }
+
     closeModal() {
         this.viewCtrl.dismiss();
     }
     setActive(operator){
-        this.prodData.setActiveOperator(operator.id);
+        if (!operator.let_active){
+            this.presentAlert('Error!', 'No se puede activar este usuario ya que no está en el listado de operarios del centro de trabajo asociado.')
+        }
+        else{
+
+            this.prodData.setActiveOperator(operator.id);
+        }
     }
     logInOperator(operator) {
         if (this.items2.length === 0) {
             this.setActive(operator);
         }
+
         this.prodData.logInOperator(operator.id);
 
         //Remove from loged out list

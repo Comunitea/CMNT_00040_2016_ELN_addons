@@ -10,13 +10,16 @@ import { ProductionProvider } from '../../providers/production/production';
 })
 export class FinishModalPage {
 
-    qty: number;
+    qty;
+    uos_qty;
     lot: string;
     date: string;
     lots: Object[];
     items: Object[];
     mode: string = 'default';
     mode_step: string = 'start';
+    ctrl: string = 'do';
+
     constructor(public navCtrl: NavController, public navParams: NavParams, 
                 public viewCtrl: ViewController,
                 private prodData: ProductionProvider) {
@@ -24,6 +27,7 @@ export class FinishModalPage {
         this.items = [];
         this.mode_step = this.navParams.get('mode_step');
         this.date = this.prodData.product_use_date;
+        this.ctrl = 'do'
     }
 
     ionViewDidLoad() {
@@ -75,6 +79,33 @@ export class FinishModalPage {
                 return (item['name'].toLowerCase().indexOf(val.toLowerCase()) > -1);
             })
         }
+    }
+
+    onchange_uom() {
+        console.log(this.prodData.uom)
+        if (this.ctrl !== 'not do'){
+            var uos_coeff = this.prodData.uos_coeff;
+            this.uos_qty = (this.qty * uos_coeff).toFixed(2);
+            this.ctrl = 'not do'
+        }
+        else{
+            this.ctrl = 'do'
+        }
+    }
+
+    onchange_uos() {
+        console.log("b")
+        if (this.ctrl !== 'not do'){
+            var uos_coeff = this.prodData.uos_coeff;
+            if (uos_coeff == 0){
+                uos_coeff = 1
+            }
+            this.qty = (this.uos_qty / uos_coeff).toFixed(2);
+            this.ctrl = 'not do'
+        } 
+        else{
+            this.ctrl = 'do'
+        }  
     }
 
 

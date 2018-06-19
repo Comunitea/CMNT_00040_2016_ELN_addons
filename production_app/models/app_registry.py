@@ -114,6 +114,16 @@ class AppRegistry(models.Model):
         return res
 
     @api.model
+    def get_allowed_operators(self, active_ids):
+        res = []
+        for op in self.env['hr.employee'].search([]):
+            vals = {'id': op.id, 'name': op.name, 'let_active': False}
+            if op.id in active_ids:
+                vals['let_active'] = True
+            res.append(vals)
+        return res
+
+    @api.model
     def app_get_registry(self, vals):
         """
         Obtiene el registro que actua de controlador
@@ -129,14 +139,33 @@ class AppRegistry(models.Model):
             res.update(reg.read()[0])
 
         if reg:
-            allowed_operators = []
-            for op in reg.workcenter_id.operators_ids:
-                allowed_operators.append({'id': op.id, 'name': op.name})
+            active_operator_ids = reg.workcenter_id.operators_ids.ids
+            allowed_operators = self.get_allowed_operators(active_operator_ids)
+            # for op in reg.workcenter_id.operators_ids:
+            #     active_operators.append({'id': op.id, 'name': op.name})
 
             use_time = reg.wc_line_id.production_id.product_id.use_time
-            use_date = (datetime.now() + timedelta(use_time)).strftime("%Y-%m-%d")
+            use_date = (datetime.now() + timedelta(use_time)).\
+                strftime("%Y-%m-%d")
+
+            uom = reg.product_id.uom_id.name
+            uos = reg.product_id.uos_id.name
+            uos_coeff = reg.product_id.uos_coeff
+            change_lot_qc_id = self.env.ref('production_app.change_lot_qc').id
+
+            product_ids = [reg.product_id.id]
+            consume_ids1 = reg.production_id.move_lines.mapped('product_id')
+            consume_ids2 = reg.production_id.move_lines2.mapped('product_id')
+            if consume_ids1:
+                product_ids.extend(consume_ids1.ids)
+            if consume_ids2:
+                product_ids.extend(consume_ids2.ids)
             res.update(allowed_operators=allowed_operators,
-                       product_use_date=use_date)
+                       active_operator_ids=active_operator_ids,
+                       product_use_date=use_date,
+                       change_lot_qc_id=change_lot_qc_id,
+                       product_ids=product_ids,
+                       uom=uom, uos=uos, uos_coeff=uos_coeff)
         return res
 
     @api.model
@@ -317,6 +346,23 @@ class AppRegistry(models.Model):
         return res
 
     @api.model
+    def scrap_production(self, values):
+        qty = values.get('scrap_qty', 0.00)
+        import ipdb; ipdb.set_trace()
+        reason_id = values.get('scrap_reason_id', False)
+        qty = float(qty)
+        location_id = 4   # Ubicación desechos 1
+        location_id = 23  # Ubicación desechos 2.
+        if values.get('registry_id', False):
+            reg = self.browse(values['registry_id'])
+        if reg and reg.production_id.move_created_ids:
+            lot_id = reg.lot_id.id
+            move = reg.production_id.move_created_ids[0]
+            move.action_scrap(qty, location_id, restrict_lot_id=lot_id)
+            move.write({'reason_id': reason_id})
+        return
+
+    @api.model
     def get_quality_checks(self, values):
         product_id = values.get('product_id', False)
         product = self.env['product.product'].browse(product_id)
@@ -437,7 +483,7 @@ class QualityCheckLine(models.Model):
     date = fields.Datetime('Date', readonly=False)
     value = fields.Text('Value', readonly=False)
     operator_id = fields.Many2one('hr.employee', 'Operator')
-    wc_line_id = fields.Many2one('mrp.production.workcenter.line', 
+    wc_line_id = fields.Many2one('mrp.production.workcenter.line',
                                  'Workcenter Line', readonly=True)
 
 
@@ -472,7 +518,7 @@ class OperatorLines(models.Model):
     date_out = fields.Datetime('Date Out', readonly=False)
     stop_duration = fields.Float('Hours',
                                  compute="_get_duration")
-    wc_line_id = fields.Many2one('mrp.production.workcenter.line', 
+    wc_line_id = fields.Many2one('mrp.production.workcenter.line',
                                  'Workcenter Line', readonly=True)
 
     @api.multi
