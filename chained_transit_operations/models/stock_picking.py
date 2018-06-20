@@ -83,7 +83,7 @@ class StockPicking(models.Model):
 
             pick.pick_dest_ids = pick.mapped('move_lines').mapped('move_dest_id').mapped('picking_id')
             pick_ids = self.env['stock.move'].search([('move_dest_id', 'in', pick.move_lines.ids)]).mapped('picking_id')
-            pick_ids += self.env['stock.move'].search([('move_dest_id', 'in', pick_ids.mapped('move_lines').ids)]).mapped('picking_id')
+            #pick_ids += self.env['stock.move'].search([('move_dest_id', 'in', pick_ids.mapped('move_lines').ids)]).mapped('picking_id')
             pick.pick_orig_ids = [(6, 0, pick_ids.ids)]
             pick.related_picks = "Destino: %s \n Origen: %s"%(pick.pick_dest_ids, pick.pick_dest_ids)
             pick.pick_dest = pick.pick_dest_ids and True or False
