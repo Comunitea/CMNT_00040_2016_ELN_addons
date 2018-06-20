@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { ViewChild } from '@angular/core';
-import { HostListener } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ToastController } from 'ionic-angular';
 /*import { PROXY } from '../../providers/constants/constants';*/
 
 import { Storage } from '@ionic/storage';
 import { OdooProvider } from '../../providers/odoo-connector/odoo-connector'
+import { BarcodeScanner } from '../../providers/odoo-connector/barcode_scanner';
 /**
  * Generated class for the ManualPage page.
  *
@@ -15,7 +15,7 @@ import { OdooProvider } from '../../providers/odoo-connector/odoo-connector'
  * Ionic pages and navigation.
  */
 
-declare var OdooApi: any
+
 
 @IonicPage()
 @Component({
@@ -26,13 +26,6 @@ declare var OdooApi: any
 export class ManualPage {
 
   @ViewChild('scan') myScan ; 
-
-
-  @HostListener('document:keydown', ['$event'])
-  handleKeyboardEvent(event: KeyboardEvent) { 
-    if (!this.myScan._isFocus && this.input!=1){this.myScan.setFocus()};
-     }
-
   
   max_qty = 0.00
   
@@ -50,7 +43,7 @@ export class ManualPage {
   barcodeForm: FormGroup;
   tracking = 'none'
   
-  constructor(public navCtrl: NavController, public toastCtrl: ToastController, public navParams: NavParams, private formBuilder: FormBuilder, public storage: Storage,   private odoo: OdooProvider, public alertCtrl: AlertController) {
+  constructor(public Scanner: BarcodeScanner,public navCtrl: NavController, public toastCtrl: ToastController, public navParams: NavParams, private formBuilder: FormBuilder, public storage: Storage,   private odoo: OdooProvider, public alertCtrl: AlertController) {
 
     this.input = 0;
     this.models =  ['stock.quant.package', 'stock.production.lot', 'stock.location', 'product.product']
@@ -75,24 +68,7 @@ export class ManualPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad ManualPage');
   }
-  submitScan(){
-    this.cargar=true
-    let values
-    if (this.state == 2 && this.last_scan == this.barcodeForm.value['scan']){
-      this.process_move();
-    }
-    else if (this.state==1){
-      values = {'model': ['stock.location', 'stock.quant_package'], 'search_str' : this.barcodeForm.value['scan'], 'return_object': true};
-      this.barcodeForm.reset();
-      this.submit(values);
-    }
-    else {
-      values = {'model': this.models, 'search_str' : this.barcodeForm.value['scan'], 'return_object': true};
-      this.barcodeForm.reset();
-      this.submit(values);
-    }
-  }
-
+ 
   get_id(val){
     return (val && val[0]) || false
     
@@ -135,13 +111,15 @@ export class ManualPage {
       })
       .catch(() =>{
         this.presentToast("Error al recuperar los ids", false);
+
         return false;
       })
     
 
   }
   ret_m2o(val, field){
-    return {'id': val[field][0], 'name': val[field][1]} 
+    let m2o =  {'id': val[field][0], 'name': val[field][1]} 
+    return m2o
   }
   get_state() {
     if (this.state == 0 && this.move['product_id']['id'] && this.move['location_id']['id'] && this.move['restrict_lot_id']['id']){return 1}
@@ -154,7 +132,7 @@ export class ManualPage {
     let uom_id = {}
     let location_id ={}
     let lot_id = {}
-    let location_Dest_id = {}
+    let location_dest_id = {}
     let qty = -1
     if (val['model']=='stock.production.lot'){
       qty = 0.00
@@ -233,7 +211,6 @@ export class ManualPage {
   select_lot (lot_id){
     this.cargar = true
     this.move['restrict_lot_ids']=[]
-    this.move['restrict_lot_id']={}
     var values = {'model': 'stock.production.lot', 'id': lot_id, 'return_object': true};
     this.submit(values)
   }
@@ -352,6 +329,29 @@ export class ManualPage {
     })
 
   }
-  
 
+  Scan(scan){
+    this.cargar=true
+    let values
+    if (this.state == 2 && this.last_scan == scan){
+      this.process_move();
+    }
+    else if (this.state==1){
+      values = {'model': ['stock.location', 'stock.quant_package'], 'search_str' : scan, 'return_object': true};
+      
+      this.submit(values);
+    }
+    else {
+      values = {'model': this.models, 'search_str' : scan, 'return_object': true};
+      
+      this.submit(values);
+    }
+    }
+
+  
+  submitScan(){
+    this.Scan(this.barcodeForm.value['scan'])
+      this.barcodeForm.reset();
+    }
 }
+

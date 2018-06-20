@@ -175,8 +175,12 @@ class StockMove(models.Model):
 
         print vals
         new_move = self.env['stock.move'].create(vals)
+
         if new_move:
+            print "PDA Move creado con id %s" % new_move.id
             new_move.action_done()
-            return {'message': 'OK', 'id': new_move.id}
+            res = {'message': 'OK', 'id': new_move.id}
         else:
-            return {'message': 'Error al crear el movimeinto', 'id': 0}
+            res = {'message': 'Error al crear el movimiento', 'id': 0}
+        print res
+        return res

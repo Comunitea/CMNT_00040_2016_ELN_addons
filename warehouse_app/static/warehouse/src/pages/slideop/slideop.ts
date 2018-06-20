@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, ModalController } from 'ionic-angular';
 import { ViewChild } from '@angular/core';
-import { Slides } from 'ionic-angular';
+
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ToastController } from 'ionic-angular';
 /*import { PROXY } from '../../providers/constants/constants';*/
@@ -12,9 +12,8 @@ import { ToastController } from 'ionic-angular';
  * Ionic pages and navigation.
  */
 
-import { HostListener } from '@angular/core';
+
 import { HomePage } from '../home/home';
-import { TreeopsPage } from '../treeops/treeops';
 import { TreepickPage } from '../treepick/treepick';
 import { Storage } from '@ionic/storage';
 import { AuxProvider } from '../../providers/aux/aux'
@@ -78,7 +77,7 @@ export class SlideopPage {
   uom_to_uos: number = 1
   advance: boolean = false
 
-  constructor(public Scanner: BarcodeScanner, public navCtrl: NavController,  private modalCtrl: ModalController, private toastCtrl: ToastController, public navParams: NavParams, private formBuilder: FormBuilder, private alertCtrl: AlertController, private aux: AuxProvider , private odoo: OdooProvider, private storage: Storage) {
+  constructor(public Scanner: BarcodeScanner, public navCtrl: NavController,  private modalCtrl: ModalController, private toastCtrl: ToastController, public navParams: NavParams, private formBuilder: FormBuilder, private alertCtrl: AlertController, private aux: AuxProvider , private odoo: OdooProvider) {
     this.cargar = true
     this.advance= false
     this.op_id = this.navParams.data.op_id;

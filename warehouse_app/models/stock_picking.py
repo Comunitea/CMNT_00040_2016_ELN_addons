@@ -197,8 +197,8 @@ class StockPicking(models.Model):
     def pda_do_assign_from_pda(self, vals):
         id = vals.get('id', False)
         action = vals.get('action', False)
-        pick_id = self.sudo().browse(id)
-        if pick_id.sudo().state in ('cancel', 'done'):
+        pick_id = self.browse(id)
+        if pick_id.state in ('cancel', 'done'):
             return False
         return pick_id.pda_do_assign(action)
 

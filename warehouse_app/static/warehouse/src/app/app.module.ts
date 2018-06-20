@@ -18,7 +18,7 @@ import { HomePage } from '../pages/home/home';
 import { TreepickPage } from '../pages/treepick/treepick';
 import { TreeopsPage } from '../pages/treeops/treeops';
 import { SlideopPage } from '../pages/slideop/slideop';
-//import { ManualPage } from '../pages/manual/manual'
+import { ManualPage } from '../pages/manual/manual'
 import { AuxProvider } from '../providers/aux/aux';
 import { ShowinfoPage } from '../pages/showinfo/showinfo';
 //import { ProductPage} from '../pages/product/product'
@@ -53,7 +53,7 @@ import { StockOperationComponent} from '../components/stock-operation/stock-oper
     TreepickPage,
     TreeopsPage,
     SlideopPage,
-    //ManualPage,
+    ManualPage,
     ShowinfoPage,
     //LotPage,
     //LocationPage,
@@ -77,7 +77,7 @@ import { StockOperationComponent} from '../components/stock-operation/stock-oper
     TreepickPage,
     TreeopsPage,
     SlideopPage,
-    //ManualPage,
+    ManualPage,
     ShowinfoPage,
     //LotPage,
     //LocationPage,

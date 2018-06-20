@@ -13,7 +13,6 @@
     "installable": True,
     "depends": [
         "stock", 
-        "picking_wave_route_link"
     ],
     "data": [
         'security/ir.model.access.csv',
