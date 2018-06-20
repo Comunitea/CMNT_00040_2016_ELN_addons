@@ -12,7 +12,7 @@
     "application": False,
     "installable": True,
     "depends": [
-        "stock", 
+        "stock", "mrp"
     ],
     "data": [
         'security/ir.model.access.csv',

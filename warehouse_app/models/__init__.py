@@ -12,6 +12,6 @@ import product_product
 import stock_quant_package
 import warehouse_app
 import ir_actions_report_xml
-#import stock_move_consume
+import stock_move_consume
 import stock_pack_operation_group
 import sale_order_cancel_multi,stock_picking_cancel_multi

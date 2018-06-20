@@ -95,6 +95,7 @@ export class SlideopPage {
     this.waiting = this.navParams.data.origin || 0;
     this.resetValues()
     this.cargarOp(this.op_id)
+    
     }
   
 
@@ -158,11 +159,12 @@ export class SlideopPage {
   check_needs(){
     let reset = false
     if (this.op['pda_done']){reset = true}
-    if (this.op['package_id']) {this.op['package_id']['checked'] = reset}
+    if (this.op['package_id']) {this.op['package_id']['checked'] = this.navParams.data.package_id ||reset; this.navParams.data.package_id = false}
     if (this.op['result_package_id']) {this.op['result_package_id']['checked'] = reset}
-    if (this.op['lot_id']) {this.op['lot_id']['checked']  = reset}
+    if (this.op['lot_id']) {this.op['lot_id']['checked'] = this.navParams.data.lot_id || reset; this.navParams.data.lot_id = false }
     this.op['location_id']['checked'] = !this.op['location_id']['need_check'] || reset
     this.op['location_dest_id']['checked'] = !this.op['location_dest_id']['need_check'] || reset
+
   }
 
   get_op_ready () {

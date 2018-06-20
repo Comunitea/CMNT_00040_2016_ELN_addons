@@ -328,11 +328,18 @@ find_op (scan){
     var opObj = this.pick['pack_operation_ids'][op];
     console.log(opObj);
     //Busco por lote
-    if (opObj['lot_id'] && opObj['lot_id']['name'] == scan || opObj['pda_product_id'] && opObj['pda_product_id']['ean13'] == scan){
+    if (opObj['lot_id'] && opObj['lot_id']['name'] == scan){
+      val = {op_id: opObj['id'], index: op, ops: this.pick['pack_operation_ids'], origin: true, lot_id:true}
+      return val
+    }
+    if (opObj['package_id'] && opObj['package_id']['name'] == scan) {
+      val = {op_id: opObj['id'], index: op, ops: this.pick['pack_operation_ids'], origin: true, package_id:true}
+      return val
+    }
+    if (opObj['pda_product_id'] && opObj['pda_product_id']['ean13'] == scan){
       val = {op_id: opObj['id'], index: op, ops: this.pick['pack_operation_ids'], origin: true}
       return val
     }
-
   }
 
   }
