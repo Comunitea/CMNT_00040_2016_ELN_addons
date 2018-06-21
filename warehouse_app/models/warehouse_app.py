@@ -107,6 +107,7 @@ class WarehouseApp (models.Model):
             return False
         try:
             for field in INFO_FIELDS[model]:
+                print "Buscando %s"%field
                 if object_id.fields_get(field)[field]['type'] == 'many2one':
                     field_value[field] = self.get_m2o_vals(object_id, field)
 
@@ -118,7 +119,9 @@ class WarehouseApp (models.Model):
                     field_value[field] = object_id[field]
             res = {'model': model, 'id': id, 'values': field_value}
         except ValidationError, e:
+            print "Error en %s"%field
             res.update(error = e)
+        
         return res
 
 
@@ -221,6 +224,7 @@ class WarehouseApp (models.Model):
                     break
 
         if id:
+            print "Busco el objeto %s con id %s"%(option, id)
             res = self.get_info_object({'id': id, 'model': option})
         else:
             res = {'model': model, 'id': 0,  'message': 'No se ha encontrado un objeto para %s'%search_str}
