@@ -29,9 +29,9 @@
                 </div>
                 <xpath expr="//group[@string='General Informations']" position="after">
                     <group name = "Related Pickings">
-                        <group string="Next Picks">
-                            <field name="pick_dest"/>
-                            <field name="pick_dest_ids" nolabel="1" attrs="{'invisible': [('pick_dest_ids', '=', '[]')]}" >
+                        <group string="Prev Picks" >
+                            <field name="pick_orig" nolabel="1" invisible="1"/>
+                            <field name="pick_orig_ids" nolabel="1" attrs="{'invisible': [('pick_orig', '=', False)]}" >
                                 <tree colors="green:state == 'done';gray:state in ('cancel','draft')">
                                     <field name="company_id"/>
                                     <field name="name"/>
@@ -40,9 +40,9 @@
                                 </tree>
                             </field>
                         </group>
-                        <group string="Prev Picks">
-                            <field name="pick_orig"/>
-                            <field name="pick_orig_ids" nolabel="1">
+                        <group string="Next Picks" >
+                            <field name="pick_dest" nolabel="1" invisible="1"/>
+                            <field name="pick_dest_ids" nolabel="1" attrs="{'invisible': [('pick_dest', '=', False)]}">
                                 <tree colors="green:state == 'done';gray:state in ('cancel','draft')">
                                     <field name="company_id"/>
                                     <field name="name"/>
@@ -51,6 +51,9 @@
                                 </tree>
                             </field>
                         </group>
+                        <!--group  attrs="{'invisible': [('pick_orig', '=', True), ('pick_dest', '=', True)]}">
+                            <h2>Relleno </h2>
+                        </group-->
                     </group>
                 </xpath>
 
