@@ -121,7 +121,7 @@ class WarehouseApp (models.Model):
         except ValidationError, e:
             print "Error en %s"%field
             res.update(error = e)
-        
+        print res
         return res
 
 
