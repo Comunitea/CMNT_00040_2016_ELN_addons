@@ -297,14 +297,17 @@ class StockPickingWave(models.Model):
             user_id = self.env.user.id
         else:
             user_id = False
+
         self.do_assign(user_id)
-        ctx = self._context.copy()
-        ctx.update(force_user=True)
-        message = "Do assign por %s" % self.env.user.name
+
+        body = u"<h3>%s desde PDA</h3><ul><li>El día %s</li><li>Usuario: %s</li>" % (
+            "Asignado" and user_id or "Liberado",
+            self.fields.Datetime.now(),
+            self.env.user.name)
         for pick in self.sudo().mapped('picking_int_ids'):
             ic_user_id = pick.get_pda_ic()
-            pick.sudo(ic_user_id).message_post(message)
-            pick.sudo(ic_user_id).write({'user_id': ic_user_id})
+            pick.sudo(ic_user_id).message_post(body)
+            pick.sudo(ic_user_id).write({'user_id': user_id})
         return True
 
     @api.model
@@ -319,10 +322,10 @@ class StockPickingWave(models.Model):
         return True
 
     @api.multi
-    def do_assign(self, user_id):
+    def do_assign(self, user_id, body):
+
         for wave_id in self:
-            body = u"<h3>Autoasignado desde PDA</h3><ul><li>El día %s</li><li>Usuario: %s</li>" % (
-                wave_id.min_date, self.env.user.name)
+
             wave_id.message_post(body)
             wave_id.write({'user_id': user_id})
 
@@ -343,8 +346,6 @@ class StockPickingWave(models.Model):
         message += "De los picks: %s"%wave_id.picking_int_ids.mapped('name')
         print message
         wave_id.message_post(message)
-
-
         for pick in wave_id.picking_int_ids:
             vals['id'] = pick.id
             res = pick.pda_do_transfer_from_pda(vals)

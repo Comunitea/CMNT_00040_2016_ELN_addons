@@ -30,13 +30,17 @@ export class MyApp {
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) { 
     console.log("Desde treepick" + event.key)
+
     this.Scanner.key_press(event).then((scan)=>{
       if (scan){
         console.log('from app')
         console.log(this.nav)
         console.log(this.nav.getActive())
         console.log(this.nav.getActive().instance)
-        this.nav.getActive().instance.Scan(scan)
+        if (this.nav && this.nav.getActive().instance['Scanner']){
+          console.log("Envio " + scan + " a " + this.nav.getActive().instance)
+          this.nav.getActive().instance.Scan(scan)
+        }
       }
     })
   }

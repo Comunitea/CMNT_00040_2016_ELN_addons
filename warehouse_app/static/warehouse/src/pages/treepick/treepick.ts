@@ -228,16 +228,28 @@ Scan(scan){
   this.cargar=true
   let domain = [['name', '=', scan]]
   let model = 'stock.picking'
-  let fields = 'id'
+  let fields = ['id']
   console.log(domain)
   this.odoo.searchRead(model, domain, fields, 0,0).then((value)=>{
     console.log(value)
     if (value && value[0]){
-      this.navCtrl.push(TreeopsPage, {picking_id: value[0]['id'], model: 'stock.picking'});
+      this.navCtrl.push(TreeopsPage, {picking_id: value[0]['id'], model: model});
     }
     else {
-      this.presentAlert('Aviso !', 'No se ha encontrado el albarán: ' + this.barcodeForm.value['scan']);
-      this.cargar=false
+      //busco wave
+      model = 'stock.picking.wave'
+      this.odoo.searchRead(model, domain, fields, 0,0).then((value)=>{
+        console.log(value)
+        if (value && value[0]){
+          this.navCtrl.push(TreeopsPage, {picking_id: value[0]['id'], model: model});
+        }
+        else {
+          this.presentAlert('Aviso !', 'No se ha encontrado el albarán: ' + this.barcodeForm.value['scan']);
+          this.cargar=false
+        }
+      })
+
+     
     }
 
   })

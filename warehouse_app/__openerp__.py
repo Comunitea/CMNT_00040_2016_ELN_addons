@@ -12,7 +12,10 @@
     "application": False,
     "installable": True,
     "depends": [
-        "stock", "mrp"
+        "stock",
+        "chained_transit_operations",
+        "picking_wave_route_link",
+
     ],
     "data": [
         'security/ir.model.access.csv',

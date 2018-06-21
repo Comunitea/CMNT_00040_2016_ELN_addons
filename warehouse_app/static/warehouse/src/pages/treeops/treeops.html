@@ -27,8 +27,8 @@
   <ion-item-group *ngIf="!cargar && info_pick">
     <ion-item no-lines>
         <ion-label color='operations'>{{pick.user_id && pick.user_id.name || "Usuario" }} </ion-label>
-        <button ion-button item-end outline (click)="doAssign(pick.id, false)" [hidden]='!pick.user_id' color='odoo'>Liberar</button>
-        <button ion-button item-end outline (click)="doAssign(pick.id, true)" [hidden]='pick.user_id' color='odoo'>Asignar</button>
+        <button ion-button item-end (click)="doAssign(pick.id, false)" [hidden]='!pick.user_id' color='odoo'>Liberar</button>
+        <button ion-button item-end (click)="doAssign(pick.id, true)" [hidden]='pick.user_id' color='odoo'>Asignar</button>
       <!--ion-badge item-start (click)="doAssign(pick.id, false)" [hidden]='!pick.user_id' color='odoo'>Liber</ion-badge>
       <ion-badge item-start (click)="doAssign(pick.id, true)" [hidden]='pick.user_id' color='odoo'>Asignar(me)</ion-badge-->  
     </ion-item>
@@ -44,7 +44,7 @@
             <ion-option value="Pendientes">Pendientes</ion-option>
             <ion-option value="Realizadas">Realizadas</ion-option>
         </ion-select>
-        <button ion-button item-end (click)="reorder_picks()">
+        <button ion-button color ="odoo" item-end (click)="reorder_picks()">
             <ion-icon name="shuffle"></ion-icon>              
         </button>
         <!--button ion-button item-end outline (click)="seeAll()" color='odoo' >{{whatOps}}</button-->
@@ -56,8 +56,8 @@
         <ion-label color='operations'>
             Acciones
         </ion-label>
-      <button ion-button item-end outline (click)="doPreparePartial(pick.id)" [hidden]='pick.pack_operation_count != 0' color='odoo'>Preparar</button>
-      <button ion-button item-end outline (click)="ask_doTransfer(pick.id)" [hidden]='pick.pack_operation_count == 0 || pick.state == "done" || (pick.pack_operation_count == pick.remaining_ops)' color='odoo'>Validar</button>
+      <button ion-button item-end (click)="doPreparePartial(pick.id)" [hidden]='pick.pack_operation_count != 0' color='odoo'>Preparar</button>
+      <button ion-button item-end (click)="ask_doTransfer(pick.id)" [hidden]='pick.pack_operation_count == 0 || pick.state == "done" || (pick.pack_operation_count == pick.remaining_ops)' color='odoo'>Validar</button>
       <!--ion-badge item-start (click)="doTransfer(pick.id)" [hidden]='pick.pack_operation_count == 0 || pick.state == "done" || (pick.pack_operation_count == pick.remaining_ops)' color='odoo'>Validar</ion-badge>
       <ion-badge item-start (click)="doPreparePartial(pick.id)" [hidden]='pick.pack_operation_count != 0' color='odoo'>Preparar</ion-badge-->
     </ion-item>
@@ -74,9 +74,9 @@
         Pendientes {{ pick.remaining_ops}} de {{ pick.pack_operation_count}}
       </ion-badge>   
     </ion-item>
-    <ion-item no-lines color="odoo">    
+    <ion-item no-lines color="primary">    
       <ion-label>
-        {{pick.state && pick.state.name}} // {{model == 'stock.picking.wave' && pick.picking_state.name}}
+        {{model == "stock.picking" && "Albarán: " + pick.state.name || "Agrupación: " + pick.picking_state.name}}
       </ion-label>
     </ion-item>
     

@@ -16,7 +16,7 @@ import { OdooProvider } from '../../providers/odoo-connector/odoo-connector';
 export class HomePage {
 
     loginData = {password: '', username: ''};
-    CONEXION2 = {
+    CONEXION_remote = {
         url: 'http://elnapp.livingodoo.com/',
         port: '8069',
         db: 'elnapp',
@@ -24,7 +24,7 @@ export class HomePage {
 		password: 'cmnt',
 		user: {}
 	};
-	CONEXION = {
+	CONEXION_local = {
         url: 'http://192.168.0.120/',
         port: '8069',
         db: 'pistola_2',
@@ -32,24 +32,46 @@ export class HomePage {
 		password: 'cmnt',
 		user: {}
 	};
+	CONEXION = {
+		url: '',
+        port: '',
+        db: '',
+        username: '',
+		password: '',
+		user: {}
+	}
 	
-    cargar = true;
+    cargar = false;
     mensaje = '';
 
     constructor(public navCtrl: NavController, public navParams: NavParams,
                 private storage: Storage, public alertCtrl: AlertController,
-                private auxData: AuxProvider, private odoo: OdooProvider) {
+                private odoo: OdooProvider) {
 		
-		this.CONEXION.username = this.navParams.get('login') || this.CONEXION.username;
 		
-            if (this.navParams.get('borrar') == true) {
-                this.cargar = false;
-                this.storage.remove('CONEXION');
-            } else {
-                this.conectarApp(false);
-			}
+		if (this.navParams.get('login')){
+			this.CONEXION.username = this.navParams.get('login')};
 
+		this.check_storage_conexion(this.navParams.get('borrar'))
     }
+
+	check_storage_conexion(borrar){
+		if (borrar){
+			this.CONEXION = this.CONEXION_local;
+		}	
+		else {
+			this.storage.get('CONEXION').then((val) => {
+				if (val['username']){
+					this.CONEXION = val
+				}
+				else{
+					this.CONEXION = this.CONEXION_local;
+					this.storage.set('CONEXION', this.CONEXION).then(()=>{
+				})
+			}
+			})
+		}
+	}
 
     presentAlert(titulo, texto) {
         const alert = this.alertCtrl.create({
@@ -64,7 +86,6 @@ export class HomePage {
 	conectarApp(verificar){
 		this.cargar = true;
 		if (verificar){
-			this.storage.remove('CONEXION');
 			this.storage.set('CONEXION', this.CONEXION).then(() => {
 				this.check_conexion(this.CONEXION)
 			})
@@ -129,6 +150,7 @@ export class HomePage {
 		})
 		.catch (()=>{
 			this.presentAlert('Error!', 'No se pudo conectar a Odoo');
+			this.cargar = false;
 		})
 	}
 }

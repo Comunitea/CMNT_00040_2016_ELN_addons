@@ -126,8 +126,6 @@ class WarehouseApp (models.Model):
 
 
     def get_m2o_vals(self, object_id, field):
-
-
          if object_id[field]:
              sub_values = {}
              submodel = object_id.fields_get(field)[field]['relation']

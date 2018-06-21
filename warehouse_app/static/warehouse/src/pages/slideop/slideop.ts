@@ -169,12 +169,25 @@ export class SlideopPage {
 
   get_op_ready () {
     
-    this.op_ready = (!this.op['package_id'] || (this.op['package_id'] && this.op['package_id']['checked'])) && (!this.op['result_package_id'] || (this.op['result_package_id'] && this.op['result_package_id']['checked'])) && (!this.op['lot_id'] || (this.op['lot_id'] && this.op['lot_id']['checked'])) && this.op['location_id']['checked'] && this.op['location_dest_id']['checked'] && (this.op['qty_done']>0)
-    if (this.op_ready && this.op['need_confirm']){
+    // Lista para confirmación ????
+    this.op_ready = (!this.op['package_id'] || (this.op['package_id'] && this.op['package_id']['checked'])) 
+                      && (!this.op['result_package_id'] || (this.op['result_package_id'] && this.op['result_package_id']['checked'])) 
+                      && (!this.op['lot_id'] || (this.op['lot_id'] && this.op['lot_id']['checked'])) 
+                      && this.op['location_id']['checked'] 
+                      && this.op['location_dest_id']['checked'] 
+                      && (this.op['qty_done']>0)
+    
+    // Miro confirmación automática
+    if (this.op_ready 
+        && this.op['need_confirm'] 
+        // Solo se confirman automaticamente las que qty_done  = a lo que se pide
+        && this.op['qty_done'] == this.op['product_qty']){
       this.doOp(this.op_id, true)
-    }
+      }
     
   }
+
+  // Valorar traer el número de decimales de la unidad de Odoo
   convert_uom_to_uos(qty){
     return (qty/this.uom_to_uos).toFixed(2)
   }
@@ -184,33 +197,41 @@ export class SlideopPage {
   convert_to_fix(qty){
     return (qty*1).toFixed(2)
   }
+
+  check_loaded_op(res, id){
+
+    // Comprobaciones una vez cargada la operacion con id
+
+    var qty_done = this.op['qty_done']
+    this.pick = res['values']['picking_id']
+    this.op = res['values']
+    if (id = this.last_id){
+      this.op['qty_done'] = qty_done
+    }
+    if (this.navParams.data.lot_id){this.last_scan = this.op['lot_id']['name']}
+    if (this.navParams.data.package_id){this.last_scan = this.op['package_id']['name']}
+    
+    this.check_needs()
+    this.get_op_ready()
+    
+    this.cargar = false
+    this.last_id = id
+    this.uom_to_uos = this.op['product_qty']/this.op['uos_qty']
+    this.op['qty_done'] = this.op['qty_done'].toFixed(2)
+    this.op['uos_qty_done'] = this.convert_uom_to_uos(this.op['qty_done'])
+    return true;
+  }
+
   cargarOp(id=0){ 
     if (id==0){
       return
     }
-    
-    var qty_done = this.op['qty_done']
-
     var model = 'warehouse.app'
     var method = 'get_object_id'
     var values = {'id': id, 'model': this.model}
-
     this.odoo.execute(model, method, values).then((res)=>{
       if (res['id']!=0){
-        this.pick = res['values']['picking_id']
-        this.op = res['values']
-
-        if (id = this.last_id){
-          this.op['qty_done'] = qty_done
-        }
-        this.check_needs()
-        this.get_op_ready()
-        this.cargar = false
-        this.last_id = id
-        this.uom_to_uos = this.op['product_qty']/this.op['uos_qty']
-        this.op['qty_done'] = this.op['qty_done'].toFixed(2)
-        this.op['uos_qty_done'] = this.convert_uom_to_uos(this.op['qty_done'])
-        return true;
+        return this.check_loaded_op(res, id)
       }
       else {
         this.presentAlert('Error!', 'No se pudo recuperar las operaciones');
@@ -230,7 +251,11 @@ export class SlideopPage {
     this.odoo.execute('stock.quant.package', method, values).then((pack_ids: Array<{}>)=>{
     
       if (!(pack_ids && pack_ids.length)) {
-        pack_ids[0]={'display_name': this.op['pack_id']['name'], 'location_id': this.op['location_id']['name'], 'virtual_available': this.op['product_qty'], 'qty_available': this.op['product_qty'], 'id': this.op['pack_id']['id']}
+        pack_ids[0]={ 'display_name': this.op['pack_id']['name'], 
+                      'location_id': this.op['location_id']['name'], 
+                      'virtual_available': this.op['product_qty'], 
+                      'qty_available': this.op['product_qty'], 
+                      'id': this.op['pack_id']['id']}
       }
       let myModal = this.modalCtrl.create(SelectPackagePage, {'op': this.op, 'pack_ids': pack_ids, 'dest': dest}); 
       myModal.present();
@@ -287,7 +312,7 @@ export class SlideopPage {
     }
   }
   location_ok(id, field){
-    if (this[field]['id'] == id){
+    if (this.op[field]['id'] == id){
       this.op[field]['checked']=true
       this.get_op_ready()
       this.cargar = false 
@@ -322,6 +347,15 @@ export class SlideopPage {
       //this.change_package(package_id)
     }
   }
+  
+  confirm_qties(){
+    if (this.op['pda_done']){return}
+    if (this.check_changes()){return}
+    this.get_uom_uos_qtys(false, this.op['product_qty'])
+    this.get_op_ready()
+    this.cargar = false 
+  }
+
   showSerial(product_id, qty){
     if (this.op['pda_done']){return}
     this.cargar = true
@@ -339,8 +373,9 @@ export class SlideopPage {
       myModal.onDidDismiss(data => 
         { 
           if (data) {
-            this.serial_ok(data['new_lot_id'])         
-        }
+            this.serial_ok(data['new_lot_id'])
+            this.last_scan = this.op['lot_id']['name']
+          }
       })
     })
     .catch(() => {
@@ -435,7 +470,9 @@ export class SlideopPage {
     if (this.check_changes()){return}
     // Compruebo si es algo de la operación lo que se ha escaneado
     if (!this.find_scanned_in_op(scan))
-      {this.find_in_server(scan)}
+      {
+        console.log('Busco en el server ' + scan);
+        this.find_in_server(scan)}
   }
 
 
@@ -446,43 +483,49 @@ export class SlideopPage {
     let lot_id = this.op['lot_id'] || false
     let location_id = this.op['location_id']
     let location_dest_id = this.op['location_dest_id']
-    //Escaneo producto >>> Muestra lotes
+    
     let res = true
+
+    //Escaneo producto >>> Muestra lotes
     if (product_id && product_id['ean_13'] == scan) {this.showSerial(product_id['id'], this['op']['product_qty'])}
     
     //Escaneo paquete >>
-    else if (package_id && !package_id['checked'] && package_id['name'] == scan) {
-      this.package_ok(package_id['id'])
-      }
-    else if (package_id && package_id['checked'] && package_id['name'] == scan && this.last_scan == scan ) {
-      this.confirm_qties()
-      }
+    else if (package_id && !package_id['checked'] && package_id['name'] == scan) {this.package_ok(package_id['id'])}
+    else if (package_id && package_id['checked'] && package_id['name'] == scan && this.last_scan == scan && !this.op_ready) {this.confirm_qties()}
     else if (result_package_id && package_id['checked'] && result_package_id['name'] == scan) {this.package_ok(package_id['id'])}
 
     //Escaneo lote
     else if (lot_id && !lot_id['checked'] && lot_id['name'] == scan) {this.serial_ok(lot_id['id'])}
-    else if (lot_id && lot_id['checked'] && lot_id['name'] == scan && this.last_scan == scan ) {this.confirm_qties()}
+    else if (lot_id && lot_id['checked'] && lot_id['name'] == scan && this.last_scan == scan && !this.op_ready) {this.confirm_qties()}
     
     //escaneo ubicaición
-    else if (location_id && !location_id.checked && location_id['loc_barcode']==scan) {this.location_ok(location_id['id'], 'location_id')}
+    else if (location_id && !location_id['checked'] && location_id['loc_barcode']==scan) {this.location_ok(this.op['location_id']['id'], 'location_id')}
     else if (location_id && lot_id['checked'] && location_id['checked'] && location_id['loc_barcode']==scan && this.op['qty_done'] == 0 && this.last_scan == scan) {this.confirm_qties()}
-    else if (location_dest_id && !location_id.checked && !location_dest_id.checked && location_dest_id['loc_barcode']==scan) {this.location_ok(location_id['id'], 'location_dest_id')}
+    else if (location_dest_id && !location_id['checked'] && !location_dest_id['checked'] && location_dest_id['loc_barcode']==scan) {this.location_ok(this.op['location_dest_id']['id'], 'location_dest_id')}
+    
+    //Si la operacion está lista y se repite el scan se hace la operacion
     else if (this.op_ready && this.last_scan == scan){
-      //Si la operacion está lista y se repite el scan se hace la operacion
       this.doOp(this.op_id, true)
-    }
-    else{
+      this.last_scan = ''
+      return false
+      }
+    
+    else {
       res = false
+      // Reseteo el último scan para no confirmar leyendo cualquier cosa, una vez que la operación está lista
+      this.last_scan = ''
     }
+
     this.last_scan = scan
     return res
   }
 
   submitScan(){
-    if (this.op['pda_done']){return}
-    if (this.check_changes()){return}
-    this.find_in_server(this.barcodeForm.value['scan'])
+    let scan = this.barcodeForm.value['scan']
+    if (scan.length >=5) {
+      this.Scan(scan)
     }
+  }
 
   find_in_server(str){
     var values = {'model':  ['stock.quant.package', 'stock.production.lot', 'stock.location', 'product.product'], 
@@ -599,11 +642,6 @@ export class SlideopPage {
       this.presentAlert('Error!', 'No se pudo recuperar ejecutar la operación');
     });
     
-  }
-  confirm_qties(){
-    if (this.op['pda_done']){return}
-    if (this.check_changes()){return}
-    this.get_uom_uos_qtys(false, this.op['product_qty'])
   }
 
   inputUomQty(){
