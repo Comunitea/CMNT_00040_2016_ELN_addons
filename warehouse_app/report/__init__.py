@@ -20,4 +20,4 @@
 ##############################################################################
 import product_tag_parser
 import location_tag_parser
-#import picking_list_parser
+import picking_list_report

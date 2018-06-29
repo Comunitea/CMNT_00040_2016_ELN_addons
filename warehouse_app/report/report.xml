@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-            <report
+          <report
                id="action_report_picking_list_barcode"
                model="stock.picking"
-               string="Picking list PDA2"
+               string="Picking list PDA"
                report_type="qweb-pdf"
                name="warehouse_app.picking_list_report"
                file="warehouse_app.picking_list_report"
@@ -12,10 +12,10 @@
          <report
                id="action_report_wave_picking_list_barcode"
                model="stock.picking.wave"
-               string="Picking list PDA"
+               string="Wave Picking list PDA"
                report_type="qweb-pdf"
-               name="warehouse_app.picking_list_report"
-               file="warehouse_app.picking_list_report"
+               name="warehouse_app.wave_picking_list_report"
+               file="warehouse_app.wave_picking_list_report"
                 />
     <!-- Custom paperformat, maybe margin will be 0 -->
     <record id="my_paperformat_report" model="report.paperformat">
