@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
+            <report
+               id="action_report_picking_list_barcode"
+               model="stock.picking"
+               string="Picking list PDA2"
+               report_type="qweb-pdf"
+               name="warehouse_app.picking_list_report"
+               file="warehouse_app.picking_list_report"
+                />
+         <report
+               id="action_report_wave_picking_list_barcode"
+               model="stock.picking.wave"
+               string="Picking list PDA"
+               report_type="qweb-pdf"
+               name="warehouse_app.picking_list_report"
+               file="warehouse_app.picking_list_report"
+                />
     <!-- Custom paperformat, maybe margin will be 0 -->
     <record id="my_paperformat_report" model="report.paperformat">
         <field name="name">My paperformat report</field>
@@ -13,6 +29,19 @@
         <field name="margin_right">1</field>
         <field name="page_height">29</field>
         <field name="page_width">90</field>
+    </record>
+     <record id="my_paperformat_report_a4_150"
+            model="report.paperformat">
+        <field name="name">my_paperformat_report_a4_300dpi</field>
+        <field name="default" eval="False"/>
+        <field name="format">A4</field>
+        <field name="orientation"/>
+        <field name="margin_top">10</field>
+        <field name="margin_bottom">10</field>
+        <field name="margin_left">7</field>
+        <field name="margin_right">7</field>
+        <field name="header_spacing">0</field>
+        <field name="dpi">300</field>
     </record>
 
     <report
@@ -42,6 +71,33 @@
     <record id="report_print_location_tag" model="ir.actions.report.xml">
           <field name="paperformat_id" ref="my_paperformat_report"/>
     </record>
+
+    <!--report
+          string="Picking List PDA"
+          id="report_print_picking_list"
+          model="stock.picking"
+          report_type="qweb-pdf"
+          name="warehouse_app.picking_list_report"
+          file="warehouse_app.picking_list_report"
+          menu="False"
+    />
+        <record id="report_print_picking_list" model="ir.actions.report.xml">
+         <field name="paperformat_id" ref="my_paperformat_report_a4_150"/>
+        </record-->
+     <!--report
+          string="Picking List PDA"
+          id="report_print_picking_list"
+          model="stock.picking"
+          report_type="qweb-pdf"
+          name="warehouse_app.report_picking_list"
+          file="warehouse_app.report_picking_list"
+          menu="False"
+    /-->
+    <!--record id="report_print_picking_list" model="ir.actions.report.xml">
+          <field name="paperformat_id" ref="my_paperformat_report"/>
+    </record-->
+
+
 
     </data>
 </openerp>

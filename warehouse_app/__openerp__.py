@@ -29,9 +29,10 @@
         'views/stock_move_consume_wzd.xml',
         'views/stock_pack_operation_group.xml',
         'views/sale_order.xml',
-        'wizard/sale_to_wave_view.xml'
-        #"report/report.xml",
-        #"report/product_tag_report.xml",
-        #"report/location_tag_report.xml",
+        'wizard/sale_to_wave_view.xml',
+        "report/report.xml",
+        "report/product_tag_report.xml",
+        "report/location_tag_report.xml",
+        "report/picking_list_report.xml"
     ],
 }

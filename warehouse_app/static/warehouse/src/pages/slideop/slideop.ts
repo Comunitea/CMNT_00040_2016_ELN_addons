@@ -86,7 +86,6 @@ export class SlideopPage {
     this.ops = this.navParams.data.ops;
     this.pick = this.navParams.data.pick;
     this.reconfirm = false
-    this.Scanner.on()
     if (!this.ops){
       this.presentToast('Aviso:No hay operaciones', false)
       }
@@ -466,13 +465,15 @@ export class SlideopPage {
 
   Scan(scan){
     console.log('Slide Op:' + scan)
+    this.presentToast("Escanado " + scan)
     if (this.op['pda_done']){return}
     if (this.check_changes()){return}
     // Compruebo si es algo de la operación lo que se ha escaneado
     if (!this.find_scanned_in_op(scan))
       {
         console.log('Busco en el server ' + scan);
-        this.find_in_server(scan)}
+        //this.find_in_server(scan)
+      }
   }
 
 
@@ -491,12 +492,12 @@ export class SlideopPage {
     
     //Escaneo paquete >>
     else if (package_id && !package_id['checked'] && package_id['name'] == scan) {this.package_ok(package_id['id'])}
-    else if (package_id && package_id['checked'] && package_id['name'] == scan && this.last_scan == scan && !this.op_ready) {this.confirm_qties()}
+    else if (package_id && package_id['checked'] && package_id['name'] == scan && this.last_scan == scan && !this.op_ready && this.op['qty_done']==0) {this.confirm_qties()}
     else if (result_package_id && package_id['checked'] && result_package_id['name'] == scan) {this.package_ok(package_id['id'])}
 
     //Escaneo lote
     else if (lot_id && !lot_id['checked'] && lot_id['name'] == scan) {this.serial_ok(lot_id['id'])}
-    else if (lot_id && lot_id['checked'] && lot_id['name'] == scan && this.last_scan == scan && !this.op_ready) {this.confirm_qties()}
+    else if (lot_id && lot_id['checked'] && lot_id['name'] == scan && this.last_scan == scan && !this.op_ready && this.op['qty_done']==0) {this.confirm_qties()}
     
     //escaneo ubicaición
     else if (location_id && !location_id['checked'] && location_id['loc_barcode']==scan) {this.location_ok(this.op['location_id']['id'], 'location_id')}

@@ -33,7 +33,7 @@ export class BarcodeScanner {
         }
         else{
             //este 250 es el tiempo en resetear sin pulsaciones
-            if(this.timeStamp + 500 < new Date().getTime()){
+            if(this.timeStamp + 100 < new Date().getTime()){
                 this.code = "";
             }
             this.timeStamp = new Date().getTime();
@@ -46,18 +46,18 @@ export class BarcodeScanner {
             
             this.timeout = new Promise ((resolve) => {
                 setTimeout(()=>{
-                if(this.code && this.code.length >= 5){
+                if(this.code && this.code.length >= 4){
                     console.log('Devuelvo ' + this.code)
                     let scan = this.code.replace('-','/')
                     this.code = ''
                     console.log (scan + " ----> " + this.code)
                     resolve(scan);
                 };
-                },500);
+                },100);
                 // este 500 es el tiempo que suma pulsaciones
             })
         }
-        return this.timeout
+        return this && this.timeout
     }
     
 }

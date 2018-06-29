@@ -344,6 +344,7 @@ find_op (scan){
 
   }
 Scan(scan){
+  //this.treeForm.value['scan'] = scan
   let val = this.find_op(scan)
   if (val){
     this.navCtrl.push(SlideopPage, val)

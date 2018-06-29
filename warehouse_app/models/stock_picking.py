@@ -233,8 +233,7 @@ class StockPicking(models.Model):
         self.ensure_one()
         if self.sudo().state in ('cancel', 'done'):
             return False
-        if self.company_id == self.env.user.company_id:
-            return self.force_assign()
+
         ctx = self._context.copy()
         ctx.update(force_user=True)
         message = "Action cancel por %s" % self.env.user.name

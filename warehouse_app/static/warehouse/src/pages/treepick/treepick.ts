@@ -244,14 +244,11 @@ Scan(scan){
           this.navCtrl.push(TreeopsPage, {picking_id: value[0]['id'], model: model});
         }
         else {
-          this.presentAlert('Aviso !', 'No se ha encontrado el albarán: ' + this.barcodeForm.value['scan']);
+          this.presentAlert('Aviso !', 'No se ha encontrado el albarán: ' + scan);
           this.cargar=false
         }
       })
-
-     
     }
-
   })
   .catch(() => {
     this.error_odoo('Error al recuperar el albarán escaneado')

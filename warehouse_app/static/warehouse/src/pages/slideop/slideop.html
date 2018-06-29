@@ -92,6 +92,10 @@
             <ion-toggle [(ngModel)]="advance" ></ion-toggle>
         </ion-item>
         <ion-item *ngIf="advance">
+          <ion-label color="dark">{{last_scan}}</ion-label>
+          
+        </ion-item>
+        <ion-item *ngIf="advance">
           <ion-label color="dark">Realizada</ion-label>
           <ion-toggle [(ngModel)]="op.pda_done" ></ion-toggle>
         </ion-item> 

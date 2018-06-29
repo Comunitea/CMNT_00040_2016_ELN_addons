@@ -188,7 +188,7 @@ class StockPickingWave(models.Model):
     def process_stop(self):
         #TODO check si podemos deterne la oleada
         ops = self.pack_operation_all_ids.filtered(lambda x: x.pda_done)
-        if ops:
+        if ops and False:
             raise ValidationError (_('This wave has operations done in pda'))
         self.change_process('ready')
 
@@ -198,7 +198,7 @@ class StockPickingWave(models.Model):
         # p.e. Todos los albaranes internos deben de estar reservados
 
         ops = self.pack_operation_all_ids.filtered(lambda x: x.pda_done)
-        if ops:
+        if ops and False:
             raise ValidationError(_('This wave has operations done in pda'))
         for wave_id in self:
             wave_id.pda_action_assign_from_pda({'id': wave_id.id})
@@ -297,13 +297,11 @@ class StockPickingWave(models.Model):
             user_id = self.env.user.id
         else:
             user_id = False
-
-        self.do_assign(user_id)
-
         body = u"<h3>%s desde PDA</h3><ul><li>El día %s</li><li>Usuario: %s</li>" % (
             "Asignado" and user_id or "Liberado",
-            self.fields.Datetime.now(),
+            fields.Datetime.now(),
             self.env.user.name)
+        self.do_assign(user_id, body)
         for pick in self.sudo().mapped('picking_int_ids'):
             ic_user_id = pick.get_pda_ic()
             pick.sudo(ic_user_id).message_post(body)
@@ -322,10 +320,9 @@ class StockPickingWave(models.Model):
         return True
 
     @api.multi
-    def do_assign(self, user_id, body):
+    def do_assign(self, user_id=False, body=''):
 
         for wave_id in self:
-
             wave_id.message_post(body)
             wave_id.write({'user_id': user_id})
 
