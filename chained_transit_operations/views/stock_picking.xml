@@ -108,7 +108,7 @@
         </record-->
 
 
-        <record id="action_picking_planning_kanban_only_dest" model="ir.actions.act_window">
+        <!--record id="action_picking_planning_kanban_only_dest" model="ir.actions.act_window">
             <field name="name">Planning Delivery Orders</field>
             <field name="model">stock.picking</field>
             <field name="inherit_id" ref="eln_custom.action_picking_planning_kanban"/>
@@ -117,6 +117,6 @@
                     [('picking_type_code','=','outgoing'), ('state', '!=', 'cancel'), ('pick_dest', '=' ,False)]
                 </field>
             </field>
-        </record>
+        </record-->
     </data>
 </openerp>
