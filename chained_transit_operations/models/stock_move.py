@@ -107,18 +107,6 @@ class StockMove(models.Model):
 
         return res
 
-    @api.multi
-    def action_done(self):
-        if any(x.move_dest_id.company_id != x.company_id for x in self):
-            ctx = self._context.copy()
-            ctx.update(write_sudo=True)
-            self = self.with_context(ctx)
-
-        return super(StockMove, self).action_done()
-
-
-
-
     @api.model
     def _prepare_picking_assign(self, move):
         values = super(StockMove, self)._prepare_picking_assign(move)
@@ -145,7 +133,6 @@ class StockMove(models.Model):
 
     @api.model
     def get_state_from_pre_move(self, state=False):
-
 
         prev_state = state or self.move_orig_id and self.sudo().move_orig_id.state or False
         if prev_state in ('partially_available', 'confirmed'):

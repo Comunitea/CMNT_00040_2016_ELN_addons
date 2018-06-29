@@ -103,13 +103,6 @@ class StockPicking(models.Model):
     pick_dest = fields.Boolean('Has next picks', compute="_get_related_pick_ids", multi=True, compute_sudo=True)
     related_picks = fields.Char("En texto")
 
-    @api.multi
-    def write(self, vals):
-        if 'wave_id' in vals:
-            for pick in self.sudo().mapped('pick_orig_ids'):
-                pick.sudo(pick.get_pda_ic()).write({'wave_id': vals['wave_id']})
-        return super(StockPicking, self).write(vals)
-
 
     @api.multi
     def do_prepare_partial(self):
