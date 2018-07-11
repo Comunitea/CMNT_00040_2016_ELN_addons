@@ -94,9 +94,40 @@ class StockProductionLot(models.Model):
             location_id = len(location_ids) == 1 and location_ids[0][0]
             lot.location_id = location_id
 
-
     @api.model
     def get_available_lot(self, vals):
+        sql = "select count(sq.id) as cuenta, spl.id as id, spl.name as display_name, sum(sq.qty) as qty_available, sq.location_id as loc_id, sl.pda_name as location_id, spl.use_date as use_date, spl.removal_date as removal_date, pp.pda_name as product_id from stock_quant sq " \
+              "join stock_production_lot spl on spl.id = sq.lot_id " \
+              "join stock_location sl on sl.id = sq.location_id " \
+              "join product_product pp on pp.id = sq.product_id " \
+              "where sq.reservation_id>0 and sq.qty >=0.00 and spl.id = %s and sl.usage='internal'" \
+              "group by spl.id, spl.name, sq.location_id, sl.pda_name, spl.use_date, sq.company_id, pp.pda_name " \
+              "order by spl.removal_date " % (vals.get('lot_id', 0))
+        sql2 = "union select count(sq.id) as cuenta, spl.id as id, spl.name as display_name, sum(sq.qty) as qty_available, sq.location_id as loc_id, sl.pda_name as location_id, spl.use_date as use_date, spl.removal_date as removal_date, pp.pda_name as product_id from stock_quant sq " \
+              "join stock_production_lot spl on spl.id = sq.lot_id " \
+              "join stock_location sl on sl.id = sq.location_id " \
+              "join product_product pp on pp.id = sq.product_id " \
+              "where sq.qty >=%s and sq.reservation_id isnull and sl.usage='internal' and pp.id = %s " \
+              "group by spl.id, spl.name, sq.location_id, sl.pda_name, spl.use_date, sq.company_id, pp.pda_name " \
+              "order by spl.removal_date"%(vals.get('qty', 0.00), vals.get('product_id', False))
+
+        print sql + sql2
+        self._cr.execute(sql)
+        records = self._cr.fetchall()
+        lots = []
+        for lot_id in records:
+            vals = {'id': lot_id[1] or 0,
+                    'display_name': lot_id[2] or False,
+                    'qty_available': lot_id[3] or 0.00,
+                    'location_id': lot_id[5] or False,
+                    'use_date': lot_id[7] or ''}
+            lots.append(vals)
+        print lots
+        return lots
+
+        print res
+
+        return res
         product_id = vals.get('product_id')
         qty = vals.get('qty')
         op_id = vals.get('op_id', 0)

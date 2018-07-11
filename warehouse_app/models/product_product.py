@@ -21,6 +21,8 @@ class ProductProduct(models.Model):
 
     default_stock_location_id = fields.Many2one('stock.location', "Default stock location")
     quant_ids = fields.One2many('stock.quant', compute="_get_product_quants")
+    pda_name = fields.Char("PDA name")
+
 
     @api.model
     def get_stock_location_id(self):

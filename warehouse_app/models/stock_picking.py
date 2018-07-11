@@ -76,8 +76,40 @@ class StockPickingType(models.Model):
 
 
 
+
+
+
+
+
+
+
+
+
+
 class StockPicking(models.Model):
     _inherit = "stock.picking"
+
+
+    def get_op_picking_order(self, op_vals):
+        product_id = op_vals.get('product_id', False)
+        if product_id:
+            loc_row = self.env['product.product'].browse(product_id).loc_row
+        else:
+            loc_row = 0
+        picking_order = u"{:05d}{:05d}{:05d}".format(int(loc_row), int(op_vals.get('product_id', 0)), int(op_vals.get('lot_id', 0)))
+        return picking_order
+
+
+
+    @api.model
+    def _prepare_pack_ops(self, picking, quants, forced_qties):
+
+        op_data = super(StockPicking, self)._prepare_pack_ops(picking, quants,
+                                                          forced_qties)
+        for op in op_data:
+            op['picking_order'] = picking.get_op_picking_order(op)
+        print op_data
+        return op_data
 
     @api.multi
     def _compute_allow_validate(self):
@@ -88,6 +120,7 @@ class StockPicking(models.Model):
     allow_validate = fields.Boolean("Permitir validar", compute="_compute_allow_validate")
     show_in_pda = fields.Boolean(related='picking_type_id.show_in_pda')
     locked_in_pda = fields.Boolean('Loked in PDA')
+    is_wave = fields.Boolean(default=False)
 
     @api.multi
     def write(self, vals):

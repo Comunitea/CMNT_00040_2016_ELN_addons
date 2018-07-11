@@ -54,6 +54,7 @@ export class StockOperationComponent {
   @Input() stock_operation: PackOperation
   @Input() pick: Pick
   @Input() whatOps: String
+  
 
   @Output() notify: EventEmitter <Boolean> = new EventEmitter<Boolean>();
 
@@ -97,6 +98,8 @@ export class StockOperationComponent {
     this.notify.emit(do_id)
   }
   openOp(op_id, op_id_index){
-    this.navCtrl.push(SlideopPage, {op_id: this.id, index: this.stock_operation.index, ops: this.filter_picks()})
+    let pick =  {'id': this.pick['id'], 'model': this.pick['model'], 'name': this.pick['name'], 'user_id': this.pick['user_id']}
+    let val =  {op_id: this.id, index: this.stock_operation.index, ops: this.filter_picks(), pick: pick}
+    this.navCtrl.setRoot(SlideopPage, val)
   }
 }

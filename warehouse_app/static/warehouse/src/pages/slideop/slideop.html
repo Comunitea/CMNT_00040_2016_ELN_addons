@@ -80,16 +80,35 @@
           <ion-badge item-end class="b-op w75"  [ngClass]="{'badge_checked':op.location_dest_id.checked === true}" (click)="badge_checked(op.location_dest_id)">
             {{ op.location_dest_id.name }}
           </ion-badge>
-        </ion-item>
+        </ion-item>        
+        <ion-item no-lines>
+
+
+            <button *ngIf="!op.pda_done && op_ready" class="w100" ion-button (click)="doOp(op_id, true)">
+              Aceptar
+            </button>
+            <button *ngIf="op.pda_done && advance" class="w100" ion-button (click)="doOp(op_id, false)">
+              Deshacer
+            </button>
+
+          </ion-item>
         <ion-item no-lines>
 
           <ion-icon class="bigsize" name="arrow-dropleft-circle" item-start color="primary" (click)="move_index(-1)"></ion-icon>
           <ion-icon class="bigsize" name="arrow-dropright-circle" item-end color="primary" (click)="move_index(1)"></ion-icon>
         </ion-item>
-       
+
+  
+  
+
+
         <ion-item>
             <ion-label color="dark">Avanzado</ion-label>
             <ion-toggle [(ngModel)]="advance" ></ion-toggle>
+        </ion-item>
+        <ion-item *ngIf="advance">
+          <ion-label color="dark">{{pick['user_id']['name']}}</ion-label>
+          
         </ion-item>
         <ion-item *ngIf="advance">
           <ion-label color="dark">{{last_scan}}</ion-label>
@@ -122,14 +141,14 @@
         
       </ion-item-group>
       
-      <ion-item no-lines>
+      <!--ion-item no-lines>
         <button *ngIf="!op.pda_done && op_ready" class="w100" ion-button (click)="doOp(op_id, true)">
             Aceptar ...
         </button>
          <button *ngIf="op.pda_done && advance" class="w100" ion-button (click)="doOp(op_id, false)">
             Deshacer  ...
         </button>
-      </ion-item>
+      </ion-item-->
     </ion-list>
     <!--ion-list>
         <ion-item-group> 
@@ -206,8 +225,7 @@
     <form [formGroup]="barcodeForm" class ="alignBottom" [hidden] = "op['pda_done']">
         <ion-item>
            <ion-label color="odoo" item-start>Scan: </ion-label>
-           <ion-input #scan [formControl]="barcodeForm.controls['scan']" type="text" name="scan" placeholder = "Scan"  (ionBlur) = "scanner(false)" (ionFocus)="scanner(true)"></ion-input>
-          
+           <ion-input #scan [formControl]="barcodeForm.controls['scan']" type="text" name="scan" placeholder = "Scan"></ion-input>
            <button ion-button icon-only item-end clear (click)="submitScan()">
              <ion-icon name="barcode"></ion-icon>                  
            </button>

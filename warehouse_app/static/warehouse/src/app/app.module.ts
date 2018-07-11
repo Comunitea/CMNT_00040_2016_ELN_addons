@@ -36,13 +36,14 @@ import { SelectLotPage } from '../pages/select-lot/select-lot'
 import { NativeAudio } from '@ionic-native/native-audio';
 import { AppSoundProvider } from '../providers/app-sound/app-sound';
 import { OdooProvider } from '../providers/odoo-connector/odoo-connector';
-import { BarcodeScanner } from '../providers/odoo-connector/barcode_scanner';
+//import { BarcodeScanner } from '../providers/odoo-connector/barcode_scanner';
 
 
 //component
 //import { ProductProductComponent} from '../components/product-product/product-product'
 import { StockPickingComponent} from '../components/stock-picking/stock-picking'
 import { StockOperationComponent} from '../components/stock-operation/stock-operation'
+import { SettingsPage } from '../pages/settings/settings';
 
 
 
@@ -60,6 +61,7 @@ import { StockOperationComponent} from '../components/stock-operation/stock-oper
     //PackagePage,
     //ProductPage,
     SelectLotPage,
+    SettingsPage,
     StockPickingComponent,
     StockOperationComponent
   ],
@@ -79,6 +81,7 @@ import { StockOperationComponent} from '../components/stock-operation/stock-oper
     SlideopPage,
     ManualPage,
     ShowinfoPage,
+    SettingsPage,
     //LotPage,
     //LocationPage,
     //PackagePage,
@@ -95,7 +98,7 @@ import { StockOperationComponent} from '../components/stock-operation/stock-oper
     NativeAudio,
     AppSoundProvider,
     OdooProvider,
-    BarcodeScanner,
+    //BarcodeScanner,
 
 
   ]

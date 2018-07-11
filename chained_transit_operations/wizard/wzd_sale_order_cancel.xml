@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+
+        <record id="wzd_sale_order_cancel_view" model="ir.ui.view">
+        <field name="name">wzd.sale.order.cancel.view</field>
+        <field name="model">wzd.sale.order.cancel</field>
+        <field name="arch" type="xml">
+            <form string="Confirmación de cancelación albaranes con albaranes asociados">
+                <group>
+                    <group>
+                        <!--field name="sale_ids" widget="many2many_tags" readonly="1" attrs="{'invisible': [('sale_ids','=',[])]}"/>
+                        <field name="orig_pick_ids" widget="many2many_tags" readonly="1" attrs="{'invisible': [('orig_pick_ids','=',[])]}"/>
+                        <field name="group_ids" widget="many2many_tags" readonly="1" attrs="{'invisible': [('group_ids','=',[])]}"/-->
+                        <h2>
+                            <field name="str" nobel="1" readonly="1"></field>
+                        </h2>
+                    </group>
+                    <group>
+
+                    </group>
+                </group>
+                <group>
+                    <div>
+                        <p>Los albaranes en rojo NO SE CANCELAN. Deberán devolverse posteriormente a mano</p>
+                    </div>
+                </group>
+                <group>
+                    <div>
+                        <field name="cancel_line_ids" nolabel="1" readonly="1">
+                            <tree colors="red: state == 'done'; gray: state =='draft': gray: state=='cancel'">
+                                <field name="name"/>
+                                <field name="state"/>
+                                <field name="company"/>
+                            </tree>
+                        </field>
+                    </div>
+                </group>
+                <footer>
+                    <button name="cancel_all" string="Cancelar albaranes" type="object" class="oe_highlight"/>
+                    <button string="_Cancel" class="btn-default" special="cancel" />
+                </footer>
+            </form>
+        </field>
+        </record>
+
+        <act_window
+            id="pick_action_wzd_sale_order_cancel_view"
+            name="Cancelar albaranes asociados"
+            res_model="wzd.sale.order.cancel"
+            src_model="stock.picking"
+            view_type="form"
+            view_mode="tree,form"
+            target="new"
+            view_id="wzd_sale_order_cancel_view"
+            key2="client_action_multi"
+            />
+        <act_window
+            id="sale_action_wzd_sale_order_cancel_view"
+            name="Cancelar albaranes asociados"
+            res_model="wzd.sale.order.cancel"
+            src_model="sale.order"
+            view_type="form"
+            view_mode="tree,form"
+            target="new"
+            view_id="wzd_sale_order_cancel_view"
+            key2="client_action_multi"
+            />
+        <act_window
+            id="sale_action_wzd_procurement_order_cancel_view"
+            name="Cancelar albaranes asociados"
+            res_model="wzd.sale.order.cancel"
+            src_model="procurement.order"
+            view_type="form"
+            view_mode="tree,form"
+            target="new"
+            view_id="wzd_sale_order_cancel_view"
+            key2="client_action_multi"
+            />
+    </data>
+</openerp>

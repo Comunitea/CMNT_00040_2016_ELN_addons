@@ -32,22 +32,20 @@ class StockPickingWave(models.Model):
     def get_wave_route_vals(self, route, date=fields.Date.today(), internal=False):
         route_id =self.env['route'].browse(route)
         min_date = datetime.strptime(date, DEFAULT_SERVER_DATE_FORMAT) - timedelta(days=(route_id and route_id.delivery_delay or 0.0))
-        vals = {'route_id': route_id.id,
-                'state': 'ready',
-                'requested_date': date or fields.Date.today(),
-                'min_date': min_date.strftime(DEFAULT_SERVER_DATE_FORMAT)}
-
 
         if route_id.ir_sequence_id:
             name = route_id.ir_sequence_id.next_by_id(route_id.ir_sequence_id.id)
         else:
             seq = self.env['ir.sequence'].search([('name', '=', 'Picking Wave'), ('code', '=', 'picking_wave_route_link')], limit=1)
             name = seq.next_by_id(seq.id)
+
         picking_type_id = route_id.picking_type_id and route_id.picking_type_id.id or False
 
-        if picking_type_id:
-            vals['picking_type_id'] = picking_type_id
-        if name:
-            vals['name'] = name
+        vals = {'route_id': route_id.id,
+                'name': name,
+                'picking_type_id': picking_type_id,
+                'state': 'ready',
+                'requested_date': date or fields.Date.today(),
+                'min_date': min_date.strftime(DEFAULT_SERVER_DATE_FORMAT)}
         return vals
 

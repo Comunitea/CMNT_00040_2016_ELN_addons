@@ -40,7 +40,7 @@ class GroupStockPackOperation(models.Model):
     picking_names = fields.Char('picking_names')
     pda_done = fields.Boolean("Realizada")
     op_count = fields.Integer("Número de operaciones en la agrupación", readonly=1)
-    picking_order = fields.Integer("Picking order", readonly=1)
+    picking_order = fields.Char("Picking order", readonly=1)
     group_id = fields.Many2one('stock.pack.operation', "Ref op para lps datos")
 
 

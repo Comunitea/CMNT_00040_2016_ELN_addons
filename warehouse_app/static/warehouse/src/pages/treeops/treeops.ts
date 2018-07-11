@@ -25,7 +25,7 @@ import { StockOperationComponent} from '../../components/stock-operation/stock-o
 
 
 import { OdooProvider } from '../../providers/odoo-connector/odoo-connector';
-import { BarcodeScanner } from '../../providers/odoo-connector/barcode_scanner';
+//import { BarcodeScanner } from '../../providers/odoo-connector/barcode_scanner';
 
 @IonicPage()
 @Component({
@@ -34,18 +34,18 @@ import { BarcodeScanner } from '../../providers/odoo-connector/barcode_scanner';
 })
 export class TreeopsPage {
 
-  @ViewChild('scanPackage') myScanPackage;
+  @ViewChild('scan') myScan ;
   @ViewChild(StockOperationComponent) pack_operation: StockOperationComponent;
 
 
-  pick
+  pick:{}
 
   cargar = true;
   pick_id = 0
   limit = 25
   offset = 0
   order = 'picking_order, product_id asc'
-  model = 'stock.pack.operation'
+  model = 'stock.picking'
   domain = []
   pick_domain = []
   record_count = 0
@@ -53,14 +53,13 @@ export class TreeopsPage {
   isProducto: boolean = false;
   info_pick: boolean
   scan = ''
-  treeForm: FormGroup;
+  barcodeForm: FormGroup;
   model_fields = {'stock.quant.package': 'package_id', 'stock.location': 'location_id', 'stock.production.lot': 'lot_id'}
   whatOps: string
   aux: AuxProvider
 
-  constructor(public Scanner: BarcodeScanner, public navCtrl: NavController, public navParams: NavParams,  private formBuilder: FormBuilder,public alertCtrl: AlertController, private storage: Storage, private odoo: OdooProvider) {
-    this.aux = new AuxProvider
-    this.info_pick = true
+  constructor(public navCtrl: NavController, public navParams: NavParams,  private formBuilder: FormBuilder,public alertCtrl: AlertController, private storage: Storage, private odoo: OdooProvider) {
+    
     this.pick = {};
     this.pick_id = this.navParams.data.picking_id;
     this.model = this.navParams.data.model || this.model;
@@ -73,36 +72,41 @@ export class TreeopsPage {
       else {
         this.whatOps = val}
       })
-    this.treeForm = this.formBuilder.group({
+    this.barcodeForm = this.formBuilder.group({
       scan: ['']
     });
+    if (this.navParams.data.info_pick != null) {
+      this.info_pick = this.navParams.data.info_pick
+    }
+    else{
+      this.info_pick = true
+    }
+
+    this.loadList();
   }
 
-  ionViewWillEnter(){
-    this.loadList();
-    this.pick['whatOps'] = this.whatOps
-  }
   seeAll2(){
     this.aux.filter_user = this.whatOps
   }
   
   infopick(val){
     this.info_pick = val
+    this.show_scan()
   }
-  ionViewLoaded() {
+  goHome(){
+    this.navCtrl.setRoot(TreepickPage, {borrar: true, login: null});
+  }
+  
+  show_scan(){
 
     setTimeout(() => {
-      this.myScanPackage.setFocus();
+      this.myScan.setFocus();
     },150);
-
-     }
-  goHome(){this.navCtrl.setRoot(TreepickPage, {borrar: true, login: null});}
-  loadOp(id=0){
   }
   loadList(id=0){
     this.cargar = true;
     var model = 'warehouse.app'
-    var method = 'get_object_id'
+    var method = 'get_pick_id'
     if (id==0){
       id = this.pick_id
     }
@@ -110,8 +114,11 @@ export class TreeopsPage {
     this.odoo.execute(model, method, values).then((res)=>{
       this.cargar = false
       if (res['id']!=0){
-        this.pick = res['values']
+        this.pick = res
+        this.pick['whatOps'] = this.whatOps
+        this.pick['model'] = this.model
         this.record_count = this.pick['pack_operation_count']
+        this.show_scan()
         return true;
       }
     })
@@ -127,6 +134,7 @@ export class TreeopsPage {
         subTitle: texto,
         buttons: ['Ok']
     });
+
     alert.present();
   }
   loadNext(){
@@ -154,6 +162,7 @@ export class TreeopsPage {
     }
     this.pick['pack_operation_ids'] = new_picks
     this.cargar = false
+    this.show_scan()
   }
   filter_picks(){
     let filter: boolean
@@ -177,13 +186,9 @@ export class TreeopsPage {
     //this.navCtrl.push(LocationPage, {location_id: id})
   }
 
-  openOp(op_id, op_id_index){
-    this.navCtrl.push(SlideopPage, {op_id: op_id, index: op_id_index, ops: this.filter_picks()})
-  }
-
   submitScan (){
-    this.getObjectId({'model': ['stock.location', 'stock.quant.package', 'stock.production.lot'], 'search_str' : this.treeForm.value['scan']})
-    this.treeForm.reset();
+    let scan = this.barcodeForm.value['scan']
+    return this.Scan(scan)
   }
 
   findId (value){
@@ -199,25 +204,6 @@ export class TreeopsPage {
     return false
   }
 
-  getObjectId(values){
-    var self = this;
-
-    
-    var object_id = {}
-    var model = 'warehouse.app'
-    var method = 'get_object_id'
-    this.odoo.execute(model, method, values).then((value)=>{
-      var res = self.findId(value);
-                    if (res) {
-                      self.navCtrl.push(SlideopPage, res);}
-    })
-    .catch(() => {
-      this.presentAlert('Error!', 'No se pudo recuperar la lista de operaciones contra odoo');
-    });
-
-  }
-
-
   doAssign(id, do_assign){
     this.cargar = true;
     var values = {'id': id, 'action': do_assign}
@@ -230,8 +216,8 @@ export class TreeopsPage {
         }
         else {
           this.aux.filter_user=''
+          this.show_scan()
         }
-        this.navCtrl
 
       }
       else {
@@ -254,6 +240,7 @@ export class TreeopsPage {
       }
       else {
         this.presentAlert('Error!', 'No se ha podido preparar el albarán');
+        this.show_scan()
       }
     })
     .catch(() => {
@@ -270,6 +257,7 @@ ask_doTransfer(id) {
         text: 'No',
         role: 'cancel',
         handler: () => {
+          this.show_scan()
         }
       },
       {
@@ -283,7 +271,9 @@ ask_doTransfer(id) {
   alert.present();
 }
 
-
+  treepick(){
+    this.navCtrl.setRoot(TreepickPage);
+  }
   doTransfer(id){
     this.cargar = true;
     var method = 'pda_do_transfer_from_pda'
@@ -292,10 +282,11 @@ ask_doTransfer(id) {
     this.cargar = true;
     this.odoo.execute(this.model, method, values).then((value)=>{
       object_id = value;
-      this.navCtrl.push(TreepickPage)
+      this.navCtrl.setRoot(TreepickPage)
     })
     .catch(() => {
       this.presentAlert('Error!', 'No se pudo recuperar la lista de operaciones contra odoo');
+      this.show_scan()
     });
   }
 
@@ -312,10 +303,12 @@ ask_doTransfer(id) {
       let op = self.pick['pack_operation_ids'][index]
       op['pda_done'] = true,
       op['qty_done'] = op['product_qty']
+      this.show_scan()
       //self.loadList()
     })
     .catch(() => {
       this.presentAlert('Error!', 'Error al marcar la operacion como realizada');
+      this.show_scan()
     });
   }
 
@@ -324,33 +317,60 @@ ask_doTransfer(id) {
 
 find_op (scan){
   let val: {}
+  let pick = {'id': this.pick_id, 'model': this.pick['model'], 'name': this.pick['name'], 'user_id': this.pick['user_id']}
   for (var op in this.pick['pack_operation_ids']){
     var opObj = this.pick['pack_operation_ids'][op];
     console.log(opObj);
     //Busco por lote
-    if (opObj['lot_id'] && opObj['lot_id']['name'] == scan){
-      val = {op_id: opObj['id'], index: op, ops: this.pick['pack_operation_ids'], origin: true, lot_id:true}
+    if (opObj['lot_id'] && opObj['lot_id'][1] == scan){
+      val = {op_id: opObj['id'], index: op, ops: this.pick['pack_operation_ids'], origin: true, lot_id:true, pick: pick}
       return val
     }
-    if (opObj['package_id'] && opObj['package_id']['name'] == scan) {
-      val = {op_id: opObj['id'], index: op, ops: this.pick['pack_operation_ids'], origin: true, package_id:true}
+    if (opObj['package_id'] && opObj['package_id'][1] == scan) {
+      val = {op_id: opObj['id'], index: op, ops: this.pick['pack_operation_ids'], origin: true, package_id:true, pick: pick}
       return val
     }
-    if (opObj['pda_product_id'] && opObj['pda_product_id']['ean13'] == scan){
-      val = {op_id: opObj['id'], index: op, ops: this.pick['pack_operation_ids'], origin: true}
+    if (opObj['ean13'] && opObj['ean13'] == scan){
+      val = {op_id: opObj['id'], index: op, ops: this.pick['pack_operation_ids'], origin: true, pick: pick}
       return val
     }
   }
 
   }
+
+
+openOp_NOUSAR(op_id, op_id_index){
+  let val = {op_id: op_id, index: op_id_index, ops: this.filter_picks(), parent: {'id': this.pick_id, 'model': this.model}}
+  this.navCtrl.setRoot(SlideopPage, val)
+}
+
+getObjectId_NOUAR(values){
+  var model = 'warehouse.app'
+  var method = 'get_object_id'
+  this.odoo.execute(model, method, values).then((value)=>{
+    var res = this.findId(value);
+                  if (res) {
+                    res['parent'] = {'id': this.pick_id, 'model': this.model}
+                    this.navCtrl.setRoot(SlideopPage, res);}
+  })
+  .catch(() => {
+    this.presentAlert('Error!', 'No se pudo recuperar la lista de operaciones contra odoo');
+  });
+
+}
+
 Scan(scan){
   //this.treeForm.value['scan'] = scan
+  this.barcodeForm.reset()
+  if (!scan){return}
   let val = this.find_op(scan)
+  this.barcodeForm.value['scan'] = ''
   if (val){
-    this.navCtrl.push(SlideopPage, val)
+    this.navCtrl.setRoot(SlideopPage, val)
   }
   else{
-    this.presentAlert('Aviso!', 'No he </hr> encontrado\n nada\n <' + scan + '>');
+    this.presentAlert('Aviso!', 'No he encontrado nada para <' + scan + '>');
+    this.show_scan()
   }
 }
 }

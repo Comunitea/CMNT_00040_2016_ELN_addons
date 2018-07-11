@@ -96,6 +96,7 @@ class StockLocation (models.Model):
     in_pack = fields.Boolean('Must be in pack', default=False, help = "If checked, al quants in this location be in pack, so  ops and moves must have result_package_id")
     need_check = fields.Boolean("Need check", default=False, help="Need check in ")
     rack_name = fields.Char(related='rack_id.name')
+    pda_name = fields.Char("PDA name")
 
     @api.model
     def name_to_id(self, name):

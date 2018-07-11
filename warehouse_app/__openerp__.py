@@ -18,7 +18,10 @@
 
     ],
     "data": [
+
         'security/ir.model.access.csv',
+        'data/warehouse_app_data.xml',
+        'views/product_product.xml',
         'views/stock_picking.xml',
         'views/stock_location.xml',
         'views/stock_quant_package.xml',

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, ToastController } from 'ionic-angular';
 
 import { ViewChild } from '@angular/core';
 //import { HostListener } from '@angular/core';
@@ -19,7 +19,7 @@ import { Storage } from '@ionic/storage';
 
 
 import { OdooProvider } from '../../providers/odoo-connector/odoo-connector';
-import { BarcodeScanner } from '../../providers/odoo-connector/barcode_scanner';
+//import { BarcodeScanner } from '../../providers/odoo-connector/barcode_scanner';
 import { AuxProvider } from '../../providers/aux/aux'
 
 
@@ -51,7 +51,8 @@ export class TreepickPage {
   filter_user = ''
   waves: boolean
 
-  constructor(public Scanner: BarcodeScanner, public navCtrl: NavController, private formBuilder: FormBuilder, public navParams: NavParams, public alertCtrl: AlertController, private storage: Storage, public auxProvider: AuxProvider,  private odoo: OdooProvider) {
+  constructor(public navCtrl: NavController, private formBuilder: FormBuilder, public navParams: NavParams, public alertCtrl: AlertController, private storage: Storage, public auxProvider: AuxProvider,  private odoo: OdooProvider, private toast: ToastController) {
+    
     this.barcodeForm = this.formBuilder.group({scan: ['']});
     this.states_show = auxProvider.pick_states_visible;
     if (this.navCtrl.getPrevious()){this.navCtrl.remove(this.navCtrl.getPrevious().index, 2);}
@@ -64,10 +65,14 @@ export class TreepickPage {
     this.filter_user = this.auxProvider.filter_user || 'assigned'
     this.domain_state = ['state', 'in', this.states_show]
     this.fields = ['id', 'name', 'state', 'partner_id', 'location_id', 'location_dest_id', 'picking_type_id', 'user_id', 'allow_validate'];
-    this.get_picking_types();
     this.filter_picks(0) ;
+
+    setTimeout(() => {
+      this.myScan.setFocus();
+    },100);
     }
   
+
   logOut(){this.navCtrl.setRoot(HomePage, {borrar: true, login: null});}
 
   
@@ -99,52 +104,55 @@ export class TreepickPage {
     });	
   }
 
-  get_picks(){
-    
-    this.cargar = true
-    this.picks=[];
-    let domain = [['show_in_pda', '=', true]];
-    //domain.push(['pack_operation_exist', '!=', false])
+  filter_picks(picking_type_id=0, domain=[]){
+    domain.push(['show_in_pda', '=', true])
 
-    if (this.domain_state!=[]) {domain.push(this.domain_state);}
-    if (this.domain_types!=[]) {domain.push(this.domain_types);}
+    if (picking_type_id==0)
+      {domain.push(['picking_type_id', '!=', false]);}
+    else 
+      {domain.push(['picking_type_id', '=', picking_type_id]);}
+    
+    domain.push(['show_in_pda', '=', true]);
+    domain.push(['pack_operation_exist', '!=', false])
+    domain.push(this.domain_state)
+
+    
     if (this.filter_user=='assigned') {domain.push(['user_id', '=', this.odoo.uid]);} else {domain.push(['user_id','=', false]);}
     //domain = [self.domain_types]
 
-    console.log(domain)
-    this.odoo.searchRead('stock.picking', domain, this.fields, 0, 0).then((value) =>{
-      this.picks=[];
+    
+    var model = 'warehouse.app'
+    var method = 'get_picks_info'
+    var values = {'types': true, 'picks': true, 'waves': true, 'domain': domain}
+    
+  
+    this.odoo.execute(model, method, values).then((value)=>{
+      
       if (value) {
-        for (var key in value) {
-          value[key]['model']='stock.picking';
-          this.picks.push(value[key]);
+        //recupero types
+        /*
+        this.picking_types=[]
+        let types = value['types']
+        for (var key in types) {
+          this.picking_types.push(types[key]);
         }
-        if (this.waves){this.get_waves(domain)}
-        this.storage.set('stock.picking', value);
-        }
-      else{
         
-        this.presentAlert('Aviso!', 'No se ha recuperado ningún albarán');
-      }
-      this.cargar=false
-    })
-    .catch(() => {
-      this.error_odoo('get_picks')
-    });	
-  } 
-
-  get_picking_types(){
-    let domain = [['show_in_pda', '=', true]];
-    let fields = ['id', 'name', 'short_name']
-
-
-    this.odoo.searchRead('stock.picking.type', domain, fields, 0,0).then((value) =>{
-      this.picking_types = [];
-      if (value) {
-        for (var key in value) {
-          this.picking_types.push(value[key]);
+        //recupero
+        this.picks = []
+        let picks = value['types']
+        for (var key in picks) {
+          this.picks.push(picks[key]);
+        }*/
+        if (value['types']){
+          this.picking_types = value['types']
         }
-        this.storage.set('stock.picking.type', value);
+        if (value['picks']){
+          this.picks = value['picks']
+        }
+        setTimeout(() => {
+          this.myScan.setFocus();
+        },100);
+
         }
       else{ this.cargar=false
         this.presentAlert('Aviso!', 'No se ha recuperado ningún tipo de alabrán');
@@ -154,17 +162,8 @@ export class TreepickPage {
     .catch(() => {
       this.error_odoo('get_picking_types')
     });	
-  }
 
-  filter_picks(picking_type_id=0, domain=[]){
     
-    if (Boolean(picking_type_id)){
-      this.picking_type_id = picking_type_id}
-    if (this.picking_type_id==0)
-      {this.domain_types =  ['picking_type_id', '!=', false];}
-    else 
-      {this.domain_types = ['picking_type_id', '=', this.picking_type_id];}
-    this.get_picks();
   }
 
   presentAlert(titulo, texto) {
@@ -179,8 +178,9 @@ export class TreepickPage {
   ionViewDidLoad() {
 
   }
-  showtreeop_ids(pick_id, model='stock.picking') {
-    this.navCtrl.push(TreeopsPage, {picking_id: pick_id, model: model});
+  showtreeop_ids(pick_id, is_wave = false) {
+    let model = is_wave && 'stock.picking.wave' || 'stock.picking'
+    this.navCtrl.setRoot(TreeopsPage, {picking_id: pick_id, model: model});
   }
 
   doAsign(pick_id){
@@ -224,60 +224,46 @@ export class TreepickPage {
     });	
 }
 
-Scan(scan){
-  this.cargar=true
-  let domain = [['name', '=', scan]]
-  let model = 'stock.picking'
-  let fields = ['id']
-  console.log(domain)
-  this.odoo.searchRead(model, domain, fields, 0,0).then((value)=>{
-    console.log(value)
-    if (value && value[0]){
-      this.navCtrl.push(TreeopsPage, {picking_id: value[0]['id'], model: model});
+find_pick(scan){
+  let val = {}
+  for (var op in this.picks){
+    var opObj = this.picks[op];
+    console.log(opObj);
+    //Busco por nombre en la lista
+    if (opObj['name'] == scan){
+      val = {picking_id : opObj['id'], model : opObj['is_wave'] && 'stock.picking.wave' || 'stock.picking'}
+      return val
     }
-    else {
-      //busco wave
-      model = 'stock.picking.wave'
-      this.odoo.searchRead(model, domain, fields, 0,0).then((value)=>{
-        console.log(value)
-        if (value && value[0]){
-          this.navCtrl.push(TreeopsPage, {picking_id: value[0]['id'], model: model});
-        }
-        else {
-          this.presentAlert('Aviso !', 'No se ha encontrado el albarán: ' + scan);
-          this.cargar=false
-        }
-      })
-    }
-  })
-  .catch(() => {
-    this.error_odoo('Error al recuperar el albarán escaneado')
-  });	
-
-
+  }
+  return false  
 }
 
+Scan(scan){
+  this.barcodeForm.reset()
+  let val = this.find_pick(scan)
+  if (val){
+    console.log(val)    
+    this.navCtrl.setRoot(TreeopsPage, val);
+  }
+}
 
 submitScan(){
-  this.cargar=true
-  let domain = [['name', '=',  this.barcodeForm.value['scan']]]
-  let model = 'stock.picking'
-  let fields = 'id'
+  let scan = this.barcodeForm.value['scan']
+  return this.Scan(scan)
+  }
 
-  this.odoo.searchRead(model, domain, fields, 0,0).then((value)=>{
-    if (value && value[0]){
-      this.navCtrl.push(TreeopsPage, {picking_id: value[0]['id'], model: 'stock.picking'});
-    }
-    else {
-      this.presentAlert('Aviso !', 'No se ha encontrado el albarán: ' + this.barcodeForm.value['scan']);
-    }
-
-  })
-  .catch(() => {
-    this.error_odoo('Error al recuperar el albarán escaneado')
-  });	
-
-
-}
+  presentToast(message, duration=30, position='top') {
+    let toast = this.toast.create({
+      message: message,
+      duration: duration,
+      position: position
+    });
+  
+    toast.onDidDismiss(() => {
+      console.log('Dismissed toast');
+    });
+  
+    toast.present();
+  }
 }
 

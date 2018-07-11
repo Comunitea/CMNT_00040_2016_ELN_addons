@@ -33,7 +33,9 @@
                     <field name="need_check"/>
                     <field name="in_pack"/>
                 </field>
-
+                 <field name="loc_barcode" position="after">
+                    <field name="pda_name"/>
+                </field>
             </field>
         </record>
 

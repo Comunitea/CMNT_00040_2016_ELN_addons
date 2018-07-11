@@ -15,7 +15,7 @@ class StockPickingWave(models.Model):
 
         # hago sql me salto permisos de compañia y no da error en la vista ????
         def sort(element_ids):
-            return element_ids.sudo().sorted(key=lambda x:  (x.product_id.loc_row, x.product_id.id, x.lot_id.id))
+            return element_ids.sudo().sorted(key=lambda x: x.picking_order)
 
         for wave in self.filtered(lambda x: isinstance(x.id, int)):
 
@@ -23,7 +23,7 @@ class StockPickingWave(models.Model):
                   u"join stock_move sm on sm.picking_id = sp.id " \
                   u"join stock_picking_wave spw on spw.id = sp.wave_id "
             where_int = u"where spw.id = %s and sm.move_dest_id isnull "%wave.id
-            groupby =  u"group by sp.id"
+            groupby = u"group by sp.id"
             sql_int = sql + where_int + groupby
             self._cr.execute(sql_int)
             records = self._cr.fetchall()
@@ -47,12 +47,12 @@ class StockPickingWave(models.Model):
             self._cr.execute(sql)
             records = self._cr.fetchall()
             ids = [record[0] for record in records]
-            print "Saco picking asociados"
-            wave.picking_out_ids = [(6, 0, self.env['stock.picking'].search([('id','in',out_ids)]).ids)]
+
+            wave.picking_out_ids = [(6, 0, self.env['stock.picking'].search([('id', 'in', out_ids)]).ids)]
             wave.picking_int_ids = [(6, 0, self.env['stock.picking'].search([('id', 'in', int_ids)]).ids)]
-            print "Saco operaciones de la agrupacion %s" %wave.picking_int_ids
+
             #las operaciones no tienen company_id, por lo tanto ....
-            wave.pack_operation_ids = sort(self.env['stock.pack.operation'].search([('picking_id', 'in', int_ids)]))
+            wave.pack_operation_ids = self.env['stock.pack.operation'].search([('picking_id', 'in', int_ids)], order='picking_order asc')
             wave.pack_operation_out_ids = sort(self.env['stock.pack.operation'].search([('picking_id', 'in', out_ids)]))
             wave.pack_operation_all_ids = sort(self.env['stock.pack.operation'].search([('picking_id', 'in', ids)]))
         print "Llamo a set_state ...."
@@ -63,7 +63,7 @@ class StockPickingWave(models.Model):
     @api.multi
     def _compute_ops(self):
         def sort(element_ids):
-            return element_ids.sorted(key=lambda x:  (x.product_id.loc_row, x.product_id.id, x.lot_id.id))
+            return element_ids.sorted(key=lambda x:  (x.product_id.loc_row, x.product_id, x.lot_id))
 
         for wave in self.sudo():
             wave.pack_operation_ids = sort(wave.picking_int_ids.mapped('pack_operation_ids'))
@@ -72,15 +72,28 @@ class StockPickingWave(models.Model):
 
     @api.multi
     def _compute_fields(self):
-        print "Compute fields ...."
         for wave in self:
-            print "%s, %s"%(wave.name, wave.id)
-            op_ids = wave.pack_operation_ids
-            print op_ids
-            wave.remaining_ops = sum(not x.pda_done for x in op_ids)
-            wave.pack_operation_count = len(op_ids)
-            wave.pack_operation_exist = wave.pack_operation_count != 0
-        print "Compute fields .... OK"
+            sql = "select count(id) as pack_operation_count, count(case when pda_done = true then 1 else null end) as done_ops " \
+                  "from stock_pack_operation where picking_id in (select id from stock_picking where wave_id = %s)"%wave.id
+            self._cr.execute(sql)
+            records = self._cr.fetchall()
+            if records:
+                record = records and records[0]
+                wave.pack_operation_count = record[0]
+                wave.done_ops = record[1]
+                wave.remaining_ops = wave.pack_operation_count - wave.done_ops
+                wave.pack_operation_exist = wave.pack_operation_count != 0
+                wave.ops_str = "{:02d}/{:02d}".format(wave.remaining_ops, wave.pack_operation_count)
+
+
+            #op_ids = wave.pack_operation_ids
+            #wave.remaining_ops = sum(not x.pda_done for x in op_ids)
+            #wave.pack_operation_count = len(op_ids)
+            #wave.done_ops = wave.pack_operation_count - wave.remaining_ops
+            #wave.pack_operation_exist = wave.pack_operation_count != 0
+            #wave.ops_str = "F {:02d} de {:02d}".format(wave.remaining_ops, wave.pack_operation_count)
+
+
         return
 
     @api.multi
@@ -168,6 +181,8 @@ class StockPickingWave(models.Model):
     location_dest_id = fields.Many2one('stock.location', "Dest Location Zone")
     pack_operation_count = fields.Integer('Total ops', compute="_compute_fields", compute_sudo=True)
     remaining_ops = fields.Integer('Remaining ops', compute="_compute_fields", compute_sudo=True)
+    done_ops = fields.Integer('Done ops', compute="_compute_fields", multi=True, compute_sudo=True)
+    ops_str = fields.Char('Str ops', compute="_compute_fields", compute_sudo=True, multi=True)
     pack_operation_exist = fields.Boolean("Have pack operation", compute="_compute_fields", compute_sudo=True)
     show_in_pda = fields.Boolean(related="picking_type_id.show_in_pda")
     wave_id = fields.Many2one(
@@ -183,6 +198,7 @@ class StockPickingWave(models.Model):
     picking_state = fields.Selection([('draft', 'Draft'), ('waiting', 'Waiting'), ('confirmed', 'Reserved'), ('assigned', 'Ready'), ('done', 'Done')], string="Picking status",
                                      compute="get_state", compute_sudo=True)
     locked_in_pda = fields.Boolean('Locked in PDA')
+    is_wave = fields.Boolean(default=True)
 
     @api.multi
     def process_stop(self):
@@ -285,7 +301,7 @@ class StockPickingWave(models.Model):
         ctx = self._context.copy()
         ctx.update(force_user=True)
         message = "Action assign por %s" % self.env.user.name
-        for pick in self.sudo().mapped('picking_int_ids'):
+        for pick in self.sudo().mapped('picking_int_ids').filtered(lambda x:x.state not in ('cancel','done')):
             ic_user_id = pick.get_pda_ic()
             pick.sudo(ic_user_id).message_post(message)
             pick.sudo(ic_user_id).action_assign()

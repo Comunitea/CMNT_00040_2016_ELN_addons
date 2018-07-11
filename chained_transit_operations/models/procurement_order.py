@@ -47,7 +47,6 @@ class ProcurementOrder(models.Model):
         domain = [('state', '=', 'confirmed'), ('orderpoint_id', '=', False)]
         proc_pool = self.env['procurement.order'].search(domain, order="id asc")
         for proc in proc_pool:
-            print proc.name
             proc.sudo().run()
         if proc_pool:
             self.env['procurement.order'].run_sudo_proc()

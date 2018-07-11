@@ -37,6 +37,15 @@
                 <xpath expr="//field[@name='pack_operation_ids']/tree" position="attributes">
                     <attribute name="colors">green:pda_done==True</attribute>
                 </xpath>
+                <xpath expr="//page[@string='Operations']" position="inside">
+                    <group>
+                        <field name="done_ops" groups="warehouse_app.group_warehouse_app_debug"/>
+                        <field name="pack_operation_count" groups="warehouse_app.group_warehouse_app_debug"/>
+                        <field name="remaining_ops" groups="warehouse_app.group_warehouse_app_debug"/>
+                        <field name="ops_str" groups="warehouse_app.group_warehouse_app_debug"/>
+                    </group>
+                </xpath>
+
                 <xpath expr="//field[@name='result_package_id']" position="after">
 
                     <button name="set_pda_done" class="oe_stat_button"

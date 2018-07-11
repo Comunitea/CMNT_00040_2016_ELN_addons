@@ -157,7 +157,7 @@
                             <field name="pack_operation_ids">
                                 <tree colors="green:pda_done == True">
                                     <field name="picking_id"/>
-                                    <field name="loc_row"/>
+                                    <field name="picking_order"/>
                                     <!--field name="picking_order"/-->
                                     <field name="package_id" groups="stock.group_tracking_lot" readonly="1" invisible="1"/>
                                     <field name="pda_product_id" required="1" readonly="1"/>

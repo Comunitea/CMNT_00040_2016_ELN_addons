@@ -10,11 +10,13 @@ import { TreepickPage } from '../pages/treepick/treepick';
 import { ManualPage } from '../pages/manual/manual';
 import { ShowinfoPage } from '../pages/showinfo/showinfo';
 import {Storage} from '@ionic/storage';
+import { SettingsPage} from '../pages/settings/settings';
 //Modal
-import { AuxProvider } from '../providers/aux/aux'
+import { AuxProvider } from '../providers/aux/aux';
 
 import { HostListener } from '@angular/core';
 import { BarcodeScanner } from '../providers/odoo-connector/barcode_scanner';
+import { SettingsPageModule } from '../pages/settings/settings.module';
 
 
 
@@ -26,8 +28,8 @@ export class MyApp {
 
   @ViewChild(Nav) nav: Nav;
 
-
-  @HostListener('document:keydown', ['$event'])
+  /*
+  @HostListener('document:keypress', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) { 
     console.log("Desde treepick" + event.key)
     //if (!this.Scanner.key_press(event)) {return}
@@ -50,16 +52,17 @@ export class MyApp {
       alert(err.message)
     }
   }
+  */
 
   rootPage:any = HomePage;
   pages: Array<{title: string, component: any, param: string}>;
 
   ops_filter = "Todas"/*o pendientes*/
   user={}
-  constructor(public Scanner: BarcodeScanner, public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, public auxProvider: AuxProvider, public storage: Storage ) {
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, public auxProvider: AuxProvider, public storage: Storage ) {
 
     this.initializeApp();
-    this.Scanner.on()
+    //this.Scanner.on()
     this.storage.get('CONEXION').then((val) => {
 			
 			if (val != null && val.user){
@@ -73,6 +76,7 @@ export class MyApp {
       { title: 'Etiqueta', component: ShowinfoPage, param: 'info'},
       { title: 'Borrar Datos', component: HomePage, param: 'delete'},
       { title: 'Imprimir', component: HomePage, param: 'print_tag'},
+      { title: 'Ajustes', component: SettingsPage, param: 'print_tag'},
     ]
     }
 

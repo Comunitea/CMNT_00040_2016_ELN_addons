@@ -26,12 +26,12 @@ class StockPicking(models.Model):
 
     @api.multi
     def _compute_ops(self):
-        for pick in self.sudo():
+        for pick in self:
             pick.done_ops = len(pick.pack_operation_ids.filtered(lambda x: x.qty_done > 0))
             pick.pack_operation_count = len(pick.pack_operation_ids)
             pick.remaining_ops = pick.pack_operation_count - pick.done_ops
-            pick.ops_str = "Faltan {:02d} de {:02d}".format(pick.remaining_ops, pick.pack_operation_count)
-
+            pick.ops_str = "{:02d} / {:02d}".format(pick.remaining_ops, pick.pack_operation_count)
+            print "%s: Operaciones %s"%(pick.name, pick.ops_str)
 
     @api.depends('move_type','partner_id','launch_pack_operations', 'move_lines.state', 'move_lines.picking_id',
                  'move_lines.partially_available')
@@ -80,10 +80,8 @@ class StockPicking(models.Model):
     def _get_related_pick_ids(self):
 
         for pick in self:
-
             pick.pick_dest_ids = pick.mapped('move_lines').mapped('move_dest_id').mapped('picking_id')
             pick_ids = self.env['stock.move'].search([('move_dest_id', 'in', pick.move_lines.ids)]).mapped('picking_id')
-            #pick_ids += self.env['stock.move'].search([('move_dest_id', 'in', pick_ids.mapped('move_lines').ids)]).mapped('picking_id')
             pick.pick_orig_ids = [(6, 0, pick_ids.ids)]
             pick.related_picks = "Destino: %s \n Origen: %s"%(pick.pick_dest_ids, pick.pick_dest_ids)
             pick.pick_dest = pick.pick_dest_ids and True or False
@@ -92,7 +90,7 @@ class StockPicking(models.Model):
 
     launch_pack_operations = fields.Boolean("Launch Pack Operations", copy=False)
     done_ops = fields.Integer('Done ops', compute="_compute_ops", multi=True, compute_sudo=True)
-    pack_operation_count = fields.Integer('Total ops', compute="_compute_ops", store=True, copy=False, compute_sudo=True)
+    pack_operation_count = fields.Integer('Total ops', compute="_compute_ops", copy=False, compute_sudo=True)
     remaining_ops = fields.Integer('Remining ops', compute="_compute_ops", compute_sudo=True, multi=True)
     ops_str = fields.Char('Str ops', compute="_compute_ops", compute_sudo=True, multi=True)
     ic_user_id = fields.Many2one(related="company_id.intercompany_user_id")
@@ -151,6 +149,8 @@ class StockPicking(models.Model):
 
     @api.multi
     def action_cancel(self):
+
+
         if self._context.get('force_user', False):
             ctx = self._context.copy()
             ctx.update({'force_user': False})

@@ -2,5 +2,5 @@
 # Copyright 2017 Comunitea - <comunitea@comunitea.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-import models
-import wizard
+
+import wzd_sale_order_cancel

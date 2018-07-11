@@ -18,13 +18,10 @@ class StockTransferDetails(models.TransientModel):
                 line.result_package_id = self.env['stock.quant.package'].create({})
         ctx = self._context.copy()
         ctx.update(force_sudo=True)
-        res = super(StockTransferDetails, self.with_context(ctx)).do_detailed_transfer()
-        if self._context.get('no_transfer', True):
-            for op in self.picking_id.pack_operation_ids:
-                op.picking_order = op.product_id.loc_row or op.location_id.picking_order
-        return res
+        return  super(StockTransferDetails, self.with_context(ctx)).do_detailed_transfer()
 
 
     @api.model
     def default_get(self, fields):
-        return super(StockTransferDetails, self).default_get(fields)
+        res = super(StockTransferDetails, self).default_get(fields)
+

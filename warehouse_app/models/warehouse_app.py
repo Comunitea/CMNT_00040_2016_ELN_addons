@@ -34,8 +34,8 @@ INFO_FIELDS = {'stock.quant.package': ['id', 'name', 'lot_id', 'location_id','pa
               'stock.production.lot': ['id', 'name', 'product_id', 'use_date', 'removal_date', 'qty_available', 'quant_ids', 'display_name', 'uom_id', 'location_id'],
               'stock.location': ['id', 'name', 'usage', 'loc_barcode', 'need_check'],
               'product.product': ['id', 'display_name', 'name', 'ean13', 'default_code', 'default_stock_location_id', 'track_all', 'uom_id', 'qty_available'],
-              'stock.picking': ['id', 'name', 'picking_type_id', 'user_id', 'min_date', 'state', 'location_id', 'location_dest_id', 'wave_id', 'remaining_ops', 'pack_operation_count', 'pack_operation_ids'],
-              'stock.picking.wave': ['id', 'name', 'picking_type_id', 'user_id', 'min_date', 'state', 'picking_state', 'location_id', 'location_dest_id', 'wave_id', 'remaining_ops', 'pack_operation_count', 'pack_operation_ids'],
+              'stock.picking': ['id', 'name', 'is_wave', 'picking_type_id', 'user_id', 'min_date', 'state', 'location_id', 'location_dest_id', 'wave_id', 'ops_str', 'remaining_ops', 'pack_operation_count', 'pack_operation_ids'],
+              'stock.picking.wave': ['id', 'name', 'is_wave', 'picking_type_id', 'user_id', 'min_date', 'state', 'picking_state', 'location_id', 'location_dest_id', 'wave_id', 'ops_str', 'remaining_ops', 'pack_operation_count', 'pack_operation_ids'],
               'stock.pack.operation': ['id', 'display_name', 'package_id', 'result_package_id', 'lot_id', 'pda_product_id', 'pda_done', 'product_qty', 'qty_done', 'track_all', 'picking_id', 'location_id', 'location_dest_id', 'product_uom_id', 'need_confirm', 'uos_id', 'uos_qty', 'ean13'],
               'stock.pack.operation.lot': ['id', 'display_name', 'lot_id', 'qty', 'qty_todo']}
 
@@ -107,7 +107,6 @@ class WarehouseApp (models.Model):
             return False
         try:
             for field in INFO_FIELDS[model]:
-                print "Buscando %s"%field
                 if object_id.fields_get(field)[field]['type'] == 'many2one':
                     field_value[field] = self.get_m2o_vals(object_id, field)
 
@@ -396,7 +395,101 @@ class WarehouseApp (models.Model):
 
 
 
+    @api.model
+    def get_picks_info(self, vals):
+        print "ENTRO EN GET_PICKS_INFO"
+
+        types = vals.get('types', False)
+        domain = vals.get('domain', [])
+        limit = vals.get('limit', 25)
+        if types:
+            fields = ('id', 'short_name')
+            types = self.env['stock.picking.type'].search_read([('show_in_pda','=',True)], fields, limit=limit)
+
+        picks = vals.get('picks', False)
+        fields = INFO_FIELDS['stock.picking']
+        fields = ['id', 'is_wave', 'name', 'picking_type_id', 'state', 'min_date', 'user_id', 'ops_str']
+        fields = ['id', 'is_wave', 'name', 'picking_type_id', 'state', 'min_date', 'user_id', 'ops_str']
+        if picks:
+            picks = self.env['stock.picking'].search_read(domain, fields, limit=limit)
+        waves = vals.get('waves', False)
+        if waves:
+            waves = self.env['stock.picking.wave'].search_read(domain, fields, limit=limit)
+        picksandwaves = picks + waves
+        res = {
+            'types': types,
+            'picks': picksandwaves
+        }
+        print res
+        return res
+
+    def dict_m2o(self, val):
+        if val:
+            res = {'id': val[0], 'name': val[1]}
+        return res or val
+
+    @api.model
+    def get_pick_id(self, vals):
+        ## DEVUELVE EL FORMULARIO DE PICK Y LAS OPERACIONES
+        id = vals.get('id')
+        model = vals.get('model')
+        pick = self.env[model].search_read([('id', '=', id)], INFO_FIELDS[model])
+        pick = pick and pick[0]
+        pick['pack_operation_ids'] = self.env['stock.pack.operation'].search_read([('id', 'in', pick['pack_operation_ids'])], INFO_FIELDS['stock.pack.operation'], order="picking_order asc")
+
+        print pick
+        return pick
 
 
 
+    @api.model
+    def get_op_id(self, vals):
+        id = vals.get('id')
+        operation = self.env['stock.pack.operation'].search_read([('id', '=', id)], INFO_FIELDS['stock.pack.operation'])
+        operation = operation and operation[0]
+        if not operation:
+            return False
 
+        print operation
+        lot_fields = ['id', 'name', 'display_name', 'location_id', 'use_date']
+        package_field = ['id', 'name']
+        location_field = ['id', 'name', 'loc_barcode', 'display_name', 'need_check']
+
+        if operation.get('lot_id', False):
+            lot_id = self.env['stock.production.lot'].search_read([('id', '=', operation['lot_id'][0])],
+                                                                               lot_fields)
+            operation['lot_id'] = lot_id and lot_id[0]
+            print lot_id
+        ##Podría usar dict_m2o pero mejor así por si hace falta despues
+
+        if operation.get('pda_product_id', False):
+            pda_product_id = self.env['product.product'].search_read(
+                [('id', '=', operation['pda_product_id'][0])], INFO_FIELDS['product.product'])
+            operation['pda_product_id'] = pda_product_id and pda_product_id[0]
+
+
+        if operation.get('package_id', False):
+            package_id = self.env['stock.quant.package'].search_read(
+                [('id', '=', operation['package_id'][0])],package_field)
+            operation['package_id'] = package_id and package_id[0]
+
+        if operation.get('result_package_id', False):
+            result_package_id = self.env['stock.quant.package'].search_read(
+                [('id', '=', operation['result_package_id'][0])],package_field)
+            operation['result_package_id'] = result_package_id and result_package_id[0]
+
+        location_id = self.env['stock.location'].search_read(
+                [('id', '=', operation['location_id'][0])], location_field)
+        operation['location_id'] = location_id and location_id[0]
+
+        location_dest_id = self.env['stock.location'].search_read(
+                [('id', '=', operation['location_dest_id'][0])], location_field)
+        operation['location_dest_id'] = location_dest_id and location_dest_id[0]
+
+        operation['product_uom_id'] = self.dict_m2o(operation['product_uom_id'])
+        operation['uos_id'] = self.dict_m2o(operation['uos_id'])
+        #operation['package_id'] = self.dict_m2o(operation['package_id'])
+        #operation['result_package_id'] = self.dict_m2o(operation['result_package_id'])
+
+        print operation
+        return operation

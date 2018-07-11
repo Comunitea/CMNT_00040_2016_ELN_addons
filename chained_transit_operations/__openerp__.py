@@ -18,5 +18,6 @@
         'views/stock_move.xml',
         'views/stock_picking.xml',
         'views/res_company.xml',
+        'wizard/wzd_sale_order_cancel.xml'
     ],
 }

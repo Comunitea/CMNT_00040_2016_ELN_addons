@@ -42,9 +42,14 @@
         <ion-item [hidden]='picks.length>0 || cargar' color ="danger"> No hay albaranes</ion-item>
 
         <ion-item *ngFor="let pick of picks; trackBy: index;" 
-            item-start (click)="showtreeop_ids(pick.id, pick.model)" class="itemwaiting" [ngClass]="{'itemdone': pick.state=='done'}">
-              {{pick.name}}     
-            
+            item-start (click)="showtreeop_ids(pick.id, pick.is_wave)" class="itemwaiting" [ngClass]="{'itemdone': pick.state=='done'}">
+              
+              <ion-label>
+                  {{pick.name}}     
+              </ion-label>
+            <div item-content>
+                {{pick.ops_str}}     
+            </div>
             <!--button ion-button item-start class="buttonProduct" (click)="showtreeop_ids(pick.id)" [ngClass]="{'pìckdone': pick.state=='done'}">
               {{pick.name}} 
             </button-->  
@@ -64,7 +69,7 @@
   <form [formGroup]="barcodeForm" class ="alignBottom">
       <ion-item>
          <ion-label color="odoo" item-start>Scan: </ion-label>
-         <ion-input #scan [formControl]="barcodeForm.controls['scan']" type="text" name="scan" placeholder = "Scan"  autofocus></ion-input>
+         <ion-input #scan [formControl]="barcodeForm.controls['scan']" type="text" name="scan" placeholder = "Scan" ></ion-input>
         
          <button ion-button icon-only item-end clear (click)="submitScan()">
            <ion-icon name="barcode"></ion-icon>

@@ -7,11 +7,17 @@
 <ion-header>
   
   <ion-navbar color="primary">
-      <button ion-button icon-only menuToggle>
+      <!--button ion-button icon-only menuToggle>
         <ion-icon name="menu"></ion-icon>
-      </button>
-      <ion-title>{{ pick['name']}} [{{ pick['remaining_ops'] }} / {{pick['pack_operation_count']}}]</ion-title>
+      </button-->
+      <ion-title *ngIf="!cargar" >{{ pick['name']}} [{{ pick['remaining_ops'] }} / {{pick['pack_operation_count']}}]</ion-title>
+      <ion-buttons start>
+          <button ion-button item-start (click)="treepick(true)" >
+              <ion-icon name="undo"></ion-icon>              
+          </button>    
+      </ion-buttons>
       <ion-buttons end>
+
           <button ion-button item-end (click)="infopick(true)" *ngIf="!info_pick">
               <ion-icon name="document"></ion-icon>              
           </button>
@@ -26,13 +32,17 @@
   
   <ion-item-group *ngIf="!cargar && info_pick">
     <ion-item no-lines>
-        <ion-label color='operations'>{{pick.user_id && pick.user_id.name || "Usuario" }} </ion-label>
+        <ion-label color='operations'>{{pick.user_id && pick.user_id[1] || "Usuario" }} </ion-label>
         <button ion-button item-end (click)="doAssign(pick.id, false)" [hidden]='!pick.user_id' color='odoo'>Liberar</button>
         <button ion-button item-end (click)="doAssign(pick.id, true)" [hidden]='pick.user_id' color='odoo'>Asignar</button>
       <!--ion-badge item-start (click)="doAssign(pick.id, false)" [hidden]='!pick.user_id' color='odoo'>Liber</ion-badge>
       <ion-badge item-start (click)="doAssign(pick.id, true)" [hidden]='pick.user_id' color='odoo'>Asignar(me)</ion-badge-->  
     </ion-item>
-
+    <!--ion-item>
+      <ion-label color='operations'>
+        {{model}}
+    </ion-label>
+    </ion-item-->
     <ion-item no-lines>
         <ion-label color='operations'>
             Operaciones
@@ -62,11 +72,11 @@
       <ion-badge item-start (click)="doPreparePartial(pick.id)" [hidden]='pick.pack_operation_count != 0' color='odoo'>Preparar</ion-badge-->
     </ion-item>
     <ion-item no-lines>    
-      <ion-badge item-start class="w50" color="light" (click)="openLocation(pick.location_id && pick.location_id.id)">
-        {{pick['location_id'] && pick.location_id.name}}
+      <ion-badge item-start class="w50" color="light" (click)="openLocation(pick.location_id && pick.location_id[0])">
+        {{pick['location_id'] && pick.location_id[1]}}
       </ion-badge>       
-      <ion-badge item-start color="light" class="w50" (click)="openLocation(pick.location_dest_id && pick.location_dest_id.id)">
-        {{ pick['location_dest_id'] && pick.location_dest_id.name}}
+      <ion-badge item-start color="light" class="w50" (click)="openLocation(pick.location_dest_id && pick.location_dest_id[0])">
+        {{ pick['location_dest_id'] && pick.location_dest_id[1]}}
       </ion-badge>   
     </ion-item>
     <ion-item no-lines>    
@@ -76,7 +86,7 @@
     </ion-item>
     <ion-item no-lines color="primary">    
       <ion-label>
-        {{model == "stock.picking" && "Albarán: " + pick.state.name || "Agrupación: " + pick.picking_state.name}}
+        {{model == "stock.picking" && "Albarán: " + pick.state || "Agrupación: " + pick.name}}
       </ion-label>
     </ion-item>
     
@@ -91,7 +101,7 @@
   </div>
    
   <ion-list *ngIf="pick && !cargar && !info_pick" class="all0">
-    <stock-operation *ngFor="let item of pick.pack_operation_ids; let i = index" [stock_operation]="item" [pick] = 'pick' [whatOps]="whatOps" (notify) = "doOp(i, item.id, $event)"
+    <stock-operation *ngFor="let item of pick.pack_operation_ids; let i = index" [stock_operation]="item" [pick] = 'pick' [whatOps]="whatOps" (notify) = "doOp(i, item.id, $event)" 
         [hidden]="whatOps=='Pendientes' && item.pda_done || whatOps=='Realizadas' && !item.pda_done">
     </stock-operation>
   </ion-list>
@@ -99,10 +109,11 @@
 
   </ion-content>
   <ion-footer>
-      <form [formGroup]="treeForm" class ="alignBottom">
+      <form [formGroup]="barcodeForm" class ="alignBottom">
      <ion-item  >
         <ion-label color="odoo" item-start>Scan: </ion-label>
-        <ion-input #scanPackage [formControl]="treeForm.controls['scan']" type="text" name="scan" placeholder = "Scan"  autofocus></ion-input>
+        <!--ion-input #scanPackage [formControl]="treeForm.controls['scan']" type="text" name="scan" placeholder = "Scan"  autofocus ng-focus="cordova.plugins.Keyboard.close();"></ion-input-->
+        <ion-input #scan [formControl]="barcodeForm.controls['scan']" type="text" name="scan" placeholder = "Scan" ></ion-input>
        
         <button ion-button icon-only item-end clear (click)="submitScan()">
           <ion-icon name="barcode"></ion-icon>

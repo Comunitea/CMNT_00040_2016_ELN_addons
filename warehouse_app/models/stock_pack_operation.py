@@ -20,7 +20,7 @@ class StockPackOperation (models.Model):
             op.total_qty = op.product_id and op.product_qty or op.package_id and op.package_id.package_qty
 
     ean13 = fields.Char(related='pda_product_id.ean13')
-    picking_order = fields.Integer("Picking order")
+    picking_order = fields.Char("Picking order")
     loc_row = fields.Char(related='product_id.loc_row', string="Picking order")
     pda_product_id = fields.Many2one('product.product', string="Product", compute = get_app_names, multi=True)
     pda_done = fields.Boolean ('Pda done', help='True if done from PDA', default=False, copy=False)
@@ -111,34 +111,65 @@ class StockPackOperation (models.Model):
 
     @api.model
     def doOp(self, vals):
-        print"####--- Do op  ---###\n%s\n###############################################" % vals
         id = vals.get('id', False)
         do_id = vals.get('do_id', True)
         op = self.browse([id])
-        create = vals.get('force_create', False) or True
         qty = vals.get('qty_done', op.qty_done or 0)
-
+        create = vals.get('force_create', False) or True
         if not op:
-            return False
+            return {'id': id,
+                    'error': 'No se ha encontrado la operación'}
         if do_id:
             qty_done = float(qty) or op.product_qty
         else:
             qty_done = 0.0
-        vals = {'pda_done': do_id,
-                'qty_done': qty_done}
 
-        if create and qty_done < op.product_qty:
+        write_vals = {'pda_done': do_id,
+                      'qty_done': qty_done}
+        new_id = False
+        if do_id and create and qty_done < op.product_qty:
+            ##REVISAR COMO HAGO UNA OPERACION NUEVA Y VINCULADA AL MOVIMIENTO
+            #PROBAR     1 SPLIT DEL MOV
+            #           2 GENERAR OPS PARA EL NUEVO MOV
+            #           3 RECUPERAR LA OPERACION DEL NUEVO MOV
             qty = op.product_qty - qty_done
-            vals.update(product_qty=qty_done)
+            #write_vals.update(product_qty=qty_done)
             quants = op.return_quants_to_select(id, qty)
             new_op = []
             for quant in quants:
                 if quant[0]:
                     new_op += [op.create_new_op_from_pda(quant, op.get_result_package())]
-            id = new_op and new_op[0] or id
+            new_id = new_op and new_op[0] or id
+            res = op.write(write_vals)
+            return {'id': new_id,
+                    'Aviso': 'Se ha generado una nueva operación'}
 
-        op.write(vals)
-        return id
+        res = op.write(write_vals)
+        if not res:
+            return {'id': id,
+                    'error': 'Error al actualizar la operación'}
+
+        if res and id and do_id:
+            next_id = vals.get('next_id', False)
+            if next_id:
+                vals = self.env['stock.pack.operation'].get_op_id({'id': next_id})
+                if vals:
+                    return {'id': next_id,
+                            'aviso': 'Ok'}
+        else:
+            return {'id': id,
+                    'aviso': 'Ok'}
+
+        return {'id': 0,
+                'aviso': 'No hay más operaciones pendientes'}
+
+
+    def find_next_id(self,vals):
+
+        next_id = 0
+
+        return next_id or 0
+
 
     def get_result_package(self):
         #POara heredar si es necesario
@@ -478,3 +509,10 @@ class StockPackOperation (models.Model):
             return {'result': res, 'new_op': False}
 
         return False
+
+    def dict_m2o(self, val):
+        return self.env['warehouse.app'].dict_m2o(val)
+
+    @api.model
+    def get_op_id(self, vals):
+        return self.env['warehouse.app'].get_op_id(vals)

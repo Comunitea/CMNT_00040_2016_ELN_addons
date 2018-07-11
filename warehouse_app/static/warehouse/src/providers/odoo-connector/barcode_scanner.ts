@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-
+import { ToastController } from 'ionic-angular';
 
 @Injectable()
 export class BarcodeScanner {
@@ -8,7 +8,7 @@ export class BarcodeScanner {
     timeStamp  = 0
     timeout = null
     state = false
-    constructor() {
+    constructor(private toastCtrl: ToastController) {
         this.reset_scan()
     }
     reset_scan(){
@@ -26,8 +26,11 @@ export class BarcodeScanner {
     }
 
     key_press(event){
-        console.log("Me llega " + event.which + '[' + event.key + ' ]' + " y tengo " + this.code)
+        let st = ("Me llega " + event.which + '[' + event.key + ' ]' + " y tengo " + this.code)
+
+        this.presentToast(st)
         let e = event.key.substring(0,1)
+        this.presentToast(e)
         if(!this.state){ //ignore returns
 
         }
@@ -60,4 +63,17 @@ export class BarcodeScanner {
         return this && this.timeout
     }
     
+presentToast(message, duration=30, position='top') {
+    let toast = this.toastCtrl.create({
+      message: message,
+      duration: duration,
+      position: position
+    });
+  
+    toast.onDidDismiss(() => {
+      console.log('Dismissed toast');
+    });
+  
+    toast.present();
+  }
 }

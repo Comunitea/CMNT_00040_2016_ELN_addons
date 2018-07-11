@@ -42,12 +42,14 @@ export class HomePage {
 	}
 	
     cargar = false;
-    mensaje = '';
+	mensaje = '';
+	login_server: boolean = false
 
     constructor(public navCtrl: NavController, public navParams: NavParams,
                 private storage: Storage, public alertCtrl: AlertController,
                 private odoo: OdooProvider) {
 		
+		this.login_server = false
 		
 		if (this.navParams.get('login')){
 			this.CONEXION.username = this.navParams.get('login')};
