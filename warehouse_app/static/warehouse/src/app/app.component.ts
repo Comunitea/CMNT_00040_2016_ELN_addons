@@ -70,7 +70,7 @@ export class MyApp {
       }
     })
     this.pages = [
-      { title: 'Mis trabajos', component: HomePage , param: 'assigned'},
+      { title: 'Mis trabajos', component: TreepickPage , param: 'assigned'},
       { title: 'Sin asignar', component: TreepickPage, param: 'no_assigned'},
       { title: 'Manual', component: ManualPage, param: 'new_move'},
       { title: 'Etiqueta', component: ShowinfoPage, param: 'info'},

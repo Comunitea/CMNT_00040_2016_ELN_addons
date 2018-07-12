@@ -11,7 +11,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
  */
-
+import { HostListener } from '@angular/core';
 
 import { HomePage } from '../home/home';
 import { TreepickPage } from '../treepick/treepick';
@@ -34,17 +34,37 @@ export class SlideopPage {
 
   @ViewChild('scan') myScan ;
   @ViewChild('qty') myQty ;
-  /*
+  
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) { 
-    console.log("Desde treepick" + event.key)
-    this.Scanner.key_press(event).then((scan)=>{
-      if (scan){
-        this.Scan(scan)
+    console.log(event.key);
+    if (!event.shiftKey){
+      if (event.key=='ArrowLeft'){
+        this.move_index(-1)
+        
       }
-    })
+      if (event.key=='ArrowRight'){
+        this.move_index(1)
+      }
+    }
+    else{
+      if (event.key=='ArrowLeft'){
+        /*FORM*/
+        this.goHome()
+      }
+      if (event.key=='ArrowRight'){
+        /*LISTADO DE PICKS*/
+        if (!this.op['pda_done'] && this.op_ready) {
+          this.doOp(this.op_id, true)
+        }
+        else {
+          this.presentToast("No puedes procesarla")
+        }
+      }
+    }
+
   }
-  */
+  
   model = 'stock.pack.operation'
   isPaquete: boolean = true;
   cargar = true;
@@ -624,11 +644,17 @@ export class SlideopPage {
     }
     return index
   }
-  get_next_op(id, ops=this.ops){
-    //Filtro para las pendientes
-    ops = this.ops.filter(function (op) {
+  get_next_op(id, list_ops=this.ops, forward = true){
+    // Devuelve el siguiente id con pda_done false, con forward hacia delante.
+
+    let ops = list_ops.filter(function (op) {
       return op.pda_done == false
     })
+    
+    let min_index = -1
+    if (forward){
+      min_index = this.get_index(ops, id)
+    }
   
     if (ops.length==0) {
       return 0
@@ -636,15 +662,24 @@ export class SlideopPage {
     let next_id = 0
     this.index = -1
     for (let index in ops){
+      if (!forward && !ops[index]['pda_done'] && ops[index]['id'] != id){
+        next_id = ops[index]['id']
+        break
+      }
       if (this.index!=-1){
         next_id = ops[index]['id']
         break
       }
-      if (ops[index]['id'] == id){
+      if (ops[index]['id'] == id && parseInt(index) > min_index){
         this.index = index
       }
     }
-    return next_id
+
+    if (next_id || !forward){
+      return next_id
+    }
+    else {
+      return this.get_next_op(id, ops, false)}
   }
 
 
@@ -660,7 +695,7 @@ export class SlideopPage {
         this.presentToast(res['aviso']||res['error'])
         
         if (res['id']!=0){
-          this.cargarOp(res['id'])
+          return this.check_loaded_op(res, res['id'])
         }
         else {
           this.navCtrl.setRoot(TreepickPage);           

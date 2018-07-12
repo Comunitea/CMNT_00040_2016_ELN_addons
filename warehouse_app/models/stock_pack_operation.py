@@ -111,6 +111,8 @@ class StockPackOperation (models.Model):
 
     @api.model
     def doOp(self, vals):
+        print "Do op con vals: \n\n %s \n\n"%vals
+        #import ipdb; ipdb.set_trace()
         id = vals.get('id', False)
         do_id = vals.get('do_id', True)
         op = self.browse([id])
@@ -126,7 +128,7 @@ class StockPackOperation (models.Model):
 
         write_vals = {'pda_done': do_id,
                       'qty_done': qty_done}
-        new_id = False
+
         if do_id and create and qty_done < op.product_qty:
             ##REVISAR COMO HAGO UNA OPERACION NUEVA Y VINCULADA AL MOVIMIENTO
             #PROBAR     1 SPLIT DEL MOV
@@ -141,27 +143,34 @@ class StockPackOperation (models.Model):
                     new_op += [op.create_new_op_from_pda(quant, op.get_result_package())]
             new_id = new_op and new_op[0] or id
             res = op.write(write_vals)
-            return {'id': new_id,
-                    'Aviso': 'Se ha generado una nueva operación'}
+            if not res:
+                return_id = id
+                aviso = 'Error al actualizar la operación'
+            else:
+                return_id = new_id
+                aviso = 'Nueva operación'
 
-        res = op.write(write_vals)
-        if not res:
-            return {'id': id,
-                    'error': 'Error al actualizar la operación'}
-
-        if res and id and do_id:
-            next_id = vals.get('next_id', False)
-            if next_id:
-                vals = self.env['stock.pack.operation'].get_op_id({'id': next_id})
-                if vals:
-                    return {'id': next_id,
-                            'aviso': 'Ok'}
         else:
-            return {'id': id,
-                    'aviso': 'Ok'}
+            res = op.write(write_vals)
+            if not res:
+                return_id = 0
+                aviso = 'Error al actualizar la operación'
+            else:
+                if do_id:
+                    return_id = vals.get('next_id', False)
+                    aviso = 'Realizada'
+                else:
+                    return_id = id
+                    aviso = 'Cancelada'
 
-        return {'id': 0,
-                'aviso': 'No hay más operaciones pendientes'}
+        if return_id > 0:
+            res = self.env['stock.pack.operation'].get_op_id({'id': return_id})
+        else:
+            res = {'id': 0}
+
+        res['aviso'] = aviso
+        print "Do op con returno: \n\n %s \n\n" % res
+        return res
 
 
     def find_next_id(self,vals):
