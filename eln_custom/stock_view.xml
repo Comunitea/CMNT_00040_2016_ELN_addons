@@ -20,9 +20,6 @@
                     <field name="weight"/>
                     <field name="packages_uos"/>
                 </field>
-                <field name="move_type" position="after">
-                    <field name="purchase_id" attrs="{'invisible': [('purchase_id', '=', False)]}"/>
-                </field>
             </field>
         </record>
 
