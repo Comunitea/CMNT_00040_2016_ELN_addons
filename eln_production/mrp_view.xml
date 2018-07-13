@@ -600,5 +600,25 @@
             </field>
         </record>
 
+        <record id="view_mrp_production_workcenter_form_view_filter_eln" model="ir.ui.view">
+            <field name="name">mrp.production.workcenter.line.select</field>
+            <field name="model">mrp.production.workcenter.line</field>
+            <field name="inherit_id" ref="mrp_operations.view_mrp_production_workcenter_form_view_filter"/>
+            <field name="arch" type="xml">
+                <filter string="Late" position="after">
+                    <separator orientation="vertical"/>
+                    <filter icon="terp-go-today" string="Yesterday" name="yesterday" domain="['&amp;',
+                    ('date_planned', '&gt;=', (datetime.date.today()+datetime.timedelta(days=-1)).strftime('%%Y-%%m-%%d 00:00:00')),
+                    ('date_planned', '&lt;=', (datetime.date.today()+datetime.timedelta(days=-1)).strftime('%%Y-%%m-%%d 23:59:59'))]"/>
+                    <filter icon="terp-go-today" string="Today" name="today" domain="['&amp;',
+                    ('date_planned', '&gt;=', time.strftime('%%Y-%%m-%%d 00:00:00')),
+                    ('date_planned', '&lt;=', time.strftime('%%Y-%%m-%%d 23:59:59'))]"/>
+                    <filter icon="terp-go-today" string="Tomorrow" name="tomorrow" domain="['&amp;',
+                    ('date_planned', '&gt;=', (datetime.date.today()+datetime.timedelta(days=1)).strftime('%%Y-%%m-%%d 00:00:00')),
+                    ('date_planned', '&lt;=', (datetime.date.today()+datetime.timedelta(days=1)).strftime('%%Y-%%m-%%d 23:59:59'))]"/>
+                </filter>
+            </field>
+        </record>
+
     </data>
 </openerp>
