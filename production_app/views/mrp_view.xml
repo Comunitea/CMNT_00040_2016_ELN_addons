@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>    
+
+    <record id="mrp_production_workcenter_form_view_registry" model="ir.ui.view">
+        <field name="name">mrp_production_workcenter_form_view_registry</field>
+        <field name="model">mrp.production.workcenter.line</field>
+        <field name="inherit_id" ref="eln_production.mrp_production_workcenter_form_view_inherit"/>
+        <field name="arch" type="xml">
+            <notebook position="inside">
+                <page string="Quality Checks">
+                    <group string="QualityChecks">
+                            <field name="qc_line_ids" nolabel="1">
+                                <tree>
+                                    <field name="pqc_id"/>
+                                    <field name="value"/>
+                                    <field name="date"/>
+                                    <field name="operator_id"/>
+                                </tree>
+                            </field>
+                        </group>
+                </page>
+                <page string="Ins / Outs Operators">
+                    <group string="Operators">
+                        <field name="operator_ids" nolabel="1">
+                            <tree>
+                                <field name="operator_id"/>
+                                <field name="date_in"/>
+                                <field name="date_out"/>
+                                <field name="stop_duration" widget="float_time"/>
+                            </tree>
+                        </field>
+                    </group>
+                </page>
+                <page string="App">
+                    <group>
+                        <field name="registry_id"/>
+                        <field name="app_state" widget="statusbar"/>
+                    </group>
+                </page>
+            </notebook>
+        </field>
+    </record>
+
+    <record id="mrp_workcenter_view_add_technical_reasons" model="ir.ui.view">
+        <field name="name">mrp_workcenter_view_add_technical_reasons</field>
+        <field name="model">mrp.workcenter</field>
+        <field name="inherit_id" ref="eln_production.mrp_workcenter_view"/>
+        <field name="arch" type="xml">
+            <notebook position="inside">
+                <page string="Technical Reasons">
+                    <group string="Technical Reasons">
+                         <field name="reason_ids" nolabel="1">
+                            <tree>
+                                <field name="name"/>
+                            </tree>
+                        </field>
+                    </group>
+                </page>
+            </notebook>
+        </field>
+    </record>
+
+   
+    </data>
+</openerp>
