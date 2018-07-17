@@ -22,14 +22,22 @@ from openerp import models, api, fields, _
 
 
 class res_partner(models.Model):
-
     _inherit = "res.partner"
 
     company_id = fields.Many2one(required=True)
     supplier_approved = fields.Boolean('Supplier approved')
-    supplier_type = fields.Selection([('I', 'I'), ('II', 'II'),
-                                      ('III', 'III')], string="Supplier type")
+    supplier_type = fields.Selection([
+        ('I', 'I'), 
+        ('II', 'II'), 
+        ('III', 'III'), 
+        ], string="Supplier type")
     route_id = fields.Many2one('route', 'Route')
+    customer_state = fields.Selection([
+        ('active', 'Active'), 
+        ('inactive_closed', 'Inactive (closed)'), 
+        ('inactive_unpaid', 'Inactive (unpaid)'), 
+        ('inactive_new_vat', 'Inactive (new vat)')
+        ], string="Customer state", default='active')
 
     @api.model
     def create(self, vals):
