@@ -16,6 +16,12 @@
                     <field name="development_code"/>
                     <field name="partner_product_code"/>
                 </field>
+                <field name="state" position="attributes">
+                    <attribute name="on_change">onchange_state(state, ramp_up_date)</attribute>
+                </field>
+                <field name="state" position="after">
+                    <field name="ramp_up_date"/>
+                </field>
                 <page string="Inventory" position="after">
                     <page string="Technical and Logistic Sheet">
                         <notebook colspan="4">

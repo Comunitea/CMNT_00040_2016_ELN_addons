@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-15 17:38+0000\n"
-"PO-Revision-Date: 2018-02-15 18:42+0100\n"
+"POT-Creation-Date: 2018-07-17 14:03+0000\n"
+"PO-Revision-Date: 2018-07-17 16:06+0200\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
 "Language: es\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 2.0.9\n"
 
 #. module: eln_product
 #: code:addons/eln_product/wizard/send_datasheet.py:48
@@ -804,6 +804,11 @@ msgid "Quality"
 msgstr "Calidad"
 
 #. module: eln_product
+#: field:product.product,ramp_up_date:0
+msgid "Ramp Up Date"
+msgstr "Fecha de Ramp Up"
+
+#. module: eln_product
 #: field:product.product,recommended_ration:0
 msgid "Recommended ration (g)"
 msgstr "Ración recomendada (g)"
@@ -953,7 +958,7 @@ msgid "Technical field holding the message notifications. Use notified_partner_i
 msgstr "Technical field holding the message notifications. Use notified_partner_ids to access notified partners."
 
 #. module: eln_product
-#: code:addons/eln_product/product.py:271
+#: code:addons/eln_product/product.py:266
 #, python-format
 msgid ""
 "The DUN-14 code you entered is already in use.\n"
@@ -963,7 +968,7 @@ msgstr ""
 "Las referencias de los productos relacionados son: %s"
 
 #. module: eln_product
-#: code:addons/eln_product/product.py:251
+#: code:addons/eln_product/product.py:246
 #, python-format
 msgid ""
 "The EAN-13 code you entered is already in use.\n"
@@ -1082,8 +1087,8 @@ msgid "Votes"
 msgstr "Votos"
 
 #. module: eln_product
-#: code:addons/eln_product/product.py:250
-#: code:addons/eln_product/product.py:270
+#: code:addons/eln_product/product.py:245
+#: code:addons/eln_product/product.py:265
 #, python-format
 msgid "Warning!"
 msgstr "¡Advertencia!"
@@ -1128,6 +1133,11 @@ msgstr "de los cuales azúcares (g)"
 #: view:product.product:eln_product.product_normal_form_view_add_datasheet2
 msgid "onchange_ean13(ean13)"
 msgstr "onchange_ean13(ean13)"
+
+#. module: eln_product
+#: view:product.product:eln_product.product_normal_form_view_add_datasheet2
+msgid "onchange_state(state, ramp_up_date)"
+msgstr "onchange_state(state, ramp_up_date)"
 
 #. module: eln_product
 #: view:product.parameter:eln_product.product_parameter_search_view

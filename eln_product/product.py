@@ -139,21 +139,11 @@ class product_product(orm.Model):
         c_out = context.copy()
         c_in.update({ 'states': ('done',), 'what': ('in',) })
         c_out.update({ 'states': ('assigned','done',), 'what': ('out',) })
-        # COMENTADO POST-MIGRATION
-        # stock_in = self.get_product_available(cr, uid, ids, context=c_in)
-        # stock_out = self.get_product_available(cr, uid, ids, context=c_out)
-        # for p_id in ids:
-        #     res[p_id] = stock_in.get(p_id, 0.0) + stock_out.get(p_id, 0.0)
-        #     if res[p_id] < 0.0:
-        #         res[p_id] = 0.0
-
-        # AHORA ES STOCK REAL - SALIDAS
         for prod in self.browse(cr, uid, ids, context=context):
             stock_in = prod.qty_available
             stock_out = prod.outgoing_qty
             res[prod.id] = stock_in - stock_out
             if res[prod.id] < 0.0:
-                res[prod.id] = 0.0
                 res[prod.id] = 0.0
 
         return res
@@ -232,6 +222,11 @@ class product_product(orm.Model):
         'unit_total_height': fields.float('Total height (mm)', digits=(16,0)),
         'unit_total_width': fields.float('Total width (mm)', digits=(16,0)),
         'unit_total_length': fields.float('Total length (mm)', digits=(16,0)),
+        'ramp_up_date': fields.date('Ramp Up Date', copy=False),
+    }
+
+    _defaults = {
+        'ramp_up_date': fields.date.context_today,
     }
 
     def onchange_ean13(self, cr, uid, ids, ean13):
@@ -291,7 +286,18 @@ class product_product(orm.Model):
 
         return {'value': res}
 
+    def onchange_state(self, cr, uid, ids, state, ramp_up_date, context=None):
+        res = {}
+
+        if state == 'draft':
+            res = {'ramp_up_date': False}
+        elif state == 'sellable' and ramp_up_date == False:
+            res = {'ramp_up_date': datetime.now()}
+
+        return {'value': res}
+
 product_product()
+
 
 class product_template(orm.Model):
     _inherit = 'product.template'
