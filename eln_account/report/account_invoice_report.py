@@ -29,6 +29,9 @@ class account_invoice_report(osv.osv):
         'number': fields.char('Number', readonly=True),
         'cost_total': fields.float('Total Cost', readonly=True),
         'benefit_total': fields.float('Total Benefit', readonly=True),
+        'format_id': fields.many2one('product.format', 'Format', readonly=True),
+        'trademark_id': fields.many2one('product.trademark', 'Trademark', readonly=True),
+        'weight_net': fields.float('Net Weight', readonly=True, help="The net weight in Kg."),
     }
     
     _depends = {
@@ -38,7 +41,8 @@ class account_invoice_report(osv.osv):
 
     def _select(self):
         select_str = """
-        , sub.number, sub.cost_total, sub.price_total - sub.cost_total as benefit_total
+        , sub.number, sub.cost_total, sub.price_total - sub.cost_total as benefit_total,
+        sub.format_id, sub.trademark_id, sub.weight_net * sub.product_qty as weight_net
         """
         return super(account_invoice_report, self)._select() + select_str
 
@@ -49,13 +53,14 @@ class account_invoice_report(osv.osv):
              WHEN ai.type::text = ANY (ARRAY['out_refund'::character varying::text, 'in_invoice'::character varying::text])
                 THEN - ail.cost_subtotal
                 ELSE ail.cost_subtotal
-            END) AS cost_total
+            END) AS cost_total,
+        pt.format_id, pt.trademark_id, pt.weight_net
         """
         return super(account_invoice_report, self)._sub_select() + select_str
 
     def _group_by(self):
         group_by_str = """
-        , ai.number
+        , ai.number, pt.format_id, pt.trademark_id, pt.weight_net
         """
         return super(account_invoice_report, self)._group_by() + group_by_str
 

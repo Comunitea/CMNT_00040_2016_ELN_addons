@@ -6,15 +6,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-20 06:59+0000\n"
-"PO-Revision-Date: 2017-11-29 12:57+0100\n"
+"POT-Creation-Date: 2018-07-17 13:54+0000\n"
+"PO-Revision-Date: 2018-07-17 15:57+0200\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Language: es_ES\n"
-"X-Generator: Poedit 2.0.3\n"
+"X-Generator: Poedit 2.0.9\n"
 
 #. module: eln_account
 #: model:ir.model,name:eln_account.model_account_move
@@ -25,6 +26,11 @@ msgstr "Asiento contable"
 #: field:account.invoice.line,cost_subtotal:0
 msgid "Cost Subtotal"
 msgstr "Coste"
+
+#. module: eln_account
+#: field:account.invoice.report,format_id:0
+msgid "Format"
+msgstr "Formato"
 
 #. module: eln_account
 #: model:ir.model,name:eln_account.model_account_invoice
@@ -57,9 +63,19 @@ msgid "Journal Items"
 msgstr "Apuntes contables"
 
 #. module: eln_account
+#: field:account.invoice.report,weight_net:0
+msgid "Net Weight"
+msgstr "Peso neto"
+
+#. module: eln_account
 #: field:account.invoice.report,number:0
 msgid "Number"
 msgstr "Número"
+
+#. module: eln_account
+#: view:account.invoice.report:eln_account.view_account_invoice_report_search
+msgid "Only sales without DPP"
+msgstr "Sólo ventas sin DPP"
 
 #. module: eln_account
 #: field:account.invoice,received_check:0
@@ -72,9 +88,9 @@ msgid "Refund"
 msgstr "Factura rectificativa"
 
 #. module: eln_account
-#: view:account.invoice.report:eln_account.view_account_invoice_report_search
-msgid "Only sales without DPP"
-msgstr "Sólo ventas sin DPP"
+#: help:account.invoice.report,weight_net:0
+msgid "The net weight in Kg."
+msgstr "El peso neto en kg."
 
 #. module: eln_account
 #: help:account.invoice,received_check:0
@@ -90,6 +106,11 @@ msgstr "Total beneficio"
 #: field:account.invoice.report,cost_total:0
 msgid "Total Cost"
 msgstr "Total coste"
+
+#. module: eln_account
+#: field:account.invoice.report,trademark_id:0
+msgid "Trademark"
+msgstr "Marca"
 
 #. module: eln_account
 #: field:account.invoice.line,uom_qty:0
