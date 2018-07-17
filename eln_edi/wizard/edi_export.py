@@ -545,11 +545,14 @@ class edi_export (orm.TransientModel):
             line_data += self.parse_number(line_price_unit_net, 18, 3)
 
             # numero de pedido
-            if line.stock_move_id.procurement_id.sale_line_id:
-                numped = line.stock_move_id.procurement_id.sale_line_id.order_id.client_order_ref
-            else:
-                numped = invoice.name
+            numped = False
+            if line.partner_id.commercial_partner_id.edi_order_ref_required:
+                if line.stock_move_id.procurement_id.sale_line_id:
+                    numped = line.stock_move_id.procurement_id.sale_line_id.order_id.client_order_ref
+                else:
+                    numped = invoice.name
             line_data += self.parse_string(numped, 17)
+
             # numero de albaran
             # si en el pedido de venta el campo origin tiene algun valor lo interpretamos como el albarán 
             # de entrega real (por un tercero por ejemplo)

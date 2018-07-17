@@ -174,6 +174,7 @@
                             <group col="2" colspan="2" string="INVOIC">
                                 <field name="edi_invoic_active"/>
                                 <field name="edi_date_required"/>
+                                <field name="edi_order_ref_required"/>
                                 <field name="edi_uos_as_uom_on_kgm_required"/>
                                 <field name="section_code" select="2"/>
                                 <field name="edi_invoice_copy"/>
