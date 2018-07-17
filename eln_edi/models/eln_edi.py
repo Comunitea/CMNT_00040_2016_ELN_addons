@@ -150,7 +150,9 @@ class res_partner(orm.Model):
         'product_marking_code': fields.char('Product marking instructions code', size=3,
                                            help="EDI (DESADV). Code specifying product marking instructions. Segment: PCI, Tag: 4233. Example: 36E, 17, ..."),
         'edi_date_required': fields.boolean('EDI lines requires picking date',
-                                           help='Check if customer requires the picking date in the EDI lines of invoice.'),
+                                           help='Check if customer requires the picking date in the EDI lines of invoice. It is usually not required.'),
+        'edi_order_ref_required': fields.boolean('EDI lines requires order ref',
+                                           help='Check if customer requires the order ref in the EDI lines of invoice. Usually it is always required.'),
         'edi_uos_as_uom_on_kgm_required': fields.boolean('Use UoS as UoM if UoM is kg',
                                            help='Check if customer requires invoicing products with UoM kg interpreting UoM = UoS. (1 bag of 5 kg is 1 bag, not 5 kg)'),
         'edi_filename': fields.char('EDI filename suffix', size=3,
@@ -173,6 +175,7 @@ class res_partner(orm.Model):
         'edi_note': fields.text('Notes'),
     }
     _defaults = {
+        'edi_order_ref_required': True,
         'edi_invoic_active': False,
         'edi_desadv_active': False,
         'edi_coacsu_active': False,
