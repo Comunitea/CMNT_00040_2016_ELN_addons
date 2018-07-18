@@ -8,10 +8,8 @@
             <field name="inherit_id" ref="product.product_template_form_view"/>
             <field name="type">form</field>
             <field name="arch" type="xml">
-                <field name="categ_id" position="after">
-                    <group>
-                        <field name="format_id"/>
-                    </group>
+                <field name="list_price" position="after">
+                    <field name="format_id"/>
                 </field>
             </field>
         </record>

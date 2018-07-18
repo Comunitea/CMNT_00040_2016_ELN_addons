@@ -20,7 +20,7 @@
 ##############################################################################
 
 {
-    "name" : "Trademark to product",
+    "name" : "Product Trademark",
     "description" : """Add trademark field to product""",
     "version" : "1.0",
     "author" : "Pexego",

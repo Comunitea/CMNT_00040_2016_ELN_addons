@@ -19,7 +19,7 @@
 #
 ##############################################################################
 {
-    "name" : "Format product",
+    "name" : "Product Format",
     "description" : """Add format field to product""",
     "version" : "1.0",
     "author" : "Pexego",
