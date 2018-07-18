@@ -29,7 +29,7 @@
                 'account',
                 'sale_early_payment_discount',
                 'account_check_deposit',
-                'product_format',
+                'product_ranking',
                 'product_trademark',
                ],
     "data": [

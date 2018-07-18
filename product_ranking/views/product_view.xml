@@ -2,14 +2,15 @@
 <openerp>
     <data>
                
-        <record id="product_normal_form_view_add_trademark_field" model="ir.ui.view">
-            <field name="name">product.normal.form.add_trademark_field</field>
+        <record id="product_normal_form_view_add_ranking_fields" model="ir.ui.view">
+            <field name="name">product.normal.form.add_ranking_fields</field>
             <field name="model">product.template</field>
             <field name="inherit_id" ref="product.product_template_form_view"/>
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <field name="list_price" position="after">
-                    <field name="trademark_id"/>
+                    <field name="ranking1_id" domain="['|',('type','=','ranking1'),('type','=',False)]"/>
+                    <field name="ranking2_id" domain="['|',('type','=','ranking2'),('type','=',False)]"/>
                 </field>
             </field>
         </record>
