@@ -8,6 +8,7 @@
             <field name="type">tree</field>
             <field name="arch" type="xml">
                 <tree string="Rankings">
+                    <field name="sequence" widget="handle"/>
                     <field name="name"/>
                     <field name="type"/>
                 </tree>
