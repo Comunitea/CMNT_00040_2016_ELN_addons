@@ -19,7 +19,7 @@
         <field name="model">stop.reason</field>
         <field name="arch" type="xml">
             <form string="Stop Reasons">
-                <sheet string="App Registrys">
+                <sheet string="App Registries">
                     <group>
                         <field name="name"/>
                         <field name="reason_type"/>
@@ -43,7 +43,7 @@
             <search string="Search Work Orders">
                 <field name="name"/>
                 <separator/>
-                <filter string="Technical Reason" domain="[('reason_type','=','technical')]"/>
+                <filter string="Technical Reasons" domain="[('reason_type','=','technical')]"/>
                 <filter string="Organizative reasons" domain="[('reason_type','=','organizative')]"/>
                 <separator/>
                 <group expand="0" string="Group By">

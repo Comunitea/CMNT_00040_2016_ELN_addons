@@ -7,7 +7,7 @@
         <field name="name">app.registry.tree.view</field>
         <field name="model">app.registry</field>
         <field name="arch" type="xml">
-            <tree string="App Registrys">
+            <tree string="App Registries">
                 <field name="wc_line_id"/>
                 <field name="workcenter_id"/>
                 <field name="production_id"/>
@@ -20,12 +20,12 @@
         <field name="name">app.registry.form.view</field>
         <field name="model">app.registry</field>
         <field name="arch" type="xml">
-            <form string="App Registrys">
+            <form string="App Registries">
             <header>
                 <field name="state" widget="statusbar" clickable="1" statusbar_visible="waiting,confirmed,setup,started,stoped,cleaning,finished"/>
                 <button name="validate" class="oe_highlight" string="Validate" type="object" states="finished" groups="base.group_user"/>
             </header>
-            <sheet string="App Registrys">
+            <sheet string="App Registries">
                 <group>
                     <group>
                         <field name="wc_line_id"/>
@@ -40,7 +40,7 @@
                     </group>
                 </group>
                 <group colspan="4" col="6">
-                    <group string="Set Up Times" col="2">
+                    <group string="Set-Up Times" col="2">
                         <field name="setup_start"/>
                         <field name="setup_end"/>
                         <field name="setup_duration" widget="float_time"/>
@@ -123,14 +123,14 @@
     </record>
 
     <record id="action_app_registry" model="ir.actions.act_window" >
-        <field name="name">App Registrys</field>
+        <field name="name">App Registries</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">app.registry</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>
 
-    <menuitem id="menu_app_registry" name="App Registrys" parent="mrp.menu_mrp_planning"
+    <menuitem id="menu_app_registry" name="App Registries" parent="mrp.menu_mrp_planning"
               action="action_app_registry" sequence="3"/>
 
     </data>

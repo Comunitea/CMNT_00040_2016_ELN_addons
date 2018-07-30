@@ -41,7 +41,7 @@ class ProductQualityChecks(models.Model):
     value_type = fields.Selection(VALUE_TYPES, 'Value Type')
     workcenter_id = fields.Many2one('mrp.workcenter', 'Work Center',
                                     readonly=False)
-    repeat = fields.Integer('Repeatch each')
+    repeat = fields.Integer('Repeat each')
     required_text = fields.Char('Required Text')
     min_value = fields.Float('Minimum Value')
     max_value = fields.Float('Maximum Value')

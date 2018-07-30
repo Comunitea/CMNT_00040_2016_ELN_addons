@@ -1,19 +1,21 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* production_app
+# 	* production_app
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-12 16:00+0000\n"
-"PO-Revision-Date: 2018-06-12 16:00+0000\n"
+"POT-Creation-Date: 2018-07-30 15:56+0000\n"
+"PO-Revision-Date: 2018-07-30 17:58+0200\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
+"Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
+"Language: es\n"
+"X-Generator: Poedit 2.0.9\n"
 
 #. module: production_app
 #: view:mrp.production.workcenter.line:production_app.mrp_production_workcenter_form_view_registry
@@ -26,7 +28,8 @@ msgstr "App"
 #: model:ir.actions.act_window,name:production_app.action_app_registry
 #: model:ir.ui.menu,name:production_app.menu_app_registry
 #: view:scrap.reason:production_app.scrap_reason_form_view
-msgid "App Registrys"
+#: view:stop.reason:production_app.stop_reason_form_view
+msgid "App Registries"
 msgstr "Registros App"
 
 #. module: production_app
@@ -38,6 +41,11 @@ msgstr "Registro App"
 #: view:product.quality.check:production_app.product_quality_check_form_view
 msgid "Associated Products"
 msgstr "Productos Asociados"
+
+#. module: production_app
+#: view:stop.reason:production_app.stop_reason_form_view
+msgid "Associated Workcenters"
+msgstr "Centros de trabajo asociados"
 
 #. module: production_app
 #: view:stock.move:production_app.view_move_search_add_reason
@@ -72,7 +80,7 @@ msgstr "Tiempos limpieza"
 #. module: production_app
 #: field:product.quality.check,quality_type:0
 msgid "Control Type"
-msgstr "Typo control"
+msgstr "Tipo de control"
 
 #. module: production_app
 #: field:app.registry,create_uid:0
@@ -99,11 +107,11 @@ msgstr "Creado en"
 #. module: production_app
 #: field:quality.check.line,date:0
 msgid "Date"
-msgstr "Fecha"
+msgstr "Fecha "
 
 #. module: production_app
 #: field:operator.line,date_in:0
-msgid "Date Int"
+msgid "Date In"
 msgstr "Fecha entrada"
 
 #. module: production_app
@@ -131,6 +139,7 @@ msgstr "Frecuencial"
 #. module: production_app
 #: view:app.registry:production_app.app_registry_filter_view
 #: view:product.quality.check:production_app.product_quality_check_filter_view
+#: view:stop.reason:production_app.stop_reason_filter_view
 msgid "Group By"
 msgstr "Agrupar por"
 
@@ -196,12 +205,12 @@ msgstr "Lote"
 #. module: production_app
 #: model:ir.model,name:production_app.model_mrp_production
 msgid "Manufacturing Order"
-msgstr "Órden de producción"
+msgstr "Orden de producción"
 
 #. module: production_app
 #: field:product.quality.check,max_value:0
 msgid "Maximum Value"
-msgstr "valor máximo"
+msgstr "Valor máximo"
 
 #. module: production_app
 #: field:product.quality.check,min_value:0
@@ -223,7 +232,7 @@ msgstr "Numérico"
 #: field:quality.check.line,operator_id:0
 #: field:stop.line,operator_id:0
 msgid "Operator"
-msgstr "Operador"
+msgstr "Operario"
 
 #. module: production_app
 #: view:app.registry:production_app.app_registry_form_view
@@ -231,12 +240,17 @@ msgstr "Operador"
 #: view:mrp.production.workcenter.line:production_app.mrp_production_workcenter_form_view_registry
 #: field:mrp.production.workcenter.line,operator_ids:0
 msgid "Operators"
-msgstr "Operadores"
+msgstr "Operarios"
 
 #. module: production_app
 #: selection:stop.reason,reason_type:0
 msgid "Organizative"
 msgstr "Organizativo"
+
+#. module: production_app
+#: view:stop.reason:production_app.stop_reason_filter_view
+msgid "Organizative reasons"
+msgstr "Razones organizativas"
 
 #. module: production_app
 #: field:app.registry,product_id:0
@@ -255,7 +269,7 @@ msgstr "Controles Calidad"
 #. module: production_app
 #: field:product.quality.check,product_ids:0
 msgid "Product ids"
-msgstr "Productos ids"
+msgstr "Product ids"
 
 #. module: production_app
 #: field:app.registry,production_id:0
@@ -304,8 +318,8 @@ msgstr "Producción iniciada"
 
 #. module: production_app
 #: selection:app.registry,state:0
-msgid "Production Stoped"
-msgstr "Producción Stoped"
+msgid "Production Stopped"
+msgstr "Producción parada"
 
 #. module: production_app
 #: view:app.registry:production_app.app_registry_form_view
@@ -350,11 +364,6 @@ msgid "QualityChecks"
 msgstr "Controles calidad"
 
 #. module: production_app
-#: field:product.product,quant_ids:0
-msgid "Quant ids"
-msgstr "Quant ids"
-
-#. module: production_app
 #: field:app.registry,qty:0
 msgid "Quantity"
 msgstr "Cantidad"
@@ -366,6 +375,11 @@ msgstr "Cantidad"
 #: field:stop.reason,name:0
 msgid "Reason"
 msgstr "Motivo"
+
+#. module: production_app
+#: view:stop.reason:production_app.stop_reason_filter_view
+msgid "Reason Type"
+msgstr "Tipo de motivo"
 
 #. module: production_app
 #: field:mrp.workcenter,reason_ids:0
@@ -386,7 +400,7 @@ msgstr "Orden mantenimiento asociada"
 
 #. module: production_app
 #: field:product.quality.check,repeat:0
-msgid "Repeatch each"
+msgid "Repeat each"
 msgstr "Repetir cada"
 
 #. module: production_app
@@ -406,18 +420,19 @@ msgstr "Motivos Scrap"
 #: view:app.registry:production_app.app_registry_filter_view
 #: view:product.quality.check:production_app.product_quality_check_filter_view
 #: view:scrap.reason:production_app.scrap_reason_filter_view
+#: view:stop.reason:production_app.stop_reason_filter_view
 msgid "Search Work Orders"
 msgstr "Buscar órdenes trabajo"
-
-#. module: production_app
-#: view:app.registry:production_app.app_registry_form_view
-msgid "Set Up Times"
-msgstr "Tiempos preparación"
 
 #. module: production_app
 #: view:app.registry:production_app.app_registry_filter_view
 msgid "Set-Up"
 msgstr "Preparación"
+
+#. module: production_app
+#: view:app.registry:production_app.app_registry_form_view
+msgid "Set-Up Times"
+msgstr "Tiempos preparación"
 
 #. module: production_app
 #: field:app.registry,setup_duration:0
@@ -441,13 +456,9 @@ msgid "Show in app"
 msgstr "Mostrar en app"
 
 #. module: production_app
+#: view:product.quality.check:production_app.product_quality_check_filter_view
 #: selection:product.quality.check,quality_type:0
 msgid "Start Up"
-msgstr "De inicio"
-
-#. module: production_app
-#: view:product.quality.check:production_app.product_quality_check_filter_view
-msgid "Start-Up"
 msgstr "De inicio"
 
 #. module: production_app
@@ -482,6 +493,14 @@ msgid "Stop End"
 msgstr "Fin parada"
 
 #. module: production_app
+#: model:ir.actions.act_window,name:production_app.action_stop_reason
+#: model:ir.ui.menu,name:production_app.menu_stop_reason
+#: view:stop.reason:production_app.stop_reason_form_view
+#: view:stop.reason:production_app.stop_reason_tree_view
+msgid "Stop Reasons"
+msgstr "Motivos parada"
+
+#. module: production_app
 #: field:stop.line,stop_start:0
 msgid "Stop Start"
 msgstr "Inicio parada"
@@ -498,6 +517,7 @@ msgstr "Técnico"
 
 #. module: production_app
 #: view:mrp.workcenter:production_app.mrp_workcenter_view_add_technical_reasons
+#: view:stop.reason:production_app.stop_reason_filter_view
 msgid "Technical Reasons"
 msgstr "Motivos técnicos"
 
@@ -547,7 +567,7 @@ msgstr "Esperando producción"
 #: model:ir.model,name:production_app.model_mrp_workcenter
 #: field:product.quality.check,workcenter_id:0
 msgid "Work Center"
-msgstr "Centro de trabajo"
+msgstr "Centro de producción"
 
 #. module: production_app
 #: view:app.registry:production_app.app_registry_filter_view
@@ -560,7 +580,7 @@ msgstr "Orden de trabajo"
 #: view:app.registry:production_app.app_registry_filter_view
 #: view:product.quality.check:production_app.product_quality_check_filter_view
 msgid "Workcenter"
-msgstr "Centro de trabajo"
+msgstr "Centro de producción"
 
 #. module: production_app
 #: field:app.registry,name:0

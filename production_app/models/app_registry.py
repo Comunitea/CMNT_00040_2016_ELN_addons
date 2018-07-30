@@ -10,7 +10,7 @@ APP_STATES = [
     ('confirmed', 'Production Confirmed'),
     ('setup', 'Production Set-Up'),
     ('started', 'Production Started'),
-    ('stoped', 'Production Stoped'),
+    ('stoped', 'Production Stopped'),
     ('cleaning', 'Production Cleaning'),
     ('finished', 'Production Finished'),
     ('validated', 'Validated')]
@@ -246,7 +246,7 @@ class AppRegistry(models.Model):
         note = ''
         if reason_id:
             reason_name = self.env['stop.reason'].browse(reason_id).name
-            note += 'Credo por app. ' + reason_name
+            note += 'Creado por app. ' + reason_name
         wo = self.env['work.order'].create({'maintenance_type_id': mt.id,
                                             'note': note})
         reg.write({'workorder_id': wo.id})
@@ -348,7 +348,6 @@ class AppRegistry(models.Model):
     @api.model
     def scrap_production(self, values):
         qty = values.get('scrap_qty', 0.00)
-        import ipdb; ipdb.set_trace()
         reason_id = values.get('scrap_reason_id', False)
         qty = float(qty)
         location_id = 4   # Ubicación desechos 1
@@ -514,7 +513,7 @@ class OperatorLines(models.Model):
 
     registry_id = fields.Many2one('app.registry', 'Registry', readonly=True)
     operator_id = fields.Many2one('hr.employee', 'Operator')
-    date_in = fields.Datetime('Date Int', readonly=False)
+    date_in = fields.Datetime('Date In', readonly=False)
     date_out = fields.Datetime('Date Out', readonly=False)
     stop_duration = fields.Float('Hours',
                                  compute="_get_duration")
