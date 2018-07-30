@@ -18,7 +18,7 @@
         <field name="model">scrap.reason</field>
         <field name="arch" type="xml">
             <form string="Scrap Reasons">
-                <sheet string="App Registrys">
+                <sheet string="App Registries">
                     <group>
                         <field name="name"/>
                     </group>

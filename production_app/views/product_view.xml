@@ -59,7 +59,7 @@
                 <field name="value_type"/>
                 <!-- <field name="product_id"/> -->
                 <separator/>
-                <filter string="Start-Up" domain="[('quality_type', '=', 'start')]"/>
+                <filter string="Start Up" domain="[('quality_type', '=', 'start')]"/>
                 <filter string="Frequency" domain="[('quality_type', '=', 'freq')]"/>
                 <separator/>
                 <group expand="0" string="Group By">
