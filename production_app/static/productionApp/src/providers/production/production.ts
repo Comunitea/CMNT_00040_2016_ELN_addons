@@ -142,7 +142,7 @@ export class ProductionProvider {
         var d = new Date();
         d.setMonth(d.getMonth() - 3);
         var limit_date = d.toISOString().split("T")[0];
-        this.odooCon.searchRead('stock.production.lot', [['product_id', 'in', this.product_ids], ['virtual_available', '>', 0]], ['id', 'name', 'use_date',  'product_id']).then( (res) => {
+        this.odooCon.searchRead('stock.production.lot', [['product_id', 'in', this.product_ids]], ['id', 'name', 'use_date', 'product_id']).then( (res) => {
             this.lots = res;
             for (let indx in res) {
                 let lot = res[indx];

@@ -103,7 +103,7 @@ export class OdooProvider {
                             })
                             .catch( () => {
                                 this.pending_calls.push({'method': method, 'values': values})
-                                var err = {'title': 'Error!', 'msg': 'Fallo al llamar al método ' + method + 'del modelo app.regustry'}
+                                var err = {'title': 'Error!', 'msg': 'Fallo al llamar al método ' + method + ' del modelo app.registry'}
                                 reject(err);
                             });
                         })
