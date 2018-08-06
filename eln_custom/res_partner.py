@@ -33,9 +33,10 @@ class res_partner(models.Model):
         ], string="Supplier type")
     route_id = fields.Many2one('route', 'Route')
     customer_state = fields.Selection([
-        ('active', 'Active'), 
-        ('inactive_closed', 'Inactive (closed)'), 
-        ('inactive_unpaid', 'Inactive (unpaid)'), 
+        ('active', 'Active'),
+        ('active_no_sales', 'Active (no sales)'),
+        ('inactive_closed', 'Inactive (closed)'),
+        ('inactive_unpaid', 'Inactive (unpaid)'),
         ('inactive_new_vat', 'Inactive (new vat)')
         ], string="Customer state", default='active')
 
