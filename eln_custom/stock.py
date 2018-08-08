@@ -20,7 +20,6 @@
 ##############################################################################
 from openerp.osv import orm, fields
 import openerp.addons.decimal_precision as dp
-from openerp import fields as fields2
 from openerp import _
 
 
@@ -138,7 +137,7 @@ class stock_picking(orm.Model):
         'container_numbers': fields.related('purchase_id', 'container_numbers', type='char', string="Container numbers", readonly=True,
                            help="Container numbers assigned to the order."),
     }
-    purchase_id = fields2.Many2one('purchase.order', related = 'move_lines.purchase_line_id.order_id', store=True)
+
     _defaults = {
         'color_stock': 0
     }

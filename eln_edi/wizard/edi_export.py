@@ -772,7 +772,7 @@ class edi_export (orm.TransientModel):
         date = picking.date_done or datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         date = datetime.strptime(date, '%Y-%m-%d %H:%M:%S').replace(tzinfo=from_zone).astimezone(to_zone)
         date = datetime.strftime(date, '%Y-%m-%d')
-        picking_data += self.parse_short_date(date) # Hay que enviar fecha corta auunque el campo tenga espacio para fecha larga
+        picking_data += self.parse_short_date(date) # Hay que enviar fecha corta aunque el campo tenga espacio para fecha larga
         picking_data += self.parse_string('', 4) # Se rellena el resto del campo
         
         # Fecha / hora de entrega de mercancía
@@ -915,13 +915,17 @@ class edi_export (orm.TransientModel):
                 # Marca número de lote / Fecha de caducidad (36E = El corte inglés, 17 = Alcampo)
                 picking_data += self.parse_string(picking.partner_id.commercial_partner_id.product_marking_code, 3)
                 # Fecha de caducidad
-                #move_line += self.parse_long_date(move.prodlot_id.use_date)
                 picking_data += self.parse_string('', 12)
                 # Fecha de consumo preferente
-                #move_line += move.prodlot_id.life_date and self.parse_long_date(move.prodlot_id.life_date) or self.parse_string('', 12)
-                picking_data += self.parse_string('', 12)
+                date = v['lot_id'].use_date
+                if date:
+                    date = datetime.strptime(date, '%Y-%m-%d %H:%M:%S').replace(tzinfo=from_zone).astimezone(to_zone)
+                    date = datetime.strftime(date, '%Y-%m-%d')
+                    picking_data += self.parse_short_date(date) # Enviamos fecha corta aunque el campo tenga espacio para fecha larga
+                    picking_data += self.parse_string('', 4) # Se rellena el resto del campo
+                else:
+                    picking_data += self.parse_string('', 12)
                 # Fecha de fabricación
-                #move_line += self.parse_long_date(move.prodlot_id.date)
                 picking_data += self.parse_string('', 12)
                 # Fecha de empaquetado
                 picking_data += self.parse_string('', 12)

@@ -42,6 +42,7 @@
                 'l10n_es_partner',
                 'l10n_es_account_balance_report',
                 'account_asset',
+                'picking_invoice_rel',
                 ],
     "category" : "Custom",
     "init_xml" : [],
