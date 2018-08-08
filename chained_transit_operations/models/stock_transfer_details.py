@@ -21,7 +21,7 @@ class StockTransferDetails(models.TransientModel):
         return  super(StockTransferDetails, self.with_context(ctx)).do_detailed_transfer()
 
 
-    @api.model
-    def default_get(self, fields):
-        res = super(StockTransferDetails, self).default_get(fields)
+    #@api.model
+    #def default_get(self, fields):
+    #    res = super(StockTransferDetails, self).default_get(fields)
 
