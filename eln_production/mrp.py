@@ -73,13 +73,15 @@ change_production_qty()
 
 class mrp_workcenter(osv.osv):
     _inherit = 'mrp.workcenter'
+    _order = 'sequence'
 
     _columns = {
         'operators_ids': fields.many2many('hr.employee', 'hr_employee_mrp_workcenter_rel', 'workcenter_id', 'employee_id', string='Operators'),
-        'performance_factor' : fields.float('Performance', size=8, required=True, help="Performance factor for this workcenter"),
+        'performance_factor': fields.float('Performance', size=8, required=True, help="Performance factor for this workcenter"),
+        'sequence': fields.integer('sequence'),
     }
     _defaults = {
-        'performance_factor' : 1
+        'performance_factor': 1
     }
 
 mrp_workcenter()
