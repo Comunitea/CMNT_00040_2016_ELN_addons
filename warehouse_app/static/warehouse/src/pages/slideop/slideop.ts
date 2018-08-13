@@ -35,9 +35,11 @@ export class SlideopPage {
   @ViewChild('scan') myScan ;
   @ViewChild('qty') myQty ;
   
-  @HostListener('document:keydown', ['$event'])
-  handleKeyboardEvent(event: KeyboardEvent) { 
-    console.log(event.key);
+  
+
+  @HostListener('document:keyup', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    this.presentToast(event.key)
     if (!event.shiftKey){
       if (event.key=='ArrowLeft'){
         this.move_index(-1)

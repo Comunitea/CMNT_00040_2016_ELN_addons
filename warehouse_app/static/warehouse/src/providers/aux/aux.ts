@@ -29,7 +29,6 @@ export class AuxProvider {
   constructor(public settings: Storage) {
     
     this._preferences = {};
-    this.pick_states_visible = ['confirmed', 'partially_available', 'assigned', 'in_progress']
     this.auto = true
     this.filter_user = 'assigned'
     this.picking_types = []

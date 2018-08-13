@@ -354,10 +354,8 @@ class StockPickingWave(models.Model):
 
         id = vals.get('id', False)
         wave_id = self.browse(id)
-        picks_to_transfer = wave_id.picking_int_ids
-        message = "Do transfer de %s por %s" % (wave_id.name, self.env.user.name)
+        message = "Transfiero de %s por %s" % (wave_id.name, self.env.user.name)
         message += "De los picks: %s"%wave_id.picking_int_ids.mapped('name')
-        print message
         wave_id.message_post(message)
         for pick in wave_id.picking_int_ids:
             vals['id'] = pick.id

@@ -53,23 +53,22 @@ class MrpProduction(models.Model):
 
     @api.model
     def _create_previous_move(self, move_id, product, source_location_id, dest_location_id):
-        import ipdb; ipdb.set_trace()
         proc_obj = self.env['procurement.group']
-        move = super(MrpProduction, self)._create_previous_move(move_id, product, source_location_id, dest_location_id)
-        prod_name = self._context.get('production', False)
-        move_dict = {'workcenter_id': self._context.get('workcenter_id', False)}
-        if prod_name:
-            procurement = proc_obj.search([('name', '=', prod_name)])
+        move_id = super(MrpProduction, self)._create_previous_move(move_id, product, source_location_id, dest_location_id)
+        move = self.env['stock.move'].browse(move_id)
+        production_id = move.move_dest_id.raw_material_production_id
+        move_dict = {}
+        if production_id:
+            procurement = proc_obj.search([('name', '=', production_id.name)])
             if not procurement:
-                procurement = proc_obj.create({'name': prod_name})
+                procurement = proc_obj.create({'name': production_id.name})
             else:
                 procurement = procurement[0]
-            move_dict['group_id'] = procurement
-        if self.routing_id.picking_type_id:
-            move_dict['picking_type_id'] = self.routing_id.picking_type_id.id
+            move_dict['group_id'] = procurement.id
+            move_dict['picking_type_id'] = production_id.routing_id.picking_type_id.id
         print move_dict
-        self.env['stock.move'].browse([move]).write(move_dict)
-        return move
+        move.write(move_dict)
+        return move.id
 
 
 

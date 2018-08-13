@@ -15,9 +15,13 @@ class StockPicking(models.Model):
         The system will process automatically the chained picking to take the
         goods from the transit location to the destination location
         """
+
+        print u"Transfiero el (inicial) %s con usuario %s en compañia %s"%(self.name, self.env.user.name, self.env.user.company_id.name)
+        print u"Context: %s"%self._context
+
         res = super(StockPicking, self).do_transfer()
         pick2process_ids = set()
-        su_move = self.env['stock.move'].sudo()  # Because of multicompany
+        su_move = self.env['stock.move'].sudo()  # Because  multicompany
         for pick in self:
             for move in pick.move_lines:
                 if move.location_dest_id.usage == 'transit' and \
@@ -26,22 +30,21 @@ class StockPicking(models.Model):
                     pick2process_ids.add(next_move.picking_id.id)
 
         pick2process_ids = list(pick2process_ids)
-        """
-        Evito sudo y hago sudo usuario y con force company
-        """
         for pick_id in pick2process_ids:
+
             pick = self.sudo().browse(pick_id)  # Because of multicompany
-            ctx = self._context.copy()
-            ctx.update(force_company=pick.company_id.id)
-            if self.env['res.users'].browse(self._uid).company_id.id !=\
+            print u"Pick de los move dest id %s en compañia %s"%(pick.name, pick.company_id.name)
+            if self.env['res.users'].browse(self._uid).company_id.id ==\
                     pick.company_id.id:
-                user_id = pick.ic_user_id.id
-                pick = self.sudo(user_id).with_context(ctx).browse(pick_id)  # same company
-            else:
-                pick.browse(pick_id)
+                pick = self.browse(pick_id)  # same company
+            print u"Do prepare partial de %s con usuario %s en compañia %s" % (pick.name, pick.env.user.name, pick.env.user.company_id.name)
+            print u"    Estado antes de do_prepare %s"%pick.state
             pick.do_prepare_partial()
+            print u"    Estado después de do_prepare %s" % pick.state
             if pick.state != 'done':
+                print u"    Do transfer de %s" % pick.name
                 pick.do_transfer()
+                print u"    Estado %s" % pick.state
         return res
 
 
@@ -59,6 +62,7 @@ class StockMove(models.Model):
         if self.env['res.users'].browse(self._uid).company_id.id !=\
                 move.company_id.id:
             rec = self.env['stock.move'].sudo().browse(move.id)
+            move = move.sudo()
         res = super(StockMove, rec).\
             split(move, qty, restrict_lot_id=restrict_lot_id,
                   restrict_partner_id=restrict_partner_id)

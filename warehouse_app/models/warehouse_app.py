@@ -399,6 +399,7 @@ class WarehouseApp (models.Model):
     def get_picks_info(self, vals):
         print "ENTRO EN GET_PICKS_INFO"
 
+
         types = vals.get('types', False)
         domain = vals.get('domain', [])
         limit = vals.get('limit', 25)
@@ -411,10 +412,17 @@ class WarehouseApp (models.Model):
         fields = ['id', 'is_wave', 'name', 'picking_type_id', 'state', 'min_date', 'user_id', 'ops_str']
         fields = ['id', 'is_wave', 'name', 'picking_type_id', 'state', 'min_date', 'user_id', 'ops_str']
         if picks:
-            picks = self.env['stock.picking'].search_read(domain, fields, limit=limit)
+            fields_pick = fields + ['wave_id']
+            domain_pick = domain + [('state', 'in', ('confirmed', 'partially_available', 'assigned', 'in_progress'))]
+            picks = self.env['stock.picking'].search_read(domain_pick, fields_pick, limit=limit)
+            picks = self.get_selection_field('stock.picking', picks, 'state')
         waves = vals.get('waves', False)
         if waves:
-            waves = self.env['stock.picking.wave'].search_read(domain, fields, limit=limit)
+            fields_wave = fields + ['picking_state']
+            domain_wave = [('id', 'in', [pick['wave_id'][0] for pick in picks if pick['wave_id']])]
+            waves = self.env['stock.picking.wave'].search_read(domain_wave, fields_wave, limit=limit)
+            waves = self.get_selection_field('stock.picking.wave', waves, 'picking_state')
+        picks = [pick for pick in picks if not pick['wave_id']]
         picksandwaves = picks + waves
         res = {
             'types': types,
@@ -434,13 +442,36 @@ class WarehouseApp (models.Model):
         id = vals.get('id')
         model = vals.get('model')
         pick = self.env[model].search_read([('id', '=', id)], INFO_FIELDS[model])
+        pick = self.get_selection(model, pick)
+        #if model == 'stock.picking':
+        #    pick = self.get_selection_field(model, pick, 'state')
+        #elif model == 'stock.picking.wave':
+        #    pick = self.get_selection_field(model, pick, 'picking_state')
         pick = pick and pick[0]
+
         pick['pack_operation_ids'] = self.env['stock.pack.operation'].search_read([('id', 'in', pick['pack_operation_ids'])], INFO_FIELDS['stock.pack.operation'], order="picking_order asc")
 
         print pick
         return pick
 
+    @api.model
+    def get_selection(self, model, values):
+        value = values and values[0]
+        if value:
+            for key in value.keys():
+                if 'selection' in self.env[model].fields_get()[key]:
+                    values = self.get_selection_field(model, values, key)
+        return values
 
+    @api.model
+    def get_selection_field(self,  model, values, field):
+
+        selection_values = self.env[model].fields_get()[field]['selection']
+        for pick in values:
+            dict = [x[1] for x in selection_values if x[0] == pick[field]]
+            if dict:
+                pick[field] = dict[0]
+        return values
 
     @api.model
     def get_op_id(self, vals):
