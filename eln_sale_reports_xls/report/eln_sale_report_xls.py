@@ -25,7 +25,7 @@ class ElnSaleReportXlsParser(report_sxw.rml_parse):
 
 
 class ElnSaleReportXls(report_xls):
-    column_sizes = [30, 8, 8, 8, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12]
+    column_sizes = [60, 8, 8, 8, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12]
 
     def __init__(self, name, table, rml=False, parser=False,
                  header=True, store=False):
@@ -126,7 +126,7 @@ class ElnSaleReportXls(report_xls):
         row_pos = self.xls_write_row(self.ws, row_pos, row_data)
         # PART 2
         c_specs = [
-            ('a', 1, 0, 'text', None, None, None),
+            ('a', 1, 0, 'text', _('CUENTA ANALÍTICA'), None, style1),
             ('b', 1, 0, 'text', _('ACTUAL'), None, style1),
             ('c', 1, 0, 'text', _('ANT.'), None, style1),
             ('d', 1, 0, 'text', _('A. ANT.'), None, style1),
@@ -146,7 +146,7 @@ class ElnSaleReportXls(report_xls):
         return row_pos
 
     def _print_report_values(self, data, row_pos):
-        for acc_name in data:
+        for acc_name in sorted(data):
             val = data[acc_name]
             margin = ((val['base'] - val['p_price']) * 100)\
                 / val['base'] if val['base'] else 0.0
@@ -155,7 +155,7 @@ class ElnSaleReportXls(report_xls):
             ly_margin = ((val['ly_base'] - val['ly_p_price'])) * 100 \
                 / val['ly_base'] if val['ly_base'] else 0.0
             c_specs = [
-                ('a', 1, 0, 'text', acc_name, None, None),
+                ('a', 1, 0, 'text', val['name'], None, self.aml_cell_style),
                 ('b', 1, 0, 'number', round(margin, 2), None, self.aml_cell_style_decimal),
                 ('c', 1, 0, 'number', round(ld_margin, 2), None, self.aml_cell_style_decimal),
                 ('d', 1, 0, 'number', round(ly_margin, 2), None, self.aml_cell_style_decimal),
@@ -206,7 +206,7 @@ class ElnSaleReportXls(report_xls):
             val_sum[i] = 'SUM(' + cell_start + ':' + cell_end + ')'
 
         c_specs = [
-            ('a', 1, 0, 'text', _('TOTALES'), None, None),
+            ('a', 1, 0, 'text', _('TOTALES'), None, self.aml_cell_style_decimal),
             ('b', 1, 0, 'number', val_margin, None, self.aml_cell_style_decimal),
             ('c', 1, 0, 'number', val_ld_margin, None, self.aml_cell_style_decimal),
             ('d', 1, 0, 'number', val_ly_margin, None, self.aml_cell_style_decimal),

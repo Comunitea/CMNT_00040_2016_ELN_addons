@@ -97,7 +97,15 @@ class ElnSaleReportXlsWzd(models.TransientModel):
         res = self._get_report_data()
         data = {}
         for acc in res:
-            data[acc.name] = res[acc]
+            name = acc._get_one_full_name(acc, 3)
+            acc_id = acc
+            acc_ids = "%s" % (acc_id.id)
+            while acc_id.parent_id and not acc_id.type == 'template':
+                acc_id = acc_id.parent_id
+                acc_ids = "%s-%s" % (acc_id.id, acc_ids)
+            data[acc_ids] = res[acc]
+            data[acc_ids]['name'] = name
+
         return {'type': 'ir.actions.report.xml',
                 'report_name': 'eln_sale_report_xls',
                 'datas': data}
