@@ -95,9 +95,6 @@ class StockMove(models.Model):
                                and x.move_orig_id
                                and x.move_orig_id.state == 'assigned')
 
-    @api.multi
-    def action_confirm(self):
-        return super(StockMove, self).action_confirm()
 
     @api.multi
     def _picking_assign(self, procurement_group, location_from, location_to):
@@ -187,9 +184,13 @@ class StockMove(models.Model):
 
     ## NO HAY UNA REGLA PUSH PARA CONFIRMAR AUTOMATICAMENTE EL MOVE_DEST_ID
     def _push_apply(self, cr, uid, moves, context=None):
-        super(StockMove, self)._push_apply(cr=cr, uid=uid, moves=moves, context=context)
+
+        return super(StockMove, self)._push_apply(cr=cr, uid=uid, moves=moves, context=context)
         push_obj = self.pool.get("stock.location.path")
-        for move in moves.filtered(lambda x:x.move_dest_id):
+        for move in moves:
+            continue
+            if not move.move_dest_id:
+                continue
             domain = [('auto', '=', 'move_dest'), ('location_from_id', '=', move.location_dest_id.id)]
             route_ids = [x.id for x in move.product_id.route_ids + move.product_id.categ_id.total_route_ids]
             rules = push_obj.search(cr, uid, domain + [('route_id', 'in', route_ids)], order='route_sequence, sequence', context=context)

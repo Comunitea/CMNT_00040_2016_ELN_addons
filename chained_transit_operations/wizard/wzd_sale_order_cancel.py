@@ -32,7 +32,6 @@ class WzdSaleOrderCancel(models.TransientModel):
 
     @api.model
     def default_get(self, fields):
-        #import ipdb; ipdb.set_trace()
         res = super(WzdSaleOrderCancel, self).default_get(fields)
         model = self._context.get('active_model', False)
         active_ids = self._context.get('active_ids')

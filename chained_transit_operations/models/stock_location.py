@@ -30,3 +30,4 @@ class StockLocation (models.Model):
         sql = u"select intercompany_user_id from res_company rc where id = (select company_id from stock_location where id = %s)" % id
         self._cr.execute(sql)
         record = self._cr.fetchall()
+        return record and record[0][0] or self.env.user.id

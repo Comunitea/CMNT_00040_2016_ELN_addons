@@ -14,7 +14,8 @@ class StockLocationPath(models.Model):
 
     auto = fields.Selection(selection_add=[("move_dest", "Auto confirm move_dest")])
 
-    def _apply(self, cr, uid, rule, move, context=None):
+    def _apply_bis(self, cr, uid, rule, move, context=None):
+
         if rule.auto == 'move_dest':
             #Tengo que utilizar el usuario intercomañia del movimiento
             move_uid = move.sudo().move_dest_id.get_pda_ic(move.id)
