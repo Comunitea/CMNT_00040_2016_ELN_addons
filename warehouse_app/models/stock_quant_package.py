@@ -6,6 +6,7 @@ from openerp import api, models, fields
 import openerp.addons.decimal_precision as dp
 
 
+
 class StockQuantPackage(models.Model):
     _inherit = 'stock.quant.package'
 
@@ -94,57 +95,62 @@ class StockProductionLot(models.Model):
             location_id = len(location_ids) == 1 and location_ids[0][0]
             lot.location_id = location_id
 
+
     @api.model
     def get_available_lot(self, vals):
-        sql = "select count(sq.id) as cuenta, spl.id as id, spl.name as display_name, sum(sq.qty) as qty_available, sq.location_id as loc_id, sl.pda_name as location_id, spl.use_date as use_date, spl.removal_date as removal_date, pp.pda_name as product_id from stock_quant sq " \
-              "join stock_production_lot spl on spl.id = sq.lot_id " \
-              "join stock_location sl on sl.id = sq.location_id " \
-              "join product_product pp on pp.id = sq.product_id " \
-              "where sq.reservation_id>0 and sq.qty >=0.00 and spl.id = %s and sl.usage='internal'" \
-              "group by spl.id, spl.name, sq.location_id, sl.pda_name, spl.use_date, sq.company_id, pp.pda_name " \
-              "order by spl.removal_date " % (vals.get('lot_id', 0))
-        sql2 = "union select count(sq.id) as cuenta, spl.id as id, spl.name as display_name, sum(sq.qty) as qty_available, sq.location_id as loc_id, sl.pda_name as location_id, spl.use_date as use_date, spl.removal_date as removal_date, pp.pda_name as product_id from stock_quant sq " \
-              "join stock_production_lot spl on spl.id = sq.lot_id " \
-              "join stock_location sl on sl.id = sq.location_id " \
-              "join product_product pp on pp.id = sq.product_id " \
-              "where sq.qty >=%s and sq.reservation_id isnull and sl.usage='internal' and pp.id = %s " \
-              "group by spl.id, spl.name, sq.location_id, sl.pda_name, spl.use_date, sq.company_id, pp.pda_name " \
-              "order by spl.removal_date"%(vals.get('qty', 0.00), vals.get('product_id', False))
 
-        print sql + sql2
-        self._cr.execute(sql)
+        def get_child_of(location_id, active=True):
+            sql = "select parent_left, parent_right from stock_location " \
+                  "where active = %s and id = (select location_id from stock_move where id = (select min(move_id) from stock_move_operation_link where operation_id = %s))"%(active, op_id)
+            self._cr.execute(sql)
+            ids = self._cr.fetchone()
+            return ids[0], ids[1]
+
+        print vals
+        op_id = vals.get('op_id', 0)
+        lot_id = vals.get('lot_id', 0)
+        location_id = vals.get('location_id', 0)
+        qty = vals.get('qty', 0.00)
+        product_id = vals.get('product_id', 0)
+        move_id = vals.get('move_id', [])
+        ##Mismo lotechild_of
+        parent_left, parent_right = get_child_of(op_id)
+
+
+        sql = "select count(sq.id) as cuenta, spl.id as id, spl.name as display_name, sum(sq.qty) as qty_available, sq.location_id as loc_id, sl.pda_name as location_id, spl.use_date as use_date, spl.removal_date as removal_date, 1 as selected, sq.reservation_id as reservation_id, pp.pda_name as product_id from stock_quant sq " \
+              "join stock_production_lot spl on spl.id = sq.lot_id " \
+              "join stock_location sl on sl.id = sq.location_id " \
+              "join product_product pp on pp.id = sq.product_id " \
+              "where sq.reservation_id in (select move_id from stock_move_operation_link where operation_id = %s ) and spl.id = %s and sq.location_id = %s and pp.id = %s " \
+              "group by sq.reservation_id, spl.id, spl.name, sq.location_id, sl.pda_name, spl.use_date, sq.company_id, pp.pda_name "  % (op_id, lot_id, location_id, product_id)
+        ##distintos lotes y
+        sql2 = "select count(sq.id) as cuenta, spl.id as id, spl.name as display_name, sum(sq.qty) as qty_available, sq.location_id as loc_id, sl.pda_name as location_id, spl.use_date as use_date, spl.removal_date as removal_date, " \
+               "(not sq.reservation_id isnull  and  sq.reservation_id in (select move_id from stock_move_operation_link where operation_id = %s)) as selected, " \
+               "sq.reservation_id as reservation_id, pp.pda_name as product_id from stock_quant sq " \
+              "join stock_production_lot spl on spl.id = sq.lot_id " \
+              "join stock_location sl on sl.id = sq.location_id " \
+              "join product_product pp on pp.id = sq.product_id " \
+              "where sq.qty >=%s and (sq.reservation_id isnull or sq.reservation_id in (select move_id from stock_move_operation_link where operation_id = %s ) or sq.reservation_id>0) and pp.id = %s " \
+              "and not (spl.id = %s and sq.location_id = %s) " \
+              "and (sl.parent_left >= %s and sl.parent_right <= %s) " \
+              "group by sq.reservation_id, spl.id, spl.name, sq.location_id, sl.pda_name, spl.use_date, sq.company_id, pp.pda_name " \
+              "order by selected desc, reservation_id desc, use_date, id"%(op_id, qty, op_id, product_id, lot_id, location_id, parent_left, parent_right)
+
+        print sql2
+        self._cr.execute(sql2)
         records = self._cr.fetchall()
         lots = []
         for lot_id in records:
             vals = {'id': lot_id[1] or 0,
                     'display_name': lot_id[2] or False,
                     'qty_available': lot_id[3] or 0.00,
+                    'reservation_id': lot_id[9] or False,
                     'location_id': lot_id[5] or False,
-                    'use_date': lot_id[7] or ''}
+                    'selected': lot_id[8] or 0,
+                    'use_date': lot_id[6] or ''}
             lots.append(vals)
         print lots
         return lots
-
-        print res
-
-        return res
-        product_id = vals.get('product_id')
-        qty = vals.get('qty')
-        op_id = vals.get('op_id', 0)
-        domain = [('product_id', '=', product_id)]
-        lots = []
-        lot_ids = self.env['stock.production.lot'].search(domain).filtered(lambda x: x.virtual_available >= qty or x.id == op_id)
-
-        for lot_id in lot_ids.filtered(lambda x: x.location_id):
-            vals = {'id': lot_id.id,
-                    'display_name': lot_id.display_name,
-                    'virtual_available': lot_id.virtual_available,
-                    'qty_available': lot_id.qty_available,
-                    'location_id': lot_id.location_id and lot_id.location_id.display_name,
-                    'use_date': lot_id.use_date}
-            lots.append(vals)
-        return lots
-
 
     @api.multi
     def _get_virtual_available(self):
@@ -153,7 +159,11 @@ class StockProductionLot(models.Model):
             lot.virtual_available = lot.sudo().product_id.with_context(lot_id=lot.id, location=location_ids,
                                                                        force_domain=[('reservation_id','=',False)]).qty_available
 
+
+
+
     location_id = fields.Many2one('stock.location', compute="get_lot_location_id")
+    #need_location_check = fields.Boolean('Need location check', compute="get_need_location_check", help ="True si en la primera ubicación padre de tipo vista, hay el mismo lote en distinta ubicación")
     uom_id = fields.Many2one(related='product_id.uom_id')
     virtual_available = fields.Float(
         compute='_get_virtual_available',

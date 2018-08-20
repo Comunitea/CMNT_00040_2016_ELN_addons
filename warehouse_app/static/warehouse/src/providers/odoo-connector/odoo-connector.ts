@@ -36,7 +36,7 @@ export class OdooProvider {
                     self.uid = uid
                     resolve(uid)
                     })
-                    .catch( () => {
+                    .catch( (mierror) => {
                       var err = {'title': 'Error!', 'msg': 'No se pudo conectar con Odoo'}
                       reject(err);
                     });

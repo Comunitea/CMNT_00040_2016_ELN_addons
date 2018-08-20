@@ -35,6 +35,24 @@ class StockPackOperation (models.Model):
     group_id = fields.Integer("Numero de agrupación de operaciones", help="Si no agrupa, el group_id es elid de la operacion, con lo que hace una agrupación para el solo. Si se ")
 
     @api.model
+    def get_need_location_check(self, op_id):
+        sql = "select lot_id, location_id from stock_pack_operation where id = %s" % op_id
+        self._cr.execute(sql)
+        res = self._cr.fetchone()
+        lot_id, location_id = res
+        parent_location = self.env['stock.location'].get_first_parent_view(location_id)
+
+        sub_location_ids = self.env['stock.location'].browse(parent_location).child_ids.ids
+        if lot_id and location_id:
+            sql = "select count(location_id) != 1 from stock_quant where lot_id = %s and location_id in %s"%(lot_id,tuple(sub_location_ids))
+
+            self._cr.execute(sql)
+            lot_id = self._cr.fetchone()[0]
+            print sql, lot_id
+        return lot_id
+
+
+    @api.model
     def set_not_group(self):
         self.group_id = not self.group_id
     @api.multi
@@ -112,7 +130,6 @@ class StockPackOperation (models.Model):
     @api.model
     def doOp(self, vals):
         print "Do op con vals: \n\n %s \n\n"%vals
-        #import ipdb; ipdb.set_trace()
         id = vals.get('id', False)
         do_id = vals.get('do_id', True)
         op = self.browse([id])

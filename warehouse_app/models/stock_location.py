@@ -32,7 +32,6 @@ class StockLocationRack(models.Model):
 
     @api.multi
     def update_rack_loc_ids(self):
-        
 
         for rack in self:
             usage = self.parent_id.usage
@@ -270,6 +269,9 @@ class StockLocation (models.Model):
         return info
 
 
-
-
+    def get_first_parent_view(self, location_id):
+        parent = self.browse(location_id)
+        while parent and parent.usage != 'view':
+            parent = parent.location_id
+        return parent and parent.id
 

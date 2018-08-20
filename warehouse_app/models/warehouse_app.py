@@ -10,6 +10,7 @@ from openerp.exceptions import ValidationError
 
 
 
+
 SEARCH_OPTIONS = {'stock.quant.package': 'name',
                   'stock.production.lot': 'name',
                   'stock.location': 'loc_barcode',
@@ -399,6 +400,7 @@ class WarehouseApp (models.Model):
     def get_picks_info(self, vals):
         print "ENTRO EN GET_PICKS_INFO"
 
+
         types = vals.get('types', False)
         domain = vals.get('domain', [])
         limit = vals.get('limit', 25)
@@ -411,10 +413,17 @@ class WarehouseApp (models.Model):
         fields = ['id', 'is_wave', 'name', 'picking_type_id', 'state', 'min_date', 'user_id', 'ops_str']
         fields = ['id', 'is_wave', 'name', 'picking_type_id', 'state', 'min_date', 'user_id', 'ops_str']
         if picks:
-            picks = self.env['stock.picking'].search_read(domain, fields, limit=limit)
+            fields_pick = fields + ['wave_id']
+            domain_pick = domain + [('state', 'in', ('confirmed', 'partially_available', 'assigned', 'in_progress'))]
+            picks = self.env['stock.picking'].search_read(domain_pick, fields_pick, limit=limit)
+            picks = self.get_selection_field('stock.picking', picks, 'state')
         waves = vals.get('waves', False)
         if waves:
-            waves = self.env['stock.picking.wave'].search_read(domain, fields, limit=limit)
+            fields_wave = fields + ['picking_state']
+            domain_wave = [('id', 'in', [pick['wave_id'][0] for pick in picks if pick['wave_id']])]
+            waves = self.env['stock.picking.wave'].search_read(domain_wave, fields_wave, limit=limit)
+            waves = self.get_selection_field('stock.picking.wave', waves, 'picking_state')
+        picks = [pick for pick in picks if not pick['wave_id']]
         picksandwaves = picks + waves
         res = {
             'types': types,
@@ -434,17 +443,41 @@ class WarehouseApp (models.Model):
         id = vals.get('id')
         model = vals.get('model')
         pick = self.env[model].search_read([('id', '=', id)], INFO_FIELDS[model])
+        pick = self.get_selection(model, pick)
+        #if model == 'stock.picking':
+        #    pick = self.get_selection_field(model, pick, 'state')
+        #elif model == 'stock.picking.wave':
+        #    pick = self.get_selection_field(model, pick, 'picking_state')
         pick = pick and pick[0]
+
         pick['pack_operation_ids'] = self.env['stock.pack.operation'].search_read([('id', 'in', pick['pack_operation_ids'])], INFO_FIELDS['stock.pack.operation'], order="picking_order asc")
 
         print pick
         return pick
 
+    @api.model
+    def get_selection(self, model, values):
+        value = values and values[0]
+        if value:
+            for key in value.keys():
+                if 'selection' in self.env[model].fields_get()[key]:
+                    values = self.get_selection_field(model, values, key)
+        return values
 
+    @api.model
+    def get_selection_field(self,  model, values, field):
+
+        selection_values = self.env[model].fields_get()[field]['selection']
+        for pick in values:
+            dict = [x[1] for x in selection_values if x[0] == pick[field]]
+            if dict:
+                pick[field] = dict[0]
+        return values
 
     @api.model
     def get_op_id(self, vals):
         id = vals.get('id')
+
         operation = self.env['stock.pack.operation'].search_read([('id', '=', id)], INFO_FIELDS['stock.pack.operation'])
         operation = operation and operation[0]
         if not operation:
@@ -461,7 +494,6 @@ class WarehouseApp (models.Model):
             operation['lot_id'] = lot_id and lot_id[0]
             print lot_id
         ##Podría usar dict_m2o pero mejor así por si hace falta despues
-
         if operation.get('pda_product_id', False):
             pda_product_id = self.env['product.product'].search_read(
                 [('id', '=', operation['pda_product_id'][0])], INFO_FIELDS['product.product'])
@@ -485,11 +517,19 @@ class WarehouseApp (models.Model):
         location_dest_id = self.env['stock.location'].search_read(
                 [('id', '=', operation['location_dest_id'][0])], location_field)
         operation['location_dest_id'] = location_dest_id and location_dest_id[0]
+        sql = "select move_id from stock_move_operation_link where operation_id = %s"%id
+        self._cr.execute(sql)
+        res_all = self._cr.fetchall()
+        operation['move_id'] = [x[0] for x in res_all]
 
         operation['product_uom_id'] = self.dict_m2o(operation['product_uom_id'])
         operation['uos_id'] = self.dict_m2o(operation['uos_id'])
         #operation['package_id'] = self.dict_m2o(operation['package_id'])
         #operation['result_package_id'] = self.dict_m2o(operation['result_package_id'])
+
+        operation['need_location_check'] = self.env['stock.pack.operation'].get_need_location_check(id)
+        if operation['need_location_check']:
+            operation['location_id']['need_check'] = True
 
         print operation
         return operation

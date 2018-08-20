@@ -25,9 +25,9 @@ export class HomePage {
 		user: {}
 	};
 	CONEXION_local = {
-        url: 'http://192.168.0.120/',
+        url: 'http://192.168.0.121/',
         port: '8069',
-        db: 'pistola_2',
+        db: 'pistola2',
         username: 'pda',
 		password: 'cmnt',
 		user: {}
@@ -63,7 +63,7 @@ export class HomePage {
 		}	
 		else {
 			this.storage.get('CONEXION').then((val) => {
-				if (val['username']){
+				if (val && val['login']){
 					this.CONEXION = val
 				}
 				else{

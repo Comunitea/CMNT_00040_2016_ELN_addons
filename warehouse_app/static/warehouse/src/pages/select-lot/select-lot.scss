@@ -27,5 +27,10 @@ page-select-lot {
         background-color: color($colors, odoolight);
         color: color($colors, odooprimary);
     }
+    .badge_warning {
+        border: none; 
+        background-color: color($colors, odoolight);
+        color: color($colors, odoodark);
+    }
     
 }

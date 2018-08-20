@@ -42,7 +42,6 @@ export class TreepickPage {
   domain = [];
   uid = 0
   picking_types = [];
-  domain_state = []
   domain_types = []
   states_show = []
   user= ''
@@ -54,7 +53,6 @@ export class TreepickPage {
   constructor(public navCtrl: NavController, private formBuilder: FormBuilder, public navParams: NavParams, public alertCtrl: AlertController, private storage: Storage, public auxProvider: AuxProvider,  private odoo: OdooProvider, private toast: ToastController) {
     
     this.barcodeForm = this.formBuilder.group({scan: ['']});
-    this.states_show = auxProvider.pick_states_visible;
     if (this.navCtrl.getPrevious()){this.navCtrl.remove(this.navCtrl.getPrevious().index, 2);}
     this.waves = true
     this.uid = 0
@@ -63,7 +61,6 @@ export class TreepickPage {
     this.picking_type_id = 0
     this.domain_types = []
     this.filter_user = this.auxProvider.filter_user || 'assigned'
-    this.domain_state = ['state', 'in', this.states_show]
     this.fields = ['id', 'name', 'state', 'partner_id', 'location_id', 'location_dest_id', 'picking_type_id', 'user_id', 'allow_validate'];
     this.filter_picks(0) ;
 
@@ -114,9 +111,7 @@ export class TreepickPage {
     
     domain.push(['show_in_pda', '=', true]);
     domain.push(['pack_operation_exist', '!=', false])
-    domain.push(this.domain_state)
-
-    
+   
     if (this.filter_user=='assigned') {domain.push(['user_id', '=', this.odoo.uid]);} else {domain.push(['user_id','=', false]);}
     //domain = [self.domain_types]
 

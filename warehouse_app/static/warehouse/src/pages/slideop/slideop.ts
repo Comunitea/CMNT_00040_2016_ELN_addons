@@ -35,9 +35,11 @@ export class SlideopPage {
   @ViewChild('scan') myScan ;
   @ViewChild('qty') myQty ;
   
-  @HostListener('document:keydown', ['$event'])
-  handleKeyboardEvent(event: KeyboardEvent) { 
-    console.log(event.key);
+  
+
+  @HostListener('document:keyup', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    this.presentToast(event.key)
     if (!event.shiftKey){
       if (event.key=='ArrowLeft'){
         this.move_index(-1)
@@ -72,7 +74,6 @@ export class SlideopPage {
   scan_id = {}
   last_read: number = 0
   last_scan: ''
-  reconfirm: boolean 
   WAITING: ['package_id', 'location_dest_id', 'product_id', 'lot_id', 'location_id', 'location_dest_id']
   waiting: number
 
@@ -99,14 +100,8 @@ export class SlideopPage {
   advance: boolean = false
   
   constructor(public navCtrl: NavController,  private modalCtrl: ModalController, private toastCtrl: ToastController, public navParams: NavParams, private formBuilder: FormBuilder, private alertCtrl: AlertController, private aux: AuxProvider , private odoo: OdooProvider) {
-    this.cargar = true
-    this.advance= false
     this.op_id = this.navParams.data.op_id;
-    this.op_ready = false
-    this.last_id = 0
     this.ops = this.navParams.data.ops;
-    
-    this.reconfirm = false
     if (!this.ops){
       this.presentToast('Aviso:No hay operaciones', false)
       }
@@ -139,13 +134,21 @@ export class SlideopPage {
 
   reverse_ops(){
     this.cargar=true
-    
     this.ops = this.ops.reverse()
     this.op_id = this.ops[0]['id']
     this.cargarOp(this.op_id)
   }
  
-  resetOPValues(){ 
+
+  
+  resetValues(){
+    this.advance = false
+    this.op_ready = false
+    this.last_id = 0
+    this.cargar = true
+    this.message = '';
+    this.op = {};
+    this.model =  'stock.pack.operation';
     this.waiting=0;
     this.package_change = 0;
     this.lot_id_change = 0;
@@ -153,14 +156,6 @@ export class SlideopPage {
     this.scan = ''
     this.last_read = 0;
     this.input = 0;
-  }
-  
-  resetValues(){
-   
-    this.message = '';
-    this.op = {};
-    this.model =  'stock.pack.operation';
-    this.resetOPValues()
   }  
   
   no_result_package(reset=true){
@@ -245,7 +240,6 @@ export class SlideopPage {
     this.uom_to_uos = this.op['product_qty']/this.op['uos_qty']
     this.op['qty_done'] = this.op['qty_done'].toFixed(2)
     this.op['uos_qty_done'] = this.convert_uom_to_uos(this.op['qty_done'])
-    this.cargar=false
     this.get_index(this.ops, id)
     this.show_scan()
 
@@ -257,23 +251,25 @@ export class SlideopPage {
     if (id==0){
       return
     }
-    this.resetValues()
+    
     var model = 'stock.pack.operation'
     var method = 'get_op_id'
     var values = {'id': id, 'model': this.model}
     this.odoo.execute(model, method, values).then((res)=>{
      
       if (res['id']!=0){
-        return this.check_loaded_op(res, id)
-
+        this.resetValues()
+        this.check_loaded_op(res, id)
+        this.cargar = false
       }
       else {
+        this.cargar = false
         this.presentAlert('Error!', 'No se pudo recuperar las operaciones');
       }
       this.show_scan()
     })
     .catch(() => {
-      this.cargar=false
+      this.cargar = false
       this.presentAlert('Error!', 'Error al conectarse a odoo');
     });
 
@@ -332,6 +328,7 @@ export class SlideopPage {
   }    
   
   serial_ok(new_lot_id){
+
     if (new_lot_id == this.op['lot_id']['id']){
       this.op['lot_id']['checked']=true
       this.op['location_id']['checked']=true
@@ -343,6 +340,7 @@ export class SlideopPage {
       this.change_lot(new_lot_id)
     }
   }
+
   location_ok(id, field){
     if (this.op[field]['id'] == id){
       this.op[field]['checked']=true
@@ -392,7 +390,7 @@ export class SlideopPage {
     if (this.op['pda_done']){return}
     this.cargar = true
     var method = 'get_available_lot'
-    var values = {'product_id': product_id, 'qty': qty, 'op_id': this.op_id, 'lot_id': this.op['lot_id']['id']}
+    var values = {'product_id': product_id, 'qty': qty, 'op_id': this.op_id, 'lot_id': this.op['lot_id']['id'], 'location_id': this.op['location_id']['id'], 'move_id': this.op['move_id']}
     var object_id;
     
     this.odoo.execute('stock.production.lot', method, values).then((lot_ids)=>{
@@ -411,7 +409,10 @@ export class SlideopPage {
             this.serial_ok(data['new_lot_id'])
             this.last_scan = this.op['lot_id']['name']
           }
-          this.cargar=false
+          else {
+            this.cargar=false
+          }
+          
           this.show_scan()
       })
       
@@ -431,7 +432,6 @@ export class SlideopPage {
     this.odoo.execute(this.model, method, values).then((res)=>{
       if (res['return']) {
         if (res != 0){
-          this.resetValues()
           this.cargarOp(this.op_id)
         }
         else {
@@ -458,7 +458,6 @@ export class SlideopPage {
     this.odoo.execute(this.model, method, values).then((res)=>{
       if (res) {
         if (res['id'] != 0){
-          this.resetValues()
           this.cargarOp(this.op_id)          
         }
         else {
@@ -695,17 +694,20 @@ export class SlideopPage {
         this.presentToast(res['aviso']||res['error'])
         
         if (res['id']!=0){
-          return this.check_loaded_op(res, res['id'])
+          this.check_loaded_op(res, res['id'])
+          this.cargar=false
         }
         else {
           this.navCtrl.setRoot(TreepickPage);           
         }
       }
       else {
+        this.cargar=false
         this.presentAlert('Falla!', 'Error al marcar la operación como realizada');
       }
     })
     .catch(() => {
+      this.cargar=false
       this.presentAlert('Error!', 'No se pudo recuperar ejecutar la operación');
     });
     

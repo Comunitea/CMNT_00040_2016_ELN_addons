@@ -71,24 +71,51 @@
       <!--ion-badge item-start (click)="doTransfer(pick.id)" [hidden]='pick.pack_operation_count == 0 || pick.state == "done" || (pick.pack_operation_count == pick.remaining_ops)' color='odoo'>Validar</ion-badge>
       <ion-badge item-start (click)="doPreparePartial(pick.id)" [hidden]='pick.pack_operation_count != 0' color='odoo'>Preparar</ion-badge-->
     </ion-item>
+
+    <!-- PICK -->
+    <ion-item no-lines [hidden]='model == "stock.picking.wave"'>
+        <ion-label text-right>
+            {{ pick.state }}
+        </ion-label >
+      <!--ion-badge item-start class="w50" color="light" >
+        {{ pick.state }}
+      </ion-badge-->       
+    </ion-item>
+
+    <!-- WAVE -->
+    <ion-item no-lines [hidden]='model == "stock.picking"'>
+        <ion-label text-right>
+            {{ pick.picking_state }}
+        </ion-label >
+        <!--ion-badge item-end class="w100" color="light" >
+          {{ pick.picking_state }}
+        </ion-badge-->       
+      </ion-item>
+  
     <ion-item no-lines>    
-      <ion-badge item-start class="w50" color="light" (click)="openLocation(pick.location_id && pick.location_id[0])">
-        {{pick['location_id'] && pick.location_id[1]}}
-      </ion-badge>       
-      <ion-badge item-start color="light" class="w50" (click)="openLocation(pick.location_dest_id && pick.location_dest_id[0])">
-        {{ pick['location_dest_id'] && pick.location_dest_id[1]}}
-      </ion-badge>   
+        <ion-label text-right>
+            {{pick['location_id'] && pick.location_id[1]}} >> {{ pick['location_dest_id'] && pick.location_dest_id[1]}}
+        </ion-label >
+
+      <!--ion-badge item-start class="w100" color="light">
+          {{pick['location_id'] && pick.location_id[1]}} >> {{ pick['location_dest_id'] && pick.location_dest_id[1]}}  
+      </ion-badge-->        
     </ion-item>
     <ion-item no-lines>    
-      <ion-badge item-start color="light" class="w100">
+        <ion-label text-right>
+            Pendientes {{ pick.remaining_ops}} de {{ pick.pack_operation_count}}
+        </ion-label >
+
+
+      <!--ion-badge item-start color="light" class="w100">
         Pendientes {{ pick.remaining_ops}} de {{ pick.pack_operation_count}}
-      </ion-badge>   
+      </ion-badge-->   
     </ion-item>
-    <ion-item no-lines color="primary">    
+    <!--ion-item no-lines color="primary">    
       <ion-label>
         {{model == "stock.picking" && "Albarán: " + pick.state || "Agrupación: " + pick.name}}
       </ion-label>
-    </ion-item>
+    </ion-item-->
     
     
   </ion-item-group> 

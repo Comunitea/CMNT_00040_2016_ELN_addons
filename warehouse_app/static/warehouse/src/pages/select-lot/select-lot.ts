@@ -17,7 +17,6 @@ export class SelectLotPage {
   lot_ids
   cargar
   constructor(public viewCtrl: ViewController, public toastCtrl: ToastController, public navParams: NavParams, public alertCtrl: AlertController) {
-    
     this.op = this.navParams.data.op;
     this.lot_ids =  this.navParams.data.lot_ids;
   }
@@ -31,7 +30,6 @@ export class SelectLotPage {
     this.viewCtrl.dismiss(return_data);
    
   }
-
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad SelectLotPage');
