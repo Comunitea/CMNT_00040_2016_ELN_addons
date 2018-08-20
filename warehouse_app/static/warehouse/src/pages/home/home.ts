@@ -25,11 +25,7 @@ export class HomePage {
 		user: {}
 	};
 	CONEXION_local = {
-<<<<<<< HEAD
         url: 'http://192.168.0.121/',
-=======
-        url: 'http://127.0.0.1/',
->>>>>>> 50669cf7b85a07ab7d4210ff47057540ffb47730
         port: '8069',
         db: 'pistola2',
         username: 'pda',

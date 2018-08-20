@@ -71,7 +71,7 @@
       <!--ion-badge item-start (click)="doTransfer(pick.id)" [hidden]='pick.pack_operation_count == 0 || pick.state == "done" || (pick.pack_operation_count == pick.remaining_ops)' color='odoo'>Validar</ion-badge>
       <ion-badge item-start (click)="doPreparePartial(pick.id)" [hidden]='pick.pack_operation_count != 0' color='odoo'>Preparar</ion-badge-->
     </ion-item>
-<<<<<<< HEAD
+
 
     <!-- PICK -->
     <ion-item no-lines [hidden]='model == "stock.picking.wave"'>
@@ -91,21 +91,7 @@
         <!--ion-badge item-end class="w100" color="light" >
           {{ pick.picking_state }}
         </ion-badge-->       
-=======
-    <!-- PICK -->
-    <ion-item no-lines [hidden]='model == "stock.picking.wave"'>
-      <ion-badge item-start class="w50" color="light" >
-        {{ pick.state }}
-      </ion-badge>       
-    </ion-item>
-    <!-- WAVE -->
-    <ion-item no-lines [hidden]='model == "stock.picking"'>
-        <ion-badge item-start class="w50" color="light" >
-          {{ pick.picking_state }}
-        </ion-badge>       
->>>>>>> 50669cf7b85a07ab7d4210ff47057540ffb47730
-      </ion-item>
-  
+    </ion-item>    
     <ion-item no-lines>    
         <ion-label text-right>
             {{pick['location_id'] && pick.location_id[1]}} >> {{ pick['location_dest_id'] && pick.location_dest_id[1]}}
