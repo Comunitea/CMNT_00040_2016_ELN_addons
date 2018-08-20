@@ -57,6 +57,7 @@ export class TreeopsPage {
   model_fields = {'stock.quant.package': 'package_id', 'stock.location': 'location_id', 'stock.production.lot': 'lot_id'}
   whatOps: string
   aux: AuxProvider
+  filter_user = ''
 
   constructor(public navCtrl: NavController, public navParams: NavParams,  private formBuilder: FormBuilder,public alertCtrl: AlertController, private storage: Storage, private odoo: OdooProvider) {
     
@@ -86,7 +87,7 @@ export class TreeopsPage {
   }
 
   seeAll2(){
-    this.aux.filter_user = this.whatOps
+    this.filter_user = this.whatOps
   }
   
   infopick(val){
@@ -211,11 +212,11 @@ export class TreeopsPage {
     this.odoo.execute(this.model, method, values).then((value)=>{
       if (value){
         if (value){
-          this.aux.filter_user='Assigned';
+          this.filter_user='Assigned';
           this.loadList()
         }
         else {
-          this.aux.filter_user=''
+          this.filter_user=''
           this.show_scan()
         }
 

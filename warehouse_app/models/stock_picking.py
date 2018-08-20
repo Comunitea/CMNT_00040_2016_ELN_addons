@@ -185,7 +185,7 @@ class StockPicking(models.Model):
     @api.model
     def pda_do_prepare_partial_from_pda(self, vals):
         id = vals.get('id', False)
-        user_id = self.get_pda_ic(self, id)
+        user_id = self.get_pda_ic(id)
         message = "Do prepare partial por %s" % self.env.user.name
         pick = self.sudo(user_id).browse(id)
         if pick.state in ('cancel', 'done'):
@@ -197,14 +197,17 @@ class StockPicking(models.Model):
     def pda_do_prepare_partial(self):
         self.ensure_one()
         if self.company_id == self.env.user.company_id:
-            return self.do_prepare_partial()
+            self.action_assign() # Ver si queremos comprobar disponibilidad desde aqui o solo desde ERP
+            self.do_prepare_partial()
+            return True
         ctx = self._context.copy()
         ctx.update(force_user=True)
         if self.state in ('assigned', 'partially_available'):
-            message = "Do prepare partial por %s "% self.env.user.name
+            message = "Do prepare partial por %s" % self.env.user.name
             self.message_post(message)
-            return self.do_prepare_partial()
-            self.mapped('wave_id')._get_picking_ids_status()
+            self.with_context(ctx).action_assign() # Ver si queremos comprobar disponibilidad desde aqui o solo desde ERP
+            self.with_context(ctx).do_prepare_partial()
+            # self.mapped('wave_id')._get_picking_ids_status()
         return True
 
     @api.multi
@@ -238,7 +241,7 @@ class StockPicking(models.Model):
     @api.model
     def pda_force_assign_from_pda(self, vals):
         id = vals.get('id', False)
-        user_id = self.get_pda_ic(self, id)
+        user_id = self.get_pda_ic(id)
         message = "Force assign por %s" % self.env.user.name
         pick = self.sudo(user_id).browse(id)
         if pick.state in ('cancel', 'done'):
@@ -248,7 +251,6 @@ class StockPicking(models.Model):
 
     @api.multi
     def pda_force_assign(self):
-
         self.ensure_one()
         if self.sudo().state in ('cancel', 'done'):
             return False
@@ -259,7 +261,6 @@ class StockPicking(models.Model):
         message = "Force assign por %s" % self.env.user.name
         self.message_post(message)
         return self.with_context(ctx).force_assign()
-
 
     @api.multi
     def pda_action_cancel(self):
