@@ -348,7 +348,6 @@ class AppRegistry(models.Model):
     @api.model
     def scrap_production(self, values):
         qty = values.get('scrap_qty', 0.00)
-        import ipdb; ipdb.set_trace()
         reason_id = values.get('scrap_reason_id', False)
         qty = float(qty)
         location_id = 4   # Ubicación desechos 1

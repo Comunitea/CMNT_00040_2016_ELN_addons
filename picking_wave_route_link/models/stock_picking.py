@@ -19,7 +19,7 @@ class StockPicking(models.Model):
 
     @api.multi
     def write(self, vals):
-        if not self._context.get('no_update_routes', False) and vals.get('route_id'):
+        if self._context.get('update_routes', False) and vals.get('route_id'):
             for pick in self.filtered(lambda x: x.picking_type_id.wave_route_link and x.state not in ('cancel', 'done')):
                 requested_date = vals.get('requested_date', pick.requested_date)
                 domain = [('route_id', '=', vals['route_id']), ('state', '=', 'ready')]
@@ -29,12 +29,14 @@ class StockPicking(models.Model):
                 if not wave_id:
                     values = self.env['stock.picking.wave'].get_wave_route_vals(vals['route_id'], requested_date or fields.Date.today())
                     wave_id = self.env['stock.picking.wave'].create(values)
+                #Las rutas las cambio en el de salida, en principio, no se pone en oleada
                 vals.update(wave_id=wave_id.id)
-                pick.wave_id = wave_id.id
-                domain = [('group_id', '=', pick.sudo().group_id.id)]
+                domain = [('id', '!=', pick.id), ('group_id', '=', pick.sudo().group_id.id)]
                 picks = self.sudo().env['stock.picking'].search(domain)
                 ctx = self._context.copy()
-                ctx.update(no_update_routes=True)
-                picks.with_context(ctx).write({'wave_id': wave_id.id, 'route_id': vals['route_id']})
+                ctx.update(update_routes=False)
+                picks.with_context(ctx).write(
+                    {'wave_id': wave_id.id, 'route_id': vals['route_id']})
+
         return super(StockPicking, self).write(vals)
 

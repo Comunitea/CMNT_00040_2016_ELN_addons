@@ -36,7 +36,7 @@ class StockPickingWave(models.Model):
         if route_id.ir_sequence_id:
             name = route_id.ir_sequence_id.next_by_id(route_id.ir_sequence_id.id)
         else:
-            seq = self.env['ir.sequence'].search([('name', '=', 'Picking Wave'), ('code', '=', 'picking_wave_route_link')], limit=1)
+            seq = self.env['ir.sequence'].search([('code', '=', 'picking.wave')], limit=1)
             name = seq.next_by_id(seq.id)
 
         picking_type_id = route_id.picking_type_id and route_id.picking_type_id.id or False
