@@ -328,8 +328,7 @@ export class SlideopPage {
   }    
   
   serial_ok(new_lot_id, location_id=false){
-
-    if (new_lot_id == this.op['lot_id']['id']){
+    if (new_lot_id == this.op['lot_id']['id'] && location_id == this.op['location_id']['id']){
       this.op['lot_id']['checked']=true
       this.op['location_id']['checked']=true
       this.get_op_ready()
