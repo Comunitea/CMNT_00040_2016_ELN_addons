@@ -327,7 +327,7 @@ export class SlideopPage {
     });
   }    
   
-  serial_ok(new_lot_id){
+  serial_ok(new_lot_id, location_id=false){
 
     if (new_lot_id == this.op['lot_id']['id']){
       this.op['lot_id']['checked']=true
@@ -337,7 +337,7 @@ export class SlideopPage {
     }
     else {
       console.log(this.op['lot_id'])
-      this.change_lot(new_lot_id)
+      this.change_lot(new_lot_id, location_id)
     }
   }
 
@@ -406,7 +406,7 @@ export class SlideopPage {
           
 
           if (data) {
-            this.serial_ok(data['new_lot_id'])
+            this.serial_ok(data['new_lot_id'], data['loc_id'])
             this.last_scan = this.op['lot_id']['name']
           }
           else {
@@ -449,11 +449,11 @@ export class SlideopPage {
 
     
     
-  change_lot(new_lot_id){
+  change_lot(new_lot_id, location_id){
     this.cargar = true
     var model = 'stock.pack.operation'
     var method = 'pda_change_lot'  
-    var values = {'lot_id': new_lot_id, 'id': this.op_id}
+    var values = {'lot_id': new_lot_id, 'id': this.op_id, 'location_id':  location_id}
     console.log(values)
     this.odoo.execute(this.model, method, values).then((res)=>{
       if (res) {
@@ -538,7 +538,7 @@ export class SlideopPage {
     else if (result_package_id && package_id['checked'] && result_package_id['name'] == scan) {this.package_ok(package_id['id'])}
 
     //Escaneo lote
-    else if (lot_id && !lot_id['checked'] && lot_id['name'] == scan) {this.serial_ok(lot_id['id'])}
+    else if (lot_id && !lot_id['checked'] && lot_id['name'] == scan) {this.serial_ok(lot_id['id'], location_id['id'])}
     else if (lot_id && lot_id['checked'] && lot_id['name'] == scan && this.last_scan == scan && !this.op_ready && this.op['qty_done']==0) {this.confirm_qties()}
     
     //escaneo ubicaición

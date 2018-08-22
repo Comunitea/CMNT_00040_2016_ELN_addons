@@ -25,8 +25,8 @@ export class SelectLotPage {
     this.viewCtrl.dismiss();
   } 
 
-  click_lot(id){
-    let return_data = {'new_lot_id': id}
+  click_lot(id, location_id = false){
+    let return_data = {'new_lot_id': id, 'location_id': location_id}
     this.viewCtrl.dismiss(return_data);
    
   }

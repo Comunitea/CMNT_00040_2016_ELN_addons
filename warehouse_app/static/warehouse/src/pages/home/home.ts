@@ -63,7 +63,7 @@ export class HomePage {
 		}	
 		else {
 			this.storage.get('CONEXION').then((val) => {
-				if (val && val['login']){
+				if (val && val['username']){
 					this.CONEXION = val
 				}
 				else{

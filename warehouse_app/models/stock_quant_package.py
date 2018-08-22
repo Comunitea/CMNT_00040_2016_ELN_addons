@@ -17,7 +17,7 @@ class StockQuantPackage(models.Model):
                 package.multi = True
                 package.product_id = False
                 package.package_qty = 0.00
-                lot_id = False
+                package.lot_id = False
             else:
                 package.multi = False
                 package.package_qty = sum(quant.qty for quant in package.quant_ids)
@@ -81,8 +81,9 @@ class StockProductionLot(models.Model):
               "join stock_location sl on sl.id = sq.location_id " \
               "join stock_location sl2 on sl2.id = sl.location_id " \
               "join res_company rc on rc.id = sq.company_id " \
-              "where sl.usage = 'internal' and sq.lot_id = %s " \
+              "where sq.lot_id = %s " \
               "group by sl.id, sl.name, sl2.name, rc.name, rc.id" % id
+        print sql
         self._cr.execute(sql)
         records = self._cr.fetchall()
         print records
@@ -99,7 +100,7 @@ class StockProductionLot(models.Model):
     @api.model
     def get_available_lot(self, vals):
 
-        def get_child_of(location_id, active=True):
+        def get_child_of(op_id, active=True):
             sql = "select parent_left, parent_right from stock_location " \
                   "where active = %s and id = (select location_id from stock_move where id = (select min(move_id) from stock_move_operation_link where operation_id = %s))"%(active, op_id)
             self._cr.execute(sql)
@@ -113,10 +114,9 @@ class StockProductionLot(models.Model):
         qty = vals.get('qty', 0.00)
         product_id = vals.get('product_id', 0)
         move_id = vals.get('move_id', [])
-        ##Mismo lotechild_of
         parent_left, parent_right = get_child_of(op_id)
 
-
+        ## no uso sql
         sql = "select count(sq.id) as cuenta, spl.id as id, spl.name as display_name, sum(sq.qty) as qty_available, sq.location_id as loc_id, sl.pda_name as location_id, spl.use_date as use_date, spl.removal_date as removal_date, 1 as selected, sq.reservation_id as reservation_id, pp.pda_name as product_id from stock_quant sq " \
               "join stock_production_lot spl on spl.id = sq.lot_id " \
               "join stock_location sl on sl.id = sq.location_id " \
@@ -130,11 +130,12 @@ class StockProductionLot(models.Model):
               "join stock_production_lot spl on spl.id = sq.lot_id " \
               "join stock_location sl on sl.id = sq.location_id " \
               "join product_product pp on pp.id = sq.product_id " \
-              "where sq.qty >=%s and (sq.reservation_id isnull or sq.reservation_id in (select move_id from stock_move_operation_link where operation_id = %s ) or sq.reservation_id>0) and pp.id = %s " \
+              "where sq.qty > 0.00 and (sq.reservation_id isnull or sq.reservation_id in (select move_id from stock_move_operation_link where operation_id = %s ) or sq.reservation_id>0) and pp.id = %s " \
               "and not (spl.id = %s and sq.location_id = %s) " \
               "and (sl.parent_left >= %s and sl.parent_right <= %s) " \
               "group by sq.reservation_id, spl.id, spl.name, sq.location_id, sl.pda_name, spl.use_date, sq.company_id, pp.pda_name " \
-              "order by selected desc, reservation_id desc, use_date, id"%(op_id, qty, op_id, product_id, lot_id, location_id, parent_left, parent_right)
+              "having qty_available >= %s" \
+              "order by selected desc, reservation_id desc, use_date, id"%(op_id, op_id, product_id, lot_id, location_id, parent_left, parent_right, qty)
 
         print sql2
         self._cr.execute(sql2)
@@ -145,6 +146,7 @@ class StockProductionLot(models.Model):
                     'display_name': lot_id[2] or False,
                     'qty_available': lot_id[3] or 0.00,
                     'reservation_id': lot_id[9] or False,
+                    'loc_id': lot[4] or False,
                     'location_id': lot_id[5] or False,
                     'selected': lot_id[8] or 0,
                     'use_date': lot_id[6] or ''}

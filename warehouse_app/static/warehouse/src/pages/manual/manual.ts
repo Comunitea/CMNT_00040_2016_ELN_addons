@@ -7,7 +7,8 @@ import { ToastController } from 'ionic-angular';
 
 import { Storage } from '@ionic/storage';
 import { OdooProvider } from '../../providers/odoo-connector/odoo-connector'
-import { BarcodeScanner } from '../../providers/odoo-connector/barcode_scanner';
+import { SHARED_FORM_DIRECTIVES } from '@angular/forms/src/directives';
+//import { BarcodeScanner } from '../../providers/odoo-connector/barcode_scanner';
 /**
  * Generated class for the ManualPage page.
  *
@@ -34,7 +35,8 @@ export class ManualPage {
   domain = []
   package_qty: boolean = true;
   message = ''
-  state: number = 0; /* 0 origen 1 destino 2 validar */
+  //state: number = 0; /* 0 origen 1 destino 2 validar */
+  state: string
   scan_id: string = ''
   cargar
   models = []
@@ -42,9 +44,9 @@ export class ManualPage {
   input: number = 0;
   barcodeForm: FormGroup;
   tracking = 'none'
-  
-  constructor(public Scanner: BarcodeScanner,public navCtrl: NavController, public toastCtrl: ToastController, public navParams: NavParams, private formBuilder: FormBuilder, public storage: Storage,   private odoo: OdooProvider, public alertCtrl: AlertController) {
-
+  debug = true
+  constructor(public navCtrl: NavController, public toastCtrl: ToastController, public navParams: NavParams, private formBuilder: FormBuilder, public storage: Storage,   private odoo: OdooProvider, public alertCtrl: AlertController) {
+    this.debug = true
     this.input = 0;
     this.models =  ['stock.quant.package', 'stock.production.lot', 'stock.location', 'product.product']
     this.cargar=false
@@ -54,14 +56,36 @@ export class ManualPage {
     this.tracking = 'lot';
   }
 
+  get_filter(){
+    let domain =[]
+    let lot_id = this.move['lot_id'] && this.move['lot_id']['id']
+    let product_id = this.move['product_id'] && this.move['product_id']['id']
+    let company_id = this.move['company_id'] && this.move['company_id']['id']
+    let location_id = this.move['location_id'] && this.move['location_id']['id']
+    let package_id = this.move['package_id'] && this.move['package_id']['id']
+    let result_package_id = this.move['result_package_id'] && this.move['result_package_id']['id']
+    if (company_id){
+      domain.push(['company_id', '=', company_id])
+    }
+    if (lot_id){
+      domain.push(['lot_id', '=', lot_id])
+    }  
+    if (product_id){
+      domain.push(['product_id', '=', product_id])
+    }
+    if (location_id){
+      domain.push(['location_id', '=', location_id])
+    }
+    return domain
+  }
+
   reset_form(){
-    
-    this.state = 0;
+    this.state = 'origin';
     this.scan_id = '';
     this.last_scan = ''
     this.barcodeForm = this.formBuilder.group({scan: ['']});
     this.move = {};
-    this['move']['product_qty'] = 0;
+    this['move']['productqty_qty'] = 0;
 
   }
 
@@ -97,6 +121,25 @@ export class ManualPage {
       return false;
     })
   }
+  submit_dest_id(values, models=[]){
+    if (! models){
+      models = this.models
+    }
+    var model = 'stock.move'
+    var method = 'pda_get_destination_for_move'
+    values['move']= this.get_move_values(this.move)
+
+    this.odoo.execute(model, method, values).then((val)=>{
+      this.check_dest_val(val)
+    })
+    .catch(() =>{
+      this.presentToast("Error al recuperar los ids", false);
+      return false;
+    })
+
+
+  }
+
 
   submit (values, models=[]){
     
@@ -104,139 +147,144 @@ export class ManualPage {
     if (! models){
       models = this.models
     }
-    var model = 'warehouse.app'
+    var model = 'stock.move'
     var method = 'get_ids'
+    values['move']= this.get_move_values(this.move)
+    values['move']['filter']= this.get_move_filter(this.move)
       this.odoo.execute(model, method, values).then((val)=>{
         this.check_val(val)
       })
       .catch(() =>{
         this.presentToast("Error al recuperar los ids", false);
-
         return false;
       })
-    
-
   }
   ret_m2o(val, field){
     let m2o =  {'id': val[field][0], 'name': val[field][1]} 
     return m2o
   }
   get_state() {
-    if (this.state == 0 && this.move['product_id']['id'] && this.move['location_id']['id'] && this.move['restrict_lot_id']['id']){return 1}
-    if (this.state > 0 && this.move['location_dest_id'] && this.move['product_qty'] > 0.00){return 2}
-    return 0
+    let state = 'origin'
+    let product = this.move['product_id']
+    let lot = this.move['lot_id']
+    let product_check = (product && product['id']) && ((product['check_all'] && lot && lot['id']) || (product && !product['check_all']))
+    if (product_check && this.move['location_id']['id'] && this.move['company_id']){
+      state = 'qty'
+    }
+    if (state == 'qty' && this.move['location_dest_id'] && this.move['qty'] > 0.00){
+      state = 'dest'
+    }
+    return state
   }
 
+
+  ids_to_id(val, field, field_ids){
+    if (val.length==1){
+      this.move[field] = val[0]
+      this.move[field_ids] = false
+    }
+    else {
+      this.move[field] = false
+      this.move[field_ids] = val
+    }
+  }
+  check_dest_val(val){
+    if (this.state=='qty'){
+      if (val['location_dest_id']){
+        this.move['location_dest_id'] = val['location_dest_id']
+      }
+      if (val['result_package_id']){
+        this.move['result_package_id'] = val['result_package_id']
+      }
+
+    }  
+    this.state = this.get_state()
+    return true
+  }
   check_val(val){
+    if (val['empty']){
+      this.presentToast(val['error'])
+      return
+    }
     let product_id={}
     let uom_id = {}
     let location_id ={}
     let lot_id = {}
     let location_dest_id = {}
     let qty = -1
-    if (val['model']=='stock.production.lot'){
-      qty = 0.00
-      if (val['id']){
-        this.move['restrict_lot_id'] = val['values'][0]
-        this.move['restrict_lot_ids'] = false
-        product_id = this.ret_m2o(val['values'][0], 'product_id')
-        location_id = this.ret_m2o(val['values'][0], 'location_id')
-        uom_id = this.ret_m2o(val['values'][0], 'uom_id')
-        this.max_qty = this.move['restrict_lot_id']['qty_available']
-        qty = 0.00
-        if (!location_id['id']){
-          this.get_lot_location_ids(val['id'])
-        }
-      }
-      else {
-        this.move['restrict_lot_ids'] = val['values']
-        product_id = false
-        uom_id = false
-        location_id = false
-      }
+    let product_ids = val['product_ids']
+    let field = ['lot_id', 'location_id', 'product_id', 'package_id', 'product_id', 'company_id']
+
+    for (let f in field){
+      this.ids_to_id(val[field[f] + 's'], field[f], field[f] + 's')
     }
-    else if (val['model']=='stock.quant_package'){
-      qty = 0.00
-      if (val['id']){
-        this.move['restrict_package_id'] = val['values'][0]
-        this.move['restrict_package_ids'] = false
-        lot_id = this.ret_m2o(val['values'][0], 'lot_id')
-        product_id = this.ret_m2o(val['values'][0], 'product_id')
-        location_id = this.ret_m2o(val['values'][0], 'location_id')
-        uom_id = this.ret_m2o(val['values'][0], 'uom_id')
-        qty = 0.00
-      }
-      else {
-        this.move['restrict_package_ids'] = val['values']
-        product_id = false
-        uom_id = false
-        location_id = false
-      }
-    }
-    else if (val['model']=='product.product'){
-      qty = 0.00
-      if (val['id']){
-        this.move['product_id'] = val['values'][0]
-        this.move['product_ids'] = []
-        lot_id = {}
-        product_id = {}
-        location_id = {}
-        uom_id = this.ret_m2o(val['values'][0], 'uom_id')
-      }
-      else {
-        this.move['product_ids'] = val['values']
-        product_id = false
-        uom_id = false
-        location_id = false
-      }
-      
-      }
-    else if (val['model']=='stock.location' && this.state==0){
-      this.move['location_id'] = this.ret_m2o(val['values'][0], 'location_id')
-    }  
-    else if (val['model']=='stock.location' && this.state==1){
+    this.move['lots'] = val['lots']
+    this.move['qty'] = val['qty']
+    this.move['product_uom']= val['product_uom'] || val['lots'] && val['lots'][0]['uom_id']
+    this.state = this.get_state()
+    return true
+
+    /*
+    if (val['model']=='stock.location' && this.state=='qty'){
       this.move['location_dest_id'] = val['values'][0]
 
     }  
-    if (this.state==0){
-      if (qty >=0) {this.move['product_qty']=qty}
+
+    if (this.state=='origin'){
+      if (qty >=0) {this.move['qty']=qty}
       this.move['product_id'] = product_id
       this.move['location_id'] = location_id  
       this.move['uom_id'] = uom_id
     }
     this.state = this.get_state()
-
+    */
   }
-  
-  select_lot (lot_id){
+  select(company_id = false, package_id = false, lot_id=false, product_id=false, location_id=false){
     this.cargar = true
-    this.move['restrict_lot_ids']=[]
-    var values = {'model': 'stock.production.lot', 'id': lot_id, 'return_object': true};
-    this.submit(values)
+    if (lot_id) {
+      this.move['lot_id'] = {'id': lot_id, 'name': 'nombre'}
+    }
+    if (company_id) {
+      this.move['company_id'] = {'id': company_id, 'name': 'nombre'}
+    }
+    if (package_id) {
+      this.move['package_id'] = {'id': package_id, 'name': 'nombre'}
+    }
+    if (product_id) {
+      this.move['product_id'] = {'id': product_id, 'name': 'nombre'}
+    }
+    if (location_id) {
+      this.move['location_id'] = {'id': location_id, 'name': 'nombre'}
+    }
+    let values = {'model': [], 'search_str' : false, 'return_object': true};
+    this.submit(values);
   }
 
-  select_location(location_id){
-    let id = location_id[0]
-    let name = location_id[1]
-    let max_qty = location_id[2]
-    let loc = {'location_id': [id, name]}
-    let model = 'stock.location'
-    let val = {'model': model, 'values': [loc] }
-    this.move['location_id'] = this.ret_m2o(val['values'][0], 'location_id')
-    this.move['company_id'] = this.ret_m2o(val['values'][4], 'location_id')
-    this.max_qty = max_qty
-    this.move['product_qty'] = 0
-    this.state = this.get_state()
+  select_product(product_id, company_id = false, package_id = false, lot_id=false, location_id=false){
+    return this.select(company_id, package_id, lot_id, product_id, location_id)
+  }
+  //lot.lot_id.id, lot.company_id and lot.company_id.id, lot.package_id and lot_package_id.id, lot.product_id.id, lot.location_id.id
+  select_lot (lot_id, company_id = false, package_id = false, product_id=false, location_id=false){
+    let r1
+    r1=12
+    return this.select(company_id, package_id, lot_id, product_id, location_id)
+  }
+  select_package (package_id, company_id = false, lot_id=false, product_id=false, location_id=false){
+    return this.select(company_id, package_id, lot_id, product_id, location_id)
+  }
+
+  select_location(location_id, company_id = false, package_id = false, lot_id=false, product_id=false){
+    return this.select(company_id, package_id, lot_id, product_id, location_id)
   }
   inputQty() {
-    if (this.state==0){return}
+    
     let alert = this.alertCtrl.create({
       title: 'Qty',
       message: 'Cantidad a mover',
       inputs: [
         {
           name: 'qty',
-          placeholder: this['move']['product_qty'].toString()
+          placeholder: this['move']['qty'].toString()
         },
       ],
       buttons: [
@@ -255,12 +303,12 @@ export class ManualPage {
               this.presentAlert('Error!', 'La cantidad debe ser mayor que 0');
               return
             }
-            else if (data.qty > this.max_qty){
+            else if (data.qty > this.move['qty']){
               this.presentAlert('Error!', 'La cantidad debe ser menor que la disponible');
               return
             }
             
-            this['move']['product_qty'] = data.qty
+            this['move']['qty'] = data.qty
             this.get_state();
             this.input = 0;
 
@@ -292,18 +340,38 @@ export class ManualPage {
     toast.present();
   }
   get_move_values (move){
-    var values = {'restrict_package_id': move['restrict_package_id'] && move['restrict_package_id']['id'] || false,
-                  'product_id': move['product_id']['id'],
-                  'product_qty': move['product_qty'] || 0,
-                  'restrict_lot_id': move['restrict_lot_id'] && move['restrict_lot_id']['id'] || false,
-                  'location_id': move['location_id']['id'],
+    var values = {'restrict_package_id': move['package_id'] && move['package_id']['id'] || false,
+                  'package_id': move['package_id'] && move['package_id']['id'] || false,
+                  'product_id': move['product_id'] && move['product_id']['id'] || false,
+                  'product_qty': move['qty'] || 0,
+                  'restrict_lot_id': move['lot_id'] && move['lot_id']['id'] || false,
+                  'lot_id': move['lot_id'] && move['lot_id']['id'] || false,
+                  'location_id': move['location_id'] && move['location_id']['id'] || false,
                   'result_package_id': move['result_package_id'] && move['result_package_id']['id'] ||false,
-                  'location_dest_id': move['location_dest_id']['id'],
+                  'location_dest_id':  move['location_dest_id'] && move['location_dest_id']['id'] || false,
                   'package_qty': move['package_qty'] || 0,
-                  'product_uom_qty': move['product_qty'] || 0,
-                  'company_id': move['company_id'] || false,
+                  'product_uom_qty': move['qty'] || 0,
+                  'company_id': move['company_id'] && move['company_id']['id'] || false,
                   'origin': 'PDA move'}
     return values
+  }
+  get_ids_list(val_ids){
+    let ids=[]
+
+    for (let x in val_ids){
+      ids.push(val_ids[x]['id'])
+    }
+    return ids
+  }
+  get_move_filter(move){
+    var filter={
+      'lot_ids': this.get_ids_list(move['lot_ids']),
+      'product_ids': this.get_ids_list(move['product_ids']),
+      'package_ids': this.get_ids_list(move['package_ids']),
+      'location_ids': this.get_ids_list(move['location_ids']),
+      'company_ids': this.get_ids_list(move['company_ids']),
+    }
+    return filter
   }
 
   process_move(){
@@ -329,23 +397,64 @@ export class ManualPage {
     })
 
   }
+  get_ids_from_lots(new_lots){
 
+
+
+  }
+  find(scan){
+    let index
+    // SUPONGO PAQUETES UNICOS
+    for (index in this.move['package_ids']){
+      let pack = this.move['package_ids'][index]
+      if (pack['name'] == scan){
+        return this.select_package(pack['id'])
+      }
+    }
+    let lots = []
+    for (index in this.move['lot_ids']){
+      if (this.move['lot_ids'][index]['name']== scan){
+        lots.push(this.move['lot_ids'][index])
+      }
+    }
+    if (lots) {
+      this.move['lot_ids'] = lots
+      return this.select_lot(false)
+    }
+    for (index in this.move['location_ids']){
+      let loc = this.move['location_ids'][index]
+      if (loc['loc_barcode'] == scan){
+        return this.select_location(loc['id'])
+      }
+    }
+    for (index in this.move['product_ids']){
+      let prod = this.move['product_ids'][index]
+      if (prod['ean13'] == scan){
+        return this.select_product(prod['id'])
+      }   
+    }
+  }
   Scan(scan){
+    let filter = 
     this.cargar=true
     let values
-    if (this.state == 2 && this.last_scan == scan){
+    if (this.state == 'dest' && this.last_scan == scan){
       this.process_move();
     }
-    else if (this.state==1){
-      values = {'model': ['stock.location', 'stock.quant_package'], 'search_str' : scan, 'return_object': true};
-      
-      this.submit(values);
+    else if (this.state == 'qty'){
+      values = {'model': ['stock.location', 'stock.quant.package'], 'search_str' : scan, 'return_object': true};
+      this.submit_dest_id(values);
     }
     else {
       values = {'model': this.models, 'search_str' : scan, 'return_object': true};
-      
-      this.submit(values);
+      if (this.move['product_ids'] || this.move['lot_ids'] || this.move['package_ids'] || this.move['location_ids'] || this.move['product_ids']) {
+        this.find(scan)
+      }
+      else {
+        this.submit(values);
+      }
     }
+    this.last_scan = scan
     }
 
   

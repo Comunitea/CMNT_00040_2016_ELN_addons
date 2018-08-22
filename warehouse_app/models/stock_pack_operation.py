@@ -432,25 +432,32 @@ class StockPackOperation (models.Model):
 
         lot_id = values.get('lot_id', False)
         op_id = values.get('id', False)
+        location_id = values.get('location_id', False)
         force_qty = values.get('force_qty', False)
         op = self.env['stock.pack.operation'].browse(op_id)
+
+        if not location_id:
+            return {'result': False, 'message': "No se ha encontrado la ubicación"}
         if not op:
             return {'result': False, 'message': "No se ha encontrado la operación"}
         if op.pda_done:
             return {'result': False, 'message': "La operación ya está realizada"}
-        lot = self.env['stock.production.lot'].search_read([('id','=', lot_id)], ['location_id', 'qty_available', 'virtual_available'])
+
+        lot = self.env['stock.production.lot'].search_read([('id','=', lot_id)], ['qty_available', 'virtual_available'])
+
 
         if not lot:
             return {'result': False, 'message': "No se ha encontrado el lote o es no tiene cantidad"}
+
         lot = lot[0]
+
         if not force_qty and (lot['virtual_available'] < op.product_qty or lot['qty_available'] <= 0.00):
             return {'result': False, 'message': "No hay cantidad suficiente en el lote o está vacío"}
 
         values = {'lot_id': lot_id,
                   'pda_done': False,
+                  'location_id': location_id,
                   'qty_done': 0.00}
-        if lot['location_id'][0] and op.location_id.id != lot['location_id'][0]:
-            values['location_id'] = lot['location_id'][0]
 
         self.browse(op_id).write(values)
         return op_id

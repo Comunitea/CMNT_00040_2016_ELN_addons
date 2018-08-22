@@ -87,7 +87,7 @@ export class TreeopsPage {
   }
 
   seeAll2(){
-    this.filter_user = this.whatOps
+    //this.filter_user = this.whatOps
   }
   
   infopick(val){
@@ -212,7 +212,7 @@ export class TreeopsPage {
     this.odoo.execute(this.model, method, values).then((value)=>{
       if (value){
         if (value){
-          this.filter_user='Assigned';
+          this.filter_user='assigned';
           this.loadList()
         }
         else {

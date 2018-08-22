@@ -21,12 +21,12 @@ FIELD_NAME = {'stock.quant.package': 'name',
               'stock.location': 'loc_barcode',
               'product.product': 'display_name'}
 
-FIELDS = {'stock.quant.package': ['id', 'name', 'lot_id', 'location_id', 'package_qty', 'multi', 'product_id', 'uom_id'],
+FIELDS = {'stock.quant.package': ['id', 'name', 'lot_id', 'location_id', 'package_qty', 'multi', 'product_id', 'uom_id', 'company_id'],
           'stock.production.lot': ['id', 'name', 'qty_available', 'product_id','use_date', 'life_date', 'location_id', 'uom_id'],
-          'stock.location': ['id', 'name', 'usage', 'loc_barcode'],
-          'product.product': ['id', 'name', 'barcean13ode', 'default_code', 'default_stock_location_id', 'track_all']}
+          'stock.location': ['id', 'name', 'usage', 'loc_barcode', 'company_id'],
+          'product.product': ['id', 'name', 'barcode13', 'default_code', 'default_stock_location_id', 'track_all', 'company_id']}
 
-DOMAIN = {'stock.production.lot': [('qty_available', '>', 0.00)],
+DOMAIN = {'stock.production.lot': [],
           'stock.quant.package': [],
           'stock.location': [],
           'product.product': []}
@@ -198,7 +198,7 @@ class WarehouseApp (models.Model):
 
     @api.model
     def get_object_id(self, vals):
-        print vals
+
         model = vals.get('model', False)
         id = vals.get('id', False)
 
@@ -325,6 +325,7 @@ class WarehouseApp (models.Model):
 
     @api.model
     def get_ids(self, vals):
+
         model = vals.get('model', False)
         search_str = vals.get('search_str', '')
         search_domain = vals.get('search_domain', [])
@@ -342,7 +343,7 @@ class WarehouseApp (models.Model):
                 if object_ids:
                     break
         ##SEGUN EL TIPO DE MODELO, HAGO UNOS FILTROS PARA NO ENVIAR DATOS INSERVIBLES
-        if option == 'stock.production.lot':
+        if option == 'stock.production.lot' and False:
             object_ids = [x for x in object_ids if x['qty_available'] > 0.00]
 
         if not object_ids:
@@ -352,6 +353,7 @@ class WarehouseApp (models.Model):
             if len(object_ids) == 1:
                 id = object_ids[0]['id']
             res = {'model': option, 'id': id, 'values': object_ids}
+        print res
         return res
 
     @api.model
@@ -359,48 +361,48 @@ class WarehouseApp (models.Model):
 
         models = vals.get('model', [])
         search_str = vals.get('search_str', '')
-        product_id = vals.get('product_id', False)
-
+        limit = vals.get('limit', False)
+        domain = vals.get('domain', False)
         #LO HAGO CON SQL POR VELOCIDAD Y COMPAÑIA
+        limit_str = ''
+        if domain:
+            limit_str = domain
+        if limit:
+            limit_str= "and limit %s"%limit
         ids = []
-        model_str = ''
-
         if 'stock.quant.package' in models:
-            sql = "select id from stock_quant_package where name = '%s' limit 1 "%search_str
+            sql = "select id, name, %s as model from stock_quant_package where name = '%s' %s "%('stock.quant.package', search_str, limit_str)
             self._cr.execute(sql)
             ids = self._cr.fetchall()
-            model_str = 'package_id'
+            model = "package_id"
         if ids == [] and 'stock.production.lot' in models:
-            sql = "select id from stock_production_lot where name = '%s' and (product_id = null or product_id = %s) order by product_id desc limit 1" %(search_str, product_id)
+            sql = ""
+            sql = "select id, name, %s as model from stock_production_lot where name = '%s' %s" %('stock.production.lot', search_str, limit_str)
             self._cr.execute(sql)
             ids = self._cr.fetchall()
-            model_str = 'lot_id'
+            model = "lot_id"
         if ids == []  and 'stock.location' in models:
-            sql = "select id from stock_location where loc_barcode = '%s' limit 1" % search_str
+            sql = "select id, name, %s as model from stock_location where loc_barcode = '%s' %s" %('stock.location', search_str, limit_str)
             self._cr.execute(sql)
             ids = self._cr.fetchall()
-            model_str = 'location_id'
+            model = "location_id"
         if ids == [] and 'product.product' in models:
-            sql = "select id from product_product where ean13 = '%s' limit 1" % search_str
+            sql = "select id, name, %s as model from product_product where ean13 = '%s' %s" %('product.product', search_str, limit_str)
             self._cr.execute(sql)
             ids = self._cr.fetchall()
-            model_str ="product_id"
-
+            model = "product_id"
         if ids != []:
-            res = {'id': ids[0][0], 'model': model_str}
+            res = {'ids': ids}
         else:
-            res = {'id': False, 'model': ''}
+            res = {'id': False}
         print "---------------------\nFuncion get_scanned_id devuelve :\n %s\n--------------------------------" % res
+
+
         return res
-
-
 
 
     @api.model
     def get_picks_info(self, vals):
-        print "ENTRO EN GET_PICKS_INFO"
-
-
         types = vals.get('types', False)
         domain = vals.get('domain', [])
         limit = vals.get('limit', 25)
@@ -533,3 +535,5 @@ class WarehouseApp (models.Model):
 
         print operation
         return operation
+
+    #def get_lot_info(self, vals):

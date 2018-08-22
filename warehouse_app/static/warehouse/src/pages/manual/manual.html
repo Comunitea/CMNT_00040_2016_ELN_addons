@@ -30,74 +30,127 @@
             <ion-icon name="repeat" item-end color="danger" (click)="reset_form()"></ion-icon>
           </ion-item>
       
-          <!--ion-item [hidden] = "!move.restrict_package_id">
-            <button ion-button color='primary' item-end>{{move.restrict_package_id && move.restrict_package_id.name}}</button>
+          <!--ion-item [hidden] = "!move.package_id">
+            <button ion-button color='primary' item-end>{{move.package_id && move.package_id.name}}</button>
             <ion-toggle [(ngModel)]="move.package_qty"  (ionChange)="change_package_qty()" item-start></ion-toggle>
           </ion-item>
 
-          <ion-item-group [hidden] = "!move.restrict_package_ids">
-              <ion-item *ngFor="let package_id of move.restrict_package_id; trackBy: index;" no-lines class="all0">
+          <ion-item-group [hidden] = "!move.package_ids">
+              <ion-item *ngFor="let package_id of move.package_id; trackBy: index;" no-lines class="all0">
                 <button ion-button color = 'odoo' item-end (click)='select_package(package_id.id)'>{{package_id.product_id && package_id.product_id.name}}</button>
               </ion-item>
           </ion-item-group-->    
-          
-          <ion-item [hidden] = "!move.product_id">
-              <ion-label color="primary" >Articulo</ion-label>
-              <button ion-button item-end>{{move.product_id && move.product_id.name}}</button>
-          </ion-item>
-          <ion-item-group *ngIf="move.product_ids">
-              <ion-item>ARTICULOS</ion-item>
-              <ion-item *ngFor="let product_id of move.product_ids; trackBy: index;" no-lines class="all0">
-                <button ion-button full color = 'odoo' item-end (click)='select_product(product_id.id)'>{{product_id && product_id.name}}</button>
-              </ion-item>
-          </ion-item-group>    
+        <ion-item [hidden] = "!move.company_id">
+          <ion-label color="primary" >Compañia</ion-label>
+          <button ion-button item-end>{{move.company_id && move.company_id.name}}</button>
+        </ion-item>
 
-          <ion-item-group [hidden] = "!move.restrict_lot_id">
+
+        <ion-item [hidden] = "!move.product_id">
+            <ion-label color="primary" >Articulo</ion-label>
+            <button ion-button item-end>{{move.product_id && move.product_id.name}}</button>
+        </ion-item>
+
+        <ion-item-group *ngIf="move.product_ids">
+            <ion-item><ion-label color="primary" >Escoge producto</ion-label></ion-item>
+            <ion-item *ngFor="let product_id of move.product_ids; trackBy: index;" no-lines class="all0">
+              <button ion-button full color = 'odoo' item-end (click)='select_product(product_id.id)'>{{product_id.name}}</button>
+            </ion-item>
+        </ion-item-group>    
+        <ion-item-group *ngIf="move.lot_id">
+          <ion-item >
+            <ion-label color="primary" >Lote</ion-label>
+            <button ion-button item-end>{{move.lot_id && move.lot_id.name}}</button>
+          </ion-item>
+          <ion-item no-lines item-end>
+            <ion-label  class="f-s-small w100" color="odoo" item-end>
+              CANT: {{move.qty || (move.lots && move.lots[0].qty)}} {{move.product_uom && move.product_uom.name}} 
+            </ion-label>
+            <ion-label class="f-s-small w100" color="odoo" item-end [hidden] = "!(move.lot_id && move.lot_id.use_date)">
+                CAD: {{move.lot_id && move.lot_id.use_date}}
+            </ion-label>
+          </ion-item>
+          <!--ion-item no-lines [hidden] = "!move.lot_id || !move.lot_id.use_date">
+            <ion-label class="f-s-small w100" color="odoo" item-end>
+                CAD: {{move.lot_id && move.lot_id.use_date}}
+            </ion-label>
+          </ion-item-->
+      </ion-item-group>  
+        <ion-item-group [hidden] = "state!='origin'" *ngIf="move.lots">
+          <ion-item><ion-label color="primary" >Escoge lote {{ move.lots.lenght }}</ion-label></ion-item>
+          <ion-item *ngFor="let lot of move.lots; trackBy: index;" no-lines class="all0">
+            <button ion-button full color = 'odoo' item-end
+            (click)='select_lot(lot.lot_id.id, lot.company_id && lot.company_id.id, lot.package_id && lot_package_id.id, lot.product_id.id, lot.location_id.id)'> 
+            {{lot.lot_id.name}}: {{lot.qty}} {{lot.uom_id.name}} de {{lot.product_id.name}} en {{lot.location_id.name }}
+          </button>
+          </ion-item>
+        </ion-item-group>    
+
+
+        <!--ion-item-group *ngIf="move.lot_id">
             <ion-item>
               <ion-label color="primary" >Lote</ion-label>
-              <button ion-button item-end>{{move.restrict_lot_id && move.restrict_lot_id.name}}</button>
+              <button ion-button item-end>{{move.lot_id && move.lot_id.name}}</button>
             </ion-item>
             <ion-item no-lines item-end>
               <ion-label  class="f-s-small w100" color="odoo" item-end>
-                 CANT: {{move.restrict_lot_id && move.restrict_lot_id.qty_available}} {{move.restrict_lot_id && move.restrict_lot_id.uom_id[1]}} 
+                 CANT: {{max_qty || (move.lot_id && move.lot_id.qty_available)}} {{move.uom_id && move.uom_id.id}} 
               </ion-label>
             </ion-item>
-            <ion-item no-lines>
+            <ion-item no-lines [hidden] = "!move.lot_id || !move.lot_id.use_date">
               <ion-label class="f-s-small w100" color="odoo" item-end>
-                  CAD: {{move.restrict_lot_id && move.restrict_lot_id.use_date}}
+                  CAD: {{move.lot_id && move.lot_id.use_date}}
               </ion-label>
             </ion-item>
               <ion-item *ngFor="let location_id of move.location_ids; trackBy: index;" no-lines class="all0">
                 <button ion-button  class="w100" color='odoo' item-end (click)='select_location(location_id)'>{{location_id[2]}} {{location_id[1]}} [{{location_id[3]}}]</button>
               </ion-item>
           </ion-item-group>    
-  
-          
-          <ion-item-group *ngIf="move.restrict_lot_ids">
+          <ion-item-group *ngIf="move.lot_ids">
               <ion-item>LOTES</ion-item>
-              <ion-item *ngFor="let lot_id of move.restrict_lot_ids; trackBy: index;" no-lines class="all0">
-                <button ion-button full color = 'odoo' item-end (click)='select_lot(lot_id.id)'>{{lot_id.product_id && lot_id.product_id[1]}}</button>
+              <ion-item *ngFor="let lot_id of move.lot_ids; trackBy: index;" no-lines class="all0">
+                <button ion-button full color = 'odoo' item-end (click)='select_lot(lot_id.id, lot_id.location_id)'>{{lot_id.product_id && lot_id.product_id.name}}</button>
               </ion-item>
-          </ion-item-group>
+          </ion-item-group!-->
           
-          <ion-item  *ngIf="move.location_id && move.location_id.id">
+          <!--ion-item  *ngIf="move.location_id && move.location_id.id">
               <ion-label color="primary" >De</ion-label>
               <button ion-button item-end>{{move.location_id && move.location_id.name || "Ubicación Orig."}}</button>
-          </ion-item>
+          </ion-item-->
 
-          <ion-item [hidden]="state==0">
+          <ion-item [hidden]="state=='origin' && !move.lot_id">
             <ion-label color="primary">Qty</ion-label>
-            <button ion-button item-end (click)="inputQty()">{{ move.product_qty }} {{ move.uom_id && move.uom_id.name}}</button>
+            <button ion-button item-end (click)="inputQty()">{{ move.qty }} {{ move.uom_id && move.uom_id.name}}</button>
           </ion-item>
+          <ion-item [hidden] = "!move.location_id">
+              <ion-label color="primary" >Ubicación</ion-label>
+              <button ion-button item-end>{{move.location_id && move.location_id.name}}</button>
+          </ion-item>
+  
+          <ion-item-group *ngIf="move.location_ids">
+              <ion-item><ion-label color="primary" >Escoge ubicación</ion-label></ion-item>
+              <ion-item *ngFor="let location_id of move.location_ids; trackBy: index;" no-lines class="all0">
+                <button ion-button full color = 'odoo' item-end (click)='select_location(location_id.id)'>{{location_id.name}}</button>
+              </ion-item>
+          </ion-item-group>   
 
-        
+          <!--ion-item *ngIf="move.location_id">
+            <ion-label color="primary" >Ubicación</ion-label>
+            <button ion-button item-end>{{move.location_id && move.location_id.name}}</button>
+        </ion-item>
+        <ion-item-group *ngIf="move.location_ids">
+            <ion-item><ion-label color="primary" >Escoge ubicación</ion-label></ion-item>
+            <ion-item *ngFor="let location_id of move.location_ids; trackBy: index;" no-lines class="all0">
+              <button ion-button full color = 'odoo' item-end (click)='select_location(location_id.id)'>{{location_id && location_id.name}}</button>
+            </ion-item>
+        </ion-item-group-->    
           <!--ion-item-group *ngIf="move.location_ids">
               <ion-item *ngFor="let location_id of move.location_ids; trackBy: index;" no-lines class="all0">
                 <button ion-button  color = 'odoo' item-end (click)='select_location(location_id[0], location_id[1])'>{{location_id[1]}} {{location_id[3]}} {{location_id[2]}} </button>
               </ion-item>
           </ion-item-group-->    
 
-        <ion-item-group [hidden]="state==0">
+        <ion-item-group [hidden]="state=='origin'">
           <ion-item no-lines>
             <ion-label color="odoo" class="bold" item-start onclick="set_dest()">
               DESTINO
@@ -116,10 +169,34 @@
       </ion-item-group >
       </ion-list>
     
-      <ion-item *ngIf="this.state==2" >
+      <ion-item *ngIf="this.state=='dest'" >
           <button ion-button color="odoo" full (click) =process_move()><span>Confirmar</span></button>
       </ion-item>
-  
+      <ion-item>
+        <button ion-button color="odoo" full (click) =process_move()><span>{{this.state}}</span></button>
+    </ion-item>
+    <ion-item-group [hidden]="debug">
+      <ion-item no-lines>
+        <ion-label color="odoo" class="bold" item-start>
+          {{move.company_id && move.company_id.name}}
+        </ion-label>
+      </ion-item>
+      <ion-item no-lines>
+        <ion-label color="odoo" class="bold" item-start>
+          {{move.product_id && move.product_id.name}}
+        </ion-label>
+      </ion-item>
+      <ion-item no-lines>
+        <ion-label color="odoo" class="bold" item-start>
+          {{move.lot_id && move.lot_id.name}}
+        </ion-label>
+      </ion-item>
+      <ion-item no-lines>
+        <ion-label color="odoo" class="bold" item-start>
+          {{move.location && move.location_id.name}}
+        </ion-label>
+      </ion-item>
+    </ion-item-group>
 </ion-content>
 <ion-footer>
     <form [formGroup]="barcodeForm" class ="alignBottom">

@@ -75,17 +75,6 @@ class StockPickingType(models.Model):
     process_from_tree = fields.Boolean("Process from pda tree ops", help="If checked, allow to process op with default values from pick tree ops in pda")
 
 
-
-
-
-
-
-
-
-
-
-
-
 class StockPicking(models.Model):
     _inherit = "stock.picking"
 
@@ -197,15 +186,19 @@ class StockPicking(models.Model):
     def pda_do_prepare_partial(self):
         self.ensure_one()
         if self.company_id == self.env.user.company_id:
-            self.action_assign() # Ver si queremos comprobar disponibilidad desde aqui o solo desde ERP
+            if self.state in ('confirmed', 'partially_available'):
+                self.action_assign()  # Ver si queremos comprobar disponibilidad desde aqui o solo desde ERP
             self.do_prepare_partial()
             return True
+
         ctx = self._context.copy()
         ctx.update(force_user=True)
+        if self.state in ('confirmed', 'partially_available'):
+            self.with_context(
+                ctx).action_assign()  # Ver si queremos comprobar disponibilidad desde aqui o solo desde ERP
         if self.state in ('assigned', 'partially_available'):
             message = "Do prepare partial por %s" % self.env.user.name
             self.message_post(message)
-            self.with_context(ctx).action_assign() # Ver si queremos comprobar disponibilidad desde aqui o solo desde ERP
             self.with_context(ctx).do_prepare_partial()
             # self.mapped('wave_id')._get_picking_ids_status()
         return True
