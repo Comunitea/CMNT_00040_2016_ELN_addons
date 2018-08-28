@@ -42,13 +42,13 @@
         <ion-item [hidden]='picks.length>0 || cargar' color ="danger"> No hay albaranes</ion-item>
 
         <ion-item *ngFor="let pick of picks; trackBy: index;" 
-            item-start (click)="showtreeop_ids(pick.id, pick.is_wave)" class="itemwaiting" [ngClass]="{'itemdone': pick.state=='done'}">
+            item-start (click)="showtreeop_ids(pick.id, pick.is_wave, pick.pack_operation_count)" class="itemwaiting" [ngClass]="{'has_ops': pick.pack_operation_count!=0}">
               
               <ion-label>
-                  {{pick.name}}     
+                  {{pick.name}}
               </ion-label>
             <div item-content>
-                {{pick.ops_str}}     
+                {{pick.pack_operation_count!=0 && pick.ops_str || ''}}     
             </div>
             <!--button ion-button item-start class="buttonProduct" (click)="showtreeop_ids(pick.id)" [ngClass]="{'pìckdone': pick.state=='done'}">
               {{pick.name}} 

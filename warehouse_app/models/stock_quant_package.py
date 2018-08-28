@@ -134,7 +134,7 @@ class StockProductionLot(models.Model):
               "and not (spl.id = %s and sq.location_id = %s) " \
               "and (sl.parent_left >= %s and sl.parent_right <= %s) " \
               "group by sq.reservation_id, spl.id, spl.name, sq.location_id, sl.pda_name, spl.use_date, sq.company_id, pp.pda_name " \
-              "having qty_available >= %s" \
+              "having sum(sq.qty) >= %s " \
               "order by selected desc, reservation_id desc, use_date, id"%(op_id, op_id, product_id, lot_id, location_id, parent_left, parent_right, qty)
 
         print sql2
@@ -146,7 +146,7 @@ class StockProductionLot(models.Model):
                     'display_name': lot_id[2] or False,
                     'qty_available': lot_id[3] or 0.00,
                     'reservation_id': lot_id[9] or False,
-                    'loc_id': lot[4] or False,
+                    'loc_id': lot_id[4] or False,
                     'location_id': lot_id[5] or False,
                     'selected': lot_id[8] or 0,
                     'use_date': lot_id[6] or ''}

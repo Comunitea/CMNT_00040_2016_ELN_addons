@@ -79,10 +79,14 @@
         <ion-item-group [hidden] = "state!='origin'" *ngIf="move.lots">
           <ion-item><ion-label color="primary" >Escoge lote {{ move.lots.lenght }}</ion-label></ion-item>
           <ion-item *ngFor="let lot of move.lots; trackBy: index;" no-lines class="all0">
-            <button ion-button full color = 'odoo' item-end
-            (click)='select_lot(lot.lot_id.id, lot.company_id && lot.company_id.id, lot.package_id && lot_package_id.id, lot.product_id.id, lot.location_id.id)'> 
-            {{lot.lot_id.name}}: {{lot.qty}} {{lot.uom_id.name}} de {{lot.product_id.name}} en {{lot.location_id.name }}
-          </button>
+            <button ion-button full color = 'odoo' item-end [hidden] = "lot.reservation_id"
+              (click)='select_lot(lot.lot_id.id, lot.company_id && lot.company_id.id, lot.package_id && lot_package_id.id, lot.product_id.id, lot.location_id.id)'> 
+              {{lot.lot_id.name}}: {{lot.qty}} {{lot.uom_id.name}} de {{lot.product_id.name}} en {{lot.location_id.name }}
+            </button>
+            <button ion-button full color = 'odootext' item-end [hidden] = "!lot.reservation_id"
+            (click)='select_lot(false)'>
+              {{lot.lot_id.name}}: {{lot.qty}} {{lot.uom_id.name}} de {{lot.product_id.name}} en {{lot.location_id.name }} {{lot.picking_id && lot.picking_id.name}}
+            </button>
           </ion-item>
         </ion-item-group>    
 

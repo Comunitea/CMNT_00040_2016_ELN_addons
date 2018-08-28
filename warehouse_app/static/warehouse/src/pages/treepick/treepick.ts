@@ -110,7 +110,7 @@ export class TreepickPage {
       {domain.push(['picking_type_id', '=', picking_type_id]);}
     
     domain.push(['show_in_pda', '=', true]);
-    domain.push(['pack_operation_exist', '!=', false])
+    //domain.push(['pack_operation_exist', '!=', false])
    
     if (this.filter_user=='assigned') {domain.push(['user_id', '=', this.odoo.uid]);} else {domain.push(['user_id','=', false]);}
     //domain = [self.domain_types]
@@ -173,7 +173,8 @@ export class TreepickPage {
   ionViewDidLoad() {
 
   }
-  showtreeop_ids(pick_id, is_wave = false) {
+  showtreeop_ids(pick_id, is_wave = false, ops = 0) {
+    if (ops==0){return}
     let model = is_wave && 'stock.picking.wave' || 'stock.picking'
     this.navCtrl.setRoot(TreeopsPage, {picking_id: pick_id, model: model});
   }

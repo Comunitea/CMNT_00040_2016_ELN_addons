@@ -226,24 +226,24 @@ class StockMove(models.Model):
 
     @api.model
     def pda_get_available_quants_for_move(self, where=False, vals={}):
+        print "pda_get_available_quants_for_move"
+        print vals
         company_id = vals.get('company_id', False)
         package_id = vals.get('package_id', False)
         location_id = vals.get('location_id', False)
         product_id = vals.get('product_id', False)
         lot_id = vals.get('restrict_lot_id', False)
+        reservation_id = vals.get('reservation_id', False)
         filter= vals.get('filter', False)
-        return self.get_available_quants_for_move(where, filter, company_id, package_id, lot_id, product_id, location_id)
+        return self.get_available_quants_for_move(where, filter, company_id, package_id, lot_id, product_id, location_id, reservation_id)
 
     @api.model
-    def get_available_quants_for_move(self, where=False, filter=False, company_id=False, package_id=False, lot_id=False, product_id=False, location_id=False):
-        print where
+    def get_available_quants_for_move(self, add_where=False, filter=False, company_id=False, package_id=False, lot_id=False, product_id=False, location_id=False, reservation_id=False):
+        print add_where
         print filter
-
-        if where:
-            where = "where sl.usage = 'internal' %s "%where
-        else:
-            where = "where sl.usage = 'internal' "
-
+        where = "where sl.usage = 'internal' "
+        if add_where:
+            where = "%s %s "%(where, add_where)
 
         if company_id:
             where = '%s and sq.company_id = %s '%(where, company_id)
@@ -255,6 +255,9 @@ class StockMove(models.Model):
             where = '%s and sq.lot_id = %s ' % (where, lot_id)
         if product_id:
             where = '%s and sq.product_id = %s ' % (where, product_id)
+        if company_id or location_id or package_id or lot_id or product_id:
+            where = '%s and sq.reservation_id isnull'% where
+
         if filter:
             if filter['product_ids']:
                 where = '%s and sq.product_id in %s ' % (where, tuple(filter['product_ids']))
@@ -273,7 +276,7 @@ class StockMove(models.Model):
                  "sq.company_id as company_id, rc.name as company_name, " \
                  "pp.id as product_id, pp.name_template as product_name, pp.ean13 as ean13, " \
                  "sqp.id as package_id, sqp.name as package_name, " \
-                 "sp.id as picking_id, sp.name as picking_name " \
+                 "sp.id as picking_id, sp.name as picking_name, sq.reservation_id " \
                  "from stock_quant sq left " \
                  "join stock_location sl on sl.id = sq.location_id left " \
                  "join stock_quant_package sqp on sqp.id = sq.package_id " \
@@ -283,7 +286,7 @@ class StockMove(models.Model):
                  "left join stock_move sm on sm.id = sq.reservation_id " \
                  "left join stock_picking sp on sp.id = sm.picking_id "
         group = "group by sq.location_id, sq.company_id, sl.name, spl.id, spl.name, sq.product_id, pp.id, pp.name_template, pp.ean13, rc.name, sl.loc_barcode, sqp.id, sqp.name, sq.reservation_id, sp.id, sp.name "
-        order = "order by use_date, spl.id"
+        order = "order by sq.reservation_id desc, use_date, spl.id"
         sql = select + where + group + order
         print sql
         self._cr.execute(sql)
@@ -305,21 +308,23 @@ class StockMove(models.Model):
         lt_ids = []
         c_ids = []
         for q in group_quants:
-
+            reservation_id = q[17]
             if q[5] in l_ids:
                 location_id = [l_id for l_id in move['location_ids'] if l_id['id'] == q[5]][0]
             else:
                 location = self.env['stock.location'].browse(q[5])
                 location_id = q[5] and {'id': location.id, 'name': location.pda_name or location.display_name, 'loc_barcode': location.loc_barcode}
                 move['location_ids'].append(location_id)
-                l_ids.append(q[5])
+                if not q[17]:
+                    l_ids.append(q[5])
 
             if q[8] in c_ids:
                 company_id = [c_id for c_id in move['company_ids'] if c_id['id'] == q[8]][0]
             else:
                 company_id = q[8] and  {'id': q[8], 'name': q[9]}
                 move['company_ids'].append(company_id)
-                c_ids.append(q[8])
+                if not q[17]:
+                    c_ids.append(q[8])
 
             if q[10] in p_ids:
                 product_id = [p_id for p_id in move['product_ids'] if p_id['id'] == q[10]][0]
@@ -330,13 +335,14 @@ class StockMove(models.Model):
                 product_id = product and {'id': q[10], 'name': product.pda_name or product.name,
                                           'ean13': product.ean13 or False, 'track_all': product.track_all, 'uom_id': uom_id}
                 move['product_ids'].append(product_id)
-                p_ids.append(q[10])
+                if not q[17]:
+                    p_ids.append(q[10])
 
             package_id =  q[13] and {'id': q[13], 'name': q[14]}
             if package_id and not package_id in move['package_ids']:
                 move['package_ids'].append(package_id)
-            picking_id =  q[15] and {'id': q[15], 'name': q[16]}
 
+            picking_id =  q[15] and {'id': q[15], 'name': q[16]}
             if picking_id and not picking_id in move['picking_ids']:
                 move['picking_ids'].append(picking_id)
 
@@ -355,7 +361,8 @@ class StockMove(models.Model):
                      'company_id': company_id or False,
                      'product_id': product_id or False,
                      'package_id': package_id or False,
-                     'picking_id': picking_id or False
+                     'picking_id': picking_id or False,
+                     'reservation_id': q[17] or False
                      }
             lots.append(quant)
 

@@ -406,7 +406,7 @@ export class SlideopPage {
           
 
           if (data) {
-            this.serial_ok(data['new_lot_id'], data['loc_id'])
+            this.serial_ok(data['new_lot_id'], data['location_id'])
             this.last_scan = this.op['lot_id']['name']
           }
           else {

@@ -412,17 +412,18 @@ class WarehouseApp (models.Model):
 
         picks = vals.get('picks', False)
         fields = INFO_FIELDS['stock.picking']
-        fields = ['id', 'is_wave', 'name', 'picking_type_id', 'state', 'min_date', 'user_id', 'ops_str']
-        fields = ['id', 'is_wave', 'name', 'picking_type_id', 'state', 'min_date', 'user_id', 'ops_str']
+        fields = ['id', 'is_wave', 'name', 'picking_type_id', 'state', 'min_date', 'user_id', 'ops_str', 'pack_operation_count']
         if picks:
             fields_pick = fields + ['wave_id']
-            domain_pick = domain + [('state', 'in', ('confirmed', 'partially_available', 'assigned', 'in_progress'))]
+            ## Solo debe de encontrar estos estados
+            domain_pick = domain + [['state', 'in', ('confirmed', 'partially_available', 'assigned', 'in_progress')]]
+            print domain_pick
             picks = self.env['stock.picking'].search_read(domain_pick, fields_pick, limit=limit)
             picks = self.get_selection_field('stock.picking', picks, 'state')
         waves = vals.get('waves', False)
         if waves:
             fields_wave = fields + ['picking_state']
-            domain_wave = [('id', 'in', [pick['wave_id'][0] for pick in picks if pick['wave_id']])]
+            domain_wave = [['id', 'in', [pick['wave_id'][0] for pick in picks if pick['wave_id']]]]
             waves = self.env['stock.picking.wave'].search_read(domain_wave, fields_wave, limit=limit)
             waves = self.get_selection_field('stock.picking.wave', waves, 'picking_state')
         picks = [pick for pick in picks if not pick['wave_id']]

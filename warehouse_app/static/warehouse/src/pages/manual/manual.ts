@@ -239,7 +239,7 @@ export class ManualPage {
     this.state = this.get_state()
     */
   }
-  select(company_id = false, package_id = false, lot_id=false, product_id=false, location_id=false){
+  select(company_id = false, package_id = false, lot_id=false, product_id=false, location_id=false, reservation_id=false){
     this.cargar = true
     if (lot_id) {
       this.move['lot_id'] = {'id': lot_id, 'name': 'nombre'}
@@ -256,25 +256,28 @@ export class ManualPage {
     if (location_id) {
       this.move['location_id'] = {'id': location_id, 'name': 'nombre'}
     }
+    if (reservation_id)
+      this.move['reservation_id'] = reservation_id
+    
     let values = {'model': [], 'search_str' : false, 'return_object': true};
     this.submit(values);
   }
 
-  select_product(product_id, company_id = false, package_id = false, lot_id=false, location_id=false){
-    return this.select(company_id, package_id, lot_id, product_id, location_id)
+  select_product(product_id, company_id = false, package_id = false, lot_id=false, location_id=false, reservation_id=false){
+    return this.select(company_id, package_id, lot_id, product_id, location_id, reservation_id)
   }
   //lot.lot_id.id, lot.company_id and lot.company_id.id, lot.package_id and lot_package_id.id, lot.product_id.id, lot.location_id.id
-  select_lot (lot_id, company_id = false, package_id = false, product_id=false, location_id=false){
-    let r1
-    r1=12
-    return this.select(company_id, package_id, lot_id, product_id, location_id)
+  select_lot (lot_id, company_id = false, package_id = false, product_id=false, location_id=false, reservation_id=false){
+    if (lot_id){
+      return this.select(company_id, package_id, lot_id, product_id, location_id, reservation_id)
+    }
   }
-  select_package (package_id, company_id = false, lot_id=false, product_id=false, location_id=false){
-    return this.select(company_id, package_id, lot_id, product_id, location_id)
+  select_package (package_id, company_id = false, lot_id=false, product_id=false, location_id=false, reservation_id=false){
+    return this.select(company_id, package_id, lot_id, product_id, location_id, reservation_id)
   }
 
-  select_location(location_id, company_id = false, package_id = false, lot_id=false, product_id=false){
-    return this.select(company_id, package_id, lot_id, product_id, location_id)
+  select_location(location_id, company_id = false, package_id = false, lot_id=false, product_id=false, reservation_id=false){
+    return this.select(company_id, package_id, lot_id, product_id, location_id, reservation_id)
   }
   inputQty() {
     
@@ -352,6 +355,7 @@ export class ManualPage {
                   'package_qty': move['package_qty'] || 0,
                   'product_uom_qty': move['qty'] || 0,
                   'company_id': move['company_id'] && move['company_id']['id'] || false,
+                  'reservation_id': move['reservation_id'] || false,
                   'origin': 'PDA move'}
     return values
   }

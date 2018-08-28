@@ -96,7 +96,7 @@ class StockLocation (models.Model):
     need_check = fields.Boolean("Need check", default=False, help="Need check in ")
     rack_name = fields.Char(related='rack_id.name')
     pda_name = fields.Char("PDA name")
-
+    loc_barcode = fields.Char('Location Barcode', copy=False)
     @api.model
     def name_to_id(self, name):
         location = self.search([('loc_barcode', '=', name)], limit=1)

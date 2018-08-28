@@ -29,8 +29,9 @@
         <ion-item-group [hidden] = "!lot_ids">
           <ion-item *ngFor="let lot_id of lot_ids; trackBy: index;" no-lines class="all0">
 
-            <ion-badge item-start  class="b-op w100" [ngClass]="{'badge_checked':lot_id['selected'] == 1, 'badge_warning':lot_id['selected'] == 0 && lot_id['reservation_id']}" (click)="click_lot(lot_id['id'], lot_id['loc_id'])">
-             {{lot_id['display_name']}}: {{lot_id['qty_available']}} {{this.op.product_uom_id.name}} --> {{lot_id['location_id']}} {{lot_id['reservation_id'] || '' }}
+            <ion-badge item-start  class="b-op w100" [ngClass]="{'badge_checked':lot_id['selected'] == 1, 'badge_warning':lot_id['selected'] == 0 && lot_id['reservation_id']}" 
+            (click)="click_lot(lot_id['id'], lot_id['loc_id'])">
+             {{lot_id['display_name']}}: {{lot_id['qty_available']}} {{this.op.product_uom_id.name}} --> {{lot_id['location_id']}} {{lot_id['picking_id'] && lot_id['picking_id']['name'] || '' }}
             </ion-badge>
             <!--ion-badge item-end  class="b-op" [ngClass]="{'badge_checked':op.lot_id.id == lot_id.id}">
               
@@ -42,7 +43,7 @@
         <ion-item>
 
           <!--button ion-button item-end color="odoo" class="w33" (click)="guardar()">Guardar</button-->
-          <button [hidden] = "!op.lot_id" ion-button item-end color="primary" class ="w33" (click)="click_lot(op.lot_id.id, op.location_id.id, op.company_id.id)">{{ op.lot_id.name }}</button>
+          <button [hidden] = "!op.lot_id" ion-button item-end color="primary" class ="w33" (click)="click_lot(op.lot_id.id, op.location_id.id)">{{ op.lot_id.name }}</button>
           <button ion-button item-end color="danger" class ="w33" (click)="cancelar()">Cerrar</button>
         </ion-item>
       </ion-list>
