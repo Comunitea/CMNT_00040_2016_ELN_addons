@@ -211,15 +211,14 @@ export class TreeopsPage {
     var method = 'pda_do_assign_from_pda'
     this.odoo.execute(this.model, method, values).then((value)=>{
       if (value){
-        if (value){
-          this.filter_user='assigned';
+        if (do_assign){
+          this.filter_user = 'assigned'
           this.loadList()
         }
         else {
-          this.filter_user=''
-          this.show_scan()
+          this.filter_user = ''
+          this.loadList()
         }
-
       }
       else {
         this.presentAlert('Error!', 'Error al escribir en Odoo');

@@ -168,8 +168,9 @@ class StockPicking(models.Model):
         else:
             user_id = False
         pick = self.get_pda_pick(self.id, "Autoasignado por %s")
-        if pick.state not in ('done', 'cancel'):
-            return pick.write({'user_id': user_id})
+        if pick.state in ('cancel', 'done'):
+            return False
+        return pick.write({'user_id': user_id})
 
     @api.model
     def pda_do_prepare_partial_from_pda(self, vals):
