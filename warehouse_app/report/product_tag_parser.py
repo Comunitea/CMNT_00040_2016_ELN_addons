@@ -26,3 +26,23 @@ class ProductTagParser(models.AbstractModel):
             'vals': vals,
         }
         return report_obj.render(report_name, docargs)
+
+
+class LotTagParser(models.AbstractModel):
+    """
+    """
+    _name = 'report.warehouse_app.production_lot_tag_report'
+
+    @api.multi
+    def render_html(self, data=None):
+        report_obj = self.env['report']
+        report_name = 'warehouse_app.production_lot_tag_report'
+        vals = {'prueba': 'Hola prueba'}
+
+        docargs = {
+            'doc_ids': [],
+            'doc_model': 'stock.production.lot',
+            'docs': self.sudo().env['stock.production.lot'].browse(self.ids),
+            'vals': vals,
+        }
+        return report_obj.render(report_name, docargs)

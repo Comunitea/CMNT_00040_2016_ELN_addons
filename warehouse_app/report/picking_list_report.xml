@@ -1,7 +1,175 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
+        <template id="report_picking_barcode_warehouse">
 
+
+            <t t-foreach="docs" t-as="o">
+
+                <div class="page">
+                    <table class="table">
+                        <tr><td>
+
+                                <div>
+                                    <h1>
+                                        <span t-field="o.picking_type_id"/>:
+                                        <span t-field="o.name"/>
+                                    </h1>
+                                </div>
+                                <div>
+                                    <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s'
+                                        % ('Code128', o.name, 600, 100)"
+                                         style="width:300px;height:50px;"/>
+                                </div>
+
+                            </td>
+                            <td>
+                                <div t-if="o.picking_type_id.code=='incoming' and o.partner_id">
+                                    <span>
+                                        <strong>Supplier Address:</strong>
+                                    </span>
+                                </div>
+                                <div t-if="o.picking_type_id.code=='internal' and o.partner_id">
+                                    <span>
+                                        <strong>Warehouse Address:</strong>
+                                    </span>
+                                </div>
+                                <div t-if="o.picking_type_id.code=='outgoing' and o.partner_id">
+                                    <span>
+                                        <strong>Customer Address:</strong>
+                                    </span>
+                                </div>
+                                <div t-if="o.partner_id" name="partner_header">
+                                    <div t-field="o.partner_id"
+                                         t-field-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;, &quot;phone&quot;, &quot;fax&quot;], &quot;no_marker&quot;: true}"/>
+                                    <p t-if="o.partner_id.vat">VAT:
+                                        <span t-field="o.partner_id.vat"/>
+                                    </p>
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    Origen:
+                                    <span t-field="o.origin"/>
+                                </div>
+                                <div>
+                                    Programado:
+                                    <span t-field="o.min_date"/>
+                                </div>
+                            </td>
+
+                        </tr>
+                    </table>
+                    <table class="table table-condensed" t-if="o.pack_operation_ids">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <strong>Producto</strong>
+                                </th>
+                                <th class="text-right">
+                                    <strong>Cantidad</strong>
+                                </th>
+                                <t t-if="o.picking_type_id.code != 'incoming'">
+                                    <th>
+                                        <strong>Origen</strong>
+                                    </th>
+                                </t>
+                                <t t-if="o.picking_type_id.code != 'outgoing'">
+                                    <th>
+                                        <strong>Destino</strong>
+                                    </th>
+                                </t>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="o.pack_operation_ids" t-as="pack_operation">
+                                <td>
+                                    <div>
+                                        <span t-if="pack_operation.package_id">
+                                            PACK:
+                                            <span t-field="pack_operation.package_id"/>
+                                            //
+                                        </span>
+                                        <span t-if="pack_operation.lot_id">
+                                            LOTE:
+                                            <span t-field="pack_operation.lot_id"/>
+                                            //
+                                        </span>
+                                        <span t-if="pack_operation.product_id">
+                                            <span t-field="pack_operation.product_id"/>
+                                        </span>
+                                    </div>
+                                    <div t-if="pack_operation.package_id and not pack_operation.product_id">
+                                        <span style="vertical-align: center">Pack
+                                            <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;humanreadable=1'
+                                            % ('Code128', pack_operation.package_id.name,
+                                            600, 100)"
+                                                 style="width:240px;height:40px"/>
+                                        </span>
+                                    </div>
+                                    <div t-if="pack_operation.lot_id">
+                                        <span style="vertical-align: center">Lote
+                                            <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;humanreadable=1'
+                                            % ('Code128', pack_operation.lot_id.name,
+                                             600, 100)"
+                                                 style="width:240px;height:40px"/>
+                                        </span>
+                                    </div>
+                                    <div t-if="not pack_operation.package_id and not pack_operation.lot_id and pack_operation.product_id and pack_operation.product_id.ean13">
+                                        <span style="vertical-align: center">EAN
+                                            <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;humanreadable=1'
+                                            % ('Code128', pack_operation.product_id.ean13,
+                                             600, 100)"
+                                                 style="width:240px;height:40px"/>
+                                        </span>
+                                    </div>
+                                </td>
+
+
+                                <td class="text-right">
+                                    <span t-field="pack_operation.product_qty"/>
+                                    <span t-field="pack_operation.product_uom_id" groups="product.group_uom"/>
+                                </td>
+
+                                <t t-if="o.picking_type_id.code != 'incoming'">
+                                    <td>
+                                        <span t-field="pack_operation.location_id.pda_name"/>
+                                        <div t-if="pack_operation.location_id.loc_barcode">
+
+                                            <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;humanreadable=1'
+                                            % ('Code128', pack_operation.location_id.loc_barcode,
+                                             600, 100)"
+                                                 style="width:240px;height:40px"/>
+                                        </div>
+                                    </td>
+                                </t>
+                                <t t-if="o.picking_type_id.code != 'outgoing'">
+                                    <td>
+                                        <span t-field="pack_operation.location_dest_id.pda_name"/>
+                                        <span t-if="pack_operation.result_package_id">:</span>
+                                        <span t-field="pack_operation.result_package_id"/>
+
+                                        <div t-if="not pack_operation.result_package_id and pack_operation.location_dest_id.loc_barcode">
+                                            <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;humanreadable=1'
+                                             % ('Code128', pack_operation.location_dest_id.loc_barcode, 600, 100)"
+                                                 style="width:240px;height:40px"/>
+                                        </div>
+
+                                        <div t-if="pack_operation.result_package_id">
+                                            <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;humanreadable=1'
+                                            % ('Code128', pack_operation.result_package_id.name,600, 100)"
+                                                 style="width:240px;height:40px"/>
+                                        </div>
+                                    </td>
+
+                                </t>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </t>
+        </template>
 
   <template id="list_report_pda">
         <style type="text/css">
@@ -148,7 +316,7 @@
 
     </template>
   <template id="picking_list_report">
-        <t t-call="warehouse_app.list_report_pda"/>
+        <t t-call="warehouse_app.report_picking_barcode_warehouse"/>
 
     </template>
     </data>

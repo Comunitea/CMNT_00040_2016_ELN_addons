@@ -420,7 +420,7 @@ class StockMove(models.Model):
                 ids = sql_ids(sql, add_where, move)
 
             if not ids and 'product.product' in models:
-                sql = "select id from product_product where ean13 = '%s'%s" %(search_str, limit_str)
+                sql = "select id from product_product where (ean13 = '%s' or dun14 = '%s' or default_code = '%s') %s" %(search_str, search_str, search_str, limit_str)
                 add_where = ' and pp.id in {}'
                 ids = sql_ids(sql, add_where, move)
         else:

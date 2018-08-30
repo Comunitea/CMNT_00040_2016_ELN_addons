@@ -167,7 +167,7 @@ export class ManualPage {
     let state = 'origin'
     let product = this.move['product_id']
     let lot = this.move['lot_id']
-    let product_check = (product && product['id']) && ((product['check_all'] && lot && lot['id']) || (product && !product['check_all']))
+    let product_check = (product && product['id']) && ((product['track_all'] && lot && lot['id']) || (product && !product['track_all']))
     if (product_check && this.move['location_id']['id'] && this.move['company_id']){
       state = 'qty'
     }

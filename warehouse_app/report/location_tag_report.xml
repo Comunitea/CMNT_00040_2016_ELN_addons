@@ -50,5 +50,12 @@
         </t>
     </template>
 
+
+        <report id="report_location_tag_report"
+                name="location_tag_report"
+                model="stock.location"
+                string="Etiqueta de ubicación"
+                report_type="qweb-pdf"
+        />
     </data>
 </openerp>

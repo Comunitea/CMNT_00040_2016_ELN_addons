@@ -34,5 +34,8 @@ class WavePickingListReport(models.AbstractModel):
             'doc_ids': self.sudo().ids,
             'doc_model': 'stock.picking.wave',
             'docs': self.sudo().env['stock.picking.wave'].browse(self.sudo().ids),
+            'width': '600px',
+            'height': '100px',
+            'readable': 0
         }
         return report_obj.render(report_name, docargs)

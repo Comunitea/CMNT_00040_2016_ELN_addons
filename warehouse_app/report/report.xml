@@ -30,6 +30,20 @@
         <field name="page_height">29</field>
         <field name="page_width">90</field>
     </record>
+
+    <record id="my_paperformat_report_a4_300_land"
+            model="report.paperformat">
+        <field name="name">my_paperformat_report_a4_300dpi_land</field>
+        <field name="default" eval="False"/>
+        <field name="format">A4</field>
+        <field name="orientation">Landscape</field>
+        <field name="margin_top">10</field>
+        <field name="margin_bottom">10</field>
+        <field name="margin_left">7</field>
+        <field name="margin_right">7</field>
+        <field name="header_spacing">0</field>
+        <field name="dpi">300</field>
+    </record>
      <record id="my_paperformat_report_a4_150"
             model="report.paperformat">
         <field name="name">my_paperformat_report_a4_300dpi</field>
@@ -43,7 +57,40 @@
         <field name="header_spacing">0</field>
         <field name="dpi">300</field>
     </record>
+     <record id="my_paperformat_report_a5_tag"
+            model="report.paperformat">
+        <field name="name">my_paperformat_report_a5_tag</field>
+        <field name="default" eval="False"/>
+        <field name="format">A5</field>
+        <field name="orientation"/>
+        <field name="margin_top">10</field>
+        <field name="margin_bottom">10</field>
+        <field name="margin_left">10</field>
+        <field name="margin_right">10</field>
+        <field name="header_spacing">0</field>
+        <field name="dpi">300</field>
+    </record>
 
+
+    <report
+       id="action_report_picking_list_barcode"
+       model="stock.picking"
+       string="Picking list PDA"
+       report_type="qweb-pdf"
+       name="warehouse_app.picking_list_report"
+       file="warehouse_app.picking_list_report"
+        />
+    <report
+       id="action_report_wave_picking_list_barcode"
+       model="stock.picking.wave"
+       string="Wave Picking list PDA"
+       report_type="qweb-pdf"
+       name="warehouse_app.wave_picking_list_report"
+       file="warehouse_app.wave_picking_list_report"
+    />
+   <record id="action_report_picking_list_barcode" model="ir.actions.report.xml">
+          <field name="paperformat_id" ref="my_paperformat_report_a4_300_land"/>
+    </record>
     <report
           string="Product Tag"
           id="report_print_product_tag"
@@ -72,30 +119,18 @@
           <field name="paperformat_id" ref="my_paperformat_report"/>
     </record>
 
-    <!--report
-          string="Picking List PDA"
-          id="report_print_picking_list"
-          model="stock.picking"
-          report_type="qweb-pdf"
-          name="warehouse_app.picking_list_report"
-          file="warehouse_app.picking_list_report"
-          menu="False"
+
+    <report string="Etiqueta de lote (INFO)"
+            id="report_production_lot_tag_report"
+            model="stock.production.lot"
+            report_type="qweb-pdf"
+            name="warehouse_app.production_lot_tag_report"
+            file="warehouse_app.production_lot_tag_report"
+
     />
-        <record id="report_print_picking_list" model="ir.actions.report.xml">
-         <field name="paperformat_id" ref="my_paperformat_report_a4_150"/>
-        </record-->
-     <!--report
-          string="Picking List PDA"
-          id="report_print_picking_list"
-          model="stock.picking"
-          report_type="qweb-pdf"
-          name="warehouse_app.report_picking_list"
-          file="warehouse_app.report_picking_list"
-          menu="False"
-    /-->
-    <!--record id="report_print_picking_list" model="ir.actions.report.xml">
-          <field name="paperformat_id" ref="my_paperformat_report"/>
-    </record-->
+    <record id="report_production_lot_tag_report" model="ir.actions.report.xml">
+          <field name="paperformat_id" ref="my_paperformat_report_a5_tag"/>
+    </record>
 
 
 
