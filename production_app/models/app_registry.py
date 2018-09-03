@@ -156,15 +156,13 @@ class AppRegistry(models.Model):
             product_ids = [reg.product_id.id]
             consume_ids1 = reg.production_id.move_lines.mapped('product_id')
             consume_ids2 = reg.production_id.move_lines2.mapped('product_id')
-            if consume_ids1:
-                product_ids.extend(consume_ids1.ids)
-            if consume_ids2:
-                product_ids.extend(consume_ids2.ids)
+            consume_ids = list(set(consume_ids1.ids + consume_ids2.ids))
             res.update(allowed_operators=allowed_operators,
                        active_operator_ids=active_operator_ids,
                        product_use_date=use_date,
                        change_lot_qc_id=change_lot_qc_id,
                        product_ids=product_ids,
+                       consume_ids=consume_ids,
                        uom=uom, uos=uos, uos_coeff=uos_coeff)
         return res
 

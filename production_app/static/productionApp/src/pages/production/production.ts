@@ -8,7 +8,6 @@ import { ReasonsModalPage } from '../../pages/reasons-modal/reasons-modal';
 import { FinishModalPage } from '../../pages/finish-modal/finish-modal';
 import { ScrapModalPage } from '../../pages/scrap-modal/scrap-modal';
 import { ProductionProvider } from '../../providers/production/production';
-import { OdooProvider } from '../../providers/odoo/odoo';
 import { TimerComponent } from '../../components/timer/timer';
 import { ConsumptionsPage } from '../../pages/consumptions/consumptions';
 
@@ -30,8 +29,7 @@ export class ProductionPage {
     constructor(public navCtrl: NavController,
                 public navParams: NavParams, public alertCtrl: AlertController, 
                 public modalCtrl: ModalController,
-                private prodData: ProductionProvider,
-                private odooCon: OdooProvider) {
+                private prodData: ProductionProvider) {
     }
 
     ionViewDidLoad() {
@@ -174,6 +172,7 @@ export class ProductionPage {
             myModal.onDidDismiss(data => {
                 var vals = [data]
                 this.prodData.saveQualityChecks(vals);
+		move.lot = vals[0].value
             });
 
             myModal.present();

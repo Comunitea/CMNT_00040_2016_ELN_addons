@@ -41,7 +41,7 @@ export class ConsumeModalPage {
         var res = {
             'id': this.prodData.change_lot_qc_id,
             'max_value': 0,
-            'min_valie': 0,
+            'min_value': 0,
             'name': 'Cambio de lote',
             'quality_type': 'freq',
             'repeat': 0,

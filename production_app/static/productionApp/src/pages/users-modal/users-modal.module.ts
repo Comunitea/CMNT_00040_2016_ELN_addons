@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
-import { IonicPageModule } from 'ionic-angular';
-import { UsersModalPage } from './users-modal';
+//import { IonicPageModule } from 'ionic-angular';
+//import { UsersModalPage } from './users-modal';
 
 @NgModule({
   declarations: [
-    UsersModalPage,
+    //UsersModalPage,
   ],
   imports: [
-    IonicPageModule.forChild(UsersModalPage),
+    //IonicPageModule.forChild(UsersModalPage),
   ],
 })
 export class UsersModalPageModule {}

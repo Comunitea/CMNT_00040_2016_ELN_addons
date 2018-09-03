@@ -17,6 +17,7 @@ export class ProductionProvider {
     workcenter: Object = {};
     loged_ids: number[] = [];
     product_ids: number[] = [];
+    consume_ids: number[] = [];
     registry_id;
     production;
     production_id;
@@ -54,7 +55,7 @@ export class ProductionProvider {
         this.states = {
             'waiting': 'ESPERANDO PRODUCCIÓN',
             'confirmed': 'PRODUCCIÓN CONFIRMADA',
-            'setup': 'PREPARACIÓN PRODUCCION',
+            'setup': 'PREPARACIÓN PRODUCCIÓN',
             'started': 'PRODUCCIÓN INICIADA',
             'stoped': 'PRODUCCIÓN PARADA',
             'cleaning': 'PRODUCCIÓN EN LIMPIEZA',
@@ -137,26 +138,45 @@ export class ProductionProvider {
 
     }
 
-    //Gets operators from odoo, maybe a promise?
     getLots(){
-        var d = new Date();
-        d.setMonth(d.getMonth() - 3);
-        var limit_date = d.toISOString().split("T")[0];
-        this.odooCon.searchRead('stock.production.lot', [['product_id', 'in', this.product_ids]], ['id', 'name', 'use_date', 'product_id']).then( (res) => {
-            this.lots = res;
-            for (let indx in res) {
-                let lot = res[indx];
-                let product_id = lot.product_id[0];
+        var model = 'production.app'
+        var method = 'get_available_lot'
+        var values = {'product_ids': this.consume_ids, 'with_stock': true}
+        this.lotsByProduct = {}
+        this.odooCon.execute(model, method, values).then((lot_ids) => {
+            for (let indx in lot_ids) {
+                let lot = lot_ids[indx];
+                let product_id = lot.product_id;
                 if (!(product_id in this.lotsByProduct)){
                     this.lotsByProduct[product_id] = []
                 }
                 this.lotsByProduct[product_id].push(lot)
             }
-            console.log("LOTSBYID")
+            console.log("LOTSBYID1")
             console.log(this.lotsByProduct)
         })
         .catch( (err) => {
-            console.log("GET lots deberia ser una promesa, y devolver error, controlarlo en la página y lanzar excepción")
+            console.log("Error buscando lotes")
+        });
+
+        model = 'stock.production.lot'
+        var domain = [['product_id', 'in', this.product_ids]]
+        var fields = ['id', 'name', 'use_date', 'product_id', 'qty_available']
+        this.odooCon.searchRead(model, domain, fields, 0, 5, 'create_date DESC, use_date').then((lot_ids) => {
+            for (let indx in lot_ids) {
+                let lot = lot_ids[indx];
+                let product_id = lot.product_id[0];
+                if (!(product_id in this.lotsByProduct)){
+                    this.lotsByProduct[product_id] = []
+                }
+		lot.product_id = product_id
+                this.lotsByProduct[product_id].push(lot)
+            }
+            console.log("LOTSBYID2")
+            console.log(this.lotsByProduct, this)
+        })
+        .catch( (err) => {
+            console.log("Error buscando lotes")
         });
     }
 
@@ -304,7 +324,8 @@ export class ProductionProvider {
         this.uos = data.uos;
         this.uos_coeff = data.uos_coeff;
         this.change_lot_qc_id = data.change_lot_qc_id;
-        this.product_ids = data.product_ids
+        this.product_ids = data.product_ids;
+        this.consume_ids = data.consume_ids
     }
     
     // Load Quality checks in each type list
