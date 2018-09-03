@@ -16,8 +16,39 @@ export class OdooProvider {
 
     last_stop_id;
     operatorsById: Object = {};
+    context;
+    uid;
 
-    constructor(private storage: Storage) {
+    constructor(public storage: Storage) {
+      this.context = {'lang': 'es_ES'}
+      this.uid = 0
+    }
+
+    login(user, password){
+        var method = method
+        var values = values
+        var self = this
+        var promise = new Promise( (resolve, reject) => {
+            self.storage.get('CONEXION').then((con_data) => {
+                var odoo = new OdooApi(con_data.url, con_data.db);
+                // this.navCtrl.setRoot(HomePage, {borrar: true, login: null});
+                if (con_data == null) {
+                    var err = {'title': 'Error!', 'msg': 'No hay datos para establecer la conexión'}
+                    reject(err);
+                } else {
+                    
+                    odoo.login(con_data.username, con_data.password).then( (uid) => {
+                    self.uid = uid
+                    resolve(uid)
+                    })
+                    .catch( (mierror) => {
+                      var err = {'title': 'Error!', 'msg': 'No se pudo conectar con Odoo'}
+                      reject(err);
+                    });
+                }
+            });
+        });
+        return promise
     }
 
     pendingCalls(){
@@ -125,25 +156,58 @@ export class OdooProvider {
         return promise
     }
 
-    searchRead(model, domain, fields){
+    searchRead(model, domain, fields, offset = 0, limit = 0, order = ''){
         var model = model;
         var domain = domain;
         var fields = fields;
         var promise = new Promise( (resolve, reject) => {
             this.storage.get('CONEXION').then((con_data) => {
-                var odoo = new OdooApi(con_data.url, con_data.db);
                 if (con_data == null) {
                     var err = {'title': 'Error!', 'msg': 'No hay datos para establecer la conexión'}
                     reject(err);
                 } else {
+                    var odoo = new OdooApi(con_data.url, con_data.db);
+                    odoo.context = this.context
                     odoo.login(con_data.username, con_data.password).then( (uid) => {
-                        odoo.search_read(model, domain, fields, 0, 0).then((res) => {
-                            resolve(res);
-                        })
-                        .catch( () => {
-                            var err = {'title': 'Error!', 'msg': 'Fallo al llamar al hacer search_read'}
-                            reject(err);
-                        });
+                    odoo.search_read(model, domain, fields, offset, limit, order).then((res) => {
+                        resolve(res);
+                    })
+                    .catch( () => {
+                        var err = {'title': 'Error!', 'msg': 'Fallo al llamar al hacer search_read'}
+                        reject(err);
+                    });
+                    })
+                    .catch( () => {
+                        var err = {'title': 'Error!', 'msg': 'No se pudo conectar con Odoo'}
+                        reject(err);
+                    });
+                }
+            });
+        });
+        return promise
+    }
+
+    execute(model, method, values) {
+        var method = method
+        var values = values
+        var self = this
+        var promise = new Promise( (resolve, reject) => {
+            self.storage.get('CONEXION').then((con_data) => {
+                var odoo = new OdooApi(con_data.url, con_data.db);
+                odoo.context = self.context
+                if (con_data == null) {
+                    var err = {'title': 'Error!', 'msg': 'No hay datos para establecer la conexión'}
+                    reject(err);
+                }
+		else {
+                    odoo.login(con_data.username, con_data.password).then((uid) => {
+                            odoo.call(model, method, values).then((res) => {
+                                resolve(res);
+                            })
+                            .catch( () => {
+                                var err = {'title': 'Error!', 'msg': 'Fallo al llamar al método ' + method + 'del modelo app.regustry'}
+                                reject(err);
+                            });
                     })
                     .catch( () => {
                         var err = {'title': 'Error!', 'msg': 'No se pudo conectar con Odoo'}

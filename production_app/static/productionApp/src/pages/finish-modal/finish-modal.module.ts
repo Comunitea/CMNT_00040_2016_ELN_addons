@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
-import { IonicPageModule } from 'ionic-angular';
-import { FinishModalPage } from './finish-modal';
+//import { IonicPageModule } from 'ionic-angular';
+//import { FinishModalPage } from './finish-modal';
 
 @NgModule({
   declarations: [
-    FinishModalPage,
+    //FinishModalPage,
   ],
   imports: [
-    IonicPageModule.forChild(FinishModalPage),
+    //IonicPageModule.forChild(FinishModalPage),
   ],
 })
 export class FinishModalPageModule {}

@@ -77,11 +77,13 @@ this.search = function(model, domain) {
 };
 
 
-this.search_read = function(model, domain, fields, offset, limit) {
+this.search_read = function(model, domain, fields, offset, limit, order) {
     
     var odoo_api = this;
 
-    var order = false
+    if (!order)
+        order = false;
+
     if (!domain)
         domain = [];
     

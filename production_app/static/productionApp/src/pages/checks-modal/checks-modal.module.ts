@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
-import { IonicPageModule } from 'ionic-angular';
-import { ChecksModalPage } from './checks-modal';
+//import { IonicPageModule } from 'ionic-angular';
+//import { ChecksModalPage } from './checks-modal';
 
 @NgModule({
   declarations: [
-    ChecksModalPage,
+    //ChecksModalPage,
   ],
   imports: [
-    IonicPageModule.forChild(ChecksModalPage),
+    //IonicPageModule.forChild(ChecksModalPage),
   ],
 })
 export class ChecksModalPageModule {}

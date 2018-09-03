@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
-import { IonicPageModule } from 'ionic-angular';
-import { ScrapModalPage } from './scrap-modal';
+//import { IonicPageModule } from 'ionic-angular';
+//import { ScrapModalPage } from './scrap-modal';
 
 @NgModule({
   declarations: [
-    ScrapModalPage,
+    //ScrapModalPage,
   ],
   imports: [
-    IonicPageModule.forChild(ScrapModalPage),
+    //IonicPageModule.forChild(ScrapModalPage),
   ],
 })
 export class ScrapModalPageModule {}

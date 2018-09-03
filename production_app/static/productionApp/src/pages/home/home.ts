@@ -3,11 +3,10 @@ import {Component} from '@angular/core';
 
 import {Storage} from '@ionic/storage';
 import {ListPage} from '../../pages/list/list';
-import { ProductionProvider } from '../../providers/production/production';
+import { OdooProvider } from '../../providers/odoo/odoo';
 
 
 
-declare var OdooApi: any;
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -16,50 +15,61 @@ declare var OdooApi: any;
 export class HomePage {
 
     loginData = {password: '', username: ''};
-    // CONEXION = {
-    //     url: 'http://nogalproduction.com',
-    //     port: '9069',
-    //     db: 'nogal_dev',
-    //     username: 'admin',
-    //     password: 'admin',
-    // };
-
-    CONEXION = {
-        url: 'http://elnapp.livingodoo.com',
+    CONEXION_local = {
+        url: 'http://',
         port: '8069',
-        db: 'elnapp',
-        username: 'admin',
-        password: 'elnapp7520',
+        db: '',
+        username: '',
+        password: '',
     };
-    cargar = true;
+    CONEXION = {
+        url: '',
+        port: '',
+        db: '',
+        username: '',
+        password: '',
+    };
+    cargar = false;
     mensaje = '';
-  
+
     constructor(public navCtrl: NavController, public navParams: NavParams, 
                 private storage: Storage, public alertCtrl: AlertController,
-                private prodData: ProductionProvider) {
-    
-        var borrar = this.navParams.get('borrar');
-        this.CONEXION.username = (this.navParams.get('login') == undefined)? '' : this.navParams.get('login');
-            if (borrar == true) {
-                this.cargar = false;
-                this.storage.remove('CONEXION');
-            } else {
-                this.conectarApp(false);
-            }
-    } 
-        
-    loginSinDatos() {
-        var self = this;
-        this.storage.get('res.users').then((val) => {
-            if (val == null) {//no existe datos
-                self.presentAlert('Falla!', 'Imposible conectarse');
-            } else {
-                self.navCtrl.setRoot(ListPage);
-            }
-            self.cargar = false;
-        });
+                private odoo: OdooProvider) {
+	
+        if (this.navParams.get('login')){
+            this.CONEXION.username = this.navParams.get('login')
+        };
+        this.check_storage_conexion(this.navParams.get('borrar'))
+        if (this.navParams.get('borrar') == true){
+            this.cargar = false;
+        }
+        else {
+            // Autologin al cargar app
+            this.cargar = true;
+            this.conectarApp(false);
+        }
     }
-  
+
+    check_storage_conexion(borrar) {
+        // Fijamos siempre a false el parámetro borrar para no tener que teclear usuario y contraseña siempre
+        borrar = false
+        if (borrar){
+            this.CONEXION = this.CONEXION_local;
+        }	
+        else {
+            this.storage.get('CONEXION').then((val) => {
+                if (val && val['username']){
+                    this.CONEXION = val
+                }
+                else {
+                    this.CONEXION = this.CONEXION_local;
+                    this.storage.set('CONEXION', this.CONEXION).then(() => {
+                    })
+                }
+            })
+        }
+    }
+
     presentAlert(titulo, texto) {
         const alert = this.alertCtrl.create({
             title: titulo,
@@ -68,65 +78,76 @@ export class HomePage {
         });
         alert.present();
     }
-  
+
     conectarApp(verificar) {
-        var self = this;
-
-
-        var con;
-        con = self.CONEXION;
-        this.storage.get('CONEXION').then((val) => {
-        var con;
-        if (val == null) {//no existe datos         
-            self.cargar = false;
-            con = self.CONEXION;
-            if (con.username.length < 3 || con.password.length < 3) {
-                if (verificar) {
-                    self.presentAlert('Alerta!', 'Por favor ingrese usuario y contraseña');
-                }
-            return;
+        this.cargar = true;
+        if (verificar){
+            this.storage.set('CONEXION', this.CONEXION).then(() => {
+                this.check_conexion(this.CONEXION)
+            })
         }
-
-        } else {
-        //si los trae directamente ya fueron verificados
-        con = val;
-        if (con.username.length < 3 || con.password.length < 3) {
-            return self.cargar = false;
+        else {
+            this.storage.get('CONEXION').then((val) => {
+                var con;
+                if (val == null) {//no existe datos         
+                    this.cargar = false;
+                    con = this.CONEXION;
+                    if (con.username.length < 3 || con.password.length < 3) {
+                        if (verificar) {
+                            this.presentAlert('Alerta!', 'Por favor ingrese usuario y contraseña');
+                        }
+                        return;
+                    }
+                }
+		else {
+                    //si los trae directamente ya fueron verificados
+                    con = val;
+                    if (con.username.length < 3 || con.password.length < 3) {
+                        this.cargar = false;
+                        return
+                    }
+                }
+                if (con){
+                    this.storage.set('CONEXION', con).then(() => {
+                        this.check_conexion(con)
+                        this.cargar=false
+                    })
+                }
+            })
         }
     }
 
-    self.cargar = true;
-    //var odoo = new Odoo(con);
-    var odoo = new OdooApi(con.url, con.db);
-    odoo.login(con.username, con.password).then(
-        function (uid) {
-            odoo.search('res.users', [['login', '=', con.username]], ['id', 'login', 'image', 'name']).then(
-                function (value) {
-            
-                    var user = {id: null, name: null, image: null, login: null, cliente_id: null};
-                    //self.mensaje += JSON.stringify(value);
-                    if (value.length > 0) {
-                        self.storage.set('CONEXION', con).then(() => {
-                            user.id = value[0].id;
-                            user.name = value[0].name;
-                            user.login = value[0].login;
-                            // me voy para página de producción
-                            self.navCtrl.setRoot(ListPage); 
-                        })
-                        
-
-                    } 
-                    else {
-                        self.cargar = false;
-                        return self.presentAlert('Falla!', 'Usuario incorrecto');
-                    } 
-                })
-          })
-            .catch( () => {
-                this.presentAlert('Error!', 'No se pudo conectar contra odoo');
-                // TODO DESARROLLAR UN RETRY
+    check_conexion(con) {	
+        var model = 'res.users'
+        var domain = [['login', '=', con.username]]
+        var fields = ['id', 'login', 'image', 'name', 'company_id']
+        this.odoo.login(con.username, con.password).then ((uid) => {
+            this.odoo.uid = uid
+            this.odoo.searchRead(model, domain, fields).then((value) => {
+                var user = {id: null, name: null, image: null, login: null, cliente_id: null, company_id: null};
+                if (value) {
+                    if (!con.user || value[0].id != con.user['id'] || value[0].company_id[0] != con.user['company_id']){
+                        user = value[0];
+                        //user.id = value[0].id;
+                        //user.name = value[0].name;
+                        //user.login = value[0].login;
+                        //user.company_id = value[0].company_id[0];
+                        //user.company = value[0].company_id
+                        con.user = user
+                    }
+                    this.storage.set('CONEXION', con).then(() => {
+                        this.navCtrl.setRoot(ListPage);
+                    })
+                }
+            })
+            .catch(() => {
+                this.cargar = false;
+                this.presentAlert('Error!', 'No se pudo encontrar el usuario:' + con.username);
             });
-    });
-  }
-
+        })
+        .catch (() => {
+            this.presentAlert('Error!', 'No se pudo conectar a Odoo');
+            this.cargar = false;
+        })
+    }
 }
