@@ -149,8 +149,6 @@ class StockPicking(models.Model):
 
     @api.multi
     def action_cancel(self):
-
-
         if self._context.get('force_user', False):
             ctx = self._context.copy()
             ctx.update({'force_user': False})

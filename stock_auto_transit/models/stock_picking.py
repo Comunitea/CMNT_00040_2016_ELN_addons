@@ -47,6 +47,17 @@ class StockPicking(models.Model):
                 print u"    Estado %s" % pick.state
         return res
 
+    @api.multi
+    def action_cancel(self):
+        res = False
+        user_company = self.env['res.users'].browse(self._uid).company_id.id
+        for pick in self:
+            rec = pick
+            if user_company != pick.company_id.id:
+                res = pick.pda_action_cancel()
+            else:
+                res = super(StockPicking, rec).action_cancel()
+        return res
 
 class StockMove(models.Model):
     _inherit = "stock.move"
