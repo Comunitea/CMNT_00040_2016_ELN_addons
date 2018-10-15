@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-17 15:56+0000\n"
-"PO-Revision-Date: 2018-07-17 18:04+0200\n"
+"POT-Creation-Date: 2018-10-15 11:21+0000\n"
+"PO-Revision-Date: 2018-10-15 13:25+0200\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -187,7 +187,7 @@ msgstr "Compañías"
 
 #. module: eln_edi
 #: code:addons/eln_edi/wizard/edi_export.py:1035
-#: code:addons/eln_edi/wizard/edi_export.py:1052
+#: code:addons/eln_edi/wizard/edi_export.py:1055
 #, python-format
 msgid "Company error"
 msgstr "Error de compañía"
@@ -427,14 +427,14 @@ msgstr "Las líneas de factura requieren fecha de albarán"
 
 #. module: eln_edi
 #: code:addons/eln_edi/wizard/edi_export.py:1035
-#: code:addons/eln_edi/wizard/edi_export.py:1052
+#: code:addons/eln_edi/wizard/edi_export.py:1055
 #, python-format
 msgid "Edi code not established in company"
 msgstr "Código GLN no establecido en la compañía"
 
 #. module: eln_edi
 #: code:addons/eln_edi/wizard/edi_export.py:1037
-#: code:addons/eln_edi/wizard/edi_export.py:1054
+#: code:addons/eln_edi/wizard/edi_export.py:1057
 #, python-format
 msgid "Edi filename not established in partner"
 msgstr "Nombre de archivo EDI no fijado en el partner"
@@ -763,6 +763,7 @@ msgstr "Impuesto de factura"
 #. module: eln_edi
 #: code:addons/eln_edi/wizard/edi_export.py:955
 #: code:addons/eln_edi/wizard/edi_export.py:1045
+#: code:addons/eln_edi/wizard/edi_export.py:1053
 #, python-format
 msgid "Invoice error"
 msgstr "Invoice error"
@@ -916,6 +917,12 @@ msgid "No existen ningún producto con ean13v %s."
 msgstr "No existen ningún producto con ean13v %s."
 
 #. module: eln_edi
+#: code:addons/eln_edi/wizard/edi_export.py:1053
+#, python-format
+msgid "No invoices to send in coacsu by EDI"
+msgstr "No hay facturas para enviar en COACSU por EDI"
+
+#. module: eln_edi
 #: code:addons/eln_edi/wizard/edi_import.py:320
 #, python-format
 msgid "No se encontraron movimientos con las características requeridas.Es posible que el paquete, el lote o la cantidad estén mal asignados en el fichero"
@@ -941,6 +948,11 @@ msgstr "Nombre fichero"
 #: field:account.invoice,edi_not_send_invoice:0
 msgid "Not send invoice by EDI"
 msgstr "No enviar factura por EDI"
+
+#. module: eln_edi
+#: field:account.invoice,edi_not_send_coacsu:0
+msgid "Not send invoice in COACSU by EDI"
+msgstr "No enviar factura en COACSU por EDI"
 
 #. module: eln_edi
 #: field:edi.pack,note:0 view:res.partner:eln_edi.view_edi_res_partner_form
@@ -1009,7 +1021,7 @@ msgstr "Empresa"
 
 #. module: eln_edi
 #: code:addons/eln_edi/wizard/edi_export.py:1037
-#: code:addons/eln_edi/wizard/edi_export.py:1054
+#: code:addons/eln_edi/wizard/edi_export.py:1057
 #, python-format
 msgid "Partner error"
 msgstr "Partner error"
