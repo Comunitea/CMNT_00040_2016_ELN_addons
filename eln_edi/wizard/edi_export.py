@@ -1048,6 +1048,9 @@ class edi_export (orm.TransientModel):
                 self.create_doc(cr, uid, wizard.id, obj, file_name, context)
         else:
             invoice_ids = self.pool.get(context['active_model']).browse(cr, uid, context['active_ids'])
+            invoice_ids = invoice_ids.filtered(lambda x: not x.edi_not_send_coacsu)
+            if not invoice_ids:
+                raise orm.except_orm(_('Invoice error'), _('No invoices to send in coacsu by EDI'))
             if not invoice_ids[0].company_id.edi_code:
                 raise orm.except_orm(_('Company error'), _('Edi code not established in company'))
             if not invoice_ids[0].partner_id.commercial_partner_id.edi_filename:

@@ -398,9 +398,11 @@ class account_invoice(orm.Model):
             },
             multi='all'),
         'edi_not_send_invoice': fields.boolean('Not send invoice by EDI'),
+        'edi_not_send_coacsu': fields.boolean('Not send invoice in COACSU by EDI'),
     }
     _defaults = {
         'edi_not_send_invoice': False,
+        'edi_not_send_coacsu': False,
     }
 
 
