@@ -130,7 +130,7 @@
         <field name="view_mode">tree,form</field>
     </record>
 
-    <menuitem id="menu_app_registry" name="App Registries" parent="mrp.menu_mrp_planning"
+    <menuitem id="menu_app_registry" name="App Registries" parent="mrp.menu_mrp_manufacturing"
               action="action_app_registry" sequence="3"/>
 
     </data>

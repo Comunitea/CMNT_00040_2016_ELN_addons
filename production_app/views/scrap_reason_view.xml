@@ -45,8 +45,8 @@
         <field name="view_mode">tree,form</field>
     </record>
 
-    <menuitem id="menu_scrap_reason" name="Scrap Reasons" parent="mrp.menu_mrp_planning"
-              action="action_scrap_reason" sequence="6"/>
+    <menuitem id="menu_scrap_reason" name="Scrap Reasons" parent="mrp.menu_mrp_configuration"
+              action="action_scrap_reason" sequence="15"/>
 
     </data>
 </openerp>
