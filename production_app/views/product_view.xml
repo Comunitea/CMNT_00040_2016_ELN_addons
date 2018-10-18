@@ -87,8 +87,8 @@
         <field name="view_mode">tree,form</field>
     </record>
 
-    <menuitem id="menu_product_quality_check" name="Product Quality Checks" parent="mrp.menu_mrp_planning"
-              action="action_product_quality_check" sequence="4"/>
+    <menuitem id="menu_product_quality_check" name="Product Quality Checks" parent="mrp.menu_mrp_configuration"
+              action="action_product_quality_check" sequence="15"/>
 
 
     <record id="product_quality_checks_view" model="ir.ui.view">

@@ -61,8 +61,8 @@
         <field name="view_mode">tree,form</field>
     </record>
 
-    <menuitem id="menu_stop_reason" name="Stop Reasons" parent="mrp.menu_mrp_planning"
-              action="action_stop_reason" sequence="5"/>
+    <menuitem id="menu_stop_reason" name="Stop Reasons" parent="mrp.menu_mrp_configuration"
+              action="action_stop_reason" sequence="15"/>
 
     </data>
 </openerp>
