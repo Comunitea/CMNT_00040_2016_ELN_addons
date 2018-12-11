@@ -209,8 +209,8 @@ class performance_calculation(orm.TransientModel):
             'product_id': obj.product and obj.product.id or False,
             'stop_time': stop_time,
             'real_time': obj.real_time,
-            'tic_time': qty_finished * obj.hour / obj.qty,
-            'gasoleo_start':obj.gasoleo_start,
+            'tic_time': qty_finished * obj.hour * (obj.availability_ratio or 1.0) / obj.qty, # Multiplicamos por availability_ratio porque obj.hour está influenciado por ese ratio y no queremos que influya en este cálculo
+            'gasoleo_start': obj.gasoleo_start,
             'gasoleo_stop': obj.gasoleo_stop,
             'availability': availability,
             'performance': performance,
