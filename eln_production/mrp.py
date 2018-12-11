@@ -128,8 +128,12 @@ class mrp_bom(osv.osv):
                     oper.append(operators[op])
             user = self.pool.get('res.users').browse(cr, uid, uid, context)
             lang = user and user.lang or u'es_ES'
-            hour = float(((factor * bom.product_qty) * (wc_use.hour_nbr or 1.0) / (qty_per_cycle or 1.0)) * (wc.time_efficiency or 1.0) / (wc.performance_factor or 1.0))
-            return{
+            hour = (factor * bom.product_qty) * (wc_use.hour_nbr or 1.0) / (qty_per_cycle or 1.0)
+            hour = hour * (wc.time_efficiency or 1.0)
+            hour = hour / (wc.performance_factor or 1.0)
+            hour = hour / (routing.availability_ratio or 1.0)
+            hour = float(hour)
+            return {
                 'name': tools.ustr(wc_use.name) + u' - ' + tools.ustr(bom.product_id.with_context(lang=lang).name),
                 'routing_id': routing.id,
                 'workcenter_id': wc.id,
@@ -140,6 +144,7 @@ class mrp_bom(osv.osv):
                 'time_stop': wc_use.time_stop,
                 'hour': hour,
                 'real_time': hour,
+                'availability_ratio': routing.availability_ratio or 1.0,
             }
 
         factor = _factor(factor, bom.product_efficiency, bom.product_rounding)
@@ -270,18 +275,16 @@ class mrp_production_workcenter_line(osv.osv):
         'product_uos_qty': fields.related('production_id', 'product_uos_qty', type='float', relation='product.uom', string='Product UoS Quantity', readonly=True),
         'product_uos': fields.related('production_id', 'product_uos', type='many2one', relation='product.uom', string='Product UoS', readonly=True),
         'kanban_name': fields.function(_get_kanban_name, type="char", string="Kanban name", readonly=True),
+        'availability_ratio': fields.float('Availability ratio', size=8,
+           help="Availability ratio expected for this workcenter line. "
+           "The estimated time was calculated according to this ratio."),
     }
 
     _order = "id"
 
-    #def write(self, cr, uid, ids, vals, context=None, update=True):
-    #    if not isinstance(ids, list):
-    #        ids = [ids]
-    #    for prod in self.browse(cr, uid, ids, context=context):
-    #        if vals.get('workcenter_id', False):
-    #            if prod.production_id.state <> 'validated' and update:
-    #                raise osv.except_osv(_("ERROR!"), _("You can not modify a work order associated at a production with a state other than 'validated'") )
-    #    return super(mrp_production_workcenter_line, self).write(cr, uid, ids, vals, context=context)
+    _defaults = {
+        'availability_ratio': 1
+    }
 
     def modify_production_order_state(self, cr, uid, ids, action):
         """ Modifies production order state if work order state is changed.
@@ -367,11 +370,21 @@ class hrEmployee(models.Model):
 class mrpRouting(models.Model):
     _inherit = 'mrp.routing'
 
+    _columns = {
+        'availability_ratio': fields.float('Availability ratio', size=8, required=True,
+           help="Availability ratio expected for this production route. "
+           "The estimated time of workcenter line will be calculated according to this ratio. "
+           "Therefore, this will affect the calculation of costs or the time of availability of a production center."),
+    }
+
+    _defaults = {
+        'availability_ratio': 1
+    }
+
     def search(self, cr, uid, args, offset=0, limit=None, order=None,
                context=None, count=False):
         """ Overwrite in order to search only routings ior alternative
         routings of the material list"""
-        # import ipdb; ipdb.set_trace()
         if context is None:
             context = {}
         routing_ids = []
@@ -427,7 +440,8 @@ class mrp_production(osv.osv):
 
     _columns = {
         'date_planned': fields.datetime('Scheduled Date', required=True, select=1, copy=False),  #  Avoid Readonly
-        'routing_id': fields.many2one('mrp.routing', string='Routing', ondelete='restrict', readonly=True, states={'draft':[('readonly',False)],'confirmed':[('readonly',False)],'ready':[('readonly',False)]}, help="The list of operations (list of work centers) to produce the finished product. The routing is mainly used to compute work center costs during operations and to plan future loads on work centers based on production plannification."),
+        'routing_id': fields.many2one('mrp.routing', string='Routing', ondelete='restrict', readonly=True, states={'draft':[('readonly', False)]},
+                                      help="The list of operations (list of work centers) to produce the finished product. The routing is mainly used to compute work center costs during operations and to plan future loads on work centers based on production plannification."),
         'date_end_planned': fields.datetime('Date end Planned'),
         'state': fields.selection([('draft','New'),('confirmed','Waiting Goods'),('ready','Ready to Produce'),('in_production','Production Started'),('finished', 'Finished'),('validated', 'Validated'),('closed', 'Closed'),('cancel','Cancelled'),('done','Done')],'State', readonly=True,
                                     help='When the production order is created the state is set to \'Draft\'.\n If the order is confirmed the state is set to \'Waiting Goods\'.\n If any exceptions are there, the state is set to \'Picking Exception\'.\

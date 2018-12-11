@@ -1,19 +1,21 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* eln_production
+# 	* eln_production
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-21 09:56+0000\n"
-"PO-Revision-Date: 2018-05-21 09:56+0000\n"
+"POT-Creation-Date: 2018-12-11 10:31+0000\n"
+"PO-Revision-Date: 2018-12-11 11:39+0100\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
+"Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
+"Language: es\n"
+"X-Generator: Poedit 2.0.9\n"
 
 #. module: eln_production
 #: code:addons/eln_production/mrp.py:59
@@ -31,6 +33,22 @@ msgstr "Procesos productivos alternativos"
 #, python-format
 msgid "At least one product does not have enough stock to be consumed."
 msgstr "Al menos un producto no tiene stock suficiente para ser consumido."
+
+#. module: eln_production
+#: field:mrp.production.workcenter.line,availability_ratio:0
+#: field:mrp.routing,availability_ratio:0
+msgid "Availability ratio"
+msgstr "Ratio de disponibilidad"
+
+#. module: eln_production
+#: help:mrp.routing,availability_ratio:0
+msgid "Availability ratio expected for this production route. The estimated time of workcenter line will be calculated according to this ratio. Therefore, this will affect the calculation of costs or the time of availability of a production center."
+msgstr "Ratio de disponibilidad estimado para esta ruta de producción. El tiempo estimado de la orden de trabajo será calculado en función de este ratio. Por tanto, esto afectará al cálculo de costes o al tiempo de disponibilidad de un centro de producción."
+
+#. module: eln_production
+#: help:mrp.production.workcenter.line,availability_ratio:0
+msgid "Availability ratio expected for this workcenter line. The estimated time was calculated according to this ratio."
+msgstr "Ratio de disponibilidad estimado para esta orden de trabajo. El tiempo estimado es calculado en función de este ratio."
 
 #. module: eln_production
 #: view:stock.production.lot:eln_production.view_production_lot_form_add_page
@@ -180,9 +198,9 @@ msgid "Entry qty (kg)"
 msgstr "Cant. entrada (kg)"
 
 #. module: eln_production
-#: code:addons/eln_production/mrp.py:299
-#: code:addons/eln_production/mrp.py:729
-#: code:addons/eln_production/mrp.py:739
+#: code:addons/eln_production/mrp.py:304
+#: code:addons/eln_production/mrp.py:745
+#: code:addons/eln_production/mrp.py:755
 #, python-format
 msgid "Error!"
 msgstr "¡Error!"
@@ -343,7 +361,7 @@ msgid "Manufacturing Orders"
 msgstr "Órdenes de producción"
 
 #. module: eln_production
-#: code:addons/eln_production/mrp.py:299
+#: code:addons/eln_production/mrp.py:304
 #, python-format
 msgid "Manufacturing order cannot be started in state \"%s\"!"
 msgstr "La orden de producción no se puede iniciar en estado \"%s\""
@@ -439,7 +457,7 @@ msgid "Out qty (kg)"
 msgstr "Cant. salida (kg)"
 
 #. module: eln_production
-#: code:addons/eln_production/mrp.py:493
+#: code:addons/eln_production/mrp.py:509
 #: code:addons/eln_production/stock_move.py:74
 #, python-format
 msgid "PROD: %s"
@@ -890,8 +908,8 @@ msgid "Yesterday"
 msgstr "Ayer"
 
 #. module: eln_production
-#: code:addons/eln_production/mrp.py:729
-#: code:addons/eln_production/mrp.py:739
+#: code:addons/eln_production/mrp.py:745
+#: code:addons/eln_production/mrp.py:755
 #, python-format
 msgid "You cannot delete a production which is not cancelled."
 msgstr "No se puede eliminar una producción que no esté cancelada."
@@ -928,6 +946,11 @@ msgid "ready,confirmed"
 msgstr "ready,confirmed"
 
 #. module: eln_production
+#: field:mrp.workcenter,sequence:0
+msgid "sequence"
+msgstr "Secuencia"
+
+#. module: eln_production
 #: view:mrp.modify.consumption:eln_production.mrp_modify_consumption_form
 msgid "split"
 msgstr "Dividir"
@@ -946,4 +969,3 @@ msgstr "{'invisible': [('mode', '=', 'produce')]}"
 #: view:mrp.product.produce:eln_production.eln_view_mrp_product_produce_wizard
 msgid "{'readonly': 1}"
 msgstr "{'readonly': 1}"
-

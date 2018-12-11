@@ -121,7 +121,12 @@ class product_costs_line(osv.osv_memory):
                             for wc_use in bom.routing_id.workcenter_lines:
                                 wc = wc_use.workcenter_id
                                 qty_per_cycle = uom_obj._compute_qty(cr, uid, wc_use.uom_id.id, wc_use.qty_per_cycle, product.uom_id.id)
-                                hours += float((wc_use.hour_nbr / qty_per_cycle) * (wc.time_efficiency or 1.0) * (wc_use.operators_number or 1.0) / (wc.performance_factor or 1.0))
+                                hour = (wc_use.hour_nbr / qty_per_cycle) * (wc_use.operators_number or 1.0)
+                                hour = hour * (wc.time_efficiency or 1.0)
+                                hour = hour / (wc.performance_factor or 1.0)
+                                hour = hour / (bom.routing_id.availability_ratio or 1.0)
+                                hour = float(hour)
+                                hours += hour
                             theoric = element.cost_ratio * hours * 60
                             forecasted = theoric
             elif element.cost_type == 'total':
