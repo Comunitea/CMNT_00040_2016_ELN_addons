@@ -36,12 +36,13 @@
                         <field name="required_text" attrs="{'invisible': [('value_type', '!=', 'text')]}"/>
                         <field name="min_value" attrs="{'invisible': [('value_type', '!=', 'numeric')]}"/>
                         <field name="max_value" attrs="{'invisible': [('value_type', '!=', 'numeric')]}"/>
+                        <field name="barcode_type" attrs="{'invisible': [('value_type', '!=', 'barcode')]}"/>
                     </group>
                 </group>
                 <group string="Associated Products">
                     <field name="product_ids" nolabel="1">
                         <tree>
-                            <field name="name"/>
+                            <field name="display_name"/>
                         </tree>
                     </field>
                 </group>

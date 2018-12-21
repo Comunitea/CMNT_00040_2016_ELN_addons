@@ -6,7 +6,7 @@
 -->
 <ion-header>
   <ion-navbar color="secondary">
-    <ion-title><span class="custom-font-size">Controles Calidad</span></ion-title>
+    <ion-title><span class="custom-font-size">Controles de calidad</span></ion-title>
     <ion-buttons end>
         <button ion-button (click)="closeModal()">
             Atrás
@@ -17,10 +17,10 @@
 
 
 <ion-content padding>
-    <ion-item [hidden]='quality_checks.length>0' color ="danger"> No hay Quality Checks</ion-item>
+    <ion-item [hidden]='quality_checks.length>0' color ="danger">No hay controles de calidad</ion-item>
 <!--    <ion-card *ngIf="prodData.active_operator_id !== 0">
         <ion-card-header>
-            <span>Operario Activo</span>
+            <span>Operario activo</span>
          </ion-card-header>
         <ion-card-content>
             <div class="info-content">

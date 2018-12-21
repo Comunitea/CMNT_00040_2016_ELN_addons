@@ -13,6 +13,12 @@ VALUE_TYPES = [
     ('check', 'Check'),
     ('text', 'Text'),
     ('numeric', 'Numeric'),
+    ('barcode', 'Bar Code'),
+]
+
+BARCODE_TYPES = [
+    ('ean13', 'EAN13'),
+    ('dun14', 'DUN14'),
 ]
 
 
@@ -45,3 +51,4 @@ class ProductQualityChecks(models.Model):
     required_text = fields.Char('Required Text')
     min_value = fields.Float('Minimum Value')
     max_value = fields.Float('Maximum Value')
+    barcode_type = fields.Selection(BARCODE_TYPES, 'Barcode Type')

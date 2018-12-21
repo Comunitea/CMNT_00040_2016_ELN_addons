@@ -26,8 +26,8 @@ export class ListPage {
 
     logOut(){
         let confirm = this.alertCtrl.create({
-          title: 'Salir de la Aplicación?',
-          message: 'Estás seguro que deseas salir de la aplicación?',
+          title: '¿Salir de la aplicación?',
+          message: '¿Seguro que deseas salir de la aplicación?',
           buttons: [
             {
               text: 'No',

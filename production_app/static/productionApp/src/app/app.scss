@@ -15,18 +15,17 @@
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
 
-@media (min-width:700px){
-
+@media (min-width:600px) {
     span {
         font-size: 2rem;
     }
-    ion-input{
+    ion-input {
         font-size: 2rem;
     }
     .alert-header {
-      font-size: 3rem !important;
+        font-size: 3rem !important;
     }
     .alert-message {
-      font-size: 2rem !important;
+        font-size: 2rem !important;
     }
 }

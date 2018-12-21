@@ -34,7 +34,7 @@ export class ReasonsModalPage {
         }
         else{
             let confirm = this.alertCtrl.create({
-                  title: 'Crear Orden de Mantenimiento?',
+                  title: '¿Crear orden de mantenimiento?',
                   message: "Se creará una orden de mantenimiento asociada al registro de la aplicación",
                   buttons: [
                     {

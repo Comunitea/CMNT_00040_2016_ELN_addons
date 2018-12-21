@@ -48,7 +48,7 @@ export class UsersModalPage {
     }
     setActive(operator){
         if (!operator.let_active){
-            this.presentAlert('Error!', 'No se puede activar este usuario ya que no está en el listado de operarios del centro de trabajo asociado.')
+            this.presentAlert('¡Error!', 'No se puede activar este usuario ya que no está en el listado de operarios del centro de trabajo asociado.')
         }
         else{
 

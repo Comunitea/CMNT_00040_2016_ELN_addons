@@ -2,59 +2,56 @@ $primary-color: #488aff;
 $danger-color: #f53d3d;
 
 page-production {
-    ion-grid{
+    ion-grid {
         height: 100%;
     }
-    ion-row{
+    ion-row {
         margin: 2px;
     }
-
-    .info-tittle{
+    .info-tittle {
         font-size: 1.2rem !important;
         font-weight: bold;
-        }
-    .info-tittle-red{
+    }
+    .info-tittle-red {
         font-size: 1.2rem !important;
         font-weight: bold;
         color: $danger-color
     }
-    .info-content{
+    .info-content {
         color: $primary-color;
-        font-size: 1rem !important;
+        font-size: 1.2rem !important;
     }
-    .info-warning{
+    .info-warning {
         color: $danger-color;
-        font-size: 2rem !important;
+        font-size: 1.2rem !important;
     }
-
-    .content-full{
+    .content-full {
         height: 100%;
         --border: solid 1px;
         --overflow: hidden;
     }
-    .content-one{
+    .content-one {
        height: 70%;
        --border: solid 1px;
     }
-    .grid1{
+    .grid1 {
         height: 50%;
     }
-   .grid2{
+    .grid2 {
         height: 50%;
     }
-    .col-content{
-        font-size: 1.8rem !important;
+    .col-content {
+        font-size: 1.2rem !important;
         cursor: pointer
     }
-    .bold-header{
-        font-size: 1.6rem !important;
+    .bold-header {
+        font-size: 1.2rem !important;
         font-weight: bold;
     }
-
-    .grid2-row{
+    .grid2-row {
         border-bottom: 1px solid #000;
     }
-    .content-two{
+    .content-two {
         height: 30%;
         --border: solid 1px;
     }
@@ -62,47 +59,55 @@ page-production {
         display: none;
         visibility: hidden;
     }
-    .stop-timer{
+    .stop-timer {
         font-color: $primary-color;
     } 
     .btn {
         display:block;
-        height: 4vh;
+        height: 5vh;
         width: 100%;
         border: 1px ;
         background-color: $primary-color;
         color: white;
         margin: 4px;
-        font-size: 2rem;
+        font-size: 1.2rem;
     }
     .btn2 {
         display:block;
-        height: 4vh;
+        height: 5vh;
         width: 100%;
         border: 1px ;
         background-color: $danger-color;
         color: white;
         margin: 4px;
-        font-size: 2rem;
+        font-size: 1.2rem;
     }
 
 
-    @media (min-width:700px){
-        .info-tittle{
-            font-size: 3.2rem !important;
+    @media (min-width:600px) {
+        .info-tittle {
+            font-size: 2rem !important;
         }
-        .info-tittle-red{
-            font-size: 3em !important;
+        .info-tittle-red {
+            font-size: 2rem !important;
         }
-        .info-content{
-            font-size: 3rem !important;
+        .info-content {
+            font-size: 2rem !important;
         }
         .btn {
-            font-size: 2rem;
+            font-size: 1.8rem;
         }
-        .info-warning{
-            font-size: 4rem !important;
+        .btn2 {
+            font-size: 1.8rem;
         }
+        .info-warning {
+            font-size: 2rem !important;
+        }
+        .col-content {
+            font-size: 2rem !important;
+        }
+        .bold-header {
+            font-size: 2rem !important;
+       }
     }
-
 }

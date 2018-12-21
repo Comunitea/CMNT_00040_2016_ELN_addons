@@ -116,7 +116,16 @@ class AppRegistry(models.Model):
     @api.model
     def get_allowed_operators(self, active_ids):
         res = []
-        for op in self.env['hr.employee'].search([]):
+        mrp_workcenter = self.env['mrp.workcenter']
+        operators_ids = mrp_workcenter.search([]).mapped('operators_ids')
+        department_ids = operators_ids.mapped('department_id')
+        domain = [
+            ('fecha_baja_empresa', '=', False),
+            '|',
+            ('department_id', 'in', department_ids.ids),
+            ('id', 'in', operators_ids.ids)
+        ]
+        for op in self.env['hr.employee'].search(domain):
             vals = {'id': op.id, 'name': op.name, 'let_active': False}
             if op.id in active_ids:
                 vals['let_active'] = True
@@ -157,13 +166,18 @@ class AppRegistry(models.Model):
             consume_ids1 = reg.production_id.move_lines.mapped('product_id')
             consume_ids2 = reg.production_id.move_lines2.mapped('product_id')
             consume_ids = list(set(consume_ids1.ids + consume_ids2.ids))
+            production_qty = reg.production_id.product_qty
+            production_uos_qty = reg.production_id.product_uos_qty
             res.update(allowed_operators=allowed_operators,
                        active_operator_ids=active_operator_ids,
                        product_use_date=use_date,
                        change_lot_qc_id=change_lot_qc_id,
                        product_ids=product_ids,
                        consume_ids=consume_ids,
-                       uom=uom, uos=uos, uos_coeff=uos_coeff)
+                       production_qty=production_qty,
+                       production_uos_qty=production_uos_qty,
+                       uom=uom, uos=uos, uos_coeff=uos_coeff,
+            )
         return res
 
     @api.model
@@ -241,10 +255,14 @@ class AppRegistry(models.Model):
         mt = self.env['maintenance.type'].\
             search([('type', '=', 'correctivo')], limit=1)
 
-        note = ''
+        note = 'Creado por app.'
         if reason_id:
             reason_name = self.env['stop.reason'].browse(reason_id).name
-            note += 'Creado por app. ' + reason_name
+            note += '\n' + reason_name
+        if reg.workcenter_id:
+            note += '\n' + u'Centro de producción: ' + reg.workcenter_id.name
+        if reg.production_id:
+            note += '\n' + u'Orden de producción: ' + reg.production_id.name
         wo = self.env['work.order'].create({'maintenance_type_id': mt.id,
                                             'note': note})
         reg.write({'workorder_id': wo.id})
@@ -285,9 +303,14 @@ class AppRegistry(models.Model):
         if values.get('stop_end', False):
             date = values['stop_end']
         if reg:
-            reg.write({
-                'state': 'started',
-            })
+            if reg.setup_end:
+                reg.write({
+                    'state': 'started',
+                })
+            else: # Si es falso es porque aun estábamos en setup, por tanto volvemos a ese estado. Ojo, cuando se cambia el estado manualmente puede fallar
+                reg.write({
+                    'state': 'setup',
+                })
             stop_id = values.get('stop_id', False)
             if stop_id:
                 self.env['stop.line'].browse(stop_id).write({
@@ -365,11 +388,20 @@ class AppRegistry(models.Model):
         product = self.env['product.product'].browse(product_id)
         domain = [('id', 'in', product.quality_check_ids.ids)]
         fields = ['id', 'name', 'value_type', 'quality_type', 'repeat',
-                  'required_text', 'max_value', 'min_value']
+                  'required_text', 'max_value', 'min_value', 'barcode_type']
         res = product.quality_check_ids.search_read(domain, fields)
         res2 = []
         for dic in res:
             dic.update({'value': ''})
+            if dic['value_type'] == 'barcode':
+                if dic['barcode_type'] == 'ean13':
+                    dic.update({'value_type': 'text',
+                                'required_text': product.ean13,
+                    })
+                if dic['barcode_type'] == 'dun14':
+                    dic.update({'value_type': 'text',
+                                'required_text': product.dun14,
+                    })
             res2.append(dic)
         return res2
 

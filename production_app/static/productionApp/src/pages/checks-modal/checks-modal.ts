@@ -75,12 +75,12 @@ export class ChecksModalPage {
             }
             else if (qc.value_type == 'numeric'){
                 if (qc.min_value != 0 &&  qc.value < qc.min_value ){
-                    this.presentAlert('Error de validación', 'El valor para ' + qc.name + ' tiene que ser mayor que  ' + qc.min_value);
+                    this.presentAlert('Error de validación', 'El valor para ' + qc.name + ' tiene que ser mayor que ' + qc.min_value);
                     error = true;
                     // break;
                 }
                 else if (qc.max_value != 0 &&  qc.value > qc.max_value ){
-                    this.presentAlert('Error de validación', 'El valor para ' + qc.name + ' tiene que ser menor que  ' + qc.max_value);
+                    this.presentAlert('Error de validación', 'El valor para ' + qc.name + ' tiene que ser menor que ' + qc.max_value);
                     error = true;
                     // break;
                 }
