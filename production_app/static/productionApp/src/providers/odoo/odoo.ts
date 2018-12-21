@@ -33,7 +33,7 @@ export class OdooProvider {
                 var odoo = new OdooApi(con_data.url, con_data.db);
                 // this.navCtrl.setRoot(HomePage, {borrar: true, login: null});
                 if (con_data == null) {
-                    var err = {'title': 'Error!', 'msg': 'No hay datos para establecer la conexión'}
+                    var err = {'title': '¡Error!', 'msg': 'No hay datos para establecer la conexión'}
                     reject(err);
                 } else {
                     
@@ -42,7 +42,7 @@ export class OdooProvider {
                     resolve(uid)
                     })
                     .catch( (mierror) => {
-                      var err = {'title': 'Error!', 'msg': 'No se pudo conectar con Odoo'}
+                      var err = {'title': '¡Error!', 'msg': 'No se pudo conectar con Odoo'}
                       reject(err);
                     });
                 }
@@ -64,7 +64,7 @@ export class OdooProvider {
                 this.storage.get('CONEXION').then((con_data) => {
                     var odoo = new OdooApi(con_data.url, con_data.db);
                     if (con_data == null) {
-                        var err = {'title': 'Error!', 'msg': 'No hay datos para establecer la conexión'}
+                        var err = {'title': '¡Error!', 'msg': 'No hay datos para establecer la conexión'}
                         reject(err);
                     } else {
                         odoo.login(con_data.username, con_data.password).then( (uid) => {
@@ -101,7 +101,7 @@ export class OdooProvider {
                         })
                         .catch( () => {
                             this.pending_calls.push({'method': method, 'values': values})
-                            var err = {'title': 'Error!', 'msg': 'No se pudo conectar con Odoo'}
+                            var err = {'title': '¡Error!', 'msg': 'No se pudo conectar con Odoo'}
                             reject(err);
                         });
                     }
@@ -123,7 +123,7 @@ export class OdooProvider {
                 var odoo = new OdooApi(con_data.url, con_data.db);
                 // this.navCtrl.setRoot(HomePage, {borrar: true, login: null});
                 if (con_data == null) {
-                    var err = {'title': 'Error!', 'msg': 'No hay datos para establecer la conexión'}
+                    var err = {'title': '¡Error!', 'msg': 'No hay datos para establecer la conexión'}
                     reject(err);
                 } else {
                     odoo.login(con_data.username, con_data.password).then( (uid) => {
@@ -134,7 +134,7 @@ export class OdooProvider {
                             })
                             .catch( () => {
                                 this.pending_calls.push({'method': method, 'values': values})
-                                var err = {'title': 'Error!', 'msg': 'Fallo al llamar al método ' + method + ' del modelo app.registry'}
+                                var err = {'title': '¡Error!', 'msg': 'Fallo al llamar al método ' + method + ' del modelo app.registry'}
                                 reject(err);
                             });
                         })
@@ -147,7 +147,7 @@ export class OdooProvider {
                         if (method !== 'app_get_registry'){
                             this.pending_calls.push({'method': method, 'values': values})
                         }
-                        var err = {'title': 'Error!', 'msg': 'No se pudo conectar con Odoo'}
+                        var err = {'title': '¡Error!', 'msg': 'No se pudo conectar con Odoo'}
                         reject(err);
                     });
                 }
@@ -163,7 +163,7 @@ export class OdooProvider {
         var promise = new Promise( (resolve, reject) => {
             this.storage.get('CONEXION').then((con_data) => {
                 if (con_data == null) {
-                    var err = {'title': 'Error!', 'msg': 'No hay datos para establecer la conexión'}
+                    var err = {'title': '¡Error!', 'msg': 'No hay datos para establecer la conexión'}
                     reject(err);
                 } else {
                     var odoo = new OdooApi(con_data.url, con_data.db);
@@ -173,12 +173,12 @@ export class OdooProvider {
                         resolve(res);
                     })
                     .catch( () => {
-                        var err = {'title': 'Error!', 'msg': 'Fallo al llamar al hacer search_read'}
+                        var err = {'title': '¡Error!', 'msg': 'Fallo al llamar al hacer search_read'}
                         reject(err);
                     });
                     })
                     .catch( () => {
-                        var err = {'title': 'Error!', 'msg': 'No se pudo conectar con Odoo'}
+                        var err = {'title': '¡Error!', 'msg': 'No se pudo conectar con Odoo'}
                         reject(err);
                     });
                 }
@@ -196,7 +196,7 @@ export class OdooProvider {
                 var odoo = new OdooApi(con_data.url, con_data.db);
                 odoo.context = self.context
                 if (con_data == null) {
-                    var err = {'title': 'Error!', 'msg': 'No hay datos para establecer la conexión'}
+                    var err = {'title': '¡Error!', 'msg': 'No hay datos para establecer la conexión'}
                     reject(err);
                 }
 		else {
@@ -205,12 +205,12 @@ export class OdooProvider {
                                 resolve(res);
                             })
                             .catch( () => {
-                                var err = {'title': 'Error!', 'msg': 'Fallo al llamar al método ' + method + 'del modelo app.regustry'}
+                                var err = {'title': '¡Error!', 'msg': 'Fallo al llamar al método ' + method + 'del modelo app.regustry'}
                                 reject(err);
                             });
                     })
                     .catch( () => {
-                        var err = {'title': 'Error!', 'msg': 'No se pudo conectar con Odoo'}
+                        var err = {'title': '¡Error!', 'msg': 'No se pudo conectar con Odoo'}
                         reject(err);
                     });
                 }

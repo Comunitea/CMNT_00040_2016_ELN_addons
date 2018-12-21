@@ -43,6 +43,8 @@ export class ProductionProvider {
     qty: number;
     scrap_qty: number;
     scrap_reason_id: number;
+    production_qty: number;
+    production_uos_qty: number;
     uom: string;
     uos: string;
     uos_coeff: number;
@@ -107,7 +109,7 @@ export class ProductionProvider {
             this.odooCon.operatorsById[op.id] = {'name': op.name, 'let_active': op.let_active, 'active': active, 'operator_line_id': false, 'log': log}    
         }
         console.log("OPERATORSALLOWEDBYID")
-        console.log(this.odooCon.operatorsById)
+        //console.log(this.odooCon.operatorsById)
     }
 
     getLogInOperators(){
@@ -173,7 +175,7 @@ export class ProductionProvider {
                 this.lotsByProduct[product_id].push(lot)
             }
             console.log("LOTSBYID2")
-            console.log(this.lotsByProduct, this)
+            //console.log(this.lotsByProduct, this)
         })
         .catch( (err) => {
             console.log("Error buscando lotes")
@@ -320,6 +322,8 @@ export class ProductionProvider {
         this.freq_checks = [];
         this.product_use_date = data.product_use_date
         this.scrap_qty = 0;
+        this.production_qty = data.production_qty;
+        this.production_uos_qty = data.production_uos_qty;
         this.uom = data.uom;
         this.uos = data.uos;
         this.uos_coeff = data.uos_coeff;
@@ -442,6 +446,9 @@ export class ProductionProvider {
             if (method == 'stop_production'){
                 this.odooCon.last_stop_id = res['stop_id'];
             }
+	    if (res['state']) {
+                this.state = res['state'];
+            }
         })
         .catch( (err) => {
             this.manageOdooFail()
@@ -452,7 +459,6 @@ export class ProductionProvider {
         this.state = 'confirmed'
         this.setStepAsync('confirm_production', {});
     }
-
     setupProduction() {
         this.state = 'setup'
         var values = {'setup_start': this.getUTCDateStr()}
@@ -491,12 +497,12 @@ export class ProductionProvider {
                       'cleaning_end': this.getUTCDateStr()}
         this.setStepAsync('finish_production', values);
     }
-    restartAndCleanProduction(){
+    restartAndCleanProduction() {
         this.state = 'cleaning';
         var values = {'stop_id': this.odooCon.last_stop_id, 'stop_end': this.getUTCDateStr()};
         this.setStepAsync('restart_and_clean_production', values);
     }
-    scrapProduction(){
+    scrapProduction() {
         var values = {'scrap_qty': this.scrap_qty, 'scrap_reason_id': this.scrap_reason_id};
         this.setStepAsync('scrap_production', values);
     }

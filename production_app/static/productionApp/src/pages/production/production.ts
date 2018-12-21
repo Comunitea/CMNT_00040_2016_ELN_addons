@@ -44,7 +44,9 @@ export class ProductionPage {
 
         var timer_1_states = ['setup', 'started', 'cleaning']
         if (timer_1_states.indexOf(this.prodData.state) >= 0){
-            this.scheduleChecks();
+            if (this.prodData.state != 'setup') {
+                this.scheduleChecks();
+            }
             this.timer.toArray()[0].restartTimer();
         }
         if (this.prodData.state == 'stoped'){
@@ -56,8 +58,8 @@ export class ProductionPage {
 
     logOut(){
         let confirm = this.alertCtrl.create({
-          title: 'Salir de la Aplicación?',
-          message: 'Estás seguro que deseas salir de la aplicación?',
+          title: '¿Salir de la aplicación?',
+          message: '¿Seguro que deseas salir de la aplicación?',
           buttons: [
             {
               text: 'No',
@@ -93,7 +95,7 @@ export class ProductionPage {
                   text: 'Si',
                   handler: () => {
                     if (this.prodData.active_operator_id === 0 ){
-                        this.presentAlert("Error!", "No puede continuar sin un operario activo");
+                        this.presentAlert("¡Error!", "No puede continuar sin un operario activo");
                         reject();
                     }
                     resolve();
@@ -138,15 +140,15 @@ export class ProductionPage {
 
             // When modal closes
             myModal.onDidDismiss(data => {
-                if (Object.keys(data).length !== 0) {
+                if (data !== null && Object.keys(data).length !== 0) {
                     this.prodData.saveQualityChecks(data);
                     if (qtype == 'start' && restart_timer){
                         this.timer.toArray()[0].restartTimer();  // Production timer on
                     } 
                     resolve();
                 }
-                else{
-                    if (qtype == 'start' && restart_timer){
+                else {
+                    if (qtype == 'start' && restart_timer) {
                         this.timer.toArray()[0].restartTimer();  // Production timer on
                     } 
                     if (qchecks.length === 0)
@@ -154,9 +156,7 @@ export class ProductionPage {
                     else
                         reject();
                 }
-                
             });
-
             myModal.present();
         });
         return promise
@@ -283,7 +283,7 @@ export class ProductionPage {
     // ************************* BUTONS FUNCTIONS *****************************
     // ************************************************************************
     beginLogistics() {
-        this.presentAlert('Logistica', 'PENDIENTE DESAROLLO, LLAMAR APP ALMACÉN')
+        this.presentAlert('Logística', 'PENDIENTE DESAROLLO, LLAMAR APP ALMACÉN')
     }
     showConsumptions(workcenter) {
         this.navCtrl.push(ConsumptionsPage)
@@ -306,8 +306,7 @@ export class ProductionPage {
     }
 
     startProduction() {
-        this.promptNextStep('¿Terminar preparación y empezar producción').then( () => {
-
+        this.promptNextStep('¿Terminar preparación y empezar producción?').then( () => {
             this.openFinishModal("start").then(() => {
                this.openChecksModal('start', this.prodData.start_checks, true).then( () => {
                     this.prodData.startProduction();

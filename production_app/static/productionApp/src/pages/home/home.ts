@@ -17,14 +17,12 @@ export class HomePage {
     loginData = {password: '', username: ''};
     CONEXION_local = {
         url: 'http://',
-        port: '8069',
         db: '',
         username: '',
         password: '',
     };
     CONEXION = {
         url: '',
-        port: '',
         db: '',
         username: '',
         password: '',
@@ -94,7 +92,7 @@ export class HomePage {
                     con = this.CONEXION;
                     if (con.username.length < 3 || con.password.length < 3) {
                         if (verificar) {
-                            this.presentAlert('Alerta!', 'Por favor ingrese usuario y contraseña');
+                            this.presentAlert('¡Alerta!', 'Por favor ingrese usuario y contraseña');
                         }
                         return;
                     }
@@ -142,11 +140,11 @@ export class HomePage {
             })
             .catch(() => {
                 this.cargar = false;
-                this.presentAlert('Error!', 'No se pudo encontrar el usuario:' + con.username);
+                this.presentAlert('¡Error!', 'No se pudo encontrar el usuario: ' + con.username);
             });
         })
         .catch (() => {
-            this.presentAlert('Error!', 'No se pudo conectar a Odoo');
+            this.presentAlert('¡Error!', 'No se pudo conectar a Odoo');
             this.cargar = false;
         })
     }

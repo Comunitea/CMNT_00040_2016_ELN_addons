@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar color="secondary">
-    <ion-title><span>Finalizar Producción</span></ion-title>
+    <ion-title><span>Finalizar producción</span></ion-title>
     <ion-buttons end>
         <button ion-button (click)="closeModal()">
             Atrás
@@ -20,29 +20,29 @@
 
 <ion-content padding>
     <button  *ngIf="mode !== 'show'" ion-button full color= "secondary"(click)="showLots()">
-        Ver Lotes
+        Ver lotes
     </button>
    <ion-list>
 
         <ion-item *ngIf="(mode !== 'show') && (mode_step === 'clean')">
             <ion-label color="primary" stacked><span>Cantidad en {{this.prodData.uom}}</span></ion-label>
-            <ion-input type="number"  [(ngModel)]="qty" required name='qty' (ionChange)='onchange_uom()' placeholder="Introducir Cantidad"></ion-input>
+            <ion-input type="number"  [(ngModel)]="qty" required name='qty' (ionChange)='onchange_uom()' placeholder="Introducir cantidad"></ion-input>
         </ion-item>
 
         <ion-item *ngIf="(mode !== 'show') && (mode_step === 'clean')">
             <ion-label color="primary" stacked><span>Cantidad en {{this.prodData.uos}}</span></ion-label>
-            <ion-input type="number"  [(ngModel)]="uos_qty" required name='uos_qty' (ionChange)='onchange_uos()' placeholder="Cant. Segunda Unidad"></ion-input>
+            <ion-input type="number"  [(ngModel)]="uos_qty" required name='uos_qty' (ionChange)='onchange_uos()' placeholder="Cant. segunda unidad"></ion-input>
         </ion-item>
 
 
         <ion-item *ngIf="(mode !== 'show') && (mode_step === 'start')">
            <ion-label color="primary" stacked><span>Lot</span></ion-label>
-           <ion-input type="text" [(ngModel)]="lot" required name='lot'  placeholder="Introducir Lote"></ion-input>
+           <ion-input type="text" [(ngModel)]="lot" required name='lot'  placeholder="Introducir lote"></ion-input>
         </ion-item>
 
         <ion-item *ngIf="(mode !== 'show') && (mode_step === 'start')">
-            <ion-label color="primary" stacked><span>Fecha de cadicidad</span></ion-label>
-          <ion-datetime displayFormat="DD/MM/YYYY" pickerFormat="DD MM YYYY" max="2099-12-31" placeholder="Introducir Caducidad" [(ngModel)]="date"></ion-datetime>
+            <ion-label color="primary" stacked><span>Fecha de caducidad</span></ion-label>
+          <ion-datetime displayFormat="DD/MM/YYYY" pickerFormat="DD MM YYYY" max="2099-12-31" placeholder="Introducir caducidad" [(ngModel)]="date"></ion-datetime>
         </ion-item>
    </ion-list>
 
