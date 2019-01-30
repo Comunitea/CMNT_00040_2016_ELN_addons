@@ -3,8 +3,8 @@
 <openerp>
     <data>
 
-        <record id="view_partner_form_add_list_price" model="ir.ui.view">
-            <field name="name">res.partner.form.add.listprice</field>
+        <record id="view_partner_form_eln_sale_customizations" model="ir.ui.view">
+            <field name="name">res.partner.form.eln.sale.customizations</field>
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="base.view_partner_form"/>
             <field name="arch" type="xml">
@@ -16,6 +16,28 @@
                                 <field name="product_id"/>
                             </tree>
                         </field>
+                    </page>
+                    <page string="Values by sale type" attrs="{'invisible': [('customer', '=', False)]}">
+                        <group string="Contact references by sale type">
+                            <field name="shop_ref_ids" nolabel="1" colspan="4">
+                                <tree string="Ref by shop" editable="top">
+                                    <field name="shop_id"/>
+                                    <field name="ref"/>
+                                </tree>
+                            </field>
+                        </group>
+                        <group string="Payment settings by sale type">
+                            <field name="shop_payment_ids" nolabel="1" colspan="4" attrs="{'invisible': [('is_company','=',False),('parent_id','!=',False)]}">
+                                <tree string="Payment by shop" editable="top">
+                                    <field name="shop_id"/>
+                                    <field name="customer_payment_mode"/>
+                                    <field name="customer_payment_term"/>
+                                </tree>
+                            </field>
+                            <div attrs="{'invisible': ['|',('is_company','=',True),('parent_id','=',False)]}">
+                                <p>Accounting-related settings are managed on <button name="open_commercial_entity" type="object" string="the parent company" class="oe_link"/></p>
+                            </div>
+                        </group>
                     </page>
                 </notebook>
             </field>

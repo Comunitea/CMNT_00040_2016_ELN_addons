@@ -27,6 +27,8 @@ class ResPartner(models.Model):
     _inherit = 'res.partner'
 
     product_ids = fields.One2many('partner.product', 'partner_id', 'Price list')
+    shop_ref_ids = fields.One2many('partner.shop.ref', 'partner_id', 'Contact References by Sale Type')
+    shop_payment_ids = fields.One2many('partner.shop.payment', 'partner_id', 'Payment Settings by Sale Type')
     property_product_pricelist_indirect_invoicing = fields.Many2one(
         string='Sale Pricelist (Indirect Invoicing)',
         comodel_name='product.pricelist',
@@ -41,3 +43,59 @@ class PartnerProduct(models.Model):
     name = fields.Char('Product Code', size=32, required=True)
     product_id = fields.Many2one(string="Product", comodel_name='product.product', required=True)
     partner_id = fields.Many2one(string="Partner", comodel_name='res.partner', required=True)
+
+
+class PartnerShopRef(models.Model):
+    _name = 'partner.shop.ref'
+    _order = 'shop_id'
+    _sql_constraints = [
+        ('unique_shop_id', 'unique(shop_id, partner_id)',
+         'You can only add one time each shop.')
+    ]
+
+    shop_id = fields.Many2one(
+        string="Sale type",
+        comodel_name='sale.shop',
+        required=True)
+    partner_id = fields.Many2one(
+        string="Partner",
+        comodel_name='res.partner',
+        required=True)
+    ref = fields.Char(
+        string='Contact Reference',
+        required=True)
+    company_id = fields.Many2one(
+        string="Company",
+        comodel_name='res.company',
+        related="shop_id.company_id")
+
+class PartnerShopPayment(models.Model):
+    _name = 'partner.shop.payment'
+    _order = 'shop_id'
+    _sql_constraints = [
+        ('unique_shop_id', 'unique(shop_id, partner_id)',
+         'You can only add one time each shop.')
+    ]
+
+    shop_id = fields.Many2one(
+        string="Sale type",
+        comodel_name='sale.shop',
+        required=True)
+    partner_id = fields.Many2one(
+        string="Partner",
+        comodel_name='res.partner',
+        required=True)
+    customer_payment_mode = fields.Many2one(
+        string='Customer Payment Mode',
+        comodel_name='payment.mode',
+        domain="[('sale_ok', '=', True)]",
+        required=True)
+    customer_payment_term = fields.Many2one(
+        string='Customer Payment Term',
+        comodel_name='account.payment.term',
+        required=True)
+    company_id = fields.Many2one(
+        string="Company",
+        comodel_name='res.company',
+        related="shop_id.company_id")
+

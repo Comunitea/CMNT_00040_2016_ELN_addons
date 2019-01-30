@@ -1,3 +1,5 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_partner_product,partner.product,model_partner_product,base.group_user,1,1,1,1
+access_partner_shop_ref,partner.shop.ref,model_partner_shop_ref,base.group_user,1,1,1,1
+access_partner_shop_payment,partner.shop.payment,model_partner_shop_payment,base.group_user,1,1,1,1
 access_sale_shop,sale.shop,model_sale_shop,base.group_user,1,1,1,1

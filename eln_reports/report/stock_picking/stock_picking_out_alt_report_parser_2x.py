@@ -28,9 +28,17 @@ def parser( cr, uid, ids, data, context ):
     name = 'report.stock_picking_out_alt_2x'
     model = 'stock.picking'
     data_source = 'model'
-    picking = pooler.get_pool(cr.dbname).get('stock.picking').browse(cr,uid,ids)
-    language = picking and picking[0].partner_id.lang or False
+    pickings = pooler.get_pool(cr.dbname).get('stock.picking').browse(cr, uid, ids)
+    language = pickings and pickings[0].partner_id.lang or False
     context['lang'] = language
+    picking_ref_ids = {}
+    for picking in pickings:
+        picking_ref_ids[str(picking.id)] = picking.partner_id.ref or picking.partner_id.commercial_partner_id.ref or ''
+        shop_id = picking.supplier_id and picking.sale_id and picking.sale_id.shop_id or False
+        if shop_id:
+            partner_shop_ids = picking.partner_id.shop_ref_ids.filtered(lambda r: r.shop_id.id == shop_id.id)
+            picking_ref_ids[str(picking.id)] = partner_shop_ids and partner_shop_ids.ref or picking_ref_ids[str(picking.id)]
+    parameters['picking_ref_ids'] = picking_ref_ids
 
     return {
         'ids': ids,
