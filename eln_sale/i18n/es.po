@@ -6,21 +6,26 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-25 23:18+0000\n"
-"PO-Revision-Date: 2018-02-26 00:36+0100\n"
-"Last-Translator: Pedro <pegomez@elnogal.com>\n"
+"POT-Creation-Date: 2019-01-30 12:08+0000\n"
+"PO-Revision-Date: 2019-01-30 13:20+0100\n"
+"Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
 "Language: es\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 2.0.9\n"
 
 #. module: eln_sale
 #: view:sale.shop:eln_sale.view_shop_form
 msgid "Accounting"
 msgstr "Contabilidad"
+
+#. module: eln_sale
+#: view:res.partner:eln_sale.view_partner_form_eln_sale_customizations
+msgid "Accounting-related settings are managed on"
+msgstr "La configuración relativa a contabilidad es gestionada en"
 
 #. module: eln_sale
 #: field:sale.shop,project_id:0
@@ -63,6 +68,7 @@ msgid "Commercial partner id"
 msgstr "Commercial partner id"
 
 #. module: eln_sale
+#: field:partner.shop.payment,company_id:0 field:partner.shop.ref,company_id:0
 #: field:sale.shop,company_id:0
 msgid "Company"
 msgstr "Compañía"
@@ -79,21 +85,48 @@ msgid "Confirm Sales Orders"
 msgstr "Confirmar pedidos de ventas"
 
 #. module: eln_sale
+#: field:partner.shop.ref,ref:0
+msgid "Contact Reference"
+msgstr "Referencia de contacto"
+
+#. module: eln_sale
+#: field:res.partner,shop_ref_ids:0
+msgid "Contact References by Sale Type"
+msgstr "Referencias de contacto por tienda"
+
+#. module: eln_sale
+#: view:res.partner:eln_sale.view_partner_form_eln_sale_customizations
+msgid "Contact references by sale type"
+msgstr "Referencias de contacto por tienda"
+
+#. module: eln_sale
 #: field:sale.shop,order_policy:0
 msgid "Create Invoice"
 msgstr "Crear Factura"
 
 #. module: eln_sale
-#: field:partner.product,create_uid:0 field:sale.order.confirm,create_uid:0
+#: field:partner.product,create_uid:0 field:partner.shop.payment,create_uid:0
+#: field:partner.shop.ref,create_uid:0 field:sale.order.confirm,create_uid:0
 #: field:sale.shop,create_uid:0
 msgid "Created by"
 msgstr "Created by"
 
 #. module: eln_sale
-#: field:partner.product,create_date:0 field:sale.order.confirm,create_date:0
+#: field:partner.product,create_date:0 field:partner.shop.payment,create_date:0
+#: field:partner.shop.ref,create_date:0 field:sale.order.confirm,create_date:0
 #: field:sale.shop,create_date:0
 msgid "Created on"
 msgstr "Created on"
+
+#. module: eln_sale
+#: field:partner.shop.payment,customer_payment_mode:0
+msgid "Customer Payment Mode"
+msgstr "Modo de pago de cliente"
+
+#. module: eln_sale
+#: field:partner.shop.payment,customer_payment_term:0
+msgid "Customer Payment Term"
+msgstr "Plazo de pago de cliente"
 
 #. module: eln_sale
 #: help:sale.order,supplier_cip:0 help:stock.picking,supplier_cip:0
@@ -127,8 +160,10 @@ msgid "Direct Invoicing"
 msgstr "Facturación Directa"
 
 #. module: eln_sale
-#: field:partner.product,display_name:0 field:sale.order.confirm,display_name:0
-#: field:sale.shop,display_name:0
+#: field:partner.product,display_name:0
+#: field:partner.shop.payment,display_name:0
+#: field:partner.shop.ref,display_name:0
+#: field:sale.order.confirm,display_name:0 field:sale.shop,display_name:0
 msgid "Display Name"
 msgstr "Nombre mostrado"
 
@@ -150,7 +185,8 @@ msgid "Group By"
 msgstr "Agrupar por"
 
 #. module: eln_sale
-#: field:partner.product,id:0 field:sale.order.confirm,id:0
+#: field:partner.product,id:0 field:partner.shop.payment,id:0
+#: field:partner.shop.ref,id:0 field:sale.order.confirm,id:0
 #: field:sale.shop,id:0
 msgid "ID"
 msgstr "ID"
@@ -169,18 +205,22 @@ msgstr "Facturación Indirecta"
 
 #. module: eln_sale
 #: field:partner.product,__last_update:0
+#: field:partner.shop.payment,__last_update:0
+#: field:partner.shop.ref,__last_update:0
 #: field:sale.order.confirm,__last_update:0 field:sale.shop,__last_update:0
 msgid "Last Modified on"
 msgstr "Last Modified on"
 
 #. module: eln_sale
-#: field:partner.product,write_uid:0 field:sale.order.confirm,write_uid:0
+#: field:partner.product,write_uid:0 field:partner.shop.payment,write_uid:0
+#: field:partner.shop.ref,write_uid:0 field:sale.order.confirm,write_uid:0
 #: field:sale.shop,write_uid:0
 msgid "Last Updated by"
 msgstr "Last Updated by"
 
 #. module: eln_sale
-#: field:partner.product,write_date:0 field:sale.order.confirm,write_date:0
+#: field:partner.product,write_date:0 field:partner.shop.payment,write_date:0
+#: field:partner.shop.ref,write_date:0 field:sale.order.confirm,write_date:0
 #: field:sale.shop,write_date:0
 msgid "Last Updated on"
 msgstr "Last Updated on"
@@ -213,10 +253,26 @@ msgstr ""
 
 #. module: eln_sale
 #: model:ir.model,name:eln_sale.model_res_partner
-#: field:partner.product,partner_id:0
+#: field:partner.product,partner_id:0 field:partner.shop.payment,partner_id:0
+#: field:partner.shop.ref,partner_id:0
 #: view:stock.move:eln_sale.view_move_search_add_supplier
 msgid "Partner"
 msgstr "Empresa"
+
+#. module: eln_sale
+#: field:res.partner,shop_payment_ids:0
+msgid "Payment Settings by Sale Type"
+msgstr "Configuraciones de pago por tienda"
+
+#. module: eln_sale
+#: view:res.partner:eln_sale.view_partner_form_eln_sale_customizations
+msgid "Payment by shop"
+msgstr "Payment by shop"
+
+#. module: eln_sale
+#: view:res.partner:eln_sale.view_partner_form_eln_sale_customizations
+msgid "Payment settings by sale type"
+msgstr "Configuraciones de pago por tienda"
 
 #. module: eln_sale
 #: model:ir.model,name:eln_sale.model_stock_picking
@@ -245,9 +301,14 @@ msgid "Product Code"
 msgstr "Código de producto"
 
 #. module: eln_sale
-#: view:res.partner:eln_sale.view_partner_form_add_list_price
+#: view:res.partner:eln_sale.view_partner_form_eln_sale_customizations
 msgid "Products"
 msgstr "Productos"
+
+#. module: eln_sale
+#: view:res.partner:eln_sale.view_partner_form_eln_sale_customizations
+msgid "Ref by shop"
+msgstr "Ref by shop"
 
 #. module: eln_sale
 #: field:stock.picking,requested_date:0
@@ -271,9 +332,10 @@ msgid "Sale Types"
 msgstr "Tipos de venta"
 
 #. module: eln_sale
+#: field:partner.shop.payment,shop_id:0 field:partner.shop.ref,shop_id:0
 #: field:sale.order,shop_id:0
 msgid "Sale type"
-msgstr "Tipo de venta"
+msgstr "Tienda"
 
 #. module: eln_sale
 #: model:ir.model,name:eln_sale.model_sale_order
@@ -334,6 +396,11 @@ msgid "Type Name"
 msgstr "Nombre tipo"
 
 #. module: eln_sale
+#: view:res.partner:eln_sale.view_partner_form_eln_sale_customizations
+msgid "Values by sale type"
+msgstr "Valores por tienda"
+
+#. module: eln_sale
 #: field:sale.shop,warehouse_id:0
 msgid "Warehouse"
 msgstr "Almacén"
@@ -351,6 +418,11 @@ msgid "Without early payment"
 msgstr "Sin Pronto Pago"
 
 #. module: eln_sale
+#: sql_constraint:partner.shop.payment:0 sql_constraint:partner.shop.ref:0
+msgid "You can only add one time each shop."
+msgstr "Sólo puede añadir una vez cada tienda."
+
+#. module: eln_sale
 #: code:addons/eln_sale/wizard/sale_order_confirm.py:38
 #, python-format
 msgid "You cannot confirm a sale order which has no line."
@@ -360,6 +432,11 @@ msgstr "No puede confirmar un pedido de venta sin líneas."
 #: view:sale.order:eln_sale.view_elnsale_sale_form
 msgid "[('commercial_partner_id', '=', commercial_partner_id)]"
 msgstr "[('commercial_partner_id', '=', commercial_partner_id)]"
+
+#. module: eln_sale
+#: view:res.partner:eln_sale.view_partner_form_eln_sale_customizations
+msgid "the parent company"
+msgstr "Compañía matriz"
 
 #. module: eln_sale
 #: view:sale.order:eln_sale.view_elnsale_sale_form

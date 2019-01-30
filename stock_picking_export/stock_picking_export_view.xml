@@ -1,0 +1,51 @@
+<?xml version="1.0" ?>
+<openerp>
+    <data>
+
+        <record id="stock_picking_export_view" model="ir.ui.view">
+            <field name="name">stock.picking.export.form</field>
+            <field name="model">stock.picking.export</field>
+            <field name="type">form</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <form string="Export File">
+                    <field invisible="1" name="state"/>
+                    <group states="choose" string="Export Settings" col="4">
+                        <field name="file_type" colspan="4"/>
+                        <field name="file_name" colspan="4"/>
+                    </group>
+                    <div states="get">
+                        <h2>Export Complete</h2>
+                        <p>Here is the exported file: <field name="data" readonly="1" filename="file_name"/></p>
+                        <p>This file was generated using the universal <strong>Unicode/UTF-8</strong> file encoding.</p> 
+                        <field name="note" colspan="4"/>
+                    </div>
+                    <footer states="choose">
+                        <button special="cancel" string="Cancel" icon="gtk-cancel"/>
+                        <button name="stock_picking_export" string="Export" type="object" icon="gtk-ok"/>
+                    </footer>
+                    <footer states="get">
+                        <button special="cancel" string="Close" type="object"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- ########################################### -->
+        <!-- Menus                                       -->
+        <!-- ########################################### -->
+
+        <act_window
+            id="action_stock_picking_export"
+            name="Export stock picking to plain text"
+            res_model="stock.picking.export"
+            src_model="stock.picking"
+            view_type="form"
+            view_mode="form"
+            target="new"
+            view_id="stock_picking_export_view"
+            key2="client_action_multi"
+            />
+
+    </data>
+</openerp>

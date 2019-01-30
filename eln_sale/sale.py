@@ -79,6 +79,17 @@ class SaleOrder(models.Model):
                 else:
                     if partner_id.property_product_pricelist:
                         self.pricelist_id = partner_id.property_product_pricelist
+                domain = [
+                    ('partner_id', '=', partner_id.id),
+                    ('shop_id', '=', self.shop_id.id)
+                ]
+                partner_shop_ids = self.env['partner.shop.payment'].search(domain, limit=1)
+                if partner_shop_ids.customer_payment_mode:
+                    self.payment_mode_id = partner_shop_ids.customer_payment_mode
+                    self.payment_term = partner_shop_ids.customer_payment_term
+                else:
+                    self.payment_mode_id = partner_id.customer_payment_mode
+                    self.payment_term = partner_id.property_payment_term
         else:
             self.pricelist_id = False
 
@@ -157,29 +168,37 @@ class SaleOrder(models.Model):
 
     @api.multi
     def onchange_partner_id3(self, part, early_payment_discount=False, payment_term=False, shop=False):
-        """extend this event for change the pricelist when the shop is to indirect invoice"""
         res = self.onchange_partner_id2(part, early_payment_discount, payment_term)
-        partner_obj = self.env['res.partner'].browse(part)
+        partner_id = self.env['res.partner'].browse(part)
+        commercial_partner_id = partner_id.commercial_partner_id
         res['value']['commercial_partner_id'] = \
-            partner_obj.commercial_partner_id.id
+            commercial_partner_id.id
         if not part:
             res['value']['pricelist_id'] = False
             return res
         if shop:
-            shop_obj = self.env['sale.shop'].browse(shop)
-            if shop_obj.pricelist_id:
-                res['value']['pricelist_id'] = shop_obj.pricelist_id.id
-            if shop_obj.indirect_invoicing:
-                if partner_obj.commercial_partner_id.property_product_pricelist_indirect_invoicing:
+            shop_id = self.env['sale.shop'].browse(shop)
+            if shop_id.pricelist_id:
+                res['value']['pricelist_id'] = shop_id.pricelist_id.id
+            if shop_id.indirect_invoicing:
+                if commercial_partner_id.property_product_pricelist_indirect_invoicing:
                     res['value']['pricelist_id'] = \
-                        partner_obj.commercial_partner_id.property_product_pricelist_indirect_invoicing.id
+                        commercial_partner_id.property_product_pricelist_indirect_invoicing.id
             else:
-                if partner_obj.commercial_partner_id.property_product_pricelist:
+                if commercial_partner_id.property_product_pricelist:
                     res['value']['pricelist_id'] = \
-                        partner_obj.commercial_partner_id.property_product_pricelist.id
+                        commercial_partner_id.property_product_pricelist.id
+            domain = [
+                ('partner_id', '=', commercial_partner_id.id),
+                ('shop_id', '=', shop_id.id)
+            ]
+            partner_shop_ids = self.env['partner.shop.payment'].search(domain, limit=1)
+            if partner_shop_ids.customer_payment_mode:
+                res['value']['payment_mode_id'] = partner_shop_ids.customer_payment_mode.id
+                res['value']['payment_term'] = partner_shop_ids.customer_payment_term.id
         else:
             res['value']['pricelist_id'] = \
-                partner_obj.commercial_partner_id.property_product_pricelist.id
+                commercial_partner_id.property_product_pricelist.id
         return res
 
     @api.multi

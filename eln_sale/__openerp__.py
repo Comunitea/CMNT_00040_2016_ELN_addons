@@ -32,6 +32,7 @@
                 'sale_early_payment_discount',
                 'sale_commission',
                 'nan_partner_risk',
+                'account_payment_partner',
                 'account_analytic_default'],
     "category": "Sale",
     "init_xml": [],

@@ -281,6 +281,7 @@ EN EL ARCHIVO packing_list_alt, PONER EL VALOR A true]]></parameterDescription>
 		<defaultValueExpression><![CDATA[true]]></defaultValueExpression>
 	</parameter>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="picking_ref_ids" class="java.util.HashMap"/>
 	<queryString language="xPath">
 		<![CDATA[]]>
 	</queryString>
@@ -485,6 +486,10 @@ EN EL ARCHIVO packing_list_alt, PONER EL VALOR A true]]></parameterDescription>
 	<variable name="L" class="java.util.Locale" resetType="Page">
 		<variableExpression><![CDATA[new Locale($F{Idioma-lang}.split("_")[0],$F{Idioma-lang}.split("_")[1])]]></variableExpression>
 		<initialValueExpression><![CDATA[new Locale($F{Idioma-lang}.split("_")[0],$F{Idioma-lang}.split("_")[1])]]></initialValueExpression>
+	</variable>
+	<variable name="partner_ref" class="java.lang.String" resetType="Page">
+		<variableExpression><![CDATA[$P{picking_ref_ids}.get($F{id}.toString())]]></variableExpression>
+		<initialValueExpression><![CDATA[$P{picking_ref_ids}.get($F{id}.toString())]]></initialValueExpression>
 	</variable>
 	<group name="Picking" isResetPageNumber="true" isReprintHeaderOnEachPage="true" minHeightToStartNewPage="260" footerPosition="ForceAtBottom">
 		<groupExpression><![CDATA[$F{id}]]></groupExpression>
@@ -929,7 +934,7 @@ tr($V{L}, "Bultos: ") + $F{Paquetes-packages_uos}]]></textFieldExpression>
 					<textElement textAlignment="Right" verticalAlignment="Middle" rotation="None" lineSpacing="Single" markup="none">
 						<font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[( $F{Referencia-ref-entrega}.isEmpty() ? $F{Referencia_de_contacto-ref-padre} : $F{Referencia-ref-entrega} )]]></textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA[$V{partner_ref}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
 					<reportElement mode="Transparent" x="463" y="52" width="90" height="13" forecolor="#000000" backcolor="#EBEBEB"/>
