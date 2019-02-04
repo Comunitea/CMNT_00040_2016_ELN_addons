@@ -8,6 +8,7 @@
         <field name="model">product.quality.check</field>
         <field name="arch" type="xml">
             <tree string="Quality Checks">
+                <field name="sequence" widget="handle"/>
                 <field name="name"/>
                 <field name="quality_type"/>
                 <field name="value_type"/>
@@ -33,6 +34,7 @@
                         <field name="repeat"/>
                     </group>
                    <group>
+                        <field name="sequence"/>
                         <field name="required_text" attrs="{'invisible': [('value_type', '!=', 'text')]}"/>
                         <field name="min_value" attrs="{'invisible': [('value_type', '!=', 'numeric')]}"/>
                         <field name="max_value" attrs="{'invisible': [('value_type', '!=', 'numeric')]}"/>
@@ -108,6 +110,7 @@
                         <field name="show_in_app"/>
                         <field name="quality_check_ids" nolabel="1">
                             <tree>
+                                <field name="sequence" widget="handle"/>
                                 <field name="name"/>
                                 <field name="quality_type"/>
                                 <field name="value_type"/>
