@@ -61,26 +61,26 @@ export class ChecksModalPage {
             var qc = this.quality_checks[indx];
              if (qc.value_type == 'check'){
                 if ( qc.value !== 'OK'){
-                    this.presentAlert('Error de validación', 'El valor para ' + qc.name + ' tiene que ser: OK');
+                    this.presentAlert('Error de validación', 'El valor para <b>' + qc.name + '</b> tiene que ser <b>OK</b');
                     error = true;
                     // break;
                 }
             }
             if (qc.value_type == 'text'){
-                if ( qc.required_text != '' && qc.required_text != qc.value){
-                    this.presentAlert('Error de validación', 'El valor para ' + qc.name + ' tiene que ser: ' + qc.required_text);
+                if (qc.required_text != '' && qc.required_text.toUpperCase() != qc.value.toUpperCase()){
+                    this.presentAlert('Error de validación', 'El valor para <b>' + qc.name + '</b> tiene que ser <b>' + qc.required_text + '</b');
                     error = true;
                     // break;
                 }
             }
             else if (qc.value_type == 'numeric'){
                 if (qc.min_value != 0 &&  qc.value < qc.min_value ){
-                    this.presentAlert('Error de validación', 'El valor para ' + qc.name + ' tiene que ser mayor que ' + qc.min_value);
+                    this.presentAlert('Error de validación', 'El valor para <b>' + qc.name + '</b> tiene que ser mayor que <b>' + qc.min_value + '</b');
                     error = true;
                     // break;
                 }
                 else if (qc.max_value != 0 &&  qc.value > qc.max_value ){
-                    this.presentAlert('Error de validación', 'El valor para ' + qc.name + ' tiene que ser menor que ' + qc.max_value);
+                    this.presentAlert('Error de validación', 'El valor para <b>' + qc.name + '</b> tiene que ser menor que <b>' + qc.max_value + '</b');
                     error = true;
                     // break;
                 }

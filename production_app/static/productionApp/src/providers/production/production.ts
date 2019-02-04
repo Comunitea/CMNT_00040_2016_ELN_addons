@@ -235,7 +235,7 @@ export class ProductionProvider {
         this.organizative_reasons = []
         for (let indx in reasons) {
             var r = reasons[indx];
-            if ( (r.reason_type == 'technical') && ( r.workcenter_ids.indexOf(workcenter_id) ) ){
+            if ( (r.reason_type == 'technical') && (r.workcenter_ids.indexOf(workcenter_id) >= 0) ){
                 this.technical_reasons.push(r);
             }
             else if (r.reason_type == 'organizative'){

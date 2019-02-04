@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-21 14:29+0000\n"
-"PO-Revision-Date: 2018-12-21 15:48+0100\n"
+"POT-Creation-Date: 2019-02-04 12:09+0000\n"
+"PO-Revision-Date: 2019-02-04 13:11+0100\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -420,6 +420,11 @@ msgstr "Motivos Scrap"
 #: view:stop.reason:production_app.stop_reason_filter_view
 msgid "Search Work Orders"
 msgstr "Buscar órdenes trabajo"
+
+#. module: production_app
+#: field:product.quality.check,sequence:0
+msgid "Sequence"
+msgstr "Secuencia"
 
 #. module: production_app
 #: view:app.registry:production_app.app_registry_filter_view

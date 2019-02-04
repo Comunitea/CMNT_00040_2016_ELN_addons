@@ -35,9 +35,10 @@ class ProductProduct(models.Model):
 
 class ProductQualityChecks(models.Model):
     _name = 'product.quality.check'
+    _order = 'quality_type desc, sequence, id'
 
     name = fields.Char('Name')
-
+    sequence = fields.Integer('Sequence')
     product_ids = fields.Many2many(
         'product.product',
         rel='product_quality_check_product_rel',
