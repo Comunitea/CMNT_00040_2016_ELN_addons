@@ -20,6 +20,10 @@ class StockPickingExport(models.TransientModel):
         ], string='File type', required=True)
     note = fields.Text(string='Log')
     data = fields.Binary('File', readonly=True)
+    sent_to_supplier = fields.Boolean(
+        string='Set picking as sent to supplier',
+        default=False,
+        help="Check this box if the physical delivery note has been sent to the supplier")
     state = fields.Selection([
         ('choose', 'choose'),
         ('get', 'get'),
@@ -103,9 +107,9 @@ class StockPickingExport(models.TransientModel):
         for wizard in self:
             text = ''
             if wizard.file_type == 'model_salica':
-                text, err_log = self.get_model_salica()
+                text, err_log = wizard.get_model_salica()
             if wizard.file_type == 'model_deleben':
-                text, err_log = self.get_model_deleben()
+                text, err_log = wizard.get_model_deleben()
             # -------------------------------------------------------------------------------------------------------------------------------
             # GENERAMOS FICHERO
             # -------------------------------------------------------------------------------------------------------------------------------
@@ -186,14 +190,7 @@ class StockPickingExport(models.TransientModel):
                 # Agencia de transporte (6 caracteres). Valquin = 360001
                 l_text += '360001'
                 l_text += separator
-                # Cantidad unidades de venta en cajas (8 posiciones sin comas, y signo para los abonos) ej, para 23 ó -23 : |00000023| ó |-0000023|
-                t_uom = self.env['product.uom']
-                uom_id = line.product_id.uom_id and line.product_id.uom_id.id
-                uos_id = line.move_id.product_uos and line.move_id.product_uos.id
-                if not uos_id:
-                    uos_id = line.product_id.uos_id and line.product_id.uos_id.id
-                if not uos_id:
-                    raise exceptions.Warning(_('Warning'), _('Product %s without uos') % (line.product_id.display_name))
+                # Cantidad unidades de venta en unidades (8 posiciones sin comas, y signo para los abonos) ej, para 23 ó -23 : |00000023| ó |-0000023|
                 product_uom_qty = line.product_qty
                 if line.move_id.returned_move_ids:
                     for smol in line.move_id.returned_move_ids.linked_move_operation_ids:
@@ -204,14 +201,7 @@ class StockPickingExport(models.TransientModel):
                     continue
                 if product_uom_qty < 0:
                     raise exceptions.Warning(_('Warning'), _('Picking %s with negative quantities') % (picking.name))
-                product_uos_qty = t_uom._compute_qty(uom_id, product_uom_qty, uos_id)
-                if round(abs(product_uos_qty - int(product_uos_qty)), 2) == 0:
-                    l_text += self.parse_number(product_uos_qty, 7, dec_length=0, include_sign=True, positive_sign='0', negative_sign='-')
-                else:
-                    err_msg = _("Error in picking '%s': quantities with decimals!") % (picking.name)
-                    if err_log.find(err_msg) == -1:
-                        err_log += '\n' + err_msg
-                    l_text += self.parse_number(product_uos_qty, 4, dec_length=2, include_sign=True, positive_sign='0', negative_sign='-', dec_separator=',')
+                l_text += self.parse_number(round(product_uom_qty, 0), 7, dec_length=0, include_sign=True, positive_sign='0', negative_sign='-')
                 l_text += separator
                 # Modo de pago (1 caracter) -> Giro: G, Transferencia: T, Pagaré: P, Contado: T
                 payment_mode = picking.sale_id.payment_mode_id and picking.sale_id.payment_mode_id.name.upper() or ''
@@ -253,9 +243,8 @@ class StockPickingExport(models.TransientModel):
                     raise exceptions.Warning(_('Warning'), _('Partner %s without reference (%s)') % (picking.partner_id.name, picking.name))
                 l_text += self.parse_string(partner_code, 6)
                 l_text += separator
-                # Precio artículo (4 enteros, una coma y 4 decimales) Formato=eeee,dddd
-                factor = t_uom._compute_qty(uos_id, 1, uom_id)
-                price = line.move_id.procurement_id.sale_line_id.price_unit * factor
+                # Precio artículo/unidad (4 enteros, una coma y 4 decimales) Formato=eeee,dddd
+                price = line.move_id.procurement_id.sale_line_id.price_unit
                 l_text += self.parse_number(price, 4, dec_length=4, dec_separator=',')
                 l_text += separator
                 # Descuento uno (2 enteros, una coma y 2 decimales) Formato=ee,dd
@@ -273,7 +262,7 @@ class StockPickingExport(models.TransientModel):
                     if text:
                         text += '\r\n'
                     text += l_text
-                    if not picking.sent_to_supplier:
+                    if self.sent_to_supplier and not picking.sent_to_supplier:
                         picking.write({'sent_to_supplier': True})
         return (text, err_log)
 
@@ -401,7 +390,7 @@ class StockPickingExport(models.TransientModel):
                     if text:
                         text += '\r\n'
                     text += l_text
-                    if not picking.sent_to_supplier:
+                    if self.sent_to_supplier and not picking.sent_to_supplier:
                         picking.write({'sent_to_supplier': True})
         return (text, err_log)
 

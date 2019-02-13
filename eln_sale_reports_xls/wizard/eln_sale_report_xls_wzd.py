@@ -9,7 +9,7 @@ class ElnSaleReportXlsWzd(models.TransientModel):
     _name = 'eln.sale.report.xls.wzd'
 
     date = fields.Date('Report Date', required=True,
-                       default=fields.Date.today())
+                       default=fields.Date.context_today)
 
     @api.multi
     def get_pick_values(self, pick):
