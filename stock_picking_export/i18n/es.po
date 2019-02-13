@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-30 12:25+0000\n"
-"PO-Revision-Date: 2019-01-30 13:29+0100\n"
+"POT-Creation-Date: 2019-02-13 08:58+0000\n"
+"PO-Revision-Date: 2019-02-13 10:00+0100\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,7 @@ msgstr ""
 "X-Generator: Poedit 2.0.9\n"
 
 #. module: stock_picking_export
-#: code:addons/stock_picking_export/stock_picking_export.py:114
+#: code:addons/stock_picking_export/stock_picking_export.py:118
 #, python-format
 msgid "%s"
 msgstr "%s"
@@ -27,6 +27,11 @@ msgstr "%s"
 #: view:stock.picking.export:stock_picking_export.stock_picking_export_view
 msgid "Cancel"
 msgstr "Cancelar"
+
+#. module: stock_picking_export
+#: help:stock.picking.export,sent_to_supplier:0
+msgid "Check this box if the physical delivery note has been sent to the supplier"
+msgstr "Marque esta casilla si el albarán de entrega físico ha sido enviado al proveedor"
 
 #. module: stock_picking_export
 #: view:stock.picking.export:stock_picking_export.stock_picking_export_view
@@ -49,7 +54,7 @@ msgid "DELEBEN"
 msgstr "DELEBEN"
 
 #. module: stock_picking_export
-#: code:addons/stock_picking_export/stock_picking_export.py:63
+#: code:addons/stock_picking_export/stock_picking_export.py:67
 #, python-format
 msgid "Date error"
 msgstr "Error de fecha"
@@ -60,45 +65,44 @@ msgid "Display Name"
 msgstr "Nombre mostrado"
 
 #. module: stock_picking_export
-#: code:addons/stock_picking_export/stock_picking_export.py:250
+#: code:addons/stock_picking_export/stock_picking_export.py:240
 #, python-format
 msgid "Error in picking '%s': Partner %s with bad reference!"
 msgstr "¡Error en albarán '%s': cliente [%s] con referencia incorrecta!"
 
 #. module: stock_picking_export
-#: code:addons/stock_picking_export/stock_picking_export.py:151
-#: code:addons/stock_picking_export/stock_picking_export.py:298
+#: code:addons/stock_picking_export/stock_picking_export.py:155
+#: code:addons/stock_picking_export/stock_picking_export.py:287
 #, python-format
 msgid "Error in picking '%s': extra move detected!"
 msgstr "¡Error en albarán '%s': detectado movimiento extra!"
 
 #. module: stock_picking_export
-#: code:addons/stock_picking_export/stock_picking_export.py:158
+#: code:addons/stock_picking_export/stock_picking_export.py:162
 #, python-format
 msgid "Error in picking '%s': move not done!"
 msgstr "¡Error en albarán '%s': movimiento no 'realizado'!"
 
 #. module: stock_picking_export
-#: code:addons/stock_picking_export/stock_picking_export.py:363
+#: code:addons/stock_picking_export/stock_picking_export.py:352
 #, python-format
 msgid "Error in picking '%s': number '%s' exceed 9 characters!"
 msgstr "¡Error en albarán '%s': número '%s' con más de 9 caracteres!"
 
 #. module: stock_picking_export
-#: code:addons/stock_picking_export/stock_picking_export.py:211
-#: code:addons/stock_picking_export/stock_picking_export.py:390
+#: code:addons/stock_picking_export/stock_picking_export.py:379
 #, python-format
 msgid "Error in picking '%s': quantities with decimals!"
 msgstr "¡Error en albarán '%s': cantidades con decimales!"
 
 #. module: stock_picking_export
-#: code:addons/stock_picking_export/stock_picking_export.py:63
+#: code:addons/stock_picking_export/stock_picking_export.py:67
 #, python-format
 msgid "Error parsing short date"
 msgstr "Error parsing short date"
 
 #. module: stock_picking_export
-#: code:addons/stock_picking_export/stock_picking_export.py:57
+#: code:addons/stock_picking_export/stock_picking_export.py:61
 #, python-format
 msgid "Error parsing!"
 msgstr "Error parsing!"
@@ -119,7 +123,7 @@ msgid "Export File"
 msgstr "Exportar archivo"
 
 #. module: stock_picking_export
-#: code:addons/stock_picking_export/stock_picking_export.py:121
+#: code:addons/stock_picking_export/stock_picking_export.py:125
 #, python-format
 msgid "Export File Result"
 msgstr "Resultado de la exportación"
@@ -130,13 +134,13 @@ msgid "Export Settings"
 msgstr "Preferencias de exportación"
 
 #. module: stock_picking_export
-#: code:addons/stock_picking_export/stock_picking_export.py:116
+#: code:addons/stock_picking_export/stock_picking_export.py:120
 #, python-format
 msgid "Export completed with errors:"
 msgstr "Exportación completada con errores:"
 
 #. module: stock_picking_export
-#: code:addons/stock_picking_export/stock_picking_export.py:118
+#: code:addons/stock_picking_export/stock_picking_export.py:122
 #, python-format
 msgid "Export completed without errors!"
 msgstr "Exportación completada sin errores."
@@ -197,35 +201,34 @@ msgid "Log"
 msgstr "Log"
 
 #. module: stock_picking_export
-#: code:addons/stock_picking_export/stock_picking_export.py:253
-#: code:addons/stock_picking_export/stock_picking_export.py:347
+#: code:addons/stock_picking_export/stock_picking_export.py:243
+#: code:addons/stock_picking_export/stock_picking_export.py:336
 #, python-format
 msgid "Partner %s without reference (%s)"
 msgstr "Cliente [%s] sin referencia (%s)"
 
 #. module: stock_picking_export
-#: code:addons/stock_picking_export/stock_picking_export.py:229
+#: code:addons/stock_picking_export/stock_picking_export.py:219
 #, python-format
 msgid "Picking %s (%s) without know payment mode"
 msgstr "Albarán %s (%s) sin modo de pago válido."
 
 #. module: stock_picking_export
-#: code:addons/stock_picking_export/stock_picking_export.py:206
-#: code:addons/stock_picking_export/stock_picking_export.py:326
+#: code:addons/stock_picking_export/stock_picking_export.py:203
+#: code:addons/stock_picking_export/stock_picking_export.py:315
 #, python-format
 msgid "Picking %s with negative quantities"
 msgstr "Albarán %s con cantidades negativas."
 
 #. module: stock_picking_export
-#: code:addons/stock_picking_export/stock_picking_export.py:175
-#: code:addons/stock_picking_export/stock_picking_export.py:378
+#: code:addons/stock_picking_export/stock_picking_export.py:179
+#: code:addons/stock_picking_export/stock_picking_export.py:367
 #, python-format
 msgid "Product %s without supplier code"
 msgstr "Producto %s sin código de proveedor."
 
 #. module: stock_picking_export
-#: code:addons/stock_picking_export/stock_picking_export.py:196
-#: code:addons/stock_picking_export/stock_picking_export.py:386
+#: code:addons/stock_picking_export/stock_picking_export.py:375
 #, python-format
 msgid "Product %s without uos"
 msgstr "Producto %s sin Unidad de Venta."
@@ -236,13 +239,18 @@ msgid "SALICA"
 msgstr "SALICA"
 
 #. module: stock_picking_export
-#: code:addons/stock_picking_export/stock_picking_export.py:98
+#: field:stock.picking.export,sent_to_supplier:0
+msgid "Set picking as sent to supplier"
+msgstr "Marcar albarán como enviado a proveedor"
+
+#. module: stock_picking_export
+#: code:addons/stock_picking_export/stock_picking_export.py:102
 #, python-format
 msgid "The formated string must match the given length"
 msgstr "La cadena formateada debe satisfacer el tamaño dado."
 
 #. module: stock_picking_export
-#: code:addons/stock_picking_export/stock_picking_export.py:57
+#: code:addons/stock_picking_export/stock_picking_export.py:61
 #, python-format
 msgid "The length of \"%s\" is greater of %s."
 msgstr "La longitud de \"%s\" es mayor de %s."
@@ -258,56 +266,55 @@ msgid "Unicode/UTF-8"
 msgstr "Unicode/UTF-8"
 
 #. module: stock_picking_export
-#: code:addons/stock_picking_export/stock_picking_export.py:142
-#: code:addons/stock_picking_export/stock_picking_export.py:144
 #: code:addons/stock_picking_export/stock_picking_export.py:146
 #: code:addons/stock_picking_export/stock_picking_export.py:148
-#: code:addons/stock_picking_export/stock_picking_export.py:175
-#: code:addons/stock_picking_export/stock_picking_export.py:196
-#: code:addons/stock_picking_export/stock_picking_export.py:206
-#: code:addons/stock_picking_export/stock_picking_export.py:229
-#: code:addons/stock_picking_export/stock_picking_export.py:253
-#: code:addons/stock_picking_export/stock_picking_export.py:289
-#: code:addons/stock_picking_export/stock_picking_export.py:291
-#: code:addons/stock_picking_export/stock_picking_export.py:293
-#: code:addons/stock_picking_export/stock_picking_export.py:295
-#: code:addons/stock_picking_export/stock_picking_export.py:326
-#: code:addons/stock_picking_export/stock_picking_export.py:347
-#: code:addons/stock_picking_export/stock_picking_export.py:378
-#: code:addons/stock_picking_export/stock_picking_export.py:386
+#: code:addons/stock_picking_export/stock_picking_export.py:150
+#: code:addons/stock_picking_export/stock_picking_export.py:152
+#: code:addons/stock_picking_export/stock_picking_export.py:179
+#: code:addons/stock_picking_export/stock_picking_export.py:203
+#: code:addons/stock_picking_export/stock_picking_export.py:219
+#: code:addons/stock_picking_export/stock_picking_export.py:243
+#: code:addons/stock_picking_export/stock_picking_export.py:278
+#: code:addons/stock_picking_export/stock_picking_export.py:280
+#: code:addons/stock_picking_export/stock_picking_export.py:282
+#: code:addons/stock_picking_export/stock_picking_export.py:284
+#: code:addons/stock_picking_export/stock_picking_export.py:315
+#: code:addons/stock_picking_export/stock_picking_export.py:336
+#: code:addons/stock_picking_export/stock_picking_export.py:367
+#: code:addons/stock_picking_export/stock_picking_export.py:375
 #, python-format
 msgid "Warning"
 msgstr "Advertencia"
 
 #. module: stock_picking_export
-#: code:addons/stock_picking_export/stock_picking_export.py:293
+#: code:addons/stock_picking_export/stock_picking_export.py:282
 #, python-format
 msgid "You can only export outgoing pickings from the supplier 'DELEBEN'!"
 msgstr "¡Sólo se pueden exportar albaranes salientes del proveedor 'DELEBEN'!"
 
 #. module: stock_picking_export
-#: code:addons/stock_picking_export/stock_picking_export.py:146
+#: code:addons/stock_picking_export/stock_picking_export.py:150
 #, python-format
 msgid "You can only export outgoing pickings from the supplier 'SALICA'!"
 msgstr "¡Sólo se pueden exportar albaranes salientes del proveedor 'SALICA'!"
 
 #. module: stock_picking_export
-#: code:addons/stock_picking_export/stock_picking_export.py:144
-#: code:addons/stock_picking_export/stock_picking_export.py:291
+#: code:addons/stock_picking_export/stock_picking_export.py:148
+#: code:addons/stock_picking_export/stock_picking_export.py:280
 #, python-format
 msgid "You can only export outgoing pickings!"
 msgstr "¡Sólo se pueden exportar albaranes salientes!"
 
 #. module: stock_picking_export
-#: code:addons/stock_picking_export/stock_picking_export.py:148
-#: code:addons/stock_picking_export/stock_picking_export.py:295
+#: code:addons/stock_picking_export/stock_picking_export.py:152
+#: code:addons/stock_picking_export/stock_picking_export.py:284
 #, python-format
 msgid "You can only export pickings from sales! (%s)"
 msgstr "¡Sólo se pueden exportar albaranes de venta! (%s)"
 
 #. module: stock_picking_export
-#: code:addons/stock_picking_export/stock_picking_export.py:142
-#: code:addons/stock_picking_export/stock_picking_export.py:289
+#: code:addons/stock_picking_export/stock_picking_export.py:146
+#: code:addons/stock_picking_export/stock_picking_export.py:278
 #, python-format
 msgid "You can only export pickings in 'done' state!"
 msgstr "¡Sólo se pueden exportar albaranes en estado 'realizado'!"

@@ -9,9 +9,9 @@ class ElnSaleSummaryXlsWzd(models.TransientModel):
     _name = 'eln.salesman.summary.xls.wzd'
 
     start_date = fields.Date('Start Date', required=True,
-                             default=fields.Date.today())
+                             default=fields.Date.context_today)
     end_date = fields.Date('End Date', required=True,
-                           default=fields.Date.today())
+                           default=fields.Date.context_today)
 
     @api.multi
     def get_pick_values(self, pick):
