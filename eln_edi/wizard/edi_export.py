@@ -243,10 +243,7 @@ class edi_export (orm.TransientModel):
                 string += '0'
             string = string.replace('.', '')
         else:
-            string = unidecode(string)
-
-        if len(string) > length:
-            print _('Warning on EDI invoice. The length of "%s" is greater of %s.\nOnly the first %s characters are showed.') % (string, length, length)
+            string = unidecode(unicode(string))
 
         string = string[0:length]
         new_string = string + u' ' * (length - len(string))
@@ -335,16 +332,27 @@ class edi_export (orm.TransientModel):
         # cargo o abono (siempre en blanco 3 espacios)
         invoice_data += ' ' * 3
 
-        # codigo de sección de proveedor.
-        # Hay una excepción para El Corte Inglés. En las facturas enviamos el código departamento interno en lugar de la sección.
-        # En en fichero se sigue enviando también en la posición original el departamento interno, aunque en el mapeo de generix no se tiene en cuenta
+        # código de sección de proveedor.
+        section_code = invoice.partner_id.commercial_partner_id.section_code
         if invoice.partner_id.commercial_partner_id.edi_filename == u'ECI':
-            invoice_data += self.parse_string(invoice.partner_id.commercial_partner_id.department_code_edi, 9)
-        else:
-            invoice_data += self.parse_string(invoice.partner_id.commercial_partner_id.section_code, 9)
+            # Para El Corte Inglés enviamos el código departamento interno en lugar de la sección.
+            # Aunque este código de departamento va en este caso repetido en el fichero en otra posición,
+            # no es mapeado en la traducción de Generix
+            section_code = invoice.partner_id.commercial_partner_id.department_code_edi
+        elif (section_code == u'03072901'
+              and gln_rf in (u'8424818010006', u'8424818290002') # FRZ ó VMR
+              and gln_rm not in (u'8424818019016', u'8424818299012')): # No es una Plataforma
+            # En VQ, para FRZ/VMR debemos indicar un código de proveedor para
+            # Tiendas (03072900), otro para Plataforma (03072901) y otro para EMD (03072902).
+            # VQ usa un mismo partner con sus direcciones (incluida plataforma) para Tiendas y Plataforma y otro para EMD.
+            # Debemos sin embargo diferenciar las Tiendas de la Plataforma y lo haremos mediante código.
+            # En el partner (matriz) establecemos el de Plataforma y el de EMD y en código aplicamos la excepción para tiendas,
+            # para las cuales podemos enviar el código 03072900 u omitirlo. Es preferible omitirlo ya que
+            # lo contrario podría generar rechazos para otros partners del mismo grupo en los cuales no se estaba enviando.
+            section_code = False
+        invoice_data += self.parse_string(section_code, 9)
 
         # texto libre
-        #invoice_data += self.parse_string(invoice.comment and invoice.comment.replace('\n','').replace('\r',''), 131)
         invoice_data += self.parse_string(False, 131)
 
         origin = [] # Vamos a comprobar si es una factura resumen. En ese caso no pondremos en la cabecera el num alb y pedido
@@ -823,12 +831,24 @@ class edi_export (orm.TransientModel):
         # Código EAN punto de recogida
         picking_data += self.parse_number(gln_ef, 13, 0)
 
-        # Departamento interno
+        # Código interno proveedor (CIP)
+        edi_supplier_cip = picking.partner_id.commercial_partner_id.edi_supplier_cip
         # Hay una excepción para El Corte Inglés. En el desadv enviamos el código departamento interno en lugar del código de proveedor.
         if picking.partner_id.commercial_partner_id.edi_filename == u'ECI':
-            picking_data += self.parse_string(picking.partner_id.commercial_partner_id.department_code_edi, 10)
-        else:
-            picking_data += self.parse_string(picking.partner_id.commercial_partner_id.edi_supplier_cip, 10)
+            # Para El Corte Inglés enviamos el código departamento interno en lugar del código de proveedor.
+            edi_supplier_cip = picking.partner_id.commercial_partner_id.department_code_edi
+        elif (edi_supplier_cip == u'03072901'
+              and gln_rf in (u'8424818010006', u'8424818290002') # FRZ ó VMR
+              and gln_rm not in (u'8424818019016', u'8424818299012')): # No es una Plataforma
+            # En VQ, para FRZ/VMR debemos indicar un código de proveedor para
+            # Tiendas (03072900), otro para Plataforma (03072901) y otro para EMD (03072902).
+            # VQ usa un mismo partner con sus direcciones (incluida plataforma) para Tiendas y Plataforma y otro para EMD.
+            # Debemos sin embargo diferenciar las Tiendas de la Plataforma y lo haremos mediante código.
+            # En el partner (matriz) establecemos el de Plataforma y el de EMD y en código aplicamos la excepción para tiendas,
+            # para las cuales podemos enviar el código 03072900 u omitirlo. Es preferible omitirlo ya que
+            # lo contrario podría generar rechazos para otros partners del mismo grupo en los cuales no se estaba enviando.
+            edi_supplier_cip = False
+        picking_data += self.parse_string(edi_supplier_cip, 10)
 
         # Medio de transporte (30=Transporte por carretera, 20=Trasporte ferroviario)
         picking_data += self.parse_string('30', 3)
