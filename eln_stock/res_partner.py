@@ -27,13 +27,17 @@ class ResPartner(models.Model):
     _inherit = 'res.partner'
 
     picking_count = fields.Integer('Deliveries', compute='_get_deliveries_count')
+    out_picking_ids = fields.One2many(
+        comodel_name='stock.picking',
+        inverse_name='partner_id',
+        domain=[('picking_type_id.code', '=', 'outgoing')],
+        string='Pickings'
+    )
 
     @api.multi
     def _get_deliveries_count(self):
-        picking_type = self.env['stock.picking.type'].search([('code', '=', 'outgoing')])
         for part in self:
-            pickings = self.env['stock.picking'].search([('partner_id', '=', part.id), ('picking_type_id', 'in', picking_type._ids)])
-            part.picking_count = len(pickings)
+            part.picking_count = len(part.out_picking_ids)
 
     @api.multi
     def action_picking_out(self):
