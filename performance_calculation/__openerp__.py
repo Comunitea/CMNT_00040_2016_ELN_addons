@@ -35,6 +35,7 @@
         "stock_view.xml",
         "stock_move_view.xml",
         "mrp_view.xml",
+        "product_category_view.xml",
         "security/ir.model.access.csv",
         "security/security.xml",
     ],

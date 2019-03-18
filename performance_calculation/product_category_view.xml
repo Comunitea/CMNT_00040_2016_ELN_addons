@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record id="product_category_form_view_inh_overweight" model="ir.ui.view">
+            <field name="name">product.category.form.view.inh.overweight</field>
+            <field name="model">product.category</field>
+            <field name="inherit_id" ref="product.product_category_form_view"/>
+            <field name="arch" type="xml">
+                <group name="parent" position="after">
+                    <group name="production" string="Production" colspan="2">
+                        <field name="applies_overweight_calculation"/>
+                    </group>
+                </group>
+            </field>
+        </record>
+    </data>
+</openerp>

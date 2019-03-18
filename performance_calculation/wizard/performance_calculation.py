@@ -177,9 +177,11 @@ class performance_calculation(orm.TransientModel):
             for move in prod.move_lines2:
                 if move.state != 'done':
                     continue
-                scrapped_move = move.location_dest_id.scrap_location
-                if not scrapped_move:
-                    used_weight += move.product_uom_qty * move.product_id.weight_net
+                if move.location_dest_id.scrap_location:
+                    continue
+                if not move.product_id.categ_id.applies_overweight_calculation:
+                    continue
+                used_weight += move.product_uom_qty * move.product_id.weight_net
             overweight = 100 * (used_weight - theorical_weight) / (theorical_weight or 1.0)
         return {
            'used_weight': used_weight,
