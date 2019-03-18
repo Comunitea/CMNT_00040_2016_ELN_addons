@@ -6,16 +6,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-05 17:28+0000\n"
-"PO-Revision-Date: 2018-02-05 18:30+0100\n"
+"POT-Creation-Date: 2019-03-18 09:41+0000\n"
+"PO-Revision-Date: 2019-03-18 15:01+0100\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: \n"
-"Language: es\n"
-"X-Generator: Poedit 2.0.3\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: es_ES\n"
+"X-Generator: Poedit 2.2.1\n"
 
 #. module: performance_calculation
 #: code:addons/performance_calculation/wizard/performance_calculation.py:67
@@ -48,10 +48,15 @@ msgid " to: "
 msgstr " hasta: "
 
 #. module: performance_calculation
-#: code:addons/performance_calculation/wizard/performance_calculation.py:413
+#: code:addons/performance_calculation/wizard/performance_calculation.py:425
 #, python-format
 msgid "AVG"
 msgstr "AVG"
+
+#. module: performance_calculation
+#: field:product.category,applies_overweight_calculation:0
+msgid "Applies in overweight calculation"
+msgstr "Aplica en el cálculo de sobrepeso"
 
 #. module: performance_calculation
 #: field:mrp.indicators.oee.line,availability:0
@@ -232,6 +237,11 @@ msgstr "Agrupar por..."
 #: field:recover.full.product,id:0 field:stock.move.rework.scrap,id:0
 msgid "ID"
 msgstr "ID"
+
+#. module: performance_calculation
+#: help:product.category,applies_overweight_calculation:0
+msgid "If checked, products in this category will be considered in the calculation of overweight for productions."
+msgstr "Si se marca, los productos de esta categoría se considerarán en el cálculo del sobrepeso para las producciones."
 
 #. module: performance_calculation
 #: field:mrp.indicators.oee.line,indicator_id:0
@@ -462,6 +472,11 @@ msgid "Product"
 msgstr "Producto"
 
 #. module: performance_calculation
+#: model:ir.model,name:performance_calculation.model_product_category
+msgid "Product Category"
+msgstr "Categoría de producto"
+
+#. module: performance_calculation
 #: field:stock.move.rework.scrap,product_uom:0
 msgid "Product Unit of Measure"
 msgstr "Unidad de medida del producto"
@@ -470,6 +485,7 @@ msgstr "Unidad de medida del producto"
 #: field:mrp.indicators.oee.line,production_id:0
 #: field:mrp.indicators.overweight.line,production_id:0
 #: field:mrp.indicators.scrap.line,production_id:0
+#: view:product.category:performance_calculation.product_category_form_view_inh_overweight
 msgid "Production"
 msgstr "Producción"
 
@@ -611,7 +627,7 @@ msgid "Routing"
 msgstr "Proceso Productivo"
 
 #. module: performance_calculation
-#: code:addons/performance_calculation/wizard/performance_calculation.py:481
+#: code:addons/performance_calculation/wizard/performance_calculation.py:493
 #, python-format
 msgid "SUM"
 msgstr "SUM"
@@ -706,8 +722,8 @@ msgid "Summary"
 msgstr "Resumen"
 
 #. module: performance_calculation
-#: code:addons/performance_calculation/wizard/performance_calculation.py:427
-#: code:addons/performance_calculation/wizard/performance_calculation.py:492
+#: code:addons/performance_calculation/wizard/performance_calculation.py:439
+#: code:addons/performance_calculation/wizard/performance_calculation.py:504
 #, python-format
 msgid "TOTAL"
 msgstr "TOTAL"

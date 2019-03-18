@@ -22,3 +22,4 @@ import wizard
 import mrp_indicators
 import stock
 import mrp
+import product_category
