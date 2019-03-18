@@ -252,7 +252,7 @@ class StockPickingExport(models.TransientModel):
                 l_text += self.parse_number(discount, 2, dec_length=2, dec_separator=',')
                 l_text += separator
                 # Descuento dos (2 enteros, una coma y 2 decimales) Formato=ee,dd
-                discount = picking.sale_id.early_payment_discount
+                discount = 0.0
                 l_text += self.parse_number(discount, 2, dec_length=2, dec_separator=',')
                 l_text += separator
                 # Descripción del artículo utilizada por Distribuidor (30 espacios alfanuméricos)
