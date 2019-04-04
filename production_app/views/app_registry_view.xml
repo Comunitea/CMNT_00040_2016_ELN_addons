@@ -94,6 +94,30 @@
                             </field>
                         </group>
                     </page>
+                    <page string="In">
+                        <group string="In">
+                            <field name="line_in_ids" nolabel="1">
+                                <tree>
+                                    <field name="product_id"/>
+                                    <field name="product_qty"/>
+                                    <field name="product_uom"/>
+                                    <field name="lot_id"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </page>
+                    <page string="Out">
+                        <group string="Out">
+                            <field name="line_out_ids" nolabel="1">
+                                <tree>
+                                    <field name="product_id"/>
+                                    <field name="product_qty"/>
+                                    <field name="product_uom"/>
+                                    <field name="lot_id"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </page>
                 </notebook>
             </sheet>
             </form>

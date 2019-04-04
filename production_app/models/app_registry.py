@@ -4,6 +4,8 @@
 
 from openerp import api, models, fields
 from datetime import datetime, timedelta
+import openerp.addons.decimal_precision as dp
+
 
 APP_STATES = [
     ('waiting', 'Waiting Production'),
@@ -46,6 +48,13 @@ class AppRegistry(models.Model):
                                    'Operators', readonly=False)
     qty = fields.Float('Quantity', readonly=True)
     lot_id = fields.Many2one('stock.production.lot', 'Lot', readonly=True)
+
+    line_in_ids = fields.One2many(
+        'consumption.line', 'registry_id', 'Incomings',
+        domain=[('type', '=', 'in')], readonly=False)
+    line_out_ids = fields.One2many(
+        'consumption.line', 'registry_id', 'Outgoings',
+        domain=[('type', '=', 'out')], readonly=False)
 
     # RELATED FIELDS
     name = fields.Char('Workcenter Line', related="wc_line_id.name",
@@ -559,3 +568,20 @@ class OperatorLines(models.Model):
                 date_out = fields.Datetime.from_string(r.date_out)
                 td = date_out - date_in
                 r.stop_duration = td.total_seconds() / 3600
+
+
+
+class OperatorLines(models.Model):
+    _name = 'consumption.line'
+
+    registry_id = fields.Many2one('app.registry', 'Registry', readonly=True)
+    type = fields.Selection(
+        [('in', 'In'), ('out', 'Out')], 'Type', required=True)
+    product_id = fields.Many2one('product.product', 'Product', required=True)
+    product_qty = fields.Float(
+        'Product Quantity', 
+        digits_compute=dp.get_precision('Product Unit of Measure'), 
+        required=True)
+    product_uom = fields.Many2one('product.uom', 'Product Unit of Measure') 
+    lot_id = fields.Many2one('stock.production.lot', 'Lot', required=True)
+
