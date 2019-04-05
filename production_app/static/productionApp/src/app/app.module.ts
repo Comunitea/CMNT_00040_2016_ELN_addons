@@ -16,6 +16,7 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { ProductionPage } from '../pages/production/production';
 import { ListPage } from '../pages/list/list';
+import { ListProductionsPage } from '../pages/list-productions/list-productions';
 import { ChecksModalPage } from '../pages/checks-modal/checks-modal';
 import { ConsumeModalPage } from '../pages/consume-modal/consume-modal';
 import { UsersModalPage } from '../pages/users-modal/users-modal';
@@ -39,6 +40,7 @@ import { TimerComponent } from '../components/timer/timer';
     HomePage,
     ProductionPage,
     ListPage,
+    ListProductionsPage,
     ChecksModalPage,
     UsersModalPage,
     ReasonsModalPage,
@@ -61,6 +63,7 @@ import { TimerComponent } from '../components/timer/timer';
     HomePage,
     ProductionPage,
     ListPage,
+    ListProductionsPage,
     ChecksModalPage,
     UsersModalPage,
     ReasonsModalPage,

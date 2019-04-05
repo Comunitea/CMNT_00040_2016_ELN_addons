@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { NavController, AlertController } from 'ionic-angular';
+import { NavController, AlertController} from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { HomePage } from '../../pages/home/home';
+import { ListProductionsPage } from '../../pages/list-productions/list-productions';
 import { ProductionPage } from '../../pages/production/production';
 import { ProductionProvider } from '../../providers/production/production';
 
@@ -14,13 +15,17 @@ declare var OdooApi: any;
 export class ListPage {
     workcenters = []
     searchQuery: string = '';
+    mode = '';
     items: Object[];
 
-    constructor(public navCtrl: NavController, private storage: Storage, 
+    constructor(public navCtrl: NavController, private storage: Storage,
                 public alertCtrl: AlertController, 
                 private prodData: ProductionProvider){
         this.workcenters = [];
         this.items = [];
+        this.storage.get('CONEXION').then((con_data) => {
+            this.mode = con_data.mode
+        })
         this.getLines();
     }
 
@@ -76,7 +81,11 @@ export class ListPage {
     workcenterSelected(workcenter) {
         this.prodData.loadProduction(workcenter).then( (res) => {
             this.prodData.getStopReasons(workcenter.id).then( (res) => {
+            if (this.mode == 'production')
                 this.navCtrl.setRoot(ProductionPage);
+            else
+                this.navCtrl.push(ListProductionsPage);
+            
             })
             .catch( (err) => {
                 this.presentAlert("Error", "Falló al cargar los motivos técnicos para el centro de trabajo actual.");
