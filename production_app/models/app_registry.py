@@ -93,22 +93,28 @@ class AppRegistry(models.Model):
                 r.cleaning_duration = td.total_seconds() / 3600
 
     @api.model
-    def get_existing_registry(self, workcenter_id):
+    def get_existing_registry(self, workcenter_id, alimentator_line_id):
         res = False
-        domain = [('workcenter_id', '=', workcenter_id),
-                  ('state', 'not in', ('finished', 'validated'))]
+        if alimentator_line_id:
+            domain = [('alimentator_line_id', '=', alimentator_line_id)]
+        else:
+            domain = [('workcenter_id', '=', workcenter_id),
+                    ('state', 'not in', ('finished', 'validated'))]
         reg_obj = self.search(domain, limit=1)
         if reg_obj:
             res = reg_obj
         return res
 
     @api.model
-    def create_new_registry(self, workcenter_id):
-        domain = [('workcenter_id', '=', workcenter_id),
-                  ('state', '!=', 'done'),
-                  ('production_state', 'in',
-                  ('ready', 'confirmed', 'in_production')),
-                  ('registry_id', '=', False)]
+    def create_new_registry(self, workcenter_id, alimentator_line_id):
+        if alimentator_line_id:
+            domain = [('alimentator_line_id', '=', alimentator_line_id)]
+        else:
+            domain = [('workcenter_id', '=', workcenter_id),
+                    ('state', '!=', 'done'),
+                    ('production_state', 'in',
+                    ('ready', 'confirmed', 'in_production')),
+                    ('registry_id', '=', False)]
         wcl = self.env['mrp.production.workcenter.line']
         wcl_obj = wcl.search(domain, order='sequence', limit=1)
         if not wcl_obj:
@@ -147,12 +153,17 @@ class AppRegistry(models.Model):
         Obtiene el registro que actua de controlador
         para las ordenes de trabajo
         """
+        # import ipdb; ipdb.set_trace()
         res = {}
         workcenter_id = vals.get('workcenter_id')
+        alimentator_line_id = False
 
-        reg = self.get_existing_registry(workcenter_id)
+        if vals.get('production_id', False):  # Alimentator mode only
+            alimentator_line_id = vals.get('id')
+
+        reg = self.get_existing_registry(workcenter_id, alimentator_line_id)
         if not reg:
-            reg = self.create_new_registry(workcenter_id)
+            reg = self.create_new_registry(workcenter_id, alimentator_line_id)
         if reg:
             res.update(reg.read()[0])
 

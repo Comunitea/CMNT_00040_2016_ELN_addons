@@ -15,6 +15,7 @@ export class ProductionProvider {
     
     lotsByProduct: Object = {};
     workcenter: Object = {};
+    workline: Object = {};
     loged_ids: number[] = [];
     product_ids: number[] = [];
     consume_ids: number[] = [];
@@ -279,41 +280,10 @@ export class ProductionProvider {
         return promise
     }
 
-    // Gets all the data needed fom the app.regystry model
-    loadProduction(workcenter){
-        this.workcenter = workcenter
-        var promise = new Promise( (resolve, reject) => {
-            var values = {'workcenter_id': workcenter.id}
-            var method = 'app_get_registry'
-            this.odooCon.callRegistry(method, values).then( (reg: Object) => {
-
-                if ('id' in reg){
-                    this.initData(reg);
-                    this.getQualityChecks();  // Load Quality Checks. TODO PUT PROMISE SYNTAX
-                    this.getConsumptions();  // Load Consumptions. TODO PUT PROMISE SYNTAX
-                    this.setLogedTimes();  // Load Quality Checks. TODO PUT PROMISE SYNTAX
-                    this.getLots();  // Load Quality Checks. TODO PUT PROMISE SYNTAX
-                    this.getAllowedOperators(reg)
-                    this.getScrapReasons();
-                    resolve(reg);
-                }
-                else {
-                    var err = {'title': 'Aviso', 'msg': 'No hay ordenes de trabajo planificadas.'}
-                    reject(err)
-                }
-            })
-            .catch( (err) => {
-                reject(err);
-            });
-        });
-        return promise
-    }
-
     // Gets all the data needed fom the app.regystry model for alimentator mode
-    loadAlimentatorProduction(workcenter){
-        this.workcenter = workcenter
+    loadProduction(vals){
         var promise = new Promise( (resolve, reject) => {
-            var values = {'workcenter_id': workcenter.id}
+            var values = {'workline_id':  vals['workline_id'], 'workcenter_id': vals['workcenter_id']}
             var method = 'app_get_registry'
             this.odooCon.callRegistry(method, values).then( (reg: Object) => {
 

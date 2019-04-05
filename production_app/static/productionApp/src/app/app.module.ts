@@ -24,6 +24,7 @@ import { ReasonsModalPage } from '../pages/reasons-modal/reasons-modal';
 import { FinishModalPage } from '../pages/finish-modal/finish-modal';
 import { ScrapModalPage } from '../pages/scrap-modal/scrap-modal';
 import { ConsumptionsPage } from '../pages/consumptions/consumptions';
+import { AlimentatorConsumptionsPage } from '../pages/alimentator-consumptions/alimentator-consumptions';
 
 //Providers
 import { OdooProvider } from '../providers/odoo/odoo';
@@ -48,6 +49,7 @@ import { TimerComponent } from '../components/timer/timer';
     ScrapModalPage,
     ConsumeModalPage,
     ConsumptionsPage,
+    AlimentatorConsumptionsPage,
     TimerComponent
   ],
   imports: [
@@ -69,6 +71,7 @@ import { TimerComponent } from '../components/timer/timer';
     ReasonsModalPage,
     ConsumeModalPage,
     ConsumptionsPage,
+    AlimentatorConsumptionsPage,
     FinishModalPage,
     ScrapModalPage
   ],

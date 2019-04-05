@@ -79,22 +79,24 @@ export class ListPage {
         });
     }
     workcenterSelected(workcenter) {
-        this.prodData.loadProduction(workcenter).then( (res) => {
-            this.prodData.getStopReasons(workcenter.id).then( (res) => {
-            if (this.mode == 'production')
-                this.navCtrl.setRoot(ProductionPage);
-            else
-                this.navCtrl.push(ListProductionsPage, {workcenter_id: workcenter.id});
-            
+        var vals = {'workcenter_id': workcenter.id}
+        if (this.mode == 'alimentator')
+            this.navCtrl.push(ListProductionsPage, {workcenter_id: workcenter.id});
+        else {
+            this.prodData.loadProduction(vals).then( (res) => {
+                this.prodData.getStopReasons(workcenter.id).then( (res) => {
+                    this.navCtrl.setRoot(ProductionPage);
+                
+                })
+                .catch( (err) => {
+                    this.presentAlert("Error", "Falló al cargar los motivos técnicos para el centro de trabajo actual.");
+                }); 
+
             })
             .catch( (err) => {
-                this.presentAlert("Error", "Falló al cargar los motivos técnicos para el centro de trabajo actual.");
+                this.presentAlert(err.title, err.msg);
             }); 
-
-        })
-        .catch( (err) => {
-            this.presentAlert(err.title, err.msg);
-        }); 
+            }
     }
 
     initializeItems() {

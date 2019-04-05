@@ -4,6 +4,7 @@ import { NavController, AlertController, NavParams} from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { HomePage } from '../../pages/home/home';
 import { ProductionProvider } from '../../providers/production/production';
+import { AlimentatorConsumptionsPage } from '../../pages/alimentator-consumptions/alimentator-consumptions';
 
 declare var OdooApi: any;
 
@@ -75,7 +76,7 @@ export class ListProductionsPage {
                     var domain = [
                         ['workcenter_id', '=', this.workcenter_id ],
                         ['production_state', 'in', ['ready','confirmed','in_production']]];
-                    var fields = ['id', 'name', 'production_id'];
+                    var fields = ['id', 'name', 'production_id', 'workcenter_id'];
                     odoo.search_read('mrp.production.workcenter.line', domain, fields, 0, 0).then((worklines) => {
                         this.worklines = worklines;
                         this.initializeItems();
@@ -85,9 +86,10 @@ export class ListProductionsPage {
         });
     }
     worklineSelected(workline) {
-        this.prodData.loadAlimentatorProduction(workline).then( (res) => {
+        var vals = {'workcenter_id': workline.workcenter_id[0], 'workline_id': workline.id}
+        this.prodData.loadProduction(vals).then( (res) => {
             this.prodData.getStopReasons(workline.id).then( (res) => {
-           
+                this.navCtrl.push(AlimentatorConsumptionsPage);
             
             })
             .catch( (err) => {
