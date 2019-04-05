@@ -84,7 +84,7 @@ export class ListPage {
             if (this.mode == 'production')
                 this.navCtrl.setRoot(ProductionPage);
             else
-                this.navCtrl.push(ListProductionsPage);
+                this.navCtrl.push(ListProductionsPage, {workcenter_id: workcenter.id});
             
             })
             .catch( (err) => {

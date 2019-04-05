@@ -20,6 +20,7 @@ export class HomePage {
         db: '',
         username: '',
         password: '',
+        mode: 'production',
     };
     CONEXION = {
         mode: 'production',
