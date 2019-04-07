@@ -34,10 +34,10 @@ class edi_import (osv.osv_memory):
     
     _name = "edi.import"
     _columns = {
-        'configuration': fields.many2one('edi.configuration','Configuración',required=True),
+        'configuration': fields.many2one('edi.configuration', 'Configuration', required=True),
         'downloaded_files':fields.integer('Archivos Descargados', readonly=True),
-        'pending_process':fields.integer('Ficheros pendientes de procesar',readonly=True),
-        'state': fields.selection([('start','Empezar'),('to_process','A procesar'),('processed','Procesado')],'Estado',readonly=True),
+        'pending_process':fields.integer('Ficheros pendientes de procesar', readonly=True),
+        'state': fields.selection([('start','Empezar'),('to_process','A procesar'),('processed','Procesado')], 'Estado', readonly=True),
     }
     
     def default_get(self, cr, uid, fields, context=None):

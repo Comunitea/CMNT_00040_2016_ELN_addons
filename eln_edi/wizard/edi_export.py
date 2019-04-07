@@ -42,7 +42,7 @@ log = logger("export_edi")
 class edi_export (orm.TransientModel):
     _name = "edi.export"
     _columns = {
-        'configuration': fields.many2one('edi.configuration', 'Configuración', required=True),
+        'configuration': fields.many2one('edi.configuration', 'Configuration', required=True),
         'date_due': fields.date('Date Due', required=True),
     }
     _defaults = {
@@ -938,16 +938,15 @@ class edi_export (orm.TransientModel):
                 # Marca número de lote / Fecha de caducidad (36E = El corte inglés, 17 = Alcampo)
                 picking_data += self.parse_string(picking.partner_id.commercial_partner_id.product_marking_code, 3)
                 # Fecha de caducidad
-                picking_data += self.parse_string('', 12)
+                edi_desadv_lot_date = picking.partner_id.commercial_partner_id.edi_desadv_lot_date or 'best_before'
+                use_date = v['lot_id'].use_date or ''
+                if use_date:
+                    use_date = datetime.strptime(use_date, '%Y-%m-%d %H:%M:%S').replace(tzinfo=from_zone).astimezone(to_zone)
+                    use_date = datetime.strftime(use_date, '%Y-%m-%d')
+                    use_date = self.parse_short_date(use_date) # Enviamos fecha corta
+                picking_data += self.parse_string(use_date if edi_desadv_lot_date == 'expiry' else '', 12)
                 # Fecha de consumo preferente
-                date = v['lot_id'].use_date
-                if date:
-                    date = datetime.strptime(date, '%Y-%m-%d %H:%M:%S').replace(tzinfo=from_zone).astimezone(to_zone)
-                    date = datetime.strftime(date, '%Y-%m-%d')
-                    picking_data += self.parse_short_date(date) # Enviamos fecha corta aunque el campo tenga espacio para fecha larga
-                    picking_data += self.parse_string('', 4) # Se rellena el resto del campo
-                else:
-                    picking_data += self.parse_string('', 12)
+                picking_data += self.parse_string(use_date if edi_desadv_lot_date == 'best_before' else '', 12)
                 # Fecha de fabricación
                 picking_data += self.parse_string('', 12)
                 # Fecha de empaquetado
