@@ -36,6 +36,8 @@ export class ProductionProvider {
     scrap_reasons: Object[];
 
     consumptions: Object[];
+    consumptions_in: Object[];
+    consumptions_out: Object[];
     allowed_consumptions: Object[];
 
     operator_line_id;
@@ -68,6 +70,8 @@ export class ProductionProvider {
         this.technical_reasons = [];
         this.organizative_reasons = [];
         this.consumptions = [];
+        this.consumptions_in = [];
+        this.consumptions_out = [];
     }
 
     getUTCDateStr(){
@@ -289,6 +293,7 @@ export class ProductionProvider {
 
                 if ('id' in reg){
                     this.initData(reg);
+                    // this.getConsumeInOut();  // Load Consumptions. TODO PUT PROMISE SYNTAX
                     this.getQualityChecks();  // Load Quality Checks. TODO PUT PROMISE SYNTAX
                     this.getConsumptions();  // Load Consumptions. TODO PUT PROMISE SYNTAX
                     this.setLogedTimes();  // Load Quality Checks. TODO PUT PROMISE SYNTAX
@@ -394,6 +399,50 @@ export class ProductionProvider {
         console.log(this.consumptions);   
     }
 
+    loadConsumptionsLines(lines) {
+        this.consumptions_in = [];
+        this.consumptions_out = [];
+        for (let indx in lines) {
+            var line = lines[indx];
+            var lot_name = '';
+            var lot_id = false;
+            var state='Para consumir'
+            if (line['state'] == 'done' || line['state'] == 'cancel'){
+                state = 'Consumido'
+            }
+            if (line['restrict_lot_id']){
+                lot_name = line['restrict_lot_id'][1]
+                lot_id = line['restrict_lot_id'][0]
+            }
+            var type = line['type']
+            var vals = {
+                'product_name': line['product_id'][1],
+                'product_id': line['product_id'][0],
+                'qty':  line['product_qty'],
+                'uom_name': line['product_uom'][1],
+                'uom_id': line['product_uom'][0],
+                'lot_name': lot_name,
+                'lot_id': lot_id,
+                'state': state,
+                'type': type,
+                'id': line['id']
+            }
+            if (type == 'in'){
+                this.consumptions_in.push(vals);
+            }
+            else {
+                this.consumptions_out.push(vals);
+            }
+            
+        }
+        console.log("LINES");
+        console.log(lines);
+        console.log("LOADED CONSUMPTIONS IN");
+        console.log(this.consumptions_in);   
+        console.log("LOADED CONSUMPTIONS OUT");
+        console.log(this.consumptions_out);   
+    }
+
     getConsumptions(){
         var promise = new Promise( (resolve, reject) => {
             var domain = [['raw_material_production_id', '=', this.production_id]]
@@ -407,6 +456,37 @@ export class ProductionProvider {
             });
         });
         return promise
+    }
+
+    getConsumeInOut(){
+        var promise = new Promise( (resolve, reject) => {
+            var domain = [['registry_id', '=', this.registry_id]]
+            var fields = []
+            this.odooCon.searchRead('consumption.line', domain, fields).then( (lines) => {
+                this.loadConsumptionsLines(lines)
+                resolve();
+            })
+            .catch( (err) => {
+                console.log("Error obteniendo líneas de consumos");
+            });
+        });
+        return promise
+    }
+
+    saveConsumptionLine(line){
+        console.log("RESULTADO A GUARDAR")
+        var values = {
+            'registry_id': this.registry_id,
+            'line': line,
+        }
+        console.log(line)
+
+        this.odooCon.callRegistry('app_save_consumption_line', values).then( (res) => {
+            console.log("RESULTADO GUARDADO") 
+        })
+        .catch( (err) => {
+            this.manageOdooFail()
+        });
     }
 
     saveQualityChecks(data){

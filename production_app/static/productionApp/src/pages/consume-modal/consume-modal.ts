@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController, AlertController} from 'ionic-angular';
 import { ProductionProvider } from '../../providers/production/production';
 
 /**
@@ -11,56 +11,51 @@ import { ProductionProvider } from '../../providers/production/production';
 
 @IonicPage()
 @Component({
-      selector: 'page-consume-modal',
-      templateUrl: 'consume-modal.html',
+  selector: 'page-consume-modal',
+  templateUrl: 'consume-modal.html',
 })
 export class ConsumeModalPage {
-
-    lot: string;
+    line;
     lots: Object[];
     items: Object[];
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, 
-                public viewCtrl: ViewController,
+    mode: string = 'default';
+
+    constructor(public navCtrl: NavController, public navParams: NavParams,
+                public viewCtrl: ViewController, public alertCtrl: AlertController,
                 private prodData: ProductionProvider) {
-        this.lots = [];
-        this.items = [];
+        this.line = this.navParams.get('line');
     }
 
     ionViewDidLoad() {
         console.log('ionViewDidLoad ConsumeModalPage');
-        this.lots = this.prodData.lotsByProduct[this.prodData.consume_product_id]
-        this.items = this.prodData.lotsByProduct[this.prodData.consume_product_id]
     }
 
-    closeModal() {
-        this.viewCtrl.dismiss({});
+    presentAlert(titulo, texto) {
+        const alert = this.alertCtrl.create({
+            title: titulo,
+            subTitle: texto,
+            buttons: ['Ok']
+        });
+        alert.present();
     }
 
-    confirm() {
-        var res = {
-            'id': this.prodData.change_lot_qc_id,
-            'max_value': 0,
-            'min_value': 0,
-            'name': 'Cambio de lote',
-            'quality_type': 'freq',
-            'repeat': 0,
-            'required_text': false,
-            'value': this.lot,
-            'value_type': 'text'
-
+    showLots(){
+        this.mode = 'show'
+        if (this.line.product_id in this.prodData.lotsByProduct){
+            this.lots = this.prodData.lotsByProduct[this.prodData.product_id]
+            this.items = this.prodData.lotsByProduct[this.prodData.product_id]
         }
-        console.log("res");
-        console.log(res);
-        this.viewCtrl.dismiss(res);
+    }
+    lotSelected(lot_obj){
+        this.mode = 'default';
+        this.line.lot_name = lot_obj.name
+        this.line.lot_id = lot_obj.id
     }
 
-    lotSelected(lot_obj){
-        this.lot = lot_obj.name
-    }
     getItems(ev: any) {
         // Reset items back to all of the items
-       this.items = this.prodData.lotsByProduct[this.prodData.consume_product_id]
+       this.items = this.prodData.lotsByProduct[this.prodData.product_id]
 
         // set val to the value of the searchbar
         let val = ev.target.value;
@@ -71,6 +66,15 @@ export class ConsumeModalPage {
                 return (item['name'].toLowerCase().indexOf(val.toLowerCase()) > -1);
             })
         }
+    }
+
+    confirmModal() {
+        this.viewCtrl.dismiss(this.line);
+    }
+
+
+    closeModal() {
+        this.viewCtrl.dismiss([]);
     }
 
 }

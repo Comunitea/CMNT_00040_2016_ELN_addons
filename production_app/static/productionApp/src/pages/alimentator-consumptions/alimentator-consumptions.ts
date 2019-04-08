@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
+import { ConsumeModalPage } from '../../pages/consume-modal/consume-modal';
 import { ProductionProvider } from '../../providers/production/production';
 
 /**
@@ -16,14 +17,29 @@ import { ProductionProvider } from '../../providers/production/production';
 })
 export class AlimentatorConsumptionsPage {
 
-    moves: Object[];
-    constructor(public navCtrl: NavController, public navParams: NavParams, private prodData: ProductionProvider) {
+    consumptions_in: Object[];
+    consumptions_out: Object[];
+    constructor(public navCtrl: NavController, 
+                public navParams: NavParams,
+                public modalCtrl: ModalController,
+                private prodData: ProductionProvider) {
 
     }
 
     ionViewDidLoad() {
-        // this.prodData.getConsumptions();
-        this.moves = this.prodData.consumptions;
+        this.consumptions_in = this.prodData.consumptions_in;
+        this.consumptions_out = this.prodData.consumptions_out;
+    }
+
+    consume_click(line){
+        var mydata = {'line': line}
+        let consumeModal = this.modalCtrl.create(ConsumeModalPage, mydata);
+        consumeModal.present();
+
+         // When modal closes
+         consumeModal.onDidDismiss(res => {
+            this.prodData.saveConsumptionLine(res)
+        });
     }
 
 }

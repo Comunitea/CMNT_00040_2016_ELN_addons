@@ -88,7 +88,7 @@ export class ListProductionsPage {
     worklineSelected(workline) {
         var vals = {'workcenter_id': workline.workcenter_id[0], 'workline_id': workline.id}
         this.prodData.loadProduction(vals).then( (res) => {
-            this.prodData.getStopReasons(workline.id).then( (res) => {
+            this.prodData.getConsumeInOut().then( (res) => {
                 this.navCtrl.push(AlimentatorConsumptionsPage);
             
             })

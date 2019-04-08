@@ -14,6 +14,11 @@
       
       
       <ion-content padding>
+            <ion-item-divider color="secondary">
+                    <ion-label>ENTRADAS
+                    </ion-label>
+            </ion-item-divider>
+          <!-- <ion-title>ENTRADAS</ion-title> -->
           <ion-grid class="my-grid">
               <ion-row>
                   <ion-col col-4>
@@ -28,27 +33,58 @@
                    <ion-col col-2>
                       <span class="bold-header">Lote</span>
                   </ion-col>
-                      <ion-col col-2>
-                      <span class="bold-header">Estado</span>
-                  </ion-col>
               </ion-row>
-              <ion-row *ngFor="let move of moves">
+              <ion-row *ngFor="let line of consumptions_in"  (click)="consume_click(line)">
                   <ion-col col-4>
-                      <span class="col-content">{{move.product}}</span>
+                      <span class="col-content">{{line.product_name}}</span>
                   </ion-col>
                   <ion-col col-2  text-right>
-                      <span class="col-content">{{move.qty}}</span>
+                      <span class="col-content">{{line.qty}}</span>
                   </ion-col>
                   <ion-col col-2>
-                      <span class="col-content">{{move.uom}}</span>
+                      <span class="col-content">{{line.uom_name}}</span>
                   </ion-col>
                   <ion-col col-2>
-                      <span class="col-content">{{move.lot}}</span>
-                  </ion-col>
-                  <ion-col col-2>
-                      <span class="col-content">{{move.state}}</span>
+                      <span class="col-content">{{line.lot_name}}</span>
                   </ion-col>
               </ion-row>
+          </ion-grid>
+
+        <ion-item-divider color="primary">
+                <ion-label>SALIDAS
+                </ion-label>
+        </ion-item-divider>
+
+          <!-- <ion-title>SALIDAS</ion-title> -->
+          <ion-grid class="my-grid">
+              <ion-row>
+                  <ion-col col-4>
+                      <span class="bold-header">Producto</span>
+                  </ion-col>
+                  <ion-col col-2 text-right>
+                      <span class="bold-header">Cant.</span>
+                  </ion-col>
+                  <ion-col col-2>
+                      <span class="bold-header">UdM</span>
+                  </ion-col>
+                   <ion-col col-2>
+                      <span class="bold-header">Lote</span>
+                  </ion-col>
+              </ion-row>
+              <ion-row *ngFor="let line of consumptions_out"  (click)="consume_click(line)">
+                    <ion-col col-4>
+                        <span class="col-content">{{line.product_name}}</span>
+                    </ion-col>
+                    <ion-col col-2  text-right>
+                        <span class="col-content">{{line.qty}}</span>
+                    </ion-col>
+                    <ion-col col-2>
+                        <span class="col-content">{{line.uom_name}}</span>
+                    </ion-col>
+                    <ion-col col-2>
+                        <span class="col-content">{{line.lot_name}}</span>
+                    </ion-col>
+                </ion-row>
           </ion-grid>
       </ion-content>
       

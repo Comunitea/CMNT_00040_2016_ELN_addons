@@ -445,6 +445,19 @@ class AppRegistry(models.Model):
             }
             self.env['quality.check.line'].create(vals)
         return True
+    
+    @api.model
+    def app_save_consumption_line(self, values):
+        registry_id = values.get('registry_id', False)
+        line = values.get('line', False)
+        if not line:
+            return True
+        consume_line = self.env['consumption.line'].browse(int(line['id']))
+        consume_line.write({
+            'product_qty': line['qty'],
+            'lot_id': line.get('lot_id', False)
+            })
+        return True
 
     @api.multi
     def validate(self):
@@ -521,6 +534,35 @@ class AppRegistry(models.Model):
                 self.env['operator.line'].browse(operator_line_id).write({
                     'date_out': date})
         return res
+    
+    @api.model
+    def create(self, vals):
+        """
+        Añado las líneas de consumos de entradas y salidas basado en los
+        productos a consumir
+    
+        """
+        res = super(AppRegistry, self).create(vals)
+        vals_line_in = []
+        vals_line_out = []
+        for move in res.production_id.move_lines:
+            vals = {
+                'product_id': move.product_id.id,
+                'product_qty': move.product_uom_qty,
+                'product_uom': move.product_uom.id,
+                'lot_id': False,
+                'type': 'in'
+            }
+            vals_line_in.append((0, 0, vals))
+            vals2 = vals.copy()
+            vals2['type'] = 'out'
+            vals_line_out.append((0, 0, vals2))
+        
+        res.write({
+            'line_in_ids': vals_line_in,
+            'line_out_ids': vals_line_out,
+        })
+        return res
 
 
 class QualityCheckLine(models.Model):
@@ -594,5 +636,5 @@ class OperatorLines(models.Model):
         digits_compute=dp.get_precision('Product Unit of Measure'), 
         required=True)
     product_uom = fields.Many2one('product.uom', 'Product Unit of Measure') 
-    lot_id = fields.Many2one('stock.production.lot', 'Lot', required=True)
+    lot_id = fields.Many2one('stock.production.lot', 'Lot', required=False)
 
