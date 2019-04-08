@@ -196,6 +196,7 @@ class AppRegistry(models.Model):
                        consume_ids=consume_ids,
                        production_qty=production_qty,
                        production_uos_qty=production_uos_qty,
+                       workline_name=vals.get('workline_name', ''),
                        uom=uom, uos=uos, uos_coeff=uos_coeff,
             )
         return res

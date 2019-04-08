@@ -55,6 +55,7 @@ export class ProductionProvider {
     lot_date;
     product_use_date: string;
     change_lot_qc_id: number;
+    workline_name: string;
 
     constructor(private odooCon: OdooProvider) {
         this.states = {
@@ -287,7 +288,7 @@ export class ProductionProvider {
     // Gets all the data needed fom the app.regystry model for alimentator mode
     loadProduction(vals){
         var promise = new Promise( (resolve, reject) => {
-            var values = {'workline_id':  vals['workline_id'], 'workcenter_id': vals['workcenter_id']}
+            var values = {'workline_id':  vals['workline_id'], 'workcenter_id': vals['workcenter_id'], 'workline_name': vals['workline_name']}
             var method = 'app_get_registry'
             this.odooCon.callRegistry(method, values).then( (reg: Object) => {
 
@@ -335,6 +336,7 @@ export class ProductionProvider {
         this.change_lot_qc_id = data.change_lot_qc_id;
         this.product_ids = data.product_ids;
         this.consume_ids = data.consume_ids
+        this.workline_name = data.workline_name
     }
     
     // Load Quality checks in each type list

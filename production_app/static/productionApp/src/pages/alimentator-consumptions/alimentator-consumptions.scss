@@ -19,4 +19,10 @@ page-alimentator-consumptions {
             font-size: 1.8rem !important;
        }
     }
+    ion-row:hover {
+
+        background-color: red;
+        border-color: red;
+        cursor: pointer;
+        }
 }

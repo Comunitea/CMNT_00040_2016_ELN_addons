@@ -86,7 +86,8 @@ export class ListProductionsPage {
         });
     }
     worklineSelected(workline) {
-        var vals = {'workcenter_id': workline.workcenter_id[0], 'workline_id': workline.id}
+        let workline_name = workline['production_id'][1] + '-->' + workline['name']
+        var vals = {'workcenter_id': workline.workcenter_id[0], 'workline_id': workline.id, 'workline_name': workline_name}
         this.prodData.loadProduction(vals).then( (res) => {
             this.prodData.getConsumeInOut().then( (res) => {
                 this.navCtrl.push(AlimentatorConsumptionsPage);
