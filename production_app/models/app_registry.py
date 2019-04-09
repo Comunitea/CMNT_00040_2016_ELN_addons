@@ -96,7 +96,7 @@ class AppRegistry(models.Model):
     def get_existing_registry(self, workcenter_id, alimentator_line_id):
         res = False
         if alimentator_line_id:
-            domain = [('alimentator_line_id', '=', alimentator_line_id)]
+            domain = [('wc_line_id', '=', alimentator_line_id)]
         else:
             domain = [('workcenter_id', '=', workcenter_id),
                     ('state', 'not in', ('finished', 'validated'))]
@@ -108,7 +108,7 @@ class AppRegistry(models.Model):
     @api.model
     def create_new_registry(self, workcenter_id, alimentator_line_id):
         if alimentator_line_id:
-            domain = [('alimentator_line_id', '=', alimentator_line_id)]
+            domain = [('id', '=', alimentator_line_id)]
         else:
             domain = [('workcenter_id', '=', workcenter_id),
                     ('state', '!=', 'done'),
@@ -153,13 +153,12 @@ class AppRegistry(models.Model):
         Obtiene el registro que actua de controlador
         para las ordenes de trabajo
         """
-        # import ipdb; ipdb.set_trace()
         res = {}
         workcenter_id = vals.get('workcenter_id')
         alimentator_line_id = False
 
-        if vals.get('production_id', False):  # Alimentator mode only
-            alimentator_line_id = vals.get('id')
+        if vals.get('workline_id', False):  # Alimentator mode only
+            alimentator_line_id = vals.get('workline_id')
 
         reg = self.get_existing_registry(workcenter_id, alimentator_line_id)
         if not reg:
@@ -458,6 +457,15 @@ class AppRegistry(models.Model):
             'product_qty': line['qty'],
             'lot_id': line.get('lot_id', False)
             })
+        if consume_line.lot_id:  # Escribir el lote en la otra línea
+            other_type = 'out' if consume_line.type == 'in' else 'in'
+            domain = [
+                ('product_id', '=', consume_line.product_id.id),
+                ('type', '=', other_type),
+                ('registry_id', '=', registry_id)
+                ]
+            other_line = self.env['consumption.line'].search(domain, limit=1)
+            other_line.write({'lot_id': consume_line.lot_id.id})
         return True
 
     @api.multi

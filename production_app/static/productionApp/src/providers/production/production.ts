@@ -412,9 +412,9 @@ export class ProductionProvider {
             if (line['state'] == 'done' || line['state'] == 'cancel'){
                 state = 'Consumido'
             }
-            if (line['restrict_lot_id']){
-                lot_name = line['restrict_lot_id'][1]
-                lot_id = line['restrict_lot_id'][0]
+            if (line['lot_id']){
+                lot_name = line['lot_id'][1]
+                lot_id = line['lot_id'][0]
             }
             var type = line['type']
             var vals = {
@@ -476,19 +476,22 @@ export class ProductionProvider {
     }
 
     saveConsumptionLine(line){
-        console.log("RESULTADO A GUARDAR")
-        var values = {
-            'registry_id': this.registry_id,
-            'line': line,
-        }
-        console.log(line)
+        var promise = new Promise( (resolve, reject) => {
+            var values = {
+                'registry_id': this.registry_id,
+                'line': line,
+            }
 
-        this.odooCon.callRegistry('app_save_consumption_line', values).then( (res) => {
-            console.log("RESULTADO GUARDADO") 
-        })
-        .catch( (err) => {
-            this.manageOdooFail()
+            this.odooCon.callRegistry('app_save_consumption_line', values).then( (res) => {
+                
+                resolve();
+            })
+            .catch( (err) => {
+                // this.manageOdooFail()
+                reject();
+            });
         });
+        return promise
     }
 
     saveQualityChecks(data){

@@ -77,7 +77,8 @@ export class ListProductionsPage {
                         ['workcenter_id', '=', this.workcenter_id ],
                         ['production_state', 'in', ['ready','confirmed','in_production']]];
                     var fields = ['id', 'name', 'production_id', 'workcenter_id'];
-                    odoo.search_read('mrp.production.workcenter.line', domain, fields, 0, 0).then((worklines) => {
+                    var order = 'sequence'
+                    odoo.search_read('mrp.production.workcenter.line', domain, fields, 0, 0, order).then((worklines) => {
                         this.worklines = worklines;
                         this.initializeItems();
                     });
