@@ -183,6 +183,7 @@
                                 <field name="edi_desadv_active"/>
                                 <field name="product_marking_code" select="2"/>
                                 <field name="edi_picking_numeric"/>
+                                <field name="edi_desadv_lot_date"/>
                                 <field name="gln_desadv" select="2"/>
                             </group>
                         </group>

@@ -43,17 +43,17 @@ class edi_doc(orm.Model):
         'status': fields.selection([('draft', 'Sin procesar'), ('imported', 'Importado'),
                                     ('export', 'Exportado'), ('error', 'Con incidencias')], 'Estado', select=1),
         'sale_order_id': fields.many2one('sale.order', 'Pedido', ondelete='restrict'),
-        'picking_id': fields.many2one('stock.picking', 'Albarán', ondelete='restrict'),
+        'picking_id': fields.many2one('stock.picking', u'Albarán', ondelete='restrict'),
         'invoice_id': fields.many2one('account.invoice', 'Factura', ondelete='restrict'),
         'coacsu_invoice_ids': fields.many2many('account.invoice', 'account_invoice_coacsu_rel', 'invoice_id', 'edi_doc_id', 'COACSU'),
-        'send_date': fields.datetime('Fecha del último envío', select=1),
+        'send_date': fields.datetime(u'Fecha del último envío', select=1),
         'message': fields.text('Mensaje'),
-        'gln_ef': fields.char('GLN Emisor Factura', size=60, help="GLN (Emisor del documento)"),
-        'gln_ve': fields.char('GLN Vendedor', size=60, help="GLN (Vendedor de la mercancía)"),
-        'gln_de': fields.char('GLN Destinatario', size=60, help="GLN (Destinatario de la factura / Quien paga)"),
-        'gln_rf': fields.char('GLN Receptor Factura', size=60, help="GLN (Receptor de la factura / A quien se factura)"),
-        'gln_co': fields.char('GLN Comprador', size=60, help="GLN (Comprador / Quien pide)"),
-        'gln_rm': fields.char('GLN Receptor Mercancía', size=60, help="GLN (Receptor de la mercancía / Quien recibe)"),
+        'gln_ef': fields.char(u'GLN Emisor Factura', size=60, help="GLN (Emisor del documento)"),
+        'gln_ve': fields.char(u'GLN Vendedor', size=60, help="GLN (Vendedor de la mercancía)"),
+        'gln_de': fields.char(u'GLN Destinatario', size=60, help="GLN (Destinatario de la factura / Quien paga)"),
+        'gln_rf': fields.char(u'GLN Receptor Factura', size=60, help="GLN (Receptor de la factura / A quien se factura)"),
+        'gln_co': fields.char(u'GLN Comprador', size=60, help="GLN (Comprador / Quien pide)"),
+        'gln_rm': fields.char(u'GLN Receptor Mercancía', size=60, help="GLN (Receptor de la mercancía / Quien recibe)"),
     }
     _order = 'date desc'
 
@@ -157,16 +157,20 @@ class res_partner(orm.Model):
                                            help='Check if customer requires invoicing products with UoM kg interpreting UoM = UoS. (1 bag of 5 kg is 1 bag, not 5 kg)'),
         'edi_filename': fields.char('EDI filename suffix', size=3,
                                            help='Partner suffix for edi filename.'),
-        'gln_ve': fields.char('GLN Vendedor', size=13, help="GLN (Vendedor de la mercancía). Si se establece, se usará éste en lugar del definido en la Compañía."),
-        'gln_de': fields.char('GLN Destinatario', size=13, help="GLN (Destinatario de la factura / Quien paga)"),
-        'gln_rf': fields.char('GLN Receptor Factura', size=13, help="GLN (Receptor de la factura / A quien se factura)"),
-        'gln_co': fields.char('GLN Comprador', size=13, help="GLN (Comprador / Quien pide)"),
-        'gln_rm': fields.char('GLN Receptor Mercancía', size=13, help="GLN (Receptor de la mercancía / Quien recibe)"),
-        'gln_desadv': fields.char('GLN Receptor Albarán (DESADV)', size=13, help="GLN (Receptor del albarán logístico (DESADV)"),
-        'gln_de_coa': fields.char('GLN Destinatario COA', size=13, help="GLN (Destinatario de la relación de facturas)"), # COACSU
-        'gln_rm_coa': fields.char('GLN Receptor Mensaje', size=13, help="GLN (Receptor del mensaje de la relación de facturas)"), # COACSU
+        'gln_ve': fields.char(u'GLN Vendedor', size=13, help="GLN (Vendedor de la mercancía). Si se establece, se usará éste en lugar del definido en la Compañía."),
+        'gln_de': fields.char(u'GLN Destinatario', size=13, help="GLN (Destinatario de la factura / Quien paga)"),
+        'gln_rf': fields.char(u'GLN Receptor Factura', size=13, help="GLN (Receptor de la factura / A quien se factura)"),
+        'gln_co': fields.char(u'GLN Comprador', size=13, help="GLN (Comprador / Quien pide)"),
+        'gln_rm': fields.char(u'GLN Receptor Mercancía', size=13, help="GLN (Receptor de la mercancía / Quien recibe)"),
+        'gln_desadv': fields.char(u'GLN Receptor Albarán (DESADV)', size=13, help="GLN (Receptor del albarán logístico (DESADV)"),
+        'gln_de_coa': fields.char(u'GLN Destinatario COA', size=13, help="GLN (Destinatario de la relación de facturas)"), # COACSU
+        'gln_rm_coa': fields.char(u'GLN Receptor Mensaje', size=13, help="GLN (Receptor del mensaje de la relación de facturas)"), # COACSU
         'edi_picking_numeric': fields.boolean('Only numeric picking name (DESADV)',
                                help='Check if customer requires the picking name as numeric in DESADV documents. Ex. AS/X00123->00123'),
+        'edi_desadv_lot_date': fields.selection([
+            ('best_before', 'Best before date'),
+            ('expiry', 'Expiry date')], 'Send lot date as', select=1,
+            help="Set how the 'best before date' of the lot will be translated in the edi file. If none is selected, it will be sent as 'best before date'."),
         'edi_invoice_copy': fields.boolean('Send invoice copy to payer',
                             help='Check if customer requires send invoice copy to payer. For example IFA GROUP requires a copy of the invoice sent to its associates.'),
         'edi_invoic_active': fields.boolean('Invoic active'),
@@ -187,14 +191,14 @@ class payment_mode(orm.Model):
     _columns = {
         'edi_code': fields.selection([('42', 'A una cuenta bancaria'), ('14E', 'Giro bancario'),
                                       ('10', 'En efectivo'), ('20', 'Cheque'),
-                                      ('60', 'Pagaré')], 'Codigo EDI', select=1)
+                                      ('60', 'Pagaré')], u'Código EDI', select=1)
     }
 
 class product_uom(orm.Model):
     _inherit = 'product.uom'
     _columns = {
         'edi_code': fields.selection([('PCE', '[PCE] Unidades'), ('KGM', '[KGM] Kilogramos'),
-                                      ('LTR', '[LTR] Litros')], 'Código EDI', 
+                                      ('LTR', '[LTR] Litros')], u'Código EDI',
                                      select=1, help="Código para el tipo de UOM a incluir en el fichero EDI. Si no se establece se usará [PCE]."),
     }
 
@@ -266,7 +270,7 @@ class account_tax(orm.Model):
     _inherit = "account.tax"
     _columns = {
         'edi_code': fields.selection([('VAT', '[VAT] IVA'), ('ENV', '[ENV] Punto Verde'),
-                                    ('EXT', '[EXT] Exento de IVA'), ('ACT', '[ACT] Impuesto de Alcoholes')], 'Código impuesto para EDI', select=1,
+                                    ('EXT', '[EXT] Exento de IVA'), ('ACT', '[ACT] Impuesto de Alcoholes')], u'Código impuesto para EDI', select=1,
                                      help="Código para el tipo de impuesto a incluir en el fichero EDI (si ninguno se usará VAT)."),
     }
 
@@ -420,5 +424,5 @@ class res_company(orm.Model):
 class stock_picking(orm.Model):
     _inherit = 'stock.picking'
     _columns = {
-        'edi_docs': fields.one2many('edi.doc','picking_id','Documentos EDI'),
+        'edi_docs': fields.one2many('edi.doc', 'picking_id', 'Documentos EDI'),
     }
