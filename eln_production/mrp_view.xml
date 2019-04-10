@@ -207,6 +207,7 @@
                                 <separator string="Planned Date" colspan="2"/>
                                 <field name="date_planned"/>
                                 <field name="date_planned_end"/>
+                                <field name="workorder_planned_state"/>
                             </group>
 
                             <group colspan="2" col="2">
@@ -587,14 +588,14 @@
                                         <div>
                                             <b><field name="product"/></b>
                                         </div>
+                                        <div class="oe_kanban_bottom_right">
+                                            <div class="pull-left" groups="base.group_user">
+                                                <field name="workorder_planned_state" widget="priority"/>
+                                            </div>
+                                        </div>
                                         <div>
                                             <b><field name="product_uos_qty"/> <field name="product_uos"/></b>
                                         </div>
-                                        <!--
-                                        <div>
-                                            <b><field name="priority"/> - <field name="production_state"/></b>
-                                        </div>
-                                        -->
                                     </div>
                                 </div>
                             </div>
@@ -610,6 +611,7 @@
             <field name="res_model">mrp.production.workcenter.line</field>
             <field name="view_type">form</field>
             <field name="domain">[('production_state','in',('ready','confirmed','in_production'))]</field>
+            <field name="context">{'search_default_planned_filter': 1}</field>
             <field name="view_mode">kanban,gantt,tree,form,graph,calendar</field>
             <field name="help" type="html">
               <p class="oe_view_nocontent_create">
@@ -640,6 +642,8 @@
                     <filter icon="terp-go-today" string="Tomorrow" name="tomorrow" domain="['&amp;',
                     ('date_planned', '&gt;=', (datetime.date.today()+datetime.timedelta(days=1)).strftime('%%Y-%%m-%%d 00:00:00')),
                     ('date_planned', '&lt;=', (datetime.date.today()+datetime.timedelta(days=1)).strftime('%%Y-%%m-%%d 23:59:59'))]"/>
+                    <separator orientation="vertical"/>
+                    <filter icon="terp-check" name="planned_filter" string="Planned" domain="[('workorder_planned_state','=','1')]"/>
                 </filter>
             </field>
         </record>

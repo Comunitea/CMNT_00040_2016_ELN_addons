@@ -278,6 +278,7 @@ class mrp_production_workcenter_line(osv.osv):
         'availability_ratio': fields.float('Availability ratio', size=8,
            help="Availability ratio expected for this workcenter line. "
            "The estimated time was calculated according to this ratio."),
+        'workorder_planned_state': fields.selection([('0', 'No planned'), ('1', 'Planned')], 'Planned state'),
     }
 
     _order = "id"

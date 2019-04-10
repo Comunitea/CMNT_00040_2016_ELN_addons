@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-11 10:31+0000\n"
-"PO-Revision-Date: 2018-12-11 11:39+0100\n"
+"POT-Creation-Date: 2019-04-10 14:31+0000\n"
+"PO-Revision-Date: 2019-04-10 16:34+0200\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
 "Language: es\n"
-"X-Generator: Poedit 2.0.9\n"
+"X-Generator: Poedit 2.2.1\n"
 
 #. module: eln_production
 #: code:addons/eln_production/mrp.py:59
@@ -198,9 +198,8 @@ msgid "Entry qty (kg)"
 msgstr "Cant. entrada (kg)"
 
 #. module: eln_production
-#: code:addons/eln_production/mrp.py:304
-#: code:addons/eln_production/mrp.py:745
-#: code:addons/eln_production/mrp.py:755
+#: code:addons/eln_production/mrp.py:305 code:addons/eln_production/mrp.py:746
+#: code:addons/eln_production/mrp.py:756
 #, python-format
 msgid "Error!"
 msgstr "¡Error!"
@@ -240,12 +239,14 @@ msgstr "Finalizada"
 
 #. module: eln_production
 #: help:product.product,real_virtual_available:0
-msgid "Forecast quantity (computed as Quantity On Hand - Outgoing)\n"
+msgid ""
+"Forecast quantity (computed as Quantity On Hand - Outgoing)\n"
 "In a context with a single Stock Location, this includes goods stored at this Location, or any of its children.\n"
 "In a context with a single Warehouse, this includes goods stored in the Stock Location of this Warehouse, or any of its children.\n"
 "In a context with a single Shop, this includes goods stored in the Stock Location of the Warehouse of this Shop, or any of its children.\n"
 "Otherwise, this includes goods stored in any Stock Location typed as 'internal'."
-msgstr "Stock virtual real (calculado como Stock Real - salidas)\n"
+msgstr ""
+"Stock virtual real (calculado como Stock Real - salidas)\n"
 "En un contexto con una única ubicación de almacén, el cálculo incluye los productos almacenados en esta ubicación, así como cualquiera de sus hijos.\n"
 "En un contexto de un único almacén, el cálculo incluye los productos almacenados en la ubicación de este almacén, así como cualquiera de sus hijos.\n"
 "En un contexto con una única tienda, el cálculo incluye los productos almacenados en la ubicación del almacén de la tienda, así como cualquiera de sus hijos.\n"
@@ -268,8 +269,7 @@ msgid "General Information"
 msgstr "Información general"
 
 #. module: eln_production
-#: field:mrp.modify.consumption,id:0
-#: field:mrp.modify.consumption.line,id:0
+#: field:mrp.modify.consumption,id:0 field:mrp.modify.consumption.line,id:0
 #: field:production.stops,id:0
 msgid "ID"
 msgstr "ID"
@@ -361,7 +361,7 @@ msgid "Manufacturing Orders"
 msgstr "Órdenes de producción"
 
 #. module: eln_production
-#: code:addons/eln_production/mrp.py:304
+#: code:addons/eln_production/mrp.py:305
 #, python-format
 msgid "Manufacturing order cannot be started in state \"%s\"!"
 msgstr "La orden de producción no se puede iniciar en estado \"%s\""
@@ -406,6 +406,11 @@ msgstr "Balance de masas hacia arriba"
 #: field:production.stops,name:0
 msgid "Name"
 msgstr "Nombre"
+
+#. module: eln_production
+#: selection:mrp.production.workcenter.line,workorder_planned_state:0
+msgid "No planned"
+msgstr "No planificado"
 
 #. module: eln_production
 #: selection:mrp.production,production_type:0
@@ -457,7 +462,7 @@ msgid "Out qty (kg)"
 msgstr "Cant. salida (kg)"
 
 #. module: eln_production
-#: code:addons/eln_production/mrp.py:509
+#: code:addons/eln_production/mrp.py:510
 #: code:addons/eln_production/stock_move.py:74
 #, python-format
 msgid "PROD: %s"
@@ -496,10 +501,21 @@ msgid "Planified time"
 msgstr "Tiempo planificado"
 
 #. module: eln_production
+#: view:mrp.production.workcenter.line:eln_production.view_mrp_production_workcenter_form_view_filter_eln
+#: selection:mrp.production.workcenter.line,workorder_planned_state:0
+msgid "Planned"
+msgstr "Planificado"
+
+#. module: eln_production
 #: view:mrp.production:eln_production.mrp_production_form_inherit_10
 #: view:mrp.production.workcenter.line:eln_production.mrp_production_workcenter_form_view_inherit
 msgid "Planned Date"
 msgstr "Fecha planeada"
+
+#. module: eln_production
+#: field:mrp.production.workcenter.line,workorder_planned_state:0
+msgid "Planned state"
+msgstr "Estado de planificación"
 
 #. module: eln_production
 #: field:mrp.production.workcenter.line,priority:0
@@ -908,8 +924,7 @@ msgid "Yesterday"
 msgstr "Ayer"
 
 #. module: eln_production
-#: code:addons/eln_production/mrp.py:745
-#: code:addons/eln_production/mrp.py:755
+#: code:addons/eln_production/mrp.py:746 code:addons/eln_production/mrp.py:756
 #, python-format
 msgid "You cannot delete a production which is not cancelled."
 msgstr "No se puede eliminar una producción que no esté cancelada."
