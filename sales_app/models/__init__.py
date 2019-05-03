@@ -19,4 +19,5 @@
 ##############################################################################
 
 from . import sale
-
+from . import res_company
+from . import table_pricelist_prices

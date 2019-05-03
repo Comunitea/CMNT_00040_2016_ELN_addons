@@ -29,24 +29,122 @@ _logger = logging.getLogger(__name__)
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
-   
-    chanel = fields.Selection([('erp', 'ERP'),
-                                    ('tablet', 'Tablet'),
-                                    ('other', 'Other'),
-                                    ('ecomerce', 'E-comerce')], 'Chanel',
-                                   readonly=True)
-
+    chanel = fields.Selection([
+        ('erp', 'ERP'),
+        ('tablet', 'Tablet'),
+        ('other', 'Other'),
+        ('ecomerce', 'E-commerce')
+        ], string='Channel',  readonly=True)
 
     @api.model
     def create_and_confirm(self, vals):
-        res = self.create(vals)
+        sale_obj = self.env['sale.order']
+        sale_line_obj = self.env['sale.order.line']
+        
+        shipping_dir = self.env['res.partner'].browse(int(vals['partner_shipping_id']))
+        partner = shipping_dir.commercial_partner_id
+        addr = partner.address_get(['delivery', 'invoice', 'contact'])
+        invoice_dir = addr['invoice']
+        
+        shop_id = 1 # TODO este valor no puede ser fijo. Tiene que venir de la app
+        requested_date = 'requested_date' in vals and vals['requested_date'] or False
+        client_order_ref = 'client_order_ref' in vals and vals['client_order_ref'] or False
+
+        values = {
+            'create_date': vals['create_date'] or time.strftime('%Y-%m-%d'),
+            'date_order': vals['date_order'] or time.strftime('%Y-%m-%d'),
+            'requested_date': requested_date,
+            'client_order_ref': client_order_ref,
+            'partner_id': partner.id,
+            'partner_invoice_id': invoice_dir,
+            'partner_shipping_id': shipping_dir.id,
+            'pricelist_id': vals['pricelist_id'],
+            'fiscal_position': partner.property_account_position.id,
+            'payment_term': partner.property_payment_term.id,
+            'payment_mode_id': partner.customer_payment_mode.id,
+            'early_payment_discount': False,
+            'user_id' : partner.user_id and partner.user_id.id or self.env.uid,
+            'note': False,
+            'shop_id': shop_id,
+            'warehouse_id': vals['warehouse_id'],
+            'chanel': vals['chanel'],
+        }
+        # Se van a ejecutar los onchanges de la cabecera para actualizar valores
+        data = {}
+        data.update(
+            sale_obj.onchange_partner_id3(
+                partner.id, False, partner.property_payment_term.id,
+                shop_id)['value']
+        )
+        if 'partner_shipping_id' in data and data['partner_shipping_id']:
+            del data['partner_shipping_id']
+        values.update(data)
+        order_id = sale_obj.create(values)
+        dp = self.env['decimal.precision'].precision_get('Product Price')
+        for line in vals['order_line']:
+            product_id = line[2]['product_id']
+            product_uom_qty = line[2]['product_uom_qty']
+            product_uos_qty = line[2]['product_uos_qty']
+            uom_id = line[2]['product_uom']
+            uos_id = line[2]['product_uos']
+            price_unit = round(line[2]['price_unit'], dp)
+            discount = round(line[2]['discount'], 2)
+            values = {
+                'order_id': order_id.id,
+                'product_id': product_id,
+                'name': ' ' or False,
+                'product_uom_qty': product_uom_qty,
+                'product_uom': uom_id,
+                'product_uos_qty': product_uos_qty,
+                'product_uos': uos_id,
+                'price_unit': price_unit,
+                'discount': discount
+            }
+            # Se van a ejecutar los onchanges de las lineas para actualizar valores
+            data = {}
+            # Llamo al onchange del producto
+            ctx = dict(partner_id=order_id.partner_id.id, quantity=product_uom_qty,
+                       pricelist=order_id.pricelist_id.id, shop=order_id.shop_id.id, uom=False)
+            data.update(
+                order_id.order_line.with_context(ctx).product_id_change(
+                    order_id.pricelist_id.id, product_id, product_uom_qty,
+                    uom_id, product_uos_qty, uos_id, '', order_id.partner_id.id, False, True, order_id.date_order,
+                    False, order_id.fiscal_position.id, False)['value']
+            )
+            if 'product_uom_qty' in data:
+                del data['product_uom_qty']
+            if 'tax_id' in data:
+                data['tax_id'] = [(6, 0, data['tax_id'])]
+            if 'price_unit' in data:
+                del data['price_unit']
+            if 'discount' in data:
+                del data['discount']
+            values.update(data)
+            ctx = dict(partner_id=partner.id, address_id=shipping_dir.id) # Para comisiones
+            line_id = sale_line_obj.with_context(ctx).create(values)
+        res = order_id
         if res:
-            #res.check_route()
-            res.action_button_confirm()
-            _logger.info("APP. Respuesta a create_and_confirm <%s> "
-                         %(res))
+            # Para diferenciar del estado 'draft' ponemos el estado como 'quotation_sent'
+            # Otra opción es dejar el estado como 'draft' y filtrar por el campo chanel 
+            res.signal_workflow('quotation_sent')
+            _logger.info("APP. Respuesta a create_and_confirm <%s> " %(res))
             return res.id
-        _logger.info("APP. Respuesta ERROR!! create_and_confirm <%s> "
-                         %(res))
+        _logger.info("APP. Respuesta ERROR!! create_and_confirm <%s> " %(res))
         return False
+
+
+class ResPartner(models.Model):
+    _inherit = 'res.partner'
+
+    def search(self, cr, uid, args, offset=0, limit=None, order=None,
+               context=None, count=False):
+        """
+        La función search tiene que ser llamada con API antigua para que funcione la APP.
+        En el módulo l10n_es_partner es llamada con API nueva, por tanto tenemos que parchearla
+		heredándola y llamámdola con API antigua.
+		Nota: poner el módulo donde es llamada con API nueva como dependencia y heredar
+        """
+        return super(ResPartner, self).search(
+            cr, uid, args, offset=offset, limit=limit, order=order,
+            context=context, count=count)
 
