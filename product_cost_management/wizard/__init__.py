@@ -19,4 +19,3 @@
 #
 ##############################################################################
 from . import product_costs
-from . import stock_valuation_history
