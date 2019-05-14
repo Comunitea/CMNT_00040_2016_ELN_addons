@@ -43,8 +43,8 @@ export class ConsumeModalPage {
     showLots(){
         this.mode = 'show'
         if (this.line.product_id in this.prodData.lotsByProduct){
-            this.lots = this.prodData.lotsByProduct[this.prodData.product_id]
-            this.items = this.prodData.lotsByProduct[this.prodData.product_id]
+            this.lots = this.prodData.lotsByProduct[this.line.product_id]
+            this.items = this.prodData.lotsByProduct[this.line.product_id]
         }
     }
     lotSelected(lot_obj){

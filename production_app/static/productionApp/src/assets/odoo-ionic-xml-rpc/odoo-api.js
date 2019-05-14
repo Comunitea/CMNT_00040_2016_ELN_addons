@@ -1,4 +1,4 @@
-function OdooApi (host, db) {
+function OdooApi (host, db, uid, password) {
     
 if (!host.match('\/$')) {
     host = host + '/';
@@ -6,9 +6,9 @@ if (!host.match('\/$')) {
         
 this.odoo_host = host;
 this.odoo_db = db;
-this.odoo_uid = false;
+this.odoo_uid = uid;
 this.odoo_user = false;
-this.odoo_password = false;
+this.odoo_password = password;
 this.context = {'lang': 'es_ES'}, //odoo_api,
     
 this.login = function(user, password) {
@@ -35,7 +35,7 @@ this.login = function(user, password) {
                 }
             },
             error: function(jqXHR, status, error) {
-                odoo_api.uid = false;
+                odoo_api.odoo_uid = false;
                 reject()
             }
         });    
@@ -76,16 +76,21 @@ this.search = function(model, domain) {
     return promise
 };
 
-
 this.search_read = function(model, domain, fields, offset, limit, order) {
     
     var odoo_api = this;
 
-    if (!order)
-        order = false;
-
     if (!domain)
         domain = [];
+
+    if (!offset)
+        offset = 0;
+
+    if (!limit)
+        limit = 0;
+
+    if (!order)
+        order = false;
     
     var promise = new Promise(function(resolve, reject) {
         $.xmlrpc({

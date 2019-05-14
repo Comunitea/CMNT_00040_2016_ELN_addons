@@ -4,8 +4,12 @@
             <ion-icon name="menu"></ion-icon>
         </button> -->
 
-        <ion-title><span class="custom-font-size">Lista de producciones</span></ion-title>
-        <ion-title text-center><span>Modo {{mode}}</span></ion-title>
+        <ion-title text-center><span class="custom-font-size">Lista de producciones</span></ion-title>
+        <ion-title text-center [ngSwitch]="mode">
+            <span *ngSwitchCase="'production'">Modo Producción</span>
+            <span *ngSwitchCase="'alimentator'">Modo Alimentador</span>
+            <span *ngSwitchDefault>Modo {{mode}}</span>
+        </ion-title>
         
         <ion-buttons end>
             <button ion-button (click)='logOut()'>

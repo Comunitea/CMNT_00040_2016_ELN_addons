@@ -14,11 +14,11 @@
         <ion-list *ngIf="!cargar">
           <ion-item>
             <ion-label color="primary" stacked>
-                <span class="custom-font-size">Work Mode</span>
+                <span class="custom-font-size">Modo de trabajo</span>
             </ion-label>
-            <ion-select  [(ngModel)]="CONEXION.mode" name="mode" value="alimentator" okText="Okay" cancelText="Cancel">
-              <ion-option value="alimentator">Alimentator</ion-option>
-              <ion-option value="production">Production</ion-option>
+            <ion-select  [(ngModel)]="CONEXION.mode" name="mode" value="alimentator" okText="Aceptar" cancelText="Cancelar">
+              <ion-option value="alimentator">Alimentador</ion-option>
+              <ion-option value="production">Producción</ion-option>
             </ion-select>
           </ion-item>
           <ion-item>

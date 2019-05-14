@@ -111,7 +111,7 @@ export class ProductionPage {
     reloadProduction(){
         this.promptNextStep('¿Recargar producción?').then( () => {
             this.clearIntervales();
-            this.prodData.loadProduction(this.prodData.workcenter).then(() =>{
+            this.prodData.loadProduction({'workcenter_id': this.prodData.workcenter['id']}).then(() =>{
                 this.initProduction();
             })
             .catch( () => {});
@@ -379,7 +379,7 @@ export class ProductionPage {
         .catch( () => {});
     }
     loadNextProduction(){
-        this.prodData.loadProduction(this.prodData.workcenter).then( (res) => {
+        this.prodData.loadProduction({'workcenter_id': this.prodData.workcenter['id']}).then( (res) => {
             // this.prodData.active_operator_id = 0;
         })
         .catch( (err) => {
