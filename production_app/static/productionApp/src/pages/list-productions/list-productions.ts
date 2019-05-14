@@ -67,27 +67,25 @@ export class ListProductionsPage {
 
     getLines(){
         this.storage.get('CONEXION').then((con_data) => {
-            var odoo = new OdooApi(con_data.url, con_data.db);
+            var odoo = new OdooApi(con_data.url, con_data.db, con_data.uid, con_data.password);
             if (con_data == null) {
                 console.log('No hay conexión');
                 this.navCtrl.setRoot(HomePage, {borrar: true, login: null});
             } else {
-                odoo.login(con_data.username, con_data.password).then( (uid) => {
-                    var domain = [
-                        ['workcenter_id', '=', this.workcenter_id ],
-                        ['production_state', 'in', ['ready','confirmed','in_production']]];
-                    var fields = ['id', 'name', 'production_id', 'workcenter_id'];
-                    var order = 'sequence'
-                    odoo.search_read('mrp.production.workcenter.line', domain, fields, 0, 0, order).then((worklines) => {
-                        this.worklines = worklines;
-                        this.initializeItems();
-                    });
+                var domain = [
+                    ['workcenter_id', '=', this.workcenter_id ],
+                    ['production_state', 'in', ['ready','confirmed','in_production']]];
+                var fields = ['id', 'name', 'production_id', 'workcenter_id'];
+                var order = 'sequence'
+                odoo.search_read('mrp.production.workcenter.line', domain, fields, 0, 0, order).then((worklines) => {
+                    this.worklines = worklines;
+                    this.initializeItems();
                 });
             }
         });
     }
     worklineSelected(workline) {
-        let workline_name = workline['production_id'][1] + '-->' + workline['name']
+        let workline_name = workline['production_id'][1] + ' --> ' + workline['name']
         var vals = {'workcenter_id': workline.workcenter_id[0], 'workline_id': workline.id, 'workline_name': workline_name}
         this.prodData.loadProduction(vals).then( (res) => {
             this.prodData.getConsumeInOut().then( (res) => {

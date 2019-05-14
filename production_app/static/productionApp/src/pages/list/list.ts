@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, AlertController} from 'ionic-angular';
+import { NavController, AlertController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { HomePage } from '../../pages/home/home';
 import { ListProductionsPage } from '../../pages/list-productions/list-productions';
@@ -18,7 +18,7 @@ export class ListPage {
     mode = '';
     items: Object[];
 
-    constructor(public navCtrl: NavController, private storage: Storage,
+    constructor(public navCtrl: NavController, private storage: Storage, 
                 public alertCtrl: AlertController, 
                 private prodData: ProductionProvider){
         this.workcenters = [];
@@ -62,18 +62,16 @@ export class ListPage {
 
     getLines(){
         this.storage.get('CONEXION').then((con_data) => {
-            var odoo = new OdooApi(con_data.url, con_data.db);
+            var odoo = new OdooApi(con_data.url, con_data.db, con_data.uid, con_data.password);
             if (con_data == null) {
                 console.log('No hay conexión');
                 this.navCtrl.setRoot(HomePage, {borrar: true, login: null});
             } else {
-                odoo.login(con_data.username, con_data.password).then( (uid) => {
-                    var domain = [];
-                    var fields = ['id', 'name'];
-                    odoo.search_read('mrp.workcenter', domain, fields, 0, 0).then((workcenters) => {
-                        this.workcenters = workcenters;
-                        this.initializeItems();
-                    });
+                var domain = [];
+                var fields = ['id', 'name'];
+                odoo.search_read('mrp.workcenter', domain, fields, 0, 0).then((workcenters) => {
+                    this.workcenters = workcenters;
+                    this.initializeItems();
                 });
             }
         });

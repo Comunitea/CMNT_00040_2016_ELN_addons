@@ -285,13 +285,12 @@ export class ProductionProvider {
         return promise
     }
 
-    // Gets all the data needed fom the app.regystry model for alimentator mode
+    // Gets all the data needed from the app.regystry model
     loadProduction(vals){
         var promise = new Promise( (resolve, reject) => {
-            var values = {'workline_id':  vals['workline_id'], 'workcenter_id': vals['workcenter_id'], 'workline_name': vals['workline_name']}
+            var values = {'workline_id': vals['workline_id'], 'workcenter_id': vals['workcenter_id'], 'workline_name': vals['workline_name']}
             var method = 'app_get_registry'
             this.odooCon.callRegistry(method, values).then( (reg: Object) => {
-
                 if ('id' in reg){
                     this.initData(reg);
                     // this.getConsumeInOut();  // Load Consumptions. TODO PUT PROMISE SYNTAX

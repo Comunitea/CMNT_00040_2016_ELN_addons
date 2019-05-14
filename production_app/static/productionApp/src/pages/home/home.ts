@@ -1,11 +1,9 @@
-import {NavController, NavParams, AlertController} from 'ionic-angular';
-import {Component} from '@angular/core';    
+import { NavController, NavParams, AlertController } from 'ionic-angular';
+import { Component } from '@angular/core';    
+import { Storage } from '@ionic/storage';
+import { ListPage } from '../../pages/list/list';
 
-import {Storage} from '@ionic/storage';
-import {ListPage} from '../../pages/list/list';
-import { OdooProvider } from '../../providers/odoo/odoo';
-
-
+declare var OdooApi: any;
 
 @Component({
   selector: 'page-home',
@@ -23,27 +21,25 @@ export class HomePage {
         mode: 'production',
     };
     CONEXION = {
-        mode: 'production',
         url: '',
         db: '',
         username: '',
         password: '',
+        mode: 'production',
     };
     cargar = false;
     mensaje = '';
 
     constructor(public navCtrl: NavController, public navParams: NavParams, 
-                private storage: Storage, public alertCtrl: AlertController,
-                private odoo: OdooProvider) {
+                private storage: Storage, public alertCtrl: AlertController) {
 	
-        if (this.navParams.get('login')){
+        if (this.navParams.get('login')) {
             this.CONEXION.username = this.navParams.get('login')
         };
         this.check_storage_conexion(this.navParams.get('borrar'))
-        if (this.navParams.get('borrar') == true){
+        if (this.navParams.get('borrar') == true) {
             this.cargar = false;
-        }
-        else {
+        } else {
             // Autologin al cargar app
             this.cargar = true;
             this.conectarApp(false);
@@ -53,15 +49,13 @@ export class HomePage {
     check_storage_conexion(borrar) {
         // Fijamos siempre a false el parámetro borrar para no tener que teclear usuario y contraseña siempre
         borrar = false
-        if (borrar){
+        if (borrar) {
             this.CONEXION = this.CONEXION_local;
-        }	
-        else {
+        } else {
             this.storage.get('CONEXION').then((val) => {
-                if (val && val['username']){
+                if (val && val['username']) {
                     this.CONEXION = val
-                }
-                else {
+                } else {
                     this.CONEXION = this.CONEXION_local;
                     this.storage.set('CONEXION', this.CONEXION).then(() => {
                     })
@@ -81,12 +75,9 @@ export class HomePage {
 
     conectarApp(verificar) {
         this.cargar = true;
-        if (verificar){
-            this.storage.set('CONEXION', this.CONEXION).then(() => {
-                this.check_conexion(this.CONEXION)
-            })
-        }
-        else {
+        if (verificar) {
+            this.check_conexion(this.CONEXION)
+        } else {
             this.storage.get('CONEXION').then((val) => {
                 var con;
                 if (val == null) {//no existe datos         
@@ -98,8 +89,7 @@ export class HomePage {
                         }
                         return;
                     }
-                }
-		else {
+                } else {
                     //si los trae directamente ya fueron verificados
                     con = val;
                     if (con.username.length < 3 || con.password.length < 3) {
@@ -107,7 +97,7 @@ export class HomePage {
                         return
                     }
                 }
-                if (con){
+                if (con) {
                     this.storage.set('CONEXION', con).then(() => {
                         this.check_conexion(con)
                         this.cargar=false
@@ -121,19 +111,17 @@ export class HomePage {
         var model = 'res.users'
         var domain = [['login', '=', con.username]]
         var fields = ['id', 'login', 'image', 'name', 'company_id']
-        this.odoo.login(con.username, con.password).then ((uid) => {
-            this.odoo.uid = uid
-            this.odoo.searchRead(model, domain, fields).then((value) => {
-                var user = {id: null, name: null, image: null, login: null, cliente_id: null, company_id: null};
+        var odoo = new OdooApi(con.url, con.db, con.uid, con.password);
+        odoo.login(con.username, con.password).then((uid) => {
+	    con.uid = uid
+            this.storage.set('CONEXION', con).then(() => {
+                this.navCtrl.setRoot(ListPage, {mode: con.mode});
+            })
+            odoo.search_read(model, domain, fields).then((value) => {
                 if (value) {
-                    if (!con.user || value[0].id != con.user['id'] || value[0].company_id[0] != con.user['company_id']){
-                        user = value[0];
-                        //user.id = value[0].id;
-                        //user.name = value[0].name;
-                        //user.login = value[0].login;
-                        //user.company_id = value[0].company_id[0];
-                        //user.company = value[0].company_id
-                        con.user = user
+                    if (!con.user || value[0].id != con.user['id'] || value[0].company_id[0] != con.user['company_id']) {
+                        con.user = value[0];
+			con.uid = value[0].id;
                     }
                     this.storage.set('CONEXION', con).then(() => {
                         this.navCtrl.setRoot(ListPage, {mode: con.mode});

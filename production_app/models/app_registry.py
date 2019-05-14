@@ -65,7 +65,7 @@ class AppRegistry(models.Model):
     product_id = fields.Many2one('product.product', 'Product',
                                  related="production_id.product_id",
                                  readonly=True)
-    workorder_id = fields.Many2one('work.order', 'Related Maintance Order')
+    workorder_id = fields.Many2one('work.order', 'Related Maintenance Order')
     _sql_constraints = [
         ('wc_line_id_uniq', 'unique(wc_line_id)',
          'The workcenter line must be unique !'),
@@ -195,7 +195,7 @@ class AppRegistry(models.Model):
                        consume_ids=consume_ids,
                        production_qty=production_qty,
                        production_uos_qty=production_uos_qty,
-                       workline_name=vals.get('workline_name', ''),
+                       workline_name=vals.get('workline_name', '') or '',
                        uom=uom, uos=uos, uos_coeff=uos_coeff,
             )
         return res
@@ -577,7 +577,8 @@ class AppRegistry(models.Model):
 class QualityCheckLine(models.Model):
     _name = 'quality.check.line'
 
-    registry_id = fields.Many2one('app.registry', 'Registry', readonly=True)
+    registry_id = fields.Many2one('app.registry', 'Registry',
+                                  ondelete='cascade', readonly=True)
     pqc_id = fields.Many2one('product.quality.check', 'Quality Check',
                              readonly=False)
     date = fields.Datetime('Date', readonly=False)
@@ -590,7 +591,8 @@ class QualityCheckLine(models.Model):
 class StopLines(models.Model):
     _name = 'stop.line'
 
-    registry_id = fields.Many2one('app.registry', 'Registry', readonly=True)
+    registry_id = fields.Many2one('app.registry', 'Registry',
+                                  ondelete='cascade', readonly=True)
     reason_id = fields.Many2one('stop.reason', 'Reason')
     stop_start = fields.Datetime('Stop Start', readonly=False)
     stop_end = fields.Datetime('Stop End', readonly=False)
@@ -612,7 +614,8 @@ class StopLines(models.Model):
 class OperatorLines(models.Model):
     _name = 'operator.line'
 
-    registry_id = fields.Many2one('app.registry', 'Registry', readonly=True)
+    registry_id = fields.Many2one('app.registry', 'Registry',
+                                  ondelete='cascade', readonly=True)
     operator_id = fields.Many2one('hr.employee', 'Operator')
     date_in = fields.Datetime('Date In', readonly=False)
     date_out = fields.Datetime('Date Out', readonly=False)
@@ -632,11 +635,11 @@ class OperatorLines(models.Model):
                 r.stop_duration = td.total_seconds() / 3600
 
 
-
-class OperatorLines(models.Model):
+class ConsumptionLines(models.Model):
     _name = 'consumption.line'
 
-    registry_id = fields.Many2one('app.registry', 'Registry', readonly=True)
+    registry_id = fields.Many2one('app.registry', 'Registry',
+                                  ondelete='cascade', readonly=True)
     type = fields.Selection(
         [('in', 'In'), ('out', 'Out')], 'Type', required=True)
     product_id = fields.Many2one('product.product', 'Product', required=True)
