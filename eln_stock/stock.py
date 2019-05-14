@@ -26,9 +26,28 @@ class StockPicking(models.Model):
     _inherit = 'stock.picking'
     _order = 'id desc'
 
-    address = fields.Char('Address',
-                          compute='_get_address',
-                          search='_search_address')
+    address = fields.Char(
+        string='Address',
+        compute='_get_address',
+        search='_search_address')
+    sale_id = fields.Many2one(
+        string='Sale Order',
+        comodel_name='sale.order',
+        compute="_get_sale_id")
+
+    @api.multi
+    def _get_sale_id(self):
+        """
+        Esta función está con API antigua en el módulo sale_stock.
+        Al hacerla con nueva API mejora sustancialmente el rendimiento en procesos
+        tales como creación de facturas de varios albaranes (hasta un 75% más rápido).
+        e incluso en la ejecución de planificadores en el caso de crear pickings.
+        Esto es debido a una mejor utilización de la caché.
+        """
+        sale_obj = self.env['sale.order']
+        for pick in self:
+            domain = [('procurement_group_id', '=', pick.group_id.id)]
+            pick.sale_id = pick.group_id and sale_obj.search(domain, limit=1) or False
 
     @api.multi
     def _get_address(self):
