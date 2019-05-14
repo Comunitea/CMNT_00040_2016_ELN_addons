@@ -20,8 +20,10 @@ export class HomePage {
         db: '',
         username: '',
         password: '',
+        mode: 'production',
     };
     CONEXION = {
+        mode: 'production',
         url: '',
         db: '',
         username: '',
@@ -134,7 +136,7 @@ export class HomePage {
                         con.user = user
                     }
                     this.storage.set('CONEXION', con).then(() => {
-                        this.navCtrl.setRoot(ListPage);
+                        this.navCtrl.setRoot(ListPage, {mode: con.mode});
                     })
                 }
             })

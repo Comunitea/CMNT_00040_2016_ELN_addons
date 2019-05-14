@@ -1,28 +1,33 @@
-import { Component } from '@angular/core';
-import { NavController, AlertController} from 'ionic-angular';
+import {Component} from '@angular/core';    
+
+import { NavController, AlertController, NavParams} from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { HomePage } from '../../pages/home/home';
-import { ListProductionsPage } from '../../pages/list-productions/list-productions';
-import { ProductionPage } from '../../pages/production/production';
 import { ProductionProvider } from '../../providers/production/production';
+import { AlimentatorConsumptionsPage } from '../../pages/alimentator-consumptions/alimentator-consumptions';
 
 declare var OdooApi: any;
 
+
+
 @Component({
-  selector: 'page-list',
-  templateUrl: 'list.html'
+    selector: 'page-list-productions',
+    templateUrl: 'list-productions.html'
 })
-export class ListPage {
-    workcenters = []
+export class ListProductionsPage {
+    worklines = [];
     searchQuery: string = '';
     mode = '';
     items: Object[];
+    workcenter_id = '';
 
     constructor(public navCtrl: NavController, private storage: Storage,
-                public alertCtrl: AlertController, 
-                private prodData: ProductionProvider){
-        this.workcenters = [];
+        public navParams: NavParams,
+        public alertCtrl: AlertController, 
+        private prodData: ProductionProvider){
+        this.worklines = [];
         this.items = [];
+        this.workcenter_id = this.navParams.get('workcenter_id')
         this.storage.get('CONEXION').then((con_data) => {
             this.mode = con_data.mode
         })
@@ -68,39 +73,39 @@ export class ListPage {
                 this.navCtrl.setRoot(HomePage, {borrar: true, login: null});
             } else {
                 odoo.login(con_data.username, con_data.password).then( (uid) => {
-                    var domain = [];
-                    var fields = ['id', 'name'];
-                    odoo.search_read('mrp.workcenter', domain, fields, 0, 0).then((workcenters) => {
-                        this.workcenters = workcenters;
+                    var domain = [
+                        ['workcenter_id', '=', this.workcenter_id ],
+                        ['production_state', 'in', ['ready','confirmed','in_production']]];
+                    var fields = ['id', 'name', 'production_id', 'workcenter_id'];
+                    var order = 'sequence'
+                    odoo.search_read('mrp.production.workcenter.line', domain, fields, 0, 0, order).then((worklines) => {
+                        this.worklines = worklines;
                         this.initializeItems();
                     });
                 });
             }
         });
     }
-    workcenterSelected(workcenter) {
-        var vals = {'workcenter_id': workcenter.id}
-        if (this.mode == 'alimentator')
-            this.navCtrl.push(ListProductionsPage, {workcenter_id: workcenter.id});
-        else {
-            this.prodData.loadProduction(vals).then( (res) => {
-                this.prodData.getStopReasons(workcenter.id).then( (res) => {
-                    this.navCtrl.setRoot(ProductionPage);
-                
-                })
-                .catch( (err) => {
-                    this.presentAlert("Error", "Falló al cargar los motivos técnicos para el centro de trabajo actual.");
-                }); 
-
+    worklineSelected(workline) {
+        let workline_name = workline['production_id'][1] + '-->' + workline['name']
+        var vals = {'workcenter_id': workline.workcenter_id[0], 'workline_id': workline.id, 'workline_name': workline_name}
+        this.prodData.loadProduction(vals).then( (res) => {
+            this.prodData.getConsumeInOut().then( (res) => {
+                this.navCtrl.push(AlimentatorConsumptionsPage);
+            
             })
             .catch( (err) => {
-                this.presentAlert(err.title, err.msg);
+                this.presentAlert("Error", "Falló al cargar los motivos técnicos para el centro de trabajo actual.");
             }); 
-            }
+
+        })
+        .catch( (err) => {
+            this.presentAlert(err.title, err.msg);
+        }); 
     }
 
     initializeItems() {
-        this.items = this.workcenters
+        this.items = this.worklines
     }
 
     getItems(ev: any) {
@@ -113,8 +118,10 @@ export class ListPage {
         // if the value is an empty string don't filter the items
         if (val && val.trim() != '') {
             this.items = this.items.filter((item) => {
-                return (item['name'].toLowerCase().indexOf(val.toLowerCase()) > -1);
+                let item_name = item['production_id'][1] + '-->' + item['name']
+                return (item_name.toLowerCase().indexOf(val.toLowerCase()) > -1);
             })
         }
     }
+
 }

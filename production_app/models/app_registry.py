@@ -4,6 +4,8 @@
 
 from openerp import api, models, fields
 from datetime import datetime, timedelta
+import openerp.addons.decimal_precision as dp
+
 
 APP_STATES = [
     ('waiting', 'Waiting Production'),
@@ -47,6 +49,13 @@ class AppRegistry(models.Model):
     qty = fields.Float('Quantity', readonly=True)
     lot_id = fields.Many2one('stock.production.lot', 'Lot', readonly=True)
 
+    line_in_ids = fields.One2many(
+        'consumption.line', 'registry_id', 'Incomings',
+        domain=[('type', '=', 'in')], readonly=False)
+    line_out_ids = fields.One2many(
+        'consumption.line', 'registry_id', 'Outgoings',
+        domain=[('type', '=', 'out')], readonly=False)
+
     # RELATED FIELDS
     name = fields.Char('Workcenter Line', related="wc_line_id.name",
                        readonly=True)
@@ -84,22 +93,28 @@ class AppRegistry(models.Model):
                 r.cleaning_duration = td.total_seconds() / 3600
 
     @api.model
-    def get_existing_registry(self, workcenter_id):
+    def get_existing_registry(self, workcenter_id, alimentator_line_id):
         res = False
-        domain = [('workcenter_id', '=', workcenter_id),
-                  ('state', 'not in', ('finished', 'validated'))]
+        if alimentator_line_id:
+            domain = [('wc_line_id', '=', alimentator_line_id)]
+        else:
+            domain = [('workcenter_id', '=', workcenter_id),
+                    ('state', 'not in', ('finished', 'validated'))]
         reg_obj = self.search(domain, limit=1)
         if reg_obj:
             res = reg_obj
         return res
 
     @api.model
-    def create_new_registry(self, workcenter_id):
-        domain = [('workcenter_id', '=', workcenter_id),
-                  ('state', '!=', 'done'),
-                  ('production_state', 'in',
-                  ('ready', 'confirmed', 'in_production')),
-                  ('registry_id', '=', False)]
+    def create_new_registry(self, workcenter_id, alimentator_line_id):
+        if alimentator_line_id:
+            domain = [('id', '=', alimentator_line_id)]
+        else:
+            domain = [('workcenter_id', '=', workcenter_id),
+                    ('state', '!=', 'done'),
+                    ('production_state', 'in',
+                    ('ready', 'confirmed', 'in_production')),
+                    ('registry_id', '=', False)]
         wcl = self.env['mrp.production.workcenter.line']
         wcl_obj = wcl.search(domain, order='sequence', limit=1)
         if not wcl_obj:
@@ -140,10 +155,14 @@ class AppRegistry(models.Model):
         """
         res = {}
         workcenter_id = vals.get('workcenter_id')
+        alimentator_line_id = False
 
-        reg = self.get_existing_registry(workcenter_id)
+        if vals.get('workline_id', False):  # Alimentator mode only
+            alimentator_line_id = vals.get('workline_id')
+
+        reg = self.get_existing_registry(workcenter_id, alimentator_line_id)
         if not reg:
-            reg = self.create_new_registry(workcenter_id)
+            reg = self.create_new_registry(workcenter_id, alimentator_line_id)
         if reg:
             res.update(reg.read()[0])
 
@@ -176,6 +195,7 @@ class AppRegistry(models.Model):
                        consume_ids=consume_ids,
                        production_qty=production_qty,
                        production_uos_qty=production_uos_qty,
+                       workline_name=vals.get('workline_name', ''),
                        uom=uom, uos=uos, uos_coeff=uos_coeff,
             )
         return res
@@ -425,6 +445,28 @@ class AppRegistry(models.Model):
             }
             self.env['quality.check.line'].create(vals)
         return True
+    
+    @api.model
+    def app_save_consumption_line(self, values):
+        registry_id = values.get('registry_id', False)
+        line = values.get('line', False)
+        if not line:
+            return True
+        consume_line = self.env['consumption.line'].browse(int(line['id']))
+        consume_line.write({
+            'product_qty': line['qty'],
+            'lot_id': line.get('lot_id', False)
+            })
+        if consume_line.lot_id:  # Escribir el lote en la otra línea
+            other_type = 'out' if consume_line.type == 'in' else 'in'
+            domain = [
+                ('product_id', '=', consume_line.product_id.id),
+                ('type', '=', other_type),
+                ('registry_id', '=', registry_id)
+                ]
+            other_line = self.env['consumption.line'].search(domain, limit=1)
+            other_line.write({'lot_id': consume_line.lot_id.id})
+        return True
 
     @api.multi
     def validate(self):
@@ -501,6 +543,35 @@ class AppRegistry(models.Model):
                 self.env['operator.line'].browse(operator_line_id).write({
                     'date_out': date})
         return res
+    
+    @api.model
+    def create(self, vals):
+        """
+        Añado las líneas de consumos de entradas y salidas basado en los
+        productos a consumir
+    
+        """
+        res = super(AppRegistry, self).create(vals)
+        vals_line_in = []
+        vals_line_out = []
+        for move in res.production_id.move_lines:
+            vals = {
+                'product_id': move.product_id.id,
+                'product_qty': move.product_uom_qty,
+                'product_uom': move.product_uom.id,
+                'lot_id': False,
+                'type': 'in'
+            }
+            vals_line_in.append((0, 0, vals))
+            vals2 = vals.copy()
+            vals2['type'] = 'out'
+            vals_line_out.append((0, 0, vals2))
+        
+        res.write({
+            'line_in_ids': vals_line_in,
+            'line_out_ids': vals_line_out,
+        })
+        return res
 
 
 class QualityCheckLine(models.Model):
@@ -559,3 +630,20 @@ class OperatorLines(models.Model):
                 date_out = fields.Datetime.from_string(r.date_out)
                 td = date_out - date_in
                 r.stop_duration = td.total_seconds() / 3600
+
+
+
+class OperatorLines(models.Model):
+    _name = 'consumption.line'
+
+    registry_id = fields.Many2one('app.registry', 'Registry', readonly=True)
+    type = fields.Selection(
+        [('in', 'In'), ('out', 'Out')], 'Type', required=True)
+    product_id = fields.Many2one('product.product', 'Product', required=True)
+    product_qty = fields.Float(
+        'Product Quantity', 
+        digits_compute=dp.get_precision('Product Unit of Measure'), 
+        required=True)
+    product_uom = fields.Many2one('product.uom', 'Product Unit of Measure') 
+    lot_id = fields.Many2one('stock.production.lot', 'Lot', required=False)
+

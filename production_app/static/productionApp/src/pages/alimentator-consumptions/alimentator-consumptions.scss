@@ -1,0 +1,28 @@
+page-alimentator-consumptions {
+    .col-content {
+        font-size: 1.2rem !important;
+    }
+    .bold-header {
+        font-size: 1.4rem !important;
+        font-weight: bold;
+    }
+    ion-row {
+        border-bottom: 1px solid #000;
+    }
+
+
+    @media (min-width:600px) {
+        .col-content {
+            font-size: 1.6rem !important;
+        }
+        .bold-header {
+            font-size: 1.8rem !important;
+       }
+    }
+    ion-row:hover {
+
+        background-color: red;
+        border-color: red;
+        cursor: pointer;
+        }
+}

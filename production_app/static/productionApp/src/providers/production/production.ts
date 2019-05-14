@@ -15,6 +15,7 @@ export class ProductionProvider {
     
     lotsByProduct: Object = {};
     workcenter: Object = {};
+    workline: Object = {};
     loged_ids: number[] = [];
     product_ids: number[] = [];
     consume_ids: number[] = [];
@@ -35,6 +36,8 @@ export class ProductionProvider {
     scrap_reasons: Object[];
 
     consumptions: Object[];
+    consumptions_in: Object[];
+    consumptions_out: Object[];
     allowed_consumptions: Object[];
 
     operator_line_id;
@@ -52,6 +55,7 @@ export class ProductionProvider {
     lot_date;
     product_use_date: string;
     change_lot_qc_id: number;
+    workline_name: string;
 
     constructor(private odooCon: OdooProvider) {
         this.states = {
@@ -67,6 +71,8 @@ export class ProductionProvider {
         this.technical_reasons = [];
         this.organizative_reasons = [];
         this.consumptions = [];
+        this.consumptions_in = [];
+        this.consumptions_out = [];
     }
 
     getUTCDateStr(){
@@ -279,16 +285,16 @@ export class ProductionProvider {
         return promise
     }
 
-    // Gets all the data needed fom the app.regystry model
-    loadProduction(workcenter){
-        this.workcenter = workcenter
+    // Gets all the data needed fom the app.regystry model for alimentator mode
+    loadProduction(vals){
         var promise = new Promise( (resolve, reject) => {
-            var values = {'workcenter_id': workcenter.id}
+            var values = {'workline_id':  vals['workline_id'], 'workcenter_id': vals['workcenter_id'], 'workline_name': vals['workline_name']}
             var method = 'app_get_registry'
             this.odooCon.callRegistry(method, values).then( (reg: Object) => {
 
                 if ('id' in reg){
                     this.initData(reg);
+                    // this.getConsumeInOut();  // Load Consumptions. TODO PUT PROMISE SYNTAX
                     this.getQualityChecks();  // Load Quality Checks. TODO PUT PROMISE SYNTAX
                     this.getConsumptions();  // Load Consumptions. TODO PUT PROMISE SYNTAX
                     this.setLogedTimes();  // Load Quality Checks. TODO PUT PROMISE SYNTAX
@@ -330,6 +336,7 @@ export class ProductionProvider {
         this.change_lot_qc_id = data.change_lot_qc_id;
         this.product_ids = data.product_ids;
         this.consume_ids = data.consume_ids
+        this.workline_name = data.workline_name
     }
     
     // Load Quality checks in each type list
@@ -394,6 +401,50 @@ export class ProductionProvider {
         console.log(this.consumptions);   
     }
 
+    loadConsumptionsLines(lines) {
+        this.consumptions_in = [];
+        this.consumptions_out = [];
+        for (let indx in lines) {
+            var line = lines[indx];
+            var lot_name = '';
+            var lot_id = false;
+            var state='Para consumir'
+            if (line['state'] == 'done' || line['state'] == 'cancel'){
+                state = 'Consumido'
+            }
+            if (line['lot_id']){
+                lot_name = line['lot_id'][1]
+                lot_id = line['lot_id'][0]
+            }
+            var type = line['type']
+            var vals = {
+                'product_name': line['product_id'][1],
+                'product_id': line['product_id'][0],
+                'qty':  line['product_qty'],
+                'uom_name': line['product_uom'][1],
+                'uom_id': line['product_uom'][0],
+                'lot_name': lot_name,
+                'lot_id': lot_id,
+                'state': state,
+                'type': type,
+                'id': line['id']
+            }
+            if (type == 'in'){
+                this.consumptions_in.push(vals);
+            }
+            else {
+                this.consumptions_out.push(vals);
+            }
+            
+        }
+        console.log("LINES");
+        console.log(lines);
+        console.log("LOADED CONSUMPTIONS IN");
+        console.log(this.consumptions_in);   
+        console.log("LOADED CONSUMPTIONS OUT");
+        console.log(this.consumptions_out);   
+    }
+
     getConsumptions(){
         var promise = new Promise( (resolve, reject) => {
             var domain = [['raw_material_production_id', '=', this.production_id]]
@@ -404,6 +455,40 @@ export class ProductionProvider {
             })
             .catch( (err) => {
                 console.log("Error obteniendo consumos");
+            });
+        });
+        return promise
+    }
+
+    getConsumeInOut(){
+        var promise = new Promise( (resolve, reject) => {
+            var domain = [['registry_id', '=', this.registry_id]]
+            var fields = []
+            this.odooCon.searchRead('consumption.line', domain, fields).then( (lines) => {
+                this.loadConsumptionsLines(lines)
+                resolve();
+            })
+            .catch( (err) => {
+                console.log("Error obteniendo líneas de consumos");
+            });
+        });
+        return promise
+    }
+
+    saveConsumptionLine(line){
+        var promise = new Promise( (resolve, reject) => {
+            var values = {
+                'registry_id': this.registry_id,
+                'line': line,
+            }
+
+            this.odooCon.callRegistry('app_save_consumption_line', values).then( (res) => {
+                
+                resolve();
+            })
+            .catch( (err) => {
+                // this.manageOdooFail()
+                reject();
             });
         });
         return promise

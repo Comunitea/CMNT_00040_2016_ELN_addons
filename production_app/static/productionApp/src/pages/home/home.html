@@ -14,6 +14,15 @@
         <ion-list *ngIf="!cargar">
           <ion-item>
             <ion-label color="primary" stacked>
+                <span class="custom-font-size">Work Mode</span>
+            </ion-label>
+            <ion-select  [(ngModel)]="CONEXION.mode" name="mode" value="alimentator" okText="Okay" cancelText="Cancel">
+              <ion-option value="alimentator">Alimentator</ion-option>
+              <ion-option value="production">Production</ion-option>
+            </ion-select>
+          </ion-item>
+          <ion-item>
+            <ion-label color="primary" stacked>
               <span class="custom-font-size">Usuario</span>
             </ion-label>
             <ion-input type="email" [(ngModel)]="CONEXION.username" required name='username' placeholder="Ingresa usuario"></ion-input>

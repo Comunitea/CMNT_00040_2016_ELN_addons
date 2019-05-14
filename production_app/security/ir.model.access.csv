@@ -7,3 +7,4 @@ access_operator_line,operator.line,model_operator_line,base.group_user,1,1,1,1
 access_stop_reason,stop.reason,model_stop_reason,base.group_user,1,1,1,1
 access_scrap_reason,scrap.reason,model_scrap_reason,base.group_user,1,1,1,1
 access_production_app,production.app,model_production_app,base.group_user,1,1,1,1
+access_consumption_line,consumption.line,model_consumption_line,base.group_user,1,1,1,1
