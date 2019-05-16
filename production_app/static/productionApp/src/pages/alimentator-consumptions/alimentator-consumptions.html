@@ -6,8 +6,24 @@
 -->
 <ion-header>
 
-        <ion-navbar color="primary">
-          <ion-title>Consumos: {{this.title}}</ion-title>
+        <ion-navbar  color="primary">
+            <ion-title *ngIf="prodData.consumptions_done == false" >Consumos PENDIENTES: {{this.title}}</ion-title>
+            <ion-title *ngIf="prodData.consumptions_done == true" > Consumos CONFIRMADOS: {{this.title}}</ion-title>
+
+            <!-- <ion-buttons end>
+                <button ion-button *ngIf="prodData.consumptions_done == false" (click)="confirm_consumptions()">
+                        <ion-icon name="checkmark-circle-outline"></ion-icon>
+                </button>
+            </ion-buttons> -->
+
+            <ion-buttons end>
+                <button ion-button *ngIf="prodData.consumptions_done == false" (click)="confirm_consumptions()">
+                        <ion-icon name="checkmark-circle-outline"></ion-icon>
+                </button>
+                <button ion-button  *ngIf="prodData.consumptions_done == true"  (click)="remove_confirm_consumptions()">
+                    <ion-icon name="close-circle"></ion-icon>
+                </button>
+            </ion-buttons>
         </ion-navbar>
       
       </ion-header>

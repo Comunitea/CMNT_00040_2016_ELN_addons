@@ -1,21 +1,19 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* production_app
+#	* production_app
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-04 12:09+0000\n"
-"PO-Revision-Date: 2019-02-04 13:11+0100\n"
+"POT-Creation-Date: 2019-05-16 10:50+0000\n"
+"PO-Revision-Date: 2019-05-16 10:50+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
-"Language: es\n"
-"X-Generator: Poedit 2.0.9\n"
 
 #. module: production_app
 #: view:mrp.production.workcenter.line:production_app.mrp_production_workcenter_form_view_registry
@@ -88,23 +86,44 @@ msgid "Cleaning Times"
 msgstr "Tiempos limpieza"
 
 #. module: production_app
+#: view:app.registry:production_app.app_registry_filter_view
+#: field:app.registry,consumptions_done:0
+msgid "Consumptions Done"
+msgstr "Consumos realizados"
+
+#. module: production_app
+#: view:app.registry:production_app.app_registry_filter_view
+msgid "Consumptions Pending"
+msgstr "Consumos pendientes"
+
+#. module: production_app
 #: field:product.quality.check,quality_type:0
 msgid "Control Type"
 msgstr "Tipo de control"
 
 #. module: production_app
-#: field:app.registry,create_uid:0 field:operator.line,create_uid:0
-#: field:product.quality.check,create_uid:0 field:production.app,create_uid:0
-#: field:quality.check.line,create_uid:0 field:scrap.reason,create_uid:0
-#: field:stop.line,create_uid:0 field:stop.reason,create_uid:0
+#: field:app.registry,create_uid:0
+#: field:consumption.line,create_uid:0
+#: field:operator.line,create_uid:0
+#: field:product.quality.check,create_uid:0
+#: field:production.app,create_uid:0
+#: field:quality.check.line,create_uid:0
+#: field:scrap.reason,create_uid:0
+#: field:stop.line,create_uid:0
+#: field:stop.reason,create_uid:0
 msgid "Created by"
 msgstr "Creado por"
 
 #. module: production_app
-#: field:app.registry,create_date:0 field:operator.line,create_date:0
-#: field:product.quality.check,create_date:0 field:production.app,create_date:0
-#: field:quality.check.line,create_date:0 field:scrap.reason,create_date:0
-#: field:stop.line,create_date:0 field:stop.reason,create_date:0
+#: field:app.registry,create_date:0
+#: field:consumption.line,create_date:0
+#: field:operator.line,create_date:0
+#: field:product.quality.check,create_date:0
+#: field:production.app,create_date:0
+#: field:quality.check.line,create_date:0
+#: field:scrap.reason,create_date:0
+#: field:stop.line,create_date:0
+#: field:stop.reason,create_date:0
 msgid "Created on"
 msgstr "Creado en"
 
@@ -129,18 +148,28 @@ msgid "Date Out"
 msgstr "Fecha salida"
 
 #. module: production_app
-#: field:app.registry,display_name:0 field:operator.line,display_name:0
+#: field:app.registry,display_name:0
+#: field:consumption.line,display_name:0
+#: field:operator.line,display_name:0
 #: field:product.quality.check,display_name:0
-#: field:production.app,display_name:0 field:quality.check.line,display_name:0
-#: field:scrap.reason,display_name:0 field:stop.line,display_name:0
+#: field:production.app,display_name:0
+#: field:quality.check.line,display_name:0
+#: field:scrap.reason,display_name:0
+#: field:stop.line,display_name:0
 #: field:stop.reason,display_name:0
 msgid "Display Name"
-msgstr "Nombre"
+msgstr "Nombre mostrado"
 
 #. module: production_app
 #: selection:product.quality.check,barcode_type:0
 msgid "EAN13"
 msgstr "EAN13"
+
+#. module: production_app
+#: code:addons/production_app/models/app_registry.py:528
+#, python-format
+msgid "Error"
+msgstr "Error"
 
 #. module: production_app
 #: view:product.quality.check:production_app.product_quality_check_filter_view
@@ -161,12 +190,27 @@ msgid "Hours"
 msgstr "Horas"
 
 #. module: production_app
-#: field:app.registry,id:0 field:operator.line,id:0
-#: field:product.quality.check,id:0 field:production.app,id:0
-#: field:quality.check.line,id:0 field:scrap.reason,id:0 field:stop.line,id:0
+#: field:app.registry,id:0
+#: field:consumption.line,id:0
+#: field:operator.line,id:0
+#: field:product.quality.check,id:0
+#: field:production.app,id:0
+#: field:quality.check.line,id:0
+#: field:scrap.reason,id:0
+#: field:stop.line,id:0
 #: field:stop.reason,id:0
 msgid "ID"
 msgstr "ID"
+
+#. module: production_app
+#: selection:consumption.line,type:0
+msgid "In"
+msgstr "Entrada"
+
+#. module: production_app
+#: field:app.registry,line_in_ids:0
+msgid "Incomings"
+msgstr "Entradas"
 
 #. module: production_app
 #: view:mrp.production.workcenter.line:production_app.mrp_production_workcenter_form_view_registry
@@ -174,39 +218,54 @@ msgid "Ins / Outs Operators"
 msgstr "Entradas / Salidas Operarios"
 
 #. module: production_app
-#: field:app.registry,__last_update:0 field:operator.line,__last_update:0
+#: field:app.registry,__last_update:0
+#: field:consumption.line,__last_update:0
+#: field:operator.line,__last_update:0
 #: field:product.quality.check,__last_update:0
 #: field:production.app,__last_update:0
-#: field:quality.check.line,__last_update:0 field:scrap.reason,__last_update:0
-#: field:stop.line,__last_update:0 field:stop.reason,__last_update:0
+#: field:quality.check.line,__last_update:0
+#: field:scrap.reason,__last_update:0
+#: field:stop.line,__last_update:0
+#: field:stop.reason,__last_update:0
 msgid "Last Modified on"
 msgstr "Last Modified on"
 
 #. module: production_app
-#: field:app.registry,write_uid:0 field:operator.line,write_uid:0
-#: field:product.quality.check,write_uid:0 field:production.app,write_uid:0
-#: field:quality.check.line,write_uid:0 field:scrap.reason,write_uid:0
-#: field:stop.line,write_uid:0 field:stop.reason,write_uid:0
+#: field:app.registry,write_uid:0
+#: field:consumption.line,write_uid:0
+#: field:operator.line,write_uid:0
+#: field:product.quality.check,write_uid:0
+#: field:production.app,write_uid:0
+#: field:quality.check.line,write_uid:0
+#: field:scrap.reason,write_uid:0
+#: field:stop.line,write_uid:0
+#: field:stop.reason,write_uid:0
 msgid "Last Updated by"
 msgstr "Last Updated by"
 
 #. module: production_app
-#: field:app.registry,write_date:0 field:operator.line,write_date:0
-#: field:product.quality.check,write_date:0 field:production.app,write_date:0
-#: field:quality.check.line,write_date:0 field:scrap.reason,write_date:0
-#: field:stop.line,write_date:0 field:stop.reason,write_date:0
+#: field:app.registry,write_date:0
+#: field:consumption.line,write_date:0
+#: field:operator.line,write_date:0
+#: field:product.quality.check,write_date:0
+#: field:production.app,write_date:0
+#: field:quality.check.line,write_date:0
+#: field:scrap.reason,write_date:0
+#: field:stop.line,write_date:0
+#: field:stop.reason,write_date:0
 msgid "Last Updated on"
 msgstr "Last Updated on"
 
 #. module: production_app
 #: field:app.registry,lot_id:0
+#: field:consumption.line,lot_id:0
 msgid "Lot"
 msgstr "Lote"
 
 #. module: production_app
 #: model:ir.model,name:production_app.model_mrp_production
 msgid "Manufacturing Order"
-msgstr "Orden de producción"
+msgstr "Órden de producción"
 
 #. module: production_app
 #: field:product.quality.check,max_value:0
@@ -229,7 +288,8 @@ msgid "Numeric"
 msgstr "Numérico"
 
 #. module: production_app
-#: field:operator.line,operator_id:0 field:quality.check.line,operator_id:0
+#: field:operator.line,operator_id:0
+#: field:quality.check.line,operator_id:0
 #: field:stop.line,operator_id:0
 msgid "Operator"
 msgstr "Operario"
@@ -253,7 +313,19 @@ msgid "Organizative reasons"
 msgstr "Razones organizativas"
 
 #. module: production_app
+#: view:app.registry:production_app.app_registry_form_view
+#: selection:consumption.line,type:0
+msgid "Out"
+msgstr "Salidas"
+
+#. module: production_app
+#: field:app.registry,line_out_ids:0
+msgid "Outgoings"
+msgstr "Salidas"
+
+#. module: production_app
 #: field:app.registry,product_id:0
+#: field:consumption.line,product_id:0
 #: model:ir.model,name:production_app.model_product_product
 msgid "Product"
 msgstr "Producto"
@@ -264,7 +336,17 @@ msgstr "Producto"
 #: model:ir.ui.menu,name:production_app.menu_product_quality_check
 #: view:product.product:production_app.product_quality_checks_view
 msgid "Product Quality Checks"
-msgstr "Controles de calidad"
+msgstr "Controles Calidad"
+
+#. module: production_app
+#: field:consumption.line,product_qty:0
+msgid "Product Quantity"
+msgstr "Cantidad producto"
+
+#. module: production_app
+#: field:consumption.line,product_uom:0
+msgid "Product Unit of Measure"
+msgstr "U. medida"
 
 #. module: production_app
 #: field:product.quality.check,product_ids:0
@@ -369,8 +451,10 @@ msgid "Quantity"
 msgstr "Cantidad"
 
 #. module: production_app
-#: field:scrap.reason,name:0 field:stock.move,reason_id:0
-#: field:stop.line,reason_id:0 field:stop.reason,name:0
+#: field:scrap.reason,name:0
+#: field:stock.move,reason_id:0
+#: field:stop.line,reason_id:0
+#: field:stop.reason,name:0
 msgid "Reason"
 msgstr "Motivo"
 
@@ -385,15 +469,17 @@ msgid "Reason ids"
 msgstr "Motivos"
 
 #. module: production_app
-#: field:operator.line,registry_id:0 field:quality.check.line,registry_id:0
+#: field:consumption.line,registry_id:0
+#: field:operator.line,registry_id:0
+#: field:quality.check.line,registry_id:0
 #: field:stop.line,registry_id:0
 msgid "Registry"
 msgstr "Registro"
 
 #. module: production_app
 #: field:app.registry,workorder_id:0
-msgid "Related Maintance Order"
-msgstr "Orden mantenimiento asociada"
+msgid "Related Maintenance Order"
+msgstr "Orden de mantenimiento asociada"
 
 #. module: production_app
 #: field:product.quality.check,repeat:0
@@ -452,7 +538,8 @@ msgid "Setup Start"
 msgstr "Inicio preparación"
 
 #. module: production_app
-#: field:product.product,show_in_app:0 field:stock.move,show_in_app:0
+#: field:product.product,show_in_app:0
+#: field:stock.move,show_in_app:0
 msgid "Show in app"
 msgstr "Mostrar en app"
 
@@ -468,7 +555,8 @@ msgid "Started"
 msgstr "Iniciada"
 
 #. module: production_app
-#: field:app.registry,state:0 field:mrp.production.workcenter.line,app_state:0
+#: field:app.registry,state:0
+#: field:mrp.production.workcenter.line,app_state:0
 msgid "State"
 msgstr "Estado"
 
@@ -532,6 +620,7 @@ msgid "The workcenter line must be unique !"
 msgstr "La órden de trabajo debe ser única !"
 
 #. module: production_app
+#: field:consumption.line,type:0
 #: field:stop.reason,reason_type:0
 msgid "Type"
 msgstr "Tipo"
@@ -583,7 +672,8 @@ msgid "Workcenter"
 msgstr "Centro de producción"
 
 #. module: production_app
-#: field:app.registry,name:0 field:operator.line,wc_line_id:0
+#: field:app.registry,name:0
+#: field:operator.line,wc_line_id:0
 #: field:quality.check.line,wc_line_id:0
 msgid "Workcenter Line"
 msgstr "Orden de trabajo"
@@ -591,7 +681,7 @@ msgstr "Orden de trabajo"
 #. module: production_app
 #: field:stop.reason,workcenter_ids:0
 msgid "Workcenter ids"
-msgstr "Centros de producción"
+msgstr "Workcenter ids"
 
 #. module: production_app
 #: code:addons/production_app/models/mrp.py:53
@@ -604,3 +694,10 @@ msgstr "No puedes cancelar porque hay un registro de aplicación asociado."
 #, python-format
 msgid "You cant cancel because one app                                             registry is linked"
 msgstr "No puedes cancelar porque hay un registro de aplicación asociado."
+
+#. module: production_app
+#: code:addons/production_app/models/app_registry.py:529
+#, python-format
+msgid "You cant validate without confirming consumptions"
+msgstr "No puedes validar sin que estén los consumos marcados como realizados"
+

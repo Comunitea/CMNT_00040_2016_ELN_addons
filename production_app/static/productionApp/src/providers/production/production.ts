@@ -56,6 +56,7 @@ export class ProductionProvider {
     product_use_date: string;
     change_lot_qc_id: number;
     workline_name: string;
+    consumptions_done: boolean = false;
 
     constructor(private odooCon: OdooProvider) {
         this.states = {
@@ -336,6 +337,7 @@ export class ProductionProvider {
         this.product_ids = data.product_ids;
         this.consume_ids = data.consume_ids
         this.workline_name = data.workline_name
+        this.consumptions_done = data.consumptions_done
     }
     
     // Load Quality checks in each type list
@@ -554,6 +556,12 @@ export class ProductionProvider {
         });
     }
 
+    setConsumptionsDone() {
+        this.setStepAsync('set_consumptions_done', {});
+    }
+    unsetConsumptionsDone() {
+        this.setStepAsync('unset_consumptions_done', {});
+    }
     confirmProduction() {
         this.state = 'confirmed'
         this.setStepAsync('confirm_production', {});

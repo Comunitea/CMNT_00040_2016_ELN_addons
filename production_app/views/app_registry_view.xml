@@ -37,6 +37,7 @@
                     <group>
                         <field name="qty"/>
                         <field name="lot_id"/>
+                        <field name="consumptions_done"/>
                     </group>
                 </group>
                 <group colspan="4" col="6">
@@ -136,6 +137,8 @@
                 <separator/>
                 <filter string="Set-Up" domain="[('state','=','setup')]"/>
                 <filter string="Started" domain="[('state','=','started')]"/>
+                <filter string="Consumptions Done" domain="[('consumptions_done','=',True)]"/>
+                <filter string="Consumptions Pending" domain="[('consumptions_done','=',False)]"/>
                 <separator/>
                 <group expand="0" string="Group By">
                     <filter string="Work Order" icon="terp-go-home" domain="[]" context="{'group_by':'wc_line_id'}"/>

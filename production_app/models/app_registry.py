@@ -2,9 +2,10 @@
 # © 2016 Comunitea Servicios Tecnológicos (<http://www.comunitea.com>)
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from openerp import api, models, fields
+from openerp import api, models, fields, _
 from datetime import datetime, timedelta
 import openerp.addons.decimal_precision as dp
+from openerp import exceptions
 
 
 APP_STATES = [
@@ -55,6 +56,7 @@ class AppRegistry(models.Model):
     line_out_ids = fields.One2many(
         'consumption.line', 'registry_id', 'Outgoings',
         domain=[('type', '=', 'out')], readonly=False)
+    consumptions_done = fields.Boolean('Consumptions Done')
 
     # RELATED FIELDS
     name = fields.Char('Workcenter Line', related="wc_line_id.name",
@@ -166,7 +168,6 @@ class AppRegistry(models.Model):
         if reg:
             res.update(reg.read()[0])
 
-        if reg:
             active_operator_ids = reg.workcenter_id.operators_ids.ids
             allowed_operators = self.get_allowed_operators(active_operator_ids)
             # for op in reg.workcenter_id.operators_ids:
@@ -269,6 +270,32 @@ class AppRegistry(models.Model):
             })
             res = reg.read()[0]
         return res
+    
+    @api.model
+    def set_consumptions_done(self, values):
+        reg = False
+        if values.get('registry_id', False):
+            reg = self.browse(values['registry_id'])
+
+        if reg:
+            reg.write({
+                'consumptions_done':True,
+            })
+        return True
+    
+    @api.model
+    def unset_consumptions_done(self, values):
+        reg = False
+        if values.get('registry_id', False):
+            reg = self.browse(values['registry_id'])
+
+        if reg:
+            reg.write({
+                'consumptions_done':False,
+            })
+        return True
+    
+    
 
     @api.model
     def create_maintenance_order(self, reg, reason_id):
@@ -479,19 +506,27 @@ class AppRegistry(models.Model):
             'product_qty': line['qty'],
             'lot_id': line.get('lot_id', False)
             })
-        if consume_line.lot_id:  # Escribir el lote en la otra línea
-            other_type = 'out' if consume_line.type == 'in' else 'in'
-            domain = [
-                ('product_id', '=', consume_line.product_id.id),
-                ('type', '=', other_type),
-                ('registry_id', '=', registry_id)
-                ]
-            other_line = self.env['consumption.line'].search(domain, limit=1)
-            other_line.write({'lot_id': consume_line.lot_id.id})
+        
+        # TODO ver si es necesario propagar el lote
+        # ahora ya no se haría así, sino que hay que añadir un campo que
+        # enlace la línea de entrada con la salida
+        # if consume_line.lot_id:  # Escribir el lote en la otra línea
+        #     other_type = 'out' if consume_line.type == 'in' else 'in'
+        #     domain = [
+        #         ('product_id', '=', consume_line.product_id.id),
+        #         ('type', '=', other_type),
+        #         ('registry_id', '=', registry_id)
+        #         ]
+        #     other_line = self.env['consumption.line'].search(domain, limit=1)
+        #     other_line.write({'lot_id': consume_line.lot_id.id})
         return True
 
     @api.multi
     def validate(self):
+        self.ensure_one()
+        if not self.consumptions_done:
+            raise exceptions.except_orm(_('Error'),
+                _("You cant validate without confirming consumptions"))
         wc_line = self.wc_line_id
         stop_values = []
         for stop in self.stop_line_ids:

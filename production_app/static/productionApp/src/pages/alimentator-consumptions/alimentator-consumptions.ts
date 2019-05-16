@@ -45,29 +45,30 @@ export class AlimentatorConsumptionsPage {
         alert.present();
     }
 
-    updateLotValue(line_vals){
-        if (!line_vals.lot_id)
-            return
-        if (line_vals.type == 'out'){
-            for (let indx in this.consumptions_in) {
-                if (this.consumptions_in[indx].product_id == line_vals.product_id) {
-                    this.consumptions_in[indx].lot_id = line_vals.lot_id
-                    this.consumptions_in[indx].lot_name = line_vals.lot_name
-                    break;
-                }
-            }
-        }
-        else{
-            for (let indx in this.consumptions_out) {
-                if (this.consumptions_out[indx].product_id == line_vals.product_id) {
-                    this.consumptions_out[indx].lot_id = line_vals.lot_id
-                    this.consumptions_out[indx].lot_name = line_vals.lot_name
-                    break;
-                }
-            }
-        }
-        return
-    }
+    // Necesitaría enlazar la entrada con la salida para hacer esto bien
+    // updateLotValue(line_vals){
+    //     if (!line_vals.lot_id)
+    //         return
+    //     if (line_vals.type == 'out'){
+    //         for (let indx in this.consumptions_in) {
+    //             if (this.consumptions_in[indx].product_id == line_vals.product_id) {
+    //                 this.consumptions_in[indx].lot_id = line_vals.lot_id
+    //                 this.consumptions_in[indx].lot_name = line_vals.lot_name
+    //                 break;
+    //             }
+    //         }
+    //     }
+    //     else{
+    //         for (let indx in this.consumptions_out) {
+    //             if (this.consumptions_out[indx].product_id == line_vals.product_id) {
+    //                 this.consumptions_out[indx].lot_id = line_vals.lot_id
+    //                 this.consumptions_out[indx].lot_name = line_vals.lot_name
+    //                 break;
+    //             }
+    //         }
+    //     }
+    //     return
+    // }
     open_list_consumes_in(){
         var mydata = {
             'type': 'in',
@@ -82,7 +83,17 @@ export class AlimentatorConsumptionsPage {
         }
         this.open_list_consumes(mydata)
     }
+    block_by_state(){
+        if (this.prodData.state == 'validated'){
+            this.presentAlert("Error", "No se pueden modificar consumos en estado validado");
+            return true;
+        }
+        return false
+    }
     open_list_consumes(data){
+        if (this.block_by_state()){
+            return;
+        }
         let consumeListModal = this.modalCtrl.create(ConsumptionListModalPage, data);
         consumeListModal.present();
 
@@ -104,6 +115,11 @@ export class AlimentatorConsumptionsPage {
     }
 
     consume_click(line){
+        if (this.block_by_state()){
+            return;
+        }
+
+
         var mydata = {'line': line}
         let consumeModal = this.modalCtrl.create(ConsumeModalPage, mydata);
         consumeModal.present();
@@ -117,7 +133,7 @@ export class AlimentatorConsumptionsPage {
             // }
             this.prodData.saveConsumptionLine(line_vals).then((res) => {
                 console.log("Línea de operario escrita")
-                this.updateLotValue(line);
+                // this.updateLotValue(line);
                 this.prodData.getConsumeInOut().then((res) => {
                     this.consumptions_in = this.prodData.consumptions_in;
                     this.consumptions_out = this.prodData.consumptions_out;
@@ -127,6 +143,21 @@ export class AlimentatorConsumptionsPage {
                 this.presentAlert("Error", "Falló al escribir la línea de consumo");
             }); 
         });
+    }
+
+    confirm_consumptions(){
+        if (this.block_by_state()){
+            return;
+        }
+        this.prodData.consumptions_done = true;
+        this.prodData.setConsumptionsDone();
+    }
+    remove_confirm_consumptions(){
+        if (this.block_by_state()){
+            return;
+        }
+        this.prodData.consumptions_done = false;
+        this.prodData.unsetConsumptionsDone();
     }
 
 }

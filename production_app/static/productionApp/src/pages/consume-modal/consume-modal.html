@@ -29,7 +29,7 @@
             <ion-input type="text" [(ngModel)]="line.lot_name" required name='lot'  placeholder="Introducir lote" readonly></ion-input>
         </ion-item>
     </ion-list>
-    <button  *ngIf="mode !== 'show'" ion-button full color= "secondary"(click)="showLots()">
+    <button  *ngIf="mode !== 'show' && line.type !== 'out' " ion-button full color= "secondary"(click)="showLots()">
             Ver lotes
     </button>
     <ion-searchbar *ngIf="mode == 'show'" (ionInput)="getItems($event)"></ion-searchbar>
