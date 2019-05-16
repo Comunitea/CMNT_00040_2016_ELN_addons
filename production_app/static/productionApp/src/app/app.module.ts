@@ -24,6 +24,7 @@ import { ReasonsModalPage } from '../pages/reasons-modal/reasons-modal';
 import { FinishModalPage } from '../pages/finish-modal/finish-modal';
 import { ScrapModalPage } from '../pages/scrap-modal/scrap-modal';
 import { ConsumptionsPage } from '../pages/consumptions/consumptions';
+import { ConsumptionListModalPage } from '../pages/consumption-list-modal/consumption-list-modal';
 import { AlimentatorConsumptionsPage } from '../pages/alimentator-consumptions/alimentator-consumptions';
 
 //Providers
@@ -48,6 +49,7 @@ import { TimerComponent } from '../components/timer/timer';
     FinishModalPage,
     ScrapModalPage,
     ConsumeModalPage,
+    ConsumptionListModalPage,
     ConsumptionsPage,
     AlimentatorConsumptionsPage,
     TimerComponent
@@ -70,6 +72,7 @@ import { TimerComponent } from '../components/timer/timer';
     UsersModalPage,
     ReasonsModalPage,
     ConsumeModalPage,
+    ConsumptionListModalPage,
     ConsumptionsPage,
     AlimentatorConsumptionsPage,
     FinishModalPage,

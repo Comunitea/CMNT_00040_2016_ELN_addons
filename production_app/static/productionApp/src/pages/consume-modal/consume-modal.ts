@@ -72,6 +72,11 @@ export class ConsumeModalPage {
         this.viewCtrl.dismiss(this.line);
     }
 
+    removeLine() {
+        this.line.remove = true;
+        this.viewCtrl.dismiss(this.line);
+    }
+
 
     closeModal() {
         this.viewCtrl.dismiss([]);

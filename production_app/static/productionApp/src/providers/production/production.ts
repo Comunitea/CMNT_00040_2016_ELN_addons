@@ -369,35 +369,50 @@ export class ProductionProvider {
     }
 
     loadConsumptions(moves) {
+        /* Cargo tanto todos los movimientos en la propiedad consumptions
+           Como aquellos consumos que se pueden mostrar en la aplicación
+           con el check de allowed consumptions.
+           Se usa tanto en la página de consumos como en la de alimentador
+         */
         this.consumptions = [];
         this.allowed_consumptions = [];
-        for (let indx in moves) {
+        for (var indx in moves) {
             var move = moves[indx];
-            var lot = '';
-            var state='Para consumir'
-            if (move['state'] == 'done' || move['state'] == 'cancel'){
-                state = 'Consumido'
+            var lot_name = '';
+            var lot_id = false;
+            var state = 'Para consumir';
+            if (move['state'] == 'done' || move['state'] == 'cancel') {
+                state = 'Consumido';
             }
-            if (move['restrict_lot_id']){
-                lot = move['restrict_lot_id'][1]
+            if (move['restrict_lot_id']) {
+                lot_id = move['restrict_lot_id'][0];
+                lot_name = move['restrict_lot_id'][1];
             }
             var vals = {
                 'product': move['product_id'][1],
                 'product_id': move['product_id'][0],
-                'qty':  move['product_uom_qty'],
+                'qty': move['product_uom_qty'],
                 'uom': move['product_uom'][1],
-                'lot': lot,
-                'state': state
-            }
+                'lot': lot_name,
+                'state': state,
+                // Añado para la pantalla de consumos-alimentador
+                // TODO mezclar estos vals con los de consumos, para que
+                // tengan los mismos campos
+                'product_name': move['product_id'][1],
+                'uom_name': move['product_uom'][1],
+                'uom_id': move['product_uom'][0],
+                'lot_name': lot_name,
+                'lot_id': lot_id,
+            };
             this.consumptions.push(vals);
-            if (move['show_in_app'] == true){
+            if (move['show_in_app'] == true) {
                 this.allowed_consumptions.push(vals);
             }
         }
         console.log("MOVES");
         console.log(moves);
         console.log("LOADED CONSUMPTIONS");
-        console.log(this.consumptions);   
+        console.log(this.consumptions);
     }
 
     loadConsumptionsLines(lines) {

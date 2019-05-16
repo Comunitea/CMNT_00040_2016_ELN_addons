@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController, AlertController } from 'ionic-angular';
 import { ConsumeModalPage } from '../../pages/consume-modal/consume-modal';
+import { ConsumptionListModalPage } from '../../pages/consumption-list-modal/consumption-list-modal';
 import { ProductionProvider } from '../../providers/production/production';
 
 /**
@@ -67,7 +68,40 @@ export class AlimentatorConsumptionsPage {
         }
         return
     }
+    open_list_consumes_in(){
+        var mydata = {
+            'type': 'in',
+            'allowed_lines': this.prodData.allowed_consumptions
+        }
+        this.open_list_consumes(mydata)
+    }
+    open_list_consumes_out(){
+        var mydata = {
+            'type': 'out',
+            'allowed_lines': this.consumptions_in
+        }
+        this.open_list_consumes(mydata)
+    }
+    open_list_consumes(data){
+        let consumeListModal = this.modalCtrl.create(ConsumptionListModalPage, data);
+        consumeListModal.present();
 
+        // When modal closes
+        consumeListModal.onDidDismiss(new_line_vals => {
+            console.log(new_line_vals);
+            // Create new consuption line
+            this.prodData.saveConsumptionLine(new_line_vals).then((res) => {
+                // Read again lines
+                this.prodData.getConsumeInOut().then((res) => {
+                    this.consumptions_in = this.prodData.consumptions_in;
+                    this.consumptions_out = this.prodData.consumptions_out;
+                })
+            })
+            .catch( (err) => {
+                this.presentAlert("Error", "Falló al escribir la línea de consumo");
+            }); 
+        });
+    }
 
     consume_click(line){
         var mydata = {'line': line}
@@ -77,9 +111,17 @@ export class AlimentatorConsumptionsPage {
 
          // When modal closes
          consumeModal.onDidDismiss(line_vals => {
+            // if (line_vals.remove_id) {
+            //     alert('Borrar')
+            //     return
+            // }
             this.prodData.saveConsumptionLine(line_vals).then((res) => {
-                this.updateLotValue(line);
                 console.log("Línea de operario escrita")
+                this.updateLotValue(line);
+                this.prodData.getConsumeInOut().then((res) => {
+                    this.consumptions_in = this.prodData.consumptions_in;
+                    this.consumptions_out = this.prodData.consumptions_out;
+                })
             })
             .catch( (err) => {
                 this.presentAlert("Error", "Falló al escribir la línea de consumo");

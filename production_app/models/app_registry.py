@@ -448,11 +448,33 @@ class AppRegistry(models.Model):
     
     @api.model
     def app_save_consumption_line(self, values):
+        """
+        Crea, borra o actualiza la línea de consumo del modo alimentador
+        """
         registry_id = values.get('registry_id', False)
         line = values.get('line', False)
         if not line:
             return True
-        consume_line = self.env['consumption.line'].browse(int(line['id']))
+        consume_line = False
+        # CREATE LINE IF NOT EXIST
+        if not line.get('id', False):
+            vals = {
+                'product_id': line['product_id'],
+                'product_qty': line['qty'],
+                'product_uom': False,
+                'lot_id': False,
+                'type': line.get('type', 'in'),
+                'registry_id': registry_id
+            }
+            consume_line = self.env['consumption.line'].create(vals)
+        
+        if not consume_line:
+            consume_line = self.env['consumption.line'].browse(int(line['id']))
+        # REMOVE LINE IF KEY REMOVE
+        if line.get('remove', False):
+            consume_line.unlink()
+            return True
+
         consume_line.write({
             'product_qty': line['qty'],
             'lot_id': line.get('lot_id', False)
@@ -544,34 +566,34 @@ class AppRegistry(models.Model):
                     'date_out': date})
         return res
     
-    @api.model
-    def create(self, vals):
-        """
-        Añado las líneas de consumos de entradas y salidas basado en los
-        productos a consumir
+    # @api.model
+    # def create(self, vals):
+    #     """
+    #     Añado las líneas de consumos de entradas y salidas basado en los
+    #     productos a consumir
     
-        """
-        res = super(AppRegistry, self).create(vals)
-        vals_line_in = []
-        vals_line_out = []
-        for move in res.production_id.move_lines:
-            vals = {
-                'product_id': move.product_id.id,
-                'product_qty': move.product_uom_qty,
-                'product_uom': move.product_uom.id,
-                'lot_id': False,
-                'type': 'in'
-            }
-            vals_line_in.append((0, 0, vals))
-            vals2 = vals.copy()
-            vals2['type'] = 'out'
-            vals_line_out.append((0, 0, vals2))
+    #     """
+    #     res = super(AppRegistry, self).create(vals)
+    #     vals_line_in = []
+    #     vals_line_out = []
+    #     for move in res.production_id.move_lines:
+    #         vals = {
+    #             'product_id': move.product_id.id,
+    #             'product_qty': move.product_uom_qty,
+    #             'product_uom': move.product_uom.id,
+    #             'lot_id': False,
+    #             'type': 'in'
+    #         }
+    #         vals_line_in.append((0, 0, vals))
+    #         vals2 = vals.copy()
+    #         vals2['type'] = 'out'
+    #         vals_line_out.append((0, 0, vals2))
         
-        res.write({
-            'line_in_ids': vals_line_in,
-            'line_out_ids': vals_line_out,
-        })
-        return res
+    #     res.write({
+    #         'line_in_ids': vals_line_in,
+    #         'line_out_ids': vals_line_out,
+    #     })
+    #     return res
 
 
 class QualityCheckLine(models.Model):
