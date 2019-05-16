@@ -22,8 +22,8 @@
         <field name="arch" type="xml">
             <form string="App Registries">
             <header>
-                <field name="state" widget="statusbar" clickable="1" statusbar_visible="waiting,confirmed,setup,started,stoped,cleaning,finished"/>
                 <button name="validate" class="oe_highlight" string="Validate" type="object" states="finished" groups="base.group_user"/>
+                <field name="state" widget="statusbar" clickable="1" statusbar_visible="waiting,confirmed,setup,started,stoped,cleaning,finished"/>
             </header>
             <sheet string="App Registries">
                 <group>
