@@ -6,16 +6,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-18 16:42+0000\n"
-"PO-Revision-Date: 2018-07-18 18:44+0200\n"
-"Last-Translator: <>\n"
+"POT-Creation-Date: 2019-05-28 08:14+0000\n"
+"PO-Revision-Date: 2019-05-28 10:34+0200\n"
+"Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Language: es_ES\n"
-"X-Generator: Poedit 2.0.9\n"
+"X-Generator: Poedit 2.2.3\n"
 
 #. module: eln_account
 #: model:ir.model,name:eln_account.model_account_move
@@ -100,7 +100,7 @@ msgstr "El peso neto en kg."
 #. module: eln_account
 #: help:account.invoice,received_check:0
 msgid "To write down that a check in paper support has been received, for example."
-msgstr "To write down that a check in paper support has been received, for example."
+msgstr "Para anotar que se ha recibido un cheque en soporte papel, por ejemplo."
 
 #. module: eln_account
 #: field:account.invoice.report,benefit_total:0
