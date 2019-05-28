@@ -30,7 +30,7 @@
                                             </span>
                                         </div>
                                         <div t-if="o.partner_id" name="partner_header">
-                                            <div t-field="o.partner_id" t-field-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;, &quot;phone&quot;, &quot;fax&quot;], &quot;no_marker&quot;: true}"/>
+                                            <div t-field="o.partner_id" t-field-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;, &quot;phone&quot;, &quot;mobile&quot;], &quot;no_marker&quot;: true}"/>
                                             <p t-if="o.partner_id.vat">VAT: 
                                                 <span t-field="o.partner_id.vat"/>
                                             </p>
@@ -41,13 +41,13 @@
                                             <span>
                                                 <strong>Delivery Address:</strong>
                                             </span>
-                                            <div t-field="o.move_lines[0].partner_id" t-field-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;, &quot;phone&quot;, &quot;fax&quot;], &quot;no_marker&quot;: true}"/>
+                                            <div t-field="o.move_lines[0].partner_id" t-field-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;, &quot;phone&quot;, &quot;mobile&quot;], &quot;no_marker&quot;: true}"/>
                                         </div>
                                         <div t-if="o.picking_type_id.code != 'internal' and (not o.move_lines or not o.move_lines[0].partner_id) and o.picking_type_id.warehouse_id.partner_id">
                                             <span>
                                                 <strong>Warehouse Address:</strong>
                                             </span>
-                                            <div t-field="o.picking_type_id.warehouse_id.partner_id" t-field-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;, &quot;phone&quot;, &quot;fax&quot;], &quot;no_marker&quot;: true}"/>
+                                            <div t-field="o.picking_type_id.warehouse_id.partner_id" t-field-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;, &quot;phone&quot;, &quot;mobile&quot;], &quot;no_marker&quot;: true}"/>
                                         </div>
                                     </div>
                                 </div>
