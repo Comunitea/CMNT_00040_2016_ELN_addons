@@ -83,19 +83,33 @@ class ResPartner(models.Model):
 
     @api.multi
     def _unpayed_amount(self):
+        t_aml = self.env['account.move.line']
         today = time.strftime('%Y-%m-%d')
         for partner in self:
             accounts = []
-            if partner.property_account_receivable:
-                accounts.append(partner.property_account_receivable.id)
-            if partner.property_account_payable:
-                accounts.append(partner.property_account_payable.id)
-            line_ids = self.env['account.move.line'].search([
+            if partner.company_id.individual_risk_check:
+                extra_domain = []
+                if partner.property_account_receivable:
+                    accounts.append(partner.property_account_receivable.id)
+                if partner.property_account_payable:
+                    accounts.append(partner.property_account_payable.id)
+            else:
+                company_ids = partner.sudo().company_id + partner.sudo().company_id.child_ids
+                extra_domain = [('company_id', 'in', company_ids._ids)]
+                t_aml = t_aml.sudo()
+                for company_id in company_ids:
+                    s_partner =  partner.sudo().with_context(force_company=company_id.id)
+                    if s_partner.property_account_receivable:
+                        accounts.append(s_partner.property_account_receivable.id)
+                    if s_partner.property_account_payable:
+                        accounts.append(s_partner.property_account_payable.id)
+            domain = [
                 ('partner_id', '=', partner.id),
                 ('account_id', 'in', accounts),
                 ('reconcile_id', '=', False),
-                ('date_maturity', '<', today),
-            ])
+                ('date_maturity', '<', today)
+            ] + extra_domain
+            line_ids = t_aml.search(domain)
             # Those that have amount_residual == 0, will mean that they're circulating. The payment request has been sent
             # to the bank but have not yet been reconciled (or the date_maturity has not been reached).
             amount = 0.0
@@ -112,19 +126,33 @@ class ResPartner(models.Model):
 
     @api.multi
     def _pending_amount(self):
+        t_aml = self.env['account.move.line']
         today = time.strftime('%Y-%m-%d')
         for partner in self:
             accounts = []
-            if partner.property_account_receivable:
-                accounts.append(partner.property_account_receivable.id)
-            if partner.property_account_payable:
-                accounts.append(partner.property_account_payable.id)
-            line_ids = self.env['account.move.line'].search([
+            if partner.company_id.individual_risk_check:
+                extra_domain = []
+                if partner.property_account_receivable:
+                    accounts.append(partner.property_account_receivable.id)
+                if partner.property_account_payable:
+                    accounts.append(partner.property_account_payable.id)
+            else:
+                company_ids = partner.sudo().company_id + partner.sudo().company_id.child_ids
+                extra_domain = [('company_id', 'in', company_ids._ids)]
+                t_aml = t_aml.sudo()
+                for company_id in company_ids:
+                    s_partner =  partner.sudo().with_context(force_company=company_id.id)
+                    if s_partner.property_account_receivable:
+                        accounts.append(s_partner.property_account_receivable.id)
+                    if s_partner.property_account_payable:
+                        accounts.append(s_partner.property_account_payable.id)
+            domain = [
                 ('partner_id', '=', partner.id),
                 ('account_id', 'in', accounts),
                 ('reconcile_id', '=', False),
                 '|', ('date_maturity', '>=', today), ('date_maturity', '=', False)
-            ])
+            ] + extra_domain
+            line_ids = t_aml.search(domain)
             # Those that have amount_residual == 0, will mean that they're circulating. The payment request has been sent
             # to the bank but have not yet been reconciled (or the date_maturity has not been reached).
             amount = 0.0
@@ -141,13 +169,21 @@ class ResPartner(models.Model):
 
     @api.multi
     def _draft_invoices_amount(self):
+        t_ai = self.env['account.invoice']
         today = time.strftime('%Y-%m-%d')
         for partner in self:
-            invids = self.env['account.invoice'].search([
+            if partner.company_id.individual_risk_check:
+                extra_domain = []
+            else:
+                company_ids = partner.sudo().company_id + partner.sudo().company_id.child_ids
+                extra_domain = [('company_id', 'in', company_ids._ids)]
+                t_ai = t_ai.sudo()
+            domain = [
                 ('partner_id', 'child_of', [partner.id]),
                 ('state', '=', 'draft'),
                 '|', ('date_due', '>=', today), ('date_due', '=', False)
-            ])
+            ] + extra_domain
+            invids = t_ai.search(domain)
             val = 0.0
             for invoice in invids:
                 # Note that even if the invoice is in 'draft' state it can have an account.move because it
@@ -163,35 +199,43 @@ class ResPartner(models.Model):
 
     @api.multi
     def _pending_orders_amount(self):
-        tax_obj = self.pool.get('account.tax')
+        t_sm = self.env['stock.move']
+        t_sol = self.env['sale.order.line']
         for partner in self:
             total = 0.0
-            mids = self.env['stock.move'].search([
+            if partner.company_id.individual_risk_check:
+                extra_domain = []
+            else:
+                company_ids = partner.sudo().company_id + partner.sudo().company_id.child_ids
+                extra_domain = [('company_id', 'in', company_ids._ids)]
+                t_sm = t_sm.sudo()
+                t_sol = t_sol.sudo()
+            domain = [
                 ('partner_id', 'child_of', [partner.id]),
                 ('state', 'not in', ['draft', 'cancel']),
                 ('procurement_id', '!=', False),
                 ('location_id.usage', '!=', 'transit'), # La regla de seguridad (custom) de stock_move no filtra esta ubicación por compañía.
                 ('invoice_state', '=', '2binvoiced')
-            ])
+            ] + extra_domain
+            mids = t_sm.search(domain)
             for move in mids.filtered(
                   lambda r: r.procurement_id.sale_line_id != False): # Se filtra aquí en lugar de en el search porque es más rápido.
                 line = move.procurement_id.sale_line_id
                 sign = move.picking_id.picking_type_code == "outgoing" and 1 or -1
-                # line_amount_total = (move.product_uom_qty * (line.price_unit * (1-(line.discount or 0.0)/100.0)))
                 line_amount_total = line.tax_id.compute_all(
                     line.price_unit * (1-(line.discount or 0.0)/100.0),
                     move.product_uom_qty, product=line.product_id.id,
                     partner=line.order_partner_id.commercial_partner_id.id)['total_included']
                 total += sign * line_amount_total
-
-            sids = self.env['sale.order.line'].search([
+            domain = [
                 ('order_partner_id', 'child_of', [partner.id]),
                 ('state', 'not in', ['draft', 'cancel']),
                 ('invoiced', '=', False),
                 '|', ('product_id', '=', False),
-                ('product_id.type', '=', 'service')])
+                ('product_id.type', '=', 'service')
+            ] + extra_domain
+            sids = t_sol.search(domain)
             for sline in sids:
-                # line_amount_total = sline.price_subtotal
                 line_amount_total = sline.tax_id.compute_all(
                     sline.price_unit * (1-(sline.discount or 0.0)/100.0),
                     sline.product_uom_qty, product=sline.product_id.id,
@@ -221,4 +265,15 @@ class ResPartner(models.Model):
             else:
                 total_risk_percent = 100
             partner.total_risk_percent = total_risk_percent
+
+
+class ResCompany(models.Model):
+    _inherit = "res.company"
+
+    individual_risk_check = fields.Boolean(
+       string='Individual risk check',
+       default=True,
+       help="If checked, the risk control will use the user's company for the calculations. "
+            "Otherwise, the company of the partner and childs will be used for the calculations."
+    )
 
