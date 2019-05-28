@@ -5,6 +5,7 @@
 #    Copyright (C) 2009 Albert Cervera i Areny (http://www.nan-tic.com). All Rights Reserved
 #    Copyright (c) 2011 Pexego Sistemas Informáticos. All Rights Reserved
 #                       Alberto Luengo Cabanillas <alberto@pexego.es>
+#    Copyright (C) 2019 El Nogal - Pedro Gómez <pegomez@elnogal.com>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -21,6 +22,6 @@
 #
 ##############################################################################
 
-import risk
+import models
 import wizard
 
