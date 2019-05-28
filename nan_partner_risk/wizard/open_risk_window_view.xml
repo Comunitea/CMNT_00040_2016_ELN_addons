@@ -28,7 +28,9 @@
                     <separator colspan="4"/>
                     <field name="risk_insurance_notes" colspan="4"/>
                     <label string="" colspan="4"/>
-                    <!-- <separator colspan="4"/> -->
+                    <footer>
+                        <button special="cancel" string="Close" type="object"/>
+                    </footer>
                 </form>
            </field>
       </record>
