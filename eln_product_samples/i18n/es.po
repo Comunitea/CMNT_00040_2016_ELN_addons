@@ -1,40 +1,26 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* eln_product_samples
+# 	* eln_product_samples
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-09 09:44+0000\n"
-"PO-Revision-Date: 2016-05-09 09:44+0000\n"
-"Last-Translator: <>\n"
+"POT-Creation-Date: 2019-05-28 08:29+0000\n"
+"PO-Revision-Date: 2019-05-28 10:38+0200\n"
+"Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: es_ES\n"
+"X-Generator: Poedit 2.2.3\n"
 
 #. module: eln_product_samples
-#: help:product.product,remaining_samples:0
 #: help:product.template,remaining_samples:0
 msgid "Given Samples (in UoM)"
 msgstr "Muestras regaladas (en UdM)"
-
-#. module: eln_product_samples
-#: model:stock.location,name:eln_product_samples.stock_physical_location_samples2
-msgid "Muestras"
-msgstr "Muestras"
-
-#. module: eln_product_samples
-#: model:ir.model,name:eln_product_samples.model_procurement_order
-msgid "Procurement"
-msgstr "Abastecimiento"
-
-#. module: eln_product_samples
-#: model:ir.model,name:eln_product_samples.model_product_product
-msgid "Product"
-msgstr "Producto"
 
 #. module: eln_product_samples
 #: model:ir.model,name:eln_product_samples.model_product_template
@@ -57,7 +43,6 @@ msgid "Sample?"
 msgstr "Muestra?"
 
 #. module: eln_product_samples
-#: field:product.product,remaining_samples:0
 #: field:product.template,remaining_samples:0
 msgid "Samples"
 msgstr "Muestras"
@@ -71,4 +56,3 @@ msgstr "Ubicación de muestras"
 #: model:ir.model,name:eln_product_samples.model_stock_warehouse
 msgid "Warehouse"
 msgstr "Almacén"
-

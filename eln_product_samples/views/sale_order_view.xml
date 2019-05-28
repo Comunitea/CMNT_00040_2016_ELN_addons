@@ -9,10 +9,9 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <field name="invoiced" position="before">
-                    <field name="sample_ok" 
-                        attrs="{'readonly':[('product_id', '=', False)]}"
-                        on_change="onchange_sample_ok(sample_ok, price_unit, parent.pricelist_id, product_id, product_uom_qty, product_uom, product_uos_qty, product_uos, name, parent.partner_id, False, True, parent.date_order, product_packaging, parent.fiscal_position, False, context)"
-                        context="{'partner_id': parent.partner_id, 'quantity': product_uom_qty, 'pricelist': parent.pricelist_id, 'shop': False, 'uom': product_uom, 'force_product_uom': True, 'order_id': parent.id, 'sale_agent_ids': parent.sale_agent_ids}" />
+                    <field name="sample_ok"
+		        attrs="{'readonly':[('product_id', '=', False)]}"
+                        context="{'partner_id': parent.partner_id, 'quantity': product_uom_qty, 'pricelist': parent.pricelist_id, 'uom': product_uom, 'company_id': parent.company_id, 'date_order': parent.date_order, 'fiscal_position': parent.fiscal_position}"/>
                 </field>
             </field>
         </record>
@@ -26,9 +25,8 @@
                 <xpath expr="//field[@name='order_line']/form/group/group/div/field[@name='product_uom']" position="after">
                     <label for="sample_ok"/>
                     <field name="sample_ok"
-                        attrs="{'readonly':[('product_id', '=', False)]}"
-                        on_change="onchange_sample_ok(sample_ok, price_unit, parent.pricelist_id, product_id, product_uom_qty, product_uom, product_uos_qty, product_uos, name, parent.partner_id, False, True, parent.date_order, product_packaging, parent.fiscal_position, False, context)"
-                        context="{'partner_id': parent.partner_id, 'quantity': product_uom_qty, 'pricelist': parent.pricelist_id, 'shop': False, 'uom': product_uom, 'force_product_uom': True, 'order_id': parent.id, 'sale_agent_ids': agents}" />
+		        attrs="{'readonly':[('product_id', '=', False)]}"
+                        context="{'partner_id': parent.partner_id, 'quantity': product_uom_qty, 'pricelist': parent.pricelist_id, 'uom': product_uom, 'company_id': parent.company_id, 'date_order': parent.date_order, 'fiscal_position': parent.fiscal_position}"/>
                 </xpath>
 
                  <xpath expr="///field[@name='order_line']/tree[@string='Sales Order Lines']/field[@name='name']" position="after">

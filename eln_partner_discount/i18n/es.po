@@ -1,13 +1,13 @@
-# Translation of OpenERP Server.
+# Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # 	* eln_partner_discount
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: OpenERP Server 6.1\n"
+"Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-10 07:54+0000\n"
-"PO-Revision-Date: 2015-02-10 09:18+0100\n"
+"POT-Creation-Date: 2019-05-28 08:18+0000\n"
+"PO-Revision-Date: 2019-05-28 10:37+0200\n"
 "Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -15,7 +15,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Language: es_ES\n"
-"X-Generator: Poedit 1.7\n"
+"X-Generator: Poedit 2.2.3\n"
+
+#. module: eln_partner_discount
+#: help:res.partner,property_partner_sale_discount:0
+msgid "If select this partner in sale order, discount will be dragged to sale order lines."
+msgstr "Si selecciona este cliente en el pedido de venta, el descuento será arrastrado a las líneas del pedido."
 
 #. module: eln_partner_discount
 #: model:ir.model,name:eln_partner_discount.model_res_partner
@@ -23,16 +28,11 @@ msgid "Partner"
 msgstr "Empresa"
 
 #. module: eln_partner_discount
-#: model:ir.model,name:eln_partner_discount.model_sale_order_line
-msgid "Sales Order Line"
-msgstr "Línea pedido de venta"
-
-#. module: eln_partner_discount
 #: field:res.partner,property_partner_sale_discount:0
 msgid "Sale Discount (%)"
 msgstr "Descuento de venta (%)"
 
 #. module: eln_partner_discount
-#: help:res.partner,property_partner_sale_discount:0
-msgid "If select this partner in sale order, discount will be dragged to sale order lines"
-msgstr "Si selecciona este cliente en el pedido de venta, el descuento será arrastrado a las líneas del pedido."
+#: model:ir.model,name:eln_partner_discount.model_sale_order_line
+msgid "Sales Order Line"
+msgstr "Línea pedido de venta"

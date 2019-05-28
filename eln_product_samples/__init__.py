@@ -19,8 +19,4 @@
 #
 ##############################################################################
 
-"""Product Samples Management in Openerp"""
-
-import sale_order
-import product_product
-import stock_warehouse
+import models

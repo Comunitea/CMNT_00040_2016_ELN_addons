@@ -18,81 +18,76 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+
+from openerp import models, fields, api
 import openerp.addons.decimal_precision as dp
-from openerp.osv import fields, orm
-from openerp.tools.translate import _
-from openerp import api, fields as fields2
 
 
-class account_invoice(orm.Model):
-    _inherit = "account.invoice"
-
-    # POST-MIGRATION: nUEVA FUNCIONALIDAD ABAJO, ARRASTRA EL MANY2ONE EN LUGAR DEL BOOLEAN
-    # def _received_check(self, cr, uid, ids, name, args, context=None):
-    #     res = {}
-    #     for inv in self.browse(cr, uid, ids, context=context):
-    #         res[inv.id] = False
-    #         if inv.move_id and inv.move_id.line_id:
-    #             for line in inv.move_id.line_id:
-    #                 if line.received_check:
-    #                     res[inv.id] = True
-    #     return res
-
-    def _received_check(self, cr, uid, ids, name, args, context=None):
-        res = {}
-        for inv in self.browse(cr, uid, ids, context=context):
-            res[inv.id] = False
-            for payment in inv.payment_ids:
-                # if line.received_check:  comentado POST_MIGRATION, no existe campo, se metía en account payment_extension
-                if payment.check_deposit_id:
-                    res[inv.id] = payment.check_deposit_id.id
-        return res
+class AccountInvoice(models.Model):
+    _inherit = 'account.invoice'
 
     @api.model
     def _default_journal(self):
         if self._context.get('no_journal', False):
             return False
-        return super(account_invoice, self)._default_journal()
+        return super(AccountInvoice, self)._default_journal()
 
     @api.model
     def _default_currency(self):
         if self._context.get('no_journal', False):
             return self.env.user.company_id.currency_id
-        return super(account_invoice, self)._default_currency()
+        return super(AccountInvoice, self)._default_currency()
+
+    received_check = fields.Many2one(
+        string='Received check',
+        comodel_name='account.check.deposit',
+        compute='_received_check',
+        help="To write down that a check in paper support has been received, for example.")
+    journal_id = fields.Many2one(
+        string='Journal',
+        comodel_name='account.journal',
+        required=True, readonly=True,
+        states={'draft': [('readonly', False)]},
+        domain="[('type', 'in', {'out_invoice': ['sale'], 'out_refund': ['sale_refund'], 'in_refund': ['purchase_refund'], 'in_invoice': ['purchase']}.get(type, [])), ('company_id', '=', company_id)]",
+        default=_default_journal)
+    currency_id = fields.Many2one(
+        string='Currency',
+        comodel_name='res.currency',
+        required=True, readonly=True,
+        states={'draft': [('readonly', False)]},
+        track_visibility='always',
+        default=_default_currency)
+
+    @api.multi
+    def _received_check(self):
+        for inv in self:
+            received_check = False
+            for payment in inv.payment_ids:
+                if payment.check_deposit_id:
+                    received_check = payment.check_deposit_id
+                    break
+            inv.received_check = received_check
 
     @api.multi
     def onchange_company_id(self, company_id, part_id, type, invoice_line, currency_id):
-        res = super(account_invoice, self).onchange_company_id(company_id, part_id, type, invoice_line, currency_id)
+        res = super(AccountInvoice, self).onchange_company_id(company_id, part_id, type, invoice_line, currency_id)
         if self._context.get('no_journal', False) and res.get('value', {}).get('journal_id', False):
             res['value']['journal_id'] = False
         return res
 
-    _columns = {
-        # 'received_check': fields.function(_received_check, method=True, store=False, type='boolean', string='Received check', help="To write down that a check in paper support has been received, for example."),
-        'received_check': fields.function(_received_check, method=True, store=False, type='many2one', relation='account.check.deposit',
-                                          string='Received check', help="To write down that a check in paper support has been received, for example."),
-        'journal_id': fields.many2one(
-            'account.journal', string='Journal', required=True, readonly=True,
-            states={'draft': [('readonly', False)]}, default=_default_journal,
-            domain="[('type', 'in', {'out_invoice': ['sale'], 'out_refund': ['sale_refund'], 'in_refund': ['purchase_refund'], 'in_invoice': ['purchase']}.get(type, [])), ('company_id', '=', company_id)]"),
-        'currency_id': fields.many2one(
-            'res.currency', string='Currency', required=True, readonly=True,
-            states={'draft': [('readonly', False)]},
-            default=_default_currency, track_visibility='always'),
-    }
 
+class AccountInvoiceLine(models.Model):
+    _inherit = 'account.invoice.line'
 
-class account_invoice_line(orm.Model):
-    _inherit = "account.invoice.line"
+    uom_qty = fields.Float('Uom Qty', compute='_get_uom_qty')
+    cost_subtotal = fields.Float('Cost Subtotal', compute='_get_cost_subtotal', store=True)
 
     @api.one
     @api.depends('quantity')
     def _get_uom_qty(self):
         if self.quantity:
-            uom_qty = self.env['product.uom']._compute_qty(self.uos_id.id,
-                                                           self.quantity,
-                                                           self.product_id.
-                                                           uom_id.id)
+            uom_qty = self.env['product.uom']._compute_qty(
+               self.uos_id.id, self.quantity, self.product_id.uom_id.id)
             self.uom_qty = uom_qty
 
     @api.multi
@@ -115,7 +110,7 @@ class account_invoice_line(orm.Model):
             if quant_qty:
                 price_unit = price_unit / quant_qty
             if not price_unit:
-                date = line.invoice_id.date_invoice or fields2.Date.context_today(self)
+                date = line.invoice_id.date_invoice or fields.Date.context_today(self)
                 price_unit = product_tmpl_obj.get_history_price(line.product_id.product_tmpl_id.id,
                                                                 line.company_id.id,
                                                                 date=date)
@@ -130,29 +125,25 @@ class account_invoice_line(orm.Model):
             if line.invoice_id:
                 line.cost_subtotal = line.invoice_id.currency_id.round(line.cost_subtotal)
 
-    uom_qty = fields2.Float('Uom Qty', compute=_get_uom_qty)
-    cost_subtotal = fields2.Float('Cost Subtotal', compute=_get_cost_subtotal, store=True)
-
-    def uos_id_change(self, cr, uid, ids, product, uom, qty=0, name='', type='out_invoice', partner_id=False,
-                      fposition_id=False, price_unit=False, address_invoice_id=False, currency_id=False, context=None, company_id=None):
+    @api.multi
+    def uos_id_change(self, product, uom, qty=0, name='', type='out_invoice', partner_id=False,
+            fposition_id=False, price_unit=False, currency_id=False, company_id=None):
         """
         Modificamos para no permitir poner cualquier tipo de unidad en la linea de factura.
         Ahora solo aceptará alguna que pertenezca a la misma categoria que la unidad de medida por defecto del producto.
         """
-        if context is None:
-            context = {}
-
         update_res = False
 
         if product and uom:
-            prod = self.pool.get('product.product').browse(cr, uid, product, context=context)
-            prod_uom = self.pool.get('product.uom').browse(cr, uid, uom, context=context)
+            prod = self.env['product.product'].browse(product)
+            prod_uom = self.env['product.uom'].browse(uom)
             if prod.uom_id.category_id.id != prod_uom.category_id.id:
                 update_res = True
-                uom = (prod.uos_id and prod.uos_id.id) or (prod.uom_id and prod.uom_id.id) or False
+                uom = prod.uos_id.id or prod.uom_id.id or False
 
-        res = super(account_invoice_line, self).uos_id_change(cr, uid, ids, product, uom, qty, name, type, partner_id,
-                                                              fposition_id, price_unit, address_invoice_id, currency_id, context, company_id)
+        res = super(AccountInvoiceLine, self).uos_id_change(
+            product, uom, qty=qty, name=name, type=type, partner_id=partner_id,
+            fposition_id=fposition_id, price_unit=price_unit, currency_id=currency_id, company_id=company_id)
 
         if update_res:
             res['value']['uos_id'] = uom or False
@@ -160,15 +151,13 @@ class account_invoice_line(orm.Model):
         return res
 
     @api.multi
-    def product_id_change(self, product, uom_id, qty=0, name='',
-                          type='out_invoice', partner_id=False,
-                          fposition_id=False, price_unit=False,
-                          currency_id=False, company_id=None):
-        res = super(account_invoice_line, self).\
-            product_id_change(product, uom_id, qty=qty, name=name, type=type,
-                              partner_id=partner_id, fposition_id=fposition_id,
-                              price_unit=price_unit, currency_id=currency_id,
-                              company_id=company_id)
+    def product_id_change(self, product, uom_id, qty=0, name='', type='out_invoice',
+            partner_id=False, fposition_id=False, price_unit=False, currency_id=False,
+            company_id=None):
+        res = super(AccountInvoiceLine, self).product_id_change(
+            product, uom_id, qty=qty, name=name, type=type,
+            partner_id=partner_id, fposition_id=fposition_id, price_unit=price_unit, currency_id=currency_id,
+            company_id=company_id)
 
         t_part = self.env["res.partner"]
         if partner_id and product:
@@ -180,18 +169,16 @@ class account_invoice_line(orm.Model):
                 pricelist = part.property_product_pricelist
             price = False
             if pricelist:
-                price = pricelist.price_get(product, 1,
-                                            partner_id)[pricelist.id]
+                price = pricelist.price_get(
+                    product, 1, partner_id)[pricelist.id]
                 if price:
                     res['value']['price_unit'] = price
 
         return res
 
 
-class AccountInvoiceRefund(orm.TransientModel):
-
+class AccountInvoiceRefund(models.TransientModel):
     _inherit = "account.invoice.refund"
-
 
     @api.multi
     def compute_refund(self, mode='refund'):
