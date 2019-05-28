@@ -22,20 +22,15 @@
 
 """adds new field discount on partner"""
 
-from openerp.osv import fields, orm
+from openerp import models, fields
 
-class res_partner(orm.Model):
-    """adds new field discount on partner"""
+
+class ResPartner(models.Model):
     _inherit = 'res.partner'
 
-    _columns = {
-        'property_partner_sale_discount': fields.property(
-            type='float', 
-            string="Sale Discount (%)", 
-            method=True,
-            help="If select this partner in sale order, discount will be dragged to sale order lines"),
-    }
+    property_partner_sale_discount = fields.Float(
+        string='Sale Discount (%)',
+        company_dependent=True,
+        default=0.0,
+        help="If select this partner in sale order, discount will be dragged to sale order lines.")
 
-    _defaults = {
-        'property_partner_sale_discount': lambda *a: 0.0,
-    }
