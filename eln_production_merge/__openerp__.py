@@ -26,16 +26,18 @@
     'description': """Adds a new wizard that allows merging two or more production orders""",
     'author': 'Pexego Sistemas Informáticos',
     'website': 'www.pexego.es',
-    "depends" : ['base',
-                 'product',
-                 'mrp',
-                 'stock',
-                 'mrp_operations',
-                ],
-    "init_xml" : [],
-    "update_xml" : ["wizard/mrp_production_merge_view.xml"
-                    ],
-    "demo_xml" : [],
+    "depends": [
+        'base',
+        'product',
+        'mrp',
+        'stock',
+        'mrp_operations',
+    ],
+    "init_xml": [],
+    "demo_xml": [],
+    "data": [
+        'wizard/mrp_production_merge_view.xml',
+    ],
     "active": False,
     "installable": True
 }
