@@ -14,8 +14,8 @@
                     <field name="ean13" attrs="{'invisible':[('product_id','=',False)]}"/>
                 </field>
                 <field name="product_id" position="after">
-                    <field name="uom" attrs="{'invisible':[('product_id','=',False)]}"/>
-                    <field name="uos" attrs="{'invisible':[('product_id','=',False)]}"/>
+                    <field name="uom_id" attrs="{'invisible':[('product_id','=',False)]}"/>
+                    <field name="uos_id" attrs="{'invisible':[('product_id','=',False)]}"/>
                 </field>
                 <field name="product_tmpl_id" position="attributes">
                     <attribute name="invisible">1</attribute>

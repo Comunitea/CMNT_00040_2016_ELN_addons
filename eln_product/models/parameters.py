@@ -18,25 +18,27 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import orm, fields
+from openerp import models, fields
 
 
-class mrp_bom_line(orm.Model):
-    _inherit = 'mrp.bom.line'
+class ProductParameters(models.Model):
+    _name = 'product.parameter'
 
-    def _get_product_qty_percent(self, cr, uid, ids, field_name, arg, context):
+    name = fields.Char('Name', size=255, required=True, translate=True)
+    type = fields.Selection([
+        ('chemical', 'Chemical'),
+        ('physical', 'Physical'),
+        ('microbiological', 'Microbiological'),
+        ('organoleptic','Organoleptic')
+        ], string='Type', required=True)
 
-        res = {}
-        qty_total = 0.0
 
-        for line in self.browse(cr, uid, ids, context=context):
-            qty_total += line.product_qty
+class ProductParameterProduct(models.Model):
+    _name = 'product.parameter.product'
 
-        for line in self.browse(cr, uid, ids, context=context):
-            res[line.id] = int(round((line.product_qty * 100) / qty_total))
+    name = fields.Char('Name', size=64, required=True,
+        default=lambda self: self.env['ir.sequence'].get('product.parameter.product') or '/')
+    product_id = fields.Many2one('product.product', 'Product', ondelete='cascade')
+    parameter_id = fields.Many2one('product.parameter', 'Parameter')
+    value = fields.Char('Value', size=128, translate=True)
 
-        return res
-
-    _columns = {
-        'product_qty_percent': fields.function(_get_product_qty_percent, type="integer", string="Qty(%)", readonly=True),
-    }

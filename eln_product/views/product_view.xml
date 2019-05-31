@@ -8,16 +8,10 @@
             <field name="type">form</field>
             <field name="inherit_id" ref="product.product_normal_form_view"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='ean13']" position="attributes">
-                    <attribute name="on_change">onchange_ean13(ean13)</attribute>
-                </xpath>
                 <field name="ean13" position="after">
-                    <field name="dun14" on_change="onchange_dun14(dun14)"/>
+                    <field name="dun14"/>
                     <field name="development_code"/>
                     <field name="partner_product_code"/>
-                </field>
-                <field name="state" position="attributes">
-                    <attribute name="on_change">onchange_state(state, ramp_up_date)</attribute>
                 </field>
                 <field name="state" position="after">
                     <field name="ramp_up_date"/>
@@ -31,7 +25,7 @@
                                     icon="gtk-convert" colspan="4"/>
                                 <field name="product_ingredient_ids" colspan="4" nolabel="1">
                                     <tree string="Ingredients" editable="top">
-                                        <field name="product_id" on_change="on_change_product_id(product_id)"/>
+                                        <field name="product_id"/>
                                         <field name="name"/>
                                         <field name="variety"/>
                                         <field name="process"/>
@@ -41,7 +35,7 @@
                                         <field name="product_qty_percent"/>
                                     </tree>
                                     <form string="Ingredients">
-                                        <field name="product_id" on_change="on_change_product_id(product_id)"/>
+                                        <field name="product_id"/>
                                         <field name="name"/>
                                         <field name="variety"/>
                                         <field name="process"/>
@@ -66,25 +60,25 @@
                             </page>
                             <page string="Other data">
                                 <group col="6">
-                                    <group name = "left1" colspan="2" >
+                                    <group name="left1" colspan="2" >
                                         <separator string="Average nutritional values (100 g)" colspan="2" />
-                                            <field name="energy"/>
-                                            <field name="fats"/>
-                                            <field name="fat_saturates"/>
-                                            <field name="carbohydrates"/>
-                                            <field name="carbo_sugar"/>
-                                            <field name="proteins"/>
-                                            <field name="salt"/>
-                                            <field name="recommended_ration"/>
+                                        <field name="energy"/>
+                                        <field name="fats"/>
+                                        <field name="fat_saturates"/>
+                                        <field name="carbohydrates"/>
+                                        <field name="carbo_sugar"/>
+                                        <field name="proteins"/>
+                                        <field name="salt"/>
+                                        <field name="recommended_ration"/>
                                     </group>
-                                    <group name = "center2" colspan="2">
+                                    <group name="center2" colspan="2">
                                         <separator string="Quality" colspan="2"/>
-                                            <field name="protective_atmosphere"/>
-                                            <field name="perforated_bag"/>
-                                            <field name="allergen_labeling"/>
-                                            <field name="gluten_free_labeling"/>
+                                        <field name="protective_atmosphere"/>
+                                        <field name="perforated_bag"/>
+                                        <field name="allergen_labeling"/>
+                                        <field name="gluten_free_labeling"/>
                                     </group>
-                                    <group name = "right2" colspan="2">
+                                    <group name="right2" colspan="2">
                                         <separator string="Presentation" colspan="2"/>
                                         <field name="comercial_format"/>
                                         <field name="format"/>
@@ -95,14 +89,15 @@
                                         <field name="others"/>
                                         <field name="seal"/>
                                     </group>
-                                </group><separator string="Specifications"/>
+                                </group>
+                                <separator string="Specifications"/>
                                 <group>
                                     <group >
                                         <label string="Storage conditions" colspan="2"/>
                                         <newline/>
                                         <field name="storage_conditions" nolabel="1"/>
                                          <newline/>
-                                        <label string="Expected Use" colspan="2"/>
+                                        <label string="Expected use" colspan="2"/>
                                         <newline/>
                                         <field name="expected_use" nolabel="1"/>
                                     </group>
@@ -110,8 +105,8 @@
                                         <label string="Allergen" colspan="2"/>
                                         <newline/>
                                         <field name="allergen" nolabel="1"/>
-                                         <newline/>
-                                        <label string="OGM's" colspan="2"/>
+                                        <newline/>
+                                        <label string="OGMs" colspan="2"/>
                                         <newline/>
                                         <field name="ogms" nolabel="1"/>
                                     </group>
@@ -126,13 +121,13 @@
                             </page>
                             <page string="Revisions">
                                 <group colspan="4" col="6">
-                                    <separator string="Written By" colspan="2"/>
-                                    <separator string="Reviewed By" colspan="2"/>
-                                    <separator string="Approved By" colspan="2"/>
+                                    <separator string="Written by"  colspan="2"/>
+                                    <separator string="Reviewed by" colspan="2"/>
+                                    <separator string="Approved by" colspan="2"/>
                                     <newline/>
-                                    <field name="written_by"  nolabel="1" widget="selection" colspan="2" on_change="onchange_rev_employee(written_by,  'written_by')"/>
-                                    <field name="reviewed_by" nolabel="1" widget="selection" colspan="2" on_change="onchange_rev_employee(reviewed_by, 'reviewed_by')"/>
-                                    <field name="approved_by" nolabel="1" widget="selection" colspan="2" on_change="onchange_rev_employee(approved_by, 'approved_by')"/>
+                                    <field name="written_by"  nolabel="1" widget="selection" colspan="2"/>
+                                    <field name="reviewed_by" nolabel="1" widget="selection" colspan="2"/>
+                                    <field name="approved_by" nolabel="1" widget="selection" colspan="2"/>
                                     <newline/>
                                     <field name="written_job"  widget="selection" colspan="2"/>
                                     <field name="reviewed_job" widget="selection" colspan="2"/>
@@ -182,46 +177,48 @@
                             </page>
                             <page string="Logistic information">
                                 <group col="6">
-                                    <group name = "logistic_left1" colspan="2" >
+                                    <group name="logistic_left1" colspan="2" >
                                         <separator string="Pallet" colspan="2"/>
-                                            <field name="pallet_boxes_layer"/>
-                                            <field name="pallet_layers"/>
-                                            <field name="pallet_boxes_pallet"/>
-                                            <field name="pallet_gross_weight"/>
-                                            <field name="pallet_net_weight"/>
-                                            <field name="pallet_total_height"/>
-                                            <field name="pallet_total_width"/>
-                                            <field name="pallet_total_length"/>
-                                            <field name="pallet_ul"/>
+                                        <field name="pallet_boxes_layer"/>
+                                        <field name="pallet_layers"/>
+                                        <field name="pallet_boxes_pallet"/>
+                                        <field name="pallet_gross_weight"/>
+                                        <field name="pallet_net_weight"/>
+                                        <field name="pallet_total_height"/>
+                                        <field name="pallet_total_width"/>
+                                        <field name="pallet_total_length"/>
+                                        <field name="pallet_ul"/>
                                     </group>
-                                    <group name = "logistic_center2" colspan="2">
+                                    <group name="logistic_center2" colspan="2">
                                         <separator string="Box" colspan="2"/>
-                                            <field name="box_units"/>
-                                            <field name="box_gross_weight"/>
-                                            <field name="box_net_weight"/>
-                                            <field name="box_total_height"/>
-                                            <field name="box_total_width"/>
-                                            <field name="box_total_length"/>
-                                            <field name="box_ul"/>
+                                        <field name="box_units"/>
+                                        <field name="box_gross_weight"/>
+                                        <field name="box_net_weight"/>
+                                        <field name="box_total_height"/>
+                                        <field name="box_total_width"/>
+                                        <field name="box_total_length"/>
+                                        <field name="box_ul"/>
                                     </group>
-                                    <group name = "logistic_right2" colspan="2">
+                                    <group name="logistic_right2" colspan="2">
                                         <separator string="Unit" colspan="2"/>
-                                            <field name="unit_gross_weight"/>
-                                            <field name="unit_net_weight"/>
-                                            <field name="unit_net_weight_drained"/>
-                                            <field name="unit_total_height"/>
-                                            <field name="unit_total_width"/>
-                                            <field name="unit_total_length"/>
+                                        <field name="unit_gross_weight"/>
+                                        <field name="unit_net_weight"/>
+                                        <field name="unit_net_weight_drained"/>
+                                        <field name="unit_total_height"/>
+                                        <field name="unit_total_width"/>
+                                        <field name="unit_total_length"/>
                                     </group>
                                     <newline/>
                                 </group>
                                 <group>
                                     <group>
-                                        <separator string="Palletizing" /><newline/>
+                                        <separator string="Palletizing" />
+                                        <newline/>
                                         <field name="palletizing" nolabel="1" widget="image"/>
                                     </group>
                                     <group>
-                                        <separator string="Provision of boxes base" /><newline/>
+                                        <separator string="Provision of boxes base" />
+                                        <newline/>
                                         <field name="provision_boxes_base" nolabel="1" widget="image"/>
                                     </group>
                                 </group>
@@ -239,8 +236,7 @@
             <field name="arch" type="xml">
                 <form string="Product sheet shipments">
                     <field name="partner_id" readonly="1"/>
-<!--                     <field name="contact_id" readonly="1"/>
- -->                    <field name="revision" readonly="1"/>
+                    <field name="revision" readonly="1"/>
                     <field name="date" readonly="1"/>
                     <field name="product_id" readonly="1"/>
                 </form>
@@ -254,8 +250,7 @@
             <field name="arch" type="xml">
                 <tree string="Product sheet shipments">
                     <field name="partner_id" />
-<!--                     <field name="contact_id"/>
- -->                    <field name="revision"/>
+                    <field name="revision"/>
                     <field name="date"/>
                     <field name="product_id"/>
                 </tree>
@@ -270,18 +265,17 @@
                 <search string="Product sheet shipments">
                     <group col="10" colspan="4">
                         <field name="partner_id"/>
-<!--                         <field name="contact_id"/>
- -->                        <field name="date"/>
+                        <field name="date"/>
                         <field name="revision"/>
                     </group>
                     <newline/>
-                    <group expand="0" string="Group by ...">
-                        <filter string="Partner" icon="terp-partner" domain="[]" context="{'group_by' : 'partner_id'}"/>
-                        <filter string="Contact" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by' : 'contact_id'}"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Partner" icon="terp-partner" domain="[]" context="{'group_by':'partner_id'}"/>
+                        <filter string="Contact" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'contact_id'}"/>
                         <separator orientation="vertical"/>
-                        <filter string="Revision" icon="terp-accessories-archiver" domain="[]" context="{'group_by' : 'revision'}"/>
+                        <filter string="Revision" icon="terp-accessories-archiver" domain="[]" context="{'group_by':'revision'}"/>
                         <separator orientation="vertical"/>
-                        <filter string="Date" icon="terp-go-month" domain="[]" context="{'group_by' : 'date'}"/>
+                        <filter string="Date" icon="terp-go-month" domain="[]" context="{'group_by':'date'}"/>
                     </group>
                 </search>
             </field>
@@ -302,7 +296,6 @@
             res_model="product.sheet.shipments"
             src_model="product.template"
            />
-           <!--context="{'search_default_product_id': [active_id], 'default_product_id': active_id}"-->
         <menuitem parent="stock.menu_product_in_config_stock" name="Product Sheet Shipments" id="product_sheet_shipments_menu_parent"/>
         <menuitem parent="product_sheet_shipments_menu_parent" name="Product Sheet Shipments" id="product_sheet_shipments_menu"
             action="product_sheet_shipments_action" sequence="0" />
@@ -314,11 +307,6 @@
             <field name="type">tree</field>
             <field eval="7" name="priority"/>
             <field name="arch" type="xml">
-               <!-- Se oculta no dando permisos para variante de producto
-               <field name="variants" position="replace">
-                    <field name="variants" groups="product.group_product_variant" invisible="1"/>
-               </field> 
-               -->
                <field name="lst_price" position="before">
                    <field name="qty_dispo"/>
                </field>

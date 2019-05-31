@@ -18,28 +18,27 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import orm, fields
-
-class product_parameters(orm.Model):
-    _name = 'product.parameter'
-    _columns = {
-        'name': fields.char('Name', size=255, required=True, translate=True),
-        'type': fields.selection([
-            ('chemical', 'Chemical'),
-            ('physical', 'Physical'),
-            ('microbiological', 'Microbiological'),
-            ('organoleptic','Organoleptic')], "Type", required=True)
-    }
+from openerp import models, fields, api
 
 
-class product_parameter_product(orm.Model):
-    _name = 'product.parameter.product'
-    _columns = {
-        'name': fields.char('Name', size=64, required=True),
-        'product_id': fields.many2one('product.product', 'Product'),
-        'parameter_id': fields.many2one('product.parameter', 'Parameter'),
-        'value': fields.char('Value', size=128, translate=True)
-    }
-    _defaults = {
-        'name': lambda x, y, z, c: x.pool.get('ir.sequence').get(y, z, 'product.parameter.product') or '/',
-    }
+class MrpBomLine(models.Model):
+    _inherit = 'mrp.bom.line'
+
+    product_qty_percent = fields.Integer(string='Qty(%)',
+        compute='_get_product_qty_percent', readonly=True)
+
+    @api.multi
+    def _get_product_qty_percent(self):
+        qty_total = sum(line.product_qty for line in self)
+        if qty_total == 0:
+            for line in self:
+                line.product_qty_percent = 0
+        else:
+            qty_percent_acc = 0
+            line_ids = self.sorted(key=lambda r: r.product_qty, reverse=True)
+            for line in line_ids[1:]:
+                qty_percent = int(round((line.product_qty * 100) / qty_total))
+                qty_percent_acc += qty_percent
+                line.product_qty_percent = qty_percent
+            line_ids[0].product_qty_percent = 100 - qty_percent_acc
+

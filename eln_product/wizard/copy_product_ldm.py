@@ -18,113 +18,66 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import osv, fields
+from openerp import models, fields, api
 
 
-class mrp_bom(osv.osv):
+class MrpBom(models.Model):
     _inherit = "mrp.bom"
 
-
-    # def search(self, cr, uid, args, offset=0, limit=None, order=None,
-    #            context=None, count=False):
-    #     """ Overwrite in order to search only location of a unique product
-    #         if search_product_id is in context."""
-    #     import ipdb; ipdb.set_trace()
-    #     if context.get('split', False):
-    #         loc_ids = context.get('split', False).split(',')
-    #         args.append(['id', 'in', loc_ids])
-    #     res = super(copy_product_ldm, self).search(cr, uid, args,
-    #                                               offset=offset,
-    #                                               limit=limit,
-    #                                               order=order,
-    #                                               context=context,
-    #                                               count=count)
-    #
-    #     return res
-
-
-    def name_search(self, cr, uid, name,
-                    args=None, operator='ilike', context=None, limit=80):
-
-        if context.get('split', False):
-            loc_ids = context.get('split', False).split(',')
+    @api.model
+    def name_search(self, name='', args=None, operator='ilike', limit=80):
+        if self._context.get('split', False):
+            loc_ids = self._context.get('split', False).split(',')
             args.append(['id', 'in', loc_ids])
-        res = super(mrp_bom, self).name_search(cr, uid, name, args=args,
-                                                      operator=operator,
-                                                      limit=limit)
-        return res
-
-class copy_product_ldm(osv.osv_memory):
-
-    _name = "copy.product.ldm"
-    _columns = {
-        'product_ldm_id': fields.many2one('mrp.bom', string='LdM', required=True),
-        'ldm_ids_str': fields.char('LdM ids str', size=255),
-        #'ldm_ids' : fields.one2many('mrp.bom', 'bom_id')
-
-    }
+        return super(MrpBom, self).name_search(name=name, args=args, operator=operator, limit=limit)
 
 
-    def default_get(self, cr, uid, fields, context=None):
+class CopyProductLdm(models.TransientModel):
+    _name = 'copy.product.ldm'
 
-        """ To get default values for the object.
-         @param self: The object pointer.
-         @param cr: A database cursor
-         @param uid: ID of the user currently logged in
-         @param fields: List of fields for which we want default values
-         @param context: A standard dictionary
-         @return: A dictionary which of fields with values.
-        """
-        if context is None:
-            context = {}
-        stream = []    
-        res = super(copy_product_ldm, self).default_get(cr, uid, fields, context=context)
-        ldm_ids = self.pool.get('mrp.bom').search(cr, uid, [('product_id','=',context.get('active_id', False))], context=context)
+    product_ldm_id = fields.Many2one('mrp.bom', string='LdM', required=True)
+    ldm_ids_str = fields.Char('LdM ids str', size=255)
 
+    @api.model
+    def default_get(self, fields):
+        res = super(CopyProductLdm, self).default_get(fields)
+        ldm_ids = self.env['mrp.bom'].search([('product_id', '=', self._context.get('active_id', False))])
+        stream = []
         if ldm_ids:
-            for id in ldm_ids:
-                stream.append(str(id))
+            stream = [str(ldm_id.id) for ldm_id in ldm_ids]
             if stream:
-                res['ldm_ids_str'] = u", ".join(stream)
+                res['ldm_ids_str'] = u', '.join(stream)
             else:
-                res['ldm_ids_str'] = "0"
+                res['ldm_ids_str'] = '0'
         else:
             res['ldm_ids_str'] = False
         return res
 
     def _get_bom_lines(self, bom):
-
         bom_lines = []
-        for bom in bom.bom_line_ids:
-            if bom.product_id.bom_ids:
-                x = self._get_bom_lines(bom.product_id.bom_ids[0])
-                if x:
-                    for id in x:
-                        bom_lines.append(id)
+        for line_id in bom.bom_line_ids:
+            if line_id.product_id.bom_ids:
+                x = self._get_bom_lines(line_id.product_id.bom_ids[0])
+                for id in x:
+                    bom_lines.append(id)
             else:
-                bom_lines.append(bom.id)
-
+                bom_lines.append(line_id.id)
         res = list(set(bom_lines))
         return res
 
-    def copy_ldm_to_ingredients(self, cr, uid, ids, context=None):
-        if context is None:
-            context = {}
-        bom_lines = []
-        form_obj = self.browse(cr, uid, ids, context=context)[0]
-        if form_obj.product_ldm_id:
-            if form_obj.product_ldm_id.bom_line_ids:
-                bom_lines = self._get_bom_lines(form_obj.product_ldm_id)
-
-        if bom_lines:
-            #bom_lines = list(set(bom_lines))
-            for z in bom_lines:
-                obj = self.pool.get('mrp.bom.line').browse(cr, uid, z)
-                self.pool.get('product.ingredient').create(cr, uid, {
-                    'product_parent_id': form_obj.product_ldm_id and form_obj.product_ldm_id.product_id.id or False,
-                    'product_id': obj.product_id.id,
-                    'name': obj.product_id.name,
-                    'product_qty': obj.product_qty
-                    })
-                    
+    @api.multi
+    def copy_ldm_to_ingredients(self):
+        for wizard in self:
+            bom_lines = []
+            if wizard.product_ldm_id.bom_line_ids:
+                bom_lines = self._get_bom_lines(wizard.product_ldm_id)
+            bom_lines = self.env['mrp.bom.line'].browse(bom_lines)
+            for bom_line in bom_lines:
+                vals = {
+                    'product_parent_id': wizard.product_ldm_id.product_id.id,
+                    'product_id': bom_line.product_id.id,
+                    'name': bom_line.product_id.name,
+                    'product_qty': bom_line.product_qty
+                }
+                self.env['product.ingredient'].create(vals)
         return {'type': 'ir.actions.act_window_close'}

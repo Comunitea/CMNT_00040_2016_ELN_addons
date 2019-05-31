@@ -18,11 +18,11 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import orm,fields
+from openerp import models, fields
 
 
-class product_verifications(orm.Model):
+class ProductVerifications(models.Model):
     _name = 'product.verifications'
-    _columns = {
-        'name': fields.char('Name', size=255, required=True)
-    }
+
+    name = fields.Char('Name', size=255, required=True)
+

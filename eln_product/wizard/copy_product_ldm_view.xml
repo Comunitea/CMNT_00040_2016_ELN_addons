@@ -2,25 +2,24 @@
 
 <openerp>
     <data>
-         <record id="view_copy_product_ldm_wzd" model="ir.ui.view">
+        <record id="view_copy_product_ldm_wzd" model="ir.ui.view">
             <field name="name">copy.product.ldm.wzd.form</field>
             <field name="model">copy.product.ldm</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Copy LdM">
-                    <label colspan="2" string="LdM's"/>
+                    <label colspan="2" string="LdMs"/>
                     <newline/>
                     <field name="ldm_ids_str" invisible ="1"/>
                     <field name="product_ldm_id" nolabel="1" context ="{'split': ldm_ids_str}"/>
                     <newline/>
-                    <group colspan="4" col="6">
-                        <button icon="gtk-cancel" special="cancel" string="Cancel"/>
-                        <button string='Copy' icon="gtk-execute" name="copy_ldm_to_ingredients" type="object"/>
-                    </group>
-               </form>
+                    <footer>
+                        <button icon="gtk-cancel" special="cancel" string="Cancel" colspan="2"/>
+                        <button icon="gtk-execute" name="copy_ldm_to_ingredients" string="Copy" type="object" colspan="2" default_focus="1" />
+                    </footer>
+                </form>
             </field>
         </record>
-
 
         <record id="copy_product_ldm_action" model="ir.actions.act_window">
             <field name="name">Copy LdM</field>
