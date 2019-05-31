@@ -19,5 +19,4 @@
 #
 ##############################################################################
 
-import product_format
-import product_template
+import models

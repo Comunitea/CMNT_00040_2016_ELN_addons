@@ -18,22 +18,12 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from openerp import models, fields
 
-from openerp.osv import osv, fields
 
-class product_format(osv.osv):
-    
-    _name = "product.format"
-    
-    
-    _columns = {
-        'name': fields.char('Name', size=255, required=True),
-        'active': fields.boolean('Active')
-    }
-    
-    _defaults = {
-        'active': True
-    }
-    
-    
-product_format()
+class ProductFormat(models.Model):
+    _name = 'product.format'
+
+    name = fields.Char('Name', size=255, required=True)
+    active = fields.Boolean('Active', default=True)
+
