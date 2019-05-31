@@ -18,19 +18,11 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from openerp import models, fields
 
-from openerp.osv import osv, fields
 
-class product_trademark(osv.osv):
+class ProductTemplate(models.Model):
+    _inherit = 'product.template'
     
-    _name = "product.trademark"
-    
-    
-    _columns = {
-        'name': fields.char('Name', size=255, required=True),
-        'active': fields.boolean('Active')
-    }
-    
-    _defaults = {
-        'active': True
-    }
+    trademark_id = fields.Many2one(string="Trademark", comodel_name='product.trademark')
+

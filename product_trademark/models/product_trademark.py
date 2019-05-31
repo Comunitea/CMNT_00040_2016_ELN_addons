@@ -18,13 +18,12 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from openerp import models, fields
 
-from openerp.osv import osv, fields
 
-class product_template(osv.osv):
-    
-    _inherit = "product.template"
-    
-    _columns = {
-        'trademark_id': fields.many2one('product.trademark', 'Trademark')
-    }
+class ProductTrademark(models.Model):
+    _name = 'product.trademark'
+
+    name = fields.Char('Name', size=255, required=True)
+    active = fields.Boolean('Active', default=True)
+

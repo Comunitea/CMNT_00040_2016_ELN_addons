@@ -18,16 +18,23 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
 {
-    "name" : "Product Trademark",
-    "description" : """Add trademark field to product""",
-    "version" : "1.0",
-    "author" : "Pexego",
-    "depends" : ["base", "product", "stock"],
-    "category" : "Product",
-    "init_xml" : [],
-    "data" : ["product_trademark_view.xml", "product_view.xml", "security/ir.model.access.csv"],
+    "name": "Product Trademark",
+    "description": """Add trademark field to product""",
+    "version": "1.0",
+    "author": "Pexego",
+    "depends": [
+        'base',
+        'product',
+        'stock',
+    ],
+    "category": "Product",
+    "init_xml": [],
+    "data": [
+        'security/ir.model.access.csv',
+        'views/product_trademark_view.xml',
+        'views/product_view.xml',
+    ],
     'demo_xml': [],
     'installable': True,
     'active': False,
