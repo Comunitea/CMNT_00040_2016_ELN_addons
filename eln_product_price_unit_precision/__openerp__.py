@@ -45,14 +45,16 @@ Invoice must have in any case the max(SO/PO precision)
     """,
     'author': 'Pedro Gómez',
     'website': 'www.elnogal.com',
-    "depends" : [
-                 'account',
-                 'sale',
-                 'purchase',
-                ],
-    "init_xml" : [],
-    "data" : ['data/product_price_unit_precision_data.xml'],
-    "demo_xml" : [],
+    "depends": [
+        'account',
+        'sale',
+        'purchase',
+    ],
+    "init_xml": [],
+    "data": [
+        'data/product_price_unit_precision_data.xml',
+    ],
+    "demo_xml": [],
     "active": False,
     "installable": True
 }

@@ -18,30 +18,24 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import fields, orm
+from openerp import models, fields
 import openerp.addons.decimal_precision as dp
 
 
-class purchase_order_line(orm.Model):
+class PurchaseOrderLine(models.Model):
     _inherit = "purchase.order.line"
-    
-    _columns = {
-        'price_unit': fields.float('Unit Price', required=True, digits_compute= dp.get_precision('Purchase Price Unit')),
-    }
+
+    price_unit = fields.Float(digits=dp.get_precision('Purchase Price Unit'))
 
 
-class sale_order_line(orm.Model):
+class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
-    
-    _columns = {
-        'price_unit': fields.float('Unit Price', required=True, digits_compute= dp.get_precision('Sale Price Unit'), readonly=True, states={'draft': [('readonly', False)]}),
-        }
 
-        
-class account_invoice_line(orm.Model):
+    price_unit = fields.Float(digits=dp.get_precision('Sale Price Unit'))
+
+
+class AccountInvoiceLine(models.Model):
     _inherit = "account.invoice.line"
-            
-    _columns = {
-       'price_unit': fields.float('Unit Price', required=True, digits_compute= dp.get_precision('Invoice Price Unit')),
-    }
+
+    price_unit = fields.Float(digits=dp.get_precision('Invoice Price Unit'))
 
