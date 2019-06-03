@@ -8,10 +8,9 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Product options">
-                <group string="Product options">
-                    <field name="name"/>
-                </group>
-
+                    <group string="Product options">
+                        <field name="name"/>
+                    </group>
                 </form>
             </field>
         </record>
@@ -39,13 +38,14 @@
                </search>
             </field>
         </record>
+
         <record model="ir.actions.act_window" id="product_options_action">
-        <field name="name">Options</field>
-        <field name="res_model">product.options</field>
-        <field name="view_mode">tree,form</field>
-        <field name="view_id" ref="product_options_tree_view"/>
-        <field name="search_view_id" ref="product_options_search_view"/>
-    </record>
+            <field name="name">Options</field>
+            <field name="res_model">product.options</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="product_options_tree_view"/>
+            <field name="search_view_id" ref="product_options_search_view"/>
+        </record>
 
         <menuitem parent="stock.menu_product_in_config_stock" name="Options" id="product_options_menu_parent"/>
         <menuitem parent="product_options_menu_parent" name="Options" id="product_options_menu"

@@ -1,24 +1,20 @@
-# Translation of OpenERP Server.
+# Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* eln_product_price_unit_precision
+# 	* eln_product_price_unit_precision
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: OpenERP Server 6.1\n"
+"Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-12 17:42+0000\n"
-"PO-Revision-Date: 2015-06-12 17:42+0000\n"
-"Last-Translator: <>\n"
+"POT-Creation-Date: 2019-05-31 06:50+0000\n"
+"PO-Revision-Date: 2019-05-31 08:51+0200\n"
+"Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
-
-#. module: eln_product_price_unit_precision
-#: model:ir.model,name:eln_product_price_unit_precision.model_purchase_order_line
-msgid "Purchase Order Line"
-msgstr "Líneas de pedido de compra"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: es\n"
+"X-Generator: Poedit 2.2.3\n"
 
 #. module: eln_product_price_unit_precision
 #: model:ir.model,name:eln_product_price_unit_precision.model_account_invoice_line
@@ -26,7 +22,11 @@ msgid "Invoice Line"
 msgstr "Línea de factura"
 
 #. module: eln_product_price_unit_precision
+#: model:ir.model,name:eln_product_price_unit_precision.model_purchase_order_line
+msgid "Purchase Order Line"
+msgstr "Líneas de pedido de compra"
+
+#. module: eln_product_price_unit_precision
 #: model:ir.model,name:eln_product_price_unit_precision.model_sale_order_line
 msgid "Sales Order Line"
-msgstr "Línea pedido de venta"
-
+msgstr "Línea de pedido de venta"

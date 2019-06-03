@@ -38,13 +38,14 @@
                </search>
             </field>
         </record>
+
         <record model="ir.actions.act_window" id="product_verifications_action">
-        <field name="name">verifications</field>
-        <field name="res_model">product.verifications</field>
-        <field name="view_mode">tree,form</field>
-        <field name="view_id" ref="product_verifications_tree_view"/>
-        <field name="search_view_id" ref="product_verifications_search_view"/>
-    </record>
+            <field name="name">Verifications</field>
+            <field name="res_model">product.verifications</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="product_verifications_tree_view"/>
+            <field name="search_view_id" ref="product_verifications_search_view"/>
+        </record>
 
         <menuitem parent="stock.menu_product_in_config_stock" name="Verifications" id="product_verifications_menu_parent"/>
         <menuitem parent="product_verifications_menu_parent" name="Verifications" id="product_verifications_menu"

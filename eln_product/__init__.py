@@ -18,13 +18,5 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-import options
-import verifications
+import models
 import wizard
-import ingredients
-import parameters
-import product
-import mrp
-# import mail_message # No necesario (POST-MIGRATION)
-import pricelist
-

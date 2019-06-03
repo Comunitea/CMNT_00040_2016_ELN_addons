@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
-#    
+#
 #    Copyright (C) 2004-2012 Pexego Sistemas Informáticos All Rights Reserved
-#    $Omar Castiñeira Saavedra$ <omar@pexego.es>
+#    $Marta Vázquez Rodríguez$ <marta@pexego.es>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -18,19 +18,27 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from openerp import models, fields
 
-from openerp.osv import osv, fields
 
-class product_trademark(osv.osv):
-    
-    _name = "product.trademark"
-    
-    
-    _columns = {
-        'name': fields.char('Name', size=255, required=True),
-        'active': fields.boolean('Active')
-    }
-    
-    _defaults = {
-        'active': True
-    }
+class ProductParameters(models.Model):
+    _name = 'product.parameter'
+
+    name = fields.Char('Name', size=255, required=True, translate=True)
+    type = fields.Selection([
+        ('chemical', 'Chemical'),
+        ('physical', 'Physical'),
+        ('microbiological', 'Microbiological'),
+        ('organoleptic','Organoleptic')
+        ], string='Type', required=True)
+
+
+class ProductParameterProduct(models.Model):
+    _name = 'product.parameter.product'
+
+    name = fields.Char('Name', size=64, required=True,
+        default=lambda self: self.env['ir.sequence'].get('product.parameter.product') or '/')
+    product_id = fields.Many2one('product.product', 'Product', ondelete='cascade')
+    parameter_id = fields.Many2one('product.parameter', 'Parameter')
+    value = fields.Char('Value', size=128, translate=True)
+

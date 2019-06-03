@@ -18,14 +18,11 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from openerp import models, fields
 
-from openerp.osv import osv, fields
 
+class ProductTemplate(models.Model):
+    _inherit = 'product.template'
+    
+    format_id = fields.Many2one(string="Format", comodel_name='product.format')
 
-class product_template(osv.osv):
-
-    _inherit = "product.template"
-
-    _columns = {
-        'format_id': fields.many2one('product.format', 'Format')
-    }

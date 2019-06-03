@@ -19,14 +19,22 @@
 #
 ##############################################################################
 {
-    "name" : "Product Format",
-    "description" : """Add format field to product""",
-    "version" : "1.0",
-    "author" : "Pexego",
-    "depends" : ["base", "product", "stock"],
-    "category" : "Product",
-    "init_xml" : [],
-    "data" : ["product_format_view.xml", "product_view.xml", "security/ir.model.access.csv"],
+    "name": "Product Format",
+    "description": """Add format field to product""",
+    "version": "1.0",
+    "author": "Pexego",
+    "depends": [
+        'base',
+        'product',
+        'stock',
+    ],
+    "category": "Product",
+    "init_xml": [],
+    "data": [
+        'security/ir.model.access.csv',
+        'views/product_format_view.xml',
+        'views/product_view.xml',
+    ],
     'demo_xml': [],
     'installable': True,
     'active': False,

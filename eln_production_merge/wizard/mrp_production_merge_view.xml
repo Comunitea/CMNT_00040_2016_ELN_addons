@@ -14,8 +14,10 @@
                     <label string="Invalid productions" colspan="4"/>
                     <field name="invalid_production_ids" colspan="4" nolabel="1"/>
                     <separator string="" colspan="6"/>
-                    <button special="cancel" string="Cancel" icon="gtk-cancel"/>
-                    <button name="do_merge" string="Unify" type="object" icon="terp-gtk-go-back-rtl"/>
+                    <footer>
+                        <button icon="gtk-cancel" special="cancel" string="Cancel" colspan="2"/>
+                        <button icon="terp-gtk-go-back-rtl" name="do_merge" string="Unify" type="object" colspan="2" default_focus="1" />
+                    </footer>
                </form>
             </field>
         </record>

@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
-#
+#    
 #    Copyright (C) 2004-2012 Pexego Sistemas Informáticos All Rights Reserved
-#    $Marta Vázquez Rodríguez$ <marta@pexego.es>
+#    $Omar Castiñeira Saavedra$ <omar@pexego.es>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -18,25 +18,11 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import orm, fields
+from openerp import models, fields
 
 
-class mrp_bom_line(orm.Model):
-    _inherit = 'mrp.bom.line'
+class ProductTemplate(models.Model):
+    _inherit = 'product.template'
+    
+    trademark_id = fields.Many2one(string="Trademark", comodel_name='product.trademark')
 
-    def _get_product_qty_percent(self, cr, uid, ids, field_name, arg, context):
-
-        res = {}
-        qty_total = 0.0
-
-        for line in self.browse(cr, uid, ids, context=context):
-            qty_total += line.product_qty
-
-        for line in self.browse(cr, uid, ids, context=context):
-            res[line.id] = int(round((line.product_qty * 100) / qty_total))
-
-        return res
-
-    _columns = {
-        'product_qty_percent': fields.function(_get_product_qty_percent, type="integer", string="Qty(%)", readonly=True),
-    }

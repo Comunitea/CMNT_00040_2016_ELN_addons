@@ -7,7 +7,7 @@
         </record>
         <record forcecreate="True" id="decimal_purchase_price_unit" model="decimal.precision">
             <field name="name">Purchase Price Unit</field>
-            <field name="digits">6</field>
+            <field name="digits">3</field>
         </record>
         <record forcecreate="True" id="decimal_invoice_price_unit" model="decimal.precision">
             <field name="name">Invoice Price Unit</field>

@@ -18,31 +18,35 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import orm, fields
-from openerp.tools.translate import _
+from openerp import models, fields, api, _
 
 
-class mrp_production_merge(orm.TransientModel):
-    _name = "mrp.production.merge"
-    _columns = {
-        'valid_production_id': fields.many2one('mrp.production', 'Production to keep', required=True),
-        'invalid_production_ids': fields.many2many('mrp.production', 'mrp_production_merge_production', 'prod_merge_id', 'production_id', string="Productions to cancel", required=True)
-    }
+class MrpProductionMerge(models.TransientModel):
+    _name = 'mrp.production.merge'
 
-    def default_get(self, cr, uid, fields, context=None):
-        """
-        """
-        res = super(mrp_production_merge, self).default_get(cr, uid, fields, context=context)
-        if context and 'active_ids' in context and context['active_ids']:
-            res.update({'invalid_production_ids':  context['active_ids'],
-                        'valid_production_id':  min(context['active_ids'])})
+    valid_production_id = fields.Many2one(
+        'mrp.production', 'Production to keep',
+        required=True)
+    invalid_production_ids = fields.Many2many(
+        'mrp.production', rel='mrp_production_merge_production',
+        id1='prod_merge_id', id2='production_id',
+        string='Productions to cancel', required=True)
+
+    @api.model
+    def default_get(self, fields):
+        res = super(MrpProductionMerge, self).default_get(fields)
+        if 'active_ids' in self._context and self._context['active_ids']:
+            res.update({
+                'invalid_production_ids': self._context['active_ids'],
+                'valid_production_id': min(self._context['active_ids'])
+            })
         return res
 
-    def do_merge(self, cr, uid, ids, context=None):
-        if context is None:
-            context = {}
-        for form in self.browse(cr, uid, ids, context=context):
-            new_production_id = self.pool.get('mrp.production')._do_merge(cr, uid, [form.valid_production_id.id], [x.id for x in form.invalid_production_ids], context)
+    @api.multi
+    def do_merge(self):
+        for wizard in self:
+            invalid_ids = [x.id for x in wizard.invalid_production_ids]
+            new_production_id = wizard.valid_production_id._do_merge(invalid_ids=invalid_ids)
             return {
                 'domain': "[('id','=',%d)]" % new_production_id,
                 'name': _('Production Orders'),

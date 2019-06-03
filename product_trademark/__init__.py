@@ -19,5 +19,4 @@
 #
 ##############################################################################
 
-import product_trademark
-import product_template
+import models

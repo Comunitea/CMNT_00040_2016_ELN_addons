@@ -6,16 +6,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-17 14:03+0000\n"
-"PO-Revision-Date: 2018-07-17 16:06+0200\n"
-"Last-Translator: <>\n"
+"POT-Creation-Date: 2019-05-30 20:12+0000\n"
+"PO-Revision-Date: 2019-05-31 12:52+0200\n"
+"Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: \n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Language: es\n"
-"X-Generator: Poedit 2.0.9\n"
+"X-Generator: Poedit 2.2.3\n"
 
 #. module: eln_product
 #: code:addons/eln_product/wizard/send_datasheet.py:48
@@ -51,13 +51,14 @@ msgstr "Las respuestas no van al documento original del hilo de discusión. Esto
 
 #. module: eln_product
 #: view:product.product:eln_product.product_normal_form_view_add_datasheet2
-msgid "Approved By"
+#: field:product.product,approved_by:0
+msgid "Approved by"
 msgstr "Aprobado por"
 
 #. module: eln_product
-#: field:product.product,approved_by:0
-msgid "Approved by"
-msgstr "﻿Aprobado por"
+#: field:product.product,approved_signature:0
+msgid "Approved signature"
+msgstr "Approved signature"
 
 #. module: eln_product
 #: field:mail.compose.message.product.datasheet,attachment_ids:0
@@ -274,6 +275,11 @@ msgid "Date"
 msgstr "Fecha"
 
 #. module: eln_product
+#: help:product.pricelist.item,uom_id:0
+msgid "Default Unit of Measure used for all stock operation."
+msgstr "Unidad de medida por defecto utilizada para todas las operaciones de stock."
+
+#. module: eln_product
 #: view:product.product:eln_product.product_normal_form_view_add_datasheet2
 #: field:product.revision,description:0
 msgid "Description"
@@ -326,10 +332,6 @@ msgstr "Energía (kcal)"
 
 #. module: eln_product
 #: view:product.product:eln_product.product_normal_form_view_add_datasheet2
-msgid "Expected Use"
-msgstr "Uso esperado"
-
-#. module: eln_product
 #: field:product.product,expected_use:0
 msgid "Expected use"
 msgstr "Uso esperado"
@@ -368,8 +370,8 @@ msgstr "Peso bruto (kg)"
 #. module: eln_product
 #: view:product.parameter:eln_product.product_parameter_search_view
 #: view:product.sheet.shipments:eln_product.product_sheet_shipments_search_view
-msgid "Group by ..."
-msgstr "Agrupar por ..."
+msgid "Group By"
+msgstr "Agrupar por"
 
 #. module: eln_product
 #: field:copy.product.ldm,id:0
@@ -392,6 +394,11 @@ msgstr "Ingredientes"
 #: help:mail.compose.message.product.datasheet,parent_id:0
 msgid "Initial thread message."
 msgstr "Initial thread message."
+
+#. module: eln_product
+#: help:product.pricelist.item,ean13:0
+msgid "International Article Number used for product identification."
+msgstr "Número de artículo internacional usado para la identificación de producto."
 
 #. module: eln_product
 #: view:product.product:eln_product.product_normal_form_view_add_datasheet2
@@ -475,11 +482,6 @@ msgid "LdM ids str"
 msgstr "LdM ids str"
 
 #. module: eln_product
-#: view:copy.product.ldm:eln_product.view_copy_product_ldm_wzd
-msgid "LdM's"
-msgstr "LdM's"
-
-#. module: eln_product
 #: field:mail.compose.message.product.datasheet,is_log:0
 msgid "Log an Internal Note"
 msgstr "Registrar una nota interna"
@@ -530,7 +532,7 @@ msgstr "Name get of the related document."
 
 #. module: eln_product
 #: field:product.product,unit_net_weight_drained:0
-msgid "Net Drained Weight (g)"
+msgid "Net drained weight (g)"
 msgstr "Peso neto escurrido (g)"
 
 #. module: eln_product
@@ -571,10 +573,6 @@ msgstr "Notificar a los seguidores del documento (sólo para envíos masivos)"
 
 #. module: eln_product
 #: view:product.product:eln_product.product_normal_form_view_add_datasheet2
-msgid "OGM's"
-msgstr "OGM's"
-
-#. module: eln_product
 #: field:product.product,ogms:0
 msgid "OGMs"
 msgstr "OGMs"
@@ -697,7 +695,7 @@ msgstr "Presentación"
 
 #. module: eln_product
 #: field:product.pricelist.item,price_calculated:0
-msgid "Price Calculated"
+msgid "Price calculated"
 msgstr "Precio calculado"
 
 #. module: eln_product
@@ -720,11 +718,6 @@ msgstr "Proceso"
 #: field:product.verifications.product,product_id:0
 msgid "Product"
 msgstr "Producto"
-
-#. module: eln_product
-#: field:product.ingredient,product_parent_id:0
-msgid "Product Parent"
-msgstr "Producto padre"
 
 #. module: eln_product
 #: field:product.ingredient,product_qty:0
@@ -761,6 +754,11 @@ msgstr "Opciones de producto"
 #: view:product.parameter:eln_product.product_parameter_tree_view
 msgid "Product parameters"
 msgstr "Parámetros"
+
+#. module: eln_product
+#: field:product.ingredient,product_parent_id:0
+msgid "Product parent"
+msgstr "Producto padre"
 
 #. module: eln_product
 #: view:product.sheet.shipments:eln_product.product_sheet_form_view
@@ -845,13 +843,14 @@ msgstr "Rev."
 
 #. module: eln_product
 #: view:product.product:eln_product.product_normal_form_view_add_datasheet2
-msgid "Reviewed By"
-msgstr "Revisado por"
-
-#. module: eln_product
 #: field:product.product,reviewed_by:0
 msgid "Reviewed by"
 msgstr "Revisado por"
+
+#. module: eln_product
+#: field:product.product,reviewed_signature:0
+msgid "Reviewed signature"
+msgstr "Reviewed signature"
 
 #. module: eln_product
 #: view:product.sheet.shipments:eln_product.product_sheet_shipments_search_view
@@ -912,6 +911,11 @@ msgid "Specifications"
 msgstr "Especificaciones"
 
 #. module: eln_product
+#: help:product.pricelist.item,uos_id:0
+msgid "Specify a unit of measure here if invoicing is made in another unit of measure than inventory. Keep empty to use the default unit of measure."
+msgstr "Especifique aquí una unidad de medida si la factura se realizará en otra unidad distinta a la del inventario. Déjelo vacío para usar la de por defecto."
+
+#. module: eln_product
 #: field:mail.compose.message.product.datasheet,starred:0
 msgid "Starred"
 msgstr "Destacado"
@@ -958,7 +962,7 @@ msgid "Technical field holding the message notifications. Use notified_partner_i
 msgstr "Technical field holding the message notifications. Use notified_partner_ids to access notified partners."
 
 #. module: eln_product
-#: code:addons/eln_product/product.py:266
+#: code:addons/eln_product/models/product.py:217
 #, python-format
 msgid ""
 "The DUN-14 code you entered is already in use.\n"
@@ -968,7 +972,7 @@ msgstr ""
 "Las referencias de los productos relacionados son: %s"
 
 #. module: eln_product
-#: code:addons/eln_product/product.py:246
+#: code:addons/eln_product/models/product.py:200
 #, python-format
 msgid ""
 "The EAN-13 code you entered is already in use.\n"
@@ -1010,6 +1014,7 @@ msgstr "Ancho total (mm)"
 
 #. module: eln_product
 #: field:mail.compose.message.product.datasheet,type:0
+#: view:product.parameter:eln_product.product_parameter_search_view
 #: field:product.parameter,type:0
 msgid "Type"
 msgstr "Tipo"
@@ -1025,12 +1030,12 @@ msgid "Units per box"
 msgstr "Unidades por caja"
 
 #. module: eln_product
-#: field:product.pricelist.item,uom:0
+#: field:product.pricelist.item,uom_id:0
 msgid "UoM"
 msgstr "UdM"
 
 #. module: eln_product
-#: field:product.pricelist.item,uos:0
+#: field:product.pricelist.item,uos_id:0
 msgid "UoS"
 msgstr "UdV"
 
@@ -1065,19 +1070,16 @@ msgid "Variety"
 msgstr "Variedad"
 
 #. module: eln_product
-#: field:product.product,verification_ids:0
-msgid "Verfications"
-msgstr "Verificaciones"
-
-#. module: eln_product
 #: field:product.verifications.product,verification_id:0
 msgid "Verification"
 msgstr "Verificación"
 
 #. module: eln_product
+#: model:ir.actions.act_window,name:eln_product.product_verifications_action
 #: model:ir.ui.menu,name:eln_product.product_verifications_menu
 #: model:ir.ui.menu,name:eln_product.product_verifications_menu_parent
 #: view:product.product:eln_product.product_normal_form_view_add_datasheet2
+#: field:product.product,verification_ids:0
 msgid "Verifications"
 msgstr "Verificaciones"
 
@@ -1087,8 +1089,8 @@ msgid "Votes"
 msgstr "Votos"
 
 #. module: eln_product
-#: code:addons/eln_product/product.py:245
-#: code:addons/eln_product/product.py:265
+#: code:addons/eln_product/models/product.py:199
+#: code:addons/eln_product/models/product.py:216
 #, python-format
 msgid "Warning!"
 msgstr "¡Advertencia!"
@@ -1100,13 +1102,14 @@ msgstr "Si el mensaje es una nota interna (sólo en modo de comentario)"
 
 #. module: eln_product
 #: view:product.product:eln_product.product_normal_form_view_add_datasheet2
-msgid "Written By"
-msgstr "Escrito por"
-
-#. module: eln_product
 #: field:product.product,written_by:0
 msgid "Written by"
 msgstr "Escrito por"
+
+#. module: eln_product
+#: field:product.product,written_signature:0
+msgid "Written signature"
+msgstr "Written signature"
 
 #. module: eln_product
 #: code:addons/eln_product/wizard/send_datasheet.py:48
@@ -1128,30 +1131,3 @@ msgstr "de las cuales saturadas (g)"
 #: field:product.product,carbo_sugar:0
 msgid "of which sugars"
 msgstr "de los cuales azúcares (g)"
-
-#. module: eln_product
-#: view:product.product:eln_product.product_normal_form_view_add_datasheet2
-msgid "onchange_ean13(ean13)"
-msgstr "onchange_ean13(ean13)"
-
-#. module: eln_product
-#: view:product.product:eln_product.product_normal_form_view_add_datasheet2
-msgid "onchange_state(state, ramp_up_date)"
-msgstr "onchange_state(state, ramp_up_date)"
-
-#. module: eln_product
-#: view:product.parameter:eln_product.product_parameter_search_view
-msgid "type"
-msgstr "tipo"
-
-#. module: eln_product
-#: field:product.product,approved_signature:0
-#: field:product.product,reviewed_signature:0
-#: field:product.product,written_signature:0
-msgid "unknown"
-msgstr "Desconocido"
-
-#. module: eln_product
-#: model:ir.actions.act_window,name:eln_product.product_verifications_action
-msgid "verifications"
-msgstr "Verificaciones"
