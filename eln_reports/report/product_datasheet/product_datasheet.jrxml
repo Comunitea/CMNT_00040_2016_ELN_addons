@@ -281,17 +281,11 @@
 	<field name="Nombre_del_trabajo-name" class="java.lang.String">
 		<fieldDescription><![CDATA[Job-approved_job/Nombre_del_trabajo-name]]></fieldDescription>
 	</field>
-	<field name="Signature-approved_signature" class="java.lang.String">
-		<fieldDescription><![CDATA[Signature-approved_signature]]></fieldDescription>
-	</field>
 	<field name="Name-name3" class="java.lang.String">
 		<fieldDescription><![CDATA[Reviewed_by-reviewed_by/Name-name]]></fieldDescription>
 	</field>
 	<field name="Nombre_del_trabajo-name2" class="java.lang.String">
 		<fieldDescription><![CDATA[Job-reviewed_job/Nombre_del_trabajo-name]]></fieldDescription>
-	</field>
-	<field name="Signature-reviewed_signature" class="java.lang.String">
-		<fieldDescription><![CDATA[Signature-reviewed_signature]]></fieldDescription>
 	</field>
 	<field name="Name-name4" class="java.lang.String">
 		<fieldDescription><![CDATA[Written_by-written_by/Name-name]]></fieldDescription>
@@ -302,6 +296,12 @@
 	<field name="Signature-written_signature" class="java.lang.String">
 		<fieldDescription><![CDATA[Signature-written_signature]]></fieldDescription>
 	</field>
+	<field name="Signature-reviewed_signature" class="java.lang.String">
+		<fieldDescription><![CDATA[Signature-reviewed_signature]]></fieldDescription>
+	</field>
+	<field name="Signature-approved_signature" class="java.lang.String">
+		<fieldDescription><![CDATA[Signature-approved_signature]]></fieldDescription>
+	</field>
 	<field name="Recommended_ration__gr-recommended_ration" class="java.lang.Integer">
 		<fieldDescription><![CDATA[Recommended_ration__gr-recommended_ration]]></fieldDescription>
 	</field>
@@ -310,9 +310,6 @@
 	</field>
 	<field name="Logo-logo" class="java.lang.String">
 		<fieldDescription><![CDATA[Usuario-User/Compania-company_id/Logo-logo]]></fieldDescription>
-	</field>
-	<field name="Signature-signature_image" class="java.lang.String">
-		<fieldDescription><![CDATA[Approved_by-approved_by/User-user_id/Signature-signature_image]]></fieldDescription>
 	</field>
 	<field name="category_uom_id" class="java.lang.String">
 		<fieldDescription><![CDATA[Default_Unit_Of_Measure-uom_id/Categoria_UdM-category_id/id]]></fieldDescription>
@@ -864,15 +861,15 @@
 				</textField>
 				<image hAlign="Center" vAlign="Middle" onErrorType="Blank">
 					<reportElement positionType="Float" x="44" y="14" width="96" height="58"/>
-					<imageExpression class="java.lang.String"><![CDATA[$F{Signature-written_signature}]]></imageExpression>
+					<imageExpression class="java.lang.String"><![CDATA[new java.io.ByteArrayInputStream(org.apache.commons.codec.binary.Base64.decodeBase64($F{Signature-written_signature}.getBytes()))]]></imageExpression>
 				</image>
 				<image hAlign="Center" vAlign="Middle" onErrorType="Blank">
 					<reportElement positionType="Float" x="228" y="14" width="96" height="58"/>
-					<imageExpression class="java.lang.String"><![CDATA[$F{Signature-reviewed_signature}]]></imageExpression>
+					<imageExpression class="java.lang.String"><![CDATA[new java.io.ByteArrayInputStream(org.apache.commons.codec.binary.Base64.decodeBase64($F{Signature-reviewed_signature}.getBytes()))]]></imageExpression>
 				</image>
 				<image hAlign="Center" vAlign="Middle" onErrorType="Blank">
 					<reportElement positionType="Float" x="413" y="14" width="96" height="58"/>
-					<imageExpression class="java.lang.String"><![CDATA[$F{Signature-approved_signature}]]></imageExpression>
+					<imageExpression class="java.lang.String"><![CDATA[new java.io.ByteArrayInputStream(org.apache.commons.codec.binary.Base64.decodeBase64($F{Signature-approved_signature}.getBytes()))]]></imageExpression>
 				</image>
 				<textField>
 					<reportElement positionType="Float" x="6" y="85" width="175" height="13"/>
