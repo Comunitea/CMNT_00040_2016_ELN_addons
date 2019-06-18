@@ -24,13 +24,12 @@ export class OdooProvider {
       this.uid = 0
     }
 
-    pendingCalls(){
+    pendingCalls() {
         var promise = new Promise( (resolve, reject) => {
             console.log(this.pending_calls);
             if (this.pending_calls.length == 0) { 
                 resolve(); 
-            }
-            else{
+            } else {
                 let pending = this.pending_calls[0]
                 var method = pending['method']
                 var values = pending['values']
@@ -40,14 +39,11 @@ export class OdooProvider {
                         var err = {'title': '¡Error!', 'msg': 'No hay datos para establecer la conexión'}
                         reject(err);
                     } else {
-                        var model = 'app.registry'
-
+                        var model = 'production.app.registry'
                         if (method == 'restart_production' || method == 'restart_and_clean_production'){
                             values['stop_id'] = this.last_stop_id;
                         }
-
                         odoo.call(model, method, values).then((res) => {
-
                             if (method == 'stop_production') {
                                 this.last_stop_id = res['stop_id'];
                             }
@@ -57,7 +53,6 @@ export class OdooProvider {
                             if (method == 'log_out_operator') {
                                 this.operatorsById[values['operator_id']]['operator_line_id'] = false;
                             }
-
                             this.pending_calls.splice(0, 1);
                             this.pendingCalls().then( () => {
                                 resolve();
@@ -69,14 +64,12 @@ export class OdooProvider {
                         .catch( () => {
                             console.log("Err3")
                         });
-                              
                     }
                 })
                 .catch( ()  => {
                     console.log("err");
                 });
             }
-           
         });
         return promise
     }
@@ -93,13 +86,13 @@ export class OdooProvider {
                     reject(err);
                 } else {
                     this.pendingCalls().then( () => {
-                        var model = 'app.registry'
+                        var model = 'production.app.registry'
                         odoo.call(model, method, values).then((res) => {
                             resolve(res);
                         })
                         .catch( () => {
                             this.pending_calls.push({'method': method, 'values': values})
-                            var err = {'title': '¡Error!', 'msg': 'Fallo al llamar al método ' + method + ' del modelo app.registry'}
+                            var err = {'title': '¡Error!', 'msg': 'Fallo al llamar al método ' + method + ' del modelo production.app.registry'}
                             reject(err);
                         });
                     })
@@ -154,7 +147,7 @@ export class OdooProvider {
                         resolve(res);
                     })
                     .catch( () => {
-                        var err = {'title': '¡Error!', 'msg': 'Fallo al llamar al método ' + method + 'del modelo app.registry'}
+                        var err = {'title': '¡Error!', 'msg': 'Fallo al llamar al método ' + method + 'del modelo production.app.registry'}
                         reject(err);
                     });
                 }

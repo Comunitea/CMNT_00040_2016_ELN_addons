@@ -24,6 +24,10 @@ export class ProductionProvider {
     production_id;
     product;
     product_id;
+    uom_id;
+    uos_id;
+    location_src_id;
+    location_dest_id;
     consume_product_id;
     state;
     states;
@@ -38,7 +42,7 @@ export class ProductionProvider {
     consumptions: Object[];
     consumptions_in: Object[];
     consumptions_out: Object[];
-    allowed_consumptions: Object[];
+    finished_products: Object[];
 
     operator_line_id;
     active_operator_id: number = 0;
@@ -64,7 +68,7 @@ export class ProductionProvider {
             'confirmed': 'PRODUCCIÓN CONFIRMADA',
             'setup': 'PREPARACIÓN PRODUCCIÓN',
             'started': 'PRODUCCIÓN INICIADA',
-            'stoped': 'PRODUCCIÓN PARADA',
+            'stopped': 'PRODUCCIÓN PARADA',
             'cleaning': 'PRODUCCIÓN EN LIMPIEZA',
             'finished': 'PRODUCCIÓN FINALIZADA'
         };
@@ -74,9 +78,10 @@ export class ProductionProvider {
         this.consumptions = [];
         this.consumptions_in = [];
         this.consumptions_out = [];
+        this.finished_products = [];
     }
 
-    getUTCDateStr(){
+    getUTCDateStr() {
         var date = new Date();
         var year = date.getFullYear();
         var month = date.getMonth() + 1;
@@ -102,7 +107,7 @@ export class ProductionProvider {
     }
 
     //Gets operators allowed, now all employees
-    getAllowedOperators(reg){
+    getAllowedOperators(reg) {
         var allowed_operators = reg['allowed_operators'];
         this.operators = allowed_operators;
         for (let indx in allowed_operators) {
@@ -119,12 +124,12 @@ export class ProductionProvider {
         //console.log(this.odooCon.operatorsById)
     }
 
-    getLogInOperators(){
+    getLogInOperators() {
         var items2 = this.operators.filter(obj => this.odooCon.operatorsById[obj.id]['log'] == 'in');
         return items2;
     }
 
-    getOperatorNames(){
+    getOperatorNames() {
         let str_names = ''
         var log_in_list = this.getLogInOperators()
         for (let indx in log_in_list) {
@@ -132,9 +137,9 @@ export class ProductionProvider {
             str_names += op.name + ', ' 
         }
         return str_names
-
     }
-    getActiveOperatorName(){
+
+    getActiveOperatorName() {
         let str_names = ''
         var log_in_list = this.getLogInOperators()
         for (let indx in log_in_list) {
@@ -147,8 +152,8 @@ export class ProductionProvider {
 
     }
 
-    getLots(){
-        var model = 'production.app'
+    getLots() {
+        var model = 'production.app.registry'
         var method = 'get_available_lot'
         var values = {'product_ids': this.consume_ids, 'with_stock': true}
         this.lotsByProduct = {}
@@ -162,7 +167,7 @@ export class ProductionProvider {
                 this.lotsByProduct[product_id].push(lot)
             }
             console.log("LOTSBYID1")
-            console.log(this.lotsByProduct)
+            console.log(this.lotsByProduct, this.consume_ids)
         })
         .catch( (err) => {
             console.log("Error buscando lotes")
@@ -182,14 +187,14 @@ export class ProductionProvider {
                 this.lotsByProduct[product_id].push(lot)
             }
             console.log("LOTSBYID2")
-            //console.log(this.lotsByProduct, this)
+            console.log(this.lotsByProduct, this.product_ids)
         })
         .catch( (err) => {
             console.log("Error buscando lotes")
         });
     }
 
-    logInOperator(operator_id){
+    logInOperator(operator_id) {
         // if (this.loged_ids.length === 0){
         //     this.setActiveOperator(operator_id)
         // }
@@ -207,11 +212,11 @@ export class ProductionProvider {
         });
     }
 
-    setActiveOperator(operator_id){
+    setActiveOperator(operator_id) {
         this.active_operator_id = operator_id;
     }
 
-    logOutOperator(operator_id){
+    logOutOperator(operator_id) {
         this.odooCon.operatorsById[operator_id]['log'] = 'out'
         var index = this.loged_ids.indexOf(operator_id);
         if (index > -1) {
@@ -230,7 +235,7 @@ export class ProductionProvider {
         });
     }
 
-    setLogedTimes(){
+    setLogedTimes() {
         for (let indx in this.loged_ids) {
             let operator_id =  this.loged_ids[indx]
             this.logInOperator(operator_id)
@@ -254,6 +259,7 @@ export class ProductionProvider {
         console.log("TECHNICAL REASONS");
         console.log(this.technical_reasons);
     }
+
     getStopReasons(workcenter_id){
         var promise = new Promise( (resolve, reject) => {
             this.odooCon.searchRead('stop.reason', [], ['id', 'name', 'reason_type', 'workcenter_ids']).then( (res) => {
@@ -268,7 +274,7 @@ export class ProductionProvider {
         return promise
     }
 
-    getScrapReasons(){
+    getScrapReasons() {
         var promise = new Promise( (resolve, reject) => {
             this.odooCon.searchRead('scrap.reason', [], ['id', 'name']).then( (res) => {
                 this.scrap_reasons = [];
@@ -287,7 +293,7 @@ export class ProductionProvider {
     }
 
     // Gets all the data needed from the app.regystry model
-    loadProduction(vals){
+    loadProduction(vals) {
         var promise = new Promise( (resolve, reject) => {
             var values = {'workline_id': vals['workline_id'], 'workcenter_id': vals['workcenter_id'], 'workline_name': vals['workline_name']}
             var method = 'app_get_registry'
@@ -332,6 +338,10 @@ export class ProductionProvider {
         this.production_uos_qty = data.production_uos_qty;
         this.uom = data.uom;
         this.uos = data.uos;
+        this.uom_id = data.uom_id;
+        this.uos_id = data.uos_id;
+        this.location_src_id = data.location_src_id;
+        this.location_dest_id = data.location_dest_id;
         this.uos_coeff = data.uos_coeff;
         this.change_lot_qc_id = data.change_lot_qc_id;
         this.product_ids = data.product_ids;
@@ -370,49 +380,35 @@ export class ProductionProvider {
         });
     }
 
-    loadConsumptions(moves) {
-        /* Cargo tanto todos los movimientos en la propiedad consumptions
-           Como aquellos consumos que se pueden mostrar en la aplicación
-           con el check de allowed consumptions.
+    loadConsumptions(lines) {
+        /* Cargo los movimientos en la propiedad consumptions
            Se usa tanto en la página de consumos como en la de alimentador
-         */
+        */
         this.consumptions = [];
-        this.allowed_consumptions = [];
-        for (var indx in moves) {
-            var move = moves[indx];
-            var lot_name = '';
-            var lot_id = false;
-            var state = 'Para consumir';
-            if (move['state'] == 'done' || move['state'] == 'cancel') {
-                state = 'Consumido';
-            }
-            if (move['restrict_lot_id']) {
-                lot_id = move['restrict_lot_id'][0];
-                lot_name = move['restrict_lot_id'][1];
-            }
+        for (var indx in lines) {
+            var line = lines[indx];
             var vals = {
-                'product': move['product_id'][1],
-                'product_id': move['product_id'][0],
-                'qty': move['product_uom_qty'],
-                'uom': move['product_uom'][1],
-                'lot': lot_name,
-                'state': state,
-                // Añado para la pantalla de consumos-alimentador
-                // TODO mezclar estos vals con los de consumos, para que
-                // tengan los mismos campos
-                'product_name': move['product_id'][1],
-                'uom_name': move['product_uom'][1],
-                'uom_id': move['product_uom'][0],
-                'lot_name': lot_name,
-                'lot_id': lot_id,
+                'product_id': line['product_id'][0],
+                'product_name': line['product_id'][1],
+                'uom_id': line['product_uom'][0],
+                'uom_name': line['product_uom'][1],
+                'qty': line['product_qty'],
+                'location_id': line['location_id'][0],
+                'location_name': line['location_id'][1],
             };
             this.consumptions.push(vals);
-            if (move['show_in_app'] == true) {
-                this.allowed_consumptions.push(vals);
-            }
+        }
+        var grouped_lines = this.consumptions.reduce(function(a, e) {
+          let key = (e['product_name'] + '|' + e['product_id'] + '|' + e['uom_id']);
+          (!a[key] ? a[key] = e : (a[key]['qty'] += e['qty']));
+          return a;
+        }, {});
+        this.consumptions = []
+        for (let key in grouped_lines) {
+             this.consumptions.push(grouped_lines[key])
         }
         console.log("MOVES");
-        console.log(moves);
+        console.log(lines);
         console.log("LOADED CONSUMPTIONS");
         console.log(this.consumptions);
     }
@@ -420,53 +416,56 @@ export class ProductionProvider {
     loadConsumptionsLines(lines) {
         this.consumptions_in = [];
         this.consumptions_out = [];
+        this.finished_products = [];
         for (let indx in lines) {
             var line = lines[indx];
             var lot_name = '';
             var lot_id = false;
-            var state='Para consumir'
-            if (line['state'] == 'done' || line['state'] == 'cancel'){
-                state = 'Consumido'
-            }
             if (line['lot_id']){
                 lot_name = line['lot_id'][1]
                 lot_id = line['lot_id'][0]
             }
             var type = line['type']
             var vals = {
-                'product_name': line['product_id'][1],
                 'product_id': line['product_id'][0],
-                'qty':  line['product_qty'],
-                'uom_name': line['product_uom'][1],
+                'product_name': line['product_id'][1],
                 'uom_id': line['product_uom'][0],
-                'lot_name': lot_name,
+                'uom_name': line['product_uom'][1],
+                'qty': line['product_qty'],
+                'location_id': line['location_id'][0],
+                'location_name': line['location_id'][1],
                 'lot_id': lot_id,
-                'state': state,
+                'lot_name': lot_name,
+                'lot_required': line['lot_required'],
                 'type': type,
                 'id': line['id']
             }
-            if (type == 'in'){
+            if (type == 'in') {
                 this.consumptions_in.push(vals);
             }
-            else {
+            if (type == 'out') {
                 this.consumptions_out.push(vals);
             }
-            
+            if (type == 'finished') {
+                this.finished_products.push(vals);
+            }
         }
         console.log("LINES");
         console.log(lines);
         console.log("LOADED CONSUMPTIONS IN");
-        console.log(this.consumptions_in);   
+        console.log(this.consumptions_in);
         console.log("LOADED CONSUMPTIONS OUT");
-        console.log(this.consumptions_out);   
+        console.log(this.consumptions_out);
+        console.log("LOADED FINISHED PRODUCTS");
+        console.log(this.finished_products);
     }
 
-    getConsumptions(){
+    getConsumptions() {
         var promise = new Promise( (resolve, reject) => {
-            var domain = [['raw_material_production_id', '=', this.production_id]]
-            var fields = ['id', 'show_in_app', 'product_id', 'product_uom_qty', 'product_uom', 'restrict_lot_id', 'state']
-            this.odooCon.searchRead('stock.move', domain, fields).then( (res) => {
-                this.loadConsumptions(res)
+            var domain = [['registry_id', '=', this.registry_id], ['type', '=', 'scheduled']]
+            var fields = []
+            this.odooCon.searchRead('consumption.line', domain, fields).then( (lines) => {
+                this.loadConsumptions(lines)
                 resolve();
             })
             .catch( (err) => {
@@ -476,7 +475,7 @@ export class ProductionProvider {
         return promise
     }
 
-    getConsumeInOut(){
+    getConsumeInOut() {
         var promise = new Promise( (resolve, reject) => {
             var domain = [['registry_id', '=', this.registry_id]]
             var fields = []
@@ -491,15 +490,13 @@ export class ProductionProvider {
         return promise
     }
 
-    saveConsumptionLine(line){
+    saveConsumptionLine(line) {
         var promise = new Promise( (resolve, reject) => {
             var values = {
                 'registry_id': this.registry_id,
                 'line': line,
             }
-
             this.odooCon.callRegistry('app_save_consumption_line', values).then( (res) => {
-                
                 resolve();
             })
             .catch( (err) => {
@@ -510,7 +507,26 @@ export class ProductionProvider {
         return promise
     }
 
-    saveQualityChecks(data){
+    getMergedConsumptions() {
+        var promise = new Promise( (resolve, reject) => {
+            var values = {
+                'registry_id': this.registry_id,
+            }
+            this.odooCon.callRegistry('get_merged_consumptions', values).then( (res) => {
+                if (Array.isArray(res) && res.length) {
+                    resolve(res);
+                } else {
+                    reject();
+                }
+            })
+            .catch( (err) => {
+                reject();
+            });
+        });
+        return promise
+    }
+
+    saveQualityChecks(data) {
         console.log("RESULTADO A GUARDAR")
         console.log(data)
 
@@ -537,17 +553,17 @@ export class ProductionProvider {
         });
     }
 
-    manageOdooFail(){
+    manageOdooFail() {
         console.log("Guardo para escribir luego")
     }
 
     setStepAsync(method, values) {
         values['registry_id'] = this.registry_id;     
         this.odooCon.callRegistry(method, values).then( (res) => {
-            if (method == 'stop_production'){
+            if (method == 'stop_production') {
                 this.odooCon.last_stop_id = res['stop_id'];
             }
-	    if (res['state']) {
+            if (res['state']) {
                 this.state = res['state'];
             }
         })
@@ -559,18 +575,22 @@ export class ProductionProvider {
     setConsumptionsDone() {
         this.setStepAsync('set_consumptions_done', {});
     }
+
     unsetConsumptionsDone() {
         this.setStepAsync('unset_consumptions_done', {});
     }
+
     confirmProduction() {
         this.state = 'confirmed'
         this.setStepAsync('confirm_production', {});
     }
+
     setupProduction() {
         this.state = 'setup'
         var values = {'setup_start': this.getUTCDateStr()}
         this.setStepAsync('setup_production', values);
     }
+
     startProduction() {
         this.state = 'started'
         var values = {'setup_end': this.getUTCDateStr(),
@@ -578,8 +598,9 @@ export class ProductionProvider {
                       'lot_date': this.lot_date}
         this.setStepAsync('start_production', values);
     }
+
     stopProduction(reason_id, create_mo) {
-        this.state = 'stoped'
+        this.state = 'stopped'
         var values = {'reason_id': reason_id,
                       'create_mo': create_mo,
                       'active_operator_id': this.active_operator_id,
@@ -587,28 +608,33 @@ export class ProductionProvider {
         this.setStepAsync('stop_production', values);
 
     }
+
     restartProduction() {
         this.state = 'started'
         var values = {'stop_id': this.odooCon.last_stop_id,
                       'stop_end': this.getUTCDateStr()}
         this.setStepAsync('restart_production', values);
     }
+
     cleanProduction() {
         this.state = 'cleaning'
         var values = {'cleaning_start': this.getUTCDateStr()}
         this.setStepAsync('clean_production', values);
     }
+
     finishProduction() {
         this.state = 'finished'
         var values = {'qty': this.qty,
                       'cleaning_end': this.getUTCDateStr()}
         this.setStepAsync('finish_production', values);
     }
+
     restartAndCleanProduction() {
         this.state = 'cleaning';
         var values = {'stop_id': this.odooCon.last_stop_id, 'stop_end': this.getUTCDateStr()};
         this.setStepAsync('restart_and_clean_production', values);
     }
+
     scrapProduction() {
         var values = {'scrap_qty': this.scrap_qty, 'scrap_reason_id': this.scrap_reason_id};
         this.setStepAsync('scrap_production', values);

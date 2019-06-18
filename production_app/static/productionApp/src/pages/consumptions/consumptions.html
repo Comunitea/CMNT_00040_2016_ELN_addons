@@ -16,7 +16,7 @@
 <ion-content padding>
     <ion-grid class="my-grid">
         <ion-row>
-            <ion-col col-4>
+            <ion-col col-8>
                 <span class="bold-header">Producto</span>
             </ion-col>
             <ion-col col-2 text-right>
@@ -25,28 +25,16 @@
             <ion-col col-2>
                 <span class="bold-header">UdM</span>
             </ion-col>
-             <ion-col col-2>
-                <span class="bold-header">Lote</span>
-            </ion-col>
-                <ion-col col-2>
-                <span class="bold-header">Estado</span>
-            </ion-col>
         </ion-row>
-        <ion-row *ngFor="let move of moves">
-            <ion-col col-4>
-                <span class="col-content">{{move.product}}</span>
+        <ion-row *ngFor="let line of allowed_lines">
+            <ion-col col-8>
+                <span class="col-content">{{line.product_name}}</span>
             </ion-col>
             <ion-col col-2  text-right>
-                <span class="col-content">{{move.qty}}</span>
+                <span class="col-content">{{line.qty}}</span>
             </ion-col>
             <ion-col col-2>
-                <span class="col-content">{{move.uom}}</span>
-            </ion-col>
-            <ion-col col-2>
-                <span class="col-content">{{move.lot}}</span>
-            </ion-col>
-            <ion-col col-2>
-                <span class="col-content">{{move.state}}</span>
+                <span class="col-content">{{line.uom_name}}</span>
             </ion-col>
         </ion-row>
     </ion-grid>

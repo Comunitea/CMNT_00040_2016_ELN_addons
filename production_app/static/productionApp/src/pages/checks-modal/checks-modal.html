@@ -18,16 +18,6 @@
 
 <ion-content padding>
     <ion-item [hidden]='quality_checks.length>0' color ="danger">No hay controles de calidad</ion-item>
-<!--    <ion-card *ngIf="prodData.active_operator_id !== 0">
-        <ion-card-header>
-            <span>Operario activo</span>
-         </ion-card-header>
-        <ion-card-content>
-            <div class="info-content">
-             <span>{{odooCon.operatorsById[prodData.active_operator_id]['name']}}</span>
-            </div>
-        </ion-card-content>
-    </ion-card> -->
     <ion-list>
         <ion-item *ngFor="let qc of quality_checks">
             <ion-label stacked><span>{{ qc.name }}</span></ion-label>
@@ -37,7 +27,7 @@
                 <ion-option value="NO OK"><span>NO OK</span></ion-option> 
             </ion-select>    
             <ion-input *ngIf="qc['value_type'] == 'numeric'" type="number" [(ngModel)]="qc['value']"></ion-input>
-            <ion-input *ngIf="qc['value_type'] == 'text'"  type="text" [(ngModel)]="qc['value']" ></ion-input>
+            <ion-input *ngIf="qc['value_type'] == 'text'" type="text" [(ngModel)]="qc['value']" ></ion-input>
         </ion-item>  
     </ion-list>
      <button ion-button block (click)="confirmModal()">Confirmar</button>

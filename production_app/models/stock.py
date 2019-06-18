@@ -8,6 +8,4 @@ from openerp import models, fields
 class StockMove(models.Model):
     _inherit = 'stock.move'
 
-    show_in_app = fields.Boolean('Show in app',
-                                 related='product_id.show_in_app')
     reason_id = fields.Many2one('scrap.reason', 'Reason')

@@ -27,13 +27,13 @@
         </field>
     </record>
 
-     <record id="scrap_reason_filter_view" model="ir.ui.view">
+    <record id="scrap_reason_filter_view" model="ir.ui.view">
         <field name="name">scrap.reason.filter.view</field>
         <field name="model">scrap.reason</field>
         <field name="arch" type="xml">
             <search string="Search Work Orders">
                 <field name="name"/>
-             </search>
+            </search>
         </field>
     </record>
 

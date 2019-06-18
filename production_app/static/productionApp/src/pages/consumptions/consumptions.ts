@@ -15,14 +15,14 @@ import { ProductionProvider } from '../../providers/production/production';
   templateUrl: 'consumptions.html',
 })
 export class ConsumptionsPage {
-    moves: Object[];
+    allowed_lines: Object[];
     constructor(public navCtrl: NavController, public navParams: NavParams, private prodData: ProductionProvider) {
 
     }
 
     ionViewDidLoad() {
         // this.prodData.getConsumptions();
-        this.moves = this.prodData.consumptions;
+        this.allowed_lines = this.prodData.consumptions;
     }
 
 }

@@ -7,7 +7,8 @@ from openerp import models, fields
 
 REASON_TYPES = [
     ('technical', 'Technical'),
-    ('organizative', 'Organizative')]
+    ('organizative', 'Organizative')
+]
 
 
 class ScrapReason(models.Model):

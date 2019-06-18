@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>    
+    
+    <record id="production_app_registry_tree_view" model="ir.ui.view" >
+        <field name="name">production.app.registry.tree.view</field>
+        <field name="model">production.app.registry</field>
+        <field name="arch" type="xml">
+            <tree string="App Registries">
+                <field name="wc_line_id"/>
+                <field name="workcenter_id"/>
+                <field name="production_id"/>
+                <field name="state" widget="statusbar"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="production_app_registry_form_view" model="ir.ui.view">
+        <field name="name">production.app.registry.form.view</field>
+        <field name="model">production.app.registry</field>
+        <field name="arch" type="xml">
+            <form string="App Registries">
+                <header>
+                    <button name="validate" class="oe_highlight" string="Validate" type="object" states="finished" groups="base.group_user"/>
+                    <field name="state" widget="statusbar" clickable="1" statusbar_visible="waiting,confirmed,setup,started,stopped,cleaning,finished"/>
+                </header>
+                <sheet string="App Registries">
+                    <group>
+                        <group>
+                            <field name="wc_line_id"/>
+                            <field name="workcenter_id"/>
+                            <field name="production_id"/>
+                            <field name="product_id"/>
+                            <field name="workorder_id"/>
+                        </group>
+                        <group>
+                            <field name="qty"/>
+                            <field name="lot_id"/>
+                            <field name="consumptions_done"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Times">
+                            <group colspan="4" col="6">
+                                <group string="Set-Up Times" col="2">
+                                    <field name="setup_start"/>
+                                    <field name="setup_end"/>
+                                    <field name="setup_duration" widget="float_time"/>
+                                </group>
+                                <group string="Production Times" col="2">
+                                    <field name="production_start"/>
+                                    <field name="production_end"/>
+                                    <field name="production_duration" widget="float_time"/>
+                                </group>
+                                <group string="Cleaning Times" col="2">
+                                    <field name="cleaning_start"/>
+                                    <field name="cleaning_end"/>
+                                    <field name="cleaning_duration" widget="float_time"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Quality Checks">
+                            <group string="QualityChecks">
+                                <field name="qc_line_ids" nolabel="1">
+                                    <tree>
+                                        <field name="pqc_id"/>
+                                        <field name="value"/>
+                                        <field name="date"/>
+                                        <field name="operator_id"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
+                        <page string="Production Stops">
+                            <group string="Stops">
+                                <field name="stop_line_ids" nolabel="1">
+                                    <tree>
+                                        <field name="reason_id"/>
+                                        <field name="stop_start"/>
+                                        <field name="stop_end"/>
+                                        <field name="stop_duration" widget="float_time"/>
+                                        <field name="operator_id"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
+                        <page string="Operators">
+                            <group string="Operators">
+                                <field name="operator_ids" nolabel="1">
+                                    <tree>
+                                        <field name="operator_id"/>
+                                        <field name="date_in"/>
+                                        <field name="date_out"/>
+                                        <field name="stop_duration" widget="float_time"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
+                        <page string="Feeder">
+                            <notebook>
+                                <page string="Scheduled Products">
+                                    <group string="Scheduled Products">
+                                        <field name="line_scheduled_ids" nolabel="1" context="{'consumption_type': 'scheduled', 'production_id': production_id}">
+                                            <tree editable="bottom">
+                                                <field name="type" invisible="1"/>
+                                                <field name="product_id"/>
+                                                <field name="product_qty"/>
+                                                <field name="product_uom"/>
+                                                <field name="location_id" string="Source Location"/>
+                                            </tree>
+                                        </field>
+                                    </group>
+                                </page>
+                                <page string="Consumptions - Ins">
+                                    <group string="Consumptions - Ins">
+                                        <field name="line_in_ids" nolabel="1" context="{'consumption_type': 'in', 'production_id': production_id}">
+                                            <tree editable="bottom">
+                                                <field name="type" invisible="1"/>
+                                                <field name="product_id"/>
+                                                <field name="product_qty"/>
+                                                <field name="product_uom"/>
+                                                <field name="lot_id" domain="[('product_id', '=', product_id)]" context="{'product_id': product_id, 'location_id': location_id}"/>
+                                                <field name="location_id" string="Source Location"/>
+                                            </tree>
+                                        </field>
+                                    </group>
+                                </page>
+                                <page string="Consumptions - Outs">
+                                    <group string="Consumptions - Outs">
+                                        <field name="line_out_ids" nolabel="1" context="{'consumption_type': 'out', 'production_id': production_id}">
+                                            <tree editable="bottom">
+                                                <field name="type" invisible="1"/>
+                                                <field name="product_id"/>
+                                                <field name="product_qty"/>
+                                                <field name="product_uom"/>
+                                                <field name="lot_id" domain="[('product_id', '=', product_id)]" context="{'product_id': product_id, 'location_id': location_id}"/>
+                                                <field name="location_id" string="Source Location"/>
+                                            </tree>
+                                        </field>
+                                    </group>
+                                </page>
+                                <page string="Finished Products">
+                                    <group string="Finished Products">
+                                        <field name="line_finished_ids" nolabel="1" context="{'consumption_type': 'finished', 'production_id': production_id}">
+                                            <tree editable="bottom">
+                                                <field name="type" invisible="1"/>
+                                                <field name="product_id"/>
+                                                <field name="product_qty"/>
+                                                <field name="product_uom"/>
+                                                <field name="location_id" string="Destination Location"/>
+                                            </tree>
+                                        </field>
+                                    </group>
+                                </page>
+                            </notebook>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="production_app_registry_filter_view" model="ir.ui.view">
+        <field name="name">production.app.registry.filter.view</field>
+        <field name="model">production.app.registry</field>
+        <field name="arch" type="xml">
+            <search string="Search Work Orders">
+                <field name="wc_line_id"/>
+                <field name="workcenter_id"/>
+                <field name="production_id"/>
+                <field name="state"/>
+                <separator/>
+                <filter string="Set-Up" domain="[('state','=','setup')]"/>
+                <filter string="Started" domain="[('state','=','started')]"/>
+                <filter string="Consumptions Done" domain="[('consumptions_done','=',True)]"/>
+                <filter string="Consumptions Pending" domain="[('consumptions_done','=',False)]"/>
+                <separator/>
+                <group expand="0" string="Group By">
+                    <filter string="Work Order" icon="terp-go-home" domain="[]" context="{'group_by':'wc_line_id'}"/>
+                    <filter string="Workcenter" icon="terp-go-home" domain="[]" context="{'group_by':'workcenter_id'}"/>
+                    <filter string="Status" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_production_app_registry" model="ir.actions.act_window" >
+        <field name="name">Production App Registries</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">production.app.registry</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_production_app_registry" name="App Registries" parent="mrp.menu_mrp_manufacturing"
+              action="action_production_app_registry" sequence="3"/>
+
+    </data>
+</openerp>

@@ -11,15 +11,15 @@
             <notebook position="inside">
                 <page string="Quality Checks">
                     <group string="QualityChecks">
-                            <field name="qc_line_ids" nolabel="1">
-                                <tree>
-                                    <field name="pqc_id"/>
-                                    <field name="value"/>
-                                    <field name="date"/>
-                                    <field name="operator_id"/>
-                                </tree>
-                            </field>
-                        </group>
+                        <field name="qc_line_ids" nolabel="1">
+                            <tree>
+                                <field name="pqc_id"/>
+                                <field name="value"/>
+                                <field name="date"/>
+                                <field name="operator_id"/>
+                            </tree>
+                        </field>
+                    </group>
                 </page>
                 <page string="Ins / Outs Operators">
                     <group string="Operators">

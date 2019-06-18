@@ -37,14 +37,16 @@ export class ConsumptionListModalPage {
 
     add_line(line){
         this.viewCtrl.dismiss({
-           'product_name': line.product,
            'product_id': line.product_id,
-           'qty': line.qty,
-           'uom_name': line.uom,
+           'product_name': line.product_name,
            'uom_id': line.uom_id,
+           'uom_name': line.uom_name,
+           'qty': line.qty,
+           'location_id': line.location_id,
+           'location_name': line.location_name,
            'lot_id': line.lot_id,
-           'state': line.state,
            'type': this.type,
+           'state': line.state,
            'id': false
        });
     }
