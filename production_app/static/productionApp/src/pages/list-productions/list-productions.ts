@@ -20,12 +20,14 @@ export class ListProductionsPage {
     mode = '';
     items: Object[];
     workcenter_id = '';
+    workline_name = '';
 
     constructor(public navCtrl: NavController, private storage: Storage,
         public navParams: NavParams,
         public alertCtrl: AlertController, 
         private prodData: ProductionProvider){
         this.worklines = [];
+        this.workline_name = '';
         this.items = [];
         this.workcenter_id = this.navParams.get('workcenter_id')
         this.storage.get('CONEXION').then((con_data) => {
@@ -74,7 +76,7 @@ export class ListProductionsPage {
             } else {
                 var domain = [
                     ['workcenter_id', '=', this.workcenter_id ],
-                    ['production_state', 'in', ['ready','confirmed','in_production']]];
+                    ['production_state', 'in', ['ready','confirmed','in_production','finished']]];
                 var fields = ['id', 'name', 'production_id', 'workcenter_id'];
                 var order = 'sequence'
                 odoo.search_read('mrp.production.workcenter.line', domain, fields, 0, 0, order).then((worklines) => {
@@ -104,6 +106,7 @@ export class ListProductionsPage {
 
     initializeItems() {
         this.items = this.worklines
+        this.workline_name = this.worklines[0].workcenter_id[1]
     }
 
     getItems(ev: any) {

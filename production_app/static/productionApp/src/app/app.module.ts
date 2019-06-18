@@ -26,6 +26,7 @@ import { ScrapModalPage } from '../pages/scrap-modal/scrap-modal';
 import { ConsumptionsPage } from '../pages/consumptions/consumptions';
 import { ConsumptionListModalPage } from '../pages/consumption-list-modal/consumption-list-modal';
 import { AlimentatorConsumptionsPage } from '../pages/alimentator-consumptions/alimentator-consumptions';
+import { CalculatorModalPage } from '../pages/calculator/calculator';
 
 //Providers
 import { OdooProvider } from '../providers/odoo/odoo';
@@ -52,7 +53,8 @@ import { TimerComponent } from '../components/timer/timer';
     ConsumptionListModalPage,
     ConsumptionsPage,
     AlimentatorConsumptionsPage,
-    TimerComponent
+    TimerComponent,
+    CalculatorModalPage
   ],
   imports: [
     BrowserModule,
@@ -76,7 +78,8 @@ import { TimerComponent } from '../components/timer/timer';
     ConsumptionsPage,
     AlimentatorConsumptionsPage,
     FinishModalPage,
-    ScrapModalPage
+    ScrapModalPage,
+    CalculatorModalPage
   ],
   providers: [
     StatusBar,

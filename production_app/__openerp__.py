@@ -10,13 +10,14 @@
     'license': 'AGPL-3',
     'depends': [
         'eln_production',
+        'maintenance',
     ],
     'contributors': [
         "Comunitea ",
         "Javier Colmenero <javier@comunitea.com>"
     ],
     "data": [
-        'views/app_registry_view.xml',
+        'views/production_app_view.xml',
         'views/mrp_view.xml',
         'views/product_view.xml',
         'views/stop_reason_view.xml',

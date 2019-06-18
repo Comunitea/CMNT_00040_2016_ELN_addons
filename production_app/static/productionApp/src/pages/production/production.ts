@@ -2,7 +2,6 @@ import { Component, ViewChildren, QueryList } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, ModalController } from 'ionic-angular';
 import { HomePage } from '../../pages/home/home';
 import { ChecksModalPage } from '../../pages/checks-modal/checks-modal';
-import { ConsumeModalPage } from '../../pages/consume-modal/consume-modal';
 import { UsersModalPage } from '../../pages/users-modal/users-modal';
 import { ReasonsModalPage } from '../../pages/reasons-modal/reasons-modal';
 import { FinishModalPage } from '../../pages/finish-modal/finish-modal';
@@ -18,7 +17,6 @@ import { ConsumptionsPage } from '../../pages/consumptions/consumptions';
   templateUrl: 'production.html',
 })
 export class ProductionPage {
-    
     cdb;
     weight;
     hidden_class: string = 'my-hide';
@@ -36,20 +34,20 @@ export class ProductionPage {
         this.initProduction();
     }
 
-    initProduction(){
-        if (this.timer.toArray().length != 0){
+    initProduction() {
+        if (this.timer.toArray().length != 0) {
             this.timer.toArray()[0].initTimer();
             this.timer.toArray()[1].initTimer();
         }
 
         var timer_1_states = ['setup', 'started', 'cleaning']
-        if (timer_1_states.indexOf(this.prodData.state) >= 0){
+        if (timer_1_states.indexOf(this.prodData.state) >= 0) {
             if (this.prodData.state != 'setup') {
                 this.scheduleChecks();
             }
             this.timer.toArray()[0].restartTimer();
         }
-        if (this.prodData.state == 'stoped'){
+        if (this.prodData.state == 'stopped') {
             this.hidden_class = 'none'
             this.timer.toArray()[0].restartTimer();
             this.timer.toArray()[1].restartTimer();
@@ -79,7 +77,7 @@ export class ProductionPage {
         confirm.present();
     }
 
-    promptNextStep(msg){
+    promptNextStep(msg) {
         var promise = new Promise( (resolve, reject) => {
             let confirm = this.alertCtrl.create({
               title: 'Confirmar',
@@ -94,7 +92,7 @@ export class ProductionPage {
                 {
                   text: 'Si',
                   handler: () => {
-                    if (this.prodData.active_operator_id === 0 ){
+                    if (this.prodData.active_operator_id === 0) {
                         this.presentAlert("¡Error!", "No puede continuar sin un operario activo");
                         reject();
                     }
@@ -108,7 +106,7 @@ export class ProductionPage {
         return promise
     }
 
-    reloadProduction(){
+    reloadProduction() {
         this.promptNextStep('¿Recargar producción?').then( () => {
             this.clearIntervales();
             this.prodData.loadProduction({'workcenter_id': this.prodData.workcenter['id']}).then(() =>{
@@ -162,31 +160,13 @@ export class ProductionPage {
         return promise
     }
 
-    openConsumeModal(move) {
-        this.prodData.consume_product_id = move.product_id
-        var promise = new Promise( (resolve, reject) => {
-
-            let myModal = this.modalCtrl.create(ConsumeModalPage, {});
-
-            // When modal closes
-            myModal.onDidDismiss(data => {
-                var vals = [data]
-                this.prodData.saveQualityChecks(vals);
-		move.lot = vals[0].value
-            });
-
-            myModal.present();
-        });
-        return promise
-    }
-
-    openUsersModal(){
+    openUsersModal() {
         var mydata = {}
         let usersModal = this.modalCtrl.create(UsersModalPage, mydata);
         usersModal.present();
     }
 
-    openReasonsModal(){
+    openReasonsModal() {
         var promise = new Promise( (resolve, reject) => {
             var mydata = {}
             let reasonsModal = this.modalCtrl.create(ReasonsModalPage, mydata);
@@ -205,7 +185,7 @@ export class ProductionPage {
         return promise;
     }
 
-    openFinishModal(mode_step){
+    openFinishModal(mode_step) {
         var promise = new Promise( (resolve, reject) => {
             var mydata = {'mode_step': mode_step}
             let finishModal = this.modalCtrl.create(FinishModalPage, mydata);
@@ -227,7 +207,7 @@ export class ProductionPage {
         return promise;
     }
 
-    openScrapModal(){
+    openScrapModal() {
         var promise = new Promise( (resolve, reject) => {
             let scrapModal = this.modalCtrl.create(ScrapModalPage, {});
             scrapModal.present();
@@ -247,15 +227,15 @@ export class ProductionPage {
         return promise;
     }
 
-    clearIntervales(){
-        for (let indx in this.interval_list){
+    clearIntervales() {
+        for (let indx in this.interval_list) {
             let int = this.interval_list[indx];
             clearInterval(int);
         }
         this.interval_list = [];
     }
 
-    scheduleIntervals(delay, qchecks){
+    scheduleIntervals(delay, qchecks) {
         let timerId = setInterval(() => 
         {
             this.openChecksModal('freq', qchecks, false).then(() => {}).catch(() => {});
@@ -263,7 +243,7 @@ export class ProductionPage {
         this.interval_list.push(timerId);
     }
 
-    scheduleChecks(){
+    scheduleChecks() {
         var checks_by_delay = {};
         for (let i in this.prodData.freq_checks){
             let qc = this.prodData.freq_checks[i];
@@ -338,7 +318,7 @@ export class ProductionPage {
         .catch( () => {});
     }
 
-    restartAndCleanProduction(){
+    restartAndCleanProduction() {
         this.promptNextStep('¿Reanudar producción y pasar a limpieza?').then( () => {
             this.clearIntervales();
             this.timer.toArray()[0].restartTimer();
@@ -378,7 +358,8 @@ export class ProductionPage {
         })
         .catch( () => {});
     }
-    loadNextProduction(){
+
+    loadNextProduction() {
         this.prodData.loadProduction({'workcenter_id': this.prodData.workcenter['id']}).then( (res) => {
             // this.prodData.active_operator_id = 0;
         })
@@ -387,17 +368,11 @@ export class ProductionPage {
         }); 
     }
 
-    consumeSelected(move) {
-        console.log(move)
-        this.openConsumeModal(move).then( () => {
-            this.presentAlert('EEEE', 'Mostrar modal con lote a elegir y escribir qc')            
-        }).catch(() => {});
-    }
-
     scrapProduction() {
         this.openScrapModal().then(() => {
             this.prodData.scrapProduction();
-        }).catch(() => {});
+        })
+        .catch( () => {});
     }
 
 }

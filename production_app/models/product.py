@@ -30,10 +30,9 @@ class ProductProduct(models.Model):
         rel='product_quality_check_product_rel',
         id1='product_id', id2='quality_id'
     )
-    show_in_app = fields.Boolean('Show in app')
 
 
-class ProductQualityChecks(models.Model):
+class ProductQualityCheck(models.Model):
     _name = 'product.quality.check'
     _order = 'quality_type desc, sequence, id'
 
@@ -46,8 +45,8 @@ class ProductQualityChecks(models.Model):
     )
     quality_type = fields.Selection(QUALITY_TYPES, 'Control Type')
     value_type = fields.Selection(VALUE_TYPES, 'Value Type')
-    workcenter_id = fields.Many2one('mrp.workcenter', 'Work Center',
-                                    readonly=False)
+    workcenter_id = fields.Many2one(
+        'mrp.workcenter', 'Work Center', readonly=False)
     repeat = fields.Integer('Repeat each')
     required_text = fields.Char('Required Text')
     min_value = fields.Float('Minimum Value')

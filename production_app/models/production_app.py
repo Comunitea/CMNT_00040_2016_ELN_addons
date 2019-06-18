@@ -1,14 +1,284 @@
 # -*- coding: utf-8 -*-
-# Copyright 2017 Comunitea - <comunitea@comunitea.com>
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+# © 2016 Comunitea Servicios Tecnológicos (<http://www.comunitea.com>)
+# License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
+
+from openerp import api, models, fields, _
+from datetime import datetime, timedelta
+import openerp.addons.decimal_precision as dp
+from openerp import exceptions
 
 
-from openerp import api, models, fields
+APP_STATES = [
+    ('waiting', 'Waiting'),
+    ('confirmed', 'Confirmed'),
+    ('setup', 'Set-Up'),
+    ('started', 'Started'),
+    ('stopped', 'Stopped'),
+    ('cleaning', 'Cleaning'),
+    ('finished', 'Finished'),
+    ('validated', 'Validated')
+]
 
 
+class ProductionAppRegistry(models.Model):
+    _name = 'production.app.registry'
+    _order = 'id desc'
 
-class ProductionApp (models.Model):
-    _name = 'production.app'
+    wc_line_id = fields.Many2one(
+        'mrp.production.workcenter.line', 'Work Order', readonly=True)
+    workcenter_id = fields.Many2one(
+        'mrp.workcenter', 'Work Center', readonly=False)
+    state = fields.Selection(APP_STATES, 'State',
+        default='waiting', readonly=True)
+    setup_start = fields.Datetime('Setup Start')
+    setup_end = fields.Datetime('Setup End')
+    setup_duration = fields.Float('Setup Duration',
+        compute='_get_durations')
+    production_start = fields.Datetime('Production Start')
+    production_end = fields.Datetime('Production End')
+    production_duration = fields.Float('Production Duration',
+        compute='_get_durations')
+    cleaning_start = fields.Datetime('Cleaning Start')
+    cleaning_end = fields.Datetime('Cleaning End')
+    cleaning_duration = fields.Float('Cleaning Duration',
+        compute='_get_durations')
+    qc_line_ids = fields.One2many(
+        'quality.check.line', 'registry_id', 'Quality Checks',
+        readonly=False)
+    stop_line_ids = fields.One2many(
+        'stop.line', 'registry_id', 'Production Stops',
+        readonly=False)
+    operator_ids = fields.One2many(
+        'operator.line', 'registry_id', 'Operators',
+        readonly=False)
+    qty = fields.Float('Quantity', readonly=False,
+        states={'validated': [('readonly', True)]})
+    lot_id = fields.Many2one(
+        'stock.production.lot', 'Lot', readonly=True)
+    line_scheduled_ids = fields.One2many(
+        'consumption.line', 'registry_id', 'Scheduled Products',
+        domain=[('type', '=', 'scheduled')], readonly=False)
+    line_in_ids = fields.One2many(
+        'consumption.line', 'registry_id', 'Incomings',
+        domain=[('type', '=', 'in')], readonly=False)
+    line_out_ids = fields.One2many(
+        'consumption.line', 'registry_id', 'Outgoings',
+        domain=[('type', '=', 'out')], readonly=False)
+    line_finished_ids = fields.One2many(
+        'consumption.line', 'registry_id', 'Finished Products',
+        domain=[('type', '=', 'finished')], readonly=False)
+    consumptions_done = fields.Boolean('Consumptions Done')
+    # RELATED FIELDS
+    name = fields.Char('Workcenter Line',
+        related="wc_line_id.name", readonly=True)
+    production_id = fields.Many2one(
+        'mrp.production', 'Production',
+        related="wc_line_id.production_id", readonly=True)
+    product_id = fields.Many2one(
+        'product.product', 'Product',
+        related="production_id.product_id", readonly=True)
+    workorder_id = fields.Many2one(
+        'work.order', 'Related Maintenance Order')
+
+    _sql_constraints = [
+        ('wc_line_id_uniq', 'unique(wc_line_id)',
+         'The workcenter line must be unique !'),
+    ]
+
+    @api.multi
+    @api.depends('setup_start', 'setup_end')
+    def _get_durations(self):
+        for r in self:
+            if r.setup_start and r.setup_end:
+                setup_start = fields.Datetime.from_string(r.setup_start)
+                setup_end = fields.Datetime.from_string(r.setup_end)
+                td = setup_end - setup_start
+                r.setup_duration = td.total_seconds() / 3600
+            if r.production_start and r.production_end:
+                production_start = fields.Datetime.\
+                    from_string(r.production_start)
+                production_end = fields.Datetime.from_string(r.production_end)
+                td = production_end - production_start
+                r.production_duration = td.total_seconds() / 3600
+            if r.cleaning_start and r.cleaning_end:
+                cleaning_start = fields.Datetime.from_string(r.cleaning_start)
+                cleaning_end = fields.Datetime.from_string(r.cleaning_end)
+                td = cleaning_end - cleaning_start
+                r.cleaning_duration = td.total_seconds() / 3600
+
+    @api.model
+    def get_existing_registry(self, workcenter_id=None,
+                              alimentator_line_id=None, registry_id=None):
+        res = False
+        if registry_id:
+            domain = [('id', '=', registry_id)]
+        elif alimentator_line_id:
+            domain = [('wc_line_id', '=', alimentator_line_id)]
+        elif workcenter_id:
+            domain = [('workcenter_id', '=', workcenter_id),
+                      ('state', 'not in', ('finished', 'validated'))]
+        else:
+            return False
+        reg_obj = self.search(domain, limit=1)
+        if reg_obj:
+            res = reg_obj
+        return res
+
+    @api.model
+    def create_new_registry(self, workcenter_id, alimentator_line_id):
+        if alimentator_line_id:
+            domain = [('id', '=', alimentator_line_id)]
+        else:
+            domain = [
+                ('workcenter_id', '=', workcenter_id),
+                ('state', '!=', 'done'),
+                ('production_state', 'in',
+                ('ready', 'confirmed', 'in_production')),
+                ('registry_id', '=', False)
+            ]
+        wcl = self.env['mrp.production.workcenter.line']
+        wcl_obj = wcl.search(domain, order='sequence', limit=1)
+        if not wcl_obj:
+            return False
+        # Scheduled products
+        scheduled_vals = []
+        for product_line in wcl_obj.production_id.product_lines:
+            vals = {
+                'product_id': product_line.product_id.id,
+                'product_uom': product_line.product_uom.id,
+                'product_qty': product_line.product_qty,
+                'location_id': wcl_obj.production_id.location_src_id.id,
+                'type': 'scheduled',
+            }
+            scheduled_vals.append((0, 0, vals))
+        vals = {
+            'workcenter_id': workcenter_id,
+            'wc_line_id': wcl_obj.id,
+            'line_scheduled_ids': scheduled_vals or False,
+        }
+        res = self.create(vals)
+        wcl_obj.write({'registry_id': res.id})
+        return res
+
+    @api.model
+    def get_allowed_operators(self, active_ids):
+        res = []
+        mrp_workcenter = self.env['mrp.workcenter']
+        operators_ids = mrp_workcenter.search([]).mapped('operators_ids')
+        department_ids = operators_ids.mapped('department_id')
+        domain = [
+            ('fecha_baja_empresa', '=', False),
+            '|',
+            ('department_id', 'in', department_ids.ids),
+            ('id', 'in', operators_ids.ids)
+        ]
+        for op in self.env['hr.employee'].search(domain):
+            vals = {'id': op.id, 'name': op.name, 'let_active': False}
+            if op.id in active_ids:
+                vals['let_active'] = True
+            res.append(vals)
+        return res
+
+    @api.model
+    def app_get_registry(self, vals):
+        """
+        Obtiene el registro que actua de controlador
+        para las ordenes de trabajo
+        """
+        res = {}
+        workcenter_id = vals.get('workcenter_id')
+        alimentator_line_id = False
+
+        if vals.get('workline_id', False):  # Alimentator mode only
+            alimentator_line_id = vals.get('workline_id')
+
+        reg = self.get_existing_registry(workcenter_id, alimentator_line_id)
+        if not reg:
+            reg = self.create_new_registry(workcenter_id, alimentator_line_id)
+        if reg:
+            res.update(reg.read()[0])
+
+            active_operator_ids = reg.workcenter_id.operators_ids.ids
+            allowed_operators = self.get_allowed_operators(active_operator_ids)
+
+            use_time = reg.wc_line_id.production_id.product_id.use_time
+            use_date = (datetime.now() + timedelta(use_time)).\
+                strftime("%Y-%m-%d")
+
+            uom_id = reg.product_id.uom_id
+            uos_id = reg.product_id.uos_id
+            uos_coeff = reg.product_id.uos_coeff
+            change_lot_qc_id = self.env.ref('production_app.change_lot_qc').id
+
+            product_ids = [reg.product_id.id]
+            consume_ids1 = reg.line_in_ids.mapped('product_id')
+            consume_ids2 = reg.line_out_ids.mapped('product_id')
+            consume_ids3 = reg.line_scheduled_ids.mapped('product_id')
+            consume_ids = list(set(consume_ids1.ids + consume_ids2.ids + consume_ids3.ids))
+            production_qty = reg.production_id.product_qty
+            production_uos_qty = reg.production_id.product_uos_qty
+            res.update(allowed_operators=allowed_operators,
+                       active_operator_ids=active_operator_ids,
+                       product_use_date=use_date,
+                       change_lot_qc_id=change_lot_qc_id,
+                       product_ids=product_ids,
+                       consume_ids=consume_ids,
+                       production_qty=production_qty,
+                       production_uos_qty=production_uos_qty,
+                       workline_name=vals.get('workline_name', '') or '',
+                       uom=uom_id.name, uos=uos_id.name, uos_coeff=uos_coeff,
+                       uom_id=uom_id.id, uos_id=uos_id.id,
+                       location_src_id=reg.production_id.location_src_id.id,
+                       location_dest_id=reg.production_id.location_dest_id.id,
+            )
+        return res
+
+    @api.model
+    def confirm_production(self, values):
+        res = {}
+        registry_id = values.get('registry_id', False)
+        reg = self.get_existing_registry(registry_id=registry_id)
+        if reg:
+            reg.write({
+                'state': 'confirmed',
+            })
+            res = reg.read()[0]
+        return res
+
+    @api.model
+    def setup_production(self, values):
+        res = {}
+        registry_id = values.get('registry_id', False)
+        reg = self.get_existing_registry(registry_id=registry_id)
+        date = fields.Datetime.now()
+        if values.get('setup_start', False):
+            date = values['setup_start']
+        if reg:
+            reg.write({
+                'state': 'setup',
+                'setup_start': date
+            })
+            res = reg.read()[0]
+        return res
+
+    @api.model
+    def get_lot(self, values, reg):
+        lot_id = False
+        spl = self.env['stock.production.lot']
+        product_id = reg.product_id.id
+        lot_name = values.get('lot_name', '')
+        lot_date = values.get('lot_date', '')
+        lot_date = lot_date if lot_date else False
+        if product_id and lot_name:
+            domain = [('name', '=', lot_name), ('product_id', '=', product_id)]
+            lot_obj = spl.search(domain, limit=1)
+            if not lot_obj:
+                vals = {'name': lot_name,
+                        'product_id': product_id,
+                        'use_date': lot_date}
+                lot_obj = spl.create(vals)
+            lot_id = lot_obj.id
+        return lot_id
 
     @api.model
     def get_available_lot(self, vals):
@@ -40,4 +310,595 @@ class ProductionApp (models.Model):
             }
             lots.append(vals)
         return lots
+
+    @api.model
+    def start_production(self, values):
+        res = {}
+        registry_id = values.get('registry_id', False)
+        reg = self.get_existing_registry(registry_id=registry_id)
+        date = fields.Datetime.now()
+        if values.get('setup_end', False):
+            date = values['setup_end']
+        if reg:
+            lot_id = self.get_lot(values, reg)
+            reg.state = 'started'
+            reg.write({
+                'state': 'started',
+                'setup_end': date,
+                'production_start': date,
+                'lot_id': lot_id,
+            })
+            res = reg.read()[0]
+        return res
+
+    @api.model
+    def set_consumptions_done(self, values):
+        registry_id = values.get('registry_id', False)
+        reg = self.get_existing_registry(registry_id=registry_id)
+        if reg:
+            reg.write({
+                'consumptions_done':True,
+            })
+        return True
+
+    @api.model
+    def unset_consumptions_done(self, values):
+        registry_id = values.get('registry_id', False)
+        reg = self.get_existing_registry(registry_id=registry_id)
+        if reg:
+            reg.write({
+                'consumptions_done':False,
+            })
+        return True
+
+    @api.model
+    def create_maintenance_order(self, reg, reason_id):
+        mt = self.env['maintenance.type'].\
+            search([('type', '=', 'correctivo')], limit=1)
+
+        note = 'Creado por app.'
+        if reason_id:
+            reason_name = self.env['stop.reason'].browse(reason_id).name
+            note += '\n' + reason_name
+        if reg.workcenter_id:
+            note += '\n' + u'Centro de producción: ' + reg.workcenter_id.name
+        if reg.production_id:
+            note += '\n' + u'Orden de producción: ' + reg.production_id.name
+        wo = self.env['work.order'].create({'maintenance_type_id': mt.id,
+                                            'note': note})
+        reg.write({'workorder_id': wo.id})
+        return True
+
+    @api.model
+    def stop_production(self, values):
+        res = {}
+        operator_id = False
+        reason_id = values.get('reason_id', False)
+        if values.get('active_operator_id', False):  # Can be 0
+            operator_id = values['active_operator_id']
+        registry_id = values.get('registry_id', False)
+        reg = self.get_existing_registry(registry_id=registry_id)
+        if reg:
+            reg.write({
+                'state': 'stopped',
+            })
+            date = fields.Datetime.now()
+            if values.get('stop_start', False):
+                date = values['stop_start']
+            stop_obj = reg.create_stop(reason_id, operator_id, date)
+            create_mo = values.get('create_mo', False)
+            if create_mo:
+                self.create_maintenance_order(reg, reason_id)
+            res = reg.read()[0]
+            res.update({'stop_id': stop_obj.id})
+        return res
+
+    @api.model
+    def restart_production(self, values):
+        res = {}
+        registry_id = values.get('registry_id', False)
+        reg = self.get_existing_registry(registry_id=registry_id)
+        date = fields.Datetime.now()
+        if values.get('stop_end', False):
+            date = values['stop_end']
+        if reg:
+            if reg.setup_end:
+                reg.write({
+                    'state': 'started',
+                })
+            else:
+                # Si es falso es porque aun estábamos en setup,
+                # por tanto volvemos a ese estado.
+                # Ojo, cuando se cambia el estado manualmente puede fallar.
+                reg.write({
+                    'state': 'setup',
+                })
+            stop_id = values.get('stop_id', False)
+            if stop_id:
+                self.env['stop.line'].browse(stop_id).write({
+                    'stop_end': date})
+            res = reg.read()[0]
+        return res
+
+    @api.model
+    def restart_and_clean_production(self, values):
+        self.restart_production(values)
+        res = self.clean_production(values)
+        return res
+
+    @api.model
+    def clean_production(self, values):
+        res = {}
+        registry_id = values.get('registry_id', False)
+        reg = self.get_existing_registry(registry_id=registry_id)
+        date = fields.Datetime.now()
+        if values.get('cleaning_start', False):
+            date = values['cleaning_start']
+        if reg:
+            reg.write({
+                'state': 'cleaning',
+                'production_end': date,
+                'cleaning_start': date
+            })
+            res = reg.read()[0]
+        return res
+
+    @api.model
+    def finish_production(self, values):
+        res = {}
+        registry_id = values.get('registry_id', False)
+        reg = self.get_existing_registry(registry_id=registry_id)
+        date = fields.Datetime.now()
+        if values.get('stop_start', False):
+            date = values['cleaning_end']
+        if reg:
+            reg.write({
+                'state': 'finished',
+                'cleaning_end': date,
+                'qty': values.get('qty', 0.00),
+            })
+            operators_loged = self.env['operator.line']
+            for op in reg.operator_ids:
+                if not op.date_out:
+                    operators_loged += op
+            if operators_loged:
+                operators_loged.write({'date_out': date})
+            res = reg.read()[0]
+        return res
+
+    @api.model
+    def scrap_production(self, values):
+        reason_id = values.get('scrap_reason_id', False)
+        qty = values.get('scrap_qty', 0)
+        qty = float(qty)
+        if qty <= 0:
+            return True
+        registry_id = values.get('registry_id', False)
+        reg = self.get_existing_registry(registry_id=registry_id)
+        if not reg or not reg.production_id.move_created_ids:
+            return True
+        domain = [
+            '|',
+            ('name', 'ilike', 'produccion'),
+            ('name', 'ilike', 'production'),
+            ('scrap_location', '=', True),
+            ('usage', '!=', 'view'),
+        ]
+        scrap_location_id = self.env['stock.location'].search(domain, limit=1)
+        if not scrap_location_id:
+            domain = [
+                ('scrap_location', '=', True),
+                ('usage', '!=', 'view'),
+            ]
+            scrap_location_id = self.env['stock.location'].search(domain, limit=1)
+        if scrap_location_id:
+            lot_id = reg.lot_id.id
+            move = reg.production_id.move_created_ids[0]
+            move.action_scrap(qty, scrap_location_id.id, restrict_lot_id=lot_id)
+            move.write({'reason_id': reason_id})
+        return True
+
+    @api.model
+    def get_quality_checks(self, values):
+        product_id = values.get('product_id', False)
+        product = self.env['product.product'].browse(product_id)
+        domain = [('id', 'in', product.quality_check_ids.ids)]
+        fields = ['id', 'name', 'value_type', 'quality_type', 'repeat',
+                  'required_text', 'max_value', 'min_value', 'barcode_type']
+        res = product.quality_check_ids.search_read(domain, fields)
+        res2 = []
+        for dic in res:
+            dic.update({'value': ''})
+            if dic['value_type'] == 'barcode':
+                if dic['barcode_type'] == 'ean13':
+                    dic.update({'value_type': 'text',
+                                'required_text': product.ean13,
+                    })
+                if dic['barcode_type'] == 'dun14':
+                    dic.update({'value_type': 'text',
+                                'required_text': product.dun14,
+                    })
+            res2.append(dic)
+        return res2
+
+    @api.model
+    def app_save_quality_checks(self, values):
+        registry_id = values.get('registry_id', False)
+        reg = self.get_existing_registry(registry_id=registry_id)
+        if not reg:
+            return True
+        lines = values.get('lines', [])
+        operator_id = False
+        if values.get('active_operator_id', False):  # Can be 0
+            operator_id = values['active_operator_id']
+        date = fields.Datetime.now()
+        if values.get('qc_date', False):
+            date = values['qc_date']
+        for dic in lines:
+            vals = {
+                'registry_id': registry_id,
+                'pqc_id': dic.get('id', False),
+                'date': date,
+                'value': str(dic.get('value', False).encode('utf-8')),
+                'operator_id': operator_id
+            }
+            self.env['quality.check.line'].create(vals)
+        return True
+
+    @api.model
+    def app_save_consumption_line(self, values):
+        """
+        Crea, borra o actualiza la línea de consumo del modo alimentador
+        """
+        registry_id = values.get('registry_id', False)
+        reg = self.get_existing_registry(registry_id=registry_id)
+        if not reg:
+            return True
+        line = values.get('line', False)
+        if not line:
+            return True
+        consume_line = False
+        # CREATE LINE IF NOT EXIST
+        if not line.get('id', False):
+            vals = {
+                'product_id': line['product_id'],
+                'product_qty': line['qty'],
+                'product_uom': line['uom_id'],
+                'location_id': line['location_id'],
+                'lot_id': False,
+                'type': line.get('type', 'in'),
+                'registry_id': registry_id
+            }
+            consume_line = self.env['consumption.line'].create(vals)
+
+        if not consume_line:
+            consume_line = self.env['consumption.line'].browse(int(line['id']))
+        # REMOVE LINE IF KEY REMOVE
+        if line.get('remove', False):
+            consume_line.unlink()
+            return True
+
+        lot_id = line.get('lot_id', False)
+        if line.get('type') == 'finished':
+            lot_id = reg.lot_id.id
+        consume_line.write({
+            'product_qty': line['qty'],
+            'lot_id': lot_id
+        })
+        # Las lineas de producto terminado podrian no tener el lote al principio.
+        # Se revisan por si es necesario actualizarlas
+        for line_finished_id in reg.line_finished_ids:
+            if line_finished_id.lot_id != reg.lot_id:
+                line_finished_id.write({'lot_id': reg.lot_id.id})
+        return True
+
+    @api.model
+    def get_merged_consumptions(self, values):
+        """
+        Devuelve una lista con el resultado de los consumos finales (in - out)
+        """
+        res = []
+        dic = {}
+        registry_id = values.get('registry_id', False)
+        reg = self.get_existing_registry(registry_id=registry_id)
+        if not reg:
+            return []
+        for line in reg.line_in_ids:
+            key = (line.product_id.id, line.lot_id.id, line.location_id.id)
+            if key in dic:
+                dic[key]['product_qty'] += line.product_qty
+            else:
+                dic[key] = {
+                    'product_id': line.product_id.id,
+                    'product_qty': line.product_qty,
+                    'lot_id': line.lot_id.id,
+                    'location_id': line.location_id.id,
+                    'lot_required': line.lot_required,
+                }
+        for line in reg.line_out_ids:
+            key = (line.product_id.id, line.lot_id.id, line.location_id.id)
+            if key in dic:
+                dic[key]['product_qty'] -= line.product_qty
+            else:
+                dic[key] = {
+                    'product_id': line.product_id.id,
+                    'product_qty': -line.product_qty,
+                    'lot_id': line.lot_id.id,
+                    'location_id': line.location_id.id,
+                    'lot_required': line.lot_required,
+                }
+        for key in dic:
+            if dic[key]['product_qty'] == 0.0:
+                continue
+            if dic[key]['product_qty'] < 0.0:
+                return []
+            res.append(dic[key])
+        return res
+
+    @api.multi
+    def validate(self):
+        self.ensure_one()
+        if not self.consumptions_done:
+            raise exceptions.except_orm(_('Error'),
+                _("You cannot validate without confirming consumptions."))
+        # Comprobamos si coincide la cantidad indicada por alimentador con la cantidad indicada por producción
+        qty_feeder = sum([line.product_qty for line in self.line_finished_ids])
+        if self.qty != qty_feeder:
+            raise exceptions.except_orm(_('Error'),
+                _("You cannot validate if the quantity of the feeder and quantity of production are not the same."))
+        # Cambiamos la cantidad a producir de la producción si es distinta de la indicada en el registro de app
+        if self.qty != self.production_id.product_qty:
+            self.change_production_qty()
+        # Añadimos los tiempos de producción y las paradas a la orden de trabajo
+        wc_line = self.wc_line_id
+        stop_values = []
+        for stop in self.stop_line_ids:
+            val = {
+                'name': stop.operator_id.name,
+                'reason': stop.reason_id.name,
+                'time': stop.stop_duration
+            }
+            stop_values.append((0, 0, val))
+        vals = {
+            'date_start': self.setup_start,
+            'date_finished': self.cleaning_end,
+            'real_time': self.production_duration,
+            'time_start': self.setup_duration,
+            'time_stop': self.cleaning_duration,
+            'production_stops_ids': stop_values or False
+        }
+        wc_line.production_stops_ids.unlink()
+        wc_line.write(vals)
+        # Asignamos la orden de trabajo con los controles de calidad
+        self.qc_line_ids.write({'wc_line_id': wc_line.id})
+        # Asignamos la orden de trabajo al registro de operarios
+        self.operator_ids.write({'wc_line_id': wc_line.id})
+        # Añadimos los consumos del alimentador a la orden de producción
+        consumptions = self.get_merged_consumptions({'registry_id': self.id})
+        if consumptions:
+            to_remove_ids = self.production_id.mapped('move_lines')
+            to_remove_ids.action_cancel()
+            to_remove_ids.unlink()
+        for line in consumptions:
+            product_id = self.env['product.product'].browse(line['product_id'])
+            if product_id.type != 'service':
+                move_id = self.env['mrp.production']._make_consume_line_from_data(
+                    self.production_id, product_id, product_id.uom_id.id, line['product_qty'], False, 0)
+                move_id = self.env['stock.move'].browse(move_id)
+                vals = {
+                    'restrict_lot_id': line['lot_id'],
+                    'location_id': line['location_id'] or move_id.location_id.id,
+                }
+                move_id.write(vals)
+                move_id.action_confirm()
+                if line['lot_required'] and line['lot_id'] or not line['lot_required']:
+                    move_id.action_assign()
+                move_id.force_assign()
+        # Establecemos el registro a estado validado
+        self.write({'state': 'validated'})
+
+    @api.multi
+    def change_production_qty(self):
+        for reg in self:
+            prod = reg.production_id
+            data = {'product_qty': reg.qty}
+            if prod.product_uos.id:
+                data['product_uos_qty'] = self.env['product.uom']._compute_qty(
+                    prod.product_uom.id, reg.qty, prod.product_uos.id)
+            prod.write(data)
+            if prod.move_prod_id:
+                data = {'product_uom_qty': reg.qty}
+                if prod.move_prod_id.product_uos.id:
+                    data['product_uos_qty'] = self.env['product.uom']._compute_qty(
+                        prod.move_prod_id.product_uom.id, reg.qty, prod.move_prod_id.product_uos.id)
+                prod.move_prod_id.write(data)
+            self.env['change.production.qty']._update_product_to_produce(prod, reg.qty)
+            res = self.env['mrp.production']._prepare_lines(prod)
+            results = res[0] # product_lines
+            results2 = res[1] # workcenter_lines
+            # unlink product_lines
+            prod.product_lines.unlink()
+            # create product_lines in production order
+            for line in results:
+                line['production_id'] = prod.id
+                self.env['mrp.production.product.line'].create(line)
+            # update workcenter_lines in production order
+            for workcenter_line in prod.workcenter_lines:
+                for line in results2:
+                    if workcenter_line.name == line['name']:
+                        vals = {
+                            'cycle': line['cycle'],
+                            'hour': line['hour'],
+                        }
+                        workcenter_line.write(vals)
+
+    @api.multi
+    def create_stop(self, reason_id, operator_id, date_stop):
+        self.ensure_one()
+        vals = {
+            'registry_id': self.id,
+            'stop_start': date_stop,
+            'reason_id': reason_id,
+            'operator_id': operator_id
+        }
+        res = self.env['stop.line'].create(vals)
+        return res
+
+    @api.multi
+    def create_operator_line(self, operator_id, date_in):
+        self.ensure_one()
+        vals = {
+            'registry_id': self.id,
+            'operator_id': operator_id,
+            'date_in': date_in
+        }
+        res = self.env['operator.line'].create(vals)
+        return res
+
+    @api.model
+    def log_in_operator(self, values):
+        res = {}
+        registry_id = values.get('registry_id', False)
+        reg = self.get_existing_registry(registry_id=registry_id)
+        date = fields.Datetime.now()
+        if values.get('date_in', False):
+            date = values['date_in']
+        if reg and values.get('operator_id', False):
+            op_obj = reg.create_operator_line(values['operator_id'], date)
+            res = {'operator_line_id': op_obj.id}
+        return res
+
+    @api.model
+    def log_out_operator(self, values):
+        res = {}
+        registry_id = values.get('registry_id', False)
+        reg = self.get_existing_registry(registry_id=registry_id)
+        date = fields.Datetime.now()
+        if values.get('date_out', False):
+            date = values['date_out']
+        operator_line_id = values.get('operator_line_id', False)
+        if reg and operator_line_id:
+                self.env['operator.line'].browse(operator_line_id).write({
+                    'date_out': date})
+        return res
+
+
+class QualityCheckLine(models.Model):
+    _name = 'quality.check.line'
+
+    registry_id = fields.Many2one(
+        'production.app.registry', 'App Registry', readonly=True,
+        ondelete='cascade')
+    pqc_id = fields.Many2one(
+        'product.quality.check', 'Quality Check', readonly=False)
+    date = fields.Datetime('Date', readonly=False)
+    value = fields.Text('Value', readonly=False)
+    operator_id = fields.Many2one(
+        'hr.employee', 'Operator')
+    wc_line_id = fields.Many2one(
+        'mrp.production.workcenter.line', 'Workcenter Line', readonly=True)
+
+
+class StopLine(models.Model):
+    _name = 'stop.line'
+
+    registry_id = fields.Many2one(
+        'production.app.registry', 'App Registry', readonly=True,
+        ondelete='cascade')
+    reason_id = fields.Many2one(
+        'stop.reason', 'Reason')
+    stop_start = fields.Datetime('Stop Start', readonly=False)
+    stop_end = fields.Datetime('Stop End', readonly=False)
+    stop_duration = fields.Float('Stop Duration',
+        compute='_get_duration')
+    operator_id = fields.Many2one('hr.employee', 'Operator')
+
+    @api.multi
+    @api.depends('stop_start', 'stop_end')
+    def _get_duration(self):
+        for r in self:
+            if r.stop_start and r.stop_end:
+                stop_start = fields.Datetime.from_string(r.stop_start)
+                stop_end = fields.Datetime.from_string(r.stop_end)
+                td = stop_end - stop_start
+                r.stop_duration = td.total_seconds() / 3600
+
+
+class OperatorLine(models.Model):
+    _name = 'operator.line'
+
+    registry_id = fields.Many2one(
+        'production.app.registry', 'App Registry', readonly=True,
+        ondelete='cascade')
+    operator_id = fields.Many2one(
+        'hr.employee', 'Operator')
+    date_in = fields.Datetime('Date In', readonly=False)
+    date_out = fields.Datetime('Date Out', readonly=False)
+    stop_duration = fields.Float('Hours',
+        compute='_get_duration')
+    wc_line_id = fields.Many2one(
+        'mrp.production.workcenter.line', 'Workcenter Line', readonly=True)
+
+    @api.multi
+    @api.depends('date_in', 'date_out')
+    def _get_duration(self):
+        for r in self:
+            if r.date_in and r.date_out:
+                date_in = fields.Datetime.from_string(r.date_in)
+                date_out = fields.Datetime.from_string(r.date_out)
+                td = date_out - date_in
+                r.stop_duration = td.total_seconds() / 3600
+
+
+class ConsumptionLine(models.Model):
+    _name = 'consumption.line'
+
+    @api.model
+    def _default_type(self):
+        return self._context.get('consumption_type', False)
+
+    @api.model
+    def _default_location(self):
+        prod_obj = self.env['mrp.production']
+        prod = prod_obj.browse(self._context.get('production_id', False))
+        location_id = prod.location_src_id or prod_obj._src_id_default()
+        if self._context.get('consumption_type', False) == 'finished':
+            location_id = prod.location_dest_id or prod_obj._dest_id_default()
+        return location_id.id
+
+    registry_id = fields.Many2one(
+        'production.app.registry', 'App Registry', readonly=True,
+        ondelete='cascade')
+    type = fields.Selection([
+        ('in', 'In'),
+        ('out', 'Out'),
+        ('scheduled', 'Scheduled'),
+        ('finished', 'Finished')
+        ], string='Type', required=True,
+        default=_default_type)
+    product_id = fields.Many2one(
+        'product.product', 'Product', required=True)
+    product_qty = fields.Float('Product Quantity',
+        digits_compute=dp.get_precision('Product Unit of Measure'),
+        required=True)
+    product_uom = fields.Many2one(
+        'product.uom', 'UoM', required=True)
+    lot_id = fields.Many2one(
+        'stock.production.lot', 'Lot', required=False)
+    lot_required = fields.Boolean('Lot Required',
+        compute='_get_lot_required')
+    location_id = fields.Many2one(
+        'stock.location', 'Location', required=True,
+        default=_default_location)
+
+    @api.multi
+    def _get_lot_required(self):
+        for line in self:
+            line.lot_required = \
+                line.product_id.track_all or line.product_id.track_production
+
+    @api.onchange('product_id', 'product_uom')
+    def onchange_product_id(self):
+        if self.product_id:
+            self.product_uom = self.product_id.uom_id
 
