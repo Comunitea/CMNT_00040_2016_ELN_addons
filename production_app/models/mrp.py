@@ -14,10 +14,6 @@ class MrpProductionWorkcenterLine(models.Model):
         'production.app.registry', 'App Registry', readonly=True)
     app_state = fields.Selection(APP_STATES, 'State',
         related='registry_id.state', store=True, readonly=True)
-    qc_line_ids = fields.One2many(
-        'quality.check.line', 'wc_line_id', 'Quality Checks', readonly=False)
-    operator_ids = fields.One2many(
-        'operator.line', 'wc_line_id', 'Operators', readonly=False)
 
     @api.multi
     def action_cancel(self):
@@ -34,6 +30,22 @@ class MrpProductionWorkcenterLine(models.Model):
                 raise exceptions.Warning(
                     _("You cannot remove because one app registry is linked."))
         return super(MrpProductionWorkcenterLine, self).unlink()
+
+    @api.multi
+    def action_start_working(self):
+        res = super(MrpProductionWorkcenterLine, self).action_start_working()
+        for pl in self:
+            if pl.registry_id.setup_start:
+                pl.write({'date_start': pl.registry_id.setup_start})
+        return res
+
+    @api.multi
+    def action_done(self):
+        res = super(MrpProductionWorkcenterLine, self).action_done()
+        for pl in self:
+            if pl.registry_id.cleaning_end:
+                pl.write({'date_finished': pl.registry_id.cleaning_end})
+        return res
 
 
 class MrpWorkcenter(models.Model):

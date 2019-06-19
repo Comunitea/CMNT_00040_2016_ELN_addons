@@ -80,8 +80,28 @@ export class ConsumeModalPage {
     }
 
     removeLine() {
-        this.line.remove = true;
-        this.viewCtrl.dismiss(this.line);
+        let confirm = this.alertCtrl.create({
+          title: '¿Eliminar línea?',
+          message: '¿Seguro que deseas eliminar la línea seleccionada?',
+          buttons: [
+            {
+              text: 'No',
+              handler: () => {
+                console.log('Disagree clicked');
+              }
+            },
+            {
+              text: 'Si',
+              handler: () => {
+                  this.line.remove = true;
+                  this.viewCtrl.dismiss(this.line);
+              }
+            }
+          ]
+        });
+        confirm.present();
+        // this.line.remove = true;
+        // this.viewCtrl.dismiss(this.line);
     }
 
     closeModal() {

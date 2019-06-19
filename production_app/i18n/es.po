@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-06-18 10:04+0000\n"
-"PO-Revision-Date: 2019-06-18 12:05+0200\n"
+"POT-Creation-Date: 2019-06-19 15:35+0000\n"
+"PO-Revision-Date: 2019-06-19 17:42+0200\n"
 "Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -18,12 +18,13 @@ msgstr ""
 "X-Generator: Poedit 2.2.3\n"
 
 #. module: production_app
-#: code:addons/production_app/models/mrp.py:68
+#: code:addons/production_app/models/mrp.py:80
 #, python-format
 msgid "Active Id not found"
 msgstr "Id activo no encontrado"
 
 #. module: production_app
+#: view:mrp.production:production_app.mrp_production_form_view_registry
 #: view:mrp.production.workcenter.line:production_app.mrp_production_workcenter_form_view_registry
 msgid "App"
 msgstr "App"
@@ -189,8 +190,8 @@ msgid "EAN13"
 msgstr "EAN13"
 
 #. module: production_app
-#: code:addons/production_app/models/production_app.py:642
-#: code:addons/production_app/models/production_app.py:647
+#: code:addons/production_app/models/production_app.py:655
+#: code:addons/production_app/models/production_app.py:660
 #, python-format
 msgid "Error"
 msgstr "Error"
@@ -246,11 +247,6 @@ msgstr "Entrada"
 #: field:production.app.registry,line_in_ids:0
 msgid "Incomings"
 msgstr "Entradas"
-
-#. module: production_app
-#: view:mrp.production.workcenter.line:production_app.mrp_production_workcenter_form_view_registry
-msgid "Ins / Outs Operators"
-msgstr "Entradas / Salidas Operarios"
 
 #. module: production_app
 #: field:consumption.line,__last_update:0 field:operator.line,__last_update:0
@@ -326,8 +322,6 @@ msgid "Operator"
 msgstr "Operario"
 
 #. module: production_app
-#: view:mrp.production.workcenter.line:production_app.mrp_production_workcenter_form_view_registry
-#: field:mrp.production.workcenter.line,operator_ids:0
 #: view:production.app.registry:production_app.production_app_registry_form_view
 #: field:production.app.registry,operator_ids:0
 msgid "Operators"
@@ -346,12 +340,17 @@ msgstr "Razones organizativas"
 #. module: production_app
 #: selection:consumption.line,type:0
 msgid "Out"
-msgstr "Salida"
+msgstr "Salidas"
 
 #. module: production_app
 #: field:production.app.registry,line_out_ids:0
 msgid "Outgoings"
 msgstr "Salidas"
+
+#. module: production_app
+#: view:production.app.registry:production_app.production_app_registry_filter_view
+msgid "Pending Productions"
+msgstr "Producciones pendientes"
 
 #. module: production_app
 #: field:consumption.line,product_id:0
@@ -404,6 +403,11 @@ msgid "Production Start"
 msgstr "Producción iniciada"
 
 #. module: production_app
+#: field:production.app.registry,production_state:0
+msgid "Production Status"
+msgstr "Estado de la producción"
+
+#. module: production_app
 #: view:production.app.registry:production_app.production_app_registry_form_view
 #: field:production.app.registry,stop_line_ids:0
 msgid "Production Stops"
@@ -420,8 +424,6 @@ msgid "Quality Check"
 msgstr "Control calidad"
 
 #. module: production_app
-#: view:mrp.production.workcenter.line:production_app.mrp_production_workcenter_form_view_registry
-#: field:mrp.production.workcenter.line,qc_line_ids:0
 #: view:product.quality.check:production_app.product_quality_check_form_view
 #: view:product.quality.check:production_app.product_quality_check_tree_view
 #: view:production.app.registry:production_app.production_app_registry_form_view
@@ -440,7 +442,6 @@ msgid "Quality check ids"
 msgstr "Quality check ids"
 
 #. module: production_app
-#: view:mrp.production.workcenter.line:production_app.mrp_production_workcenter_form_view_registry
 #: view:production.app.registry:production_app.production_app_registry_form_view
 msgid "QualityChecks"
 msgstr "Controles calidad"
@@ -449,6 +450,21 @@ msgstr "Controles calidad"
 #: field:production.app.registry,qty:0
 msgid "Quantity"
 msgstr "Cantidad"
+
+#. module: production_app
+#: view:production.app.registry:production_app.production_app_registry_form_view
+msgid "Quantity Real"
+msgstr "Cantidad real"
+
+#. module: production_app
+#: view:production.app.registry:production_app.production_app_registry_form_view
+msgid "Quantity Scheduled"
+msgstr "Cantidad planificada"
+
+#. module: production_app
+#: field:consumption.line,qty_to_compare:0
+msgid "Quantity to compare"
+msgstr "Cantidad para comparar"
 
 #. module: production_app
 #: field:scrap.reason,name:0 field:stock.move,reason_id:0
@@ -668,6 +684,23 @@ msgid "Waiting"
 msgstr "En espera"
 
 #. module: production_app
+#: help:production.app.registry,production_state:0
+msgid ""
+"When the production order is created the state is set to 'Draft'.\n"
+" If the order is confirmed the state is set to 'Waiting Goods'.\n"
+" If any exceptions are there, the state is set to 'Picking Exception'.                                    \n"
+"If the stock is available then the state is set to 'Ready to Produce'.\n"
+" When the production gets started then the state is set to 'In Production'.\n"
+" When the production is over, the state is set to 'Done'."
+msgstr ""
+"Cuando se crea una orden de fabricación, su estado es 'Borrador'.\n"
+"Si la orden se confirma, su estado pasa a 'Esperando materias primas'.\n"
+"Si ocurre algún excepción, el estado pasa a 'Excepción de acopio'.\n"
+"Si el stock está disponible, entonces el estado se establece a 'Listo para producir'.\n"
+"Cuando la producción se ha iniciado, entonces el estado pasa a ser 'En producción'.\n"
+"Cuando la producción ha terminado, el estado es 'Realizada'."
+
+#. module: production_app
 #: model:ir.model,name:production_app.model_mrp_workcenter
 #: field:product.quality.check,workcenter_id:0
 #: field:production.app.registry,workcenter_id:0
@@ -688,8 +721,7 @@ msgid "Workcenter"
 msgstr "Centro de producción"
 
 #. module: production_app
-#: field:operator.line,wc_line_id:0 field:production.app.registry,name:0
-#: field:quality.check.line,wc_line_id:0
+#: field:production.app.registry,name:0
 msgid "Workcenter Line"
 msgstr "Orden de trabajo"
 
@@ -699,32 +731,32 @@ msgid "Workcenter ids"
 msgstr "Centros de producción"
 
 #. module: production_app
-#: code:addons/production_app/models/mrp.py:27
-#: code:addons/production_app/models/mrp.py:58
+#: code:addons/production_app/models/mrp.py:23
+#: code:addons/production_app/models/mrp.py:70
 #, python-format
 msgid "You cannot cancel because one app registry is linked."
 msgstr "No puedes cancelar porque hay un registro de aplicación asociado."
 
 #. module: production_app
-#: code:addons/production_app/models/mrp.py:72
+#: code:addons/production_app/models/mrp.py:84
 #, python-format
 msgid "You cannot change qty because one app registry is linked."
 msgstr "No puedes cambiar la cantidad porque hay un registro de aplicación asociado."
 
 #. module: production_app
-#: code:addons/production_app/models/mrp.py:35
+#: code:addons/production_app/models/mrp.py:31
 #, python-format
 msgid "You cannot remove because one app registry is linked."
 msgstr "No puedes eliminar porque hay un registro de aplicación asociado."
 
 #. module: production_app
-#: code:addons/production_app/models/production_app.py:648
+#: code:addons/production_app/models/production_app.py:661
 #, python-format
 msgid "You cannot validate if the quantity of the feeder and quantity of production are not the same."
 msgstr "No puedes validar si la cantidad del alimentador y la cantidad de producción son diferentes."
 
 #. module: production_app
-#: code:addons/production_app/models/production_app.py:643
+#: code:addons/production_app/models/production_app.py:656
 #, python-format
 msgid "You cannot validate without confirming consumptions."
 msgstr "No puedes validar si no están los consumos confirmados."
