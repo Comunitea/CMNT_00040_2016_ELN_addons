@@ -19,6 +19,17 @@ APP_STATES = [
     ('validated', 'Validated')
 ]
 
+PRODUCTION_STATES = [
+    ('draft', 'New'),
+    ('confirmed', 'Waiting Goods'),
+    ('ready', 'Ready to Produce'),
+    ('in_production', 'Production Started'),
+    ('finished', 'Finished'),
+    ('validated', 'Validated'),
+    ('closed', 'Closed'),
+    ('cancel', 'Cancelled'),
+    ('done','Done')
+]
 
 class ProductionAppRegistry(models.Model):
     _name = 'production.app.registry'
@@ -77,6 +88,8 @@ class ProductionAppRegistry(models.Model):
     product_id = fields.Many2one(
         'product.product', 'Product',
         related="production_id.product_id", readonly=True)
+    production_state = fields.Selection(PRODUCTION_STATES, 'Production Status',
+        related='production_id.state', readonly=True)
     workorder_id = fields.Many2one(
         'work.order', 'Related Maintenance Order')
 
@@ -651,6 +664,7 @@ class ProductionAppRegistry(models.Model):
             self.change_production_qty()
         # Añadimos los tiempos de producción y las paradas a la orden de trabajo
         wc_line = self.wc_line_id
+        operator_ids = self.operator_ids.mapped('operator_id').ids
         stop_values = []
         for stop in self.stop_line_ids:
             val = {
@@ -665,14 +679,11 @@ class ProductionAppRegistry(models.Model):
             'real_time': self.production_duration,
             'time_start': self.setup_duration,
             'time_stop': self.cleaning_duration,
-            'production_stops_ids': stop_values or False
+            'operators_ids': operator_ids and [(6, 0, operator_ids)] or False,
+            'production_stops_ids': stop_values or False,
         }
         wc_line.production_stops_ids.unlink()
         wc_line.write(vals)
-        # Asignamos la orden de trabajo con los controles de calidad
-        self.qc_line_ids.write({'wc_line_id': wc_line.id})
-        # Asignamos la orden de trabajo al registro de operarios
-        self.operator_ids.write({'wc_line_id': wc_line.id})
         # Añadimos los consumos del alimentador a la orden de producción
         consumptions = self.get_merged_consumptions({'registry_id': self.id})
         if consumptions:
@@ -782,6 +793,20 @@ class ProductionAppRegistry(models.Model):
                     'date_out': date})
         return res
 
+    @api.multi
+    def write(self, vals):
+        if 'qty' in vals:
+            for reg in self:
+                new_qty = vals.get('qty') or reg.production_id.product_qty
+                product_lines = reg.production_id.product_lines
+                for line in reg.line_scheduled_ids:
+                    product_qty = sum([x.product_qty for x in product_lines
+                        if x.product_id == line.product_id])
+                    product_qty = new_qty * product_qty / reg.production_id.product_qty
+                    if product_qty and product_qty != line.product_qty:
+                        line.product_qty = product_qty
+        return super(ProductionAppRegistry, self).write(vals)
+
 
 class QualityCheckLine(models.Model):
     _name = 'quality.check.line'
@@ -795,8 +820,6 @@ class QualityCheckLine(models.Model):
     value = fields.Text('Value', readonly=False)
     operator_id = fields.Many2one(
         'hr.employee', 'Operator')
-    wc_line_id = fields.Many2one(
-        'mrp.production.workcenter.line', 'Workcenter Line', readonly=True)
 
 
 class StopLine(models.Model):
@@ -836,8 +859,6 @@ class OperatorLine(models.Model):
     date_out = fields.Datetime('Date Out', readonly=False)
     stop_duration = fields.Float('Hours',
         compute='_get_duration')
-    wc_line_id = fields.Many2one(
-        'mrp.production.workcenter.line', 'Workcenter Line', readonly=True)
 
     @api.multi
     @api.depends('date_in', 'date_out')
@@ -881,6 +902,9 @@ class ConsumptionLine(models.Model):
     product_qty = fields.Float('Product Quantity',
         digits_compute=dp.get_precision('Product Unit of Measure'),
         required=True)
+    qty_to_compare = fields.Float('Quantity to compare',
+        digits_compute=dp.get_precision('Product Unit of Measure'),
+        compute='_get_qty_to_compare')
     product_uom = fields.Many2one(
         'product.uom', 'UoM', required=True)
     lot_id = fields.Many2one(
@@ -890,6 +914,20 @@ class ConsumptionLine(models.Model):
     location_id = fields.Many2one(
         'stock.location', 'Location', required=True,
         default=_default_location)
+
+    @api.multi
+    def _get_qty_to_compare(self):
+        for line in self:
+            qty_to_compare = 0.0
+            line_in_ids = line.registry_id.line_in_ids.filtered(
+                lambda r: r.product_id == line.product_id)
+            line_out_ids = line.registry_id.line_out_ids.filtered(
+                lambda r: r.product_id == line.product_id)
+            for line_in_id in line_in_ids:
+                qty_to_compare += line_in_id.product_qty
+            for line_out_id in line_out_ids:
+                qty_to_compare -= line_out_id.product_qty
+            line.qty_to_compare = qty_to_compare
 
     @api.multi
     def _get_lot_required(self):

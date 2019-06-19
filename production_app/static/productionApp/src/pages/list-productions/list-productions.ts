@@ -1,5 +1,4 @@
 import {Component} from '@angular/core';    
-
 import { NavController, AlertController, NavParams} from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { HomePage } from '../../pages/home/home';
@@ -67,7 +66,7 @@ export class ListProductionsPage {
         alert.present();
     }
 
-    getLines(){
+    getLines() {
         this.storage.get('CONEXION').then((con_data) => {
             var odoo = new OdooApi(con_data.url, con_data.db, con_data.uid, con_data.password);
             if (con_data == null) {
@@ -75,8 +74,8 @@ export class ListProductionsPage {
                 this.navCtrl.setRoot(HomePage, {borrar: true, login: null});
             } else {
                 var domain = [
-                    ['workcenter_id', '=', this.workcenter_id ],
-                    ['production_state', 'in', ['ready','confirmed','in_production','finished']]];
+                    ['workcenter_id', '=', this.workcenter_id],
+                    ['production_state', 'in', ['ready','confirmed','in_production','finished','validated']]];
                 var fields = ['id', 'name', 'production_id', 'workcenter_id'];
                 var order = 'sequence'
                 odoo.search_read('mrp.production.workcenter.line', domain, fields, 0, 0, order).then((worklines) => {

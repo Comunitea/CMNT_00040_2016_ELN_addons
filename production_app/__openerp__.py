@@ -9,6 +9,7 @@
     "category": "Custom",
     'license': 'AGPL-3',
     'depends': [
+        'mrp_operations',
         'eln_production',
         'maintenance',
     ],

@@ -9,30 +9,6 @@
         <field name="inherit_id" ref="eln_production.mrp_production_workcenter_form_view_inherit"/>
         <field name="arch" type="xml">
             <notebook position="inside">
-                <page string="Quality Checks">
-                    <group string="QualityChecks">
-                        <field name="qc_line_ids" nolabel="1">
-                            <tree>
-                                <field name="pqc_id"/>
-                                <field name="value"/>
-                                <field name="date"/>
-                                <field name="operator_id"/>
-                            </tree>
-                        </field>
-                    </group>
-                </page>
-                <page string="Ins / Outs Operators">
-                    <group string="Operators">
-                        <field name="operator_ids" nolabel="1">
-                            <tree>
-                                <field name="operator_id"/>
-                                <field name="date_in"/>
-                                <field name="date_out"/>
-                                <field name="stop_duration" widget="float_time"/>
-                            </tree>
-                        </field>
-                    </group>
-                </page>
                 <page string="App">
                     <group>
                         <field name="registry_id"/>
@@ -40,6 +16,22 @@
                     </group>
                 </page>
             </notebook>
+        </field>
+    </record>
+
+    <record id="mrp_production_form_view_registry" model="ir.ui.view">
+        <field name="name">mrp_production_form_view_registry</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="eln_production.mrp_production_form_inherit_10"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='workcenter_lines']/form/notebook" position="inside">
+                <page string="App">
+                    <group>
+                        <field name="registry_id"/>
+                        <field name="app_state" widget="statusbar"/>
+                    </group>
+                </page>
+            </xpath>
         </field>
     </record>
 
@@ -61,7 +53,6 @@
             </notebook>
         </field>
     </record>
-
    
     </data>
 </openerp>

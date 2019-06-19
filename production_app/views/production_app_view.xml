@@ -11,7 +11,8 @@
                 <field name="wc_line_id"/>
                 <field name="workcenter_id"/>
                 <field name="production_id"/>
-                <field name="state" widget="statusbar"/>
+                <field name="production_state"/>
+                <field name="state"/>
             </tree>
         </field>
     </record>
@@ -38,6 +39,7 @@
                             <field name="qty"/>
                             <field name="lot_id"/>
                             <field name="consumptions_done"/>
+                            <field name="production_state"/>
                         </group>
                     </group>
                     <notebook>
@@ -63,7 +65,7 @@
                         <page string="Quality Checks">
                             <group string="QualityChecks">
                                 <field name="qc_line_ids" nolabel="1">
-                                    <tree>
+                                    <tree editable="bottom">
                                         <field name="pqc_id"/>
                                         <field name="value"/>
                                         <field name="date"/>
@@ -75,7 +77,7 @@
                         <page string="Production Stops">
                             <group string="Stops">
                                 <field name="stop_line_ids" nolabel="1">
-                                    <tree>
+                                    <tree editable="bottom">
                                         <field name="reason_id"/>
                                         <field name="stop_start"/>
                                         <field name="stop_end"/>
@@ -88,7 +90,7 @@
                         <page string="Operators">
                             <group string="Operators">
                                 <field name="operator_ids" nolabel="1">
-                                    <tree>
+                                    <tree editable="bottom">
                                         <field name="operator_id"/>
                                         <field name="date_in"/>
                                         <field name="date_out"/>
@@ -105,7 +107,8 @@
                                             <tree editable="bottom">
                                                 <field name="type" invisible="1"/>
                                                 <field name="product_id"/>
-                                                <field name="product_qty"/>
+                                                <field name="product_qty" string="Quantity Scheduled"/>
+                                                <field name="qty_to_compare" string="Quantity Real"/>
                                                 <field name="product_uom"/>
                                                 <field name="location_id" string="Source Location"/>
                                             </tree>
@@ -171,6 +174,7 @@
                 <field name="production_id"/>
                 <field name="state"/>
                 <separator/>
+                <filter string="Pending Productions" domain="[('production_state','not in',('done','cancel'))]"/>
                 <filter string="Set-Up" domain="[('state','=','setup')]"/>
                 <filter string="Started" domain="[('state','=','started')]"/>
                 <filter string="Consumptions Done" domain="[('consumptions_done','=',True)]"/>

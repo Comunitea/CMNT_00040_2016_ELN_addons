@@ -391,6 +391,7 @@
                                                <separator string="Planned Date" colspan="2"/>
                                                <field name="date_planned"/>
                                                <field name="date_planned_end"/>
+                                               <field name="workorder_planned_state"/>
                                             </group>
                                             <group colspan="2" col="2">
                                                 <separator string="Real" colspan="2"/>
