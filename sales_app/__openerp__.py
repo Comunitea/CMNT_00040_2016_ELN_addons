@@ -18,16 +18,23 @@
 ##############################################################################
 
 {
-    "name": "App Sales",
+    "name": "Sales APP",
     "description": """Integration with Sales Android App""",
     "version": "1.0",
     "author": "Comunitea",
-    "depends": ['sale',
-                'eln_sale'
-                ],
+    "depends": [
+        'sale',
+        'eln_sale',
+		'l10n_es_partner',
+    ],
     "category": "Sale",
     "init_xml": [],
     "data": [
+        'security/ir.model.access.csv',
+        'security/security.xml',
+        'data/cron_table_data.xml',
+        'views/res_company_view.xml',
+        'views/table_pricelist_prices_view.xml',
     ],
     'demo_xml': [],
     'installable': True,

@@ -1,0 +1,182 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* sales_app
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-05-03 10:43+0000\n"
+"PO-Revision-Date: 2019-05-03 12:44+0200\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: es_ES\n"
+"X-Generator: Poedit 2.2.1\n"
+
+#. module: sales_app
+#: model:ir.actions.act_window,help:sales_app.action_table_pricelist_prices
+msgid ""
+"<p class=\"oe_view_nocontent_create\">\n"
+"                Table of prices for app mobile\n"
+"                </p><p>\n"
+"                Read only Model\n"
+"                </p>\n"
+"            "
+msgstr ""
+"<p class=\"oe_view_nocontent_create\">\n"
+"                Tabla de precios para app móvil\n"
+"                </p><p>\n"
+"                Modelo de sólo lectural\n"
+"                </p>\n"
+"            "
+
+#. module: sales_app
+#: field:sale.order,chanel:0
+msgid "Channel"
+msgstr "Canal"
+
+#. module: sales_app
+#: model:ir.model,name:sales_app.model_res_company
+msgid "Companies"
+msgstr "Compañías"
+
+#. module: sales_app
+#: view:table.pricelist.prices:sales_app.table_pricelist_prices_view_search
+#: field:table.pricelist.prices,company_id:0
+msgid "Company"
+msgstr "Compañía"
+
+#. module: sales_app
+#: field:table.pricelist.prices,create_uid:0
+msgid "Created by"
+msgstr "Created by"
+
+#. module: sales_app
+#: field:table.pricelist.prices,create_date:0
+msgid "Created on"
+msgstr "Created on"
+
+#. module: sales_app
+#: field:res.company,sales_app_product_pricelist:0
+msgid "Default Pricelist"
+msgstr "Tarifa por defecto"
+
+#. module: sales_app
+#: field:table.pricelist.prices,display_name:0
+msgid "Display Name"
+msgstr "Nombre mostrado"
+
+#. module: sales_app
+#: selection:sale.order,chanel:0
+msgid "E-commerce"
+msgstr "E-Commerce"
+
+#. module: sales_app
+#: selection:sale.order,chanel:0
+msgid "ERP"
+msgstr "ERP"
+
+#. module: sales_app
+#: field:table.pricelist.prices,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: sales_app
+#: field:table.pricelist.prices,__last_update:0
+msgid "Last Modified on"
+msgstr "Last Modified on"
+
+#. module: sales_app
+#: field:table.pricelist.prices,write_uid:0
+msgid "Last Updated by"
+msgstr "Last Updated by"
+
+#. module: sales_app
+#: field:table.pricelist.prices,write_date:0
+msgid "Last Updated on"
+msgstr "Last Updated on"
+
+#. module: sales_app
+#: selection:sale.order,chanel:0
+msgid "Other"
+msgstr "Otro"
+
+#. module: sales_app
+#: model:ir.model,name:sales_app.model_res_partner
+msgid "Partner"
+msgstr "Empresa"
+
+#. module: sales_app
+#: field:table.pricelist.prices,price:0
+msgid "Price"
+msgstr "Precio"
+
+#. module: sales_app
+#: model:ir.model,name:sales_app.model_product_pricelist
+#: view:res.company:sales_app.sales_app_res_company_form_view
+#: view:table.pricelist.prices:sales_app.table_pricelist_prices_view_search
+#: field:table.pricelist.prices,pricelist_id:0
+msgid "Pricelist"
+msgstr "Tarifa"
+
+#. module: sales_app
+#: field:product.pricelist,in_app:0
+msgid "Pricelist in APP"
+msgstr "Tarifa en APP"
+
+#. module: sales_app
+#: view:table.pricelist.prices:sales_app.table_pricelist_prices_view_search
+#: field:table.pricelist.prices,product_id:0
+msgid "Product"
+msgstr "Producto"
+
+#. module: sales_app
+#: model:ir.model,name:sales_app.model_product_template
+msgid "Product Template"
+msgstr "Plantilla de producto"
+
+#. module: sales_app
+#: view:table.pricelist.prices:sales_app.table_pricelist_prices_view_form
+msgid "Recalculate Table"
+msgstr "Recalcular tabla"
+
+#. module: sales_app
+#: field:product.template,sale_app:0
+msgid "Sale in app"
+msgstr "Puede venderse en app"
+
+#. module: sales_app
+#: view:res.company:sales_app.sales_app_res_company_form_view
+msgid "Sales APP"
+msgstr "APP de ventas"
+
+#. module: sales_app
+#: model:ir.model,name:sales_app.model_sale_order
+msgid "Sales Order"
+msgstr "Pedido de venta"
+
+#. module: sales_app
+#: view:table.pricelist.prices:sales_app.table_pricelist_prices_view_search
+msgid "Search Table Pricelist"
+msgstr "Search Table Pricelist"
+
+#. module: sales_app
+#: view:table.pricelist.prices:sales_app.table_pricelist_prices_view_form
+#: view:table.pricelist.prices:sales_app.table_pricelist_prices_view_tree
+msgid "Table of prices"
+msgstr "Tabla de precios"
+
+#. module: sales_app
+#: model:ir.actions.act_window,name:sales_app.action_table_pricelist_prices
+#: model:ir.ui.menu,name:sales_app.menu_table_pricelist_prices
+msgid "Table pricelist prices"
+msgstr "Tabla de precios de tarifa"
+
+#. module: sales_app
+#: selection:sale.order,chanel:0
+msgid "Tablet"
+msgstr "Tablet"
