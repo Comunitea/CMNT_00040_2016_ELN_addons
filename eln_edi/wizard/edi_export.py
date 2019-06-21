@@ -633,8 +633,8 @@ class edi_export (orm.TransientModel):
                 tax_data += self.parse_number(False, 18, 3)
             else:
                 tax_data += self.parse_number(tax.tax_id.amount * 100, 5, 2)
-                tax_data += self.parse_number(tax.amount, 18, 3)
-                tax_data += self.parse_number(tax.base, 18, 3)
+                tax_data += self.parse_number(tax.amount or '0', 18, 3)
+                tax_data += self.parse_number(tax.base or '0', 18, 3)
             f.write(tax_data)
 
         f.close()
