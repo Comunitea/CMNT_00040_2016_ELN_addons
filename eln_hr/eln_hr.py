@@ -36,8 +36,8 @@ class hr_employee(orm.Model):
         'fecha_fijo_empresa': fields.date("Fijo plantilla", help="Fecha desde la que es fijo en la empresa"),
         'fecha_baja_empresa': fields.date("Fecha baja", help="Fecha de baja en la empresa"),
         'motivo_baja_empresa': fields.char('Motivo/Causa baja', size=64, help="Motivo o causa de la baja en la empresa"),
-        'grupo_cotizacion': fields.integer('Grupo cotización', size=2, help="Grupo de cotización"),
-        'numero_hijos': fields.integer('Número de hijos', size=2, help="Número de hijos"),
+        'grupo_cotizacion': fields.integer(u'Grupo cotización', size=2, help=u"Grupo de cotización"),
+        'numero_hijos': fields.integer(u'Número de hijos', size=2, help=u"Número de hijos"),
 
         'personal_street1': fields.char('Calle 1', size=64),
         'personal_street2': fields.char('Calle 2', size=64),
@@ -50,16 +50,16 @@ class hr_employee(orm.Model):
         'personal_email': fields.char(u'Email', size=64),
 
         'persona_aviso_emergencia_1': fields.char('Persona 1', size=64, help="Persona a quien avisar en caso de emergencia"),
-        'telefono_aviso_emergencia_1': fields.char('Teléfono 1', size=32, help="Teléfono en el que avisar en caso de emergencia"),
-        'persona_aviso_emergencia_2': fields.char('Persona 2', size=64, help="Persona a quien avisar en caso de emergencia"),
-        'telefono_aviso_emergencia_2': fields.char('Teléfono 2', size=32, help="Teléfono en el que avisar en caso de emergencia"),
+        'telefono_aviso_emergencia_1': fields.char(u'Teléfono 1', size=32, help=u"Teléfono en el que avisar en caso de emergencia"),
+        'persona_aviso_emergencia_2': fields.char('Persona 2', size=64, help=u"Persona a quien avisar en caso de emergencia"),
+        'telefono_aviso_emergencia_2': fields.char(u'Teléfono 2', size=32, help=u"Teléfono en el que avisar en caso de emergencia"),
         'persona_aviso_emergencia_3': fields.char('Persona 3', size=64, help="Persona a quien avisar en caso de emergencia"),
-        'telefono_aviso_emergencia_3': fields.char('Teléfono 3', size=32, help="Teléfono en el que avisar en caso de emergencia"),
+        'telefono_aviso_emergencia_3': fields.char(u'Teléfono 3', size=32, help=u"Teléfono en el que avisar en caso de emergencia"),
         
         'contrataciones_anteriores_ids': fields.one2many('hr.employee_contrataciones_anteriores', 'employee_id', string="Recursos Humanos - Contrataciones anteriores"),
-        'formacion_academica_ids': fields.one2many('hr.employee_formacion_academica', 'employee_id', string="Recursos Humanos - Formación Académica"),
+        'formacion_academica_ids': fields.one2many('hr.employee_formacion_academica', 'employee_id', string=u"Recursos Humanos - Formación Académica"),
         'experiencia_laboral_ids': fields.one2many('hr.employee_experiencia_laboral', 'employee_id', string="Recursos Humanos - Experiencia Laboral"),
-        'formacion_en_la_empresa_ids': fields.one2many('hr.employee_formacion_en_la_empresa', 'employee_id', string="Recursos Humanos - Formación en la empresa"),
+        'formacion_en_la_empresa_ids': fields.one2many('hr.employee_formacion_en_la_empresa', 'employee_id', string=u"Recursos Humanos - Formación en la empresa"),
         'carnet_conducir_b': fields.boolean('Carnet de conducir B'),
         'carnet_conducir_c': fields.boolean('Carnet de conducir C'),
         'carnet_conducir_c1': fields.boolean('Carnet de conducir C1'),
@@ -140,10 +140,10 @@ class hr_employee_formacion_en_la_empresa(orm.Model):
     _order = 'fecha_curso'
     _columns = {
         'employee_id': fields.many2one('hr.employee', 'Empleado', required=True, select="1"),
-        'curso_documentacion': fields.char('Curso/Documentación', size=64),
-        'tipo_certificacion': fields.char('Tipo de certificación', size=64),
+        'curso_documentacion': fields.char(u'Curso/Documentación', size=64),
+        'tipo_certificacion': fields.char(u'Tipo de certificación', size=64),
         'fecha_curso': fields.char("Fecha", size=10),
-        'valoracion': fields.char('Valoración', size=64),
+        'valoracion': fields.char(u'Valoración', size=64),
         'fecha_valoracion': fields.char("Valorado en fecha", size=10),
     }
 
