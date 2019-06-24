@@ -20,6 +20,7 @@ export class AlimentatorConsumptionsPage {
 
     consumptions_in: any[];
     consumptions_out: any[];
+    consumptions_scrapped: any[];
     finished_products: any[];
     title: String;
 
@@ -35,6 +36,7 @@ export class AlimentatorConsumptionsPage {
     ionViewDidLoad() {
         this.consumptions_in = this.prodData.consumptions_in;
         this.consumptions_out = this.prodData.consumptions_out;
+        this.consumptions_scrapped = this.prodData.consumptions_scrapped;
         this.finished_products = this.prodData.finished_products;
     }
 
@@ -58,6 +60,14 @@ export class AlimentatorConsumptionsPage {
     open_list_consumes_out() {
         var mydata = {
             'type': 'out',
+            'allowed_lines': this.consumptions_in
+        }
+        this.open_list_consumes(mydata)
+    }
+
+    open_list_consumes_scrapped() {
+        var mydata = {
+            'type': 'scrapped',
             'allowed_lines': this.consumptions_in
         }
         this.open_list_consumes(mydata)
@@ -120,6 +130,7 @@ export class AlimentatorConsumptionsPage {
                 this.prodData.getConsumeInOut().then((res) => {
                     this.consumptions_in = this.prodData.consumptions_in;
                     this.consumptions_out = this.prodData.consumptions_out;
+                    this.consumptions_scrapped = this.prodData.consumptions_scrapped;
                 })
             })
             .catch( (err) => {
@@ -138,16 +149,12 @@ export class AlimentatorConsumptionsPage {
 
          // When modal closes
          consumeModal.onDidDismiss(line_vals => {
-            // if (line_vals.remove_id) {
-            //     alert('Borrar')
-            //     return
-            // }
             this.prodData.saveConsumptionLine(line_vals).then((res) => {
                 console.log("Línea de consumo escrita")
-                // this.updateLotValue(line);
                 this.prodData.getConsumeInOut().then((res) => {
                     this.consumptions_in = this.prodData.consumptions_in;
                     this.consumptions_out = this.prodData.consumptions_out;
+                    this.consumptions_scrapped = this.prodData.consumptions_scrapped;
                     this.finished_products = this.prodData.finished_products;
                 })
             })

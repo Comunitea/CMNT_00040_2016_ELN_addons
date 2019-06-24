@@ -43,14 +43,15 @@ export class ConsumeModalPage {
         alert.present();
     }
 
-    showLots(){
+    showLots() {
         this.mode = 'show'
         if (this.line.product_id in this.prodData.lotsByProduct){
             this.lots = this.prodData.lotsByProduct[this.line.product_id]
             this.items = this.prodData.lotsByProduct[this.line.product_id]
         }
     }
-    lotSelected(lot_obj){
+
+    lotSelected(lot_obj) {
         this.mode = 'default';
         this.line.lot_name = lot_obj.name
         this.line.lot_id = lot_obj.id

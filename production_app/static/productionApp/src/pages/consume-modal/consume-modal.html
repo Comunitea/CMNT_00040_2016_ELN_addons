@@ -48,6 +48,15 @@
                 <button ion-button full color= "secondary"(click)="showLots()">Ver lotes</button>
             </ion-col>
         </ion-row>
+        <ion-row *ngIf="mode !== 'show' && line.type == 'scrapped'">
+            <ion-item>
+                <ion-label color="primary" stacked>Tipo de Scrap</ion-label>
+                <ion-select [(ngModel)]="line.scrap_type" okText="Aceptar" cancelText="Cancelar">
+                    <ion-option value="losses">Mermas</ion-option>
+                    <ion-option value="scrap">Desechado</ion-option>
+                </ion-select>
+            </ion-item>
+        </ion-row>
         <ion-row *ngIf="mode !== 'show'">
             <ion-col>
                 <button ion-button block (click)="removeLine()" color="danger">Eliminar</button>
