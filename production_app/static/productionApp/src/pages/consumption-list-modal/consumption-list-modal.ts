@@ -35,17 +35,26 @@ export class ConsumptionListModalPage {
         this.viewCtrl.dismiss([]);
     }
 
-    add_line(line){
+    add_line(line) {
+        let qty = line.qty;
+        let scrap_type = 'losses';
+        if (this.type !== 'in') {
+            qty = 0
+        }
+        if (this.type !== 'scrapped') {
+            scrap_type = ''
+        }
         this.viewCtrl.dismiss({
            'product_id': line.product_id,
            'product_name': line.product_name,
            'uom_id': line.uom_id,
            'uom_name': line.uom_name,
-           'qty': line.qty,
+           'qty': qty,
            'location_id': line.location_id,
            'location_name': line.location_name,
            'lot_id': line.lot_id,
            'type': this.type,
+           'scrap_type': scrap_type,
            'state': line.state,
            'id': false
        });

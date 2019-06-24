@@ -30,6 +30,18 @@ from openerp import models, api
 from openerp.tools.float_utils import float_round
 
 
+PRODUCTION_STATES = [
+    ('draft', 'New'),
+    ('confirmed', 'Waiting Goods'),
+    ('ready', 'Ready to Produce'),
+    ('in_production', 'Production Started'),
+    ('finished', 'Finished'),
+    ('validated', 'Validated'),
+    ('closed', 'Closed'),
+    ('cancel', 'Cancelled'),
+    ('done','Done')
+]
+
 class change_production_qty(osv.osv_memory):
     _inherit = 'change.production.qty'
 
@@ -173,7 +185,7 @@ class mrp_routing_workcenter(osv.osv):
         'time_stop': fields.float('Time after prod.', help="Time in hours for the cleaning."),
         'qty_per_cycle': fields.float('Qty x cycle'),
         'uom_id': fields.many2one('product.uom', 'UoM'),
-        'operators_number': fields.integer('Operators Nº')
+        'operators_number': fields.integer(u'Operators Nº')
     }
 
     def onchange_workcenter_id(self, cr, uid, ids, workcenter_id, context=None):
@@ -279,6 +291,10 @@ class mrp_production_workcenter_line(osv.osv):
            help="Availability ratio expected for this workcenter line. "
            "The estimated time was calculated according to this ratio."),
         'workorder_planned_state': fields.selection([('0', 'No planned'), ('1', 'Planned')], 'Planned state'),
+        'production_state':fields.related('production_id','state',
+            type='selection',
+            selection=PRODUCTION_STATES,
+            string='Production Status', readonly=True),
     }
 
     _order = "id"
@@ -442,11 +458,11 @@ class mrp_production(osv.osv):
     _columns = {
         'date_planned': fields.datetime('Scheduled Date', required=True, select=1, copy=False),  #  Avoid Readonly
         'routing_id': fields.many2one('mrp.routing', string='Routing', ondelete='restrict', readonly=True, states={'draft':[('readonly', False)]},
-                                      help="The list of operations (list of work centers) to produce the finished product. The routing is mainly used to compute work center costs during operations and to plan future loads on work centers based on production plannification."),
+            help="The list of operations (list of work centers) to produce the finished product. The routing is mainly used to compute work center costs during operations and to plan future loads on work centers based on production plannification."),
         'date_end_planned': fields.datetime('Date end Planned'),
-        'state': fields.selection([('draft','New'),('confirmed','Waiting Goods'),('ready','Ready to Produce'),('in_production','Production Started'),('finished', 'Finished'),('validated', 'Validated'),('closed', 'Closed'),('cancel','Cancelled'),('done','Done')],'State', readonly=True,
-                                    help='When the production order is created the state is set to \'Draft\'.\n If the order is confirmed the state is set to \'Waiting Goods\'.\n If any exceptions are there, the state is set to \'Picking Exception\'.\
-                                    \nIf the stock is available then the state is set to \'Ready to Produce\'.\n When the production gets started then the state is set to \'In Production\'.\n When the production is over, the state is set to \'Done\'.'),
+        'state': fields.selection(PRODUCTION_STATES,'State', readonly=True,
+            help='When the production order is created the state is set to \'Draft\'.\n If the order is confirmed the state is set to \'Waiting Goods\'.\n If any exceptions are there, the state is set to \'Picking Exception\'.\
+            \nIf the stock is available then the state is set to \'Ready to Produce\'.\n When the production gets started then the state is set to \'In Production\'.\n When the production is over, the state is set to \'Done\'.'),
         'note': fields.text('Notes'),
         'workcenter_lines': fields.one2many('mrp.production.workcenter.line', 'production_id', 'Work Centers Utilisation'),  # remove readonly state
         'origin': fields.char('Source Document', readonly=False,  states={'cancel':[('readonly', True)], 'done':[('readonly', True)]},

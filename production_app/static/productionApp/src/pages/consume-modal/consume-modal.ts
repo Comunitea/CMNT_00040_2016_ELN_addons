@@ -43,14 +43,15 @@ export class ConsumeModalPage {
         alert.present();
     }
 
-    showLots(){
+    showLots() {
         this.mode = 'show'
         if (this.line.product_id in this.prodData.lotsByProduct){
             this.lots = this.prodData.lotsByProduct[this.line.product_id]
             this.items = this.prodData.lotsByProduct[this.line.product_id]
         }
     }
-    lotSelected(lot_obj){
+
+    lotSelected(lot_obj) {
         this.mode = 'default';
         this.line.lot_name = lot_obj.name
         this.line.lot_id = lot_obj.id
@@ -81,8 +82,8 @@ export class ConsumeModalPage {
 
     removeLine() {
         let confirm = this.alertCtrl.create({
-          title: '¿Eliminar línea?',
-          message: '¿Seguro que deseas eliminar la línea seleccionada?',
+          title: 'Â¿Eliminar lÃ­nea?',
+          message: 'Â¿Seguro que deseas eliminar la lÃ­nea seleccionada?',
           buttons: [
             {
               text: 'No',
@@ -132,7 +133,7 @@ export class ConsumeModalPage {
             }
         })
         .catch( (err) => {
-            this.presentAlert("Error", "Fallo en la conversión de kilogramos a metros");
+            this.presentAlert("Error", "Fallo en la conversiÃ³n de kilogramos a metros");
         });
     }
 

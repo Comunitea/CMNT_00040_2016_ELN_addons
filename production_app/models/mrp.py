@@ -70,6 +70,47 @@ class MrpProduction(models.Model):
                     _("You cannot cancel because one app registry is linked."))
         return super(MrpProduction, self).action_cancel()
 
+    @api.model
+    def action_produce(self, production_id, production_qty, production_mode, wiz=False):
+        # Si hay registrados movimientos de scrap de consumos los hacemos primero
+        if production_mode in ['consume', 'consume_produce']:
+            prod = self.env['mrp.production'].browse(production_id)
+            line_scrapped_ids = prod.workcenter_lines.mapped('registry_id.line_scrapped_ids')
+            for line_scrapped_id in line_scrapped_ids:
+                scrapped = False
+                for move_line in prod.move_lines:
+                    key1 = (move_line.product_id, move_line.restrict_lot_id, move_line.location_id)
+                    key2 = (line_scrapped_id.product_id, line_scrapped_id.lot_id, line_scrapped_id.location_id)
+                    if key1 == key2:
+                        product_qty = line_scrapped_id.product_qty
+                        restrict_lot_id = line_scrapped_id.lot_id
+                        domain = [
+                            ('scrap_location', '=', True),
+                            ('usage', '!=', 'view'),
+                        ]
+                        if line_scrapped_id.scrap_type == 'scrap':
+                            domain += [
+                                '|',
+                                ('name', 'ilike', 'desechado'),
+                                ('name', 'ilike', 'scrap'),
+                            ]
+                        if line_scrapped_id.scrap_type == 'losses':
+                            domain += [
+                                '|',
+                                ('name', 'ilike', 'mermas'),
+                                ('name', 'ilike', 'losses'),
+                            ]
+                        scrap_location_id = self.env['stock.location'].search(domain, limit=1)
+                        move_line.action_scrap(
+                            product_qty, scrap_location_id.id, restrict_lot_id.id)
+                        scrapped = True
+                        break
+                if not scrapped:
+                    raise exceptions.Warning(
+                        _("There is no valid consumption line to scrap."))
+        return super(MrpProduction, self).action_produce(
+            production_id, production_qty, production_mode, wiz=wiz)
+
 
 class ChangeProductionQty(models.TransientModel):
     _inherit = 'change.production.qty'

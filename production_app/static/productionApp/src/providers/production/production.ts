@@ -42,6 +42,7 @@ export class ProductionProvider {
     consumptions: Object[];
     consumptions_in: Object[];
     consumptions_out: Object[];
+    consumptions_scrapped: Object[];
     finished_products: Object[];
 
     operator_line_id;
@@ -78,6 +79,7 @@ export class ProductionProvider {
         this.consumptions = [];
         this.consumptions_in = [];
         this.consumptions_out = [];
+        this.consumptions_scrapped = [];
         this.finished_products = [];
     }
 
@@ -416,6 +418,7 @@ export class ProductionProvider {
     loadConsumptionsLines(lines) {
         this.consumptions_in = [];
         this.consumptions_out = [];
+        this.consumptions_scrapped = [];
         this.finished_products = [];
         for (let indx in lines) {
             var line = lines[indx];
@@ -426,6 +429,13 @@ export class ProductionProvider {
                 lot_id = line['lot_id'][0]
             }
             var type = line['type']
+            var scrap_type_name = 'Desconocido'
+            if (line['scrap_type'] == 'losses') {
+                scrap_type_name = 'Mermas'
+            }
+            if (line['scrap_type'] == 'scrap') {
+                scrap_type_name = 'Desechado'
+            }
             var vals = {
                 'product_id': line['product_id'][0],
                 'product_name': line['product_id'][1],
@@ -438,6 +448,8 @@ export class ProductionProvider {
                 'lot_name': lot_name,
                 'lot_required': line['lot_required'],
                 'type': type,
+                'scrap_type': line['scrap_type'],
+                'scrap_type_name': scrap_type_name,
                 'id': line['id']
             }
             if (type == 'in') {
@@ -449,6 +461,9 @@ export class ProductionProvider {
             if (type == 'finished') {
                 this.finished_products.push(vals);
             }
+            if (type == 'scrapped') {
+                this.consumptions_scrapped.push(vals);
+            }
         }
         console.log("LINES");
         console.log(lines);
@@ -458,6 +473,8 @@ export class ProductionProvider {
         console.log(this.consumptions_out);
         console.log("LOADED FINISHED PRODUCTS");
         console.log(this.finished_products);
+        console.log("LOADED SCRAPPED PRODUCTS");
+        console.log(this.consumptions_scrapped);
     }
 
     getConsumptions() {

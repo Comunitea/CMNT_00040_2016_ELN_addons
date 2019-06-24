@@ -1,9 +1,9 @@
 page-alimentator-consumptions {
     .col-content {
-        font-size: 1.1rem !important;
+        font-size: 1.2rem !important;
     }
     .bold-header {
-        font-size: 1.3rem !important;
+        font-size: 1.4rem !important;
         font-weight: bold;
     }
     ion-row {
@@ -13,16 +13,15 @@ page-alimentator-consumptions {
 
     @media (min-width:600px) {
         .col-content {
-            font-size: 1.6rem !important;
+            font-size: 1.2rem !important;
         }
         .bold-header {
-            font-size: 1.8rem !important;
+            font-size: 1.4rem !important;
        }
     }
     ion-row:hover {
-
-        background-color: red;
-        border-color: red;
+        background-color: lightyellow;
+        border-color: black;
         cursor: pointer;
         }
 }

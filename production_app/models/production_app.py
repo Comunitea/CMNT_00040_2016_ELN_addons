@@ -75,6 +75,9 @@ class ProductionAppRegistry(models.Model):
     line_out_ids = fields.One2many(
         'consumption.line', 'registry_id', 'Outgoings',
         domain=[('type', '=', 'out')], readonly=False)
+    line_scrapped_ids = fields.One2many(
+        'consumption.line', 'registry_id', 'Scrapped',
+        domain=[('type', '=', 'scrapped')], readonly=False)
     line_finished_ids = fields.One2many(
         'consumption.line', 'registry_id', 'Finished Products',
         domain=[('type', '=', 'finished')], readonly=False)
@@ -492,8 +495,8 @@ class ProductionAppRegistry(models.Model):
             return True
         domain = [
             '|',
-            ('name', 'ilike', 'produccion'),
-            ('name', 'ilike', 'production'),
+            ('name', 'ilike', 'mermas'),
+            ('name', 'ilike', 'losses'),
             ('scrap_location', '=', True),
             ('usage', '!=', 'view'),
         ]
@@ -580,6 +583,7 @@ class ProductionAppRegistry(models.Model):
                 'location_id': line['location_id'],
                 'lot_id': False,
                 'type': line.get('type', 'in'),
+                'scrap_type': line.get('scrap_type', 'losses'),
                 'registry_id': registry_id
             }
             consume_line = self.env['consumption.line'].create(vals)
@@ -596,7 +600,8 @@ class ProductionAppRegistry(models.Model):
             lot_id = reg.lot_id.id
         consume_line.write({
             'product_qty': line['qty'],
-            'lot_id': lot_id
+            'lot_id': lot_id,
+            'scrap_type': line.get('scrap_type', 'losses'),
         })
         # Las lineas de producto terminado podrian no tener el lote al principio.
         # Se revisan por si es necesario actualizarlas
@@ -640,6 +645,18 @@ class ProductionAppRegistry(models.Model):
                     'location_id': line.location_id.id,
                     'lot_required': line.lot_required,
                 }
+        for line in reg.line_scrapped_ids:
+            key = (line.product_id.id, line.lot_id.id, line.location_id.id)
+            if key in dic:
+                dic[key]['product_qty'] -= line.product_qty
+            else:
+                dic[key] = {
+                    'product_id': line.product_id.id,
+                    'product_qty': -line.product_qty,
+                    'lot_id': line.lot_id.id,
+                    'location_id': line.location_id.id,
+                    'lot_required': line.lot_required,
+                }
         for key in dic:
             if dic[key]['product_qty'] == 0.0:
                 continue
@@ -654,11 +671,20 @@ class ProductionAppRegistry(models.Model):
         if not self.consumptions_done:
             raise exceptions.except_orm(_('Error'),
                 _("You cannot validate without confirming consumptions."))
+        # Comprobamos que la cantidad sea válida
+        if self.qty <= 0.0:
+            raise exceptions.except_orm(_('Error'),
+                _("You cannot validate if the quantity of production are negative or less than zero."))
         # Comprobamos si coincide la cantidad indicada por alimentador con la cantidad indicada por producción
         qty_feeder = sum([line.product_qty for line in self.line_finished_ids])
         if self.qty != qty_feeder:
             raise exceptions.except_orm(_('Error'),
                 _("You cannot validate if the quantity of the feeder and quantity of production are not the same."))
+        # Si hay varias órdenes de trabajo para la misma producción verificamos que la cantidad sea igual.
+        registry_qtys = self.production_id.workcenter_lines.mapped('registry_id.qty')
+        if not all(x == self.qty for x in registry_qtys if x > 0):
+            raise exceptions.except_orm(_('Error'),
+                _("You cannot validate if the quantity in work orders associated with this production are not the same."))
         # Cambiamos la cantidad a producir de la producción si es distinta de la indicada en el registro de app
         if self.qty != self.production_id.product_qty:
             self.change_production_qty()
@@ -685,26 +711,30 @@ class ProductionAppRegistry(models.Model):
         wc_line.production_stops_ids.unlink()
         wc_line.write(vals)
         # Añadimos los consumos del alimentador a la orden de producción
-        consumptions = self.get_merged_consumptions({'registry_id': self.id})
-        if consumptions:
-            to_remove_ids = self.production_id.mapped('move_lines')
-            to_remove_ids.action_cancel()
-            to_remove_ids.unlink()
-        for line in consumptions:
-            product_id = self.env['product.product'].browse(line['product_id'])
-            if product_id.type != 'service':
-                move_id = self.env['mrp.production']._make_consume_line_from_data(
-                    self.production_id, product_id, product_id.uom_id.id, line['product_qty'], False, 0)
-                move_id = self.env['stock.move'].browse(move_id)
-                vals = {
-                    'restrict_lot_id': line['lot_id'],
-                    'location_id': line['location_id'] or move_id.location_id.id,
-                }
-                move_id.write(vals)
-                move_id.action_confirm()
-                if line['lot_required'] and line['lot_id'] or not line['lot_required']:
-                    move_id.action_assign()
-                move_id.force_assign()
+        # Si la producción solo tiene una orden de trabajo o se trata de la primera en validar,
+        # borramos los consumos previos. En caso contrario los añadimos.
+        if self.production_id.state not in ('draft', 'closed', 'done'):
+            consumptions = self.get_merged_consumptions({'registry_id': self.id})
+            registry_states = self.production_id.workcenter_lines.mapped('registry_id.state')
+            if 'validated' not in registry_states:
+                to_remove_ids = self.production_id.mapped('move_lines')
+                to_remove_ids.action_cancel()
+                to_remove_ids.unlink()
+            for line in consumptions:
+                product_id = self.env['product.product'].browse(line['product_id'])
+                if product_id.type != 'service':
+                    move_id = self.env['mrp.production']._make_consume_line_from_data(
+                        self.production_id, product_id, product_id.uom_id.id, line['product_qty'], False, 0)
+                    move_id = self.env['stock.move'].browse(move_id)
+                    vals = {
+                        'restrict_lot_id': line['lot_id'],
+                        'location_id': line['location_id'] or move_id.location_id.id,
+                    }
+                    move_id.write(vals)
+                    move_id.action_confirm()
+                    if line['lot_required'] and line['lot_id'] or not line['lot_required']:
+                        move_id.action_assign()
+                    move_id.force_assign()
         # Establecemos el registro a estado validado
         self.write({'state': 'validated'})
 
@@ -882,10 +912,10 @@ class ConsumptionLine(models.Model):
     def _default_location(self):
         prod_obj = self.env['mrp.production']
         prod = prod_obj.browse(self._context.get('production_id', False))
-        location_id = prod.location_src_id or prod_obj._src_id_default()
+        location_id = prod.location_src_id.id or prod_obj._src_id_default()
         if self._context.get('consumption_type', False) == 'finished':
-            location_id = prod.location_dest_id or prod_obj._dest_id_default()
-        return location_id.id
+            location_id = prod.location_dest_id.id or prod_obj._dest_id_default()
+        return location_id
 
     registry_id = fields.Many2one(
         'production.app.registry', 'App Registry', readonly=True,
@@ -894,7 +924,8 @@ class ConsumptionLine(models.Model):
         ('in', 'In'),
         ('out', 'Out'),
         ('scheduled', 'Scheduled'),
-        ('finished', 'Finished')
+        ('finished', 'Finished'),
+        ('scrapped', 'Scrapped'),
         ], string='Type', required=True,
         default=_default_type)
     product_id = fields.Many2one(
@@ -914,6 +945,10 @@ class ConsumptionLine(models.Model):
     location_id = fields.Many2one(
         'stock.location', 'Location', required=True,
         default=_default_location)
+    scrap_type = fields.Selection([
+        ('scrap', 'Scrap'),
+        ('losses', 'Losses'),
+        ], string='Scrap Type')
 
     @api.multi
     def _get_qty_to_compare(self):
@@ -923,10 +958,14 @@ class ConsumptionLine(models.Model):
                 lambda r: r.product_id == line.product_id)
             line_out_ids = line.registry_id.line_out_ids.filtered(
                 lambda r: r.product_id == line.product_id)
+            line_scrapped_ids = line.registry_id.line_scrapped_ids.filtered(
+                lambda r: r.product_id == line.product_id)
             for line_in_id in line_in_ids:
                 qty_to_compare += line_in_id.product_qty
             for line_out_id in line_out_ids:
                 qty_to_compare -= line_out_id.product_qty
+            for line_scrapped_id in line_scrapped_ids:
+                qty_to_compare -= line_scrapped_id.product_qty
             line.qty_to_compare = qty_to_compare
 
     @api.multi
