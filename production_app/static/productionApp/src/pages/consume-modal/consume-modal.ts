@@ -82,8 +82,8 @@ export class ConsumeModalPage {
 
     removeLine() {
         let confirm = this.alertCtrl.create({
-          title: '¿Eliminar línea?',
-          message: '¿Seguro que deseas eliminar la línea seleccionada?',
+          title: 'Â¿Eliminar lÃ­nea?',
+          message: 'Â¿Seguro que deseas eliminar la lÃ­nea seleccionada?',
           buttons: [
             {
               text: 'No',
@@ -133,7 +133,7 @@ export class ConsumeModalPage {
             }
         })
         .catch( (err) => {
-            this.presentAlert("Error", "Fallo en la conversión de kilogramos a metros");
+            this.presentAlert("Error", "Fallo en la conversiÃ³n de kilogramos a metros");
         });
     }
 
