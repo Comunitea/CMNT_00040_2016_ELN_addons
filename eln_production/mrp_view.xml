@@ -248,11 +248,13 @@
                                 <field name="name"/>
                                 <field name="reason"/>
                                 <field name="time" widget="float_time"/>
+                                <field name="in_production"/>
                             </tree>
                             <form string="Production stops">
                                 <field name="name"/>
                                 <field name="reason"/>
                                 <field name="time" widget="float_time"/>
+                                <field name="in_production"/>
                             </form>
                         </field>
                     </page>
@@ -424,11 +426,13 @@
                                                 <field name="name"/>
                                                 <field name="reason"/>
                                                 <field name="time" widget="float_time"/>
+                                                <field name="in_production"/>
                                             </tree>
                                             <form string="Production stops">
                                                 <field name="name"/>
                                                 <field name="reason"/>
                                                 <field name="time" widget="float_time"/>
+                                                <field name="in_production"/>
                                             </form>
                                         </field>
                                     </page>

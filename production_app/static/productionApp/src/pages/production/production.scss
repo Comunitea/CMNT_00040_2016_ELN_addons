@@ -11,11 +11,13 @@ page-production {
     .info-tittle {
         font-size: 1.2rem !important;
         font-weight: bold;
+        background-color: lightgray;
     }
     .info-tittle-red {
         font-size: 1.2rem !important;
         font-weight: bold;
-        color: $danger-color
+        color: $danger-color;
+        background-color: lightgray;
     }
     .info-content {
         color: $primary-color;
@@ -63,20 +65,20 @@ page-production {
         font-color: $primary-color;
     } 
     .btn {
-        display:block;
+        display: block;
         height: 5vh;
         width: 100%;
-        border: 1px ;
-        background-color: $primary-color;
+        border: 1px;
+        background-color: green;
         color: white;
         margin: 4px;
         font-size: 1.2rem;
     }
     .btn2 {
-        display:block;
+        display: block;
         height: 5vh;
         width: 100%;
-        border: 1px ;
+        border: 1px;
         background-color: $danger-color;
         color: white;
         margin: 4px;

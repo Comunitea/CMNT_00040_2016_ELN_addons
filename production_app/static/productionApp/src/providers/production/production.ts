@@ -297,8 +297,8 @@ export class ProductionProvider {
     // Gets all the data needed from the app.regystry model
     loadProduction(vals) {
         var promise = new Promise( (resolve, reject) => {
-            var values = {'workline_id': vals['workline_id'], 'workcenter_id': vals['workcenter_id'], 'workline_name': vals['workline_name']}
             var method = 'app_get_registry'
+            var values = {'workline_id': vals['workline_id'], 'workcenter_id': vals['workcenter_id'], 'workline_name': vals['workline_name']}
             this.odooCon.callRegistry(method, values).then( (reg: Object) => {
                 if ('id' in reg){
                     this.initData(reg);
@@ -530,8 +530,9 @@ export class ProductionProvider {
                 'registry_id': this.registry_id,
             }
             this.odooCon.callRegistry('get_merged_consumptions', values).then( (res) => {
-                if (Array.isArray(res) && res.length) {
-                    resolve(res);
+                let consumptions = res['lines']
+                if (Array.isArray(consumptions) && consumptions.length) {
+                    resolve(consumptions);
                 } else {
                     reject();
                 }
@@ -578,7 +579,7 @@ export class ProductionProvider {
         values['registry_id'] = this.registry_id;     
         this.odooCon.callRegistry(method, values).then( (res) => {
             if (method == 'stop_production') {
-                this.odooCon.last_stop_id = res['stop_id'];
+                this.odooCon.stop_from_state = res['stop_from_state'];
             }
             if (res['state']) {
                 this.state = res['state'];
@@ -616,26 +617,34 @@ export class ProductionProvider {
         this.setStepAsync('start_production', values);
     }
 
-    stopProduction(reason_id, create_mo) {
+    stopProduction(reason_id, create_mo, stop_start) {
         this.state = 'stopped'
+        if (isNaN(Date.parse(stop_start))) {
+            stop_start = this.getUTCDateStr()
+        }
         var values = {'reason_id': reason_id,
                       'create_mo': create_mo,
                       'active_operator_id': this.active_operator_id,
-                      'stop_start': this.getUTCDateStr()}
+                      'stop_start': stop_start}
         this.setStepAsync('stop_production', values);
-
     }
 
     restartProduction() {
-        this.state = 'started'
-        var values = {'stop_id': this.odooCon.last_stop_id,
-                      'stop_end': this.getUTCDateStr()}
+        if (this.odooCon.stop_from_state in this.states) {
+           this.state = this.odooCon.stop_from_state
+        } else {
+           this.state = 'started'
+        }
+        var values = {'stop_end': this.getUTCDateStr()}
         this.setStepAsync('restart_production', values);
     }
 
-    cleanProduction() {
+    cleanProduction(cleaning_start) {
         this.state = 'cleaning'
-        var values = {'cleaning_start': this.getUTCDateStr()}
+        if (isNaN(Date.parse(cleaning_start))) {
+            cleaning_start = this.getUTCDateStr()
+        }
+        var values = {'cleaning_start': cleaning_start}
         this.setStepAsync('clean_production', values);
     }
 
@@ -648,7 +657,7 @@ export class ProductionProvider {
 
     restartAndCleanProduction() {
         this.state = 'cleaning';
-        var values = {'stop_id': this.odooCon.last_stop_id, 'stop_end': this.getUTCDateStr()};
+        var values = {'stop_end': this.getUTCDateStr()};
         this.setStepAsync('restart_and_clean_production', values);
     }
 

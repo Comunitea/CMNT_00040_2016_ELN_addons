@@ -76,7 +76,9 @@ class performance_calculation(orm.TransientModel):
     def _get_total_stop_time(self, cr, uid, ids, obj, context=None):
         stop_time = 0.0
         minimum_time = 2.0 / 60.0 # 2 minutos (las iguales o inferiores a este tiempo no se computan)
-        for stop in obj.production_stops_ids.filtered(lambda r: r.time > minimum_time):
+        production_stops_ids = obj.production_stops_ids.filtered(
+            lambda r: r.in_production and r.time > minimum_time)
+        for stop in production_stops_ids:
             stop_time += stop.time
         return stop_time
 

@@ -25,7 +25,7 @@ export class ProductionPage {
     @ViewChildren(TimerComponent) timer: QueryList<TimerComponent>;
 
     constructor(public navCtrl: NavController,
-                public navParams: NavParams, public alertCtrl: AlertController, 
+                public navParams: NavParams, public alertCtrl: AlertController,
                 public modalCtrl: ModalController,
                 private prodData: ProductionProvider) {
     }
@@ -54,7 +54,7 @@ export class ProductionPage {
         }
     }
 
-    logOut(){
+    logOut() {
         let confirm = this.alertCtrl.create({
           title: '¿Salir de la aplicación?',
           message: '¿Seguro que deseas salir de la aplicación?',
@@ -269,7 +269,6 @@ export class ProductionPage {
         this.navCtrl.push(ConsumptionsPage)
     }
 
-
     confirmProduction() {
         this.promptNextStep('¿Confirmar producción?').then( () => {
             this.prodData.confirmProduction();
@@ -300,16 +299,18 @@ export class ProductionPage {
     stopProduction() {
         this.promptNextStep('¿Registrar una parada?').then( () => {
             this.hidden_class = 'my-hide'
+            var stop_start = this.prodData.getUTCDateStr()
+            this.timer.toArray()[1].restartTimer();
             this.openReasonsModal().then( (res) => {
-                var reason_id = res['reason_id']
-                var create_mo = res['create_mo']
-                this.hidden_class = 'none'
-                this.clearIntervales();
-                console.log("STOP MODAL RES");
-                console.log(reason_id);
-                // this.timer.toArray()[0].pauseTimer();
-                this.prodData.stopProduction(reason_id, create_mo);
-                this.timer.toArray()[1].restartTimer();
+                if (res !== 0) {
+                    var reason_id = res['reason_id']
+                    var create_mo = res['create_mo']
+                    this.hidden_class = 'none'
+                    this.clearIntervales();
+                    console.log("STOP MODAL RES");
+                    console.log(reason_id, stop_start);
+                    this.prodData.stopProduction(reason_id, create_mo, stop_start);
+                }
             })
             .catch( () => {
                 console.log("Pues no hago nada")
@@ -334,17 +335,21 @@ export class ProductionPage {
             this.scheduleChecks();
             this.timer.toArray()[1].pauseTimer();
             this.prodData.restartProduction();
-            this.openChecksModal('start', this.prodData.start_checks, false).then(() => {}).catch(() => {});
+            // Si la parada dura menos de 20 minutos no pedimos checks de inicio
+            if (this.timer.toArray()[1].timer.secondsCounter > 1200) {
+                this.openChecksModal('start', this.prodData.start_checks, false).then(() => {}).catch(() => {});
+            }
         })
         .catch( () => {});
     }
 
     cleanProduction() {
         this.promptNextStep('¿Empezar limpieza?').then( () => {
+            var cleaning_start = this.prodData.getUTCDateStr()
             this.clearIntervales();
-            this.timer.toArray()[0].restartTimer();
             this.openFinishModal("clean").then(() => {
-                this.prodData.cleanProduction();
+                this.timer.toArray()[0].restartTimer();
+                this.prodData.cleanProduction(cleaning_start);
             }).catch(() => {});
         })
         .catch( () => {});

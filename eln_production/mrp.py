@@ -211,7 +211,12 @@ class production_stops(osv.osv):
         'name': fields.char('Name',size=32, required=True),
         'reason': fields.char('Reason', size=255, required=True),
         'time': fields.float('Time', required=True),
+        'in_production': fields.boolean('In Production', help="Stop registered during production time"),
         'production_workcenter_line_id': fields.many2one('mrp.production.workcenter.line', 'Production workcenter line')
+    }
+
+    _defaults = {
+        'in_production': True
     }
 
 

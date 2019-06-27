@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController, AlertController } from 'ionic-angular';
 import { ProductionProvider } from '../../providers/production/production';
 
 
@@ -20,8 +20,8 @@ export class FinishModalPage {
     mode_step: string = 'start';
     ctrl: string = 'do';
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, 
-                public viewCtrl: ViewController,
+    constructor(public navCtrl: NavController, public navParams: NavParams,
+                public viewCtrl: ViewController, public alertCtrl: AlertController,
                 private prodData: ProductionProvider) {
         this.lots = [];
         this.items = [];
@@ -34,12 +34,25 @@ export class FinishModalPage {
         console.log('ionViewDidLoad FinishModalPage');
     }
 
+    presentAlert(titulo, texto) {
+        const alert = this.alertCtrl.create({
+            title: titulo,
+            subTitle: texto,
+            buttons: ['Ok']
+        });
+        alert.present();
+    }
+
     confirm() {
         var res = {};
         if (this.mode_step === 'clean') {
-            res['qty'] = this.qty;
-        }
-        else{
+            if (!isNaN(this.qty) && this.qty != '' && this.qty >= 0) {
+                res['qty'] = +this.qty;
+            } else {
+                this.presentAlert("Error", "Es obligatorio indicar una cantidad >= 0");
+                return;
+            }
+        } else {
             res['lot'] = this.lot
             res['date'] = this.date
         }
@@ -52,23 +65,25 @@ export class FinishModalPage {
         this.viewCtrl.dismiss({});
     }
 
-    showLots(){
+    showLots() {
         this.mode = 'show'
-        if (this.prodData.product_id in this.prodData.lotsByProduct){
+        if (this.prodData.product_id in this.prodData.lotsByProduct) {
             this.lots = this.prodData.lotsByProduct[this.prodData.product_id]
             this.items = this.prodData.lotsByProduct[this.prodData.product_id]
         }
     }
-    lotSelected(lot_obj){
+
+    lotSelected(lot_obj) {
         this.mode = 'default';
         this.lot = lot_obj.name
-        if (lot_obj.use_date){
+        if (lot_obj.use_date) {
             this.date = lot_obj.use_date.split(" ")[0]
         }
     }
+
     getItems(ev: any) {
         // Reset items back to all of the items
-       this.items = this.prodData.lotsByProduct[this.prodData.product_id]
+        this.items = this.prodData.lotsByProduct[this.prodData.product_id]
 
         // set val to the value of the searchbar
         let val = ev.target.value;
@@ -87,8 +102,7 @@ export class FinishModalPage {
             var uos_coeff = this.prodData.uos_coeff;
             this.uos_qty = (this.qty * uos_coeff).toFixed(2);
             this.ctrl = 'not do'
-        }
-        else{
+        } else {
             this.ctrl = 'do'
         }
     }
@@ -102,8 +116,7 @@ export class FinishModalPage {
             }
             this.qty = (this.uos_qty / uos_coeff).toFixed(2);
             this.ctrl = 'not do'
-        } 
-        else{
+        } else {
             this.ctrl = 'do'
         }  
     }

@@ -6,19 +6,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-04-10 14:31+0000\n"
-"PO-Revision-Date: 2019-04-10 16:34+0200\n"
-"Last-Translator: <>\n"
+"POT-Creation-Date: 2019-06-27 15:16+0000\n"
+"PO-Revision-Date: 2019-06-27 17:18+0200\n"
+"Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
 "Language: es\n"
-"X-Generator: Poedit 2.2.1\n"
+"X-Generator: Poedit 2.2.3\n"
 
 #. module: eln_production
-#: code:addons/eln_production/mrp.py:59
+#: code:addons/eln_production/mrp.py:71
 #, python-format
 msgid "Active Id not found"
 msgstr "Id. activo no encontrado"
@@ -198,8 +198,8 @@ msgid "Entry qty (kg)"
 msgstr "Cant. entrada (kg)"
 
 #. module: eln_production
-#: code:addons/eln_production/mrp.py:305 code:addons/eln_production/mrp.py:746
-#: code:addons/eln_production/mrp.py:756
+#: code:addons/eln_production/mrp.py:326 code:addons/eln_production/mrp.py:767
+#: code:addons/eln_production/mrp.py:777
 #, python-format
 msgid "Error!"
 msgstr "¡Error!"
@@ -275,6 +275,11 @@ msgid "ID"
 msgstr "ID"
 
 #. module: eln_production
+#: field:production.stops,in_production:0
+msgid "In Production"
+msgstr "En producción"
+
+#. module: eln_production
 #: view:mrp.production:eln_production.mrp_production_form_inherit_10
 #: view:mrp.production.workcenter.line:eln_production.mrp_production_workcenter_form_view_inherit
 msgid "Information"
@@ -326,7 +331,7 @@ msgstr "Retrasado"
 #. module: eln_production
 #: field:mrp.modify.consumption,line_ids:0
 msgid "Lines"
-msgstr "Lines"
+msgstr "Líneas"
 
 #. module: eln_production
 #: field:mrp.product.produce.line,location_id:0
@@ -350,7 +355,7 @@ msgid "Manufacturing Order"
 msgstr "Orden de producción"
 
 #. module: eln_production
-#: code:addons/eln_production/mrp.py:48
+#: code:addons/eln_production/mrp.py:60
 #, python-format
 msgid "Manufacturing Order <em>%s</em> has changed the quantity: %s -> %s"
 msgstr "La orden de producción <em>%s</em> ha cambiado la cantidad: %s -> %s"
@@ -361,7 +366,7 @@ msgid "Manufacturing Orders"
 msgstr "Órdenes de producción"
 
 #. module: eln_production
-#: code:addons/eln_production/mrp.py:305
+#: code:addons/eln_production/mrp.py:326
 #, python-format
 msgid "Manufacturing order cannot be started in state \"%s\"!"
 msgstr "La orden de producción no se puede iniciar en estado \"%s\""
@@ -462,7 +467,7 @@ msgid "Out qty (kg)"
 msgstr "Cant. salida (kg)"
 
 #. module: eln_production
-#: code:addons/eln_production/mrp.py:510
+#: code:addons/eln_production/mrp.py:531
 #: code:addons/eln_production/stock_move.py:74
 #, python-format
 msgid "PROD: %s"
@@ -750,6 +755,11 @@ msgid "Stock Move"
 msgstr "Movimiento de existencias"
 
 #. module: eln_production
+#: help:production.stops,in_production:0
+msgid "Stop registered during production time"
+msgstr "Parada registrada en tiempo de producción"
+
+#. module: eln_production
 #: field:mrp.production,theo_cost:0
 msgid "Theorical Cost"
 msgstr "Coste teórico"
@@ -924,7 +934,7 @@ msgid "Yesterday"
 msgstr "Ayer"
 
 #. module: eln_production
-#: code:addons/eln_production/mrp.py:746 code:addons/eln_production/mrp.py:756
+#: code:addons/eln_production/mrp.py:767 code:addons/eln_production/mrp.py:777
 #, python-format
 msgid "You cannot delete a production which is not cancelled."
 msgstr "No se puede eliminar una producción que no esté cancelada."
