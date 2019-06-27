@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController, AlertController } from 'ionic-angular';
 import { ProductionProvider } from '../../providers/production/production';
 
 /**
@@ -24,22 +24,36 @@ export class ScrapModalPage {
     reasons: Object[];
 
     constructor(public navCtrl: NavController, public navParams: NavParams,
-              public viewCtrl: ViewController,
+              public viewCtrl: ViewController, public alertCtrl: AlertController,
               private prodData: ProductionProvider) {
         this.qty = 0.0;
         this.uos_qty = 0.0;
         this.ctrl = 'do';
-        this.reason_id=0;
+        this.reason_id = 0;
         this.reasons = this.prodData.scrap_reasons;
     }
 
     ionViewDidLoad() {
-    console.log('ionViewDidLoad ScrapModalPage');
+        console.log('ionViewDidLoad ScrapModalPage');
+    }
+
+    presentAlert(titulo, texto) {
+        const alert = this.alertCtrl.create({
+            title: titulo,
+            subTitle: texto,
+            buttons: ['Ok']
+        });
+        alert.present();
     }
 
     confirm() {
         var res = {};
-        res['qty'] = this.qty;
+        if (!isNaN(this.qty) && this.qty != '' && this.qty > 0) {
+            res['qty'] = +this.qty;
+        } else {
+            this.presentAlert("Error", "Es obligatorio indicar una cantidad mayor que 0");
+            return;
+        }
         res['reason_id'] = this.reason_id;
         this.viewCtrl.dismiss(res);
     }

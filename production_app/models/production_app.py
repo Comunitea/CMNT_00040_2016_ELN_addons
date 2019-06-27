@@ -353,7 +353,7 @@ class ProductionAppRegistry(models.Model):
         reg = self.get_existing_registry(registry_id=registry_id)
         if reg:
             reg.write({
-                'consumptions_done':True,
+                'consumptions_done': True,
             })
         return True
 
@@ -363,7 +363,7 @@ class ProductionAppRegistry(models.Model):
         reg = self.get_existing_registry(registry_id=registry_id)
         if reg:
             reg.write({
-                'consumptions_done':False,
+                'consumptions_done': False,
             })
         return True
 
@@ -382,31 +382,53 @@ class ProductionAppRegistry(models.Model):
             note += '\n' + u'Orden de producción: ' + reg.production_id.name
         wo = self.env['work.order'].create({'maintenance_type_id': mt.id,
                                             'note': note})
-        reg.write({'workorder_id': wo.id})
+        reg.write({
+            'workorder_id': wo.id,
+        })
         return True
 
     @api.model
     def stop_production(self, values):
         res = {}
-        operator_id = False
-        reason_id = values.get('reason_id', False)
-        if values.get('active_operator_id', False):  # Can be 0
-            operator_id = values['active_operator_id']
         registry_id = values.get('registry_id', False)
         reg = self.get_existing_registry(registry_id=registry_id)
         if reg:
-            reg.write({
-                'state': 'stopped',
-            })
+            # Si hay paradas sin cerrar, tenemos que finalizarlas antes de iniciar otra.
+            domain = [
+                ('registry_id', '=', reg.id),
+                ('stop_end', '=', False),
+            ]
+            stop_obj = self.env['stop.line']
+            stop_ids = stop_obj.search(domain)
+            for stop_id in stop_ids:
+                stop_id.write({
+                    'stop_end': stop_id.stop_start,
+                })
+            from_state = reg.state
+            if not from_state or from_state == 'stopped':
+                from_state = 'setup'
+                if reg.setup_end:
+                    from_state = 'started'
+                if reg.production_end:
+                    from_state = 'cleaning'
+            operator_id = False
+            reason_id = values.get('reason_id', False)
+            if values.get('active_operator_id', False):  # Can be 0
+                operator_id = values['active_operator_id']
             date = fields.Datetime.now()
             if values.get('stop_start', False):
                 date = values['stop_start']
-            stop_obj = reg.create_stop(reason_id, operator_id, date)
+            stop_obj = reg.create_stop(reason_id, operator_id, date, from_state)
             create_mo = values.get('create_mo', False)
             if create_mo:
                 self.create_maintenance_order(reg, reason_id)
+            reg.write({
+                'state': 'stopped',
+            })
             res = reg.read()[0]
-            res.update({'stop_id': stop_obj.id})
+            res.update({
+                'stop_from_state': from_state,
+            })
         return res
 
     @api.model
@@ -414,26 +436,37 @@ class ProductionAppRegistry(models.Model):
         res = {}
         registry_id = values.get('registry_id', False)
         reg = self.get_existing_registry(registry_id=registry_id)
-        date = fields.Datetime.now()
-        if values.get('stop_end', False):
-            date = values['stop_end']
         if reg:
-            if reg.setup_end:
-                reg.write({
-                    'state': 'started',
+            date = fields.Datetime.now()
+            if values.get('stop_end', False):
+                date = values['stop_end']
+            domain = [
+                ('registry_id', '=', reg.id),
+                ('stop_end', '=', False),
+            ]
+            stop_obj = self.env['stop.line']
+            stop_id = stop_obj.search(domain, order='stop_start desc', limit=1)
+            stop_id.write({'stop_end': date})
+            # Si hay paradas sin cerrar, tenemos que finalizarlas
+            stop_ids = stop_obj.search(domain)
+            for stop_id in stop_ids:
+                stop_id.write({
+                    'stop_end': stop_id.stop_start,
                 })
-            else:
-                # Si es falso es porque aun estábamos en setup,
-                # por tanto volvemos a ese estado.
-                # Ojo, cuando se cambia el estado manualmente puede fallar.
-                reg.write({
-                    'state': 'setup',
-                })
-            stop_id = values.get('stop_id', False)
-            if stop_id:
-                self.env['stop.line'].browse(stop_id).write({
-                    'stop_end': date})
+            from_state = stop_id.from_state
+            if not from_state or from_state == 'stopped':
+                from_state = 'setup'
+                if reg.setup_end:
+                    from_state = 'started'
+                if reg.production_end:
+                    from_state = 'cleaning'
+            reg.write({
+                'state': from_state,
+            })
             res = reg.read()[0]
+            res.update({
+                'stop_from_state': from_state,
+            })
         return res
 
     @api.model
@@ -447,14 +480,14 @@ class ProductionAppRegistry(models.Model):
         res = {}
         registry_id = values.get('registry_id', False)
         reg = self.get_existing_registry(registry_id=registry_id)
-        date = fields.Datetime.now()
-        if values.get('cleaning_start', False):
-            date = values['cleaning_start']
         if reg:
+            date = fields.Datetime.now()
+            if values.get('cleaning_start', False):
+                date = values['cleaning_start']
             reg.write({
                 'state': 'cleaning',
                 'production_end': date,
-                'cleaning_start': date
+                'cleaning_start': date,
             })
             res = reg.read()[0]
         return res
@@ -464,21 +497,29 @@ class ProductionAppRegistry(models.Model):
         res = {}
         registry_id = values.get('registry_id', False)
         reg = self.get_existing_registry(registry_id=registry_id)
-        date = fields.Datetime.now()
-        if values.get('stop_start', False):
-            date = values['cleaning_end']
         if reg:
+            date = fields.Datetime.now()
+            if values.get('stop_start', False):
+                date = values['cleaning_end']
+            qty = values.get('qty', 0)
+            try:
+                qty = float(qty)
+            except:
+                qty = 0 
+            qty = qty >= 0 and qty or 0
             reg.write({
                 'state': 'finished',
                 'cleaning_end': date,
-                'qty': values.get('qty', 0.00),
+                'qty': qty,
             })
             operators_loged = self.env['operator.line']
             for op in reg.operator_ids:
                 if not op.date_out:
                     operators_loged += op
             if operators_loged:
-                operators_loged.write({'date_out': date})
+                operators_loged.write({
+                    'date_out': date,
+                })
             res = reg.read()[0]
         return res
 
@@ -486,7 +527,10 @@ class ProductionAppRegistry(models.Model):
     def scrap_production(self, values):
         reason_id = values.get('scrap_reason_id', False)
         qty = values.get('scrap_qty', 0)
-        qty = float(qty)
+        try:
+            qty = float(qty)
+        except:
+            qty = 0 
         if qty <= 0:
             return True
         registry_id = values.get('registry_id', False)
@@ -511,7 +555,9 @@ class ProductionAppRegistry(models.Model):
             lot_id = reg.lot_id.id
             move = reg.production_id.move_created_ids[0]
             move.action_scrap(qty, scrap_location_id.id, restrict_lot_id=lot_id)
-            move.write({'reason_id': reason_id})
+            move.write({
+                'reason_id': reason_id,
+            })
         return True
 
     @api.model
@@ -527,12 +573,14 @@ class ProductionAppRegistry(models.Model):
             dic.update({'value': ''})
             if dic['value_type'] == 'barcode':
                 if dic['barcode_type'] == 'ean13':
-                    dic.update({'value_type': 'text',
-                                'required_text': product.ean13,
+                    dic.update({
+                        'value_type': 'text',
+                        'required_text': product.ean13,
                     })
                 if dic['barcode_type'] == 'dun14':
-                    dic.update({'value_type': 'text',
-                                'required_text': product.dun14,
+                    dic.update({
+                        'value_type': 'text',
+                        'required_text': product.dun14,
                     })
             res2.append(dic)
         return res2
@@ -613,7 +661,7 @@ class ProductionAppRegistry(models.Model):
     @api.model
     def get_merged_consumptions(self, values):
         """
-        Devuelve una lista con el resultado de los consumos finales (in - out)
+        Devuelve el resultado de los consumos finales (in - out - scrap)
         """
         res = []
         dic = {}
@@ -661,9 +709,9 @@ class ProductionAppRegistry(models.Model):
             if dic[key]['product_qty'] == 0.0:
                 continue
             if dic[key]['product_qty'] < 0.0:
-                return []
+                return {'lines': False}
             res.append(dic[key])
-        return res
+        return {'lines': res}
 
     @api.multi
     def validate(self):
@@ -696,7 +744,8 @@ class ProductionAppRegistry(models.Model):
             val = {
                 'name': stop.operator_id.name,
                 'reason': stop.reason_id.name,
-                'time': stop.stop_duration
+                'time': stop.stop_duration,
+                'in_production': stop.from_state == 'started',
             }
             stop_values.append((0, 0, val))
         vals = {
@@ -714,7 +763,10 @@ class ProductionAppRegistry(models.Model):
         # Si la producción solo tiene una orden de trabajo o se trata de la primera en validar,
         # borramos los consumos previos. En caso contrario los añadimos.
         if self.production_id.state not in ('draft', 'closed', 'done'):
-            consumptions = self.get_merged_consumptions({'registry_id': self.id})
+            consumptions = self.get_merged_consumptions({'registry_id': self.id}).get('lines', False)
+            if consumptions == False:
+                raise exceptions.except_orm(_('Error'),
+                    _("You cannot validate because an error occurred when calculating the consumptions."))
             registry_states = self.production_id.workcenter_lines.mapped('registry_id.state')
             if 'validated' not in registry_states:
                 to_remove_ids = self.production_id.mapped('move_lines')
@@ -774,13 +826,14 @@ class ProductionAppRegistry(models.Model):
                         workcenter_line.write(vals)
 
     @api.multi
-    def create_stop(self, reason_id, operator_id, date_stop):
+    def create_stop(self, reason_id, operator_id, date_stop, from_state):
         self.ensure_one()
         vals = {
             'registry_id': self.id,
             'stop_start': date_stop,
             'reason_id': reason_id,
-            'operator_id': operator_id
+            'operator_id': operator_id,
+            'from_state': from_state,
         }
         res = self.env['stop.line'].create(vals)
         return res
@@ -827,12 +880,13 @@ class ProductionAppRegistry(models.Model):
     def write(self, vals):
         if 'qty' in vals:
             for reg in self:
-                new_qty = vals.get('qty') or reg.production_id.product_qty
+                old_qty = reg.production_id.product_qty
+                new_qty = vals.get('qty') or old_qty
                 product_lines = reg.production_id.product_lines
                 for line in reg.line_scheduled_ids:
                     product_qty = sum([x.product_qty for x in product_lines
                         if x.product_id == line.product_id])
-                    product_qty = new_qty * product_qty / reg.production_id.product_qty
+                    product_qty = new_qty * product_qty / old_qty
                     if product_qty and product_qty != line.product_qty:
                         line.product_qty = product_qty
         return super(ProductionAppRegistry, self).write(vals)
@@ -865,6 +919,8 @@ class StopLine(models.Model):
     stop_duration = fields.Float('Stop Duration',
         compute='_get_duration')
     operator_id = fields.Many2one('hr.employee', 'Operator')
+    from_state = fields.Selection(APP_STATES, 'From State',
+        default='started', required=True)
 
     @api.multi
     @api.depends('stop_start', 'stop_end')

@@ -14,7 +14,7 @@ export class OdooProvider {
 
     pending_calls : Object[] = []
 
-    last_stop_id;
+    stop_from_state;
     operatorsById: Object = {};
     context;
     uid;
@@ -26,8 +26,7 @@ export class OdooProvider {
 
     pendingCalls() {
         var promise = new Promise( (resolve, reject) => {
-            console.log(this.pending_calls);
-            if (this.pending_calls.length == 0) { 
+            if (this.pending_calls.length == 0) {
                 resolve(); 
             } else {
                 let pending = this.pending_calls[0]
@@ -40,12 +39,9 @@ export class OdooProvider {
                         reject(err);
                     } else {
                         var model = 'production.app.registry'
-                        if (method == 'restart_production' || method == 'restart_and_clean_production'){
-                            values['stop_id'] = this.last_stop_id;
-                        }
                         odoo.call(model, method, values).then((res) => {
                             if (method == 'stop_production') {
-                                this.last_stop_id = res['stop_id'];
+                                this.stop_from_state = res['stop_from_state'];
                             }
                             if (method == 'log_in_operator') {
                                 this.operatorsById[values['operator_id']]['operator_line_id'] = res['operator_line_id'];
@@ -62,11 +58,12 @@ export class OdooProvider {
                             }); 
                         })
                         .catch( () => {
-                            console.log("Err3")
+                            console.log("Error al ejecutar las llamadas pendientes")
+                            reject();
                         });
                     }
                 })
-                .catch( ()  => {
+                .catch( () => {
                     console.log("err");
                 });
             }
@@ -80,12 +77,12 @@ export class OdooProvider {
         var promise = new Promise( (resolve, reject) => {
             this.storage.get('CONEXION').then((con_data) => {
                 var odoo = new OdooApi(con_data.url, con_data.db, con_data.uid, con_data.password);
-                // this.navCtrl.setRoot(HomePage, {borrar: true, login: null});
                 if (con_data == null) {
                     var err = {'title': '¡Error!', 'msg': 'No hay datos para establecer la conexión'}
                     reject(err);
                 } else {
                     this.pendingCalls().then( () => {
+                        console.log("Hice lo que estaba pendiente");
                         var model = 'production.app.registry'
                         odoo.call(model, method, values).then((res) => {
                             resolve(res);
@@ -96,10 +93,11 @@ export class OdooProvider {
                             reject(err);
                         });
                     })
-                    .catch( ()  => {
-                         console.log("err");
+                    .catch( () => {
+                        this.pending_calls.push({'method': method, 'values': values})
+                        var err = {'title': '¡Error!', 'msg': 'Fallo al llamar al método ' + method + ' del modelo production.app.registry'}
+                        reject(err);
                     });
-                          
                 }
             });
         });

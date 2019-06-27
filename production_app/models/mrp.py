@@ -75,7 +75,9 @@ class MrpProduction(models.Model):
         # Si hay registrados movimientos de scrap de consumos los hacemos primero
         if production_mode in ['consume', 'consume_produce']:
             prod = self.env['mrp.production'].browse(production_id)
-            line_scrapped_ids = prod.workcenter_lines.mapped('registry_id.line_scrapped_ids')
+            registry_ids = prod.workcenter_lines.mapped('registry_id').filtered(
+                lambda r: r.state == 'validated')
+            line_scrapped_ids = registry_ids.mapped('line_scrapped_ids')
             for line_scrapped_id in line_scrapped_ids:
                 scrapped = False
                 for move_line in prod.move_lines:

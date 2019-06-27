@@ -83,6 +83,7 @@
                                         <field name="stop_end"/>
                                         <field name="stop_duration" widget="float_time"/>
                                         <field name="operator_id"/>
+                                        <field name="from_state"/>
                                     </tree>
                                 </field>
                             </group>

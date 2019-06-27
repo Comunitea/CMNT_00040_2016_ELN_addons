@@ -61,7 +61,7 @@
                     </ion-row>
                     <ion-row>
                         <ion-col width-100>
-                            <div class="info-tittle">Operarios</div>
+                            <div class="info-tittle" (click)='openUsersModal()'>Operarios</div>
                         </ion-col>
                     </ion-row>
                     <ion-row *ngIf="prodData.getLogInOperators().length !== 0">
@@ -81,10 +81,10 @@
             <ion-grid>
                 <ion-row>
                     <ion-col text-center>
-                        <span class="info-tittle">Tiempo transcurrido</span>
+                        <span class="info-tittle">&nbsp;Tiempo transcurrido&nbsp;</span>
                     </ion-col>
                     <ion-col text-center width-50 *ngIf="prodData.state === 'stopped'">
-                        <span class="info-tittle-red">Tiempo en parada</span>
+                        <span class="info-tittle-red">&nbsp;Tiempo en parada&nbsp;</span>
                     </ion-col>
                 </ion-row>
                 <ion-row *ngIf="(prodData.state != 'waiting')">
@@ -97,65 +97,86 @@
                 </ion-row>
                 <ion-row *ngIf="(prodData.state !== 'started') && (prodData.state !== 'stopped')">
                     <ion-col col-12>
-                        <!-- PANTALLA INICIAL-->
+        <!-- PANTALLA 1 -->
                         <button class="btn" *ngIf="prodData.state == 'waiting'" (click)="confirmProduction()">
-                            Confirmar producción
+                            CONFIRMAR PRODUCCIÓN
                         </button>
-                        <!-- PANTALLA 2-->
+        <!-- PANTALLA 2 -->
                         <button class="btn" *ngIf="prodData.state == 'confirmed'" (click)="setupProduction()">
-                            Comenzar preparación
+                            COMENZAR PREPARACIÓN
                         </button>
                     </ion-col>
-
-                        <!-- PANTALLA 3-->
+        <!-- PANTALLA 3 -->
                     <ion-col col-3>
-                         <button class="btn2" color="danger" *ngIf="prodData.state == 'setup'" (click)="stopProduction()">
-                            Parar producción
+                         <button class="btn2" *ngIf="prodData.state == 'setup'" (click)="stopProduction()">
+                            <ion-icon name="hand"></ion-icon>
+                            PARAR
                         </button>
                     </ion-col>
                     <ion-col col-9>
                         <button class="btn" *ngIf="prodData.state == 'setup'" (click)="startProduction()">
-                            Empezar producción
+                            EMPEZAR PRODUCCIÓN
                         </button>
                     </ion-col>
-                    <ion-col col-12>
-                        <!-- PANTALLA 5-->
-                        <button class="btn"*ngIf="prodData.state == 'cleaning'" (click)="finishProduction()">
-                            Finalizar producción
+        <!-- PANTALLA 5 -->
+                    <ion-col col-3>
+                         <button class="btn2" *ngIf="prodData.state == 'cleaning'" (click)="stopProduction()">
+                            <ion-icon name="hand"></ion-icon>
+                            PARAR
                         </button>
-                        <button class="btn2" color="danger" *ngIf="prodData.state == 'finished'" (click)="loadNextProduction()">
-                            Siguiente
+                    </ion-col>
+                    <ion-col col-9>
+                        <button class="btn" *ngIf="prodData.state == 'cleaning'" (click)="finishProduction()">
+                            FINALIZAR PRODUCCIÓN
+                        </button>
+                    </ion-col>
+        <!-- PANTALLA 6 -->
+                    <ion-col col-12>
+                        <button class="btn2" *ngIf="prodData.state == 'finished'" (click)="loadNextProduction()">
+                            SIGUIENTE
                         </button>
                     </ion-col>
                 </ion-row>
+        <!-- PANTALLA 4 -->
                 <ion-row *ngIf="prodData.state === 'started'">
                     <ion-col width-33>
-                        <button class="btn" *ngIf="prodData.state == 'started'" (click)="cleanProduction()">
-                            Empezar limpieza
+                         <button class="btn2" (click)="stopProduction()">
+                            <ion-icon name="hand"></ion-icon>
+                            PARAR
                         </button>
                     </ion-col>
                     <ion-col width-33>
-                         <button class="btn2"  color="danger" *ngIf="prodData.state == 'started'" (click)="stopProduction()">
-                            Parar producción
+                        <button class="btn" (click)="cleanProduction()">
+                            EMPEZAR LIMPIEZA
                         </button>
                     </ion-col>
                 </ion-row>
-                <ion-row *ngIf="prodData.state === 'stopped'">
+        <!-- PANTALLA PARADA NO EN LIMPIEZA-->
+                <ion-row *ngIf="prodData.state === 'stopped' && prodData.odooCon.stop_from_state !== 'cleaning'">
                     <ion-col width-50>
-                        <button  class="btn" *ngIf="prodData.state == 'stopped'" (click)="restartProduction()">
-                            Reanudar producción
+                        <button class="btn" (click)="restartProduction()">
+                            REANUDAR
                         </button>
                     </ion-col>
                     <ion-col width-50>
-                        <button class="btn" *ngIf="prodData.state == 'stopped'" (click)="restartAndCleanProduction()">
-                            Reanudar y empezar limpieza
+                        <button class="btn2" (click)="restartAndCleanProduction()">
+                            REANUDAR <br> Y EMPEZAR LIMPIEZA
                         </button>
                     </ion-col>
                 </ion-row>
+        <!-- PANTALLA PARADA EN LIMPIEZA-->
+                <ion-row *ngIf="prodData.state === 'stopped' && prodData.odooCon.stop_from_state === 'cleaning'">
+                    <ion-col col-12>
+                        <button class="btn" (click)="restartProduction()">
+                            REANUDAR LIMPIEZA
+                        </button>
+                    </ion-col>
+                </ion-row>
+        <!-- PANTALLA SCRAP -->
                 <ion-row *ngIf="(prodData.state == 'started') || (prodData.state == 'stopped') || (prodData.state == 'cleaning')">
                      <ion-col text-center width-100>
                         <button ion-button round (click)="scrapProduction()" color="dark">
-                            Scrap
+                            SCRAP
                         </button>
                     </ion-col>
                 </ion-row>
