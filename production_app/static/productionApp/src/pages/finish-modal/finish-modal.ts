@@ -10,8 +10,8 @@ import { ProductionProvider } from '../../providers/production/production';
 })
 export class FinishModalPage {
 
-    qty;
-    uos_qty;
+    qty = 0;
+    uos_qty = 0;
     lot: string;
     date: string;
     lots: Object[];
@@ -19,6 +19,7 @@ export class FinishModalPage {
     mode: string = 'default';
     mode_step: string = 'start';
     ctrl: string = 'do';
+    allow_zero: boolean = false;
 
     constructor(public navCtrl: NavController, public navParams: NavParams,
                 public viewCtrl: ViewController, public alertCtrl: AlertController,
@@ -46,18 +47,28 @@ export class FinishModalPage {
     confirm() {
         var res = {};
         if (this.mode_step === 'clean') {
-            if (!isNaN(this.qty) && this.qty != '' && this.qty >= 0) {
+            if (this.qty == 0 && !this.allow_zero) {
+                this.presentAlert("Error", "Es obligatorio indicar una cantidad mayor que 0");
+		return;
+            };
+            if (!isNaN(this.qty) && this.qty >= 0) {
                 res['qty'] = +this.qty;
             } else {
-                this.presentAlert("Error", "Es obligatorio indicar una cantidad >= 0");
+                this.presentAlert("Error", "Es obligatorio indicar una cantidad");
                 return;
             }
         } else {
+            if (isNaN(Date.parse(this.date))) {
+                this.presentAlert("Error", "La fecha indicada no es válida");
+                return;
+            }
+            if (!(this.lot)) {
+                this.presentAlert("Error", "Es obligatorio indicar un lote");
+                return;
+            }
             res['lot'] = this.lot
             res['date'] = this.date
         }
-        console.log("res")
-        console.log(res);
         this.viewCtrl.dismiss(res);
     }
 
@@ -97,30 +108,26 @@ export class FinishModalPage {
     }
 
     onchange_uom() {
-        console.log(this.prodData.uom)
-        if (this.ctrl !== 'not do'){
+        if (this.ctrl !== 'not do') {
             var uos_coeff = this.prodData.uos_coeff;
-            this.uos_qty = (this.qty * uos_coeff).toFixed(2);
-            this.ctrl = 'not do'
+            this.uos_qty = parseFloat((this.qty * uos_coeff).toFixed(2));
+            this.ctrl = 'not do';
         } else {
-            this.ctrl = 'do'
+            this.ctrl = 'do';
         }
     }
 
     onchange_uos() {
-        console.log("b")
-        if (this.ctrl !== 'not do'){
+        if (this.ctrl !== 'not do') {
             var uos_coeff = this.prodData.uos_coeff;
-            if (uos_coeff == 0){
-                uos_coeff = 1
+            if (uos_coeff == 0) {
+                uos_coeff = 1;
             }
-            this.qty = (this.uos_qty / uos_coeff).toFixed(2);
-            this.ctrl = 'not do'
+            this.qty = parseFloat((this.uos_qty / uos_coeff).toFixed(2))
+            this.ctrl = 'not do';
         } else {
-            this.ctrl = 'do'
+            this.ctrl = 'do';
         }  
     }
-
-
 
 }

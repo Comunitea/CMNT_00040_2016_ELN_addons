@@ -6,10 +6,10 @@
 -->
 <ion-header>
     <ion-navbar color="secondary">
-          <ion-title><span class="custom-font-size">Introducir Consumos</span></ion-title>
+          <ion-title><span class="custom-font-size-t">Introducir Consumos</span></ion-title>
           <ion-buttons end>
               <button ion-button (click)="closeModal()">
-                  Atrás
+                  <span class="custom-font-size-t">Atrás</span>
               </button>
           </ion-buttons>
         </ion-navbar>
@@ -17,7 +17,7 @@
 
 
 <ion-content padding>
-    <ion-title><span class="custom-font-size">{{line.product_name}}</span></ion-title>
+    <ion-title><span class="custom-font-size-t">{{line.product_name}}</span></ion-title>
     
     <ion-list>
         <ion-item *ngIf="(mode !== 'show')">

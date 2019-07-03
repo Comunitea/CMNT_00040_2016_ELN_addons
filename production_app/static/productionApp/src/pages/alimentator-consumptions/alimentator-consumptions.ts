@@ -123,7 +123,6 @@ export class AlimentatorConsumptionsPage {
 
         // When modal closes
         consumeListModal.onDidDismiss(new_line_vals => {
-            console.log(new_line_vals);
             // Create new consumption line
             this.prodData.saveConsumptionLine(new_line_vals).then((res) => {
                 // Read again lines
@@ -150,7 +149,6 @@ export class AlimentatorConsumptionsPage {
          // When modal closes
          consumeModal.onDidDismiss(line_vals => {
             this.prodData.saveConsumptionLine(line_vals).then((res) => {
-                console.log("Línea de consumo escrita")
                 this.prodData.getConsumeInOut().then((res) => {
                     this.consumptions_in = this.prodData.consumptions_in;
                     this.consumptions_out = this.prodData.consumptions_out;
@@ -159,7 +157,7 @@ export class AlimentatorConsumptionsPage {
                 })
             })
             .catch( (err) => {
-                this.presentAlert("Error", "Falló al escribir la línea de consumo");
+                this.presentAlert("Error", "Fallo al escribir la línea de consumo");
             }); 
         });
     }

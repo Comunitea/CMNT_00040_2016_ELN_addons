@@ -16,8 +16,8 @@ import { ProductionProvider } from '../../providers/production/production';
 })
 export class ReasonsModalPage {
     reasons: Object[];
-    constructor(public navCtrl: NavController, public navParams: NavParams, 
-                public viewCtrl: ViewController,  public alertCtrl: AlertController,
+    constructor(public navCtrl: NavController, public navParams: NavParams,
+                public viewCtrl: ViewController, public alertCtrl: AlertController,
                 private prodData: ProductionProvider) {
         this.reasons = [];
     }

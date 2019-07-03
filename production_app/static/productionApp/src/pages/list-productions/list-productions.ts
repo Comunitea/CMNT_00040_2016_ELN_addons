@@ -1,5 +1,5 @@
-import {Component} from '@angular/core';    
-import { NavController, AlertController, NavParams} from 'ionic-angular';
+import { Component } from '@angular/core';
+import { NavController, AlertController, NavParams } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { HomePage } from '../../pages/home/home';
 import { ProductionProvider } from '../../providers/production/production';
@@ -19,6 +19,7 @@ export class ListProductionsPage {
     mode = '';
     items: Object[];
     workcenter_id = '';
+    workcenter_name = '';
     workline_name = '';
 
     constructor(public navCtrl: NavController, private storage: Storage,
@@ -28,14 +29,15 @@ export class ListProductionsPage {
         this.worklines = [];
         this.workline_name = '';
         this.items = [];
-        this.workcenter_id = this.navParams.get('workcenter_id')
+        this.workcenter_id = this.navParams.get('workcenter_id');
+        this.workcenter_name = this.navParams.get('workcenter_name');
         this.storage.get('CONEXION').then((con_data) => {
             this.mode = con_data.mode
         })
         this.getLines();
     }
 
-    logOut(){
+    logOut() {
         let confirm = this.alertCtrl.create({
           title: '¿Salir de la aplicación?',
           message: '¿Seguro que deseas salir de la aplicación?',
@@ -75,9 +77,11 @@ export class ListProductionsPage {
             } else {
                 var domain = [
                     ['workcenter_id', '=', this.workcenter_id],
-                    ['production_state', 'in', ['ready','confirmed','in_production','finished','validated']]];
+                    ['production_state', 'in', ['ready','confirmed','in_production','finished','validated']],
+                    //['workorder_planned_state', '=', '1'],
+                ];
                 var fields = ['id', 'name', 'production_id', 'workcenter_id'];
-                var order = 'sequence'
+                var order = 'sequence asc, priority desc, id asc';
                 odoo.search_read('mrp.production.workcenter.line', domain, fields, 0, 0, order).then((worklines) => {
                     this.worklines = worklines;
                     this.initializeItems();
@@ -85,18 +89,17 @@ export class ListProductionsPage {
             }
         });
     }
+
     worklineSelected(workline) {
         let workline_name = workline['production_id'][1] + ' --> ' + workline['name']
         var vals = {'workcenter_id': workline.workcenter_id[0], 'workline_id': workline.id, 'workline_name': workline_name}
         this.prodData.loadProduction(vals).then( (res) => {
             this.prodData.getConsumeInOut().then( (res) => {
                 this.navCtrl.push(AlimentatorConsumptionsPage);
-            
             })
             .catch( (err) => {
-                this.presentAlert("Error", "Falló al cargar los motivos técnicos para el centro de trabajo actual.");
+                this.presentAlert("Error", "Fallo al cargar los motivos técnicos para el centro de trabajo actual.");
             }); 
-
         })
         .catch( (err) => {
             this.presentAlert(err.title, err.msg);
@@ -105,7 +108,6 @@ export class ListProductionsPage {
 
     initializeItems() {
         this.items = this.worklines
-        this.workline_name = this.worklines[0].workcenter_id[1]
     }
 
     getItems(ev: any) {

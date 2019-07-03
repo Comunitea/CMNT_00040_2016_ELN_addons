@@ -46,15 +46,15 @@ export class UsersModalPage {
     closeModal() {
         this.viewCtrl.dismiss();
     }
-    setActive(operator){
-        if (!operator.let_active){
-            this.presentAlert('¡Error!', 'No se puede activar este usuario ya que no está en el listado de operarios del centro de trabajo asociado.')
-        }
-        else{
 
+    setActive(operator) {
+        if (!operator.let_active) {
+            this.presentAlert('¡Error!', 'No se puede activar este usuario ya que no está en el listado de operarios del centro de trabajo asociado.')
+        } else {
             this.prodData.setActiveOperator(operator.id);
         }
     }
+
     logInOperator(operator) {
         if (this.items2.length === 0) {
             this.setActive(operator);
@@ -68,6 +68,7 @@ export class UsersModalPage {
         // Push to loged in list
         this.items2.push(operator);
     }
+
     logOutOperator(operator) {
         this.prodData.logOutOperator(operator.id);
 
@@ -76,13 +77,13 @@ export class UsersModalPage {
 
         // Push to loged out list
         this.items.push(operator);
-
-
     }
+
     initializeItems() {
         this.items = this.prodData.operators.filter(obj => this.odooCon.operatorsById[obj.id]['log'] == 'out');
         this.items2 = this.prodData.operators.filter(obj => this.odooCon.operatorsById[obj.id]['log'] == 'in');
     }
+
     getItems(ev: any) {
         // Reset items back to all of the items
         this.initializeItems();
@@ -98,12 +99,13 @@ export class UsersModalPage {
             })
         }
     }
+
     getLogedOut() {
         return this.items;
     }
+
     getLogedIn() {
         return this.items2;
     }
-
 
 }
