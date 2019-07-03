@@ -7,10 +7,11 @@
 <ion-header>
 
   <ion-navbar color="secondary">
-    <ion-title><span>Finalizar producción</span></ion-title>
+    <ion-title *ngIf="mode_step === 'clean'"><span class="custom-font-size-t">Finalizar producción</span></ion-title>
+    <ion-title *ngIf="mode_step !== 'clean'"><span class="custom-font-size-t">Empezar producción</span></ion-title>
     <ion-buttons end>
         <button ion-button (click)="closeModal()">
-            Atrás
+            <span class="custom-font-size-t">Atrás</span>
         </button>
     </ion-buttons>
   </ion-navbar>
@@ -19,39 +20,44 @@
 
 
 <ion-content padding>
-    <button  *ngIf="mode !== 'show'" ion-button full color= "secondary"(click)="showLots()">
+    <button  *ngIf="(mode !== 'show') && (mode_step === 'start')" ion-button full color= "secondary"(click)="showLots()">
         Ver lotes
     </button>
-   <ion-list>
+    <ion-list>
         <ion-item *ngIf="(mode !== 'show') && (mode_step === 'clean')">
             <ion-label color="primary" stacked><span>Cantidad en {{this.prodData.uos}}</span></ion-label>
-            <ion-input type="number" [(ngModel)]="uos_qty" required name='uos_qty' (ionChange)='onchange_uos()' placeholder="Cant. segunda unidad"></ion-input>
+            <ion-input type="number" [(ngModel)]="uos_qty" name='uos_qty' (ionChange)='onchange_uos()' placeholder="Cant. segunda unidad"></ion-input>
         </ion-item>
 
         <ion-item *ngIf="(mode !== 'show') && (mode_step === 'clean')">
             <ion-label color="primary" stacked><span>Cantidad en {{this.prodData.uom}}</span></ion-label>
-            <ion-input type="number" [(ngModel)]="qty" required name='qty' (ionChange)='onchange_uom()' placeholder="Introducir cantidad"></ion-input>
+            <ion-input type="number" [(ngModel)]="qty" name='qty' (ionChange)='onchange_uom()' placeholder="Introducir cantidad"></ion-input>
+        </ion-item>
+
+        <ion-item *ngIf="(mode !== 'show') && (mode_step === 'clean')">
+            <ion-label>Permitir cantidad cero</ion-label>
+            <ion-toggle [(ngModel)]="allow_zero"></ion-toggle>
         </ion-item>
 
         <ion-item *ngIf="(mode !== 'show') && (mode_step === 'start')">
-            <ion-label color="primary" stacked><span>Lot</span></ion-label>
-            <ion-input type="text" [(ngModel)]="lot" required name='lot'  placeholder="Introducir lote"></ion-input>
+            <ion-label color="primary" stacked><span>Lote</span></ion-label>
+            <ion-input type="text" [(ngModel)]="lot" name='lot' placeholder="Introducir lote"></ion-input>
         </ion-item>
 
         <ion-item *ngIf="(mode !== 'show') && (mode_step === 'start')">
             <ion-label color="primary" stacked><span>Fecha de caducidad</span></ion-label>
-            <ion-datetime displayFormat="DD/MM/YYYY" pickerFormat="DD MM YYYY" max="2099-12-31" placeholder="Introducir caducidad" [(ngModel)]="date"></ion-datetime>
+            <ion-datetime displayFormat="MM/YYYY" pickerFormat="MM YYYY" max="2099-12-31" placeholder="Introducir caducidad" [(ngModel)]="date"></ion-datetime>
         </ion-item>
     </ion-list>
 
     <ion-searchbar *ngIf="mode == 'show'" (ionInput)="getItems($event)"></ion-searchbar>
     <ion-list *ngIf="mode === 'show'"> 
-         <button ion-item *ngFor="let lot of items" (click)="lotSelected(lot)">
+        <button ion-item *ngFor="let lot of items" (click)="lotSelected(lot)">
             {{ lot.name }}
         </button>  
     </ion-list> 
 
-    <button *ngIf="mode !== 'show'" ion-button  full (click)="confirm()">
+    <button *ngIf="mode !== 'show'" ion-button full (click)="confirm()">
         Confirmar
     </button>
 

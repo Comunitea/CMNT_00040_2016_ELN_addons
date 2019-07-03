@@ -20,7 +20,7 @@ export class ListPage {
 
     constructor(public navCtrl: NavController, private storage: Storage, 
                 public alertCtrl: AlertController, 
-                private prodData: ProductionProvider){
+                private prodData: ProductionProvider) {
         this.workcenters = [];
         this.items = [];
         this.storage.get('CONEXION').then((con_data) => {
@@ -29,7 +29,7 @@ export class ListPage {
         this.getLines();
     }
 
-    logOut(){
+    logOut() {
         let confirm = this.alertCtrl.create({
           title: '¿Salir de la aplicación?',
           message: '¿Seguro que deseas salir de la aplicación?',
@@ -60,7 +60,7 @@ export class ListPage {
         alert.present();
     }
 
-    getLines(){
+    getLines() {
         this.storage.get('CONEXION').then((con_data) => {
             var odoo = new OdooApi(con_data.url, con_data.db, con_data.uid, con_data.password);
             if (con_data == null) {
@@ -76,20 +76,19 @@ export class ListPage {
             }
         });
     }
+
     workcenterSelected(workcenter) {
         var vals = {'workcenter_id': workcenter.id}
-        if (this.mode == 'alimentator')
-            this.navCtrl.push(ListProductionsPage, {workcenter_id: workcenter.id});
-        else {
+        if (this.mode == 'alimentator') {
+            this.navCtrl.push(ListProductionsPage, {workcenter_id: workcenter.id, workcenter_name: workcenter.name});
+        } else {
             this.prodData.loadProduction(vals).then( (res) => {
                 this.prodData.getStopReasons(workcenter.id).then( (res) => {
                     this.navCtrl.setRoot(ProductionPage);
-                
                 })
                 .catch( (err) => {
-                    this.presentAlert("Error", "Falló al cargar los motivos técnicos para el centro de trabajo actual.");
+                    this.presentAlert("Error", "Fallo al cargar los motivos técnicos para el centro de trabajo actual.");
                 }); 
-
             })
             .catch( (err) => {
                 this.presentAlert(err.title, err.msg);

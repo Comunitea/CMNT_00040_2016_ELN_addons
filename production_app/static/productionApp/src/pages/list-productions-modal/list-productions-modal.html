@@ -8,20 +8,26 @@
         </ion-title>
         
         <ion-buttons end>
-            <button ion-button (click)='logOut()'>
-                <ion-icon name="log-out"></ion-icon>
+            <button ion-button (click)="closeModal()">
+                <span class="custom-font-size-t">Atrás</span>
             </button>
         </ion-buttons>
     </ion-navbar>
 </ion-header>
 <ion-content padding>
     <ion-searchbar class="custom-font-size" (ionInput)="getItems($event)"></ion-searchbar>
-    <ion-list>
-        <!-- <button class="custom-font-size" ion-item text-wrap *ngFor="let workline of items" (click)="worklineSelected(workline)"> -->
-        <button class="custom-font-size" ion-item *ngFor="let workline of items" (click)="worklineSelected(workline)">
-            <ion-icon name="send"></ion-icon>
-            {{ workline.production_id[1] }} --> {{ workline.name }}
-        </button>  
-    </ion-list>
+    <ion-list> 
+        <ion-item-sliding *ngFor="let workline of items">        
+            <ion-item>
+                <span class="custom-font-size">{{ workline.production_id[1] }} --> {{ workline.name }}</span>
+            </ion-item>
+            <ion-item-options side="left">
+                <button class="custom-font-size" ion-button (click)="worklineSelected(workline)">
+                    <ion-icon name="play"></ion-icon>
+                    <span class="button-size">Seleccionar</span>
+                </button> 
+            </ion-item-options>
+        </ion-item-sliding>
+    </ion-list> 
 
 </ion-content>

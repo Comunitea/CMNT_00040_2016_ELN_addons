@@ -1,7 +1,7 @@
 <ion-header>
 
     <ion-navbar color="primary">
-        <ion-title><span class="custom-font-size">Producción</span></ion-title>
+        <ion-title><span class="custom-font-size-t">Producción</span></ion-title>
         <ion-buttons end>
             <button ion-button full (click)="showConsumptions()">
                 <ion-icon name="clipboard"></ion-icon>
@@ -40,7 +40,7 @@
                         <ion-col width-33>
                             <div class="info-content">{{prodData.workcenter.name}}</div>
                         </ion-col>
-                        <ion-col width-33>
+                        <ion-col width-33 (click)="openListProductionsModal()">
                             <div class="info-content">{{prodData.production}}</div>
                         </ion-col>
                         <ion-col width-33>
@@ -61,7 +61,7 @@
                     </ion-row>
                     <ion-row>
                         <ion-col width-100>
-                            <div class="info-tittle" (click)='openUsersModal()'>Operarios</div>
+                            <div class="info-tittle" (click)='openUsersModal()'>Operarios&nbsp;<ion-icon name="person-add"></ion-icon></div>
                         </ion-col>
                     </ion-row>
                     <ion-row *ngIf="prodData.getLogInOperators().length !== 0">
@@ -87,12 +87,12 @@
                         <span class="info-tittle-red">&nbsp;Tiempo en parada&nbsp;</span>
                     </ion-col>
                 </ion-row>
-                <ion-row *ngIf="(prodData.state != 'waiting')">
+                <ion-row>
                     <ion-col>
                         <button ion-button large block clear><timer [timeInSeconds]="0"></timer></button>
                     </ion-col>
                     <ion-col width-50 [ngClass]="hidden_class">
-                        <button [ngClass]="hidden_class" ion-button large block clear color="danger"><timer [timeInSeconds]="0"></timer></button>
+                        <button ion-button large block clear color="danger"><timer [timeInSeconds]="0"></timer></button>
                     </ion-col>
                 </ion-row>
                 <ion-row *ngIf="(prodData.state !== 'started') && (prodData.state !== 'stopped')">

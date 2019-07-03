@@ -6,6 +6,7 @@ import { UsersModalPage } from '../../pages/users-modal/users-modal';
 import { ReasonsModalPage } from '../../pages/reasons-modal/reasons-modal';
 import { FinishModalPage } from '../../pages/finish-modal/finish-modal';
 import { ScrapModalPage } from '../../pages/scrap-modal/scrap-modal';
+import { ListProductionsModalPage } from '../../pages/list-productions-modal/list-productions-modal';
 import { ProductionProvider } from '../../providers/production/production';
 import { TimerComponent } from '../../components/timer/timer';
 import { ConsumptionsPage } from '../../pages/consumptions/consumptions';
@@ -35,11 +36,8 @@ export class ProductionPage {
     }
 
     initProduction() {
-        if (this.timer.toArray().length != 0) {
-            this.timer.toArray()[0].initTimer();
-            this.timer.toArray()[1].initTimer();
-        }
-
+        this.timer.toArray()[0].initTimer();
+        this.timer.toArray()[1].initTimer();
         var timer_1_states = ['setup', 'started', 'cleaning']
         if (timer_1_states.indexOf(this.prodData.state) >= 0) {
             if (this.prodData.state != 'setup') {
@@ -51,6 +49,8 @@ export class ProductionPage {
             this.hidden_class = 'none'
             this.timer.toArray()[0].restartTimer();
             this.timer.toArray()[1].restartTimer();
+        } else {
+            this.hidden_class = 'my-hide'
         }
     }
 
@@ -108,14 +108,15 @@ export class ProductionPage {
 
     reloadProduction() {
         this.promptNextStep('¿Recargar producción?').then( () => {
+            var vals = {'workcenter_id': this.prodData.workcenter['id'],
+                        'workline_id': this.prodData.workline[0]}
             this.clearIntervales();
-            this.prodData.loadProduction({'workcenter_id': this.prodData.workcenter['id']}).then(() =>{
+            this.prodData.loadProduction(vals).then( (res) => {
                 this.initProduction();
             })
             .catch( () => {});
             })
         .catch( () => {});
-        
     }
 
     presentAlert(titulo, texto) {
@@ -140,19 +141,16 @@ export class ProductionPage {
             myModal.onDidDismiss(data => {
                 if (data !== null && Object.keys(data).length !== 0) {
                     this.prodData.saveQualityChecks(data);
-                    if (qtype == 'start' && restart_timer){
-                        this.timer.toArray()[0].restartTimer();  // Production timer on
-                    } 
-                    resolve();
-                }
-                else {
                     if (qtype == 'start' && restart_timer) {
                         this.timer.toArray()[0].restartTimer();  // Production timer on
                     } 
-                    if (qchecks.length === 0)
+                    resolve();
+                } else {
+                    if (qchecks.length === 0) {
                         resolve();
-                    else
+                    } else {
                         reject();
+                    };
                 }
             });
             myModal.present();
@@ -174,10 +172,9 @@ export class ProductionPage {
 
             // When modal closes
             reasonsModal.onDidDismiss((res) => {
-                if (res['reason_id'] == 0){
-                    reject(res)
-                }
-                else{
+                if (res === null || res['reason_id'] == 0){
+                    reject(res);
+                } else {
                     resolve(res);
                 }
             });
@@ -192,11 +189,10 @@ export class ProductionPage {
             finishModal.present();
 
             // When modal closes
-            finishModal.onDidDismiss(res => {
-                if (Object.keys(res).length === 0) {
+            finishModal.onDidDismiss((res) => {
+                if (res === null || Object.keys(res).length === 0) {
                     reject();
-                }
-                else {
+                } else {
                     this.prodData.qty = res.qty;
                     this.prodData.lot_name = res.lot;
                     this.prodData.lot_date = res.date;
@@ -213,11 +209,10 @@ export class ProductionPage {
             scrapModal.present();
 
             // When modal closes
-            scrapModal.onDidDismiss(res => {
-                if (Object.keys(res).length === 0) {
+            scrapModal.onDidDismiss((res) => {
+                if (res === null || Object.keys(res).length === 0) {
                     reject();
-                }
-                else {
+                } else {
                     this.prodData.scrap_qty = res.qty;
                     this.prodData.scrap_reason_id = res.reason_id;
                     resolve();
@@ -225,6 +220,36 @@ export class ProductionPage {
             });
         });
         return promise;
+    }
+
+    openListProductionsModal() {
+        this.prodData.getWorkcenterLines().then( () => {
+            var promise = new Promise( (resolve, reject) => {
+                var mydata = {}
+                let listProductionsModal = this.modalCtrl.create(ListProductionsModalPage, mydata);
+                listProductionsModal.present();
+
+                // When modal closes
+                listProductionsModal.onDidDismiss((res) => {
+                    if (res !== null && res !== 0) {
+                        var vals = {'workcenter_id': res.workcenter_id[0],
+                                    'workline_id': res.id}
+                        this.clearIntervales();
+                        this.prodData.loadProduction(vals).then( (reg) => {
+                            this.initProduction();
+                        })
+                        .catch( () => {
+                            this.presentAlert("Error", "Error cargando wc_line seleccionado");
+                        });
+                        resolve();
+                    }
+                });
+            });
+            return promise;
+        })
+        .catch( () => {
+            this.presentAlert("Error", "Error cargando wc_lines");
+        });
     }
 
     clearIntervales() {
@@ -245,14 +270,14 @@ export class ProductionPage {
 
     scheduleChecks() {
         var checks_by_delay = {};
-        for (let i in this.prodData.freq_checks){
+        for (let i in this.prodData.freq_checks) {
             let qc = this.prodData.freq_checks[i];
-            if (!(qc['repeat'] in checks_by_delay)){
+            if (!(qc['repeat'] in checks_by_delay)) {
                 checks_by_delay[qc['repeat']] = [];
             }
             checks_by_delay[qc['repeat']].push(qc) 
         }
-        for (let key in checks_by_delay){
+        for (let key in checks_by_delay) {
             this.scheduleIntervals(key, checks_by_delay[key]);
         }
     }
@@ -265,6 +290,7 @@ export class ProductionPage {
     beginLogistics() {
         this.presentAlert('Logística', 'PENDIENTE DESAROLLO, LLAMAR APP ALMACÉN')
     }
+
     showConsumptions(workcenter) {
         this.navCtrl.push(ConsumptionsPage)
     }
@@ -307,8 +333,6 @@ export class ProductionPage {
                     var create_mo = res['create_mo']
                     this.hidden_class = 'none'
                     this.clearIntervales();
-                    console.log("STOP MODAL RES");
-                    console.log(reason_id, stop_start);
                     this.prodData.stopProduction(reason_id, create_mo, stop_start);
                 }
             })
@@ -321,10 +345,14 @@ export class ProductionPage {
 
     restartAndCleanProduction() {
         this.promptNextStep('¿Reanudar producción y pasar a limpieza?').then( () => {
+            var cleaning_start = this.prodData.getUTCDateStr()
             this.clearIntervales();
-            this.timer.toArray()[0].restartTimer();
-            this.hidden_class = 'my-hide'
-            this.prodData.restartAndCleanProduction();
+            this.openFinishModal("clean").then(() => {
+                this.hidden_class = 'my-hide'
+                this.timer.toArray()[0].restartTimer();
+                this.timer.toArray()[1].pauseTimer();
+                this.prodData.restartAndCleanProduction(cleaning_start);
+            }).catch(() => {});
         })
         .catch( () => {});
     }
@@ -346,8 +374,8 @@ export class ProductionPage {
     cleanProduction() {
         this.promptNextStep('¿Empezar limpieza?').then( () => {
             var cleaning_start = this.prodData.getUTCDateStr()
-            this.clearIntervales();
             this.openFinishModal("clean").then(() => {
+                this.clearIntervales();
                 this.timer.toArray()[0].restartTimer();
                 this.prodData.cleanProduction(cleaning_start);
             }).catch(() => {});

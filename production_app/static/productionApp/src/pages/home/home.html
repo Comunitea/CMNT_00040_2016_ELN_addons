@@ -14,23 +14,23 @@
         <ion-list *ngIf="!cargar">
           <ion-item>
             <ion-label color="primary" stacked>
-                <span class="custom-font-size">Modo de trabajo</span>
+                <span class="custom-font-size-t">Modo de trabajo</span>
             </ion-label>
-            <ion-select  [(ngModel)]="CONEXION.mode" name="mode" value="alimentator" okText="Aceptar" cancelText="Cancelar">
+            <ion-select class="custom-font-size-t" [(ngModel)]="CONEXION.mode" name="mode" value="alimentator" okText="Aceptar" cancelText="Cancelar">
               <ion-option value="alimentator">Alimentador</ion-option>
               <ion-option value="production">Producción</ion-option>
             </ion-select>
           </ion-item>
           <ion-item>
             <ion-label color="primary" stacked>
-              <span class="custom-font-size">Usuario</span>
+              <span class="custom-font-size-t">Usuario</span>
             </ion-label>
             <ion-input type="email" [(ngModel)]="CONEXION.username" required name='username' placeholder="Ingresa usuario"></ion-input>
           </ion-item>
 
           <ion-item>
             <ion-label color="primary" stacked>
-              <span class="custom-font-size">Contraseña</span>
+              <span class="custom-font-size-t">Contraseña</span>
             </ion-label>
             <ion-input type="password" [(ngModel)]="CONEXION.password" required name='password' placeholder="Ingresa contraseña"></ion-input>
           </ion-item>
@@ -49,7 +49,7 @@
       <ion-row>
           <ion-col width-100>
             <ion-item>
-                <ion-label color="dark">Servidor</ion-label>
+                <ion-label class="custom-font-size-t" color="dark">Servidor</ion-label>
                 <ion-toggle [(ngModel)]="login_server" [ngModelOptions] = {standalone:true} ></ion-toggle>
             </ion-item>     
           </ion-col>
@@ -59,13 +59,13 @@
           <ion-list *ngIf="!cargar && login_server" >
             <ion-item>
               <ion-label color="primary" stacked>
-                <span class="custom-font-size">URL</span>
+                <span class="custom-font-size-t">URL</span>
               </ion-label>
               <ion-input [(ngModel)]="CONEXION.url" required name='url' placeholder="Ingresa url"></ion-input>
             </ion-item>
             <ion-item>
               <ion-label color="primary" stacked>
-                <span class="custom-font-size">Base de datos</span>
+                <span class="custom-font-size-t">Base de datos</span>
               </ion-label>
               <ion-input [(ngModel)]="CONEXION.db" required name='db' placeholder="Ingresa base de datos"></ion-input>
             </ion-item>

@@ -4,11 +4,11 @@
             <ion-icon name="menu"></ion-icon>
         </button> -->
 
-        <ion-title text-center><span class="custom-font-size">Lista de líneas</span></ion-title>
+        <ion-title text-center><span class="custom-font-size-t">Lista de líneas</span></ion-title>
         <ion-title text-center [ngSwitch]="mode">
-            <span *ngSwitchCase="'production'">Modo Producción</span>
-            <span *ngSwitchCase="'alimentator'">Modo Alimentador</span>
-            <span *ngSwitchDefault>Modo {{mode}}</span>
+            <span class="custom-font-size-t" *ngSwitchCase="'production'">Modo Producción</span>
+            <span class="custom-font-size-t" *ngSwitchCase="'alimentator'">Modo Alimentador</span>
+            <span class="custom-font-size-t" *ngSwitchDefault>Modo {{mode}}</span>
         </ion-title>
         
         <ion-buttons end>

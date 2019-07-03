@@ -13,6 +13,7 @@ REASON_TYPES = [
 
 class StopReason(models.Model):
     _name = 'stop.reason'
+    _order = 'name'
 
     name = fields.Char('Reason')
     reason_type = fields.Selection(REASON_TYPES, 'Type',

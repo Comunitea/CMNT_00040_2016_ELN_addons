@@ -123,57 +123,63 @@ class ProductionAppRegistry(models.Model):
                 r.cleaning_duration = td.total_seconds() / 3600
 
     @api.model
-    def get_existing_registry(self, workcenter_id=None,
-                              alimentator_line_id=None, registry_id=None):
+    def get_next_planned_wc_line(self, workcenter_id):
+        if not workcenter_id:
+            return False
+        domain = [
+            ('workcenter_id', '=', workcenter_id),
+            ('state', '!=', 'done'),
+            ('production_state', 'in', ('ready', 'confirmed', 'in_production')),
+             '|',
+            ('registry_id', '=', False),
+            ('app_state', '!=', 'finished'),
+        ]
+        order = 'sequence asc, priority desc, id asc'
+        wcl_obj = self.env['mrp.production.workcenter.line']
+        wcl_id = wcl_obj.search(domain, order=order, limit=1)
+        return wcl_id.id
+
+    @api.model
+    def get_registry(self, workcenter_id=None, wc_line_id=None, registry_id=None):
         res = False
+        wcl_id = wc_line_id or self.get_next_planned_wc_line(workcenter_id)
         if registry_id:
             domain = [('id', '=', registry_id)]
-        elif alimentator_line_id:
-            domain = [('wc_line_id', '=', alimentator_line_id)]
-        elif workcenter_id:
-            domain = [('workcenter_id', '=', workcenter_id),
-                      ('state', 'not in', ('finished', 'validated'))]
+        elif wcl_id:
+            domain = [('wc_line_id', '=', wcl_id)]
         else:
             return False
-        reg_obj = self.search(domain, limit=1)
-        if reg_obj:
-            res = reg_obj
+        reg_id = self.search(domain, limit=1)
+        if not reg_id and not registry_id:
+            reg_id = self.create_new_registry(wcl_id)
+        if reg_id:
+            res = reg_id
         return res
 
     @api.model
-    def create_new_registry(self, workcenter_id, alimentator_line_id):
-        if alimentator_line_id:
-            domain = [('id', '=', alimentator_line_id)]
-        else:
-            domain = [
-                ('workcenter_id', '=', workcenter_id),
-                ('state', '!=', 'done'),
-                ('production_state', 'in',
-                ('ready', 'confirmed', 'in_production')),
-                ('registry_id', '=', False)
-            ]
-        wcl = self.env['mrp.production.workcenter.line']
-        wcl_obj = wcl.search(domain, order='sequence', limit=1)
-        if not wcl_obj:
+    def create_new_registry(self, wc_line_id):
+        wcl_obj = self.env['mrp.production.workcenter.line']
+        wcl_id = wcl_obj.browse(wc_line_id)
+        if not wcl_id:
             return False
         # Scheduled products
         scheduled_vals = []
-        for product_line in wcl_obj.production_id.product_lines:
+        for product_line in wcl_id.production_id.product_lines:
             vals = {
                 'product_id': product_line.product_id.id,
                 'product_uom': product_line.product_uom.id,
                 'product_qty': product_line.product_qty,
-                'location_id': wcl_obj.production_id.location_src_id.id,
+                'location_id': wcl_id.production_id.location_src_id.id,
                 'type': 'scheduled',
             }
             scheduled_vals.append((0, 0, vals))
         vals = {
-            'workcenter_id': workcenter_id,
-            'wc_line_id': wcl_obj.id,
+            'workcenter_id': wcl_id.workcenter_id.id,
+            'wc_line_id': wcl_id.id,
             'line_scheduled_ids': scheduled_vals or False,
         }
         res = self.create(vals)
-        wcl_obj.write({'registry_id': res.id})
+        wcl_id.write({'registry_id': res.id})
         return res
 
     @api.model
@@ -203,14 +209,12 @@ class ProductionAppRegistry(models.Model):
         """
         res = {}
         workcenter_id = vals.get('workcenter_id')
-        alimentator_line_id = False
+        wc_line_id = False
 
         if vals.get('workline_id', False):  # Alimentator mode only
-            alimentator_line_id = vals.get('workline_id')
+            wc_line_id = vals.get('workline_id')
 
-        reg = self.get_existing_registry(workcenter_id, alimentator_line_id)
-        if not reg:
-            reg = self.create_new_registry(workcenter_id, alimentator_line_id)
+        reg = self.get_registry(workcenter_id, wc_line_id)
         if reg:
             res.update(reg.read()[0])
 
@@ -218,8 +222,9 @@ class ProductionAppRegistry(models.Model):
             allowed_operators = self.get_allowed_operators(active_operator_ids)
 
             use_time = reg.wc_line_id.production_id.product_id.use_time
-            use_date = (datetime.now() + timedelta(use_time)).\
-                strftime("%Y-%m-%d")
+            use_date = (datetime.now() + timedelta(use_time + 31))
+            use_date = datetime(year=use_date.year, month=use_date.month, day=1)
+            use_date = (use_date - timedelta(days=1)).strftime("%Y-%m-%d")
 
             uom_id = reg.product_id.uom_id
             uos_id = reg.product_id.uos_id
@@ -253,7 +258,7 @@ class ProductionAppRegistry(models.Model):
     def confirm_production(self, values):
         res = {}
         registry_id = values.get('registry_id', False)
-        reg = self.get_existing_registry(registry_id=registry_id)
+        reg = self.get_registry(registry_id=registry_id)
         if reg:
             reg.write({
                 'state': 'confirmed',
@@ -265,7 +270,7 @@ class ProductionAppRegistry(models.Model):
     def setup_production(self, values):
         res = {}
         registry_id = values.get('registry_id', False)
-        reg = self.get_existing_registry(registry_id=registry_id)
+        reg = self.get_registry(registry_id=registry_id)
         date = fields.Datetime.now()
         if values.get('setup_start', False):
             date = values['setup_start']
@@ -283,15 +288,29 @@ class ProductionAppRegistry(models.Model):
         spl = self.env['stock.production.lot']
         product_id = reg.product_id.id
         lot_name = values.get('lot_name', '')
-        lot_date = values.get('lot_date', '')
-        lot_date = lot_date if lot_date else False
-        if product_id and lot_name:
-            domain = [('name', '=', lot_name), ('product_id', '=', product_id)]
+        lot_name = lot_name if lot_name else 'input error from app'
+        if product_id:
+            domain = [
+                ('name', '=', lot_name),
+                ('product_id', '=', product_id)
+            ]
             lot_obj = spl.search(domain, limit=1)
             if not lot_obj:
-                vals = {'name': lot_name,
-                        'product_id': product_id,
-                        'use_date': lot_date}
+                lot_date = values.get('lot_date', '')
+                try:
+                    lot_date = lot_date[:7] + '-01 02:00:00'
+                    lot_date = fields.Datetime.from_string(lot_date)
+                    lot_date = (lot_date + timedelta(31))
+                    lot_date = datetime(year=lot_date.year, month=lot_date.month, day=1, hour=2)
+                    lot_date = (lot_date - timedelta(days=1)).strftime("%Y-%m-%d %H:%M:%S")
+                except:
+                    lot_date = False
+                lot_date = lot_date if lot_date else False
+                vals = {
+                    'name': lot_name,
+                    'product_id': product_id,
+                    'use_date': lot_date
+                }
                 lot_obj = spl.create(vals)
             lot_id = lot_obj.id
         return lot_id
@@ -331,7 +350,7 @@ class ProductionAppRegistry(models.Model):
     def start_production(self, values):
         res = {}
         registry_id = values.get('registry_id', False)
-        reg = self.get_existing_registry(registry_id=registry_id)
+        reg = self.get_registry(registry_id=registry_id)
         date = fields.Datetime.now()
         if values.get('setup_end', False):
             date = values['setup_end']
@@ -350,7 +369,7 @@ class ProductionAppRegistry(models.Model):
     @api.model
     def set_consumptions_done(self, values):
         registry_id = values.get('registry_id', False)
-        reg = self.get_existing_registry(registry_id=registry_id)
+        reg = self.get_registry(registry_id=registry_id)
         if reg:
             reg.write({
                 'consumptions_done': True,
@@ -360,7 +379,7 @@ class ProductionAppRegistry(models.Model):
     @api.model
     def unset_consumptions_done(self, values):
         registry_id = values.get('registry_id', False)
-        reg = self.get_existing_registry(registry_id=registry_id)
+        reg = self.get_registry(registry_id=registry_id)
         if reg:
             reg.write({
                 'consumptions_done': False,
@@ -391,7 +410,7 @@ class ProductionAppRegistry(models.Model):
     def stop_production(self, values):
         res = {}
         registry_id = values.get('registry_id', False)
-        reg = self.get_existing_registry(registry_id=registry_id)
+        reg = self.get_registry(registry_id=registry_id)
         if reg:
             # Si hay paradas sin cerrar, tenemos que finalizarlas antes de iniciar otra.
             domain = [
@@ -435,7 +454,7 @@ class ProductionAppRegistry(models.Model):
     def restart_production(self, values):
         res = {}
         registry_id = values.get('registry_id', False)
-        reg = self.get_existing_registry(registry_id=registry_id)
+        reg = self.get_registry(registry_id=registry_id)
         if reg:
             date = fields.Datetime.now()
             if values.get('stop_end', False):
@@ -479,7 +498,7 @@ class ProductionAppRegistry(models.Model):
     def clean_production(self, values):
         res = {}
         registry_id = values.get('registry_id', False)
-        reg = self.get_existing_registry(registry_id=registry_id)
+        reg = self.get_registry(registry_id=registry_id)
         if reg:
             date = fields.Datetime.now()
             if values.get('cleaning_start', False):
@@ -496,7 +515,7 @@ class ProductionAppRegistry(models.Model):
     def finish_production(self, values):
         res = {}
         registry_id = values.get('registry_id', False)
-        reg = self.get_existing_registry(registry_id=registry_id)
+        reg = self.get_registry(registry_id=registry_id)
         if reg:
             date = fields.Datetime.now()
             if values.get('stop_start', False):
@@ -534,7 +553,7 @@ class ProductionAppRegistry(models.Model):
         if qty <= 0:
             return True
         registry_id = values.get('registry_id', False)
-        reg = self.get_existing_registry(registry_id=registry_id)
+        reg = self.get_registry(registry_id=registry_id)
         if not reg or not reg.production_id.move_created_ids:
             return True
         domain = [
@@ -588,7 +607,7 @@ class ProductionAppRegistry(models.Model):
     @api.model
     def app_save_quality_checks(self, values):
         registry_id = values.get('registry_id', False)
-        reg = self.get_existing_registry(registry_id=registry_id)
+        reg = self.get_registry(registry_id=registry_id)
         if not reg:
             return True
         lines = values.get('lines', [])
@@ -615,7 +634,7 @@ class ProductionAppRegistry(models.Model):
         Crea, borra o actualiza la línea de consumo del modo alimentador
         """
         registry_id = values.get('registry_id', False)
-        reg = self.get_existing_registry(registry_id=registry_id)
+        reg = self.get_registry(registry_id=registry_id)
         if not reg:
             return True
         line = values.get('line', False)
@@ -666,7 +685,7 @@ class ProductionAppRegistry(models.Model):
         res = []
         dic = {}
         registry_id = values.get('registry_id', False)
-        reg = self.get_existing_registry(registry_id=registry_id)
+        reg = self.get_registry(registry_id=registry_id)
         if not reg:
             return []
         for line in reg.line_in_ids:
@@ -853,7 +872,7 @@ class ProductionAppRegistry(models.Model):
     def log_in_operator(self, values):
         res = {}
         registry_id = values.get('registry_id', False)
-        reg = self.get_existing_registry(registry_id=registry_id)
+        reg = self.get_registry(registry_id=registry_id)
         date = fields.Datetime.now()
         if values.get('date_in', False):
             date = values['date_in']
@@ -866,7 +885,7 @@ class ProductionAppRegistry(models.Model):
     def log_out_operator(self, values):
         res = {}
         registry_id = values.get('registry_id', False)
-        reg = self.get_existing_registry(registry_id=registry_id)
+        reg = self.get_registry(registry_id=registry_id)
         date = fields.Datetime.now()
         if values.get('date_out', False):
             date = values['date_out']

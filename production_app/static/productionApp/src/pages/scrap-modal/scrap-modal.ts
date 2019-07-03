@@ -54,6 +54,12 @@ export class ScrapModalPage {
             this.presentAlert("Error", "Es obligatorio indicar una cantidad mayor que 0");
             return;
         }
+        if (this.reason_id) {
+            res['reason_id'] = this.reason_id;
+        } else {
+            this.presentAlert("Error", "Es obligatorio indicar un motivo");
+            return;
+        }
         res['reason_id'] = this.reason_id;
         this.viewCtrl.dismiss(res);
     }
@@ -66,32 +72,5 @@ export class ScrapModalPage {
         this.reason_id = reason.id
         this.reason_name = reason.name
     }
-
-    // Diable second unit
-    // onchange_uom() {
-    //     console.log(this.prodData.uom)
-    //     if (this.ctrl !== 'not do'){
-    //         var uos_coeff = this.prodData.uos_coeff;
-    //         if (uos_coeff == 0){
-    //             uos_coeff = 1
-    //         }
-    //         this.uos_qty = (this.qty / uos_coeff).toFixed(2);
-    //         this.ctrl = 'not do'
-    //     }
-    //     else{
-    //         this.ctrl = 'do'
-    //     }
-    // }
-
-    // onchange_uos() {
-    //     console.log("b")
-    //     if (this.ctrl !== 'not do'){
-    //         this.qty = (this.uos_qty * this.prodData.uos_coeff).toFixed(2);
-    //         this.ctrl = 'not do'
-    //     } 
-    //     else{
-    //         this.ctrl = 'do'
-    //     }  
-    // }
 
 }

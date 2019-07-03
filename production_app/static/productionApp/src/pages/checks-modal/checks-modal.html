@@ -6,10 +6,10 @@
 -->
 <ion-header>
   <ion-navbar color="secondary">
-    <ion-title><span class="custom-font-size">Controles de calidad</span></ion-title>
+    <ion-title><span class="custom-font-size-t">Controles de calidad</span></ion-title>
     <ion-buttons end>
         <button ion-button (click)="closeModal()">
-            Atrás
+            <span class="custom-font-size-t">Atrás</span>
         </button>
     </ion-buttons>
   </ion-navbar>
@@ -21,13 +21,12 @@
     <ion-list>
         <ion-item *ngFor="let qc of quality_checks">
             <ion-label stacked><span>{{ qc.name }}</span></ion-label>
-            <!-- <ion-checkbox  *ngIf="qc['value_type'] == 'check'" item-right disabled="false" [(ngModel)]="qc['value']"></ion-checkbox>   -->
             <ion-select interface="popover" *ngIf="qc['value_type'] == 'check'" [(ngModel)]="qc['value']">
                 <ion-option value="OK"><span>OK</span></ion-option> 
                 <ion-option value="NO OK"><span>NO OK</span></ion-option> 
             </ion-select>    
             <ion-input *ngIf="qc['value_type'] == 'numeric'" type="number" [(ngModel)]="qc['value']"></ion-input>
-            <ion-input *ngIf="qc['value_type'] == 'text'" type="text" [(ngModel)]="qc['value']" ></ion-input>
+            <ion-input *ngIf="qc['value_type'] == 'text'" type="text" [(ngModel)]="qc['value']"></ion-input>
         </ion-item>  
     </ion-list>
      <button ion-button block (click)="confirmModal()">Confirmar</button>

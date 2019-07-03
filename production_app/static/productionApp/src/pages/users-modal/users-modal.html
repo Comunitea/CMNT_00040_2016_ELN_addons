@@ -1,9 +1,9 @@
 <ion-header>
     <ion-navbar color="secondary">
-        <ion-title><span>Operarios</span></ion-title>
+        <ion-title><span class="custom-font-size-t">Operarios</span></ion-title>
         <ion-buttons end>
             <button ion-button (click)="closeModal()">
-                Atrás
+                <span class="custom-font-size-t">Atrás</span>
             </button>
     </ion-buttons>
     </ion-navbar>
@@ -17,9 +17,6 @@
             <ion-segment-button value="in">
                 <span>Dentro</span>
             </ion-segment-button>
-            <!--  <ion-segment-button value="rfid">
-                RFID
-            </ion-segment-button> -->
           </ion-segment>
     </div>
 
@@ -41,12 +38,6 @@
                             <span class="button-size">Salida</span>
                         </button>   
                     </ion-item-options>
-<!--                     <ion-item-options side="right">
-                        <button ion-button color="danger" (click)="setActive(operator)">
-                            <ion-icon name="star"></ion-icon>
-                            Activar
-                        </button>
-                    </ion-item-options> -->
                 </ion-item-sliding>
             </ion-list> 
         </div>

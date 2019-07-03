@@ -16,6 +16,7 @@ export class ProductionProvider {
     lotsByProduct: Object = {};
     workcenter: Object = {};
     workline: Object = {};
+    worklines: Object[];
     loged_ids: number[] = [];
     product_ids: number[] = [];
     consume_ids: number[] = [];
@@ -91,7 +92,6 @@ export class ProductionProvider {
         var hours = date.getUTCHours();
         var minutes = date.getMinutes();
         var seconds = date.getSeconds();
-
         var year_str = year.toString();
         var month_str = month.toString();
         var day_str = day.toString();
@@ -122,8 +122,6 @@ export class ProductionProvider {
             }
             this.odooCon.operatorsById[op.id] = {'name': op.name, 'let_active': op.let_active, 'active': active, 'operator_line_id': false, 'log': log}    
         }
-        console.log("OPERATORSALLOWEDBYID")
-        //console.log(this.odooCon.operatorsById)
     }
 
     getLogInOperators() {
@@ -146,12 +144,11 @@ export class ProductionProvider {
         var log_in_list = this.getLogInOperators()
         for (let indx in log_in_list) {
             let op = log_in_list[indx];
-            if (op.id === this.active_operator_id){
+            if (op.id === this.active_operator_id) {
                 str_names = op.name;
             }
         }
         return str_names
-
     }
 
     getLots() {
@@ -168,8 +165,6 @@ export class ProductionProvider {
                 }
                 this.lotsByProduct[product_id].push(lot)
             }
-            console.log("LOTSBYID1")
-            console.log(this.lotsByProduct, this.consume_ids)
         })
         .catch( (err) => {
             console.log("Error buscando lotes")
@@ -182,14 +177,12 @@ export class ProductionProvider {
             for (let indx in lot_ids) {
                 let lot = lot_ids[indx];
                 let product_id = lot.product_id[0];
-                if (!(product_id in this.lotsByProduct)){
+                if (!(product_id in this.lotsByProduct)) {
                     this.lotsByProduct[product_id] = []
                 }
 		lot.product_id = product_id
                 this.lotsByProduct[product_id].push(lot)
             }
-            console.log("LOTSBYID2")
-            console.log(this.lotsByProduct, this.product_ids)
         })
         .catch( (err) => {
             console.log("Error buscando lotes")
@@ -197,15 +190,12 @@ export class ProductionProvider {
     }
 
     logInOperator(operator_id) {
-        // if (this.loged_ids.length === 0){
-        //     this.setActiveOperator(operator_id)
-        // }
         this.odooCon.operatorsById[operator_id]['log'] = 'in'
         var index = this.loged_ids.indexOf(operator_id);
         if (index <= -1) {
             this.loged_ids.push(operator_id)
         }
-        var values =  {'registry_id': this.registry_id, 'operator_id': operator_id, 'date_in': this.getUTCDateStr()};
+        var values = {'registry_id': this.registry_id, 'operator_id': operator_id, 'date_in': this.getUTCDateStr()};
         this.odooCon.callRegistry('log_in_operator', values).then( (res) => {
             this.odooCon.operatorsById[operator_id]['operator_line_id'] = res['operator_line_id'];
         })
@@ -224,7 +214,7 @@ export class ProductionProvider {
         if (index > -1) {
             this.loged_ids.splice(index, 1);
         }
-        if (this.active_operator_id = operator_id){
+        if (this.active_operator_id === operator_id){
             this.active_operator_id = 0;
         }
         let operator_line_id = this.odooCon.operatorsById[operator_id]['operator_line_id']
@@ -256,10 +246,6 @@ export class ProductionProvider {
                 this.organizative_reasons.push(r);
             }
         }
-        console.log("ORGANIZATIVE REASONS");
-        console.log(this.organizative_reasons);
-        console.log("TECHNICAL REASONS");
-        console.log(this.technical_reasons);
     }
 
     getStopReasons(workcenter_id){
@@ -269,7 +255,7 @@ export class ProductionProvider {
                 resolve();
             })
             .catch( (err) => {
-                console.log(" GET REASONS ERROR deberia ser una promesa, y devolver error, controlarlo en la página y lanzar excepción")
+                console.log("GET STOP REASONS ERROR")
                 reject();
             });
         });
@@ -287,7 +273,35 @@ export class ProductionProvider {
                 resolve();
             })
             .catch( (err) => {
-                console.log(" GET REASONS ERROR deberia ser una promesa, y devolver error, controlarlo en la página y lanzar excepción")
+                console.log("GET SCRAP REASONS ERROR")
+                reject();
+            });
+        });
+        return promise
+    }
+
+    getWorkcenterLines() {
+        var promise = new Promise( (resolve, reject) => {
+            var domain = [
+                ['workcenter_id', '=', this.workcenter['id']],
+                ['production_state', 'in', ['ready','confirmed','in_production']],
+                '|',
+		['registry_id', '=', false],
+		['app_state', '!=', 'finished'],
+                //['workorder_planned_state', '=', '1'],
+            ];
+            var fields = ['id', 'name', 'production_id', 'workcenter_id'];
+            var order = 'sequence asc, priority desc, id asc';
+            this.odooCon.searchRead('mrp.production.workcenter.line', domain, fields, 0, 0, order).then( (res) => {
+                this.worklines = [];
+                for (let indx in res) {
+                    var r = res[indx];
+                    this.worklines.push(r)
+                }
+                resolve();
+            })
+            .catch( (err) => {
+                console.log("GET LINES ERROR")
                 reject();
             });
         });
@@ -300,19 +314,23 @@ export class ProductionProvider {
             var method = 'app_get_registry'
             var values = {'workline_id': vals['workline_id'], 'workcenter_id': vals['workcenter_id'], 'workline_name': vals['workline_name']}
             this.odooCon.callRegistry(method, values).then( (reg: Object) => {
-                if ('id' in reg){
+                if ('id' in reg) {
                     this.initData(reg);
-                    // this.getConsumeInOut();  // Load Consumptions. TODO PUT PROMISE SYNTAX
-                    this.getQualityChecks();  // Load Quality Checks. TODO PUT PROMISE SYNTAX
-                    this.getConsumptions();  // Load Consumptions. TODO PUT PROMISE SYNTAX
-                    this.setLogedTimes();  // Load Quality Checks. TODO PUT PROMISE SYNTAX
-                    this.getLots();  // Load Quality Checks. TODO PUT PROMISE SYNTAX
-                    this.getAllowedOperators(reg)
+                    this.setLogedTimes();
+                    this.getAllowedOperators(reg);
+                    // this.getQualityChecks();
+                    this.getConsumptions();
+                    this.getLots();           // TODO PUT PROMISE SYNTAX
                     this.getScrapReasons();
-                    resolve(reg);
-                }
-                else {
-                    var err = {'title': 'Aviso', 'msg': 'No hay ordenes de trabajo planificadas.'}
+                    this.getQualityChecks().then( (res) => {
+                        resolve(res);
+                    })
+                    .catch( (err) => {
+                        console.log("Fallo al cargar los controles de calidad.");
+			reject();
+                    }); 
+                } else {
+                    var err = {'title': 'Aviso', 'msg': 'No hay órdenes de trabajo planificadas.'}
                     reject(err)
                 }
             })
@@ -334,7 +352,7 @@ export class ProductionProvider {
         this.state = data.state;
         this.start_checks = [];
         this.freq_checks = [];
-        this.product_use_date = data.product_use_date
+        this.product_use_date = data.product_use_date;
         this.scrap_qty = 0;
         this.production_qty = data.production_qty;
         this.production_uos_qty = data.production_uos_qty;
@@ -347,39 +365,39 @@ export class ProductionProvider {
         this.uos_coeff = data.uos_coeff;
         this.change_lot_qc_id = data.change_lot_qc_id;
         this.product_ids = data.product_ids;
-        this.consume_ids = data.consume_ids
-        this.workline_name = data.workline_name
-        this.consumptions_done = data.consumptions_done
+        this.consume_ids = data.consume_ids;
+        this.workline = data.wc_line_id;
+        this.workline_name = data.workline_name;
+        this.consumptions_done = data.consumptions_done;
     }
     
     // Load Quality checks in each type list
     loadQualityChecks(q_checks) {
         for (let indx in q_checks) {
             var qc = q_checks[indx];
-            if (qc.quality_type == 'start'){
+            if (qc.quality_type == 'start') {
                 this.start_checks.push(qc);
-            }
-            else{
+            } else {
                 this.freq_checks.push(qc);
             }
         }
-        console.log("START CHECKS");
-        console.log(this.start_checks);
-        console.log("FREQ CHECKS");
-        console.log(this.freq_checks);
     }
 
     // Ask odoo for quality checks
     getQualityChecks() {
-        var values =  {'product_id': this.product_id};
-        var method = 'get_quality_checks'
-        this.odooCon.callRegistry(method, values).then( (res) => {
-            this.loadQualityChecks(res)
-        })
-        .catch( (err) => {
-            // Si hay error aquí, convertir esta funcion en promesa y controlarla.
-            console.log(err) 
+        var promise = new Promise( (resolve, reject) => {
+            var values =  {'product_id': this.product_id};
+            var method = 'get_quality_checks'
+            this.odooCon.callRegistry(method, values).then( (res) => {
+                this.loadQualityChecks(res);
+                resolve();
+            })
+            .catch( (err) => {
+                console.log("GET QUALITY CHECKS ERROR")
+                reject();
+            });
         });
+        return promise
     }
 
     loadConsumptions(lines) {
@@ -401,7 +419,7 @@ export class ProductionProvider {
             this.consumptions.push(vals);
         }
         var grouped_lines = this.consumptions.reduce(function(a, e) {
-          let key = (e['product_name'] + '|' + e['product_id'] + '|' + e['uom_id']);
+          let key = (e['product_id'] + '|' + e['uom_id'] + '|' + e['location_id']);
           (!a[key] ? a[key] = e : (a[key]['qty'] += e['qty']));
           return a;
         }, {});
@@ -409,10 +427,6 @@ export class ProductionProvider {
         for (let key in grouped_lines) {
              this.consumptions.push(grouped_lines[key])
         }
-        console.log("MOVES");
-        console.log(lines);
-        console.log("LOADED CONSUMPTIONS");
-        console.log(this.consumptions);
     }
 
     loadConsumptionsLines(lines) {
@@ -465,16 +479,6 @@ export class ProductionProvider {
                 this.consumptions_scrapped.push(vals);
             }
         }
-        console.log("LINES");
-        console.log(lines);
-        console.log("LOADED CONSUMPTIONS IN");
-        console.log(this.consumptions_in);
-        console.log("LOADED CONSUMPTIONS OUT");
-        console.log(this.consumptions_out);
-        console.log("LOADED FINISHED PRODUCTS");
-        console.log(this.finished_products);
-        console.log("LOADED SCRAPPED PRODUCTS");
-        console.log(this.consumptions_scrapped);
     }
 
     getConsumptions() {
@@ -545,9 +549,6 @@ export class ProductionProvider {
     }
 
     saveQualityChecks(data) {
-        console.log("RESULTADO A GUARDAR")
-        console.log(data)
-
         // We want to pass by value the object
         var new_lines = []
         for (var index in data){
@@ -564,7 +565,7 @@ export class ProductionProvider {
             'qc_date': this.getUTCDateStr()
         }
         this.odooCon.callRegistry('app_save_quality_checks', values).then( (res) => {
-            console.log("RESULTADO GUARDADO") 
+            console.log("RESULTADO GUARDADO")
         })
         .catch( (err) => {
             this.manageOdooFail()
@@ -655,9 +656,13 @@ export class ProductionProvider {
         this.setStepAsync('finish_production', values);
     }
 
-    restartAndCleanProduction() {
+    restartAndCleanProduction(cleaning_start) {
         this.state = 'cleaning';
-        var values = {'stop_end': this.getUTCDateStr()};
+        if (isNaN(Date.parse(cleaning_start))) {
+            cleaning_start = this.getUTCDateStr()
+        }
+        var values = {'cleaning_start': cleaning_start,
+                      'stop_end': cleaning_start}
         this.setStepAsync('restart_and_clean_production', values);
     }
 

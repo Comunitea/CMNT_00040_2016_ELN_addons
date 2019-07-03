@@ -12,12 +12,14 @@ page-production {
         font-size: 1.2rem !important;
         font-weight: bold;
         background-color: lightgray;
+        --height: 2.2vh;
     }
     .info-tittle-red {
         font-size: 1.2rem !important;
         font-weight: bold;
         color: $danger-color;
         background-color: lightgray;
+        --height: 2.2vh;
     }
     .info-content {
         color: $primary-color;
@@ -89,9 +91,11 @@ page-production {
     @media (min-width:600px) {
         .info-tittle {
             font-size: 2rem !important;
+            --height: 3.2vh;
         }
         .info-tittle-red {
             font-size: 2rem !important;
+            --height: 3.2vh;
         }
         .info-content {
             font-size: 2rem !important;
