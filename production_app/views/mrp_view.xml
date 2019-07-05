@@ -19,6 +19,23 @@
         </field>
     </record>
 
+    <record id="view_mrp_production_workcenter_line_kanban_registry" model="ir.ui.view">
+        <field name="name">mrp.production.workcenter.line.kanban.registry</field>
+        <field name="model">mrp.production.workcenter.line</field>
+        <field name="inherit_id" ref="eln_production.view_mrp_production_workcenter_line_kanban"/>
+        <field name="arch" type="xml">
+            <div name="qty" position="after">
+                <div name="app_state">
+                    <t t-if="record.app_state.value">
+                        <a type="object" name="open_production_app_registry_form" style="color: red">
+                            <b>APP State: <field name="app_state"/></b>
+                        </a>
+                    </t>
+                </div>
+            </div>
+        </field>
+    </record>
+
     <record id="mrp_production_form_view_registry" model="ir.ui.view">
         <field name="name">mrp_production_form_view_registry</field>
         <field name="model">mrp.production</field>

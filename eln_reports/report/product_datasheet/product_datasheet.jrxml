@@ -584,7 +584,7 @@
 										<bottomPen lineWidth="0.0" lineStyle="Solid"/>
 										<rightPen lineWidth="0.0" lineStyle="Solid"/>
 									</box>
-									<textElement textAlignment="Justified" verticalAlignment="Middle" lineSpacing="Single">
+									<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single">
 										<font size="9"/>
 									</textElement>
 									<textFieldExpression class="java.lang.String"><![CDATA[$F{Nombre-name}]]></textFieldExpression>
@@ -781,8 +781,8 @@
 									<bottomPen lineWidth="0.5" lineStyle="Solid"/>
 									<rightPen lineWidth="1.0" lineStyle="Solid"/>
 								</box>
-								<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
-									<reportElement positionType="Float" x="0" y="0" width="40" height="13"/>
+								<textField isStretchWithOverflow="true" pattern="#,##0.000" isBlankWhenNull="true">
+									<reportElement positionType="Float" x="0" y="0" width="45" height="13"/>
 									<box>
 										<topPen lineWidth="0.0" lineStyle="Solid"/>
 										<leftPen lineWidth="0.0" lineStyle="Solid"/>
@@ -792,10 +792,10 @@
 									<textElement textAlignment="Right" verticalAlignment="Middle" lineSpacing="Single">
 										<font size="9"/>
 									</textElement>
-									<textFieldExpression class="java.lang.String"><![CDATA[$F{Cant.-product_qty_percent} != 0.0 ? $F{Cant.-product_qty_percent} : ""]]></textFieldExpression>
+									<textFieldExpression class="java.lang.String"><![CDATA[$F{Cant.-product_qty_percent}]]></textFieldExpression>
 								</textField>
 								<staticText>
-									<reportElement x="40" y="0" width="20" height="13">
+									<reportElement x="48" y="0" width="12" height="13">
 										<printWhenExpression><![CDATA[$F{Cant.-product_qty_percent} != 0.0]]></printWhenExpression>
 									</reportElement>
 									<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single">

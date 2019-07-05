@@ -598,7 +598,7 @@
                                                 <field name="workorder_planned_state" widget="priority"/>
                                             </div>
                                         </div>
-                                        <div>
+                                        <div name="qty">
                                             <b><field name="product_uos_qty"/> <field name="product_uos"/></b>
                                         </div>
                                     </div>

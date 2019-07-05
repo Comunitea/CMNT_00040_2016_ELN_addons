@@ -78,7 +78,10 @@ export class ListProductionsPage {
                 var domain = [
                     ['workcenter_id', '=', this.workcenter_id],
                     ['production_state', 'in', ['ready','confirmed','in_production','finished','validated']],
-                    //['workorder_planned_state', '=', '1'],
+                    '|',
+                    ['registry_id', '=', false],
+                    ['app_state', '!=', 'validated'],
+                    ['workorder_planned_state', '=', '1'],
                 ];
                 var fields = ['id', 'name', 'production_id', 'workcenter_id'];
                 var order = 'sequence asc, priority desc, id asc';

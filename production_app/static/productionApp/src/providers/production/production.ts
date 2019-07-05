@@ -286,9 +286,9 @@ export class ProductionProvider {
                 ['workcenter_id', '=', this.workcenter['id']],
                 ['production_state', 'in', ['ready','confirmed','in_production']],
                 '|',
-		['registry_id', '=', false],
-		['app_state', '!=', 'finished'],
-                //['workorder_planned_state', '=', '1'],
+                ['registry_id', '=', false],
+                ['app_state', 'not in', ['finished','validated']],
+                ['workorder_planned_state', '=', '1'],
             ];
             var fields = ['id', 'name', 'production_id', 'workcenter_id'];
             var order = 'sequence asc, priority desc, id asc';
