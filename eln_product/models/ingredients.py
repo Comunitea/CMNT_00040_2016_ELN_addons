@@ -31,7 +31,7 @@ class Ingredient(models.Model):
     product_id = fields.Many2one('product.product', 'Product', required=True)
     product_qty = fields.Float(string='Product Qty',
         digits=dp.get_precision('Product Unit of Measure'), required=True)
-    product_qty_percent = fields.Integer(string='Qty(%)',
+    product_qty_percent = fields.Float(string='Qty(%)', digits=(16,3),
         compute='_get_product_qty_percent', readonly=True)
     origin = fields.Char('Origin', size=255, translate=True)
     caliber = fields.Char('Caliber', size=64, translate=True)
@@ -41,14 +41,14 @@ class Ingredient(models.Model):
     @api.multi
     def _get_product_qty_percent(self):
         qty_total = sum(line.product_qty for line in self)
-        if qty_total == 0:
+        if qty_total == 0.0:
             for line in self:
-                line.product_qty_percent = 0
+                line.product_qty_percent = 0.0
         else:
-            qty_percent_acc = 0
+            qty_percent_acc = 0.0
             line_ids = self.sorted(key=lambda r: r.product_qty, reverse=True)
             for line in line_ids[1:]:
-                qty_percent = int(round((line.product_qty * 100) / qty_total))
+                qty_percent = round(((line.product_qty * 100) / qty_total), 3)
                 qty_percent_acc += qty_percent
                 line.product_qty_percent = qty_percent
             line_ids[0].product_qty_percent = 100 - qty_percent_acc

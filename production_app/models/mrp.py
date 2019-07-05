@@ -47,6 +47,24 @@ class MrpProductionWorkcenterLine(models.Model):
                 pl.write({'date_finished': pl.registry_id.cleaning_end})
         return res
 
+    @api.multi
+    def open_production_app_registry_form(self):
+        self.ensure_one()
+        registry_id = self.registry_id
+        if not registry_id:
+            return False
+        return {
+            'name':"APP Registry",
+            'view_mode': 'form',
+            'view_type': 'form',
+            'res_model': 'production.app.registry',
+            'res_id': registry_id.id,
+            'type': 'ir.actions.act_window',
+            'nodestroy': True,
+            'target': 'current',
+            'context': self._context
+        }
+
 
 class MrpWorkcenter(models.Model):
     _inherit = 'mrp.workcenter'
@@ -126,4 +144,21 @@ class ChangeProductionQty(models.TransientModel):
             raise exceptions.Warning(
                 _("You cannot change qty because one app registry is linked."))
         return super(ChangeProductionQty, self).change_prod_qty()
+
+
+class MrpProductProduce(models.TransientModel):
+    _inherit = 'mrp.product.produce'
+
+    @api.model
+    def default_get(self, fields):
+        res = super(MrpProductProduce, self).default_get(fields)
+        mode = res.get('mode', False)
+        if mode in ('produce', 'consume_produce'):
+            record_id = self._context.get('active_id', False)
+            prod = self.env['mrp.production'].browse(record_id)
+            registry_ids = prod.workcenter_lines.mapped('registry_id').filtered(
+                lambda r: r.lot_id)
+            if registry_ids:
+                res.update(lot_id=registry_ids[0].lot_id.id)
+        return res
 

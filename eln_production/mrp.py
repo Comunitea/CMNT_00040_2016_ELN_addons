@@ -457,7 +457,7 @@ class mrp_production(osv.osv):
                 elif production.priority == '3': # Prioridad muy urgente
                     res[production.id] = 1       # gris
                 else:
-                    res[production.id] = 0       # blanco
+                    res[production.id] = -1      # blanco (cero da error al cargar la vista kanban)
         return res
 
     _columns = {
