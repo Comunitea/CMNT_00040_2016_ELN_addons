@@ -36,6 +36,10 @@
         </field>
     </record>
 
+    <record model="ir.actions.act_window" id="mrp_operations.mrp_production_wc_action_planning">
+        <field name="domain">[('production_state','in',('ready','confirmed','in_production','finished','validated'))]</field>
+    </record>
+
     <record id="mrp_production_form_view_registry" model="ir.ui.view">
         <field name="name">mrp_production_form_view_registry</field>
         <field name="model">mrp.production</field>
@@ -70,6 +74,19 @@
             </notebook>
         </field>
     </record>
-   
+
+    <record id="mrp_bom_form_view_app" model="ir.ui.view">
+        <field name="name">mrp_bom_form_view_app</field>
+        <field name="model">mrp.bom</field>
+        <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
+        <field name="arch" type="xml">
+            <notebook position="inside">
+                <page string="Notes for App">
+                     <field name="app_notes" nolabel="1"/>
+                </page>
+            </notebook>
+        </field>
+    </record>
+
     </data>
 </openerp>

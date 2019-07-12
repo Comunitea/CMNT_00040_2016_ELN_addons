@@ -6,6 +6,7 @@ import { UsersModalPage } from '../../pages/users-modal/users-modal';
 import { ReasonsModalPage } from '../../pages/reasons-modal/reasons-modal';
 import { FinishModalPage } from '../../pages/finish-modal/finish-modal';
 import { ScrapModalPage } from '../../pages/scrap-modal/scrap-modal';
+import { NoteModalPage } from '../../pages/note-modal/note-modal';
 import { ListProductionsModalPage } from '../../pages/list-productions-modal/list-productions-modal';
 import { ProductionProvider } from '../../providers/production/production';
 import { TimerComponent } from '../../components/timer/timer';
@@ -252,6 +253,30 @@ export class ProductionPage {
         });
     }
 
+    openNoteModal() {
+        var promise = new Promise( (resolve, reject) => {
+            var mydata = {}
+            let noteModal = this.modalCtrl.create(NoteModalPage, mydata);
+            noteModal.present();
+
+            // When modal closes
+            noteModal.onDidDismiss((res) => {
+                if (res !== null && res !== 0) {
+                    if (this.prodData.note !== res.note) {
+                        // Solo si ha cambiado el texto lo grabo, para evitar escrituras innecesarias
+                        this.prodData.note = res.note
+                        resolve();
+                    } else {
+                        reject();
+                    }
+                } else {
+                    reject();
+                }
+            });
+        });
+        return promise;
+    }
+
     clearIntervales() {
         for (let indx in this.interval_list) {
             let int = this.interval_list[indx];
@@ -332,7 +357,8 @@ export class ProductionPage {
                     var reason_id = res['reason_id']
                     var create_mo = res['create_mo']
                     this.hidden_class = 'none'
-                    this.clearIntervales();
+		    // No reseteamos los checks frecuenciales durante la parada
+                    // this.clearIntervales();
                     this.prodData.stopProduction(reason_id, create_mo, stop_start);
                 }
             })
@@ -347,7 +373,7 @@ export class ProductionPage {
         this.promptNextStep('¿Reanudar producción y pasar a limpieza?').then( () => {
             var cleaning_start = this.prodData.getUTCDateStr()
             this.clearIntervales();
-            this.openFinishModal("clean").then(() => {
+            this.openFinishModal("clean").then( () => {
                 this.hidden_class = 'my-hide'
                 this.timer.toArray()[0].restartTimer();
                 this.timer.toArray()[1].pauseTimer();
@@ -360,9 +386,11 @@ export class ProductionPage {
     restartProduction() {
         this.promptNextStep('¿Reanudar producción?').then( () => {
             this.hidden_class = 'my-hide'
-            this.scheduleChecks();
             this.timer.toArray()[1].pauseTimer();
             this.prodData.restartProduction();
+            if (this.prodData.state !== 'cleaning') {
+               this.scheduleChecks();
+            }
             // Si la parada dura menos de 20 minutos no pedimos checks de inicio
             if (this.timer.toArray()[1].timer.secondsCounter > 1200) {
                 this.openChecksModal('start', this.prodData.start_checks, false).then(() => {}).catch(() => {});
@@ -404,6 +432,13 @@ export class ProductionPage {
     scrapProduction() {
         this.openScrapModal().then(() => {
             this.prodData.scrapProduction();
+        })
+        .catch( () => {});
+    }
+
+    editNote() {
+        this.openNoteModal().then(() => {
+            this.prodData.editNote();
         })
         .catch( () => {});
     }

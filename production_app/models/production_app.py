@@ -95,6 +95,7 @@ class ProductionAppRegistry(models.Model):
         related='production_id.state', readonly=True)
     workorder_id = fields.Many2one(
         'work.order', 'Related Maintenance Order')
+    note = fields.Text(string='Notes')
 
     _sql_constraints = [
         ('wc_line_id_uniq', 'unique(wc_line_id)',
@@ -205,7 +206,7 @@ class ProductionAppRegistry(models.Model):
     def app_get_registry(self, vals):
         """
         Obtiene el registro que actua de controlador
-        para las ordenes de trabajo
+        para las órdenes de trabajo
         """
         res = {}
         workcenter_id = vals.get('workcenter_id')
@@ -221,7 +222,7 @@ class ProductionAppRegistry(models.Model):
             active_operator_ids = reg.workcenter_id.operators_ids.ids
             allowed_operators = self.get_allowed_operators(active_operator_ids)
 
-            use_time = reg.wc_line_id.production_id.product_id.use_time
+            use_time = reg.production_id.product_id.use_time
             use_date = (datetime.now() + timedelta(use_time + 31))
             use_date = datetime(year=use_date.year, month=use_date.month, day=1)
             use_date = (use_date - timedelta(days=1)).strftime("%Y-%m-%d")
@@ -238,6 +239,7 @@ class ProductionAppRegistry(models.Model):
             consume_ids = list(set(consume_ids1.ids + consume_ids2.ids + consume_ids3.ids))
             production_qty = reg.production_id.product_qty
             production_uos_qty = reg.production_id.product_uos_qty
+            bom_app_notes = reg.production_id.bom_id.app_notes or ''
             res.update(allowed_operators=allowed_operators,
                        active_operator_ids=active_operator_ids,
                        product_use_date=use_date,
@@ -251,6 +253,7 @@ class ProductionAppRegistry(models.Model):
                        uom_id=uom_id.id, uos_id=uos_id.id,
                        location_src_id=reg.production_id.location_src_id.id,
                        location_dest_id=reg.production_id.location_dest_id.id,
+                       bom_app_notes=bom_app_notes,
             )
         return res
 
@@ -573,10 +576,12 @@ class ProductionAppRegistry(models.Model):
         if scrap_location_id:
             lot_id = reg.lot_id.id
             move = reg.production_id.move_created_ids[0]
-            move.action_scrap(qty, scrap_location_id.id, restrict_lot_id=lot_id)
-            move.write({
-                'reason_id': reason_id,
-            })
+            scrap_move = move.action_scrap(qty, scrap_location_id.id, restrict_lot_id=lot_id)
+            if scrap_move:
+                scrap_move = self.env['stock.move'].browse(scrap_move[0])
+                scrap_move.write({
+                    'reason_id': reason_id,
+                })
         return True
 
     @api.model
@@ -651,7 +656,7 @@ class ProductionAppRegistry(models.Model):
                 'lot_id': False,
                 'type': line.get('type', 'in'),
                 'scrap_type': line.get('scrap_type', 'losses'),
-                'registry_id': registry_id
+                'registry_id': registry_id,
             }
             consume_line = self.env['consumption.line'].create(vals)
 
@@ -893,6 +898,19 @@ class ProductionAppRegistry(models.Model):
         if reg and operator_line_id:
                 self.env['operator.line'].browse(operator_line_id).write({
                     'date_out': date})
+        return res
+
+    @api.model
+    def save_note(self, values):
+        res = {}
+        registry_id = values.get('registry_id', False)
+        reg = self.get_registry(registry_id=registry_id)
+        if reg:
+            note = values.get('note', False)
+            reg.write({
+                'note': note,
+            })
+            res = reg.read()[0]
         return res
 
     @api.multi

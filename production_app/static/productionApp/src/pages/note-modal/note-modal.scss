@@ -1,0 +1,20 @@
+page-note-modal {
+    .button-size {
+        font-size: 1.5vh !important;
+    }
+    ion-icon {
+        font-size: 1.5vh !important;
+    }
+    .textarea-content {
+        font-size: 1.2rem !important;
+        background-color: lightyellow;
+    }
+
+
+    @media (min-width:600px) {
+        .textarea-content {
+            font-size: 2rem !important;
+        }
+    }
+
+}

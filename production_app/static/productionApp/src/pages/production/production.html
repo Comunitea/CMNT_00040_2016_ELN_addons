@@ -6,6 +6,9 @@
 		    <ion-badge color="danger" *ngIf="this.prodData.odooCon.pending_calls.length > 0">
                 {{ this.prodData.odooCon.pending_calls.length }}
             </ion-badge>
+            <button ion-button full (click)="editNote()">
+                <ion-icon name="create"></ion-icon>
+            </button>
             <button ion-button full (click)="showConsumptions()">
                 <ion-icon name="clipboard"></ion-icon>
             </button>
@@ -75,6 +78,16 @@
                     <ion-row *ngIf="prodData.getLogInOperators().length === 0">
                          <ion-col width-100>
                             <div class="info-warning">SIN OPERARIOS LOGUEADOS</div>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col width-100>
+                            <div class="info-tittle">Consideraciones especiales</div>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row text-left>
+                        <ion-col width-100>
+                            <div class="info-content-wrap">{{prodData.bom_app_notes}}</div>
                         </ion-col>
                     </ion-row>
                 </ion-grid>
@@ -199,6 +212,6 @@
 </ion-content>
 
 <ion-footer>
-    <ion-item text-center color ="primary"><span>{{prodData.states[prodData.state]}}</span></ion-item>
+    <ion-item text-center color="primary"><span>{{prodData.states[prodData.state]}}</span></ion-item>
 </ion-footer>
 

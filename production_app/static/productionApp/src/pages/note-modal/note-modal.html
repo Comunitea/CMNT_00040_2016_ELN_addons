@@ -1,0 +1,31 @@
+<ion-header>
+    <ion-navbar color="primary">
+        <ion-title><span class="custom-font-size-t">Notas de la producción</span></ion-title>
+        <ion-buttons end>
+            <button ion-button (click)="closeModal()">
+                <span class="custom-font-size-t">Atrás</span>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-item>
+        <ion-textarea class="textarea-content" rows=15 [(ngModel)]="note" placeholder="Introduzca los comentarios que desee aquí..."></ion-textarea>
+    </ion-item>
+    <ion-grid>
+        <ion-row>
+            <ion-col>
+                <button ion-button full (click)="closeModal()">
+                    Cancelar
+                </button>
+            </ion-col>
+            <ion-col>
+                <button ion-button full (click)="confirm()">
+                    Confirmar
+                </button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+</ion-content>

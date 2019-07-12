@@ -69,7 +69,6 @@ export class TimerComponent {
                 this.timer.secondsCounter++;
                 this.timer.displayTime = this.getSecondsAsDigitalClock(this.timer.secondsCounter);
             if (this.timer.secondsCounter > 0) {
-
             } else {
                 this.timer.hasFinished = true;
             }
