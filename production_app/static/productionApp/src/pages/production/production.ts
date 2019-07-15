@@ -41,7 +41,7 @@ export class ProductionPage {
         this.timer.toArray()[1].initTimer();
         var timer_1_states = ['setup', 'started', 'cleaning']
         if (timer_1_states.indexOf(this.prodData.state) >= 0) {
-            if (this.prodData.state != 'setup') {
+            if (this.prodData.state === 'started') {
                 this.scheduleChecks();
             }
             this.timer.toArray()[0].restartTimer();
@@ -389,7 +389,8 @@ export class ProductionPage {
             this.timer.toArray()[1].pauseTimer();
             this.prodData.restartProduction();
             if (this.prodData.state !== 'cleaning') {
-               this.scheduleChecks();
+               // Como no reseteamos los checks frecuenciales durante la parada, tampoco los iniciamos al volver, sino acumulamos
+               // this.scheduleChecks();
             }
             // Si la parada dura menos de 20 minutos no pedimos checks de inicio
             if (this.timer.toArray()[1].timer.secondsCounter > 1200) {
