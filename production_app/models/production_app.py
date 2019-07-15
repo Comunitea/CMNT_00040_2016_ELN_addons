@@ -882,8 +882,16 @@ class ProductionAppRegistry(models.Model):
         if values.get('date_in', False):
             date = values['date_in']
         if reg and values.get('operator_id', False):
-            op_obj = reg.create_operator_line(values['operator_id'], date)
-            res = {'operator_line_id': op_obj.id}
+            domain = [
+                ('registry_id', '=', reg.id),
+                ('operator_id', '=', values['operator_id']),
+                ('date_out', '=', False),
+            ]
+            op_obj = self.env['operator.line']
+            op_line_id = op_obj.search(domain, order='date_in', limit=1)
+            if not op_line_id:
+                op_line_id = reg.create_operator_line(values['operator_id'], date)
+            res = {'operator_line_id': op_line_id.id}
         return res
 
     @api.model
