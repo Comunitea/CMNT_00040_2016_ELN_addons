@@ -63,6 +63,8 @@ export class ProductionProvider {
     change_lot_qc_id: number;
     workline_name: string;
     consumptions_done: boolean = false;
+    bom_app_notes: string;
+    note: string;
 
     constructor(private odooCon: OdooProvider) {
         this.states = {
@@ -284,7 +286,7 @@ export class ProductionProvider {
         var promise = new Promise( (resolve, reject) => {
             var domain = [
                 ['workcenter_id', '=', this.workcenter['id']],
-                ['production_state', 'in', ['ready','confirmed','in_production']],
+                ['production_state', 'in', ['ready','confirmed','in_production','finished','validated']],
                 '|',
                 ['registry_id', '=', false],
                 ['app_state', 'not in', ['finished','validated']],
@@ -369,6 +371,8 @@ export class ProductionProvider {
         this.workline = data.wc_line_id;
         this.workline_name = data.workline_name;
         this.consumptions_done = data.consumptions_done;
+        this.bom_app_notes = data.bom_app_notes || 'Ninguna';
+	this.note = data.note || '';
     }
     
     // Load Quality checks in each type list
@@ -669,6 +673,12 @@ export class ProductionProvider {
     scrapProduction() {
         var values = {'scrap_qty': this.scrap_qty, 'scrap_reason_id': this.scrap_reason_id};
         this.setStepAsync('scrap_production', values);
+    }
+
+    editNote() {
+        var values = {'note': this.note};
+	console.log (values)
+        this.setStepAsync('save_note', values);
     }
 
 }

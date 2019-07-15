@@ -132,6 +132,12 @@ class MrpProduction(models.Model):
             production_id, production_qty, production_mode, wiz=wiz)
 
 
+class MrpBom(models.Model):
+    _inherit = 'mrp.bom'
+
+    app_notes = fields.Text(string='Notes for App')
+
+
 class ChangeProductionQty(models.TransientModel):
     _inherit = 'change.production.qty'
 

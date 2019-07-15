@@ -25,6 +25,11 @@ page-production {
         color: $primary-color;
         font-size: 1.2rem !important;
     }
+    .info-content-wrap {
+        color: brown;
+        font-size: 1.2rem !important;
+        white-space: pre-wrap;
+    }
     .info-warning {
         color: $danger-color;
         font-size: 1.2rem !important;
@@ -98,6 +103,9 @@ page-production {
             --height: 3.2vh;
         }
         .info-content {
+            font-size: 2rem !important;
+        }
+        .info-content-wrap {
             font-size: 2rem !important;
         }
         .btn {
