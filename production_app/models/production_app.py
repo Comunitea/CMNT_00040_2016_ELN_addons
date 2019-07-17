@@ -135,7 +135,7 @@ class ProductionAppRegistry(models.Model):
             ('registry_id', '=', False),
             ('app_state', '!=', 'finished'),
         ]
-        order = 'sequence asc, priority desc, id asc'
+        order = 'sequence ASC, priority DESC, id ASC'
         wcl_obj = self.env['mrp.production.workcenter.line']
         wcl_id = wcl_obj.search(domain, order=order, limit=1)
         return wcl_id.id
@@ -327,24 +327,26 @@ class ProductionAppRegistry(models.Model):
             product_ids = '(' + str(product_ids[0]) + ')'
         else:
             product_ids = str(tuple(product_ids))
-        sql = "select spl.id, spl.name, spl.use_date, pp.id as product_id, sum(sq.qty) as qty_available " \
+        sql = "select spl.id, spl.name, spl.use_date, pp.id as product_id, sl.id as location_id, sum(sq.qty) as qty_available " \
               "from stock_quant sq " \
               "join stock_production_lot spl on spl.id = sq.lot_id " \
               "join stock_location sl on sl.id = sq.location_id " \
               "join product_product pp on pp.id = sq.product_id " \
               "where sl.usage = 'internal' and pp.id in %s " \
-              "group by spl.id, pp.id " \
+              "group by spl.id, pp.id, sl.id " \
               "having sum(sq.qty) > 0.00 " \
               "order by use_date" % (product_ids)
         self._cr.execute(sql)
         records = self._cr.fetchall()
         lots = []
         for lot_id in records:
-            vals = {'id': lot_id[0] or 0,
-                    'name': lot_id[1] or '',
-                    'use_date': lot_id[2] or False,
-                    'product_id': lot_id[3] or False,
-                    'qty_available': lot_id[4] or False,
+            vals = {
+                'id': lot_id[0] or 0,
+                'name': lot_id[1] or '',
+                'use_date': lot_id[2] or False,
+                'product_id': lot_id[3] or False,
+                'location_id': lot_id[4] or False,
+                'qty_available': lot_id[5] or False,
             }
             lots.append(vals)
         return lots
@@ -467,7 +469,7 @@ class ProductionAppRegistry(models.Model):
                 ('stop_end', '=', False),
             ]
             stop_obj = self.env['stop.line']
-            stop_id = stop_obj.search(domain, order='stop_start desc', limit=1)
+            stop_id = stop_obj.search(domain, order='stop_start DESC', limit=1)
             stop_id.write({'stop_end': date})
             # Si hay paradas sin cerrar, tenemos que finalizarlas
             stop_ids = stop_obj.search(domain)

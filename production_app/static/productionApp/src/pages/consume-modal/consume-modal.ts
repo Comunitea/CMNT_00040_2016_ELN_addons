@@ -20,6 +20,8 @@ export class ConsumeModalPage {
     line;
     lots: Object[];
     items: Object[];
+    uos_qty = 0;
+    ctrl: string = 'do';
 
     mode: string = 'default';
 
@@ -28,6 +30,15 @@ export class ConsumeModalPage {
                 public modalCtrl: ModalController,
                 private prodData: ProductionProvider, private odooCon: OdooProvider) {
         this.line = this.navParams.get('line');
+        this.ctrl = 'do';
+        if (this.line.type == 'finished') {
+            // Ejecuto el onchange 2 veces al cargar.
+            // El primero para calcular uos_qty al inicio
+            // y el segundo para corregir un corportamiento anómalo que hace
+            // que no se disparen correctamente hasta la segunda pulsación
+            this.onchange_uom();
+            this.onchange_uom();
+        }
     }
 
     ionViewDidLoad() {
@@ -45,9 +56,10 @@ export class ConsumeModalPage {
 
     showLots() {
         this.mode = 'show'
-        if (this.line.product_id in this.prodData.lotsByProduct){
+        if (this.line.product_id in this.prodData.lotsByProduct) {
             this.lots = this.prodData.lotsByProduct[this.line.product_id]
-            this.items = this.prodData.lotsByProduct[this.line.product_id]
+            this.items = this.prodData.lotsByProduct[this.line.product_id].filter(
+                lot_id => lot_id.location_id === this.line.location_id);
         }
     }
 
@@ -59,7 +71,8 @@ export class ConsumeModalPage {
 
     getItems(ev: any) {
         // Reset items back to all of the items
-        this.items = this.prodData.lotsByProduct[this.prodData.product_id]
+        this.items = this.prodData.lotsByProduct[this.line.product_id].filter(
+            lot_id => lot_id.location_id === this.line.location_id);
 
         // set val to the value of the searchbar
         let val = ev.target.value;
@@ -101,8 +114,6 @@ export class ConsumeModalPage {
           ]
         });
         confirm.present();
-        // this.line.remove = true;
-        // this.viewCtrl.dismiss(this.line);
     }
 
     closeModal() {
@@ -135,6 +146,29 @@ export class ConsumeModalPage {
         .catch( (err) => {
             this.presentAlert("Error", "Fallo en la conversión de kilogramos a metros");
         });
+    }
+
+    onchange_uom() {
+        if (this.ctrl !== 'not do') {
+            var uos_coeff = this.prodData.uos_coeff;
+            this.uos_qty = parseFloat((this.line.qty * uos_coeff).toFixed(2));
+            this.ctrl = 'not do';
+        } else {
+            this.ctrl = 'do';
+        }
+    }
+
+    onchange_uos() {
+        if (this.ctrl !== 'not do') {
+            var uos_coeff = this.prodData.uos_coeff;
+            if (uos_coeff == 0) {
+                uos_coeff = 1;
+            }
+            this.line.qty = parseFloat((this.uos_qty / uos_coeff).toFixed(2))
+            this.ctrl = 'not do';
+        } else {
+            this.ctrl = 'do';
+        }  
     }
 
 }

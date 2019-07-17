@@ -156,7 +156,7 @@ export class ProductionProvider {
     getLots() {
         var model = 'production.app.registry'
         var method = 'get_available_lot'
-        var values = {'product_ids': this.consume_ids, 'with_stock': true}
+        var values = {'product_ids': this.consume_ids}
         this.lotsByProduct = {}
         this.odooCon.execute(model, method, values).then((lot_ids) => {
             for (let indx in lot_ids) {
@@ -183,6 +183,7 @@ export class ProductionProvider {
                     this.lotsByProduct[product_id] = []
                 }
 		lot.product_id = product_id
+                lot.location_id = false
                 this.lotsByProduct[product_id].push(lot)
             }
         })
@@ -371,7 +372,7 @@ export class ProductionProvider {
         this.workline = data.wc_line_id;
         this.workline_name = data.workline_name;
         this.consumptions_done = data.consumptions_done;
-        this.bom_app_notes = data.bom_app_notes || 'Ninguna';
+        this.bom_app_notes = data.bom_app_notes || '';
 	this.note = data.note || '';
     }
     
