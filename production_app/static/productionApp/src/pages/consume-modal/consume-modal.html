@@ -22,13 +22,17 @@
     <ion-list>
         <ion-item *ngIf="(mode !== 'show')">
             <ion-label color="primary" stacked><span>Cantidad en {{line.uom_name}}</span></ion-label>
-            <ion-input type="number" [(ngModel)]="line.qty" required name='qty' clearInput placeholder="Introducir cantidad"></ion-input>
+            <ion-input type="number" [(ngModel)]="line.qty" name='qty' clearInput (ionChange)='onchange_uom()' placeholder="Introducir cantidad"></ion-input>
             <button *ngIf="line.product_name.toLowerCase().includes('bobina')" ion-button outline large item-right color="dark" (click)="convert_bobbin(line.qty)">
                 <ion-icon name="swap" ></ion-icon>
             </button>
             <button ion-button outline large item-right color="dark" (click)="open_calculator()">
                 <ion-icon name="calculator" ></ion-icon>
             </button>
+        </ion-item>
+        <ion-item *ngIf="(mode !== 'show' && line.type == 'finished')">
+            <ion-label color="primary" stacked><span>Cantidad en {{this.prodData.uos}}</span></ion-label>
+            <ion-input type="number" [(ngModel)]="uos_qty" name='uos_qty' clearInput (ionChange)='onchange_uos()' placeholder="Cant. segunda unidad"></ion-input>
         </ion-item>
         <ion-item *ngIf="(mode !== 'show')">
             <ion-label color="primary" stacked><span>Lote</span></ion-label>
@@ -38,7 +42,7 @@
     <ion-searchbar *ngIf="mode === 'show'" (ionInput)="getItems($event)"></ion-searchbar>
     <ion-list *ngIf="mode === 'show'"> 
          <button ion-item *ngFor="let lot of items" (click)="lotSelected(lot)">
-            {{ lot.name }}
+            {{ lot.name  }} ({{ lot.qty_available }})
         </button>  
     </ion-list> 
 
