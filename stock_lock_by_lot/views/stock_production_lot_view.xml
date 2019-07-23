@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record id="view_production_lot_form_inherit" model="ir.ui.view">
+            <field name="name">view.production.lot.form.inherit</field>
+            <field name="model">stock.production.lot</field>
+            <field name="inherit_id" ref="stock.view_production_lot_form" />
+            <field name="arch" type="xml">
+                <div class="oe_button_box oe_right" position="before">
+                    <header>
+                        <button name="lock_lot" string="Lock"
+                            groups="stock_lock_by_lot.group_lock_unlock_lot"
+                            type="object" attrs="{'invisible':[('locked_lot','=',True)]}"
+                            confirm="If you lock this Serial Number/Lot, all its reservations will be removed."/>
+                        <button name="unlock_lot" string="Unlock"
+                            groups="stock_lock_by_lot.group_lock_unlock_lot"
+                            type="object" attrs="{'invisible':[('locked_lot','=',False)]}" />
+                    </header>
+                </div>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="stock_lot_chatter_form_view">
+            <field name="name">stock.lot.chatter.form</field>
+            <field name="model">stock.production.lot</field>
+            <field name="inherit_id" ref="stock.view_production_lot_form" />
+            <field name="arch" type="xml">
+                <field name="ref" position="after">
+                    <field name="locked_lot" />
+                </field>
+                <form position="inside">
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"
+                            groups="base.group_user" />
+                        <field name="message_ids" widget="mail_thread" />
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_production_lot_tree_inherit" model="ir.ui.view">
+            <field name="name">view.production.lot.tree.inherit</field>
+            <field name="model">stock.production.lot</field>
+            <field name="inherit_id" ref="stock.view_production_lot_tree" />
+            <field name="arch" type="xml">
+                <field name="create_date" position="after">
+                    <field name="locked_lot" />
+                </field>
+            </field>
+        </record>
+
+        <record id="search_product_lot_filter_inherit" model="ir.ui.view">
+            <field name="name">search.product.lot.filter.inherit</field>
+            <field name="model">stock.production.lot</field>
+            <field name="inherit_id" ref="stock.search_product_lot_filter" />
+            <field name="arch" type="xml">
+                <field name="name" position="before">
+                    <field name="locked_lot" />
+                </field>
+                <field name="product_id" position="after">
+                    <group expand='0' string='Filters'>
+                        <filter name='locked_lot' string="Locked" domain="[('locked_lot','=',True)]"/>
+                    </group>
+                </field>
+                <filter string="Product" position="before">
+                    <filter string="Locked" domain="[]"
+                        context="{'group_by':'locked_lot'}" />
+                </filter>
+            </field>
+        </record>
+    </data>
+</openerp>

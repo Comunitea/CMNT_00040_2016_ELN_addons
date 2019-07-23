@@ -332,7 +332,7 @@ class ProductionAppRegistry(models.Model):
               "join stock_production_lot spl on spl.id = sq.lot_id " \
               "join stock_location sl on sl.id = sq.location_id " \
               "join product_product pp on pp.id = sq.product_id " \
-              "where sl.usage = 'internal' and pp.id in %s " \
+              "where sl.usage = 'internal' and pp.id in %s and spl.locked_lot = False " \
               "group by spl.id, pp.id, sl.id " \
               "having sum(sq.qty) > 0.00 " \
               "order by use_date" % (product_ids)

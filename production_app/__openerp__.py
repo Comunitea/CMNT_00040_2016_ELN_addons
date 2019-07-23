@@ -12,6 +12,7 @@
         'mrp_operations',
         'eln_production',
         'maintenance',
+        'stock_lock_by_lot',
     ],
     'contributors': [
         "Comunitea ",

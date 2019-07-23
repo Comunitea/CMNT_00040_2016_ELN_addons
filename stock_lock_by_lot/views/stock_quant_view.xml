@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record id="quant_search_view_inherit" model="ir.ui.view">
+            <field name="name">quant.search.view.inherit</field>
+            <field name="model">stock.quant</field>
+            <field name="inherit_id" ref="stock.quant_search_view"/>
+            <field name="arch" type="xml">
+                <field name="lot_id" position="after">
+                    <field name="locked_lot" groups="stock.group_production_lot"/>
+                </field>
+                <filter name="internal_loc" position="after">
+                    <separator orientation="vertical"/>
+                    <filter name='locked_lot' string="Locked" domain="[('locked_lot','=',True)]" groups="stock.group_production_lot"/>
+                </filter>
+                <filter string='Lot' position="after">
+                    <filter string='Locked' context="{'group_by':'locked_lot'}" groups="stock.group_production_lot"/>
+                </filter>
+            </field>
+        </record>
+
+        <record id="view_stock_quant_form_inherit" model="ir.ui.view">
+            <field name="name">view.stock.quant.form.inherit</field>
+            <field name="model">stock.quant</field>
+            <field name="inherit_id" ref="stock.view_stock_quant_form"/>
+            <field name="arch" type="xml">
+                <field name="lot_id" position="after">
+                    <field name="locked_lot" groups="stock.group_production_lot"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_stock_quant_tree_inherit" model="ir.ui.view">
+            <field name="name">view.stock.quant.tree.inherit</field>
+            <field name="model">stock.quant</field>
+            <field name="inherit_id" ref="stock.view_stock_quant_tree"/>
+            <field name="arch" type="xml">
+                <field name="lot_id" position="after">
+                    <field name="locked_lot" groups="stock.group_production_lot"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>
