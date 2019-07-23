@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-05-30 20:12+0000\n"
-"PO-Revision-Date: 2019-05-31 12:52+0200\n"
+"POT-Creation-Date: 2019-07-23 15:37+0000\n"
+"PO-Revision-Date: 2019-07-23 17:41+0200\n"
 "Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -480,6 +480,11 @@ msgstr "LdM"
 #: field:copy.product.ldm,ldm_ids_str:0
 msgid "LdM ids str"
 msgstr "LdM ids str"
+
+#. module: eln_product
+#: view:copy.product.ldm:eln_product.view_copy_product_ldm_wzd
+msgid "LdMs"
+msgstr "LdMs"
 
 #. module: eln_product
 #: field:mail.compose.message.product.datasheet,is_log:0
@@ -962,7 +967,7 @@ msgid "Technical field holding the message notifications. Use notified_partner_i
 msgstr "Technical field holding the message notifications. Use notified_partner_ids to access notified partners."
 
 #. module: eln_product
-#: code:addons/eln_product/models/product.py:217
+#: code:addons/eln_product/models/product.py:259
 #, python-format
 msgid ""
 "The DUN-14 code you entered is already in use.\n"
@@ -972,7 +977,7 @@ msgstr ""
 "Las referencias de los productos relacionados son: %s"
 
 #. module: eln_product
-#: code:addons/eln_product/models/product.py:200
+#: code:addons/eln_product/models/product.py:242
 #, python-format
 msgid ""
 "The EAN-13 code you entered is already in use.\n"
@@ -1089,8 +1094,8 @@ msgid "Votes"
 msgstr "Votos"
 
 #. module: eln_product
-#: code:addons/eln_product/models/product.py:199
-#: code:addons/eln_product/models/product.py:216
+#: code:addons/eln_product/models/product.py:241
+#: code:addons/eln_product/models/product.py:258
 #, python-format
 msgid "Warning!"
 msgstr "¡Advertencia!"
@@ -1116,6 +1121,11 @@ msgstr "Written signature"
 #, python-format
 msgid "You"
 msgstr "Tú"
+
+#. module: eln_product
+#: constraint:product.product:0
+msgid "You provided an invalid \"DUN14 Barcode\" reference."
+msgstr "Ha introducido un código DUN14 no válido."
 
 #. module: eln_product
 #: view:product.template:eln_product.product_template_search_view

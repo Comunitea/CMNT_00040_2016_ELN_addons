@@ -18,9 +18,45 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+import math
+
 from openerp import models, fields, api, _
 from datetime import datetime
 import openerp.addons.decimal_precision as dp
+
+
+def dun_checksum(eancode):
+    """returns the checksum of an dun string of length 14, returns -1 if the string has the wrong length"""
+    if len(eancode) != 14:
+        return -1
+    oddsum=0
+    evensum=0
+    total=0
+    eanvalue=eancode
+    reversevalue = eanvalue[::-1]
+    finalean=reversevalue[1:]
+
+    for i in range(len(finalean)):
+        if i % 2 == 0:
+            oddsum += int(finalean[i])
+        else:
+            evensum += int(finalean[i])
+    total=(oddsum * 3) + evensum
+
+    check = int(10 - math.ceil(total % 10.0)) %10
+    return check
+
+def check_dun(eancode):
+    """returns True if eancode is a valid dun14 string, or null"""
+    if not eancode:
+        return True
+    if len(eancode) != 14:
+        return False
+    try:
+        int(eancode)
+    except:
+        return False
+    return dun_checksum(eancode) == int(eancode[-1])
 
 
 class ProductOptionsProduct(models.Model):
@@ -103,7 +139,7 @@ class ProductProduct(models.Model):
     revision_ids = fields.One2many('product.revision', 'product_id', string='Revisions')
     shipments_ids = fields.One2many('product.sheet.shipments', 'product_id', string='Shipments')
     partner_product_code = fields.Char('Partner code', size=64)
-    dun14 = fields.Char('DUN14', size=64)
+    dun14 = fields.Char('DUN14', size=14)
     last_revision = fields.Char(string='Last revision', compute='_get_last_revision', size=255, readonly=True)
     last_revision_ldm = fields.Char(string='Last revision LdM', compute='_get_last_revision_ldm', size=255, readonly=True)
     development_code = fields.Char('Development code', size=64)
@@ -147,6 +183,15 @@ class ProductProduct(models.Model):
     unit_total_length = fields.Float('Total length (mm)', digits=(16,0))
     ramp_up_date = fields.Date('Ramp Up Date', copy=False,
         default=lambda s: fields.Date.context_today(s))
+
+    @api.multi
+    def _check_dun_key(self):
+        for product in self:
+            if not check_dun(product.dun14):
+                return False
+        return True
+
+    _constraints = [(_check_dun_key, 'You provided an invalid "DUN14 Barcode" reference.', ['dun14'])]
 
     @api.multi
     def _get_last_revision(self):
