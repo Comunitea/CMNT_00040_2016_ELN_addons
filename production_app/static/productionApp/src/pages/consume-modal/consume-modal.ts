@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController, ModalController, AlertController} from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController, ModalController, AlertController } from 'ionic-angular';
 import { ProductionProvider } from '../../providers/production/production';
 import { OdooProvider } from '../../providers/odoo/odoo';
 import { CalculatorModalPage } from '../../pages/calculator/calculator';

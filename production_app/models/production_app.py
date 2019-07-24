@@ -133,7 +133,8 @@ class ProductionAppRegistry(models.Model):
             ('production_state', 'in', ('ready', 'confirmed', 'in_production')),
              '|',
             ('registry_id', '=', False),
-            ('app_state', '!=', 'finished'),
+            ('app_state', 'not in', ('finished', 'validated')),
+            ('workorder_planned_state', '=', '1'),
         ]
         order = 'sequence ASC, priority DESC, id ASC'
         wcl_obj = self.env['mrp.production.workcenter.line']
@@ -513,6 +514,13 @@ class ProductionAppRegistry(models.Model):
                 'production_end': date,
                 'cleaning_start': date,
             })
+            # Si pasamos directamente a limpieza desde una parada cuando estamos en setup
+            # los tiempos de setup_end y de production_start no se grabaron.
+            if not (reg.setup_end or reg.production_start):
+                reg.write({
+                    'setup_end': date,
+                    'production_start': date,
+                })
             res = reg.read()[0]
         return res
 
