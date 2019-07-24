@@ -27,6 +27,9 @@
         <ion-item *ngIf="(mode !== 'show') && (mode_step === 'clean')">
             <ion-label color="primary" stacked><span>Cantidad en {{this.prodData.uos}}</span></ion-label>
             <ion-input type="number" [(ngModel)]="uos_qty" name='uos_qty' (ionChange)='onchange_uos()' placeholder="Cant. segunda unidad"></ion-input>
+            <button ion-button outline large item-right color="dark" (click)="open_calculator()">
+                <ion-icon name="calculator" ></ion-icon>
+            </button>
         </ion-item>
 
         <ion-item *ngIf="(mode !== 'show') && (mode_step === 'clean')">

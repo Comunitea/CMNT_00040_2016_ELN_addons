@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController, ModalController, AlertController } from 'ionic-angular';
 import { ProductionProvider } from '../../providers/production/production';
+import { CalculatorModalPage } from '../../pages/calculator/calculator';
 
 
 @IonicPage()
@@ -23,6 +24,7 @@ export class FinishModalPage {
 
     constructor(public navCtrl: NavController, public navParams: NavParams,
                 public viewCtrl: ViewController, public alertCtrl: AlertController,
+                public modalCtrl: ModalController,
                 private prodData: ProductionProvider) {
         this.lots = [];
         this.items = [];
@@ -74,6 +76,17 @@ export class FinishModalPage {
 
     closeModal() {
         this.viewCtrl.dismiss({});
+    }
+
+    open_calculator() {
+        let calulatorModal = this.modalCtrl.create(CalculatorModalPage);
+        calulatorModal.present();
+        // When modal closes
+        calulatorModal.onDidDismiss(res => {
+            if ('display_value' in res) {
+                this.uos_qty = res['display_value']
+            }
+        });
     }
 
     showLots() {
