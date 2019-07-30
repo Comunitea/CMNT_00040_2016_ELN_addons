@@ -26,13 +26,14 @@
     'description': """Stock module customizations for El Nogal""",
     'author': 'Pedro Gómez',
     'website': 'www.elnogal.com',
-    "depends": ['base',
-                'stock',
-                'eln_sale',  # Because of commitment_date group
-                'picking_invoice_rel',
-                'web_readonly_bypass'
-                # 'stock_location',
-                ],
+    "depends": [
+        'base',
+        'stock',
+        'eln_sale', # Because of commitment_date group
+        'picking_invoice_rel',
+        'web_readonly_bypass',
+        'stock_picking_valued',
+    ],
     "init_xml": [],
     "data": [
         'stock_view.xml',

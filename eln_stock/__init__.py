@@ -20,5 +20,6 @@
 ##############################################################################
 from . import wizard
 from . import stock
+from . import stock_picking_valued
 from . import procurement
 from . import res_partner
