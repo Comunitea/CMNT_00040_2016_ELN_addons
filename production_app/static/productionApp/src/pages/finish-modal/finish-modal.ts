@@ -145,4 +145,38 @@ export class FinishModalPage {
         }  
     }
 
+    get_default_lot_name() {
+        var process_type = this.prodData.process_type;
+        if (process_type == 'packing') {
+            this.lot = this.get_default_Packing_Lot(new Date());
+        } else if (process_type == 'toasted') {
+            this.lot = 'T-' + this.prodData.production;
+        } else if (process_type == 'fried') {
+            this.lot = 'F-' + this.prodData.production;
+        } else if (process_type == 'mixed') {
+            this.lot = 'C-' + this.prodData.production;
+        } else if (process_type == 'seasoned') {
+            this.lot = 'S-' + this.prodData.production;
+        } else {
+            this.lot = '';
+        }
+    }
+
+    get_default_Packing_Lot(date) {
+        var d: any;
+        var yearStart: any;
+        // Copy date so don't modify original
+        d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+        // Set to nearest Thursday: current date + 4 - current day number
+        // Make Sunday's day number 7
+        d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
+        // Get first day of year
+        yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+        // Calculate full weeks to nearest Thursday
+        var weekNo = ('0' + (Math.ceil((((d - yearStart) / 86400000) + 1) / 7))).slice(-2);
+        var weekDay = (date.getUTCDay() || 7)
+        var year = d.getUTCFullYear().toString().slice(-1)
+        return weekNo + '/' + weekDay + year;
+    }
+
 }

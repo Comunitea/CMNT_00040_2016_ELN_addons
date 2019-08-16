@@ -65,6 +65,7 @@ export class ProductionProvider {
     consumptions_done: boolean = false;
     bom_app_notes: string;
     note: string;
+    process_type: string;
 
     constructor(private odooCon: OdooProvider) {
         this.states = {
@@ -374,6 +375,7 @@ export class ProductionProvider {
         this.consumptions_done = data.consumptions_done;
         this.bom_app_notes = data.bom_app_notes || '';
 	this.note = data.note || '';
+	this.process_type = data.process_type || '';
     }
     
     // Load Quality checks in each type list

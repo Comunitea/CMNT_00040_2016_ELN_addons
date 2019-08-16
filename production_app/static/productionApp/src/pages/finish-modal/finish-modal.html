@@ -45,6 +45,9 @@
         <ion-item *ngIf="(mode !== 'show') && (mode_step === 'start')">
             <ion-label color="primary" stacked><span>Lote</span></ion-label>
             <ion-input type="text" [(ngModel)]="lot" name='lot' placeholder="Introducir lote"></ion-input>
+            <button ion-button outline large item-right color="dark" (click)="get_default_lot_name()">
+                <ion-icon name="color-wand" ></ion-icon>
+            </button>
         </ion-item>
 
         <ion-item *ngIf="(mode !== 'show') && (mode_step === 'start')">

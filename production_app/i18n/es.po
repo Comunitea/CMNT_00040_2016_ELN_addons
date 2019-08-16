@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-12 15:33+0000\n"
-"PO-Revision-Date: 2019-07-12 17:36+0200\n"
+"POT-Creation-Date: 2019-08-16 13:51+0000\n"
+"PO-Revision-Date: 2019-08-16 15:54+0200\n"
 "Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -23,7 +23,7 @@ msgid "APP State:"
 msgstr "Estado APP:"
 
 #. module: production_app
-#: code:addons/production_app/models/mrp.py:147
+#: code:addons/production_app/models/mrp.py:154
 #, python-format
 msgid "Active Id not found"
 msgstr "Id activo no encontrado"
@@ -205,11 +205,11 @@ msgid "EAN13"
 msgstr "EAN13"
 
 #. module: production_app
-#: code:addons/production_app/models/production_app.py:744
-#: code:addons/production_app/models/production_app.py:748
-#: code:addons/production_app/models/production_app.py:753
-#: code:addons/production_app/models/production_app.py:758
-#: code:addons/production_app/models/production_app.py:792
+#: code:addons/production_app/models/production_app.py:756
+#: code:addons/production_app/models/production_app.py:760
+#: code:addons/production_app/models/production_app.py:765
+#: code:addons/production_app/models/production_app.py:770
+#: code:addons/production_app/models/production_app.py:804
 #, python-format
 msgid "Error"
 msgstr "Error"
@@ -236,6 +236,11 @@ msgstr "Productos finalizados"
 #: selection:product.quality.check,quality_type:0
 msgid "Frequency"
 msgstr "Frecuencial"
+
+#. module: production_app
+#: selection:mrp.workcenter,process_type:0
+msgid "Fried"
+msgstr "Freido"
 
 #. module: production_app
 #: field:stop.line,from_state:0
@@ -335,6 +340,11 @@ msgid "Minimum Value"
 msgstr "Valor mínimo"
 
 #. module: production_app
+#: selection:mrp.workcenter,process_type:0
+msgid "Mixed"
+msgstr "Mezclado"
+
+#. module: production_app
 #: field:product.quality.check,name:0
 msgid "Name"
 msgstr "Nombre"
@@ -346,8 +356,7 @@ msgid "Notes"
 msgstr "Notas"
 
 #. module: production_app
-#: field:mrp.bom,app_notes:0
-#: view:mrp.bom:production_app.mrp_bom_form_view_app
+#: view:mrp.bom:production_app.mrp_bom_form_view_app field:mrp.bom,app_notes:0
 msgid "Notes for App"
 msgstr "Notas para App"
 
@@ -389,9 +398,19 @@ msgid "Outgoings"
 msgstr "Salidas"
 
 #. module: production_app
+#: selection:mrp.workcenter,process_type:0
+msgid "Packing"
+msgstr "Envasado"
+
+#. module: production_app
 #: view:production.app.registry:production_app.production_app_registry_filter_view
 msgid "Pending Productions"
 msgstr "Producciones pendientes"
+
+#. module: production_app
+#: field:mrp.workcenter,process_type:0
+msgid "Process Type"
+msgstr "Tipo de proceso"
 
 #. module: production_app
 #: field:consumption.line,product_id:0
@@ -588,6 +607,11 @@ msgid "Search Work Orders"
 msgstr "Buscar órdenes de trabajo"
 
 #. module: production_app
+#: selection:mrp.workcenter,process_type:0
+msgid "Seasoned"
+msgstr "Sazonado"
+
+#. module: production_app
 #: field:product.quality.check,sequence:0
 msgid "Sequence"
 msgstr "Secuencia"
@@ -706,7 +730,7 @@ msgid "The workcenter line must be unique !"
 msgstr "La orden de trabajo debe ser única !"
 
 #. module: production_app
-#: code:addons/production_app/models/mrp.py:130
+#: code:addons/production_app/models/mrp.py:137
 #, python-format
 msgid "There is no valid consumption line to scrap."
 msgstr "No hay una línea de consumos válida para hacer scrap."
@@ -715,6 +739,11 @@ msgstr "No hay una línea de consumos válida para hacer scrap."
 #: view:production.app.registry:production_app.production_app_registry_form_view
 msgid "Times"
 msgstr "Tiempos"
+
+#. module: production_app
+#: selection:mrp.workcenter,process_type:0
+msgid "Toasted"
+msgstr "Tostado"
 
 #. module: production_app
 #: field:consumption.line,type:0 field:stop.reason,reason_type:0
@@ -801,13 +830,13 @@ msgstr "Centros de producción"
 
 #. module: production_app
 #: code:addons/production_app/models/mrp.py:23
-#: code:addons/production_app/models/mrp.py:88
+#: code:addons/production_app/models/mrp.py:95
 #, python-format
 msgid "You cannot cancel because one app registry is linked."
 msgstr "No puedes cancelar porque hay un registro de aplicación asociado."
 
 #. module: production_app
-#: code:addons/production_app/models/mrp.py:151
+#: code:addons/production_app/models/mrp.py:158
 #, python-format
 msgid "You cannot change qty because one app registry is linked."
 msgstr "No puedes cambiar la cantidad porque hay un registro de aplicación asociado."
@@ -819,31 +848,31 @@ msgid "You cannot remove because one app registry is linked."
 msgstr "No puedes eliminar porque hay un registro de aplicación asociado."
 
 #. module: production_app
-#: code:addons/production_app/models/production_app.py:793
+#: code:addons/production_app/models/production_app.py:805
 #, python-format
 msgid "You cannot validate because an error occurred when calculating the consumptions."
 msgstr "No puedes validar porque ocurrió un error en el cálculo de consumos."
 
 #. module: production_app
-#: code:addons/production_app/models/production_app.py:759
+#: code:addons/production_app/models/production_app.py:771
 #, python-format
 msgid "You cannot validate if the quantity in work orders associated with this production are not the same."
 msgstr "No puedes validar si la cantidad en las órdenes de trabajo asociadas a esta producción son diferentes."
 
 #. module: production_app
-#: code:addons/production_app/models/production_app.py:749
+#: code:addons/production_app/models/production_app.py:761
 #, python-format
 msgid "You cannot validate if the quantity of production are negative or less than zero."
 msgstr "No puedes validar si la cantidad de la producción es negativa o menor que cero."
 
 #. module: production_app
-#: code:addons/production_app/models/production_app.py:754
+#: code:addons/production_app/models/production_app.py:766
 #, python-format
 msgid "You cannot validate if the quantity of the feeder and quantity of production are not the same."
 msgstr "No puedes validar si la cantidad del alimentador y la cantidad de producción son diferentes."
 
 #. module: production_app
-#: code:addons/production_app/models/production_app.py:745
+#: code:addons/production_app/models/production_app.py:757
 #, python-format
 msgid "You cannot validate without confirming consumptions."
 msgstr "No puedes validar si no están los consumos confirmados."

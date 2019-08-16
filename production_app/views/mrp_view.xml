@@ -56,11 +56,14 @@
         </field>
     </record>
 
-    <record id="mrp_workcenter_view_add_technical_reasons" model="ir.ui.view">
-        <field name="name">mrp_workcenter_view_add_technical_reasons</field>
+    <record id="mrp_workcenter_view_inherit" model="ir.ui.view">
+        <field name="name">mrp_workcenter_view_inherit</field>
         <field name="model">mrp.workcenter</field>
         <field name="inherit_id" ref="eln_production.mrp_workcenter_view"/>
         <field name="arch" type="xml">
+            <field name="company_id" position="after">
+                <field name="process_type"/>
+            </field>
             <notebook position="inside">
                 <page string="Technical Reasons">
                     <group string="Technical Reasons">
