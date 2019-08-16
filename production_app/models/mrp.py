@@ -75,6 +75,13 @@ class MrpWorkcenter(models.Model):
         id1="workcenter_id", id2="reason_id",
         domain=[('reason_type', '=', 'technical')]
     )
+    process_type = fields.Selection([
+        ('packing', 'Packing'),
+        ('toasted', 'Toasted'),
+        ('fried', 'Fried'),
+        ('mixed', 'Mixed'),
+        ('seasoned', 'Seasoned'),
+        ], string='Process Type')
 
 
 class MrpProduction(models.Model):

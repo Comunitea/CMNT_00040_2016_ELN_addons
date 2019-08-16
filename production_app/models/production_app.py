@@ -241,6 +241,7 @@ class ProductionAppRegistry(models.Model):
             production_qty = reg.production_id.product_qty
             production_uos_qty = reg.production_id.product_uos_qty
             bom_app_notes = reg.production_id.bom_id.app_notes or ''
+            process_type = reg.workcenter_id.process_type
             res.update(allowed_operators=allowed_operators,
                        active_operator_ids=active_operator_ids,
                        product_use_date=use_date,
@@ -255,6 +256,7 @@ class ProductionAppRegistry(models.Model):
                        location_src_id=reg.production_id.location_src_id.id,
                        location_dest_id=reg.production_id.location_dest_id.id,
                        bom_app_notes=bom_app_notes,
+                       process_type=process_type,
             )
         return res
 
