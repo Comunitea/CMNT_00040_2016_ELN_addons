@@ -31,6 +31,7 @@ class mrp_workorder(osv.osv):
         'planified_time': fields.float('Planified time', readonly=True),
         'production_lead_time': fields.float('Production Lead time', readonly=True, group_operator='avg'),
         'production_type': fields.selection([('normal','Normal'), ('rework','Rework'), ('sample','Sample'), ('special','Special')], 'Type of production', readonly=True),
+        'date_start': fields.date('Start Date', readonly=True),
     }
 
     def init(self, cr):
@@ -39,6 +40,7 @@ class mrp_workorder(osv.osv):
             create or replace view mrp_workorder as (
                 select
                     date(wl.date_planned) as date,
+                    date(wl.date_start) as date_start,
                     min(wl.id) as id,
                     mp.product_id as product_id,
                     sum(wl.hour) as total_hours,
@@ -60,5 +62,5 @@ class mrp_workorder(osv.osv):
                     left join product_product pp on (pp.id = mp.product_id)
                     left join product_template pt on (pt.id = pp.product_tmpl_id)
                 group by
-                    w.costs_hour, mp.product_id, mp.name, wl.state, wl.date_planned, wl.production_id, wl.workcenter_id, mp.production_type
+                    w.costs_hour, mp.product_id, mp.name, wl.state, wl.date_planned, wl.date_start, wl.production_id, wl.workcenter_id, mp.production_type
         )""")
