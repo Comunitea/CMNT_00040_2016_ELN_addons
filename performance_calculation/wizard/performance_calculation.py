@@ -398,8 +398,8 @@ class performance_calculation(orm.TransientModel):
                 ind = ind_obj.browse(cr, uid, indicator_id)
                 tavailability = tperformance = tquality = 0.0
                 nline= 0
-                vals = {}
                 if ind.line_ids:
+                    vals = {}
                     for line in ind.line_ids:
                         workcenter = line.workcenter_id and line.workcenter_id.id or False
                         if workcenter not in vals.keys():
@@ -417,33 +417,68 @@ class performance_calculation(orm.TransientModel):
                         tperformance += line.performance
                         tquality += line.quality
                         nline += 1
-                    # Averages per workcenter
+                    # Averages by workcenter
                     for key in vals.keys():
                         availability = vals[key]['availability'] / vals[key]['nline']
                         performance = vals[key]['performance'] / vals[key]['nline']
                         quality = vals[key]['quality'] / vals[key]['nline']
-                        oee = (availability / 100) * (performance / 100) * (quality / 100) *100
+                        oee = (availability / 100) * (performance / 100) * (quality / 100) * 100
                         ind_avg_obj.create(cr, uid, {
                             'name': _("AVG"),
                             'workcenter_id': key,
+                            'product_id': False,
                             'availability': availability,
                             'performance': performance,
                             'quality': quality,
                             'oee': oee,
+                            'summary_type': 'workcenter',
+                            'indicator_id': indicator_id
+                        })
+                    vals = {}
+                    for line in ind.line_ids:
+                        product = line.product_id and line.product_id.id or False
+                        if product not in vals.keys():
+                            vals[product] = {}
+                            vals[product]['availability'] = 0.0
+                            vals[product]['performance'] = 0.0
+                            vals[product]['quality'] = 0.0
+                            vals[product]['oee'] = 0.0
+                            vals[product]['nline'] = 0
+                        vals[product]['availability'] += line.availability
+                        vals[product]['performance'] += line.performance
+                        vals[product]['quality'] += line.quality
+                        vals[product]['nline'] += 1
+                    # Averages by product
+                    for key in vals.keys():
+                        availability = vals[key]['availability'] / vals[key]['nline']
+                        performance = vals[key]['performance'] / vals[key]['nline']
+                        quality = vals[key]['quality'] / vals[key]['nline']
+                        oee = (availability / 100) * (performance / 100) * (quality / 100) * 100
+                        ind_avg_obj.create(cr, uid, {
+                            'name': _("AVG"),
+                            'workcenter_id': False,
+                            'product_id': key,
+                            'availability': availability,
+                            'performance': performance,
+                            'quality': quality,
+                            'oee': oee,
+                            'summary_type': 'product',
                             'indicator_id': indicator_id
                         })
                     # Averages totals
                     availability = tavailability / nline
                     performance = tperformance / nline
                     quality = tquality / nline
-                    oee = (availability / 100) * (performance / 100) * (quality / 100) *100
+                    oee = (availability / 100) * (performance / 100) * (quality / 100) * 100
                     ind_avg_obj.create(cr, uid, {
                         'name': _("TOTAL"),
                         'workcenter_id': False,
+                        'product_id': False,
                         'availability': availability,
                         'performance': performance,
                         'quality': quality,
                         'oee': oee,
+                        'summary_type': 'total',
                         'indicator_id': indicator_id
                     })
         return indicator_id
@@ -488,7 +523,7 @@ class performance_calculation(orm.TransientModel):
                         vals[workcenter]['theorical_weight'] += line.qty_nominal
                         tused_weight += line.qty_consumed
                         ttheorical_weight += line.qty_nominal
-                    # Sum per workcenter
+                    # Sum by workcenter
                     for key in vals.keys():
                         overweight = 100 * (vals[key]['used_weight'] - vals[key]['theorical_weight']) / (vals[key]['theorical_weight'] or 1.0)
                         ind_avg_obj.create(cr, uid, {

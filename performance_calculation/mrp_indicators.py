@@ -27,7 +27,12 @@ class mrp_indicators_oee(orm.Model):
     _columns = {
         'name': fields.char('Name', size=255, required=True),
         'line_ids': fields.one2many('mrp.indicators.oee.line', 'indicator_id', 'Lines'),
-        'line_summary_ids': fields.one2many('mrp.indicators.oee.summary', 'indicator_id', 'Summary'),
+        'line_summary_by_workcenter_ids': fields.one2many(
+            'mrp.indicators.oee.summary', 'indicator_id', 'Summary by workcenter',
+            domain=[('summary_type', 'in', ('workcenter', 'total'))]),
+        'line_summary_by_product_ids': fields.one2many(
+            'mrp.indicators.oee.summary', 'indicator_id', 'Summary by product',
+            domain=[('summary_type', 'in', ('product', 'total'))]),
         'date': fields.date('Date'),
         'user_id': fields.many2one('res.users', 'User'),
         'company_id': fields.many2one('res.company', 'Company'),
@@ -64,14 +69,24 @@ class mrp_indicators_oee_line(orm.Model):
 
 class mrp_indicators_oee_summary(orm.Model):
     _name = 'mrp.indicators.oee.summary'
+    _order = 'indicator_id, workcenter_id, product_id'
     _columns = {
         'name': fields.char('Name', size=255, required=True),
         'workcenter_id': fields.many2one('mrp.workcenter', 'Workcenter'),
+        'product_id': fields.many2one('product.product', 'Product'),
         'oee': fields.float('OEE'),
         'availability': fields.float('Availability'),
         'performance': fields.float('Performance'),
         'quality': fields.float('Quality'),
+        'summary_type': fields.selection([
+            ('workcenter', "Workcenter"),
+            ('product', 'Product'),
+            ('total', 'Total'),
+           ], 'Summary type', required=True),
         'indicator_id': fields.many2one('mrp.indicators.oee', 'Indicator', ondelete='cascade', required=True)
+    }
+    _defaults = {
+        'summary_type': 'workcenter'
     }
 
 
