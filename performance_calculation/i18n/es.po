@@ -6,49 +6,50 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-18 09:41+0000\n"
-"PO-Revision-Date: 2019-03-18 15:01+0100\n"
-"Last-Translator: <>\n"
+"POT-Creation-Date: 2019-09-06 07:09+0000\n"
+"PO-Revision-Date: 2019-09-06 09:12+0200\n"
+"Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"Language: es_ES\n"
-"X-Generator: Poedit 2.2.1\n"
+"Plural-Forms: \n"
+"Language: es\n"
+"X-Generator: Poedit 2.2.3\n"
 
 #. module: performance_calculation
-#: code:addons/performance_calculation/wizard/performance_calculation.py:67
+#: code:addons/performance_calculation/wizard/performance_calculation.py:72
 #, python-format
 msgid " From: "
 msgstr " Desde: "
 
 #. module: performance_calculation
-#: code:addons/performance_calculation/wizard/performance_calculation.py:71
+#: code:addons/performance_calculation/wizard/performance_calculation.py:76
 #, python-format
 msgid " Product: "
 msgstr " Producto: "
 
 #. module: performance_calculation
-#: code:addons/performance_calculation/wizard/performance_calculation.py:69
+#: code:addons/performance_calculation/wizard/performance_calculation.py:74
 #, python-format
 msgid " Routing: "
 msgstr " Proceso productivo: "
 
 #. module: performance_calculation
-#: code:addons/performance_calculation/wizard/performance_calculation.py:73
+#: code:addons/performance_calculation/wizard/performance_calculation.py:78
 #, python-format
 msgid " Workcenter: "
 msgstr " Centro de Producción: "
 
 #. module: performance_calculation
-#: code:addons/performance_calculation/wizard/performance_calculation.py:67
+#: code:addons/performance_calculation/wizard/performance_calculation.py:72
 #, python-format
 msgid " to: "
 msgstr " hasta: "
 
 #. module: performance_calculation
-#: code:addons/performance_calculation/wizard/performance_calculation.py:425
+#: code:addons/performance_calculation/wizard/performance_calculation.py:436
+#: code:addons/performance_calculation/wizard/performance_calculation.py:467
 #, python-format
 msgid "AVG"
 msgstr "AVG"
@@ -81,22 +82,14 @@ msgid "By routing"
 msgstr "Por proc. productivo"
 
 #. module: performance_calculation
-#: field:performance.calculation,by_workcenter_id:0
+#: field:performance.calculation,by_workcenter:0
 msgid "By workcenter"
 msgstr "Por Centro de Prod."
 
 #. module: performance_calculation
 #: view:performance.calculation:performance_calculation.view_performance_calculation_wzd
-#: view:recover.components:performance_calculation.view_stock_move_recover_components_wizard
-#: view:recover.full.product:performance_calculation.view_stock_move_recover_full_product_wizard
-#: view:stock.move.rework.scrap:performance_calculation.view_stock_move_scrap_wizard
 msgid "Cancel"
 msgstr "Cancelar"
-
-#. module: performance_calculation
-#: help:stock.location,reworks_location:0 help:stock.move,reworked:0
-msgid "Check this box to generate reworks when create a scrap move to this location. Should also mark the check box \"Scrap Location\"."
-msgstr "Marque esta opción para generar retrabajos al crear un movimiento de desecho hacia esta ubicación. También debería marcar la casilla de verificación \"Ubicación desecho\"."
 
 #. module: performance_calculation
 #: field:mrp.indicators.oee,company_id:0
@@ -104,12 +97,6 @@ msgstr "Marque esta opción para generar retrabajos al crear un movimiento de de
 #: field:mrp.indicators.scrap,company_id:0
 msgid "Company"
 msgstr "Compañía"
-
-#. module: performance_calculation
-#: view:recover.components:performance_calculation.view_stock_move_recover_components_wizard
-#: field:recover.components,composition_lines_ids:0
-msgid "Composition"
-msgstr "Composición"
 
 #. module: performance_calculation
 #: field:mrp.indicators.oee,create_uid:0
@@ -121,10 +108,6 @@ msgstr "Composición"
 #: field:mrp.indicators.scrap,create_uid:0
 #: field:mrp.indicators.scrap.line,create_uid:0
 #: field:performance.calculation,create_uid:0
-#: field:recover.components,create_uid:0
-#: field:recover.components.composition,create_uid:0
-#: field:recover.full.product,create_uid:0
-#: field:stock.move.rework.scrap,create_uid:0
 msgid "Created by"
 msgstr "Created by"
 
@@ -138,17 +121,8 @@ msgstr "Created by"
 #: field:mrp.indicators.scrap,create_date:0
 #: field:mrp.indicators.scrap.line,create_date:0
 #: field:performance.calculation,create_date:0
-#: field:recover.components,create_date:0
-#: field:recover.components.composition,create_date:0
-#: field:recover.full.product,create_date:0
-#: field:stock.move.rework.scrap,create_date:0
 msgid "Created on"
 msgstr "Created on"
-
-#. module: performance_calculation
-#: field:recover.full.product,current_prodlot_id:0
-msgid "Current Lot"
-msgstr "Lote actual"
 
 #. module: performance_calculation
 #: field:mrp.indicators.oee,date:0 field:mrp.indicators.oee.line,date:0
@@ -169,11 +143,6 @@ msgid "Date stop"
 msgstr "Fecha fin"
 
 #. module: performance_calculation
-#: view:stock.move:performance_calculation.view_move_reworks_form
-msgid "Dates"
-msgstr "Fechas"
-
-#. module: performance_calculation
 #: field:mrp.indicators.oee,display_name:0
 #: field:mrp.indicators.oee.line,display_name:0
 #: field:mrp.indicators.oee.summary,display_name:0
@@ -183,24 +152,8 @@ msgstr "Fechas"
 #: field:mrp.indicators.scrap,display_name:0
 #: field:mrp.indicators.scrap.line,display_name:0
 #: field:performance.calculation,display_name:0
-#: field:recover.components,display_name:0
-#: field:recover.components.composition,display_name:0
-#: field:recover.full.product,display_name:0
-#: field:stock.move.rework.scrap,display_name:0
 msgid "Display Name"
 msgstr "Nombre mostrado"
-
-#. module: performance_calculation
-#: code:addons/performance_calculation/wizard/reworks.py:73
-#: code:addons/performance_calculation/wizard/reworks.py:159
-#, python-format
-msgid "Error"
-msgstr "Error"
-
-#. module: performance_calculation
-#: view:stock.move:performance_calculation.view_move_reworkssearch
-msgid "Expected"
-msgstr "Previsto"
 
 #. module: performance_calculation
 #: view:mrp.production:performance_calculation.mrp_production_form_inherit_10
@@ -223,18 +176,11 @@ msgid "Generate"
 msgstr "Generar"
 
 #. module: performance_calculation
-#: view:stock.move:performance_calculation.view_move_reworkssearch
-msgid "Group By..."
-msgstr "Agrupar por..."
-
-#. module: performance_calculation
 #: field:mrp.indicators.oee,id:0 field:mrp.indicators.oee.line,id:0
 #: field:mrp.indicators.oee.summary,id:0 field:mrp.indicators.overweight,id:0
 #: field:mrp.indicators.overweight.line,id:0
 #: field:mrp.indicators.overweight.summary,id:0 field:mrp.indicators.scrap,id:0
 #: field:mrp.indicators.scrap.line,id:0 field:performance.calculation,id:0
-#: field:recover.components,id:0 field:recover.components.composition,id:0
-#: field:recover.full.product,id:0 field:stock.move.rework.scrap,id:0
 msgid "ID"
 msgstr "ID"
 
@@ -288,11 +234,6 @@ msgid "Indicators scrap"
 msgstr "Indicador Scrap & Usage"
 
 #. module: performance_calculation
-#: model:ir.model,name:performance_calculation.model_stock_location
-msgid "Inventory Locations"
-msgstr "Ubicaciones de inventario"
-
-#. module: performance_calculation
 #: field:mrp.indicators.oee,__last_update:0
 #: field:mrp.indicators.oee.line,__last_update:0
 #: field:mrp.indicators.oee.summary,__last_update:0
@@ -302,10 +243,6 @@ msgstr "Ubicaciones de inventario"
 #: field:mrp.indicators.scrap,__last_update:0
 #: field:mrp.indicators.scrap.line,__last_update:0
 #: field:performance.calculation,__last_update:0
-#: field:recover.components,__last_update:0
-#: field:recover.components.composition,__last_update:0
-#: field:recover.full.product,__last_update:0
-#: field:stock.move.rework.scrap,__last_update:0
 msgid "Last Modified on"
 msgstr "Last Modified on"
 
@@ -319,10 +256,6 @@ msgstr "Last Modified on"
 #: field:mrp.indicators.scrap,write_uid:0
 #: field:mrp.indicators.scrap.line,write_uid:0
 #: field:performance.calculation,write_uid:0
-#: field:recover.components,write_uid:0
-#: field:recover.components.composition,write_uid:0
-#: field:recover.full.product,write_uid:0
-#: field:stock.move.rework.scrap,write_uid:0
 msgid "Last Updated by"
 msgstr "Last Updated by"
 
@@ -336,10 +269,6 @@ msgstr "Last Updated by"
 #: field:mrp.indicators.scrap,write_date:0
 #: field:mrp.indicators.scrap.line,write_date:0
 #: field:performance.calculation,write_date:0
-#: field:recover.components,write_date:0
-#: field:recover.components.composition,write_date:0
-#: field:recover.full.product,write_date:0
-#: field:stock.move.rework.scrap,write_date:0
 msgid "Last Updated on"
 msgstr "Last Updated on"
 
@@ -359,30 +288,9 @@ msgid "Lines"
 msgstr "Líneas"
 
 #. module: performance_calculation
-#: field:stock.move.rework.scrap,location_id:0
-msgid "Location"
-msgstr "Ubicación"
-
-#. module: performance_calculation
-#: field:recover.components.composition,location_dest_id:0
-#: field:recover.full.product,location_dest_id:0
-msgid "Location dest."
-msgstr "Ubicación dest."
-
-#. module: performance_calculation
-#: field:stock.move.rework.scrap,restrict_lot_id:0
-msgid "Lot"
-msgstr "Lote"
-
-#. module: performance_calculation
 #: model:ir.model,name:performance_calculation.model_mrp_production
 msgid "Manufacturing Order"
-msgstr "Órden de producción"
-
-#. module: performance_calculation
-#: view:stock.move:performance_calculation.view_move_reworks_form
-msgid "Move Information"
-msgstr "Información de movimiento"
+msgstr "Orden de producción"
 
 #. module: performance_calculation
 #: field:mrp.indicators.oee,name:0 field:mrp.indicators.oee.line,name:0
@@ -403,11 +311,6 @@ msgstr "Nombre"
 #: selection:performance.calculation,report_type:0
 msgid "OEE"
 msgstr "OEE"
-
-#. module: performance_calculation
-#: view:stock.move:performance_calculation.view_move_reworkssearch
-msgid "Orders processed Today or planned for Today"
-msgstr "Pedidos procesados hoy o planificados para hoy"
 
 #. module: performance_calculation
 #: model:ir.actions.act_window,name:performance_calculation.action_mrp_indicators_overweight
@@ -453,21 +356,12 @@ msgid "Performance calculation"
 msgstr "Cálculo de indicadores"
 
 #. module: performance_calculation
-#: code:addons/performance_calculation/wizard/reworks.py:283
-#, python-format
-msgid "Please provide a positive quantity to scrap!"
-msgstr "¡Introduzca una cantidad positiva a desechar!"
-
-#. module: performance_calculation
 #: field:mrp.indicators.oee.line,product_id:0
+#: field:mrp.indicators.oee.summary,product_id:0
+#: selection:mrp.indicators.oee.summary,summary_type:0
 #: field:mrp.indicators.overweight.line,product_id:0
 #: field:mrp.indicators.scrap.line,product_id:0
 #: field:performance.calculation,product_id:0
-#: field:recover.components,product_id:0
-#: field:recover.components.composition,product_id:0
-#: field:recover.full.product,product_id:0
-#: view:stock.move:performance_calculation.view_move_reworkssearch
-#: field:stock.move.rework.scrap,product_id:0
 msgid "Product"
 msgstr "Producto"
 
@@ -475,11 +369,6 @@ msgstr "Producto"
 #: model:ir.model,name:performance_calculation.model_product_category
 msgid "Product Category"
 msgstr "Categoría de producto"
-
-#. module: performance_calculation
-#: field:stock.move.rework.scrap,product_uom:0
-msgid "Product Unit of Measure"
-msgstr "Unidad de medida del producto"
 
 #. module: performance_calculation
 #: field:mrp.indicators.oee.line,production_id:0
@@ -501,12 +390,6 @@ msgid "Qty"
 msgstr "Cantidad"
 
 #. module: performance_calculation
-#: field:recover.components.composition,qty_available:0
-#: field:recover.full.product,qty_available:0
-msgid "Qty available"
-msgstr "Cant. disponible"
-
-#. module: performance_calculation
 #: field:mrp.indicators.overweight.line,qty_consumed:0
 #: field:mrp.indicators.overweight.summary,qty_consumed:0
 msgid "Qty consumed"
@@ -519,22 +402,11 @@ msgid "Qty nominal"
 msgstr "Cant. nominal"
 
 #. module: performance_calculation
-#: field:recover.components.composition,qty_recover:0
-#: field:recover.full.product,qty_recover:0
-msgid "Qty recover"
-msgstr "Cant. Rec."
-
-#. module: performance_calculation
 #: field:mrp.indicators.oee.line,quality:0
 #: field:mrp.indicators.oee.summary,quality:0
 #: field:mrp.production.workcenter.line,quality:0
 msgid "Quality"
 msgstr "Calidad"
-
-#. module: performance_calculation
-#: field:stock.move.rework.scrap,product_qty:0
-msgid "Quantity"
-msgstr "Cantidad"
 
 #. module: performance_calculation
 #: field:mrp.indicators.scrap.line,real_cost:0
@@ -553,39 +425,6 @@ msgid "Real time"
 msgstr "Tiempo real"
 
 #. module: performance_calculation
-#: view:stock.move:performance_calculation.view_move_reworks_form
-msgid "Reason"
-msgstr "Motivo"
-
-#. module: performance_calculation
-#: field:recover.components.composition,recover:0
-msgid "Recover"
-msgstr "Recuperar"
-
-#. module: performance_calculation
-#: field:recover.components.composition,recover_prodlot_id:0
-#: field:recover.full.product,recover_prodlot_id:0
-msgid "Recover Lot"
-msgstr "Lote Recuperación"
-
-#. module: performance_calculation
-#: model:ir.actions.act_window,name:performance_calculation.recover_components
-#: view:recover.components:performance_calculation.view_stock_move_recover_components_wizard
-#: field:recover.components.composition,parent_id:0
-#: view:stock.move:performance_calculation.view_move_reworks_form
-#: view:stock.move:performance_calculation.view_move_reworks_tree
-msgid "Recover components"
-msgstr "Recuperar componentes"
-
-#. module: performance_calculation
-#: model:ir.actions.act_window,name:performance_calculation.recover_full_product
-#: view:recover.full.product:performance_calculation.view_stock_move_recover_full_product_wizard
-#: view:stock.move:performance_calculation.view_move_reworks_form
-#: view:stock.move:performance_calculation.view_move_reworks_tree
-msgid "Recover full product"
-msgstr "Recuperar producto completo"
-
-#. module: performance_calculation
 #: field:mrp.indicators.oee,report_name:0
 #: field:mrp.indicators.overweight,report_name:0
 #: field:mrp.indicators.scrap,report_name:0
@@ -598,36 +437,12 @@ msgid "Report type"
 msgstr "Tipo informe"
 
 #. module: performance_calculation
-#: field:stock.move,reworked:0
-msgid "Reworked"
-msgstr "Retrabajado"
-
-#. module: performance_calculation
-#: model:ir.actions.act_window,name:performance_calculation.action_move_reworksform2
-#: model:ir.ui.menu,name:performance_calculation.menu_action_move_reworks_form2
-#: view:stock.move:performance_calculation.view_move_reworks_form
-#: view:stock.move:performance_calculation.view_move_reworks_tree
-#: view:stock.move:performance_calculation.view_move_reworkssearch
-msgid "Reworks"
-msgstr "Retrabajos"
-
-#. module: performance_calculation
-#: field:stock.location,reworks_location:0
-msgid "Reworks location"
-msgstr "Ubicación retrabajos"
-
-#. module: performance_calculation
-#: view:stock.move:performance_calculation.view_move_reworks_form
-msgid "Reworks only be created from the scrap button, choosing as destination a location of type: Reworks Location"
-msgstr "Retrabajos sólo se pueden crear desde el botón \"Desecho\", escogiendo como ubicación destino una ubicación del tipo: Ubicación retrabajos."
-
-#. module: performance_calculation
 #: field:performance.calculation,routing_id:0
 msgid "Routing"
 msgstr "Proceso Productivo"
 
 #. module: performance_calculation
-#: code:addons/performance_calculation/wizard/performance_calculation.py:493
+#: code:addons/performance_calculation/wizard/performance_calculation.py:532
 #, python-format
 msgid "SUM"
 msgstr "SUM"
@@ -641,25 +456,6 @@ msgstr "Scrap"
 #: selection:performance.calculation,report_type:0
 msgid "Scrap & Usage"
 msgstr "Scrap & Usage"
-
-#. module: performance_calculation
-#: view:stock.move.rework.scrap:performance_calculation.view_stock_move_scrap_wizard
-msgid "Scrap Location"
-msgstr "Ubicación desecho"
-
-#. module: performance_calculation
-#: model:ir.actions.act_window,name:performance_calculation.move_scrap
-#: view:stock.move.rework.scrap:performance_calculation.view_stock_move_scrap_wizard
-msgid "Scrap Move"
-msgstr "Movimiento desecho"
-
-#. module: performance_calculation
-#: model:ir.model,name:performance_calculation.model_stock_move_rework_scrap
-#: view:stock.move:performance_calculation.view_move_reworks_form
-#: view:stock.move:performance_calculation.view_move_reworks_tree
-#: view:stock.move.rework.scrap:performance_calculation.view_stock_move_scrap_wizard
-msgid "Scrap Products"
-msgstr "Desechar productos"
 
 #. module: performance_calculation
 #: model:ir.actions.act_window,name:performance_calculation.action_mrp_indicators_scrap
@@ -699,41 +495,40 @@ msgid "Select the type of report you want to print and the features that you wan
 msgstr "Selecciona el tipo de informe que deseas imprimir y configura los campos por lo que quieres filtrar."
 
 #. module: performance_calculation
-#: field:recover.components,move_id:0 field:recover.full.product,move_id:0
-msgid "Source Move"
-msgstr "Movimiento origen"
-
-#. module: performance_calculation
-#: model:ir.model,name:performance_calculation.model_stock_move
-msgid "Stock Move"
-msgstr "Movimiento de existencias"
-
-#. module: performance_calculation
 #: field:mrp.indicators.oee.line,stop_time:0
 msgid "Stop time"
 msgstr "Horas parada"
 
 #. module: performance_calculation
 #: view:mrp.indicators.oee:performance_calculation.mrp_indicators_oee_form
-#: field:mrp.indicators.oee,line_summary_ids:0
 #: view:mrp.indicators.overweight:performance_calculation.mrp_indicators_overweight_form
 #: field:mrp.indicators.overweight,line_summary_ids:0
 msgid "Summary"
 msgstr "Resumen"
 
 #. module: performance_calculation
-#: code:addons/performance_calculation/wizard/performance_calculation.py:439
-#: code:addons/performance_calculation/wizard/performance_calculation.py:504
+#: view:mrp.indicators.oee:performance_calculation.mrp_indicators_oee_form
+#: field:mrp.indicators.oee,line_summary_by_product_ids:0
+msgid "Summary by product"
+msgstr "Resumen por producto"
+
+#. module: performance_calculation
+#: view:mrp.indicators.oee:performance_calculation.mrp_indicators_oee_form
+#: field:mrp.indicators.oee,line_summary_by_workcenter_ids:0
+msgid "Summary by workcenter"
+msgstr "Resumen por centro de trabajo"
+
+#. module: performance_calculation
+#: field:mrp.indicators.oee.summary,summary_type:0
+msgid "Summary type"
+msgstr "Tipo de resumen"
+
+#. module: performance_calculation
+#: code:addons/performance_calculation/wizard/performance_calculation.py:483
+#: code:addons/performance_calculation/wizard/performance_calculation.py:543
 #, python-format
 msgid "TOTAL"
 msgstr "TOTAL"
-
-#. module: performance_calculation
-#: code:addons/performance_calculation/wizard/reworks.py:73
-#: code:addons/performance_calculation/wizard/reworks.py:159
-#, python-format
-msgid "The recovery quantity must be less than or equal to the quantity available!"
-msgstr "¡La cantidad a recuperar debe ser menor o igual a la cantidad disponible!"
 
 #. module: performance_calculation
 #: field:mrp.indicators.scrap.line,theorical_cost:0
@@ -756,9 +551,9 @@ msgid "Time stop"
 msgstr "Hora fin"
 
 #. module: performance_calculation
-#: view:stock.move:performance_calculation.view_move_reworkssearch
-msgid "Today"
-msgstr "Hoy"
+#: selection:mrp.indicators.oee.summary,summary_type:0
+msgid "Total"
+msgstr "Total"
 
 #. module: performance_calculation
 #: view:mrp.indicators.overweight:performance_calculation.mrp_indicators_overweight_form
@@ -806,20 +601,9 @@ msgid "Total qty."
 msgstr "Cant. Total"
 
 #. module: performance_calculation
-#: view:stock.move:performance_calculation.view_move_reworks_form
-msgid "Unit Of Measure"
-msgstr "Unidad de medida"
-
-#. module: performance_calculation
 #: field:mrp.indicators.overweight.line,product_uom:0
 #: field:mrp.indicators.scrap.line,product_uom:0
 msgid "Unit of Measure"
-msgstr "UdM"
-
-#. module: performance_calculation
-#: field:recover.components.composition,product_uom:0
-#: field:recover.full.product,product_uom:0
-msgid "UoM"
 msgstr "UdM"
 
 #. module: performance_calculation
@@ -834,27 +618,16 @@ msgid "User"
 msgstr "Usuario"
 
 #. module: performance_calculation
-#: code:addons/performance_calculation/wizard/reworks.py:283
-#, python-format
-msgid "Warning!"
-msgstr "¡Advertencia!"
-
-#. module: performance_calculation
 #: model:ir.model,name:performance_calculation.model_mrp_production_workcenter_line
 msgid "Work Order"
 msgstr "Orden de trabajo"
 
 #. module: performance_calculation
 #: field:mrp.indicators.oee.line,workcenter_id:0
+#: selection:mrp.indicators.oee.summary,summary_type:0
 #: field:mrp.indicators.oee.summary,workcenter_id:0
 #: field:mrp.indicators.overweight.line,workcenter_id:0
 #: field:mrp.indicators.overweight.summary,workcenter_id:0
 #: field:performance.calculation,workcenter_id:0
 msgid "Workcenter"
 msgstr "Centro de trabajo"
-
-#. module: performance_calculation
-#: code:addons/performance_calculation/wizard/reworks.py:305
-#, python-format
-msgid "were scrapped"
-msgstr "fueron desechadas"

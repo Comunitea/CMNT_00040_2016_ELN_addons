@@ -19,25 +19,29 @@
 #
 ##############################################################################
 {
-    "name" : "Performance calculation",
-    "description": """
+    'name' : "Performance calculation",
+    'description': """
        Module for performance calculation: OEE = Availability * Performance * Quality.
         """,
-    "version" : "1.0",
-    "author" : "Pexego",
-    "depends" : ["base", "product","stock", "mrp", "eln_production", "eln_custom"],
-    "category" : "Manufacturing",
-    "init_xml" : [],
-    "data" : [
-        "mrp_indicators_view.xml",
-        "wizard/performance_calculation_view.xml",
-        "wizard/reworks_view.xml",
-        "stock_view.xml",
-        "stock_move_view.xml",
-        "mrp_view.xml",
-        "product_category_view.xml",
-        "security/ir.model.access.csv",
-        "security/security.xml",
+    'version': '1.0',
+    'author': 'Pexego',
+    'depends': [
+        'base',
+        'product',
+        'stock',
+        'mrp',
+        'eln_production',
+        'eln_custom',
+    ],
+    'category': 'Manufacturing',
+    'init_xml' : [],
+    'data': [
+        'security/ir.model.access.csv',
+        'security/security.xml',
+        'views/mrp_indicators_view.xml',
+        'views/mrp_view.xml',
+        'views/product_category_view.xml',
+        'wizard/performance_calculation_view.xml',
     ],
     'demo_xml': [],
     'installable': True,

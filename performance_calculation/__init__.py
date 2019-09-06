@@ -18,8 +18,5 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+import models
 import wizard
-import mrp_indicators
-import stock
-import mrp
-import product_category
