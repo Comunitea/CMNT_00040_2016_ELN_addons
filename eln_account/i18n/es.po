@@ -6,15 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-05-28 08:14+0000\n"
-"PO-Revision-Date: 2019-05-28 10:34+0200\n"
+"POT-Creation-Date: 2019-09-06 08:18+0000\n"
+"PO-Revision-Date: 2019-09-06 10:18+0200\n"
 "Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"Language: es_ES\n"
+"Language: es\n"
 "X-Generator: Poedit 2.2.3\n"
 
 #. module: eln_account
@@ -71,6 +71,11 @@ msgstr "Número"
 #: view:account.invoice.report:eln_account.view_account_invoice_report_search
 msgid "Only sales without DPP"
 msgstr "Sólo ventas sin DPP"
+
+#. module: eln_account
+#: field:account.invoice.report,ramp_up_date:0
+msgid "Ramp Up Date"
+msgstr "Fecha de Ramp Up"
 
 #. module: eln_account
 #: field:account.invoice.report,ranking1_id:0

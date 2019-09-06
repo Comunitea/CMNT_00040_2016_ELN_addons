@@ -31,6 +31,7 @@ class AccountInvoiceReport(models.Model):
     ranking2_id = fields.Many2one('product.ranking', 'Ranking 2', readonly=True)
     trademark_id = fields.Many2one('product.trademark', 'Trademark', readonly=True)
     weight_net = fields.Float('Net Weight', readonly=True, help="The net weight in Kg.")
+    ramp_up_date = fields.Date('Ramp Up Date', readonly=True)
 
     _depends = {
         'account.invoice': ['number'],
@@ -40,7 +41,8 @@ class AccountInvoiceReport(models.Model):
     def _select(self):
         select_str = """
         , sub.number, sub.cost_total, sub.price_total - sub.cost_total as benefit_total,
-        sub.ranking1_id, sub.ranking2_id, sub.trademark_id, sub.weight_net * sub.product_qty as weight_net
+        sub.ranking1_id, sub.ranking2_id, sub.trademark_id, sub.weight_net * sub.product_qty as weight_net,
+        sub.ramp_up_date
         """
         return super(AccountInvoiceReport, self)._select() + select_str
 
@@ -52,13 +54,15 @@ class AccountInvoiceReport(models.Model):
                 THEN - ail.cost_subtotal
                 ELSE ail.cost_subtotal
             END) AS cost_total,
-        pt.ranking1_id, pt.ranking2_id, pt.trademark_id, pt.weight_net
+        pt.ranking1_id, pt.ranking2_id, pt.trademark_id, pt.weight_net,
+        pr.ramp_up_date
         """
         return super(AccountInvoiceReport, self)._sub_select() + select_str
 
     def _group_by(self):
         group_by_str = """
-        , ai.number, pt.ranking1_id, pt.ranking2_id, pt.trademark_id, pt.weight_net
+        , ai.number, pt.ranking1_id, pt.ranking2_id, pt.trademark_id, pt.weight_net,
+        pr.ramp_up_date
         """
         return super(AccountInvoiceReport, self)._group_by() + group_by_str
 

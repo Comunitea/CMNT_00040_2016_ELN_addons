@@ -27,8 +27,8 @@
                         <field name="by_product" colspan="3"/>
                         <field name="product_id" colspan="3" attrs="{'readonly':[('by_product', '=', False)],'required':[('by_product','=',True)]}"/>
                         <newline/>
-                        <field name="by_workcenter_id" colspan="3" />
-                        <field name="workcenter_id" colspan="3" attrs="{'readonly':[('by_workcenter_id', '=', False)],'required':[('by_workcenter_id','=',True)]}"/>
+                        <field name="by_workcenter" colspan="3" />
+                        <field name="workcenter_id" colspan="3" attrs="{'readonly':[('by_workcenter', '=', False)],'required':[('by_workcenter','=',True)]}"/>
                     </group>
                     <newline/>
                     <footer>

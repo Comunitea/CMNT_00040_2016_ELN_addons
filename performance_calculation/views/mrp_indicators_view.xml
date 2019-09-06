@@ -41,11 +41,27 @@
                                 </tree>
                             </field>
                         </page>
-                        <page string="Summary">
-                            <field name="line_summary_ids" colspan="4" nolabel="1" widget="one2many_list" readonly="1">
+                        <page string="Summary by workcenter">
+                            <field name="line_summary_by_workcenter_ids" colspan="4" nolabel="1" widget="one2many_list" readonly="1">
                                 <tree string="Summary">
                                     <field name="name"/>
                                     <field name="workcenter_id"/>
+                                    <field name="availability" widget="progressbar"/>
+                                    <field name="availability" string="%"/>
+                                    <field name="performance" widget="progressbar"/>
+                                    <field name="performance" string="%"/>
+                                    <field name="quality" widget="progressbar"/>
+                                    <field name="quality" string="%"/>
+                                    <field name="oee" widget="progressbar"/>
+                                    <field name="oee" string="%"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Summary by product">
+                            <field name="line_summary_by_product_ids" colspan="4" nolabel="1" widget="one2many_list" readonly="1">
+                                <tree string="Summary">
+                                    <field name="name"/>
+                                    <field name="product_id"/>
                                     <field name="availability" widget="progressbar"/>
                                     <field name="availability" string="%"/>
                                     <field name="performance" widget="progressbar"/>
