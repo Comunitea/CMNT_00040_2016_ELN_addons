@@ -241,7 +241,16 @@ class ProductionAppRegistry(models.Model):
             production_qty = reg.production_id.product_qty
             production_uos_qty = reg.production_id.product_uos_qty
             bom_app_notes = reg.production_id.bom_id.app_notes or ''
-            process_type = reg.workcenter_id.process_type
+            process_type = reg.production_id.workcenter_lines.filtered(
+                lambda r: r.workcenter_id.process_type).mapped('workcenter_id.process_type')
+            if 'toasted' in process_type and 'fried' in process_type:
+                process_type = False
+            elif 'toasted' in process_type: # Proceso prioritario
+                process_type = u'toasted'
+            elif 'fried' in process_type: # Proceso prioritario
+                process_type = u'fried'
+            else:
+                process_type = process_type and process_type[0] or False
             res.update(allowed_operators=allowed_operators,
                        active_operator_ids=active_operator_ids,
                        product_use_date=use_date,
