@@ -30,3 +30,29 @@ class StockInvoiceOnshipping(models.TransientModel):
         if invalid_ids:
             raise exceptions.Warning(_("Warning!"), _("At least one of the selected picking lists are not in 'done' state and cannot be invoiced."))
         return super(StockInvoiceOnshipping, self).view_init(fields_list)
+
+    @api.model
+    def _get_journal(self):
+        res = super(StockInvoiceOnshipping, self)._get_journal()
+        if res and 'sii_simplified_invoice' in self.env['res.partner']._fields:
+            res_ids = self.env.context.get('active_ids', [])
+            picking_ids = self.env['stock.picking'].browse(res_ids)
+            sii_enabled = picking_ids[0].company_id.sii_enabled
+            if sii_enabled:
+                simplified_invoice = picking_ids.mapped('partner_id.commercial_partner_id.sii_simplified_invoice')
+                if not all(simplified_invoice) and any(simplified_invoice):
+                    raise exceptions.Warning(_("Warning!"), _("It is not allowed to create ordinary invoices and simplified invoices at the same time."))
+                if all(simplified_invoice):
+                    aj_obj = self.env['account.journal']
+                    journal_id = aj_obj.browse(res)
+                    domain = [
+                        ('type', '=', journal_id.type),
+                        ('name', 'ilike', 'simplifi'),
+                    ]
+                    new_journal_id = aj_obj.search(domain, limit=1)
+                    if not new_journal_id:
+                        raise exceptions.Warning(_("Warning!"), _("A valid journal was not found for simplified invoices."))
+                    res = new_journal_id.id
+        return res
+
+    journal_id = fields.Many2one(default=_get_journal)
