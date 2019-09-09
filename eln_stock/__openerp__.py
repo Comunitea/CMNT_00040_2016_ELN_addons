@@ -29,6 +29,7 @@
     "depends": [
         'base',
         'stock',
+        'stock_account',
         'eln_sale', # Because of commitment_date group
         'picking_invoice_rel',
         'web_readonly_bypass',
