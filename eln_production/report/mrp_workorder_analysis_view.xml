@@ -9,8 +9,17 @@
             <field name="model">mrp.workorder</field>
             <field name="inherit_id" ref="mrp_operations.view_report_mrp_workorder_graph"/>
             <field name="arch" type="xml">
-                <field name="total_cycles" position="replace">
+                <field name="total_cycles" position="attributes">
+                    <attribute name="type"></attribute>
+                </field>
+                <field name="total_cycles" position="after">
                     <field name="product_weight" type="measure"/>
+                </field>
+                <field name="date" position="attributes">
+                    <attribute name="type"></attribute>
+                </field>
+                <field name="date" position="after">
+                    <field name="date_start" interval="month" type="col"/>
                 </field>
             </field>
         </record>
