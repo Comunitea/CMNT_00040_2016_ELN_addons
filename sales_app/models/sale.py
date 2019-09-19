@@ -88,6 +88,7 @@ class SaleOrder(models.Model):
             del data['partner_shipping_id']
         values.update(data)
         order_id = sale_obj.create(values)
+        order_id.onchange_shop_id()
         dp = self.env['decimal.precision'].precision_get('Product Price')
         order_line = vals.get('order_line', [])
         for line in order_line:
