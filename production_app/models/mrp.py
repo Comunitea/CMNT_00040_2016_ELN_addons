@@ -104,37 +104,65 @@ class MrpProduction(models.Model):
                 lambda r: r.state == 'validated')
             line_scrapped_ids = registry_ids.mapped('line_scrapped_ids')
             for line_scrapped_id in line_scrapped_ids:
-                scrapped = False
-                for move_line in prod.move_lines:
-                    key1 = (move_line.product_id, move_line.restrict_lot_id, move_line.location_id)
-                    key2 = (line_scrapped_id.product_id, line_scrapped_id.lot_id, line_scrapped_id.location_id)
-                    if key1 == key2:
-                        product_qty = line_scrapped_id.product_qty
-                        restrict_lot_id = line_scrapped_id.lot_id
-                        domain = [
-                            ('scrap_location', '=', True),
-                            ('usage', '!=', 'view'),
-                        ]
-                        if line_scrapped_id.scrap_type == 'scrap':
-                            domain += [
-                                '|',
-                                ('name', 'ilike', 'desechado'),
-                                ('name', 'ilike', 'scrap'),
-                            ]
-                        if line_scrapped_id.scrap_type == 'losses':
-                            domain += [
-                                '|',
-                                ('name', 'ilike', 'mermas'),
-                                ('name', 'ilike', 'losses'),
-                            ]
-                        scrap_location_id = self.env['stock.location'].search(domain, limit=1)
-                        move_line.action_scrap(
-                            product_qty, scrap_location_id.id, restrict_lot_id.id)
-                        scrapped = True
-                        break
-                if not scrapped:
+                product_id = line_scrapped_id.product_id
+                if product_id.type == 'service':
+                    continue
+                product_qty = line_scrapped_id.product_qty
+                if product_qty <= 0:
                     raise exceptions.Warning(
-                        _("There is no valid consumption line to scrap."))
+                        _('Please provide a positive quantity to scrap.'))
+                domain = [
+                    ('scrap_location', '=', True),
+                    ('usage', '!=', 'view'),
+                ]
+                if line_scrapped_id.scrap_type == 'scrap':
+                    domain += [
+                        '|',
+                        ('name', 'ilike', 'desechado'),
+                        ('name', 'ilike', 'scrap'),
+                    ]
+                if line_scrapped_id.scrap_type == 'losses':
+                    domain += [
+                        '|',
+                        ('name', 'ilike', 'mermas'),
+                        ('name', 'ilike', 'losses'),
+                    ]
+                scrap_location_id = self.env['stock.location'].search(domain, limit=1)
+                if not scrap_location_id:
+                    raise exceptions.Warning(
+                        _("There is no valid scrap location."))
+                source_location_id = line_scrapped_id.location_id.id
+                destination_location_id = scrap_location_id.id
+                restrict_lot_id = line_scrapped_id.lot_id
+                if not restrict_lot_id and (product_id.track_production or product_id.track_all):
+                    raise exceptions.Warning(
+                        _('You must assign a serial number for the scrapped product'),
+                        _('%s') % (product_id.name))
+                procure_method = self._get_raw_material_procure_method(
+                    product_id, location_id=source_location_id, location_dest_id=destination_location_id)
+                warehouse_id = self.env['stock.location'].get_warehouse(prod.location_src_id)
+                vals = {
+                    'name': prod.name,
+                    'date': prod.date_planned,
+                    'date_expected': prod.date_planned,
+                    'product_id': product_id.id,
+                    'product_uom_qty': product_qty,
+                    'product_uom': product_id.uom_id.id,
+                    'product_uos_qty': False,
+                    'product_uos': False,
+                    'location_id': source_location_id,
+                    'location_dest_id': destination_location_id,
+                    'restrict_lot_id': restrict_lot_id.id,
+                    'company_id': prod.company_id.id,
+                    'procure_method': procure_method,
+                    'raw_material_production_id': prod.id,
+                    'price_unit': product_id.standard_price,
+                    'origin': prod.name,
+                    'warehouse_id': warehouse_id,
+                    'group_id': prod.move_prod_id.group_id.id,
+                } 
+                move_id = self.env['stock.move'].create(vals)
+                move_id.action_done()
         return super(MrpProduction, self).action_produce(
             production_id, production_qty, production_mode, wiz=wiz)
 

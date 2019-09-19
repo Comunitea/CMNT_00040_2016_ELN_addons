@@ -193,14 +193,18 @@
                 <field name="production_id"/>
                 <field name="state"/>
                 <separator/>
-                <filter string="Pending Productions" name="pending_filter" domain="[('production_state','not in',('done','cancel'))]"/>
                 <filter string="Set-Up" name="setup_filter" domain="[('state','=','setup')]"/>
                 <filter string="Started" name="started_filter" domain="[('state','=','started')]"/>
+                <filter string="Finished" name="finished_filter" domain="[('state','=','finished')]"/>
+                <separator/>
                 <filter string="Consumptions Done" name="consumptions_done_filter" domain="[('consumptions_done','=',True)]"/>
                 <filter string="Consumptions Pending" name="consumptions_pending_filter" domain="[('consumptions_done','=',False)]"/>
                 <separator/>
+                <filter string="Pending Productions" name="pending_filter" domain="[('production_state','not in',('done','cancel'))]"/>
+                <separator/>
+                <filter string="Ready to Validate" name="ready_to_validate_filter" domain="[('state','=','finished'),('consumptions_done','=',True)]"/>
+                <separator/>
                 <group expand="0" string="Group By">
-                    <filter string="Work Order" icon="terp-go-home" domain="[]" context="{'group_by':'wc_line_id'}"/>
                     <filter string="Workcenter" icon="terp-go-home" domain="[]" context="{'group_by':'workcenter_id'}"/>
                     <filter string="Status" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'state'}"/>
                 </group>
