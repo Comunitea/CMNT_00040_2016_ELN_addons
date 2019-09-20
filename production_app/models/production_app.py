@@ -1077,11 +1077,23 @@ class ConsumptionLine(models.Model):
         for line in self:
             qty_to_compare = 0.0
             line_in_ids = line.registry_id.line_in_ids.filtered(
-                lambda r: r.product_id == line.product_id)
+                lambda r: (
+                    r.product_id == line.product_id and
+                    r.location_id == line.location_id
+                )
+            )
             line_out_ids = line.registry_id.line_out_ids.filtered(
-                lambda r: r.product_id == line.product_id)
+                lambda r: (
+                    r.product_id == line.product_id and
+                    r.location_id == line.location_id
+                )
+            )
             line_scrapped_ids = line.registry_id.line_scrapped_ids.filtered(
-                lambda r: r.product_id == line.product_id)
+                lambda r: (
+                    r.product_id == line.product_id and
+                    r.location_id == line.location_id
+                )
+            )
             for line_in_id in line_in_ids:
                 qty_to_compare += line_in_id.product_qty
             for line_out_id in line_out_ids:
