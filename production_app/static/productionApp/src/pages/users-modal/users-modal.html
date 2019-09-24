@@ -24,7 +24,7 @@
         <div *ngSwitchCase="'out'">
             <ion-searchbar class="custom-font-size" (ionInput)="getItems($event)"></ion-searchbar>
             <ion-list> 
-                <ion-item-sliding *ngFor="let operator of getLogedOut()">        
+                <ion-item-sliding *ngFor="let operator of getLoggedOut()">
                     <ion-item >
                     <span>{{operator.name}}</span>
                     </ion-item>
@@ -53,7 +53,7 @@
             </ion-card>
 
             <ion-list> 
-                <ion-item-sliding *ngFor="let operator of getLogedIn()">        
+                <ion-item-sliding *ngFor="let operator of getLoggedIn()">
                     <ion-item >
                      <span>{{operator.name}}</span>
                     </ion-item>
