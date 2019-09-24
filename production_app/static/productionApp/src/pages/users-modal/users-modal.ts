@@ -62,20 +62,20 @@ export class UsersModalPage {
 
         this.prodData.logInOperator(operator.id);
 
-        //Remove from loged out list
+        // Remove from logged out list
         this.items = this.items.filter(obj => obj['id'] !== operator.id);
 
-        // Push to loged in list
+        // Push to logged in list
         this.items2.push(operator);
     }
 
     logOutOperator(operator) {
         this.prodData.logOutOperator(operator.id);
 
-        //Remove from loged in list
+        // Remove from logged in list
         this.items2 = this.items2.filter(obj => obj['id'] !== operator.id);
 
-        // Push to loged out list
+        // Push to logged out list
         this.items.push(operator);
     }
 
@@ -100,11 +100,11 @@ export class UsersModalPage {
         }
     }
 
-    getLogedOut() {
+    getLoggedOut() {
         return this.items;
     }
 
-    getLogedIn() {
+    getLoggedIn() {
         return this.items2;
     }
 

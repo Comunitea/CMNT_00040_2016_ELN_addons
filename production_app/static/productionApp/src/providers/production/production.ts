@@ -17,7 +17,7 @@ export class ProductionProvider {
     workcenter: Object = {};
     workline: Object = {};
     worklines: Object[];
-    loged_ids: number[] = [];
+    logged_ids: number[] = [];
     product_ids: number[] = [];
     consume_ids: number[] = [];
     registry_id;
@@ -115,15 +115,24 @@ export class ProductionProvider {
     getAllowedOperators(reg) {
         var allowed_operators = reg['allowed_operators'];
         this.operators = allowed_operators;
+        this.logged_ids = []
+        this.active_operator_id = 0
+        this.odooCon.operatorsById = {}
         for (let indx in allowed_operators) {
             let op = allowed_operators[indx];
-            let log = 'out';
-            let active = false;
-            if (op.id in this.odooCon.operatorsById){
-                log = this.odooCon.operatorsById[op.id].log
-                active = this.odooCon.operatorsById[op.id].active
+            if (op.log == 'in') {
+                this.logged_ids.push(op.id)
             }
-            this.odooCon.operatorsById[op.id] = {'name': op.name, 'let_active': op.let_active, 'active': active, 'operator_line_id': false, 'log': log}    
+            if (op.active) {
+                this.active_operator_id = op.id
+            }
+            this.odooCon.operatorsById[op.id] = {
+                'name': op.name,
+                'let_active': op.let_active,
+                'active': op.active,
+                'operator_line_id': op.operator_line_id,
+                'log': op.log
+            }
         }
     }
 
@@ -195,9 +204,9 @@ export class ProductionProvider {
 
     logInOperator(operator_id) {
         this.odooCon.operatorsById[operator_id]['log'] = 'in'
-        var index = this.loged_ids.indexOf(operator_id);
+        var index = this.logged_ids.indexOf(operator_id);
         if (index <= -1) {
-            this.loged_ids.push(operator_id)
+            this.logged_ids.push(operator_id)
         }
         var values = {'registry_id': this.registry_id, 'operator_id': operator_id, 'date_in': this.getUTCDateStr()};
         this.odooCon.callRegistry('log_in_operator', values).then( (res) => {
@@ -214,9 +223,9 @@ export class ProductionProvider {
 
     logOutOperator(operator_id) {
         this.odooCon.operatorsById[operator_id]['log'] = 'out'
-        var index = this.loged_ids.indexOf(operator_id);
+        var index = this.logged_ids.indexOf(operator_id);
         if (index > -1) {
-            this.loged_ids.splice(index, 1);
+            this.logged_ids.splice(index, 1);
         }
         if (this.active_operator_id === operator_id){
             this.active_operator_id = 0;
@@ -231,9 +240,9 @@ export class ProductionProvider {
         });
     }
 
-    setLogedTimes() {
-        for (let indx in this.loged_ids) {
-            let operator_id =  this.loged_ids[indx]
+    setLoggedTimes() {
+        for (let indx in this.logged_ids) {
+            let operator_id =  this.logged_ids[indx]
             this.logInOperator(operator_id)
         }
     }
@@ -320,7 +329,7 @@ export class ProductionProvider {
             this.odooCon.callRegistry(method, values).then( (reg: Object) => {
                 if ('id' in reg) {
                     this.initData(reg);
-                    this.setLogedTimes();
+                    // this.setLoggedTimes();
                     this.getAllowedOperators(reg);
                     // this.getQualityChecks();
                     this.getConsumptions();

@@ -184,8 +184,9 @@ class ProductionAppRegistry(models.Model):
         wcl_id.write({'registry_id': res.id})
         return res
 
-    @api.model
-    def get_allowed_operators(self, active_ids):
+    @api.multi
+    def get_allowed_operators(self):
+        self.ensure_one()
         res = []
         mrp_workcenter = self.env['mrp.workcenter']
         operators_ids = mrp_workcenter.search([]).mapped('operators_ids')
@@ -196,10 +197,38 @@ class ProductionAppRegistry(models.Model):
             ('department_id', 'in', department_ids.ids),
             ('id', 'in', operators_ids.ids)
         ]
-        for op in self.env['hr.employee'].search(domain):
-            vals = {'id': op.id, 'name': op.name, 'let_active': False}
-            if op.id in active_ids:
-                vals['let_active'] = True
+        operators = self.env['hr.employee'].search(domain)
+        # Buscamos el operario activo
+        active_op_id = False
+        op_line_ids = self.operator_ids.filtered(
+            lambda r: (
+                not r.date_out and
+                r.operator_id in self.workcenter_id.operators_ids
+            )
+        )
+        # Si hay quality checks nos quedamos con el operario que haya validado alguno
+        op_qc_ids = self.qc_line_ids.mapped('operator_id')
+        for op_qc_id in op_qc_ids:
+            if op_qc_id in op_line_ids.mapped('operator_id'):
+                active_op_id = op_qc_id.id
+        # Si no hemos encontrado ninguno elegimos el primero de los logueados
+        if not active_op_id:
+            active_op_id = op_line_ids and op_line_ids[0].operator_id.id or False
+        # Creamos la lista de operadores permitidos
+        for op in operators:
+            op_line_ids = self.operator_ids.filtered(
+                lambda r: not r.date_out and r.operator_id == op)
+            op_line_id = op_line_ids and op_line_ids[0].id or False
+            let_active = op.id in self.workcenter_id.operators_ids.ids
+            active = (active_op_id == op.id)
+            vals = {
+                'id': op.id,
+                'name': op.name,
+                'let_active': let_active,
+                'operator_line_id': op_line_id,
+                'active': active,
+                'log': op_line_id and 'in' or 'out',
+            }
             res.append(vals)
         return res
 
@@ -220,8 +249,7 @@ class ProductionAppRegistry(models.Model):
         if reg:
             res.update(reg.read()[0])
 
-            active_operator_ids = reg.workcenter_id.operators_ids.ids
-            allowed_operators = self.get_allowed_operators(active_operator_ids)
+            allowed_operators = reg.get_allowed_operators()
 
             use_time = reg.production_id.product_id.use_time
             use_date = (datetime.now() + timedelta(use_time + 31))
@@ -251,21 +279,21 @@ class ProductionAppRegistry(models.Model):
                 process_type = u'fried'
             else:
                 process_type = process_type and process_type[0] or False
-            res.update(allowed_operators=allowed_operators,
-                       active_operator_ids=active_operator_ids,
-                       product_use_date=use_date,
-                       change_lot_qc_id=change_lot_qc_id,
-                       product_ids=product_ids,
-                       consume_ids=consume_ids,
-                       production_qty=production_qty,
-                       production_uos_qty=production_uos_qty,
-                       workline_name=vals.get('workline_name', '') or '',
-                       uom=uom_id.name, uos=uos_id.name, uos_coeff=uos_coeff,
-                       uom_id=uom_id.id, uos_id=uos_id.id,
-                       location_src_id=reg.production_id.location_src_id.id,
-                       location_dest_id=reg.production_id.location_dest_id.id,
-                       bom_app_notes=bom_app_notes,
-                       process_type=process_type,
+            res.update(
+                allowed_operators=allowed_operators,
+                product_use_date=use_date,
+                change_lot_qc_id=change_lot_qc_id,
+                product_ids=product_ids,
+                consume_ids=consume_ids,
+                production_qty=production_qty,
+                production_uos_qty=production_uos_qty,
+                workline_name=vals.get('workline_name', '') or '',
+                uom=uom_id.name, uos=uos_id.name, uos_coeff=uos_coeff,
+                uom_id=uom_id.id, uos_id=uos_id.id,
+                location_src_id=reg.production_id.location_src_id.id,
+                location_dest_id=reg.production_id.location_dest_id.id,
+                bom_app_notes=bom_app_notes,
+                process_type=process_type,
             )
         return res
 
@@ -555,12 +583,12 @@ class ProductionAppRegistry(models.Model):
                 'cleaning_end': date,
                 'qty': qty,
             })
-            operators_loged = self.env['operator.line']
+            operators_logged = self.env['operator.line']
             for op in reg.operator_ids:
                 if not op.date_out:
-                    operators_loged += op
-            if operators_loged:
-                operators_loged.write({
+                    operators_logged += op
+            if operators_logged:
+                operators_logged.write({
                     'date_out': date,
                 })
             res = reg.read()[0]
@@ -883,17 +911,6 @@ class ProductionAppRegistry(models.Model):
         res = self.env['stop.line'].create(vals)
         return res
 
-    @api.multi
-    def create_operator_line(self, operator_id, date_in):
-        self.ensure_one()
-        vals = {
-            'registry_id': self.id,
-            'operator_id': operator_id,
-            'date_in': date_in
-        }
-        res = self.env['operator.line'].create(vals)
-        return res
-
     @api.model
     def log_in_operator(self, values):
         res = {}
@@ -911,7 +928,12 @@ class ProductionAppRegistry(models.Model):
             op_obj = self.env['operator.line']
             op_line_id = op_obj.search(domain, order='date_in', limit=1)
             if not op_line_id:
-                op_line_id = reg.create_operator_line(values['operator_id'], date)
+                vals = {
+                    'registry_id': reg.id,
+                    'operator_id': values['operator_id'],
+                    'date_in': date,
+                }
+                op_line_id = op_obj.create(vals)
             res = {'operator_line_id': op_line_id.id}
         return res
 
@@ -925,8 +947,11 @@ class ProductionAppRegistry(models.Model):
             date = values['date_out']
         operator_line_id = values.get('operator_line_id', False)
         if reg and operator_line_id:
-                self.env['operator.line'].browse(operator_line_id).write({
-                    'date_out': date})
+            op_obj = self.env['operator.line']
+            vals = {
+                'date_out': date,
+            }
+            op_obj.browse(operator_line_id).write(vals)
         return res
 
     @api.model
