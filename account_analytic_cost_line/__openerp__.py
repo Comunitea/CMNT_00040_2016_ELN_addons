@@ -25,16 +25,19 @@
     "summary": "",
     "version": "8.0.1.0.0",
     "category": "Uncategorized",
+    "description": "Account analytic cost line",
     "website": "comunitea.com",
     "author": "Comunitea",
     "license": "AGPL-3",
     "application": False,
-    "installable": True,
     "depends": [
-        "account",
-        "picking_invoice_rel"
+        'account',
+        'picking_invoice_rel',
     ],
     "data": [
-    'views/account.xml'
+        'views/account.xml',
     ],
+    'demo_xml': [],
+    'installable': True,
+    'active': False,
 }
