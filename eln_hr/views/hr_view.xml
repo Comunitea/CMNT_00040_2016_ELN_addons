@@ -25,19 +25,19 @@
 
                 <field name="address_home_id" position="after">
                     <group colspan="2" col="4">
-                        <field name="personal_street1" placeholder="Calle 1" colspan="4" nolabel="1" />
-                        <field name="personal_street2" placeholder="Calle 2" colspan="4" nolabel="1" />
-                        <field name="personal_zip" placeholder="Código postal" colspan="1" nolabel="1" />
-                        <field name="personal_city" placeholder="Ciudad" colspan="3" nolabel="1" />
-                        <field name="personal_state" placeholder="Provincia" colspan="2" nolabel="1" />
-                        <field name="personal_country" placeholder="País" colspan="2" nolabel="1" />
-                        <field name="personal_phone" placeholder="Teléfono fijo" colspan="2" />
-                        <field name="personal_mobile" placeholder="Teléfono móvil" colspan="2"  />
+                        <field name="personal_street1" placeholder="Street 1" colspan="4" nolabel="1" />
+                        <field name="personal_street2" placeholder="Street 2" colspan="4" nolabel="1" />
+                        <field name="personal_zip" placeholder="Zip code" colspan="1" nolabel="1" />
+                        <field name="personal_city" placeholder="City" colspan="3" nolabel="1" />
+                        <field name="personal_state" placeholder="State" colspan="2" nolabel="1" />
+                        <field name="personal_country" placeholder="Country" colspan="2" nolabel="1" />
+                        <field name="personal_phone" placeholder="Fixed phone" colspan="2" />
+                        <field name="personal_mobile" placeholder="Mobile phone" colspan="2"  />
                         <field name="personal_email" placeholder="email" colspan="4"  />
                     </group>
                 </field>
                 <group string="Status" position="before">
-                    <group colspan="4" col="4" string="Persona(s) aviso en caso de emergencia">
+                    <group colspan="4" col="4" string="Persons to notify in case of emergency">
                         <field name="persona_aviso_emergencia_1" />
                         <field name="telefono_aviso_emergencia_1" />
                         <field name="persona_aviso_emergencia_2" />
@@ -49,7 +49,7 @@
 
                 <page string="Personal Information" position="inside">
                     <group name="hr_exp_lab">
-                        <separator string="Información contratación" colspan="4"/>
+                        <separator string="Recruitment Information" colspan="4"/>
                             <group colspan="4" col="6">
                                 <field name="tipo_contrato_id" />
                                 <field name="fecha_alta_empresa" />
@@ -58,7 +58,7 @@
                                 <field name="fecha_fijo_empresa" />
                                 <field name="motivo_baja_empresa" />
                             </group>
-                        <separator string="Contrataciones anteriores" colspan="4"/>
+                        <separator string="Previous Recruitments" colspan="4"/>
                             <field name="contrataciones_anteriores_ids" colspan="4" nolabel="1">
                                 <tree string="" editable="top">
                                     <field name="empresa" />
@@ -71,7 +71,7 @@
                                     <field name="fecha_fin" />
                                 </form>
                             </field>
-                        <separator string="Formación académica" colspan="4"/>
+                        <separator string="Academic Background" colspan="4"/>
                             <field name="formacion_academica_ids" colspan="4" nolabel="1">
                                 <tree string="" editable="top">
                                     <field name="estudios" />
@@ -84,7 +84,7 @@
                                     <field name="final_year" />
                                 </form>
                             </field>
-                        <separator string="Experiencia laboral" colspan="4"/>
+                        <separator string="Work Experience" colspan="4"/>
                             <field name="experiencia_laboral_ids" colspan="4" nolabel="1">
                                 <tree string="" editable="top">
                                     <field name="empresa" />
@@ -99,7 +99,7 @@
                                     <field name="fecha_fin" />
                                 </form>
                             </field>
-                        <separator string="Formación recibida en la empresa" colspan="4"/>
+                        <separator string="Company Training" colspan="4"/>
                             <field name="formacion_en_la_empresa_ids" colspan="4" nolabel="1">
                                 <tree string="" editable="top">
                                     <field name="curso_documentacion" />
@@ -116,13 +116,13 @@
                                     <field name="fecha_valoracion" />
                                 </form>
                             </field>
-                        <separator string="Carnet de conducir" colspan="4"/>
+                        <separator string="Driving License" colspan="4"/>
                             <group colspan="4" col="6">
                                 <field name="carnet_conducir_b" />
                                 <field name="carnet_conducir_c" />
                                 <field name="carnet_conducir_c1" />
                             </group>
-                        <separator string="Observaciones" colspan="4"/>
+                        <separator string="Observations" colspan="4"/>
                             <group colspan="4">
                                 <field name="observaciones" nolabel="1"/>
                             </group>

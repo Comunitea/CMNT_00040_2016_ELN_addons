@@ -7,6 +7,7 @@
     'version': '8.0.1.0.0',
     'author': 'Comunitea, ',
     "category": "Eln sale report",
+    "description": "Eln Sale reports xls",
     'license': 'AGPL-3',
     'depends': [
         'base',

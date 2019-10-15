@@ -367,19 +367,60 @@ class ProductionAppRegistry(models.Model):
             product_ids = '(' + str(product_ids[0]) + ')'
         else:
             product_ids = str(tuple(product_ids))
-        sql = "select spl.id, spl.name, spl.use_date, pp.id as product_id, sl.id as location_id, sum(sq.qty) as qty_available " \
-              "from stock_quant sq " \
-              "join stock_production_lot spl on spl.id = sq.lot_id " \
-              "join stock_location sl on sl.id = sq.location_id " \
-              "join product_product pp on pp.id = sq.product_id " \
-              "where sl.usage = 'internal' and pp.id in %s and spl.locked_lot = False " \
-              "group by spl.id, pp.id, sl.id " \
-              "having sum(sq.qty) > 0.00 " \
-              "order by use_date" % (product_ids)
+        sql = """
+            select spl.id,
+                spl.name,
+                spl.use_date,
+                sq.product_id,
+                sl.id as location_id,
+                sum(sq.qty) as qty_available
+            from stock_quant sq
+            join stock_production_lot spl on spl.id = sq.lot_id
+            join stock_location sl on sl.id = sq.location_id
+            where spl.locked_lot = False
+                and sl.usage = 'internal'
+                and sq.product_id in %s
+            group by spl.id, sq.product_id, sl.id
+            having sum(sq.qty) > 0.00
+            order by use_date
+        """ % (product_ids)
         self._cr.execute(sql)
         records = self._cr.fetchall()
         lots = []
+        lot_loc_ids = []
         for lot_id in records:
+            vals = {
+                'id': lot_id[0] or 0,
+                'name': lot_id[1] or '',
+                'use_date': lot_id[2] or False,
+                'product_id': lot_id[3] or False,
+                'location_id': lot_id[4] or False,
+                'qty_available': lot_id[5] or False,
+            }
+            lots.append(vals)
+            lot_loc_ids.append((lot_id[0] or 0, lot_id[4] or False))
+        sql = """
+            select spl.id,
+                ('V#' || spl.name) as name,
+                spl.use_date,
+                prod.product_id,
+                prod.location_dest_id as location_id,
+                min(prod.product_qty) as qty_available
+            from production_app_registry app
+            join mrp_production_workcenter_line wl on wl.id = app.wc_line_id
+            join mrp_production prod on prod.id = wl.production_id
+            join stock_production_lot spl on spl.id = app.lot_id
+            where spl.locked_lot = False
+                and prod.state in ('confirmed', 'ready', 'in_production', 'finished')
+                and prod.product_id in %s
+            group by spl.id, prod.product_id, prod.location_dest_id
+            order by use_date
+        """ % (product_ids)
+        self._cr.execute(sql)
+        records = self._cr.fetchall()
+        for lot_id in records:
+            if (lot_id[0] or 0, lot_id[4] or False) in lot_loc_ids:
+                continue
             vals = {
                 'id': lot_id[0] or 0,
                 'name': lot_id[1] or '',
