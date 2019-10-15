@@ -26,12 +26,14 @@
     'description': """Módulo que amplía la información de la ficha de empleado en recursos humanos""",
     'author': 'Pedro Gómez',
     'website': 'www.elnogal.com',
-    "depends" : ['hr'],
+    "depends" : [
+        'hr',
+    ],
     "init_xml" : [],
     'data': [
         'security/eln_hr_security.xml',
         'security/ir.model.access.csv',
-        'hr_view.xml',
+        'views/hr_view.xml',
     ],
     "demo_xml" : [],
     "active": False,

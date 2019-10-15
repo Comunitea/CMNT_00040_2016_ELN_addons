@@ -13,9 +13,3 @@ access_hr_employee_contrataciones_anteriores_emp,hr.employee.contrataciones_ante
 
 access_hr_employee_tipo_contrato_user,hr.employee.tipo_contrato.user,model_hr_employee_tipo_contrato,base.group_hr_user,1,1,1,1
 access_hr_employee_tipo_contrato_emp,hr.employee.tipo_contrato.emp,model_hr_employee_tipo_contrato,base.group_user,1,0,0,0
-
-access_hr_job_stock_user,hr.job.stock.user,model_hr_job,stock.group_stock_user,1,0,0,0
-access_hr_job_mrp_user,hr.job.mrp.user,model_hr_job,mrp.group_mrp_user,1,0,0,0
-
-access_hr_employee_stock_user,hr.employee.stock.user,model_hr_employee,stock.group_stock_user,1,0,0,0
-access_hr_employee_mrp_user,hr.employee.mrp.user,model_hr_employee,mrp.group_mrp_user,1,0,0,0
