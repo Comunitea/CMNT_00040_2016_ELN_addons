@@ -12,10 +12,6 @@
                     <field name="cost_type"/>
                     <field name="cost_ratio"/>
                     <field name="distribution_mode"/>
-                    <!--field name="budget_item"/-->
-                    <field name="forecast_type"/>
-                    <field name="forecast_cost_ratio"/>
-                    <field name="real_cost_ratio"/>
                 </tree>
             </field>
         </record>
@@ -39,26 +35,15 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Cost Types">
-                    <group col="6" colspan="6">
+                    <group col="4" colspan="4">
                         <field name="name"/>
                         <field name="cost_type" />
                     </group>                    
-                    <group string="Configuration" col="6" colspan="6" attrs="{'invisible':[('cost_type', '!=', 'ratio')]}">
+                    <group string="Configuration" colspan="4" attrs="{'invisible':[('cost_type', '!=', 'ratio')]}">
                        <group colspan="2" col="2">
-                            <separator string="To apply" colspan="2"/>
                             <field name="cost_ratio" attrs="{'required':[('cost_type', '=', 'ratio')]}"/>
                             <field name="distribution_mode" attrs="{'required':[('cost_type', '=', 'ratio')]}"/>
                         </group>
-                        <group colspan="2" col="2">
-                           <separator string="Forecasted" colspan="2"/>
-                            <field name="forecast_cost_ratio"/>
-                            <!--field name="budget_item"/-->
-                            <field name="forecast_type"/>
-                       </group>
-                        <group colspan="2" col="2">
-                           <separator string="Real" colspan="2"/>
-                            <field name="real_cost_ratio"/>
-                       </group>
                     </group>
                 </form>
             </field>

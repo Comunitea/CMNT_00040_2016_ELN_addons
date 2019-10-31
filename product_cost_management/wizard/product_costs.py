@@ -18,273 +18,222 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import osv, fields
+from openerp import models, fields, api, exceptions, _
 import time
-import calendar
-import datetime
-from dateutil.relativedelta import relativedelta
-import openerp.addons.decimal_precision as dp
-from openerp.tools.translate import _
+from openerp.addons.decimal_precision import decimal_precision as dp
+
 
 def rounding(f, r):
     if not r:
         return f
     return round(f / r) * r
 
-class product_costs_line(osv.osv_memory):
-    _name = 'product.costs.line'
-    _description = ''
-    _columns = {
-        'sequence': fields.integer('Sequence', required=True),
-        'name': fields.char('Name', size=255, required=True),
-        'theoric_cost': fields.float('Theoric Cost', digits=(16,3), required=True),
-        'real_cost': fields.float('Real Cost', digits=(16,3), required=True),
-        'forecasted_cost': fields.float('Forecasted Cost', digits=(16,3), required=True),
-        'tc_rc_percent': fields.float('TC vs RC (%)', digits=(4,2), readonly="True"),
-        'tc_fc_percent': fields.float('TC vs FC (%)', digits=(4,2), readonly="True"),
-        'inventory': fields.boolean('Inventory'),
-        'total': fields.boolean('Total')
-    }
-    _defaults = {
-        'theoric_cost': 0.0,
-        'real_cost': 0.0,
-        'forecasted_cost': 0.0
-    }
 
-    def _get_costs(self, cr, uid, ids, element_id=False, product_id=False, context=None):
+class ProductCostsLine(models.TransientModel):
+    _name = 'product.costs.line'
+
+    name = fields.Char('Name', size=255, required=True)
+    sequence = fields.Integer('Sequence', required=True)
+    theoric_cost = fields.Float('Theoric Cost',
+        required=True, digits=dp.get_precision('Product Price'),
+        default=0.0)
+    forecasted_cost = fields.Float('Forecasted Cost',
+        required=True, digits=dp.get_precision('Product Price'),
+        default=0.0)
+    tc_fc_percent = fields.Float('TC vs FC (%)',
+        readonly=True, digits=(4,2))
+    inventory = fields.Boolean('Inventory')
+    total = fields.Boolean('Total')
+
+    @api.model
+    def _get_costs(self, element_id=False, product_id=False):
         theoric = 0.0
-        real = 0.0
         forecasted = 0.0
-        element_facade = self.pool.get('cost.structure.elements')
-        product_facade = self.pool.get('product.product')
-        user_facade = self.pool.get('res.users')
-        loc_facade = self.pool.get('stock.location')
-        uom_obj = self.pool.get('product.uom')
-        bom_obj = self.pool.get('mrp.bom')
+        product_obj = self.env['product.product']
+        uom_obj = self.env['product.uom']
+        bom_obj = self.env['mrp.bom']
         if element_id and product_id:
-            element = element_facade.browse(cr, uid, element_id)
-            product = product_facade.browse(cr, uid, product_id)
-            # Time
-            time_start = False
-            time_stop = False
-            #if element.time == 'current_year':
-            year = time.strftime('%Y')
-            time_start = "01-01-" + year + " 00:00:01"
-            first_day, last_day = calendar.monthrange(int(year), 12)
-            time_stop = str(last_day) + "-12-" + year + " 23:59:59"
             # THEORIC COST
-            if element.cost_type == 'bom':
-                if product.bom_ids:
-                #if product.supply_method == 'produce' and product.bom_ids:
-                    bom = product.bom_ids[0] #Cogemos la primera
-                    #aqui no hace falta iterar.
-                    factor = uom_obj._compute_qty(cr, uid, bom.product_uom.id, bom.product_qty, product.uom_id.id)
-                    res1, res2 = bom_obj._bom_explode(cr, uid, bom, product.id, factor / bom.product_qty, properties=[])#, addthis=False, level=0, routing_id=False)
+            if element_id.cost_type == 'bom':
+                if product_id.bom_ids:
+                    bom = product_id.bom_ids[0]
+                    factor = uom_obj._compute_qty(
+                        bom.product_uom.id, bom.product_qty, product_id.uom_id.id)
+                    res1, res2 = bom_obj._bom_explode(bom, product_id.id, factor / bom.product_qty, properties=[])
                     if res1:
                         for r in res1:
-                            productb = product_facade.browse(cr, uid, r['product_id'])
-                            if productb:
+                            if r['product_id']:
+                                productb = product_obj.browse(r['product_id'])
                                 theoric += productb.standard_price * r['product_qty']
-                                #Si el producto tiene lista de materiales y se usa en la estructura de costes
-                                #calculamos de forma recursiva el valor forecasted_price
-                                if 'bom' in [x.cost_type for x in productb.cost_structure_id.elements]:
-                                    c = context.copy()
-                                    c['cron'] = True
-                                    c['update_costs'] = False
-                                    c['register_costs'] = False
-                                    c['product_id'] = productb.id
-                                    cost = self.get_product_costs(cr, uid, ids, c)
+                                # Si el producto tiene lista de materiales y se usa en la estructura de costes
+                                # calculamos de forma recursiva el valor forecasted_price
+                                if 'bom' in productb.cost_structure_id.elements.mapped('cost_type'):
+                                    ctx = self._context.copy()
+                                    ctx.update(
+                                        update_costs=False,
+                                        register_costs=False,
+                                        product_id=productb.id,
+                                    )
+                                    cost = self.with_context(ctx).get_product_costs()
                                     forecasted_price = cost.get('forecasted_price', False) or productb.forecasted_price or productb.standard_price or 0.0
                                 else:
                                     forecasted_price = productb.forecasted_price or productb.standard_price or 0.0
                                 forecasted += forecasted_price * r['product_qty']
                         theoric = theoric / (factor or 1.0)
                         forecasted = forecasted / (factor or 1.0)
-            elif element.cost_type == 'standard_price':
-                    theoric = product.standard_price or 0.0
-                    forecasted = product.forecasted_price or product.standard_price or 0.0
-            elif element.cost_type == 'ratio':
-                if element.distribution_mode == 'eur':
-                    theoric = element.cost_ratio * product.standard_price
-                    forecasted = element.cost_ratio * (product.forecasted_price or product.standard_price or 0.0)
-                elif element.distribution_mode == 'units':
-                    theoric = element.cost_ratio
+            elif element_id.cost_type == 'standard_price':
+                    theoric = product_id.standard_price or 0.0
+                    forecasted = product_id.forecasted_price or product_id.standard_price or 0.0
+            elif element_id.cost_type == 'ratio':
+                if element_id.distribution_mode == 'eur':
+                    theoric = element_id.cost_ratio * product_id.standard_price
+                    forecasted = element_id.cost_ratio * (product_id.forecasted_price or product_id.standard_price or 0.0)
+                elif element_id.distribution_mode == 'units':
+                    theoric = element_id.cost_ratio
                     forecasted = theoric
-                elif element.distribution_mode == 'kg':
-                    theoric = element.cost_ratio * product.weight_net
+                elif element_id.distribution_mode == 'kg':
+                    theoric = element_id.cost_ratio * product_id.weight_net
                     forecasted = theoric
-                elif element.distribution_mode == 'min':
-                    if product.bom_ids:
-                        bom = product.bom_ids[0]
+                elif element_id.distribution_mode == 'min':
+                    if product_id.bom_ids:
+                        bom = product_id.bom_ids[0]
                         if bom.routing_id:
                             hours = 0.0
                             for wc_use in bom.routing_id.workcenter_lines:
                                 wc = wc_use.workcenter_id
-                                qty_per_cycle = uom_obj._compute_qty(cr, uid, wc_use.uom_id.id, wc_use.qty_per_cycle, product.uom_id.id)
+                                qty_per_cycle = uom_obj._compute_qty(
+                                    wc_use.uom_id.id, wc_use.qty_per_cycle, product_id.uom_id.id)
                                 hour = (wc_use.hour_nbr / qty_per_cycle) * (wc_use.operators_number or 1.0)
                                 hour = hour * (wc.time_efficiency or 1.0)
                                 hour = hour / (wc.performance_factor or 1.0)
                                 hour = hour / (bom.routing_id.availability_ratio or 1.0)
                                 hour = float(hour)
                                 hours += hour
-                            theoric = element.cost_ratio * hours * 60
+                            theoric = element_id.cost_ratio * hours * 60
                             forecasted = theoric
-            elif element.cost_type == 'total':
+            elif element_id.cost_type == 'total':
                 theoric = 0.0
                 forecasted = theoric
-            elif element.cost_type == 'inventory':
+            elif element_id.cost_type == 'inventory':
                 theoric = 0.0
                 forecasted = theoric
-            # REAL COST
-            cost = 0.0
-            context.update({'to_date': time_stop[:10]})
-            # DATA FOR WHERE CLAUSE
-            # Destination location
-            domain = ['|',
-                     ('usage', '=', 'customer'),
-                     ('usage', '=', 'production')]
-            loc_dest_ids = loc_facade.search(cr,
-                                             uid,
-                                             domain)
-            # Company
-            company = user_facade.browse(cr, uid, uid).company_id
-            # QUERY
-            query = "select sum(price_unit)/sum(product_qty) from stock_move \
-                        where product_id = " + str(product_id) + \
-                        " and company_id = " + str(company.id) + \
-                        " and location_dest_id in " + \
-                        str(tuple(loc_dest_ids)) + \
-                        " and state = 'done' \
-                        and date <= '" + time_stop + \
-                        "' and date >= '" + time_start + "'"
-            cr.execute (query)
-            a = cr.fetchall()
-            if a and a[0] and a[0][0]:
-                cost += a[0][0]
-            real = cost
-        return theoric, real, forecasted
+        return theoric, forecasted
 
-    def get_product_costs(self, cr, uid, ids, context=None):
-        if context is None:
-            context = {}
-        prod = self.pool.get('product.product')
-        prod_cost = self.pool.get('product.cost')
-        prod_cost_line = self.pool.get('product.cost.lines')
-        lines = []
+    @api.model
+    def get_product_costs(self):
+        prod_obj = self.env['product.product']
+        prod_cost_obj = self.env['product.cost']
+        prod_cost_lines_obj = self.env['product.cost.lines']
         value = {}
-
-        if context.get('product_id', False):
-            pro = [context['product_id']]
+        to_update_costs = []
+        if self._context.get('product_id', False):
+            product_ids = prod_obj.browse(self._context.get('product_id'))
         else:
-            pro = prod.search(cr, uid, [])
-
-        for product in prod.browse(cr, uid, pro):
-
+            product_ids = prod_obj.search([('cost_structure_id', '!=', False)])
+        for product in product_ids:
             if product.cost_structure_id and product.cost_structure_id.elements:
-                if context.get('register_costs', True):
-                    new_prod_cost_id = prod_cost.create(cr, uid, {'product_id': product.id,
-                                                                  'date': time.strftime('%Y-%m-%d %H:%M:%S'),
-                                                                  'company_id': product.cost_structure_id.company_id.id})
-                el = product.cost_structure_id.elements
+                if self._context.get('register_costs', True):
+                    new_prod_cost_id = prod_cost_obj.create({
+                        'product_id': product.id,
+                        'date': time.strftime('%Y-%m-%d %H:%M:%S'),
+                        'company_id': product.cost_structure_id.company_id.id
+                    })
+                elements = product.cost_structure_id.elements
                 sumtheo = 0.0
-                sumreal = 0.0
                 sumforecasted = 0.0
                 theoric = 0.0
-                real = 0.0
                 forecasted = 0.0
-
-                for element in el:
+                for element in elements:
                     if element.cost_type not in ('total', 'inventory'):
-                        theoric, real, forecasted = self._get_costs(cr, uid, ids, element.id, product.id, context)
+                        theoric, forecasted = self._get_costs(element, product)
                         sumtheo += theoric
-                        sumreal += real
                         sumforecasted += forecasted
                     else:
                         theoric = sumtheo
-                        real = sumreal
                         forecasted= sumforecasted
-
-                    vals = {'sequence': element.sequence,
+                    if self._context.get('register_costs', True):
+                        vals = {
+                            'product_cost_id': new_prod_cost_id.id,
+                            'sequence': element.sequence,
                             'name': element.cost_type_id.name,
                             'theoric_cost': theoric,
-                            'real_cost': real,
                             'forecasted_cost': forecasted,
                             'inventory': (element.cost_type == 'inventory'),
                             'total': (element.cost_type in ('total', 'inventory'))
-                            }
-                    if context.get('register_costs', True):
-                        new_id = self.create(cr, uid, vals)
-                        lines.append(new_id)
-                        vals['product_cost_id'] = new_prod_cost_id
-                        prod_cost_line.create(cr, uid, vals)
-                        
-                    vals = {}
-                    if element.cost_type == 'inventory': # Sería el valor a coger para actualizar los costes en la produccion
-                        valor_para_la_entrada = theoric  # El último valor tipo inventario encontrado para actualizar el producto
-                        value = {'inventory_cost': theoric, 'forecasted_price': forecasted}
-                    if context.get('update_costs', False) and element.cost_type == 'total':
-                        prod.write(cr, uid, product.id, {'cost_price_for_pricelist': forecasted})
-
-        if not context.get('cron', False):
-            value = {
-                'domain': str([('id', 'in', lines)]),
-                'view_type': 'form',
-                'view_mode': 'tree',
-                'res_model': 'product.costs.line',
-                'type': 'ir.actions.act_window',
-                'nodestroy': True}
-
+                        }
+                        prod_cost_lines_obj.create(vals)
+                    if element.cost_type == 'inventory': # Es el valor a usar para actualizar los costes en la producción
+                        value = {
+                            'inventory_cost': theoric,
+                            'forecasted_price': forecasted
+                        }
+                    if self._context.get('update_costs', False) and element.cost_type == 'total':
+                        to_update_costs.append((product, forecasted))
+        if to_update_costs:
+            for (product, forecasted) in to_update_costs:
+                product.write({'cost_price_for_pricelist': forecasted})
         return value
 
-    def show_product_costs(self, cr, uid, ids, context=None):
-        if context is None:
-            context = {}
-        prod_cost = self.pool.get('product.cost')
-        prod_cost_lines = self.pool.get('product.cost.lines')
-        lines_ids = []
-        value = {}
-        if context.get('product_id', False):
-            cost_ids = prod_cost.search(cr, uid, [('product_id', '=', context['product_id'])], order="date desc")
-            if cost_ids:
-                lines = prod_cost_lines.search(cr, uid, [('product_cost_id', '=', cost_ids[0])], order="sequence asc")
-                if lines:
-                    lines = prod_cost_lines.browse(cr, uid, lines)
-                    for l in lines:
-                        vals = {'sequence': l.sequence,
-                                'name': l.name,
-                                'theoric_cost': l.theoric_cost,
-                                'real_cost': l.real_cost,
-                                'forecasted_cost': l.forecasted_cost,
-                                'tc_rc_percent': l.tc_rc_percent,
-                                'tc_fc_percent': l.tc_fc_percent,
-                                'inventory': l.inventory,
-                                'total': l.total
-                                }
-                        new_id = self.create(cr, uid, vals)
-                        lines_ids.append(new_id)
-                else:
-                    raise osv.except_osv(_('Warning !'), _('Could not show costs. No cost lines were found for this product!'))
-            else:
-                raise osv.except_osv(_('Warning !'), _('Could not show costs. There are no costs associated with this product!'))
-
+    @api.model
+    def show_product_costs(self):
+        prod_cost_obj = self.env['product.cost']
+        prod_cost_lines_obj = self.env['product.cost.lines']
+        lines = []
+        if self._context.get('product_id', False):
+            domain = [('product_id', '=', self._context['product_id'])]
+            cost_id = prod_cost_obj.search(domain, order='date desc', limit=1)
+            if not cost_id:
+                raise exceptions.Warning(_('Warning !'), _('Could not show costs. There are no costs associated with this product!'))
+            domain = [('product_cost_id', '=', cost_id.id)]
+            cost_lines = prod_cost_lines_obj.search(domain, order='sequence asc')
+            if not cost_lines:
+                raise exceptions.Warning(_('Warning !'), _('Could not show costs. No cost lines were found for this product!'))
+            for l in cost_lines:
+                vals = {
+                    'sequence': l.sequence,
+                    'name': l.name,
+                    'theoric_cost': l.theoric_cost,
+                    'forecasted_cost': l.forecasted_cost,
+                    'tc_fc_percent': l.tc_fc_percent,
+                    'inventory': l.inventory,
+                    'total': l.total
+                }
+                new_id = self.create(vals)
+                lines.append(new_id.id)
         value = {
-            'domain': str([('id', 'in', lines_ids)]),
+            'domain': str([('id', 'in', lines)]),
             'view_type': 'form',
             'view_mode': 'tree',
             'res_model': 'product.costs.line',
             'type': 'ir.actions.act_window',
-            'nodestroy': True}
-
+            'nodestroy': True
+        }
         return value
 
 
-class update_product_costs(osv.osv_memory):
+class UpdateProductCosts(models.TransientModel):
     _name = 'update.product.costs'
 
-    def action_update_product_costs_wzd(self, cr, uid, ids, context=None):
-        if context is None: context = {}
-        c = context.copy()
-        c['cron'] = True
-        c['update_costs'] = True
-        c['register_costs'] = False
-        return self.pool.get('product.costs.line').get_product_costs(cr, uid, ids, c)
+    @api.multi
+    def action_update_product_costs_wzd(self):
+        pcl_obj = self.env['product.costs.line']
+        ctx = self._context.copy()
+        ctx.update(
+            update_costs=True,
+            register_costs=False,
+        )
+        pcl_obj.with_context(ctx).get_product_costs()
+        return True
+
+    @api.multi
+    def action_update_product_costs_cron(self):
+        pcl_obj = self.env['product.costs.line']
+        for company_id in self.env['res.company'].search([]):
+            ctx = self._context.copy()
+            ctx.update(
+                update_costs=True,
+                register_costs=False,
+                force_company=company_id.id,
+            )
+            pcl_obj.with_context(ctx).get_product_costs()
+        return True
