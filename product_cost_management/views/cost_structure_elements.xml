@@ -13,7 +13,6 @@
                     <field name="cost_type"/>
                     <field name="cost_ratio"/>
                     <field name="distribution_mode"/>
-                    <field name="time" invisible="1"/>
                 </tree>
             </field>
         </record>
@@ -45,7 +44,6 @@
                             <field name="cost_type" />
                             <field name="cost_ratio" attrs="{'invisible':[('cost_type', '!=', 'ratio')]}"/>
                             <field name="distribution_mode" attrs="{'invisible': [('cost_type', '!=', 'ratio')]}"/>
-                            <field name="time" invisible="1"/>
                         </group>
                     </group>
                 </form>
@@ -69,7 +67,7 @@
             <field name="arch" type="xml">
                 <tree string="Cost Structures">
                     <field name="name"/>
-                    <field name="year"/>
+                    <field name="company_id"/>
                 </tree>
             </field>
         </record>
@@ -81,7 +79,7 @@
             <field name="arch" type="xml">
                 <search string="Cost Structures">
                     <field name="name"/>
-                    <field name="year"/>
+                    <field name="company_id"/>
                 </search>
             </field>
         </record>
@@ -94,7 +92,6 @@
                 <form string="Cost Structure">
                     <group>
                         <field name="name"/>
-                        <field name="year"/>
                     </group>
                     <notebook colspan="4">
                         <page string="Elements">

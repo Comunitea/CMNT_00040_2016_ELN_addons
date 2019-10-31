@@ -79,9 +79,7 @@
                                     <field name="sequence"/>
                                     <field name="name"/>
                                     <field name="theoric_cost"/>
-                                    <field name="real_cost"/>
                                     <field name="forecasted_cost"/>
-                                    <field name="tc_rc_percent" widget="progressbar"/>
                                     <field name="tc_fc_percent" widget="progressbar"/>
                                     <field name="inventory"/>
                                     <field name="total"/>
@@ -109,19 +107,18 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Update Product Costs">
-                    <label colspan="6" string="You are sure you update all product 'Cost price for price list'?"/>
+                    <label string="You are sure you update all product 'Cost price for price list'?"/>
                     <newline/>
-                    <group colspan="4" col="6">
-                        <button icon="gtk-cancel" special="cancel" string="Cancel"/>
-                        <button string='Update' icon="gtk-execute" name="action_update_product_costs_wzd" type="object"/>
-                    </group>
-
+                    <footer>
+                        <button icon="gtk-cancel" special="cancel" string="Cancel" colspan="2"/>
+                        <button icon="gtk-execute" name="action_update_product_costs_wzd" string="Update" type="object" colspan="2" />
+                    </footer>
                </form>
             </field>
         </record>
 
         <record id="action_update_product_costs" model="ir.actions.act_window">
-            <field name="name">Update product costs</field>
+            <field name="name">Update Product Costs</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">update.product.costs</field>
             <field name="view_type">form</field>

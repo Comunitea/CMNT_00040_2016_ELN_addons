@@ -37,7 +37,7 @@
                         </group>
                         <group>
                             <field name="qty"/>
-                            <field name="lot_id"/>
+                            <field name="lot_id" domain="[('product_id', '=', product_id)]" context="{'product_id': product_id}"/>
                             <field name="consumptions_done"/>
                             <field name="production_state"/>
                         </group>

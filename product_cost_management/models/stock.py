@@ -18,44 +18,41 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-from openerp import models, fields, SUPERUSER_ID
+from openerp import models, fields, api
 from openerp.addons.decimal_precision import decimal_precision as dp
 
 
 class StockMove(models.Model):
     _inherit = 'stock.move'
 
-    def get_price_from_cost_structure(self, cr, uid, ids, context=None):
-        if context is None:
-            context = {}
-        for move in self.browse(cr, uid, ids, context=context):
+    @api.multi
+    def get_price_from_cost_structure(self):
+        for move in self:
             if move.production_id and move.product_id.cost_structure_id:
-                c = context.copy()
-                c['cron'] = True
-                c['product_id'] = move.product_id.id
-                pcl_pool = self.pool.get('product.costs.line')
-                cost = pcl_pool.get_product_costs(cr, uid, move.product_id, c)
+                ctx = self._context.copy()
+                ctx.update(
+                    product_id=move.product_id.id,
+                )
+                pcl_obj = self.env['product.costs.line']
+                cost = pcl_obj.with_context(ctx).get_product_costs()
                 price = cost.get('inventory_cost', False)
                 if price:
-                    self.write(cr, uid, [move.id], {'price_unit': price},
-                               context=context)
+                    move.write({'price_unit': price})
 
-    def quant_price_update_after_produce(self, cr, uid, ids, context=None):
-        t_quant = self.pool.get('stock.quant')
-        for move in self.browse(cr, uid, ids, context=context):
-            self.get_price_from_cost_structure(cr, uid, ids, context)
-            quant_ids = [x.id for x in move.quant_ids]
-            t_quant.write(cr, SUPERUSER_ID, quant_ids,
-                          {'cost': move.price_unit}, context=context)
-        
-    def product_price_update_after_produce(self, cr, uid, ids, context=None):
+    @api.multi
+    def quant_price_update_after_produce(self):
+        self.get_price_from_cost_structure()
+        for move in self:
+            quant_ids = move.mapped('quant_ids')
+            quant_ids.sudo().write({'cost': move.price_unit})
+
+    @api.multi
+    def product_price_update_after_produce(self):
         """ Copy function of product_price_update_before_done with productions
             locations
         """
-        product_obj = self.pool.get('product.product')
         tmpl_dict = {}
-        for move in self.browse(cr, uid, ids, context=context):
+        for move in self:
             # Adapt standard price on production moves if
             # the product cost_method is 'average'
             if (move.location_id.usage == 'production') and \
@@ -83,19 +80,20 @@ class StockMove(models.Model):
                 tmpl_dict[prod_tmpl_id] -= move.product_qty
                 # Write the standard price, as SUPERUSER_ID because a warehouse manager
                 # may not have the right to write on products
-                ctx = dict(context or {}, force_company=move.company_id.id)
-                product_obj.write(cr, SUPERUSER_ID, [product.id], 
-                                  {'standard_price': new_std_price}, 
-                                  context=ctx)
-                
-    def action_done(self, cr, uid, ids, context=None):
-        res = super(StockMove, self).action_done(cr, uid, ids, context=context)
-        move_ids = [x.id for x in self.browse(cr, uid, ids, context=context)
-                    if x.state == 'done' and not x.scrapped and x.production_id]
-        if move_ids:
-            self.quant_price_update_after_produce(cr, uid, move_ids, context=context)
-            self.product_price_update_after_produce(cr, uid, move_ids, context=context)
+                ctx = self._context.copy()
+                ctx.update(
+                    force_company=move.company_id.id,
+                )
+                values = {'standard_price': new_std_price}
+                product.sudo().with_context(ctx).write(values)
 
+    @api.multi
+    def action_done(self):
+        res = super(StockMove, self).action_done()
+        move_ids = self.filtered(
+            lambda r: r.state == 'done' and not r.scrapped and r.production_id)
+        move_ids.quant_price_update_after_produce()
+        move_ids.product_price_update_after_produce()
         return res
 
 
@@ -108,7 +106,7 @@ class StockQuant(models.Model):
 class StockHistory(models.Model):
     """
     Added to reload stock_history view, because is deleted when we put the
-    precission to the stock quant cost field
+    precision to the stock quant cost field
     """
     _inherit = 'stock.history'
 

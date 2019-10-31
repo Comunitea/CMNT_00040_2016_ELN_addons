@@ -28,60 +28,78 @@ PRODUCTION_STATES = [
     ('validated', 'Validated'),
     ('closed', 'Closed'),
     ('cancel', 'Cancelled'),
-    ('done','Done')
+    ('done', 'Done')
 ]
+
+READONLY_STATES = {'validated': [('readonly', True)]}
+
 
 class ProductionAppRegistry(models.Model):
     _name = 'production.app.registry'
     _order = 'id desc'
 
     wc_line_id = fields.Many2one(
-        'mrp.production.workcenter.line', 'Work Order', readonly=True)
+        'mrp.production.workcenter.line', 'Work Order',
+        readonly=True)
     workcenter_id = fields.Many2one(
-        'mrp.workcenter', 'Work Center', readonly=False)
+        'mrp.workcenter', 'Work Center',
+        states=READONLY_STATES)
     state = fields.Selection(APP_STATES, 'State',
         default='waiting', readonly=True)
-    setup_start = fields.Datetime('Setup Start')
-    setup_end = fields.Datetime('Setup End')
+    setup_start = fields.Datetime('Setup Start',
+        states=READONLY_STATES)
+    setup_end = fields.Datetime('Setup End',
+        states=READONLY_STATES)
     setup_duration = fields.Float('Setup Duration',
         compute='_get_durations')
-    production_start = fields.Datetime('Production Start')
-    production_end = fields.Datetime('Production End')
+    production_start = fields.Datetime('Production Start',
+        states=READONLY_STATES)
+    production_end = fields.Datetime('Production End',
+        states=READONLY_STATES)
     production_duration = fields.Float('Production Duration',
         compute='_get_durations')
-    cleaning_start = fields.Datetime('Cleaning Start')
-    cleaning_end = fields.Datetime('Cleaning End')
+    cleaning_start = fields.Datetime('Cleaning Start',
+        states=READONLY_STATES)
+    cleaning_end = fields.Datetime('Cleaning End',
+        states=READONLY_STATES)
     cleaning_duration = fields.Float('Cleaning Duration',
         compute='_get_durations')
     qc_line_ids = fields.One2many(
         'quality.check.line', 'registry_id', 'Quality Checks',
-        readonly=False)
+        states=READONLY_STATES)
     stop_line_ids = fields.One2many(
         'stop.line', 'registry_id', 'Production Stops',
-        readonly=False)
+        states=READONLY_STATES)
     operator_ids = fields.One2many(
         'operator.line', 'registry_id', 'Operators',
-        readonly=False)
-    qty = fields.Float('Quantity', readonly=False,
-        states={'validated': [('readonly', True)]})
+        states=READONLY_STATES)
+    qty = fields.Float('Quantity',
+        states=READONLY_STATES)
     lot_id = fields.Many2one(
-        'stock.production.lot', 'Lot', readonly=True)
+        'stock.production.lot', 'Lot',
+        states=READONLY_STATES)
     line_scheduled_ids = fields.One2many(
         'consumption.line', 'registry_id', 'Scheduled Products',
-        domain=[('type', '=', 'scheduled')], readonly=False)
+        domain=[('type', '=', 'scheduled')],
+        states=READONLY_STATES)
     line_in_ids = fields.One2many(
         'consumption.line', 'registry_id', 'Incomings',
-        domain=[('type', '=', 'in')], readonly=False)
+        domain=[('type', '=', 'in')],
+        states=READONLY_STATES)
     line_out_ids = fields.One2many(
         'consumption.line', 'registry_id', 'Outgoings',
-        domain=[('type', '=', 'out')], readonly=False)
+        domain=[('type', '=', 'out')],
+        states=READONLY_STATES)
     line_scrapped_ids = fields.One2many(
         'consumption.line', 'registry_id', 'Scrapped',
-        domain=[('type', '=', 'scrapped')], readonly=False)
+        domain=[('type', '=', 'scrapped')],
+        states=READONLY_STATES)
     line_finished_ids = fields.One2many(
         'consumption.line', 'registry_id', 'Finished Products',
-        domain=[('type', '=', 'finished')], readonly=False)
-    consumptions_done = fields.Boolean('Consumptions Done')
+        domain=[('type', '=', 'finished')],
+        states=READONLY_STATES)
+    consumptions_done = fields.Boolean('Consumptions Done',
+        states=READONLY_STATES)
     # RELATED FIELDS
     name = fields.Char('Workcenter Line',
         related="wc_line_id.name", readonly=True)
@@ -94,7 +112,8 @@ class ProductionAppRegistry(models.Model):
     production_state = fields.Selection(PRODUCTION_STATES, 'Production Status',
         related='production_id.state', readonly=True)
     workorder_id = fields.Many2one(
-        'work.order', 'Related Maintenance Order')
+        'work.order', 'Related Maintenance Order',
+        states=READONLY_STATES)
     note = fields.Text(string='Notes')
 
     _sql_constraints = [
@@ -1010,8 +1029,8 @@ class ProductionAppRegistry(models.Model):
 
     @api.multi
     def write(self, vals):
-        if 'qty' in vals:
-            for reg in self:
+        for reg in self:
+            if 'qty' in vals:
                 old_qty = reg.production_id.product_qty
                 new_qty = vals.get('qty') or old_qty
                 product_lines = reg.production_id.product_lines
@@ -1021,6 +1040,8 @@ class ProductionAppRegistry(models.Model):
                     product_qty = new_qty * product_qty / old_qty
                     if product_qty and product_qty != line.product_qty:
                         line.product_qty = product_qty
+            if 'lot_id' in vals:
+                reg.line_finished_ids.write({'lot_id': vals.get('lot_id')})
         return super(ProductionAppRegistry, self).write(vals)
 
 
