@@ -43,7 +43,8 @@ class ProductionAppRegistry(models.Model):
         readonly=True)
     workcenter_id = fields.Many2one(
         'mrp.workcenter', 'Work Center',
-        states=READONLY_STATES)
+        related="wc_line_id.workcenter_id", store=True,
+        readonly=True)
     state = fields.Selection(APP_STATES, 'State',
         default='waiting', readonly=True)
     setup_start = fields.Datetime('Setup Start',
@@ -855,7 +856,7 @@ class ProductionAppRegistry(models.Model):
         # Comprobamos que la cantidad sea válida
         if self.qty <= 0.0:
             raise exceptions.except_orm(_('Error'),
-                _("You cannot validate if the quantity of production are negative or less than zero."))
+                _("You cannot validate if the quantity of production are negative or zero."))
         # Comprobamos si coincide la cantidad indicada por alimentador con la cantidad indicada por producción
         qty_feeder = sum([line.product_qty for line in self.line_finished_ids])
         if self.qty != qty_feeder:
