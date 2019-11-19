@@ -154,11 +154,19 @@ class StockPickingExport(models.TransientModel):
             if not move.procurement_id.sale_line_id:
                 err_msg = _("Error in picking '%s': extra move detected!") % (move.picking_id.name)
                 err_log += '\n' + err_msg
+        out_report_lines = pickings.compute_out_report_lines()
         for picking in pickings:
-            line_ids = picking.out_report_ids.sorted(key=lambda a: (a.product_id.default_code, a.product_id.ean13, a.product_id.name))
+            if picking.id not in out_report_lines or not out_report_lines[picking.id]: # Esto no debería pasar nunca
+                err_msg = _("Error in picking '%s': not report lines!") % (picking.name)
+                err_log += '\n' + err_msg
+                continue
+            lines = out_report_lines[picking.id]
             line_pos = 0
-            for line in line_ids:
-                if line.move_id.state != 'done': # Esto no deberia pasar nunca
+            for line in lines:
+                product_id = line['product_id']
+                lot_id = line['lot_id']
+                move_id = line['move_id']
+                if move_id.state != 'done': # Esto no debería pasar nunca
                     err_msg = _("Error in picking '%s': move not done!") % (picking.name)
                     err_log += '\n' + err_msg
                     continue
@@ -174,27 +182,27 @@ class StockPickingExport(models.TransientModel):
                 l_text += self.parse_string('00000000', 8)
                 l_text += separator
                 # Código artículo (14 caracteres) = Código artículo sálica (9 cifras) + 5 espacios en blanco
-                supplier_product_code = line.product_id.seller_ids[0].product_code
+                supplier_product_code = product_id.seller_ids[0].product_code
                 if not supplier_product_code:
-                    raise exceptions.Warning(_('Warning'), _('Product %s without supplier code') % (line.product_id.display_name))
+                    raise exceptions.Warning(_('Warning'), _('Product %s without supplier code') % (product_id.display_name))
                 supplier_product_code = self.parse_string(supplier_product_code, 9)
                 l_text += self.parse_string(supplier_product_code, 14)
                 l_text += separator
                 # Código Lote (12 caracteres). Rellenear con espacios en blanco
-                l_text += self.parse_string(line.lot_id.name, 12)
+                l_text += self.parse_string(lot_id.name, 12)
                 l_text += separator
                 # Fecha caducidad en formato aammdd
-                lot_date = line.lot_id.use_date and line.lot_id.use_date[:10] or ''
+                lot_date = lot_id.use_date and lot_id.use_date[:10] or ''
                 l_text += self.parse_short_date(lot_date, '%y%m%d')
                 l_text += separator
                 # Agencia de transporte (6 caracteres). Valquin = 360001
                 l_text += '360001'
                 l_text += separator
                 # Cantidad unidades de venta en unidades (8 posiciones sin comas, y signo para los abonos) ej, para 23 ó -23 : |00000023| ó |-0000023|
-                product_uom_qty = line.product_qty
-                if line.move_id.returned_move_ids:
-                    for smol in line.move_id.returned_move_ids.linked_move_operation_ids:
-                        if line.lot_id == smol.operation_id.lot_id:
+                product_uom_qty = line['product_qty']
+                if move_id.returned_move_ids:
+                    for smol in move_id.returned_move_ids.linked_move_operation_ids:
+                        if lot_id == smol.operation_id.lot_id:
                             product_uom_qty -= smol.qty
                 if product_uom_qty == 0: # No grabamos la linea
                     l_text = ''
@@ -244,11 +252,11 @@ class StockPickingExport(models.TransientModel):
                 l_text += self.parse_string(partner_code, 6)
                 l_text += separator
                 # Precio artículo/unidad (4 enteros, una coma y 4 decimales) Formato=eeee,dddd
-                price = line.move_id.procurement_id.sale_line_id.price_unit
+                price = move_id.procurement_id.sale_line_id.price_unit
                 l_text += self.parse_number(price, 4, dec_length=4, dec_separator=',')
                 l_text += separator
                 # Descuento uno (2 enteros, una coma y 2 decimales) Formato=ee,dd
-                discount = line.move_id.procurement_id.sale_line_id.discount
+                discount = move_id.procurement_id.sale_line_id.discount
                 l_text += self.parse_number(discount, 2, dec_length=2, dec_separator=',')
                 l_text += separator
                 # Descuento dos (2 enteros, una coma y 2 decimales) Formato=ee,dd
@@ -256,7 +264,7 @@ class StockPickingExport(models.TransientModel):
                 l_text += self.parse_number(discount, 2, dec_length=2, dec_separator=',')
                 l_text += separator
                 # Descripción del artículo utilizada por Distribuidor (30 espacios alfanuméricos)
-                l_text += self.parse_string(line.product_id.name, 30)
+                l_text += self.parse_string(product_id.name, 30)
                 l_text += separator
                 if l_text:
                     if text:

@@ -1,21 +1,19 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* eln_reports
+#	* eln_reports
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-12-05 09:55+0000\n"
-"PO-Revision-Date: 2017-12-05 10:59+0100\n"
+"POT-Creation-Date: 2019-11-19 13:50+0000\n"
+"PO-Revision-Date: 2019-11-19 13:50+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
-"Language: es\n"
-"X-Generator: Poedit 2.0.3\n"
 
 #. module: eln_reports
 #: field:res.users,supplier_invoice_count:0
@@ -46,11 +44,6 @@ msgstr "Cuenta a cobrar"
 #: field:res.users,commission_ids:0
 msgid "Agents"
 msgstr "Agentes"
-
-#. module: eln_reports
-#: field:res.users,available_risk:0
-msgid "Available Credit"
-msgstr "Crédito disponible"
 
 #. module: eln_reports
 #: view:planning.report.wizard:eln_reports.planning_report_wizard_view
@@ -96,7 +89,13 @@ msgid "Companies that refers to partner"
 msgstr "Compañías que se refieren a la empresa"
 
 #. module: eln_reports
-#: field:res.users,contract_ids:0 field:res.users,contracts_count:0
+#: field:res.users,shop_ref_ids:0
+msgid "Contact References by Sale Type"
+msgstr "Referencias de contacto por tienda"
+
+#. module: eln_reports
+#: field:res.users,contract_ids:0
+#: field:res.users,contracts_count:0
 msgid "Contracts"
 msgstr "Contratos"
 
@@ -147,11 +146,6 @@ msgid "Created on"
 msgstr "Created on"
 
 #. module: eln_reports
-#: field:res.users,total_risk_percent:0
-msgid "Credit Usage (%)"
-msgstr "Uso del crédito (%)"
-
-#. module: eln_reports
 #: field:res.users,agent:0
 msgid "Creditor/Agent"
 msgstr "Agente"
@@ -167,6 +161,11 @@ msgid "Customer Location"
 msgstr "Ubicación del cliente"
 
 #. module: eln_reports
+#: field:res.users,customer_payment_mode:0
+msgid "Customer Payment Mode"
+msgstr "Modo de pago de cliente"
+
+#. module: eln_reports
 #: field:res.users,property_payment_term:0
 msgid "Customer Payment Term"
 msgstr "Plazo de pago de cliente"
@@ -175,6 +174,11 @@ msgstr "Plazo de pago de cliente"
 #: model:ir.actions.report.xml,name:eln_reports.invoice_report_jasper
 msgid "Customer invoice"
 msgstr "Factura de cliente"
+
+#. module: eln_reports
+#: field:res.users,customer_state:0
+msgid "Customer state"
+msgstr "Estado del cliente"
 
 #. module: eln_reports
 #: report:addons/eln_reports/report/planning_report/planning_report_webkit.mako:28
@@ -202,17 +206,11 @@ msgid "Delivery Address:"
 msgstr "Dirección de envío:"
 
 #. module: eln_reports
-#: field:stock.picking,out_report_ids:0
-msgid "Delivery List"
-msgstr "Lista de envío"
-
-#. module: eln_reports
 #: view:mrp.workcenter:eln_reports.mrp_workcenter_view
 msgid "Description"
 msgstr "Descripción"
 
 #. module: eln_reports
-#: field:out.picking.report,display_name:0
 #: field:planning.report.wizard,display_name:0
 #: field:product.datasheet.report.wizard,display_name:0
 #: field:product.logistics.sheet.report.wizard,display_name:0
@@ -221,32 +219,17 @@ msgid "Display Name"
 msgstr "Nombre mostrado"
 
 #. module: eln_reports
-#: field:res.users,draft_invoices_amount:0
-msgid "Draft Invoices"
-msgstr "Facturas borrador"
-
-#. module: eln_reports
 #: field:res.users,early_payment_discount_ids:0
 msgid "E.P. discounts"
 msgstr "Descuentos P.P."
 
 #. module: eln_reports
-#: field:out.picking.report,ean13:0
-msgid "EAN 13"
-msgstr "EAN 13"
-
-#. module: eln_reports
-#: code:addons/eln_reports/report/planning_report/planning_report_parser.py:81
-#: code:addons/eln_reports/report/planning_report/planning_report_parser.py:89
+#: code:addons/eln_reports/report/planning_report/planning_report_parser.py:80
+#: code:addons/eln_reports/report/planning_report/planning_report_parser.py:88
 #: code:addons/eln_reports/report/planning_report/webkit_parser_header_fix.py:216
 #, python-format
 msgid "Error!"
 msgstr "¡Error!"
-
-#. module: eln_reports
-#: field:res.users,unpayed_amount:0
-msgid "Expired Unpaid Payments"
-msgstr "Efectos impagados vencidos"
 
 #. module: eln_reports
 #: field:res.users,property_account_position:0
@@ -259,12 +242,7 @@ msgid "Group By Route"
 msgstr "Agrupar por ruta"
 
 #. module: eln_reports
-#: model:ir.model,name:eln_reports.model_out_picking_report
-msgid "Group products and lots in outgoing pickings"
-msgstr "Group products and lots in outgoing pickings"
-
-#. module: eln_reports
-#: field:out.picking.report,id:0 field:planning.report.wizard,id:0
+#: field:planning.report.wizard,id:0
 #: field:product.datasheet.report.wizard,id:0
 #: field:product.logistics.sheet.report.wizard,id:0
 #: field:purchase.order.report.wizard,id:0
@@ -280,61 +258,6 @@ msgstr "Si está marcado, se imprimirán albaranes de salida valorados para este
 #: model:ir.model,name:eln_reports.model_account_invoice_line
 msgid "Invoice Line"
 msgstr "Línea de factura"
-
-#. module: eln_reports
-#: field:purchase.order,invoice_address:0
-msgid "Invoice address"
-msgstr "Dirección de factura"
-
-#. module: eln_reports
-#: field:purchase.order,invoice_address2:0
-msgid "Invoice address2"
-msgstr "Invoice address2"
-
-#. module: eln_reports
-#: field:purchase.order,invoice_city:0
-msgid "Invoice city"
-msgstr "Invoice city"
-
-#. module: eln_reports
-#: field:purchase.order,invoice_email:0
-msgid "Invoice email"
-msgstr "Invoice email"
-
-#. module: eln_reports
-#: field:purchase.order,invoice_fax:0
-msgid "Invoice fax"
-msgstr "Invoice fax"
-
-#. module: eln_reports
-#: field:purchase.order,invoice_name:0
-msgid "Invoice name"
-msgstr "Invoice name"
-
-#. module: eln_reports
-#: field:purchase.order,invoice_phone:0
-msgid "Invoice phone"
-msgstr "Invoice phone"
-
-#. module: eln_reports
-#: field:purchase.order,invoice_prov:0
-msgid "Invoice prov"
-msgstr "Invoice prov"
-
-#. module: eln_reports
-#: field:purchase.order,invoice_state:0
-msgid "Invoice state"
-msgstr "Invoice state"
-
-#. module: eln_reports
-#: field:purchase.order,invoice_vat:0
-msgid "Invoice vat"
-msgstr "Invoice vat"
-
-#. module: eln_reports
-#: field:purchase.order,invoice_zip:0
-msgid "Invoice zip"
-msgstr "Invoice zip"
 
 #. module: eln_reports
 #: field:res.users,invoice_ids:0
@@ -359,7 +282,6 @@ msgid "Language"
 msgstr "Idioma"
 
 #. module: eln_reports
-#: field:out.picking.report,__last_update:0
 #: field:planning.report.wizard,__last_update:0
 #: field:product.datasheet.report.wizard,__last_update:0
 #: field:product.logistics.sheet.report.wizard,__last_update:0
@@ -389,19 +311,9 @@ msgid "Latest Full Reconciliation Date"
 msgstr "Última fecha de conciliación completa"
 
 #. module: eln_reports
-#: field:out.picking.report,lot_id:0 view:website:stock.report_picking
+#: view:website:stock.report_picking
 msgid "Lot"
 msgstr "Lote"
-
-#. module: eln_reports
-#: field:account.invoice.line,lots:0
-msgid "Lots"
-msgstr "Lotes"
-
-#. module: eln_reports
-#: field:out.picking.report,move_id:0
-msgid "Move"
-msgstr "Movimiento"
 
 #. module: eln_reports
 #: code:addons/eln_reports/report/planning_report/webkit_parser_header_fix.py:160
@@ -410,7 +322,7 @@ msgid "No diagnosis message was provided"
 msgstr "No diagnosis message was provided"
 
 #. module: eln_reports
-#: code:addons/eln_reports/report/planning_report/planning_report_parser.py:89
+#: code:addons/eln_reports/report/planning_report/planning_report_parser.py:88
 #, python-format
 msgid "No hay nada."
 msgstr "No hay nada."
@@ -446,6 +358,11 @@ msgstr "Página"
 #: field:res.users,debit_limit:0
 msgid "Payable Limit"
 msgstr "Límite a pagar"
+
+#. module: eln_reports
+#: field:res.users,shop_payment_ids:0
+msgid "Payment Settings by Sale Type"
+msgstr "Configuraciones de pago por tienda"
 
 #. module: eln_reports
 #: model:ir.model,name:eln_reports.model_stock_picking
@@ -522,7 +439,7 @@ msgid "Print valued picking"
 msgstr "Imprimir albarán valorado"
 
 #. module: eln_reports
-#: field:out.picking.report,product_id:0 view:website:stock.report_picking
+#: view:website:stock.report_picking
 msgid "Product"
 msgstr "Producto"
 
@@ -552,11 +469,6 @@ msgid "Proforma Invoice"
 msgstr "Factura proforma"
 
 #. module: eln_reports
-#: model:ir.model,name:eln_reports.model_purchase_order
-msgid "Purchase Order"
-msgstr "Pedido de compra"
-
-#. module: eln_reports
 #: model:ir.model,name:eln_reports.model_purchase_order_line
 msgid "Purchase Order Line"
 msgstr "Línea orden de compra"
@@ -582,14 +494,9 @@ msgid "Qty (UoS)"
 msgstr "Cant. (UdV)"
 
 #. module: eln_reports
-#: field:out.picking.report,product_qty:0 view:website:stock.report_picking
+#: view:website:stock.report_picking
 msgid "Quantity"
 msgstr "Cantidad"
-
-#. module: eln_reports
-#: field:out.picking.report,reference:0
-msgid "Reference"
-msgstr "Referencia"
 
 #. module: eln_reports
 #: view:planning.report.wizard:eln_reports.planning_report_wizard_view
@@ -602,12 +509,13 @@ msgid "Requested Date"
 msgstr "Fecha solicitud"
 
 #. module: eln_reports
-#: field:planning.report.wizard,route_id:0 field:res.users,route_id:0
+#: field:planning.report.wizard,route_id:0
+#: field:res.users,route_id:0
 msgid "Route"
 msgstr "Ruta de transporte"
 
 #. module: eln_reports
-#: code:addons/eln_reports/report/planning_report/planning_report_parser.py:81
+#: code:addons/eln_reports/report/planning_report/planning_report_parser.py:80
 #, python-format
 msgid "Ruta no encontrada."
 msgstr "Ruta no encontrada."
@@ -621,6 +529,16 @@ msgstr "Tarifa de venta (Fact. Indirecta)"
 #: field:res.users,sale_order_ids:0
 msgid "Sales Order"
 msgstr "Pedido de venta"
+
+#. module: eln_reports
+#: help:res.users,customer_payment_mode:0
+msgid "Select the default payment mode for this customer."
+msgstr "Seleccione el modo de pago por defecto cuando esta empresa actúa como cliente."
+
+#. module: eln_reports
+#: help:res.users,supplier_payment_mode:0
+msgid "Select the default payment mode for this supplier."
+msgstr "Seleccione el modo de pago por defecto cuando esta empresa actúa como proveedor."
 
 #. module: eln_reports
 #: field:res.users,settlement:0
@@ -653,11 +571,6 @@ msgid "State"
 msgstr "Estado"
 
 #. module: eln_reports
-#: model:ir.model,name:eln_reports.model_stock_move
-msgid "Stock Move"
-msgstr "Movimiento de existencias"
-
-#. module: eln_reports
 #: model:ir.actions.report.xml,name:eln_reports.report_stock_picking_out_alt_jasper
 msgid "Stock picking out (Alt)"
 msgstr "Albarán de envío (ALT)"
@@ -688,6 +601,11 @@ msgid "Supplier Location"
 msgstr "Ubicación del proveedor"
 
 #. module: eln_reports
+#: field:res.users,supplier_payment_mode:0
+msgid "Supplier Payment Mode"
+msgstr "Modo de pago de proveedor"
+
+#. module: eln_reports
 #: field:res.users,property_supplier_payment_term:0
 msgid "Supplier Payment Term"
 msgstr "Plazo de pago del proveedor"
@@ -709,15 +627,6 @@ msgstr "NIF:"
 
 #. module: eln_reports
 #: field:account.invoice.line,tax_str:0
-msgid "Tax"
-msgstr "Impuesto"
-
-#. module: eln_reports
-#: field:stock.move,tax_line:0
-msgid "Tax line"
-msgstr "Línea de impuesto"
-
-#. module: eln_reports
 #: view:website:stock.report_picking
 msgid "Taxes"
 msgstr "Impuestos"
@@ -737,7 +646,9 @@ msgstr "La posición fiscal determinará los impuestos y cuentas usados por la e
 #: code:addons/eln_reports/report/planning_report/webkit_parser_header_fix.py:162
 #, python-format
 msgid "The following diagnosis message was provided:\n"
+""
 msgstr "The following diagnosis message was provided:\n"
+""
 
 #. module: eln_reports
 #: help:res.users,property_account_payable:0
@@ -790,11 +701,6 @@ msgid "Total"
 msgstr "Total"
 
 #. module: eln_reports
-#: field:res.users,total_debt:0
-msgid "Total Debt"
-msgstr "Deuda total"
-
-#. module: eln_reports
 #: field:res.users,total_invoiced:0
 msgid "Total Invoiced"
 msgstr "Total facturado"
@@ -835,16 +741,6 @@ msgid "Type"
 msgstr "Tipo"
 
 #. module: eln_reports
-#: field:res.users,pending_amount:0
-msgid "Unexpired Pending Payments"
-msgstr "Efectos pendientes no vencidos"
-
-#. module: eln_reports
-#: field:res.users,pending_orders_amount:0
-msgid "Uninvoiced Orders"
-msgstr "Pedidos de venta sin facturar"
-
-#. module: eln_reports
 #: report:addons/eln_reports/report/planning_report/planning_report_webkit.mako:31
 #: view:website:stock.report_picking
 msgid "UoM"
@@ -857,7 +753,8 @@ msgid "UoS"
 msgstr "UdV"
 
 #. module: eln_reports
-#: model:ir.model,name:eln_reports.model_res_users field:res.users,users:0
+#: model:ir.model,name:eln_reports.model_res_users
+#: field:res.users,users:0
 msgid "Users"
 msgstr "Usuarios"
 
@@ -875,11 +772,6 @@ msgstr "NIF:"
 #: view:website:stock.report_picking
 msgid "Warehouse Address:"
 msgstr "Dirección del almacén"
-
-#. module: eln_reports
-#: field:out.picking.report,picking_id:0
-msgid "Wave"
-msgstr "Wave"
 
 #. module: eln_reports
 #: code:addons/eln_reports/report/planning_report/webkit_parser_header_fix.py:216
@@ -912,20 +804,8 @@ msgid "eln_reports.report_saleorder_document_proforma"
 msgstr "eln_reports.report_saleorder_document_proforma"
 
 #. module: eln_reports
-#: field:planning.report.wizard,name:0
-#: field:product.datasheet.report.wizard,name:0
-#: field:product.logistics.sheet.report.wizard,name:0
-#: field:purchase.order.report.wizard,name:0
-msgid "name"
-msgstr "name"
-
-#. module: eln_reports
 #: code:addons/eln_reports/report/planning_report/planning_report_parser.py:56
 #, python-format
 msgid "of"
 msgstr "de"
 
-#. module: eln_reports
-#: field:out.picking.report,total:0
-msgid "total"
-msgstr "total"

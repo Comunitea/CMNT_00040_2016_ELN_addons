@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <!-- FICHA DE PRODUCTO -->
+        <record id="report_sheet_products_jasper" model="ir.actions.report.xml">
+            <field name="auto">True</field>
+            <field name="model">product.template</field>
+            <field name="jasper_model_id" ref="product.model_product_template"/>
+            <field name="name">Product sheet</field>
+            <field name="report_name">product_sheet</field>
+            <field name="report_rml">eln_reports/report/sheet_product/sheet_product.jrxml</field>
+            <field name="header">False</field>
+            <field name="jasper_report">True</field>
+            <field name="jasper_output">pdf</field>
+        </record>
+
+        <record id="report_sheet_products_values" model="ir.values">
+            <field name="name">Product sheet</field>
+            <field name="model">product.template</field>
+            <field name="key2" eval="'client_print_multi'" />
+            <field name="value_unpickle" eval="'ir.actions.report.xml, ' +str(report_sheet_products_jasper)" />
+        </record>
+
+        <!-- FICHA LOGISTICA DE PRODUCTO -->
+        <record id="report_product_logistics_sheet_jasper" model="ir.actions.report.xml">
+            <field name="auto">True</field>
+            <field name="model">product.template</field>
+            <field name="jasper_model_id" ref="product.model_product_template"/>
+            <field name="name">Product logistics sheet</field>
+            <field name="report_name">product_logistics_sheet</field>
+            <field name="report_rml">eln_reports/report/product_logistics_sheet/product_logistics_sheet.jrxml</field>
+            <field name="header">False</field>
+            <field name="jasper_report">True</field>
+            <field name="jasper_output">pdf</field>
+        </record>
+
+        <record id="report_logistic_sheet_products_values" model="ir.values">
+            <field name="name">Product logistics sheet</field>
+            <field name="model">product.template</field>
+            <field name="key2" eval="'client_print_multi'" />
+            <field name="value_unpickle" eval="'ir.actions.report.xml, ' +str(report_product_logistics_sheet_jasper)" />
+        </record>
+
+
+         <!-- FICHA TECNICA DE PRODUCTO -->
+         <record id="report_product_datasheet_jasper" model="ir.actions.report.xml">
+            <field name="auto">True</field>
+            <field name="model">product.template</field>
+            <field name="jasper_model_id" ref="product.model_product_template"/>
+            <field name="name">Product technique sheet</field>
+            <field name="report_name">product_datasheet</field>
+            <field name="report_rml">eln_reports/report/product_datasheet/product_datasheet.jrxml</field>
+            <field name="header">False</field>
+            <field name="jasper_report">True</field>
+            <field name="jasper_output">pdf</field>
+        </record>
+
+        <record id="report_technique_sheet_products_values" model="ir.values">
+            <field name="name">Product technique sheet</field>
+            <field name="model">product.template</field>
+            <field name="key2" eval="'client_print_multi'" />
+            <field name="value_unpickle" eval="'ir.actions.report.xml, ' +str(report_product_datasheet_jasper)" />
+        </record>
+
+        <!-- PARTE DE CONTROL (No funciona falla al exportar plantilla nivel3 x res.partner.address??)-->
+         <record id="report_control_part_jasper" model="ir.actions.report.xml">
+            <field name="auto">True</field>
+            <field name="model">mrp.production</field>
+            <field name="jasper_model_id" ref="mrp.model_mrp_production"/>
+            <field name="name">Control part</field>
+            <field name="report_name">control_part</field>
+            <field name="report_rml">eln_reports/report/control_part/control_part.jrxml</field>
+            <field name="header">False</field>
+            <field name="jasper_report">True</field>
+            <field name="jasper_output">pdf</field>
+        </record>
+
+        <record id="report_technique_sheet_products_values" model="ir.values">
+            <field name="name">Control part</field>
+            <field name="model">mrp.production</field>
+            <field name="key2" eval="'client_print_multi'" />
+            <field name="value_unpickle" eval="'ir.actions.report.xml, ' +str(report_control_part_jasper)" />
+        </record>
+
+        <!-- INFORME DE COMPRA -->
+        <record id="report_purchase_order_jasper" model="ir.actions.report.xml">
+            <field name="auto">True</field>
+            <field name="model">purchase.order</field>
+            <field name="jasper_model_id" ref="purchase.model_purchase_order"/>
+            <field name="name">Purchase order jasper</field>
+            <field name="report_name">purchase_order</field>
+            <field name="report_rml">eln_reports/report/purchase_order/purchase_order.jrxml</field>
+            <field name="multi">True</field>
+            <field name="header">False</field>
+            <field name="jasper_report">True</field>
+            <field name="jasper_output">pdf</field>
+        </record>
+
+        <record id="report_purchase_order_values2" model="ir.values">
+            <field name="name">Purchase order jasper</field>
+            <field name="model">purchase.order</field>
+            <field name="key2" eval="'client_print_multi'" />
+            <field name="value_unpickle" eval="'ir.actions.report.xml, ' +str(report_purchase_order_jasper)" />
+        </record>
+
+        <!-- STOCK PICKING OUT (STD) - ALBARAN ENVIO ESTANDAR -->
+        <record id="report_stock_picking_out_std_jasper" model="ir.actions.report.xml">
+            <field name="auto">True</field>
+            <field name="model">stock.picking</field>
+            <field name="jasper_model_id" ref="stock.model_stock_picking"/>
+            <field name="name">Stock picking out (Std)</field>
+            <field name="report_name">stock_picking_out_std</field>
+            <field name="report_rml">eln_reports/report/stock_picking/stock_picking_out_std.jrxml</field>
+            <field name="header">False</field>
+            <field name="jasper_report">True</field>
+            <field name="jasper_output">pdf</field>
+        </record>
+
+        <record id="report_stock_picking_out_std_values" model="ir.values">
+            <field name="name">Stock picking out (Std)</field>
+            <field name="model">stock.picking</field>
+            <field name="key2" eval="'client_print_multi'" />
+            <field name="value_unpickle" eval="'ir.actions.report.xml, ' +str(report_stock_picking_out_std_jasper)" />
+        </record>
+
+        <!-- STOCK PICKING OUT (STD) - ALBARAN ENVIO ESTANDAR - 2 COPIAS -->
+        <record id="report_stock_picking_out_std_2x_jasper" model="ir.actions.report.xml">
+            <field name="auto">True</field>
+            <field name="model">stock.picking</field>
+            <field name="jasper_model_id" ref="stock.model_stock_picking"/>
+            <field name="name">Stock picking out 2x (Std)</field>
+            <field name="report_name">stock_picking_out_std_2x</field>
+            <field name="report_rml">eln_reports/report/stock_picking/stock_picking_out_std_2x.jrxml</field>
+            <field name="header">False</field>
+            <field name="jasper_report">True</field>
+            <field name="jasper_output">pdf</field>
+        </record>
+
+        <record id="report_stock_picking_out_std_2x_values" model="ir.values">
+            <field name="name">Stock picking out 2x (Std)</field>
+            <field name="model">stock.picking</field>
+            <field name="key2" eval="'client_print_multi'" />
+            <field name="value_unpickle" eval="'ir.actions.report.xml, ' +str(report_stock_picking_out_std_2x_jasper)" />
+        </record>
+
+        <!-- STOCK PICKING OUT (ALT) - ALBARAN ENVIO ALTERNATIVO -->
+        <record id="report_stock_picking_out_alt_jasper" model="ir.actions.report.xml">
+            <field name="auto">True</field>
+            <field name="model">stock.picking</field>
+            <field name="jasper_model_id" ref="stock.model_stock_picking"/>
+            <field name="name">Stock picking out (Alt)</field>
+            <field name="report_name">stock_picking_out_alt</field>
+            <field name="report_rml">eln_reports/report/stock_picking/stock_picking_out_alt.jrxml</field>
+            <field name="header">False</field>
+            <field name="jasper_report">True</field>
+            <field name="jasper_output">pdf</field>
+        </record>
+
+        <record id="report_stock_picking_out_alt_values" model="ir.values">
+            <field name="name">Stock picking out (Alt)</field>
+            <field name="model">stock.picking</field>
+            <field name="key2" eval="'client_print_multi'" />
+            <field name="value_unpickle" eval="'ir.actions.report.xml, ' +str(report_stock_picking_out_alt_jasper)" />
+        </record>
+
+        <!-- STOCK PICKING OUT (ALT) - ALBARAN ENVIO ALTERNATIVO - 2 COPIAS -->
+        <record id="report_stock_picking_out_alt_2x_jasper" model="ir.actions.report.xml">
+            <field name="auto">True</field>
+            <field name="model">stock.picking</field>
+            <field name="jasper_model_id" ref="stock.model_stock_picking"/>
+            <field name="name">Stock picking out 2x (Alt)</field>
+            <field name="report_name">stock_picking_out_alt_2x</field>
+            <field name="report_rml">eln_reports/report/stock_picking/stock_picking_out_alt_2x.jrxml</field>
+            <field name="header">False</field>
+            <field name="jasper_report">True</field>
+            <field name="jasper_output">pdf</field>
+        </record>
+
+        <record id="report_stock_picking_out_alt_2x_values" model="ir.values">
+            <field name="name">Stock picking out 2x (Alt)</field>
+            <field name="model">stock.picking</field>
+            <field name="key2" eval="'client_print_multi'" />
+            <field name="value_unpickle" eval="'ir.actions.report.xml, ' +str(report_stock_picking_out_alt_2x_jasper)" />
+        </record>
+
+        <!-- FACTURA -->
+        <record id="invoice_report_jasper" model="ir.actions.report.xml">
+            <field name="auto">True</field>
+            <field name="model">account.invoice</field>
+            <field name="jasper_model_id" ref="account.model_account_invoice"/>
+            <field name="name">Customer invoice</field>
+            <field name="report_name">invoice_report_jasper</field>
+            <field name="report_rml">eln_reports/report/invoice/invoice.jrxml</field>
+            <field name="jasper_report">True</field>
+            <field name="jasper_output">pdf</field>
+        </record>
+
+        <record id="report_invoice_values" model="ir.values">
+            <field name="name">Customer invoice</field>
+            <field name="model">account.invoice</field>
+            <field name="key2" eval="'client_print_multi'" />
+            <field name="value_unpickle" eval="'ir.actions.report.xml, ' +str(invoice_report_jasper)" />
+        </record>
+
+        <!-- PLANING -->
+        <report
+            string="Plannnig"
+            model="stock.picking"
+            name="planning_report"
+            file="eln_reports/report/planning_report/planning_report_webkit.mako"
+            id="report_planning_webkit_html"
+            report_type="webkit"
+            auto="False"
+            menu="False"
+            />
+
+        <record id="eln_reports.report_planning_webkit_html" model="ir.actions.report.xml">
+          <field name="webkit_header" ref="eln_reports.ir_header_webkit_planning_report"/>
+        </record>
+
+        <report
+            string="Label"
+            model="stock.picking"
+            name="label.barcode"
+            rml="eln_reports/report/barcode_label/barcode_label.jrxml"
+            id="barcode_label"
+            menu="False"
+            auto="True"
+            header="False"
+            />
+
+        <report
+            id="report_sale_order_proforma"
+            string="Proforma Invoice"
+            model="sale.order"
+            report_type="qweb-pdf"
+            file="eln_reports.report_saleorder_proforma"
+            name="eln_reports.report_saleorder_proforma"
+        />
+
+    </data>
+</openerp>

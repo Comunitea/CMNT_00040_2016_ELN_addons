@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-09-19 09:05+0000\n"
-"PO-Revision-Date: 2019-09-19 11:24+0200\n"
+"PO-Revision-Date: 2019-11-11 15:38+0100\n"
 "Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
 "Language: es\n"
-"X-Generator: Poedit 2.2.3\n"
+"X-Generator: Poedit 2.2.4\n"
 
 #. module: production_app
 #: code:addons/production_app/models/mrp.py:140
@@ -418,7 +418,7 @@ msgstr "Producciones pendientes"
 #: code:addons/production_app/models/mrp.py:113
 #, python-format
 msgid "Please provide a positive quantity to scrap."
-msgstr "Por favor, introduzca una cantidad positiva a desechar"
+msgstr "Por favor, introduzca una cantidad positiva a desechar."
 
 #. module: production_app
 #: field:mrp.workcenter,process_type:0
@@ -879,8 +879,8 @@ msgstr "No puedes validar si la cantidad en las órdenes de trabajo asociadas a 
 #. module: production_app
 #: code:addons/production_app/models/production_app.py:770
 #, python-format
-msgid "You cannot validate if the quantity of production are negative or less than zero."
-msgstr "No puedes validar si la cantidad de la producción es negativa o menor que cero."
+msgid "You cannot validate if the quantity of production are negative or zero."
+msgstr "No puedes validar si la cantidad de la producción es negativa o cero."
 
 #. module: production_app
 #: code:addons/production_app/models/production_app.py:775

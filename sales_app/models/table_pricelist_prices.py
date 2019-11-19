@@ -67,7 +67,7 @@ class TablePricelistPrices(models.Model):
         'product.product', 'Product',
         readonly=True)
     price = fields.Float(
-        'Price', digits_compute=dp.get_precision('Product Price'),
+        'Price', digits=dp.get_precision('Product Price'),
         readonly=True)
     company_id = fields.Many2one(
         'res.company', 'Company',

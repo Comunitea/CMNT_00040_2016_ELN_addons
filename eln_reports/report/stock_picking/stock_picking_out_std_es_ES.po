@@ -3,144 +3,159 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PEDRO\n"
+"Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-12 12:52+0100\n"
-"PO-Revision-Date: 2015-03-12 12:53+0100\n"
-"Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
-"Language-Team: ESPAÑOL <LL@li.org>\n"
-"Language: es_ES\n"
+"POT-Creation-Date: 2019-11-18 12:05+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.7\n"
 
-#: /tmp/tmp.5v2aQbzzLs:835 /tmp/tmp.5v2aQbzzLs:1398 /tmp/tmp.5v2aQbzzLs:1961
-msgid "RECIBI:(Firma y Sello)"
+#: /tmp/tmp.vTUKIqNl5U:883 /tmp/tmp.vTUKIqNl5U:1413 /tmp/tmp.vTUKIqNl5U:1943
+msgid "RECIBI: (Firma y Sello)"
 msgstr ""
 
-#: /tmp/tmp.5v2aQbzzLs:839 /tmp/tmp.5v2aQbzzLs:1402 /tmp/tmp.5v2aQbzzLs:1965
-msgid "CONTADOS: Consignar PAGADO y firma cobrador"
-msgstr ""
-
-#: /tmp/tmp.5v2aQbzzLs:843 /tmp/tmp.5v2aQbzzLs:1406 /tmp/tmp.5v2aQbzzLs:1969
+#: /tmp/tmp.vTUKIqNl5U:887 /tmp/tmp.vTUKIqNl5U:1417 /tmp/tmp.vTUKIqNl5U:1947
 msgid "OBSERVACIONES:"
 msgstr ""
 
-#: /tmp/tmp.5v2aQbzzLs:851 /tmp/tmp.5v2aQbzzLs:1414 /tmp/tmp.5v2aQbzzLs:1977
+#: /tmp/tmp.vTUKIqNl5U:895 /tmp/tmp.vTUKIqNl5U:1425 /tmp/tmp.vTUKIqNl5U:1955
 msgid "Suma Importes"
 msgstr ""
 
-#: /tmp/tmp.5v2aQbzzLs:855 /tmp/tmp.5v2aQbzzLs:1418 /tmp/tmp.5v2aQbzzLs:1981
-msgid "% P.P"
+#: /tmp/tmp.vTUKIqNl5U:899 /tmp/tmp.vTUKIqNl5U:1429 /tmp/tmp.vTUKIqNl5U:1959
+msgid "% P.P."
 msgstr ""
 
-#: /tmp/tmp.5v2aQbzzLs:859 /tmp/tmp.5v2aQbzzLs:1422 /tmp/tmp.5v2aQbzzLs:1985
+#: /tmp/tmp.vTUKIqNl5U:903 /tmp/tmp.vTUKIqNl5U:1433 /tmp/tmp.vTUKIqNl5U:1963
 msgid "Importe P.P."
 msgstr ""
 
-#: /tmp/tmp.5v2aQbzzLs:863 /tmp/tmp.5v2aQbzzLs:1426 /tmp/tmp.5v2aQbzzLs:1989
+#: /tmp/tmp.vTUKIqNl5U:907 /tmp/tmp.vTUKIqNl5U:1437 /tmp/tmp.vTUKIqNl5U:1967
 msgid "Base Imponible"
 msgstr ""
 
-#: /tmp/tmp.5v2aQbzzLs:867 /tmp/tmp.5v2aQbzzLs:1430 /tmp/tmp.5v2aQbzzLs:1993
+#: /tmp/tmp.vTUKIqNl5U:911 /tmp/tmp.vTUKIqNl5U:1441 /tmp/tmp.vTUKIqNl5U:1971
 msgid "Impuestos"
 msgstr ""
 
-#: /tmp/tmp.5v2aQbzzLs:871 /tmp/tmp.5v2aQbzzLs:1434 /tmp/tmp.5v2aQbzzLs:1997
+#: /tmp/tmp.vTUKIqNl5U:915 /tmp/tmp.vTUKIqNl5U:1445 /tmp/tmp.vTUKIqNl5U:1975
 msgid "Total AL CONTADO"
 msgstr ""
 
-#: /tmp/tmp.5v2aQbzzLs:875 /tmp/tmp.5v2aQbzzLs:1438 /tmp/tmp.5v2aQbzzLs:2001
+#: /tmp/tmp.vTUKIqNl5U:919 /tmp/tmp.vTUKIqNl5U:1449 /tmp/tmp.vTUKIqNl5U:1979
 msgid "Total APLAZADO"
 msgstr ""
 
-#: /tmp/tmp.5v2aQbzzLs:907 /tmp/tmp.5v2aQbzzLs:1470 /tmp/tmp.5v2aQbzzLs:2033
+#: /tmp/tmp.vTUKIqNl5U:951 /tmp/tmp.vTUKIqNl5U:1481 /tmp/tmp.vTUKIqNl5U:2011
 msgid "OTRA INFORMACIÓN:"
 msgstr ""
 
-#: /tmp/tmp.5v2aQbzzLs:911 /tmp/tmp.5v2aQbzzLs:1474 /tmp/tmp.5v2aQbzzLs:2037
+#: /tmp/tmp.vTUKIqNl5U:955 /tmp/tmp.vTUKIqNl5U:1485 /tmp/tmp.vTUKIqNl5U:2015
 msgid "Plazo de pago:"
 msgstr ""
 
-#: /tmp/tmp.5v2aQbzzLs:919 /tmp/tmp.5v2aQbzzLs:1482 /tmp/tmp.5v2aQbzzLs:2045
+#: /tmp/tmp.vTUKIqNl5U:967 /tmp/tmp.vTUKIqNl5U:1497 /tmp/tmp.vTUKIqNl5U:2027
 msgid "Tipo de pago:"
 msgstr ""
 
-#: /tmp/tmp.5v2aQbzzLs:947 /tmp/tmp.5v2aQbzzLs:1510 /tmp/tmp.5v2aQbzzLs:2073
+#: /tmp/tmp.vTUKIqNl5U:979 /tmp/tmp.vTUKIqNl5U:1509 /tmp/tmp.vTUKIqNl5U:2039
+msgid "Tel. Fijo: "
+msgstr ""
+
+#: /tmp/tmp.vTUKIqNl5U:982 /tmp/tmp.vTUKIqNl5U:1512 /tmp/tmp.vTUKIqNl5U:2042
+msgid "Tel. Móvil: "
+msgstr ""
+
+#: /tmp/tmp.vTUKIqNl5U:987 /tmp/tmp.vTUKIqNl5U:1517 /tmp/tmp.vTUKIqNl5U:2047
+msgid "Peso Bruto (kg): "
+msgstr ""
+
+#: /tmp/tmp.vTUKIqNl5U:990 /tmp/tmp.vTUKIqNl5U:1520 /tmp/tmp.vTUKIqNl5U:2050
+msgid "Bultos: "
+msgstr ""
+
+#: /tmp/tmp.vTUKIqNl5U:994 /tmp/tmp.vTUKIqNl5U:1524 /tmp/tmp.vTUKIqNl5U:2054
+msgid "Palets: "
+msgstr ""
+
+#: /tmp/tmp.vTUKIqNl5U:998 /tmp/tmp.vTUKIqNl5U:1528 /tmp/tmp.vTUKIqNl5U:2058
+msgid "ALBARAN"
+msgstr ""
+
+#: /tmp/tmp.vTUKIqNl5U:1028 /tmp/tmp.vTUKIqNl5U:1558 /tmp/tmp.vTUKIqNl5U:2088
 msgid "Nº Albarán:"
 msgstr ""
 
-#: /tmp/tmp.5v2aQbzzLs:951 /tmp/tmp.5v2aQbzzLs:1514 /tmp/tmp.5v2aQbzzLs:2077
+#: /tmp/tmp.vTUKIqNl5U:1032 /tmp/tmp.vTUKIqNl5U:1562 /tmp/tmp.vTUKIqNl5U:2092
 msgid "Fecha Albarán:"
 msgstr ""
 
-#: /tmp/tmp.5v2aQbzzLs:955 /tmp/tmp.5v2aQbzzLs:1518 /tmp/tmp.5v2aQbzzLs:2081
+#: /tmp/tmp.vTUKIqNl5U:1036 /tmp/tmp.vTUKIqNl5U:1566 /tmp/tmp.vTUKIqNl5U:2096
 msgid "Código Cliente:"
 msgstr ""
 
-#: /tmp/tmp.5v2aQbzzLs:959 /tmp/tmp.5v2aQbzzLs:1522 /tmp/tmp.5v2aQbzzLs:2085
+#: /tmp/tmp.vTUKIqNl5U:1040 /tmp/tmp.vTUKIqNl5U:1570 /tmp/tmp.vTUKIqNl5U:2100
 msgid "Pedido Cliente:"
 msgstr ""
 
-#: /tmp/tmp.5v2aQbzzLs:963 /tmp/tmp.5v2aQbzzLs:1526 /tmp/tmp.5v2aQbzzLs:2089
+#: /tmp/tmp.vTUKIqNl5U:1044 /tmp/tmp.vTUKIqNl5U:1574 /tmp/tmp.vTUKIqNl5U:2104
 msgid "Código Proveedor:"
 msgstr ""
 
-#: /tmp/tmp.5v2aQbzzLs:967 /tmp/tmp.5v2aQbzzLs:1530 /tmp/tmp.5v2aQbzzLs:2093
+#: /tmp/tmp.vTUKIqNl5U:1048 /tmp/tmp.vTUKIqNl5U:1578 /tmp/tmp.vTUKIqNl5U:2108
 msgid "Página:"
 msgstr ""
 
-#: /tmp/tmp.5v2aQbzzLs:991 /tmp/tmp.5v2aQbzzLs:1554 /tmp/tmp.5v2aQbzzLs:2117
+#: /tmp/tmp.vTUKIqNl5U:1072 /tmp/tmp.vTUKIqNl5U:1602 /tmp/tmp.vTUKIqNl5U:2132
 msgid "de"
 msgstr ""
 
-#: /tmp/tmp.5v2aQbzzLs:1003 /tmp/tmp.5v2aQbzzLs:1566 /tmp/tmp.5v2aQbzzLs:2129
+#: /tmp/tmp.vTUKIqNl5U:1084 /tmp/tmp.vTUKIqNl5U:1614 /tmp/tmp.vTUKIqNl5U:2144
 msgid "Fecha Entrega:"
 msgstr ""
 
-#: /tmp/tmp.5v2aQbzzLs:1030 /tmp/tmp.5v2aQbzzLs:1593 /tmp/tmp.5v2aQbzzLs:2156
+#: /tmp/tmp.vTUKIqNl5U:1111 /tmp/tmp.vTUKIqNl5U:1641 /tmp/tmp.vTUKIqNl5U:2171
 msgid "Tel.:"
 msgstr ""
 
-#: /tmp/tmp.5v2aQbzzLs:1030 /tmp/tmp.5v2aQbzzLs:1314 /tmp/tmp.5v2aQbzzLs:1593
-#: /tmp/tmp.5v2aQbzzLs:1877 /tmp/tmp.5v2aQbzzLs:2156 /tmp/tmp.5v2aQbzzLs:2440
+#: /tmp/tmp.vTUKIqNl5U:1111 /tmp/tmp.vTUKIqNl5U:1313 /tmp/tmp.vTUKIqNl5U:1641
+#: /tmp/tmp.vTUKIqNl5U:1843 /tmp/tmp.vTUKIqNl5U:2171 /tmp/tmp.vTUKIqNl5U:2373
 msgid "Fax:"
 msgstr ""
 
-#: /tmp/tmp.5v2aQbzzLs:1030 /tmp/tmp.5v2aQbzzLs:1314 /tmp/tmp.5v2aQbzzLs:1593
-#: /tmp/tmp.5v2aQbzzLs:1877 /tmp/tmp.5v2aQbzzLs:2156 /tmp/tmp.5v2aQbzzLs:2440
+#: /tmp/tmp.vTUKIqNl5U:1111 /tmp/tmp.vTUKIqNl5U:1313 /tmp/tmp.vTUKIqNl5U:1641
+#: /tmp/tmp.vTUKIqNl5U:1843 /tmp/tmp.vTUKIqNl5U:2171 /tmp/tmp.vTUKIqNl5U:2373
 msgid "e-mail:"
 msgstr ""
 
-#: /tmp/tmp.5v2aQbzzLs:1082 /tmp/tmp.5v2aQbzzLs:1645 /tmp/tmp.5v2aQbzzLs:2208
+#: /tmp/tmp.vTUKIqNl5U:1163 /tmp/tmp.vTUKIqNl5U:1693 /tmp/tmp.vTUKIqNl5U:2223
 msgid "PROVEEDOR:"
 msgstr ""
 
-#: /tmp/tmp.5v2aQbzzLs:1142 /tmp/tmp.5v2aQbzzLs:1258 /tmp/tmp.5v2aQbzzLs:1290
-#: /tmp/tmp.5v2aQbzzLs:1705 /tmp/tmp.5v2aQbzzLs:1821 /tmp/tmp.5v2aQbzzLs:1853
-#: /tmp/tmp.5v2aQbzzLs:2268 /tmp/tmp.5v2aQbzzLs:2384 /tmp/tmp.5v2aQbzzLs:2416
+#: /tmp/tmp.vTUKIqNl5U:1190 /tmp/tmp.vTUKIqNl5U:1209 /tmp/tmp.vTUKIqNl5U:1720
+#: /tmp/tmp.vTUKIqNl5U:1739 /tmp/tmp.vTUKIqNl5U:2250 /tmp/tmp.vTUKIqNl5U:2269
 msgid "CIF/NIF:"
 msgstr ""
 
-#: /tmp/tmp.5v2aQbzzLs:1230 /tmp/tmp.5v2aQbzzLs:1793 /tmp/tmp.5v2aQbzzLs:2356
-msgid "CLIENTE:"
-msgstr ""
-
-#: /tmp/tmp.5v2aQbzzLs:1262 /tmp/tmp.5v2aQbzzLs:1825 /tmp/tmp.5v2aQbzzLs:2388
+#: /tmp/tmp.vTUKIqNl5U:1194 /tmp/tmp.vTUKIqNl5U:1724 /tmp/tmp.vTUKIqNl5U:2254
 msgid "DIRECCIÓN DE ENTREGA:"
 msgstr ""
 
-#: /tmp/tmp.5v2aQbzzLs:1303 /tmp/tmp.5v2aQbzzLs:1866 /tmp/tmp.5v2aQbzzLs:2429
+#: /tmp/tmp.vTUKIqNl5U:1302 /tmp/tmp.vTUKIqNl5U:1832 /tmp/tmp.vTUKIqNl5U:2362
 msgid ""
 "IMPORTANTE:<br>No se admitirán reclamaciones sobre los envíos, pasados ocho "
 "días de la recepción de la mercancía por el comprador.<br>La conservación de "
 "la mercancía en poder del comprador es por su riesgo y cuenta."
 msgstr ""
 
-#: /tmp/tmp.5v2aQbzzLs:1314 /tmp/tmp.5v2aQbzzLs:1877 /tmp/tmp.5v2aQbzzLs:2440
+#: /tmp/tmp.vTUKIqNl5U:1313 /tmp/tmp.vTUKIqNl5U:1843 /tmp/tmp.vTUKIqNl5U:2373
 msgid ""
 "En cumplimiento de la Ley Orgánica 15/99, de 13 de diciembre, de Protección "
 "de Datos de Carácter Personal, le indicamos que la información que Ud. nos "
@@ -151,7 +166,7 @@ msgid ""
 "y presupuestos, la gestión comercial por parte de"
 msgstr ""
 
-#: /tmp/tmp.5v2aQbzzLs:1314 /tmp/tmp.5v2aQbzzLs:1877 /tmp/tmp.5v2aQbzzLs:2440
+#: /tmp/tmp.vTUKIqNl5U:1313 /tmp/tmp.vTUKIqNl5U:1843 /tmp/tmp.vTUKIqNl5U:2373
 msgid ""
 "la cual es titular de dichos ficheros. Para la realización de las gestiones "
 "antes mencionadas puede ser necesario que se cedan los datos a encargados de "
@@ -165,70 +180,46 @@ msgid ""
 "dirija un escrito a:"
 msgstr ""
 
-#: /tmp/tmp.5v2aQbzzLs:3187 /tmp/tmp.5v2aQbzzLs:3363 /tmp/tmp.5v2aQbzzLs:3539
-msgid "CÓDIGO"
+#: /tmp/tmp.vTUKIqNl5U:3100 /tmp/tmp.vTUKIqNl5U:3254 /tmp/tmp.vTUKIqNl5U:3408
+msgid "CÓDIGO INTERNO"
 msgstr ""
 
-#: /tmp/tmp.5v2aQbzzLs:3191 /tmp/tmp.5v2aQbzzLs:3367 /tmp/tmp.5v2aQbzzLs:3543
-msgid "INTERNO"
+#: /tmp/tmp.vTUKIqNl5U:3100 /tmp/tmp.vTUKIqNl5U:3254 /tmp/tmp.vTUKIqNl5U:3408
+msgid "CÓDIGO EAN-13"
 msgstr ""
 
-#: /tmp/tmp.5v2aQbzzLs:3195 /tmp/tmp.5v2aQbzzLs:3371 /tmp/tmp.5v2aQbzzLs:3547
-msgid "EAN-13"
-msgstr ""
-
-#: /tmp/tmp.5v2aQbzzLs:3207 /tmp/tmp.5v2aQbzzLs:3383 /tmp/tmp.5v2aQbzzLs:3559
-msgid "BULTOS"
-msgstr ""
-
-#: /tmp/tmp.5v2aQbzzLs:3211 /tmp/tmp.5v2aQbzzLs:3387 /tmp/tmp.5v2aQbzzLs:3563
-msgid "CAJAS"
-msgstr ""
-
-#: /tmp/tmp.5v2aQbzzLs:3215 /tmp/tmp.5v2aQbzzLs:3391 /tmp/tmp.5v2aQbzzLs:3567
-msgid "UNID"
-msgstr ""
-
-#: /tmp/tmp.5v2aQbzzLs:3227 /tmp/tmp.5v2aQbzzLs:3403 /tmp/tmp.5v2aQbzzLs:3579
-msgid "DESCRIPCIÓN Y UNIDADES POR EMBALAJE"
-msgstr ""
-
-#: /tmp/tmp.5v2aQbzzLs:3231 /tmp/tmp.5v2aQbzzLs:3407 /tmp/tmp.5v2aQbzzLs:3583
+#: /tmp/tmp.vTUKIqNl5U:3112 /tmp/tmp.vTUKIqNl5U:3266 /tmp/tmp.vTUKIqNl5U:3420
 msgid "ARTÍCULO"
 msgstr ""
 
-#: /tmp/tmp.5v2aQbzzLs:3235 /tmp/tmp.5v2aQbzzLs:3411 /tmp/tmp.5v2aQbzzLs:3587
-msgid "TIPO UND."
-msgstr ""
-
-#: /tmp/tmp.5v2aQbzzLs:3239 /tmp/tmp.5v2aQbzzLs:3415 /tmp/tmp.5v2aQbzzLs:3591
-msgid "U/C"
-msgstr ""
-
-#: /tmp/tmp.5v2aQbzzLs:3255 /tmp/tmp.5v2aQbzzLs:3431 /tmp/tmp.5v2aQbzzLs:3607
+#: /tmp/tmp.vTUKIqNl5U:3120 /tmp/tmp.vTUKIqNl5U:3274 /tmp/tmp.vTUKIqNl5U:3428
 msgid "Lote:"
 msgstr ""
 
-#: /tmp/tmp.5v2aQbzzLs:3259 /tmp/tmp.5v2aQbzzLs:3435 /tmp/tmp.5v2aQbzzLs:3611
+#: /tmp/tmp.vTUKIqNl5U:3124 /tmp/tmp.vTUKIqNl5U:3278 /tmp/tmp.vTUKIqNl5U:3432
 msgid "Caducidad:"
 msgstr ""
 
-#: /tmp/tmp.5v2aQbzzLs:3263 /tmp/tmp.5v2aQbzzLs:3439 /tmp/tmp.5v2aQbzzLs:3615
+#: /tmp/tmp.vTUKIqNl5U:3128 /tmp/tmp.vTUKIqNl5U:3282 /tmp/tmp.vTUKIqNl5U:3436
+msgid "CAJAS TOTALES"
+msgstr ""
+
+#: /tmp/tmp.vTUKIqNl5U:3140 /tmp/tmp.vTUKIqNl5U:3294 /tmp/tmp.vTUKIqNl5U:3448
 msgid "UNIDADES TOTALES"
 msgstr ""
 
-#: /tmp/tmp.5v2aQbzzLs:3271 /tmp/tmp.5v2aQbzzLs:3447 /tmp/tmp.5v2aQbzzLs:3623
+#: /tmp/tmp.vTUKIqNl5U:3154 /tmp/tmp.vTUKIqNl5U:3308 /tmp/tmp.vTUKIqNl5U:3462
 msgid "PRECIO UNITARIO"
 msgstr ""
 
-#: /tmp/tmp.5v2aQbzzLs:3279 /tmp/tmp.5v2aQbzzLs:3455 /tmp/tmp.5v2aQbzzLs:3631
+#: /tmp/tmp.vTUKIqNl5U:3166 /tmp/tmp.vTUKIqNl5U:3320 /tmp/tmp.vTUKIqNl5U:3474
 msgid "%<br>DTO."
 msgstr ""
 
-#: /tmp/tmp.5v2aQbzzLs:3287 /tmp/tmp.5v2aQbzzLs:3463 /tmp/tmp.5v2aQbzzLs:3639
+#: /tmp/tmp.vTUKIqNl5U:3178 /tmp/tmp.vTUKIqNl5U:3332 /tmp/tmp.vTUKIqNl5U:3486
 msgid "IMPORTE"
 msgstr ""
 
-#: /tmp/tmp.5v2aQbzzLs:3295 /tmp/tmp.5v2aQbzzLs:3471 /tmp/tmp.5v2aQbzzLs:3647
+#: /tmp/tmp.vTUKIqNl5U:3190 /tmp/tmp.vTUKIqNl5U:3344 /tmp/tmp.vTUKIqNl5U:3498
 msgid "%<br>IVA"
 msgstr ""

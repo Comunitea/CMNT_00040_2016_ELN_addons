@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>
+
+        <record id="mrp_workcenter_view" model="ir.ui.view">
+            <field name="name">mrp.workcenter.form</field>
+            <field name="model">mrp.workcenter</field>
+            <field name="inherit_id" ref="eln_production.mrp_workcenter_view"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <separator string="Description" position="before">
+                   <group col="4" colspan="2">
+                       <separator colspan="4" string="Sheets to be inluded in 'Control part' report"/>
+                       <field name="control_sheet_packing"/>
+                       <field name="control_sheet_salted"/>
+                       <field name="control_sheet_toasted"/>
+                       <field name="control_sheet_fried"/>
+                       <field name="control_sheet_mixed"/>
+                   </group>
+                </separator>
+            </field>
+        </record>
+
+         <record id="mrp_workcenter_view" model="ir.ui.view">
+            <field name="name">mrp.workcenter.form</field>
+            <field name="model">mrp.workcenter</field>
+            <field name="inherit_id" ref="eln_production.mrp_workcenter_view"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <separator string="Description" position="before">
+                   <group col="4" colspan="2">
+                       <separator colspan="4" string="Sheets to be inluded in 'Control part' report"/>
+                       <field name="control_sheet_packing"/>
+                       <field name="control_sheet_salted"/>
+                       <field name="control_sheet_toasted"/>
+                       <field name="control_sheet_fried"/>
+                       <field name="control_sheet_mixed"/>
+                   </group>
+                </separator>
+            </field>
+        </record>
+
+    </data>
+</openerp>

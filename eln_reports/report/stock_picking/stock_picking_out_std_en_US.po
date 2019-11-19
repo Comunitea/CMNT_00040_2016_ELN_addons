@@ -5,247 +5,201 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PEDRO\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-12 12:52+0100\n"
-"PO-Revision-Date: 2015-03-12 13:00+0100\n"
-"Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
-"Language-Team: INGLES <LL@li.org>\n"
+"POT-Creation-Date: 2019-11-18 12:06+0100\n"
+"PO-Revision-Date: 2019-11-19 09:42+0100\n"
 "Language: en_US\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.7\n"
+"Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
+"Language-Team: \n"
+"X-Generator: Poedit 2.2.4\n"
 
-#: /tmp/tmp.RGeZo8Aby0:835 /tmp/tmp.RGeZo8Aby0:1398 /tmp/tmp.RGeZo8Aby0:1961
-msgid "RECIBI:(Firma y Sello)"
+#: /tmp/tmp.uMZkn12cT8:883 /tmp/tmp.uMZkn12cT8:1413 /tmp/tmp.uMZkn12cT8:1943
+msgid "RECIBI: (Firma y Sello)"
 msgstr "RECEIVED: (Signature and Seal)"
 
-#: /tmp/tmp.RGeZo8Aby0:839 /tmp/tmp.RGeZo8Aby0:1402 /tmp/tmp.RGeZo8Aby0:1965
-msgid "CONTADOS: Consignar PAGADO y firma cobrador"
-msgstr "CASH PAYMENT: Commit PAID and signature bill collector"
-
-#: /tmp/tmp.RGeZo8Aby0:843 /tmp/tmp.RGeZo8Aby0:1406 /tmp/tmp.RGeZo8Aby0:1969
+#: /tmp/tmp.uMZkn12cT8:887 /tmp/tmp.uMZkn12cT8:1417 /tmp/tmp.uMZkn12cT8:1947
 msgid "OBSERVACIONES:"
 msgstr "NOTES:"
 
-#: /tmp/tmp.RGeZo8Aby0:851 /tmp/tmp.RGeZo8Aby0:1414 /tmp/tmp.RGeZo8Aby0:1977
+#: /tmp/tmp.uMZkn12cT8:895 /tmp/tmp.uMZkn12cT8:1425 /tmp/tmp.uMZkn12cT8:1955
 msgid "Suma Importes"
 msgstr "Sum Amount"
 
-#: /tmp/tmp.RGeZo8Aby0:855 /tmp/tmp.RGeZo8Aby0:1418 /tmp/tmp.RGeZo8Aby0:1981
-msgid "% P.P"
+#: /tmp/tmp.uMZkn12cT8:899 /tmp/tmp.uMZkn12cT8:1429 /tmp/tmp.uMZkn12cT8:1959
+msgid "% P.P."
 msgstr "% E.P."
 
-#: /tmp/tmp.RGeZo8Aby0:859 /tmp/tmp.RGeZo8Aby0:1422 /tmp/tmp.RGeZo8Aby0:1985
+#: /tmp/tmp.uMZkn12cT8:903 /tmp/tmp.uMZkn12cT8:1433 /tmp/tmp.uMZkn12cT8:1963
 msgid "Importe P.P."
 msgstr "E.P. Amount"
 
-#: /tmp/tmp.RGeZo8Aby0:863 /tmp/tmp.RGeZo8Aby0:1426 /tmp/tmp.RGeZo8Aby0:1989
+#: /tmp/tmp.uMZkn12cT8:907 /tmp/tmp.uMZkn12cT8:1437 /tmp/tmp.uMZkn12cT8:1967
 msgid "Base Imponible"
 msgstr "Taxable Amount"
 
-#: /tmp/tmp.RGeZo8Aby0:867 /tmp/tmp.RGeZo8Aby0:1430 /tmp/tmp.RGeZo8Aby0:1993
+#: /tmp/tmp.uMZkn12cT8:911 /tmp/tmp.uMZkn12cT8:1441 /tmp/tmp.uMZkn12cT8:1971
 msgid "Impuestos"
 msgstr "Taxes"
 
-#: /tmp/tmp.RGeZo8Aby0:871 /tmp/tmp.RGeZo8Aby0:1434 /tmp/tmp.RGeZo8Aby0:1997
+#: /tmp/tmp.uMZkn12cT8:915 /tmp/tmp.uMZkn12cT8:1445 /tmp/tmp.uMZkn12cT8:1975
 msgid "Total AL CONTADO"
 msgstr "Total E.P. AMOUNT"
 
-#: /tmp/tmp.RGeZo8Aby0:875 /tmp/tmp.RGeZo8Aby0:1438 /tmp/tmp.RGeZo8Aby0:2001
+#: /tmp/tmp.uMZkn12cT8:919 /tmp/tmp.uMZkn12cT8:1449 /tmp/tmp.uMZkn12cT8:1979
 msgid "Total APLAZADO"
 msgstr "Total AMOUNT"
 
-#: /tmp/tmp.RGeZo8Aby0:907 /tmp/tmp.RGeZo8Aby0:1470 /tmp/tmp.RGeZo8Aby0:2033
+#: /tmp/tmp.uMZkn12cT8:951 /tmp/tmp.uMZkn12cT8:1481 /tmp/tmp.uMZkn12cT8:2011
 msgid "OTRA INFORMACIÓN:"
 msgstr "OTHER INFORMATION:"
 
-#: /tmp/tmp.RGeZo8Aby0:911 /tmp/tmp.RGeZo8Aby0:1474 /tmp/tmp.RGeZo8Aby0:2037
+#: /tmp/tmp.uMZkn12cT8:955 /tmp/tmp.uMZkn12cT8:1485 /tmp/tmp.uMZkn12cT8:2015
 msgid "Plazo de pago:"
 msgstr "Payment term:"
 
-#: /tmp/tmp.RGeZo8Aby0:919 /tmp/tmp.RGeZo8Aby0:1482 /tmp/tmp.RGeZo8Aby0:2045
+#: /tmp/tmp.uMZkn12cT8:967 /tmp/tmp.uMZkn12cT8:1497 /tmp/tmp.uMZkn12cT8:2027
 msgid "Tipo de pago:"
 msgstr "Payment type:"
 
-#: /tmp/tmp.RGeZo8Aby0:947 /tmp/tmp.RGeZo8Aby0:1510 /tmp/tmp.RGeZo8Aby0:2073
+#: /tmp/tmp.uMZkn12cT8:979 /tmp/tmp.uMZkn12cT8:1509 /tmp/tmp.uMZkn12cT8:2039
+msgid "Tel. Fijo: "
+msgstr "Phone: "
+
+#: /tmp/tmp.uMZkn12cT8:982 /tmp/tmp.uMZkn12cT8:1512 /tmp/tmp.uMZkn12cT8:2042
+msgid "Tel. Móvil: "
+msgstr "Mobile: "
+
+#: /tmp/tmp.uMZkn12cT8:987 /tmp/tmp.uMZkn12cT8:1517 /tmp/tmp.uMZkn12cT8:2047
+msgid "Peso Bruto (kg): "
+msgstr "Gross Weight (kg): "
+
+#: /tmp/tmp.uMZkn12cT8:990 /tmp/tmp.uMZkn12cT8:1520 /tmp/tmp.uMZkn12cT8:2050
+msgid "Bultos: "
+msgstr "Packages: "
+
+#: /tmp/tmp.uMZkn12cT8:994 /tmp/tmp.uMZkn12cT8:1524 /tmp/tmp.uMZkn12cT8:2054
+msgid "Palets: "
+msgstr "Palets: "
+
+#: /tmp/tmp.uMZkn12cT8:998 /tmp/tmp.uMZkn12cT8:1528 /tmp/tmp.uMZkn12cT8:2058
+msgid "ALBARAN"
+msgstr "PACKING LIST"
+
+#: /tmp/tmp.uMZkn12cT8:1028 /tmp/tmp.uMZkn12cT8:1558 /tmp/tmp.uMZkn12cT8:2088
 msgid "Nº Albarán:"
 msgstr "Packing List Nº:"
 
-#: /tmp/tmp.RGeZo8Aby0:951 /tmp/tmp.RGeZo8Aby0:1514 /tmp/tmp.RGeZo8Aby0:2077
+#: /tmp/tmp.uMZkn12cT8:1032 /tmp/tmp.uMZkn12cT8:1562 /tmp/tmp.uMZkn12cT8:2092
 msgid "Fecha Albarán:"
 msgstr "Packing List Date:"
 
-#: /tmp/tmp.RGeZo8Aby0:955 /tmp/tmp.RGeZo8Aby0:1518 /tmp/tmp.RGeZo8Aby0:2081
+#: /tmp/tmp.uMZkn12cT8:1036 /tmp/tmp.uMZkn12cT8:1566 /tmp/tmp.uMZkn12cT8:2096
 msgid "Código Cliente:"
 msgstr "Client Code:"
 
-#: /tmp/tmp.RGeZo8Aby0:959 /tmp/tmp.RGeZo8Aby0:1522 /tmp/tmp.RGeZo8Aby0:2085
+#: /tmp/tmp.uMZkn12cT8:1040 /tmp/tmp.uMZkn12cT8:1570 /tmp/tmp.uMZkn12cT8:2100
 msgid "Pedido Cliente:"
 msgstr "Customer Order:"
 
-#: /tmp/tmp.RGeZo8Aby0:963 /tmp/tmp.RGeZo8Aby0:1526 /tmp/tmp.RGeZo8Aby0:2089
+#: /tmp/tmp.uMZkn12cT8:1044 /tmp/tmp.uMZkn12cT8:1574 /tmp/tmp.uMZkn12cT8:2104
 msgid "Código Proveedor:"
 msgstr "Supplier Code:"
 
-#: /tmp/tmp.RGeZo8Aby0:967 /tmp/tmp.RGeZo8Aby0:1530 /tmp/tmp.RGeZo8Aby0:2093
+#: /tmp/tmp.uMZkn12cT8:1048 /tmp/tmp.uMZkn12cT8:1578 /tmp/tmp.uMZkn12cT8:2108
 msgid "Página:"
 msgstr "Page:"
 
-#: /tmp/tmp.RGeZo8Aby0:991 /tmp/tmp.RGeZo8Aby0:1554 /tmp/tmp.RGeZo8Aby0:2117
+#: /tmp/tmp.uMZkn12cT8:1072 /tmp/tmp.uMZkn12cT8:1602 /tmp/tmp.uMZkn12cT8:2132
 msgid "de"
 msgstr "of"
 
-#: /tmp/tmp.RGeZo8Aby0:1003 /tmp/tmp.RGeZo8Aby0:1566 /tmp/tmp.RGeZo8Aby0:2129
+#: /tmp/tmp.uMZkn12cT8:1084 /tmp/tmp.uMZkn12cT8:1614 /tmp/tmp.uMZkn12cT8:2144
 msgid "Fecha Entrega:"
 msgstr "Delivery Date:"
 
-#: /tmp/tmp.RGeZo8Aby0:1030 /tmp/tmp.RGeZo8Aby0:1593 /tmp/tmp.RGeZo8Aby0:2156
+#: /tmp/tmp.uMZkn12cT8:1111 /tmp/tmp.uMZkn12cT8:1641 /tmp/tmp.uMZkn12cT8:2171
 msgid "Tel.:"
 msgstr "Tel.:"
 
-#: /tmp/tmp.RGeZo8Aby0:1030 /tmp/tmp.RGeZo8Aby0:1314 /tmp/tmp.RGeZo8Aby0:1593
-#: /tmp/tmp.RGeZo8Aby0:1877 /tmp/tmp.RGeZo8Aby0:2156 /tmp/tmp.RGeZo8Aby0:2440
+#: /tmp/tmp.uMZkn12cT8:1111 /tmp/tmp.uMZkn12cT8:1313 /tmp/tmp.uMZkn12cT8:1641
+#: /tmp/tmp.uMZkn12cT8:1843 /tmp/tmp.uMZkn12cT8:2171 /tmp/tmp.uMZkn12cT8:2373
 msgid "Fax:"
 msgstr "Fax:"
 
-#: /tmp/tmp.RGeZo8Aby0:1030 /tmp/tmp.RGeZo8Aby0:1314 /tmp/tmp.RGeZo8Aby0:1593
-#: /tmp/tmp.RGeZo8Aby0:1877 /tmp/tmp.RGeZo8Aby0:2156 /tmp/tmp.RGeZo8Aby0:2440
+#: /tmp/tmp.uMZkn12cT8:1111 /tmp/tmp.uMZkn12cT8:1313 /tmp/tmp.uMZkn12cT8:1641
+#: /tmp/tmp.uMZkn12cT8:1843 /tmp/tmp.uMZkn12cT8:2171 /tmp/tmp.uMZkn12cT8:2373
 msgid "e-mail:"
 msgstr "e-mail:"
 
-#: /tmp/tmp.RGeZo8Aby0:1082 /tmp/tmp.RGeZo8Aby0:1645 /tmp/tmp.RGeZo8Aby0:2208
+#: /tmp/tmp.uMZkn12cT8:1163 /tmp/tmp.uMZkn12cT8:1693 /tmp/tmp.uMZkn12cT8:2223
 msgid "PROVEEDOR:"
 msgstr "SUPPLIER:"
 
-#: /tmp/tmp.RGeZo8Aby0:1142 /tmp/tmp.RGeZo8Aby0:1258 /tmp/tmp.RGeZo8Aby0:1290
-#: /tmp/tmp.RGeZo8Aby0:1705 /tmp/tmp.RGeZo8Aby0:1821 /tmp/tmp.RGeZo8Aby0:1853
-#: /tmp/tmp.RGeZo8Aby0:2268 /tmp/tmp.RGeZo8Aby0:2384 /tmp/tmp.RGeZo8Aby0:2416
+#: /tmp/tmp.uMZkn12cT8:1190 /tmp/tmp.uMZkn12cT8:1209 /tmp/tmp.uMZkn12cT8:1720
+#: /tmp/tmp.uMZkn12cT8:1739 /tmp/tmp.uMZkn12cT8:2250 /tmp/tmp.uMZkn12cT8:2269
 msgid "CIF/NIF:"
 msgstr "VAT:"
 
-#: /tmp/tmp.RGeZo8Aby0:1230 /tmp/tmp.RGeZo8Aby0:1793 /tmp/tmp.RGeZo8Aby0:2356
-msgid "CLIENTE:"
-msgstr "CUSTOMER:"
-
-#: /tmp/tmp.RGeZo8Aby0:1262 /tmp/tmp.RGeZo8Aby0:1825 /tmp/tmp.RGeZo8Aby0:2388
+#: /tmp/tmp.uMZkn12cT8:1194 /tmp/tmp.uMZkn12cT8:1724 /tmp/tmp.uMZkn12cT8:2254
 msgid "DIRECCIÓN DE ENTREGA:"
 msgstr "SHIPPING ADDRESS:"
 
-#: /tmp/tmp.RGeZo8Aby0:1303 /tmp/tmp.RGeZo8Aby0:1866 /tmp/tmp.RGeZo8Aby0:2429
-msgid ""
-"IMPORTANTE:<br>No se admitirán reclamaciones sobre los envíos, pasados ocho "
-"días de la recepción de la mercancía por el comprador.<br>La conservación de "
-"la mercancía en poder del comprador es por su riesgo y cuenta."
-msgstr ""
-"IMPORTANT:<br>Claims on shipments will not be accepted, after eight days of "
-"receipt of the goods by the buyer.<br>The conservation of the goods over to "
-"the buyer's risk and expense for her."
+#: /tmp/tmp.uMZkn12cT8:1302 /tmp/tmp.uMZkn12cT8:1832 /tmp/tmp.uMZkn12cT8:2362
+msgid "IMPORTANTE:<br>No se admitirán reclamaciones sobre los envíos, pasados ocho días de la recepción de la mercancía por el comprador.<br>La conservación de la mercancía en poder del comprador es por su riesgo y cuenta."
+msgstr "IMPORTANT:<br>Claims on shipments will not be accepted, after eight days of receipt of the goods by the buyer.<br>The conservation of the goods over to the buyer's risk and expense for her."
 
-#: /tmp/tmp.RGeZo8Aby0:1314 /tmp/tmp.RGeZo8Aby0:1877 /tmp/tmp.RGeZo8Aby0:2440
-msgid ""
-"En cumplimiento de la Ley Orgánica 15/99, de 13 de diciembre, de Protección "
-"de Datos de Carácter Personal, le indicamos que la información que Ud. nos "
-"facilita de forma voluntaria, por cualquiera de nuestros medios de recogida "
-"de información, tiene como única finalidad la incorporación a un fichero "
-"automatizado de datos de carácter personal cuyas finalidades son: la gestión "
-"contable y fiscal, la facturación de servicios, la realización de propuestas "
-"y presupuestos, la gestión comercial por parte de"
-msgstr ""
-"In compliance with Organic Law 15/99 of December 13, Protection of Personal "
-"Data, we inform you that the information you provide us voluntarily, for any "
-"of our means of collecting information is only intended incorporation into "
-"an automated file of personal data whose purposes are: accounting and fiscal "
-"management, billing services, making proposals and budgets, business "
-"management by"
+#: /tmp/tmp.uMZkn12cT8:1313 /tmp/tmp.uMZkn12cT8:1843 /tmp/tmp.uMZkn12cT8:2373
+msgid "En cumplimiento de la Ley Orgánica 15/99, de 13 de diciembre, de Protección de Datos de Carácter Personal, le indicamos que la información que Ud. nos facilita de forma voluntaria, por cualquiera de nuestros medios de recogida de información, tiene como única finalidad la incorporación a un fichero automatizado de datos de carácter personal cuyas finalidades son: la gestión contable y fiscal, la facturación de servicios, la realización de propuestas y presupuestos, la gestión comercial por parte de"
+msgstr "In compliance with Organic Law 15/99 of December 13, Protection of Personal Data, we inform you that the information you provide us voluntarily, for any of our means of collecting information is only intended incorporation into an automated file of personal data whose purposes are: accounting and fiscal management, billing services, making proposals and budgets, business management by"
 
-#: /tmp/tmp.RGeZo8Aby0:1314 /tmp/tmp.RGeZo8Aby0:1877 /tmp/tmp.RGeZo8Aby0:2440
-msgid ""
-"la cual es titular de dichos ficheros. Para la realización de las gestiones "
-"antes mencionadas puede ser necesario que se cedan los datos a encargados de "
-"tratamiento, empresas colaboradoras y administraciones públicas. Esta "
-"autorización se hace efectiva de forma retroactiva a cualquier tratamiento "
-"de datos hechos ya por parte del titular del fichero, siempre y cuando la "
-"finalidad fuese la anteriormente indicada. También se hace efectiva para "
-"cualquier otro tratamiento necesario para la prestación de servicios de "
-"reciente o nueva contratación. Se le garantiza total confidencialidad y si "
-"desea ejercer el derecho de acceso, rectificación, oposición o cancelación, "
-"dirija un escrito a:"
-msgstr ""
-"which owns the files. To carry out the above steps may be necessary for data "
-"processing managers, partner companies and public administrations are "
-"transferred. This authorization is effective retroactively to any facts and "
-"data processing by the owner of the file, as long as the purpose was to "
-"Transport. It also becomes effective for any other information necessary for "
-"the provision of new or newly recruited treatment. You are guaranteed "
-"complete confidentiality and whether to exercise the right of access, "
-"rectification, opposition or cancellation, direct writing to:"
+#: /tmp/tmp.uMZkn12cT8:1313 /tmp/tmp.uMZkn12cT8:1843 /tmp/tmp.uMZkn12cT8:2373
+msgid "la cual es titular de dichos ficheros. Para la realización de las gestiones antes mencionadas puede ser necesario que se cedan los datos a encargados de tratamiento, empresas colaboradoras y administraciones públicas. Esta autorización se hace efectiva de forma retroactiva a cualquier tratamiento de datos hechos ya por parte del titular del fichero, siempre y cuando la finalidad fuese la anteriormente indicada. También se hace efectiva para cualquier otro tratamiento necesario para la prestación de servicios de reciente o nueva contratación. Se le garantiza total confidencialidad y si desea ejercer el derecho de acceso, rectificación, oposición o cancelación, dirija un escrito a:"
+msgstr "which owns the files. To carry out the above steps may be necessary for data processing managers, partner companies and public administrations are transferred. This authorization is effective retroactively to any facts and data processing by the owner of the file, as long as the purpose was to Transport. It also becomes effective for any other information necessary for the provision of new or newly recruited treatment. You are guaranteed complete confidentiality and whether to exercise the right of access, rectification, opposition or cancellation, direct writing to:"
 
-#: /tmp/tmp.RGeZo8Aby0:3187 /tmp/tmp.RGeZo8Aby0:3363 /tmp/tmp.RGeZo8Aby0:3539
-msgid "CÓDIGO"
-msgstr "CODE"
+#: /tmp/tmp.uMZkn12cT8:3100 /tmp/tmp.uMZkn12cT8:3254 /tmp/tmp.uMZkn12cT8:3408
+msgid "CÓDIGO INTERNO"
+msgstr "INTERNAL CODE"
 
-#: /tmp/tmp.RGeZo8Aby0:3191 /tmp/tmp.RGeZo8Aby0:3367 /tmp/tmp.RGeZo8Aby0:3543
-msgid "INTERNO"
-msgstr "INTERNAL"
+#: /tmp/tmp.uMZkn12cT8:3100 /tmp/tmp.uMZkn12cT8:3254 /tmp/tmp.uMZkn12cT8:3408
+msgid "CÓDIGO EAN-13"
+msgstr "EAN-13 CODE"
 
-#: /tmp/tmp.RGeZo8Aby0:3195 /tmp/tmp.RGeZo8Aby0:3371 /tmp/tmp.RGeZo8Aby0:3547
-msgid "EAN-13"
-msgstr "EAN-13"
-
-#: /tmp/tmp.RGeZo8Aby0:3207 /tmp/tmp.RGeZo8Aby0:3383 /tmp/tmp.RGeZo8Aby0:3559
-msgid "BULTOS"
-msgstr "PACKAGES"
-
-#: /tmp/tmp.RGeZo8Aby0:3211 /tmp/tmp.RGeZo8Aby0:3387 /tmp/tmp.RGeZo8Aby0:3563
-msgid "CAJAS"
-msgstr "BOXES"
-
-#: /tmp/tmp.RGeZo8Aby0:3215 /tmp/tmp.RGeZo8Aby0:3391 /tmp/tmp.RGeZo8Aby0:3567
-msgid "UNID"
-msgstr "UNITS"
-
-#: /tmp/tmp.RGeZo8Aby0:3227 /tmp/tmp.RGeZo8Aby0:3403 /tmp/tmp.RGeZo8Aby0:3579
-msgid "DESCRIPCIÓN Y UNIDADES POR EMBALAJE"
-msgstr "DESCRIPTION AND UNITS PER PACKAGING"
-
-#: /tmp/tmp.RGeZo8Aby0:3231 /tmp/tmp.RGeZo8Aby0:3407 /tmp/tmp.RGeZo8Aby0:3583
+#: /tmp/tmp.uMZkn12cT8:3112 /tmp/tmp.uMZkn12cT8:3266 /tmp/tmp.uMZkn12cT8:3420
 msgid "ARTÍCULO"
 msgstr "ITEM"
 
-#: /tmp/tmp.RGeZo8Aby0:3235 /tmp/tmp.RGeZo8Aby0:3411 /tmp/tmp.RGeZo8Aby0:3587
-msgid "TIPO UND."
-msgstr "TYPE UNIT"
-
-#: /tmp/tmp.RGeZo8Aby0:3239 /tmp/tmp.RGeZo8Aby0:3415 /tmp/tmp.RGeZo8Aby0:3591
-msgid "U/C"
-msgstr "U/C"
-
-#: /tmp/tmp.RGeZo8Aby0:3255 /tmp/tmp.RGeZo8Aby0:3431 /tmp/tmp.RGeZo8Aby0:3607
+#: /tmp/tmp.uMZkn12cT8:3120 /tmp/tmp.uMZkn12cT8:3274 /tmp/tmp.uMZkn12cT8:3428
 msgid "Lote:"
 msgstr "Lot:"
 
-#: /tmp/tmp.RGeZo8Aby0:3259 /tmp/tmp.RGeZo8Aby0:3435 /tmp/tmp.RGeZo8Aby0:3611
+#: /tmp/tmp.uMZkn12cT8:3124 /tmp/tmp.uMZkn12cT8:3278 /tmp/tmp.uMZkn12cT8:3432
 msgid "Caducidad:"
 msgstr "Expiration:"
 
-#: /tmp/tmp.RGeZo8Aby0:3263 /tmp/tmp.RGeZo8Aby0:3439 /tmp/tmp.RGeZo8Aby0:3615
+#: /tmp/tmp.uMZkn12cT8:3128 /tmp/tmp.uMZkn12cT8:3282 /tmp/tmp.uMZkn12cT8:3436
+msgid "CAJAS TOTALES"
+msgstr "TOTAL BOXES"
+
+#: /tmp/tmp.uMZkn12cT8:3140 /tmp/tmp.uMZkn12cT8:3294 /tmp/tmp.uMZkn12cT8:3448
 msgid "UNIDADES TOTALES"
 msgstr "TOTAL<br>UNITS"
 
-#: /tmp/tmp.RGeZo8Aby0:3271 /tmp/tmp.RGeZo8Aby0:3447 /tmp/tmp.RGeZo8Aby0:3623
+#: /tmp/tmp.uMZkn12cT8:3154 /tmp/tmp.uMZkn12cT8:3308 /tmp/tmp.uMZkn12cT8:3462
 msgid "PRECIO UNITARIO"
 msgstr "UNIT PRICE"
 
-#: /tmp/tmp.RGeZo8Aby0:3279 /tmp/tmp.RGeZo8Aby0:3455 /tmp/tmp.RGeZo8Aby0:3631
+#: /tmp/tmp.uMZkn12cT8:3166 /tmp/tmp.uMZkn12cT8:3320 /tmp/tmp.uMZkn12cT8:3474
 msgid "%<br>DTO."
 msgstr "%<br>DSC."
 
-#: /tmp/tmp.RGeZo8Aby0:3287 /tmp/tmp.RGeZo8Aby0:3463 /tmp/tmp.RGeZo8Aby0:3639
+#: /tmp/tmp.uMZkn12cT8:3178 /tmp/tmp.uMZkn12cT8:3332 /tmp/tmp.uMZkn12cT8:3486
 msgid "IMPORTE"
 msgstr "AMOUNT"
 
-#: /tmp/tmp.RGeZo8Aby0:3295 /tmp/tmp.RGeZo8Aby0:3471 /tmp/tmp.RGeZo8Aby0:3647
+#: /tmp/tmp.uMZkn12cT8:3190 /tmp/tmp.uMZkn12cT8:3344 /tmp/tmp.uMZkn12cT8:3498
 msgid "%<br>IVA"
 msgstr "%<br>VAT"
