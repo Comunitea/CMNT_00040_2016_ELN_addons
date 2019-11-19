@@ -24,255 +24,65 @@
 			<pen lineWidth="0.5" lineColor="#000000"/>
 		</box>
 	</style>
-	<style name="table 1" lineSpacing="Single">
-		<box>
-			<pen lineWidth="1.0" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF" lineSpacing="Single">
-		<box>
-			<pen lineWidth="0.5" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF" lineSpacing="Single">
-		<box>
-			<pen lineWidth="0.5" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF" lineSpacing="Single">
-		<box>
-			<pen lineWidth="0.5" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 2" lineSpacing="Single">
-		<box>
-			<pen lineWidth="1.0" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 2_TH" mode="Opaque" backcolor="#F0F8FF" lineSpacing="Single">
-		<box>
-			<pen lineWidth="0.5" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 2_CH" mode="Opaque" backcolor="#BFE1FF" lineSpacing="Single">
-		<box>
-			<pen lineWidth="0.5" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 2_TD" mode="Opaque" backcolor="#FFFFFF" lineSpacing="Single">
-		<box>
-			<pen lineWidth="0.5" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 3" lineSpacing="Single">
-		<box>
-			<pen lineWidth="1.0" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 3_TH" mode="Opaque" backcolor="#F0F8FF" lineSpacing="Single">
-		<box>
-			<pen lineWidth="0.5" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 3_CH" mode="Opaque" backcolor="#BFE1FF" lineSpacing="Single">
-		<box>
-			<pen lineWidth="0.5" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 3_TD" mode="Opaque" backcolor="#FFFFFF" lineSpacing="Single">
-		<box>
-			<pen lineWidth="0.5" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 4" lineSpacing="Single">
-		<box>
-			<pen lineWidth="1.0" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 4_TH" mode="Opaque" backcolor="#F0F8FF" lineSpacing="Single">
-		<box>
-			<pen lineWidth="0.5" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 4_CH" mode="Opaque" backcolor="#BFE1FF" lineSpacing="Single">
-		<box>
-			<pen lineWidth="0.5" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 4_TD" mode="Opaque" backcolor="#FFFFFF" lineSpacing="Single">
-		<box>
-			<pen lineWidth="0.5" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 5" lineSpacing="Single">
-		<box>
-			<pen lineWidth="1.0" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 5_TH" mode="Opaque" backcolor="#F0F8FF" lineSpacing="Single">
-		<box>
-			<pen lineWidth="0.5" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 5_CH" mode="Opaque" backcolor="#BFE1FF" lineSpacing="Single">
-		<box>
-			<pen lineWidth="0.5" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 5_TD" mode="Opaque" backcolor="#FFFFFF" lineSpacing="Single">
-		<box>
-			<pen lineWidth="0.5" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 6" lineSpacing="Single">
-		<box>
-			<pen lineWidth="1.0" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 6_TH" mode="Opaque" backcolor="#F0F8FF" lineSpacing="Single">
-		<box>
-			<pen lineWidth="0.5" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 6_CH" mode="Opaque" backcolor="#BFE1FF" lineSpacing="Single">
-		<box>
-			<pen lineWidth="0.5" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 6_TD" mode="Opaque" backcolor="#FFFFFF" lineSpacing="Single">
-		<box>
-			<pen lineWidth="0.5" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 7" lineSpacing="Single">
-		<box>
-			<pen lineWidth="1.0" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 7_TH" mode="Opaque" backcolor="#F0F8FF" lineSpacing="Single">
-		<box>
-			<pen lineWidth="0.5" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 7_CH" mode="Opaque" backcolor="#BFE1FF" lineSpacing="Single">
-		<box>
-			<pen lineWidth="0.5" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 7_TD" mode="Opaque" backcolor="#FFFFFF" lineSpacing="Single">
-		<box>
-			<pen lineWidth="0.5" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 8" lineSpacing="Single">
-		<box>
-			<pen lineWidth="1.0" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 8_TH" mode="Opaque" backcolor="#F0F8FF" lineSpacing="Single">
-		<box>
-			<pen lineWidth="0.5" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 8_CH" mode="Opaque" backcolor="#BFE1FF" lineSpacing="Single">
-		<box>
-			<pen lineWidth="0.5" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 8_TD" mode="Opaque" backcolor="#FFFFFF" lineSpacing="Single">
-		<box>
-			<pen lineWidth="0.5" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="Crosstab Data Text" hAlign="Center" lineSpacing="Single"/>
-	<style name="table 9" lineSpacing="Single">
-		<box>
-			<pen lineWidth="1.0" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 9_TH" mode="Opaque" backcolor="#F0F8FF" lineSpacing="Single">
-		<box>
-			<pen lineWidth="0.5" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 9_CH" mode="Opaque" backcolor="#BFE1FF" lineSpacing="Single">
-		<box>
-			<pen lineWidth="0.5" lineColor="#000000"/>
-		</box>
-	</style>
-	<style name="table 9_TD" mode="Opaque" backcolor="#FFFFFF" lineSpacing="Single">
-		<box>
-			<pen lineWidth="0.5" lineColor="#000000"/>
-		</box>
-	</style>
 	<subDataset name="Table LINES">
-		<parameter name="PICKING_ID" class="java.lang.Integer"/>
-		<parameter name="REWIND" class="java.lang.Object" isForPrompting="false">
-			<parameterDescription><![CDATA[]]></parameterDescription>
-			<defaultValueExpression><![CDATA[$P{REPORT_DATA_SOURCE}.moveFirst()]]></defaultValueExpression>
-		</parameter>
-		<queryString language="xPath">
+		<parameter name="T-COD" class="java.lang.String"/>
+		<parameter name="T-ART" class="java.lang.String"/>
+		<parameter name="T-TOT-CAJ" class="java.lang.String"/>
+		<parameter name="T-TOT-UNI" class="java.lang.String"/>
+		<parameter name="T-PRE-UNI" class="java.lang.String"/>
+		<parameter name="T-DTO" class="java.lang.String"/>
+		<parameter name="T-IMP" class="java.lang.String"/>
+		<parameter name="T-IVA" class="java.lang.String"/>
+		<parameter name="T-LOT" class="java.lang.String"/>
+		<parameter name="T-CAD" class="java.lang.String"/>
+		<queryString>
 			<![CDATA[]]>
 		</queryString>
-		<field name="Descuento-discount" class="java.lang.Double">
-			<fieldDescription><![CDATA[/data/record/Delivery_List-out_report_ids/Move-move_id/Abastecimiento-procurement_id/Linea_pedido_de_venta-sale_line_id/Descuento-discount]]></fieldDescription>
+		<field name="prod_code" class="java.lang.String">
+			<fieldDescription><![CDATA[prod_code]]></fieldDescription>
 		</field>
-		<field name="Descripcion-name" class="java.lang.String">
-			<fieldDescription><![CDATA[/data/record/Delivery_List-out_report_ids/Move-move_id/Abastecimiento-procurement_id/Linea_pedido_de_venta-sale_line_id/Descripcion-name]]></fieldDescription>
+		<field name="prod_ean13" class="java.lang.String">
+			<fieldDescription><![CDATA[prod_ean13]]></fieldDescription>
 		</field>
-		<field name="Precio_unidad-price_unit" class="java.lang.Double">
-			<fieldDescription><![CDATA[/data/record/Delivery_List-out_report_ids/Move-move_id/Abastecimiento-procurement_id/Linea_pedido_de_venta-sale_line_id/Precio_unidad-price_unit]]></fieldDescription>
+		<field name="prod_name" class="java.lang.String">
+			<fieldDescription><![CDATA[prod_name]]></fieldDescription>
 		</field>
-		<field name="Lote_de_produccion-name" class="java.lang.String">
-			<fieldDescription><![CDATA[/data/record/Delivery_List-out_report_ids/Lot-lot_id/Lote_de_produccion-name]]></fieldDescription>
+		<field name="lot_name" class="java.lang.String">
+			<fieldDescription><![CDATA[lot_name]]></fieldDescription>
 		</field>
-		<field name="Fecha_caducidad-use_date" class="java.util.Date">
-			<fieldDescription><![CDATA[/data/record/Delivery_List-out_report_ids/Lot-lot_id/Fecha_caducidad-use_date]]></fieldDescription>
+		<field name="lot_date" class="java.lang.String">
+			<fieldDescription><![CDATA[lot_date]]></fieldDescription>
 		</field>
-		<field name="UOM____UOS_Coeff-uos_coeff" class="java.lang.Double">
-			<fieldDescription><![CDATA[/data/record/Delivery_List-out_report_ids/Product-product_id/UOM____UOS_Coeff-uos_coeff]]></fieldDescription>
+		<field name="uos_qty" class="java.lang.Double">
+			<fieldDescription><![CDATA[uos_qty]]></fieldDescription>
 		</field>
-		<field name="Nombre-name" class="java.lang.String">
-			<fieldDescription><![CDATA[/data/record/Delivery_List-out_report_ids/Product-product_id/Default_Unit_Of_Measure-uom_id/Nombre-name]]></fieldDescription>
+		<field name="uos_name" class="java.lang.String">
+			<fieldDescription><![CDATA[uos_name]]></fieldDescription>
 		</field>
-		<field name="Albaran_valorado-valued_picking" class="java.lang.Boolean">
-			<fieldDescription><![CDATA[/data/record/Albaran_valorado-valued_picking]]></fieldDescription>
+		<field name="uom_qty" class="java.lang.Double">
+			<fieldDescription><![CDATA[uom_qty]]></fieldDescription>
 		</field>
-		<field name="Idioma-lang" class="java.lang.String">
-			<fieldDescription><![CDATA[/data/record/Empresa-partner_id/Idioma-lang]]></fieldDescription>
+		<field name="uom_name" class="java.lang.String">
+			<fieldDescription><![CDATA[uom_name]]></fieldDescription>
 		</field>
-		<field name="Referencia-default_code" class="java.lang.String">
-			<fieldDescription><![CDATA[/data/record/Delivery_List-out_report_ids/Product-product_id/Referencia-default_code]]></fieldDescription>
+		<field name="price_unit" class="java.lang.Double">
+			<fieldDescription><![CDATA[price_unit]]></fieldDescription>
 		</field>
-		<field name="EAN13-ean13" class="java.lang.String">
-			<fieldDescription><![CDATA[/data/record/Delivery_List-out_report_ids/Product-product_id/EAN13-ean13]]></fieldDescription>
+		<field name="discount" class="java.lang.Double">
+			<fieldDescription><![CDATA[discount]]></fieldDescription>
 		</field>
-		<field name="Name-name" class="java.lang.String">
-			<fieldDescription><![CDATA[/data/record/Delivery_List-out_report_ids/Product-product_id/Name-name]]></fieldDescription>
+		<field name="price_subtotal" class="java.lang.Double">
+			<fieldDescription><![CDATA[price_subtotal]]></fieldDescription>
 		</field>
-		<field name="Cantidad-product_qty" class="java.lang.Double">
-			<fieldDescription><![CDATA[/data/record/Delivery_List-out_report_ids/Quantity-product_qty]]></fieldDescription>
+		<field name="taxes" class="java.lang.String">
+			<fieldDescription><![CDATA[taxes]]></fieldDescription>
 		</field>
-		<field name="Subtotal-price_subtotal" class="java.lang.Double">
-			<fieldDescription><![CDATA[/data/record/Delivery_List-out_report_ids/total-total]]></fieldDescription>
+		<field name="valued_picking" class="java.lang.Boolean">
+			<fieldDescription><![CDATA[valued_picking]]></fieldDescription>
 		</field>
-		<field name="Tax_line-tax_line" class="java.lang.String">
-			<fieldDescription><![CDATA[/data/record/Delivery_List-out_report_ids/Move-move_id/Tax_line-tax_line]]></fieldDescription>
+		<field name="picking_id" class="java.lang.Integer">
+			<fieldDescription><![CDATA[picking_id]]></fieldDescription>
 		</field>
-		<field name="id" class="java.lang.Integer">
-			<fieldDescription><![CDATA[/data/record/Delivery_List-out_report_ids/Wave-picking_id/id]]></fieldDescription>
-		</field>
-		<field name="UdV_del_producto-name" class="java.lang.String">
-			<fieldDescription><![CDATA[/data/record/Delivery_List-out_report_ids/Movimiento-move_id/UdV_del_producto-product_uos/Unidad_de_medida-name]]></fieldDescription>
-		</field>
-		<sortField name="Referencia-default_code"/>
-		<sortField name="EAN13-ean13"/>
-		<sortField name="Name-name"/>
-		<variable name="L" class="java.util.Locale">
-			<variableExpression><![CDATA[new Locale($F{Idioma-lang}.split("_")[0],$F{Idioma-lang}.split("_")[1])]]></variableExpression>
-			<initialValueExpression><![CDATA[new Locale($F{Idioma-lang}.split("_")[0],$F{Idioma-lang}.split("_")[1])]]></initialValueExpression>
-		</variable>
-		<filterExpression><![CDATA[$P{PICKING_ID} == $F{id}]]></filterExpression>
 	</subDataset>
 	<parameter name="TABLE_LINES" class="java.lang.Object"/>
 	<parameter name="VERSION_ALTERNATIVA" class="java.lang.Boolean">
@@ -282,6 +92,7 @@ EN EL ARCHIVO packing_list_alt, PONER EL VALOR A true]]></parameterDescription>
 	</parameter>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="picking_ref_ids" class="java.util.HashMap"/>
+	<parameter name="picking_lines_ids" class="java.util.HashMap"/>
 	<queryString language="xPath">
 		<![CDATA[]]>
 	</queryString>
@@ -491,6 +302,50 @@ EN EL ARCHIVO packing_list_alt, PONER EL VALOR A true]]></parameterDescription>
 		<variableExpression><![CDATA[$P{picking_ref_ids}.get($F{id}.toString())]]></variableExpression>
 		<initialValueExpression><![CDATA[$P{picking_ref_ids}.get($F{id}.toString())]]></initialValueExpression>
 	</variable>
+	<variable name="picking_lines" class="java.util.List" resetType="Page">
+		<variableExpression><![CDATA[$P{picking_lines_ids}.get($F{id}.toString())]]></variableExpression>
+		<initialValueExpression><![CDATA[$P{picking_lines_ids}.get($F{id}.toString())]]></initialValueExpression>
+	</variable>
+	<variable name="T-COD" class="java.lang.String">
+		<variableExpression><![CDATA[tr($V{L}, "CÓDIGO INTERNO") + "<br>" + tr($V{L}, "CÓDIGO EAN-13")]]></variableExpression>
+		<initialValueExpression><![CDATA[]]></initialValueExpression>
+	</variable>
+	<variable name="T-ART" class="java.lang.String">
+		<variableExpression><![CDATA[tr($V{L}, "ARTÍCULO")]]></variableExpression>
+		<initialValueExpression><![CDATA[]]></initialValueExpression>
+	</variable>
+	<variable name="T-TOT-CAJ" class="java.lang.String">
+		<variableExpression><![CDATA[tr($V{L}, "CAJAS TOTALES")]]></variableExpression>
+		<initialValueExpression><![CDATA[]]></initialValueExpression>
+	</variable>
+	<variable name="T-TOT-UNI" class="java.lang.String">
+		<variableExpression><![CDATA[tr($V{L}, "UNIDADES TOTALES")]]></variableExpression>
+		<initialValueExpression><![CDATA[]]></initialValueExpression>
+	</variable>
+	<variable name="T-PRE-UNI" class="java.lang.String">
+		<variableExpression><![CDATA[tr($V{L}, "PRECIO UNITARIO")]]></variableExpression>
+		<initialValueExpression><![CDATA[]]></initialValueExpression>
+	</variable>
+	<variable name="T-DTO" class="java.lang.String">
+		<variableExpression><![CDATA[tr($V{L}, "%<br>DTO.")]]></variableExpression>
+		<initialValueExpression><![CDATA[]]></initialValueExpression>
+	</variable>
+	<variable name="T-IMP" class="java.lang.String">
+		<variableExpression><![CDATA[tr($V{L}, "IMPORTE")]]></variableExpression>
+		<initialValueExpression><![CDATA[]]></initialValueExpression>
+	</variable>
+	<variable name="T-IVA" class="java.lang.String">
+		<variableExpression><![CDATA[tr($V{L}, "%<br>IVA")]]></variableExpression>
+		<initialValueExpression><![CDATA[]]></initialValueExpression>
+	</variable>
+	<variable name="T-LOT" class="java.lang.String">
+		<variableExpression><![CDATA[tr($V{L}, "Lote:")]]></variableExpression>
+		<initialValueExpression><![CDATA[]]></initialValueExpression>
+	</variable>
+	<variable name="T-CAD" class="java.lang.String">
+		<variableExpression><![CDATA[tr($V{L}, "Caducidad:")]]></variableExpression>
+		<initialValueExpression><![CDATA[]]></initialValueExpression>
+	</variable>
 	<group name="Picking" isResetPageNumber="true" isReprintHeaderOnEachPage="true" minHeightToStartNewPage="260" footerPosition="ForceAtBottom">
 		<groupExpression><![CDATA[$F{id}]]></groupExpression>
 		<groupFooter>
@@ -506,7 +361,7 @@ EN EL ARCHIVO packing_list_alt, PONER EL VALOR A true]]></parameterDescription>
 					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="none">
 						<font size="6"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "RECIBI:(Firma y Sello)")]]></textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "RECIBI: (Firma y Sello)")]]></textFieldExpression>
 				</textField>
 				<rectangle>
 					<reportElement x="0" y="17" width="182" height="75"/>
@@ -562,7 +417,7 @@ EN EL ARCHIVO packing_list_alt, PONER EL VALOR A true]]></parameterDescription>
 						<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="none">
 							<font size="6" isBold="true"/>
 						</textElement>
-						<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "% P.P")]]></textFieldExpression>
+						<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "% P.P.")]]></textFieldExpression>
 					</textField>
 					<textField>
 						<reportElement mode="Opaque" x="108" y="0" width="54" height="13" backcolor="#EBEBEB"/>
@@ -763,7 +618,7 @@ EN EL ARCHIVO packing_list_alt, PONER EL VALOR A true]]></parameterDescription>
 					</textField>
 					<textField isBlankWhenNull="true">
 						<reportElement x="65" y="0" width="148" height="9">
-							<printWhenExpression><![CDATA[$F{Albaran_valorado-valued_picking} && $F{id-supplier} == 0]]></printWhenExpression>
+							<printWhenExpression><![CDATA[$F{Albaran_valorado-valued_picking} && ($F{id-supplier} == 0 || $F{supplier-name-commercial}.toUpperCase().indexOf("SALICA") > -1)]]></printWhenExpression>
 						</reportElement>
 						<textElement verticalAlignment="Middle" lineSpacing="Single">
 							<font size="6"/>
@@ -779,7 +634,7 @@ EN EL ARCHIVO packing_list_alt, PONER EL VALOR A true]]></parameterDescription>
 					</textField>
 					<textField isBlankWhenNull="true">
 						<reportElement x="65" y="9" width="148" height="9">
-							<printWhenExpression><![CDATA[$F{Albaran_valorado-valued_picking} && $F{id-supplier} == 0]]></printWhenExpression>
+							<printWhenExpression><![CDATA[$F{Albaran_valorado-valued_picking} && ($F{id-supplier} == 0 || $F{supplier-name-commercial}.toUpperCase().indexOf("SALICA") > -1)]]></printWhenExpression>
 						</reportElement>
 						<textElement verticalAlignment="Middle" lineSpacing="Single">
 							<font size="6"/>
@@ -793,10 +648,10 @@ EN EL ARCHIVO packing_list_alt, PONER EL VALOR A true]]></parameterDescription>
 					<textElement lineSpacing="Single" markup="html">
 						<font size="8"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "Tel.Fijo: ") +
+					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "Tel. Fijo: ") +
 ($F{envio-phone}.isEmpty() ? $F{commercial_partner_id-phone} : $F{envio-phone})
 + "<br>" +
-tr($V{L}, "Tel.Móvil: ") +
+tr($V{L}, "Tel. Móvil: ") +
 ($F{envio-mobile}.isEmpty() ? $F{commercial_partner_id-mobile} : $F{envio-mobile})]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
@@ -805,7 +660,7 @@ tr($V{L}, "Tel.Móvil: ") +
 					<textElement lineSpacing="Single" markup="html">
 						<font size="8"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "Peso Bruto: ") +
+					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "Peso Bruto (kg): ") +
 ($F{Peso-weight} == null ? "" : $F{Peso-weight})
 + "<br>" +
 tr($V{L}, "Bultos: ") + $F{Paquetes-packages_uos}]]></textFieldExpression>
@@ -1262,106 +1117,114 @@ $F{Nombre_de_la_compania-name} + " · " + $F{Calle-street-company} + " · " + $F
 	<detail>
 		<band height="90" splitType="Stretch">
 			<componentElement>
-				<reportElement key="table 2" style="table" mode="Transparent" x="0" y="0" width="555" height="48">
-					<property name="OPENERP_RELATIONS" value="out_report_ids"/>
-				</reportElement>
+				<reportElement key="table_key" style="table" mode="Transparent" x="0" y="0" width="555" height="48"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
 					<datasetRun subDataset="Table LINES">
-						<datasetParameter name="PICKING_ID">
-							<datasetParameterExpression><![CDATA[$F{id}]]></datasetParameterExpression>
+						<datasetParameter name="T-COD">
+							<datasetParameterExpression><![CDATA[$V{T-COD}]]></datasetParameterExpression>
 						</datasetParameter>
-						<dataSourceExpression><![CDATA[$P{TABLE_LINES}]]></dataSourceExpression>
+						<datasetParameter name="T-ART">
+							<datasetParameterExpression><![CDATA[$V{T-ART}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="T-TOT-CAJ">
+							<datasetParameterExpression><![CDATA[$V{T-TOT-CAJ}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="T-TOT-UNI">
+							<datasetParameterExpression><![CDATA[$V{T-TOT-UNI}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="T-PRE-UNI">
+							<datasetParameterExpression><![CDATA[$V{T-PRE-UNI}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="T-DTO">
+							<datasetParameterExpression><![CDATA[$V{T-DTO}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="T-IMP">
+							<datasetParameterExpression><![CDATA[$V{T-IMP}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="T-IVA">
+							<datasetParameterExpression><![CDATA[$V{T-IVA}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="T-LOT">
+							<datasetParameterExpression><![CDATA[$V{T-LOT}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="T-CAD">
+							<datasetParameterExpression><![CDATA[$V{T-CAD}]]></datasetParameterExpression>
+						</datasetParameter>
+						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRMapCollectionDataSource($V{picking_lines})]]></dataSourceExpression>
 					</datasetRun>
-					<jr:column width="110">
+					<jr:column width="62">
 						<jr:columnHeader height="26" rowSpan="1">
 							<textField>
-								<reportElement style="table_CH" positionType="Float" mode="Opaque" x="0" y="0" width="34" height="26" isPrintWhenDetailOverflows="true" backcolor="#EBEBEB"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+								<reportElement style="table_CH" positionType="Float" mode="Opaque" x="0" y="0" width="62" height="26" isPrintWhenDetailOverflows="true" backcolor="#EBEBEB"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="html">
 									<font fontName="SansSerif" size="6" isBold="true"/>
 								</textElement>
-								<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "CÓDIGO")]]></textFieldExpression>
-							</textField>
-							<textField>
-								<reportElement style="table_CH" positionType="Float" mode="Opaque" x="34" y="0" width="76" height="26" isPrintWhenDetailOverflows="true" backcolor="#EBEBEB"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="none">
-									<font size="6" isBold="true"/>
-								</textElement>
-								<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "EAN-13")]]></textFieldExpression>
+								<textFieldExpression class="java.lang.String"><![CDATA[$P{T-COD}]]></textFieldExpression>
 							</textField>
 						</jr:columnHeader>
 						<jr:detailCell height="22" rowSpan="1">
 							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement positionType="Float" mode="Transparent" x="0" y="0" width="34" height="11" isPrintWhenDetailOverflows="true"/>
+								<reportElement positionType="Float" mode="Transparent" x="0" y="0" width="62" height="11" isPrintWhenDetailOverflows="true"/>
 								<box topPadding="0" leftPadding="0" bottomPadding="0">
 									<topPen lineWidth="0.25"/>
 								</box>
 								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" lineSpacing="Single" markup="none">
 									<font fontName="SansSerif" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 								</textElement>
-								<textFieldExpression class="java.lang.String"><![CDATA[$F{Referencia-default_code}]]></textFieldExpression>
-							</textField>
-							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement positionType="Float" mode="Transparent" x="34" y="0" width="76" height="11" isPrintWhenDetailOverflows="true"/>
-								<box topPadding="0" leftPadding="0" bottomPadding="0">
-									<topPen lineWidth="0.25"/>
-								</box>
-								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" lineSpacing="Single" markup="none">
-									<font fontName="SansSerif" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
-								</textElement>
-								<textFieldExpression class="java.lang.String"><![CDATA[$F{EAN13-ean13}]]></textFieldExpression>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{prod_code}]]></textFieldExpression>
 							</textField>
 							<textField>
-								<reportElement positionType="Float" mode="Transparent" x="0" y="11" width="110" height="11" isPrintWhenDetailOverflows="true"/>
+								<reportElement positionType="Float" mode="Transparent" x="0" y="11" width="62" height="11" isPrintWhenDetailOverflows="true"/>
 								<box>
 									<bottomPen lineWidth="0.0"/>
 								</box>
-								<textElement lineSpacing="Single" markup="none">
-									<font size="5"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+									<font size="7"/>
 								</textElement>
-								<textFieldExpression class="java.lang.String"><![CDATA[""]]></textFieldExpression>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{prod_ean13}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="205">
+					<jr:column width="225">
 						<jr:columnHeader height="26" rowSpan="1">
 							<textField>
-								<reportElement style="table_CH" positionType="Float" mode="Opaque" x="0" y="0" width="205" height="26" isPrintWhenDetailOverflows="true" backcolor="#EBEBEB"/>
+								<reportElement style="table_CH" positionType="Float" mode="Opaque" x="0" y="0" width="225" height="26" isPrintWhenDetailOverflows="true" backcolor="#EBEBEB"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="none">
 									<font fontName="SansSerif" size="6" isBold="true"/>
 								</textElement>
-								<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "ARTÍCULO")]]></textFieldExpression>
+								<textFieldExpression class="java.lang.String"><![CDATA[$P{T-ART}]]></textFieldExpression>
 							</textField>
 						</jr:columnHeader>
 						<jr:detailCell height="22" rowSpan="1">
 							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement positionType="Float" mode="Transparent" x="0" y="0" width="205" height="11" isPrintWhenDetailOverflows="true"/>
+								<reportElement positionType="Float" mode="Transparent" x="0" y="0" width="225" height="11" isPrintWhenDetailOverflows="true"/>
 								<box topPadding="0" leftPadding="0" bottomPadding="0">
 									<topPen lineWidth="0.25"/>
 								</box>
 								<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None" lineSpacing="Single" markup="none">
 									<font fontName="SansSerif" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 								</textElement>
-								<textFieldExpression class="java.lang.String"><![CDATA[" " + $F{Name-name}]]></textFieldExpression>
+								<textFieldExpression class="java.lang.String"><![CDATA[" " + $F{prod_name}]]></textFieldExpression>
 							</textField>
 							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement positionType="Float" mode="Transparent" x="0" y="11" width="116" height="11" isPrintWhenDetailOverflows="true"/>
+								<reportElement positionType="Float" mode="Transparent" x="0" y="11" width="135" height="11" isPrintWhenDetailOverflows="true"/>
 								<box>
 									<bottomPen lineWidth="0.0"/>
 								</box>
 								<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None" lineSpacing="Single" markup="none">
 									<font fontName="SansSerif" size="7" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 								</textElement>
-								<textFieldExpression class="java.lang.String"><![CDATA[" " + tr($V{L}, "Lote:") + " " + $F{Lote_de_produccion-name}]]></textFieldExpression>
+								<textFieldExpression class="java.lang.String"><![CDATA[" " + $P{T-LOT} + " " + $F{lot_name}]]></textFieldExpression>
 							</textField>
 							<textField pattern="" isBlankWhenNull="true">
-								<reportElement positionType="Float" mode="Transparent" x="116" y="11" width="89" height="11" isPrintWhenDetailOverflows="true"/>
+								<reportElement positionType="Float" mode="Transparent" x="135" y="11" width="90" height="11" isPrintWhenDetailOverflows="true"/>
 								<box>
 									<bottomPen lineWidth="0.0"/>
 								</box>
 								<textElement verticalAlignment="Middle" lineSpacing="Single">
 									<font size="7"/>
 								</textElement>
-								<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "Caducidad:") + " " + (new SimpleDateFormat("dd/MM/yyyy").format($F{Fecha_caducidad-use_date}))]]></textFieldExpression>
+								<textFieldExpression class="java.lang.String"><![CDATA[$P{T-CAD} + " " + $F{lot_date}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -1373,7 +1236,7 @@ $F{Nombre_de_la_compania-name} + " · " + $F{Calle-street-company} + " · " + $F
 								<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="html">
 									<font size="6" isBold="true"/>
 								</textElement>
-								<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "CAJAS TOTALES")]]></textFieldExpression>
+								<textFieldExpression class="java.lang.String"><![CDATA[$P{T-TOT-CAJ}]]></textFieldExpression>
 							</textField>
 						</jr:columnHeader>
 						<jr:detailCell height="22" rowSpan="1">
@@ -1385,7 +1248,7 @@ $F{Nombre_de_la_compania-name} + " · " + $F{Calle-street-company} + " · " + $F
 								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" lineSpacing="Single" markup="none">
 									<font fontName="SansSerif" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 								</textElement>
-								<textFieldExpression class="java.lang.String"><![CDATA[((Math.round(($F{Cantidad-product_qty} * $F{UOM____UOS_Coeff-uos_coeff})*100.0))/100.0)]]></textFieldExpression>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{uos_qty}]]></textFieldExpression>
 							</textField>
 							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 								<reportElement positionType="Float" mode="Transparent" x="0" y="11" width="60" height="11" isPrintWhenDetailOverflows="true"/>
@@ -1395,7 +1258,7 @@ $F{Nombre_de_la_compania-name} + " · " + $F{Calle-street-company} + " · " + $F
 								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" lineSpacing="Single" markup="none">
 									<font fontName="SansSerif" size="6" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 								</textElement>
-								<textFieldExpression class="java.lang.String"><![CDATA[$F{UdV_del_producto-name}]]></textFieldExpression>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{uos_name}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -1406,7 +1269,7 @@ $F{Nombre_de_la_compania-name} + " · " + $F{Calle-street-company} + " · " + $F
 								<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="html">
 									<font size="6" isBold="true"/>
 								</textElement>
-								<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "UNIDADES TOTALES")]]></textFieldExpression>
+								<textFieldExpression class="java.lang.String"><![CDATA[$P{T-TOT-UNI}]]></textFieldExpression>
 							</textField>
 						</jr:columnHeader>
 						<jr:detailCell height="22" rowSpan="1">
@@ -1418,9 +1281,9 @@ $F{Nombre_de_la_compania-name} + " · " + $F{Calle-street-company} + " · " + $F
 								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" lineSpacing="Single" markup="none">
 									<font fontName="SansSerif" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 								</textElement>
-								<textFieldExpression class="java.lang.String"><![CDATA[$F{Cantidad-product_qty}==$F{Cantidad-product_qty}.intValue() ?
-new DecimalFormat("#,##0").format($F{Cantidad-product_qty}):
-new DecimalFormat("#,##0.00").format($F{Cantidad-product_qty})]]></textFieldExpression>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{uom_qty}==$F{uom_qty}.intValue() ?
+new DecimalFormat("#,##0").format($F{uom_qty}):
+new DecimalFormat("#,##0.00").format($F{uom_qty})]]></textFieldExpression>
 							</textField>
 							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 								<reportElement positionType="Float" mode="Transparent" x="0" y="11" width="60" height="11" isPrintWhenDetailOverflows="true"/>
@@ -1430,33 +1293,33 @@ new DecimalFormat("#,##0.00").format($F{Cantidad-product_qty})]]></textFieldExpr
 								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" lineSpacing="Single" markup="none">
 									<font fontName="SansSerif" size="6" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 								</textElement>
-								<textFieldExpression class="java.lang.String"><![CDATA[$F{Nombre-name}]]></textFieldExpression>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{uom_name}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="34">
+					<jr:column width="42">
 						<jr:columnHeader height="26" rowSpan="1">
 							<textField>
-								<reportElement style="table_CH" positionType="Float" mode="Opaque" x="0" y="0" width="34" height="26" isPrintWhenDetailOverflows="true" backcolor="#EBEBEB"/>
+								<reportElement style="table_CH" positionType="Float" mode="Opaque" x="0" y="0" width="42" height="26" isPrintWhenDetailOverflows="true" backcolor="#EBEBEB"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="none">
 									<font size="6" isBold="true"/>
 								</textElement>
-								<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "PRECIO UNITARIO")]]></textFieldExpression>
+								<textFieldExpression class="java.lang.String"><![CDATA[$P{T-PRE-UNI}]]></textFieldExpression>
 							</textField>
 						</jr:columnHeader>
 						<jr:detailCell height="22" rowSpan="1">
 							<textField isStretchWithOverflow="true" pattern="###0.000;-###0.000" isBlankWhenNull="true">
-								<reportElement positionType="Float" mode="Transparent" x="0" y="0" width="34" height="11" isPrintWhenDetailOverflows="true"/>
+								<reportElement positionType="Float" mode="Transparent" x="0" y="0" width="42" height="11" isPrintWhenDetailOverflows="true"/>
 								<box topPadding="0" leftPadding="0" bottomPadding="0">
 									<topPen lineWidth="0.25"/>
 								</box>
 								<textElement textAlignment="Right" verticalAlignment="Middle" rotation="None" lineSpacing="Single" markup="none">
 									<font fontName="SansSerif" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 								</textElement>
-								<textFieldExpression class="java.lang.String"><![CDATA[$F{Albaran_valorado-valued_picking} ? $F{Precio_unidad-price_unit} : null]]></textFieldExpression>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{valued_picking} ? $F{price_unit} : null]]></textFieldExpression>
 							</textField>
 							<textField>
-								<reportElement positionType="Float" mode="Transparent" x="0" y="11" width="34" height="11" isPrintWhenDetailOverflows="true"/>
+								<reportElement positionType="Float" mode="Transparent" x="0" y="11" width="42" height="11" isPrintWhenDetailOverflows="true"/>
 								<box>
 									<bottomPen lineWidth="0.0"/>
 								</box>
@@ -1481,7 +1344,7 @@ new DecimalFormat("#,##0.00").format($F{Cantidad-product_qty})]]></textFieldExpr
 								<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="html">
 									<font size="6" isBold="true"/>
 								</textElement>
-								<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "%<br>DTO.")]]></textFieldExpression>
+								<textFieldExpression class="java.lang.String"><![CDATA[$P{T-DTO}]]></textFieldExpression>
 							</textField>
 						</jr:columnHeader>
 						<jr:detailCell height="22" rowSpan="1">
@@ -1493,7 +1356,7 @@ new DecimalFormat("#,##0.00").format($F{Cantidad-product_qty})]]></textFieldExpr
 								<textElement textAlignment="Right" verticalAlignment="Middle" rotation="None" lineSpacing="Single" markup="none">
 									<font fontName="SansSerif" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 								</textElement>
-								<textFieldExpression class="java.lang.String"><![CDATA[$F{Albaran_valorado-valued_picking} ? $F{Descuento-discount} : null]]></textFieldExpression>
+								<textFieldExpression class="java.lang.String"><![CDATA[($F{valued_picking} && $F{discount}) ? $F{discount} : null]]></textFieldExpression>
 							</textField>
 							<textField>
 								<reportElement positionType="Float" mode="Transparent" x="0" y="11" width="28" height="11" isPrintWhenDetailOverflows="true"/>
@@ -1507,29 +1370,29 @@ new DecimalFormat("#,##0.00").format($F{Cantidad-product_qty})]]></textFieldExpr
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="41">
+					<jr:column width="43">
 						<jr:columnHeader height="26" rowSpan="1">
 							<textField>
-								<reportElement style="table_CH" positionType="Float" mode="Opaque" x="0" y="0" width="41" height="26" isPrintWhenDetailOverflows="true" backcolor="#EBEBEB"/>
+								<reportElement style="table_CH" positionType="Float" mode="Opaque" x="0" y="0" width="43" height="26" isPrintWhenDetailOverflows="true" backcolor="#EBEBEB"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="none">
 									<font size="6" isBold="true"/>
 								</textElement>
-								<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "IMPORTE")]]></textFieldExpression>
+								<textFieldExpression class="java.lang.String"><![CDATA[$P{T-IMP}]]></textFieldExpression>
 							</textField>
 						</jr:columnHeader>
 						<jr:detailCell height="22" rowSpan="1">
 							<textField isStretchWithOverflow="true" pattern="###0.00;-###0.00" isBlankWhenNull="true">
-								<reportElement positionType="Float" mode="Transparent" x="0" y="0" width="41" height="11" isPrintWhenDetailOverflows="true"/>
+								<reportElement positionType="Float" mode="Transparent" x="0" y="0" width="43" height="11" isPrintWhenDetailOverflows="true"/>
 								<box topPadding="0" leftPadding="0" bottomPadding="0">
 									<topPen lineWidth="0.25"/>
 								</box>
 								<textElement textAlignment="Right" verticalAlignment="Middle" rotation="None" lineSpacing="Single" markup="none">
 									<font fontName="SansSerif" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 								</textElement>
-								<textFieldExpression class="java.lang.String"><![CDATA[$F{Albaran_valorado-valued_picking} ? $F{Subtotal-price_subtotal} : null]]></textFieldExpression>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{valued_picking} ? $F{price_subtotal} : null]]></textFieldExpression>
 							</textField>
 							<textField>
-								<reportElement positionType="Float" mode="Transparent" x="0" y="11" width="41" height="11" isPrintWhenDetailOverflows="true"/>
+								<reportElement positionType="Float" mode="Transparent" x="0" y="11" width="43" height="11" isPrintWhenDetailOverflows="true"/>
 								<box>
 									<bottomPen lineWidth="0.0"/>
 								</box>
@@ -1540,10 +1403,10 @@ new DecimalFormat("#,##0.00").format($F{Cantidad-product_qty})]]></textFieldExpr
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="17">
+					<jr:column width="35">
 						<jr:columnHeader height="26" rowSpan="1">
 							<textField>
-								<reportElement positionType="Float" mode="Opaque" x="0" y="0" width="17" height="26" isPrintWhenDetailOverflows="true" backcolor="#EBEBEB"/>
+								<reportElement positionType="Float" mode="Opaque" x="0" y="0" width="35" height="26" isPrintWhenDetailOverflows="true" backcolor="#EBEBEB"/>
 								<box>
 									<pen lineWidth="0.5"/>
 									<topPen lineWidth="0.5"/>
@@ -1554,22 +1417,22 @@ new DecimalFormat("#,##0.00").format($F{Cantidad-product_qty})]]></textFieldExpr
 								<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="html">
 									<font size="6" isBold="true"/>
 								</textElement>
-								<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "%<br>IVA")]]></textFieldExpression>
+								<textFieldExpression class="java.lang.String"><![CDATA[$P{T-IVA}]]></textFieldExpression>
 							</textField>
 						</jr:columnHeader>
 						<jr:detailCell height="22" rowSpan="1">
 							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement positionType="Float" mode="Transparent" x="0" y="0" width="17" height="11" isPrintWhenDetailOverflows="true"/>
+								<reportElement positionType="Float" mode="Transparent" x="0" y="0" width="35" height="11" isPrintWhenDetailOverflows="true"/>
 								<box topPadding="0" leftPadding="0" bottomPadding="0">
 									<topPen lineWidth="0.25"/>
 								</box>
 								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" lineSpacing="Single" markup="none">
 									<font fontName="SansSerif" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 								</textElement>
-								<textFieldExpression class="java.lang.String"><![CDATA[$F{Albaran_valorado-valued_picking} ? $F{Tax_line-tax_line} : null]]></textFieldExpression>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{valued_picking} ? $F{taxes} : null]]></textFieldExpression>
 							</textField>
 							<textField>
-								<reportElement positionType="Float" mode="Transparent" x="0" y="11" width="17" height="11" isPrintWhenDetailOverflows="true"/>
+								<reportElement positionType="Float" mode="Transparent" x="0" y="11" width="35" height="11" isPrintWhenDetailOverflows="true"/>
 								<box>
 									<bottomPen lineWidth="0.0"/>
 								</box>

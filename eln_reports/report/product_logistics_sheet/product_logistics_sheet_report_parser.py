@@ -19,20 +19,16 @@
 #
 ##############################################################################
 from openerp.addons import jasper_reports
-from openerp import pooler
-from datetime import datetime
-from openerp.tools.translate import _
 
-def parser( cr, uid, ids, data, context ):
+
+def parser(cr, uid, ids, data, context):
     language = data['form']['language']
     parameters = {}
-    ids = ids
     name = 'report.product_logistics_sheet'
     model = 'product.product'
     data_source = 'model'
     parameters['lang'] = language
     context['lang'] = language
-
     return { 
         'ids': ids, 
         'name': name, 
@@ -41,4 +37,6 @@ def parser( cr, uid, ids, data, context ):
         'data_source': data_source,
         'parameters': parameters,
     }
-jasper_reports.report_jasper( 'report.product_logistics_sheet', 'product.product', parser )
+
+
+jasper_reports.report_jasper('report.product_logistics_sheet', 'product.product', parser)

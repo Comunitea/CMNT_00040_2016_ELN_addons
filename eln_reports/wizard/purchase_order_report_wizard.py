@@ -18,44 +18,37 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import osv,fields
+from openerp import models, fields, api
 
 
-def _lang_get(self, cr, uid, context=None):
-    obj = self.pool.get('res.lang')
-    ids = obj.search(cr, uid, [('translatable','=',True)])
-    res = obj.read(cr, uid, ids, ['code', 'name'], context=context)
-    res = [(r['code'], r['name']) for r in res]
+def _lang_get(self):
+    obj = self.env['res.lang']
+    langs = obj.search([('translatable', '=', True)])
+    res = [(lang.code, lang.name) for lang in langs]
     return res
 
-class purchase_order_report_wizard(osv.osv_memory):
+
+class PurchaseOrderReportWizard(models.TransientModel):
     _name = "purchase.order.report.wizard"
 
-    _columns = {
-        'name': fields.char('name', size=64),
-        'language': fields.selection(_lang_get, 'Language', required=True),
-        'delivery_address': fields.boolean('Delivery Address'),
-        'signed': fields.boolean('Signed')
-    }
-    _defaults = {
-        'name': lambda *a: 'purchase_order', #será el nombre del archivo generado
-        'delivery_address': lambda *a: True,
-        'signed': lambda *a: True,
-        'language': lambda *a: 'es_ES',
-    }
-    def print_report(self, cr, uid, ids, context=None):
-        if context is None:
-            context = {}
-        data = self.read(cr, uid, ids)[0]
+    language = fields.Selection(_lang_get, 'Language',
+        default='es_ES', required=True)
+    delivery_address = fields.Boolean('Delivery Address',
+        default=True)
+    signed = fields.Boolean('Signed',
+        default=True)
+
+    @api.multi
+    def print_report(self):
+        self.ensure_one()
+        data = self.read()[0]
         datas = {
-             'ids': context.get('active_ids',[]),
-             'model': 'purchase.order',
-             'form': data
+            'ids': self._context.get('active_ids', []),
+            'model': 'purchase.order',
+            'form': data,
         }
         return {
             'type': 'ir.actions.report.xml',
             'report_name': 'purchase_order',
-            'datas': datas
-            }
-
-purchase_order_report_wizard()
+            'datas': datas,
+        }

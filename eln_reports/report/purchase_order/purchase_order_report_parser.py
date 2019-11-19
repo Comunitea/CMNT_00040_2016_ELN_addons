@@ -19,9 +19,6 @@
 #
 ##############################################################################
 from openerp.addons import jasper_reports
-from openerp import pooler
-from datetime import datetime
-from openerp.tools.translate import _
 
 
 def parser(cr, uid, ids, data, context):
@@ -39,7 +36,6 @@ def parser(cr, uid, ids, data, context):
         parameters['lang'] = language
         if 'lang' in context:
             context['lang'] = language
-
     return {
         'ids': ids,
         'name': name,
@@ -48,4 +44,6 @@ def parser(cr, uid, ids, data, context):
         'data_source': data_source,
         'parameters': parameters,
     }
+
+
 jasper_reports.report_jasper('report.purchase_order', 'purchase.order', parser)

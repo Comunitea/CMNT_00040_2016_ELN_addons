@@ -18,32 +18,30 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from openerp import registry
 from openerp.addons import jasper_reports
-from openerp import pooler
-import os
 
 
-def parser( cr, uid, ids, data, context ):
-    #Parametros para decidir si se imprime alguna hoja de cada tipo
-    #Sirve para decidir si lanzamos el subreport, es decir, al menos tenemos que imprimir una hoja de ese subreport
+def parser(cr, uid, ids, data, context):
+    # Parámetros para decidir si se imprime alguna hoja de cada tipo
+    # Sirve para decidir si lanzamos el subreport, es decir, al menos tenemos que imprimir una hoja de ese subreport
     control_sheet_packing = False   
     control_sheet_salted = False
     control_sheet_toasted = False
     control_sheet_fried = False
     control_sheet_mixed = False
 
-    #Parametros (diccionario) para decidir si una produccion en concreto se imprime una vez lanzado el subreport
-    #Se usará en el subreport como filtro para la impresión, ya que se puede lanzar (en la impresión en lote de varias producciones) el subreporte 
-    #de tostado (por ejemplo) pero no todas lo tienen que imprimir
-    #Esto es porque los subreportes imprimen de un todos los ids originales de un golpe
+    # Parámetros (diccionario) para decidir si una produccion en concreto se imprime una vez lanzado el subreport
+    # Se usará en el subreport como filtro para la impresión, ya que se puede lanzar (en la impresión en lote de varias producciones) el subreporte 
+    # de tostado (por ejemplo) pero no todas lo tienen que imprimir
+    # Esto es porque los subreportes imprimen todos los ids originales de un golpe
     control_sheet_packing_ids = {}
     control_sheet_salted_ids = {}
     control_sheet_toasted_ids = {}
     control_sheet_fried_ids = {}
     control_sheet_mixed_ids = {}
 
-
-    for production in pooler.get_pool(cr.dbname).get('mrp.production').browse(cr, uid, ids):
+    for production in registry(cr.dbname).get('mrp.production').browse(cr, uid, ids):
         if production.routing_id and production.routing_id.workcenter_lines:
             control_sheet_packing_ids[str(production.id)] = False   
             control_sheet_salted_ids[str(production.id)] = False
@@ -64,7 +62,6 @@ def parser( cr, uid, ids, data, context ):
                 control_sheet_mixed_ids[str(production.id)] = control_sheet_mixed_ids[str(production.id)] or line.workcenter_id.control_sheet_mixed
 
     parameters = {}
-    ids = ids
     name = 'report.control_part'
     model = 'mrp.production'
     data_source = 'model'
@@ -89,5 +86,6 @@ def parser( cr, uid, ids, data, context ):
         'data_source': data_source,
         'parameters': parameters,
     }
+
 
 jasper_reports.report_jasper('report.control_part', 'mrp.production', parser)

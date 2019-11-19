@@ -18,37 +18,28 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import osv, fields
-import datetime
+from openerp import models, fields, api
 
-class planning_report_wizard(osv.osv_memory):
+
+class PlanningReportWizard(models.TransientModel):
     _name = 'planning.report.wizard'
     
-    _columns = {
-        'name': fields.char('name', size=64),
-        'route_id': fields.many2one('route', 'Route'),
-        'group_by_route': fields.boolean('Group By Route'),
-        'date': fields.date('Date')
-    }
-    _defaults = {
-        'name': lambda *a: 'planning_report', #será el nombre del archivo generado
-        'date': lambda *a: False,
-        #'date': datetime.datetime.now().strftime('%Y-%m-%d'),
-    }
-    def print_report(self, cr, uid, ids,context=None):
-        if context is None:
-            context = {}
-        data = self.read(cr, uid, ids)[0]
+    route_id = fields.Many2one(
+        'route', 'Route')
+    group_by_route = fields.Boolean('Group By Route')
+    date = fields.Date('Date')
+
+    @api.multi
+    def print_report(self):
+        self.ensure_one()
+        data = self.read()[0]
         datas = {
-             'ids': context.get('active_ids',[]),
-             'model': 'planning.report.wizard',
-             'form': data
+            'ids': self._context.get('active_ids', []),
+            'model': 'planning.report.wizard',
+            'form': data,
         }
         return {
             'type': 'ir.actions.report.xml',
             'report_name': 'planning_report',
-            'datas': datas
-
+            'datas': datas,
         }
-
-
