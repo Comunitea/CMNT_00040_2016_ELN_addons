@@ -3,7 +3,7 @@
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<property name="ireport.layers" value="##Thu Apr 28 19:25:55 CEST 2016\nlayer.2.visible=false\nlayer.1.name=STANDARD\nlayer.0.visible=true\nlayer.2.id=2\nlayer.1.printWhenExpression=$P{VERSION_ALTERNATIVA} \=\= false\nlayer.2.name=ALTERNATE\nlayer.2.printWhenExpression=$P{VERSION_ALTERNATIVA} \=\= true\nlayer.1.id=1\nlayer.1.visible=true\nlayer.0.id=0\nlayer.0.name=Background"/>
+	<property name="ireport.layers" value="##Tue Nov 19 21:54:43 CET 2019\nlayer.2.visible=true\nlayer.1.name=STANDARD\nlayer.0.visible=true\nlayer.2.id=2\nlayer.1.printWhenExpression=$P{VERSION_ALTERNATIVA} \=\= false\nlayer.2.name=ALTERNATE\nlayer.2.printWhenExpression=$P{VERSION_ALTERNATIVA} \=\= true\nlayer.1.id=1\nlayer.1.visible=false\nlayer.0.id=0\nlayer.0.name=Background"/>
 	<style name="table" lineSpacing="Single">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -88,7 +88,7 @@
 	<parameter name="VERSION_ALTERNATIVA" class="java.lang.Boolean">
 		<parameterDescription><![CDATA[SE USA PARA IMPRIMIR LA VERSION ALTERNATIVA CON DATOS DE VALQUIN FIJOS
 EN EL ARCHIVO packing_list_alt, PONER EL VALOR A true]]></parameterDescription>
-		<defaultValueExpression><![CDATA[false]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA[true]]></defaultValueExpression>
 	</parameter>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="picking_ref_ids" class="java.util.HashMap"/>
