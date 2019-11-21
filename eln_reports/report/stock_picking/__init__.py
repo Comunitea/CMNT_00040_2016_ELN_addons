@@ -18,6 +18,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from . import stock_picking_out_report
 from . import stock_picking_out_std_report_parser
 from . import stock_picking_out_std_report_parser_2x
 from . import stock_picking_out_alt_report_parser

@@ -54,7 +54,7 @@ class StockPicking(models.Model):
                 product_id = self.env['product.product'].browse(record[0])
                 lot_id = self.env['stock.production.lot'].browse(record[1])
                 move_id = self.env['stock.move'].browse(record[2])
-                product_qty = record[3]
+                product_qty = record[3] or 0.0
                 picking_id = self.env['stock.move'].browse(record[4])
                 tax_str = ''
                 total = 0.0
