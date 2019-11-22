@@ -32,6 +32,7 @@
         'sale_order_dates',
         'sale_early_payment_discount',
         'sale_commission',
+        'eln_sale_commission',
         'account_payment_partner',
         'account_analytic_default',
     ],
