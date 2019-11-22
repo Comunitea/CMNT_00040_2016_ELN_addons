@@ -113,8 +113,15 @@ class SaleOrder(models.Model):
             # Se van a ejecutar los onchanges de las lineas para actualizar valores
             data = {}
             # Llamo al onchange del producto
-            ctx = dict(partner_id=order_id.partner_id.id, quantity=product_uom_qty,
-                       pricelist=order_id.pricelist_id.id, shop=order_id.shop_id.id, uom=False)
+            ctx = dict(
+                partner_id=order_id.partner_id.id,
+                address_id=shipping_dir.id,
+                fiscal_position=order_id.fiscal_position.id,
+                quantity=product_uom_qty,
+                pricelist=order_id.pricelist_id.id,
+                shop=order_id.shop_id.id,
+                uom=False,
+            )
             data.update(
                 order_id.order_line.with_context(ctx).product_id_change(
                     order_id.pricelist_id.id, product_id, product_uom_qty,
@@ -128,9 +135,15 @@ class SaleOrder(models.Model):
             if 'price_unit' in data:
                 del data['price_unit']
             if 'discount' in data:
-                del data['discount']
+                if discount: # Hacemos descuento encadenado
+                    data['discount'] = 100 - (100 * (1 - data['discount'] / 100) * (1 - discount / 100))
+                # del data['discount']
             values.update(data)
-            ctx = dict(partner_id=partner.id, address_id=shipping_dir.id) # Para comisiones
+            # Contexto para que asigne las comisiones
+            ctx = dict(
+                partner_id=partner.id,
+                address_id=shipping_dir.id,
+            )
             line_id = sale_line_obj.with_context(ctx).create(values)
         res = order_id
         if res:
