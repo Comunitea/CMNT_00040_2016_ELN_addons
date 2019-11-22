@@ -37,6 +37,10 @@
                 <field name="note" position="attributes">
                     <attribute name="attrs">{'readonly': [('state', 'in', ['progress', 'manual', 'done'])]}</attribute>
                 </field>
+                <field name="order_line" position="attributes">
+                    <!-- Requerido por los módulos eln_partner_discount (shop_id) y sale_commission (partner_id y address_id) -->
+                    <attribute name="context">{'partner_id': partner_id, 'address_id': partner_shipping_id, 'shop': shop_id, 'fiscal_position': fiscal_position}</attribute>
+                </field>
             </field>
         </record>
 
