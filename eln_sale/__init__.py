@@ -19,10 +19,6 @@
 #
 ##############################################################################
 
+import models
 import wizard
-import res_partner
-import product
-import sale
-import stock
-import sale_shop
 import report

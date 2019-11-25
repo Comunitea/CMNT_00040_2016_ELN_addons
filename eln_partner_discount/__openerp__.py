@@ -35,7 +35,6 @@
     "init_xml" : [],
     "data" : [
         'views/res_partner_view.xml',
-        'views/sale_view.xml',
     ],
     'demo_xml': [],
     'installable': True,
