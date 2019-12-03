@@ -18,10 +18,10 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp import models, fields, api, exceptions, _
+from openerp import models, api
 
-class StcokPickingAssignMulti(models.TransientModel):
 
+class StockPickingAssignMulti(models.TransientModel):
     _name = 'stock.picking.assign.multi'
 
     @api.multi

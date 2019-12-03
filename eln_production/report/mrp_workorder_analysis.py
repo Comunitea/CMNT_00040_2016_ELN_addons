@@ -18,21 +18,26 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import fields,osv
+from openerp import models, fields
 from openerp import tools
 import openerp.addons.decimal_precision as dp
+from ..models.mrp import PRODUCTION_TYPES
 
 
-class mrp_workorder(osv.osv):
+class MrpWorkorder(models.Model):
     _inherit = 'mrp.workorder'
 
-    _columns = {
-        'product_weight': fields.float('Product Weight', digits_compute=dp.get_precision('Stock Weight'), readonly=True),
-        'planified_time': fields.float('Planified time', readonly=True),
-        'production_lead_time': fields.float('Production Lead time', readonly=True, group_operator='avg'),
-        'production_type': fields.selection([('normal','Normal'), ('rework','Rework'), ('sample','Sample'), ('special','Special')], 'Type of production', readonly=True),
-        'date_start': fields.date('Start Date', readonly=True),
-    }
+    product_weight = fields.Float('Product Weight',
+        digits=dp.get_precision('Stock Weight'),
+        readonly=True)
+    planified_time = fields.Float('Planified time',
+        readonly=True)
+    production_lead_time = fields.Float('Production Lead time',
+        group_operator='avg', readonly=True)
+    production_type = fields.Selection(PRODUCTION_TYPES, 'Type of production',
+        readonly=True)
+    date_start = fields.Date('Start Date',
+        readonly=True)
 
     def init(self, cr):
         tools.drop_view_if_exists(cr, 'mrp_workorder')

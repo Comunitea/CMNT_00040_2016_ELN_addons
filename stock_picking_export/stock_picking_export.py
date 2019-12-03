@@ -309,11 +309,8 @@ class StockPickingExport(models.TransientModel):
                 lines_to_check = lines
                 lines = []
                 for line in lines_to_check:
-                    #print 'line', line['product_id'][0]
                     for returned_line in returned_lines:
-                        print 'returned_line', returned_line['product_id'][0]
                         if line['product_id'][0] == returned_line['product_id'][0]:
-                            print 'encuentro coincidencia'
                             line['product_qty'] -= returned_line['product_qty']
                             returned_lines.remove(returned_line)
                             break

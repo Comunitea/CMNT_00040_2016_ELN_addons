@@ -20,21 +20,20 @@
 ##############################################################################
 
 {
-    "name" : "El Nogal Purchase",
-    "description" : """Different purchases customizations for El Nogal""",
-    "version" : "1.0",
-    "author" : "Pexego",
-    "depends" : [
+    "name": "El Nogal Purchase",
+    "description": """Different purchases customizations for El Nogal""",
+    "version": "1.0",
+    "author": "Pexego",
+    "depends": [
         'base',
         'purchase',
         'stock',
         'product',
     ],
-    "category" : "Purchase",
-    "init_xml" : [],
-    "data" : [
-        'purchase_view.xml',
-        'stock_view.xml',
+    "category": "Purchase",
+    "init_xml": [],
+    "data": [
+        'views/purchase_view.xml',
     ],
     'demo_xml': [],
     'installable': True,

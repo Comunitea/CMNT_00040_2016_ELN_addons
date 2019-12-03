@@ -13,6 +13,8 @@
                         <field name="warehouse_id" required="1" select="1" widget="selection"/>
                         <field name="company_id" widget="selection" groups="base.group_multi_company"/>
                         <field name="supplier_id" />
+                        <field name="sequence"/>
+                        <field name="active" />
                         </group>
                         <group string="Accounting">
                             <field name="payment_default_id"/>
@@ -31,6 +33,7 @@
             <field name="type">tree</field>
             <field name="arch" type="xml">
                 <tree string="Sales Shop">
+                    <field name="sequence" widget="handle"/>
                     <field name="name"/>
                     <field name="warehouse_id"/>
                     <field name="pricelist_id"/>

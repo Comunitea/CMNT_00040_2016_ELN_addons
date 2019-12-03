@@ -18,8 +18,5 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from . import wizard
-from . import stock
-from . import stock_picking_valued
-from . import procurement
-from . import res_partner
+import models
+import wizard

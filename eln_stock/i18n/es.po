@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-09-09 13:03+0000\n"
-"PO-Revision-Date: 2019-09-09 15:05+0200\n"
+"POT-Creation-Date: 2019-12-02 12:20+0000\n"
+"PO-Revision-Date: 2019-12-02 14:52+0100\n"
 "Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -15,10 +15,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
 "Language: es\n"
-"X-Generator: Poedit 2.2.3\n"
+"X-Generator: Poedit 2.2.4\n"
 
 #. module: eln_stock
-#: code:addons/eln_stock/wizard/stock_invoice_onshipping.py:54
+#: code:addons/eln_stock/wizard/stock_invoice_onshipping.py:66
 #, python-format
 msgid "A valid journal was not found for simplified invoices."
 msgstr "No se encontró un diario válido para las facturas simplificadas."
@@ -45,7 +45,7 @@ msgid "Assign multi"
 msgstr "Comprobar disponibilidad"
 
 #. module: eln_stock
-#: code:addons/eln_stock/wizard/stock_invoice_onshipping.py:31
+#: code:addons/eln_stock/wizard/stock_invoice_onshipping.py:38
 #, python-format
 msgid "At least one of the selected picking lists are not in 'done' state and cannot be invoiced."
 msgstr ""
@@ -60,14 +60,19 @@ msgid "Cancel"
 msgstr "Cancelar"
 
 #. module: eln_stock
-#: model:ir.actions.act_window,name:eln_stock.stock_picking_cancel_multi_action
-msgid "Cancel Trasnfers"
-msgstr "Cancelar albaranes"
-
-#. module: eln_stock
 #: view:stock.picking.cancel.multi:eln_stock.stock_picking_cancel_multi_form
 msgid "Cancel pickings"
 msgstr "Cancelar albaranes"
+
+#. module: eln_stock
+#: model:ir.actions.act_window,name:eln_stock.stock_picking_cancel_multi_action
+msgid "Cancel transfers"
+msgstr "Cancelar albaranes"
+
+#. module: eln_stock
+#: help:stock.warehouse,good_warehouse:0
+msgid "Check the good warehouse field if the warehouse is a good warehouse."
+msgstr "Marcar la opción depósito si el almacén es un depósito."
 
 #. module: eln_stock
 #: field:stock.picking.assign.multi,create_uid:0
@@ -118,6 +123,11 @@ msgid "Estimated Valuation"
 msgstr "Valoración estimada"
 
 #. module: eln_stock
+#: field:stock.warehouse,good_warehouse:0
+msgid "Good Warehouse"
+msgstr "Depósito"
+
+#. module: eln_stock
 #: view:stock.picking:eln_stock.view_picking_internal_search
 msgid "Group By"
 msgstr "Agrupar por"
@@ -139,7 +149,7 @@ msgid "Inventory"
 msgstr "Inventario"
 
 #. module: eln_stock
-#: code:addons/eln_stock/wizard/stock_invoice_onshipping.py:44
+#: code:addons/eln_stock/wizard/stock_invoice_onshipping.py:54
 #, python-format
 msgid "It is not allowed to create ordinary invoices and simplified invoices at the same time."
 msgstr "No está permitido crear facturas ordinarias y facturas simplificadas al mismo tiempo."
@@ -192,7 +202,8 @@ msgid "Picking wizard items"
 msgstr "Elementos del asistente de albarán"
 
 #. module: eln_stock
-#: code:addons/eln_stock/res_partner.py:47 field:res.partner,out_picking_ids:0
+#: code:addons/eln_stock/models/res_partner.py:51
+#: field:res.partner,out_picking_ids:0
 #, python-format
 msgid "Pickings"
 msgstr "Albaranes"
@@ -228,6 +239,11 @@ msgid "Stock moves that are Partially Available"
 msgstr "Movimientos de existencias que están parcialmente disponibles"
 
 #. module: eln_stock
+#: model:ir.model,name:eln_stock.model_stock_picking_type
+msgid "The picking type determines the picking view"
+msgstr "El tipo de albarán determina la vista de albarán"
+
+#. module: eln_stock
 #: view:stock.picking:eln_stock.view_picking_internal_search
 msgid "Today Done"
 msgstr "Realizados Hoy"
@@ -240,9 +256,14 @@ msgid "Unreserve"
 msgstr "Anular reservas"
 
 #. module: eln_stock
-#: code:addons/eln_stock/wizard/stock_invoice_onshipping.py:31
-#: code:addons/eln_stock/wizard/stock_invoice_onshipping.py:44
-#: code:addons/eln_stock/wizard/stock_invoice_onshipping.py:54
+#: model:ir.model,name:eln_stock.model_stock_warehouse
+msgid "Warehouse"
+msgstr "Almacén"
+
+#. module: eln_stock
+#: code:addons/eln_stock/wizard/stock_invoice_onshipping.py:37
+#: code:addons/eln_stock/wizard/stock_invoice_onshipping.py:53
+#: code:addons/eln_stock/wizard/stock_invoice_onshipping.py:65
 #, python-format
 msgid "Warning!"
 msgstr "¡Advertencia!"

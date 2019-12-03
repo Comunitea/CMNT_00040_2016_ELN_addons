@@ -209,12 +209,19 @@ class SaleOrderImport(models.TransientModel):
                     # Ahora voy a ejecutar los onchanges para actualizar valores
                     data = {}
                     # Llamo al onchange del producto
-                    ctx = dict(partner_id=order_id.partner_id.id, quantity=product_uom_qty,
-                               pricelist=order_id.pricelist_id.id, shop=order_id.shop_id.id, uom=False)
+                    ctx = dict(
+                        self._context,
+                        partner_id=order_id.partner_id.id,
+                        quantity=product_uom_qty,
+                        pricelist=order_id.pricelist_id.id,
+                        shop=order_id.shop_id.id,
+                        uom=False
+                    )
                     data.update(
                         order_id.order_line.with_context(ctx).product_id_change(
                             order_id.pricelist_id.id, product_id.id, product_uom_qty,
-                            uom_id, product_uos_qty, uos_id, '', order_id.partner_id.id, False, True, order_id.date_order,
+                            uom_id, product_uos_qty, uos_id, '', order_id.partner_id.id,
+                            False, True, order_id.date_order,
                             False, order_id.fiscal_position.id, False)['value']
                     )
                     if 'product_uom_qty' in data and data['product_uom_qty']:
@@ -222,7 +229,12 @@ class SaleOrderImport(models.TransientModel):
                     if 'tax_id' in data and data['tax_id']:
                         data['tax_id'] = [(6, 0, data['tax_id'])]
                     values.update(data)
-                    ctx = dict(partner_id=partner.id, address_id=shipping_dir.id) # Para comisiones
+                    # Contexto para que asigne las comisiones
+                    ctx = dict(
+                        self._context,
+                        partner_id=partner.id,
+                        address_id=shipping_dir.id
+                    )
                     line_id = sale_line_obj.with_context(ctx).create(values)
                     _logger.info(_("Created sale order line with origin '%s' and product '%s'.") %(order_id.name, ln[product_code_i].strip()))
                 _logger.info(u"<-------------------  IMPORT PROCESS END  ------------------->" )

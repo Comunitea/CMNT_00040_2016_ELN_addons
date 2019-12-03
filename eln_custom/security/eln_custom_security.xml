@@ -7,13 +7,6 @@
             <field name="domain_force">['|',('id','child_of',[user.company_id.id]),('id','=',user.company_id.parent_id.id)]</field>
         </record>
 
-        <!--<record model="ir.rule" id="payment_type_comp_rule">-->
-            <!--<field name="name">payment.type multi company</field>-->
-            <!--<field name="model_id" ref="account_payment_extension.model_payment_type"/>-->
-            <!--<field name="global" eval="True"/>-->
-            <!--<field name="domain_force">['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>-->
-        <!--</record>-->
-
         <record model="ir.rule" id="res_partner_bank_comp_rule">
             <field name="name">res.partner.bank multi company</field>
             <field name="model_id" ref="base.model_res_partner_bank"/>

@@ -17,8 +17,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-from openerp import models, fields, api, _
+from openerp import models, fields, api
 import logging
 _logger = logging.getLogger(__name__)
 
@@ -114,18 +113,20 @@ class SaleOrder(models.Model):
             data = {}
             # Llamo al onchange del producto
             ctx = dict(
+                self._context,
                 partner_id=order_id.partner_id.id,
                 address_id=shipping_dir.id,
                 fiscal_position=order_id.fiscal_position.id,
                 quantity=product_uom_qty,
                 pricelist=order_id.pricelist_id.id,
                 shop=order_id.shop_id.id,
-                uom=False,
+                uom=False
             )
             data.update(
                 order_id.order_line.with_context(ctx).product_id_change(
                     order_id.pricelist_id.id, product_id, product_uom_qty,
-                    uom_id, product_uos_qty, uos_id, '', order_id.partner_id.id, False, True, order_id.date_order,
+                    uom_id, product_uos_qty, uos_id, '', order_id.partner_id.id,
+                    False, True, order_id.date_order,
                     False, order_id.fiscal_position.id, False)['value']
             )
             if 'product_uom_qty' in data:
@@ -141,8 +142,9 @@ class SaleOrder(models.Model):
             values.update(data)
             # Contexto para que asigne las comisiones
             ctx = dict(
+                self._context,
                 partner_id=partner.id,
-                address_id=shipping_dir.id,
+                address_id=shipping_dir.id
             )
             line_id = sale_line_obj.with_context(ctx).create(values)
         res = order_id

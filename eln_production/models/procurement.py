@@ -18,12 +18,17 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp import models, fields
+from openerp import models, api
 
-class AccountAnalyticPlanInstance(models.Model):
 
-    _inherit = 'account.analytic.plan.instance'
+class ProcurementOrder(models.Model):
+    _inherit = 'procurement.order'
 
-    company_id = fields.Many2one(
-        'res.company', 'Company',
-        default=lambda self: self.env.user.company_id)
+    @api.multi
+    def make_mo(self):
+        res = super(ProcurementOrder, self).make_mo()
+        for item in res:
+            if res[item]:
+                production_id = self.env['mrp.production'].browse(res[item])
+                production_id.update_production_priority()
+        return res

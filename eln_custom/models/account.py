@@ -18,17 +18,12 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import osv, fields
+from openerp import models, fields
 
 
-class procurement_order(osv.osv):
-    _inherit = 'procurement.order'
+class AccountAnalyticPlanInstance(models.Model):
+    _inherit = 'account.analytic.plan.instance'
 
-    def make_mo(self, cr, uid, ids, context=None):
-        res = super(procurement_order, self).make_mo(cr, uid, ids, context=context)
-        for item in res:
-            if res[item]:
-                self.pool.get('mrp.production').update_production_priority(cr, uid, [res[item]], context)
-        return res
-
-procurement_order()
+    company_id = fields.Many2one(
+        'res.company', 'Company',
+        default=lambda self: self.env.user.company_id)

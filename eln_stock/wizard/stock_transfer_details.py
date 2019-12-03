@@ -18,7 +18,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp import api, _, exceptions, models, fields
+from openerp import models, fields, api
 
 
 class StockTransferDetailsItems(models.TransientModel):

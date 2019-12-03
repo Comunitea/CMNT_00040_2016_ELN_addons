@@ -58,46 +58,48 @@ class StockPicking(models.Model):
 
     @api.model
     def _search_address(self, operator, operand):
-        part = self.env['res.partner'].search(
-            ['|',
-             ('street', operator, operand),
-             ('street2', operator, operand)])
-        return [('partner_id', 'in', part._ids)]
+        domain = [
+            '|',
+            ('street', operator, operand),
+            ('street2', operator, operand)
+        ]
+        part = self.env['res.partner'].search(domain)
+        return [('partner_id', 'in', part.ids)]
 
     @api.model
     def _prepare_values_extra_move(self, op, product, remaining_qty):  
-        res = super(StockPicking, self).\
-            _prepare_values_extra_move(op, product, remaining_qty)
+        res = super(StockPicking, self)._prepare_values_extra_move(
+            op, product, remaining_qty)
         """
         Si no tenemos la UdV la obtenemos del movimiento relacionado o del producto si la tiene
         En caso de no poder obtenerla, no la establecemos (Se podria pasar la UdM como UdV),
         pero no se considera necesario.
         """
-        if not res.get('uos_id', False) and \
-            ((op.linked_move_operation_ids and op.linked_move_operation_ids[0].move_id.product_uos) or op.product_id.uos_id):
-            t_uom = self.env['product.uom']
-            uom_id = op.product_uom_id.id
-            uos_id = (op.linked_move_operation_ids and op.linked_move_operation_ids[0].move_id.product_uos.id) or op.product_id.uos_id.id
-            uom_qty = remaining_qty
-            uos_qty = t_uom._compute_qty(uom_id, uom_qty, uos_id)
-            uos_vals = {
-                'product_uos': uos_id,
-                'product_uos_qty': uos_qty,
-            }
-            res.update(uos_vals)
+        if not res.get('uos_id', False):
+            uos_id = op.linked_move_operation_ids and \
+                op.linked_move_operation_ids[0].move_id.product_uos.id or \
+                op.product_id.uos_id.id
+            if uos_id:
+                t_uom = self.env['product.uom']
+                uom_id = op.product_uom_id.id
+                uom_qty = remaining_qty
+                uos_qty = t_uom._compute_qty(uom_id, uom_qty, uos_id)
+                uos_vals = {
+                    'product_uos': uos_id,
+                    'product_uos_qty': uos_qty,
+                }
+                res.update(uos_vals)
         """
         Si no tenemos el partner_id la obtenemos del picking relacionado.
         """
         if not res.get('partner_id', False) and op.picking_id.partner_id:
             res.update({'partner_id': op.picking_id.partner_id.id})
-            
         return res
 
 
 class StockIncoterms(models.Model):
-    _inherit = "stock.incoterms"
+    _inherit = 'stock.incoterms'
 
-    #  Ponemos el campo name como traducible
     name = fields.Char(translate=True)
 
 
@@ -105,30 +107,26 @@ class StockMove(models.Model):
     _inherit = 'stock.move'
 
     @api.multi
-    def onchange_quantity(self, product_id, product_qty,
-                          product_uom, product_uos):
+    def onchange_quantity(self, product_id, product_qty, product_uom, product_uos):
         """
         Modificamos para que solo permita en unidad de medida la que tiene
-            el producto como uom o como uom_po
+        el producto como uom o como uom_po.
         Modificamos para que solo permita en unidad de venta la que tiene el
-            producto asignada
+        producto asignada.
         Con todo esto evitamos sobre todo problemas en precios en facturas
-            (_get_price_unit_invoice)
+        (_get_price_unit_invoice)
         """
         if product_id:
             product = self.env['product.product'].browse(product_id)
-            uos = product.uos_id and product.uos_id.id or False
-            uom = product.uom_id and product.uom_id.id or False
-            uom_po = product.uom_po_id and product.uom_po_id.id or False
+            uos = product.uos_id.id
+            uom = product.uom_id.id
+            uom_po = product.uom_po_id.id or False
             if product_uom not in (uom, uom_po):
                 product_uom = uom
             if product_uos:
                 product_uos = uos
-        res = super(StockMove, self).onchange_quantity(product_id,
-                                                       product_qty,
-                                                       product_uom,
-                                                       product_uos)
-
+        res = super(StockMove, self).onchange_quantity(
+            product_id, product_qty, product_uom, product_uos)
         res['value']['product_uom'] = product_uom
         res['value']['product_uos'] = product_uos
 
@@ -136,30 +134,38 @@ class StockMove(models.Model):
         # por aqui va a usar el dominio del articulo anterior.
         # Si es un inconveniente eliminar todo lo que está en el if
         if product_id:
-            res['domain'] = {'product_uom': [('id', 'in', (uom, uom_po))],
-                             'product_uos': [('id', 'in', (uos,))]}
+            res['domain'] = {
+                'product_uom': [('id', 'in', (uom, uom_po))],
+                'product_uos': [('id', 'in', (uos,))]
+            }
         else:
-            res['domain'] = {'product_uom': [], 'product_uos': []}
+            res['domain'] = {
+                'product_uom': [],
+                'product_uos': []
+            }
         return res
 
     @api.multi
     def unlink(self):
-        res = False
         for move in self:
             if move.state == 'cancel' and move.picking_id.pack_operation_ids:
                 move.picking_id.pack_operation_ids.unlink()  # Delete move
         res = super(StockMove, self).unlink()
         return res
 
-    def _get_taxes(self, cr, uid, move, context=None):
-        res = super(StockMove, self)._get_taxes(cr, uid, move, context=context)
-        if not res and not (move.procurement_id.sale_line_id or
-                            move.origin_returned_move_id.purchase_line_id):
-            fiscal_obj = self.pool.get('account.fiscal.position')
+    @api.model
+    def _get_taxes(self, move):
+        res = super(StockMove, self)._get_taxes(move)
+        get_taxes = not res and not (
+            move.procurement_id.sale_line_id or
+            move.origin_returned_move_id.purchase_line_id
+        )
+        if get_taxes:
+            res = []
             fpos = move.picking_id.partner_id.commercial_partner_id.property_account_position
             prod = move.product_id
             taxes = False
-            inv_type = context.get('inv_type', False)
+            inv_type = self._context.get('inv_type', False)
             if inv_type in ['out_invoice', 'out_refund']:
                 taxes = prod.taxes_id
             elif inv_type in ['in_invoice', 'in_refund']:
@@ -167,25 +173,43 @@ class StockMove(models.Model):
             if taxes:
                 if fpos:
                     for tax in taxes:
-                        res += fiscal_obj.map_tax(cr, uid, fpos, tax,
-                                                  context=context)
+                        res += [tax.id for tax in fpos.map_tax(tax)]
                 else:
                     res = [tax.id for tax in taxes]
         return res
 
-    def attribute_price(self, cr, uid, move, context=None):
-        """
-            Attribute price to move, important in inter-company moves or receipts with only one partner
-        """
+    @api.model
+    def _get_moves_taxes(self, moves, inv_type):
+        is_extra_move, extra_move_tax = super(StockMove, self)._get_moves_taxes(moves, inv_type)
+        for move in moves:
+            get_taxes = (
+                is_extra_move[move.id] and 
+                not extra_move_tax[move.picking_id, move.product_id]
+            )
+            if get_taxes:
+                fpos = move.picking_id.partner_id.commercial_partner_id.property_account_position
+                prod = move.product_id
+                taxes = False
+                if inv_type in ['out_invoice', 'out_refund']:
+                    taxes = prod.taxes_id
+                elif inv_type in ['in_invoice', 'in_refund']:
+                    taxes = prod.supplier_taxes_id
+                if taxes:
+                    new_taxes = []
+                    if fpos:
+                        for tax in taxes:
+                            new_taxes += [tax.id for tax in fpos.map_tax(tax)]
+                    else:
+                        new_taxes = [tax.id for tax in taxes]
+                    extra_move_tax[move.picking_id, move.product_id] = [(6, 0, new_taxes)]
+        return (is_extra_move, extra_move_tax)
+
+    @api.model
+    def attribute_price(self, move):
         # Pasamos el contexto con la compañia del movimiento para que en caso de obtener el precio
         # del campo standard_price del producto, que es dependiente de la compañia, lo haga correctamente 
-        if not context:
-            context = {}
-        c = context.copy()
-        company_id = move.company_id.id
-        c.update(company_id=company_id, force_company=company_id)
-
-        return super(StockMove, self).attribute_price(cr, uid, move.with_context(c), context=context)
+        move = move.with_context(force_company=move.company_id.id)
+        return super(StockMove, self).attribute_price(move)
 
     @api.multi
     def action_done(self):
@@ -213,39 +237,68 @@ class StockMove(models.Model):
 class StockProductionLot(models.Model):
     _inherit = 'stock.production.lot'
 
-    qty_available = fields.Float('Quantity On Hand', compute='_get_qty_available')
+    qty_available = fields.Float('Quantity On Hand',
+        compute='_get_qty_available')
 
     @api.multi
     def _get_qty_available(self):
         for lot in self:
-            location_ids = [w.view_location_id.id for w in self.env['stock.warehouse'].search([])]
-            lot.qty_available = lot.sudo().product_id.with_context(lot_id=lot.id, location=location_ids).qty_available
+            sw_obj = self.env['stock.warehouse']
+            location_ids = sw_obj.search([]).mapped('view_location_id').ids
+            lot.qty_available = lot.sudo().\
+                product_id.with_context(lot_id=lot.id, location=location_ids).\
+                qty_available
 
 
 class StockInventory(models.Model):
-    _inherit = "stock.inventory"
+    _inherit = 'stock.inventory'
     _order = 'date desc'
 
-    estimated_valuation = fields.Float('Estimated Valuation', digits=dp.get_precision('Account'), readonly=True)
+    estimated_valuation = fields.Float('Estimated Valuation',
+        digits=dp.get_precision('Account'),
+        readonly=True)
 
+    @api.multi
     def set_estimated_valuation(self):
-        estimated_valuation = 0.0
-        for line in self.line_ids:
-            diff = line.theoretical_qty - line.product_qty
-            if diff:
-                price_unit = line.product_id.standard_price
-                estimated_valuation -= diff * price_unit
-        self.estimated_valuation = estimated_valuation
+        for inventory in self:
+            estimated_valuation = 0.0
+            for line in inventory.line_ids:
+                diff = line.theoretical_qty - line.product_qty
+                if diff:
+                    price_unit = line.product_id.standard_price
+                    estimated_valuation -= diff * price_unit
+            inventory.estimated_valuation = estimated_valuation
         
-    @api.one
+    @api.multi
     def write(self, vals):
         res = super(StockInventory, self).write(vals)
         if vals.get('line_ids', False) or vals.get('state', False):
             self.set_estimated_valuation()
         return res
 
-    @api.one
+    @api.multi
     def reset_real_qty(self):
-        super(StockInventory, self).reset_real_qty()
+        res = super(StockInventory, self).reset_real_qty()
         self.set_estimated_valuation()
+        return res
 
+
+class StockWarehouse(models.Model):
+    _inherit = 'stock.warehouse'
+    
+    good_warehouse = fields.Boolean(
+        string='Good Warehouse',
+        help="Check the good warehouse field if the warehouse is a good warehouse.",
+        default=False)
+
+
+class StockPickingType(models.Model):
+    _inherit = 'stock.picking.type'
+
+    @api.multi
+    def name_get(self):
+        return [
+            (pt.id, (pt.warehouse_id and
+            (pt.warehouse_id.name + ' - ') or '') + pt.name)
+            for pt in self
+        ]

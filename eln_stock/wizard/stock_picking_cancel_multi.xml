@@ -18,7 +18,7 @@
             </field>
         </record>
 
-        <act_window name="Cancel Trasnfers"
+        <act_window name="Cancel transfers"
             res_model="stock.picking.cancel.multi"
             src_model="stock.picking"
             view_id="stock_picking_cancel_multi_form"

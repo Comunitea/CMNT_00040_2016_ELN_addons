@@ -18,15 +18,14 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-from openerp import models, fields, api, exceptions, _
+from openerp import models, fields, api, _
 
 
 class ResPartner(models.Model):
-
     _inherit = 'res.partner'
 
-    picking_count = fields.Integer('Deliveries', compute='_get_deliveries_count')
+    picking_count = fields.Integer('Deliveries',
+        compute='_get_deliveries_count')
     out_picking_ids = fields.One2many(
         comodel_name='stock.picking',
         inverse_name='partner_id',
@@ -41,9 +40,14 @@ class ResPartner(models.Model):
 
     @api.multi
     def action_picking_out(self):
-        picking_type = self.env['stock.picking.type'].search([('code', '=', 'outgoing')])
+        picking_type_obj = self.env['stock.picking.type']
+        picking_type = picking_type_obj.search([('code', '=', 'outgoing')])
+        domain = [
+            ('partner_id', '=', self.id),
+            ('picking_type_id', 'in', picking_type.ids)
+        ]
         return {
-            'domain': [('partner_id', '=', self.id), ('picking_type_id', 'in', picking_type._ids)],
+            'domain': domain,
             'name': _('Pickings'),
             'view_mode': 'tree,form',
             'view_type': 'form',
