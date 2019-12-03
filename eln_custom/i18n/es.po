@@ -6,16 +6,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-06 09:49+0000\n"
-"PO-Revision-Date: 2018-08-06 11:51+0200\n"
-"Last-Translator: <>\n"
+"POT-Creation-Date: 2019-11-29 14:24+0000\n"
+"PO-Revision-Date: 2019-11-29 15:26+0100\n"
+"Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"Language: es_ES\n"
-"X-Generator: Poedit 2.0.9\n"
+"Language: es\n"
+"X-Generator: Poedit 2.2.4\n"
 
 #. module: eln_custom
 #: selection:res.partner,customer_state:0
@@ -125,13 +125,13 @@ msgstr "Editar"
 
 #. module: eln_custom
 #: view:stock.picking:eln_custom.stock_picking_kanban
-msgid "Fecha Efectiva:"
-msgstr "Fecha Efectiva:"
+msgid "Fecha de solicitud:"
+msgstr "Fecha de solicitud:"
 
 #. module: eln_custom
 #: view:stock.picking:eln_custom.stock_picking_kanban
-msgid "Fecha de solicitud:"
-msgstr "Fecha de solicitud:"
+msgid "Fecha efectiva:"
+msgstr "Fecha efectiva:"
 
 #. module: eln_custom
 #: view:stock.picking:eln_custom.view_picking_planning_kanban_search
@@ -330,7 +330,7 @@ msgid "Waiting Moves"
 msgstr "Movimientos a la espera"
 
 #. module: eln_custom
-#: code:addons/eln_custom/res_partner.py:74
+#: code:addons/eln_custom/models/res_partner.py:74
 #, python-format
 msgid "Warning!"
 msgstr "¡Advertencia!"
@@ -346,7 +346,7 @@ msgid "Weigth Net"
 msgstr "Peso neto"
 
 #. module: eln_custom
-#: code:addons/eln_custom/res_partner.py:75
+#: code:addons/eln_custom/models/res_partner.py:75
 #, python-format
 msgid "You can not change the company of the address. It must be the same as the company of the partner to which it belongs."
 msgstr "No se puede cambiar la compañía de la dirección. Debe ser igual a la compañía de la empresa a la que pertenece."
@@ -379,5 +379,5 @@ msgstr "{'show_address': 1, 'default_type': 'delivery'}"
 
 #. module: eln_custom
 #: view:stock.picking:eln_custom.view_picking_out_tree_add_route
-msgid "{'show_address':1}"
-msgstr "{'show_address':1}"
+msgid "{'show_address': 1}"
+msgstr "{'show_address': 1}"

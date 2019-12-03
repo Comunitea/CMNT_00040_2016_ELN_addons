@@ -18,7 +18,8 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp import api, _, exceptions, models, fields
+from openerp import models, fields, api, exceptions, _
+
 
 class StockInvoiceOnshipping(models.TransientModel):
     _inherit = 'stock.invoice.onshipping'
@@ -26,9 +27,15 @@ class StockInvoiceOnshipping(models.TransientModel):
     @api.model
     def view_init(self, fields_list):
         active_ids = self.env.context.get('active_ids', [])
-        invalid_ids = self.env['stock.picking'].search([('id', 'in', active_ids), ('state', '!=', 'done')])
+        domain = [
+            ('id', 'in', active_ids),
+            ('state', '!=', 'done')
+        ]
+        invalid_ids = self.env['stock.picking'].search(domain)
         if invalid_ids:
-            raise exceptions.Warning(_("Warning!"), _("At least one of the selected picking lists are not in 'done' state and cannot be invoiced."))
+            raise exceptions.Warning(
+                _("Warning!"),
+                _("At least one of the selected picking lists are not in 'done' state and cannot be invoiced."))
         return super(StockInvoiceOnshipping, self).view_init(fields_list)
 
     @api.model
@@ -39,9 +46,12 @@ class StockInvoiceOnshipping(models.TransientModel):
             picking_ids = self.env['stock.picking'].browse(res_ids)
             sii_enabled = picking_ids[0].company_id.sii_enabled
             if sii_enabled:
-                simplified_invoice = picking_ids.mapped('partner_id.commercial_partner_id.sii_simplified_invoice')
+                simplified_invoice = picking_ids.mapped(
+                    'partner_id.commercial_partner_id.sii_simplified_invoice')
                 if not all(simplified_invoice) and any(simplified_invoice):
-                    raise exceptions.Warning(_("Warning!"), _("It is not allowed to create ordinary invoices and simplified invoices at the same time."))
+                    raise exceptions.Warning(
+                        _("Warning!"),
+                        _("It is not allowed to create ordinary invoices and simplified invoices at the same time."))
                 if all(simplified_invoice):
                     aj_obj = self.env['account.journal']
                     journal_id = aj_obj.browse(res)
@@ -51,7 +61,9 @@ class StockInvoiceOnshipping(models.TransientModel):
                     ]
                     new_journal_id = aj_obj.search(domain, limit=1)
                     if not new_journal_id:
-                        raise exceptions.Warning(_("Warning!"), _("A valid journal was not found for simplified invoices."))
+                        raise exceptions.Warning(
+                            _("Warning!"),
+                            _("A valid journal was not found for simplified invoices."))
                     res = new_journal_id.id
         return res
 

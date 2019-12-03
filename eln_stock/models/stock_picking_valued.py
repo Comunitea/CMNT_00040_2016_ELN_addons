@@ -36,11 +36,13 @@ class StockMove(models.Model):
         for move in self:
             price_unit = 0.0
             if move.procurement_id.sale_line_id:
-                price_unit = (move.procurement_id.sale_line_id.price_unit * (1-(move.procurement_id.sale_line_id.discount or 0.0)/100.0))
+                price_unit = move.procurement_id.sale_line_id.price_unit
+                discount = move.procurement_id.sale_line_id.discount or 0.0
+                price_unit = (price_unit * (1 - discount / 100.0))
             elif move.purchase_line_id:
-                price_unit = (move.purchase_line_id.price_unit * (1-(move.purchase_line_id.discount or 0.0)/100.0))
-            else:
-                price_unit = 0.0
+                price_unit = move.purchase_line_id.price_unit
+                discount = move.purchase_line_id.discount or 0.0
+                price_unit = (price_unit * (1 - discount / 100.0))
             cost_price = self.env['product.template'].get_history_price(
                 move.product_id.product_tmpl_id.id, move.company_id.id, date=move.date)
             cost_price = cost_price or move.with_context(force_company=move.company_id.id).product_id.standard_price
@@ -49,7 +51,6 @@ class StockMove(models.Model):
             move.cost_subtotal = cost_price * move.product_uom_qty
             move.margin = move.price_subtotal - move.cost_subtotal
             if move.price_subtotal > 0:
-                move.percent_margin = (move.margin/move.price_subtotal)*100
+                move.percent_margin = (move.margin / move.price_subtotal) * 100
             else:
                 move.percent_margin = 0
-

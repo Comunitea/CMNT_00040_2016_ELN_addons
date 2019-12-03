@@ -14,7 +14,7 @@
                             <tree editable="bottom" create="true">
                                 <field name="product_id"/>
                                 <field name="product_qty"/>
-                                <button name="split" string="split" type="object" icon="STOCK_PREFERENCES"/>
+                                <button name="split" string="Split" type="object" icon="STOCK_PREFERENCES"/>
                                 <field name="lot_id" domain="[('product_id', '=', product_id), ('locked_lot', '=', False)]"
                                        context="{'product_id': product_id, 'location_id': location_id}"/> 
                                        <!-- El contexto es solo para interactuar con el modulo stock_not_allow_negative 

@@ -18,31 +18,27 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp import models, api, fields
-#from openerp.osv import orm, fields
+from openerp import models, fields, api
 
 
 class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
 
+    lines_product_name_str = fields.Char('Lines', size=255,
+        compute='_get_products_names', readonly=True)
+    container_numbers = fields.Char('Container numbers', size=64,
+        readonly=False,
+        states={'done': [('readonly', True)], 'cancel': [('readonly', True)]},
+        help="Container numbers assigned to the order.",)
+    invoice_method = fields.Selection(default='picking')
+
     @api.multi
     def _get_products_names(self):
         for purchase in self:
             stream = [line.product_id.name 
-                      for line in purchase.order_line
-                      if line.product_id and line.product_id.name]
+                for line in purchase.order_line
+                if line.product_id.name]
             purchase.lines_product_name_str = u" ###, ".join(stream)
-
-    lines_product_name_str = fields.Char(compute='_get_products_names',
-                                         string='Lines',
-                                         size=255,
-                                         readonly=True)
-    container_numbers = fields.Char(string='Container numbers',
-                                    size=64,
-                                    help="Container numbers assigned to the order.",
-                                    readonly=False,
-                                    states={'done': [('readonly', True)],'cancel': [('readonly', True)]})
-    invoice_method = fields.Selection(default='picking')
 
     @api.multi
     def set_order_line_status(self, status):
@@ -51,11 +47,12 @@ class PurchaseOrder(models.Model):
         res = super(PurchaseOrder, self).set_order_line_status(status=status)
         proc_obj = self.env['procurement.order']
         if status == 'cancel':
-            order_line_ids = []
-            for order in self:
-                order_line_ids += [po_line.id for po_line in order.order_line]
-            procs = proc_obj.search([('purchase_line_id', 'in', order_line_ids),
-                                     ('state', '!=', 'done')])
+            order_line_ids = self.mapped('order_line')
+            domain = [
+                ('purchase_line_id', 'in', order_line_ids.ids),
+                ('state', '!=', 'done')
+            ]
+            procs = proc_obj.search(domain)
             procs.write({'state': 'cancel'})
         return res
 
@@ -68,8 +65,11 @@ class PurchaseOrderLine(models.Model):
         # No queremos que el abastecimiento se establezca a
         # estado 'exception', sino a 'cancel'
         proc_obj = self.env['procurement.order']
-        procs = proc_obj.search([('purchase_line_id', 'in', self.ids),
-                                 ('state', '!=', 'done')])
+        domain = [
+            ('purchase_line_id', 'in', self.ids),
+            ('state', '!=', 'done')
+        ]
+        procs = proc_obj.search(domain)
         res = super(PurchaseOrderLine, self).unlink()
         procs.write({'state': 'cancel'})
         return res
@@ -81,18 +81,27 @@ class ProcurementOrder(models.Model):
     @api.model
     def _calc_new_qty_price(self, procurement, po_line=None, cancel=False):
         """
-        En la función original cuando se llama a price_get no se tiene en cuenta la compañía del abastecimiento,
-        y cuando es llamada desde planificadores usa la del usuario (generalmente admin) lo cual es un error en caso de multicompañía
+        En la función original cuando se llama a price_get
+        no se tiene en cuenta la compañía del abastecimiento,
+        y cuando es llamada desde planificadores usa
+        la del usuario (generalmente admin)
+        lo cual es un error en caso de multicompañía
         """
-        qty, price = super(ProcurementOrder, self)._calc_new_qty_price(procurement=procurement, po_line=po_line, cancel=cancel)
+        qty, price = super(ProcurementOrder, self)._calc_new_qty_price(
+            procurement=procurement, po_line=po_line, cancel=cancel)
         if not po_line:
             po_line = procurement.purchase_line_id
         price = po_line.price_unit
         if qty != po_line.product_qty:
-            pricelist_id = po_line.order_id.partner_id.property_product_pricelist_purchase.id
-            uom_id = procurement.product_id.uom_po_id.id
-            pricelist_obj = self.env['product.pricelist'].\
-                            with_context(force_company=procurement.company_id.id, uom=uom_id).\
-                            browse(pricelist_id)
-            price = pricelist_obj.price_get(procurement.product_id.id, qty, po_line.order_id.partner_id.id)[pricelist_id]
+            order_id = po_line.order_id
+            pricelist_id = order_id.partner_id.property_product_pricelist_purchase.id
+            ctx = dict(
+                self._context,
+                force_company=procurement.company_id.id,
+                uom=procurement.product_id.uom_po_id.id
+            )
+            pricelist_obj = self.env['product.pricelist']
+            pricelist = pricelist_obj.with_context(ctx).browse(pricelist_id)
+            price = pricelist.price_get(
+                procurement.product_id.id, qty, order_id.partner_id.id)[pricelist_id]
         return qty, price

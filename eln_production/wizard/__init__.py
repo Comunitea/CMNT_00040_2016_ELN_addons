@@ -18,5 +18,5 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from . import mrp_product_produce
-from . import mrp_modify_consumption
+import mrp_product_produce
+import mrp_modify_consumption

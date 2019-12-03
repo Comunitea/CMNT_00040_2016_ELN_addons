@@ -2,7 +2,7 @@
 
 <openerp>
     <data>
-         <record id="view_normal_stock_property_formadd_field" model="ir.ui.view">
+         <record id="view_normal_stock_property_form_add_field" model="ir.ui.view">
             <field name="name">product.normal.stock.form.inherit.add.field</field>
             <field name="model">product.product</field>
             <field name="type">form</field>
@@ -10,10 +10,6 @@
             <field name="arch" type="xml">
                 <field name="virtual_available" position="after">
                     <field name="real_virtual_available"/>
-                </field>
-                <field name="company_id" position="after">
-                    <field name="sample_location"/>
-                    <field name="qty_sample" attrs="{ 'required':[('sample_location', '=', True)]}"/>
                 </field>
             </field>
          </record>

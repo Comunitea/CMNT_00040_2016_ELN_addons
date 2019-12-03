@@ -19,7 +19,6 @@
 #
 ##############################################################################
 
-
 {
     'name': "El Nogal Productions",
     'version': '1.0',
@@ -41,17 +40,16 @@
     ],
     "init_xml": [],
     "data": [
-        'data/stock_production_lot_seq.xml',
-        'data/ir_cron.xml',
-        'mrp_workflow.xml',
-        'wizard/mrp_modify_consumption.xml',
-        'mrp_view.xml',
-        'product_view.xml',
-        'stock_production_lot_view.xml',
         'security/ir.model.access.csv',
-        'stock_view.xml',
+        'data/ir_cron.xml',
+        'data/stock_production_lot_seq.xml',
+        'wizard/mrp_modify_consumption.xml',
         'wizard/mrp_product_produce_view.xml',
-        'stock_warehouse_orderpoint_view.xml',
+        'views/mrp_view.xml',
+        'views/mrp_workflow.xml',
+        'views/product_view.xml',
+        'views/stock_view.xml',
+        'views/stock_warehouse_orderpoint_view.xml',
         'report/mrp_workorder_analysis_view.xml',
     ],
     "demo_xml": [],

@@ -18,32 +18,33 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from openerp import models, fields, api
 from datetime import datetime, timedelta
-
-from openerp.osv import orm, fields
-from openerp import models, api, exceptions, _
 from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT
 from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
 
 
-class route(orm.Model):
+class Route(models.Model):
     _name = 'route'
     _description = 'Route Model'
-    _columns = {
-        'code': fields.char('Code', size=32),
-        'name': fields.char('Name', size=255),
-        'carrier_id': fields.many2one('res.partner', 'Carrier'),
-        'delivery_delay': fields.float('Delivery Lead Time', required=True, help="The average delay in days between the picking transfer and the delivery of the products to customer."),
-    }
+
+    code = fields.Char('Code', size=32)
+    name = fields.Char('Name', size=255)
+    carrier_id = fields.Many2one('res.partner', 'Carrier')
+    delivery_delay = fields.Float('Delivery Lead Time', required=True,
+        help="The average delay in days between the picking transfer and the delivery of the products to customer.")
+
 
 class SaleOrder(models.Model):
-    _inherit = "sale.order"
+    _inherit = 'sale.order'
 
     @api.multi
     def action_ship_create(self):
         res = super(SaleOrder, self).action_ship_create()
         for order in self:
-            route_id = order.partner_shipping_id.route_id or order.partner_shipping_id.commercial_partner_id.route_id or False
+            route_id = order.partner_shipping_id.route_id or \
+                order.partner_shipping_id.commercial_partner_id.route_id or \
+                False
             if route_id:
                 route_id = route_id.id
             order.picking_ids.write({'route_id': route_id})
@@ -66,6 +67,3 @@ class StockPicking(models.Model):
                     effective_date = requested_date
                 pick.effective_date = effective_date.strftime(DEFAULT_SERVER_DATETIME_FORMAT)
         return res
-
-   
-

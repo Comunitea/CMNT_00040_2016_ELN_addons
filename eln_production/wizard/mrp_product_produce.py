@@ -22,43 +22,49 @@ from openerp import models, fields, api, exceptions, _
 
 
 class MrpProductProduce(models.TransientModel):
-    _inherit = "mrp.product.produce"
+    _inherit = 'mrp.product.produce'
 
-    mode = fields.Selection(selection_add=[('produce', 'Solo fabricar')])
+    mode = fields.Selection(selection_add=[('produce', _('Only produce'))])
 
     @api.multi
     def on_change_qty(self, product_qty, consume_lines):
         """
-            Get the products to consume when product is already confirmed
-            Se llama a super aunque luego se sobreescriben los consumos para
-            calcularlos correctamente.
+        Se llama a super aunque luego se sobreescriben los consumos para
+        calcularlos correctamente.
         """
-        context = self._context
-        if context.get('active_id') and context.get('default_mode', False) and \
-                context['default_mode'] == 'consume':
-            production = self.env['mrp.production'].browse(context['active_id'])
+        record_id = self._context.get('active_id', False)
+        default_mode = self._context.get('default_mode', False)
+        if record_id and default_mode == 'consume':
+            production = self.env['mrp.production'].browse(record_id)
             if production.move_created_ids2:
                 product_qty = production.move_created_ids2[0].product_uom_qty
-        res = super(MrpProductProduce, self).on_change_qty(product_qty,
-                                                           consume_lines)
-        if context.get('active_id') and context.get('default_mode', False) and \
-                context['default_mode'] == 'consume':
+        res = super(MrpProductProduce, self).on_change_qty(
+            product_qty, consume_lines)
+        if record_id and default_mode == 'consume':
             lines = []
-            for move in production.move_lines.sorted(key=lambda r: r.product_id.name_get()[0][1]):
+            move_lines = production.move_lines.sorted(
+                key=lambda r: r.product_id.name_get()[0][1])
+            for move in move_lines:
                 total = move.product_uom_qty
                 for quant in move.reserved_quant_ids:
                     qty = quant.qty < total and quant.qty or total
-                    lines.append([0, False, {'product_id': quant.product_id.id,
-                                  'product_qty': qty,
-                                  'lot_id': quant.lot_id.id,
-                                  'location_id': quant.location_id.id,
-                                  'move_id': move.id}])
+                    vals = {
+                        'product_id': quant.product_id.id,
+                        'product_qty': qty,
+                        'lot_id': quant.lot_id.id,
+                        'location_id': quant.location_id.id,
+                        'move_id': move.id
+                    }
+                    lines.append([0, False, vals])
                     total -= qty
                 if total > 0:
-                    lines.append([0, False, {'product_id': move.product_id.id,
-                                  'product_qty': total,
-                                  'location_id': move.location_id.id,
-                                  'move_id': move.id}])
+                    vals = {
+                        'product_id': move.product_id.id,
+                        'product_qty': total,
+                        'location_id': move.location_id.id,
+                        'move_id': move.id
+                    }
+                    lines.append([0, False, vals])
             res['value']['consume_lines'] = lines
         return res
 
@@ -74,10 +80,13 @@ class MrpProductProduce(models.TransientModel):
                     line.modify_move()
                     modified_moves.append(line.move_id.id)
             self.mapped('consume_lines.move_id').action_assign()
-            if any(item.state not in ['assigned'] for item in self.mapped('consume_lines.move_id')):
-                raise exceptions.Warning(_('Invalid Action!'), _('At least one product does not have enough stock to be consumed.'))
-
+            if any(item.state not in ['assigned']
+                   for item in self.mapped('consume_lines.move_id')):
+                raise exceptions.Warning(
+                     _('Invalid Action!'),
+                     _('At least one product does not have enough stock to be consumed.'))
         return super(MrpProductProduce, self).do_produce()
+
 
 class MrpProductProduceLine(models.TransientModel):
     _inherit = 'mrp.product.produce.line'
@@ -88,14 +97,18 @@ class MrpProductProduceLine(models.TransientModel):
     @api.multi
     def create_move(self):
         self.ensure_one()
-        self.move_id = self.move_id.copy({'restrict_lot_id': self.lot_id.id,
-                                          'product_uom_qty': self.product_qty,
-                                          'location_id': self.location_id.id})
+        self.move_id = self.move_id.copy({
+            'restrict_lot_id': self.lot_id.id,
+            'product_uom_qty': self.product_qty,
+            'location_id': self.location_id.id
+        })
         self.move_id.action_confirm()
 
     @api.multi
     def modify_move(self):
         self.ensure_one()
-        self.move_id.write({'restrict_lot_id': self.lot_id.id,
-                            'product_uom_qty': self.product_qty,
-                            'location_id': self.location_id.id})
+        self.move_id.write({
+            'restrict_lot_id': self.lot_id.id,
+            'product_uom_qty': self.product_qty,
+            'location_id': self.location_id.id
+        })

@@ -172,5 +172,30 @@
             </field>
         </record>
 
+        <record id="view_warehouse_form_add_good_warehouse" model="ir.ui.view">
+            <field name="name">view_warehouse_form_add_good_warehouse</field>
+            <field name="model">stock.warehouse</field>
+            <field name="inherit_id" ref="stock.view_warehouse" />
+            <field eval="16" name="priority"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="company_id" position="after">
+                    <field name="good_warehouse"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_warehouse_tree_add_good_warehouse" model="ir.ui.view">
+            <field name="name">view_warehouse_tree_add_good_warehouse</field>
+            <field name="model">stock.warehouse</field>
+            <field name="inherit_id" ref="stock.view_warehouse_tree" />
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <field name="partner_id" position="after">
+                    <field name="good_warehouse"/>
+                </field>
+            </field>
+        </record>
+
     </data>
 </openerp>

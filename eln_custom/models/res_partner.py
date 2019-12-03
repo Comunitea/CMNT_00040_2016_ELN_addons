@@ -22,7 +22,7 @@ from openerp import models, api, fields, _
 
 
 class res_partner(models.Model):
-    _inherit = "res.partner"
+    _inherit = 'res.partner'
 
     company_id = fields.Many2one(required=True)
     supplier_approved = fields.Boolean('Supplier approved')
@@ -73,5 +73,5 @@ class res_partner(models.Model):
                 warning = {
                     'title': _('Warning!'),
                     'message' : _('You can not change the company of the address. It must be the same as the company of the partner to which it belongs.')
-                            }
+                }
                 return {'warning': warning}

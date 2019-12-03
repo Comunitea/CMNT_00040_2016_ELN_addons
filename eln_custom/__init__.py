@@ -18,9 +18,4 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-import route
-import res_partner
-import res_company
-import stock
-import account
-#import procurement_provisional
+import models

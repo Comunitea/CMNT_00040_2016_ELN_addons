@@ -1,0 +1,10 @@
+# -*- coding: utf-8 -*-
+# Copyright 2019 El Nogal - Pedro Gómez <pegomez@elnogal.com>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+
+import mrp
+import procurement
+import product
+import stock_move_scrap
+import stock_move
+import stock_warehouse_orderpoint
