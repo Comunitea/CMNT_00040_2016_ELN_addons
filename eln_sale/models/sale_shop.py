@@ -25,21 +25,38 @@ from openerp import models, fields
 class SaleShop(models.Model):
     _name = 'sale.shop'
     _description = 'Sale Type'
+    _order = 'sequence'
 
     name = fields.Char('Type Name', size=64, required=True)
-    payment_default_id = fields.Many2one(string="Default Payment Term", comodel_name='account.payment.term')
-    warehouse_id = fields.Many2one(string="Warehouse", comodel_name='stock.warehouse')
-    pricelist_id = fields.Many2one(string="Pricelist", comodel_name='product.pricelist')
-    project_id = fields.Many2one(string="Analytic Account", comodel_name='account.analytic.account', domain=[('parent_id', '!=', False)])
-    company_id = fields.Many2one(string="Company", comodel_name='res.company')
-    supplier_id = fields.Many2one(string="Supplier", comodel_name='res.partner', select=True)
+    payment_default_id = fields.Many2one(
+        string='Default Payment Term',
+        comodel_name='account.payment.term')
+    warehouse_id = fields.Many2one(
+        string='Warehouse',
+        comodel_name='stock.warehouse',
+        required=True)
+    pricelist_id = fields.Many2one(
+        string='Pricelist',
+        comodel_name='product.pricelist')
+    project_id = fields.Many2one(
+        string='Analytic Account',
+        comodel_name='account.analytic.account',
+        domain=[('parent_id', '!=', False)])
+    company_id = fields.Many2one(
+        string='Company',
+        comodel_name='res.company')
+    supplier_id = fields.Many2one(
+        string='Supplier',
+        comodel_name='res.partner', select=True)
     order_policy = fields.Selection([
         ('manual', 'On Demand'), 
         ('picking', 'On Delivery Order'), 
         ('prepaid', 'Before Delivery'), 
-        ('no_bill', 'No bill')], string="Create Invoice", 
+        ('no_bill', 'No bill')], string='Create Invoice', 
         help="On demand: A draft invoice can be created from the sales order when needed. \nOn delivery order: A draft invoice can be created from the delivery order when the products have been delivered. \nBefore delivery: A draft invoice is created from the sales order and must be paid before the products can be delivered.")
     indirect_invoicing = fields.Boolean(
         string='Indirect Invoicing',
         default=False,
         help="Check the indirect invoicing field if the shop is a shop of indirect invoicing.")
+    active = fields.Boolean('Active', default=True)
+    sequence = fields.Integer('Sequence', default=1)

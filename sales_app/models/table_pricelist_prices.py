@@ -91,13 +91,18 @@ class TablePricelistPrices(models.Model):
             if not product.id in table.keys():
                 table[product.id] = {}
             for pricelist in pricelist_objs:
-                default_company = pricelist.company_id.id or self.env['res.users'].browse(self._uid).company_id.id
-                company_ids = t_company.search([('parent_id', 'child_of', [default_company])])
+                default_company = pricelist.company_id.id or self.env.user.company_id.id
+                domain = [('parent_id', 'child_of', [default_company])]
+                company_ids = t_company.search(domain)
                 if not pricelist.id in table[product.id].keys():
                     table[product.id][pricelist.id] = {}
                 for company_id in company_ids:
-                    price = pricelist.price_get_multi(products_by_qty_by_partner=[(product.with_context(force_company=company_id.id), 1.0, False)])
-                    table[product.id][pricelist.id][company_id.id] = price and price[product.id][pricelist.id] or 0.0
+                    price = pricelist.price_get_multi(
+                        products_by_qty_by_partner=[
+                            (product.with_context(force_company=company_id.id), 1.0, False)
+                        ])
+                    table[product.id][pricelist.id][company_id.id] = \
+                        price and price[product.id][pricelist.id] or 0.0
         for product in prod_objs:
             product_table = table and table[product.id] or {}
             for pricelist in pricelist_objs:
