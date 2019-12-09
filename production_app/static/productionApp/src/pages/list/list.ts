@@ -26,7 +26,7 @@ export class ListPage {
         this.storage.get('CONEXION').then((con_data) => {
             this.mode = con_data.mode
         })
-        this.getLines();
+        // this.getLines();
     }
 
     logOut() {
@@ -72,6 +72,27 @@ export class ListPage {
                 odoo.search_read('mrp.workcenter', domain, fields, 0, 0).then((workcenters) => {
                     this.workcenters = workcenters;
                     this.initializeItems();
+                    // TODO: poner solo en condicion alimentator el calculo de review_consumptions
+                    domain = [
+                        ['production_state', 'in', ['ready','confirmed','in_production','finished','validated']],
+                        ['state', '!=', 'validated'],
+                        ['review_consumptions', '=', true],
+                        ['consumptions_done', '=', false],
+                    ];
+                    fields = ['workcenter_id'];
+                    odoo.search_read('production.app.registry', domain, fields, 0, 0).then((app_registry) => {
+                        var to_review_consumptions = []
+                        for (let indx in app_registry) {
+                            to_review_consumptions.push(app_registry[indx].workcenter_id[0]);
+                        }
+                        for (let indx in this.items) {
+                            if (to_review_consumptions.indexOf(this.items[indx]['id']) > -1) {
+                                this.items[indx]['review_consumptions'] = true
+                            } else {
+                                this.items[indx]['review_consumptions'] = false
+                            }
+                        }
+                    });
                 });
             }
         });
@@ -82,8 +103,8 @@ export class ListPage {
         if (this.mode == 'alimentator') {
             this.navCtrl.push(ListProductionsPage, {workcenter_id: workcenter.id, workcenter_name: workcenter.name});
         } else {
-            this.prodData.loadProduction(vals).then( (res) => {
-                this.prodData.getStopReasons(workcenter.id).then( (res) => {
+            this.prodData.loadProduction(vals).then((res) => {
+                this.prodData.getStopReasons(workcenter.id).then((res) => {
                     this.navCtrl.setRoot(ProductionPage);
                 })
                 .catch( (err) => {
@@ -93,11 +114,21 @@ export class ListPage {
             .catch( (err) => {
                 this.presentAlert(err.title, err.msg);
             }); 
-            }
+        }
     }
 
     initializeItems() {
         this.items = this.workcenters
+    }
+
+    ionViewWillEnter() {
+        console.log("ionViewWillEnter WORKCENTERS")
+        this.getLines()
+    }
+
+    ionViewDidEnter() {
+        // console.log("ionViewDidEnter WORKCENTERS")
+        // this.getLines()
     }
 
     getItems(ev: any) {

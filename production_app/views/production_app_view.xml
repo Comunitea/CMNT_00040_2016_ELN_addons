@@ -38,67 +38,75 @@
                         <group>
                             <field name="qty"/>
                             <field name="lot_id" domain="[('product_id', '=', product_id)]" context="{'product_id': product_id}"/>
-                            <field name="consumptions_done"/>
                             <field name="production_state"/>
+                            <field name="review_consumptions"/>
+                            <field name="consumptions_done"/>
                         </group>
                     </group>
                     <notebook>
-                        <page string="Times">
-                            <group colspan="4" col="6">
-                                <group string="Set-Up Times" col="2">
-                                    <field name="setup_start"/>
-                                    <field name="setup_end"/>
-                                    <field name="setup_duration" widget="float_time"/>
-                                </group>
-                                <group string="Production Times" col="2">
-                                    <field name="production_start"/>
-                                    <field name="production_end"/>
-                                    <field name="production_duration" widget="float_time"/>
-                                </group>
-                                <group string="Cleaning Times" col="2">
-                                    <field name="cleaning_start"/>
-                                    <field name="cleaning_end"/>
-                                    <field name="cleaning_duration" widget="float_time"/>
-                                </group>
-                            </group>
-                        </page>
-                        <page string="Quality Checks">
-                            <group string="QualityChecks">
-                                <field name="qc_line_ids" nolabel="1">
-                                    <tree editable="bottom">
-                                        <field name="pqc_id"/>
-                                        <field name="value"/>
-                                        <field name="date"/>
-                                        <field name="operator_id"/>
-                                    </tree>
-                                </field>
-                            </group>
-                        </page>
-                        <page string="Production Stops">
-                            <group string="Stops">
-                                <field name="stop_line_ids" nolabel="1">
-                                    <tree editable="bottom">
-                                        <field name="reason_id"/>
-                                        <field name="stop_start"/>
-                                        <field name="stop_end"/>
-                                        <field name="stop_duration" widget="float_time"/>
-                                        <field name="operator_id"/>
-                                        <field name="from_state"/>
-                                    </tree>
-                                </field>
-                            </group>
-                        </page>
-                        <page string="Operators">
-                            <group string="Operators">
-                                <field name="operator_ids" nolabel="1">
-                                    <tree editable="bottom">
-                                        <field name="operator_id"/>
-                                        <field name="date_in"/>
-                                        <field name="date_out"/>
-                                        <field name="stop_duration" widget="float_time"/>
-                                    </tree>
-                                </field>
-                            </group>
+                        <page string="Production">
+                            <notebook>
+                                <page string="Times">
+                                    <group colspan="4" col="6">
+                                        <group string="Set-Up Times" col="2">
+                                            <field name="setup_start"/>
+                                            <field name="setup_end"/>
+                                            <field name="setup_duration" widget="float_time"/>
+                                        </group>
+                                        <group string="Production Times" col="2">
+                                            <field name="production_start"/>
+                                            <field name="production_end"/>
+                                            <field name="production_duration" widget="float_time"/>
+                                        </group>
+                                        <group string="Cleaning Times" col="2">
+                                            <field name="cleaning_start"/>
+                                            <field name="cleaning_end"/>
+                                            <field name="cleaning_duration" widget="float_time"/>
+                                        </group>
+                                    </group>
+                                </page>
+                                <page string="Quality Checks">
+                                    <group string="QualityChecks">
+                                        <field name="qc_line_ids" nolabel="1">
+                                            <tree editable="bottom">
+                                                <field name="pqc_id"/>
+                                                <field name="value"/>
+                                                <field name="date"/>
+                                                <field name="operator_id"/>
+                                            </tree>
+                                        </field>
+                                    </group>
+                                </page>
+                                <page string="Production Stops">
+                                    <group string="Stops">
+                                        <field name="stop_line_ids" nolabel="1">
+                                            <tree editable="bottom">
+                                                <field name="reason_id"/>
+                                                <field name="stop_start"/>
+                                                <field name="stop_end"/>
+                                                <field name="stop_duration" widget="float_time"/>
+                                                <field name="operator_id"/>
+                                                <field name="from_state"/>
+                                            </tree>
+                                        </field>
+                                    </group>
+                                </page>
+                                <page string="Operators">
+                                    <group string="Operators">
+                                        <field name="operator_ids" nolabel="1">
+                                            <tree editable="bottom">
+                                                <field name="operator_id"/>
+                                                <field name="date_in"/>
+                                                <field name="date_out"/>
+                                                <field name="stop_duration" widget="float_time"/>
+                                            </tree>
+                                        </field>
+                                    </group>
+                                </page>
+                                <page string="Notes">
+                                    <field name="note" nolabel="1"/>
+                                </page>
+                            </notebook>
                         </page>
                         <page string="Feeder">
                             <notebook>
@@ -172,10 +180,10 @@
                                         </field>
                                     </group>
                                 </page>
+                                <page string="Notes">
+                                    <field name="consumptions_note" nolabel="1"/>
+                                </page>
                             </notebook>
-                        </page>
-                        <page string="Notes">
-                            <field name="note" nolabel="1"/>
                         </page>
                     </notebook>
                 </sheet>

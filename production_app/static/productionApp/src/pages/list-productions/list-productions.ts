@@ -25,7 +25,7 @@ export class ListProductionsPage {
     constructor(public navCtrl: NavController, private storage: Storage,
         public navParams: NavParams,
         public alertCtrl: AlertController, 
-        private prodData: ProductionProvider){
+        private prodData: ProductionProvider) {
         this.worklines = [];
         this.workline_name = '';
         this.items = [];
@@ -34,7 +34,7 @@ export class ListProductionsPage {
         this.storage.get('CONEXION').then((con_data) => {
             this.mode = con_data.mode
         })
-        this.getLines();
+        // this.getLines();
     }
 
     logOut() {
@@ -88,6 +88,26 @@ export class ListProductionsPage {
                 odoo.search_read('mrp.production.workcenter.line', domain, fields, 0, 0, order).then((worklines) => {
                     this.worklines = worklines;
                     this.initializeItems();
+                    domain = [
+                        ['production_state', 'in', ['ready','confirmed','in_production','finished','validated']],
+                        ['state', '!=', 'validated'],
+                        ['review_consumptions', '=', true],
+                        ['consumptions_done', '=', false],
+                    ];
+                    fields = ['wc_line_id'];
+                    odoo.search_read('production.app.registry', domain, fields, 0, 0).then((app_registry) => {
+                        var to_review_consumptions = []
+                        for (let indx in app_registry) {
+                            to_review_consumptions.push(app_registry[indx].wc_line_id[0]);
+                        }
+                        for (let indx in this.items) {
+                            if (to_review_consumptions.indexOf(this.items[indx]['id']) > -1) {
+                                this.items[indx]['review_consumptions'] = true;
+                            } else {
+                                this.items[indx]['review_consumptions'] = false;
+                            }
+                        }
+                    });
                 });
             }
         });
@@ -96,8 +116,8 @@ export class ListProductionsPage {
     worklineSelected(workline) {
         let workline_name = workline['production_id'][1] + ' --> ' + workline['name']
         var vals = {'workcenter_id': workline.workcenter_id[0], 'workline_id': workline.id, 'workline_name': workline_name}
-        this.prodData.loadProduction(vals).then( (res) => {
-            this.prodData.getConsumeInOut().then( (res) => {
+        this.prodData.loadProduction(vals).then((res) => {
+            this.prodData.getConsumeInOut().then((res) => {
                 this.navCtrl.push(AlimentatorConsumptionsPage);
             })
             .catch( (err) => {
@@ -111,6 +131,16 @@ export class ListProductionsPage {
 
     initializeItems() {
         this.items = this.worklines
+    }
+
+    ionViewWillEnter() {
+        console.log("ionViewWillEnter WORKCENTER LINES")
+        this.getLines()
+    }
+
+    ionViewDidEnter() {
+        // console.log("ionViewDidEnter WORKCENTER LINES")
+        // this.getLines()
     }
 
     getItems(ev: any) {

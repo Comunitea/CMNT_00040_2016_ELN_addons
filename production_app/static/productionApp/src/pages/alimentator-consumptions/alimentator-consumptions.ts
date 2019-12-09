@@ -22,7 +22,8 @@ export class AlimentatorConsumptionsPage {
     consumptions_out: any[];
     consumptions_scrapped: any[];
     finished_products: any[];
-    title: String;
+    title: string;
+    consumptions_note: string;
 
     constructor(public navCtrl: NavController, 
                 public navParams: NavParams,
@@ -30,7 +31,7 @@ export class AlimentatorConsumptionsPage {
                 public modalCtrl: ModalController,
                 private prodData: ProductionProvider) {
         this.title = this.prodData.workline_name
-
+	this.consumptions_note = this.prodData.consumptions_note;
     }
 
     ionViewDidLoad() {
@@ -190,5 +191,12 @@ export class AlimentatorConsumptionsPage {
         this.prodData.consumptions_done = false;
         this.prodData.unsetConsumptionsDone();
     }
+
+    noteChange() {
+	this.prodData.consumptions_note = this.consumptions_note;
+        this.prodData.editConsumptionsNote();
+        // console.log("onchange");
+    }
+
 
 }

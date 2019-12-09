@@ -50,7 +50,7 @@ export class OdooProvider {
                                 this.operatorsById[values['operator_id']]['operator_line_id'] = false;
                             }
                             this.pending_calls.splice(0, 1);
-                            this.pendingCalls().then( () => {
+                            this.pendingCalls().then(() => {
                                 resolve();
                             })
                             .catch( () => {
@@ -81,7 +81,7 @@ export class OdooProvider {
                     var err = {'title': '¡Error!', 'msg': 'No hay datos para establecer la conexión'}
                     reject(err);
                 } else {
-                    this.pendingCalls().then( () => {
+                    this.pendingCalls().then(() => {
                         console.log("Hice lo que estaba pendiente");
                         var model = 'production.app.registry'
                         odoo.call(model, method, values).then((res) => {

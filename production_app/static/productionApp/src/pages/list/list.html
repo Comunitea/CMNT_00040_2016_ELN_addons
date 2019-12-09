@@ -23,8 +23,12 @@
     <ion-list>
         <!-- <ion-item [hidden]='items.length>0' color ="danger"> No hay líneas</ion-item> -->
         <button class="custom-font-size" ion-item *ngFor="let workcenter of items" (click)="workcenterSelected(workcenter)">
-            <ion-icon name="send"></ion-icon>
-            {{ workcenter.name }}
+            <div class="review-font-color" *ngIf="(mode === 'alimentator' && workcenter.review_consumptions === true); else default">
+                <ion-icon name="send"></ion-icon> {{ workcenter.name }}
+            </div>
+            <ng-template #default>
+                <ion-icon name="send"></ion-icon> {{ workcenter.name }}
+            </ng-template>
         </button>  
     </ion-list>
 

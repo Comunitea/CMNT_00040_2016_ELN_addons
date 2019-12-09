@@ -135,7 +135,7 @@ export class ConsumeModalPage {
         var model = 'product.product'
         var domain = [['id', '=', this.line.product_id]]
         var fields = ['id', 'name', 'unit_gross_weight', 'unit_net_weight']
-        this.odooCon.searchRead(model, domain, fields).then( (res) => {
+        this.odooCon.searchRead(model, domain, fields).then((res) => {
             var bobbin_weight = res[0].unit_net_weight;
             var core_weight = res[0].unit_gross_weight - bobbin_weight;
             var net_qty_to_convert = 1000 * qty_to_convert - core_weight

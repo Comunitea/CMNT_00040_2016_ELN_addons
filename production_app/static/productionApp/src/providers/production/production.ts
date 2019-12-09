@@ -62,9 +62,11 @@ export class ProductionProvider {
     product_use_date: string;
     change_lot_qc_id: number;
     workline_name: string;
+    review_consumptions: boolean = false;
     consumptions_done: boolean = false;
     bom_app_notes: string;
     note: string;
+    consumptions_note: string;
     process_type: string;
 
     constructor(private odooCon: OdooProvider) {
@@ -192,7 +194,7 @@ export class ProductionProvider {
                 if (!(product_id in this.lotsByProduct)) {
                     this.lotsByProduct[product_id] = []
                 }
-		lot.product_id = product_id
+                lot.product_id = product_id
                 lot.location_id = false
                 this.lotsByProduct[product_id].push(lot)
             }
@@ -209,7 +211,7 @@ export class ProductionProvider {
             this.logged_ids.push(operator_id)
         }
         var values = {'registry_id': this.registry_id, 'operator_id': operator_id, 'date_in': this.getUTCDateStr()};
-        this.odooCon.callRegistry('log_in_operator', values).then( (res) => {
+        this.odooCon.callRegistry('log_in_operator', values).then((res) => {
             this.odooCon.operatorsById[operator_id]['operator_line_id'] = res['operator_line_id'];
         })
         .catch( (err) => {
@@ -232,7 +234,7 @@ export class ProductionProvider {
         }
         let operator_line_id = this.odooCon.operatorsById[operator_id]['operator_line_id']
         var values =  {'registry_id': this.registry_id, 'operator_line_id': operator_line_id, 'date_out': this.getUTCDateStr()};
-        this.odooCon.callRegistry('log_out_operator', values).then( (res) => {
+        this.odooCon.callRegistry('log_out_operator', values).then((res) => {
             this.odooCon.operatorsById[operator_id]['operator_line_id'] = false;
         })
         .catch( (err) => {
@@ -263,7 +265,7 @@ export class ProductionProvider {
 
     getStopReasons(workcenter_id){
         var promise = new Promise( (resolve, reject) => {
-            this.odooCon.searchRead('stop.reason', [], ['id', 'name', 'reason_type', 'workcenter_ids']).then( (res) => {
+            this.odooCon.searchRead('stop.reason', [], ['id', 'name', 'reason_type', 'workcenter_ids']).then((res) => {
                 this.loadReasons(res, workcenter_id)
                 resolve();
             })
@@ -277,7 +279,7 @@ export class ProductionProvider {
 
     getScrapReasons() {
         var promise = new Promise( (resolve, reject) => {
-            this.odooCon.searchRead('scrap.reason', [], ['id', 'name']).then( (res) => {
+            this.odooCon.searchRead('scrap.reason', [], ['id', 'name']).then((res) => {
                 this.scrap_reasons = [];
                 for (let indx in res) {
                     var r = res[indx];
@@ -305,7 +307,7 @@ export class ProductionProvider {
             ];
             var fields = ['id', 'name', 'production_id', 'workcenter_id'];
             var order = 'sequence asc, priority desc, id asc';
-            this.odooCon.searchRead('mrp.production.workcenter.line', domain, fields, 0, 0, order).then( (res) => {
+            this.odooCon.searchRead('mrp.production.workcenter.line', domain, fields, 0, 0, order).then((res) => {
                 this.worklines = [];
                 for (let indx in res) {
                     var r = res[indx];
@@ -314,7 +316,7 @@ export class ProductionProvider {
                 resolve();
             })
             .catch( (err) => {
-                console.log("GET LINES ERROR")
+                console.log("getWorkcenterLines ERROR")
                 reject();
             });
         });
@@ -326,7 +328,7 @@ export class ProductionProvider {
         var promise = new Promise( (resolve, reject) => {
             var method = 'app_get_registry'
             var values = {'workline_id': vals['workline_id'], 'workcenter_id': vals['workcenter_id'], 'workline_name': vals['workline_name']}
-            this.odooCon.callRegistry(method, values).then( (reg: Object) => {
+            this.odooCon.callRegistry(method, values).then((reg: Object) => {
                 if ('id' in reg) {
                     this.initData(reg);
                     // this.setLoggedTimes();
@@ -335,7 +337,7 @@ export class ProductionProvider {
                     this.getConsumptions();
                     this.getLots();           // TODO PUT PROMISE SYNTAX
                     this.getScrapReasons();
-                    this.getQualityChecks().then( (res) => {
+                    this.getQualityChecks().then((res) => {
                         resolve(res);
                     })
                     .catch( (err) => {
@@ -381,10 +383,12 @@ export class ProductionProvider {
         this.consume_ids = data.consume_ids;
         this.workline = data.wc_line_id;
         this.workline_name = data.workline_name;
+        this.review_consumptions = data.review_consumptions;
         this.consumptions_done = data.consumptions_done;
         this.bom_app_notes = data.bom_app_notes || '';
-	this.note = data.note || '';
-	this.process_type = data.process_type || '';
+        this.note = data.note || '';
+        this.consumptions_note = data.consumptions_note || '';
+        this.process_type = data.process_type || '';
     }
     
     // Load Quality checks in each type list
@@ -404,7 +408,7 @@ export class ProductionProvider {
         var promise = new Promise( (resolve, reject) => {
             var values =  {'product_id': this.product_id};
             var method = 'get_quality_checks'
-            this.odooCon.callRegistry(method, values).then( (res) => {
+            this.odooCon.callRegistry(method, values).then((res) => {
                 this.loadQualityChecks(res);
                 resolve();
             })
@@ -501,7 +505,7 @@ export class ProductionProvider {
         var promise = new Promise( (resolve, reject) => {
             var domain = [['registry_id', '=', this.registry_id], ['type', '=', 'scheduled']]
             var fields = []
-            this.odooCon.searchRead('consumption.line', domain, fields).then( (lines) => {
+            this.odooCon.searchRead('consumption.line', domain, fields).then((lines) => {
                 this.loadConsumptions(lines)
                 resolve();
             })
@@ -516,7 +520,7 @@ export class ProductionProvider {
         var promise = new Promise( (resolve, reject) => {
             var domain = [['registry_id', '=', this.registry_id]]
             var fields = []
-            this.odooCon.searchRead('consumption.line', domain, fields).then( (lines) => {
+            this.odooCon.searchRead('consumption.line', domain, fields).then((lines) => {
                 this.loadConsumptionsLines(lines)
                 resolve();
             })
@@ -533,7 +537,7 @@ export class ProductionProvider {
                 'registry_id': this.registry_id,
                 'line': line,
             }
-            this.odooCon.callRegistry('app_save_consumption_line', values).then( (res) => {
+            this.odooCon.callRegistry('app_save_consumption_line', values).then((res) => {
                 resolve();
             })
             .catch( (err) => {
@@ -549,7 +553,7 @@ export class ProductionProvider {
             var values = {
                 'registry_id': this.registry_id,
             }
-            this.odooCon.callRegistry('get_merged_consumptions', values).then( (res) => {
+            this.odooCon.callRegistry('get_merged_consumptions', values).then((res) => {
                 let consumptions = res['lines']
                 if (Array.isArray(consumptions) && consumptions.length) {
                     resolve(consumptions);
@@ -580,7 +584,7 @@ export class ProductionProvider {
             'active_operator_id': this.active_operator_id,
             'qc_date': this.getUTCDateStr()
         }
-        this.odooCon.callRegistry('app_save_quality_checks', values).then( (res) => {
+        this.odooCon.callRegistry('app_save_quality_checks', values).then((res) => {
             console.log("RESULTADO GUARDADO")
         })
         .catch( (err) => {
@@ -594,7 +598,7 @@ export class ProductionProvider {
 
     setStepAsync(method, values) {
         values['registry_id'] = this.registry_id;     
-        this.odooCon.callRegistry(method, values).then( (res) => {
+        this.odooCon.callRegistry(method, values).then((res) => {
             if (method == 'stop_production') {
                 this.odooCon.stop_from_state = res['stop_from_state'];
             }
@@ -690,6 +694,11 @@ export class ProductionProvider {
     editNote() {
         var values = {'note': this.note};
 	console.log (values)
+        this.setStepAsync('save_note', values);
+    }
+
+    editConsumptionsNote() {
+        var values = {'consumptions_note': this.consumptions_note};
         this.setStepAsync('save_note', values);
     }
 
