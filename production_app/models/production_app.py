@@ -99,6 +99,8 @@ class ProductionAppRegistry(models.Model):
         'consumption.line', 'registry_id', 'Finished Products',
         domain=[('type', '=', 'finished')],
         states=READONLY_STATES)
+    review_consumptions = fields.Boolean('Review consumptions',
+        states=READONLY_STATES)
     consumptions_done = fields.Boolean('Consumptions Done',
         states=READONLY_STATES)
     # RELATED FIELDS
@@ -116,6 +118,7 @@ class ProductionAppRegistry(models.Model):
         'work.order', 'Related Maintenance Order',
         states=READONLY_STATES)
     note = fields.Text(string='Notes')
+    consumptions_note = fields.Text(string='Notes')
 
     _sql_constraints = [
         ('wc_line_id_uniq', 'unique(wc_line_id)',
@@ -479,6 +482,7 @@ class ProductionAppRegistry(models.Model):
         if reg:
             reg.write({
                 'consumptions_done': True,
+                'review_consumptions': False,
             })
         return True
 
@@ -505,8 +509,10 @@ class ProductionAppRegistry(models.Model):
             note += '\n' + u'Centro de producción: ' + reg.workcenter_id.name
         if reg.production_id:
             note += '\n' + u'Orden de producción: ' + reg.production_id.name
-        wo = self.env['work.order'].create({'maintenance_type_id': mt.id,
-                                            'note': note})
+        wo = self.env['work.order'].create({
+            'maintenance_type_id': mt.id,
+            'note': note
+        })
         reg.write({
             'workorder_id': wo.id,
         })
@@ -1021,10 +1027,15 @@ class ProductionAppRegistry(models.Model):
         registry_id = values.get('registry_id', False)
         reg = self.get_registry(registry_id=registry_id)
         if reg:
+            vals = {}
             note = values.get('note', False)
-            reg.write({
-                'note': note,
-            })
+            consumptions_note = values.get('consumptions_note', False)
+            if note or 'note' in values:
+                vals = dict(vals, note=note)
+            if consumptions_note or 'consumptions_note' in values:
+                vals = dict(vals, consumptions_note=consumptions_note)
+            if vals:
+                reg.write(vals)
             res = reg.read()[0]
         return res
 
@@ -1044,6 +1055,22 @@ class ProductionAppRegistry(models.Model):
             if 'lot_id' in vals:
                 reg.line_finished_ids.write({'lot_id': vals.get('lot_id')})
         return super(ProductionAppRegistry, self).write(vals)
+
+    @api.onchange('consumptions_done')
+    def onchange_consumptions_done(self):
+        if self.consumptions_done:
+            if self.review_consumptions:
+                self.consumptions_done = False
+                warning = {
+                    'title': _('Warning!'),
+                    'message' : _('You can not set consumptions to done while they are checked to review.')
+                }
+                return {'warning': warning}
+
+    @api.onchange('review_consumptions')
+    def onchange_review_consumptions(self):
+        if self.review_consumptions:
+            self.consumptions_done = False
 
 
 class QualityCheckLine(models.Model):

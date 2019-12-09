@@ -108,11 +108,11 @@ export class ProductionPage {
     }
 
     reloadProduction() {
-        this.promptNextStep('¿Recargar producción?').then( () => {
+        this.promptNextStep('¿Recargar producción?').then(() => {
             var vals = {'workcenter_id': this.prodData.workcenter['id'],
                         'workline_id': this.prodData.workline[0]}
             this.clearIntervales();
-            this.prodData.loadProduction(vals).then( (res) => {
+            this.prodData.loadProduction(vals).then((res) => {
                 this.initProduction();
             })
             .catch( () => {});
@@ -224,7 +224,7 @@ export class ProductionPage {
     }
 
     openListProductionsModal() {
-        this.prodData.getWorkcenterLines().then( () => {
+        this.prodData.getWorkcenterLines().then(() => {
             var promise = new Promise( (resolve, reject) => {
                 var mydata = {}
                 let listProductionsModal = this.modalCtrl.create(ListProductionsModalPage, mydata);
@@ -236,7 +236,7 @@ export class ProductionPage {
                         var vals = {'workcenter_id': res.workcenter_id[0],
                                     'workline_id': res.id}
                         this.clearIntervales();
-                        this.prodData.loadProduction(vals).then( (reg) => {
+                        this.prodData.loadProduction(vals).then((reg) => {
                             this.initProduction();
                         })
                         .catch( () => {
@@ -321,14 +321,14 @@ export class ProductionPage {
     }
 
     confirmProduction() {
-        this.promptNextStep('¿Confirmar producción?').then( () => {
+        this.promptNextStep('¿Confirmar producción?').then(() => {
             this.prodData.confirmProduction();
         })
         .catch( () => {});
     }
 
     setupProduction() {
-        this.promptNextStep('¿Empezar preparación?').then( () => {
+        this.promptNextStep('¿Empezar preparación?').then(() => {
             this.prodData.setupProduction();
             this.timer.toArray()[0].restartTimer()  // Set-Up timer on
         })
@@ -336,9 +336,9 @@ export class ProductionPage {
     }
 
     startProduction() {
-        this.promptNextStep('¿Terminar preparación y empezar producción?').then( () => {
+        this.promptNextStep('¿Terminar preparación y empezar producción?').then(() => {
             this.openFinishModal("start").then(() => {
-               this.openChecksModal('start', this.prodData.start_checks, true).then( () => {
+               this.openChecksModal('start', this.prodData.start_checks, true).then(() => {
                     this.prodData.startProduction();
                     this.scheduleChecks();
                 }).catch(() => {});
@@ -348,11 +348,11 @@ export class ProductionPage {
     }
 
     stopProduction() {
-        this.promptNextStep('¿Registrar una parada?').then( () => {
+        this.promptNextStep('¿Registrar una parada?').then(() => {
             this.hidden_class = 'my-hide'
             var stop_start = this.prodData.getUTCDateStr()
             this.timer.toArray()[1].restartTimer();
-            this.openReasonsModal().then( (res) => {
+            this.openReasonsModal().then((res) => {
                 if (res !== 0) {
                     var reason_id = res['reason_id']
                     var create_mo = res['create_mo']
@@ -370,10 +370,10 @@ export class ProductionPage {
     }
 
     restartAndCleanProduction() {
-        this.promptNextStep('¿Reanudar producción y pasar a limpieza?').then( () => {
+        this.promptNextStep('¿Reanudar producción y pasar a limpieza?').then(() => {
             var cleaning_start = this.prodData.getUTCDateStr()
             this.clearIntervales();
-            this.openFinishModal("clean").then( () => {
+            this.openFinishModal("clean").then(() => {
                 this.hidden_class = 'my-hide'
                 this.timer.toArray()[0].restartTimer();
                 this.timer.toArray()[1].pauseTimer();
@@ -384,7 +384,7 @@ export class ProductionPage {
     }
 
     restartProduction() {
-        this.promptNextStep('¿Reanudar producción?').then( () => {
+        this.promptNextStep('¿Reanudar producción?').then(() => {
             this.hidden_class = 'my-hide'
             this.timer.toArray()[1].pauseTimer();
             this.prodData.restartProduction();
@@ -401,7 +401,7 @@ export class ProductionPage {
     }
 
     cleanProduction() {
-        this.promptNextStep('¿Empezar limpieza?').then( () => {
+        this.promptNextStep('¿Empezar limpieza?').then(() => {
             var cleaning_start = this.prodData.getUTCDateStr()
             this.openFinishModal("clean").then(() => {
                 this.clearIntervales();
@@ -413,7 +413,7 @@ export class ProductionPage {
     }
 
     finishProduction() {
-        this.promptNextStep('¿Finalizar producción').then( () => {
+        this.promptNextStep('¿Finalizar producción').then(() => {
             this.timer.toArray()[0].restartTimer()
             this.timer.toArray()[0].pauseTimer()
             this.prodData.finishProduction();
@@ -422,7 +422,7 @@ export class ProductionPage {
     }
 
     loadNextProduction() {
-        this.prodData.loadProduction({'workcenter_id': this.prodData.workcenter['id']}).then( (res) => {
+        this.prodData.loadProduction({'workcenter_id': this.prodData.workcenter['id']}).then((res) => {
             // this.prodData.active_operator_id = 0;
         })
         .catch( (err) => {

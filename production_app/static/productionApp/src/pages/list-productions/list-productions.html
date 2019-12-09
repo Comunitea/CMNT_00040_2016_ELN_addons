@@ -19,8 +19,12 @@
     <ion-list>
         <!-- <button class="custom-font-size" ion-item text-wrap *ngFor="let workline of items" (click)="worklineSelected(workline)"> -->
         <button class="custom-font-size" ion-item *ngFor="let workline of items" (click)="worklineSelected(workline)">
-            <ion-icon name="send"></ion-icon>
-            {{ workline.production_id[1] }} --> {{ workline.name }}
+            <div class="review-font-color" *ngIf="(workline.review_consumptions === true); else default">
+                <ion-icon name="send"></ion-icon> {{ workline.production_id[1] }} --> {{ workline.name }}
+            </div>
+            <ng-template #default>
+                <ion-icon name="send"></ion-icon> {{ workline.production_id[1] }} --> {{ workline.name }}
+            </ng-template>
         </button>  
     </ion-list>
 

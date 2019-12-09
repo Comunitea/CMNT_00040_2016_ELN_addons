@@ -1,3 +1,8 @@
-page-list-productions {
+$primary-color: #488aff;
+$danger-color: #f53d3d;
 
+page-list-productions {
+    .review-font-color {
+        color: $danger-color;
+    }
 }
