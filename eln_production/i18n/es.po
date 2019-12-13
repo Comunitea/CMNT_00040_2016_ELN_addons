@@ -390,8 +390,7 @@ msgid "Number of operations this Work Center can do in parallel. If this Work Ce
 msgstr "Número de operaciones que este centro de trabajo puede hacer en paralelo. Si este centro de trabajo representa un equipo de 5 trabajadores, la capacidad por ciclo es de 5."
 
 #. module: eln_production
-#: code:addons/eln_production/wizard/mrp_product_produce.py:27
-#, python-format
+#: selection:mrp.product.produce,mode:0
 msgid "Only produce"
 msgstr "Solo fabricar"
 

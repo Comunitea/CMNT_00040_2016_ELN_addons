@@ -24,7 +24,7 @@ from openerp import models, fields, api, exceptions, _
 class MrpProductProduce(models.TransientModel):
     _inherit = 'mrp.product.produce'
 
-    mode = fields.Selection(selection_add=[('produce', _('Only produce'))])
+    mode = fields.Selection(selection_add=[('produce', 'Only produce')])
 
     @api.multi
     def on_change_qty(self, product_qty, consume_lines):
