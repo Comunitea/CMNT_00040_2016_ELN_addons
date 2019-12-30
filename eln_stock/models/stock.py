@@ -18,7 +18,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp import models, fields, api
+from openerp import models, fields, api, exceptions, _
 import openerp.addons.decimal_precision as dp
 
 
@@ -259,28 +259,37 @@ class StockInventory(models.Model):
         readonly=True)
 
     @api.multi
-    def set_estimated_valuation(self):
-        for inventory in self:
+    def _get_estimated_valuation(self):
+        for inv in self:
             estimated_valuation = 0.0
-            for line in inventory.line_ids:
+            for line in inv.line_ids:
                 diff = line.theoretical_qty - line.product_qty
                 if diff:
                     price_unit = line.product_id.standard_price
                     estimated_valuation -= diff * price_unit
-            inventory.estimated_valuation = estimated_valuation
-        
+            inv.estimated_valuation = estimated_valuation
+
     @api.multi
     def write(self, vals):
         res = super(StockInventory, self).write(vals)
         if vals.get('line_ids', False) or vals.get('state', False):
-            self.set_estimated_valuation()
+            self._get_estimated_valuation()
         return res
 
     @api.multi
     def reset_real_qty(self):
         res = super(StockInventory, self).reset_real_qty()
-        self.set_estimated_valuation()
+        self._get_estimated_valuation()
         return res
+
+    @api.multi
+    def action_done(self):
+        for inv in self:
+            if abs(inv.estimated_valuation) > 1.0:
+                if not inv.user_has_groups('eln_stock.group_inventory_manager'):
+                    raise exceptions.Warning(
+                        _("You are not allowed to validate an inventory with value!"))
+        return super(StockInventory, self).action_done()
 
 
 class StockWarehouse(models.Model):
