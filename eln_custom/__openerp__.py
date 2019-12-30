@@ -56,7 +56,6 @@
         'views/res_partner_view.xml',
         'views/route_view.xml',
         'views/stock_view.xml',
-        'views/base_custom.xml',
     ],
     'demo_xml': [],
     'installable': True,

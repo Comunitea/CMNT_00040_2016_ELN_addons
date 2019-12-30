@@ -1,9 +1,0 @@
-/* Desde la version 79 de chrome no renderiza correctamente "label for" en algunas vistas. */
-/* Donde debe aparecer la etiqueta y debajo el campo, en su lugar muestra el campo a la derecha de la etiqueta */
-/* Por ejemplo: */
-/*  en la vista de pedidos de ventas al abrir una linea muestra mal el campo name o invoice_lines */
-/*  o en la vista de pagos de cliente o proveedor la etiqueta para line_cr_ids o line_dr_ids */
-
-.openerp .oe_form label {
-  display: inline-block;
-}
