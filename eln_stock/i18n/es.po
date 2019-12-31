@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-12-02 12:20+0000\n"
-"PO-Revision-Date: 2019-12-02 14:52+0100\n"
+"POT-Creation-Date: 2019-12-30 14:55+0000\n"
+"PO-Revision-Date: 2019-12-30 15:57+0100\n"
 "Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -32,6 +32,11 @@ msgstr "Activo"
 #: field:stock.picking,address:0
 msgid "Address"
 msgstr "Dirección"
+
+#. module: eln_stock
+#: model:res.groups,name:eln_stock.group_inventory_manager
+msgid "Allow validate inventories with value"
+msgstr "Permitir validar inventarios con valor"
 
 #. module: eln_stock
 #: view:stock.picking.assign.multi:eln_stock.stock_picking_assign_multi_form
@@ -267,6 +272,12 @@ msgstr "Almacén"
 #, python-format
 msgid "Warning!"
 msgstr "¡Advertencia!"
+
+#. module: eln_stock
+#: code:addons/eln_stock/models/stock.py:280
+#, python-format
+msgid "You are not allowed to validate an inventory with value!"
+msgstr "¡No tiene permiso para validar un inventario con valor!"
 
 #. module: eln_stock
 #: view:stock.move:eln_stock.view_move_picking_form_add_onchange

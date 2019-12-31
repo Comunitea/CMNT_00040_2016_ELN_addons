@@ -37,9 +37,9 @@
     ],
     "init_xml": [],
     "data": [
+        'security/security.xml',
         'views/stock_view.xml',
         'views/res_partner.xml',
-        # 'wizard/postmigration_reconcile_quants_view.xml',
         'wizard/stock_picking_assign_multi.xml',
         'wizard/stock_picking_unreserve_multi.xml',
         'wizard/stock_picking_cancel_multi.xml',
