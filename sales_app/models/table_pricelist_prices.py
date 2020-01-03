@@ -18,46 +18,45 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-from openerp import api, models, fields
-import openerp.addons.decimal_precision as dp
+from openerp import models, fields, api
 from openerp.tools import float_compare
-
-import time
+import openerp.addons.decimal_precision as dp
 
 
 class ProductTemplate(models.Model):
-    _inherit ="product.template"
+    _inherit = 'product.template'
 
-    sale_app = fields.Boolean("Sale in app")
+    sale_app = fields.Boolean('Sale in app')
 
 
 class ProductPricelist(models.Model):
-    _inherit ="product.pricelist"
+    _inherit = 'product.pricelist'
 
     in_app = fields.Boolean('Pricelist in APP', default=False)
 
-    def _price_rule_get_multi(self, cr, uid, pricelist, products_by_qty_by_partner, context=None):
-        context = context or {}
-        date = context.get('date') or time.strftime('%Y-%m-%d')
-        date = date[0:10]
-
-        products = map(lambda x: x[0], products_by_qty_by_partner)
-        if not products:
-            return {}
-        version = False
-        for v in pricelist.version_id:
-            if ((v.date_start is False) or (v.date_start <= date)) and ((v.date_end is False) or (v.date_end >= date)):
-                version = v
-                break
-        if not version:
-            return {}
-
-        return super(ProductPricelist, self)._price_rule_get_multi(cr, uid, pricelist, products_by_qty_by_partner, context)
+    @api.model
+    def _price_rule_get_multi(self, pricelist, products_by_qty_by_partner):
+        if self._context.get('from_sales_app', False):
+            date = self._context.get('date') or fields.Date.context_today(self)
+            date = date[0:10]
+            products = map(lambda x: x[0], products_by_qty_by_partner)
+            if not products:
+                return {}
+            version = False
+            for v in pricelist.version_id:
+                if ((v.date_start is False) or (v.date_start <= date)) and ((v.date_end is False) or (v.date_end >= date)):
+                    version = v
+                    break
+            if not version:
+                res = {}
+                for product in products:
+                    res[product.id] = (False, False)
+                return res
+        return super(ProductPricelist, self)._price_rule_get_multi(pricelist, products_by_qty_by_partner)
 
 
 class TablePricelistPrices(models.Model):
-    _name = "table.pricelist.prices"
+    _name = 'table.pricelist.prices'
     _rec_name = 'pricelist_id'
 
     pricelist_id = fields.Many2one(
@@ -66,8 +65,8 @@ class TablePricelistPrices(models.Model):
     product_id = fields.Many2one(
         'product.product', 'Product',
         readonly=True)
-    price = fields.Float(
-        'Price', digits=dp.get_precision('Product Price'),
+    price = fields.Float('Price',
+        digits=dp.get_precision('Product Price'),
         readonly=True)
     company_id = fields.Many2one(
         'res.company', 'Company',
@@ -79,13 +78,13 @@ class TablePricelistPrices(models.Model):
 
     @api.model
     def recalculate_table(self):
-        t_product = self.env["product.product"]
-        t_pricelist = self.env["product.pricelist"]
-        t_company = self.env["res.company"]
+        t_product = self.env['product.product']
+        t_pricelist = self.env['product.pricelist']
+        t_company = self.env['res.company']
         domain = [('sale_ok', '=', True)]
         prod_objs = t_product.search(domain)
         domain = [('type', '=', 'sale'), ('in_app', '=', True)]
-        pricelist_objs = t_pricelist.search(domain, order="id")
+        pricelist_objs = t_pricelist.search(domain, order='id')
         table = {}  
         for product in prod_objs:
             if not product.id in table.keys():
@@ -97,10 +96,10 @@ class TablePricelistPrices(models.Model):
                 if not pricelist.id in table[product.id].keys():
                     table[product.id][pricelist.id] = {}
                 for company_id in company_ids:
-                    price = pricelist.price_get_multi(
+                    price = pricelist.with_context(from_sales_app=True).price_get_multi(
                         products_by_qty_by_partner=[
                             (product.with_context(force_company=company_id.id), 1.0, False)
-                        ])
+                    ])
                     table[product.id][pricelist.id][company_id.id] = \
                         price and price[product.id][pricelist.id] or 0.0
         for product in prod_objs:
@@ -109,7 +108,7 @@ class TablePricelistPrices(models.Model):
                 if pricelist.id in product_table.keys():
                     for company_id in product_table[pricelist.id].keys():
                         price = product_table[pricelist.id][company_id]
-                        if not price or price < -1 or price == 'warn':
+                        if not price or price < 0.0:
                             price = 0.0
                         domain = [
                             ('product_id', '=', product.id),
@@ -130,11 +129,12 @@ class TablePricelistPrices(models.Model):
                             compare = float_compare(price, rec_table.price, precision_digits=precision_digits)
                             if compare != 0:
                                 rec_table.price = price
-
         # Borro todo lo que sobra (precios a 0, productos no vendibles, tarifas de precios no en app)
-        sql1 = "delete from table_pricelist_prices where price <= 0.00 " + \
-               "or pricelist_id not in (select id from product_pricelist where in_app = True) " + \
-               "or product_id not in (select pp.id from product_product pp inner join product_template pt on pt.id = pp.product_tmpl_id where pt.sale_ok = True)"
-        self._cr.execute(sql1)
-
+        sql = """
+            delete from table_pricelist_prices
+            where price <= 0.00
+                or pricelist_id not in (select id from product_pricelist where in_app = True)
+                or product_id not in (select pp.id from product_product pp inner join product_template pt on pt.id = pp.product_tmpl_id where pt.sale_ok = True)
+        """
+        self._cr.execute(sql)
         return True
