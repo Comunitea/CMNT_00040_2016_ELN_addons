@@ -154,7 +154,7 @@ class PerformanceCalculation(models.TransientModel):
 
     @api.model
     def _get_scrap_and_usage(self, prod=False):
-        qty_finished = real_qty_finished = qty_scrap =0.0
+        qty_finished = real_qty_finished = qty_scrap = 0.0
         theo_cost = real_real_cost = 0.0
         scrap = usage = 0.0
         if prod:
@@ -163,7 +163,7 @@ class PerformanceCalculation(models.TransientModel):
             qty_scrap = qty_finished - real_qty_finished
             theo_cost = self._get_theo_cost(prod, qty_finished)
             real_cost = self._get_real_cost(prod)
-            scrap = qty_scrap * (theo_cost / qty_finished)
+            scrap = qty_scrap * (theo_cost / (qty_finished or 1.0))
             for move in prod.move_lines2:
                 if move.state != 'done':
                     continue
