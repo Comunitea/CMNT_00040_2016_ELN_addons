@@ -359,6 +359,15 @@ class MrpProductionWorkcenterLine(models.Model):
             'context': self._context
         }
 
+    @api.multi
+    def unlink(self):
+        if any(x.state not in ('draft', 'cancel') for x in self):
+            raise exceptions.Warning(
+                _('Error!'),
+                _('You cannot delete a work order which is not in draft or cancelled.'))
+        res = super(MrpProductionWorkcenterLine, self).unlink()
+        return res
+
 
 class HrEmployee(models.Model):
     _inherit = 'hr.employee'
@@ -674,6 +683,8 @@ class MrpProduction(models.Model):
             prods_to_cancel.action_cancel()
         moves_to_unlink = self.mapped('move_created_ids2') + self.mapped('move_lines2')
         moves_to_unlink.unlink()
+        wc_lines_to_unlink = self.mapped('workcenter_lines')
+        wc_lines_to_unlink.unlink()
         res = super(MrpProduction, self).unlink()
         return res
 

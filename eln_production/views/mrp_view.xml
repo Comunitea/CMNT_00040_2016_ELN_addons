@@ -257,6 +257,10 @@
                         </field>
                     </page>
                     </notebook>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
                 </form>
             </field>
         </record>
@@ -431,7 +435,10 @@
                                         </field>
                                     </page>
                                 </notebook>
-                                <newline/>
+                                <div class="oe_chatter">
+                                    <field name="message_follower_ids" widget="mail_followers"/>
+                                    <field name="message_ids" widget="mail_thread"/>
+                                </div>
                             </form>
                             <tree string="Production Work Centers">
                                 <field name="sequence"/>

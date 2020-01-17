@@ -117,8 +117,8 @@ class ProductionAppRegistry(models.Model):
     workorder_id = fields.Many2one(
         'work.order', 'Related Maintenance Order',
         states=READONLY_STATES)
-    note = fields.Text(string='Notes')
-    consumptions_note = fields.Text(string='Notes')
+    note = fields.Text(string='Production notes')
+    consumptions_note = fields.Text(string='Alimentator notes')
 
     _sql_constraints = [
         ('wc_line_id_uniq', 'unique(wc_line_id)',
