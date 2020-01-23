@@ -25,11 +25,11 @@ _logger = logging.getLogger(__name__)
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
-    chanel = fields.Selection([
+    channel = fields.Selection([
         ('erp', 'ERP'),
         ('tablet', 'Tablet'),
         ('other', 'Other'),
-        ('ecomerce', 'E-commerce')
+        ('ecommerce', 'E-commerce')
         ], string='Channel', readonly=True)
 
     @api.model
@@ -55,7 +55,7 @@ class SaleOrder(models.Model):
         client_order_ref = vals.get('client_order_ref', False)
         pricelist_id = vals.get('pricelist_id', False)
         warehouse_id = vals.get('warehouse_id', False)
-        chanel = vals.get('chanel', False)
+        channel = vals.get('chanel', False)
 
         values = {
             'create_date': create_date,
@@ -74,7 +74,7 @@ class SaleOrder(models.Model):
             'note': False,
             'shop_id': shop_id,
             'warehouse_id': warehouse_id,
-            'chanel': chanel,
+            'channel': channel,
         }
         # Se van a ejecutar los onchanges de la cabecera para actualizar valores
         data = {}
@@ -149,8 +149,8 @@ class SaleOrder(models.Model):
             line_id = sale_line_obj.with_context(ctx).create(values)
         res = order_id
         if res:
-            # Para diferenciar del estado 'draft' ponemos el estado como 'quotation_sent'
-            # Otra opción es dejar el estado como 'draft' y filtrar por el campo chanel 
+            # Para diferenciar del estado 'draft' ponemos el estado como 'quotation_sent'.
+            # Otra opción es dejar el estado como 'draft' y filtrar por el campo channel.
             res.signal_workflow('quotation_sent')
             _logger.info("APP. Respuesta a create_and_confirm <%s> " %(res))
             return res.id

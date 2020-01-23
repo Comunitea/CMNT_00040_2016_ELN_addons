@@ -20,7 +20,7 @@
 #
 ##############################################################################
 
-from openerp import models, fields
+from openerp import models, fields, api
 
 
 class ResPartner(models.Model):
@@ -36,10 +36,16 @@ class ResPartner(models.Model):
         company_dependent=True,
         help='This pricelist will be used, instead of the default one, for indirect sales invoicing to the current partner')
 
+    @api.model
+    def _commercial_fields(self):
+        res = super(ResPartner, self)._commercial_fields()
+        res += ['property_product_pricelist_indirect_invoicing']
+        return res
+
 
 class PartnerProduct(models.Model):
     _name = 'partner.product'
-    
+
     name = fields.Char('Product Code', size=32, required=True)
     product_id = fields.Many2one(string="Product", comodel_name='product.product', required=True)
     partner_id = fields.Many2one(string="Partner", comodel_name='res.partner', required=True)
@@ -67,7 +73,8 @@ class PartnerShopRef(models.Model):
     company_id = fields.Many2one(
         string="Company",
         comodel_name='res.company',
-        related="shop_id.company_id")
+        related='shop_id.company_id')
+
 
 class PartnerShopPayment(models.Model):
     _name = 'partner.shop.payment'
@@ -97,5 +104,5 @@ class PartnerShopPayment(models.Model):
     company_id = fields.Many2one(
         string="Company",
         comodel_name='res.company',
-        related="shop_id.company_id")
+        related='shop_id.company_id')
 
