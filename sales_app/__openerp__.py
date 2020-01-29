@@ -24,6 +24,7 @@
     "author": "Comunitea",
     "depends": [
         'sale',
+        'sale_stock',
         'eln_sale',
 		'l10n_es_partner',
     ],
