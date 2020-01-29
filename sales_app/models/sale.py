@@ -19,6 +19,7 @@
 ##############################################################################
 from openerp import models, fields, api
 import logging
+
 _logger = logging.getLogger(__name__)
 
 
@@ -42,12 +43,12 @@ class SaleOrder(models.Model):
         partner = shipping_dir.commercial_partner_id
         addr = partner.address_get(['delivery', 'invoice', 'contact'])
         invoice_dir = addr['invoice']
+        company_id = self.env.user.company_id
         
         shop_id = vals.get('shop_id', False)
         if not shop_id:
             ir_values = self.env['ir.values']
-            company_id = self.env.user.company_id.id
-            shop_id = ir_values.get_default('sale.order', 'shop_id', company_id=company_id)
+            shop_id = ir_values.get_default('sale.order', 'shop_id', company_id=company_id.id)
 
         create_date = vals.get('create_date', False) or fields.Datetime.now()
         date_order = vals.get('date_order', False) or fields.Datetime.now()
@@ -56,6 +57,7 @@ class SaleOrder(models.Model):
         pricelist_id = vals.get('pricelist_id', False)
         warehouse_id = vals.get('warehouse_id', False)
         channel = vals.get('chanel', False)
+        note = vals.get('note', '').replace('Nota: ', '').replace('Nota:', '')
 
         values = {
             'create_date': create_date,
@@ -70,26 +72,38 @@ class SaleOrder(models.Model):
             'payment_term': partner.property_payment_term.id,
             'payment_mode_id': partner.customer_payment_mode.id,
             'early_payment_discount': False,
-            'user_id' : partner.user_id.id,
+            'user_id': partner.user_id.id,
             'note': False,
             'shop_id': shop_id,
             'warehouse_id': warehouse_id,
             'channel': channel,
+            'company_id': company_id.id,
+            'note': note,
         }
         # Se van a ejecutar los onchanges de la cabecera para actualizar valores
+        # onchange partner_id
         data = {}
         data.update(
-            sale_obj.onchange_partner_id3(
+            sale_obj.with_context(no_check_risk=True).onchange_partner_id3(
                 partner.id, False, partner.property_payment_term.id,
                 shop_id)['value']
         )
         if 'partner_shipping_id' in data and data['partner_shipping_id']:
             del data['partner_shipping_id']
         values.update(data)
-        order_id = sale_obj.create(values)
-        order_id.onchange_shop_id()
+        # onchange partner_shipping_id
+        data = {}
+        data.update(
+            sale_obj.onchange_delivery_id(
+                False, values['partner_id'], values['partner_shipping_id'],
+                False)['value']
+        )
+        values.update(data)
         dp = self.env['decimal.precision'].precision_get('Product Price')
         order_line = vals.get('order_line', [])
+
+        # Obtenemos las lineas del pedido
+        order_lines = []
         for line in order_line:
             product_id = line[2]['product_id']
             product_uom_qty = line[2]['product_uom_qty']
@@ -98,8 +112,7 @@ class SaleOrder(models.Model):
             uos_id = line[2]['product_uos']
             price_unit = round(line[2]['price_unit'], dp)
             discount = round(line[2]['discount'], 2)
-            values = {
-                'order_id': order_id.id,
+            line_values = {
                 'product_id': product_id,
                 'name': ' ' or False,
                 'product_uom_qty': product_uom_qty,
@@ -110,24 +123,27 @@ class SaleOrder(models.Model):
                 'discount': discount,
             }
             # Se van a ejecutar los onchanges de las lineas para actualizar valores
-            data = {}
             # Llamo al onchange del producto
+            data = {}
             ctx = dict(
                 self._context,
-                partner_id=order_id.partner_id.id,
-                address_id=shipping_dir.id,
-                fiscal_position=order_id.fiscal_position.id,
-                quantity=product_uom_qty,
-                pricelist=order_id.pricelist_id.id,
-                shop=order_id.shop_id.id,
+                partner_id=values['partner_id'],
+                address_id=values['partner_shipping_id'],
+                fiscal_position=values['fiscal_position'],
+                quantity=line_values['product_uom_qty'],
+                pricelist=values['pricelist_id'],
+                shop=values['shop_id'], # Necesario en eln_partner_discount
+                company_id=values['company_id'],
                 uom=False
             )
             data.update(
-                order_id.order_line.with_context(ctx).product_id_change(
-                    order_id.pricelist_id.id, product_id, product_uom_qty,
-                    uom_id, product_uos_qty, uos_id, '', order_id.partner_id.id,
-                    False, True, order_id.date_order,
-                    False, order_id.fiscal_position.id, False)['value']
+                sale_line_obj.with_context(ctx).product_id_change_with_wh(
+                    values['pricelist_id'], product_id, qty=product_uom_qty,
+                    uom=uom_id, qty_uos=product_uos_qty, uos=uos_id, name='',
+                    partner_id=values['partner_id'],
+                    lang=False, update_tax=True, date_order=values['date_order'],
+                    packaging=False, fiscal_position=values['fiscal_position'],
+                    flag=False, warehouse_id=values['warehouse_id'])['value']
             )
             if 'product_uom_qty' in data:
                 del data['product_uom_qty']
@@ -139,23 +155,32 @@ class SaleOrder(models.Model):
                 if discount: # Hacemos descuento encadenado
                     data['discount'] = 100 - (100 * (1 - data['discount'] / 100) * (1 - discount / 100))
                 # del data['discount']
-            values.update(data)
-            # Contexto para que asigne las comisiones
-            ctx = dict(
-                self._context,
-                partner_id=partner.id,
-                address_id=shipping_dir.id
-            )
-            line_id = sale_line_obj.with_context(ctx).create(values)
-        res = order_id
-        if res:
+            line_values.update(data)
+            order_lines.append((0, 0, line_values))
+        # Contexto para que asigne las comisiones en las lineas
+        ctx = dict(
+            self._context,
+            partner_id=values['partner_id'],          # Necesario en módulo sale_commission
+            address_id=values['partner_shipping_id'], # Necesario en módulo sale_commission
+        )
+        values['order_line'] = order_lines
+        # Creamos el pedido
+        order_id = sale_obj.with_context(ctx).create(values)
+        # onchange shop_id (se hace al final porque está con API nueva
+        order_id.onchange_shop_id()
+        if order_id:
             # Para diferenciar del estado 'draft' ponemos el estado como 'quotation_sent'.
-            # Otra opción es dejar el estado como 'draft' y filtrar por el campo channel.
-            res.signal_workflow('quotation_sent')
-            _logger.info("APP. Respuesta a create_and_confirm <%s> " %(res))
-            return res.id
-        _logger.info("APP. Respuesta ERROR!! create_and_confirm <%s> " %(res))
+            order_id.signal_workflow('quotation_sent')
+            _logger.info("SALES APP: Pedido <%s> OK. Usuario: <%s>" % (order_id.name, self.env.user.name))
+            return order_id.id
+        _logger.info("SALES APP: ERROR creando pedido. Usuario: <%s>" % (self.env.user.name))
         return False
+
+    @api.model
+    def easy_modification(self, order_id, vals):
+        # TODO
+        _logger.info("SALES APP: ERROR modificando pedido <%s>. Usuario: <%s>" % (vals.get('name', order_id), self.env.user.name))
+        return True
 
 
 class ResPartner(models.Model):
