@@ -36,11 +36,19 @@ class ElnSaleReportXlsWzd(models.TransientModel):
         t_pick = self.env['stock.picking']
         res = {}
         y, m, d = self.date.split('-')
-        init_date = '-'.join([y, m, '0' + str(1)])
+        init_date = '-'.join([y, m, '01'])
         end_date = self.date
         last_y = str(int(y) - 1)
-        ly_init_date = '-'.join([last_y, m, '0' + str(1)])
+        ly_init_date = '-'.join([last_y, m, '01'])
         ly_end_date = '-'.join([last_y, m, d])
+        if int(y) % 4 == 0 and (int(y) % 100 != 0 or int(y) % 400 == 0):
+            # Año actual bisiesto
+            if int(m) == 2 and int(d) > 28:
+                ly_end_date = '-'.join([last_y, m, '28'])
+        elif int(last_y) % 4 == 0 and (int(last_y) % 100 != 0 or int(last_y) % 400 == 0):
+            # Año anterior bisiesto
+            if int(m) == 2 and int(d) == 28:
+                ly_end_date = '-'.join([last_y, m, '29'])
         domain = [
             ('picking_type_code', '=', 'outgoing'),
             ('invoice_state', '!=', 'none'),
