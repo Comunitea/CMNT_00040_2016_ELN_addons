@@ -68,9 +68,9 @@ class SaleOrder(models.Model):
             'partner_invoice_id': invoice_dir,
             'partner_shipping_id': shipping_dir.id,
             'pricelist_id': pricelist_id,
-            'fiscal_position': partner.property_account_position.id,
-            'payment_term': partner.property_payment_term.id,
-            'payment_mode_id': partner.customer_payment_mode.id,
+            'fiscal_position': False,
+            'payment_term': False,
+            'payment_mode_id': False,
             'early_payment_discount': False,
             'user_id': partner.user_id.id,
             'note': False,
@@ -85,8 +85,9 @@ class SaleOrder(models.Model):
         data = {}
         data.update(
             sale_obj.with_context(no_check_risk=True).onchange_partner_id3(
-                partner.id, False, partner.property_payment_term.id,
-                shop_id)['value']
+                values['partner_id'],
+                early_payment_discount=values['early_payment_discount'],
+                payment_term=False, shop=values['shop_id'])['value']
         )
         if 'partner_shipping_id' in data and data['partner_shipping_id']:
             del data['partner_shipping_id']
@@ -95,8 +96,9 @@ class SaleOrder(models.Model):
         data = {}
         data.update(
             sale_obj.onchange_delivery_id(
-                False, values['partner_id'], values['partner_shipping_id'],
-                False)['value']
+                values['company_id'],
+                values['partner_id'], values['partner_shipping_id'],
+                values['fiscal_position'])['value']
         )
         values.update(data)
         dp = self.env['decimal.precision'].precision_get('Product Price')
