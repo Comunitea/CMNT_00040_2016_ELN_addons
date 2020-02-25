@@ -23,12 +23,6 @@ from openerp.tools import float_compare
 import openerp.addons.decimal_precision as dp
 
 
-class ProductTemplate(models.Model):
-    _inherit = 'product.template'
-
-    sale_app = fields.Boolean('Sale in app')
-
-
 class ProductPricelist(models.Model):
     _inherit = 'product.pricelist'
 
