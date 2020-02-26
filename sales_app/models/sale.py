@@ -44,21 +44,18 @@ class SaleOrder(models.Model):
         addr = partner.address_get(['delivery', 'invoice', 'contact'])
         invoice_dir = addr['invoice']
         company_id = self.env.user.company_id
-        
         shop_id = vals.get('shop_id', False)
         if not shop_id:
             ir_values = self.env['ir.values']
             shop_id = ir_values.get_default('sale.order', 'shop_id', company_id=company_id.id)
-
         create_date = vals.get('create_date', False) or fields.Datetime.now()
         date_order = vals.get('date_order', False) or fields.Datetime.now()
         requested_date = vals.get('requested_date', False)
         client_order_ref = vals.get('client_order_ref', False)
         pricelist_id = vals.get('pricelist_id', False)
-        warehouse_id = vals.get('warehouse_id', False)
-        channel = vals.get('chanel', False)
+        warehouse_id = self.env['stock.warehouse'].search([], limit=1) # El valor que envía la app no sirve
+        channel = vals.get('channel', False)
         note = vals.get('note', '').replace('Nota: ', '').replace('Nota:', '')
-
         values = {
             'create_date': create_date,
             'date_order': date_order,
@@ -68,14 +65,14 @@ class SaleOrder(models.Model):
             'partner_invoice_id': invoice_dir,
             'partner_shipping_id': shipping_dir.id,
             'pricelist_id': pricelist_id,
-            'fiscal_position': partner.property_account_position.id,
-            'payment_term': partner.property_payment_term.id,
-            'payment_mode_id': partner.customer_payment_mode.id,
+            'fiscal_position': False,
+            'payment_term': False,
+            'payment_mode_id': False,
             'early_payment_discount': False,
             'user_id': partner.user_id.id,
             'note': False,
             'shop_id': shop_id,
-            'warehouse_id': warehouse_id,
+            'warehouse_id': warehouse_id.id,
             'channel': channel,
             'company_id': company_id.id,
             'note': note,
@@ -85,8 +82,9 @@ class SaleOrder(models.Model):
         data = {}
         data.update(
             sale_obj.with_context(no_check_risk=True).onchange_partner_id3(
-                partner.id, False, partner.property_payment_term.id,
-                shop_id)['value']
+                values['partner_id'],
+                early_payment_discount=values['early_payment_discount'],
+                payment_term=False, shop=values['shop_id'])['value']
         )
         if 'partner_shipping_id' in data and data['partner_shipping_id']:
             del data['partner_shipping_id']
@@ -95,12 +93,18 @@ class SaleOrder(models.Model):
         data = {}
         data.update(
             sale_obj.onchange_delivery_id(
-                False, values['partner_id'], values['partner_shipping_id'],
-                False)['value']
+                values['company_id'],
+                values['partner_id'], values['partner_shipping_id'],
+                values['fiscal_position'])['value']
         )
         values.update(data)
         dp = self.env['decimal.precision'].precision_get('Product Price')
         order_line = vals.get('order_line', [])
+        # Creamos el pedido
+        order_id = sale_obj.with_context(mail_notrack=True).create(values)
+        # onchange shop_id (se llama una vez creado el pedido porque está con API nueva)
+        order_id.onchange_shop_id()
+        values = order_id.read(load='_classic_write')[0]
 
         # Obtenemos las lineas del pedido
         order_lines = []
@@ -113,8 +117,9 @@ class SaleOrder(models.Model):
             price_unit = round(line[2]['price_unit'], dp)
             discount = round(line[2]['discount'], 2)
             line_values = {
+                'order_id': order_id.id,
                 'product_id': product_id,
-                'name': ' ' or False,
+                'name': '',
                 'product_uom_qty': product_uom_qty,
                 'product_uom': uom_id,
                 'product_uos_qty': product_uos_qty,
@@ -162,12 +167,10 @@ class SaleOrder(models.Model):
             self._context,
             partner_id=values['partner_id'],          # Necesario en módulo sale_commission
             address_id=values['partner_shipping_id'], # Necesario en módulo sale_commission
+            mail_notrack=True,
         )
-        values['order_line'] = order_lines
-        # Creamos el pedido
-        order_id = sale_obj.with_context(ctx).create(values)
-        # onchange shop_id (se hace al final porque está con API nueva
-        order_id.onchange_shop_id()
+        # Creamos las lineas del pedido
+        order_id.with_context(ctx).write({'order_line': order_lines})
         if order_id:
             # Para diferenciar del estado 'draft' ponemos el estado como 'quotation_sent'.
             order_id.signal_workflow('quotation_sent')
