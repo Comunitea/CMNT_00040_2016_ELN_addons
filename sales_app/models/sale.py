@@ -56,6 +56,7 @@ class SaleOrder(models.Model):
         warehouse_id = self.env['stock.warehouse'].search([], limit=1) # El valor que envía la app no sirve
         channel = vals.get('channel', False)
         note = vals.get('note', '').replace('Nota: ', '').replace('Nota:', '')
+        order_line = vals.get('order_line', [])
         values = {
             'create_date': create_date,
             'date_order': date_order,
@@ -70,14 +71,23 @@ class SaleOrder(models.Model):
             'payment_mode_id': False,
             'early_payment_discount': False,
             'user_id': partner.user_id.id,
-            'note': False,
             'shop_id': shop_id,
             'warehouse_id': warehouse_id.id,
             'channel': channel,
             'company_id': company_id.id,
             'note': note,
         }
+        # Creamos el pedido
+        order_id = sale_obj.with_context(mail_notrack=True).create(values)
         # Se van a ejecutar los onchanges de la cabecera para actualizar valores
+        # onchange shop_id
+        order_id.onchange_shop_id()
+        fields = [
+            'date_order', 'partner_id', 'partner_shipping_id', 'pricelist_id',
+            'fiscal_position', 'payment_term', 'early_payment_discount',
+            'shop_id', 'warehouse_id', 'company_id',
+        ]
+        values = order_id.read(fields=fields, load='_classic_write')[0]
         # onchange partner_id
         data = {}
         data.update(
@@ -99,12 +109,14 @@ class SaleOrder(models.Model):
         )
         values.update(data)
         dp = self.env['decimal.precision'].precision_get('Product Price')
-        order_line = vals.get('order_line', [])
-        # Creamos el pedido
-        order_id = sale_obj.with_context(mail_notrack=True).create(values)
-        # onchange shop_id (se llama una vez creado el pedido porque está con API nueva)
-        order_id.onchange_shop_id()
-        values = order_id.read(load='_classic_write')[0]
+        # onchange payment_term
+        data = {}
+        data.update(
+            sale_obj.onchange_payment_term(
+                values['payment_term'],
+                values['partner_id'])['value']
+        )
+        values.update(data)
 
         # Obtenemos las lineas del pedido
         order_lines = []
@@ -170,7 +182,8 @@ class SaleOrder(models.Model):
             mail_notrack=True,
         )
         # Creamos las lineas del pedido
-        order_id.with_context(ctx).write({'order_line': order_lines})
+        values['order_line'] = order_lines
+        order_id.with_context(ctx).write(values)
         if order_id:
             # Para diferenciar del estado 'draft' ponemos el estado como 'quotation_sent'.
             order_id.signal_workflow('quotation_sent')
