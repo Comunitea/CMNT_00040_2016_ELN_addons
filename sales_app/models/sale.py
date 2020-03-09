@@ -70,7 +70,7 @@ class SaleOrder(models.Model):
             'payment_term': False,
             'payment_mode_id': False,
             'early_payment_discount': False,
-            'user_id': partner.user_id.id,
+            'user_id': shipping_dir.user_id.id,
             'shop_id': shop_id,
             'warehouse_id': warehouse_id.id,
             'channel': channel,
