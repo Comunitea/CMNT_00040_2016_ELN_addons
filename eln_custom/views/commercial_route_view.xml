@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<openerp>
+    <data>
+        <record id="commercial_route_view_tree" model="ir.ui.view">
+            <field name="name">commercial.route.view.tree</field>
+            <field name="model">commercial.route</field>
+             <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Commercial Routes">
+                    <field name="sequence" widget="handle"/>
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="user_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="commercial_route_view_form" model="ir.ui.view">
+            <field name="name">commerical.route.view.form</field>
+            <field name="model">commercial.route</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Routes">
+                    <group>
+                        <field name="code"/>
+                        <field name="name"/>
+                        <field name="user_id"/>
+                        <field name="sequence"/>
+                        <field name="partner_ids"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_commercial_route_filter" model="ir.ui.view">
+            <field name="name">commercial.route.list.select</field>
+            <field name="model">commercial.route</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Commercial Routes">
+                    <field name="name"
+                        filter_domain="[('name','ilike',self)]"/>
+                    <field name="code"/>
+                    <field name="user_id"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Salesperson" context="{'group_by':'user_id'}"/>
+                        <filter string="Code" context="{'group_by':'code'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_commercial_route" model="ir.actions.act_window">
+            <field name="name">Commercial Routes</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">commercial.route</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_commercial_route_filter"/>
+            <field name="context">{}</field>
+        </record>
+
+        <menuitem id="menu_action_commercial_route" name="Commercial Routes" action="action_commercial_route" parent="base.menu_sale_config_sales" sequence="0" groups="base.group_sale_manager"/>
+
+    </data>
+</openerp>

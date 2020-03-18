@@ -54,6 +54,7 @@
         'views/account_asset_view.xml',
         'views/product_view.xml',
         'views/res_partner_view.xml',
+        'views/commercial_route_view.xml',
         'views/route_view.xml',
         'views/stock_view.xml',
     ],
