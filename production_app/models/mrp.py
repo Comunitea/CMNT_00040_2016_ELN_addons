@@ -97,11 +97,14 @@ class MrpProduction(models.Model):
 
     @api.model
     def action_produce(self, production_id, production_qty, production_mode, wiz=False):
-        # Si hay registrados movimientos de scrap de consumos los hacemos primero
         if production_mode in ['consume', 'consume_produce']:
             prod = self.env['mrp.production'].browse(production_id)
-            registry_ids = prod.workcenter_lines.mapped('registry_id').filtered(
-                lambda r: r.state == 'validated')
+            registry_ids = prod.workcenter_lines.mapped('registry_id')
+            # No se permite hacer consumos de producciones con registros de app no validados
+            if not all(x.state == 'validated' for x in registry_ids):
+                raise exceptions.except_orm(_('Error'),
+                    _("At least one app registry associated with this production is not validated."))
+            # Si hay registrados movimientos de scrap de consumos los hacemos primero
             line_scrapped_ids = registry_ids.mapped('line_scrapped_ids')
             for line_scrapped_id in line_scrapped_ids:
                 product_id = line_scrapped_id.product_id
