@@ -2,6 +2,7 @@ import { Component, ViewChildren, QueryList } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, ModalController } from 'ionic-angular';
 import { HomePage } from '../../pages/home/home';
 import { ChecksModalPage } from '../../pages/checks-modal/checks-modal';
+import { CalculatorModalPage } from '../../pages/calculator/calculator';
 import { UsersModalPage } from '../../pages/users-modal/users-modal';
 import { ReasonsModalPage } from '../../pages/reasons-modal/reasons-modal';
 import { FinishModalPage } from '../../pages/finish-modal/finish-modal';
@@ -157,6 +158,12 @@ export class ProductionPage {
             myModal.present();
         });
         return promise
+    }
+
+    openCalculatorModal() {
+        var mydata = {}
+        let calculatorModal = this.modalCtrl.create(CalculatorModalPage, mydata);
+        calculatorModal.present();
     }
 
     openUsersModal() {

@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 import { ProductionProvider } from '../../providers/production/production';
+import { CalculatorModalPage } from '../../pages/calculator/calculator';
+import es from '@angular/common/locales/es';
+import { registerLocaleData } from '@angular/common';
 
 /**
  * Generated class for the ConsumptionsPage page.
@@ -16,13 +19,24 @@ import { ProductionProvider } from '../../providers/production/production';
 })
 export class ConsumptionsPage {
     allowed_lines: Object[];
-    constructor(public navCtrl: NavController, public navParams: NavParams, private prodData: ProductionProvider) {
-
-    }
+    qty_to_calculate;
+    
+    constructor(public navCtrl: NavController,
+                public navParams: NavParams,
+                public modalCtrl: ModalController,
+                private prodData: ProductionProvider) {
+        registerLocaleData(es);
+        this.qty_to_calculate = this.prodData.production_qty;
+   }
 
     ionViewDidLoad() {
-        // this.prodData.getConsumptions();
         this.allowed_lines = this.prodData.consumptions;
+    }
+
+    openCalculatorModal() {
+        var mydata = {}
+        let calculatorModal = this.modalCtrl.create(CalculatorModalPage, mydata);
+        calculatorModal.present();
     }
 
 }

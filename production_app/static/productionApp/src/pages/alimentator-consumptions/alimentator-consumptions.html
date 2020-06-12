@@ -8,6 +8,14 @@
 
     <ion-navbar color="primary">
         <ion-title><span class="custom-font-size">{{this.title}}</span></ion-title>
+        <ion-buttons end>
+            <button ion-button full (click)="showConsumptions()">
+                <ion-icon name="clipboard"></ion-icon>
+            </button>
+            <button ion-button (click)='openCalculatorModal()'>
+                <ion-icon name="calculator"></ion-icon>
+            </button>
+        </ion-buttons>
     </ion-navbar>
 
 </ion-header>

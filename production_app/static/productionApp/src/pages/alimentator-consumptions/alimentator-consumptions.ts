@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController, AlertController } from 'ionic-angular';
 import { ConsumeModalPage } from '../../pages/consume-modal/consume-modal';
 import { ConsumptionListModalPage } from '../../pages/consumption-list-modal/consumption-list-modal';
+import { ConsumptionsPage } from '../../pages/consumptions/consumptions';
+import { CalculatorModalPage } from '../../pages/calculator/calculator';
 import { ProductionProvider } from '../../providers/production/production';
 
 /**
@@ -196,6 +198,16 @@ export class AlimentatorConsumptionsPage {
 	this.prodData.consumptions_note = this.consumptions_note;
         this.prodData.editConsumptionsNote();
         // console.log("onchange");
+    }
+
+    showConsumptions(workcenter) {
+        this.navCtrl.push(ConsumptionsPage)
+    }
+
+    openCalculatorModal() {
+        var mydata = {}
+        let calculatorModal = this.modalCtrl.create(CalculatorModalPage, mydata);
+        calculatorModal.present();
     }
 
 
