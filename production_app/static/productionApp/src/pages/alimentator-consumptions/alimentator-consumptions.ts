@@ -24,6 +24,7 @@ export class AlimentatorConsumptionsPage {
     consumptions_out: any[];
     consumptions_scrapped: any[];
     finished_products: any[];
+    sum_finished_products;
     title: string;
     consumptions_note: string;
 
@@ -41,6 +42,7 @@ export class AlimentatorConsumptionsPage {
         this.consumptions_out = this.prodData.consumptions_out;
         this.consumptions_scrapped = this.prodData.consumptions_scrapped;
         this.finished_products = this.prodData.finished_products;
+        this.sum_finished_products = this.finished_products.reduce((sum, product) => sum + product.qty, 0);
     }
 
     presentAlert(titulo, texto) {
@@ -94,6 +96,7 @@ export class AlimentatorConsumptionsPage {
             // Read again lines
             this.prodData.getConsumeInOut().then((res) => {
                 this.finished_products = this.prodData.finished_products;
+                this.sum_finished_products = this.finished_products.reduce((sum, product) => sum + product.qty, 0);
             })
         })
         .catch( (err) => {
@@ -157,6 +160,7 @@ export class AlimentatorConsumptionsPage {
                     this.consumptions_out = this.prodData.consumptions_out;
                     this.consumptions_scrapped = this.prodData.consumptions_scrapped;
                     this.finished_products = this.prodData.finished_products;
+                    this.sum_finished_products = this.finished_products.reduce((sum, product) => sum + product.qty, 0);
                 })
             })
             .catch( (err) => {
