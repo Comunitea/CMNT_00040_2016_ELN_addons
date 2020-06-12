@@ -1,6 +1,14 @@
+$primary-color: #488aff;
+$danger-color: #f53d3d;
+
 page-consumptions {
     .col-content {
         font-size: 1.2rem !important;
+    }
+    .col-content-2 {
+        font-size: 1.2rem !important;
+        color: $danger-color;
+        font-weight: bold;
     }
     .bold-header {
         font-size: 1.4rem !important;
@@ -9,14 +17,25 @@ page-consumptions {
     ion-row {
         border-bottom: 1px solid #000;
     }
+    ion-label {
+        font-size: 1.4rem !important;
+        font-weight: bold;
+    }
 
 
     @media (min-width:600px) {
         .col-content {
             font-size: 1.6rem !important;
         }
+        .col-content-2 {
+            font-size: 1.6rem !important;
+        }
         .bold-header {
             font-size: 1.8rem !important;
-       }
+        }
+        ion-label {
+            font-size: 1.8rem !important;
+            font-weight: bold;
+        }
     }
 }
