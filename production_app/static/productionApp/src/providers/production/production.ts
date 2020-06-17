@@ -32,6 +32,7 @@ export class ProductionProvider {
     consume_product_id;
     state;
     states;
+    interval_list: any[] = [];
 
     start_checks: Object[];
     freq_checks: Object[];
@@ -68,6 +69,7 @@ export class ProductionProvider {
     note: string;
     consumptions_note: string;
     process_type: string;
+    setup_end: boolean = false;
 
     constructor(private odooCon: OdooProvider) {
         this.states = {
@@ -389,16 +391,19 @@ export class ProductionProvider {
         this.note = data.note || '';
         this.consumptions_note = data.consumptions_note || '';
         this.process_type = data.process_type || '';
+	this.setup_end = (data.setup_end != false);
     }
     
     // Load Quality checks in each type list
     loadQualityChecks(q_checks) {
         for (let indx in q_checks) {
             var qc = q_checks[indx];
-            if (qc.quality_type == 'start') {
-                this.start_checks.push(qc);
-            } else {
-                this.freq_checks.push(qc);
+            if (qc.workcenter_id == false || qc.workcenter_id[0] == this.workcenter['id']) {
+                if (qc.quality_type == 'start') {
+                    this.start_checks.push(qc);
+                } else {
+                    this.freq_checks.push(qc);
+                }
             }
         }
     }

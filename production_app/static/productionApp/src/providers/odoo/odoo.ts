@@ -12,8 +12,7 @@ declare var OdooApi: any;
 @Injectable()
 export class OdooProvider {
 
-    pending_calls : Object[] = []
-
+    pending_calls: Object[] = [];
     stop_from_state;
     operatorsById: Object = {};
     context;
