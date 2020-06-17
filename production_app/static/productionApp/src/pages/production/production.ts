@@ -23,7 +23,6 @@ export class ProductionPage {
     cdb;
     weight;
     hidden_class: string = 'my-hide';
-    interval_list: any[] = [];
 
     @ViewChildren(TimerComponent) timer: QueryList<TimerComponent>;
 
@@ -38,16 +37,20 @@ export class ProductionPage {
     }
 
     initProduction() {
+        this.clearIntervales();
         this.timer.toArray()[0].initTimer();
         this.timer.toArray()[1].initTimer();
         var timer_1_states = ['setup', 'started', 'cleaning']
         if (timer_1_states.indexOf(this.prodData.state) >= 0) {
-            if (this.prodData.state === 'started') {
+            if (this.prodData.state == 'started') {
                 this.scheduleChecks();
             }
             this.timer.toArray()[0].restartTimer();
         }
         if (this.prodData.state == 'stopped') {
+            if (this.prodData.setup_end == true) {
+                this.scheduleChecks();
+            }
             this.hidden_class = 'none'
             this.timer.toArray()[0].restartTimer();
             this.timer.toArray()[1].restartTimer();
@@ -285,11 +288,11 @@ export class ProductionPage {
     }
 
     clearIntervales() {
-        for (let indx in this.interval_list) {
-            let int = this.interval_list[indx];
+        for (let indx in this.prodData.interval_list) {
+            let int = this.prodData.interval_list[indx];
             clearInterval(int);
         }
-        this.interval_list = [];
+        this.prodData.interval_list = [];
     }
 
     scheduleIntervals(delay, qchecks) {
@@ -297,7 +300,7 @@ export class ProductionPage {
         {
             this.openChecksModal('freq', qchecks, false).then(() => {}).catch(() => {});
         }, delay*60*1000);
-        this.interval_list.push(timerId);
+        this.prodData.interval_list.push(timerId);
     }
 
     scheduleChecks() {

@@ -706,7 +706,8 @@ class ProductionAppRegistry(models.Model):
         product = self.env['product.product'].browse(product_id)
         domain = [('id', 'in', product.quality_check_ids.ids)]
         fields = ['id', 'name', 'value_type', 'quality_type', 'repeat',
-                  'required_text', 'max_value', 'min_value', 'barcode_type']
+                  'required_text', 'max_value', 'min_value', 'barcode_type',
+                  'workcenter_id']
         res = product.quality_check_ids.search_read(domain, fields)
         res2 = []
         for dic in res:
