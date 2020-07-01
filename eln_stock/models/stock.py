@@ -106,6 +106,34 @@ class StockIncoterms(models.Model):
 class StockMove(models.Model):
     _inherit = 'stock.move'
 
+    availability = fields.Float(compute='_get_product_availability') # Redefine compute method
+
+    @api.multi
+    def _get_product_availability(self):
+        """
+        Igual al original pero con API nueva y omitiendo 'draft' y 'cancel' en el cálculo
+        así como cuando la ubicación origen no es interna
+        """
+        quant_obj = self.env['stock.quant']
+        location_obj = self.env['stock.location']
+        for move in self:
+            if move.state in ('draft', 'cancel') or move.location_id.usage != 'internal':
+                availability = 0
+            elif move.state == 'done':
+                availability = move.product_qty
+            else:
+                domain = [('id', 'child_of', [move.location_id.id])]
+                sublocation_ids = location_obj.search(domain)
+                domain = [
+                    ('location_id', 'in', sublocation_ids.ids),
+                    ('product_id', '=', move.product_id.id),
+                    ('reservation_id', '=', False)
+                ]
+                quant_ids = quant_obj.search(domain)
+                availability = sum(quant_ids.mapped('qty'))
+                availability = min(move.product_qty, availability)
+            move.availability = availability
+
     @api.multi
     def onchange_quantity(self, product_id, product_qty, product_uom, product_uos):
         """
