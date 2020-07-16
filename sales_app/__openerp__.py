@@ -36,6 +36,8 @@
         'data/cron_table_data.xml',
         'views/res_company_view.xml',
         'views/table_pricelist_prices_view.xml',
+        'views/pricelist_view.xml',
+        'views/sale_order_view.xml',
     ],
     'demo_xml': [],
     'installable': True,

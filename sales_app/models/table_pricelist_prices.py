@@ -23,32 +23,6 @@ from openerp.tools import float_compare
 import openerp.addons.decimal_precision as dp
 
 
-class ProductPricelist(models.Model):
-    _inherit = 'product.pricelist'
-
-    in_app = fields.Boolean('Pricelist in APP', default=False)
-
-    @api.model
-    def _price_rule_get_multi(self, pricelist, products_by_qty_by_partner):
-        if self._context.get('from_sales_app', False):
-            date = self._context.get('date') or fields.Date.context_today(self)
-            date = date[0:10]
-            products = map(lambda x: x[0], products_by_qty_by_partner)
-            if not products:
-                return {}
-            version = False
-            for v in pricelist.version_id:
-                if ((v.date_start is False) or (v.date_start <= date)) and ((v.date_end is False) or (v.date_end >= date)):
-                    version = v
-                    break
-            if not version:
-                res = {}
-                for product in products:
-                    res[product.id] = (False, False)
-                return res
-        return super(ProductPricelist, self)._price_rule_get_multi(pricelist, products_by_qty_by_partner)
-
-
 class TablePricelistPrices(models.Model):
     _name = 'table.pricelist.prices'
     _rec_name = 'pricelist_id'
@@ -62,6 +36,15 @@ class TablePricelistPrices(models.Model):
     price = fields.Float('Price',
         digits=dp.get_precision('Product Price'),
         readonly=True)
+    discount1 = fields.Float('Discount 1',
+        digits=(16,2),
+        readonly=True)
+    discount2 = fields.Float('Discount 2',
+        digits=(16,2),
+        readonly=True)
+    discount3 = fields.Float('Discount 3',
+        digits=(16,2),
+        readonly=True)
     company_id = fields.Many2one(
         'res.company', 'Company',
         readonly=True)
@@ -74,6 +57,7 @@ class TablePricelistPrices(models.Model):
     def recalculate_table(self):
         t_product = self.env['product.product']
         t_pricelist = self.env['product.pricelist']
+        t_pricelist_item = self.env['product.pricelist.item']
         t_company = self.env['res.company']
         domain = [('sale_ok', '=', True)]
         prod_objs = t_product.search(domain)
@@ -94,14 +78,38 @@ class TablePricelistPrices(models.Model):
                         products_by_qty_by_partner=[
                             (product.with_context(force_company=company_id.id), 1.0, False)
                     ])
-                    table[product.id][pricelist.id][company_id.id] = \
-                        price and price[product.id][pricelist.id] or 0.0
+                    # Consultamos el elemento de la tarifa para obtener los descuentos correspondientes
+                    discount1 = discount2 = discount3 = 0.0
+                    date = self._context.get('date') or fields.Date.context_today(self)
+                    date = date[0:10]
+                    if price and price[product.id][pricelist.id] > 0.0:
+                        version = False
+                        for v in pricelist.version_id:
+                            if ((v.date_start is False) or (v.date_start <= date)) and ((v.date_end is False) or (v.date_end >= date)):
+                                version = v
+                                break
+                        if version: # Si hemos llegado hasta aqui debería existir siempre una versión
+                            domain = [
+                                ('price_version_id', '=', version.id),
+                                ('product_id', '=', product.id)
+                            ]
+                            rule = t_pricelist_item.search(domain, limit=1)
+                            if rule:
+                                discount1 = rule.app_discount1
+                                discount2 = rule.app_discount2
+                                discount3 = rule.app_discount3
+                    table[product.id][pricelist.id][company_id.id] = (
+                        price and price[product.id][pricelist.id] or 0.0, # price
+                        discount1, # disc 1
+                        discount2, # disc 2
+                        discount3  # disc 3
+                    )
         for product in prod_objs:
             product_table = table and table[product.id] or {}
             for pricelist in pricelist_objs:
                 if pricelist.id in product_table.keys():
                     for company_id in product_table[pricelist.id].keys():
-                        price = product_table[pricelist.id][company_id]
+                        price, discount1, discount2, discount3 = product_table[pricelist.id][company_id]
                         if not price or price < 0.0:
                             price = 0.0
                         domain = [
@@ -115,14 +123,26 @@ class TablePricelistPrices(models.Model):
                                 'product_id': product.id,
                                 'pricelist_id': pricelist.id,
                                 'price': price,
+                                'discount1': discount1,
+                                'discount2': discount2,
+                                'discount3': discount3,
                                 'company_id': company_id
                             }
                             self.create(vals)
                         else:
                             precision_digits = dp.get_precision('Product Price')(self.env.cr)[1]
                             compare = float_compare(price, rec_table.price, precision_digits=precision_digits)
-                            if compare != 0:
+                            update_values = (
+                                compare != 0 or
+                                rec_table.discount1 <> discount1 or
+                                rec_table.discount2 <> discount2 or
+                                rec_table.discount3 <> discount3
+                            )
+                            if update_values:
                                 rec_table.price = price
+                                rec_table.discount1 = discount1
+                                rec_table.discount2 = discount2
+                                rec_table.discount3 = discount3
         # Borro todo lo que sobra (precios a 0, productos no vendibles, tarifas de precios no en app)
         sql = """
             delete from table_pricelist_prices

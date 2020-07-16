@@ -9,6 +9,9 @@
                 <field name="order_line" position="attributes">
                     <attribute name="context">{'partner_id': partner_id, 'address_id': partner_shipping_id}</attribute>
                 </field>
+                <xpath expr="//field[@name='order_line']/tree//field[@name='commission_free']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
             </field>
         </record>
 

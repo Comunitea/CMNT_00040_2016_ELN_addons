@@ -28,9 +28,11 @@
                         attrs="{'readonly':[('product_id', '=', False)]}"
                         context="{'partner_id': parent.partner_id, 'quantity': product_uom_qty, 'pricelist': parent.pricelist_id, 'uom': product_uom, 'company_id': parent.company_id, 'date_order': parent.date_order, 'fiscal_position': parent.fiscal_position}"/>
                 </xpath>
+<!--
                 <xpath expr="//field[@name='order_line']/tree[@string='Sales Order Lines']/field[@name='name']" position="after">
                     <field name="sample_ok"/>
                 </xpath>
+ -->
             </field>
         </record>
     </data>

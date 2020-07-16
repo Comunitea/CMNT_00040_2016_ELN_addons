@@ -41,6 +41,12 @@
                     <!-- Requerido por los módulos eln_partner_discount (shop_id) y sale_commission (partner_id y address_id) -->
                     <attribute name="context">{'partner_id': partner_id, 'address_id': partner_shipping_id, 'shop': shop_id, 'fiscal_position': fiscal_position}</attribute>
                 </field>
+                <xpath expr="//field[@name='order_line']/tree/field[@name='product_uos_qty']" position="attributes">
+                    <attribute name="invisible">0</attribute>
+                </xpath>
+                <xpath expr="//field[@name='order_line']/tree/field[@name='product_uos']" position="attributes">
+                    <attribute name="invisible">0</attribute>
+                </xpath>
             </field>
         </record>
 
