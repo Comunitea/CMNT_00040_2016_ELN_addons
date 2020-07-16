@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record id="view_order_form_sale_app" model="ir.ui.view">
+            <field name="name">view.order.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="origin" position="after">
+                    <field name="channel" invisible="1"/>
+                </field>
+                <xpath expr="//field[@name='order_line']/form/group/group/div[@name='discount']" position="after">
+                    <field name="app_discount_type" groups="sale.group_discount_per_so_line"/>
+                </xpath>
+                <xpath expr="//field[@name='order_line']/tree/field[@name='discount']" position="after">
+                    <field name="app_discount_type" groups="sale.group_discount_per_so_line"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_order_line_form2_sale_app" model="ir.ui.view">
+            <field name="name">sale.order.line.form2</field>
+            <field name="model">sale.order.line</field>
+            <field name="inherit_id" ref="sale.view_order_line_form2"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="discount" position="after">
+                    <field name="app_discount_type" groups="sale.group_discount_per_so_line"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>

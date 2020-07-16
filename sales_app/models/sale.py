@@ -128,6 +128,11 @@ class SaleOrder(models.Model):
             uos_id = line[2]['product_uos']
             price_unit = round(line[2]['price_unit'], dp)
             discount = round(line[2]['discount'], 2)
+            app_discount_type = line[2].get('discount_type', False)
+            if app_discount_type not in ('-1', '0', '1', '2', '3'):
+                app_discount_type = False
+            if app_discount_type == '0' and discount > 0 or app_discount_type == '-1':
+                app_discount_type = False
             line_values = {
                 'order_id': order_id.id,
                 'product_id': product_id,
@@ -138,6 +143,7 @@ class SaleOrder(models.Model):
                 'product_uos': uos_id,
                 'price_unit': price_unit,
                 'discount': discount,
+                'app_discount_type': app_discount_type,
             }
             # Se van a ejecutar los onchanges de las lineas para actualizar valores
             # Llamo al onchange del producto
@@ -199,18 +205,18 @@ class SaleOrder(models.Model):
         return True
 
 
-class ResPartner(models.Model):
-    _inherit = 'res.partner'
+class SaleOrderLine(models.Model):
+    _inherit = 'sale.order.line'
 
-    def search(self, cr, uid, args, offset=0, limit=None, order=None,
-               context=None, count=False):
-        """
-        La función search tiene que ser llamada con API antigua para que funcione la APP.
-        En el módulo l10n_es_partner es llamada con API nueva, por tanto tenemos que parchearla
-		heredándola y llamámdola con API antigua.
-		Nota: poner el módulo donde es llamada con API nueva como dependencia y heredar
-        """
-        return super(ResPartner, self).search(
-            cr, uid, args, offset=offset, limit=limit, order=order,
-            context=context, count=count)
+    app_discount_type = fields.Selection([
+        ('0', 'Type 0'),
+        ('1', 'Type 1'),
+        ('2', 'Type 2'),
+        ('3', 'Type 3')
+        ], string='App disc. type', readonly=True,
+        help="Discount type applied from sales app")
+
+    @api.onchange('discount', 'price_unit')
+    def onchange_discount(self):
+        self.app_discount_type = False
 
