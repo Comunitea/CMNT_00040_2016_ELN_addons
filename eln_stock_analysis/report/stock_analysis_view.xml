@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="stock_analysis_graph_search" model="ir.ui.view">
+            <field name="name">stock.analysis.search</field>
+            <field name="model">stock.analysis</field>
+            <field name="inherit_id" ref="stock_analysis.stock_analysis_graph_search"/>
+            <field name="arch" type="xml">
+                <filter name="year" position="after">
+                    <separator/>
+                    <filter string="BBE +1 months" name="bbe1m" domain="[('use_date','&lt;',(datetime.date.today()+relativedelta(months=2)).strftime('%%Y-%%m-01 00:00:00'))]"/>
+                    <filter string="BBE +3 months" name="bbe3m" domain="[('use_date','&lt;',(datetime.date.today()+relativedelta(months=4)).strftime('%%Y-%%m-01 00:00:00'))]"/>
+                    <filter string="BBE +6 months" name="bbe6m" domain="[('use_date','&lt;',(datetime.date.today()+relativedelta(months=7)).strftime('%%Y-%%m-01 00:00:00'))]"/>
+                    <filter string="BBE +1 year" name="bbe1y" domain="[('use_date','&lt;',(datetime.date.today()+relativedelta(months=13)).strftime('%%Y-%%m-01 00:00:00'))]"/>
+                </filter>
+            </field>
+        </record>
+
+    </data>
+</openerp>
