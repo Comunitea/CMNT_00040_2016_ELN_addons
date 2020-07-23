@@ -138,3 +138,8 @@ msgstr "FCP +6 meses"
 #: field:stock.analysis,use_date:0
 msgid "Best before Date"
 msgstr "Fecha de consumo preferente"
+
+#. module: eln_stock_analysis
+#: field:stock.analysis,cost:0
+msgid "Cost"
+msgstr "Coste"
