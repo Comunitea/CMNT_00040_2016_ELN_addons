@@ -114,8 +114,8 @@ class ProductionAppRegistry(models.Model):
         related="production_id.product_id", readonly=True)
     production_state = fields.Selection(PRODUCTION_STATES, 'Production Status',
         related='production_id.state', readonly=True)
-    workorder_id = fields.Many2one(
-        'work.order', 'Related Maintenance Order',
+    maintenance_workorder_id = fields.Many2one(
+        'maintenance.order', 'Related Maintenance Order',
         states=READONLY_STATES)
     note = fields.Text(string='Production notes')
     consumptions_note = fields.Text(string='Alimentator notes')
@@ -499,22 +499,22 @@ class ProductionAppRegistry(models.Model):
     @api.model
     def create_maintenance_order(self, reg, reason_id):
         mt = self.env['maintenance.type'].\
-            search([('type', '=', 'correctivo')], limit=1)
+            search([('type', '=', 'corrective')], limit=1)
 
-        note = 'Creado por app.'
+        note = _('Created by app.')
         if reason_id:
             reason_name = self.env['stop.reason'].browse(reason_id).name
             note += '\n' + reason_name
         if reg.workcenter_id:
-            note += '\n' + u'Centro de producción: ' + reg.workcenter_id.name
+            note += '\n' + _('Work Center: ') + reg.workcenter_id.name
         if reg.production_id:
-            note += '\n' + u'Orden de producción: ' + reg.production_id.name
-        wo = self.env['work.order'].create({
+            note += '\n' + _('Manufacturing Order: ') + reg.production_id.name
+        mwo = self.env['maintenance.order'].create({
             'maintenance_type_id': mt.id,
             'note': note
         })
         reg.write({
-            'workorder_id': wo.id,
+            'maintenance_workorder_id': mwo.id,
         })
         return True
 

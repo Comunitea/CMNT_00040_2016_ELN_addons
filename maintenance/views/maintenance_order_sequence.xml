@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+
+        <record id="seq_type_maintenance_order" model="ir.sequence.type">
+            <field name="name">Maintenance order</field>
+            <field name="code">maintenance.order</field>
+        </record>
+
+        <record id="seq_maintenance_order" model="ir.sequence">
+            <field name="name">Maintenance order</field>
+            <field name="code">maintenance.order</field>
+            <field name="prefix">MO/</field>
+            <field name="padding">5</field>
+        </record>
+
+    </data>
+</openerp>

@@ -3,41 +3,55 @@
     <data noupdate="0">
 
         <record model="ir.module.category" id="module_category_maintenance_management">
-            <field name="name">Mantenimiento</field>
+            <field name="name">Maintenance</field>
         </record>
 
         <record id="group_maintenance_user" model="res.groups">
             <field name="name">User</field>
-            <field name="category_id" ref="module_category_maintenance_management" />
+            <field name="category_id" ref="module_category_maintenance_management"/>
             <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
-            <field name="comment">Puede crear SI</field>
+            <field name="comment">Can create requests</field>
         </record>
 
         <record id="group_maintenance_operator" model="res.groups">
             <field name="name">Operator</field>
-            <field name="category_id" ref="module_category_maintenance_management" />
+            <field name="category_id" ref="module_category_maintenance_management"/>
             <field name="implied_ids" eval="[(4, ref('group_maintenance_user'))]"/>
-            <field name="comment">Puede crear SI y OT. No puede validar OT</field>
+            <field name="comment">Can create requests and orders but cannot validate orders</field>
         </record>
 
         <record id="group_maintenance_manager" model="res.groups">
             <field name="name">Manager</field>
-            <field name="category_id" ref="module_category_maintenance_management" />
-            <field name="implied_ids" eval="[(4, ref('group_maintenance_operator'))]" />
-            <field name="users" eval="[(4, ref('base.user_root'))]" />
-            <field name="comment">Responsable</field>
+            <field name="category_id" ref="module_category_maintenance_management"/>
+            <field name="implied_ids" eval="[(4, ref('group_maintenance_operator'))]"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+            <field name="comment">Manager</field>
         </record>
 
-        <record id="intervention_request_multicompany_rule" model="ir.rule">
-            <field name="name">Maintenance Intervention Request multi-company</field>
-            <field name="model_id" ref="model_intervention_request"/>
+        <record id="maintenance_request_multicompany_rule" model="ir.rule">
+            <field name="name">Maintenance Request multi-company</field>
+            <field name="model_id" ref="model_maintenance_request"/>
             <field name="global" eval="True"/>
             <field name="domain_force">['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
         </record>
 
-        <record id="work_order_multicompany_rule" model="ir.rule">
-            <field name="name">Maintenance Work Order multi-company</field>
-            <field name="model_id" ref="model_work_order"/>
+        <record id="maintenance_order_multicompany_rule" model="ir.rule">
+            <field name="name">Maintenance order multi-company</field>
+            <field name="model_id" ref="model_maintenance_order"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
+        </record>
+
+        <record id="maintenance_element_multicompany_rule" model="ir.rule">
+            <field name="name">Maintenance element multi-company</field>
+            <field name="model_id" ref="model_maintenance_element"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
+        </record>
+
+        <record id="maintenance_type_multicompany_rule" model="ir.rule">
+            <field name="name">Maintenance type multi-company</field>
+            <field name="model_id" ref="model_maintenance_type"/>
             <field name="global" eval="True"/>
             <field name="domain_force">['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
         </record>

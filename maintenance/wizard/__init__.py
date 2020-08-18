@@ -1,1 +1,1 @@
-import cancel_intervention_request
+import cancel_maintenance_request

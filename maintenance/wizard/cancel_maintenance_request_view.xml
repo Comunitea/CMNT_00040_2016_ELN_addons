@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="cancel_maintenance_request_wizard_view" model="ir.ui.view">
+            <field name="name">cancel.maintenance.request.wizard.form</field>
+            <field name="model">cancel.maintenance.request.wizard</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Cancel request">
+                    <field name="reason"/>
+                    <footer>
+                        <button name="close_confirm" type="object" string="Cancel request"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="cancel_maintenance_request_type_tree" model="ir.actions.act_window">
+            <field name="name">Cancel maintenance request</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">cancel.maintenance.request.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="cancel_maintenance_request_wizard_view"/>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</openerp>
