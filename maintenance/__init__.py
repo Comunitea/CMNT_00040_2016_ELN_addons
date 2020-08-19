@@ -17,11 +17,5 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-import maintenance_element
-import intervention_request
-import maintenance_type
-import work_order
-import purchase
-import stock
+import models
 import wizard
-import hr

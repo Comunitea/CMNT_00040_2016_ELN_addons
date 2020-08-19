@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="maintenance_type_tree_view">
+            <field name="name">maintenance.type.tree</field>
+            <field name="model">maintenance.type</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Maintenance type">
+                    <field name="name"/>
+                    <field name="type"/>
+                    <field name="applicant_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="maintenance_type_form_view">
+            <field name="name">maintenance.type.form</field>
+            <field name="model">maintenance.type</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Maintenance type">
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="type"/>
+                        </group>
+                        <group >
+                            <field name="company_id"/>
+                        </group>
+                    </group>
+                    <newline/>
+                    <notebook>
+                        <page string="Elements">
+                            <field name="element_ids" nolabel="1" colspan="4">
+                                <tree>
+                                    <field name="element_id"/>
+                                    <field name="type"/>
+                                    <field name="priority"/>
+                                    <field name="planned"/>
+                                    <field name="frequency"/>
+                                    <field name="interval"/>
+                                    <field name="initial_date" widget="date"/>
+                                    <field name="last_run" widget="date"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Description">
+                            <field name="description" nolabel="1" colspan="4"/>
+                        </page>
+                    </notebook>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_maintenance_type_filter" model="ir.ui.view">
+            <field name="name">maintenance.type.filter</field>
+            <field name="model">maintenance.type</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <newline/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Type" domain="[]" context="{'group_by':'type'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_maintenance_type_tree" model="ir.actions.act_window">
+            <field name="name">Maintenance types</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">maintenance.type</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="maintenance_type_tree_view"/>
+            <field name="search_view_id" ref="view_maintenance_type_filter"/>
+        </record>
+
+        <menuitem action="action_maintenance_type_tree" id="menu_maintenance_type_tree"
+            parent="menu_maintenance_config" sequence="2"/>
+
+	</data>
+</openerp>

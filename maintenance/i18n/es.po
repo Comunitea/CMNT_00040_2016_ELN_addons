@@ -1,134 +1,108 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* maintenance
+# 	* maintenance
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-05 17:27+0000\n"
-"PO-Revision-Date: 2018-02-05 17:27+0000\n"
-"Last-Translator: <>\n"
+"POT-Creation-Date: 2020-08-18 16:36+0000\n"
+"PO-Revision-Date: 2020-08-18 18:37+0200\n"
+"Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
+"Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
+"Language: es\n"
+"X-Generator: Poedit 2.3.1\n"
 
 #. module: maintenance
-#: model:email.template,report_name:maintenance.email_template_work_order
-msgid "${(object.name or\n"
-"                '').replace('/','_')}_${object.state == 'draft' and 'draft' or ''}\n"
-"            "
-msgstr "${(object.name or\n"
-"                '').replace('/','_')}_${object.state == 'draft' and 'draft' or ''}\n"
-"            "
+#: code:addons/maintenance/wizard/cancel_maintenance_request.py:34
+#, python-format
+msgid "Active Id not found"
+msgstr "Id activo no encontrado"
 
 #. module: maintenance
-#: field:work.order,general_account_id:0
-msgid "Account"
-msgstr "Cuenta"
-
-#. module: maintenance
-#: field:maintenance.element,asset_id:0
-msgid "Active"
-msgstr "Activo"
-
-#. module: maintenance
-#: selection:maintenance.type,intervalo:0
-msgid "After x Days"
-msgstr "Después de x Días"
-
-#. module: maintenance
-#: field:maintenance.element,analytic_account_id:0
-msgid "Analytic account"
-msgstr "Cuenta analítica"
-
-#. module: maintenance
-#: field:maintenance.element,analytic_journal_id:0
-msgid "Analytic journal"
-msgstr "Diario analítico"
-
-#. module: maintenance
-#: field:intervention.request,solicitante_id:0
+#: field:maintenance.element.type,applicant_id:0
+#: view:maintenance.request:maintenance.view_maintenance_request_filter
+#: field:maintenance.request,applicant_id:0
+#: field:maintenance.type,applicant_id:0
 msgid "Applicant"
 msgstr "Solicitante"
 
 #. module: maintenance
-#: field:work.order,purchase_ids:0
-msgid "Asociated purchases"
-msgstr "Compras asociadas"
+#: view:maintenance.order:maintenance.maintenance_order_form_view
+msgid "Approve"
+msgstr "Aprobar"
 
 #. module: maintenance
-#: view:work.order:maintenance.view_work_order_filter
-#: field:work.order,assigned_department_id:0
+#: field:maintenance.order,approved_by:0
+msgid "Approved by"
+msgstr "Aprobado por"
+
+#. module: maintenance
+#: view:maintenance.order:maintenance.view_maintenance_order_filter
+#: field:maintenance.order,assigned_department_id:0
 msgid "Assigned department"
 msgstr "Departamento asignado"
 
 #. module: maintenance
-#: field:maintenance.type,survey_id:0
-msgid "Associated Survey"
-msgstr "Encuesta asociada"
-
-#. module: maintenance
-#: field:work.order,stock_moves_ids:0
-msgid "Associated movement"
-msgstr "Movimientos asociados"
-
-#. module: maintenance
-#: field:work.order,survey_id:0
-msgid "Associated survey"
-msgstr "Encuesta asociada"
-
-#. module: maintenance
-#: view:work.order:maintenance.work_order_form_view
+#: view:maintenance.order:maintenance.maintenance_order_form_view
 msgid "Auxiliary orders"
 msgstr "Órdenes auxiliares"
 
 #. module: maintenance
-#: view:intervention.request:maintenance.intervention_request_form_view
+#: model:res.groups,comment:maintenance.group_maintenance_user
+msgid "Can create requests"
+msgstr "Puede crear solicitudes"
+
+#. module: maintenance
+#: model:res.groups,comment:maintenance.group_maintenance_operator
+msgid "Can create requests and orders but cannot validate orders"
+msgstr "Puede crear solicitudes y órdenes, pero no puede validar órdenes"
+
+#. module: maintenance
+#: view:maintenance.order:maintenance.maintenance_order_form_view
+#: view:maintenance.request:maintenance.maintenance_request_form_view
 msgid "Cancel"
 msgstr "Cancelar"
 
 #. module: maintenance
-#: model:ir.actions.act_window,name:maintenance.cancel_intervetion_request_type_tree
-msgid "Cancel intervetion"
-msgstr "Cancelar intervención"
+#: model:ir.actions.act_window,name:maintenance.cancel_maintenance_request_type_tree
+msgid "Cancel maintenance request"
+msgstr "Cancelar solicitud de mantenimiento"
 
 #. module: maintenance
-#: view:work.order:maintenance.work_order_form_view
-msgid "Cancel order"
-msgstr "Cancelar orden"
-
-#. module: maintenance
-#: view:cancel.intervention.request.wizard:maintenance.cancel_intervention_request_wizard_view
-msgid "Cancell request"
+#: view:cancel.maintenance.request.wizard:maintenance.cancel_maintenance_request_wizard_view
+msgid "Cancel request"
 msgstr "Cancelar solicitud"
 
 #. module: maintenance
-#: selection:intervention.request,state:0
-#: selection:work.order,state:0
+#: selection:maintenance.order,state:0 selection:maintenance.request,state:0
 msgid "Cancelled"
 msgstr "Cancelado"
 
 #. module: maintenance
-#: field:hr.employee,categories:0
-msgid "Categories"
-msgstr "Categorías"
+#: field:maintenance.element,child_ids:0
+msgid "Child elements"
+msgstr "Elementos hijos"
 
 #. module: maintenance
-#: field:maintenance.element,codigo:0
+#: field:maintenance.order,child_ids:0
+msgid "Child orders"
+msgstr "Órdenes hijas"
+
+#. module: maintenance
+#: field:maintenance.element,code:0
 msgid "Code"
 msgstr "Código"
 
 #. module: maintenance
-#: field:work.order.other.services,code:0
-msgid "Codigo"
-msgstr "Código"
-
-#. module: maintenance
-#: field:intervention.request,company_id:0
-#: field:work.order,company_id:0
+#: field:maintenance.element,company_id:0
+#: field:maintenance.element.type,company_id:0
+#: field:maintenance.order,company_id:0 field:maintenance.request,company_id:0
+#: field:maintenance.type,company_id:0
 msgid "Company"
 msgstr "Compañía"
 
@@ -143,67 +117,61 @@ msgid "Configuration"
 msgstr "Configuración"
 
 #. module: maintenance
-#: view:intervention.request:maintenance.view_intervention_request_filter
-#: selection:intervention.request,state:0
+#: view:maintenance.request:maintenance.view_maintenance_request_filter
+#: selection:maintenance.request,state:0
 msgid "Confirmed"
 msgstr "Confirmado"
 
 #. module: maintenance
-#: field:work.order,contrata:0
-msgid "Contractual"
-msgstr "Contrata"
-
-#. module: maintenance
-#: view:intervention.request:maintenance.view_intervention_request_filter
-msgid "Correctivo"
+#: view:maintenance.request:maintenance.view_maintenance_request_filter
+#: selection:maintenance.type,type:0
+msgid "Corrective"
 msgstr "Correctivo"
 
 #. module: maintenance
-#: view:intervention.request:maintenance.intervention_request_form_view
-msgid "Create work order"
-msgstr "Crear orden de trabajo"
+#: view:maintenance.request:maintenance.maintenance_request_form_view
+msgid "Create maintenance order"
+msgstr "Crear orden de mantenimiento"
 
 #. module: maintenance
-#: field:cancel.intervention.request.wizard,create_uid:0
-#: field:intervention.request,create_uid:0
+#: field:cancel.maintenance.request.wizard,create_uid:0
 #: field:maintenance.element,create_uid:0
-#: field:maintenance.type,create_uid:0
-#: field:work.order,create_uid:0
-#: field:work.order.other.services,create_uid:0
-#: field:work.order.time.report,create_uid:0
+#: field:maintenance.element.type,create_uid:0
+#: field:maintenance.order,create_uid:0
+#: field:maintenance.order.time.report,create_uid:0
+#: field:maintenance.request,create_uid:0 field:maintenance.type,create_uid:0
 msgid "Created by"
 msgstr "Created by"
 
 #. module: maintenance
-#: field:cancel.intervention.request.wizard,create_date:0
-#: field:intervention.request,create_date:0
+#: field:cancel.maintenance.request.wizard,create_date:0
 #: field:maintenance.element,create_date:0
-#: field:maintenance.type,create_date:0
-#: field:work.order,create_date:0
-#: field:work.order.other.services,create_date:0
-#: field:work.order.time.report,create_date:0
+#: field:maintenance.element.type,create_date:0
+#: field:maintenance.order,create_date:0
+#: field:maintenance.order.time.report,create_date:0
+#: field:maintenance.request,create_date:0 field:maintenance.type,create_date:0
 msgid "Created on"
 msgstr "Created on"
 
 #. module: maintenance
-#: selection:maintenance.type,intervalo:0
+#: selection:maintenance.element.type,frequency:0
 msgid "Daily"
-msgstr "Diario"
+msgstr "Diaria"
 
 #. module: maintenance
-#: help:intervention.request,message_last_post:0
-#: help:work.order,message_last_post:0
+#: field:maintenance.order.time.report,date:0
+msgid "Date"
+msgstr "Fecha"
+
+#. module: maintenance
+#: help:maintenance.order,message_last_post:0
+#: help:maintenance.request,message_last_post:0
 msgid "Date of the last message posted on the record."
 msgstr "Fecha del último mensaje publicado en el registro."
 
 #. module: maintenance
-#: field:maintenance.type,after_x_days:0
-msgid "Days after ..."
-msgstr "Días después ..."
-
-#. module: maintenance
-#: view:intervention.request:maintenance.view_intervention_request_filter
-#: field:intervention.request,department_id:0
+#: view:maintenance.request:maintenance.view_maintenance_request_filter
+#: field:maintenance.request,department_id:0
 msgid "Department"
 msgstr "Departamento"
 
@@ -211,306 +179,235 @@ msgstr "Departamento"
 #: view:maintenance.element:maintenance.maintenance_element_form_view
 #: field:maintenance.element,description:0
 #: view:maintenance.type:maintenance.maintenance_type_form_view
-#: field:maintenance.type,descripcion:0
-#: view:work.order:maintenance.work_order_form_view
-#: field:work.order,descripcion:0
+#: field:maintenance.type,description:0
 msgid "Description"
 msgstr "Descripción"
 
 #. module: maintenance
-#: field:intervention.request,deteccion:0
-#: field:work.order,deteccion:0
-msgid "Detection"
-msgstr "Detección"
-
-#. module: maintenance
-#: view:work.order:maintenance.view_work_order_filter
-#: field:work.order,descargo:0
-msgid "Discharge"
-msgstr "Descargo"
-
-#. module: maintenance
-#: field:cancel.intervention.request.wizard,display_name:0
-#: field:intervention.request,display_name:0
+#: field:cancel.maintenance.request.wizard,display_name:0
 #: field:maintenance.element,display_name:0
+#: field:maintenance.element.type,display_name:0
+#: field:maintenance.order,display_name:0
+#: field:maintenance.order.time.report,display_name:0
+#: field:maintenance.request,display_name:0
 #: field:maintenance.type,display_name:0
-#: field:work.order,display_name:0
-#: field:work.order.other.services,display_name:0
-#: field:work.order.time.report,display_name:0
 msgid "Display Name"
 msgstr "Nombre mostrado"
 
 #. module: maintenance
-#: view:work.order:maintenance.view_work_order_filter
-#: selection:work.order,state:0
+#: view:maintenance.order:maintenance.view_maintenance_order_filter
+#: selection:maintenance.order,state:0
 msgid "Done"
-msgstr "Finalizado"
+msgstr "Realizado"
 
 #. module: maintenance
-#: view:work.order:maintenance.work_order_form_view
-msgid "Done order"
-msgstr "Finalizar orden"
-
-#. module: maintenance
-#: view:intervention.request:maintenance.view_intervention_request_filter
-#: selection:intervention.request,state:0
-#: view:work.order:maintenance.view_work_order_filter
-#: selection:work.order,state:0
+#: view:maintenance.order:maintenance.view_maintenance_order_filter
+#: selection:maintenance.order,state:0
+#: view:maintenance.request:maintenance.view_maintenance_request_filter
+#: selection:maintenance.request,state:0
 msgid "Draft"
 msgstr "Borrador"
 
 #. module: maintenance
-#: view:maintenance.type:maintenance.maintenance_type_form_view
-msgid "Días excluidos"
-msgstr "Días excluidos"
-
-#. module: maintenance
-#: field:purchase.order.line,element_id:0
-#: field:stock.move,element_id:0
+#: view:maintenance.order:maintenance.view_maintenance_order_filter
+#: view:maintenance.request:maintenance.view_maintenance_request_filter
 msgid "Element"
-msgstr "Equipo"
+msgstr "Elemento"
 
 #. module: maintenance
 #: view:maintenance.type:maintenance.maintenance_type_form_view
-#: view:work.order:maintenance.work_order_form_view
 msgid "Elements"
 msgstr "Elementos"
 
 #. module: maintenance
-#: field:work.order,elements_list:0
-msgid "Elements string"
-msgstr "Cadena de elementos"
-
-#. module: maintenance
-#: model:ir.model,name:maintenance.model_intervention_request
-#: model:ir.model,name:maintenance.model_work_order
-msgid "Email Thread"
-msgstr "Hilo de mensajes"
-
-#. module: maintenance
-#: model:ir.model,name:maintenance.model_hr_employee
-#: field:work.order.other.services,employee_id:0
-#: field:work.order.time.report,employee_id:0
+#: field:maintenance.order.time.report,employee_id:0
 msgid "Employee"
 msgstr "Empleado"
 
 #. module: maintenance
-#: view:work.order:maintenance.work_order_form_view
+#: field:maintenance.order.time.report,end_time:0
+msgid "End time"
+msgstr "Hora fin"
+
+#. module: maintenance
+#: view:maintenance.order:maintenance.maintenance_order_form_view
 msgid "Enviar correo"
 msgstr "Enviar correo"
 
 #. module: maintenance
 #: selection:maintenance.element,type:0
-msgid "Equipo"
+msgid "Equipment"
 msgstr "Equipo"
 
 #. module: maintenance
-#: view:maintenance.element:maintenance.maintenance_element_form_view
-msgid "Equipo padre"
-msgstr "Equipo padre"
-
-#. module: maintenance
-#: code:addons/maintenance/intervention_request.py:211
+#: code:addons/maintenance/models/maintenance_order.py:211
+#: code:addons/maintenance/models/maintenance_request.py:202
+#: code:addons/maintenance/models/maintenance_request.py:239
 #, python-format
-msgid "Error!"
-msgstr "¡Error!"
+msgid "Error"
+msgstr "Error"
 
 #. module: maintenance
-#: field:intervention.request,fecha_estimada:0
+#: constraint:maintenance.element:0
+msgid "Error ! You cannot create recursive elements."
+msgstr "¡Error! No puede crear elementos recursivos."
+
+#. module: maintenance
+#: field:maintenance.request,estimated_date:0
 msgid "Estimated date"
 msgstr "Fecha estimada"
 
 #. module: maintenance
-#: field:hr.employee,externo:0
-msgid "External employee"
-msgstr "Empleado externo"
+#: view:maintenance.element.type:maintenance.maintenance_element_type_form_view
+msgid "Excluded days"
+msgstr "Días excluidos"
 
 #. module: maintenance
-#: field:maintenance.element,padre_id:0
-msgid "Father"
-msgstr "Padre"
+#: selection:maintenance.element,type:0
+msgid "Facility"
+msgstr "Instalaciones"
 
 #. module: maintenance
-#: field:work.order,padre_id:0
-msgid "Father order"
-msgstr "Orden padre"
-
-#. module: maintenance
-#: field:work.order.time.report,date:0
-msgid "Fecha"
-msgstr "Fecha"
-
-#. module: maintenance
-#: view:work.order:maintenance.work_order_form_view
-msgid "Fechas"
-msgstr "Fechas"
-
-#. module: maintenance
-#: field:work.order.time.report,horas_festivas:0
-msgid "Festive hours"
-msgstr "Horas festivas"
-
-#. module: maintenance
-#: field:work.order,final_date:0
+#: field:maintenance.order,final_date:0
 msgid "Final date"
 msgstr "Fecha final"
 
 #. module: maintenance
-#: field:maintenance.element,planta:0
-#: field:work.order,planta:0
-msgid "Floor"
-msgstr "Planta"
-
-#. module: maintenance
-#: field:intervention.request,message_follower_ids:0
-#: field:work.order,message_follower_ids:0
+#: field:maintenance.order,message_follower_ids:0
+#: field:maintenance.request,message_follower_ids:0
 msgid "Followers"
 msgstr "Seguidores"
 
 #. module: maintenance
-#: field:maintenance.type,viernes:0
+#: field:maintenance.element.type,frequency:0
+msgid "Frequency"
+msgstr "Frecuencia"
+
+#. module: maintenance
+#: field:maintenance.element.type,friday:0
 msgid "Friday"
 msgstr "Viernes"
 
 #. module: maintenance
-#: view:work.order:maintenance.work_order_form_view
+#: view:maintenance.order:maintenance.maintenance_order_form_view
 msgid "General Information"
 msgstr "Información general"
 
 #. module: maintenance
-#: field:work.order,grupo:0
-msgid "Group"
-msgstr "Grupo"
-
-#. module: maintenance
-#: view:intervention.request:maintenance.view_intervention_request_filter
 #: view:maintenance.element:maintenance.view_maintenance_element_filter
+#: view:maintenance.element.type:maintenance.view_maintenance_element_type_filter
+#: view:maintenance.order:maintenance.view_maintenance_order_filter
+#: view:maintenance.request:maintenance.view_maintenance_request_filter
 #: view:maintenance.type:maintenance.view_maintenance_type_filter
-#: view:work.order:maintenance.view_work_order_filter
 msgid "Group By..."
-msgstr "Agrupar por..."
+msgstr "Agrupar por ..."
 
 #. module: maintenance
-#: field:maintenance.element,hijo_ids:0
-msgid "Hijos"
-msgstr "Hijos"
+#: selection:maintenance.element.type,priority:0
+msgid "High"
+msgstr "Alta"
 
 #. module: maintenance
-#: help:intervention.request,message_summary:0
-#: help:work.order,message_summary:0
+#: help:maintenance.order,message_summary:0
+#: help:maintenance.request,message_summary:0
 msgid "Holds the Chatter summary (number of messages, ...). This summary is directly in html format in order to be inserted in kanban views."
-msgstr "Holds the Chatter summary (number of messages, ...). This summary is directly in html format in order to be inserted in kanban views."
+msgstr "Contiene el resumen del chatter (nº de mensajes, ...). Este resumen está directamente en formato html para ser insertado en vistas kanban."
 
 #. module: maintenance
-#: field:cancel.intervention.request.wizard,id:0
-#: field:intervention.request,id:0
-#: field:maintenance.element,id:0
+#: field:cancel.maintenance.request.wizard,id:0 field:maintenance.element,id:0
+#: field:maintenance.element.type,id:0 field:maintenance.order,id:0
+#: field:maintenance.order.time.report,id:0 field:maintenance.request,id:0
 #: field:maintenance.type,id:0
-#: field:work.order,id:0
-#: field:work.order.other.services,id:0
-#: field:work.order.time.report,id:0
 msgid "ID"
 msgstr "ID"
 
 #. module: maintenance
-#: help:intervention.request,message_unread:0
-#: help:work.order,message_unread:0
+#: help:maintenance.order,message_unread:0
+#: help:maintenance.request,message_unread:0
 msgid "If checked new messages require your attention."
-msgstr "Si se marca, los nuevos mensajes requieren su atención"
+msgstr "Si se marca, los nuevos mensajes requieren su atención."
 
 #. module: maintenance
-#: view:intervention.request:maintenance.intervention_request_form_view
+#: view:maintenance.request:maintenance.maintenance_request_form_view
 msgid "Information"
 msgstr "Información"
 
 #. module: maintenance
-#: field:maintenance.type,inicio:0
-#: field:work.order,initial_date:0
+#: field:maintenance.element.type,initial_date:0
+#: field:maintenance.order,initial_date:0
 msgid "Initial date"
 msgstr "Fecha inicial"
 
 #. module: maintenance
-#: selection:maintenance.element,type:0
-msgid "Instalaciones"
-msgstr "Instalaciones"
-
-#. module: maintenance
-#: field:intervention.request,instrucciones:0
-#: view:work.order:maintenance.work_order_form_view
-#: field:work.order,instrucciones:0
-msgid "Instructions"
-msgstr "Instrucciones"
-
-#. module: maintenance
-#: field:maintenance.type,intervalo:0
+#: field:maintenance.element.type,interval:0
 msgid "Interval"
 msgstr "Intervalo"
 
 #. module: maintenance
-#: view:intervention.request:maintenance.intervention_request_calendar_view
-#: view:intervention.request:maintenance.intervention_request_form_view
-#: view:intervention.request:maintenance.intervention_request_tree_view
-#: model:ir.actions.act_window,name:maintenance.action_intervention_request_tree
-#: model:ir.ui.menu,name:maintenance.menu_intervention_request_tree
-msgid "Intervention request"
-msgstr "Solicitud de intervención"
-
-#. module: maintenance
-#: view:intervention.request:maintenance.view_intervention_request_graph
-msgid "Intervention request analysis"
-msgstr "Análisis solicitud de intervención"
-
-#. module: maintenance
-#: field:intervention.request,message_is_follower:0
-#: field:work.order,message_is_follower:0
+#: field:maintenance.order,message_is_follower:0
+#: field:maintenance.request,message_is_follower:0
 msgid "Is a Follower"
 msgstr "Es un seguidor"
 
 #. module: maintenance
-#: field:intervention.request,message_last_post:0
-#: field:work.order,message_last_post:0
+#: field:maintenance.order,message_last_post:0
+#: field:maintenance.request,message_last_post:0
 msgid "Last Message Date"
 msgstr "Fecha del último mensaje"
 
 #. module: maintenance
-#: field:cancel.intervention.request.wizard,__last_update:0
-#: field:intervention.request,__last_update:0
+#: field:cancel.maintenance.request.wizard,__last_update:0
 #: field:maintenance.element,__last_update:0
+#: field:maintenance.element.type,__last_update:0
+#: field:maintenance.order,__last_update:0
+#: field:maintenance.order.time.report,__last_update:0
+#: field:maintenance.request,__last_update:0
 #: field:maintenance.type,__last_update:0
-#: field:work.order,__last_update:0
-#: field:work.order.other.services,__last_update:0
-#: field:work.order.time.report,__last_update:0
 msgid "Last Modified on"
 msgstr "Last Modified on"
 
 #. module: maintenance
-#: field:cancel.intervention.request.wizard,write_uid:0
-#: field:intervention.request,write_uid:0
+#: field:cancel.maintenance.request.wizard,write_uid:0
 #: field:maintenance.element,write_uid:0
-#: field:maintenance.type,write_uid:0
-#: field:work.order,write_uid:0
-#: field:work.order.other.services,write_uid:0
-#: field:work.order.time.report,write_uid:0
+#: field:maintenance.element.type,write_uid:0
+#: field:maintenance.order,write_uid:0
+#: field:maintenance.order.time.report,write_uid:0
+#: field:maintenance.request,write_uid:0 field:maintenance.type,write_uid:0
 msgid "Last Updated by"
 msgstr "Last Updated by"
 
 #. module: maintenance
-#: field:cancel.intervention.request.wizard,write_date:0
-#: field:intervention.request,write_date:0
+#: field:cancel.maintenance.request.wizard,write_date:0
 #: field:maintenance.element,write_date:0
-#: field:maintenance.type,write_date:0
-#: field:work.order,write_date:0
-#: field:work.order.other.services,write_date:0
-#: field:work.order.time.report,write_date:0
+#: field:maintenance.element.type,write_date:0
+#: field:maintenance.order,write_date:0
+#: field:maintenance.order.time.report,write_date:0
+#: field:maintenance.request,write_date:0 field:maintenance.type,write_date:0
 msgid "Last Updated on"
 msgstr "Last Updated on"
 
 #. module: maintenance
-#: selection:maintenance.element,type:0
-msgid "Linea"
-msgstr "Linea"
+#: field:maintenance.element.type,last_run:0
+msgid "Last run"
+msgstr "Última ejecución"
 
 #. module: maintenance
+#: selection:maintenance.type,type:0
+msgid "Legal"
+msgstr "Legal"
+
+#. module: maintenance
+#: selection:maintenance.element,type:0
+msgid "Line"
+msgstr "Línea"
+
+#. module: maintenance
+#: selection:maintenance.element.type,priority:0
+msgid "Low"
+msgstr "Baja"
+
+#. module: maintenance
+#: model:ir.module.category,name:maintenance.module_category_maintenance_management
 #: model:ir.ui.menu,name:maintenance.menu_maintenance
 #: model:ir.ui.menu,name:maintenance.menu_mantenimiento_root
 msgid "Maintenance"
@@ -518,385 +415,343 @@ msgstr "Mantenimiento"
 
 #. module: maintenance
 #: view:maintenance.element:maintenance.maintenance_element_form_view
-msgid "Maintenance Type"
-msgstr "Tipo de mantenimiento"
-
-#. module: maintenance
-#: model:ir.actions.report.xml,name:maintenance.report_work_order
-msgid "Maintenance Work Order"
-msgstr "Orden de trabajo de mantenimiento"
-
-#. module: maintenance
-#: model:ir.actions.act_window,name:maintenance.action_maintenance_element_tree
-#: model:ir.ui.menu,name:maintenance.menu_maintenance_element_tree
-#: view:maintenance.element:maintenance.maintenance_element_form_view
 #: view:maintenance.element:maintenance.maintenance_element_tree_view
-#: field:maintenance.type,element_ids:0
+#: field:maintenance.element.type,element_id:0
+#: field:maintenance.order,element_id:0 field:maintenance.request,element_id:0
 msgid "Maintenance element"
 msgstr "Elemento de mantenimiento"
 
 #. module: maintenance
-#: field:intervention.request,element_ids:0
-#: field:work.order,elements_ids:0
+#: model:ir.actions.act_window,name:maintenance.action_maintenance_element_tree
+#: model:ir.ui.menu,name:maintenance.menu_maintenance_element_tree
 msgid "Maintenance elements"
 msgstr "Elementos de mantenimiento"
 
 #. module: maintenance
-#: view:intervention.request:maintenance.view_intervention_request_filter
-#: model:ir.actions.act_window,name:maintenance.action_maintenance_type_tree
-#: model:ir.ui.menu,name:maintenance.menu_maintenance_type_tree
+#: model:ir.model,name:maintenance.model_maintenance_order
+#: view:maintenance.order:maintenance.maintenance_order_form_view
+#: field:maintenance.order.time.report,maintenance_order_id:0
+#: field:maintenance.request,maintenance_order_ids:0
+msgid "Maintenance order"
+msgstr "Orden de mantenimiento"
+
+#. module: maintenance
+#: model:ir.actions.act_window,name:maintenance.action_maintenance_order_tree
+#: model:ir.ui.menu,name:maintenance.menu_maintenance_order_tree
+#: view:maintenance.order:maintenance.maintenance_order_calendar_view
+#: view:maintenance.order:maintenance.maintenance_order_tree_view
+#: view:maintenance.request:maintenance.maintenance_request_form_view
+msgid "Maintenance orders"
+msgstr "Órdenes de mantenimiento"
+
+#. module: maintenance
+#: model:ir.model,name:maintenance.model_maintenance_request
+#: field:maintenance.order,request_id:0
+#: view:maintenance.request:maintenance.maintenance_request_calendar_view
+#: view:maintenance.request:maintenance.maintenance_request_form_view
+#: view:maintenance.request:maintenance.maintenance_request_tree_view
+msgid "Maintenance request"
+msgstr "Solicitud de mantenimiento"
+
+#. module: maintenance
+#: view:maintenance.request:maintenance.view_maintenance_request_graph
+msgid "Maintenance request analysis"
+msgstr "Análisis solicitud de mantenimiento"
+
+#. module: maintenance
+#: view:maintenance.element:maintenance.maintenance_element_form_view
 #: field:maintenance.element,maintenance_type_ids:0
+#: view:maintenance.element.type:maintenance.maintenance_element_type_form_view
+#: view:maintenance.element.type:maintenance.maintenance_element_type_tree_view
+#: field:maintenance.element.type,maintenance_type_id:0
+#: view:maintenance.order:maintenance.view_maintenance_order_filter
+#: field:maintenance.order,maintenance_type_id:0
+#: view:maintenance.request:maintenance.view_maintenance_request_filter
+#: field:maintenance.request,maintenance_type_id:0
 #: view:maintenance.type:maintenance.maintenance_type_form_view
 #: view:maintenance.type:maintenance.maintenance_type_tree_view
-#: view:work.order:maintenance.view_work_order_filter
-#: field:work.order,maintenance_type_id:0
+#: field:maintenance.type,element_ids:0
 msgid "Maintenance type"
 msgstr "Tipo de mantenimiento"
 
 #. module: maintenance
+#: model:ir.actions.act_window,name:maintenance.action_maintenance_type_tree
+#: model:ir.ui.menu,name:maintenance.menu_maintenance_type_tree
+msgid "Maintenance types"
+msgstr "Tipos de mantenimiento"
+
+#. module: maintenance
+#: field:maintenance.order,manager_id:0
+#: model:res.groups,comment:maintenance.group_maintenance_manager
 #: model:res.groups,name:maintenance.group_maintenance_manager
 msgid "Manager"
 msgstr "Responsable"
 
 #. module: maintenance
-#: model:ir.module.category,name:maintenance.module_category_maintenance_management
-msgid "Mantenimiento"
-msgstr "Mantenimiento"
+#: selection:maintenance.element.type,priority:0
+msgid "Medium"
+msgstr "Media"
 
 #. module: maintenance
-#: field:intervention.request,message_ids:0
-#: field:work.order,message_ids:0
+#: field:maintenance.order,message_ids:0
+#: field:maintenance.request,message_ids:0
 msgid "Messages"
 msgstr "Mensajes"
 
 #. module: maintenance
-#: help:intervention.request,message_ids:0
-#: help:work.order,message_ids:0
+#: help:maintenance.order,message_ids:0 help:maintenance.request,message_ids:0
 msgid "Messages and communication history"
 msgstr "Historial de comunicaciones y mensajes"
 
 #. module: maintenance
-#: field:maintenance.type,lunes:0
+#: view:maintenance.request:maintenance.view_maintenance_request_filter
+msgid "Mine"
+msgstr "Mías"
+
+#. module: maintenance
+#: field:maintenance.element.type,monday:0
 msgid "Monday"
 msgstr "Lunes"
 
 #. module: maintenance
-#: selection:maintenance.type,intervalo:0
+#: selection:maintenance.element.type,frequency:0
 msgid "Monthly"
 msgstr "Mensual"
 
 #. module: maintenance
-#: field:maintenance.element,name:0
-#: field:maintenance.type,name:0
-#: field:work.order,name:0
+#: field:maintenance.element,name:0 field:maintenance.order,name:0
+#: field:maintenance.request,name:0 field:maintenance.type,name:0
 msgid "Name"
 msgstr "Nombre"
 
 #. module: maintenance
-#: field:maintenance.element,nombre_sin_planta:0
-msgid "Name without floor"
-msgstr "Nombre sin planta"
-
-#. module: maintenance
-#: field:work.order.time.report,horas_nocturnas:0
-msgid "Nightly hours"
-msgstr "Horas nocturnas"
-
-#. module: maintenance
-#: field:intervention.request,name:0
-msgid "Nombre"
-msgstr "Nombre"
-
-#. module: maintenance
-#: field:work.order.time.report,horas_normal:0
-msgid "Normal hours"
-msgstr "Horas normales"
-
-#. module: maintenance
-#: view:work.order:maintenance.work_order_form_view
-msgid "Note"
-msgstr "Nota "
-
-#. module: maintenance
-#: view:intervention.request:maintenance.intervention_request_form_view
-#: field:intervention.request,note:0
+#: view:maintenance.order:maintenance.maintenance_order_form_view
+#: field:maintenance.order,note:0
+#: view:maintenance.request:maintenance.maintenance_request_form_view
+#: field:maintenance.request,note:0
 msgid "Notes"
 msgstr "Notas"
 
 #. module: maintenance
-#: view:work.order:maintenance.view_work_order_filter
-#: selection:work.order,state:0
-msgid "Open"
-msgstr "Abierto"
-
-#. module: maintenance
-#: view:work.order:maintenance.work_order_form_view
-msgid "Open work order"
-msgstr "Abrir orden"
-
-#. module: maintenance
-#: field:work.order,tipo_parada:0
-msgid "Operation condition"
-msgstr "Condición de operación"
-
-#. module: maintenance
 #: model:res.groups,name:maintenance.group_maintenance_operator
 msgid "Operator"
-msgstr "Operador"
+msgstr "Operario"
 
 #. module: maintenance
-#: field:work.order,hijas_ids:0
-msgid "Ordenes hijas"
-msgstr "Órdenes hijas"
-
-#. module: maintenance
-#: field:stock.move,work_done:0
-#: field:stock.picking,work_done:0
-msgid "Order completed"
-msgstr "Orden completa"
-
-#. module: maintenance
-#: field:work.order,origin_department_id:0
+#: field:maintenance.order,origin_department_id:0
 msgid "Origin department"
 msgstr "Departamento origen"
 
 #. module: maintenance
-#: field:work.order,request_id:0
-msgid "Origin request"
-msgstr "Solicitud origen"
+#: view:maintenance.element:maintenance.view_maintenance_element_filter
+#: field:maintenance.element,parent_id:0
+msgid "Parent element"
+msgstr "Elemento padre"
 
 #. module: maintenance
-#: field:work.order,other_service_ids:0
-#: view:work.order.other.services:maintenance.work_order_other_services_tree_view
-msgid "Other concepts"
-msgstr "Otros conceptos"
+#: field:maintenance.order,parent_id:0
+msgid "Parent order"
+msgstr "Orden padre"
 
 #. module: maintenance
-#: field:work.order,total_other_service:0
-msgid "Other concepts total"
-msgstr "Total otros conceptos"
-
-#. module: maintenance
-#: view:work.order:maintenance.view_work_order_filter
-#: selection:work.order,state:0
+#: view:maintenance.order:maintenance.view_maintenance_order_filter
+#: selection:maintenance.order,state:0
 msgid "Pending approval"
 msgstr "Pendiente de aprobación"
 
 #. module: maintenance
-#: model:ir.model,name:maintenance.model_stock_picking
-msgid "Picking List"
-msgstr "Albarán"
-
-#. module: maintenance
-#: view:maintenance.type:maintenance.maintenance_type_form_view
-msgid "Planificación"
-msgstr "Planificación"
-
-#. module: maintenance
-#: field:maintenance.type,planificado:0
+#: field:maintenance.element.type,planned:0
 msgid "Planned"
 msgstr "Planificado"
 
 #. module: maintenance
-#: field:work.order.other.services,product_id:0
-msgid "Product"
-msgstr "Producto"
+#: view:maintenance.element.type:maintenance.maintenance_element_type_form_view
+msgid "Planning"
+msgstr "Planificación"
 
 #. module: maintenance
-#: field:hr.employee,producto_hora_festiva_id:0
-msgid "Product festive hour"
-msgstr "Producto hora festiva"
+#: selection:maintenance.type,type:0
+msgid "Preventive"
+msgstr "Preventivo"
 
 #. module: maintenance
-#: field:hr.employee,producto_hora_nocturna_id:0
-msgid "Product night hour"
-msgstr "Producto hora nocturna"
+#: field:maintenance.element.type,priority:0
+msgid "Priority"
+msgstr "Prioridad"
 
 #. module: maintenance
-#: model:res.groups,comment:maintenance.group_maintenance_user
-msgid "Puede crear SI"
-msgstr "Puede crear SI"
+#: view:maintenance.order:maintenance.maintenance_order_form_view
+msgid "Ready to approval"
+msgstr "Listo para aprobar"
 
 #. module: maintenance
-#: model:res.groups,comment:maintenance.group_maintenance_operator
-msgid "Puede crear SI y OT. No puede validar OT"
-msgstr "Puede crear SI y OT. No puede validar OT"
-
-#. module: maintenance
-#: model:ir.model,name:maintenance.model_purchase_order
-msgid "Purchase Order"
-msgstr "Pedido de compra"
-
-#. module: maintenance
-#: model:ir.model,name:maintenance.model_purchase_order_line
-msgid "Purchase Order Line"
-msgstr "Línea pedido de compra"
-
-#. module: maintenance
-#: field:work.order.other.services,quantity:0
-msgid "Quantity"
-msgstr "Cantidad"
-
-#. module: maintenance
-#: view:cancel.intervention.request.wizard:maintenance.cancel_intervention_request_wizard_view
-#: field:cancel.intervention.request.wizard,motivo:0
-#: field:intervention.request,motivo_cancelacion:0
+#: field:cancel.maintenance.request.wizard,reason:0
+#: field:maintenance.request,cancel_reason:0
 msgid "Reason for cancellation"
 msgstr "Motivo de cancelación"
 
 #. module: maintenance
-#: view:work.order:maintenance.work_order_form_view
-msgid "Related movements"
-msgstr "Movimientos relacionados"
-
-#. module: maintenance
-#: field:work.order,note:0
-msgid "Report"
-msgstr "Informe"
-
-#. module: maintenance
-#: field:intervention.request,fecha_solicitud:0
-#: field:work.order,fecha:0
+#: field:maintenance.order,request_date:0
+#: field:maintenance.request,request_date:0
 msgid "Request date"
 msgstr "Fecha de solicitud"
 
 #. module: maintenance
-#: model:res.groups,comment:maintenance.group_maintenance_manager
-msgid "Responsable"
-msgstr "Responsable"
+#: model:ir.actions.act_window,name:maintenance.action_maintenance_request_tree
+#: model:ir.ui.menu,name:maintenance.menu_maintenance_request_tree
+msgid "Requests"
+msgstr "Solicitudes"
 
 #. module: maintenance
-#: view:work.order:maintenance.view_work_order_filter
-#: field:work.order,responsable_id:0
+#: view:maintenance.order:maintenance.view_maintenance_order_filter
 msgid "Responsible"
 msgstr "Responsable"
 
 #. module: maintenance
-#: field:maintenance.type,sabado:0
+#: selection:maintenance.order,stop_type:0
+msgid "Running"
+msgstr "En funcionamiento"
+
+#. module: maintenance
+#: field:maintenance.element.type,saturday:0
 msgid "Saturday"
 msgstr "Sábado"
 
 #. module: maintenance
-#: view:work.order:maintenance.view_work_order_filter
+#: view:maintenance.order:maintenance.view_maintenance_order_filter
 msgid "Search"
-msgstr "Búsqueda"
+msgstr "Buscar"
 
 #. module: maintenance
-#: view:intervention.request:maintenance.intervention_request_form_view
+#: view:maintenance.request:maintenance.maintenance_request_form_view
 msgid "Send email"
 msgstr "Enviar correo"
 
 #. module: maintenance
-#: field:intervention.request,sintoma:0
-#: field:work.order,sintoma:0
-msgid "Sign"
-msgstr "Síntoma"
+#: view:maintenance.order:maintenance.maintenance_order_form_view
+#: view:maintenance.request:maintenance.maintenance_request_form_view
+msgid "Set Draft"
+msgstr "Cambiar a borrador"
 
 #. module: maintenance
-#: view:intervention.request:maintenance.view_intervention_request_filter
-#: field:intervention.request,state:0
-#: view:work.order:maintenance.view_work_order_filter
-#: field:work.order,state:0
+#: view:maintenance.order:maintenance.maintenance_order_form_view
+msgid "Set Started"
+msgstr "Cambiar a iniciado"
+
+#. module: maintenance
+#: view:maintenance.order:maintenance.maintenance_order_form_view
+msgid "Start"
+msgstr "Iniciar"
+
+#. module: maintenance
+#: field:maintenance.order.time.report,start_time:0
+msgid "Start time"
+msgstr "Hora inicio"
+
+#. module: maintenance
+#: view:maintenance.order:maintenance.view_maintenance_order_filter
+#: selection:maintenance.order,state:0
+msgid "Started"
+msgstr "Iniciado"
+
+#. module: maintenance
+#: view:maintenance.order:maintenance.view_maintenance_order_filter
+#: field:maintenance.order,state:0
+#: view:maintenance.request:maintenance.view_maintenance_request_filter
+#: field:maintenance.request,state:0
 msgid "State"
 msgstr "Estado"
 
 #. module: maintenance
-#: model:ir.model,name:maintenance.model_stock_move
-msgid "Stock Move"
-msgstr "Movimiento de existencias"
-
-#. module: maintenance
-#: selection:work.order,tipo_parada:0
+#: selection:maintenance.order,stop_type:0
 msgid "Stop"
 msgstr "Parada"
 
 #. module: maintenance
-#: field:intervention.request,message_summary:0
-#: field:work.order,message_summary:0
-msgid "Summary"
-msgstr "Sumario"
+#: field:maintenance.order,stop_type:0
+msgid "Stop type"
+msgstr "Tipo de parada"
 
 #. module: maintenance
-#: field:maintenance.type,domingo:0
+#: field:maintenance.order,message_summary:0
+#: field:maintenance.request,message_summary:0
+msgid "Summary"
+msgstr "Resumen"
+
+#. module: maintenance
+#: field:maintenance.element.type,sunday:0
 msgid "Sunday"
 msgstr "Domingo"
 
 #. module: maintenance
-#: field:intervention.request,tbf:0
+#: field:maintenance.element.type,survey_id:0
+#: field:maintenance.order,survey_id:0 field:maintenance.request,survey_id:0
+msgid "Survey"
+msgstr "Encuesta"
+
+#. module: maintenance
+#: field:maintenance.order,symptom:0 field:maintenance.request,symptom:0
+msgid "Symptom"
+msgstr "Síntoma"
+
+#. module: maintenance
+#: field:maintenance.request,tbf:0
 msgid "TBF"
 msgstr "TBF"
 
 #. module: maintenance
-#: field:intervention.request,ttr:0
+#: field:maintenance.request,ttr:0
 msgid "TTR"
 msgstr "TTR"
 
 #. module: maintenance
-#: field:maintenance.type,jueves:0
+#: field:maintenance.element.type,thursday:0
 msgid "Thursday"
 msgstr "Jueves"
 
 #. module: maintenance
-#: help:intervention.request,tbf:0
+#: help:maintenance.request,tbf:0
 msgid "Time between fails in hours"
-msgstr "Time between fails in hours"
+msgstr "Tiempo entre fallos en horas"
 
 #. module: maintenance
-#: help:intervention.request,ttr:0
+#: help:maintenance.request,ttr:0
 msgid "Time to repair in hours"
-msgstr "Time to repair in hours"
+msgstr "Tiempo para reparación en horas"
 
 #. module: maintenance
-#: view:work.order:maintenance.work_order_form_view
-#: field:work.order,horas_ids:0
-#: view:work.order.other.services:maintenance.work_order_other_services_form_view
-#: view:work.order.time.report:maintenance.work_order_time_report_form_view
-#: view:work.order.time.report:maintenance.work_order_time_report_tree_view
+#: view:maintenance.order:maintenance.maintenance_order_form_view
+#: field:maintenance.order,hour_ids:0
+#: view:maintenance.order.time.report:maintenance.maintenance_order_time_report_form_view
+#: view:maintenance.order.time.report:maintenance.maintenance_order_time_report_tree_view
 msgid "Timesheet"
 msgstr "Reporte de horas"
 
 #. module: maintenance
-#: view:maintenance.element:maintenance.view_maintenance_element_filter
-msgid "Tipo"
-msgstr "Tipo"
-
-#. module: maintenance
-#: field:work.order.time.report,total:0
+#: field:maintenance.order.time.report,total:0
 msgid "Total"
 msgstr "Total"
 
 #. module: maintenance
-#: field:work.order,total_servicios_externos:0
-msgid "Total external services"
-msgstr "Total servicios externos"
-
-#. module: maintenance
-#: field:work.order,total_servicios_internos:0
-msgid "Total internal services"
-msgstr "Total servicios internos"
-
-#. module: maintenance
-#: field:maintenance.type,martes:0
+#: field:maintenance.element.type,tuesday:0
 msgid "Tuesday"
 msgstr "Martes"
 
 #. module: maintenance
-#: field:intervention.request,type:0
+#: view:maintenance.element:maintenance.view_maintenance_element_filter
 #: field:maintenance.element,type:0
+#: view:maintenance.element.type:maintenance.view_maintenance_element_type_filter
+#: field:maintenance.element.type,type:0 field:maintenance.request,type:0
+#: view:maintenance.type:maintenance.view_maintenance_type_filter
 #: field:maintenance.type,type:0
 msgid "Type"
 msgstr "Tipo"
 
 #. module: maintenance
-#: field:intervention.request,message_unread:0
-#: field:work.order,message_unread:0
+#: field:maintenance.order,message_unread:0
+#: field:maintenance.request,message_unread:0
 msgid "Unread Messages"
 msgstr "Mensajes no leidos"
-
-#. module: maintenance
-#: selection:work.order,tipo_parada:0
-msgid "Up"
-msgstr "Desde"
 
 #. module: maintenance
 #: model:res.groups,name:maintenance.group_maintenance_user
@@ -904,141 +759,46 @@ msgid "User"
 msgstr "Usuario"
 
 #. module: maintenance
-#: view:work.order:maintenance.work_order_form_view
-msgid "Validate job"
-msgstr "Validar trabajo"
-
-#. module: maintenance
-#: selection:work.order,descargo:0
-msgid "Warning"
-msgstr "Aviso"
-
-#. module: maintenance
-#: field:intervention.request,website_message_ids:0
-#: field:purchase.order,website_message_ids:0
-#: field:work.order,website_message_ids:0
-msgid "Website Messages"
-msgstr "Mensajes del sitio web"
-
-#. module: maintenance
-#: help:intervention.request,website_message_ids:0
-#: help:purchase.order,website_message_ids:0
-#: help:work.order,website_message_ids:0
-msgid "Website communication history"
-msgstr "Historial de comunicaciones del sitio web"
-
-#. module: maintenance
-#: field:maintenance.type,miercoles:0
+#: field:maintenance.element.type,wednesday:0
 msgid "Wednesday"
 msgstr "Miércoles"
 
 #. module: maintenance
-#: selection:maintenance.type,intervalo:0
+#: selection:maintenance.element.type,frequency:0
 msgid "Weekly"
-msgstr "Semanalmente"
+msgstr "Semanal"
 
 #. module: maintenance
-#: field:intervention.request,work_order_ids:0
-msgid "Work Order"
-msgstr "Orden de trabajo"
-
-#. module: maintenance
-#: view:intervention.request:maintenance.intervention_request_form_view
-msgid "Work Orders"
-msgstr "Órdenes de trabajo"
-
-#. module: maintenance
-#: model:email.template,subject:maintenance.email_template_work_order
-#: field:purchase.order,work_order_id:0
-#: field:stock.move,work_order_id:0
-#: field:stock.picking,work_order_id:0
-#: view:work.order:maintenance.work_order_form_view
-#: field:work.order.other.services,work_order_id:0
-#: field:work.order.time.report,work_order_id:0
-msgid "Work order"
-msgstr "Orden de trabajo"
-
-#. module: maintenance
-#: model:ir.actions.act_window,name:maintenance.action_work_order_tree
-#: model:ir.ui.menu,name:maintenance.menu_work_order_tree
-#: view:work.order:maintenance.work_order_calendar_view
-#: view:work.order:maintenance.work_order_tree_view
-msgid "Work orders"
-msgstr "Órdenes de trabajo"
-
-#. module: maintenance
-#: selection:maintenance.type,intervalo:0
+#: selection:maintenance.element.type,frequency:0
 msgid "Yearly"
 msgstr "Anual"
 
 #. module: maintenance
-#: code:addons/maintenance/intervention_request.py:211
+#: code:addons/maintenance/models/maintenance_request.py:240
 #, python-format
-msgid "You cannot delete a confirmed intervention request."
-msgstr "No puede eliminar una solicitud de intervención que ya está confirmada."
+msgid "You cannot delete a confirmed maintenance request."
+msgstr "No puede eliminar una solicitud de mantenimiento que ya está confirmada."
 
 #. module: maintenance
-#: selection:work.order,descargo:0
-msgid "block"
-msgstr "Bloque"
+#: code:addons/maintenance/models/maintenance_order.py:212
+#, python-format
+msgid "You cannot delete a done maintenance order."
+msgstr "No puede eliminar una orden de mantenimiento realizada."
 
 #. module: maintenance
-#: selection:intervention.request,type:0
-#: selection:maintenance.type,type:0
-msgid "correctivo"
-msgstr "correctivo"
+#: code:addons/maintenance/models/maintenance_element.py:115
+#, python-format
+msgid "You cannot remove maintenance element that is referenced by: %s"
+msgstr "No puede eliminar un elemento de mantenimiento referenciado por: %s"
 
 #. module: maintenance
-#: field:intervention.request,efecto:0
-#: field:work.order,efecto:0
-msgid "effect"
-msgstr "Efecto"
+#: code:addons/maintenance/models/maintenance_type.py:81
+#, python-format
+msgid "You cannot remove maintenance type that is referenced by: %s"
+msgstr "No puede eliminar un tipo de mantenimiento referenciado por: %s"
 
 #. module: maintenance
-#: selection:intervention.request,type:0
-#: selection:maintenance.type,type:0
-msgid "gamma"
-msgstr "Gama"
-
-#. module: maintenance
-#: field:maintenance.type,ultima_ejecucion:0
-msgid "last execution"
-msgstr "Última ejecución"
-
-#. module: maintenance
-#: selection:intervention.request,type:0
-#: selection:maintenance.type,type:0
-msgid "legal"
-msgstr "Legal"
-
-#. module: maintenance
-#: field:intervention.request,maintenance_type_id:0
-msgid "maintenance type"
-msgstr "Tipo de mantenimiento"
-
-#. module: maintenance
-#: selection:work.order,descargo:0
-msgid "not discharge"
-msgstr "No descargo"
-
-#. module: maintenance
-#: field:purchase.order,work_done:0
-msgid "order completed"
-msgstr "Orden finalizada"
-
-#. module: maintenance
-#: selection:intervention.request,type:0
-#: selection:maintenance.type,type:0
-msgid "preventivo"
-msgstr "Preventivo"
-
-#. module: maintenance
-#: field:maintenance.element,product_id:0
-msgid "product associated"
-msgstr "Producto asociado"
-
-#. module: maintenance
-#: view:maintenance.type:maintenance.view_maintenance_type_filter
-msgid "tipo"
-msgstr "Tipo"
-
+#: code:addons/maintenance/models/maintenance_request.py:203
+#, python-format
+msgid "You cannot set as draft a maintenance request with maintenance orders not in draft."
+msgstr "No puede cambiar a borrador una solicitud de mantenimiento con órdenes de mantenimiento que no estén en borrador."
