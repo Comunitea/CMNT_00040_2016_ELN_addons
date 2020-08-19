@@ -333,9 +333,7 @@ export class ProductionProvider {
             this.odooCon.callRegistry(method, values).then((reg: Object) => {
                 if ('id' in reg) {
                     this.initData(reg);
-                    // this.setLoggedTimes();
                     this.getAllowedOperators(reg);
-                    // this.getQualityChecks();
                     this.getConsumptions();
                     this.getLots();           // TODO PUT PROMISE SYNTAX
                     this.getScrapReasons();
@@ -643,13 +641,12 @@ export class ProductionProvider {
         this.setStepAsync('start_production', values);
     }
 
-    stopProduction(reason_id, create_mo, stop_start) {
+    stopProduction(reason_id, stop_start) {
         this.state = 'stopped'
         if (isNaN(Date.parse(stop_start))) {
             stop_start = this.getUTCDateStr()
         }
         var values = {'reason_id': reason_id,
-                      'create_mo': create_mo,
                       'active_operator_id': this.active_operator_id,
                       'stop_start': stop_start}
         this.setStepAsync('stop_production', values);
@@ -694,6 +691,11 @@ export class ProductionProvider {
     scrapProduction() {
         var values = {'scrap_qty': this.scrap_qty, 'scrap_reason_id': this.scrap_reason_id};
         this.setStepAsync('scrap_production', values);
+    }
+
+    createMaintenanceOrder(reason_id) {
+        var values = {'reason_id': reason_id}
+        this.setStepAsync('create_maintenance_order', values);
     }
 
     editNote() {

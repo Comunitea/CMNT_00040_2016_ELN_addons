@@ -114,7 +114,7 @@ class ProductionAppRegistry(models.Model):
         related="production_id.product_id", readonly=True)
     production_state = fields.Selection(PRODUCTION_STATES, 'Production Status',
         related='production_id.state', readonly=True)
-    maintenance_workorder_id = fields.Many2one(
+    maintenance_order_id = fields.Many2one(
         'maintenance.order', 'Related Maintenance Order',
         states=READONLY_STATES)
     note = fields.Text(string='Production notes')
@@ -497,25 +497,30 @@ class ProductionAppRegistry(models.Model):
         return True
 
     @api.model
-    def create_maintenance_order(self, reg, reason_id):
-        mt = self.env['maintenance.type'].\
-            search([('type', '=', 'corrective')], limit=1)
-
-        note = _('Created by app.')
-        if reason_id:
-            reason_name = self.env['stop.reason'].browse(reason_id).name
-            note += '\n' + reason_name
-        if reg.workcenter_id:
-            note += '\n' + _('Work Center: ') + reg.workcenter_id.name
-        if reg.production_id:
-            note += '\n' + _('Manufacturing Order: ') + reg.production_id.name
-        mwo = self.env['maintenance.order'].create({
-            'maintenance_type_id': mt.id,
-            'note': note
-        })
-        reg.write({
-            'maintenance_workorder_id': mwo.id,
-        })
+    def create_maintenance_order(self, values):
+        registry_id = values.get('registry_id', False)
+        reg = self.get_registry(registry_id=registry_id)
+        if reg:
+            mt = self.env['maintenance.type'].\
+                search([('type', '=', 'corrective')], limit=1)
+            reason_id = values.get('reason_id', False)
+            note = _('Created by app.')
+            reason_name = ''
+            if reason_id:
+                reason_name = self.env['stop.reason'].browse(reason_id).name
+                note += '\n' + reason_name
+            if reg.workcenter_id:
+                note += '\n' + _('Work Center: ') + reg.workcenter_id.name
+            if reg.production_id:
+                note += '\n' + _('Manufacturing Order: ') + reg.production_id.name
+            mo = self.env['maintenance.order'].create({
+                'maintenance_type_id': mt.id,
+                'symptom': reason_name,
+                'note': note
+            })
+            reg.write({
+                'maintenance_order_id': mo.id,
+            })
         return True
 
     @api.model
@@ -549,10 +554,7 @@ class ProductionAppRegistry(models.Model):
             date = fields.Datetime.now()
             if values.get('stop_start', False):
                 date = values['stop_start']
-            stop_obj = reg.create_stop(reason_id, operator_id, date, from_state)
-            create_mo = values.get('create_mo', False)
-            if create_mo:
-                self.create_maintenance_order(reg, reason_id)
+            reg.create_stop(reason_id, operator_id, date, from_state)
             reg.write({
                 'state': 'stopped',
             })
