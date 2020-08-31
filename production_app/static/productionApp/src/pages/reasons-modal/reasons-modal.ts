@@ -14,52 +14,44 @@ import { ProductionProvider } from '../../providers/production/production';
   selector: 'page-reasons-modal',
   templateUrl: 'reasons-modal.html',
 })
+
 export class ReasonsModalPage {
     reasons: Object[];
+    reason_button_selected: string;
+    type;
+
     constructor(public navCtrl: NavController, public navParams: NavParams,
                 public viewCtrl: ViewController, public alertCtrl: AlertController,
                 private prodData: ProductionProvider) {
         this.reasons = [];
+        this.reason_button_selected = 'none';
+        this.type = this.navParams.get('type');
     }
 
     ionViewDidLoad() {
         console.log('ionViewDidLoad ReasonsModalPage');
     }
+
     closeModal() {
         this.viewCtrl.dismiss(0);
     }
-    reasonSelected(reason) {
-        if (reason.reason_type == 'organizative'){
-            this.viewCtrl.dismiss({'reason_id': reason.id, 'create_mo': false});
-        }
-        else{
-            let confirm = this.alertCtrl.create({
-                  title: '¿Crear orden de mantenimiento?',
-                  message: "Se creará una orden de mantenimiento asociada al registro de la aplicación",
-                  buttons: [
-                    {
-                      text: 'No',
-                      handler: () => {
 
-                        this.viewCtrl.dismiss({'reason_id': reason.id, 'create_mo': false});
-                      }
-                    },
-                    {
-                      text: 'Si',
-                      handler: () => {
-                        this.viewCtrl.dismiss({'reason_id': reason.id, 'create_mo': true});
-                      }
-                    }
-                  ]
-            });
-            confirm.present();
+    reasonSelected(reason) {
+        this.viewCtrl.dismiss({'reason_id': reason.id, 'reason_type': reason.reason_type});
+    }
+
+    selectOrganizative(reason) {
+        if (this.type == 'all' || this.type == 'organizative') {
+            this.reasons = this.prodData.organizative_reasons;
+            this.reason_button_selected = 'organizative';
         }
     }
-    selectOrganizative(reason){
-        this.reasons = this.prodData.organizative_reasons
-    }
-    selectTechnical(reason){
-        this.reasons = this.prodData.technical_reasons
+
+    selectTechnical(reason) {
+        if (this.type == 'all' || this.type == 'technical') {
+            this.reasons = this.prodData.technical_reasons;
+            this.reason_button_selected = 'technical';
+        }
     }
 
 }

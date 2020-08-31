@@ -20,8 +20,7 @@ import { ConsumptionsPage } from '../../pages/consumptions/consumptions';
   templateUrl: 'production.html',
 })
 export class ProductionPage {
-    cdb;
-    weight;
+    show_create_mo: boolean = true;
     hidden_class: string = 'my-hide';
 
     @ViewChildren(TimerComponent) timer: QueryList<TimerComponent>;
@@ -175,9 +174,9 @@ export class ProductionPage {
         usersModal.present();
     }
 
-    openReasonsModal() {
+    openReasonsModal(type) {
         var promise = new Promise( (resolve, reject) => {
-            var mydata = {}
+            var mydata = {'type': type}
             let reasonsModal = this.modalCtrl.create(ReasonsModalPage, mydata);
             reasonsModal.present();
 
@@ -362,14 +361,14 @@ export class ProductionPage {
             this.hidden_class = 'my-hide'
             var stop_start = this.prodData.getUTCDateStr()
             this.timer.toArray()[1].restartTimer();
-            this.openReasonsModal().then((res) => {
+            this.openReasonsModal('all').then((res) => {
                 if (res !== 0) {
                     var reason_id = res['reason_id']
-                    var create_mo = res['create_mo']
                     this.hidden_class = 'none'
 		    // No reseteamos los checks frecuenciales durante la parada
                     // this.clearIntervales();
-                    this.prodData.stopProduction(reason_id, create_mo, stop_start);
+                    this.show_create_mo = true;
+                    this.prodData.stopProduction(reason_id, stop_start);
                 }
             })
             .catch( () => {
@@ -445,6 +444,22 @@ export class ProductionPage {
             this.prodData.scrapProduction();
         })
         .catch( () => {});
+    }
+
+    createMaintenanceOrder() {
+        this.openReasonsModal('technical').then((res) => {
+            if (res !== 0) {
+                this.promptNextStep('¿Crear orden de mantenimiento?').then(() => {
+                    var reason_id = res['reason_id']
+                    this.show_create_mo = false;
+                    this.prodData.createMaintenanceOrder(reason_id);
+                })
+                .catch( () => {});
+            }
+        })
+        .catch( () => {
+            console.log("Pues no hago nada")
+        })
     }
 
     editNote() {

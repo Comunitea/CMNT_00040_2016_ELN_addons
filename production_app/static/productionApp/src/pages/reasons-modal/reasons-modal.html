@@ -19,13 +19,27 @@
 
 
 <ion-content padding>
-    <button ion-button full (click)="selectTechnical()">
-        Causas técnicas
-    </button>
-    <button ion-button full (click)="selectOrganizative()">
-        Causas organizativas
-    </button>
-   <ion-list>
+    <ion-grid>
+        <ion-row>
+            <ion-col text-center width-50>
+                <button ion-button full (click)="selectTechnical()" *ngIf="reason_button_selected == 'technical'">
+                    Causas técnicas
+                </button>
+                <button ion-button full (click)="selectTechnical()" *ngIf="reason_button_selected !== 'technical'" color=dark>
+                    Causas técnicas
+                </button>
+            </ion-col>
+            <ion-col text-center width-50>
+                <button ion-button full (click)="selectOrganizative()" *ngIf="reason_button_selected == 'organizative'">
+                    Causas organizativas
+                </button>
+                <button ion-button full (click)="selectOrganizative()" *ngIf="reason_button_selected !== 'organizative'" color=dark>
+                    Causas organizativas
+                </button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+    <ion-list>
         <button ion-item *ngFor="let reason of reasons" (click)="reasonSelected(reason)">
             <span>{{ reason.name }}</span>
         </button>  

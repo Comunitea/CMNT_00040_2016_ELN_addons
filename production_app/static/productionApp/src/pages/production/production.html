@@ -96,7 +96,7 @@
                 </ion-grid>
             </div>
         </div>
-        <div  class="content-two">
+        <div class="content-two">
             <ion-grid>
                 <ion-row>
                     <ion-col text-center>
@@ -202,10 +202,25 @@
                     </ion-col>
                 </ion-row>
         <!-- PANTALLA SCRAP -->
-                <ion-row *ngIf="(prodData.state == 'started') || (prodData.state == 'stopped') || (prodData.state == 'cleaning')">
+                <ion-row *ngIf="(prodData.state == 'started') || (prodData.state == 'cleaning') ||
+                               ((prodData.state == 'stopped') && show_create_mo == false)">
                      <ion-col text-center width-100>
                         <button ion-button round (click)="scrapProduction()" color="dark">
                             SCRAP
+                        </button>
+                    </ion-col>
+                </ion-row>
+        <!-- PANTALLA SCRAP Y ORDEN MANTENIMIENTO -->
+                <ion-row *ngIf="(prodData.state == 'started') || (prodData.state == 'cleaning') ||
+                               ((prodData.state == 'stopped') && show_create_mo == true)">
+                    <ion-col text-center width-50>
+                        <button ion-button round (click)="scrapProduction()" color="dark">
+                            SCRAP
+                        </button>
+                    </ion-col>
+                    <ion-col text-center width-50>
+                        <button ion-button round (click)="createMaintenanceOrder()" color="dark">
+                            ORDEN MANT
                         </button>
                     </ion-col>
                 </ion-row>

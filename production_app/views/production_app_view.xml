@@ -33,7 +33,7 @@
                             <field name="workcenter_id"/>
                             <field name="production_id"/>
                             <field name="product_id"/>
-                            <field name="maintenance_workorder_id"/>
+                            <field name="maintenance_order_id"/>
                         </group>
                         <group>
                             <field name="qty"/>

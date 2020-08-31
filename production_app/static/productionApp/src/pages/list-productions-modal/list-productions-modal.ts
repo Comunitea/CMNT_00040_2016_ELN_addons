@@ -4,7 +4,7 @@ import { Storage } from '@ionic/storage';
 import { ProductionProvider } from '../../providers/production/production';
 
 /**
- * Generated class for the ReasonsModalPage page.
+ * Generated class for the ListProductionsModalPage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
