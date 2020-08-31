@@ -11,7 +11,12 @@
     'license': 'AGPL-3',
     'depends': [
         'stock_analysis',
-        'product_expiry'
+        'product_expiry',
+        'product_cost_management'
+        # Dependency product_cost_management is only because this module redefines quant.cost field with digits precision.
+        # If you update product_cost_management module after this one (e.g. with update=all) then the view is deleted
+        # because field quant.cost is renamed to __temp_type_cast column (and finally dropped)
+        # before add new quant.cost column to update new field.
     ],
     "data": [
         'report/stock_analysis_view.xml',
