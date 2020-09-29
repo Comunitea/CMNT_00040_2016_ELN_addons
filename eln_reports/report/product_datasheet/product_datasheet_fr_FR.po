@@ -145,7 +145,7 @@ msgstr "VALEURS NUTRITIONNELLES MÉDIAS (par portion)"
 
 #: /tmp/tmp.j1gD0sea54:1025 /tmp/tmp.j1gD0sea54:1117 /tmp/tmp.j1gD0sea54:1589
 #: /tmp/tmp.j1gD0sea54:1681 /tmp/tmp.j1gD0sea54:2153 /tmp/tmp.j1gD0sea54:2245
-msgid "Energía"
+msgid "Valor energético"
 msgstr "Énergie"
 
 #: /tmp/tmp.j1gD0sea54:1033 /tmp/tmp.j1gD0sea54:1125 /tmp/tmp.j1gD0sea54:1597

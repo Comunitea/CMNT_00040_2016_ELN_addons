@@ -107,13 +107,14 @@ class ProductProduct(models.Model):
     product_ingredient_ids = fields.One2many('product.ingredient', 'product_parent_id', string="Ingredients")
     protective_atmosphere = fields.Boolean('Protective atmosphere')
     perforated_bag = fields.Boolean('Perforated bag')
-    energy = fields.Float('Energy', digits=dp.get_precision('Product Unit of Measure'))
-    carbohydrates = fields.Float('Carbohydrates', digits=dp.get_precision('Product Unit of Measure'))
-    carbo_sugar = fields.Float('of which sugars', digits=dp.get_precision('Product Unit of Measure'))
-    fats = fields.Float('Fats', digits=dp.get_precision('Product Unit of Measure'))
-    fat_saturates = fields.Float('of which saturates', digits=dp.get_precision('Product Unit of Measure'))
-    proteins = fields.Float('Proteins', digits=dp.get_precision('Product Unit of Measure'))
-    salt = fields.Float('Salt', digits=dp.get_precision('Product Unit of Measure'))
+    energy_kcal = fields.Float('Energy (kcal)', digits=(16,3))
+    energy_kj = fields.Float('Energy (kJ)', digits=(16,3))
+    carbohydrates = fields.Float('Carbohydrates', digits=(16,3))
+    carbo_sugar = fields.Float('of which sugars', digits=(16,3))
+    fats = fields.Float('Fats', digits=(16,3))
+    fat_saturates = fields.Float('of which saturates', digits=(16,3))
+    proteins = fields.Float('Proteins', digits=(16,3))
+    salt = fields.Float('Salt', digits=(16,3))
     storage_conditions = fields.Text('Storage conditions', translate=True)
     expected_use = fields.Text('Expected use', translate=True)
     allergen = fields.Text('Allergen', translate=True)
@@ -278,6 +279,16 @@ class ProductProduct(models.Model):
             self.ramp_up_date = False
         elif self.state == 'sellable' and self.ramp_up_date == False:
             self.ramp_up_date = fields.Date.context_today(self)
+
+    @api.onchange('energy_kj')
+    def onchange_energy_kj(self):
+        if self.energy_kj and not self.energy_kcal:
+            self.energy_kcal = self.energy_kj / 4.187
+
+    @api.onchange('energy_kcal')
+    def onchange_energy_kcal(self):
+        if self.energy_kcal and not self.energy_kj:
+            self.energy_kj = self.energy_kcal * 4.187
 
 
 class ProductTemplate(models.Model):
