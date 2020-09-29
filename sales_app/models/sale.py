@@ -32,6 +32,7 @@ class SaleOrder(models.Model):
         ('other', 'Other'),
         ('ecommerce', 'E-commerce')
         ], string='Channel', readonly=True)
+    app_note = fields.Text(string='App notes')
 
     @api.model
     def create_and_confirm(self, vals):
@@ -55,7 +56,7 @@ class SaleOrder(models.Model):
         pricelist_id = vals.get('pricelist_id', False)
         warehouse_id = self.env['stock.warehouse'].search([], limit=1) # El valor que envía la app no sirve
         channel = vals.get('channel', False)
-        note = vals.get('note', '').replace('Nota: ', '').replace('Nota:', '')
+        note = vals.get('note', '')
         order_line = vals.get('order_line', [])
         values = {
             'create_date': create_date,
@@ -75,7 +76,7 @@ class SaleOrder(models.Model):
             'warehouse_id': warehouse_id.id,
             'channel': channel,
             'company_id': company_id.id,
-            'note': note,
+            'app_note': note,
         }
         # Creamos el pedido
         order_id = sale_obj.with_context(mail_notrack=True).create(values)

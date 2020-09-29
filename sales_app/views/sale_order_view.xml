@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openerp>
     <data>
-        <record id="view_order_form_sale_app" model="ir.ui.view">
+        <record id="view_order_form_sales_app" model="ir.ui.view">
             <field name="name">view.order.form</field>
             <field name="model">sale.order</field>
             <field name="inherit_id" ref="sale.view_order_form"/>
@@ -9,6 +9,12 @@
             <field name="arch" type="xml">
                 <field name="origin" position="after">
                     <field name="channel" invisible="1"/>
+                </field>
+                <field name="note" position="after">
+                    <group string="App notes">
+                        <field name="app_note" class="oe_inline" placeholder="App notes..." nolabel="1"
+                            attrs="{'readonly':[('state','in',('progress','manual','shipping_except','done'))]}"/>
+                    </group>
                 </field>
                 <xpath expr="//field[@name='order_line']/form/group/group/div[@name='discount']" position="after">
                     <field name="app_discount_type" groups="sale.group_discount_per_so_line"/>
@@ -19,7 +25,7 @@
             </field>
         </record>
 
-        <record id="view_order_line_form2_sale_app" model="ir.ui.view">
+        <record id="view_order_line_form2_sales_app" model="ir.ui.view">
             <field name="name">sale.order.line.form2</field>
             <field name="model">sale.order.line</field>
             <field name="inherit_id" ref="sale.view_order_line_form2"/>
