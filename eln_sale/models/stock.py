@@ -45,12 +45,12 @@ class StockPicking(models.Model):
         readonly=True,
         states={'done': [('readonly', False)]},
         default=fields.Datetime.now,
-        help="Date on which the Delivery Order was delivered.")
+        help="Date on which the delivery order was delivered.")
     supplier_cip = fields.Char(
         string='CIP',
         related="sale_id.supplier_cip",
         readonly=True,
-        help="Código interno del proveedor.")
+        help="Internal supplier code.")
     sent_to_supplier = fields.Boolean(
         string='Sent to Supplier',
         readonly=True,
@@ -79,4 +79,4 @@ class StockMove(models.Model):
         string='Effective Date',
         related="picking_id.effective_date",
         readonly=True, store=True,
-        help="Date on which the Delivery Order was delivered.")
+        help="Date on which the delivery order was delivered.")
