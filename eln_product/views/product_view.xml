@@ -62,7 +62,8 @@
                                 <group col="6">
                                     <group name="left1" colspan="2" >
                                         <separator string="Average nutritional values (100 g)" colspan="2" />
-                                        <field name="energy"/>
+                                        <field name="energy_kj"/>
+                                        <field name="energy_kcal"/>
                                         <field name="fats"/>
                                         <field name="fat_saturates"/>
                                         <field name="carbohydrates"/>

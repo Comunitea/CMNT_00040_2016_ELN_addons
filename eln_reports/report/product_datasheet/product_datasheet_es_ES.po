@@ -145,8 +145,8 @@ msgstr "VALORES NUTRICIONALES MEDIOS (por ración)"
 
 #: /tmp/tmp.j1gD0sea54:1025 /tmp/tmp.j1gD0sea54:1117 /tmp/tmp.j1gD0sea54:1589
 #: /tmp/tmp.j1gD0sea54:1681 /tmp/tmp.j1gD0sea54:2153 /tmp/tmp.j1gD0sea54:2245
-msgid "Energía"
-msgstr "Energía"
+msgid "Valor energético"
+msgstr "Valor energético"
 
 #: /tmp/tmp.j1gD0sea54:1033 /tmp/tmp.j1gD0sea54:1125 /tmp/tmp.j1gD0sea54:1597
 #: /tmp/tmp.j1gD0sea54:1689 /tmp/tmp.j1gD0sea54:2161 /tmp/tmp.j1gD0sea54:2253

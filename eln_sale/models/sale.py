@@ -22,7 +22,8 @@
 from openerp import models, fields, api
 from datetime import datetime
 from dateutil import tz
-import time
+from dateutil.rrule import rrule
+from dateutil.relativedelta import relativedelta
 
 
 class SaleOrder(models.Model):
@@ -38,7 +39,7 @@ class SaleOrder(models.Model):
     supplier_cip = fields.Char(
         string="CIP", size=32, readonly=True,
         states={'draft': [('readonly', False)],'waiting_date': [('readonly', False)],'manual': [('readonly', False)],'progress': [('readonly', False)]},
-        help="Código interno del proveedor.")
+        help="Internal supplier code.")
     shop_id = fields.Many2one(
         string="Sale type",
         comodel_name='sale.shop',
@@ -49,7 +50,15 @@ class SaleOrder(models.Model):
     effective_date = fields.Date(
         string="Effective Date",
         compute="_get_effective_date", store=True,
-        help="Date on which the first Delivery Order was delivered.")
+        help="Date on which the first delivery order was delivered.")
+    lead_time = fields.Integer(
+        string="Lead Time",
+        compute="_get_lead_time", store=True,
+        help="Number of days between order confirmation and delivery of the products to the customer.\n" \
+        "If the order has a delivery date, this value indicates the deviation with that date.\n"\
+        "When this value cannot be calculated, it will be set to -1.\n"\
+        "Values greater than 20 will also be set to -1.\n"\
+        "Negative values should generally not be taken into account for statistical calculations.")
 
     @api.multi
     @api.depends('state')
@@ -60,6 +69,32 @@ class SaleOrder(models.Model):
                 order.effective_date = False
             else:
                 order.update_effective_date()
+
+    @api.multi
+    @api.depends('effective_date', 'date_confirm', 'requested_date')
+    def _get_lead_time(self):
+        for order in self:
+            lead_time = -1
+            if order.effective_date and (order.date_confirm or order.requested_date):
+                effective_date = datetime.strptime(order.effective_date, '%Y-%m-%d')
+                if order.requested_date:
+                    date_confirm = datetime.strptime(order.requested_date[:10], '%Y-%m-%d')
+                else:
+                    date_confirm = datetime.strptime(order.date_confirm, '%Y-%m-%d')
+                diff_dates = effective_date - date_confirm
+                excluded_dates = (rrule(
+                    freq=3, # Daily
+                    byweekday=(5, 6), # Sat and Sun
+                    wkst=0,
+                    dtstart=date_confirm,
+                    interval=1)
+                    .between(date_confirm, effective_date, inc=True)
+                )
+                is_weekend = (effective_date.weekday() > 4)
+                lead_time = diff_dates.days - len(excluded_dates) + (is_weekend and 1 or 0)
+                if abs(lead_time) > 20: # Un valor superior entendemos que se debe a un error
+                    lead_time = -1
+            order.lead_time = lead_time
 
     @api.onchange('shop_id')
     def onchange_shop_id(self):
@@ -96,7 +131,7 @@ class SaleOrder(models.Model):
     @api.multi
     def action_ship_create(self):
         res = super(SaleOrder, self).action_ship_create()
-        user_tz = self.env['res.users'].browse(self._uid).tz
+        user_tz = self.env.user.tz
         from_zone = tz.gettz('UTC')
         to_zone = tz.gettz(user_tz)
         for order in self:
@@ -135,11 +170,12 @@ class SaleOrder(models.Model):
             res['value']['partner_invoice_id'] = False
             res['value']['user_id'] = False
             return res
-        company_id = self.env['res.users'].browse(self._uid).company_id.id
         partner = self.env['res.partner'].browse(part)
+        date=datetime.now().strftime('%Y-%m-%d')
+        company_id = self.env.user.company_id.id
         rec = self.env['account.analytic.default'].account_get(
                     product_id=False, partner_id=partner.commercial_partner_id.id,
-                    user_id=self._uid, date=time.strftime('%Y-%m-%d'), company_id=company_id)
+                    user_id=self._uid, date=date, company_id=company_id)
         res['value']['project_id'] = rec and rec.analytic_id.id or False
         # Modificamos para que la dirección de factura sea la que tenga la empresa padre
         addr = partner.commercial_partner_id.address_get(['invoice'])
