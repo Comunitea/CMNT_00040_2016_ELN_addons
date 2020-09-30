@@ -11,7 +11,7 @@
                     <field name="channel" invisible="1"/>
                 </field>
                 <field name="note" position="after">
-                    <group string="App notes">
+                    <group string="App notes" attrs="{'invisible': [('channel', '!=', 'tablet')]}">
                         <field name="app_note" class="oe_inline" placeholder="App notes..." nolabel="1"
                             attrs="{'readonly':[('state','in',('progress','manual','shipping_except','done'))]}"/>
                     </group>
