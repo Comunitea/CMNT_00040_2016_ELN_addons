@@ -12,6 +12,7 @@
                 <field name="wc_line_id"/>
                 <field name="workcenter_id"/>
                 <field name="production_state"/>
+                <field name="production_end"/>
                 <field name="state"/>
             </tree>
         </field>
@@ -187,6 +188,10 @@
                         </page>
                     </notebook>
                 </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
             </form>
         </field>
     </record>
@@ -196,9 +201,10 @@
         <field name="model">production.app.registry</field>
         <field name="arch" type="xml">
             <search string="Search Work Orders">
+                <field name="production_id"/>
+                <field name="product_id"/>
                 <field name="wc_line_id"/>
                 <field name="workcenter_id"/>
-                <field name="production_id"/>
                 <field name="state"/>
                 <separator/>
                 <filter string="Set-Up" name="setup_filter" domain="[('state','=','setup')]"/>
@@ -214,6 +220,7 @@
                 <separator/>
                 <group expand="0" string="Group By">
                     <filter string="Workcenter" icon="terp-go-home" domain="[]" context="{'group_by':'workcenter_id'}"/>
+                    <filter string="Production End" icon="terp-go-month" domain="[]" context="{'group_by':'production_end'}"/>
                     <filter string="Status" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'state'}"/>
                 </group>
             </search>

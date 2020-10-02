@@ -36,6 +36,8 @@ READONLY_STATES = {'validated': [('readonly', True)]}
 
 class ProductionAppRegistry(models.Model):
     _name = 'production.app.registry'
+    _description = 'Production App Registry'
+    _inherit = ['mail.thread']
     _order = 'id desc'
 
     wc_line_id = fields.Many2one(
@@ -46,7 +48,8 @@ class ProductionAppRegistry(models.Model):
         related="wc_line_id.workcenter_id", store=True,
         readonly=True)
     state = fields.Selection(APP_STATES, 'State',
-        default='waiting', readonly=True)
+        default='waiting', readonly=True,
+        track_visibility='onchange')
     setup_start = fields.Datetime('Setup Start',
         states=READONLY_STATES)
     setup_end = fields.Datetime('Setup End',
@@ -100,9 +103,11 @@ class ProductionAppRegistry(models.Model):
         domain=[('type', '=', 'finished')],
         states=READONLY_STATES)
     review_consumptions = fields.Boolean('Review consumptions',
-        states=READONLY_STATES)
+        states=READONLY_STATES,
+        track_visibility='onchange')
     consumptions_done = fields.Boolean('Consumptions Done',
-        states=READONLY_STATES)
+        states=READONLY_STATES,
+        track_visibility='onchange')
     # RELATED FIELDS
     name = fields.Char('Workcenter Line',
         related="wc_line_id.name", readonly=True)
