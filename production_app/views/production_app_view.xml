@@ -12,6 +12,7 @@
                 <field name="wc_line_id"/>
                 <field name="workcenter_id"/>
                 <field name="production_state"/>
+                <field name="setup_start"/>
                 <field name="production_end"/>
                 <field name="state"/>
             </tree>
@@ -218,6 +219,12 @@
                 <separator/>
                 <filter string="Ready to Validate" name="ready_to_validate_filter" domain="[('state','=','finished'),('consumptions_done','=',True)]"/>
                 <separator/>
+                <filter icon="terp-go-today" string="Setup Started Yesterday" name="yesterday" domain="['&amp;',
+                    ('setup_start', '&gt;=', (datetime.date.today()+datetime.timedelta(days=-1)).strftime('%%Y-%%m-%%d 00:00:00')),
+                    ('setup_start', '&lt;=', (datetime.date.today()+datetime.timedelta(days=-1)).strftime('%%Y-%%m-%%d 23:59:59'))]"/>
+                <filter icon="terp-go-today" string="Setup Started Today" name="today" domain="['&amp;',
+                    ('setup_start', '&gt;=', time.strftime('%%Y-%%m-%%d 00:00:00')),
+                    ('setup_start', '&lt;=', time.strftime('%%Y-%%m-%%d 23:59:59'))]"/>
                 <group expand="0" string="Group By">
                     <filter string="Workcenter" icon="terp-go-home" domain="[]" context="{'group_by':'workcenter_id'}"/>
                     <filter string="Production End" icon="terp-go-month" domain="[]" context="{'group_by':'production_end'}"/>
