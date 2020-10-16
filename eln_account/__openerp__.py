@@ -32,6 +32,7 @@
         'eln_product',
         'product_ranking',
         'product_trademark',
+        'account_refund_original',
     ],
     "data": [
         'views/account_invoice_view.xml',
