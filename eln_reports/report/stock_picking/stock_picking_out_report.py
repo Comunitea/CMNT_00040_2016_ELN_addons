@@ -28,7 +28,7 @@ def parser(cr, uid, ids, data, context):
         for line in out_report_lines[picking.id]:
             product_id = line['product_id'].with_context(lang=language)
             lot_id = line['lot_id']
-            move_id = line['move_id']
+            move_id = line['move_id'].with_context(lang=language)
             use_date = lot_id.use_date and datetime.strptime(lot_id.use_date[:10], "%Y-%m-%d").strftime('%d/%m/%Y') or ''
             uom_qty = line['product_qty']
             uos_qty = uom_obj._compute_qty(cr, uid, product_id.uom_id.id, uom_qty, move_id.product_uos.id)
