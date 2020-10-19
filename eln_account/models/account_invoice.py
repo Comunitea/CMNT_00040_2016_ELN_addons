@@ -57,6 +57,8 @@ class AccountInvoice(models.Model):
         states={'draft': [('readonly', False)]},
         track_visibility='always',
         default=_default_currency)
+    origin_invoices_ids = fields.Many2many(copy=False)
+    refund_invoice_ids = fields.Many2many(copy=False)
 
     @api.multi
     def _received_check(self):
@@ -81,6 +83,8 @@ class AccountInvoiceLine(models.Model):
 
     uom_qty = fields.Float('Uom Qty', compute='_get_uom_qty')
     cost_subtotal = fields.Float('Cost Subtotal', compute='_get_cost_subtotal', store=True)
+    origin_line_ids = fields.Many2many(copy=False)
+    refund_line_ids = fields.Many2many(copy=False)
 
     @api.one
     @api.depends('quantity')
