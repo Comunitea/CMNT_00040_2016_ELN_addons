@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="stock_picking_qc_view">
+            <field name="name">stock.picking.qc.view</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="quality_control_stock.stock_picking_qc_view" />
+            <field name="arch" type="xml">
+                <button name="%(quality_control_stock.action_qc_inspection_per_picking_done)d" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </button>
+                <button name="%(quality_control_stock.action_qc_inspection_per_picking_passed)d" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </button>
+                <button name="%(quality_control_stock.action_qc_inspection_per_picking_failed)d" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </button>
+            </field>
+        </record>
+
+    </data>
+</openerp>
