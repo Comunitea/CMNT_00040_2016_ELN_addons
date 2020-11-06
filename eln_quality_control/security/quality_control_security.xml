@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="qc_inspection_line_multi_company_rule" model="ir.rule">
+            <field name="name">Quality control inspection line multi-company</field>
+            <field name="model_id" ref="model_qc_inspection_line"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'child_of', [user.company_id.id])]</field>
+        </record>
+
+    </data>
+</openerp>

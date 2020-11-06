@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="qc_inspection_form_view_picking">
+            <field name="name">qc.inspection.form.view.picking</field>
+            <field name="model">qc.inspection</field>
+            <field name="inherit_id" ref="quality_control.qc_inspection_form_view" />
+            <field name="arch" type="xml">
+                <field name="date" position="after">
+                    <field name="approved_by" />
+                    <field name="approved_date" />
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>
