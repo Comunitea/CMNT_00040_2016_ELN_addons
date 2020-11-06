@@ -27,3 +27,19 @@ class AccountInvoiceRefund(models.TransientModel):
         return res
 
     journal_id = fields.Many2one(default=_get_journal)
+
+    @api.model
+    def fields_view_get(self, view_id=None, view_type=False, toolbar=False, submenu=False):
+        # Se establece el domain del campo journal_id para impedir elegir un diario de un tipo no permitido
+        res = super(AccountInvoiceRefund, self).fields_view_get(
+            view_id=view_id, view_type=view_type, toolbar=toolbar, submenu=submenu)
+        type = self._context.get('type', 'out_invoice')
+        company_id = self.env.user.company_id.id
+        journal_type = (type == 'out_invoice') and 'sale_refund' or \
+                       (type == 'out_refund') and 'sale' or \
+                       (type == 'in_invoice') and 'purchase_refund' or \
+                       (type == 'in_refund') and 'purchase'
+        for field in res['fields']:
+            if field == 'journal_id':
+                res['fields'][field]['domain'] = [('type', '=', journal_type), ('company_id', 'child_of', [company_id])]
+        return res
