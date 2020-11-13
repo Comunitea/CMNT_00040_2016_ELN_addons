@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-06 12:06+0000\n"
-"PO-Revision-Date: 2020-11-06 13:06+0100\n"
+"POT-Creation-Date: 2020-11-13 10:04+0000\n"
+"PO-Revision-Date: 2020-11-13 11:07+0100\n"
 "Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -28,9 +28,60 @@ msgid "Approved date"
 msgstr "Fecha aprobación"
 
 #. module: eln_quality_control
+#: view:stock.picking.qc.inspection.wzd:eln_quality_control.stock_picking_qc_inspection_wzd_form
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: eln_quality_control
 #: field:qc.inspection.line,company_id:0
 msgid "Company"
 msgstr "Compañía"
+
+#. module: eln_quality_control
+#: field:stock.picking.qc.inspection.wzd,create_uid:0
+msgid "Created by"
+msgstr "Created by"
+
+#. module: eln_quality_control
+#: field:stock.picking.qc.inspection.wzd,create_date:0
+msgid "Created on"
+msgstr "Created on"
+
+#. module: eln_quality_control
+#: field:stock.picking.qc.inspection.wzd,display_name:0
+msgid "Display Name"
+msgstr "Display Name"
+
+#. module: eln_quality_control
+#: view:stock.picking.qc.inspection.wzd:eln_quality_control.stock_picking_qc_inspection_wzd_form
+msgid "Generate"
+msgstr "Generar"
+
+#. module: eln_quality_control
+#: model:ir.actions.act_window,name:eln_quality_control.stock_picking_qc_inspection_wzd_action
+#: view:stock.picking.qc.inspection.wzd:eln_quality_control.stock_picking_qc_inspection_wzd_form
+msgid "Generate quality control inspections"
+msgstr "Generar inspecciones de control de calidad"
+
+#. module: eln_quality_control
+#: field:stock.picking.qc.inspection.wzd,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: eln_quality_control
+#: field:stock.picking.qc.inspection.wzd,__last_update:0
+msgid "Last Modified on"
+msgstr "Last Modified on"
+
+#. module: eln_quality_control
+#: field:stock.picking.qc.inspection.wzd,write_uid:0
+msgid "Last Updated by"
+msgstr "Last Updated by"
+
+#. module: eln_quality_control
+#: field:stock.picking.qc.inspection.wzd,write_date:0
+msgid "Last Updated on"
+msgstr "Last Updated on"
 
 #. module: eln_quality_control
 #: field:qc.test,only_purchases:0
@@ -66,3 +117,14 @@ msgstr "Pregunta del control de calidad"
 #: model:ir.model,name:eln_quality_control.model_qc_test
 msgid "Quality control test"
 msgstr "Test del control de calidad"
+
+#. module: eln_quality_control
+#: code:addons/eln_quality_control/wizard/stock_picking_generate_inspection.py:43
+#, python-format
+msgid "Quality inspections from picking"
+msgstr "Inspecciones desde albarán"
+
+#. module: eln_quality_control
+#: view:stock.picking.qc.inspection.wzd:eln_quality_control.stock_picking_qc_inspection_wzd_form
+msgid "or"
+msgstr "o"

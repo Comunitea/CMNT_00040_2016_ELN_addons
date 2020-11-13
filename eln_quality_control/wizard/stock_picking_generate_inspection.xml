@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+    <data>
+
+        <record id="stock_picking_qc_inspection_wzd_form" model="ir.ui.view">
+            <field name="name">stock.picking.qc.inspection.wzd.form</field>
+            <field name="model">stock.picking.qc.inspection.wzd</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Generate quality control inspections">
+                    <footer>
+                        <button name="generate_qc_inspection" string="Generate" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window
+            id="stock_picking_qc_inspection_wzd_action"
+            name="Generate quality control inspections"
+            res_model="stock.picking.qc.inspection.wzd"
+            src_model="stock.picking"
+            view_id="stock_picking_qc_inspection_wzd_form"
+            view_mode="form"
+            target="new"
+            key2="client_action_multi"
+            groups="quality_control.group_quality_control_user"
+            />
+
+    </data>
+</openerp>
+
