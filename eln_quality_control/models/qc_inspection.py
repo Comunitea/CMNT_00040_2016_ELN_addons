@@ -12,18 +12,16 @@ class QcInspection(models.Model):
     auto_generated = fields.Boolean(
         states={'draft': [('readonly', False)]})
     user = fields.Many2one(
-        track_visibility='onchange')
+        track_visibility=False)
     approved_date = fields.Datetime(
         string='Approved date',
         readonly=True, copy=False,
         states={'draft': [('readonly', False)], 'ready': [('readonly', False)]},
-        select=True,
-        track_visibility='onchange')
+        select=True)
     approved_by = fields.Many2one(
         'res.users', 'Approved by',
         readonly=True, copy=False,
-        states={'draft': [('readonly', False)], 'ready': [('readonly', False)]},
-        track_visibility='onchange')
+        states={'draft': [('readonly', False)], 'ready': [('readonly', False)]})
 
     @api.multi
     def action_confirm(self):
@@ -50,7 +48,7 @@ class QcInspection(models.Model):
                 object_ref and object_ref._name == 'stock.pack.operation'):
             make_inspection = True if object_ref.picking_id.purchase_id else False
             if not make_inspection:
-                return False
+                return self.env['qc.inspection']
         return super(QcInspection, self)._make_inspection(object_ref, trigger_line)
 
 
