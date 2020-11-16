@@ -11,6 +11,25 @@
                     <field name="approved_by" />
                     <field name="approved_date" />
                 </field>
+                <field name="qty" position="replace">
+                    <label for="qty"/>
+                    <div>
+                        <field name="qty" class="oe_inline"/>
+                        <label string="-" attrs="{'invisible':[('uom_id','=',False)]}" groups="product.group_uom" class="oe_inline"/>
+                        <field name="uom_id" groups="product.group_uom" class="oe_inline"/>
+                    </div>
+                </field>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="qc_inspection_search_view">
+            <field name="name">qc.inspection.search</field>
+            <field name="model">qc.inspection</field>
+            <field name="inherit_id" ref="quality_control.qc_inspection_search_view" />
+            <field name="arch" type="xml">
+                <filter string="Incorrect" position="after">
+                    <filter string="My inspections" domain="[('user', '=', uid)]" name="my_inspections_filter" />
+                </filter>
             </field>
         </record>
 

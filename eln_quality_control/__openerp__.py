@@ -18,6 +18,7 @@
         "security/ir.model.access.csv",
         'views/stock_pack_operation_view.xml',
         'views/stock_picking_view.xml',
+        'views/stock_production_lot_view.xml',
         'views/qc_test_view.xml',
         'views/qc_inspection_view.xml',
         'wizard/stock_picking_generate_inspection.xml',
