@@ -22,6 +22,8 @@ class QcInspection(models.Model):
         'res.users', 'Approved by',
         readonly=True, copy=False,
         states={'draft': [('readonly', False)], 'ready': [('readonly', False)]})
+    uom_id = fields.Many2one(
+        comodel_name='product.uom', string='UoM')
 
     @api.multi
     def action_confirm(self):
@@ -50,6 +52,26 @@ class QcInspection(models.Model):
             if not make_inspection:
                 return self.env['qc.inspection']
         return super(QcInspection, self)._make_inspection(object_ref, trigger_line)
+
+    @api.multi
+    def _prepare_inspection_header(self, object_ref, trigger_line):
+        res = super(QcInspection, self)._prepare_inspection_header(
+            object_ref, trigger_line)
+        # Fill UoM when coming from pack operations
+        if object_ref and object_ref._name == 'stock.pack.operation':
+            res['uom_id'] = object_ref.product_uom_id.id
+        if object_ref and object_ref._name == 'stock.move':
+            res['uom_id'] = object_ref.product_uom.id
+        return res
+
+    @api.onchange('object_id')
+    def onchange_object_id(self):
+        if self.object_id:
+            if self.object_id._name == 'stock.move':
+                self.uom_id = self.object_id.product_uom
+            elif self.object_id._name == 'stock.pack.operation':
+                self.uom_id = self.object_id.product_uom_id
+        return super(QcInspection, self).onchange_object_id()
 
 
 class QcInspectionLine(models.Model):

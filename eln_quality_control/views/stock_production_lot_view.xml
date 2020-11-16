@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="stock_lot_qc_view">
+            <field name="name">stock.production.lot.qc.view</field>
+            <field name="model">stock.production.lot</field>
+            <field name="inherit_id" ref="quality_control_stock.stock_lot_qc_view" />
+            <field name="arch" type="xml">
+                <button name="%(quality_control_stock.action_qc_inspection_per_lot_done)d" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </button>
+                <button name="%(quality_control_stock.action_qc_inspection_per_lot_passed)d" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </button>
+                <button name="%(quality_control_stock.action_qc_inspection_per_lot_failed)d" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </button>
+            </field>
+        </record>
+
+    </data>
+</openerp>
