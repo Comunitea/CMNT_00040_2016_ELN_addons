@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-09-06 07:09+0000\n"
-"PO-Revision-Date: 2019-09-06 09:12+0200\n"
+"POT-Creation-Date: 2020-11-25 16:50+0000\n"
+"PO-Revision-Date: 2020-11-25 17:50+0100\n"
 "Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
 "Language: es\n"
-"X-Generator: Poedit 2.2.3\n"
+"X-Generator: Poedit 2.4.1\n"
 
 #. module: performance_calculation
 #: code:addons/performance_calculation/wizard/performance_calculation.py:72
@@ -53,6 +53,11 @@ msgstr " hasta: "
 #, python-format
 msgid "AVG"
 msgstr "AVG"
+
+#. module: performance_calculation
+#: model:res.groups,name:performance_calculation.group_production_indicators
+msgid "Allow to see production indicators"
+msgstr "Permitir ver indicadores de producción"
 
 #. module: performance_calculation
 #: field:product.category,applies_overweight_calculation:0
@@ -156,7 +161,7 @@ msgid "Display Name"
 msgstr "Nombre mostrado"
 
 #. module: performance_calculation
-#: view:mrp.production:performance_calculation.mrp_production_form_inherit_10
+#: view:mrp.production:performance_calculation.mrp_production_form_view
 msgid "Extra Information"
 msgstr "Información extra"
 

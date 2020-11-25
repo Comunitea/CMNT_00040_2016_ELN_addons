@@ -45,7 +45,7 @@ class ProductionAppRegistry(models.Model):
         readonly=True)
     workcenter_id = fields.Many2one(
         'mrp.workcenter', 'Work Center',
-        related="wc_line_id.workcenter_id", store=True,
+        related='wc_line_id.workcenter_id', store=True,
         readonly=True)
     state = fields.Selection(APP_STATES, 'State',
         default='waiting', readonly=True,
@@ -110,13 +110,13 @@ class ProductionAppRegistry(models.Model):
         track_visibility='onchange')
     # RELATED FIELDS
     name = fields.Char('Workcenter Line',
-        related="wc_line_id.name", readonly=True)
+        related='wc_line_id.name', readonly=True)
     production_id = fields.Many2one(
         'mrp.production', 'Production',
-        related="wc_line_id.production_id", readonly=True)
+        related='wc_line_id.production_id', readonly=True)
     product_id = fields.Many2one(
         'product.product', 'Product',
-        related="production_id.product_id", readonly=True)
+        related='production_id.product_id', readonly=True)
     production_state = fields.Selection(PRODUCTION_STATES, 'Production Status',
         related='production_id.state', readonly=True)
     maintenance_order_id = fields.Many2one(
@@ -124,6 +124,15 @@ class ProductionAppRegistry(models.Model):
         states=READONLY_STATES)
     note = fields.Text(string='Production notes')
     consumptions_note = fields.Text(string='Alimentator notes')
+    # INDICATORS
+    lead_time = fields.Float(related='production_id.lead_time', readonly=True)
+    overweight = fields.Float(related='production_id.overweight', readonly=True)
+    ind_scrap = fields.Float(related='production_id.ind_scrap', readonly=True)
+    ind_usage = fields.Float(related='production_id.ind_usage', readonly=True)
+    availability = fields.Float(related='wc_line_id.availability', readonly=True)
+    performance = fields.Float(related='wc_line_id.performance', readonly=True)
+    quality = fields.Float(related='wc_line_id.quality', readonly=True)
+    oee = fields.Float(related='wc_line_id.oee', readonly=True)
 
     _sql_constraints = [
         ('wc_line_id_uniq', 'unique(wc_line_id)',
