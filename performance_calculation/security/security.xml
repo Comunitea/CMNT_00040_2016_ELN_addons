@@ -2,6 +2,10 @@
 <openerp>
     <data noupdate="0">
 
+        <record id="group_production_indicators" model="res.groups">
+            <field name="name">Allow to see production indicators</field>
+        </record>
+
         <record model="ir.rule" id="performance_calculation_oee_company_rule">
             <field name="name">performance calculation oee multi-company</field>
             <field name="model_id" ref="model_mrp_indicators_oee"/>

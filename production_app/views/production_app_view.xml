@@ -188,6 +188,26 @@
                             </notebook>
                         </page>
                     </notebook>
+
+                    <group string="Indicators" colspan="4" col="8" groups="performance_calculation.group_production_indicators">
+                        <group col="2">
+                            <field name="lead_time"/>
+                            <field name="overweight"/>
+                        </group>
+                        <group col="2">
+                            <field name="ind_scrap"/>
+                            <field name="ind_usage"/>
+                        </group>
+                        <group col="2">
+                            <field name="availability"/>
+                            <field name="performance"/>
+                        </group>
+                        <group col="2">
+                            <field name="quality"/>
+                            <field name="oee"/>
+                        </group>
+                    </group>
+
                 </sheet>
                 <div class="oe_chatter">
                     <field name="message_follower_ids" widget="mail_followers"/>
