@@ -173,6 +173,8 @@ class res_partner(orm.Model):
             help="Set how the 'best before date' of the lot will be translated in the edi file. If none is selected, it will be sent as 'best before date'."),
         'edi_invoice_copy': fields.boolean('Send invoice copy to payer',
                             help='Check if customer requires send invoice copy to payer. For example IFA GROUP requires a copy of the invoice sent to its associates.'),
+        'edi_test_mode': fields.boolean('Test mode',
+                            help='Check if customer requires send the edi messages to the test environment before working in real mode.'),
         'edi_invoic_active': fields.boolean('Invoic active'),
         'edi_desadv_active': fields.boolean('Desadv active'),
         'edi_coacsu_active': fields.boolean('Coacsu active'),

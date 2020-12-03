@@ -165,6 +165,7 @@
                                 <field name="department_code_edi" select="2"/>
                                 <field name="edi_supplier_cip" select="2"/>
                                 <field name="gln_ve" placeholder="Si es diferente al de la Compañía" select="2"/>
+                                <field name="edi_test_mode"/>
                             </group>
                             <group col="2" colspan="2" string="COACSU">
                                 <field name="edi_coacsu_active"/>
