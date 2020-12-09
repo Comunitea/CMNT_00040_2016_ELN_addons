@@ -477,10 +477,16 @@ class edi_export (orm.TransientModel):
         invoice_data += (' ' * 12)
 
         # Envío copia de factura. Ej. Grupo IFA debe recibir copia de la factura enviada a sus asociados para realizar el pago
-        if invoice.partner_id.commercial_partner_id.edi_invoice_copy:
-            invoice_data += '1'
+        # 0-> Factura normal
+        # 1-> Envía factura normal + copia
+        # T-> Indica que el documento debe enviarse al entorno de pruebas (cuando edi_test_mode esta activo)
+        if invoice.partner_id.commercial_partner_id.edi_test_mode:
+            invoice_data += 'T'
         else:
-            invoice_data += '0'
+            if invoice.partner_id.commercial_partner_id.edi_invoice_copy:
+                invoice_data += '1'
+            else:
+                invoice_data += '0'
 
         f.write(invoice_data)
 
