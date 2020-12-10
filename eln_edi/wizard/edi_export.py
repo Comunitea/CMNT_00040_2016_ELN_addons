@@ -288,15 +288,17 @@ class edi_export (orm.TransientModel):
 
     def parse_invoice(self, cr, uid, invoice, file_name, context=None):
 
-        def parse_address(address, gln_val):
+        def parse_address(address, gln_val, name=''):
             address_data = ''
             address_data += self.parse_number(gln_val, 13, 0)
-            address_data += self.parse_string(address.name, 35)
-            address_data += self.parse_string(False, 35) # Reg. Mercantil
+            address_data += self.parse_string(name or address.name, 35)
+            edir_rm = 'edi_rm' in address._fields and address.edi_rm or False
+            address_data += self.parse_string(edir_rm, 35) # Reg. Mercantil
             address_data += self.parse_string(address.street, 35)
             address_data += self.parse_string(address.city, 35)
             address_data += self.parse_string(address.zip, 9)
-            address_data += self.parse_string(address.commercial_partner_id.vat, 17)
+            vat = 'commercial_partner_id' in address._fields and address.commercial_partner_id.vat or address.vat
+            address_data += self.parse_string(vat, 17)
             return address_data
 
         invoice_data = 'CAB'
@@ -424,27 +426,17 @@ class edi_export (orm.TransientModel):
             invoice_data += u' ' * 17
 
         # receptor
-        invoice_data += parse_address(invoice.partner_id, gln_rf)
+        if gln_rf == '8425228000007':
+            # Excepción CENCOSU
+            invoice_data += parse_address(invoice.partner_id, gln_rf, 'CENCOSU SL')
+        else:
+            invoice_data += parse_address(invoice.partner_id, gln_rf)
 
         # emisor factura
-        address_data = ''
-        address_data += self.parse_number(gln_ef, 13, 0)
-        address_data += self.parse_string(invoice.company_id.partner_id.name, 35)
-        address_data += self.parse_string(invoice.company_id.edi_rm, 35)
-        address_data += self.parse_string(invoice.company_id.street, 35)
-        address_data += self.parse_string(invoice.company_id.city, 35)
-        address_data += self.parse_string(invoice.company_id.zip, 9)
-        address_data += self.parse_string(invoice.company_id.vat, 17)
+        invoice_data += parse_address(invoice.company_id, gln_ef)
         
         # vendedor
-        address_data += self.parse_number(gln_ve, 13, 0)
-        address_data += self.parse_string(invoice.company_id.partner_id.name, 35)
-        address_data += self.parse_string(invoice.company_id.edi_rm, 35)
-        address_data += self.parse_string(invoice.company_id.street, 35)
-        address_data += self.parse_string(invoice.company_id.city, 35)
-        address_data += self.parse_string(invoice.company_id.zip, 9)
-        address_data += self.parse_string(invoice.company_id.vat, 17)
-        invoice_data += address_data
+        invoice_data += parse_address(invoice.company_id, gln_ve)
 
         # comprador
         invoice_data += parse_address(invoice.partner_id.commercial_partner_id, gln_co)
@@ -602,9 +594,8 @@ class edi_export (orm.TransientModel):
 
             # fecha de entrega
             if line.partner_id.commercial_partner_id.edi_date_required:
-                if line.stock_move_id and (line.stock_move_id.picking_id.effective_date or line.stock_move_id.picking_id.date_done):
-                    date = line.stock_move_id.picking_id.effective_date or line.stock_move_id.picking_id.date_done
-                else:
+                date = line.stock_move_id.picking_id.effective_date or line.stock_move_id.picking_id.date_done
+                if not date or date > invoice.date_invoice:
                     date = invoice.date_invoice
                 line_data += self.parse_short_date(date[:10])
             else:
@@ -633,14 +624,9 @@ class edi_export (orm.TransientModel):
         for tax in invoice.tax_line:
             tax_data = '\r\nTAX'
             tax_data += self.parse_string(tax.tax_id.edi_code or u'VAT', 3)
-            if tax.tax_id.edi_code and tax.tax_id.edi_code == 'EXT':
-                tax_data += self.parse_number(False, 5, 2)
-                tax_data += self.parse_number(False, 18, 3)
-                tax_data += self.parse_number(False, 18, 3)
-            else:
-                tax_data += self.parse_number(tax.tax_id.amount * 100, 5, 2)
-                tax_data += self.parse_number(tax.amount or '0', 18, 3)
-                tax_data += self.parse_number(tax.base or '0', 18, 3)
+            tax_data += self.parse_number(tax.tax_id.amount * 100 or '0', 5, 2)
+            tax_data += self.parse_number(tax.amount or '0', 18, 3)
+            tax_data += self.parse_number(tax.base or '0', 18, 3)
             f.write(tax_data)
 
         f.close()
