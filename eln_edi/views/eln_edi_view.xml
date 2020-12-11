@@ -171,6 +171,7 @@
                                 <field name="edi_coacsu_active"/>
                                 <field name="gln_de_coa"/>
                                 <field name="gln_rm_coa"/>
+                                <field name="gln_rf_coa"/>
                             </group>
                             <group col="2" colspan="2" string="INVOIC">
                                 <field name="edi_invoic_active"/>
