@@ -97,7 +97,7 @@ class edi_export (orm.TransientModel):
                     picking_part = obj.picking_ids and obj.picking_ids[0].partner_id or False
                     gln_ef = obj.company_id.gln_ef
                     gln_ve = picking_part and picking_part.commercial_partner_id.gln_ve or \
-                             invoice_part.commercial_partner_id.gln_ve or obj.company_id.gln_ve
+                        invoice_part.commercial_partner_id.gln_ve or obj.company_id.gln_ve
                     gln_de = picking_part and picking_part.gln_de or invoice_part.gln_de
                     gln_rf = picking_part and picking_part.gln_rf or invoice_part.gln_rf
                     gln_co = picking_part and picking_part.gln_co or invoice_part.gln_co
@@ -110,7 +110,7 @@ class edi_export (orm.TransientModel):
                     picking_part = obj[0].picking_ids and obj[0].picking_ids[0].partner_id or False
                     gln_ef = obj[0].company_id.gln_ef
                     gln_ve = picking_part and picking_part.commercial_partner_id.gln_ve or \
-                             invoice_part.commercial_partner_id.gln_ve or obj[0].company_id.gln_ve
+                        invoice_part.commercial_partner_id.gln_ve or obj[0].company_id.gln_ve
                     gln_de = picking_part and picking_part.gln_de or invoice_part.gln_de
                     gln_rf = picking_part and picking_part.gln_rf or invoice_part.gln_rf
                     gln_co = picking_part and picking_part.gln_co or invoice_part.gln_co
@@ -309,7 +309,7 @@ class edi_export (orm.TransientModel):
         picking_part = invoice.picking_ids and invoice.picking_ids[0].partner_id or False
         gln_ef = invoice.company_id.gln_ef
         gln_ve = picking_part and picking_part.commercial_partner_id.gln_ve or \
-                 invoice_part.commercial_partner_id.gln_ve or invoice.company_id.gln_ve
+            invoice_part.commercial_partner_id.gln_ve or invoice.company_id.gln_ve
         gln_de = picking_part and picking_part.gln_de or invoice_part.gln_de
         gln_rf = picking_part and picking_part.gln_rf or invoice_part.gln_rf
         gln_co = picking_part and picking_part.gln_co or invoice_part.gln_co
@@ -958,14 +958,14 @@ class edi_export (orm.TransientModel):
     def check_coacsu_data(self, invoice_ids):
         errors = ''
         gln_ve = invoice_ids[0].partner_id.commercial_partner_id.gln_ve or \
-                 invoice_ids[0].company_id.gln_ve
+            invoice_ids[0].company_id.gln_ve
         gln_de_coa = invoice_ids[0].partner_id.commercial_partner_id.gln_de_coa
         gln_rm_coa = invoice_ids[0].partner_id.commercial_partner_id.gln_rm_coa
         for invoice in invoice_ids:
             if invoice.state not in ('open', 'paid'):
                 raise orm.except_orm(_('Invoice error'), _('Validate the invoices before.'))
             gln_ve_aux = invoice.partner_id.commercial_partner_id.gln_ve or \
-                     invoice.company_id.gln_ve
+                invoice.company_id.gln_ve
             gln_de_coa_aux = invoice.partner_id.commercial_partner_id.gln_de_coa
             gln_rm_coa_aux = invoice.partner_id.commercial_partner_id.gln_rm_coa
             if gln_ve != gln_ve_aux:
@@ -991,7 +991,7 @@ class edi_export (orm.TransientModel):
         self.check_coacsu_data(invoice_ids)
         f = codecs.open(file_name, 'w', 'utf-8')
         gln_ve = invoice_ids[0].partner_id.commercial_partner_id.gln_ve or \
-                 invoice_ids[0].company_id.gln_ve
+            invoice_ids[0].company_id.gln_ve
         gln_de_coa = invoice_ids[0].partner_id.commercial_partner_id.gln_de_coa
         gln_rm_coa = invoice_ids[0].partner_id.commercial_partner_id.gln_rm_coa
 
@@ -1028,10 +1028,9 @@ class edi_export (orm.TransientModel):
             # Fecha factura
             coacsu_data += self.parse_string(self.parse_short_date(invoice.date_invoice), 12)
             # EAN receptor factura
-            invoice_part = invoice.partner_id
-            picking_part = invoice.picking_ids and invoice.picking_ids[0].partner_id or False
-            gln_rf = picking_part and picking_part.gln_rf or invoice_part.gln_rf
-            coacsu_data += self.parse_number(gln_rf, 13, 0)
+            gln_rf_coa = invoice.partner_id.commercial_partner_id.gln_rf_coa or \
+                invoice.partner_id.commercial_partner_id.gln_rf
+            coacsu_data += self.parse_number(gln_rf_coa, 13, 0)
             # Importe factura
             coacsu_data += self.parse_number(invoice.amount_total, 18, 3)
             f.write(coacsu_data)
