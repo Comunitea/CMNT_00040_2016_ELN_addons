@@ -1306,8 +1306,8 @@ msgstr "La empresa %s no tiene algún GLN definido correctamente.\n"
 #. module: eln_edi
 #: code:addons/eln_edi/wizard/edi_export.py:995
 #, python-format
-msgid "The partner %s not have some GLN defined correctly. [gln_rf]\n"
-msgstr "La empresa %s no tiene algún GLN definido correctamente. [gln_rf]\n"
+msgid "The partner %s not have some GLN defined correctly. [gln_rf_coa]\n"
+msgstr "La empresa %s no tiene algún GLN definido correctamente. [gln_rf_coa]\n"
 
 #. module: eln_edi
 #: code:addons/eln_edi/wizard/edi_export.py:181
