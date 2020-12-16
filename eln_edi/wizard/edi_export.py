@@ -974,11 +974,10 @@ class edi_export (orm.TransientModel):
                 errors += _('Se han seleccionado facturas con distintos GLN de destinatario COACSU. [gln_de_coa]\n')
             if gln_rm_coa != gln_rm_coa_aux:
                 errors += _('Se han seleccionado facturas con distintos GLN de receptor mensaje COACSU.[gln_rm_coa]\n')
-            invoice_part = invoice.partner_id
-            picking_part = invoice.picking_ids and invoice.picking_ids[0].partner_id or False
-            gln_rf = picking_part and picking_part.gln_rf or invoice_part.gln_rf
-            if not self.check_ean13(gln_rf):
-                errors += _('The partner %s not have some GLN defined correctly. [gln_rf]\n') % \
+            gln_rf_coa = invoice.partner_id.commercial_partner_id.gln_rf_coa or \
+                invoice.partner_id.commercial_partner_id.gln_rf
+            if not self.check_ean13(gln_rf_coa):
+                errors += _('The partner %s not have some GLN defined correctly. [gln_rf_coa]\n') % \
                     invoice.partner_id.name
             if not invoice.date_invoice:
                 errors += _('The invoice not have date.\n')
