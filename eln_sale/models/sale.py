@@ -45,8 +45,10 @@ class SaleOrder(models.Model):
         comodel_name='sale.shop',
         required=True)
     commercial_partner_id = fields.Many2one(
+        string="Partner Company",
         comodel_name='res.partner',
-        invisible=True)
+        related='partner_id.commercial_partner_id',
+        store=True, readonly=True)
     effective_date = fields.Date(
         string="Effective Date",
         compute="_get_effective_date", store=True,
@@ -207,8 +209,6 @@ class SaleOrder(models.Model):
         res = self.onchange_partner_id2(part, early_payment_discount, payment_term)
         partner_id = self.env['res.partner'].browse(part)
         commercial_partner_id = partner_id.commercial_partner_id
-        res['value']['commercial_partner_id'] = \
-            commercial_partner_id.id
         if not part:
             res['value']['pricelist_id'] = False
             return res
