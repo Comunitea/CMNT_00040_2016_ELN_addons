@@ -6,16 +6,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-18 15:50+0000\n"
-"PO-Revision-Date: 2020-03-18 16:56+0100\n"
+"POT-Creation-Date: 2021-01-15 09:31+0000\n"
+"PO-Revision-Date: 2021-01-15 10:37+0100\n"
 "Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: \n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Language: es\n"
-"X-Generator: Poedit 2.2.4\n"
+"X-Generator: Poedit 2.4.1\n"
 
 #. module: eln_custom
 #: selection:res.partner,customer_state:0
@@ -53,8 +53,7 @@ msgid "City"
 msgstr "Ciudad"
 
 #. module: eln_custom
-#: view:commercial.route:eln_custom.view_commercial_route_filter
-#: field:commercial.route,code:0 field:route,code:0
+#: field:route,code:0
 msgid "Code"
 msgstr "Código"
 
@@ -62,21 +61,6 @@ msgstr "Código"
 #: field:stock.picking,color_stock:0
 msgid "Color stock"
 msgstr "Color stock"
-
-#. module: eln_custom
-#: view:commercial.route:eln_custom.commercial_route_view_tree
-#: view:commercial.route:eln_custom.view_commercial_route_filter
-#: model:ir.actions.act_window,name:eln_custom.action_commercial_route
-#: model:ir.ui.menu,name:eln_custom.menu_action_commercial_route
-msgid "Commercial Routes"
-msgstr "Rutas comerciales"
-
-#. module: eln_custom
-#: model:ir.model,name:eln_custom.model_commercial_route
-#: view:res.partner:eln_custom.view_res_partner_filter_custom
-#: field:res.partner,commercial_route_id:0
-msgid "Commercial route"
-msgstr "Ruta comercial"
 
 #. module: eln_custom
 #: model:ir.model,name:eln_custom.model_res_company
@@ -104,12 +88,12 @@ msgid "Country"
 msgstr "País"
 
 #. module: eln_custom
-#: field:commercial.route,create_uid:0 field:route,create_uid:0
+#: field:route,create_uid:0
 msgid "Created by"
 msgstr "Created by"
 
 #. module: eln_custom
-#: field:commercial.route,create_date:0 field:route,create_date:0
+#: field:route,create_date:0
 msgid "Created on"
 msgstr "Created on"
 
@@ -130,7 +114,7 @@ msgid "Dirección:"
 msgstr "Dirección:"
 
 #. module: eln_custom
-#: field:commercial.route,display_name:0 field:route,display_name:0
+#: field:route,display_name:0
 msgid "Display Name"
 msgstr "Nombre mostrado"
 
@@ -155,13 +139,12 @@ msgid "Filters"
 msgstr "Filtros"
 
 #. module: eln_custom
-#: view:commercial.route:eln_custom.view_commercial_route_filter
 #: view:stock.picking:eln_custom.view_picking_planning_kanban_search
 msgid "Group By"
 msgstr "Agrupar por"
 
 #. module: eln_custom
-#: field:commercial.route,id:0 field:route,id:0
+#: field:route,id:0
 msgid "ID"
 msgstr "ID"
 
@@ -196,22 +179,22 @@ msgid "Inventory Locations"
 msgstr "Ubicaciones de inventario"
 
 #. module: eln_custom
-#: field:commercial.route,__last_update:0 field:route,__last_update:0
+#: field:route,__last_update:0
 msgid "Last Modified on"
 msgstr "Last Modified on"
 
 #. module: eln_custom
-#: field:commercial.route,write_uid:0 field:route,write_uid:0
+#: field:route,write_uid:0
 msgid "Last Updated by"
 msgstr "Last Updated by"
 
 #. module: eln_custom
-#: field:commercial.route,write_date:0 field:route,write_date:0
+#: field:route,write_date:0
 msgid "Last Updated on"
 msgstr "Last Updated on"
 
 #. module: eln_custom
-#: field:commercial.route,name:0 field:route,name:0
+#: field:route,name:0
 msgid "Name"
 msgstr "Nombre"
 
@@ -229,11 +212,6 @@ msgstr "Paquetes UdV"
 #: model:ir.model,name:eln_custom.model_res_partner
 msgid "Partner"
 msgstr "Empresa"
-
-#. module: eln_custom
-#: field:commercial.route,partner_ids:0
-msgid "Partners"
-msgstr "Empresas"
 
 #. module: eln_custom
 #: view:stock.picking:eln_custom.stock_picking_kanban
@@ -278,7 +256,6 @@ msgid "Route Model"
 msgstr "Ruta transporte"
 
 #. module: eln_custom
-#: view:commercial.route:eln_custom.commercial_route_view_form
 #: model:ir.actions.act_window,name:eln_custom.action_route
 #: model:ir.ui.menu,name:eln_custom.menu_routes_main
 #: model:ir.ui.menu,name:eln_custom.menu_routes_stock_picking
@@ -291,17 +268,6 @@ msgstr "Rutas de transporte"
 #: model:ir.model,name:eln_custom.model_sale_order
 msgid "Sales Order"
 msgstr "Pedido de venta"
-
-#. module: eln_custom
-#: view:commercial.route:eln_custom.view_commercial_route_filter
-#: field:commercial.route,user_id:0
-msgid "Salesperson"
-msgstr "Comercial"
-
-#. module: eln_custom
-#: field:commercial.route,sequence:0
-msgid "Sequence"
-msgstr "Secuencia"
 
 #. module: eln_custom
 #: view:res.partner:eln_custom.view_res_partner_filter_custom
@@ -364,7 +330,7 @@ msgid "Waiting Moves"
 msgstr "Movimientos a la espera"
 
 #. module: eln_custom
-#: code:addons/eln_custom/models/res_partner.py:78
+#: code:addons/eln_custom/models/res_partner.py:74
 #, python-format
 msgid "Warning!"
 msgstr "¡Advertencia!"
@@ -380,7 +346,7 @@ msgid "Weigth Net"
 msgstr "Peso neto"
 
 #. module: eln_custom
-#: code:addons/eln_custom/models/res_partner.py:79
+#: code:addons/eln_custom/models/res_partner.py:75
 #, python-format
 msgid "You can not change the company of the address. It must be the same as the company of the partner to which it belongs."
 msgstr "No se puede cambiar la compañía de la dirección. Debe ser igual a la compañía de la empresa a la que pertenece."
