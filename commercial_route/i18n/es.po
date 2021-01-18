@@ -1,0 +1,143 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* commercial_route
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-01-15 08:40+0000\n"
+"PO-Revision-Date: 2021-01-15 10:23+0100\n"
+"Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: es\n"
+"X-Generator: Poedit 2.4.1\n"
+
+#. module: commercial_route
+#: view:commercial.route:commercial_route.view_commercial_route_filter
+#: field:commercial.route,code:0
+msgid "Code"
+msgstr "Código"
+
+#. module: commercial_route
+#: view:commercial.route:commercial_route.commercial_route_view_tree
+#: view:commercial.route:commercial_route.view_commercial_route_filter
+#: model:ir.actions.act_window,name:commercial_route.action_commercial_route
+#: model:ir.ui.menu,name:commercial_route.menu_action_commercial_route
+msgid "Commercial Routes"
+msgstr "Rutas comerciales"
+
+#. module: commercial_route
+#: field:account.invoice,commercial_route_id:0
+#: field:account.invoice.report,commercial_route_id:0
+#: model:ir.model,name:commercial_route.model_commercial_route
+#: view:res.partner:commercial_route.view_res_partner_filter
+#: field:res.partner,commercial_route_id:0
+#: field:sale.order,commercial_route_id:0
+msgid "Commercial route"
+msgstr "Ruta comercial"
+
+#. module: commercial_route
+#: view:res.partner:commercial_route.view_res_partner_filter
+msgid "Country"
+msgstr "País"
+
+#. module: commercial_route
+#: field:commercial.route,create_uid:0
+msgid "Created by"
+msgstr "Created by"
+
+#. module: commercial_route
+#: field:commercial.route,create_date:0
+msgid "Created on"
+msgstr "Created on"
+
+#. module: commercial_route
+#: field:commercial.route,display_name:0
+msgid "Display Name"
+msgstr "Display Name"
+
+#. module: commercial_route
+#: view:commercial.route:commercial_route.view_commercial_route_filter
+msgid "Group By"
+msgstr "Agrupar por"
+
+#. module: commercial_route
+#: field:commercial.route,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: commercial_route
+#: model:ir.model,name:commercial_route.model_account_invoice
+msgid "Invoice"
+msgstr "Factura"
+
+#. module: commercial_route
+#: model:ir.model,name:commercial_route.model_account_invoice_refund
+msgid "Invoice Refund"
+msgstr "Abono factura"
+
+#. module: commercial_route
+#: model:ir.model,name:commercial_route.model_account_invoice_report
+msgid "Invoices Statistics"
+msgstr "Estadísticas de facturas"
+
+#. module: commercial_route
+#: field:commercial.route,__last_update:0
+msgid "Last Modified on"
+msgstr "Last Modified on"
+
+#. module: commercial_route
+#: field:commercial.route,write_uid:0
+msgid "Last Updated by"
+msgstr "Last Updated by"
+
+#. module: commercial_route
+#: field:commercial.route,write_date:0
+msgid "Last Updated on"
+msgstr "Last Updated on"
+
+#. module: commercial_route
+#: field:commercial.route,name:0
+msgid "Name"
+msgstr "Nombre"
+
+#. module: commercial_route
+#: model:ir.model,name:commercial_route.model_res_partner
+msgid "Partner"
+msgstr "Empresa"
+
+#. module: commercial_route
+#: field:commercial.route,partner_ids:0
+msgid "Partners"
+msgstr "Empresas"
+
+#. module: commercial_route
+#: model:ir.model,name:commercial_route.model_stock_picking
+msgid "Picking List"
+msgstr "Albarán"
+
+#. module: commercial_route
+#: view:commercial.route:commercial_route.commercial_route_view_form
+msgid "Routes"
+msgstr "Rutas"
+
+#. module: commercial_route
+#: model:ir.model,name:commercial_route.model_sale_order
+msgid "Sales Order"
+msgstr "Pedido de venta"
+
+#. module: commercial_route
+#: view:commercial.route:commercial_route.view_commercial_route_filter
+#: field:commercial.route,user_id:0
+msgid "Salesperson"
+msgstr "Comercial"
+
+#. module: commercial_route
+#: field:commercial.route,sequence:0
+msgid "Sequence"
+msgstr "Secuencia"

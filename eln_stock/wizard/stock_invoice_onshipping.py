@@ -48,11 +48,11 @@ class StockInvoiceOnshipping(models.TransientModel):
             if sii_enabled:
                 simplified_invoice = picking_ids.mapped(
                     'partner_id.commercial_partner_id.sii_simplified_invoice')
-                if not all(simplified_invoice) and any(simplified_invoice):
+                if simplified_invoice and not all(simplified_invoice) and any(simplified_invoice):
                     raise exceptions.Warning(
                         _("Warning!"),
                         _("It is not allowed to create ordinary invoices and simplified invoices at the same time."))
-                if all(simplified_invoice):
+                if simplified_invoice and all(simplified_invoice):
                     aj_obj = self.env['account.journal']
                     journal_id = aj_obj.browse(res)
                     domain = [

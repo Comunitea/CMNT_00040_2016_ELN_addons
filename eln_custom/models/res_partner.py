@@ -32,10 +32,6 @@ class res_partner(models.Model):
         ('III', 'III'), 
         ], string="Supplier type")
     route_id = fields.Many2one('route', 'Route')
-    commercial_route_id = fields.Many2one(
-        string='Commercial route',
-        comodel_name='commercial.route',
-        domain="[('user_id', '=', user_id)]")
     customer_state = fields.Selection([
         ('active', 'Active'),
         ('active_no_sales', 'Active (no sales)'),
