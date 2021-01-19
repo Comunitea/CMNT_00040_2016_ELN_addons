@@ -24,11 +24,18 @@
             <field name="arch" type="xml">
                 <form string="Routes">
                     <group>
-                        <field name="code"/>
-                        <field name="name"/>
-                        <field name="user_id"/>
-                        <field name="sequence"/>
-                        <field name="partner_ids"/>
+                        <group>
+                            <field name="code"/>
+                            <field name="name"/>
+                            <field name="user_id"/>
+                        </group>
+                        <group>
+                            <field name="active"/>
+                            <field name="sequence"/>
+                        </group>
+                    </group>
+                    <group>
+                            <field name="partner_ids"/>
                     </group>
                 </form>
             </field>
