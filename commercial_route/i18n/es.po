@@ -6,16 +6,21 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-15 08:40+0000\n"
-"PO-Revision-Date: 2021-01-15 10:23+0100\n"
+"POT-Creation-Date: 2021-01-19 12:10+0000\n"
+"PO-Revision-Date: 2021-01-19 13:11+0100\n"
 "Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: \n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Language: es\n"
 "X-Generator: Poedit 2.4.1\n"
+
+#. module: commercial_route
+#: field:commercial.route,active:0
+msgid "Active"
+msgstr "Activo"
 
 #. module: commercial_route
 #: view:commercial.route:commercial_route.view_commercial_route_filter
@@ -141,3 +146,9 @@ msgstr "Comercial"
 #: field:commercial.route,sequence:0
 msgid "Sequence"
 msgstr "Secuencia"
+
+#. module: commercial_route
+#: code:addons/commercial_route/models/commercial_route.py:73
+#, python-format
+msgid "You cannot remove a commercial route that is referenced by: %s"
+msgstr "No se puede eliminar una ruta comercial a la que se hace referencia en: %s"

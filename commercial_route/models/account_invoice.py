@@ -11,6 +11,7 @@ class AccountInvoice(models.Model):
     commercial_route_id = fields.Many2one(
         string='Commercial route',
         comodel_name='commercial.route',
+        readonly=True, states={'draft': [('readonly', False)]},
         domain="[('user_id', '=', user_id)]")
 
 
