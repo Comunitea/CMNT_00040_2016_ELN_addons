@@ -33,8 +33,9 @@
         'product_ranking',
         'product_trademark',
         'account_refund_original',
+        'commercial_route', # sólo para que genere correctamente el sql de la vista account.invoice.report cuando se hace update de commercial_route individualmente
     ],
-    "data": [
+    'data': [
         'views/account_invoice_view.xml',
         'report/account_invoice_report_view.xml',
     ],

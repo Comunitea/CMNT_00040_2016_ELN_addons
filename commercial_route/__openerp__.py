@@ -10,9 +10,9 @@
     "author": 'Pedro Gómez',
     "website": 'www.elnogal.com',
     "depends": [
+        'account',
         'sale',
         'stock',
-        'account',
      ],
     "init_xml": [],
     "data": [
@@ -23,6 +23,5 @@
         'views/sale_order_view.xml',
     ],
     "demo_xml": [],
-    "active": False,
     "installable": True
 }
