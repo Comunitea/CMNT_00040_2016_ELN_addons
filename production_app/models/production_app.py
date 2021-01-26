@@ -666,14 +666,12 @@ class ProductionAppRegistry(models.Model):
                 'cleaning_end': date,
                 'qty': qty,
             })
-            operators_logged = self.env['operator.line']
-            for op in reg.operator_ids:
-                if not op.date_out:
-                    operators_logged += op
-            if operators_logged:
-                operators_logged.write({
-                    'date_out': date,
-                })
+            # Deslogueamos los operarios que aún estaban logueados
+            operators_logged = reg.operator_ids.filtered(
+                lambda r: not r.date_out)
+            operators_logged.write({
+                'date_out': date,
+            })
             res = reg.read()[0]
         return res
 
@@ -946,6 +944,29 @@ class ProductionAppRegistry(models.Model):
                     move_id.force_assign()
         # Establecemos el registro a estado validado
         self.write({'state': 'validated'})
+        # ---------------------------------------------------------------------
+        # Aprovechamos para comprobar si existen operarios logueados
+        # en otros registros de app finalizados o validados y los arreglamos.
+        # Esto podría pasar si se avanza manualmente el estado a finalizado o
+        # a validado, en lugar de utilizar la app.
+        # Actuamos solo sobre los que lleven logueados más de una semana.
+        # ---------------------------------------------------------------------
+        date_limit = (datetime.now() - timedelta(days=7)).strftime("%Y-%m-%d")
+        domain = [
+            ('date_in', '<', date_limit),
+            ('date_out', '=', False),
+        ]
+        op_obj = self.env['operator.line']
+        op_not_log_out_ids = op_obj.search(domain).filtered(
+            lambda r: r.registry_id.state in ('finished', 'validated'))
+        for op_not_log_out_id in op_not_log_out_ids:
+            date_out = op_not_log_out_id.registry_id.cleaning_end or \
+                op_not_log_out_id.registry_id.cleaning_start or \
+                op_not_log_out_id.date_in
+            op_not_log_out_id.write({
+                'date_out': date_out,
+            })
+        # ---------------------------------------------------------------------
 
     @api.multi
     def change_production_qty(self):
