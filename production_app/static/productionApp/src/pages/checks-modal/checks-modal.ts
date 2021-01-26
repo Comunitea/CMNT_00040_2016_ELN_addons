@@ -64,27 +64,27 @@ export class ChecksModalPage {
             var qc = this.quality_checks[indx];
              if (qc.value_type == 'check') {
                 if (qc.value !== 'OK') {
-                    this.presentAlert('Error de validación', 'El valor para <b>' + qc.name + '</b> tiene que ser <b>OK</b');
+                    this.presentAlert('Error de validación', 'El valor para <b>' + qc.name + '</b> tiene que ser <b>OK</b>');
                     error = true;
                 }
-            }
-            else if (qc.value_type == 'text') {
+            } else if (qc.value_type == 'text') {
                 if (qc.required_text != '' && qc.required_text.toUpperCase() != qc.value.toUpperCase()) {
-                    this.presentAlert('Error de validación', 'El valor para <b>' + qc.name + '</b> tiene que ser <b>' + qc.required_text + '</b');
+                    if ((qc.required_text.length == 13 || qc.required_text.length == 14) && qc.value != '??') {
+                        this.presentAlert('Error de validación', 'El valor para <b>' + qc.name + '</b> no es correcto');
+                    } else {
+                        this.presentAlert('Error de validación', 'El valor para <b>' + qc.name + '</b> tiene que ser <b>' + qc.required_text + '</b>');
+                    }
                     error = true;
-                }
-                else if (!(qc.value.length > 0)) {
+                } else if (!(qc.value.length > 0)) {
                     this.presentAlert('Error de validación', 'El valor para <b>' + qc.name + '</b> no puede estar vacío');
                     error = true;
                 }
-            }
-            else if (qc.value_type == 'numeric') {
-                if (qc.min_value != 0 && qc.value < qc.min_value) {
-                    this.presentAlert('Error de validación', 'El valor para <b>' + qc.name + '</b> tiene que ser mayor que <b>' + qc.min_value + '</b');
+            } else if (qc.value_type == 'numeric') {
+                if (qc.value == '') {
+                    this.presentAlert('Error de validación', 'El valor para <b>' + qc.name + '</b> no puede estar vacío');
                     error = true;
-                }
-                else if (qc.max_value != 0 && qc.value > qc.max_value) {
-                    this.presentAlert('Error de validación', 'El valor para <b>' + qc.name + '</b> tiene que ser menor que <b>' + qc.max_value + '</b');
+                } else if (qc.value < qc.min_value || qc.value > qc.max_value) {
+                    this.presentAlert('Error de validación', 'El valor para <b>' + qc.name + '</b> tiene que estar entre <b>' + qc.min_value + '</b>' + ' y ' + '<b>' + qc.max_value + '</b>');
                     error = true;
                 }
             }
