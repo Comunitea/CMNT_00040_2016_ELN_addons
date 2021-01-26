@@ -359,6 +359,13 @@ class ProductionAppRegistry(models.Model):
                 'state': 'setup',
                 'setup_start': date
             })
+            # Ajustamos la fecha de entrada de los operarios
+            if reg.setup_start:
+                operator_ids = reg.operator_ids.filtered(
+                    lambda r: r.date_in < reg.setup_start)
+                operator_ids.write({
+                    'date_in': reg.setup_start,
+                })
             res = reg.read()[0]
         return res
 
