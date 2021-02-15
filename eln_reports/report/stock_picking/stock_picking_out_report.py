@@ -36,7 +36,7 @@ def parser(cr, uid, ids, data, context):
                 'picking_id': picking.id,
                 'prod_code': product_id.default_code or '',
                 'prod_ean13': product_id.ean13 or '',
-                'prod_name': product_id.name or '',
+                'prod_name': move_id.name or product_id.name or '',
                 'lot_name': lot_id.name or '',
                 'lot_date': use_date,
                 'uom_qty': uom_qty,
