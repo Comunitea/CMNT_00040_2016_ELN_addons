@@ -157,8 +157,8 @@ class planning_report_parser(report_sxw.rml_parse):
 
     def saca_rutas(self, date_done=False, delivery_route_id=False):
         str_date, str_route = self.set_filter(date_done, delivery_route_id)
-        sql_dates = "select delivery_route_id, r.name from stock_picking p " \
-                    "left join route r on p.delivery_route_id = r.id " \
+        sql_dates = "select delivery_route_id, dr.name from stock_picking p " \
+                    "left join delivery_route dr on p.delivery_route_id = dr.id " \
                     "where %s " \
                     "state in ('%s', '%s', '%s') %s and " \
                     "picking_type_id in (select id from stock_picking_type where code = '%s') " \
