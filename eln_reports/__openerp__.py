@@ -33,7 +33,7 @@
         'stock_picking_valued',
         'stock',
         'report_webkit',
-        'eln_custom',
+        'delivery_route',
         'picking_invoice_rel',  # Por campo stock_move_id
         'eln_production',
     ],

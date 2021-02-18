@@ -24,9 +24,9 @@ from openerp import models, fields, api
 class PlanningReportWizard(models.TransientModel):
     _name = 'planning.report.wizard'
     
-    route_id = fields.Many2one(
-        'route', 'Route')
-    group_by_route = fields.Boolean('Group By Route')
+    delivery_route_id = fields.Many2one(
+        'delivery.route', 'Delivery Route')
+    group_by_route = fields.Boolean('Group By Delivery Route')
     date = fields.Date('Date')
 
     @api.multi

@@ -238,8 +238,8 @@ msgstr "Posición fiscal"
 
 #. module: eln_reports
 #: field:planning.report.wizard,group_by_route:0
-msgid "Group By Route"
-msgstr "Agrupar por ruta"
+msgid "Group By Delivery Route"
+msgstr "Agrupar por ruta de transporte"
 
 #. module: eln_reports
 #: field:planning.report.wizard,id:0
@@ -511,7 +511,7 @@ msgstr "Fecha solicitud"
 #. module: eln_reports
 #: field:planning.report.wizard,route_id:0
 #: field:res.users,route_id:0
-msgid "Route"
+msgid "Delivery Route"
 msgstr "Ruta de transporte"
 
 #. module: eln_reports

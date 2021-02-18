@@ -48,13 +48,11 @@
     "category": "Custom",
     "init_xml": [],
     "data": [
-        'security/ir.model.access.csv',
         'security/eln_custom_security.xml',
         'data/balance_reporting_template.xml',
         'views/account_asset_view.xml',
         'views/product_view.xml',
         'views/res_partner_view.xml',
-        'views/route_view.xml',
         'views/stock_view.xml',
     ],
     'demo_xml': [],

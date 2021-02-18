@@ -56,7 +56,9 @@
                 'sale',
                 'account_payment',
                 'account_payment_partner',
-                'stock'
+                'stock',
+                'eln_sale',
+                'delivery_route',
     ],
     'init_xml': [],
     'data': [

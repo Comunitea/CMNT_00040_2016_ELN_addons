@@ -31,7 +31,6 @@ class res_partner(models.Model):
         ('II', 'II'), 
         ('III', 'III'), 
         ], string="Supplier type")
-    route_id = fields.Many2one('route', 'Route')
     customer_state = fields.Selection([
         ('active', 'Active'),
         ('active_no_sales', 'Active (no sales)'),

@@ -60,16 +60,16 @@ class planning_report_parser(report_sxw.rml_parse):
 
     def set_context(self, objects, data, ids, report_type=None):
         dates = []
-        route_id = data ['form'].get('route_id', False)
+        delivery_route_id = data['form'].get('delivery_route_id', False)
         group_by_route = data['form'].get('group_by_route', False)
-        if route_id:
-            route_id = route_id[0]
-        date_done = data ['form'].get('date', False)
+        if delivery_route_id:
+            delivery_route_id = delivery_route_id[0]
+        date_done = data['form'].get('date', False)
 
-        routes_pool = self.saca_rutas(date_done, route_id)
+        routes_pool = self.saca_rutas(date_done, delivery_route_id)
         routes = []
 
-        if group_by_route or route_id:
+        if group_by_route or delivery_route_id:
             if routes_pool:
                 for route in routes_pool:
                     picks_pool = self.saca_picks(date_done, route[0])
@@ -140,36 +140,36 @@ class planning_report_parser(report_sxw.rml_parse):
             res.append(product)
         return res, int(packages), int(weight)
 
-    def saca_picks(self, date_done=False, route_id=False):
-        str_date, str_route = self.set_filter(date_done, route_id)
-        if not route_id:
-            str_route = 'and p.route_id isnull '
-        if route_id == 'all':
+    def saca_picks(self, date_done=False, delivery_route_id=False):
+        str_date, str_route = self.set_filter(date_done, delivery_route_id)
+        if not delivery_route_id:
+            str_route = 'and p.delivery_route_id isnull '
+        if delivery_route_id == 'all':
             str_route = ''
         sql_dates = "select id from stock_picking p where " \
             "%s" \
             "state in ('%s', '%s', '%s') %s and " \
             "picking_type_id in (select id from stock_picking_type where code = '%s') " \
-            "group by 1 order by route_id desc"%(str_date, 'assigned', 'partially_available', 'confirmed', str_route, 'outgoing')
+            "group by 1 order by delivery_route_id desc"%(str_date, 'assigned', 'partially_available', 'confirmed', str_route, 'outgoing')
         self.cr.execute (sql_dates)
         picks = self.cr.fetchall()
         return picks
 
-    def saca_rutas(self, date_done=False, route_id=False):
-        str_date, str_route = self.set_filter(date_done, route_id)
-        sql_dates = "select route_id, r.name from stock_picking p " \
-                    "left join route r on p.route_id = r.id " \
+    def saca_rutas(self, date_done=False, delivery_route_id=False):
+        str_date, str_route = self.set_filter(date_done, delivery_route_id)
+        sql_dates = "select delivery_route_id, r.name from stock_picking p " \
+                    "left join route r on p.delivery_route_id = r.id " \
                     "where %s " \
                     "state in ('%s', '%s', '%s') %s and " \
                     "picking_type_id in (select id from stock_picking_type where code = '%s') " \
-                    "group by 1, 2 order by route_id asc"%(str_date, 'assigned', 'partially_available', 'confirmed', str_route, 'outgoing')
+                    "group by 1, 2 order by delivery_route_id asc"%(str_date, 'assigned', 'partially_available', 'confirmed', str_route, 'outgoing')
         self.cr.execute (sql_dates)
         routes = self.cr.fetchall()
         return routes
 
-    def set_filter(self, date_done=False, route_id=False):
-        if route_id:
-            str_route = " and p.route_id=%s " % route_id
+    def set_filter(self, date_done=False, delivery_route_id=False):
+        if delivery_route_id:
+            str_route = " and p.delivery_route_id=%s " % delivery_route_id
         else:
             str_route = ''
         if date_done:
