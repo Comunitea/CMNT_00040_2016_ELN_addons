@@ -1,0 +1,358 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* delivery_route
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-02-18 11:37+0000\n"
+"PO-Revision-Date: 2021-02-18 12:51+0100\n"
+"Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: es\n"
+"X-Generator: Poedit 2.4.2\n"
+
+#. module: delivery_route
+#: view:stock.picking:delivery_route.view_picking_planning_kanban_search
+msgid "Assigned Moves"
+msgstr "Movimientos asignados"
+
+#. module: delivery_route
+#: view:stock.picking:delivery_route.stock_picking_kanban
+msgid "Bultos:"
+msgstr "Bultos:"
+
+#. module: delivery_route
+#: view:stock.picking:delivery_route.stock_picking_kanban_calendar
+msgid "Calendar View"
+msgstr "Vista calendario"
+
+#. module: delivery_route
+#: field:delivery.route,carrier_id:0
+msgid "Carrier"
+msgstr "Transportista"
+
+#. module: delivery_route
+#: field:delivery.route,code:0
+msgid "Code"
+msgstr "Código"
+
+#. module: delivery_route
+#: field:stock.picking,color_stock:0
+msgid "Color stock"
+msgstr "Color stock"
+
+#. module: delivery_route
+#: view:res.partner:delivery_route.view_res_partner_filter
+msgid "Country"
+msgstr "País"
+
+#. module: delivery_route
+#: field:delivery.route,create_uid:0
+msgid "Created by"
+msgstr "Created by"
+
+#. module: delivery_route
+#: field:delivery.route,create_date:0
+msgid "Created on"
+msgstr "Created on"
+
+#. module: delivery_route
+#: help:stock.picking,loading_date:0
+msgid "Date on which the delivery order will be loaded."
+msgstr "Fecha en la que se cargará el pedido de entrega."
+
+#. module: delivery_route
+#: view:stock.picking:delivery_route.view_picking_planning_kanban_search
+msgid "Delayed"
+msgstr "Retrasados"
+
+#. module: delivery_route
+#: field:delivery.route,delivery_delay:0
+msgid "Delivery Lead Time"
+msgstr "Plazo de entrega"
+
+#. module: delivery_route
+#: field:res.partner,delivery_route_id:0
+#: view:stock.picking:delivery_route.view_picking_internal_search
+#: view:stock.picking:delivery_route.view_picking_planning_kanban_search
+#: field:stock.picking,delivery_route_id:0
+msgid "Delivery Route"
+msgstr "Ruta de transporte"
+
+#. module: delivery_route
+#: view:delivery.route:delivery_route.delivery_route_view_form
+#: view:delivery.route:delivery_route.delivery_route_view_tree
+#: view:delivery.route:delivery_route.view_delivery_route_filter
+#: model:ir.actions.act_window,name:delivery_route.action_delivery_route
+#: model:ir.ui.menu,name:delivery_route.menu_delivery_routes_stock_picking
+msgid "Delivery Routes"
+msgstr "Rutas de transporte"
+
+#. module: delivery_route
+#: model:ir.model,name:delivery_route.model_delivery_route
+#: view:res.partner:delivery_route.view_res_partner_filter
+msgid "Delivery route"
+msgstr "Ruta de transporte"
+
+#. module: delivery_route
+#: view:stock.picking:delivery_route.stock_picking_kanban
+msgid "Dirección:"
+msgstr "Dirección:"
+
+#. module: delivery_route
+#: field:delivery.route,display_name:0
+msgid "Display Name"
+msgstr "Display Name"
+
+#. module: delivery_route
+#: view:stock.picking:delivery_route.stock_picking_kanban
+msgid "Fecha de carga:"
+msgstr "Fecha de carga:"
+
+#. module: delivery_route
+#: view:stock.picking:delivery_route.stock_picking_kanban
+msgid "Fecha de solicitud:"
+msgstr "Fecha de solicitud:"
+
+#. module: delivery_route
+#: view:stock.picking:delivery_route.view_picking_planning_kanban_search
+msgid "Filters"
+msgstr "Filtros"
+
+#. module: delivery_route
+#: field:delivery.route,friday:0
+msgid "Friday"
+msgstr "Viernes"
+
+#. module: delivery_route
+#: view:stock.picking:delivery_route.view_picking_internal_search
+#: view:stock.picking:delivery_route.view_picking_planning_kanban_search
+msgid "Group By"
+msgstr "Agrupar por"
+
+#. module: delivery_route
+#: field:delivery.route,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: delivery_route
+#: field:delivery.route,initial_date:0
+msgid "Initial date"
+msgstr "Fecha inicial"
+
+#. module: delivery_route
+#: field:delivery.route,interval:0
+msgid "Interval"
+msgstr "Intervalo"
+
+#. module: delivery_route
+#: field:delivery.route,__last_update:0
+msgid "Last Modified on"
+msgstr "Last Modified on"
+
+#. module: delivery_route
+#: field:delivery.route,write_uid:0
+msgid "Last Updated by"
+msgstr "Last Updated by"
+
+#. module: delivery_route
+#: field:delivery.route,write_date:0
+msgid "Last Updated on"
+msgstr "Last Updated on"
+
+#. module: delivery_route
+#: field:stock.picking,loading_date:0
+msgid "Loading Date"
+msgstr "Fecha de carga"
+
+#. module: delivery_route
+#: field:delivery.route,monday:0
+msgid "Monday"
+msgstr "Lunes"
+
+#. module: delivery_route
+#: field:delivery.route,name:0
+msgid "Name"
+msgstr "Nombre"
+
+#. module: delivery_route
+#: help:delivery.route,next_loading_date:0
+msgid "Next date on which a delivery order will be loaded."
+msgstr "Siguiente fecha en la que se cargará un pedido de entrega."
+
+#. module: delivery_route
+#: field:delivery.route,next_loading_date:0
+msgid "Next loading date"
+msgstr "Siguiente fecha de carga"
+
+#. module: delivery_route
+#: field:stock.picking,packages:0
+msgid "Packages"
+msgstr "Paquetes"
+
+#. module: delivery_route
+#: field:stock.picking,packages_uos:0
+msgid "Packages UoS"
+msgstr "Paquetes UdV"
+
+#. module: delivery_route
+#: model:ir.model,name:delivery_route.model_res_partner
+msgid "Partner"
+msgstr "Empresa"
+
+#. module: delivery_route
+#: view:stock.picking:delivery_route.stock_picking_kanban
+msgid "Peso:"
+msgstr "Peso:"
+
+#. module: delivery_route
+#: model:ir.model,name:delivery_route.model_stock_picking
+msgid "Picking List"
+msgstr "Albarán"
+
+#. module: delivery_route
+#: view:stock.picking:delivery_route.view_picking_planning_kanban_search
+msgid "Picking list"
+msgstr "Albarán"
+
+#. module: delivery_route
+#: field:delivery.route,planned:0
+msgid "Planned"
+msgstr "Planificado"
+
+#. module: delivery_route
+#: model:ir.ui.menu,name:delivery_route.menu_planning_kanban_stock
+msgid "Planning"
+msgstr "Planificación"
+
+#. module: delivery_route
+#: model:ir.actions.act_window,name:delivery_route.action_picking_planning_kanban
+msgid "Planning Delivery Orders"
+msgstr "Planificación de albaranes"
+
+#. module: delivery_route
+#: view:stock.picking:delivery_route.view_picking_planning_kanban_search
+msgid "Ready"
+msgstr "Preparado"
+
+#. module: delivery_route
+#: model:ir.model,name:delivery_route.model_sale_order
+msgid "Sales Order"
+msgstr "Pedido de venta"
+
+#. module: delivery_route
+#: field:delivery.route,saturday:0
+msgid "Saturday"
+msgstr "Sábado"
+
+#. module: delivery_route
+#: field:delivery.route,sequence:0
+msgid "Sequence"
+msgstr "Secuencia"
+
+#. module: delivery_route
+#: field:delivery.route,show_always:0
+msgid "Show always"
+msgstr "Mostrar siempre"
+
+#. module: delivery_route
+#: field:delivery.route,sunday:0
+msgid "Sunday"
+msgstr "Domingo"
+
+#. module: delivery_route
+#: help:delivery.route,delivery_delay:0
+msgid "The average delay in days between the picking transfer and the delivery of the products to customer."
+msgstr "El tiempo medio en días entre la transferencia del albarán y la entrega de los productos al cliente."
+
+#. module: delivery_route
+#: field:delivery.route,thursday:0
+msgid "Thursday"
+msgstr "Jueves"
+
+#. module: delivery_route
+#: view:stock.picking:delivery_route.view_picking_planning_kanban_search
+msgid "Today"
+msgstr "Hoy"
+
+#. module: delivery_route
+#: view:stock.picking:delivery_route.view_picking_planning_kanban_search
+msgid "Today +1"
+msgstr "Hoy +1"
+
+#. module: delivery_route
+#: view:stock.picking:delivery_route.view_picking_planning_kanban_search
+msgid "Today +2"
+msgstr "Hoy +2"
+
+#. module: delivery_route
+#: view:stock.picking:delivery_route.view_picking_planning_kanban_search
+msgid "Today +3"
+msgstr "Hoy +3"
+
+#. module: delivery_route
+#: view:stock.picking:delivery_route.stock_picking_kanban
+msgid "Total bultos"
+msgstr "Total bultos"
+
+#. module: delivery_route
+#: view:stock.picking:delivery_route.stock_picking_kanban
+msgid "Total peso"
+msgstr "Total peso"
+
+#. module: delivery_route
+#: field:delivery.route,tuesday:0
+msgid "Tuesday"
+msgstr "Martes"
+
+#. module: delivery_route
+#: view:delivery.route:delivery_route.delivery_route_view_form
+msgid "Valid days"
+msgstr "Días válidos"
+
+#. module: delivery_route
+#: field:stock.picking,volume:0
+msgid "Volume"
+msgstr "Volumen"
+
+#. module: delivery_route
+#: view:stock.picking:delivery_route.view_picking_planning_kanban_search
+msgid "Waiting Availability"
+msgstr "Esperando disponibilidad"
+
+#. module: delivery_route
+#: view:stock.picking:delivery_route.view_picking_planning_kanban_search
+msgid "Waiting Moves"
+msgstr "Movimientos a la espera"
+
+#. module: delivery_route
+#: field:delivery.route,wednesday:0
+msgid "Wednesday"
+msgstr "Miércoles"
+
+#. module: delivery_route
+#: view:delivery.route:delivery_route.delivery_route_view_form
+msgid "Weekly planning"
+msgstr "Planificación semanal"
+
+#. module: delivery_route
+#: field:stock.picking,weight:0
+msgid "Weigth"
+msgstr "Peso"
+
+#. module: delivery_route
+#: field:stock.picking,weight_net:0
+msgid "Weigth Net"
+msgstr "Peso neto"
+
+#. module: delivery_route
+#: code:addons/delivery_route/models/delivery_route.py:125
+#, python-format
+msgid "You cannot remove a delivery route that is referenced by: %s"
+msgstr "No se puede eliminar una ruta de transporte a la que se hace referencia en: %s"

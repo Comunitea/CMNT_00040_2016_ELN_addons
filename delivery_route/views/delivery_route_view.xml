@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>
+
+        <record id="delivery_route_view_tree" model="ir.ui.view">
+            <field name="name">delivery.route.view.tree</field>
+            <field name="model">delivery.route</field>
+             <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Delivery Routes">
+                    <field name="sequence" widget="handle"/>
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="carrier_id"/>
+                    <field name="delivery_delay"/>
+                    <field name="show_always"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="delivery_route_view_form" model="ir.ui.view">
+            <field name="name">delivery.route.view.form</field>
+            <field name="model">delivery.route</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Delivery Routes">
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="name"/>
+                            <field name="carrier_id"/>
+                            <field name="delivery_delay"/>
+                        </group>
+                        <group>
+                            <field name="sequence"/>
+                            <field name="show_always"/>
+                            <field name="planned"/>
+                        </group>
+                    </group>
+                    <group attrs="{'invisible':[('planned','!=',True)]}" string="Weekly planning">
+                        <field name="interval" attrs="{'required':[('planned','!=',False)]}"/>
+                        <field name="initial_date" attrs="{'required':[('planned','!=',False)]}"/>
+                        <field name="next_loading_date" readonly="1"/>
+                        <group string="Valid days" colspan="4">
+                            <group>
+                                <field name="monday"/>
+                                <field name="tuesday"/>
+                                <field name="wednesday"/>
+                                <field name="thursday"/>
+                                <field name="friday"/>
+                            </group>
+                            <group>
+                                <field name="saturday"/>
+                                <field name="sunday"/>
+                            </group>
+                        </group>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_delivery_route_filter" model="ir.ui.view">
+            <field name="name">delivery.route.list.select</field>
+            <field name="model">delivery.route</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Delivery Routes">
+                    <field name="name"
+                        filter_domain="[('name', 'ilike', self)]"/>
+                    <field name="code"/>
+                    <field name="carrier_id"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_delivery_route" model="ir.actions.act_window">
+            <field name="name">Delivery Routes</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">delivery.route</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_delivery_route_filter"/>
+            <field name="context">{}</field>
+        </record>
+
+        <menuitem id="menu_delivery_routes_stock_picking" name="Delivery Routes" sequence="1" action="action_delivery_route" parent="stock.menu_stock_configuration"/>
+
+    </data>
+</openerp>

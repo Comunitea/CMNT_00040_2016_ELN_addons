@@ -9,170 +9,25 @@
             <field name="inherit_id" ref="stock.view_picking_form"/>
             <field name="type">form</field>
             <field name="arch" type="xml">
-                <field name="backorder_id" position="after">
-                    <field name="route_id"/>
-                </field>
                 <field name="partner_id" position="attributes">
                     <attribute name="context">{'show_address': 1, 'default_type': 'delivery'}</attribute>
                     <attribute name="options">{"always_reload": True}</attribute>
                 </field>
-                <field name="priority" position="after">
-                    <field name="weight"/>
-                    <field name="packages_uos"/>
-                </field>
             </field>
         </record>
 
-        <record id="view_picking_out_tree_add_route" model="ir.ui.view">
-            <field name="name">stock.picking.out.tree.add_route</field>
+        <record id="view_picking_out_tree_custom" model="ir.ui.view">
+            <field name="name">stock.picking.out.tree.custom</field>
             <field name="model">stock.picking</field>
             <field name="inherit_id" ref="stock.vpicktree"/>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <field name="origin" position="before">
-                    <field name="route_id"/>
-                </field>
-                 <field name="partner_id" position="attributes">
+                <field name="partner_id" position="attributes">
                     <attribute name="context">{'show_address': 1}</attribute>
                     <attribute name="options">{"always_reload": True}</attribute>
                 </field>
             </field>
         </record>
-
-        <record model="ir.ui.view" id="stock_picking_kanban">
-            <field name="name">stock.picking.kanban</field>
-            <field name="model">stock.picking</field>
-            <field name="type">kanban</field>
-            <field name="arch" type="xml">
-                <kanban default_group_by="route_id" default_order="effective_date asc, name asc">
-                    <field name="name"/>
-                    <field name="effective_date"/>
-                    <field name="requested_date"/>
-                    <field name="partner_id"/>
-                    <field name="supplier_id"/>
-                    <field name="carrier_id"/>
-                    <field name="packages"/>
-                    <field name="weight" sum="Total Peso Bruto"/>
-                    <field name="weight_net"/>
-                    <field name="volume"/>
-                    <field name="color_stock"/>
-                    <field name="state"/>
-                    <field name="backorder_id"/>
-                    <templates>
-                        <t t-name="kanban-box">
-                            <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color_stock.raw_value || record.state.raw_value)} oe_kanban_card">
-                            <div class="oe_kanban_box oe_kanban_color_border">
-                                <div class="oe_kanban_box_header oe_kanban_color_bgdark oe_kanban_color_border oe_kanban_draghandle">
-                                    <div>
-                                        <h3>
-                                           <a type="open"><field name="name"/></a>
-                                           <t t-if="record.backorder_id.raw_value"> (<field name="backorder_id"/>)</t>
-                                        </h3> 
-                                    </div>
-                                    <div>
-                                        <li>(<field name="state"/>)</li>
-                                    </div>
-                                    <div>
-                                        <h4>Fecha efectiva: <field name="effective_date"/></h4>
-                                    </div>
-                                </div>
-                                <div class="oe_kanban_box_content oe_kanban_color_bglight oe_kanban_box_show_onclick_trigger oe_kanban_color_border">
-                                    <div t-if="record.requested_date.raw_value" t-attf-class="oe_kanban_text_red">
-                                        <b>
-                                            Fecha de solicitud:
-                                        </b>
-                                        <field name="requested_date"/>
-                                    </div>
-                                    <div>
-                                        <b>
-                                            Dirección:
-                                        </b>
-                                        <field name="partner_id"/>
-                                    </div>
-                                    <div>
-                                        <b>
-                                            Bultos:
-                                        </b>
-                                        <field name="packages_uos" />
-                                    </div>
-                                    <div>
-                                        <b>
-                                            Peso bruto:
-                                        </b>
-                                        <field name="weight" />
-                                    </div>
-                                </div>
-                                <div class="oe_kanban_buttons_set oe_kanban_color_border oe_kanban_color_bglight oe_kanban_box_show_onclick">
-                                    <div class="oe_kanban_left">
-                                        <a string="Edit" icon="gtk-edit" type="edit"/>
-                                    </div>
-                                    <br class="oe_kanban_clear"/>
-                                </div>
-                            </div>
-                            </div>
-                        </t>
-                    </templates>
-                </kanban>
-            </field>
-        </record>
-        
-        <record id="view_picking_planning_kanban_search" model="ir.ui.view">
-            <field name="name">stock.picking.out.search</field>
-            <field name="model">stock.picking</field>
-            <field name="type">search</field>
-            <field name="arch" type="xml">
-                <search string="Picking list">
-                    <group string="Filters">
-                        <filter icon="terp-check" name="available" string="Ready" domain="[('state', 'in', ('assigned', 'partially_available'))]" help="Assigned Moves"/>
-                        <filter icon="terp-check" name="waiting" string="Waiting Availability" domain="[('state', '=', 'confirmed')]" help="Waiting Moves"/>
-                        <separator/>
-                        <filter icon="terp-go-week" string="Today" name="today"
-                        domain="[('effective_date', '&lt;=', time.strftime('%%Y-%%m-%%d 23:59:59'))]"/>
-                        <filter icon="terp-go-week" string="Today +2" name="todaytwo"
-                        domain="[('effective_date', '&lt;=', (datetime.date.today()+datetime.timedelta(days=2)).strftime('%%Y-%%m-%%d 23:59:59')), ('effective_date', '&gt;=', time.strftime('%%Y-%%m-%%d 00:00:00'))]"/>
-                        <filter icon="terp-go-week" string="Today +5" name="todayfive"
-                        domain="[('effective_date', '&lt;=', (datetime.date.today()+datetime.timedelta(days=5)).strftime('%%Y-%%m-%%d 23:59:59')), ('effective_date', '&gt;=', time.strftime('%%Y-%%m-%%d 00:00:00'))]"/>
-                    </group>
-                    <group string="Group By">
-                        <filter string="Route" domain="[]" context="{'group_by':'route_id'}"/>
-                    </group>
-                </search>
-            </field>
-        </record>
-
-        <record id="action_picking_planning_kanban" model="ir.actions.act_window">
-            <field name="name">Planning Delivery Orders</field>
-            <field name="res_model">stock.picking</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">kanban,tree,form</field>
-            <field name="domain">[('picking_type_code', '=', 'outgoing'), ('state', '!=', 'cancel')]</field>
-            <field name="context">{'search_default_available': 1, 'search_default_waiting': 1}</field>
-            <field name="search_view_id" ref="view_picking_planning_kanban_search"/>
-        </record>
-        <record id="action_picking_kanban_out_view1_waiting" model="ir.actions.act_window.view">
-            <field eval="1" name="sequence"/>
-            <field name="view_mode">kanban</field>
-            <field name="view_id" ref="stock_picking_kanban"/>
-            <field name="act_window_id" ref="action_picking_planning_kanban"/>
-        </record>
-        <record id="action_picking_kanban_out_view1_waiting2" model="ir.actions.act_window.view">
-            <field eval="3" name="sequence"/>
-            <field name="view_mode">form</field>
-            <field name="view_id" ref="stock.view_picking_form"/>
-            <field name="act_window_id" ref="action_picking_planning_kanban"/>
-        </record>
-        <record id="action_picking_kanban_out_view1_waiting3" model="ir.actions.act_window.view">
-            <field eval="2" name="sequence"/>
-            <field name="view_mode">tree</field>
-            <field name="view_id" ref="stock.vpicktree"/>
-            <field name="act_window_id" ref="action_picking_planning_kanban"/>
-        </record>
-
-        <menuitem id="menu_planning_kanban_stock"
-            name="Planning" action="action_picking_planning_kanban"
-            parent="stock.menu_stock_warehouse_mgmt"/>
-
 
         <record model="ir.ui.view" id="view_move_form_expiry">
             <field name="name">stock.production.lot.form.inv.life</field>

@@ -20,6 +20,9 @@
 ##############################################################################
 
 from openerp import models, fields, api
+from datetime import datetime
+from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT
+from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
 
 
 class StockPicking(models.Model):
@@ -64,6 +67,18 @@ class StockPicking(models.Model):
         if 'effective_date' in vals:
             orders = self.mapped('sale_id')
             orders.update_effective_date()
+        return res
+
+    @api.multi
+    def do_transfer(self):
+        res = super(StockPicking, self).do_transfer()
+        for pick in self:
+            if pick.date_done and pick.state == 'done':
+                effective_date = datetime.strptime(pick.date_done, DEFAULT_SERVER_DATETIME_FORMAT)
+                if pick.requested_date:
+                    requested_date = datetime.strptime(pick.requested_date, DEFAULT_SERVER_DATE_FORMAT)
+                    effective_date = requested_date
+                pick.effective_date = effective_date.strftime(DEFAULT_SERVER_DATETIME_FORMAT)
         return res
 
 
