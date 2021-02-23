@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+    <data>
+
+        <record id="wiz_default_delivery_route_form" model="ir.ui.view">
+            <field name="name">wiz.default.delivery.route.form</field>
+            <field name="model">wiz.default.delivery.route</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Set default route">
+                    <footer>
+                        <button name="set_default_route" string="Set default route" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window name="Set default route"
+            res_model="wiz.default.delivery.route"
+            src_model="stock.picking"
+            view_id="wiz_default_delivery_route_form"
+            view_mode="form"
+            target="new"
+            key2="client_action_multi"
+            id="wiz_default_delivery_route_action"/>
+
+    </data>
+</openerp>
+

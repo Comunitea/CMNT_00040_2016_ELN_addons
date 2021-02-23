@@ -25,8 +25,10 @@ class DeliveryRoute(models.Model):
         string='Next loading date',
         compute='_get_next_loading_date',
         help="Next date on which a delivery order will be loaded.")
-    planned = fields.Boolean('Planned')
-    interval = fields.Integer('Interval', default=1)
+    planned = fields.Boolean('Planned',
+        help="If not planned, the loading date will not be set.")
+    interval = fields.Integer('Interval', default=1,
+        help="Every few weeks the delivery is loaded. If it is 0 it will be proposed for immediate loading.")
     initial_date = fields.Date('Initial date')
     monday = fields.Boolean('Monday')
     tuesday = fields.Boolean('Tuesday')

@@ -38,7 +38,7 @@ class StockPicking(models.Model):
                 fold[x[0]] = 0
                 result2 += [x]
         # Se pliega la columna indefinido
-        fold[False] = 1
+        # fold[False] = 1
         return result2, fold
 
     _group_by_full = {
@@ -68,6 +68,10 @@ class StockPicking(models.Model):
     loading_date = fields.Date(
         string='Loading Date',
         help="Date on which the delivery order will be loaded.")
+    city = fields.Char(
+        string='City',
+        related='partner_id.city',
+        readonly=True)
 
     @api.multi
     def _get_color_stock(self):
@@ -119,3 +123,38 @@ class StockPicking(models.Model):
                     effective_date += timedelta(days=(pick.delivery_route_id and pick.delivery_route_id.delivery_delay or 0.0))
                     pick.effective_date = effective_date.strftime(DEFAULT_SERVER_DATETIME_FORMAT)
         return res
+
+    @api.model
+    def _create_backorder(self, picking, backorder_moves=[]):
+        res = super(StockPicking, self)._create_backorder(picking, backorder_moves)
+        if res:
+            backorder_id = self.env['stock.picking'].browse(res)
+            if backorder_id.picking_type_code == 'outgoing':
+                delivery_route_id = backorder_id.partner_id.delivery_route_id or \
+                    backorder_id.partner_id.commercial_partner_id.delivery_route_id
+                vals = {
+                    'delivery_route_id': delivery_route_id.id,
+                    'loading_date': delivery_route_id.next_loading_date,
+                }
+                backorder_id.write(vals)
+        return res
+
+    @api.multi
+    def action_set_default_route(self):
+        for pick in self:
+            delivery_route_id = pick.partner_id.delivery_route_id or \
+                pick.partner_id.commercial_partner_id.delivery_route_id
+            pick.delivery_route_id = delivery_route_id
+
+    @api.multi
+    def action_print_all_planned_pickings(self):
+        if self and self[0].delivery_route_id.show_always:
+            domain = [
+                ('delivery_route_id', '=', self[0].delivery_route_id.id),
+                ('picking_type_code', '=', 'outgoing'),
+                ('state', 'in', ('assigned', 'partially_available', 'confirmed')),
+            ]
+            picking_ids = self.env['stock.picking'].search(domain)
+            if picking_ids:
+                return self.env['report'].get_action(picking_ids, 'stock.report_picking')
+
