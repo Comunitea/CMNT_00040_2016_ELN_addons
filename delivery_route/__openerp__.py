@@ -16,6 +16,7 @@
      ],
     "init_xml": [],
     "data": [
+        'wizard/wiz_default_delivery_route.xml',
         'security/ir.model.access.csv',
         'views/delivery_route_view.xml',
         'views/res_partner_view.xml',

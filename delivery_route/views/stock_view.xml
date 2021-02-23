@@ -15,7 +15,7 @@
                 <field name="priority" position="after">
                     <field name="weight"/>
                     <field name="packages_uos"/>
-                    <field name="loading_date"/>
+                    <field name="loading_date" attrs="{'invisible': [('picking_type_code','!=','outgoing')]}"/>
                 </field>
             </field>
         </record>
@@ -48,7 +48,7 @@
             <field name="model">stock.picking</field>
             <field name="type">kanban</field>
             <field name="arch" type="xml">
-                <kanban default_group_by="delivery_route_id" default_order="loading_date asc, effective_date asc, name asc" quick_create="false">
+                <kanban default_group_by="delivery_route_id" default_order="loading_date asc, effective_date asc, name asc" quick_create="false" group_create="false">
                     <field name="name"/>
                     <field name="effective_date"/>
                     <field name="requested_date"/>
@@ -68,10 +68,22 @@
                             <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color_stock.raw_value)} oe_kanban_card">
                                 <div class="oe_kanban_box oe_kanban_color_border">
                                     <div class="oe_kanban_box_header oe_kanban_color_bgdark oe_kanban_color_border oe_kanban_draghandle oe_kanban_box_content">
+                                        <div class="oe_dropdown_toggle oe_dropdown_kanban">
+                                            <span class="oe_e">í</span>
+                                            <ul class="oe_dropdown_menu">
+                                                <li><a name="%(stock.action_report_picking)d" type="action">Print picking</a></li>
+                                                <t t-if="record.delivery_route_id.raw_value">
+                                                    <li><a name="action_print_all_planned_pickings" type="object">Print all pickings</a></li>
+                                                </t>
+                                                <li><a name="action_set_default_route" type="object">Set default route</a></li>
+                                                <!-- <li><a name="%(wiz_default_delivery_route_action)d" type="action">Set default route</a></li>  -->
+                                                <!-- <li><button type="action" name="%(wiz_default_delivery_route_action)d" class="oe_highlight">Set default route</button></li>  -->
+                                            </ul>
+                                        </div>
                                         <div>
                                             <h3>
-                                               <a type="open"><field name="name"/></a>
-                                               <t t-if="record.backorder_id.raw_value"> (<field name="backorder_id"/>)</t>
+                                                <a type="open"><field name="name"/></a>
+                                                <t t-if="record.backorder_id.raw_value"> (<field name="backorder_id"/>)</t>
                                             </h3> 
                                         </div>
                                         <div t-if="record.state.raw_value == 'done' || record.state.raw_value == 'cancel' || record.state.raw_value == 'draft'">
@@ -93,6 +105,12 @@
                                                 Cliente:
                                             </b>
                                             <field name="partner_id"/>
+                                        </div>
+                                        <div>
+                                            <b>
+                                                Ciudad:
+                                            </b>
+                                            <field name="city"/>
                                         </div>
                                         <div>
                                             <b>
@@ -148,8 +166,8 @@
             <field name="priority" eval="2"/>
             <field name="arch" type="xml">
                 <calendar string="Calendar View" date_start="loading_date" date_stop="loading_date" color="partner_id">
-                    <field name="origin"/>
-                    <field name="picking_type_id"/>
+                    <field name="name"/>
+                    <field name="delivery_route_id"/>
                     <field name="partner_id"/>
                 </calendar>
             </field>

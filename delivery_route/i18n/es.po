@@ -6,14 +6,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-02-18 11:37+0000\n"
-"PO-Revision-Date: 2021-02-18 12:51+0100\n"
+"POT-Creation-Date: 2021-02-23 16:03+0000\n"
+"PO-Revision-Date: 2021-02-23 17:08+0100\n"
 "Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: \n"
 "Language: es\n"
 "X-Generator: Poedit 2.4.2\n"
 
@@ -33,9 +33,29 @@ msgid "Calendar View"
 msgstr "Vista calendario"
 
 #. module: delivery_route
+#: view:wiz.default.delivery.route:delivery_route.wiz_default_delivery_route_form
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: delivery_route
 #: field:delivery.route,carrier_id:0
 msgid "Carrier"
 msgstr "Transportista"
+
+#. module: delivery_route
+#: field:stock.picking,city:0
+msgid "City"
+msgstr "Ciudad"
+
+#. module: delivery_route
+#: view:stock.picking:delivery_route.stock_picking_kanban
+msgid "Ciudad:"
+msgstr "Ciudad:"
+
+#. module: delivery_route
+#: view:stock.picking:delivery_route.stock_picking_kanban
+msgid "Cliente:"
+msgstr "Cliente:"
 
 #. module: delivery_route
 #: field:delivery.route,code:0
@@ -54,11 +74,13 @@ msgstr "País"
 
 #. module: delivery_route
 #: field:delivery.route,create_uid:0
+#: field:wiz.default.delivery.route,create_uid:0
 msgid "Created by"
 msgstr "Created by"
 
 #. module: delivery_route
 #: field:delivery.route,create_date:0
+#: field:wiz.default.delivery.route,create_date:0
 msgid "Created on"
 msgstr "Created on"
 
@@ -101,14 +123,15 @@ msgid "Delivery route"
 msgstr "Ruta de transporte"
 
 #. module: delivery_route
-#: view:stock.picking:delivery_route.stock_picking_kanban
-msgid "Dirección:"
-msgstr "Dirección:"
-
-#. module: delivery_route
 #: field:delivery.route,display_name:0
+#: field:wiz.default.delivery.route,display_name:0
 msgid "Display Name"
 msgstr "Display Name"
+
+#. module: delivery_route
+#: help:delivery.route,interval:0
+msgid "Every few weeks the delivery is loaded. If it is 0 it will be proposed for immediate loading."
+msgstr "Cada cuantas semanas se realiza la carga para reparto. Si es 0 se propondrá para carga inmediata."
 
 #. module: delivery_route
 #: view:stock.picking:delivery_route.stock_picking_kanban
@@ -137,9 +160,14 @@ msgid "Group By"
 msgstr "Agrupar por"
 
 #. module: delivery_route
-#: field:delivery.route,id:0
+#: field:delivery.route,id:0 field:wiz.default.delivery.route,id:0
 msgid "ID"
 msgstr "ID"
+
+#. module: delivery_route
+#: help:delivery.route,planned:0
+msgid "If not planned, the loading date will not be set."
+msgstr "Si no está planificada, la fecha de carga no se establecerá."
 
 #. module: delivery_route
 #: field:delivery.route,initial_date:0
@@ -153,16 +181,19 @@ msgstr "Intervalo"
 
 #. module: delivery_route
 #: field:delivery.route,__last_update:0
+#: field:wiz.default.delivery.route,__last_update:0
 msgid "Last Modified on"
 msgstr "Last Modified on"
 
 #. module: delivery_route
 #: field:delivery.route,write_uid:0
+#: field:wiz.default.delivery.route,write_uid:0
 msgid "Last Updated by"
 msgstr "Last Updated by"
 
 #. module: delivery_route
 #: field:delivery.route,write_date:0
+#: field:wiz.default.delivery.route,write_date:0
 msgid "Last Updated on"
 msgstr "Last Updated on"
 
@@ -237,6 +268,16 @@ msgid "Planning Delivery Orders"
 msgstr "Planificación de albaranes"
 
 #. module: delivery_route
+#: view:stock.picking:delivery_route.stock_picking_kanban
+msgid "Print all pickings"
+msgstr "Imprimir todos los albaranes"
+
+#. module: delivery_route
+#: view:stock.picking:delivery_route.stock_picking_kanban
+msgid "Print picking"
+msgstr "Imprimir albarán"
+
+#. module: delivery_route
 #: view:stock.picking:delivery_route.view_picking_planning_kanban_search
 msgid "Ready"
 msgstr "Preparado"
@@ -255,6 +296,13 @@ msgstr "Sábado"
 #: field:delivery.route,sequence:0
 msgid "Sequence"
 msgstr "Secuencia"
+
+#. module: delivery_route
+#: model:ir.actions.act_window,name:delivery_route.wiz_default_delivery_route_action
+#: view:stock.picking:delivery_route.stock_picking_kanban
+#: view:wiz.default.delivery.route:delivery_route.wiz_default_delivery_route_form
+msgid "Set default route"
+msgstr "Establecer ruta por defecto"
 
 #. module: delivery_route
 #: field:delivery.route,show_always:0
@@ -352,7 +400,12 @@ msgid "Weigth Net"
 msgstr "Peso neto"
 
 #. module: delivery_route
-#: code:addons/delivery_route/models/delivery_route.py:125
+#: code:addons/delivery_route/models/delivery_route.py:127
 #, python-format
 msgid "You cannot remove a delivery route that is referenced by: %s"
 msgstr "No se puede eliminar una ruta de transporte a la que se hace referencia en: %s"
+
+#. module: delivery_route
+#: view:wiz.default.delivery.route:delivery_route.wiz_default_delivery_route_form
+msgid "or"
+msgstr "or"
