@@ -28,6 +28,14 @@ class PlanningReportWizard(models.TransientModel):
         'delivery.route', 'Delivery Route')
     group_by_route = fields.Boolean('Group By Delivery Route')
     date = fields.Date('Date')
+    all_companies = fields.Boolean('Include all companies',
+        default=True)
+    kanban_state = fields.Selection([
+        ('normal', 'Pending'),
+        ('in_progress', 'In progress'),
+        ('done', 'Ready to load'),
+        ], string='State of readiness',
+        default=False)
 
     @api.multi
     def print_report(self):

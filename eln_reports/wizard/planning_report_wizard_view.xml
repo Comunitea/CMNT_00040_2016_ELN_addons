@@ -10,10 +10,10 @@
                 <form string="Report planning">
                     <group>
                         <field name="date"/>
-                    </group>
-                    <group col="4">
-                        <field name="delivery_route_id" widget="selection" colspan="2"/>
-                        <field name="group_by_route" colspan="2"/>
+                        <field name="delivery_route_id"/>
+                        <field name="group_by_route"/>
+                        <field name="all_companies"/>
+                        <field name="kanban_state"/>
                     </group>
                     <footer>
                         <button icon="gtk-cancel" special="cancel" string="Cancel"/>

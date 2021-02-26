@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-02-23 16:03+0000\n"
-"PO-Revision-Date: 2021-02-23 17:08+0100\n"
+"POT-Creation-Date: 2021-02-26 10:16+0000\n"
+"PO-Revision-Date: 2021-02-26 11:19+0100\n"
 "Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -170,6 +170,11 @@ msgid "If not planned, the loading date will not be set."
 msgstr "Si no está planificada, la fecha de carga no se establecerá."
 
 #. module: delivery_route
+#: selection:stock.picking,kanban_state:0
+msgid "In progress"
+msgstr "En preparación"
+
+#. module: delivery_route
 #: field:delivery.route,initial_date:0
 msgid "Initial date"
 msgstr "Fecha inicial"
@@ -238,6 +243,11 @@ msgid "Partner"
 msgstr "Empresa"
 
 #. module: delivery_route
+#: selection:stock.picking,kanban_state:0
+msgid "Pending"
+msgstr "Pendiente"
+
+#. module: delivery_route
 #: view:stock.picking:delivery_route.stock_picking_kanban
 msgid "Peso:"
 msgstr "Peso:"
@@ -283,6 +293,11 @@ msgid "Ready"
 msgstr "Preparado"
 
 #. module: delivery_route
+#: selection:stock.picking,kanban_state:0
+msgid "Ready to load"
+msgstr "Listo para cargar"
+
+#. module: delivery_route
 #: model:ir.model,name:delivery_route.model_sale_order
 msgid "Sales Order"
 msgstr "Pedido de venta"
@@ -308,6 +323,11 @@ msgstr "Establecer ruta por defecto"
 #: field:delivery.route,show_always:0
 msgid "Show always"
 msgstr "Mostrar siempre"
+
+#. module: delivery_route
+#: field:stock.picking,kanban_state:0
+msgid "State of readiness"
+msgstr "Estado de preparación"
 
 #. module: delivery_route
 #: field:delivery.route,sunday:0

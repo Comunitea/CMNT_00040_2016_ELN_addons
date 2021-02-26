@@ -72,6 +72,12 @@ class StockPicking(models.Model):
         string='City',
         related='partner_id.city',
         readonly=True)
+    kanban_state = fields.Selection([
+        ('normal', 'Pending'),
+        ('in_progress', 'In progress'),
+        ('done', 'Ready to load'),
+        ], string='State of readiness',
+        default='normal')
 
     @api.multi
     def _get_color_stock(self):

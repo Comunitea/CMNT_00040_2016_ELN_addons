@@ -80,11 +80,16 @@
                                                 <!-- <li><button type="action" name="%(wiz_default_delivery_route_action)d" class="oe_highlight">Set default route</button></li>  -->
                                             </ul>
                                         </div>
+                                        <div class="oe_right">
+                                            <field name="kanban_state" widget="kanban_state_selection"/>
+                                        </div>
                                         <div>
                                             <h3>
                                                 <a type="open"><field name="name"/></a>
-                                                <t t-if="record.backorder_id.raw_value"> (<field name="backorder_id"/>)</t>
                                             </h3> 
+                                            <h4>
+                                                <t t-if="record.backorder_id.raw_value">(<field name="backorder_id"/>)</t>
+                                            </h4>
                                         </div>
                                         <div t-if="record.state.raw_value == 'done' || record.state.raw_value == 'cancel' || record.state.raw_value == 'draft'">
                                             <li>(<field name="state"/>)</li>
