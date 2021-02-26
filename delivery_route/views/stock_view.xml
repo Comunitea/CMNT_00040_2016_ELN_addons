@@ -143,6 +143,11 @@
             <field name="type">search</field>
             <field name="arch" type="xml">
                 <search string="Picking list">
+                    <field name="name" string="Picking List" filter_domain="['|',('name','ilike',self),('origin','ilike',self)]"/>
+                    <field name="partner_id" filter_domain="[('partner_id','child_of',self)]"/>
+                    <field name="product_id"/>
+                    <field name="loading_date"/>
+                    <field name="kanban_state"/>
                     <group string="Filters">
                         <filter icon="terp-check" name="available" string="Ready" domain="[('state', 'in', ('assigned', 'partially_available'))]" help="Assigned Moves"/>
                         <filter icon="terp-check" name="waiting" string="Waiting Availability" domain="[('state', '=', 'confirmed')]" help="Waiting Moves"/>
