@@ -58,12 +58,12 @@ class DeliveryRoute(models.Model):
                 route_id.next_loading_date = fields.Date.context_today(self)
                 continue
             initial_date = datetime.strptime(route_id.initial_date, "%Y-%m-%d") 
-            end_date = (today + relativedelta(months=route_id.interval))
+            end_date = today + relativedelta(weeks=route_id.interval + 1)
             valid_dates = []
             for week_day in week_days.keys():
                 if route_id[week_day]:
                     valid_dates += (rrule(
-                        freq=int(2), # Weekly
+                        freq=2, # Weekly
                         byweekday=week_days[week_day],
                         wkst=0,
                         dtstart=initial_date,
@@ -78,7 +78,7 @@ class DeliveryRoute(models.Model):
     def name_get(self):
         return [
             (route.id, (route.code and
-            (route.code + ' - ') or '') + route.name)
+            (route.code + ' - ') or '') + (route.name or ''))
             for route in self
         ]
 

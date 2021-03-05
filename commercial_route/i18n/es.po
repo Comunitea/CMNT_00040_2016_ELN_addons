@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-19 12:10+0000\n"
-"PO-Revision-Date: 2021-01-19 13:11+0100\n"
+"POT-Creation-Date: 2021-03-05 11:04+0000\n"
+"PO-Revision-Date: 2021-03-05 12:11+0100\n"
 "Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -15,12 +15,17 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Language: es\n"
-"X-Generator: Poedit 2.4.1\n"
+"X-Generator: Poedit 2.4.2\n"
 
 #. module: commercial_route
 #: field:commercial.route,active:0
 msgid "Active"
 msgstr "Activo"
+
+#. module: commercial_route
+#: view:commercial.route:commercial_route.commercial_route_view_calendar
+msgid "Calendar View"
+msgstr "Vista calendario"
 
 #. module: commercial_route
 #: view:commercial.route:commercial_route.view_commercial_route_filter
@@ -47,6 +52,11 @@ msgid "Commercial route"
 msgstr "Ruta comercial"
 
 #. module: commercial_route
+#: view:commercial.route:commercial_route.commercial_route_view_gantt
+msgid "Commercial routes"
+msgstr "Rutas comerciales"
+
+#. module: commercial_route
 #: view:res.partner:commercial_route.view_res_partner_filter
 msgid "Country"
 msgstr "País"
@@ -67,6 +77,16 @@ msgid "Display Name"
 msgstr "Display Name"
 
 #. module: commercial_route
+#: field:commercial.route,duration:0
+msgid "Duration"
+msgstr "Duración"
+
+#. module: commercial_route
+#: view:commercial.route:commercial_route.view_commercial_route_filter
+msgid "Filters"
+msgstr "Filtros"
+
+#. module: commercial_route
 #: view:commercial.route:commercial_route.view_commercial_route_filter
 msgid "Group By"
 msgstr "Agrupar por"
@@ -75,6 +95,21 @@ msgstr "Agrupar por"
 #: field:commercial.route,id:0
 msgid "ID"
 msgstr "ID"
+
+#. module: commercial_route
+#: field:commercial.route,initial_date_from:0
+msgid "Initial date (from)"
+msgstr "Fecha inicial (desde)"
+
+#. module: commercial_route
+#: field:commercial.route,initial_date_to:0
+msgid "Initial date (to)"
+msgstr "Fecha inicial (hasta)"
+
+#. module: commercial_route
+#: field:commercial.route,interval:0
+msgid "Interval"
+msgstr "Intervalo"
 
 #. module: commercial_route
 #: model:ir.model,name:commercial_route.model_account_invoice
@@ -112,6 +147,16 @@ msgid "Name"
 msgstr "Nombre"
 
 #. module: commercial_route
+#: field:commercial.route,next_date_from:0
+msgid "Next visit date (from)"
+msgstr "Siguiente visita (desde)"
+
+#. module: commercial_route
+#: field:commercial.route,next_date_to:0
+msgid "Next visit date (to)"
+msgstr "Siguiente visita (hasta)"
+
+#. module: commercial_route
 #: model:ir.model,name:commercial_route.model_res_partner
 msgid "Partner"
 msgstr "Empresa"
@@ -125,6 +170,11 @@ msgstr "Empresas"
 #: model:ir.model,name:commercial_route.model_stock_picking
 msgid "Picking List"
 msgstr "Albarán"
+
+#. module: commercial_route
+#: field:commercial.route,planned:0
+msgid "Planned"
+msgstr "Planificado"
 
 #. module: commercial_route
 #: view:commercial.route:commercial_route.commercial_route_view_form
@@ -148,7 +198,22 @@ msgid "Sequence"
 msgstr "Secuencia"
 
 #. module: commercial_route
-#: code:addons/commercial_route/models/commercial_route.py:73
+#: view:commercial.route:commercial_route.commercial_route_view_form
+msgid "Update next dates"
+msgstr "Actualizar siguientes fechas"
+
+#. module: commercial_route
+#: view:commercial.route:commercial_route.view_commercial_route_filter
+msgid "Visiting today"
+msgstr "Visitando hoy"
+
+#. module: commercial_route
+#: view:commercial.route:commercial_route.commercial_route_view_form
+msgid "Weekly planning"
+msgstr "Planificación semanal"
+
+#. module: commercial_route
+#: code:addons/commercial_route/models/commercial_route.py:121
 #, python-format
 msgid "You cannot remove a commercial route that is referenced by: %s"
 msgstr "No se puede eliminar una ruta comercial a la que se hace referencia en: %s"

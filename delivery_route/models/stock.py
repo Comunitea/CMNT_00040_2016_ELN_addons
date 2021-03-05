@@ -5,6 +5,7 @@
 from openerp import models, fields, api
 from datetime import datetime, timedelta
 from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT
+from dateutil.rrule import rrule
 import openerp.addons.decimal_precision as dp
 
 
@@ -77,7 +78,7 @@ class StockPicking(models.Model):
         ('in_progress', 'In progress'),
         ('done', 'Ready to load'),
         ], string='State of readiness',
-        default='normal')
+        default='normal', copy=False)
 
     @api.multi
     def _get_color_stock(self):
@@ -94,7 +95,21 @@ class StockPicking(models.Model):
             elif pick.loading_date >= today:
                 color = 5
             elif pick.loading_date < today:
-                color = 2
+                initial_date = datetime.strptime(pick.loading_date, "%Y-%m-%d")
+                end_date = datetime.strptime(today, "%Y-%m-%d")
+                delayed_days = 1 + len(rrule(
+                    freq=3, # Daily
+                    byweekday=(0, 1, 2, 3, 4),
+                    wkst=0,
+                    dtstart=initial_date,
+                    until=end_date,
+                    interval=1)
+                    .between(initial_date, end_date, inc=False)
+                )
+                if delayed_days >= 5:
+                    color = 8
+                else:
+                    color = 2
             pick.color_stock = color
 
     @api.multi
@@ -140,7 +155,6 @@ class StockPicking(models.Model):
                     backorder_id.partner_id.commercial_partner_id.delivery_route_id
                 vals = {
                     'delivery_route_id': delivery_route_id.id,
-                    'loading_date': delivery_route_id.next_loading_date,
                 }
                 backorder_id.write(vals)
         return res

@@ -13,6 +13,7 @@
                     <field name="code"/>
                     <field name="name"/>
                     <field name="user_id"/>
+                    <field name="planned"/>
                 </tree>
             </field>
         </record>
@@ -23,6 +24,9 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Routes">
+                    <header>
+                        <button name="update_commercial_route_dates" string="Update next dates" type="object" class="oe_highlight"/>
+                    </header>
                     <group>
                         <group>
                             <field name="code"/>
@@ -32,10 +36,22 @@
                         <group>
                             <field name="active"/>
                             <field name="sequence"/>
+                            <field name="planned"/>
                         </group>
                     </group>
+                    <group attrs="{'invisible':[('planned','!=',True)]}" string="Weekly planning">
+                        <group>
+                        <field name="interval" attrs="{'required':[('planned','!=',False)]}"/>
+                        <field name="initial_date_from" attrs="{'required':[('planned','!=',False)]}"/>
+                        <field name="initial_date_to" attrs="{'required':[('planned','!=',False)]}"/>
+                    </group>
                     <group>
-                            <field name="partner_ids"/>
+                        <field name="next_date_from" readonly="1"/>
+                        <field name="next_date_to" readonly="1"/>
+                    </group>
+                    </group>
+                    <group>
+                        <field name="partner_ids"/>
                     </group>
                 </form>
             </field>
@@ -51,6 +67,10 @@
                         filter_domain="[('name','ilike',self)]"/>
                     <field name="code"/>
                     <field name="user_id"/>
+                    <group string="Filters">
+                        <filter icon="terp-go-week" string="Visiting today" name="today"
+                            domain="[('planned', '=', True), ('next_date_from', '&lt;=', time.strftime('%%Y-%%m-%%d')), ('next_date_to', '&gt;=', time.strftime('%%Y-%%m-%%d'))]"/>
+                    </group>
                     <group expand="0" string="Group By">
                         <filter string="Salesperson" context="{'group_by':'user_id'}"/>
                         <filter string="Code" context="{'group_by':'code'}"/>
@@ -59,12 +79,32 @@
             </field>
         </record>
 
+        <record model="ir.ui.view" id="commercial_route_view_calendar">
+            <field name="name">commercial.route.calendar</field>
+            <field name="model">commercial.route</field>
+            <field name="priority" eval="2"/>
+            <field name="arch" type="xml">
+                <calendar string="Calendar View" date_start="next_date_from" date_stop="next_date_to" color="user_id">
+                    <field name="name"/>
+                    <field name="user_id"/>
+                </calendar>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="commercial_route_view_gantt">
+            <field name="name">commercial.route.gantt</field>
+            <field name="model">commercial.route</field>
+            <field name="arch" type="xml">
+                <gantt date_delay="duration" date_start="next_date_from" default_group_by="user_id" string="Commercial routes"/>
+            </field>
+        </record>
+
         <record id="action_commercial_route" model="ir.actions.act_window">
             <field name="name">Commercial Routes</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">commercial.route</field>
             <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">tree,form,calendar,gantt</field>
             <field name="search_view_id" ref="view_commercial_route_filter"/>
             <field name="context">{}</field>
         </record>

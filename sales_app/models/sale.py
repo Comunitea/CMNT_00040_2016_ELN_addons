@@ -83,12 +83,12 @@ class SaleOrder(models.Model):
         # Se van a ejecutar los onchanges de la cabecera para actualizar valores
         # onchange shop_id
         order_id.onchange_shop_id()
-        fields = [
+        read_fields = [
             'date_order', 'partner_id', 'partner_shipping_id', 'pricelist_id',
             'fiscal_position', 'payment_term', 'early_payment_discount',
             'shop_id', 'warehouse_id', 'company_id',
         ]
-        values = order_id.read(fields=fields, load='_classic_write')[0]
+        values = order_id.read(fields=read_fields, load='_classic_write')[0]
         # onchange partner_id
         data = {}
         data.update(
@@ -118,6 +118,14 @@ class SaleOrder(models.Model):
                 values['partner_id'])['value']
         )
         values.update(data)
+        # Consultamos la ruta comercial y ponemos mensaje fuera de ruta en notas app si procede
+        cr_obj = self.env['commercial.route']
+        cr_id = cr_obj.browse(values.get('commercial_route_id', False))
+        if cr_id.planned and cr_id.next_date_from and cr_id.next_date_to:
+            today = fields.Datetime.now()
+            if today < cr_id.next_date_from or today > cr_id.next_date_to:
+                app_note = '*** FUERA DE RUTA ***' + ((note and '\n' + note) or '')
+                values.update({'app_note': app_note})
 
         # Obtenemos las lineas del pedido
         order_lines = []
