@@ -26,6 +26,7 @@
         'sale',
         'sale_stock',
         'eln_sale',
+        'commercial_route',
 		'l10n_es_partner',
     ],
     "category": "Sale",

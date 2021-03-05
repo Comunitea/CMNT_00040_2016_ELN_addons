@@ -128,6 +128,12 @@
                                             </b>
                                             <field name="weight"/>
                                         </div>
+                                        <div t-if="record.note.raw_value" t-attf-class="oe_kanban_text_red">
+                                            <b>
+                                                Notas:
+                                            </b>
+                                            <field name="note"/>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -153,15 +159,15 @@
                         <filter icon="terp-check" name="waiting" string="Waiting Availability" domain="[('state', '=', 'confirmed')]" help="Waiting Moves"/>
                         <separator/>
                         <filter icon="terp-go-week" string="Delayed" name="delayed"
-                            domain="[('|'), ('|'), ('delivery_route_id.show_always', '=', True), ('loading_date', '&lt;', time.strftime('%%Y-%%m-%%d')), ('loading_date', '=', False)]"/>
+                            domain="['|', '|', ('delivery_route_id.show_always', '=', True), ('loading_date', '&lt;', time.strftime('%%Y-%%m-%%d')), ('loading_date', '=', False)]"/>
                         <filter icon="terp-go-week" string="Today" name="today"
-                            domain="[('|'), ('|'), ('delivery_route_id.show_always', '=', True), ('loading_date', '=', time.strftime('%%Y-%%m-%%d')), ('loading_date', '=', False)]"/>
+                            domain="['|', '|', ('delivery_route_id.show_always', '=', True), ('loading_date', '=', time.strftime('%%Y-%%m-%%d')), ('loading_date', '=', False)]"/>
                         <filter icon="terp-go-week" string="Today +1" name="todayone"
-                            domain="[('|'), ('|'), ('delivery_route_id.show_always', '=', True), ('loading_date', '=', (datetime.date.today()+datetime.timedelta(days=1)).strftime('%%Y-%%m-%%d')), ('loading_date', '=', False)]"/>
+                            domain="['|', '|', ('delivery_route_id.show_always', '=', True), ('loading_date', '=', (datetime.date.today()+datetime.timedelta(days=1)).strftime('%%Y-%%m-%%d')), ('loading_date', '=', False)]"/>
                         <filter icon="terp-go-week" string="Today +2" name="todaytwo"
-                            domain="[('|'), ('|'), ('delivery_route_id.show_always', '=', True), ('loading_date', '=', (datetime.date.today()+datetime.timedelta(days=2)).strftime('%%Y-%%m-%%d')), ('loading_date', '=', False)]"/>
+                            domain="['|', '|', ('delivery_route_id.show_always', '=', True), ('loading_date', '=', (datetime.date.today()+datetime.timedelta(days=2)).strftime('%%Y-%%m-%%d')), ('loading_date', '=', False)]"/>
                         <filter icon="terp-go-week" string="Today +3" name="todaythree"
-                            domain="[('|'), ('|'), ('delivery_route_id.show_always', '=', True), ('loading_date', '=', (datetime.date.today()+datetime.timedelta(days=3)).strftime('%%Y-%%m-%%d')), ('loading_date', '=', False)]"/>
+                            domain="['|', '|', ('delivery_route_id.show_always', '=', True), ('loading_date', '=', (datetime.date.today()+datetime.timedelta(days=3)).strftime('%%Y-%%m-%%d')), ('loading_date', '=', False)]"/>
                     </group>
                     <group string="Group By">
                         <filter string="Delivery Route" domain="[]" context="{'group_by':'delivery_route_id'}"/>

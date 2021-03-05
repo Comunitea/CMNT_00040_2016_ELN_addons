@@ -4,6 +4,9 @@
 
 from openerp import models, fields, api, exceptions, _
 from openerp.osv import expression
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
+from dateutil.rrule import rrule
 
 
 class CommercialRoute(models.Model):
@@ -19,12 +22,57 @@ class CommercialRoute(models.Model):
     partner_ids = fields.One2many(
         'res.partner', 'commercial_route_id', 'Partners',
         readonly=True)
+    planned = fields.Boolean('Planned')
+    interval = fields.Integer('Interval', default=1)
+    initial_date_from = fields.Date('Initial date (from)')
+    initial_date_to = fields.Date('Initial date (to)')
+    next_date_from = fields.Date(
+        string='Next visit date (from)',
+        compute='_get_next_date', store=True)
+    next_date_to = fields.Date(
+        string='Next visit date (to)',
+        compute='_get_next_date', store=True)
+    duration = fields.Integer('Duration', # For gantt view
+        compute='_get_next_date', store=True)
+
+    @api.multi
+    @api.depends('initial_date_from', 'initial_date_to', 'planned', 'interval')
+    def _get_next_date(self):
+        today = datetime.strptime(fields.Date.context_today(self), "%Y-%m-%d")
+        for route_id in self:
+            if not route_id.planned:
+                route_id.next_date_from = False
+                route_id.next_date_to = False
+                continue
+            if route_id.interval < 1:
+                route_id.next_date_from = fields.Date.context_today(self)
+                route_id.next_date_to = fields.Date.context_today(self)
+                continue
+            if not route_id.initial_date_from or not route_id.initial_date_to:
+                route_id.next_date_from = False
+                route_id.next_date_to = False
+                continue
+            initial_date_from = datetime.strptime(min(route_id.initial_date_from, route_id.initial_date_to), "%Y-%m-%d")
+            initial_date_to = datetime.strptime(max(route_id.initial_date_from, route_id.initial_date_to), "%Y-%m-%d")
+            end_date = today + relativedelta(weeks=route_id.interval)
+            valid_dates_to = (rrule(
+                freq=2, # Weekly
+                dtstart=initial_date_to,
+                until=end_date,
+                interval=route_id.interval or 1)
+                .between(today, end_date, inc=True)
+            )
+            next_date_to = valid_dates_to and valid_dates_to[0] or today
+            next_date_from = next_date_to  - (initial_date_to - initial_date_from)
+            route_id.next_date_from = next_date_from
+            route_id.next_date_to = next_date_to
+            route_id.duration = ((next_date_to - next_date_from).days + 1) * 8
 
     @api.multi
     def name_get(self):
         return [
             (route.id, (route.code and
-            (route.code + ' - ') or '') + route.name)
+            (route.code + ' - ') or '') + (route.name or ''))
             for route in self
         ]
 
@@ -72,3 +120,11 @@ class CommercialRoute(models.Model):
                     raise exceptions.Warning(
                         _("You cannot remove a commercial route that is referenced by: %s") % (table))
         return super(CommercialRoute, self).unlink()
+
+    @api.multi
+    def update_commercial_route_dates(self):
+        #route_ids = self or self.search([])
+        route_ids = self.search([])
+        for route_id in route_ids:
+            route_id._get_next_date()
+        return True

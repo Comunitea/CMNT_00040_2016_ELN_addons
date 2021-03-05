@@ -17,6 +17,7 @@
     "init_xml": [],
     "data": [
         'security/ir.model.access.csv',
+        'data/ir_cron.xml',
         'views/account_invoice_view.xml',
         'views/commercial_route_view.xml',
         'views/res_partner_view.xml',
