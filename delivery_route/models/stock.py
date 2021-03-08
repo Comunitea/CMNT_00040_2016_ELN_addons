@@ -106,7 +106,7 @@ class StockPicking(models.Model):
                     interval=1)
                     .between(initial_date, end_date, inc=False)
                 )
-                if delayed_days >= 5:
+                if delayed_days > 4:
                     color = 8
                 else:
                     color = 2

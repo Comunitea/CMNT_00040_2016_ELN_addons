@@ -51,7 +51,7 @@ class DeliveryRoute(models.Model):
         }
         today = datetime.strptime(fields.Date.context_today(self), "%Y-%m-%d")
         for route_id in self:
-            if not route_id.planned:
+            if not (route_id.planned and route_id.initial_date):
                 route_id.next_loading_date = False
                 continue
             if route_id.interval < 1:

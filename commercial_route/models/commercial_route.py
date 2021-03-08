@@ -28,45 +28,52 @@ class CommercialRoute(models.Model):
     initial_date_to = fields.Date('Initial date (to)')
     next_date_from = fields.Date(
         string='Next visit date (from)',
-        compute='_get_next_date', store=True)
+        compute='_compute_next_date', store=True)
     next_date_to = fields.Date(
         string='Next visit date (to)',
-        compute='_get_next_date', store=True)
+        compute='_compute_next_date', store=True)
     duration = fields.Integer('Duration', # For gantt view
-        compute='_get_next_date', store=True)
+        compute='_compute_next_date', store=True)
 
     @api.multi
     @api.depends('initial_date_from', 'initial_date_to', 'planned', 'interval')
-    def _get_next_date(self):
-        today = datetime.strptime(fields.Date.context_today(self), "%Y-%m-%d")
+    def _compute_next_date(self):
         for route_id in self:
-            if not route_id.planned:
-                route_id.next_date_from = False
-                route_id.next_date_to = False
-                continue
-            if route_id.interval < 1:
-                route_id.next_date_from = fields.Date.context_today(self)
-                route_id.next_date_to = fields.Date.context_today(self)
-                continue
-            if not route_id.initial_date_from or not route_id.initial_date_to:
-                route_id.next_date_from = False
-                route_id.next_date_to = False
-                continue
-            initial_date_from = datetime.strptime(min(route_id.initial_date_from, route_id.initial_date_to), "%Y-%m-%d")
-            initial_date_to = datetime.strptime(max(route_id.initial_date_from, route_id.initial_date_to), "%Y-%m-%d")
-            end_date = today + relativedelta(weeks=route_id.interval)
+            next_date_from, next_date_to = route_id._get_interval_dates()
+            duration = False
+            if next_date_from and next_date_to:
+                duration = ((next_date_to - next_date_from).days + 1) * 8
+            route_id.next_date_from = next_date_from
+            route_id.next_date_to = next_date_to
+            route_id.duration = duration
+
+    @api.multi
+    def _get_interval_dates(self):
+        self.ensure_one()
+        today = datetime.strptime(
+            fields.Date.context_today(self), "%Y-%m-%d")
+        if not (self.planned and self.initial_date_from and self.initial_date_to):
+            next_date_from = False
+            next_date_to = False
+        elif self.interval < 1:
+            next_date_from = fields.Date.context_today(self)
+            next_date_to = fields.Date.context_today(self)
+        else:
+            initial_date_from = datetime.strptime(
+                min(self.initial_date_from, self.initial_date_to), "%Y-%m-%d")
+            initial_date_to = datetime.strptime(
+                max(self.initial_date_from, self.initial_date_to), "%Y-%m-%d")
+            end_date = today + relativedelta(weeks=self.interval)
             valid_dates_to = (rrule(
                 freq=2, # Weekly
                 dtstart=initial_date_to,
                 until=end_date,
-                interval=route_id.interval or 1)
+                interval=self.interval or 1)
                 .between(today, end_date, inc=True)
             )
             next_date_to = valid_dates_to and valid_dates_to[0] or today
-            next_date_from = next_date_to  - (initial_date_to - initial_date_from)
-            route_id.next_date_from = next_date_from
-            route_id.next_date_to = next_date_to
-            route_id.duration = ((next_date_to - next_date_from).days + 1) * 8
+            next_date_from = next_date_to - (initial_date_to - initial_date_from)
+        return next_date_from, next_date_to
 
     @api.multi
     def name_get(self):
@@ -126,5 +133,5 @@ class CommercialRoute(models.Model):
         #route_ids = self or self.search([])
         route_ids = self.search([])
         for route_id in route_ids:
-            route_id._get_next_date()
+            route_id._compute_next_date()
         return True

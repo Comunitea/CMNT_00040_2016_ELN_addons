@@ -18,6 +18,8 @@
 #
 ##############################################################################
 from openerp import models, fields, api
+from datetime import datetime
+from dateutil.rrule import rrule
 import logging
 
 _logger = logging.getLogger(__name__)
@@ -118,12 +120,27 @@ class SaleOrder(models.Model):
                 values['partner_id'])['value']
         )
         values.update(data)
-        # Consultamos la ruta comercial y ponemos mensaje fuera de ruta en notas app si procede
-        cr_obj = self.env['commercial.route']
-        cr_id = cr_obj.browse(values.get('commercial_route_id', False))
-        if cr_id.planned and cr_id.next_date_from and cr_id.next_date_to:
-            today = fields.Datetime.now()
-            if today < cr_id.next_date_from or today > cr_id.next_date_to:
+        # Consultamos la ruta de transporte y ponemos mensaje fuera de ruta en notas app si procede
+        delivery_route_id = shipping_dir.delivery_route_id or \
+            shipping_dir.commercial_partner_id.delivery_route_id
+        loading_date = delivery_route_id.next_loading_date
+        if loading_date:
+            today = fields.Date.context_today(self)
+            initial_date = datetime.strptime(today, "%Y-%m-%d")
+            end_date = datetime.strptime(loading_date, "%Y-%m-%d")
+            diff_days = 1 + len(rrule(
+                freq=3, # Daily
+                byweekday=(0, 1, 2, 3, 4),
+                wkst=0,
+                dtstart=initial_date,
+                until=end_date,
+                interval=1)
+                .between(initial_date, end_date, inc=False)
+            )
+            if diff_days == 0:
+                app_note = '*** RUTA CARGANDOSE/CARGADA ***' + ((note and '\n' + note) or '')
+                values.update({'app_note': app_note})
+            elif diff_days > 4:
                 app_note = '*** FUERA DE RUTA ***' + ((note and '\n' + note) or '')
                 values.update({'app_note': app_note})
 
