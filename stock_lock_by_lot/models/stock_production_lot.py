@@ -25,7 +25,7 @@ class StockProductionLot(models.Model):
             ('reservation_id.state', 'not in', ('cancel', 'done')),
         ]
         reserved_quants = self.env['stock.quant'].search(domain)
-        reserved_quants.mapped("reservation_id").do_unreserve()
+        reserved_quants.mapped('reservation_id').do_unreserve()
         body = _('Serial Number/Lot locked')
         for lot in self:
             lot.message_post(body=body)
@@ -46,11 +46,13 @@ class StockProductionLot(models.Model):
         if not 'locked_lot' in vals:
             product_id = vals.get('product_id', self.env.context.get('product_id', False))
             product_id = self.env['product.product'].browse(product_id)
-            locked_lot = product_id.categ_id.default_locked_lot
-            categ = product_id.categ_id.parent_id
-            while categ and not locked_lot:
-                locked_lot = categ.default_locked_lot
-                categ = categ.parent_id
+            locked_lot = product_id.default_locked_lot
+            if not locked_lot:
+                locked_lot = product_id.categ_id.default_locked_lot
+                categ = product_id.categ_id.parent_id
+                while categ and not locked_lot:
+                    locked_lot = categ.default_locked_lot
+                    categ = categ.parent_id
             vals['locked_lot'] = locked_lot
         res = super(StockProductionLot, self).create(vals)
         if res.locked_lot:

@@ -11,7 +11,7 @@ class StockQuant(models.Model):
     _inherit = 'stock.quant'
 
     locked_lot = fields.Boolean(
-        string='Locked', related="lot_id.locked_lot", default=False,
+        string='Locked', related='lot_id.locked_lot', default=False,
         store=True)
 
     @api.model
@@ -29,10 +29,16 @@ class StockQuant(models.Model):
     def quants_move(self, quants, move, location_to, location_from=False,
                     lot_id=False, owner_id=False, src_package_id=False,
                     dest_package_id=False):
-        lot = self.env['stock.production.lot'].browse(lot_id)
-        if lot.locked_lot:
-            raise exceptions.ValidationError(
-                _("The following lots/serial number is locked and cannot be moved:\n%s") % lot.name)
+        if lot_id:
+            lot = self.env['stock.production.lot'].browse(lot_id)
+            locked_lot = lot.locked_lot
+            if locked_lot:
+                location_from_usage = \
+                    location_from and location_from.usage or \
+                    move and move.location_id.usage or False
+                if location_from_usage == 'internal':
+                    raise exceptions.ValidationError(
+                        _("The following lots/serial number is locked and cannot be moved:\n%s") % lot.name)
         return super(StockQuant, self).quants_move(
             quants, move, location_to, location_from=location_from,
             lot_id=lot_id, owner_id=owner_id, src_package_id=src_package_id,
