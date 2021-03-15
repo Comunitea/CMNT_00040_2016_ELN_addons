@@ -6,7 +6,7 @@
         <record id="delivery_route_view_tree" model="ir.ui.view">
             <field name="name">delivery.route.view.tree</field>
             <field name="model">delivery.route</field>
-             <field name="type">tree</field>
+            <field name="type">tree</field>
             <field name="arch" type="xml">
                 <tree string="Delivery Routes">
                     <field name="sequence" widget="handle"/>
