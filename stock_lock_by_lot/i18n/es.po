@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-22 10:06+0000\n"
-"PO-Revision-Date: 2019-07-22 12:07+0200\n"
+"POT-Creation-Date: 2021-03-15 09:21+0000\n"
+"PO-Revision-Date: 2021-03-15 10:56+0100\n"
 "Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
 "Language: es\n"
-"X-Generator: Poedit 2.2.3\n"
+"X-Generator: Poedit 2.4.2\n"
 
 #. module: stock_lock_by_lot
 #: model:res.groups,name:stock_lock_by_lot.group_lock_unlock_lot
@@ -54,6 +54,7 @@ msgstr "ID"
 
 #. module: stock_lock_by_lot
 #: help:product.category,default_locked_lot:0
+#: help:product.template,default_locked_lot:0
 msgid "If checked, new Serial Numbers/lots will be created locked by default"
 msgstr "Si se marca, los nuevos números de serie/lotes se crearán bloqueados de forma predeterminada"
 
@@ -85,6 +86,7 @@ msgstr "Bloquear"
 
 #. module: stock_lock_by_lot
 #: field:product.category,default_locked_lot:0
+#: field:product.template,default_locked_lot:0
 msgid "Lock new Serial Numbers/Lots"
 msgstr "Bloquear nuevos Números de serie/Lotes"
 
@@ -112,6 +114,11 @@ msgid "Lot"
 msgstr "Lote"
 
 #. module: stock_lock_by_lot
+#: model:ir.model,name:stock_lock_by_lot.model_stock_production_lot
+msgid "Lot/Serial"
+msgstr "Lote/Nº de serie"
+
+#. module: stock_lock_by_lot
 #: view:stock.production.lot:stock_lock_by_lot.search_product_lot_filter_inherit
 msgid "Product"
 msgstr "Producto"
@@ -122,9 +129,9 @@ msgid "Product Category"
 msgstr "Categoría de producto"
 
 #. module: stock_lock_by_lot
-#: model:ir.model,name:stock_lock_by_lot.model_stock_production_lot
-msgid "Production lot"
-msgstr "Lote producción"
+#: model:ir.model,name:stock_lock_by_lot.model_product_template
+msgid "Product Template"
+msgstr "Plantilla de producto"
 
 #. module: stock_lock_by_lot
 #: model:ir.model,name:stock_lock_by_lot.model_stock_quant
@@ -132,20 +139,20 @@ msgid "Quants"
 msgstr "Quants"
 
 #. module: stock_lock_by_lot
-#: code:addons/stock_lock_by_lot/models/stock_production_lot.py:26
-#: code:addons/stock_lock_by_lot/models/stock_production_lot.py:54
+#: code:addons/stock_lock_by_lot/models/stock_production_lot.py:29
+#: code:addons/stock_lock_by_lot/models/stock_production_lot.py:59
 #, python-format
 msgid "Serial Number/Lot locked"
 msgstr "Número de serie/Lote bloqueado"
 
 #. module: stock_lock_by_lot
-#: code:addons/stock_lock_by_lot/models/stock_production_lot.py:35
+#: code:addons/stock_lock_by_lot/models/stock_production_lot.py:39
 #, python-format
 msgid "Serial Number/Lot unlocked"
 msgstr "Número de serie/Lote desbloqueado"
 
 #. module: stock_lock_by_lot
-#: code:addons/stock_lock_by_lot/models/stock_quant.py:33
+#: code:addons/stock_lock_by_lot/models/stock_quant.py:41
 #, python-format
 msgid ""
 "The following lots/serial number is locked and cannot be moved:\n"
@@ -166,21 +173,21 @@ msgid "What do you want to do with selected Serial Numbers/Lots?"
 msgstr "¿Qué desea hacer con los Número de serie/Lotes seleccionados?"
 
 #. module: stock_lock_by_lot
-#: code:addons/stock_lock_by_lot/models/stock_production_lot.py:18
+#: code:addons/stock_lock_by_lot/models/stock_production_lot.py:21
 #, python-format
 msgid "You are not allowed to lock Serial Numbers/Lots"
 msgstr "No tiene permisos para bloquear Números de serie/Lotes"
 
 #. module: stock_lock_by_lot
-#: code:addons/stock_lock_by_lot/models/stock_production_lot.py:34
+#: code:addons/stock_lock_by_lot/models/stock_production_lot.py:38
 #, python-format
 msgid "You are not allowed to unlock Serial Numbers/Lots"
 msgstr "No tiene permisos para desbloquear Números de serie/Lotes"
 
 #. module: stock_lock_by_lot
 #: view:mrp.product.produce:stock_lock_by_lot.view_mrp_product_produce_wizard_inherit
-msgid "[('product_id','=',product_id), ('locked','=',False)]"
-msgstr "[('product_id','=',product_id), ('locked','=',False)]"
+msgid "[('product_id','=',product_id), ('locked_lot','=',False)]"
+msgstr "[('product_id','=',product_id), ('locked_lot','=',False)]"
 
 #. module: stock_lock_by_lot
 #: view:stock.transfer_details:stock_lock_by_lot.view_stock_enter_transfer_details_inherit

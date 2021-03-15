@@ -43,6 +43,31 @@
             </field>
         </record>
 
+        <record id="stock_picking_kanban_tree" model="ir.ui.view">
+            <field name="name">stock.picking.kanban.tree</field>
+            <field name="model">stock.picking</field>
+            <field name="priority">50</field>
+            <field name="arch" type="xml">
+                <tree colors="maroon:color_stock == 3;green:color_stock == 5;black:color_stock == 1;red:color_stock in (2, 8)" string="Picking list">
+                    <field name="name"/>
+                    <field name="kanban_state"/>
+                    <field name="partner_id"/>
+                    <field name="date"/>
+                    <field name="requested_date"/>
+                    <field name="loading_date"/>
+                    <field name="date_done"/>
+                    <field name="delivery_route_id"/>
+                    <field name="color_stock" invisible="1"/>
+                    <field name="origin"/>
+                    <field name="group_id" invisible="1"/>
+                    <field name="backorder_id"/>
+                    <field name="state"/>
+                    <field name="priority" invisible="1"/>
+                    <field name="picking_type_id" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
         <record model="ir.ui.view" id="stock_picking_kanban">
             <field name="name">stock.picking.kanban</field>
             <field name="model">stock.picking</field>
@@ -157,6 +182,8 @@
                     <group string="Filters">
                         <filter icon="terp-check" name="available" string="Ready" domain="[('state', 'in', ('assigned', 'partially_available'))]" help="Assigned Moves"/>
                         <filter icon="terp-check" name="waiting" string="Waiting Availability" domain="[('state', '=', 'confirmed')]" help="Waiting Moves"/>
+                        <filter icon="terp-dialog-close" name="done" string="Done" domain="[('state','=','done')]" help="Pickings already processed"/>
+                        <filter string="Today Done" domain="[('date_done','&lt;=',time.strftime('%Y-%m-%d 23:59:59')),('date_done','&gt;=',time.strftime('%Y-%m-%d 00:00:00')), ('state', '=', 'done')]"/>
                         <separator/>
                         <filter icon="terp-go-week" string="Delayed" name="delayed"
                             domain="['|', '|', '|', ('delivery_route_id', '=', False), ('delivery_route_id.show_always', '=', True), ('loading_date', '&lt;', time.strftime('%%Y-%%m-%%d')), ('loading_date', '=', False)]"/>
@@ -168,6 +195,9 @@
                             domain="['|', '|', '|', ('delivery_route_id', '=', False), ('delivery_route_id.show_always', '=', True), ('loading_date', '=', (datetime.date.today()+datetime.timedelta(days=2)).strftime('%%Y-%%m-%%d')), ('loading_date', '=', False)]"/>
                         <filter icon="terp-go-week" string="Today +3" name="todaythree"
                             domain="['|', '|', '|', ('delivery_route_id', '=', False), ('delivery_route_id.show_always', '=', True), ('loading_date', '=', (datetime.date.today()+datetime.timedelta(days=3)).strftime('%%Y-%%m-%%d')), ('loading_date', '=', False)]"/>
+                        <separator/>
+                        <filter icon="terp-check" string="Direct Invoicing" domain="[('supplier_id','=', False)]"/>
+                        <filter icon="terp-check" string="Indirect Invoicing" domain="[('supplier_id','!=',False)]"/>
                     </group>
                     <group string="Group By">
                         <filter string="Delivery Route" domain="[]" context="{'group_by':'delivery_route_id'}"/>
@@ -217,7 +247,7 @@
         <record id="action_picking_kanban_out_view1_waiting3" model="ir.actions.act_window.view">
             <field eval="2" name="sequence"/>
             <field name="view_mode">tree</field>
-            <field name="view_id" ref="stock.vpicktree"/>
+            <field name="view_id" ref="stock_picking_kanban_tree"/>
             <field name="act_window_id" ref="action_picking_planning_kanban"/>
         </record>
 

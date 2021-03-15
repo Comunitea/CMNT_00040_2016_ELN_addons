@@ -23,9 +23,9 @@
     "data": [
         'security/security.xml',
         'wizard/mrp_product_produce_view.xml',
-        'wizard/stock_transfer_details_view.xml',
         'wizard/wiz_lock_by_lot_view.xml',
         'views/product_category_view.xml',
+        'views/product_view.xml',
         'views/stock_production_lot_view.xml',
         'views/stock_quant_view.xml',
     ],
