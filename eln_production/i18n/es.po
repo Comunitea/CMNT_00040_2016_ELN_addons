@@ -139,9 +139,9 @@ msgid "Created on"
 msgstr "Created on"
 
 #. module: eln_production
-#: field:mrp.production,date_end_planned:0
-msgid "Date end Planned"
-msgstr "Fecha fin prevista"
+#: field:mrp.production,date:0
+msgid "Creation Date"
+msgstr "Fecha de creación"
 
 #. module: eln_production
 #: view:mrp.routing.workcenter:eln_production.mrp_routing_workcenter_form_view

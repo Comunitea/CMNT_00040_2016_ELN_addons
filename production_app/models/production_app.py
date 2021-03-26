@@ -125,14 +125,15 @@ class ProductionAppRegistry(models.Model):
     note = fields.Text(string='Production notes')
     consumptions_note = fields.Text(string='Alimentator notes')
     # INDICATORS
-    lead_time = fields.Float(related='production_id.lead_time', readonly=True)
-    overweight = fields.Float(related='production_id.overweight', readonly=True)
-    ind_scrap = fields.Float(related='production_id.ind_scrap', readonly=True)
-    ind_usage = fields.Float(related='production_id.ind_usage', readonly=True)
-    availability = fields.Float(related='wc_line_id.availability', readonly=True)
-    performance = fields.Float(related='wc_line_id.performance', readonly=True)
-    quality = fields.Float(related='wc_line_id.quality', readonly=True)
-    oee = fields.Float(related='wc_line_id.oee', readonly=True)
+    lead_time = fields.Float(related='production_id.lead_time')
+    overweight = fields.Float(related='production_id.overweight')
+    theorical_overweight = fields.Float(related='production_id.theorical_overweight')
+    ind_scrap = fields.Float(related='production_id.ind_scrap')
+    ind_usage = fields.Float(related='production_id.ind_usage')
+    availability = fields.Float(related='wc_line_id.availability')
+    performance = fields.Float(related='wc_line_id.performance')
+    quality = fields.Float(related='wc_line_id.quality')
+    oee = fields.Float(related='wc_line_id.oee')
 
     _sql_constraints = [
         ('wc_line_id_uniq', 'unique(wc_line_id)',
