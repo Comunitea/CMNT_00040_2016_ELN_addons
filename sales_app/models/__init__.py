@@ -22,5 +22,6 @@ from . import sales_app
 from . import sale
 from . import res_company
 from . import pricelist
+from . import sale_shop
 from . import table_pricelist_prices
 from . import model

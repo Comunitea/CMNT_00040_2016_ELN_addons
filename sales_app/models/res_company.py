@@ -6,7 +6,7 @@ from openerp import models, fields
 
 
 class ResCompnay(models.Model):
-    _inherit ="res.company"
+    _inherit = 'res.company'
 
     sales_app_product_pricelist = fields.Many2one(
         comodel_name='product.pricelist',

@@ -40,6 +40,7 @@
         'views/table_pricelist_prices_view.xml',
         'views/pricelist_view.xml',
         'views/sale_order_view.xml',
+        'views/sale_shop_view.xml',
     ],
     'demo_xml': [],
     'installable': True,
