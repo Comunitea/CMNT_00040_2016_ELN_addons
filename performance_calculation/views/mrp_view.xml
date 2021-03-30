@@ -13,6 +13,7 @@
                     <group groups="performance_calculation.group_production_indicators">
                         <field name="lead_time"/>
                         <field name="overweight"/>
+                        <field name="theorical_overweight"/>
                         <field name="ind_scrap"/>
                         <field name="ind_usage"/>
                     </group>

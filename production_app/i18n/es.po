@@ -503,6 +503,11 @@ msgid "Overweight (%)"
 msgstr "Sobrepeso (%)"
 
 #. module: production_app
+#: field:production.app.registry,theorical_overweight:0
+msgid "Theo. Overweight (%)"
+msgstr "Sobrepeso teórico (%)"
+
+#. module: production_app
 #: selection:mrp.workcenter,process_type:0
 msgid "Packing"
 msgstr "Envasado"

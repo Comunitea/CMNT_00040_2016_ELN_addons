@@ -346,8 +346,8 @@
                     <field name="state" widget="statusbar" statusbar_visible="draft,ready,in_production,closed" statusbar_colors='{"picking_except":"red","confirmed":"blue"}'/>
                 </field>
 
-                <field name="date_planned" position="after">
-                    <field name="date_end_planned"/>
+                <field name="date_planned" position="before">
+                    <field name="date"/>
                 </field>
 
                 <field name="origin" position="after">

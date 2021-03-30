@@ -90,9 +90,7 @@ class PerformanceCalculation(models.TransientModel):
 
     @api.model
     def _get_total_qty(self, production):
-        qty_finished = 0.0
-        qty_real_finished = 0.0
-        qty_scrap = 0.0
+        qty_finished = qty_real_finished = qty_scrap = 0.0
         for move in production.move_created_ids2:
             if move.state != 'done':
                 continue
@@ -106,20 +104,6 @@ class PerformanceCalculation(models.TransientModel):
             elif move.location_id.usage == 'internal':
                 qty_real_finished -= move.product_uom_qty
         return qty_finished, qty_real_finished, qty_scrap
-
-    @api.model
-    def _get_availability(self, times_for_availability=0.0, estimated_time=0.0, time_cycle=0.0, qty_per_cycle=0.0, factor=0.0):
-        a = time_cycle / (qty_per_cycle or 1.0)
-        b = (a * factor) + times_for_availability
-        return (estimated_time / (b or 1.0 ))
-
-    @api.model
-    def _get_performance(self, estimated_time=0.0, times_for_performance=0.0):
-        return (estimated_time / (times_for_performance or 1.0))
-
-    @api.model
-    def _get_quality(self, qty_finished=0.0, qty_scrap=0.0):
-        return ((qty_finished - qty_scrap) / (qty_finished or 1.0))
 
     @api.model
     def _get_oee(self, wl=False):
@@ -146,48 +130,46 @@ class PerformanceCalculation(models.TransientModel):
                     wl.production_id.bom_id.product_uom.id)
                 estimated_time = float((routing_id.hour_nbr / (qty_per_cycle or 1.0)) * factor)
                 time_cycle = routing_id.hour_nbr
-                a = self._get_availability(times_for_availability, estimated_time, time_cycle, qty_per_cycle, factor)
-                p = self._get_performance(estimated_time, times_for_performance)
-                q = self._get_quality(qty_finished, qty_scrap)
+                a = estimated_time / ((factor * (time_cycle / (qty_per_cycle or 1.0)) + times_for_availability) or 1.0)
+                p = estimated_time / (times_for_performance or 1.0)
+                q = (qty_finished - qty_scrap) / (qty_finished or 1.0)
         oee = (a * p * q) * 100
         return (a*100), (p*100), (q*100), oee
 
     @api.model
     def _get_scrap_and_usage(self, prod=False):
-        qty_finished = real_qty_finished = qty_scrap = 0.0
+        qty_finished = qty_real_finished = qty_scrap = 0.0
         theo_cost = real_real_cost = 0.0
         scrap = usage = 0.0
         if prod:
-            qty_finished = self._calc_finished_qty(prod)
-            real_qty_finished = self._calc_real_finished_qty(prod)
-            qty_scrap = qty_finished - real_qty_finished
+            qty_finished, qty_real_finished, qty_scrap = self._get_total_qty(prod)
             theo_cost = self._get_theo_cost(prod, qty_finished)
-            real_cost = self._get_real_cost(prod)
             scrap = qty_scrap * (theo_cost / (qty_finished or 1.0))
+            real_cost = 0.0
             for move in prod.move_lines2:
                 if move.state != 'done':
                     continue
                 scrapped_move = move.location_dest_id.scrap_location
                 if scrapped_move:
                     scrap += (move.price_unit * move.product_uom_qty)
+                else:
+                    real_cost += (move.price_unit * move.product_uom_qty)
             usage = real_cost - theo_cost
             real_real_cost = real_cost + scrap
-        res = {
+        return {
            'qty_finished': qty_finished,
-           'real_qty_finished': real_qty_finished,
+           'real_qty_finished': qty_real_finished,
            'qty_scrap': qty_scrap,
            'theo_cost': theo_cost,
            'real_real_cost': real_real_cost,
            'scrap': scrap,
            'usage': usage,
         }
-        return res
 
     @api.model
     def _get_overweight(self, prod=False):
         used_weight = theorical_weight = overweight = 0.0
         if prod:
-            theorical_weight = prod.product_qty * prod.product_id.weight_net
             qty_finished, qty_real_finished, qty_scrap = self._get_total_qty(prod)
             theorical_weight = qty_real_finished * prod.product_id.weight_net
             used_weight = 0.0
@@ -200,12 +182,24 @@ class PerformanceCalculation(models.TransientModel):
                     continue
                 used_weight += move.product_uom_qty * move.product_id.weight_net
             overweight = 100 * (used_weight - theorical_weight) / (theorical_weight or 1.0)
-        res = {
+        return {
            'used_weight': used_weight,
            'theorical_weight': theorical_weight,
            'overweight': overweight,
         }
-        return res
+
+    @api.model
+    def _get_theorical_overweight(self, prod=False):
+        theorical_overweight = 0.0
+        if prod and prod.bom_id:
+            qty = qty_final = 0.0
+            for line in prod.bom_id.bom_line_ids:
+                if not line.product_id.categ_id.applies_overweight_calculation:
+                    continue
+                qty += line.product_qty
+                qty_final += line.product_qty * (line.product_efficiency or 1.0)
+            theorical_overweight = (100 - (100 * qty_final / qty)) if qty else 0.0
+        return theorical_overweight
 
     @api.multi
     def _prepare_indicator(self, name_report, company_id):
@@ -220,8 +214,8 @@ class PerformanceCalculation(models.TransientModel):
         return res
 
     @api.multi
-    def _prepare_indicator_line(self, wl, stop_time, availability, performance,
-            quality, oee, indicator_id, qty_finished, qty_scrap):
+    def _prepare_indicator_line(self, indicator_id, wl, stop_time, qty_finished, qty_scrap,
+            availability, performance, quality, oee):
         self.ensure_one()
         res = {
             'name': "INDL / " + self.name + " / " + time.strftime('%Y-%m-%d %H:%M:%S'),
@@ -246,8 +240,8 @@ class PerformanceCalculation(models.TransientModel):
         return res
 
     @api.multi
-    def _prepare_scrap_indicator_line(self, prod, qty_finished=0.0, real_qty_finished=0.0,
-            qty_scrap=0.0, theo_cost=0.0, real_cost=0.0, usage=0.0, scrap=0.0, indicator_id=False):
+    def _prepare_scrap_indicator_line(self, indicator_id, prod, qty_finished=0.0, real_qty_finished=0.0,
+            qty_scrap=0.0, theo_cost=0.0, real_cost=0.0, usage=0.0, scrap=0.0):
         self.ensure_one()
         res = {
             'name': "SCRAPL / " + self.name + " / " + time.strftime('%Y-%m-%d %H:%M:%S'),
@@ -267,8 +261,8 @@ class PerformanceCalculation(models.TransientModel):
         return res
 
     @api.multi
-    def _prepare_overweight_indicator_line(self, prod, qty_nominal=0.0,
-            qty_consumed=0.0, overweight=0.0, indicator_id=False):
+    def _prepare_overweight_indicator_line(self, indicator_id, prod, qty_nominal=0.0,
+            qty_consumed=0.0, overweight=0.0):
         self.ensure_one()
         workcenter_id = prod.workcenter_lines.mapped('workcenter_id')
         res = {
@@ -314,30 +308,6 @@ class PerformanceCalculation(models.TransientModel):
         return res
 
     @api.model
-    def _calc_finished_qty(self, production):
-        qty = 0.0
-        for move in production.move_created_ids2:
-            if move.state != 'done':
-                continue
-            scrapped_move = move.location_dest_id.scrap_location
-            if not scrapped_move or (scrapped_move and move.location_id.usage == 'production'):
-                qty += move.product_uom_qty
-        return qty
-
-    @api.model
-    def _calc_real_finished_qty(self, production):
-        qty = 0.0
-        for move in production.move_created_ids2:
-            if move.state != 'done':
-                continue
-            scrapped_move = move.location_dest_id.scrap_location
-            if not scrapped_move:
-                qty += move.product_uom_qty
-            elif move.location_id.usage == 'internal':
-                qty -= move.product_uom_qty
-        return qty
-
-    @api.model
     def _get_theo_cost(self, production, product_uom_qty=0.0):
         theorical_cost = 0.0
         if production.theo_cost:
@@ -347,17 +317,6 @@ class PerformanceCalculation(models.TransientModel):
             updated_price = tmpl_obj._calc_price(production.bom_id, test=True)
             theorical_cost = updated_price * product_uom_qty
         return theorical_cost
-
-    @api.model
-    def _get_real_cost(self, production):
-        real_cost = 0.0
-        for move in production.move_lines2:
-            if move.state != 'done':
-                continue
-            scrapped_move = move.location_dest_id.scrap_location
-            if not scrapped_move:
-                real_cost += (move.price_unit * move.product_uom_qty)
-        return real_cost
 
     @api.multi
     def generate_report_scrap_and_usage(self):
@@ -380,8 +339,8 @@ class PerformanceCalculation(models.TransientModel):
                 usage = result['usage']
                 scrap = result['scrap']
                 vals = self._prepare_scrap_indicator_line(
-                    prod, qty_finished, real_qty_finished, qty_scrap,
-                    theo_cost, real_real_cost, usage, scrap, indicator_id.id)
+                    indicator_id.id, prod, qty_finished, real_qty_finished,
+                    qty_scrap, theo_cost, real_real_cost, usage, scrap)
                 ind_line_obj.create(vals)
         return indicator_id.id
 
@@ -399,11 +358,11 @@ class PerformanceCalculation(models.TransientModel):
         if line_ids and indicator_id:
             for wl in line_ids:
                 stop_time = self._get_total_stop_time(wl)
-                availability, performance, quality, oee = self._get_oee(wl)
                 qty_finished, qty_real_finished, qty_scrap = self._get_total_qty(wl.production_id)
+                availability, performance, quality, oee = self._get_oee(wl)
                 vals = self._prepare_indicator_line(
-                    wl, stop_time, availability, performance, quality, oee,
-                    indicator_id.id, qty_finished, qty_scrap)
+                    indicator_id.id, wl, stop_time, qty_finished, qty_scrap,
+                    availability, performance, quality, oee)
                 ind_line_obj.create(vals)
             tavailability = tperformance = tquality = 0.0
             nline= 0
@@ -510,7 +469,7 @@ class PerformanceCalculation(models.TransientModel):
                 qty_nominal = result['theorical_weight']
                 overweight = result['overweight']
                 vals = self._prepare_overweight_indicator_line(
-                    prod, qty_nominal, qty_consumed, overweight, indicator_id.id)
+                    indicator_id.id, prod, qty_nominal, qty_consumed, overweight)
                 ind_line_obj.create(vals)
             tused_weight = ttheorical_weight = 0.0
             vals = {}

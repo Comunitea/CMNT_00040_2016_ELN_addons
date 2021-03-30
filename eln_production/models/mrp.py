@@ -445,7 +445,9 @@ class MrpProduction(models.Model):
 
     date_planned = fields.Datetime(readonly=False) # Redefined
     routing_id = fields.Many2one(ondelete='restrict') # Redefined
-    date_end_planned = fields.Datetime('Date end Planned')
+    date = fields.Datetime('Creation Date',
+        states={'cancel': [('readonly', True)], 'done': [('readonly', True)]},
+        default=fields.Datetime.now, copy=False)
     state = fields.Selection(PRODUCTION_STATES) # Redefined
     note = fields.Text('Notes')
     workcenter_lines = fields.One2many(readonly=False) # Redefined

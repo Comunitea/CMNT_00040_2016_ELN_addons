@@ -193,6 +193,7 @@
                         <group col="2">
                             <field name="lead_time"/>
                             <field name="overweight"/>
+                            <field name="theorical_overweight"/>
                         </group>
                         <group col="2">
                             <field name="ind_scrap"/>

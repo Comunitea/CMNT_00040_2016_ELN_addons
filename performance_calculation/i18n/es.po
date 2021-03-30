@@ -333,6 +333,11 @@ msgid "Overweight (%)"
 msgstr "Sobrepeso (%)"
 
 #. module: performance_calculation
+#: field:mrp.production,theorical_overweight:0
+msgid "Theo. Overweight (%)"
+msgstr "Sobrepeso teórico (%)"
+
+#. module: performance_calculation
 #: view:mrp.indicators.overweight:performance_calculation.mrp_indicators_overweight_form
 msgid "Overweight +"
 msgstr "Sobrepeso +"
