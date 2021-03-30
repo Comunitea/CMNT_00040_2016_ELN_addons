@@ -199,7 +199,7 @@ class PerformanceCalculation(models.TransientModel):
                 qty += line.product_qty
                 qty_final += line.product_qty * (line.product_efficiency or 1.0)
             theorical_overweight = (100 - (100 * qty_final / qty)) if qty else 0.0
-        return theorical_overweight
+        return round(theorical_overweight, 2)
 
     @api.multi
     def _prepare_indicator(self, name_report, company_id):
