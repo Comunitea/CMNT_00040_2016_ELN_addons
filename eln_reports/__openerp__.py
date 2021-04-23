@@ -36,6 +36,7 @@
         'delivery_route',
         'picking_invoice_rel',  # Por campo stock_move_id
         'eln_production',
+        'product_expiry',
     ],
     'init_xml': [],
     'data': [
