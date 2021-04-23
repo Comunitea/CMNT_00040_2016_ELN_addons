@@ -6,11 +6,11 @@
             <field name="model">edi.export</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
-                <form string="Exportar">
-                    <label string="¿Desea exportar los modelos seleccionados?"/>
+                <form string="Export">
+                    <label string="Do you want to export the selected models?"/>
                     <footer>
                         <button special="cancel" string="No" icon="gtk-cancel"/>
-                        <button name="export_files" string="Sí" type="object" icon="gtk-ok" default_focus="1"/>
+                        <button name="export_files" string="Yes" type="object" icon="gtk-ok" default_focus="1"/>
                     </footer>
                 </form>
             </field>
@@ -20,33 +20,21 @@
             <field name="model">edi.export</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
-                <form string="Exportar">
+                <form string="Export">
                     <label string="Do you want to export the payment relation with the selected invoices?"/>
                     <group>
                         <field name="date_due"/>
                     </group>
                     <footer>
                         <button special="cancel" string="No" icon="gtk-cancel"/>
-                        <button name="export_files" string="Sí" type="object" icon="gtk-ok" context="{'coacsu': True}" default_focus="1"/>
+                        <button name="export_files" string="Yes" type="object" icon="gtk-ok" context="{'coacsu': True}" default_focus="1"/>
                     </footer>
                 </form>
             </field>
         </record>
-        <!-- Pedido de venta-->
-        <!-- No se esta usando -->
-<!--    <act_window
-            id="action_edi_export" name="Exportar pedidos EDI"
-            res_model="edi.export"
-            src_model="sale.order"
-            view_type="form"
-            view_mode="form"
-            target="new"
-            view_id="wizard_edi_export"
-            key2="client_action_multi"
-        /> -->
         <!-- Albarán-->
         <act_window
-            id="action_edi_export_picking" name="Exportar Albaranes EDI"
+            id="action_edi_export_picking" name="Export EDI Picking"
             res_model="edi.export"
             src_model="stock.picking"
             view_type="form"
@@ -57,7 +45,7 @@
             />
         <!-- Factura -->
          <act_window
-            id="action_edi_export_invoice" name="Exportar Facturas EDI"
+            id="action_edi_export_invoice" name="Export EDI Invoices"
             res_model="edi.export"
             src_model="account.invoice"
             view_type="form"
@@ -68,7 +56,7 @@
             />
         <!-- COACSU -->
          <act_window
-            id="action_edi_export_coacsu" name="Exportar Relación Facturas EDI"
+            id="action_edi_export_coacsu" name="Export EDI Invoice Summary"
             res_model="edi.export"
             src_model="account.invoice"
             view_type="form"

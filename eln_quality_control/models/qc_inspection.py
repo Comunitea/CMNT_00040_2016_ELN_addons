@@ -8,6 +8,7 @@ from datetime import datetime
 
 class QcInspection(models.Model):
     _inherit = 'qc.inspection'
+    _order = 'name desc'
 
     auto_generated = fields.Boolean(
         states={'draft': [('readonly', False)]})

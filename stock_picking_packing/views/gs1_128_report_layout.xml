@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+       <template id="gs1_128_report_layout">
+           <td class="text-left col-xs-5">
+               <table class="table table-bordered">
+                   <tr>
+                       <td class="text-left col-xs-12" t-att-colspan="3">
+                           <h5 align="right">
+                               <img t-if="picking.company_id.logo" t-att-src="'data:image/png;base64,%s' % picking.company_id.logo" style="max-width: 100px; max-height: 100px;"/>
+                               <b>
+                               <div t-field="picking.company_id.partner_id"
+                                    t-field-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": true}'
+                                    class="pull-left" align="left"
+                               />
+                               </b>
+                           </h5>
+                       </td>
+                   </tr>
+                   <tr>
+                       <td class="text-left col-xs-12" t-att-colspan="3">
+                           <h5 align="left"><span><b>LUGAR DE ENTREGA:</b></span></h5>
+                           <h5>
+                               <div t-field="picking.partner_id" 
+                                    t-field-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": true}'
+                                    class="pull-left"
+                                />
+                           </h5>
+                       </td>
+                   </tr>
+                   <tr>
+                       <td class="text-left col-xs-12" t-att-colspan="3">
+                           <h5 align="left"><span><b>PRODUCTO: </b></span><span t-esc="p['pack_name']"/></h5>
+                       </td>
+                   </tr>
+                   <tr>
+                       <td class="text-center col-xs-2">
+                           <h5 align="center"><span><b>ALBARÁN</b></span></h5>
+                           <h5 align="center"><span t-esc="picking.name"/></h5>
+                           <h5 align="center"><span><b>BULTO: </b></span><span t-esc="p['product_pack']"/>/<span t-esc="p['total_pack']"/></h5>
+                       </td>
+                       <td class="text-center col-xs-5">
+                           <h5 align="left"><span><b>GTIN: </b></span><span t-esc="p['pack_dun14']"/></h5>
+                           <h5 align="left"><span><b>CANTIDAD: </b></span><span t-esc="p['pack_uos_qty']"/> <span t-esc="p['pack_uos']"/></h5>
+                           <h5 align="left"><span><b>LOTE: </b></span><span t-esc="p['pack_lot']"/></h5>
+                       </td>
+                       <td class="text-center col-xs-5">
+                           <h5 align="center"><span><b>F. CONSUMO</b></span></h5>
+                           <h5 align="center"><span><b>PREFERENTE:</b></span></h5>
+                           <h5 align="center"><span t-esc="p['pack_date']"/></h5>
+                       </td>
+                   </tr>
+                   <tr>
+                       <td class="text-center col-xs-12" t-att-colspan="3">
+                           <span><b>SSCC: </b></span><span t-esc="p['pack_sscc']"/>
+                       </td>
+                   </tr>
+                   <tr>
+                       <td class="text-center col-xs-12" t-att-colspan="3">
+                           <br></br>
+                           <img t-att-src="'data:image/png;base64,%s' % p['pack_gs1_128_l1']" style="width:550px;height:100px"/>
+                           <h5 align="center"><span t-esc="p['humanReadable1']"/></h5>
+                           <br></br>
+                           <img t-att-src="'data:image/png;base64,%s' % p['pack_gs1_128_l2']" style="width:550px;height:100px"/>
+                           <h5 align="center"><span t-esc="p['humanReadable2']"/></h5>
+                           <br></br>
+                       </td> 
+                   </tr>
+               </table>
+           </td>
+       </template>
+    </data>
+</openerp>

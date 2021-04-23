@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="print_GS1_128_paperformat_A5" model="report.paperformat">
+            <field name="name">GS1-128 label A5</field>
+            <field name="default" eval="False"/>
+            <field name="format">A5</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">10</field>
+            <field name="margin_bottom">5</field>
+            <field name="margin_left">0</field>
+            <field name="margin_right">0</field>
+            <field name="header_spacing">0</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report
+          string="GS1-128 label x1"
+          id="report_print_gs1_128_labels_x1"
+          model="stock.picking"
+          report_type="qweb-pdf"
+          name="stock_picking_packing.gs1_128_report_x1"
+          file="stock_picking_packing.gs1_128_report_x1"
+          menu="False"
+        />
+
+        <record id="report_print_gs1_128_labels_x1" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="print_GS1_128_paperformat_A5"/>
+        </record>
+
+        <record id="print_GS1_128_paperformat_A4" model="report.paperformat">
+            <field name="name">GS1-128 label A4</field>
+            <field name="default" eval="False"/>
+            <field name="format">A4</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">10</field>
+            <field name="margin_bottom">5</field>
+            <field name="margin_left">0</field>
+            <field name="margin_right">0</field>
+            <field name="header_spacing">0</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report
+          string="GS1-128 label x2"
+          id="report_print_gs1_128_labels_x2"
+          model="stock.picking"
+          report_type="qweb-pdf"
+          name="stock_picking_packing.gs1_128_report_x2"
+          file="stock_picking_packing.gs1_128_report_x2"
+          menu="False"
+        />
+
+        <record id="report_print_gs1_128_labels_x2" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="print_GS1_128_paperformat_A4"/>
+        </record>
+
+    </data>
+</openerp>

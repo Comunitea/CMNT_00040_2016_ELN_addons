@@ -8,39 +8,38 @@
             <field name="model">edi.doc</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
-                <form string="Documento EDI">
+                <form string="EDI Document">
                 <notebook>
-                    <page string="Documento">
+                    <page string="Document">
                         <group col="4" colspan="4">
                             <group col="2" colspan="2">
                                 <group col="2" colspan="2">
-                                    <separator colspan="2" string="Identificador"/>
+                                    <separator colspan="2" string="Identificator"/>
                                     <field name="name" readonly="1" select="1"/>
                                     <field name="file_name" readonly="1" select="1"/>
                                     <field name="date" readonly="1" select="1"/>
                                 </group>
                                 <group col="2" colspan="2">
-                                    <separator colspan="2" string="Estado"/>
+                                    <separator colspan="2" string="Status"/>
                                     <field name="status" readonly="1" select="1"/>
                                     <field name="date_process" readonly="1" select="1"/>
                                 </group>
                             </group>
                             <group col="2" colspan="2">
                                 <group col="2" colspan="2">
-                                    <separator colspan="2" string="Documento"/>
+                                    <separator colspan="2" string="Document"/>
                                     <field name="type" readonly="1" select="1"/>
                                     <field name='sale_order_id' readonly="1" select="2"/>
                                     <field name='picking_id' readonly="1" select="2"/>
                                     <field name='invoice_id' readonly="1" select="2"/>
-                                    <!-- <field name='coacsu_invoice_ids' readonly="1" widget="many2many_tags"/> -->
                                 </group>
                                 <group col="2" colspan="2">
-                                    <separator colspan="2" string="Envio"/>
+                                    <separator colspan="2" string="Dates"/>
                                     <field name="send_date" readonly="1" select="1"/>
                                 </group>
                             </group>
                             <group>
-                                <separator colspan="4" string="Códigos"/>
+                                <separator colspan="4" string="Codes"/>
                                 <field name="gln_ef" readonly="1"/>
                                 <field name="gln_ve" readonly="1" />
                                 <field name="gln_de" readonly="1" />
@@ -51,8 +50,8 @@
                             <newline/>
                         </group>
                     </page>
-                    <page string="Fichero">
-                        <label string="Xml del fichero" colspan="4"/>
+                    <page string="File">
+                        <label string="File XML content" colspan="4"/>
                         <field name='message' colspan="4" readonly="1" select="2" nolabel="1"/>
                     </page>
                 </notebook>
@@ -65,7 +64,7 @@
             <field name="model">edi.doc</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree string="Documentos EDI">
+                <tree string="EDI Documents">
                     <field name="date"/>
                     <field name="status"/>
                     <field name="name"/>
@@ -79,7 +78,7 @@
         </record>
 
         <record model="ir.actions.act_window" id="act_edi_doc">
-            <field name="name">Documentos EDI</field>
+            <field name="name">EDI Documents</field>
             <field name="res_model">edi.doc</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
@@ -92,14 +91,14 @@
             <field name="model">edi.configuration</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
-                <form string="Configuracion EDI">
+                <form string="EDI Configuration">
                     <group>
                     <field name="name"/>
                     <field name="salesman"/>
                     <field name="local_mode"/>
                     <field name="ftpbox_path"/>
                     </group>
-                    <group attrs="{'invisible':[('local_mode','=',True)]}" string="Buzon FTP" colspan="4">
+                    <group attrs="{'invisible':[('local_mode','=',True)]}" string="FTP mailbox" colspan="4">
                         <field name="ftp_host" attrs="{'required':[('local_mode','=',False)]}"/>
                         <field name="ftp_port" attrs="{'required':[('local_mode','=',False)]}"/>
                         <field name="ftp_user"/>
@@ -113,7 +112,7 @@
             <field name="model">edi.configuration</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree string="Configuracion EDI">
+                <tree string="EDI Configuration">
                     <field name="name"/>
                     <field name="ftp_host"/>
                     <field name="ftp_user"/>
@@ -121,35 +120,12 @@
             </field>
         </record>
         <record model="ir.actions.act_window" id="act_edi_configuration">
-            <field name="name">Configuracion EDI</field>
+            <field name="name">EDI Configuration</field>
             <field name="res_model">edi.configuration</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="domain"></field>
         </record>
-
-<!-- ************************* HERENCIAS *********************** -->
-        <!-- INHERITED sale.orders -->
-        <!--record model="ir.ui.view" id="view_edi_sale_order_form" >
-            <field name="name">edi.sale_order</field>
-            <field name="model">sale.order</field>
-            <field name="inherit_id" ref="sale.view_order_form" />
-            <field name="type">form</field>
-            <field name="arch" type="xml">
-                <notebook position="inside" >
-                    <page string="EDI">
-                        <field name="order_type"/>
-                        <field name="funcion_mode"/>
-                        <field name="urgent"/>
-                        <field name="edi_docs" select="1" readonly="1" colspan="4" nolabel="1"/>
-                    </page>
-                </notebook>
-                 <field name="shop_id" position="after">
-                    <field name="top_date"/>
-                     <field name="num_contract"/>
-                </field>
-            </field>
-        </record-->
 
         <!-- INHERITED res.partner -->
         <record model="ir.ui.view" id="view_edi_res_partner_form" >
@@ -164,7 +140,7 @@
                                 <field name="edi_filename"/>
                                 <field name="department_code_edi" select="2"/>
                                 <field name="edi_supplier_cip" select="2"/>
-                                <field name="gln_ve" placeholder="Si es diferente al de la Compañía" select="2"/>
+                                <field name="gln_ve" placeholder="If it is different from that of the Company" select="2"/>
                                 <field name="edi_test_mode"/>
                             </group>
                             <group col="2" colspan="2" string="COACSU">
@@ -196,7 +172,7 @@
                 </notebook>
 
                 <field name="title" position="after">
-                    <separator string="Datos EDI" colspan="4" col="4"/>
+                    <separator string="EDI Data" colspan="4" col="4"/>
                         <field name="gln_de" select="2"/>
                         <field name="gln_rf" select="2"/>
                         <field name="gln_co" select="2"/>
@@ -205,7 +181,7 @@
 
                  <!-- Contact Data -->
                  <xpath expr="//field[@name='child_ids']/form//field[@name='customer']" position="after">
-                    <group string="Datos EDI">
+                    <group string="EDI Data">
                         <field name="gln_de" select="2"/>
                         <field name="gln_rf" select="2"/>
                         <field name="gln_co" select="2"/>
@@ -229,39 +205,6 @@
             </field>
         </record>
 
-        <!-- INHERITED stock_picking -->
-        <!--record model="ir.ui.view" id="view_edi_stock_picking_add_contract_form" >
-            <field name="name">view.edi.stock.picking.add.contract.form</field>
-            <field name="model">stock.picking</field>
-            <field name="inherit_id" ref="stock.view_picking_form" />
-            <field name="type">form</field>
-            <field name="arch" type="xml">
-                <field name="stock_journal_id" position="after">
-                    <field name="num_contract"/>
-                    <field name="return_picking_id"/>
-                </field>
-                <notebook position="inside" >
-                    <page string="EDI">
-                        <field name="edi_docs" select="1" readonly="1" colspan="4" nolabel="1"/>
-                    </page>
-                </notebook>
-                <xpath expr="//field[@name='move_lines']/tree/field[@name='product_qty']" position="after">
-                    <field name="acepted_qty"/>
-                </xpath>
-                <xpath expr="//field[@name='move_lines']/form/group[1]/field[@name='product_qty']" position="after">
-                    <field name="acepted_qty"/>
-                </xpath>
-                 <button name="%(stock.act_stock_return_picking)d" position="replace">
-                      <button name="%(stock.act_stock_return_picking)d" string="Return Products" attrs="{'invisible' : [ '|',('return_picking_id','!=',False),('state','!=', 'done') ]}" type="action" icon="gtk-execute"/>
-                 </button>
-                <xpath expr="//field[@name='move_lines']/form//field[@name='state']" position="after">
-                    <newline/>
-                    <separator string="Notas" colspan="4"/>
-                    <field name="note" colspan="4" nolabel="1"/>
-                </xpath>
-            </field>
-        </record-->
-
         <!-- INHERITED account_invoice -->
         <record model="ir.ui.view" id="view_edi_account_invoice_add_contract_form" >
             <field name="name">view.edi.account.invoice.add.contract.form</field>
@@ -272,10 +215,6 @@
                 <field name="partner_id" position="after">
                     <field name="num_contract"/>
                 </field>
-                <field name="amount_untaxed" position="before">
-                    <field name="global_disc" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
-                    <label string="" colspan="2"/>
-                </field>
                 <notebook position="inside" >
                     <page string="EDI">
                         <notebook position="inside">
@@ -283,12 +222,12 @@
                                 <group col="4">
                                     <field name="edi_not_send_invoice"/>
                                     <newline/>
-                                    <button name="%(action_edi_export_invoice)d" type="action" string="Exportar Facturas EDI"
+                                    <button name="%(action_edi_export_invoice)d" type="action" string="Export EDI Invoices"
                                         attrs="{'invisible':[('edi_not_send_invoice','=',True)]}" colspan="2"/>
                                 </group>
-                                <separator colspan="4" string="Documentos Generados"/>
+                                <separator colspan="4" string="Generated documents"/>
                                 <field name="edi_docs" select="1" readonly="1" colspan="4" nolabel="1">
-                                    <tree string="Documentos EDI">
+                                    <tree string="EDI Documents">
                                         <field name="name"/>
                                         <field name="type"/>
                                         <field name="date"/>
@@ -300,9 +239,9 @@
                                 <group col="4">
                                     <field name="edi_not_send_coacsu"/>
                                 </group>
-                                <separator colspan="4" string="Documentos Generados"/>
+                                <separator colspan="4" string="Generated documents"/>
                                 <field name="invoice_coacsu_ids" readonly="1" colspan="4" nolabel="1">
-                                    <tree string="Documentos EDI">
+                                    <tree string="EDI Documents">
                                         <field name="name"/>
                                         <field name="type"/>
                                         <field name="date"/>
@@ -318,42 +257,42 @@
         
         <!-- Custom EDI filters -->
         <record id="filter_edi_generado_tree1" model="ir.filters">
-            <field name="name">EDI Generado</field>
+            <field name="name">EDI Generated</field>
             <field name="model_id">account.invoice</field>
             <field name="action_id" ref="account.action_invoice_tree1"/>
             <field name="domain">[('edi_docs', '!=', False)]</field>
             <field name="user_id" eval="False"/>
         </record>
         <record id="filter_edi_no_generado_tree1" model="ir.filters">
-            <field name="name">EDI No Generado</field>
+            <field name="name">EDI Not Generated</field>
             <field name="model_id">account.invoice</field>
             <field name="action_id" ref="account.action_invoice_tree1"/>
             <field name="domain">[('edi_docs', '=', False),('edi_not_send_invoice', '=', False),('partner_id.commercial_partner_id.edi_invoic_active', '!=', False),('journal_id.name', 'ilike', 'ventas')]</field>
             <field name="user_id" eval="False"/>
         </record>
         <record id="filter_edi_generado_tree3" model="ir.filters">
-            <field name="name">EDI Generado</field>
+            <field name="name">EDI Generated</field>
             <field name="model_id">account.invoice</field>
             <field name="action_id" ref="account.action_invoice_tree3"/>
             <field name="domain">[('edi_docs', '!=', False)]</field>
             <field name="user_id" eval="False"/>
         </record>
         <record id="filter_edi_no_generado_tree3" model="ir.filters">
-            <field name="name">EDI No Generado</field>
+            <field name="name">EDI Not Generated</field>
             <field name="model_id">account.invoice</field>
             <field name="action_id" ref="account.action_invoice_tree3"/>
             <field name="domain">[('edi_docs', '=', False),('edi_not_send_invoice', '=', False),('partner_id.commercial_partner_id.edi_invoic_active', '!=', False),('journal_id.name', 'ilike', 'ventas')]</field>
             <field name="user_id" eval="False"/>
         </record>
         <record id="filter_coacsu_generado_tree1" model="ir.filters">
-            <field name="name">COA Generado</field>
+            <field name="name">COA Generated</field>
             <field name="model_id">account.invoice</field>
             <field name="action_id" ref="account.action_invoice_tree1"/>
             <field name="domain">[('invoice_coacsu_ids', '!=', False)]</field>
             <field name="user_id" eval="False"/>
         </record>
         <record id="filter_coacsu_no_generado_tree1" model="ir.filters">
-            <field name="name">COA No Generado</field>
+            <field name="name">COA Not Generated</field>
             <field name="model_id">account.invoice</field>
             <field name="action_id" ref="account.action_invoice_tree1"/>
             <field name="domain">[('invoice_coacsu_ids', '=', False),('partner_id.commercial_partner_id.edi_coacsu_active', '!=', False),('edi_not_send_coacsu', '=', False)]</field>
@@ -366,16 +305,12 @@
             <field name="model">res.company</field>
             <field name="inherit_id" ref="base.view_company_form"/>
             <field name="arch" type="xml">
-                 <field name="street2" position="replace">
-                    <field name="street2"/>
-                </field>
                 <notebook position="inside">
                     <page string="EDI">
-                        <group string="Datos EDI" colspan="4">
+                        <group string="EDI Data" colspan="4">
                             <field name="gln_ef"/>
                             <field name="gln_ve"/>
                             <field name="edi_code" col="2"/>
-                            <field name="gs1" col="2"/>
                             <field name="edi_rm" col="2"/>
                         </group>
                     </page>
@@ -406,10 +341,48 @@
             </field>
         </record>
 
+        <record id="product_ul_form_view" model="ir.ui.view">
+            <field name="name">product.ul.form.view</field>
+            <field name="model">product.ul</field>
+            <field name="inherit_id" ref="product.product_ul_form_view"/>
+            <field name="arch" type="xml">
+                <field name="type" position="after">
+                    <field name="edi_code"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="product_ul_tree" model="ir.ui.view">
+            <field name="name">product.ul.tree</field>
+            <field name="model">product.ul</field>
+            <field name="inherit_id" ref="product.product_ul_tree"/>
+            <field name="arch" type="xml">
+                <field name="type" position="after">
+                    <field name="edi_code"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_picking_form" model="ir.ui.view">
+            <field name="name">view.picking.form</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock_picking_packing.view_picking_form"/>
+            <field name="arch" type="xml">
+                <page string="Logistic" position="inside">
+                    <separator string="EDI Documents"/>
+                    <button name="%(action_edi_export_picking)d" type="action" string="Export EDI Picking"/>
+                    <field name="edi_docs" select="1" readonly="1"/>
+                </page>
+                <field name="packing_ids" position="before">
+                    <button name="action_print_desadv_label" type="object" string="Print DESADV label"/>
+                </field>
+            </field>
+        </record>
+
  <!-- **************************** MENUS ***************************** -->
         <menuitem id="menu_edi" name="EDI" parent="base.menu_administration"/>
-            <menuitem id="menu_edi_configuration" parent="menu_edi" name="Configuracion EDI" action="act_edi_configuration" sequence="1"/>
-            <menuitem id="menu_edi_doc" parent="menu_edi" name="Documentos" action="act_edi_doc" sequence="1"/>
+            <menuitem id="menu_edi_configuration" parent="menu_edi" name="EDI Configuration" action="act_edi_configuration" sequence="1"/>
+            <menuitem id="menu_edi_doc" parent="menu_edi" name="Documents" action="act_edi_doc" sequence="1"/>
 
     </data>
 </openerp>

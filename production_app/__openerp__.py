@@ -10,6 +10,7 @@
     'license': 'AGPL-3',
     'depends': [
         'mrp_operations',
+        'product_expiry',
         'eln_production',
         'maintenance',
         'stock_lock_by_lot',

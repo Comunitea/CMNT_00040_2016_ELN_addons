@@ -1,0 +1,354 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* stock_picking_packing
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-04-23 09:18+0000\n"
+"PO-Revision-Date: 2021-04-23 11:19+0200\n"
+"Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: es\n"
+"X-Generator: Poedit 2.4.2\n"
+
+#. module: stock_picking_packing
+#: help:res.company,gs1:0
+msgid "AECOC GS1 code of the Company. Used to coding GTIN-13, GTIN-14, GS1-128, SSCC, etc."
+msgstr "Código AECOC GS1 de la Compañía. Se utiliza para codificar GTIN-13, GTIN-14, GS1-128, SSCC, etc."
+
+#. module: stock_picking_packing
+#: view:website:stock_picking_packing.gs1_128_report_layout
+msgid "ALBARÁN"
+msgstr "ALBARÁN"
+
+#. module: stock_picking_packing
+#: field:stock.picking.modify.packing.line,active:0
+msgid "Active"
+msgstr "Activo"
+
+#. module: stock_picking_packing
+#: view:stock.picking.modify.packing:stock_picking_packing.stock_picking_modify_packing_form
+msgid "Auto (all in one)"
+msgstr "Auto (todo en uno)"
+
+#. module: stock_picking_packing
+#: view:stock.picking.modify.packing:stock_picking_packing.stock_picking_modify_packing_form
+msgid "Auto (boxes)"
+msgstr "Auto (cajas)"
+
+#. module: stock_picking_packing
+#: view:stock.picking.modify.packing:stock_picking_packing.stock_picking_modify_packing_form
+msgid "Auto (pallets)"
+msgstr "Auto (palets)"
+
+#. module: stock_picking_packing
+#: view:website:stock_picking_packing.gs1_128_report_layout
+msgid "BULTO:"
+msgstr "BULTO:"
+
+#. module: stock_picking_packing
+#: view:website:stock_picking_packing.gs1_128_report_layout
+msgid "CANTIDAD:"
+msgstr "CANTIDAD:"
+
+#. module: stock_picking_packing
+#: view:stock.picking.modify.packing:stock_picking_packing.stock_picking_modify_packing_form
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: stock_picking_packing
+#: model:ir.model,name:stock_picking_packing.model_res_company
+msgid "Companies"
+msgstr "Compañías"
+
+#. module: stock_picking_packing
+#: field:stock.picking.modify.packing,create_uid:0
+#: field:stock.picking.modify.packing.line,create_uid:0
+#: field:stock.picking.packing,create_uid:0
+msgid "Created by"
+msgstr "Created by"
+
+#. module: stock_picking_packing
+#: field:stock.picking.modify.packing,create_date:0
+#: field:stock.picking.modify.packing.line,create_date:0
+#: field:stock.picking.packing,create_date:0
+msgid "Created on"
+msgstr "Created on"
+
+#. module: stock_picking_packing
+#: field:report.stock_picking_packing.gs1_128_report_x1,display_name:0
+#: field:report.stock_picking_packing.gs1_128_report_x2,display_name:0
+#: field:stock.picking.modify.packing,display_name:0
+#: field:stock.picking.modify.packing.line,display_name:0
+#: field:stock.picking.packing,display_name:0
+msgid "Display Name"
+msgstr "Display Name"
+
+#. module: stock_picking_packing
+#: code:addons/stock_picking_packing/report/gs1_128_parser.py:17
+#: code:addons/stock_picking_packing/report/gs1_128_parser.py:41
+#, python-format
+msgid "Error"
+msgstr "Error"
+
+#. module: stock_picking_packing
+#: view:website:stock_picking_packing.gs1_128_report_layout
+msgid "F. CONSUMO"
+msgstr "F. CONSUMO"
+
+#. module: stock_picking_packing
+#: field:res.company,gs1:0
+msgid "GS1 code"
+msgstr "Código GS1"
+
+#. module: stock_picking_packing
+#: model:ir.actions.report.xml,name:stock_picking_packing.report_print_gs1_128_labels_x1
+msgid "GS1-128 label x1"
+msgstr "Etiqueta GS1-128 x1"
+
+#. module: stock_picking_packing
+#: model:ir.actions.report.xml,name:stock_picking_packing.report_print_gs1_128_labels_x2
+msgid "GS1-128 label x2"
+msgstr "Etiqueta GS1-128 x2"
+
+#. module: stock_picking_packing
+#: view:website:stock_picking_packing.gs1_128_report_layout
+msgid "GTIN:"
+msgstr "GTIN:"
+
+#. module: stock_picking_packing
+#: field:report.stock_picking_packing.gs1_128_report_x1,id:0
+#: field:report.stock_picking_packing.gs1_128_report_x2,id:0
+#: field:stock.picking.modify.packing,id:0
+#: field:stock.picking.modify.packing.line,id:0
+#: field:stock.picking.packing,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: stock_picking_packing
+#: view:stock.picking:stock_picking_packing.view_picking_form
+msgid "If the packaging is not established, the shipment will be considered as a single pallet."
+msgstr "Si el empaquetado no está establecido se considerará como un envío de un único palet."
+
+#. module: stock_picking_packing
+#: view:website:stock_picking_packing.gs1_128_report_layout
+msgid "LOTE:"
+msgstr "LOTE:"
+
+#. module: stock_picking_packing
+#: view:website:stock_picking_packing.gs1_128_report_layout
+msgid "LUGAR DE ENTREGA:"
+msgstr "LUGAR DE ENTREGA:"
+
+#. module: stock_picking_packing
+#: field:report.stock_picking_packing.gs1_128_report_x1,__last_update:0
+#: field:report.stock_picking_packing.gs1_128_report_x2,__last_update:0
+#: field:stock.picking.modify.packing,__last_update:0
+#: field:stock.picking.modify.packing.line,__last_update:0
+#: field:stock.picking.packing,__last_update:0
+msgid "Last Modified on"
+msgstr "Last Modified on"
+
+#. module: stock_picking_packing
+#: field:stock.picking.modify.packing,write_uid:0
+#: field:stock.picking.modify.packing.line,write_uid:0
+#: field:stock.picking.packing,write_uid:0
+msgid "Last Updated by"
+msgstr "Last Updated by"
+
+#. module: stock_picking_packing
+#: field:stock.picking.modify.packing,write_date:0
+#: field:stock.picking.modify.packing.line,write_date:0
+#: field:stock.picking.packing,write_date:0
+msgid "Last Updated on"
+msgstr "Last Updated on"
+
+#. module: stock_picking_packing
+#: field:stock.picking.modify.packing,line_ids:0
+msgid "Lines"
+msgstr "Líneas"
+
+#. module: stock_picking_packing
+#: view:stock.picking:stock_picking_packing.view_picking_form
+msgid "Logistic"
+msgstr "Logística"
+
+#. module: stock_picking_packing
+#: field:stock.picking.modify.packing.line,lot_id:0
+#: field:stock.picking.packing,lot_id:0
+msgid "Lot/Serial Number"
+msgstr "Lote/Nº de serie"
+
+#. module: stock_picking_packing
+#: view:stock.picking.modify.packing:stock_picking_packing.stock_picking_modify_packing_form
+msgid "Modify"
+msgstr "Modificar"
+
+#. module: stock_picking_packing
+#: code:addons/stock_picking_packing/wizard/stock_picking_modify_packing.py:24
+#: model:ir.actions.act_window,name:stock_picking_packing.action_stock_picking_modify_packing
+#: view:stock.picking.modify.packing:stock_picking_packing.stock_picking_modify_packing_form
+#, python-format
+msgid "Modify packing"
+msgstr "Modificar empaquetado"
+
+#. module: stock_picking_packing
+#: view:website:stock_picking_packing.gs1_128_report_layout
+msgid "PREFERENTE:"
+msgstr "PREFERENTE:"
+
+#. module: stock_picking_packing
+#: view:website:stock_picking_packing.gs1_128_report_layout
+msgid "PRODUCTO:"
+msgstr "PRODUCTO:"
+
+#. module: stock_picking_packing
+#: field:stock.picking.modify.packing.line,product_pack:0
+#: field:stock.picking.packing,product_pack:0
+msgid "Pack N."
+msgstr "Pack N."
+
+#. module: stock_picking_packing
+#: field:stock.picking.modify.packing,pack_ul_id:0
+#: field:stock.picking.packing,pack_ul_id:0
+msgid "Package Logistic Unit"
+msgstr "Unidad logística paquete"
+
+#. module: stock_picking_packing
+#: view:stock.picking:stock_picking_packing.view_picking_form
+#: view:stock.picking.packing:stock_picking_packing.stock_picking_packing_form_view
+#: view:stock.picking.packing:stock_picking_packing.stock_picking_packing_tree_view
+msgid "Packing"
+msgstr "Embalaje"
+
+#. module: stock_picking_packing
+#: field:stock.picking,packing_ids:0
+msgid "Packings"
+msgstr "Embalajes"
+
+#. module: stock_picking_packing
+#: field:stock.picking.modify.packing,picking_id:0
+msgid "Picking"
+msgstr "Albarán"
+
+#. module: stock_picking_packing
+#: model:ir.model,name:stock_picking_packing.model_stock_picking
+msgid "Picking List"
+msgstr "Albarán"
+
+#. module: stock_picking_packing
+#: view:stock.picking:stock_picking_packing.view_picking_form
+msgid "Please note that:"
+msgstr "Tenga en cuenta que:"
+
+#. module: stock_picking_packing
+#: view:stock.picking:stock_picking_packing.view_picking_form
+msgid "Print GS1-128 label x1"
+msgstr "Etiqueta GS1-128 x1"
+
+#. module: stock_picking_packing
+#: view:stock.picking:stock_picking_packing.view_picking_form
+msgid "Print GS1-128 label x2"
+msgstr "Etiqueta GS1-128 x2"
+
+#. module: stock_picking_packing
+#: field:stock.picking.modify.packing.line,product_id:0
+#: field:stock.picking.packing,product_id:0
+msgid "Product"
+msgstr "Producto"
+
+#. module: stock_picking_packing
+#: field:stock.picking.modify.packing.line,product_uos_id:0
+#: field:stock.picking.packing,product_uos_id:0
+msgid "Product UOS"
+msgstr "UdV del producto"
+
+#. module: stock_picking_packing
+#: field:stock.picking.modify.packing.line,product_qty:0
+#: field:stock.picking.packing,product_qty:0
+msgid "Quantity"
+msgstr "Cantidad"
+
+#. module: stock_picking_packing
+#: field:stock.picking.modify.packing.line,product_qty_uos:0
+#: field:stock.picking.packing,product_qty_uos:0
+msgid "Quantity (UOS)"
+msgstr "Cantidad (UdV)"
+
+#. module: stock_picking_packing
+#: view:stock.picking:stock_picking_packing.view_picking_form
+msgid "Restore picking packing"
+msgstr "Restablecer empaquetado"
+
+#. module: stock_picking_packing
+#: view:website:stock_picking_packing.gs1_128_report_layout
+msgid "SSCC:"
+msgstr "SSCC:"
+
+#. module: stock_picking_packing
+#: view:stock.picking:stock_picking_packing.view_picking_form
+msgid "Set picking packing"
+msgstr "Establecer empaquetado"
+
+#. module: stock_picking_packing
+#: field:stock.picking.packing,picking_id:0
+msgid "Stock Picking"
+msgstr "Albarán"
+
+#. module: stock_picking_packing
+#: code:addons/stock_picking_packing/models/stock.py:113
+#, python-format
+msgid "The company GS1 code is wrong"
+msgstr "El código GS1 de la Compañía es incorrecto"
+
+#. module: stock_picking_packing
+#: help:stock.picking.packing,picking_id:0
+msgid "The stock operation where the packing has been made"
+msgstr "La operación de existencia en la que se creó el paquete"
+
+#. module: stock_picking_packing
+#: field:stock.picking.modify.packing.line,product_uom_id:0
+#: field:stock.picking.packing,product_uom_id:0
+msgid "Unit of Measure"
+msgstr "Unidad de medida"
+
+#. module: stock_picking_packing
+#: code:addons/stock_picking_packing/models/stock.py:112
+#: code:addons/stock_picking_packing/wizard/stock_picking_modify_packing.py:87
+#, python-format
+msgid "Warning!"
+msgstr "Advertencia"
+
+#. module: stock_picking_packing
+#: field:stock.picking.modify.packing.line,wiz_id:0
+msgid "Wizard"
+msgstr "Wizard"
+
+#. module: stock_picking_packing
+#: code:addons/stock_picking_packing/wizard/stock_picking_modify_packing.py:88
+#, python-format
+msgid "You can only divide the quantities into different packages, do not add or remove."
+msgstr "Únicamente puede dividir las cantidades en diferentes paquetes, no añadir ni eliminar."
+
+#. module: stock_picking_packing
+#: code:addons/stock_picking_packing/report/gs1_128_parser.py:18
+#: code:addons/stock_picking_packing/report/gs1_128_parser.py:42
+#, python-format
+msgid "You must print it from a wizard"
+msgstr "Debe imprimirlo desde un asistente"
+
+#. module: stock_picking_packing
+#: view:stock.picking.modify.packing:stock_picking_packing.stock_picking_modify_packing_form
+msgid "or"
+msgstr "o"
+
+#. module: stock_picking_packing
+#: view:stock.picking.modify.packing:stock_picking_packing.stock_picking_modify_packing_form
+msgid "split"
+msgstr "Dividir"

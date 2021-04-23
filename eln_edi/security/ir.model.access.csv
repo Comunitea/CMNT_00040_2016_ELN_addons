@@ -1,5 +1,3 @@
 "id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
 "access_edi_doc","edi.doc","model_edi_doc",,1,1,1,1
 "access_edi_configuration","edi.configuration","model_edi_configuration",,1,1,1,1
-"access_edi_packing","edi.packing","model_edi_packing",,1,1,1,1
-"access_edi_pack","edi.pack","model_edi_pack",,1,1,1,1
