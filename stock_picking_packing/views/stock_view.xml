@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>
+
+        <record id="view_picking_form" model="ir.ui.view">
+            <field name="name">view.picking.form</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <notebook position="inside">
+                    <page string="Logistic" 
+                    attrs="{'invisible': ['|', ('picking_type_code', '=', 'incoming'), ('state', '!=', 'done')]}">
+                        <separator string="Packing"/>
+                        <button name="action_print_gs1_128_label" type="object" string="Print GS1-128 label x1" context="{'num_labels': 1}"/>
+                        <button name="action_print_gs1_128_label" type="object" string="Print GS1-128 label x2" context="{'num_labels': 2}"/>
+                        <field name="packing_ids" readonly="1"/>
+                        <button name="modify_picking_packing" type="object" states="done" string="Set picking packing"/>
+                        <button name="restore_picking_packing" type="object" states="done" string="Restore picking packing"/>
+                        <h3></h3>
+                        <h3>Please note that:</h3>
+                        <li>If the packaging is not established, the shipment will be considered as a single pallet.</li>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+
+        <record id="stock_picking_packing_form_view" model="ir.ui.view">
+            <field name="name">stock.picking.packing.form</field>
+            <field name="model">stock.picking.packing</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Packing">
+                    <group>
+                        <field name="picking_id"/>
+                        <field name="pack_ul_id"/>
+                        <field name="product_id"/>
+                        <field name="product_qty"/>
+                        <field name="product_uom_id"/>
+                        <field name="product_qty_uos"/>
+                        <field name="product_uos_id"/>
+                        <field name="lot_id"/>
+                        <field name="product_pack"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="stock_picking_packing_tree_view" model="ir.ui.view">
+            <field name="name">stock.picking.packing.tree</field>
+            <field name="model">stock.picking.packing</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Packing">
+                    <field name="product_id"/>
+                    <field name="product_qty"/>
+                    <field name="product_uom_id"/>
+                    <field name="product_qty_uos"/>
+                    <field name="product_uos_id"/>
+                    <field name="lot_id"/>
+                    <field name="product_pack"/>
+                </tree>
+            </field>
+        </record>
+
+    </data>
+</openerp>

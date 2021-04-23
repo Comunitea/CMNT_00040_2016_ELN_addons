@@ -18,15 +18,11 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp import models, api
+from openerp import models, api, _
 from openerp.exceptions import except_orm
-from openerp.tools.translate import _
-from datetime import datetime as dt
 
 
 class DesadvParser(models.AbstractModel):
-    """
-    """
     _name = 'report.eln_edi.desadv_report'
 
     @api.multi

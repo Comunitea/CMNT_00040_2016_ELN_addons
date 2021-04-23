@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+       <template id="gs1_128_report_x1">
+           <t t-foreach="docs" t-as="picking">
+               <t t-foreach="line_objs[picking]" t-as="p">
+                   <div class="page">
+                       <table>
+                           <tr>
+                               <t t-call="stock_picking_packing.gs1_128_report_layout" />
+                           </tr>
+                       </table>
+                   </div>
+               </t>
+           </t>
+       </template>
+    </data>
+</openerp>

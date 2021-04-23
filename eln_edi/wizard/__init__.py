@@ -21,4 +21,4 @@
 
 import edi_import
 import edi_export
-import edi_modify_packing
+import stock_picking_modify_packing

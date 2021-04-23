@@ -3,14 +3,17 @@
 <openerp>
     <data>
 
-        <record id="edi_modify_packing_form" model="ir.ui.view">
-            <field name="name">edi.modify.packing.form</field>
-            <field name="model">edi.modify.packing</field>
+        <record id="stock_picking_modify_packing_form" model="ir.ui.view">
+            <field name="name">stock.picking.modify.packing.form</field>
+            <field name="model">stock.picking.modify.packing</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
-                <form string="Modify EDI packing">
+                <form string="Modify packing">
+                    <button name="auto_default" string="Auto (all in one)" type="object"/>
+                    <button name="auto_pallet" string="Auto (pallets)" type="object"/>
+                    <button name="auto_box" string="Auto (boxes)" type="object"/>
                     <group>
-                        <field name="pack_id"/>
+                        <field name="pack_ul_id" required="1"/>
                     </group>
                     <group>
                         <field name="line_ids" nolabel="1">
@@ -19,6 +22,9 @@
                                 <field name="product_qty"/>
                                 <button name="split" string="split" type="object" icon="STOCK_PREFERENCES" attrs="{'invisible': [('product_qty', '=', 1)]}"/>
                                 <field name="product_uom_id" readonly="1"/>
+                                <field name="product_qty_uos"/>
+                                <button name="split_uos" string="split" type="object" icon="STOCK_PREFERENCES" attrs="{'invisible': [('product_qty_uos', '=', 1)]}"/>
+                                <field name="product_uos_id" readonly="1"/>
                                 <field name="lot_id" readonly="1"/> 
                                 <field name="product_pack"/>
                             </tree>
@@ -33,12 +39,12 @@
             </field>
         </record>
 
-        <act_window name="Modify EDI packing"
-            res_model="edi.modify.packing"
-            view_id="edi_modify_packing_form"
+        <act_window name="Modify packing"
+            res_model="stock.picking.modify.packing"
+            view_id="stock_picking_modify_packing_form"
             view_mode="form"
             target="new"
-            id="action_edi_modify_packing"/>
+            id="action_stock_picking_modify_packing"/>
 
     </data>
 </openerp>
