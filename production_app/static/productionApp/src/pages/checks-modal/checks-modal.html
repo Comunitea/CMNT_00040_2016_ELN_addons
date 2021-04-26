@@ -17,7 +17,7 @@
 
 
 <ion-content padding>
-    <ion-item [hidden]='quality_checks.length>0' color ="danger">No hay controles de calidad</ion-item>
+    <ion-item [hidden]='quality_checks.length>0' color="danger">No hay controles de calidad</ion-item>
     <ion-list>
         <ion-item *ngFor="let qc of quality_checks">
             <ion-label stacked><span>{{ qc.name }}</span></ion-label>

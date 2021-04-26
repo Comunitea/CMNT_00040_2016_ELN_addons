@@ -8,6 +8,9 @@ Production app
 
 Adds app for manage productions in odoo
 
+User access right:
+   Maintenance: user // Production: user // Human Resources: employee // Lock/Unlock Serial Numbers/Lots: True
+
 
 Credits
 =======

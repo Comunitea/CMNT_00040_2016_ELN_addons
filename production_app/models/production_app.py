@@ -766,10 +766,17 @@ class ProductionAppRegistry(models.Model):
                 'registry_id': registry_id,
                 'pqc_id': dic.get('id', False),
                 'date': date,
-                'value': str(dic.get('value', False).encode('utf-8')),
+                'value': str(dic.get('value', '').encode('utf-8')),
                 'operator_id': operator_id
             }
             self.env['quality.check.line'].create(vals)
+            # dic.get('error') sólo puede ser True cuando no se pasa un control de calidad y
+            # además el control se hizo al final de la producción, antes de limpieza
+            if dic.get('error', False) and reg.lot_id:
+                if not reg.lot_id.locked_lot:
+                    reg.lot_id.lock_lot()
+                body = dic.get('name', '?') + ' = ' + str(dic.get('value', '').encode('utf-8'))
+                reg.lot_id.message_post(body=body)
         return True
 
     @api.model
