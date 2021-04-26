@@ -62,7 +62,7 @@ export class ChecksModalPage {
         var error = false;
         for (let indx in this.quality_checks) {
             var qc = this.quality_checks[indx];
-             if (qc.value_type == 'check') {
+            if (qc.value_type == 'check') {
                 if (qc.value !== 'OK') {
                     this.presentAlert('Error de validación', 'El valor para <b>' + qc.name + '</b> tiene que ser <b>OK</b>');
                     error = true;
@@ -88,8 +88,12 @@ export class ChecksModalPage {
                     error = true;
                 }
             }
+	    this.quality_checks[indx]['error'] = error;
         }
-        if (!error) {
+        // Si el tipo de control es final, permitimos continuar aunque haya respuestas erróneas
+        // En este caso, se grabará el resultado erróneo y se bloqueará el lote
+        // Ojo, porque es el único caso que espera recibir el ERP con error = True y provocará el bloqueo del lote
+        if (!error || this.quality_type == 'end') {
             this.viewCtrl.dismiss(this.quality_checks);
         }
     }

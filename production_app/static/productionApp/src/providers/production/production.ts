@@ -399,7 +399,7 @@ export class ProductionProvider {
             if (qc.workcenter_id == false || qc.workcenter_id[0] == this.workcenter['id']) {
                 if (qc.quality_type == 'start') {
                     this.start_checks.push(qc);
-                } else {
+                } else if (qc.quality_type == 'freq') {
                     this.freq_checks.push(qc);
                 }
             }
@@ -579,7 +579,6 @@ export class ProductionProvider {
             var obj = data[index]
             $.extend(new_, obj)
             new_lines.push(new_) 
-
         }
         var values = {
             'registry_id': this.registry_id,

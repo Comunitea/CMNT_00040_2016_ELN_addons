@@ -347,7 +347,7 @@ export class ProductionPage {
     startProduction() {
         this.promptNextStep('¿Terminar preparación y empezar producción?').then(() => {
             this.openFinishModal("start").then(() => {
-               this.openChecksModal('start', this.prodData.start_checks, true).then(() => {
+                this.openChecksModal('start', this.prodData.start_checks, true).then(() => {
                     this.prodData.startProduction();
                     this.scheduleChecks();
                 }).catch(() => {});
@@ -381,12 +381,14 @@ export class ProductionPage {
     restartAndCleanProduction() {
         this.promptNextStep('¿Reanudar producción y pasar a limpieza?').then(() => {
             var cleaning_start = this.prodData.getUTCDateStr()
-            this.clearIntervales();
             this.openFinishModal("clean").then(() => {
-                this.hidden_class = 'my-hide'
-                this.timer.toArray()[0].restartTimer();
-                this.timer.toArray()[1].pauseTimer();
-                this.prodData.restartAndCleanProduction(cleaning_start);
+                this.openChecksModal('end', this.prodData.freq_checks, false).then(() => {
+                    this.clearIntervales();
+                    this.hidden_class = 'my-hide'
+                    this.timer.toArray()[0].restartTimer();
+                    this.timer.toArray()[1].pauseTimer();
+                    this.prodData.restartAndCleanProduction(cleaning_start);
+                }).catch(() => {});
             }).catch(() => {});
         })
         .catch( () => {});
@@ -413,9 +415,11 @@ export class ProductionPage {
         this.promptNextStep('¿Empezar limpieza?').then(() => {
             var cleaning_start = this.prodData.getUTCDateStr()
             this.openFinishModal("clean").then(() => {
-                this.clearIntervales();
-                this.timer.toArray()[0].restartTimer();
-                this.prodData.cleanProduction(cleaning_start);
+                this.openChecksModal('end', this.prodData.freq_checks, false).then(() => {
+                    this.clearIntervales();
+                    this.timer.toArray()[0].restartTimer();
+                    this.prodData.cleanProduction(cleaning_start);
+                }).catch(() => {});
             }).catch(() => {});
         })
         .catch( () => {});
