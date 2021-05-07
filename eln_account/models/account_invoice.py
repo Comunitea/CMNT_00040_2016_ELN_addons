@@ -95,7 +95,11 @@ class AccountInvoiceLine(models.Model):
             self.uom_qty = uom_qty
 
     @api.multi
-    @api.depends('quantity', 'product_id', 'uos_id', 'invoice_id.date_invoice', 'invoice_id.currency_id')
+    @api.depends(
+        'quantity', 'product_id', 'uos_id',
+        'invoice_id.date_invoice', 'invoice_id.currency_id',
+        'invoice_id.picking_ids', 'invoice_id.origin_invoices_ids',
+    )
     def _get_cost_subtotal(self):
         product_tmpl_obj = self.env['product.template']
         t_uom = self.env['product.uom']
@@ -103,21 +107,22 @@ class AccountInvoiceLine(models.Model):
             if line.invoice_id.type not in ('out_invoice', 'out_refund'):
                 line.cost_subtotal = 0.0
                 continue
-            price_unit = 0
-            quant_qty = 0
+            price_unit = quant_qty = 0
             if line.product_id.type != 'service':
-                for picking_id in line.invoice_id.picking_ids:
-                    for move_line in picking_id.move_lines.filtered(lambda r: r.product_id == line.product_id):
-                        for quant in move_line.quant_ids.filtered(lambda r: r.qty > 0):
-                            price_unit += quant.cost * quant.qty
-                            quant_qty += quant.qty
+                picking_ids = line.invoice_id.mapped('picking_ids')
+                if line.invoice_id.type  == 'out_refund':
+                    picking_ids |= line.invoice_id.origin_invoices_ids.mapped('picking_ids')
+                move_lines = picking_ids.mapped('move_lines').filtered(lambda r: r.product_id == line.product_id)
+                for move_line in move_lines:
+                    for quant in move_line.quant_ids.filtered(lambda r: r.qty > 0):
+                        price_unit += quant.cost * quant.qty
+                        quant_qty += quant.qty
             if quant_qty:
                 price_unit = price_unit / quant_qty
             if not price_unit:
                 date = line.invoice_id.date_invoice or fields.Date.context_today(self)
-                price_unit = product_tmpl_obj.get_history_price(line.product_id.product_tmpl_id.id,
-                                                                line.company_id.id,
-                                                                date=date)
+                price_unit = product_tmpl_obj.get_history_price(
+                    line.product_id.product_tmpl_id.id, line.company_id.id, date=date)
             price_unit = price_unit or line.with_context(force_company=line.company_id.id).product_id.standard_price
             from_unit = line.uos_id.id
             to_unit = line.product_id.uom_id.id
