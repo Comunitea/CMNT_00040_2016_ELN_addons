@@ -39,6 +39,7 @@
     "category": "Sale",
     "init_xml": [],
     "data": [
+        'views/account_invoice_view.xml',
         'views/res_partner_view.xml',
         'views/sale_order_view.xml',
         'views/stock_view.xml',

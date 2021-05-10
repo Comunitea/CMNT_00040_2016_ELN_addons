@@ -53,7 +53,7 @@ class StockPicking(models.Model):
         string='CIP',
         related="sale_id.supplier_cip",
         readonly=True,
-        help="Internal supplier code.")
+        help="Internal supplier code")
     sent_to_supplier = fields.Boolean(
         string='Sent to Supplier',
         readonly=True,
@@ -80,6 +80,22 @@ class StockPicking(models.Model):
                     effective_date = requested_date
                 pick.effective_date = effective_date.strftime(DEFAULT_SERVER_DATETIME_FORMAT)
         return res
+
+    @api.model
+    def _get_invoice_vals(self, key, inv_type, journal_id, move):
+        inv_vals = super(StockPicking, self)._get_invoice_vals(key, inv_type, journal_id, move)
+        sale = move.picking_id.sale_id
+        if inv_type in ('out_invoice', 'out_refund'):
+            if sale:
+                inv_vals.update({
+                    'supplier_cip': sale.supplier_cip,
+                    })
+            elif move.picking_id.partner_id:
+                partner_id = move.picking_id.partner_id
+                inv_vals.update({
+                    'supplier_cip': partner_id.commercial_route_id.supplier_cip,
+                    })
+        return inv_vals
 
 
 class StockMove(models.Model):

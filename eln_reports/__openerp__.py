@@ -37,6 +37,7 @@
         'picking_invoice_rel',  # Por campo stock_move_id
         'eln_production',
         'product_expiry',
+        'eln_sale',
     ],
     'init_xml': [],
     'data': [

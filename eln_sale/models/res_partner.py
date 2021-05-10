@@ -35,6 +35,10 @@ class ResPartner(models.Model):
         domain="[('type','=','sale')]",
         company_dependent=True,
         help='This pricelist will be used, instead of the default one, for indirect sales invoicing to the current partner')
+    supplier_cip = fields.Char(
+        string='CIP', size=9,
+        company_dependent=True,
+        help='Internal supplier code')
 
     @api.model
     def _commercial_fields(self):

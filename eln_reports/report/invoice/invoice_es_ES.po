@@ -7,179 +7,183 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-06 09:33+0100\n"
-"PO-Revision-Date: 2019-03-06 09:37+0100\n"
+"POT-Creation-Date: 2021-05-10 16:57+0200\n"
+"PO-Revision-Date: 2021-05-10 17:00+0200\n"
 "Language: es_ES\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Last-Translator: \n"
+"Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
 "Language-Team: \n"
-"X-Generator: Poedit 2.2.1\n"
+"X-Generator: Poedit 2.4.2\n"
 
-#: /tmp/tmp.8VlsIgPrRD:827 /tmp/tmp.8VlsIgPrRD:1107 /tmp/tmp.8VlsIgPrRD:1387
+#: /tmp/tmp.B9GgASDE8E:829 /tmp/tmp.B9GgASDE8E:1112 /tmp/tmp.B9GgASDE8E:1395
 msgid "COBROS: Consignar PAGADO y firma cobrador"
 msgstr "COBROS: Consignar PAGADO y firma cobrador"
 
-#: /tmp/tmp.8VlsIgPrRD:831 /tmp/tmp.8VlsIgPrRD:1111 /tmp/tmp.8VlsIgPrRD:1391
-msgid "TOTAL"
-msgstr "TOTAL"
+#: /tmp/tmp.B9GgASDE8E:833 /tmp/tmp.B9GgASDE8E:1116 /tmp/tmp.B9GgASDE8E:1399
+msgid "TOTAL FACTURA"
+msgstr "TOTAL FACTURA"
 
-#: /tmp/tmp.8VlsIgPrRD:831 /tmp/tmp.8VlsIgPrRD:1111 /tmp/tmp.8VlsIgPrRD:1391
+#: /tmp/tmp.B9GgASDE8E:833 /tmp/tmp.B9GgASDE8E:1116 /tmp/tmp.B9GgASDE8E:1399
 msgid "TOTAL ABONO"
 msgstr "TOTAL ABONO"
 
-#: /tmp/tmp.8VlsIgPrRD:840 /tmp/tmp.8VlsIgPrRD:1120 /tmp/tmp.8VlsIgPrRD:1400
+#: /tmp/tmp.B9GgASDE8E:845 /tmp/tmp.B9GgASDE8E:1128 /tmp/tmp.B9GgASDE8E:1411
 msgid "Plazo de pago:"
 msgstr "Plazo de pago:"
 
-#: /tmp/tmp.8VlsIgPrRD:848 /tmp/tmp.8VlsIgPrRD:1128 /tmp/tmp.8VlsIgPrRD:1408
+#: /tmp/tmp.B9GgASDE8E:853 /tmp/tmp.B9GgASDE8E:1136 /tmp/tmp.B9GgASDE8E:1419
 msgid "Tipo de pago:"
 msgstr "Tipo de pago:"
 
-#: /tmp/tmp.8VlsIgPrRD:857 /tmp/tmp.8VlsIgPrRD:1137 /tmp/tmp.8VlsIgPrRD:1417
+#: /tmp/tmp.B9GgASDE8E:862 /tmp/tmp.B9GgASDE8E:1145 /tmp/tmp.B9GgASDE8E:1428
 msgid "Cuenta bancaria:"
 msgstr "Cuenta bancaria:"
 
-#: /tmp/tmp.8VlsIgPrRD:862 /tmp/tmp.8VlsIgPrRD:1142 /tmp/tmp.8VlsIgPrRD:1422
+#: /tmp/tmp.B9GgASDE8E:867 /tmp/tmp.B9GgASDE8E:1150 /tmp/tmp.B9GgASDE8E:1433
 msgid "Vencimiento:"
 msgstr "Vencimiento:"
 
-#: /tmp/tmp.8VlsIgPrRD:878 /tmp/tmp.8VlsIgPrRD:1158 /tmp/tmp.8VlsIgPrRD:1438
+#: /tmp/tmp.B9GgASDE8E:883 /tmp/tmp.B9GgASDE8E:1166 /tmp/tmp.B9GgASDE8E:1449
 msgid "OBSERVACIONES:"
 msgstr "OBSERVACIONES:"
 
-#: /tmp/tmp.8VlsIgPrRD:886 /tmp/tmp.8VlsIgPrRD:1166 /tmp/tmp.8VlsIgPrRD:1446
+#: /tmp/tmp.B9GgASDE8E:891 /tmp/tmp.B9GgASDE8E:1174 /tmp/tmp.B9GgASDE8E:1457
 msgid "INFORMACION DE PAGO:"
 msgstr "INFORMACION DE PAGO:"
 
-#: /tmp/tmp.8VlsIgPrRD:891 /tmp/tmp.8VlsIgPrRD:1171 /tmp/tmp.8VlsIgPrRD:1451
+#: /tmp/tmp.B9GgASDE8E:896 /tmp/tmp.B9GgASDE8E:1179 /tmp/tmp.B9GgASDE8E:1462
 msgid "FACTURA"
 msgstr "FACTURA"
 
-#: /tmp/tmp.8VlsIgPrRD:893 /tmp/tmp.8VlsIgPrRD:1173 /tmp/tmp.8VlsIgPrRD:1453
+#: /tmp/tmp.B9GgASDE8E:898 /tmp/tmp.B9GgASDE8E:1181 /tmp/tmp.B9GgASDE8E:1464
 msgid "FACTURA<BR>ABONO"
 msgstr "FACTURA<BR>ABONO"
 
-#: /tmp/tmp.8VlsIgPrRD:910 /tmp/tmp.8VlsIgPrRD:1190 /tmp/tmp.8VlsIgPrRD:1470
+#: /tmp/tmp.B9GgASDE8E:915 /tmp/tmp.B9GgASDE8E:1198 /tmp/tmp.B9GgASDE8E:1481
 msgid "Factura:"
 msgstr "Factura:"
 
-#: /tmp/tmp.8VlsIgPrRD:912 /tmp/tmp.8VlsIgPrRD:1192 /tmp/tmp.8VlsIgPrRD:1472
+#: /tmp/tmp.B9GgASDE8E:917 /tmp/tmp.B9GgASDE8E:1200 /tmp/tmp.B9GgASDE8E:1483
 msgid "Factura Rectificativa:"
 msgstr "Factura Rectificativa:"
 
-#: /tmp/tmp.8VlsIgPrRD:916 /tmp/tmp.8VlsIgPrRD:1196 /tmp/tmp.8VlsIgPrRD:1476
+#: /tmp/tmp.B9GgASDE8E:921 /tmp/tmp.B9GgASDE8E:1204 /tmp/tmp.B9GgASDE8E:1487
 msgid "Fecha Factura:"
 msgstr "Fecha Factura:"
 
-#: /tmp/tmp.8VlsIgPrRD:920 /tmp/tmp.8VlsIgPrRD:1200 /tmp/tmp.8VlsIgPrRD:1480
+#: /tmp/tmp.B9GgASDE8E:925 /tmp/tmp.B9GgASDE8E:1208 /tmp/tmp.B9GgASDE8E:1491
 msgid "Código Cliente:"
 msgstr "Código Cliente:"
 
-#: /tmp/tmp.8VlsIgPrRD:928 /tmp/tmp.8VlsIgPrRD:1208 /tmp/tmp.8VlsIgPrRD:1488
-msgid "Código Proveedor:"
-msgstr "Código Proveedor:"
+#: /tmp/tmp.B9GgASDE8E:933 /tmp/tmp.B9GgASDE8E:1216 /tmp/tmp.B9GgASDE8E:1499
+msgid "Cód. Prov. (CIP):"
+msgstr "Cód. Prov. (CIP):"
 
-#: /tmp/tmp.8VlsIgPrRD:932 /tmp/tmp.8VlsIgPrRD:1212 /tmp/tmp.8VlsIgPrRD:1492
+#: /tmp/tmp.B9GgASDE8E:937 /tmp/tmp.B9GgASDE8E:1220 /tmp/tmp.B9GgASDE8E:1503
 msgid "Página:"
 msgstr "Página:"
 
-#: /tmp/tmp.8VlsIgPrRD:956 /tmp/tmp.8VlsIgPrRD:1236 /tmp/tmp.8VlsIgPrRD:1516
+#: /tmp/tmp.B9GgASDE8E:961 /tmp/tmp.B9GgASDE8E:1244 /tmp/tmp.B9GgASDE8E:1527
 msgid "de"
 msgstr "de"
 
-#: /tmp/tmp.8VlsIgPrRD:979 /tmp/tmp.8VlsIgPrRD:1259 /tmp/tmp.8VlsIgPrRD:1539
+#: /tmp/tmp.B9GgASDE8E:973 /tmp/tmp.B9GgASDE8E:1256 /tmp/tmp.B9GgASDE8E:1539
+msgid "Moneda:"
+msgstr "Moneda:"
+
+#: /tmp/tmp.B9GgASDE8E:984 /tmp/tmp.B9GgASDE8E:1267 /tmp/tmp.B9GgASDE8E:1550
 msgid "Tel.:"
 msgstr "Tel.:"
 
-#: /tmp/tmp.8VlsIgPrRD:979 /tmp/tmp.8VlsIgPrRD:1039 /tmp/tmp.8VlsIgPrRD:1259
-#: /tmp/tmp.8VlsIgPrRD:1319 /tmp/tmp.8VlsIgPrRD:1539 /tmp/tmp.8VlsIgPrRD:1599
+#: /tmp/tmp.B9GgASDE8E:984 /tmp/tmp.B9GgASDE8E:1044 /tmp/tmp.B9GgASDE8E:1267
+#: /tmp/tmp.B9GgASDE8E:1327 /tmp/tmp.B9GgASDE8E:1550 /tmp/tmp.B9GgASDE8E:1610
 msgid "Fax:"
 msgstr "Fax:"
 
-#: /tmp/tmp.8VlsIgPrRD:979 /tmp/tmp.8VlsIgPrRD:1039 /tmp/tmp.8VlsIgPrRD:1259
-#: /tmp/tmp.8VlsIgPrRD:1319 /tmp/tmp.8VlsIgPrRD:1539 /tmp/tmp.8VlsIgPrRD:1599
+#: /tmp/tmp.B9GgASDE8E:984 /tmp/tmp.B9GgASDE8E:1044 /tmp/tmp.B9GgASDE8E:1267
+#: /tmp/tmp.B9GgASDE8E:1327 /tmp/tmp.B9GgASDE8E:1550 /tmp/tmp.B9GgASDE8E:1610
 msgid "e-mail:"
 msgstr "e-mail:"
 
-#: /tmp/tmp.8VlsIgPrRD:987 /tmp/tmp.8VlsIgPrRD:1267 /tmp/tmp.8VlsIgPrRD:1547
+#: /tmp/tmp.B9GgASDE8E:992 /tmp/tmp.B9GgASDE8E:1275 /tmp/tmp.B9GgASDE8E:1558
 msgid "CLIENTE:"
 msgstr "CLIENTE:"
 
-#: /tmp/tmp.8VlsIgPrRD:1001 /tmp/tmp.8VlsIgPrRD:1020 /tmp/tmp.8VlsIgPrRD:1281
-#: /tmp/tmp.8VlsIgPrRD:1300 /tmp/tmp.8VlsIgPrRD:1561 /tmp/tmp.8VlsIgPrRD:1580
+#: /tmp/tmp.B9GgASDE8E:1006 /tmp/tmp.B9GgASDE8E:1025 /tmp/tmp.B9GgASDE8E:1289
+#: /tmp/tmp.B9GgASDE8E:1308 /tmp/tmp.B9GgASDE8E:1572 /tmp/tmp.B9GgASDE8E:1591
 msgid "CIF/NIF:"
 msgstr "CIF/NIF:"
 
-#: /tmp/tmp.8VlsIgPrRD:1005 /tmp/tmp.8VlsIgPrRD:1285 /tmp/tmp.8VlsIgPrRD:1565
+#: /tmp/tmp.B9GgASDE8E:1010 /tmp/tmp.B9GgASDE8E:1293 /tmp/tmp.B9GgASDE8E:1576
 msgid "DIRECCIÓN DE FACTURA:"
 msgstr "DIRECCIÓN DE FACTURA:"
 
-#: /tmp/tmp.8VlsIgPrRD:1025 /tmp/tmp.8VlsIgPrRD:1305 /tmp/tmp.8VlsIgPrRD:1585
+#: /tmp/tmp.B9GgASDE8E:1030 /tmp/tmp.B9GgASDE8E:1313 /tmp/tmp.B9GgASDE8E:1596
 msgid "IMPORTANTE:<br>Rogamos eviten devolver los giros. Estamos a su disposición para resolver cualquier duda o anomalía."
 msgstr "IMPORTANTE:<br>Rogamos eviten devolver los giros. Estamos a su disposición para resolver cualquier duda o anomalía."
 
-#: /tmp/tmp.8VlsIgPrRD:1039 /tmp/tmp.8VlsIgPrRD:1319 /tmp/tmp.8VlsIgPrRD:1599
+#: /tmp/tmp.B9GgASDE8E:1044 /tmp/tmp.B9GgASDE8E:1327 /tmp/tmp.B9GgASDE8E:1610
 msgid "En cumplimiento de la Ley Orgánica 15/99, de 13 de diciembre, de Protección de Datos de Carácter Personal, le indicamos que la información que Ud. nos facilita de forma voluntaria, por cualquiera de nuestros medios de recogida de información, tiene como única finalidad la incorporación a un fichero automatizado de datos de carácter personal cuyas finalidades son: la gestión contable y fiscal, la facturación de servicios, la realización de propuestas y presupuestos, la gestión comercial por parte de"
 msgstr "En cumplimiento de la Ley Orgánica 15/99, de 13 de diciembre, de Protección de Datos de Carácter Personal, le indicamos que la información que Ud. nos facilita de forma voluntaria, por cualquiera de nuestros medios de recogida de información, tiene como única finalidad la incorporación a un fichero automatizado de datos de carácter personal cuyas finalidades son: la gestión contable y fiscal, la facturación de servicios, la realización de propuestas y presupuestos, la gestión comercial por parte de"
 
-#: /tmp/tmp.8VlsIgPrRD:1039 /tmp/tmp.8VlsIgPrRD:1319 /tmp/tmp.8VlsIgPrRD:1599
+#: /tmp/tmp.B9GgASDE8E:1044 /tmp/tmp.B9GgASDE8E:1327 /tmp/tmp.B9GgASDE8E:1610
 msgid "la cual es titular de dichos ficheros. Para la realización de las gestiones antes mencionadas puede ser necesario que se cedan los datos a encargados de tratamiento, empresas colaboradoras y administraciones públicas. Esta autorización se hace efectiva de forma retroactiva a cualquier tratamiento de datos hechos ya por parte del titular del fichero, siempre y cuando la finalidad fuese la anteriormente indicada. También se hace efectiva para cualquier otro tratamiento necesario para la prestación de servicios de reciente o nueva contratación. Se le garantiza total confidencialidad y si desea ejercer el derecho de acceso, rectificación, oposición o cancelación, dirija un escrito a:"
 msgstr "la cual es titular de dichos ficheros. Para la realización de las gestiones antes mencionadas puede ser necesario que se cedan los datos a encargados de tratamiento, empresas colaboradoras y administraciones públicas. Esta autorización se hace efectiva de forma retroactiva a cualquier tratamiento de datos hechos ya por parte del titular del fichero, siempre y cuando la finalidad fuese la anteriormente indicada. También se hace efectiva para cualquier otro tratamiento necesario para la prestación de servicios de reciente o nueva contratación. Se le garantiza total confidencialidad y si desea ejercer el derecho de acceso, rectificación, oposición o cancelación, dirija un escrito a:"
 
-#: /tmp/tmp.8VlsIgPrRD:2364 /tmp/tmp.8VlsIgPrRD:2536 /tmp/tmp.8VlsIgPrRD:2708
+#: /tmp/tmp.B9GgASDE8E:2375 /tmp/tmp.B9GgASDE8E:2545 /tmp/tmp.B9GgASDE8E:2715
 msgid "CÓDIGO INTERNO"
 msgstr "CÓDIGO INTERNO"
 
-#: /tmp/tmp.8VlsIgPrRD:2364 /tmp/tmp.8VlsIgPrRD:2536 /tmp/tmp.8VlsIgPrRD:2708
+#: /tmp/tmp.B9GgASDE8E:2375 /tmp/tmp.B9GgASDE8E:2545 /tmp/tmp.B9GgASDE8E:2715
 msgid "CÓDIGO EAN-13"
 msgstr "CÓDIGO EAN-13"
 
-#: /tmp/tmp.8VlsIgPrRD:2376 /tmp/tmp.8VlsIgPrRD:2548 /tmp/tmp.8VlsIgPrRD:2720
+#: /tmp/tmp.B9GgASDE8E:2387 /tmp/tmp.B9GgASDE8E:2557 /tmp/tmp.B9GgASDE8E:2727
 msgid "ARTÍCULO"
 msgstr "ARTÍCULO"
 
-#: /tmp/tmp.8VlsIgPrRD:2384 /tmp/tmp.8VlsIgPrRD:2556 /tmp/tmp.8VlsIgPrRD:2728
+#: /tmp/tmp.B9GgASDE8E:2395 /tmp/tmp.B9GgASDE8E:2565 /tmp/tmp.B9GgASDE8E:2735
 msgid "Albarán:"
 msgstr "Albarán:"
 
-#: /tmp/tmp.8VlsIgPrRD:2388 /tmp/tmp.8VlsIgPrRD:2560 /tmp/tmp.8VlsIgPrRD:2732
+#: /tmp/tmp.B9GgASDE8E:2397 /tmp/tmp.B9GgASDE8E:2567 /tmp/tmp.B9GgASDE8E:2737
 msgid "NºPedido:"
 msgstr "NºPedido:"
 
-#: /tmp/tmp.8VlsIgPrRD:2392 /tmp/tmp.8VlsIgPrRD:2564 /tmp/tmp.8VlsIgPrRD:2736
+#: /tmp/tmp.B9GgASDE8E:2401 /tmp/tmp.B9GgASDE8E:2571 /tmp/tmp.B9GgASDE8E:2741
 msgid "CAJAS<br>TOTALES"
 msgstr "CAJAS<br>TOTALES"
 
-#: /tmp/tmp.8VlsIgPrRD:2404 /tmp/tmp.8VlsIgPrRD:2576 /tmp/tmp.8VlsIgPrRD:2748
+#: /tmp/tmp.B9GgASDE8E:2413 /tmp/tmp.B9GgASDE8E:2583 /tmp/tmp.B9GgASDE8E:2753
 msgid "UNIDADES TOTALES"
 msgstr "UNIDADES TOTALES"
 
-#: /tmp/tmp.8VlsIgPrRD:2418 /tmp/tmp.8VlsIgPrRD:2590 /tmp/tmp.8VlsIgPrRD:2762
+#: /tmp/tmp.B9GgASDE8E:2427 /tmp/tmp.B9GgASDE8E:2597 /tmp/tmp.B9GgASDE8E:2767
 msgid "PRECIO UNITARIO"
 msgstr "PRECIO UNITARIO"
 
-#: /tmp/tmp.8VlsIgPrRD:2432 /tmp/tmp.8VlsIgPrRD:2604 /tmp/tmp.8VlsIgPrRD:2776
+#: /tmp/tmp.B9GgASDE8E:2441 /tmp/tmp.B9GgASDE8E:2611 /tmp/tmp.B9GgASDE8E:2781
 msgid "%<br>DTO."
 msgstr "%<br>DTO."
 
-#: /tmp/tmp.8VlsIgPrRD:2444 /tmp/tmp.8VlsIgPrRD:2616 /tmp/tmp.8VlsIgPrRD:2788
+#: /tmp/tmp.B9GgASDE8E:2453 /tmp/tmp.B9GgASDE8E:2623 /tmp/tmp.B9GgASDE8E:2793
 msgid "IMPORTE"
 msgstr "IMPORTE"
 
-#: /tmp/tmp.8VlsIgPrRD:2456 /tmp/tmp.8VlsIgPrRD:2628 /tmp/tmp.8VlsIgPrRD:2800
+#: /tmp/tmp.B9GgASDE8E:2465 /tmp/tmp.B9GgASDE8E:2635 /tmp/tmp.B9GgASDE8E:2805
 msgid "%<br>IMPUES-<br>TOS"
 msgstr "%<br>IMPUES-<br>TOS"
 
-#: /tmp/tmp.8VlsIgPrRD:3493 /tmp/tmp.8VlsIgPrRD:3585 /tmp/tmp.8VlsIgPrRD:3677
+#: /tmp/tmp.B9GgASDE8E:3498 /tmp/tmp.B9GgASDE8E:3590 /tmp/tmp.B9GgASDE8E:3682
 msgid "TIPO DE IMPUESTO"
 msgstr "TIPO DE IMPUESTO"
 
-#: /tmp/tmp.8VlsIgPrRD:3501 /tmp/tmp.8VlsIgPrRD:3593 /tmp/tmp.8VlsIgPrRD:3685
+#: /tmp/tmp.B9GgASDE8E:3506 /tmp/tmp.B9GgASDE8E:3598 /tmp/tmp.B9GgASDE8E:3690
 msgid "BASE<br>IMPONIBLE"
 msgstr "BASE<br>IMPONIBLE"
 
-#: /tmp/tmp.8VlsIgPrRD:3513 /tmp/tmp.8VlsIgPrRD:3605 /tmp/tmp.8VlsIgPrRD:3697
+#: /tmp/tmp.B9GgASDE8E:3518 /tmp/tmp.B9GgASDE8E:3610 /tmp/tmp.B9GgASDE8E:3702
 msgid "IMPORTE<br>IMPUESTO"
 msgstr "IMPORTE<br>IMPUESTO"

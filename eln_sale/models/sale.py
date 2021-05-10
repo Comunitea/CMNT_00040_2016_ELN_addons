@@ -37,9 +37,9 @@ class SaleOrder(models.Model):
         states={'draft': [('readonly', False)]})
     order_policy = fields.Selection(selection_add=[('no_bill', 'No bill')])
     supplier_cip = fields.Char(
-        string="CIP", size=32, readonly=True,
+        string="CIP", size=9, readonly=True,
         states={'draft': [('readonly', False)],'waiting_date': [('readonly', False)],'manual': [('readonly', False)],'progress': [('readonly', False)]},
-        help="Internal supplier code.")
+        help="Internal supplier code")
     shop_id = fields.Many2one(
         string="Sale type",
         comodel_name='sale.shop',
@@ -111,6 +111,10 @@ class SaleOrder(models.Model):
             if self.partner_id:
                 partner_id = self.partner_id.commercial_partner_id
                 if self.shop_id.indirect_invoicing:
+                    self.supplier_cip = False
+                else:
+                    self.supplier_cip = partner_id.commercial_partner_id.supplier_cip
+                if self.shop_id.indirect_invoicing:
                     if partner_id.property_product_pricelist_indirect_invoicing:
                         self.pricelist_id = partner_id.property_product_pricelist_indirect_invoicing
                 else:
@@ -171,6 +175,7 @@ class SaleOrder(models.Model):
             res['value']['project_id'] = False
             res['value']['partner_invoice_id'] = False
             res['value']['user_id'] = False
+            res['value']['supplier_cip'] = False
             return res
         partner = self.env['res.partner'].browse(part)
         date=datetime.now().strftime('%Y-%m-%d')
@@ -179,6 +184,7 @@ class SaleOrder(models.Model):
                     product_id=False, partner_id=partner.commercial_partner_id.id,
                     user_id=self._uid, date=date, company_id=company_id)
         res['value']['project_id'] = rec and rec.analytic_id.id or False
+        res['value']['supplier_cip'] = partner.commercial_partner_id.supplier_cip
         # Modificamos para que la dirección de factura sea la que tenga la empresa padre
         addr = partner.commercial_partner_id.address_get(['invoice'])
         res['value']['partner_invoice_id'] = addr['invoice']
@@ -245,6 +251,14 @@ class SaleOrder(models.Model):
             min_date = dates_list and min(dates_list) or False
             if order.effective_date != min_date:
                 order.effective_date = min_date
+
+    @api.model
+    def _prepare_invoice(self, order, lines):
+        inv_vals = super(SaleOrder, self)._prepare_invoice(order, lines)
+        inv_vals.update({
+            'supplier_cip': order.supplier_cip,
+            })
+        return inv_vals
 
 
 class SaleOrderLine(models.Model):
