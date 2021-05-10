@@ -40,6 +40,9 @@
                         </group>
                     </page>
                 </notebook>
+                <field name="ref" position="after">
+                    <field name="supplier_cip" attrs="{'invisible': ['|',('customer','=',False),'&amp;',('is_company','=',False),('parent_id','!=',False)]}"/>
+                </field>
             </field>
         </record>
 

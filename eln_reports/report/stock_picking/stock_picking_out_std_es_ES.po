@@ -3,19 +3,19 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-11-18 12:05+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2021-05-10 12:28+0200\n"
+"Language: es_ES\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
+"Language-Team: \n"
+"X-Generator: Poedit 2.4.2\n"
 
 #: /tmp/tmp.vTUKIqNl5U:883 /tmp/tmp.vTUKIqNl5U:1413 /tmp/tmp.vTUKIqNl5U:1943
 msgid "RECIBI: (Firma y Sello)"
@@ -106,8 +106,8 @@ msgid "Pedido Cliente:"
 msgstr ""
 
 #: /tmp/tmp.vTUKIqNl5U:1044 /tmp/tmp.vTUKIqNl5U:1574 /tmp/tmp.vTUKIqNl5U:2104
-msgid "Código Proveedor:"
-msgstr ""
+msgid "Cód. Prov. (CIP):"
+msgstr "Cód. Prov. (CIP):"
 
 #: /tmp/tmp.vTUKIqNl5U:1048 /tmp/tmp.vTUKIqNl5U:1578 /tmp/tmp.vTUKIqNl5U:2108
 msgid "Página:"

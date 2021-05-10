@@ -3,7 +3,7 @@
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<property name="ireport.layers" value="##Tue Nov 19 21:54:43 CET 2019\nlayer.2.visible=true\nlayer.1.name=STANDARD\nlayer.0.visible=true\nlayer.2.id=2\nlayer.1.printWhenExpression=$P{VERSION_ALTERNATIVA} \=\= false\nlayer.2.name=ALTERNATE\nlayer.2.printWhenExpression=$P{VERSION_ALTERNATIVA} \=\= true\nlayer.1.id=1\nlayer.1.visible=false\nlayer.0.id=0\nlayer.0.name=Background"/>
+	<property name="ireport.layers" value="##Mon May 10 12:24:25 CEST 2021\nlayer.2.visible=true\nlayer.1.name=STANDARD\nlayer.0.visible=true\nlayer.2.id=2\nlayer.1.printWhenExpression=$P{VERSION_ALTERNATIVA} \=\= false\nlayer.2.name=ALTERNATE\nlayer.2.printWhenExpression=$P{VERSION_ALTERNATIVA} \=\= true\nlayer.1.id=1\nlayer.1.visible=false\nlayer.0.id=0\nlayer.0.name=Background"/>
 	<style name="table" lineSpacing="Single">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -758,7 +758,7 @@ tr($V{L}, "Bultos: ") + $F{Paquetes-packages_uos}]]></textFieldExpression>
 					<textElement textAlignment="Right" verticalAlignment="Middle" lineSpacing="Single">
 						<font fontName="SansSerif" size="10" isBold="true"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "Código Proveedor:")]]></textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "Cód. Prov. (CIP):")]]></textFieldExpression>
 				</textField>
 				<textField>
 					<reportElement x="341" y="78" width="122" height="13"/>
