@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <record model="qc.trigger" id="qc_trigger_mrp_manual">
+            <field name="name">Production done (manual trigger)</field>
+            <field name="company_id"></field>
+        </record>
+
+    </data>
+</openerp>
