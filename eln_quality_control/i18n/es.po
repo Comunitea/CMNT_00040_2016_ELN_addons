@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-16 10:37+0000\n"
-"PO-Revision-Date: 2020-11-16 11:40+0100\n"
+"POT-Creation-Date: 2021-05-11 15:19+0000\n"
+"PO-Revision-Date: 2021-05-11 17:24+0200\n"
 "Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
 "Language: es\n"
-"X-Generator: Poedit 2.4.1\n"
+"X-Generator: Poedit 2.4.2\n"
 
 #. module: eln_quality_control
 #: field:qc.inspection,approved_by:0
@@ -28,6 +28,7 @@ msgid "Approved date"
 msgstr "Fecha aprobación"
 
 #. module: eln_quality_control
+#: view:mrp.production.qc.inspection.wzd:eln_quality_control.mrp_production_qc_inspection_wzd_form
 #: view:stock.picking.qc.inspection.wzd:eln_quality_control.stock_picking_qc_inspection_wzd_form
 msgid "Cancel"
 msgstr "Cancelar"
@@ -38,32 +39,39 @@ msgid "Company"
 msgstr "Compañía"
 
 #. module: eln_quality_control
+#: field:mrp.production.qc.inspection.wzd,create_uid:0
 #: field:stock.picking.qc.inspection.wzd,create_uid:0
 msgid "Created by"
 msgstr "Created by"
 
 #. module: eln_quality_control
+#: field:mrp.production.qc.inspection.wzd,create_date:0
 #: field:stock.picking.qc.inspection.wzd,create_date:0
 msgid "Created on"
 msgstr "Created on"
 
 #. module: eln_quality_control
+#: field:mrp.production.qc.inspection.wzd,display_name:0
 #: field:stock.picking.qc.inspection.wzd,display_name:0
 msgid "Display Name"
 msgstr "Display Name"
 
 #. module: eln_quality_control
+#: view:mrp.production.qc.inspection.wzd:eln_quality_control.mrp_production_qc_inspection_wzd_form
 #: view:stock.picking.qc.inspection.wzd:eln_quality_control.stock_picking_qc_inspection_wzd_form
 msgid "Generate"
 msgstr "Generar"
 
 #. module: eln_quality_control
+#: model:ir.actions.act_window,name:eln_quality_control.mrp_production_qc_inspection_wzd_action
 #: model:ir.actions.act_window,name:eln_quality_control.stock_picking_qc_inspection_wzd_action
+#: view:mrp.production.qc.inspection.wzd:eln_quality_control.mrp_production_qc_inspection_wzd_form
 #: view:stock.picking.qc.inspection.wzd:eln_quality_control.stock_picking_qc_inspection_wzd_form
 msgid "Generate quality control inspections"
 msgstr "Generar inspecciones de control de calidad"
 
 #. module: eln_quality_control
+#: field:mrp.production.qc.inspection.wzd,id:0
 #: field:stock.picking.qc.inspection.wzd,id:0
 msgid "ID"
 msgstr "ID"
@@ -74,19 +82,27 @@ msgid "Incorrect"
 msgstr "Incorrecta"
 
 #. module: eln_quality_control
+#: field:mrp.production.qc.inspection.wzd,__last_update:0
 #: field:stock.picking.qc.inspection.wzd,__last_update:0
 msgid "Last Modified on"
 msgstr "Last Modified on"
 
 #. module: eln_quality_control
+#: field:mrp.production.qc.inspection.wzd,write_uid:0
 #: field:stock.picking.qc.inspection.wzd,write_uid:0
 msgid "Last Updated by"
 msgstr "Last Updated by"
 
 #. module: eln_quality_control
+#: field:mrp.production.qc.inspection.wzd,write_date:0
 #: field:stock.picking.qc.inspection.wzd,write_date:0
 msgid "Last Updated on"
 msgstr "Last Updated on"
+
+#. module: eln_quality_control
+#: model:ir.model,name:eln_quality_control.model_mrp_production
+msgid "Manufacturing Order"
+msgstr "Orden de producción"
 
 #. module: eln_quality_control
 #: view:qc.inspection:eln_quality_control.qc_inspection_search_view
@@ -107,6 +123,11 @@ msgstr "Operación de empaquetado"
 #: model:ir.model,name:eln_quality_control.model_qc_test_question_value
 msgid "Possible values for qualitative questions."
 msgstr "Valores posibles para una pregunta cualitativa."
+
+#. module: eln_quality_control
+#: model:qc.trigger,name:eln_quality_control.qc_trigger_mrp_manual
+msgid "Production done (manual trigger)"
+msgstr "Producción realizada (disparador manual)"
 
 #. module: eln_quality_control
 #: model:ir.model,name:eln_quality_control.model_qc_inspection
@@ -135,11 +156,18 @@ msgid "Quality inspections from picking"
 msgstr "Inspecciones desde albarán"
 
 #. module: eln_quality_control
+#: code:addons/eln_quality_control/wizard/mrp_production_generate_inspection.py:45
+#, python-format
+msgid "Quality inspections from productions"
+msgstr "Inspecciones desde producción"
+
+#. module: eln_quality_control
 #: field:qc.inspection,uom_id:0
 msgid "UoM"
 msgstr "UdM"
 
 #. module: eln_quality_control
+#: view:mrp.production.qc.inspection.wzd:eln_quality_control.mrp_production_qc_inspection_wzd_form
 #: view:stock.picking.qc.inspection.wzd:eln_quality_control.stock_picking_qc_inspection_wzd_form
 msgid "or"
 msgstr "o"
