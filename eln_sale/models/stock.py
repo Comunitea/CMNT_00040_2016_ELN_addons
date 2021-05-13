@@ -93,7 +93,7 @@ class StockPicking(models.Model):
             elif move.picking_id.partner_id:
                 partner_id = move.picking_id.partner_id
                 inv_vals.update({
-                    'supplier_cip': partner_id.commercial_route_id.supplier_cip,
+                    'supplier_cip': partner_id.commercial_partner_id.supplier_cip,
                     })
         return inv_vals
 

@@ -77,12 +77,63 @@ class AccountInvoice(models.Model):
             res['value']['journal_id'] = False
         return res
 
+    @api.multi
+    def _get_cost_subtotal(self):
+        product_tmpl_obj = self.env['product.template']
+        t_uom = self.env['product.uom']
+        invoices = self.filtered(
+            lambda r: r.type in ('out_invoice', 'out_refund'))
+        for invoice in invoices:
+            picking_ids = invoice.mapped('picking_ids')
+            if invoice.type  == 'out_refund':
+                picking_ids |= invoice.origin_invoices_ids.mapped('picking_ids')
+            move_lines = picking_ids.mapped('move_lines')
+            for line in invoice.invoice_line:
+                price_unit = quant_qty = 0.0
+                if move_lines and line.product_id.type != 'service':
+                    for move_line in move_lines.filtered(lambda r: r.product_id == line.product_id):
+                        for quant in move_line.quant_ids.filtered(lambda r: r.qty > 0):
+                            price_unit += quant.cost * quant.qty
+                            quant_qty += quant.qty
+                if quant_qty:
+                    price_unit = price_unit / quant_qty
+                if not price_unit:
+                    date = invoice.date_invoice or fields.Date.context_today(self)
+                    price_unit = product_tmpl_obj.get_history_price(
+                        line.product_id.product_tmpl_id.id, line.company_id.id, date=date)
+                price_unit = price_unit or line.with_context(force_company=line.company_id.id).product_id.standard_price
+                from_unit = line.uos_id.id
+                to_unit = line.product_id.uom_id.id
+                uom_qty = line.quantity
+                if from_unit != to_unit:
+                    uom_qty = t_uom._compute_qty(from_unit, line.quantity, to_unit)
+                sign = -1 if line.price_subtotal < 0 else 1
+                cost_subtotal = invoice.currency_id.round(abs(price_unit * uom_qty) * sign)
+                line.cost_subtotal = cost_subtotal
+
+    @api.multi
+    def invoice_validate(self):
+        res = super(AccountInvoice, self).invoice_validate()
+        invoices = self.filtered(
+            lambda r: r.type in ('out_invoice', 'out_refund'))
+        invoices._get_cost_subtotal()
+        return res
+
+    @api.multi
+    def write(self, vals):
+        res = super(AccountInvoice, self).write(vals)
+        if 'picking_ids' in vals or 'origin_invoices_ids' in vals:
+            invoices = self.filtered(
+                lambda r: r.type in ('out_invoice', 'out_refund'))
+            invoices._get_cost_subtotal()
+        return res
+
 
 class AccountInvoiceLine(models.Model):
     _inherit = 'account.invoice.line'
 
     uom_qty = fields.Float('Uom Qty', compute='_get_uom_qty')
-    cost_subtotal = fields.Float('Cost Subtotal', compute='_get_cost_subtotal', store=True)
+    cost_subtotal = fields.Float('Cost Subtotal')
     origin_line_ids = fields.Many2many(copy=False)
     refund_line_ids = fields.Many2many(copy=False)
 
@@ -93,46 +144,6 @@ class AccountInvoiceLine(models.Model):
             uom_qty = self.env['product.uom']._compute_qty(
                self.uos_id.id, self.quantity, self.product_id.uom_id.id)
             self.uom_qty = uom_qty
-
-    @api.multi
-    @api.depends(
-        'quantity', 'product_id', 'uos_id',
-        'invoice_id.date_invoice', 'invoice_id.currency_id',
-        'invoice_id.picking_ids', 'invoice_id.origin_invoices_ids',
-    )
-    def _get_cost_subtotal(self):
-        product_tmpl_obj = self.env['product.template']
-        t_uom = self.env['product.uom']
-        for line in self:
-            if line.invoice_id.type not in ('out_invoice', 'out_refund'):
-                line.cost_subtotal = 0.0
-                continue
-            price_unit = quant_qty = 0
-            if line.product_id.type != 'service':
-                picking_ids = line.invoice_id.mapped('picking_ids')
-                if line.invoice_id.type  == 'out_refund':
-                    picking_ids |= line.invoice_id.origin_invoices_ids.mapped('picking_ids')
-                move_lines = picking_ids.mapped('move_lines').filtered(lambda r: r.product_id == line.product_id)
-                for move_line in move_lines:
-                    for quant in move_line.quant_ids.filtered(lambda r: r.qty > 0):
-                        price_unit += quant.cost * quant.qty
-                        quant_qty += quant.qty
-            if quant_qty:
-                price_unit = price_unit / quant_qty
-            if not price_unit:
-                date = line.invoice_id.date_invoice or fields.Date.context_today(self)
-                price_unit = product_tmpl_obj.get_history_price(
-                    line.product_id.product_tmpl_id.id, line.company_id.id, date=date)
-            price_unit = price_unit or line.with_context(force_company=line.company_id.id).product_id.standard_price
-            from_unit = line.uos_id.id
-            to_unit = line.product_id.uom_id.id
-            uom_qty = line.quantity
-            if from_unit != to_unit:
-                uom_qty = t_uom._compute_qty(from_unit, line.quantity, to_unit)
-            sign = -1 if line.price_subtotal < 0 else 1
-            line.cost_subtotal = abs(price_unit * uom_qty) * sign
-            if line.invoice_id:
-                line.cost_subtotal = line.invoice_id.currency_id.round(line.cost_subtotal)
 
     @api.multi
     def uos_id_change(self, product, uom, qty=0, name='', type='out_invoice', partner_id=False,
