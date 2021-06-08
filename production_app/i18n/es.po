@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-30 11:16+0000\n"
-"PO-Revision-Date: 2021-04-30 13:18+0200\n"
+"POT-Creation-Date: 2021-06-08 12:58+0000\n"
+"PO-Revision-Date: 2021-06-08 15:04+0200\n"
 "Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,7 @@ msgstr ""
 "X-Generator: Poedit 2.4.2\n"
 
 #. module: production_app
-#: code:addons/production_app/models/mrp.py:143
+#: code:addons/production_app/models/mrp.py:148
 #, python-format
 msgid "%s"
 msgstr "%s"
@@ -29,7 +29,7 @@ msgid "APP State:"
 msgstr "Estado APP:"
 
 #. module: production_app
-#: code:addons/production_app/models/mrp.py:185
+#: code:addons/production_app/models/mrp.py:190
 #, python-format
 msgid "Active Id not found"
 msgstr "Id activo no encontrado"
@@ -38,6 +38,11 @@ msgstr "Id activo no encontrado"
 #: field:production.app.registry,consumptions_note:0
 msgid "Alimentator notes"
 msgstr "Notas del alimentador"
+
+#. module: production_app
+#: selection:product.product,quality_checks_to_apply:0
+msgid "All"
+msgstr "Todos"
 
 #. module: production_app
 #: view:mrp.production:production_app.mrp_production_form_view_registry
@@ -68,12 +73,13 @@ msgid "Associated Products"
 msgstr "Productos asociados"
 
 #. module: production_app
+#: view:product.quality.check:production_app.product_quality_check_form_view
 #: view:stop.reason:production_app.stop_reason_form_view
 msgid "Associated Workcenters"
 msgstr "Centros de trabajo asociados"
 
 #. module: production_app
-#: code:addons/production_app/models/mrp.py:106
+#: code:addons/production_app/models/mrp.py:111
 #, python-format
 msgid "At least one app registry associated with this production is not validated."
 msgstr "Al menos un registro de aplicación asociado a esta producción no está validado."
@@ -238,12 +244,12 @@ msgid "EAN13"
 msgstr "EAN13"
 
 #. module: production_app
-#: code:addons/production_app/models/mrp.py:105
-#: code:addons/production_app/models/production_app.py:900
-#: code:addons/production_app/models/production_app.py:904
-#: code:addons/production_app/models/production_app.py:909
-#: code:addons/production_app/models/production_app.py:914
-#: code:addons/production_app/models/production_app.py:948
+#: code:addons/production_app/models/mrp.py:110
+#: code:addons/production_app/models/production_app.py:924
+#: code:addons/production_app/models/production_app.py:928
+#: code:addons/production_app/models/production_app.py:933
+#: code:addons/production_app/models/production_app.py:938
+#: code:addons/production_app/models/production_app.py:972
 #, python-format
 msgid "Error"
 msgstr "Error"
@@ -466,6 +472,16 @@ msgid "OEE"
 msgstr "OEE"
 
 #. module: production_app
+#: field:product.quality.check,only_first_workorder:0
+msgid "Only first time"
+msgstr "Solo la primera vez"
+
+#. module: production_app
+#: help:product.quality.check,only_first_workorder:0
+msgid "Only first work order of the day for each Work Center"
+msgstr "Solo la primera orden de trabajo del día de cada centro de trabajo"
+
+#. module: production_app
 #: field:operator.line,operator_id:0 field:quality.check.line,operator_id:0
 #: field:stop.line,operator_id:0
 msgid "Operator"
@@ -518,7 +534,7 @@ msgid "Performance"
 msgstr "Rendimiento"
 
 #. module: production_app
-#: code:addons/production_app/models/mrp.py:116
+#: code:addons/production_app/models/mrp.py:121
 #, python-format
 msgid "Please provide a positive quantity to scrap."
 msgstr "Por favor, introduzca una cantidad positiva a desechar."
@@ -531,6 +547,7 @@ msgstr "Tipo de proceso"
 #. module: production_app
 #: field:consumption.line,product_id:0
 #: model:ir.model,name:production_app.model_product_product
+#: selection:product.product,quality_checks_to_apply:0
 #: field:production.app.registry,product_id:0
 msgid "Product"
 msgstr "Producto"
@@ -544,7 +561,6 @@ msgstr "Fabricar producto"
 #: model:ir.actions.act_window,name:production_app.action_product_quality_check
 #: model:ir.actions.act_window,name:production_app.product_open_quality_check
 #: model:ir.ui.menu,name:production_app.menu_product_quality_check
-#: view:product.product:production_app.product_quality_checks_view
 msgid "Product Quality Checks"
 msgstr "Controles Calidad"
 
@@ -622,6 +638,8 @@ msgid "Quality Check"
 msgstr "Control calidad"
 
 #. module: production_app
+#: view:mrp.workcenter:production_app.mrp_workcenter_view_inherit
+#: view:product.product:production_app.product_quality_checks_view
 #: view:product.quality.check:production_app.product_quality_check_form_view
 #: view:product.quality.check:production_app.product_quality_check_tree_view
 #: view:production.app.registry:production_app.production_app_registry_form_view
@@ -635,12 +653,18 @@ msgid "Quality Type"
 msgstr "Tipo control"
 
 #. module: production_app
+#: field:mrp.workcenter,quality_check_ids:0
 #: field:product.product,quality_check_ids:0
 msgid "Quality check ids"
 msgstr "Quality check ids"
 
 #. module: production_app
-#: code:addons/production_app/models/production_app.py:786
+#: field:product.product,quality_checks_to_apply:0
+msgid "Quality checks to apply"
+msgstr "Controles de calidad para aplicar"
+
+#. module: production_app
+#: code:addons/production_app/models/production_app.py:811
 #, python-format
 msgid "Quality checks with errors. The Serial Number/Lot will be locked."
 msgstr "Controles de calidad con errores. El Número de serie/Lote se bloqueará."
@@ -698,13 +722,18 @@ msgstr "Orden mantenimiento asociada"
 
 #. module: production_app
 #: field:product.quality.check,repeat:0
-msgid "Repeat each"
-msgstr "Repetir cada"
+msgid "Repeat each (minutes)"
+msgstr "Repetir cada (minutos)"
 
 #. module: production_app
 #: field:product.quality.check,required_text:0
 msgid "Required Text"
 msgstr "Texto obligatorio"
+
+#. module: production_app
+#: help:product.quality.check,workcenter_id:0
+msgid "Restrict check to this Work Center"
+msgstr "Limitar control a este centro de producción"
 
 #. module: production_app
 #: field:production.app.registry,review_consumptions:0
@@ -899,7 +928,7 @@ msgid "Theo. Overweight (%)"
 msgstr "Sobrepeso teórico (%)"
 
 #. module: production_app
-#: code:addons/production_app/models/mrp.py:136
+#: code:addons/production_app/models/mrp.py:141
 #, python-format
 msgid "There is no valid scrap location."
 msgstr "No hay una ubicación de desecho válida."
@@ -956,7 +985,7 @@ msgid "Waiting"
 msgstr "En espera"
 
 #. module: production_app
-#: code:addons/production_app/models/production_app.py:1128
+#: code:addons/production_app/models/production_app.py:1152
 #, python-format
 msgid "Warning!"
 msgstr "¡Advertencia!"
@@ -980,6 +1009,7 @@ msgstr ""
 
 #. module: production_app
 #: model:ir.model,name:production_app.model_mrp_workcenter
+#: selection:product.product,quality_checks_to_apply:0
 #: field:product.quality.check,workcenter_id:0
 #: field:production.app.registry,workcenter_id:0
 msgid "Work Center"
@@ -1009,25 +1039,26 @@ msgid "Workcenter Line"
 msgstr "Orden de trabajo"
 
 #. module: production_app
+#: field:product.quality.check,workcenter_ids:0
 #: field:stop.reason,workcenter_ids:0
 msgid "Workcenter ids"
 msgstr "Centros de producción"
 
 #. module: production_app
-#: code:addons/production_app/models/production_app.py:1129
+#: code:addons/production_app/models/production_app.py:1153
 #, python-format
 msgid "You can not set consumptions to done while they are checked to review."
 msgstr "No puedes establecer los consumos como realizados mientras estén marcados para revisar."
 
 #. module: production_app
 #: code:addons/production_app/models/mrp.py:23
-#: code:addons/production_app/models/mrp.py:95
+#: code:addons/production_app/models/mrp.py:100
 #, python-format
 msgid "You cannot cancel because one app registry is linked."
 msgstr "No puedes cancelar porque hay un registro de aplicación asociado."
 
 #. module: production_app
-#: code:addons/production_app/models/mrp.py:189
+#: code:addons/production_app/models/mrp.py:194
 #, python-format
 msgid "You cannot change qty because one app registry is linked."
 msgstr "No puedes cambiar la cantidad porque hay un registro de aplicación asociado."
@@ -1039,37 +1070,37 @@ msgid "You cannot remove because one app registry is linked."
 msgstr "No puedes eliminar porque hay un registro de aplicación asociado."
 
 #. module: production_app
-#: code:addons/production_app/models/production_app.py:949
+#: code:addons/production_app/models/production_app.py:973
 #, python-format
 msgid "You cannot validate because an error occurred when calculating the consumptions."
 msgstr "No puedes validar porque ocurrió un error en el cálculo de consumos."
 
 #. module: production_app
-#: code:addons/production_app/models/production_app.py:915
+#: code:addons/production_app/models/production_app.py:939
 #, python-format
 msgid "You cannot validate if the quantity in work orders associated with this production are not the same."
 msgstr "No puedes validar si la cantidad en las órdenes de trabajo asociadas a esta producción son diferentes."
 
 #. module: production_app
-#: code:addons/production_app/models/production_app.py:905
+#: code:addons/production_app/models/production_app.py:929
 #, python-format
 msgid "You cannot validate if the quantity of production are negative or zero."
 msgstr "No puedes validar si la cantidad de la producción es negativa o cero."
 
 #. module: production_app
-#: code:addons/production_app/models/production_app.py:910
+#: code:addons/production_app/models/production_app.py:934
 #, python-format
 msgid "You cannot validate if the quantity of the feeder and quantity of production are not the same."
 msgstr "No puedes validar si la cantidad del alimentador y la cantidad de producción son diferentes."
 
 #. module: production_app
-#: code:addons/production_app/models/production_app.py:901
+#: code:addons/production_app/models/production_app.py:925
 #, python-format
 msgid "You cannot validate without confirming consumptions."
 msgstr "No puedes validar si no están los consumos confirmados."
 
 #. module: production_app
-#: code:addons/production_app/models/mrp.py:142
+#: code:addons/production_app/models/mrp.py:147
 #, python-format
 msgid "You must assign a serial number for the scrapped product"
 msgstr "Debe asignar un número de serie para el producto desechado"

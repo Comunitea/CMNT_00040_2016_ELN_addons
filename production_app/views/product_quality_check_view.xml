@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>    
+    
+    <record id="product_quality_check_tree_view" model="ir.ui.view" >
+        <field name="name">product.quality.check.tree.view</field>
+        <field name="model">product.quality.check</field>
+        <field name="arch" type="xml">
+            <tree string="Quality Checks">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="quality_type"/>
+                <field name="value_type"/>
+                <!-- <field name="product_id"/> -->
+                <field name="workcenter_id"/>
+                <field name="repeat"/>
+                <field name="only_first_workorder"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="product_quality_check_form_view" model="ir.ui.view">
+        <field name="name">product.quality.check.form.view</field>
+        <field name="model">product.quality.check</field>
+        <field name="arch" type="xml">
+            <form string="Quality Checks">
+                <sheet string="Quality Checks">
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="quality_type"/>
+                            <field name="value_type"/>
+                            <field name="workcenter_id"/>
+                            <field name="repeat" attrs="{'invisible': [('quality_type', '!=', 'freq')]}"/>
+                            <field name="only_first_workorder" attrs="{'invisible': [('quality_type', '!=', 'start')]}"/>
+                        </group>
+                        <group>
+                            <field name="sequence"/>
+                            <field name="required_text" attrs="{'invisible': [('value_type', '!=', 'text')]}"/>
+                            <field name="min_value" attrs="{'invisible': [('value_type', '!=', 'numeric')]}"/>
+                            <field name="max_value" attrs="{'invisible': [('value_type', '!=', 'numeric')]}"/>
+                            <field name="barcode_type" attrs="{'invisible': [('value_type', '!=', 'barcode')]}"/>
+                        </group>
+                    </group>
+                    <group string="Associated Workcenters">
+                        <field name="workcenter_ids" nolabel="1">
+                            <tree>
+                                <field name="display_name"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <group string="Associated Products">
+                        <field name="product_ids" nolabel="1">
+                            <tree>
+                                <field name="display_name"/>
+                            </tree>
+                        </field>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="product_quality_check_filter_view" model="ir.ui.view">
+        <field name="name">product.quality.check.filter.view</field>
+        <field name="model">product.quality.check</field>
+        <field name="arch" type="xml">
+            <search string="Search Work Orders">
+                <field name="name"/>
+                <field name="value_type"/>
+                <!-- <field name="product_id"/> -->
+                <separator/>
+                <filter string="Start Up" domain="[('quality_type', '=', 'start')]"/>
+                <filter string="Frequency" domain="[('quality_type', '=', 'freq')]"/>
+                <separator/>
+                <group expand="0" string="Group By">
+                    <!-- <filter string="Product" domain="[]" context="{'group_by':'product_id'}"/> -->
+                    <filter string="Workcenter" domain="[]" context="{'group_by':'workcenter_id'}"/>
+                    <filter string="Quality Type" domain="[]" context="{'group_by':'quality_type'}"/>
+                    <filter string="Value Type" domain="[]" context="{'group_by':'value_type'}"/>
+                </group>
+             </search>
+        </field>
+    </record>
+
+    <record id="product_open_quality_check" model="ir.actions.act_window">
+        <field name="context">{'default_product_id': active_id, 'search_default_product_id': active_id}</field>
+        <field name="name">Product Quality Checks</field>
+        <field name="res_model">product.quality.check</field>
+        <field name="view_type">form</field>
+    </record>
+
+    <record id="action_product_quality_check" model="ir.actions.act_window" >
+        <field name="name">Product Quality Checks</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">product.quality.check</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_product_quality_check" name="Product Quality Checks" parent="mrp.menu_mrp_configuration"
+              action="action_product_quality_check" sequence="15"/>
+
+    </data>
+</openerp>

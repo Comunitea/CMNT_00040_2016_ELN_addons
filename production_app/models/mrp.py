@@ -75,6 +75,11 @@ class MrpWorkcenter(models.Model):
         id1="workcenter_id", id2="reason_id",
         domain=[('reason_type', '=', 'technical')]
     )
+    quality_check_ids = fields.Many2many(
+        'product.quality.check',
+        rel='product_quality_check_workcenter_rel',
+        id1='workcenter_id', id2='quality_id'
+    )
     process_type = fields.Selection([
         ('packing', 'Packing'),
         ('toasted', 'Toasted'),

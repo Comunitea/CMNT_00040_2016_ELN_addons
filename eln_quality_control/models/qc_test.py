@@ -28,7 +28,7 @@ class QcTestQuestionValue(models.Model):
             in_inspection = self.env['qc.inspection.line'].search([('possible_ql_values', '=', value.id)], limit=1)
             if not in_inspection:
                 question_value |= value
-        question_value.unlink()
+        question_value.sudo().unlink()
 
     @api.multi
     def unlink(self):

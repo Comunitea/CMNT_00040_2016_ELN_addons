@@ -24,6 +24,7 @@
         'views/production_app_view.xml',
         'views/mrp_view.xml',
         'views/product_view.xml',
+        'views/product_quality_check_view.xml',
         'views/stop_reason_view.xml',
         'views/scrap_reason_view.xml',
         'views/stock_view.xml',
