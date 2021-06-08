@@ -396,12 +396,10 @@ export class ProductionProvider {
     loadQualityChecks(q_checks) {
         for (let indx in q_checks) {
             var qc = q_checks[indx];
-            if (qc.workcenter_id == false || qc.workcenter_id[0] == this.workcenter['id']) {
-                if (qc.quality_type == 'start') {
-                    this.start_checks.push(qc);
-                } else if (qc.quality_type == 'freq') {
-                    this.freq_checks.push(qc);
-                }
+            if (qc.quality_type == 'start') {
+                this.start_checks.push(qc);
+            } else if (qc.quality_type == 'freq') {
+                this.freq_checks.push(qc);
             }
         }
     }
@@ -409,7 +407,10 @@ export class ProductionProvider {
     // Ask odoo for quality checks
     getQualityChecks() {
         var promise = new Promise( (resolve, reject) => {
-            var values =  {'product_id': this.product_id};
+            var values = {
+                'product_id': this.product_id,
+                'workcenter_id': this.workcenter['id'],
+            }
             var method = 'get_quality_checks'
             this.odooCon.callRegistry(method, values).then((res) => {
                 this.loadQualityChecks(res);

@@ -74,6 +74,20 @@
                         </field>
                     </group>
                 </page>
+                <page string="Quality Checks">
+                    <group string="Quality Checks">
+                        <field name="quality_check_ids" nolabel="1">
+                            <tree>
+                                <field name="sequence" widget="handle"/>
+                                <field name="name"/>
+                                <field name="quality_type"/>
+                                <field name="value_type"/>
+                                <field name="repeat"/>
+                                <field name="only_first_workorder"/>
+                            </tree>
+                        </field>
+                    </group>
+                </page>
             </notebook>
         </field>
     </record>

@@ -725,14 +725,39 @@ class ProductionAppRegistry(models.Model):
     @api.model
     def get_quality_checks(self, values):
         product_id = values.get('product_id', False)
+        workcenter_id = values.get('workcenter_id', False)
         product = self.env['product.product'].browse(product_id)
-        domain = [('id', 'in', product.quality_check_ids.ids)]
-        fields = ['id', 'name', 'value_type', 'quality_type', 'repeat',
-                  'required_text', 'max_value', 'min_value', 'barcode_type',
-                  'workcenter_id']
-        res = product.quality_check_ids.search_read(domain, fields)
+        workcenter = self.env['mrp.workcenter'].browse(workcenter_id)
+        if product.quality_checks_to_apply == 'product':
+            pqc_ids = product.quality_check_ids
+        elif product.quality_checks_to_apply == 'workcenter':
+            pqc_ids = workcenter.quality_check_ids
+        else:
+            pqc_ids = product.quality_check_ids + workcenter.quality_check_ids
+        domain = [
+            ('id', 'in', pqc_ids.ids),
+            '|',
+            ('workcenter_id', '=', False),
+            ('workcenter_id', '=', workcenter_id),
+        ]
+        fields = [
+            'id', 'name', 'value_type', 'quality_type', 'repeat',
+            'required_text', 'max_value', 'min_value', 'barcode_type',
+            'workcenter_id', 'only_first_workorder',
+        ]
+        res = self.env['product.quality.check'].search_read(domain, fields)
         res2 = []
         for dic in res:
+            if dic['quality_type'] == 'start' and dic['only_first_workorder']:
+                today = datetime.now().strftime("%Y-%m-%d")
+                domain = [
+                    ('pqc_id', '=', dic['id']),
+                    ('date', '>=', today),
+                ]
+                qcl_ids = self.env['quality.check.line'].search(domain)
+                workcenter_ids = qcl_ids.mapped('registry_id.workcenter_id')
+                if workcenter_id in workcenter_ids.ids:
+                    continue
             dic.update({'value': ''})
             if dic['value_type'] == 'barcode':
                 if dic['barcode_type'] == 'ean13':

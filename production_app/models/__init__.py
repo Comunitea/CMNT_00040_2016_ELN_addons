@@ -4,6 +4,7 @@
 import production_app
 import mrp
 import product
+import product_quality_check
 import stock
 import stop_reason
 import scrap_reason
