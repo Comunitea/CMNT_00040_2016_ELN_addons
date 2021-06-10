@@ -52,6 +52,10 @@ class QcInspection(models.Model):
             make_inspection = True if object_ref.picking_id.purchase_id else False
             if not make_inspection:
                 return self.env['qc.inspection']
+        if object_ref and object_ref._name == 'stock.move':
+            make_inspection = (object_ref.location_dest_id.usage == 'internal')
+            if not make_inspection:
+                return self.env['qc.inspection']
         return super(QcInspection, self)._make_inspection(object_ref, trigger_line)
 
     @api.multi
