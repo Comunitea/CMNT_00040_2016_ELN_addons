@@ -13,6 +13,7 @@
         'stock',
         'product_expiry',
         'eln_product',
+        'product_data_sheet',
      ],
     "init_xml": [],
     "data": [

@@ -50,3 +50,4 @@ class ProductQualityCheck(models.Model):
     barcode_type = fields.Selection(BARCODE_TYPES, 'Barcode Type')
     only_first_workorder = fields.Boolean('Only first time',
         help="Only first work order of the day for each Work Center")
+    note = fields.Text('Notes')

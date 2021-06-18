@@ -41,6 +41,7 @@
                             <field name="min_value" attrs="{'invisible': [('value_type', '!=', 'numeric')]}"/>
                             <field name="max_value" attrs="{'invisible': [('value_type', '!=', 'numeric')]}"/>
                             <field name="barcode_type" attrs="{'invisible': [('value_type', '!=', 'barcode')]}"/>
+                            <field name="note"/>
                         </group>
                     </group>
                     <group string="Associated Workcenters">

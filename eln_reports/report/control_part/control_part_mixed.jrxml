@@ -105,32 +105,14 @@
 	<field name="Fecha_inicial-date_start" class="java.sql.Timestamp">
 		<fieldDescription><![CDATA[/data/record/Fecha_inicial-date_start]]></fieldDescription>
 	</field>
-	<field name="Lote_de_produccion-name" class="java.lang.String">
-		<fieldDescription><![CDATA[/data/record/Productos_a_fabricar-move_created_ids/Lote_de_produccion-prodlot_id/Lote_de_produccion-name]]></fieldDescription>
-	</field>
-	<field name="Fecha_caducidad-use_date" class="java.sql.Timestamp">
-		<fieldDescription><![CDATA[/data/record/Productos_a_fabricar-move_created_ids/Lote_de_produccion-prodlot_id/Fecha_caducidad-use_date]]></fieldDescription>
-	</field>
-	<field name="Bolsa_pinchada-perforated_bag" class="java.lang.Boolean">
-		<fieldDescription><![CDATA[/data/record/Producto-product_id/Bolsa_pinchada-perforated_bag]]></fieldDescription>
-	</field>
-	<field name="Envasado_en_atmosfera_protectora-protective_atmosphere" class="java.lang.Boolean">
-		<fieldDescription><![CDATA[/data/record/Producto-product_id/Envasado_en_atmosfera_protectora-protective_atmosphere]]></fieldDescription>
-	</field>
 	<field name="Productos_a_consumir-move_lines" class="java.lang.String">
 		<fieldDescription><![CDATA[/data/record/Productos_a_consumir-move_lines]]></fieldDescription>
-	</field>
-	<field name="Comentarios__ficha_producto-comments_sheet" class="java.lang.String">
-		<fieldDescription><![CDATA[Producto-product_id/Comentarios__ficha_producto-comments_sheet]]></fieldDescription>
 	</field>
 	<field name="Nombre-name" class="java.lang.String">
 		<fieldDescription><![CDATA[UdM_del_producto-product_uom/Nombre-name]]></fieldDescription>
 	</field>
 	<field name="Nombre-name2" class="java.lang.String">
 		<fieldDescription><![CDATA[UdV_del_producto-product_uos/Nombre-name]]></fieldDescription>
-	</field>
-	<field name="Date_end_Planned-date_end_planned" class="java.sql.Timestamp">
-		<fieldDescription><![CDATA[Date_end_Planned-date_end_planned]]></fieldDescription>
 	</field>
 	<field name="Fecha_planificada-date_planned" class="java.sql.Timestamp">
 		<fieldDescription><![CDATA[Fecha_planificada-date_planned]]></fieldDescription>
@@ -339,7 +321,7 @@
 					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="none">
 						<font size="7" isBold="false"/>
 					</textElement>
-					<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{Fecha_caducidad-use_date}]]></textFieldExpression>
+					<textFieldExpression class="java.sql.Timestamp"><![CDATA[]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement positionType="Float" x="0" y="146" width="51" height="18"/>
@@ -373,7 +355,6 @@
 					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="none">
 						<font size="7" isBold="false"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{Lote_de_produccion-name}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy HH.mm.ss" isBlankWhenNull="true">
 					<reportElement positionType="Float" x="51" y="164" width="108" height="16"/>
@@ -407,7 +388,7 @@
 					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="none">
 						<font size="7" isBold="false"/>
 					</textElement>
-					<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{Date_end_Planned-date_end_planned}]]></textFieldExpression>
+					<textFieldExpression class="java.sql.Timestamp"><![CDATA[]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement positionType="Float" x="426" y="146" width="129" height="18"/>
@@ -800,7 +781,6 @@ limpieza]]></text>
 					<textElement textAlignment="Left" verticalAlignment="Top" lineSpacing="Single" markup="none">
 						<font size="7" isBold="false"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{Comentarios__ficha_producto-comments_sheet}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement positionType="Float" x="0" y="0" width="555" height="13"/>

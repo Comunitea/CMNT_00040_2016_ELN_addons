@@ -1,0 +1,627 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* product_data_sheet
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-06-16 12:18+0000\n"
+"PO-Revision-Date: 2021-06-16 14:26+0200\n"
+"Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: es\n"
+"X-Generator: Poedit 2.4.2\n"
+
+#. module: product_data_sheet
+#: code:addons/product_data_sheet/models/product_logistic_sheet.py:51
+#: code:addons/product_data_sheet/models/product_technical_sheet.py:126
+#, python-format
+msgid "%s (copy)"
+msgstr "%s (copia)"
+
+#. module: product_data_sheet
+#: code:addons/product_data_sheet/wizard/copy_product_ldm.py:56
+#, python-format
+msgid "Active Id not found"
+msgstr "Id activo no encontrado"
+
+#. module: product_data_sheet
+#: view:product.technical.sheet:product_data_sheet.product_technical_sheet_form_view
+#: field:product.technical.sheet,allergen:0
+msgid "Allergen"
+msgstr "Alérgenos"
+
+#. module: product_data_sheet
+#: field:product.technical.sheet,allergen_labeling:0
+msgid "Allergen labeling"
+msgstr "Etiquetado alérgenos"
+
+#. module: product_data_sheet
+#: view:product.technical.sheet:product_data_sheet.product_technical_sheet_form_view
+#: field:product.technical.sheet,approved_by:0
+msgid "Approved by"
+msgstr "Aprobado por"
+
+#. module: product_data_sheet
+#: field:product.technical.sheet,approved_signature:0
+msgid "Approved signature"
+msgstr "Approved signature"
+
+#. module: product_data_sheet
+#: view:product.technical.sheet:product_data_sheet.product_technical_sheet_form_view
+msgid "Average nutritional values (100 g)"
+msgstr "Valores nutricionales medios (100 g)"
+
+#. module: product_data_sheet
+#: model:ir.model,name:product_data_sheet.model_mrp_bom
+msgid "Bill of Material"
+msgstr "Lista de materiales"
+
+#. module: product_data_sheet
+#: view:product.logistic.sheet:product_data_sheet.product_logistic_sheet_form_view
+msgid "Box"
+msgstr "Caja"
+
+#. module: product_data_sheet
+#: field:product.logistic.sheet,box_ul:0
+msgid "Box type"
+msgstr "Tipo de caja"
+
+#. module: product_data_sheet
+#: field:product.logistic.sheet,pallet_boxes_layer:0
+msgid "Boxes per layer"
+msgstr "Cajas por capa"
+
+#. module: product_data_sheet
+#: field:product.logistic.sheet,pallet_boxes_pallet:0
+msgid "Boxes per pallet"
+msgstr "Cajas por palet"
+
+#. module: product_data_sheet
+#: field:product.ingredient,caliber:0
+msgid "Caliber"
+msgstr "Calibre"
+
+#. module: product_data_sheet
+#: view:copy.product.ldm:product_data_sheet.view_copy_product_ldm_wzd
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: product_data_sheet
+#: field:product.technical.sheet,carbohydrates:0
+msgid "Carbohydrates"
+msgstr "Hidratos de carbono (g)"
+
+#. module: product_data_sheet
+#: selection:product.parameter,type:0
+msgid "Chemical"
+msgstr "Químicos"
+
+#. module: product_data_sheet
+#: field:product.technical.sheet,commercial_format:0
+msgid "Commercial format"
+msgstr "Formato comercial"
+
+#. module: product_data_sheet
+#: field:product.logistic.sheet,comments:0
+#: field:product.technical.sheet,comments:0
+msgid "Comments"
+msgstr "Comentarios"
+
+#. module: product_data_sheet
+#: field:product.logistic.sheet,company_id:0
+#: field:product.technical.sheet,company_id:0
+msgid "Company"
+msgstr "Compañía"
+
+#. module: product_data_sheet
+#: view:copy.product.ldm:product_data_sheet.view_copy_product_ldm_wzd
+msgid "Copy"
+msgstr "Copiar"
+
+#. module: product_data_sheet
+#: view:copy.product.ldm:product_data_sheet.view_copy_product_ldm_wzd
+#: model:ir.actions.act_window,name:product_data_sheet.copy_product_ldm_action
+#: view:product.technical.sheet:product_data_sheet.product_technical_sheet_form_view
+msgid "Copy LdM"
+msgstr "Copiar LdM"
+
+#. module: product_data_sheet
+#: field:copy.product.ldm,create_uid:0 field:product.ingredient,create_uid:0
+#: field:product.logistic.sheet,create_uid:0
+#: field:product.parameter,create_uid:0
+#: field:product.parameter.product,create_uid:0
+#: field:product.revision,create_uid:0
+#: field:product.technical.sheet,create_uid:0
+msgid "Created by"
+msgstr "Created by"
+
+#. module: product_data_sheet
+#: field:copy.product.ldm,create_date:0 field:product.ingredient,create_date:0
+#: field:product.logistic.sheet,create_date:0
+#: field:product.parameter,create_date:0
+#: field:product.parameter.product,create_date:0
+#: field:product.revision,create_date:0
+#: field:product.technical.sheet,create_date:0
+msgid "Created on"
+msgstr "Created on"
+
+#. module: product_data_sheet
+#: field:product.revision,date:0
+msgid "Date"
+msgstr "Fecha "
+
+#. module: product_data_sheet
+#: field:product.revision,description:0
+#: view:product.technical.sheet:product_data_sheet.product_technical_sheet_form_view
+msgid "Description"
+msgstr "Descripción"
+
+#. module: product_data_sheet
+#: field:copy.product.ldm,display_name:0
+#: field:product.ingredient,display_name:0
+#: field:product.logistic.sheet,display_name:0
+#: field:product.parameter,display_name:0
+#: field:product.parameter.product,display_name:0
+#: field:product.revision,display_name:0
+#: field:product.technical.sheet,display_name:0
+msgid "Display Name"
+msgstr "Nombre mostrado"
+
+#. module: product_data_sheet
+#: field:product.technical.sheet,energy_kj:0
+msgid "Energy (kJ)"
+msgstr "Valor energético (kJ)"
+
+#. module: product_data_sheet
+#: field:product.technical.sheet,energy_kcal:0
+msgid "Energy (kcal)"
+msgstr "Valor energético (kcal)"
+
+#. module: product_data_sheet
+#: view:product.technical.sheet:product_data_sheet.product_technical_sheet_form_view
+#: field:product.technical.sheet,expected_use:0
+msgid "Expected use"
+msgstr "Uso esperado"
+
+#. module: product_data_sheet
+#: field:product.technical.sheet,fats:0
+msgid "Fats"
+msgstr "Grasas (g)"
+
+#. module: product_data_sheet
+#: field:product.technical.sheet,gluten_free_labeling:0
+msgid "Gluten free labeling"
+msgstr "Etiquetado \"Sin Gluten\""
+
+#. module: product_data_sheet
+#: field:product.logistic.sheet,unit_gross_weight:0
+msgid "Gross weight (g)"
+msgstr "Peso bruto (g)"
+
+#. module: product_data_sheet
+#: field:product.logistic.sheet,box_gross_weight:0
+#: field:product.logistic.sheet,pallet_gross_weight:0
+msgid "Gross weight (kg)"
+msgstr "Peso bruto (kg)"
+
+#. module: product_data_sheet
+#: view:product.logistic.sheet:product_data_sheet.view_product_logistic_sheet_filter
+#: view:product.parameter:product_data_sheet.product_parameter_search_view
+#: view:product.technical.sheet:product_data_sheet.view_product_technical_sheet_filter
+msgid "Group By"
+msgstr "Agrupar por"
+
+#. module: product_data_sheet
+#: field:copy.product.ldm,id:0 field:product.ingredient,id:0
+#: field:product.logistic.sheet,id:0 field:product.parameter,id:0
+#: field:product.parameter.product,id:0 field:product.revision,id:0
+#: field:product.technical.sheet,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: product_data_sheet
+#: view:product.technical.sheet:product_data_sheet.product_technical_sheet_form_view
+#: field:product.technical.sheet,product_ingredient_ids:0
+msgid "Ingredients"
+msgstr "Ingredientes"
+
+#. module: product_data_sheet
+#: view:product.product:product_data_sheet.product_normal_form_view
+msgid "Inventory"
+msgstr "Inventario"
+
+#. module: product_data_sheet
+#: field:product.technical.sheet,approved_job:0
+#: field:product.technical.sheet,reviewed_job:0
+#: field:product.technical.sheet,written_job:0
+msgid "Job"
+msgstr "Puesto de trabajo"
+
+#. module: product_data_sheet
+#: field:copy.product.ldm,__last_update:0
+#: field:product.ingredient,__last_update:0
+#: field:product.logistic.sheet,__last_update:0
+#: field:product.parameter,__last_update:0
+#: field:product.parameter.product,__last_update:0
+#: field:product.revision,__last_update:0
+#: field:product.technical.sheet,__last_update:0
+msgid "Last Modified on"
+msgstr "Last Modified on"
+
+#. module: product_data_sheet
+#: field:copy.product.ldm,write_uid:0 field:product.ingredient,write_uid:0
+#: field:product.logistic.sheet,write_uid:0 field:product.parameter,write_uid:0
+#: field:product.parameter.product,write_uid:0
+#: field:product.revision,write_uid:0 field:product.technical.sheet,write_uid:0
+msgid "Last Updated by"
+msgstr "Last Updated by"
+
+#. module: product_data_sheet
+#: field:copy.product.ldm,write_date:0 field:product.ingredient,write_date:0
+#: field:product.logistic.sheet,write_date:0
+#: field:product.parameter,write_date:0
+#: field:product.parameter.product,write_date:0
+#: field:product.revision,write_date:0
+#: field:product.technical.sheet,write_date:0
+msgid "Last Updated on"
+msgstr "Last Updated on"
+
+#. module: product_data_sheet
+#: field:product.technical.sheet,last_revision:0
+msgid "Last revision"
+msgstr "Última revisión"
+
+#. module: product_data_sheet
+#: field:product.technical.sheet,last_revision_ldm:0
+msgid "Last revision LdM"
+msgstr "Última revisión LdM"
+
+#. module: product_data_sheet
+#: field:product.logistic.sheet,pallet_layers:0
+msgid "Layers per pallet"
+msgstr "Capas por palet"
+
+#. module: product_data_sheet
+#: field:copy.product.ldm,product_ldm_id:0
+msgid "LdM"
+msgstr "LdM"
+
+#. module: product_data_sheet
+#: field:copy.product.ldm,ldm_ids_str:0
+msgid "LdM ids str"
+msgstr "LdM ids str"
+
+#. module: product_data_sheet
+#: view:copy.product.ldm:product_data_sheet.view_copy_product_ldm_wzd
+msgid "LdMs"
+msgstr "LdMs"
+
+#. module: product_data_sheet
+#: model:ir.actions.act_window,name:product_data_sheet.action_product_logistic_sheet
+#: model:ir.ui.menu,name:product_data_sheet.product_logistic_sheet_menu
+#: view:product.logistic.sheet:product_data_sheet.product_logistic_sheet_tree_view
+#: view:product.product:product_data_sheet.product_normal_form_view
+#: field:product.product,product_logistic_sheet_ids:0
+msgid "Logistic sheets"
+msgstr "Fichas logísticas"
+
+#. module: product_data_sheet
+#: selection:product.parameter,type:0
+msgid "Microbiological"
+msgstr "Microbiológicos"
+
+#. module: product_data_sheet
+#: field:product.ingredient,name:0 field:product.logistic.sheet,name:0
+#: field:product.parameter,name:0 field:product.parameter.product,name:0
+#: field:product.revision,name:0 field:product.technical.sheet,name:0
+msgid "Name"
+msgstr "Nombre"
+
+#. module: product_data_sheet
+#: field:product.logistic.sheet,unit_net_weight_drained:0
+#: field:product.technical.sheet,net_weight_drained:0
+msgid "Net drained weight (g)"
+msgstr "Peso neto escurrido (g)"
+
+#. module: product_data_sheet
+#: field:product.logistic.sheet,unit_net_weight:0
+#: field:product.technical.sheet,net_weight:0
+msgid "Net weight (g)"
+msgstr "Peso neto (g)"
+
+#. module: product_data_sheet
+#: field:product.logistic.sheet,box_net_weight:0
+#: field:product.logistic.sheet,pallet_net_weight:0
+msgid "Net weight (kg)"
+msgstr "Peso neto (kg)"
+
+#. module: product_data_sheet
+#: field:product.technical.sheet,nutriscore:0
+msgid "Nutri-Score"
+msgstr "Nutri-Score"
+
+#. module: product_data_sheet
+#: view:product.technical.sheet:product_data_sheet.product_technical_sheet_form_view
+#: field:product.technical.sheet,ogms:0
+msgid "OGMs"
+msgstr "OGMs"
+
+#. module: product_data_sheet
+#: view:product.logistic.sheet:product_data_sheet.product_logistic_sheet_form_view
+#: view:product.technical.sheet:product_data_sheet.product_technical_sheet_form_view
+msgid "Observations"
+msgstr "Observaciones"
+
+#. module: product_data_sheet
+#: selection:product.parameter,type:0
+msgid "Organoleptic"
+msgstr "Organoléptico"
+
+#. module: product_data_sheet
+#: field:product.ingredient,origin:0
+msgid "Origin"
+msgstr "Origen"
+
+#. module: product_data_sheet
+#: view:product.technical.sheet:product_data_sheet.product_technical_sheet_form_view
+msgid "Other data"
+msgstr "Otros datos"
+
+#. module: product_data_sheet
+#: view:product.logistic.sheet:product_data_sheet.product_logistic_sheet_form_view
+msgid "Pallet"
+msgstr "Palet"
+
+#. module: product_data_sheet
+#: field:product.logistic.sheet,pallet_ul:0
+msgid "Pallet type"
+msgstr "Tipo de palet"
+
+#. module: product_data_sheet
+#: view:product.logistic.sheet:product_data_sheet.product_logistic_sheet_form_view
+#: field:product.logistic.sheet,palletizing:0
+msgid "Palletizing"
+msgstr "Paletización"
+
+#. module: product_data_sheet
+#: field:product.parameter.product,parameter_id:0
+msgid "Parameter"
+msgstr "Parámetro"
+
+#. module: product_data_sheet
+#: model:ir.actions.act_window,name:product_data_sheet.product_parameter_action
+#: model:ir.ui.menu,name:product_data_sheet.product_parameter_menu
+#: model:ir.ui.menu,name:product_data_sheet.product_parameter_menu_parent
+#: view:product.technical.sheet:product_data_sheet.product_technical_sheet_form_view
+#: field:product.technical.sheet,parameter_ids:0
+msgid "Parameters"
+msgstr "Parámetros"
+
+#. module: product_data_sheet
+#: field:product.technical.sheet,perforated_bag:0
+msgid "Perforated bag"
+msgstr "Bolsa pinchada"
+
+#. module: product_data_sheet
+#: selection:product.parameter,type:0
+msgid "Physical"
+msgstr "Físicos"
+
+#. module: product_data_sheet
+#: view:product.technical.sheet:product_data_sheet.product_technical_sheet_form_view
+msgid "Presentation"
+msgstr "Presentación"
+
+#. module: product_data_sheet
+#: field:product.ingredient,process:0
+msgid "Process"
+msgstr "Proceso"
+
+#. module: product_data_sheet
+#: model:ir.model,name:product_data_sheet.model_product_product
+#: field:product.ingredient,product_id:0
+#: view:product.logistic.sheet:product_data_sheet.view_product_logistic_sheet_filter
+#: field:product.logistic.sheet,product_id:0
+#: view:product.technical.sheet:product_data_sheet.view_product_technical_sheet_filter
+#: field:product.technical.sheet,product_id:0
+msgid "Product"
+msgstr "Producto"
+
+#. module: product_data_sheet
+#: field:product.ingredient,product_qty:0
+msgid "Product Qty"
+msgstr "Cantidad"
+
+#. module: product_data_sheet
+#: view:product.logistic.sheet:product_data_sheet.product_logistic_sheet_form_view
+msgid "Product logistic sheet"
+msgstr "Ficha logística de producto"
+
+#. module: product_data_sheet
+#: view:product.parameter:product_data_sheet.product_parameter_form_view
+#: view:product.parameter:product_data_sheet.product_parameter_search_view
+#: view:product.parameter:product_data_sheet.product_parameter_tree_view
+msgid "Product parameters"
+msgstr "Parámetros"
+
+#. module: product_data_sheet
+#: view:product.technical.sheet:product_data_sheet.product_technical_sheet_form_view
+msgid "Product technical sheet"
+msgstr "Ficha técnica de producto"
+
+#. module: product_data_sheet
+#: field:product.technical.sheet,protective_atmosphere:0
+msgid "Protective atmosphere"
+msgstr "Envasado en atmósfera protectora"
+
+#. module: product_data_sheet
+#: field:product.technical.sheet,proteins:0
+msgid "Proteins"
+msgstr "Proteínas (g)"
+
+#. module: product_data_sheet
+#: view:product.logistic.sheet:product_data_sheet.product_logistic_sheet_form_view
+#: field:product.logistic.sheet,provision_boxes_base:0
+msgid "Provision of boxes base"
+msgstr "Disposición de las cajas de base"
+
+#. module: product_data_sheet
+#: field:product.ingredient,product_qty_percent:0
+msgid "Qty(%)"
+msgstr "Cant.(%)"
+
+#. module: product_data_sheet
+#: view:product.technical.sheet:product_data_sheet.product_technical_sheet_form_view
+msgid "Quality"
+msgstr "Calidad"
+
+#. module: product_data_sheet
+#: field:product.technical.sheet,recommended_ration:0
+msgid "Recommended ration (g)"
+msgstr "Ración recomendada (g)"
+
+#. module: product_data_sheet
+#: view:product.technical.sheet:product_data_sheet.product_technical_sheet_form_view
+#: field:product.technical.sheet,reviewed_by:0
+msgid "Reviewed by"
+msgstr "Revisado por"
+
+#. module: product_data_sheet
+#: field:product.technical.sheet,reviewed_signature:0
+msgid "Reviewed signature"
+msgstr "Reviewed signature"
+
+#. module: product_data_sheet
+#: view:product.technical.sheet:product_data_sheet.product_technical_sheet_form_view
+#: field:product.technical.sheet,revision_ids:0
+msgid "Revisions"
+msgstr "Revisiones"
+
+#. module: product_data_sheet
+#: field:product.technical.sheet,salt:0
+msgid "Salt"
+msgstr "Sal (g)"
+
+#. module: product_data_sheet
+#: field:product.logistic.sheet,sequence:0
+#: field:product.technical.sheet,sequence:0
+msgid "Sequence"
+msgstr "Secuencia"
+
+#. module: product_data_sheet
+#: view:product.technical.sheet:product_data_sheet.product_technical_sheet_form_view
+msgid "Specifications"
+msgstr "Especificaciones"
+
+#. module: product_data_sheet
+#: view:product.technical.sheet:product_data_sheet.product_technical_sheet_form_view
+#: field:product.technical.sheet,storage_conditions:0
+msgid "Storage conditions"
+msgstr "Condiciones de conservación"
+
+#. module: product_data_sheet
+#: view:product.product:product_data_sheet.product_normal_form_view
+msgid "Technical and Logistic Sheet"
+msgstr "Ficha técnica y logística"
+
+#. module: product_data_sheet
+#: field:product.ingredient,product_technical_sheet_id:0
+#: field:product.parameter.product,product_technical_sheet_id:0
+#: field:product.revision,product_technical_sheet_id:0
+msgid "Technical sheet"
+msgstr "Ficha técnica"
+
+#. module: product_data_sheet
+#: model:ir.actions.act_window,name:product_data_sheet.action_product_technical_sheet
+#: model:ir.ui.menu,name:product_data_sheet.product_technical_sheet_menu
+#: view:product.product:product_data_sheet.product_normal_form_view
+#: field:product.product,product_technical_sheet_ids:0
+#: view:product.technical.sheet:product_data_sheet.product_technical_sheet_tree_view
+#: view:product.technical.sheet:product_data_sheet.view_product_technical_sheet_filter
+msgid "Technical sheets"
+msgstr "Fichas técnicas"
+
+#. module: product_data_sheet
+#: help:product.logistic.sheet,unit_net_weight_drained:0
+#: help:product.technical.sheet,net_weight_drained:0
+msgid "The drained net weight in g. Leave zero if not applicable."
+msgstr "El peso neto escurrido en g. Dejar a cero si no es aplicable a este producto."
+
+#. module: product_data_sheet
+#: field:product.logistic.sheet,box_total_height:0
+#: field:product.logistic.sheet,pallet_total_height:0
+#: field:product.logistic.sheet,unit_total_height:0
+msgid "Total height (mm)"
+msgstr "Alto total (mm)"
+
+#. module: product_data_sheet
+#: field:product.logistic.sheet,box_total_length:0
+#: field:product.logistic.sheet,pallet_total_length:0
+#: field:product.logistic.sheet,unit_total_length:0
+msgid "Total length (mm)"
+msgstr "Largo total (mm)"
+
+#. module: product_data_sheet
+#: field:product.logistic.sheet,box_total_width:0
+#: field:product.logistic.sheet,pallet_total_width:0
+#: field:product.logistic.sheet,unit_total_width:0
+msgid "Total width (mm)"
+msgstr "Ancho total (mm)"
+
+#. module: product_data_sheet
+#: view:product.parameter:product_data_sheet.product_parameter_search_view
+#: field:product.parameter,type:0
+msgid "Type"
+msgstr "Tipo"
+
+#. module: product_data_sheet
+#: view:product.logistic.sheet:product_data_sheet.product_logistic_sheet_form_view
+msgid "Unit"
+msgstr "Unidad"
+
+#. module: product_data_sheet
+#: field:product.logistic.sheet,box_units:0
+msgid "Units per box"
+msgstr "Unidades por caja"
+
+#. module: product_data_sheet
+#: field:product.revision,user_id:0
+msgid "User"
+msgstr "Usuario"
+
+#. module: product_data_sheet
+#: field:product.parameter.product,value:0
+msgid "Value"
+msgstr "Valor"
+
+#. module: product_data_sheet
+#: field:product.ingredient,variety:0
+msgid "Variety"
+msgstr "Variedad"
+
+#. module: product_data_sheet
+#: view:product.technical.sheet:product_data_sheet.product_technical_sheet_form_view
+#: field:product.technical.sheet,written_by:0
+msgid "Written by"
+msgstr "Escrito por"
+
+#. module: product_data_sheet
+#: field:product.technical.sheet,written_signature:0
+msgid "Written signature"
+msgstr "Written signature"
+
+#. module: product_data_sheet
+#: field:product.technical.sheet,fat_saturates:0
+msgid "of which saturates"
+msgstr "de las cuales saturadas (g)"
+
+#. module: product_data_sheet
+#: field:product.technical.sheet,carbo_sugar:0
+msgid "of which sugars"
+msgstr "de los cuales azúcares (g)"

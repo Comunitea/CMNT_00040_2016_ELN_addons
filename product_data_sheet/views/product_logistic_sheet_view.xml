@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+    <data>
+
+        <record id="product_logistic_sheet_tree_view" model="ir.ui.view">
+            <field name="name">product.logistic.sheet.tree.view</field>
+            <field name="model">product.logistic.sheet</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Logistic sheets">
+                    <field name="sequence" widget="handle"/>
+                    <field name="name"/>
+                    <field name="product_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="product_logistic_sheet_form_view" model="ir.ui.view">
+            <field name="name">product.logistic.sheet.form.view</field>
+            <field name="model">product.logistic.sheet</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Product logistic sheet">
+                    <header>
+                    </header>
+                    <sheet>
+                        <group col="4">
+                            <field name="name"/>
+                            <field name="sequence"/>
+                            <field name="product_id"/>
+                        </group>
+                        <group col="6">
+                            <group name="logistic_left1" colspan="2">
+                                <separator string="Pallet" colspan="2"/>
+                                <field name="pallet_boxes_layer"/>
+                                <field name="pallet_layers"/>
+                                <field name="pallet_boxes_pallet"/>
+                                <field name="pallet_gross_weight"/>
+                                <field name="pallet_net_weight"/>
+                                <field name="pallet_total_height"/>
+                                <field name="pallet_total_width"/>
+                                <field name="pallet_total_length"/>
+                                <field name="pallet_ul"/>
+                            </group>
+                            <group name="logistic_center2" colspan="2">
+                                <separator string="Box" colspan="2"/>
+                                <field name="box_units"/>
+                                <field name="box_gross_weight"/>
+                                <field name="box_net_weight"/>
+                                <field name="box_total_height"/>
+                                <field name="box_total_width"/>
+                                <field name="box_total_length"/>
+                                <field name="box_ul"/>
+                            </group>
+                            <group name="logistic_right2" colspan="2">
+                                <separator string="Unit" colspan="2"/>
+                                <field name="unit_gross_weight"/>
+                                <field name="unit_net_weight"/>
+                                <field name="unit_net_weight_drained"/>
+                                <field name="unit_total_height"/>
+                                <field name="unit_total_width"/>
+                                <field name="unit_total_length"/>
+                            </group>
+                            <newline/>
+                        </group>
+                        <group>
+                            <separator string="Observations" colspan="4"/>
+                            <field name="comments"/>
+                        </group>
+                        <group>
+                            <group>
+                                <separator string="Palletizing" />
+                                <newline/>
+                                <field name="palletizing" nolabel="1" widget="image"/>
+                            </group>
+                            <group>
+                                <separator string="Provision of boxes base" />
+                                <newline/>
+                                <field name="provision_boxes_base" nolabel="1" widget="image"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_product_logistic_sheet_filter" model="ir.ui.view">
+            <field name="name">product.logistic.sheet.search</field>
+            <field name="model">product.logistic.sheet</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Logistic sheets">
+                    <field name="name"
+                        filter_domain="[('name','ilike',self)]"/>
+                    <field name="product_id"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Product" context="{'group_by':'product_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_product_logistic_sheet" model="ir.actions.act_window">
+            <field name="name">Logistic sheets</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.logistic.sheet</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_product_logistic_sheet_filter"/>
+            <field name="context">{}</field>
+        </record>
+
+        <menuitem parent="stock.menu_stock_product" name="Logistic sheets" id="product_logistic_sheet_menu"
+            action="action_product_logistic_sheet" sequence="9" />
+
+    </data>
+</openerp>

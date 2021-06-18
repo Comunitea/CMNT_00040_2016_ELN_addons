@@ -297,7 +297,6 @@ class ProductionAppRegistry(models.Model):
             uom_id = reg.product_id.uom_id
             uos_id = reg.product_id.uos_id
             uos_coeff = reg.product_id.uos_coeff
-            change_lot_qc_id = self.env.ref('production_app.change_lot_qc').id
 
             product_ids = [reg.product_id.id]
             consume_ids1 = reg.line_in_ids.mapped('product_id')
@@ -320,7 +319,6 @@ class ProductionAppRegistry(models.Model):
             res.update(
                 allowed_operators=allowed_operators,
                 product_use_date=use_date,
-                change_lot_qc_id=change_lot_qc_id,
                 product_ids=product_ids,
                 consume_ids=consume_ids,
                 production_qty=production_qty,
@@ -743,7 +741,7 @@ class ProductionAppRegistry(models.Model):
         fields = [
             'id', 'name', 'value_type', 'quality_type', 'repeat',
             'required_text', 'max_value', 'min_value', 'barcode_type',
-            'workcenter_id', 'only_first_workorder',
+            'workcenter_id', 'only_first_workorder', 'note',
         ]
         res = self.env['product.quality.check'].search_read(domain, fields)
         res2 = []

@@ -61,7 +61,6 @@ export class ProductionProvider {
     lot_name;
     lot_date;
     product_use_date: string;
-    change_lot_qc_id: number;
     workline_name: string;
     review_consumptions: boolean = false;
     consumptions_done: boolean = false;
@@ -378,7 +377,6 @@ export class ProductionProvider {
         this.location_src_id = data.location_src_id;
         this.location_dest_id = data.location_dest_id;
         this.uos_coeff = data.uos_coeff;
-        this.change_lot_qc_id = data.change_lot_qc_id;
         this.product_ids = data.product_ids;
         this.consume_ids = data.consume_ids;
         this.workline = data.wc_line_id;

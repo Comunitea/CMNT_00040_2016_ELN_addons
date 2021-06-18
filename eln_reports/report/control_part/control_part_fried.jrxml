@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="control_part" language="groovy" pageWidth="555" pageHeight="762" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="152"/>
 	<style name="Crosstab Data Text" hAlign="Center" lineSpacing="Single"/>
 	<subDataset name="DS_workcenter_lines">
 		<parameter name="PRODUCTION_ID" class="java.lang.Integer"/>
@@ -43,7 +43,7 @@
 			<fieldDescription><![CDATA[Productos_a_consumir-move_lines/Cantidad-product_qty]]></fieldDescription>
 		</field>
 		<field name="id" class="java.lang.Integer">
-			<fieldDescription><![CDATA[Productos_a_consumir-move_lines/Produccion-production_id/id]]></fieldDescription>
+			<fieldDescription><![CDATA[Productos_a_consumir-move_lines/Produccion-production_id/id-id]]></fieldDescription>
 		</field>
 		<field name="Nombre-name" class="java.lang.String">
 			<fieldDescription><![CDATA[Productos_a_consumir-move_lines/Unidad_de_medida-product_uom/Nombre-name]]></fieldDescription>
@@ -56,23 +56,6 @@
 		</field>
 		<sortField name="Referencia-code"/>
 		<filterExpression><![CDATA[$P{RAW_MATERIAL_PRODUCTION_ID} == $F{id2}]]></filterExpression>
-	</subDataset>
-	<subDataset name="DS_verifications">
-		<parameter name="PRODUCT_ID" class="java.lang.Integer"/>
-		<parameter name="REWIND" class="java.lang.Object" isForPrompting="false">
-			<parameterDescription><![CDATA[]]></parameterDescription>
-			<defaultValueExpression><![CDATA[$P{REPORT_DATA_SOURCE}.moveFirst()]]></defaultValueExpression>
-		</parameter>
-		<queryString language="xPath">
-			<![CDATA[/data/record]]>
-		</queryString>
-		<field name="Name-name" class="java.lang.String">
-			<fieldDescription><![CDATA[Producto-product_id/Verfications-verification_ids/Verification-verification_id/Name-name]]></fieldDescription>
-		</field>
-		<field name="verification-product_id" class="java.lang.Integer">
-			<fieldDescription><![CDATA[Producto-product_id/Opciones-option_ids/Producto-product_id/id]]></fieldDescription>
-		</field>
-		<filterExpression><![CDATA[$P{PRODUCT_ID} == $F{verification-product_id}]]></filterExpression>
 	</subDataset>
 	<parameter name="TABLE_LINES_ORDENES_TRABAJO_FREIDO" class="java.lang.Object"/>
 	<parameter name="TABLE_LINES_LISTA_MATERIALES_FREIDO" class="java.lang.Object"/>
@@ -123,32 +106,14 @@
 	<field name="Fecha_inicial-date_start" class="java.sql.Timestamp">
 		<fieldDescription><![CDATA[/data/record/Fecha_inicial-date_start]]></fieldDescription>
 	</field>
-	<field name="Lote_de_produccion-name" class="java.lang.String">
-		<fieldDescription><![CDATA[/data/record/Productos_a_fabricar-move_created_ids/Lote_de_produccion-prodlot_id/Lote_de_produccion-name]]></fieldDescription>
-	</field>
-	<field name="Fecha_caducidad-use_date" class="java.sql.Timestamp">
-		<fieldDescription><![CDATA[/data/record/Productos_a_fabricar-move_created_ids/Lote_de_produccion-prodlot_id/Fecha_caducidad-use_date]]></fieldDescription>
-	</field>
-	<field name="Bolsa_pinchada-perforated_bag" class="java.lang.Boolean">
-		<fieldDescription><![CDATA[/data/record/Producto-product_id/Bolsa_pinchada-perforated_bag]]></fieldDescription>
-	</field>
-	<field name="Envasado_en_atmosfera_protectora-protective_atmosphere" class="java.lang.Boolean">
-		<fieldDescription><![CDATA[/data/record/Producto-product_id/Envasado_en_atmosfera_protectora-protective_atmosphere]]></fieldDescription>
-	</field>
 	<field name="Productos_a_consumir-move_lines" class="java.lang.String">
 		<fieldDescription><![CDATA[/data/record/Productos_a_consumir-move_lines]]></fieldDescription>
-	</field>
-	<field name="Comentarios__ficha_producto-comments_sheet" class="java.lang.String">
-		<fieldDescription><![CDATA[Producto-product_id/Comentarios__ficha_producto-comments_sheet]]></fieldDescription>
 	</field>
 	<field name="Nombre-name" class="java.lang.String">
 		<fieldDescription><![CDATA[UdM_del_producto-product_uom/Nombre-name]]></fieldDescription>
 	</field>
 	<field name="Nombre-name2" class="java.lang.String">
 		<fieldDescription><![CDATA[UdV_del_producto-product_uos/Nombre-name]]></fieldDescription>
-	</field>
-	<field name="Date_end_Planned-date_end_planned" class="java.sql.Timestamp">
-		<fieldDescription><![CDATA[Date_end_Planned-date_end_planned]]></fieldDescription>
 	</field>
 	<field name="Fecha_planificada-date_planned" class="java.sql.Timestamp">
 		<fieldDescription><![CDATA[Fecha_planificada-date_planned]]></fieldDescription>
@@ -360,7 +325,7 @@
 					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="none">
 						<font size="7" isBold="false"/>
 					</textElement>
-					<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{Fecha_caducidad-use_date}]]></textFieldExpression>
+					<textFieldExpression class="java.sql.Timestamp"><![CDATA[]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement positionType="Float" x="0" y="146" width="51" height="18"/>
@@ -394,7 +359,6 @@
 					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="none">
 						<font size="7" isBold="false"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{Lote_de_produccion-name}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy HH.mm.ss" isBlankWhenNull="true">
 					<reportElement positionType="Float" x="51" y="164" width="108" height="16"/>
@@ -428,7 +392,7 @@
 					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="none">
 						<font size="7" isBold="false"/>
 					</textElement>
-					<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{Date_end_Planned-date_end_planned}]]></textFieldExpression>
+					<textFieldExpression class="java.sql.Timestamp"><![CDATA[]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement positionType="Float" x="426" y="146" width="129" height="18"/>
@@ -821,7 +785,6 @@ limpieza]]></text>
 					<textElement textAlignment="Left" verticalAlignment="Top" lineSpacing="Single" markup="none">
 						<font size="7" isBold="false"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{Comentarios__ficha_producto-comments_sheet}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement positionType="Float" x="0" y="0" width="555" height="13"/>
@@ -838,16 +801,6 @@ limpieza]]></text>
 	</group>
 	<detail>
 		<band height="331" splitType="Stretch">
-			<staticText>
-				<reportElement positionType="Float" x="0" y="195" width="555" height="13"/>
-				<box>
-					<bottomPen lineWidth="0.5" lineStyle="Double"/>
-				</box>
-				<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single">
-					<font size="7" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Calidad]]></text>
-			</staticText>
 			<staticText>
 				<reportElement x="0" y="0" width="555" height="13"/>
 				<box>
@@ -1006,134 +959,6 @@ limpieza]]></text>
 									<rightPen lineWidth="0.25"/>
 								</box>
 								<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
-									<font size="7"/>
-								</textElement>
-							</textField>
-						</jr:detailCell>
-					</jr:column>
-				</jr:table>
-			</componentElement>
-			<componentElement>
-				<reportElement key="Tabla Verificaciones" positionType="Float" x="0" y="213" width="554" height="35">
-					<property name="OPENERP_RELATIONS" value="[&apos;product_id/verification_ids&apos;]"/>
-				</reportElement>
-				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="DS_verifications">
-						<datasetParameter name="PRODUCT_ID">
-							<datasetParameterExpression><![CDATA[$F{product_id}]]></datasetParameterExpression>
-						</datasetParameter>
-						<dataSourceExpression><![CDATA[$P{TABLE_LINES_VERIFICACIONES_FREIDO}]]></dataSourceExpression>
-					</datasetRun>
-					<jr:column width="284">
-						<jr:columnHeader height="15" rowSpan="1">
-							<staticText>
-								<reportElement x="0" y="0" width="284" height="15"/>
-								<box>
-									<topPen lineWidth="0.25"/>
-									<leftPen lineWidth="0.25"/>
-									<bottomPen lineWidth="0.25"/>
-								</box>
-								<textElement verticalAlignment="Middle" lineSpacing="Single">
-									<font size="7" isBold="true"/>
-								</textElement>
-								<text><![CDATA[  Control de oxidación medio fritura]]></text>
-							</staticText>
-						</jr:columnHeader>
-						<jr:detailCell height="13" rowSpan="1">
-							<textField isBlankWhenNull="true">
-								<reportElement positionType="Float" x="0" y="0" width="284" height="13" isPrintWhenDetailOverflows="true"/>
-								<box>
-									<leftPen lineWidth="0.25"/>
-									<bottomPen lineWidth="0.25"/>
-								</box>
-								<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single">
-									<font size="7"/>
-								</textElement>
-								<textFieldExpression class="java.lang.String"><![CDATA["  " + $F{Name-name}]]></textFieldExpression>
-							</textField>
-						</jr:detailCell>
-					</jr:column>
-					<jr:column width="90">
-						<jr:columnHeader height="15" rowSpan="1">
-							<staticText>
-								<reportElement x="0" y="0" width="90" height="15"/>
-								<box>
-									<topPen lineWidth="0.25"/>
-									<leftPen lineWidth="0.25"/>
-									<bottomPen lineWidth="0.25"/>
-									<rightPen lineWidth="0.25"/>
-								</box>
-								<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
-									<font size="7" isBold="true"/>
-								</textElement>
-								<text><![CDATA[SI/NO]]></text>
-							</staticText>
-						</jr:columnHeader>
-						<jr:detailCell height="13" rowSpan="1">
-							<textField isBlankWhenNull="true">
-								<reportElement positionType="Float" x="0" y="0" width="90" height="13" isPrintWhenDetailOverflows="true"/>
-								<box>
-									<leftPen lineWidth="0.25"/>
-									<bottomPen lineWidth="0.25"/>
-									<rightPen lineWidth="0.25"/>
-								</box>
-								<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single"/>
-							</textField>
-						</jr:detailCell>
-					</jr:column>
-					<jr:column width="90">
-						<jr:columnHeader height="15" rowSpan="1">
-							<staticText>
-								<reportElement x="0" y="0" width="90" height="15"/>
-								<box>
-									<topPen lineWidth="0.25"/>
-									<leftPen lineWidth="0.25"/>
-									<bottomPen lineWidth="0.25"/>
-									<rightPen lineWidth="0.25"/>
-								</box>
-								<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
-									<font size="7" isBold="true"/>
-								</textElement>
-								<text><![CDATA[Resultado]]></text>
-							</staticText>
-						</jr:columnHeader>
-						<jr:detailCell height="13" rowSpan="1">
-							<textField isBlankWhenNull="true">
-								<reportElement positionType="Float" x="0" y="0" width="90" height="13" isPrintWhenDetailOverflows="true"/>
-								<box>
-									<leftPen lineWidth="0.25"/>
-									<bottomPen lineWidth="0.25"/>
-									<rightPen lineWidth="0.25"/>
-								</box>
-								<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single"/>
-							</textField>
-						</jr:detailCell>
-					</jr:column>
-					<jr:column width="90">
-						<jr:columnHeader height="15" rowSpan="1">
-							<staticText>
-								<reportElement x="0" y="0" width="90" height="15"/>
-								<box>
-									<topPen lineWidth="0.25"/>
-									<leftPen lineWidth="0.25"/>
-									<bottomPen lineWidth="0.25"/>
-									<rightPen lineWidth="0.25"/>
-								</box>
-								<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
-									<font size="7" isBold="true"/>
-								</textElement>
-								<text><![CDATA[ Operario]]></text>
-							</staticText>
-						</jr:columnHeader>
-						<jr:detailCell height="13" rowSpan="1">
-							<textField isBlankWhenNull="true">
-								<reportElement positionType="Float" x="0" y="0" width="90" height="13" isPrintWhenDetailOverflows="true"/>
-								<box>
-									<leftPen lineWidth="0.25"/>
-									<bottomPen lineWidth="0.25"/>
-									<rightPen lineWidth="0.25"/>
-								</box>
-								<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single">
 									<font size="7"/>
 								</textElement>
 							</textField>
