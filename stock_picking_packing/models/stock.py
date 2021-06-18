@@ -194,7 +194,8 @@ class StockPicking(models.Model):
                 if auto in ('pallet', 'box'):
                     boxes_pallet = 1
                     if auto == 'pallet':
-                        boxes_pallet = line.product_id.pallet_boxes_pallet
+                        pls_ids = line.product_id.product_logistic_sheet_ids
+                        boxes_pallet = pls_ids and pls_ids[0].pallet_boxes_pallet or 1
                     if auto == 'box':
                         boxes_pallet = 1
                     units_pallet = t_uom._compute_qty(

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data noupdate="0">
+    <record model="ir.rule" id="product_technical_sheet_comp_rule">
+        <field name="name">Technical sheet multi-company</field>
+        <field name="model_id" ref="model_product_technical_sheet"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
+    </record>
+    <record model="ir.rule" id="product_logistic_sheet_comp_rule">
+        <field name="name">Logisitc sheet multi-company</field>
+        <field name="model_id" ref="model_product_logistic_sheet"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
+    </record>
+</data>
+</openerp>

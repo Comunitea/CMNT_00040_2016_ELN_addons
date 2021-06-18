@@ -132,10 +132,10 @@ export class ConsumeModalPage {
     }
 
     convert_bobbin(qty_to_convert: number) {
-        var model = 'product.product'
-        var domain = [['id', '=', this.line.product_id]]
+        var model = 'product.logistic.sheet'
+        var domain = [['product_id', '=', this.line.product_id]]
         var fields = ['id', 'name', 'unit_gross_weight', 'unit_net_weight']
-        this.odooCon.searchRead(model, domain, fields).then((res) => {
+        this.odooCon.searchRead(model, domain, fields, 0, 1, 'sequence').then((res) => {
             var bobbin_weight = res[0].unit_net_weight;
             var core_weight = res[0].unit_gross_weight - bobbin_weight;
             var net_qty_to_convert = 1000 * qty_to_convert - core_weight

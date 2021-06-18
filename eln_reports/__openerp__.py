@@ -38,6 +38,7 @@
         'eln_production',
         'product_expiry',
         'eln_sale',
+        'product_data_sheet',
     ],
     'init_xml': [],
     'data': [
@@ -46,8 +47,8 @@
         'report/planning_report/planning_report_webkit_header.xml',
         'wizard/planning_report_wizard_view.xml',
         'wizard/purchase_order_report_wizard_view.xml',
-        'wizard/product_datasheet_report_wizard_view.xml',
-        'wizard/product_logistics_sheet_report_wizard_view.xml',
+        'wizard/product_technical_sheet_report_wizard_view.xml',
+        'wizard/product_logistic_sheet_report_wizard_view.xml',
         'views/eln_reports.xml',
         'views/layouts_custom.xml',
         'views/valued_picking_report_custom.xml',

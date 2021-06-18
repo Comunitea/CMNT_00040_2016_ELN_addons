@@ -18,7 +18,33 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-import purchase_order_report_wizard
-import product_technical_sheet_report_wizard
-import product_logistic_sheet_report_wizard
-import planning_report_wizard
+from openerp import models, fields, api
+
+
+def _lang_get(self):
+    obj = self.env['res.lang']
+    langs = obj.search([('translatable', '=', True)])
+    res = [(lang.code, lang.name) for lang in langs]
+    return res
+
+
+class ProductLogisticSheetReportWizard(models.TransientModel):
+    _name = "product.logistic.sheet.report.wizard"
+
+    language = fields.Selection(_lang_get, 'Language',
+        default='es_ES', required=True)
+
+    @api.multi
+    def print_report(self):
+        self.ensure_one()
+        data = self.read()[0]
+        datas = {
+            'ids': self._context.get('active_ids', []),
+            'model': 'product.logistic.sheet',
+            'form': data,
+        }
+        return {
+            'type': 'ir.actions.report.xml',
+            'report_name': 'product_logistic_sheet',
+            'datas': datas,
+        }

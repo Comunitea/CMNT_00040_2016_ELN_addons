@@ -1,0 +1,205 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-03-13 13:20+0100\n"
+"PO-Revision-Date: 2015-03-13 15:15+0100\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
+"Language-Team: \n"
+"X-Generator: Poedit 1.7.5\n"
+
+#: /tmp/tmp.aMYbWCwu7m:735 /tmp/tmp.aMYbWCwu7m:951 /tmp/tmp.aMYbWCwu7m:1167
+msgid "PRODUCTO"
+msgstr "PRODUCT:"
+
+#: /tmp/tmp.aMYbWCwu7m:739 /tmp/tmp.aMYbWCwu7m:955 /tmp/tmp.aMYbWCwu7m:1171
+msgid "Código DUN14:"
+msgstr "DUN14 code:"
+
+#: /tmp/tmp.aMYbWCwu7m:743 /tmp/tmp.aMYbWCwu7m:959 /tmp/tmp.aMYbWCwu7m:1175
+msgid "Peso:"
+msgstr "Weight:"
+
+#: /tmp/tmp.aMYbWCwu7m:747 /tmp/tmp.aMYbWCwu7m:963 /tmp/tmp.aMYbWCwu7m:1179
+msgid "Código interno:"
+msgstr "Internal code:"
+
+#: /tmp/tmp.aMYbWCwu7m:751 /tmp/tmp.aMYbWCwu7m:967 /tmp/tmp.aMYbWCwu7m:1183
+msgid "Designación:"
+msgstr "Description:"
+
+#: /tmp/tmp.aMYbWCwu7m:755 /tmp/tmp.aMYbWCwu7m:971 /tmp/tmp.aMYbWCwu7m:1187
+msgid "Código EAN13:"
+msgstr "EAN13 code:"
+
+#: /tmp/tmp.aMYbWCwu7m:779 /tmp/tmp.aMYbWCwu7m:995 /tmp/tmp.aMYbWCwu7m:1211
+msgid "Marca:"
+msgstr "Brand:"
+
+#: /tmp/tmp.aMYbWCwu7m:787 /tmp/tmp.aMYbWCwu7m:1003 /tmp/tmp.aMYbWCwu7m:1219
+#: /tmp/tmp.aMYbWCwu7m:4392 /tmp/tmp.aMYbWCwu7m:4400 /tmp/tmp.aMYbWCwu7m:4520
+#: /tmp/tmp.aMYbWCwu7m:4528 /tmp/tmp.aMYbWCwu7m:4648 /tmp/tmp.aMYbWCwu7m:4656
+msgid "g"
+msgstr "g"
+
+#: /tmp/tmp.aMYbWCwu7m:791 /tmp/tmp.aMYbWCwu7m:1007 /tmp/tmp.aMYbWCwu7m:1223
+msgid "OBSERVACIONES"
+msgstr "NOTES"
+
+#: /tmp/tmp.aMYbWCwu7m:799 /tmp/tmp.aMYbWCwu7m:1015 /tmp/tmp.aMYbWCwu7m:1231
+msgid "FICHA LOGISTICA"
+msgstr "LOGISTIC SHEET"
+
+#: /tmp/tmp.aMYbWCwu7m:803 /tmp/tmp.aMYbWCwu7m:1019 /tmp/tmp.aMYbWCwu7m:1235
+msgid "Fecha: "
+msgstr "Date: "
+
+#: /tmp/tmp.aMYbWCwu7m:811 /tmp/tmp.aMYbWCwu7m:1027 /tmp/tmp.aMYbWCwu7m:1243
+msgid "Indice: OR"
+msgstr "Index: OR"
+
+#: /tmp/tmp.aMYbWCwu7m:819 /tmp/tmp.aMYbWCwu7m:1035 /tmp/tmp.aMYbWCwu7m:1251
+msgid "Formato: LOG-001/10"
+msgstr "Format: LOG-001/10"
+
+#: /tmp/tmp.aMYbWCwu7m:823 /tmp/tmp.aMYbWCwu7m:1039 /tmp/tmp.aMYbWCwu7m:1255
+msgid "PALET"
+msgstr "PALLET"
+
+#: /tmp/tmp.aMYbWCwu7m:839 /tmp/tmp.aMYbWCwu7m:1055 /tmp/tmp.aMYbWCwu7m:1271
+msgid "CAJA"
+msgstr "BOX"
+
+#: /tmp/tmp.aMYbWCwu7m:855 /tmp/tmp.aMYbWCwu7m:1071 /tmp/tmp.aMYbWCwu7m:1287
+msgid "UNIDAD"
+msgstr "UNIT"
+
+#: /tmp/tmp.aMYbWCwu7m:871 /tmp/tmp.aMYbWCwu7m:1087 /tmp/tmp.aMYbWCwu7m:1303
+msgid "Disposición de las cajas de base"
+msgstr "Palet layer arrangement:"
+
+#: /tmp/tmp.aMYbWCwu7m:883 /tmp/tmp.aMYbWCwu7m:1099 /tmp/tmp.aMYbWCwu7m:1315
+msgid "Paletización"
+msgstr "Palletizing"
+
+#: /tmp/tmp.aMYbWCwu7m:2058 /tmp/tmp.aMYbWCwu7m:2238 /tmp/tmp.aMYbWCwu7m:2418
+msgid "Ancho total:"
+msgstr "Total width:"
+
+#: /tmp/tmp.aMYbWCwu7m:2062 /tmp/tmp.aMYbWCwu7m:2242 /tmp/tmp.aMYbWCwu7m:2422
+msgid "Cajas de base:"
+msgstr "Boxes per layer:"
+
+#: /tmp/tmp.aMYbWCwu7m:2066 /tmp/tmp.aMYbWCwu7m:2246 /tmp/tmp.aMYbWCwu7m:2426
+msgid "Tipo palet:"
+msgstr "Pallet type:"
+
+#: /tmp/tmp.aMYbWCwu7m:2070 /tmp/tmp.aMYbWCwu7m:2250 /tmp/tmp.aMYbWCwu7m:2430
+msgid "Alto total:"
+msgstr "Total height:"
+
+#: /tmp/tmp.aMYbWCwu7m:2074 /tmp/tmp.aMYbWCwu7m:2254 /tmp/tmp.aMYbWCwu7m:2434
+msgid "Largo total:"
+msgstr "Total length:"
+
+#: /tmp/tmp.aMYbWCwu7m:2078 /tmp/tmp.aMYbWCwu7m:2258 /tmp/tmp.aMYbWCwu7m:2438
+msgid "Cajas por palet:"
+msgstr "Boxes per pallet:"
+
+#: /tmp/tmp.aMYbWCwu7m:2082 /tmp/tmp.aMYbWCwu7m:2262 /tmp/tmp.aMYbWCwu7m:2442
+msgid "Tipo caja: "
+msgstr "Box type:"
+
+#: /tmp/tmp.aMYbWCwu7m:2090 /tmp/tmp.aMYbWCwu7m:2270 /tmp/tmp.aMYbWCwu7m:2450
+msgid "Alturas:"
+msgstr "Layers:"
+
+#: /tmp/tmp.aMYbWCwu7m:2098 /tmp/tmp.aMYbWCwu7m:2278 /tmp/tmp.aMYbWCwu7m:2458
+msgid "Peso bruto por palet:"
+msgstr "Gross weight per pallet:"
+
+#: /tmp/tmp.aMYbWCwu7m:2130 /tmp/tmp.aMYbWCwu7m:2134 /tmp/tmp.aMYbWCwu7m:2138
+#: /tmp/tmp.aMYbWCwu7m:2310 /tmp/tmp.aMYbWCwu7m:2314 /tmp/tmp.aMYbWCwu7m:2318
+#: /tmp/tmp.aMYbWCwu7m:2490 /tmp/tmp.aMYbWCwu7m:2494 /tmp/tmp.aMYbWCwu7m:2498
+msgid "cajas"
+msgstr "boxes"
+
+#: /tmp/tmp.aMYbWCwu7m:2142 /tmp/tmp.aMYbWCwu7m:2146 /tmp/tmp.aMYbWCwu7m:2150
+#: /tmp/tmp.aMYbWCwu7m:2322 /tmp/tmp.aMYbWCwu7m:2326 /tmp/tmp.aMYbWCwu7m:2330
+#: /tmp/tmp.aMYbWCwu7m:2502 /tmp/tmp.aMYbWCwu7m:2506 /tmp/tmp.aMYbWCwu7m:2510
+#: /tmp/tmp.aMYbWCwu7m:3323 /tmp/tmp.aMYbWCwu7m:3327 /tmp/tmp.aMYbWCwu7m:3335
+#: /tmp/tmp.aMYbWCwu7m:3463 /tmp/tmp.aMYbWCwu7m:3467 /tmp/tmp.aMYbWCwu7m:3475
+#: /tmp/tmp.aMYbWCwu7m:3603 /tmp/tmp.aMYbWCwu7m:3607 /tmp/tmp.aMYbWCwu7m:3615
+#: /tmp/tmp.aMYbWCwu7m:4404 /tmp/tmp.aMYbWCwu7m:4408 /tmp/tmp.aMYbWCwu7m:4412
+#: /tmp/tmp.aMYbWCwu7m:4532 /tmp/tmp.aMYbWCwu7m:4536 /tmp/tmp.aMYbWCwu7m:4540
+#: /tmp/tmp.aMYbWCwu7m:4660 /tmp/tmp.aMYbWCwu7m:4664 /tmp/tmp.aMYbWCwu7m:4668
+msgid "mm"
+msgstr "mm"
+
+#: /tmp/tmp.aMYbWCwu7m:2154 /tmp/tmp.aMYbWCwu7m:2158 /tmp/tmp.aMYbWCwu7m:2334
+#: /tmp/tmp.aMYbWCwu7m:2338 /tmp/tmp.aMYbWCwu7m:2514 /tmp/tmp.aMYbWCwu7m:2518
+#: /tmp/tmp.aMYbWCwu7m:3311 /tmp/tmp.aMYbWCwu7m:3319 /tmp/tmp.aMYbWCwu7m:3451
+#: /tmp/tmp.aMYbWCwu7m:3459 /tmp/tmp.aMYbWCwu7m:3591 /tmp/tmp.aMYbWCwu7m:3599
+msgid "kg"
+msgstr "kg"
+
+#: /tmp/tmp.aMYbWCwu7m:2162 /tmp/tmp.aMYbWCwu7m:2342 /tmp/tmp.aMYbWCwu7m:2522
+msgid "Peso neto por palet:"
+msgstr "Net weight per pallet:"
+
+#: /tmp/tmp.aMYbWCwu7m:3263 /tmp/tmp.aMYbWCwu7m:3403 /tmp/tmp.aMYbWCwu7m:3543
+msgid "Ancho Caja:"
+msgstr "Box width:"
+
+#: /tmp/tmp.aMYbWCwu7m:3267 /tmp/tmp.aMYbWCwu7m:3407 /tmp/tmp.aMYbWCwu7m:3547
+msgid "Alto Caja:"
+msgstr "Box height:"
+
+#: /tmp/tmp.aMYbWCwu7m:3271 /tmp/tmp.aMYbWCwu7m:3411 /tmp/tmp.aMYbWCwu7m:3551
+msgid "Largo Caja:"
+msgstr "Box length:"
+
+#: /tmp/tmp.aMYbWCwu7m:3279 /tmp/tmp.aMYbWCwu7m:3419 /tmp/tmp.aMYbWCwu7m:3559
+msgid "Unidades por caja:"
+msgstr "Units per box:"
+
+#: /tmp/tmp.aMYbWCwu7m:3283 /tmp/tmp.aMYbWCwu7m:3423 /tmp/tmp.aMYbWCwu7m:3563
+msgid "Peso bruto por caja:"
+msgstr "Gross weight per box:"
+
+#: /tmp/tmp.aMYbWCwu7m:3287 /tmp/tmp.aMYbWCwu7m:3427 /tmp/tmp.aMYbWCwu7m:3567
+msgid "Peso neto por caja:"
+msgstr "Net weight per box:"
+
+#: /tmp/tmp.aMYbWCwu7m:3331 /tmp/tmp.aMYbWCwu7m:3471 /tmp/tmp.aMYbWCwu7m:3611
+msgid "uds"
+msgstr "pce"
+
+#: /tmp/tmp.aMYbWCwu7m:4352 /tmp/tmp.aMYbWCwu7m:4480 /tmp/tmp.aMYbWCwu7m:4608
+msgid "Ancho Unidad:"
+msgstr "Unit width:"
+
+#: /tmp/tmp.aMYbWCwu7m:4356 /tmp/tmp.aMYbWCwu7m:4484 /tmp/tmp.aMYbWCwu7m:4612
+msgid "Alto Unidad:"
+msgstr "Unit height:"
+
+#: /tmp/tmp.aMYbWCwu7m:4360 /tmp/tmp.aMYbWCwu7m:4488 /tmp/tmp.aMYbWCwu7m:4616
+msgid "Largo Unidad:"
+msgstr "Unit length:"
+
+#: /tmp/tmp.aMYbWCwu7m:4368 /tmp/tmp.aMYbWCwu7m:4496 /tmp/tmp.aMYbWCwu7m:4624
+msgid "Peso bruto unidad:"
+msgstr "Unit gross weight:"
+
+#: /tmp/tmp.aMYbWCwu7m:4372 /tmp/tmp.aMYbWCwu7m:4500 /tmp/tmp.aMYbWCwu7m:4628
+msgid "Peso neto unidad:"
+msgstr "Unit net weight:"

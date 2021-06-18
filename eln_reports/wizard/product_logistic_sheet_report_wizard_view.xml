@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+         
+        <record id="product_logistic_sheet_report_wizard_view" model="ir.ui.view">
+            <field name="name">Print product logistic sheet</field>
+            <field name="model">product.logistic.sheet.report.wizard</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+	            <form string="Print product logistic sheet">
+                    <group>
+                        <field name="language"/>
+                    </group>
+                    <footer>
+                        <button icon="gtk-cancel" special="cancel" string="Cancel"/>
+                        <button icon="gtk-print" name="print_report" string="Print" type="object" default_focus="1" />
+                    </footer>
+	            </form>
+            </field>
+        </record>
+
+		<act_window name="Print product logistic sheet"
+            res_model="product.logistic.sheet.report.wizard"
+            src_model="product.logistic.sheet"
+            view_mode="form"
+            target="new"
+            key2="client_action_multi"
+            id="action_product_logistic_sheet_report_wizard"/>
+
+        <record id="product_logistic_sheet_form_view" model="ir.ui.view">
+            <field name="name">product.logistic.sheet.form.view</field>
+            <field name="model">product.logistic.sheet</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="product_data_sheet.product_logistic_sheet_form_view"/>
+            <field name="arch" type="xml">
+                <header position="inside">
+                    <button name="%(action_product_logistic_sheet_report_wizard)d" type='action' string='Print' icon="gtk-print" class="oe_highlight"/>
+                </header>
+            </field>
+        </record>
+
+        <record id="product_logistic_sheet_tree_view" model="ir.ui.view">
+            <field name="name">product.logistic.sheet.tree.view</field>
+            <field name="model">product.logistic.sheet</field>
+            <field name="type">tree</field>
+            <field name="inherit_id" ref="product_data_sheet.product_logistic_sheet_tree_view"/>
+            <field name="arch" type="xml">
+                <field name="product_id" position="after">
+                    <button name="%(action_product_logistic_sheet_report_wizard)d" type='action' string='Print' icon="gtk-print"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>

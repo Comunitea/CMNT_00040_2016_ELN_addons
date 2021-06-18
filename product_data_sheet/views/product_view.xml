@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+    <data>
+
+        <record id="product_normal_form_view" model="ir.ui.view">
+            <field name="name">product.normal.form.view</field>
+            <field name="model">product.product</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="arch" type="xml">
+                <page string="Inventory" position="after">
+                    <page string="Technical and Logistic Sheet">
+                        <group col="4">
+                            <group string="Technical sheets" colspan="2">
+                                <field name="product_technical_sheet_ids" nolabel="1"/>
+                            </group>
+                            <group string="Logistic sheets" colspan="2">
+                                <field name="product_logistic_sheet_ids" nolabel="1"/>
+                            </group>
+                        </group>
+                    </page>
+                </page>
+            </field>
+        </record>
+
+    </data>
+</openerp>

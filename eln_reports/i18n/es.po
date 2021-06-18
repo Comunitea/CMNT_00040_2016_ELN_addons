@@ -6,24 +6,74 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-02-26 10:22+0000\n"
-"PO-Revision-Date: 2021-02-26 11:27+0100\n"
+"POT-Creation-Date: 2021-06-16 12:41+0000\n"
+"PO-Revision-Date: 2021-06-16 14:54+0200\n"
 "Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: \n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Language: es\n"
 "X-Generator: Poedit 2.4.2\n"
 
 #. module: eln_reports
+#: field:res.users,supplier_invoice_count:0
+msgid "# Supplier Invoices"
+msgstr "Nº facturas proveedor"
+
+#. module: eln_reports
+#: field:res.users,purchase_order_count:0
+msgid "# of Purchase Order"
+msgstr "Nº de pedido de compra"
+
+#. module: eln_reports
+#: field:res.users,sale_order_count:0
+msgid "# of Sales Order"
+msgstr "Nº de pedido de venta"
+
+#. module: eln_reports
+#: field:res.users,property_account_payable:0
+msgid "Account Payable"
+msgstr "Cuenta a pagar"
+
+#. module: eln_reports
+#: field:res.users,property_account_receivable:0
+msgid "Account Receivable"
+msgstr "Cuenta a cobrar"
+
+#. module: eln_reports
+#: field:res.users,commission_ids:0
+msgid "Agents"
+msgstr "Agentes"
+
+#. module: eln_reports
+#: field:res.users,atypical:0
+msgid "Atypical"
+msgstr "Atípico"
+
+#. module: eln_reports
+#: field:res.users,supplier_cip:0
+msgid "CIP"
+msgstr "CIP"
+
+#. module: eln_reports
 #: view:planning.report.wizard:eln_reports.planning_report_wizard_view
-#: view:product.datasheet.report.wizard:eln_reports.product_datasheet_report_wizard_view
-#: view:product.logistics.sheet.report.wizard:eln_reports.product_logistics_sheet_report_wizard_view
+#: view:product.logistic.sheet.report.wizard:eln_reports.product_logistic_sheet_report_wizard_view
+#: view:product.technical.sheet.report.wizard:eln_reports.product_technical_sheet_report_wizard_view
 #: view:purchase.order.report.wizard:eln_reports.purchase_order_report_wizard_view
 msgid "Cancel"
 msgstr "Cancelar"
+
+#. module: eln_reports
+#: help:res.users,vat_subjected:0
+msgid "Check this box if the partner is subjected to the VAT. It will be used for the VAT legal statement."
+msgstr "Marque esta opción si la empresa está sujeta al IVA. Será utilizado para la declaración legal del IVA."
+
+#. module: eln_reports
+#: help:res.users,agent:0
+msgid "Check this field if the partner is a creditor or an agent."
+msgstr "Marque esta casilla si la empresa es un agente."
 
 #. module: eln_reports
 #: field:purchase.order.line,supplier:0
@@ -36,9 +86,29 @@ msgid "Codigo"
 msgstr "Código"
 
 #. module: eln_reports
+#: field:res.users,commission:0
+msgid "Commission"
+msgstr "Comisión"
+
+#. module: eln_reports
 #: view:website:stock.report_picking
 msgid "Commitment Date"
 msgstr "Fecha compromiso"
+
+#. module: eln_reports
+#: field:res.users,ref_companies:0
+msgid "Companies that refers to partner"
+msgstr "Compañías que se refieren a la empresa"
+
+#. module: eln_reports
+#: field:res.users,shop_ref_ids:0
+msgid "Contact References by Sale Type"
+msgstr "Referencias de contacto por tienda"
+
+#. module: eln_reports
+#: field:res.users,contract_ids:0 field:res.users,contracts_count:0
+msgid "Contracts"
+msgstr "Contratos"
 
 #. module: eln_reports
 #: model:ir.actions.report.xml,name:eln_reports.report_control_part_jasper
@@ -72,24 +142,44 @@ msgstr "Hoja de control tostado"
 
 #. module: eln_reports
 #: field:planning.report.wizard,create_uid:0
-#: field:product.datasheet.report.wizard,create_uid:0
-#: field:product.logistics.sheet.report.wizard,create_uid:0
+#: field:product.logistic.sheet.report.wizard,create_uid:0
+#: field:product.technical.sheet.report.wizard,create_uid:0
 #: field:purchase.order.report.wizard,create_uid:0
 msgid "Created by"
 msgstr "Created by"
 
 #. module: eln_reports
 #: field:planning.report.wizard,create_date:0
-#: field:product.datasheet.report.wizard,create_date:0
-#: field:product.logistics.sheet.report.wizard,create_date:0
+#: field:product.logistic.sheet.report.wizard,create_date:0
+#: field:product.technical.sheet.report.wizard,create_date:0
 #: field:purchase.order.report.wizard,create_date:0
 msgid "Created on"
 msgstr "Created on"
 
 #. module: eln_reports
+#: field:res.users,agent:0
+msgid "Creditor/Agent"
+msgstr "Agente"
+
+#. module: eln_reports
 #: view:website:stock.report_picking
 msgid "Customer Address:"
 msgstr "Dirección de cliente:"
+
+#. module: eln_reports
+#: field:res.users,property_stock_customer:0
+msgid "Customer Location"
+msgstr "Ubicación del cliente"
+
+#. module: eln_reports
+#: field:res.users,customer_payment_mode:0
+msgid "Customer Payment Mode"
+msgstr "Modo de pago de cliente"
+
+#. module: eln_reports
+#: field:res.users,property_payment_term:0
+msgid "Customer Payment Term"
+msgstr "Plazo de pago de cliente"
 
 #. module: eln_reports
 #: model:ir.actions.report.xml,name:eln_reports.invoice_report_jasper
@@ -107,6 +197,11 @@ msgid "Date"
 msgstr "Fecha"
 
 #. module: eln_reports
+#: help:res.users,last_reconciliation_date:0
+msgid "Date on which the partner accounting entries were fully reconciled last time. It differs from the last date where a reconciliation has been made for this partner, as here we depict the fact that nothing more was to be reconciled at this date. This can be achieved in 2 different ways: either the last unreconciled debit/credit entry of this partner was reconciled, either the user pressed the button \"Nothing more to reconcile\" during the manual reconciliation process."
+msgstr "Fecha en la que los apuntes de la empresa fueron completamente conciliados por última vez. Difiere de la última fecha en la que una conciliación fue realizada para esta empresa, ya que aquí se muestra el hecho de que no había nada más a conciliar en esta fecha. Esto se puede alcanzar de dos formas: bien que el último apunte sin conciliar fue conciliado, o que el usuario pulsó el botón \"Nada más a conciliar\" durante el proceso de conciliación manual."
+
+#. module: eln_reports
 #: field:purchase.order.report.wizard,delivery_address:0
 msgid "Delivery Address"
 msgstr "Dirección de envío"
@@ -118,6 +213,7 @@ msgstr "Dirección de envío:"
 
 #. module: eln_reports
 #: field:planning.report.wizard,delivery_route_id:0
+#: field:res.users,delivery_route_id:0
 msgid "Delivery Route"
 msgstr "Ruta de transporte"
 
@@ -128,11 +224,16 @@ msgstr "Descripción"
 
 #. module: eln_reports
 #: field:planning.report.wizard,display_name:0
-#: field:product.datasheet.report.wizard,display_name:0
-#: field:product.logistics.sheet.report.wizard,display_name:0
+#: field:product.logistic.sheet.report.wizard,display_name:0
+#: field:product.technical.sheet.report.wizard,display_name:0
 #: field:purchase.order.report.wizard,display_name:0
 msgid "Display Name"
 msgstr "Nombre mostrado"
+
+#. module: eln_reports
+#: field:res.users,early_payment_discount_ids:0
+msgid "E.P. discounts"
+msgstr "Descuentos P.P."
 
 #. module: eln_reports
 #: code:addons/eln_reports/report/planning_report/planning_report_parser.py:77
@@ -143,13 +244,19 @@ msgid "Error!"
 msgstr "¡Error!"
 
 #. module: eln_reports
+#: field:res.users,property_account_position:0
+msgid "Fiscal Position"
+msgstr "Posición fiscal"
+
+#. module: eln_reports
 #: field:planning.report.wizard,group_by_route:0
 msgid "Group By Delivery Route"
 msgstr "Agrupar por ruta de transporte"
 
 #. module: eln_reports
-#: field:planning.report.wizard,id:0 field:product.datasheet.report.wizard,id:0
-#: field:product.logistics.sheet.report.wizard,id:0
+#: field:planning.report.wizard,id:0
+#: field:product.logistic.sheet.report.wizard,id:0
+#: field:product.technical.sheet.report.wizard,id:0
 #: field:purchase.order.report.wizard,id:0
 msgid "ID"
 msgstr "ID"
@@ -170,9 +277,24 @@ msgid "Include all companies"
 msgstr "Incluir todas las compañías"
 
 #. module: eln_reports
+#: help:res.users,supplier_cip:0
+msgid "Internal supplier code"
+msgstr "Código interno del proveedor"
+
+#. module: eln_reports
 #: model:ir.model,name:eln_reports.model_account_invoice_line
 msgid "Invoice Line"
 msgstr "Línea de factura"
+
+#. module: eln_reports
+#: field:res.users,invoice_ids:0
+msgid "Invoices"
+msgstr "Facturas"
+
+#. module: eln_reports
+#: field:res.users,journal_item_count:0
+msgid "Journal Items"
+msgstr "Apuntes contables"
 
 #. module: eln_reports
 #: model:ir.actions.report.xml,name:eln_reports.barcode_label
@@ -180,35 +302,40 @@ msgid "Label"
 msgstr "Etiqueta"
 
 #. module: eln_reports
-#: field:product.datasheet.report.wizard,language:0
-#: field:product.logistics.sheet.report.wizard,language:0
+#: field:product.logistic.sheet.report.wizard,language:0
+#: field:product.technical.sheet.report.wizard,language:0
 #: field:purchase.order.report.wizard,language:0
 msgid "Language"
 msgstr "Idioma"
 
 #. module: eln_reports
 #: field:planning.report.wizard,__last_update:0
-#: field:product.datasheet.report.wizard,__last_update:0
-#: field:product.logistics.sheet.report.wizard,__last_update:0
+#: field:product.logistic.sheet.report.wizard,__last_update:0
+#: field:product.technical.sheet.report.wizard,__last_update:0
 #: field:purchase.order.report.wizard,__last_update:0
 msgid "Last Modified on"
 msgstr "Last Modified on"
 
 #. module: eln_reports
 #: field:planning.report.wizard,write_uid:0
-#: field:product.datasheet.report.wizard,write_uid:0
-#: field:product.logistics.sheet.report.wizard,write_uid:0
+#: field:product.logistic.sheet.report.wizard,write_uid:0
+#: field:product.technical.sheet.report.wizard,write_uid:0
 #: field:purchase.order.report.wizard,write_uid:0
 msgid "Last Updated by"
 msgstr "Last Updated by"
 
 #. module: eln_reports
 #: field:planning.report.wizard,write_date:0
-#: field:product.datasheet.report.wizard,write_date:0
-#: field:product.logistics.sheet.report.wizard,write_date:0
+#: field:product.logistic.sheet.report.wizard,write_date:0
+#: field:product.technical.sheet.report.wizard,write_date:0
 #: field:purchase.order.report.wizard,write_date:0
 msgid "Last Updated on"
 msgstr "Last Updated on"
+
+#. module: eln_reports
+#: field:res.users,last_reconciliation_date:0
+msgid "Latest Full Reconciliation Date"
+msgstr "Última fecha de conciliación completa"
 
 #. module: eln_reports
 #: view:website:stock.report_picking
@@ -255,6 +382,16 @@ msgid "Page"
 msgstr "Página"
 
 #. module: eln_reports
+#: field:res.users,debit_limit:0
+msgid "Payable Limit"
+msgstr "Límite a pagar"
+
+#. module: eln_reports
+#: field:res.users,shop_payment_ids:0
+msgid "Payment Settings by Sale Type"
+msgstr "Configuraciones de pago por tienda"
+
+#. module: eln_reports
 #: selection:planning.report.wizard,kanban_state:0
 msgid "Pending"
 msgstr "Pendiente"
@@ -285,7 +422,12 @@ msgstr "Planificación"
 #: code:addons/eln_reports/report/planning_report/webkit_parser_header_fix.py:222
 #, python-format
 msgid "Please set a header in company settings."
-msgstr "Por favor, indique la cabecera en la configuración de la compañía"
+msgstr "Por favor, indique la cabecera en la configuración de la compañía."
+
+#. module: eln_reports
+#: field:res.users,product_ids:0
+msgid "Price list"
+msgstr "Tarifa de precios"
 
 #. module: eln_reports
 #: view:website:stock.report_picking
@@ -294,11 +436,19 @@ msgstr "Precio unitario"
 
 #. module: eln_reports
 #: view:planning.report.wizard:eln_reports.planning_report_wizard_view
-#: view:product.datasheet.report.wizard:eln_reports.product_datasheet_report_wizard_view
-#: view:product.logistics.sheet.report.wizard:eln_reports.product_logistics_sheet_report_wizard_view
+#: view:product.logistic.sheet:eln_reports.product_logistic_sheet_form_view
+#: view:product.logistic.sheet.report.wizard:eln_reports.product_logistic_sheet_report_wizard_view
+#: view:product.technical.sheet:eln_reports.product_technical_sheet_form_view
+#: view:product.technical.sheet.report.wizard:eln_reports.product_technical_sheet_report_wizard_view
 #: view:purchase.order.report.wizard:eln_reports.purchase_order_report_wizard_view
 msgid "Print"
 msgstr "Imprimir"
+
+#. module: eln_reports
+#: model:ir.actions.act_window,name:eln_reports.action_product_technical_sheet_report_wizard
+#: view:product.technical.sheet.report.wizard:eln_reports.product_technical_sheet_report_wizard_view
+msgid "Print Product Technical Sheet"
+msgstr "Imprimir ficha técnica de producto"
 
 #. module: eln_reports
 #: model:ir.ui.menu,name:eln_reports.print_planning_routes
@@ -306,15 +456,9 @@ msgid "Print planning"
 msgstr "Imprimir planificación"
 
 #. module: eln_reports
-#: model:ir.actions.act_window,name:eln_reports.action_product_datasheet_report_wizard
-#: view:product.datasheet.report.wizard:eln_reports.product_datasheet_report_wizard_view
-msgid "Print product datasheet"
-msgstr "Imprimir ficha técnica de producto"
-
-#. module: eln_reports
-#: model:ir.actions.act_window,name:eln_reports.action_product_logistics_sheet_report_wizard
-#: view:product.logistics.sheet.report.wizard:eln_reports.product_logistics_sheet_report_wizard_view
-msgid "Print product logistics sheet"
+#: model:ir.actions.act_window,name:eln_reports.action_product_logistic_sheet_report_wizard
+#: view:product.logistic.sheet.report.wizard:eln_reports.product_logistic_sheet_report_wizard_view
+msgid "Print product logistic sheet"
 msgstr "Imprimir ficha logística de producto"
 
 #. module: eln_reports
@@ -334,18 +478,13 @@ msgid "Product"
 msgstr "Producto"
 
 #. module: eln_reports
-#: model:ir.actions.report.xml,name:eln_reports.report_product_logistics_sheet_jasper
-msgid "Product logistics sheet"
+#: model:ir.actions.report.xml,name:eln_reports.report_product_logistic_sheet_jasper
+msgid "Product Logistic Sheet"
 msgstr "Ficha logística de producto"
 
 #. module: eln_reports
-#: model:ir.actions.report.xml,name:eln_reports.report_sheet_products_jasper
-msgid "Product sheet"
-msgstr "Ficha de producto"
-
-#. module: eln_reports
-#: model:ir.actions.report.xml,name:eln_reports.report_product_datasheet_jasper
-msgid "Product technique sheet"
+#: model:ir.actions.report.xml,name:eln_reports.report_product_technical_sheet_jasper
+msgid "Product Technical Sheet"
 msgstr "Ficha técnica de producto"
 
 #. module: eln_reports
@@ -362,6 +501,11 @@ msgstr "Factura proforma"
 #: model:ir.model,name:eln_reports.model_purchase_order_line
 msgid "Purchase Order Line"
 msgstr "Línea pedido de compra"
+
+#. module: eln_reports
+#: field:res.users,property_product_pricelist_purchase:0
+msgid "Purchase Pricelist"
+msgstr "Tarifa de compra"
 
 #. module: eln_reports
 #: model:ir.actions.report.xml,name:eln_reports.report_purchase_order_jasper
@@ -403,6 +547,36 @@ msgstr "Fecha solicitud"
 #, python-format
 msgid "Ruta no encontrada."
 msgstr "Ruta no encontrada."
+
+#. module: eln_reports
+#: field:res.users,property_product_pricelist_indirect_invoicing:0
+msgid "Sale Pricelist (Indirect Invoicing)"
+msgstr "Tarifa de venta (Fact. Indirecta)"
+
+#. module: eln_reports
+#: field:res.users,sale_order_ids:0
+msgid "Sales Order"
+msgstr "Pedido de venta"
+
+#. module: eln_reports
+#: help:res.users,customer_payment_mode:0
+msgid "Select the default payment mode for this customer."
+msgstr "Seleccione el modo de pago por defecto cuando esta empresa actúa como cliente."
+
+#. module: eln_reports
+#: help:res.users,supplier_payment_mode:0
+msgid "Select the default payment mode for this supplier."
+msgstr "Seleccione el modo de pago por defecto cuando esta empresa actúa como proveedor."
+
+#. module: eln_reports
+#: field:res.users,settlement:0
+msgid "Settlement period"
+msgstr "Período de liquidación"
+
+#. module: eln_reports
+#: field:res.users,settlements:0
+msgid "Settlements"
+msgstr "Liquidaciones"
 
 #. module: eln_reports
 #: view:mrp.workcenter:eln_reports.mrp_workcenter_view
@@ -455,6 +629,21 @@ msgid "Supplier Address:"
 msgstr "Dirección del proveedor:"
 
 #. module: eln_reports
+#: field:res.users,property_stock_supplier:0
+msgid "Supplier Location"
+msgstr "Ubicación del proveedor"
+
+#. module: eln_reports
+#: field:res.users,supplier_payment_mode:0
+msgid "Supplier Payment Mode"
+msgstr "Modo de pago de proveedor"
+
+#. module: eln_reports
+#: field:res.users,property_supplier_payment_term:0
+msgid "Supplier Payment Term"
+msgstr "Plazo de pago del proveedor"
+
+#. module: eln_reports
 #: view:website:report.external_layout_header
 msgid "TIN:"
 msgstr "NIF:"
@@ -471,10 +660,60 @@ msgid "The command 'wkhtmltopdf' failed with                                  er
 msgstr "El comando 'wkhtmltopdf' ha fallado con el siguiente código de error = %s. Mensaje: %s"
 
 #. module: eln_reports
+#: help:res.users,property_account_position:0
+msgid "The fiscal position will determine taxes and accounts used for the partner."
+msgstr "La posición fiscal determinará los impuestos y cuentas usados por la empresa."
+
+#. module: eln_reports
 #: code:addons/eln_reports/report/planning_report/webkit_parser_header_fix.py:162
 #, python-format
 msgid "The following diagnosis message was provided:\n"
 msgstr "Se ha obtenido el siguiente mensaje de diagnóstico:\n"
+
+#. module: eln_reports
+#: help:res.users,property_account_payable:0
+msgid "This account will be used instead of the default one as the payable account for the current partner"
+msgstr "Este cuenta se utilizará en lugar de la cuenta por defecto como la cuenta a pagar para la empresa actual."
+
+#. module: eln_reports
+#: help:res.users,property_account_receivable:0
+msgid "This account will be used instead of the default one as the receivable account for the current partner"
+msgstr "Esta cuenta se utilizará en lugar de la cuenta por defecto como la cuenta a cobrar para la empresa actual."
+
+#. module: eln_reports
+#: help:res.users,commission:0
+msgid "This is the default commission used in the sales where this agent is assigned. It can be changed on each operation if needed."
+msgstr "Ésta es la comisión por defecto usada cuando se asigna un agente. Puede ser cambiada en cada operación si es necesario."
+
+#. module: eln_reports
+#: help:res.users,property_supplier_payment_term:0
+msgid "This payment term will be used instead of the default one for purchase orders and supplier invoices"
+msgstr "Se usará este plazo de pago en lugar del predeterminado para los pedidos de compra y las facturas de proveedor"
+
+#. module: eln_reports
+#: help:res.users,property_payment_term:0
+msgid "This payment term will be used instead of the default one for sale orders and customer invoices"
+msgstr "Se usará este plazo de pago en lugar del predeterminado para los pedidos de venta y las facturas de cliente"
+
+#. module: eln_reports
+#: help:res.users,property_product_pricelist_indirect_invoicing:0
+msgid "This pricelist will be used, instead of the default one, for indirect sales invoicing to the current partner"
+msgstr "Esta tarifa de precios se usará, en lugar de la por defecto, para ventas de facturación indirecta al cliente actual"
+
+#. module: eln_reports
+#: help:res.users,property_product_pricelist_purchase:0
+msgid "This pricelist will be used, instead of the default one, for purchases from the current partner"
+msgstr "Esta tarifa será utilizada en lugar de la por defecto para las compras de la empresa actual"
+
+#. module: eln_reports
+#: help:res.users,property_stock_customer:0
+msgid "This stock location will be used, instead of the default one, as the destination location for goods you send to this partner"
+msgstr "Se utilizará esta ubicación de existencias, en lugar de la ubicación por defecto, como la ubicación de destino para enviar mercancías a esta empresa"
+
+#. module: eln_reports
+#: help:res.users,property_stock_supplier:0
+msgid "This stock location will be used, instead of the default one, as the source location for goods you receive from the current partner"
+msgstr "Esta ubicación de existencias será utilizada, en lugar de la ubicación por defecto, como la ubicación de origen para recibir mercancías desde esta empresa"
 
 #. module: eln_reports
 #: view:website:stock.report_picking
@@ -482,9 +721,39 @@ msgid "Total"
 msgstr "Total"
 
 #. module: eln_reports
+#: field:res.users,total_invoiced:0
+msgid "Total Invoiced"
+msgstr "Total facturado"
+
+#. module: eln_reports
+#: field:res.users,debit:0
+msgid "Total Payable"
+msgstr "Total a pagar"
+
+#. module: eln_reports
+#: field:res.users,credit:0
+msgid "Total Receivable"
+msgstr "Total a cobrar"
+
+#. module: eln_reports
 #: view:website:stock.report_picking
 msgid "Total Without Taxes"
 msgstr "Base imponible"
+
+#. module: eln_reports
+#: help:res.users,credit:0
+msgid "Total amount this customer owes you."
+msgstr "Importe total que este cliente le debe."
+
+#. module: eln_reports
+#: help:res.users,debit:0
+msgid "Total amount you have to pay to this supplier."
+msgstr "Importe total que debe pagar a este proveedor."
+
+#. module: eln_reports
+#: field:res.users,agent_type:0
+msgid "Type"
+msgstr "Tipo"
 
 #. module: eln_reports
 #: report:addons/eln_reports/report/planning_report/planning_report_webkit.mako:31
@@ -502,6 +771,11 @@ msgstr "UdV"
 #: model:ir.model,name:eln_reports.model_res_users field:res.users,users:0
 msgid "Users"
 msgstr "Usuarios"
+
+#. module: eln_reports
+#: field:res.users,vat_subjected:0
+msgid "VAT Legal Statement"
+msgstr "Sujeto a IVA"
 
 #. module: eln_reports
 #: view:website:stock.report_picking

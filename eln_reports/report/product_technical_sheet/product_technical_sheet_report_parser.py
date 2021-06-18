@@ -18,7 +18,25 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-import purchase_order_report_wizard
-import product_technical_sheet_report_wizard
-import product_logistic_sheet_report_wizard
-import planning_report_wizard
+from openerp.addons import jasper_reports
+
+
+def parser(cr, uid, ids, data, context):
+    language = data['form']['language']
+    parameters = {}
+    name = 'report.product_technical_sheet'
+    model = 'product.technical.sheet'
+    data_source = 'model'
+    parameters['lang'] = language
+    context['lang'] = language
+    return { 
+        'ids': ids, 
+        'name': name, 
+        'model': model, 
+        'records': [], 
+        'data_source': data_source,
+        'parameters': parameters,
+    }
+
+
+jasper_reports.report_jasper('report.product_technical_sheet', 'product.technical.sheet', parser)

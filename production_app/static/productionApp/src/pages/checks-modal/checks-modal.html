@@ -20,7 +20,8 @@
     <ion-item [hidden]='quality_checks.length>0' color="danger">No hay controles de calidad</ion-item>
     <ion-list>
         <ion-item *ngFor="let qc of quality_checks">
-            <ion-label stacked><span>{{ qc.name }}</span></ion-label>
+            <ion-label stacked>{{ qc.name }}</ion-label>
+            <ion-label stacked *ngIf="qc['note']" class="note">{{ qc.note }}</ion-label>
             <ion-select interface="popover" *ngIf="qc['value_type'] == 'check'" [(ngModel)]="qc['value']">
                 <ion-option value="OK"><span>OK</span></ion-option> 
                 <ion-option value="NO OK"><span>NO OK</span></ion-option> 

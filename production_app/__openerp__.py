@@ -14,7 +14,8 @@
         'eln_production',
         'maintenance',
         'stock_lock_by_lot',
-        'performance_calculation'
+        'performance_calculation',
+        'eln_product',
     ],
     'contributors': [
         "Comunitea ",
@@ -28,7 +29,6 @@
         'views/stop_reason_view.xml',
         'views/scrap_reason_view.xml',
         'views/stock_view.xml',
-        'data/app_data.xml',
         "security/ir.model.access.csv",
     ],
     "demo": [

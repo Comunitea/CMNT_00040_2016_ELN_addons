@@ -20,8 +20,7 @@
 ##############################################################################
 from . import control_part
 from . import stock_picking
-from . import product_datasheet
-from . import product_logistics_sheet
+from . import product_technical_sheet
+from . import product_logistic_sheet
 from . import purchase_order
-from . import sheet_product
 from . import planning_report
