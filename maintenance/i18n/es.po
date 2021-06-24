@@ -42,6 +42,11 @@ msgid "Approved by"
 msgstr "Aprobado por"
 
 #. module: maintenance
+#: field:maintenance.order,approved_date:0
+msgid "Approved date"
+msgstr "Aprobado el"
+
+#. module: maintenance
 #: view:maintenance.order:maintenance.view_maintenance_order_filter
 #: field:maintenance.order,assigned_department_id:0
 msgid "Assigned department"

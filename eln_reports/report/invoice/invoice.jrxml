@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Invoice" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
-	<property name="ireport.zoom" value="4.0"/>
-	<property name="ireport.x" value="1491"/>
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<property name="ireport.layers" value="##Thu Apr 28 01:42:20 CEST 2016\nlayer.1.name=STANDARD\nlayer.1.visible=true\nlayer.1.id=1\nlayer.0.name=Background\nlayer.0.visible=true\nlayer.0.id=0"/>
 	<style name="table" lineSpacing="Single">
@@ -232,7 +232,7 @@
 		<field name="Descripcion-name" class="java.lang.String">
 			<fieldDescription><![CDATA[/data/record/Lineas_de_factura-invoice_line/Descripcion-name]]></fieldDescription>
 		</field>
-		<field name="Unidad_de_medida-name" class="java.lang.String">
+		<field name="Unidad_de_medida-name" class="java.lang.Object">
 			<fieldDescription><![CDATA[/data/record/Lineas_de_factura-invoice_line/Unidad_de_medida-uos_id/Unidad_de_medida-name]]></fieldDescription>
 		</field>
 		<field name="Precio_unidad-price_unit" class="java.lang.Double">
@@ -256,7 +256,7 @@
 		<field name="Ref_pedidos_de_venta_cliente-client_order_refs" class="java.lang.String">
 			<fieldDescription><![CDATA[/data/record/Ref_pedidos_de_venta_cliente-client_order_refs]]></fieldDescription>
 		</field>
-		<field name="Unit_of_Measure-Nombre-name" class="java.lang.String">
+		<field name="Unit_of_Measure-Nombre-name" class="java.lang.Object">
 			<fieldDescription><![CDATA[/data/record/Lineas_de_factura-invoice_line/Producto-product_id/Unit_of_Measure-uom_id/Nombre-name]]></fieldDescription>
 		</field>
 		<field name="client_order_ref" class="java.lang.String">
@@ -504,7 +504,7 @@
 	<field name="CIP-supplier_cip" class="java.lang.String">
 		<fieldDescription><![CDATA[/data/record/CIP-supplier_cip]]></fieldDescription>
 	</field>
-	<variable name="L" class="java.util.Locale">
+	<variable name="L" class="java.util.Locale" resetType="Page">
 		<variableExpression><![CDATA[new Locale($F{Idioma-lang}.split("_")[0],$F{Idioma-lang}.split("_")[1])]]></variableExpression>
 		<initialValueExpression><![CDATA[new Locale($F{Idioma-lang}.split("_")[0],$F{Idioma-lang}.split("_")[1])]]></initialValueExpression>
 	</variable>
@@ -1233,7 +1233,7 @@ $F{Nombre_de_la_compania-name} + " · " + $F{Calle-street-company} + " · " + $F
 								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" lineSpacing="Single" markup="none">
 									<font fontName="SansSerif" size="6" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 								</textElement>
-								<textFieldExpression class="java.lang.String"><![CDATA[$F{Unidad_de_medida-name}]]></textFieldExpression>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{Unidad_de_medida-name}.get($F{Idioma-lang})]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -1280,7 +1280,7 @@ $F{Nombre_de_la_compania-name} + " · " + $F{Calle-street-company} + " · " + $F
 								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" lineSpacing="Single" markup="none">
 									<font fontName="SansSerif" size="6" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 								</textElement>
-								<textFieldExpression class="java.lang.String"><![CDATA[$F{Unit_of_Measure-Nombre-name}]]></textFieldExpression>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{Unit_of_Measure-Nombre-name}.get($F{Idioma-lang})]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
