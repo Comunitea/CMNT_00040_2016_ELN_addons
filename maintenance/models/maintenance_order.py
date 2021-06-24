@@ -88,7 +88,9 @@ class MaintenanceOrder(models.Model):
         states=READONLY_STATES)
     approved_by = fields.Many2one(
         'res.users', 'Approved by',
-        states=READONLY_STATES)
+        readonly=True)
+    approved_date = fields.Datetime('Approved date',
+        readonly=True)
     note = fields.Text('Notes',
         states=READONLY_STATES)
     parent_id = fields.Many2one(
@@ -150,6 +152,8 @@ class MaintenanceOrder(models.Model):
             }
             if not order.approved_by:
                 vals = dict(vals, approved_by=self.env.user.id)
+            if not order.approved_date:
+                vals = dict(vals, approved_date=datetime.today())
             order.write(vals)
         return True
 
@@ -169,7 +173,8 @@ class MaintenanceOrder(models.Model):
             vals = {
                 'state': 'draft',
                 'initial_date': False,
-                'approved_by': False
+                'approved_by': False,
+                'approved_date': False
             }
             order.write(vals)
         return True
