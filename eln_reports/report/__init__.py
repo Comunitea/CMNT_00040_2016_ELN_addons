@@ -24,3 +24,4 @@ from . import product_technical_sheet
 from . import product_logistic_sheet
 from . import purchase_order
 from . import planning_report
+from . import invoice
