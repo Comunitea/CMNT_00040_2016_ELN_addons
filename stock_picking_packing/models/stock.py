@@ -63,18 +63,18 @@ class StockPicking(models.Model):
                     # \xf1 = FNC1 -> Sólo al principio o después de longitud variable si no es al final
                     codes = str('\xf1') + \
                             str('02') + str(pack_dun14) + \
-                            str('37') + '0' * pack_qty_len + str(pack_uos_qty) + str('\xf1') + \
-                            str('10') + str(pack_lot_name)
+                            str('15') + str(pack_date1) + \
+                            str('37') + '0' * pack_qty_len + str(pack_uos_qty)
                     humanReadable1 = '(02)' + str(pack_dun14) + \
-                                    '(37)' + '0' * pack_qty_len + str(pack_uos_qty) + \
-                                    '(10)' + str(pack_lot_name)
-                    pack_gs1_128_l1 = self.get_gs1_128_barcode_image(codes, width=1200, humanReadable=False)
+                                    '(15)' + str(pack_date1) + \
+                                    '(37)' + '0' * pack_qty_len + str(pack_uos_qty)
+                    pack_gs1_128_l1 = self.get_gs1_128_barcode_image(codes, width=2400, humanReadable=False)
                     codes = str('\xf1') + \
                             str('00') + pack_sscc + \
-                            str('15') + str(pack_date1)
+                            str('10') + str(pack_lot_name)
                     humanReadable2 = '(00)' + pack_sscc + \
-                                    '(15)' + str(pack_date1)
-                    pack_gs1_128_l2 = self.get_gs1_128_barcode_image(codes, width=1200, humanReadable=False)
+                                    '(10)' + str(pack_lot_name)
+                    pack_gs1_128_l2 = self.get_gs1_128_barcode_image(codes, width=2400, humanReadable=False)
                     p_dic[picking.id].append({
                         'product_pack': k,
                         'total_pack': len(packing_ids),
