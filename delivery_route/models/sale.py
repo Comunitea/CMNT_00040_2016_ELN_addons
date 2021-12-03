@@ -20,3 +20,8 @@ class SaleOrder(models.Model):
             }
             order.picking_ids.write(vals)
         return res
+
+    @api.multi
+    def action_cancel(self):
+        self.mapped('picking_ids').check_kanban_state()
+        return super(SaleOrder, self).action_cancel()

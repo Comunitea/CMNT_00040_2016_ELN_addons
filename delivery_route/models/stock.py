@@ -2,7 +2,7 @@
 # Copyright 2021 El Nogal - Pedro Gómez <pegomez@elnogal.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp import models, fields, api
+from openerp import models, fields, api, exceptions, _
 from datetime import datetime, timedelta
 from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT
 from dateutil.rrule import rrule
@@ -178,3 +178,26 @@ class StockPicking(models.Model):
             if picking_ids:
                 return self.env['report'].get_action(picking_ids, 'stock.report_picking')
 
+    @api.multi
+    def check_kanban_state(self):
+        pickings = self.filtered(
+            lambda r: (
+                r.picking_type_code == 'outgoing' and
+                r.state not in ('cancel', 'done') and
+                r.kanban_state in ('in_progress', 'done')
+            )
+        )
+        if pickings:
+            raise exceptions.Warning(_("Warning!"),
+                _("You cannot cancel a picking in progress or ready to load. Change it to pending first and notify the staff involved in the order picking process."))
+        return True
+
+    @api.multi
+    def action_cancel(self):
+        self.check_kanban_state()
+        return super(StockPicking, self).action_cancel()
+
+    @api.multi
+    def unlink(self):
+        self.check_kanban_state()
+        return super(StockPicking, self).unlink()
