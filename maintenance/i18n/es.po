@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-18 16:36+0000\n"
-"PO-Revision-Date: 2020-08-18 18:37+0200\n"
+"POT-Creation-Date: 2021-12-03 09:51+0000\n"
+"PO-Revision-Date: 2021-12-03 10:54+0100\n"
 "Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
 "Language: es\n"
-"X-Generator: Poedit 2.3.1\n"
+"X-Generator: Poedit 2.4.2\n"
 
 #. module: maintenance
 #: code:addons/maintenance/wizard/cancel_maintenance_request.py:34
@@ -35,16 +35,6 @@ msgstr "Solicitante"
 #: view:maintenance.order:maintenance.maintenance_order_form_view
 msgid "Approve"
 msgstr "Aprobar"
-
-#. module: maintenance
-#: field:maintenance.order,approved_by:0
-msgid "Approved by"
-msgstr "Aprobado por"
-
-#. module: maintenance
-#: field:maintenance.order,approved_date:0
-msgid "Approved date"
-msgstr "Aprobado el"
 
 #. module: maintenance
 #: view:maintenance.order:maintenance.view_maintenance_order_filter
@@ -245,7 +235,7 @@ msgid "Equipment"
 msgstr "Equipo"
 
 #. module: maintenance
-#: code:addons/maintenance/models/maintenance_order.py:211
+#: code:addons/maintenance/models/maintenance_order.py:216
 #: code:addons/maintenance/models/maintenance_request.py:202
 #: code:addons/maintenance/models/maintenance_request.py:239
 #, python-format
@@ -613,6 +603,16 @@ msgid "Responsible"
 msgstr "Responsable"
 
 #. module: maintenance
+#: field:maintenance.order,approved_date:0
+msgid "Revised and approved date"
+msgstr "Revisada y aprobada aptitud el"
+
+#. module: maintenance
+#: field:maintenance.order,approved_by:0
+msgid "Revised and approved suitability by"
+msgstr "Revisada y aprobada aptitud por"
+
+#. module: maintenance
 #: selection:maintenance.order,stop_type:0
 msgid "Running"
 msgstr "En funcionamiento"
@@ -785,7 +785,7 @@ msgid "You cannot delete a confirmed maintenance request."
 msgstr "No puede eliminar una solicitud de mantenimiento que ya está confirmada."
 
 #. module: maintenance
-#: code:addons/maintenance/models/maintenance_order.py:212
+#: code:addons/maintenance/models/maintenance_order.py:217
 #, python-format
 msgid "You cannot delete a done maintenance order."
 msgstr "No puede eliminar una orden de mantenimiento realizada."

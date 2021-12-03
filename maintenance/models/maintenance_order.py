@@ -87,9 +87,9 @@ class MaintenanceOrder(models.Model):
         select=True,
         states=READONLY_STATES)
     approved_by = fields.Many2one(
-        'res.users', 'Approved by',
+        'res.users', 'Revised and approved suitability by',
         readonly=True)
-    approved_date = fields.Datetime('Approved date',
+    approved_date = fields.Datetime('Revised and approved date',
         readonly=True)
     note = fields.Text('Notes',
         states=READONLY_STATES)

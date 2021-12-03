@@ -16,6 +16,7 @@
                     <field name="weight"/>
                     <field name="packages_uos"/>
                     <field name="loading_date" attrs="{'invisible': [('picking_type_code','!=','outgoing')]}"/>
+                    <field name="kanban_state" attrs="{'invisible': [('picking_type_code','!=','outgoing')]}"/>
                 </field>
             </field>
         </record>

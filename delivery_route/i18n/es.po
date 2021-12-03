@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-02-26 10:16+0000\n"
-"PO-Revision-Date: 2021-02-26 11:19+0100\n"
+"POT-Creation-Date: 2021-12-03 09:24+0000\n"
+"PO-Revision-Date: 2021-12-03 10:34+0100\n"
 "Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -123,10 +123,20 @@ msgid "Delivery route"
 msgstr "Ruta de transporte"
 
 #. module: delivery_route
+#: view:stock.picking:delivery_route.view_picking_planning_kanban_search
+msgid "Direct Invoicing"
+msgstr "Facturación Directa"
+
+#. module: delivery_route
 #: field:delivery.route,display_name:0
 #: field:wiz.default.delivery.route,display_name:0
 msgid "Display Name"
 msgstr "Display Name"
+
+#. module: delivery_route
+#: view:stock.picking:delivery_route.view_picking_planning_kanban_search
+msgid "Done"
+msgstr "Realizado"
 
 #. module: delivery_route
 #: help:delivery.route,interval:0
@@ -173,6 +183,11 @@ msgstr "Si no está planificada, la fecha de carga no se establecerá."
 #: selection:stock.picking,kanban_state:0
 msgid "In progress"
 msgstr "En preparación"
+
+#. module: delivery_route
+#: view:stock.picking:delivery_route.view_picking_planning_kanban_search
+msgid "Indirect Invoicing"
+msgstr "Facturación Indirecta"
 
 #. module: delivery_route
 #: field:delivery.route,initial_date:0
@@ -228,6 +243,11 @@ msgid "Next loading date"
 msgstr "Siguiente fecha de carga"
 
 #. module: delivery_route
+#: view:stock.picking:delivery_route.stock_picking_kanban
+msgid "Notas:"
+msgstr "Notas:"
+
+#. module: delivery_route
 #: field:stock.picking,packages:0
 msgid "Packages"
 msgstr "Paquetes"
@@ -254,13 +274,20 @@ msgstr "Peso:"
 
 #. module: delivery_route
 #: model:ir.model,name:delivery_route.model_stock_picking
+#: view:stock.picking:delivery_route.view_picking_planning_kanban_search
 msgid "Picking List"
 msgstr "Albarán"
 
 #. module: delivery_route
+#: view:stock.picking:delivery_route.stock_picking_kanban_tree
 #: view:stock.picking:delivery_route.view_picking_planning_kanban_search
 msgid "Picking list"
 msgstr "Albarán"
+
+#. module: delivery_route
+#: view:stock.picking:delivery_route.view_picking_planning_kanban_search
+msgid "Pickings already processed"
+msgstr "Albaranes ya procesados"
 
 #. module: delivery_route
 #: field:delivery.route,planned:0
@@ -365,6 +392,11 @@ msgid "Today +3"
 msgstr "Hoy +3"
 
 #. module: delivery_route
+#: view:stock.picking:delivery_route.view_picking_planning_kanban_search
+msgid "Today Done"
+msgstr "Realizados Hoy"
+
+#. module: delivery_route
 #: view:stock.picking:delivery_route.stock_picking_kanban
 msgid "Total bultos"
 msgstr "Total bultos"
@@ -400,6 +432,12 @@ msgid "Waiting Moves"
 msgstr "Movimientos a la espera"
 
 #. module: delivery_route
+#: code:addons/delivery_route/models/stock.py:191
+#, python-format
+msgid "Warning!"
+msgstr "¡Aviso!"
+
+#. module: delivery_route
 #: field:delivery.route,wednesday:0
 msgid "Wednesday"
 msgstr "Miércoles"
@@ -418,6 +456,12 @@ msgstr "Peso"
 #: field:stock.picking,weight_net:0
 msgid "Weigth Net"
 msgstr "Peso neto"
+
+#. module: delivery_route
+#: code:addons/delivery_route/models/stock.py:192
+#, python-format
+msgid "You cannot cancel a picking in progress or ready to load. Change it to pending first and notify the staff involved in the order picking process."
+msgstr "No puede cancelar un albarán en preparación o listo para cargar. Cámbielo primero a pendiente y notifique al personal involucrado en el proceso de preparación de pedidos."
 
 #. module: delivery_route
 #: code:addons/delivery_route/models/delivery_route.py:127
