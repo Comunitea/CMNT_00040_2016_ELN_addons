@@ -15,7 +15,7 @@
 
 <ion-content padding>
     <ion-item>
-        <ion-label color="primary" stacked>Indicar cantidad de producto a realizar ( en {{prodData.uom}} ):</ion-label>
+        <ion-label color="primary" stacked>Indicar cantidad de producto a realizar (en {{prodData.uom}}):</ion-label>
         <ion-input type="number" [(ngModel)]="qty_to_calculate" required clearInput name='qty_to_calculate'></ion-input>
         <button ion-button outline large item-right color="dark" (click)="openCalculatorModal()">
             <ion-icon name="calculator"></ion-icon>
@@ -46,8 +46,8 @@
             </ion-col>
 -->
             <ion-col col-2 text-right>
-                <span class="col-content" *ngIf="line.uom_name != 'g'">{{line.qty * qty_to_calculate / prodData.production_qty | number:'1.2-2':'es'}}</span>
-                <span class="col-content-2" *ngIf="line.uom_name == 'g'">{{line.qty * qty_to_calculate / prodData.production_qty | number:'1.2-2':'es'}}</span>
+                <span class="col-content" *ngIf="line.uom_name != 'g'">{{line.qty * qty_to_calculate / prodData.production_qty | number:'1.3-3':'es'}}</span>
+                <span class="col-content-2" *ngIf="line.uom_name == 'g'">{{line.qty * qty_to_calculate / prodData.production_qty | number:'1.3-3':'es'}}</span>
             </ion-col>
             <ion-col col-2>
                 <span class="col-content" *ngIf="line.uom_name != 'g'">{{line.uom_name}}</span>

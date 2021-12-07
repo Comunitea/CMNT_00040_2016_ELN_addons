@@ -1253,10 +1253,10 @@ class ConsumptionLine(models.Model):
     product_id = fields.Many2one(
         'product.product', 'Product', required=True)
     product_qty = fields.Float('Product Quantity',
-        digits_compute=dp.get_precision('Product Unit of Measure'),
+        digits=dp.get_precision('Product Unit of Measure'),
         required=True)
     qty_to_compare = fields.Float('Quantity to compare',
-        digits_compute=dp.get_precision('Product Unit of Measure'),
+        digits=dp.get_precision('Product Unit of Measure'),
         compute='_get_qty_to_compare')
     product_uom = fields.Many2one(
         'product.uom', 'UoM', required=True)
