@@ -668,7 +668,24 @@ class MrpProduction(models.Model):
             for line in prod_lines:
                 line['production_id'] = production.id
                 prod_line_obj.create(line)
+        # Nos aseguramos de que la trazabilidad hacia arriba de la producción es correcta
+        # Hay casos en los que se eliminan las lineas de consumos y se agragan nuevas,
+        # momento en el que se pierde la traza
+        self.update_production_traceability()
         return res
+
+    @api.multi
+    def update_production_traceability(self):
+        for production in self:
+            for move in production.move_created_ids2.filtered(
+                    lambda r: r.state == 'done'):
+                if move.production_id:  # Is final production move
+                    raw_ids = move.production_id.move_lines
+                    raw_ids |= move.production_id.move_lines2.filtered(
+                        lambda r: r.state != 'cancel' and not r.scrapped)
+                    if raw_ids:
+                        move.write({'parent_ids': [(6, 0, raw_ids.ids)]})
+        return True
 
     @api.multi
     def unlink(self):
