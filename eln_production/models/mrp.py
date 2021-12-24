@@ -683,8 +683,7 @@ class MrpProduction(models.Model):
                     raw_ids = move.production_id.move_lines
                     raw_ids |= move.production_id.move_lines2.filtered(
                         lambda r: r.state != 'cancel' and not r.scrapped)
-                    if raw_ids:
-                        move.write({'parent_ids': [(6, 0, raw_ids.ids)]})
+                    move.write({'parent_ids': [(6, 0, raw_ids.ids)]})
         return True
 
     @api.multi
