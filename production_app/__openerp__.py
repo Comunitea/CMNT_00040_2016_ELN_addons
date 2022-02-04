@@ -29,7 +29,8 @@
         'views/stop_reason_view.xml',
         'views/scrap_reason_view.xml',
         'views/stock_view.xml',
-        "security/ir.model.access.csv",
+        'security/ir.model.access.csv',
+        'security/security.xml',
     ],
     "demo": [
     ],

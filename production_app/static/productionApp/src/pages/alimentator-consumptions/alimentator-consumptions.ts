@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController, AlertController } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
 import { ConsumeModalPage } from '../../pages/consume-modal/consume-modal';
 import { ConsumptionListModalPage } from '../../pages/consumption-list-modal/consumption-list-modal';
 import { ConsumptionsPage } from '../../pages/consumptions/consumptions';
@@ -27,12 +28,16 @@ export class AlimentatorConsumptionsPage {
     sum_finished_products;
     title: string;
     consumptions_note: string;
+    navbarColor: string = 'primary';
 
-    constructor(public navCtrl: NavController, 
+    constructor(public navCtrl: NavController, private storage: Storage,
                 public navParams: NavParams,
                 public alertCtrl: AlertController,
                 public modalCtrl: ModalController,
                 private prodData: ProductionProvider) {
+        this.storage.get('CONEXION').then((con_data) => {
+            this.navbarColor = con_data.company == 'qv' ? 'qv' : 'vq';
+        })
         this.title = this.prodData.workline_name
 	this.consumptions_note = this.prodData.consumptions_note;
     }

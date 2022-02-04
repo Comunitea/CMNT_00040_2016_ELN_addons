@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
 
 /**
  * Generated class for the ConsumptionListModalPage page.
@@ -14,11 +15,16 @@ import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angul
   templateUrl: 'consumption-list-modal.html',
 })
 export class ConsumptionListModalPage {
+    navbarColor: string = 'primary';
     allowed_lines: Object[];
     type: string = 'in';
 
-    constructor(public navCtrl: NavController, public navParams: NavParams,
+    constructor(public navCtrl: NavController, private storage: Storage,
+                public navParams: NavParams,
                 public viewCtrl: ViewController) {
+        this.storage.get('CONEXION').then((con_data) => {
+            this.navbarColor = con_data.company == 'qv' ? 'qv' : 'vq';
+        })
         this.type = this.navParams.get('type');
         this.allowed_lines = this.navParams.get('allowed_lines');
     }

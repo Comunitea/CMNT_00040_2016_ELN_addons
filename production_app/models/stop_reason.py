@@ -21,5 +21,5 @@ class StopReason(models.Model):
     workcenter_ids = fields.Many2many(
         'mrp.workcenter',
         rel='stop_reasons_workcenter_rel',
-        id1="reason_id", id2="workcenter_id"
+        id1='reason_id', id2='workcenter_id'
     )

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
 import { ProductionProvider } from '../../providers/production/production';
 import { CalculatorModalPage } from '../../pages/calculator/calculator';
 import es from '@angular/common/locales/es';
@@ -20,11 +21,15 @@ import { registerLocaleData } from '@angular/common';
 export class ConsumptionsPage {
     allowed_lines: Object[];
     qty_to_calculate;
+    navbarColor: string = 'primary';
     
-    constructor(public navCtrl: NavController,
+    constructor(public navCtrl: NavController, private storage: Storage,
                 public navParams: NavParams,
                 public modalCtrl: ModalController,
                 private prodData: ProductionProvider) {
+        this.storage.get('CONEXION').then((con_data) => {
+            this.navbarColor = con_data.company == 'qv' ? 'qv' : 'vq';
+        })
         registerLocaleData(es);
         this.qty_to_calculate = this.prodData.production_qty;
    }

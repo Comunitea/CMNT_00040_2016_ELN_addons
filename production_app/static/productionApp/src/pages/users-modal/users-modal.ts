@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController, AlertController } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
 import { ProductionProvider } from '../../providers/production/production';
 import { OdooProvider } from '../../providers/odoo/odoo';
 
@@ -16,17 +17,21 @@ import { OdooProvider } from '../../providers/odoo/odoo';
   templateUrl: 'users-modal.html',
 })
 export class UsersModalPage {
-
+    navbarColor: string = 'primary';
     searchQuery: string = '';
     items: Object[];
     items2: Object[] = [];
     mode: string = 'out';
 
-    constructor(public navCtrl: NavController, public navParams: NavParams,
+    constructor(public navCtrl: NavController, private storage: Storage,
+                public navParams: NavParams,
                 public viewCtrl: ViewController,
                 private prodData: ProductionProvider,
                 public alertCtrl: AlertController,
                 private odooCon: OdooProvider) {
+        this.storage.get('CONEXION').then((con_data) => {
+            this.navbarColor = con_data.company == 'qv' ? 'qv' : 'vq';
+        })
         this.initializeItems();
     }
 

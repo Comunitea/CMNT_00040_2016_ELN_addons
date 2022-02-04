@@ -11,13 +11,16 @@ declare var OdooApi: any;
 })
 
 export class HomePage {
-
-    loginData = {password: '', username: ''};
     CONEXION_local = {
         url: 'http://',
         db: '',
         username: '',
         password: '',
+        company: 'qv',
+        username_qv: '',
+        password_qv: '',
+        username_vq: '',
+        password_vq: '',
         mode: 'production',
     };
     CONEXION = {
@@ -25,6 +28,11 @@ export class HomePage {
         db: '',
         username: '',
         password: '',
+        company: 'qv',
+        username_qv: '',
+        password_qv: '',
+        username_vq: '',
+        password_vq: '',
         mode: 'production',
     };
     cargar = false;
@@ -32,7 +40,6 @@ export class HomePage {
 
     constructor(public navCtrl: NavController, public navParams: NavParams, 
                 private storage: Storage, public alertCtrl: AlertController) {
-	
         if (this.navParams.get('login')) {
             this.CONEXION.username = this.navParams.get('login')
         };
@@ -44,6 +51,25 @@ export class HomePage {
             this.cargar = true;
             this.conectarApp(false);
         }
+    }
+
+    set_company() {
+        if (this.CONEXION.company == 'qv') {
+            this.CONEXION.username = this.CONEXION.username_qv;
+            this.CONEXION.password = this.CONEXION.password_qv;
+        } else {
+            this.CONEXION.username = this.CONEXION.username_vq;
+            this.CONEXION.password = this.CONEXION.password_vq;
+	}
+    }
+
+    change_company() {
+        if (this.CONEXION.company == 'qv') {
+            this.CONEXION.company = 'vq';
+        } else {
+            this.CONEXION.company = 'qv';
+	}
+        this.set_company();
     }
 
     check_storage_conexion(borrar) {
@@ -62,6 +88,7 @@ export class HomePage {
                 }
             })
         }
+        this.set_company();
     }
 
     presentAlert(titulo, texto) {
@@ -75,6 +102,7 @@ export class HomePage {
 
     conectarApp(verificar) {
         this.cargar = true;
+        this.set_company();
         if (verificar) {
             this.check_conexion(this.CONEXION)
         } else {

@@ -1,5 +1,6 @@
 import { Component, ViewChildren, QueryList } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, ModalController } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
 import { HomePage } from '../../pages/home/home';
 import { ChecksModalPage } from '../../pages/checks-modal/checks-modal';
 import { CalculatorModalPage } from '../../pages/calculator/calculator';
@@ -22,13 +23,17 @@ import { ConsumptionsPage } from '../../pages/consumptions/consumptions';
 export class ProductionPage {
     show_create_mo: boolean = true;
     hidden_class: string = 'my-hide';
+    navbarColor: string = 'primary';
 
     @ViewChildren(TimerComponent) timer: QueryList<TimerComponent>;
 
-    constructor(public navCtrl: NavController,
+    constructor(public navCtrl: NavController, private storage: Storage,
                 public navParams: NavParams, public alertCtrl: AlertController,
                 public modalCtrl: ModalController,
                 private prodData: ProductionProvider) {
+        this.storage.get('CONEXION').then((con_data) => {
+            this.navbarColor = con_data.company == 'qv' ? 'qv' : 'vq';
+        })
     }
 
     ionViewDidLoad() {

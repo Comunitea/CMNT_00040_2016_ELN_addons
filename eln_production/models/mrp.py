@@ -313,6 +313,10 @@ class MrpProductionWorkcenterLine(models.Model):
     production_state = fields.Selection(PRODUCTION_STATES, 'Production Status',
         related='production_id.state',
         readonly=True)
+    company_id = fields.Many2one(
+        'res.company', 'Company',
+        related='production_id.company_id',
+        readonly=True, store=True)
 
     @api.multi
     def _get_kanban_name(self):

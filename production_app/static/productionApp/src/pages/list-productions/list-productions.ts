@@ -14,6 +14,7 @@ declare var OdooApi: any;
     templateUrl: 'list-productions.html'
 })
 export class ListProductionsPage {
+    navbarColor: string = 'primary';
     worklines = [];
     searchQuery: string = '';
     mode = '';
@@ -26,14 +27,15 @@ export class ListProductionsPage {
         public navParams: NavParams,
         public alertCtrl: AlertController, 
         private prodData: ProductionProvider) {
+        this.storage.get('CONEXION').then((con_data) => {
+            this.mode = con_data.mode;
+            this.navbarColor = con_data.company == 'qv' ? 'qv' : 'vq';
+        })
         this.worklines = [];
         this.workline_name = '';
         this.items = [];
         this.workcenter_id = this.navParams.get('workcenter_id');
         this.workcenter_name = this.navParams.get('workcenter_name');
-        this.storage.get('CONEXION').then((con_data) => {
-            this.mode = con_data.mode
-        })
         // this.getLines();
     }
 

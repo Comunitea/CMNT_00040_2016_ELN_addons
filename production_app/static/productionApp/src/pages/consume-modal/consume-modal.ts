@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController, ModalController, AlertController } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
 import { ProductionProvider } from '../../providers/production/production';
 import { OdooProvider } from '../../providers/odoo/odoo';
 import { CalculatorModalPage } from '../../pages/calculator/calculator';
@@ -17,6 +18,7 @@ import { CalculatorModalPage } from '../../pages/calculator/calculator';
   templateUrl: 'consume-modal.html',
 })
 export class ConsumeModalPage {
+    navbarColor: string = 'primary';
     line;
     lots: Object[];
     items: Object[];
@@ -25,10 +27,15 @@ export class ConsumeModalPage {
 
     mode: string = 'default';
 
-    constructor(public navCtrl: NavController, public navParams: NavParams,
+    constructor(public navCtrl: NavController, private storage: Storage,
+                public navParams: NavParams,
                 public viewCtrl: ViewController, public alertCtrl: AlertController,
                 public modalCtrl: ModalController,
                 private prodData: ProductionProvider, private odooCon: OdooProvider) {
+        this.storage.get('CONEXION').then((con_data) => {
+            this.mode = con_data.mode;
+            this.navbarColor = con_data.company == 'qv' ? 'qv' : 'vq';
+        })
         this.line = this.navParams.get('line');
         this.ctrl = 'do';
         if (this.line.type == 'finished') {

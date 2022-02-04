@@ -1,5 +1,5 @@
 <ion-header>
-    <ion-navbar color="primary">
+    <ion-navbar [color]="navbarColor">
         <ion-title text-center><span class="custom-font-size-t">Lista de producciones - {{ workcenter_name }}</span></ion-title>
         <ion-title text-center [ngSwitch]="mode">
             <span class="custom-font-size-t" *ngSwitchCase="'production'">Modo Producción</span>
