@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="0">
+
+        <record model="ir.rule" id="mrp_production_workcenter_line_rule">
+            <field name="name">mrp_production_workcenter_line multi-company</field>
+            <field name="model_id" search="[('model','=','mrp.production.workcenter.line')]" model="ir.model"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">['|',('company_id','child_of',[user.company_id.id]),('company_id','=',False)]</field>
+        </record>
+
+        <record model="ir.rule" id="mrp_workorder_analysis_rule">
+            <field name="name">mrp_workorder_analysis multi-company</field>
+            <field name="model_id" search="[('model','=','mrp.workorder')]" model="ir.model"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">['|',('company_id','child_of',[user.company_id.id]),('company_id','=',False)]</field>
+        </record>
+    
+    </data>
+</openerp>

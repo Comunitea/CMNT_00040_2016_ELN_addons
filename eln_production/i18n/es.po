@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-17 10:42+0000\n"
-"PO-Revision-Date: 2020-01-17 11:45+0100\n"
+"POT-Creation-Date: 2022-02-04 14:49+0000\n"
+"PO-Revision-Date: 2022-02-04 15:51+0100\n"
 "Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
 "Language: es\n"
-"X-Generator: Poedit 2.2.4\n"
+"X-Generator: Poedit 2.4.2\n"
 
 #. module: eln_production
 #: code:addons/eln_production/models/mrp.py:77
@@ -104,6 +104,12 @@ msgid "Color production"
 msgstr "Color production"
 
 #. module: eln_production
+#: field:mrp.production.workcenter.line,company_id:0
+#: field:mrp.workorder,company_id:0
+msgid "Company"
+msgstr "Compañía"
+
+#. module: eln_production
 #: view:mrp.production:eln_production.mrp_production_form_inherit_10
 msgid "Compute Data"
 msgstr "Calcular datos"
@@ -173,9 +179,9 @@ msgid "Employee"
 msgstr "Empleado"
 
 #. module: eln_production
-#: code:addons/eln_production/models/mrp.py:338
-#: code:addons/eln_production/models/mrp.py:366
-#: code:addons/eln_production/models/mrp.py:679
+#: code:addons/eln_production/models/mrp.py:342
+#: code:addons/eln_production/models/mrp.py:370
+#: code:addons/eln_production/models/mrp.py:701
 #, python-format
 msgid "Error!"
 msgstr "¡Error!"
@@ -332,7 +338,7 @@ msgid "Manufacturing Orders"
 msgstr "Órdenes de producción"
 
 #. module: eln_production
-#: code:addons/eln_production/models/mrp.py:339
+#: code:addons/eln_production/models/mrp.py:343
 #, python-format
 msgid "Manufacturing order cannot be started in state \"%s\"!"
 msgstr "¡La orden de producción no se puede iniciar en estado \"%s\"!"
@@ -407,7 +413,7 @@ msgid "Operators Nº"
 msgstr "Operarios Nº"
 
 #. module: eln_production
-#: code:addons/eln_production/models/mrp.py:519
+#: code:addons/eln_production/models/mrp.py:525
 #, python-format
 msgid "PROD: %s"
 msgstr "PROD: %s"
@@ -846,13 +852,13 @@ msgid "Yesterday"
 msgstr "Ayer"
 
 #. module: eln_production
-#: code:addons/eln_production/models/mrp.py:680
+#: code:addons/eln_production/models/mrp.py:702
 #, python-format
 msgid "You cannot delete a production which is not cancelled."
 msgstr "No se puede eliminar una producción que no esté cancelada."
 
 #. module: eln_production
-#: code:addons/eln_production/models/mrp.py:367
+#: code:addons/eln_production/models/mrp.py:371
 #, python-format
 msgid "You cannot delete a work order which is not in draft or cancelled."
 msgstr "No se puede eliminar una orden de trabajo que no esté en borrador o cancelada."

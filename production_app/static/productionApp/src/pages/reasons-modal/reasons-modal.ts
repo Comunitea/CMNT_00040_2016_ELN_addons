@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController, AlertController } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
 import { ProductionProvider } from '../../providers/production/production';
 
 /**
@@ -16,13 +17,18 @@ import { ProductionProvider } from '../../providers/production/production';
 })
 
 export class ReasonsModalPage {
+    navbarColor: string = 'primary';
     reasons: Object[];
     reason_button_selected: string;
     type;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams,
+    constructor(public navCtrl: NavController, private storage: Storage,
+                public navParams: NavParams,
                 public viewCtrl: ViewController, public alertCtrl: AlertController,
                 private prodData: ProductionProvider) {
+        this.storage.get('CONEXION').then((con_data) => {
+            this.navbarColor = con_data.company == 'qv' ? 'qv' : 'vq';
+        })
         this.reasons = [];
         this.reason_button_selected = 'none';
         this.type = this.navParams.get('type');

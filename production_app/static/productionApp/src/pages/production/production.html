@@ -1,6 +1,6 @@
 <ion-header>
 
-    <ion-navbar color="primary">
+    <ion-navbar [color]="navbarColor">
         <ion-title><span class="custom-font-size-t">Producción</span></ion-title>
         <ion-buttons end>
 		    <ion-badge color="danger" *ngIf="this.prodData.odooCon.pending_calls.length > 0">
@@ -230,6 +230,6 @@
 </ion-content>
 
 <ion-footer>
-    <ion-item text-center color="primary"><span>{{prodData.states[prodData.state]}}</span></ion-item>
+    <ion-item text-center [color]="navbarColor"><span>{{prodData.states[prodData.state]}}</span></ion-item>
 </ion-footer>
 

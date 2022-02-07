@@ -4,38 +4,26 @@
       <ion-row>
         <ion-col width-100>
           <div style="text-align: center">
-            <img style="height: 100px" src="assets/imgs/nogal_background.jpeg" alt="Production APP" />
+            <img *ngIf="CONEXION.company === 'vq';else default" style="heigh" style="height: 100px" src="assets/imgs/norvi_background.jpeg" (click)="change_company()"/>
+            <ng-template #default>
+              <img style="height: 100px" src="assets/imgs/nogal_background.jpeg" (click)="change_company()"/>
+            </ng-template>
           </div>
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col width-100>
-        
-        <ion-list *ngIf="!cargar">
-          <ion-item>
-            <ion-label color="primary" stacked>
+          <ion-list *ngIf="!cargar">
+            <ion-item style="text-align: center">
+              <ion-label color="primary" stacked>
                 <span class="custom-font-size-t">Modo de trabajo</span>
-            </ion-label>
-            <ion-select class="custom-font-size-t" [(ngModel)]="CONEXION.mode" name="mode" value="alimentator" okText="Aceptar" cancelText="Cancelar">
-              <ion-option value="alimentator">Alimentador</ion-option>
-              <ion-option value="production">Producción</ion-option>
-            </ion-select>
-          </ion-item>
-          <ion-item>
-            <ion-label color="primary" stacked>
-              <span class="custom-font-size-t">Usuario</span>
-            </ion-label>
-            <ion-input type="email" [(ngModel)]="CONEXION.username" required name='username' placeholder="Ingresa usuario"></ion-input>
-          </ion-item>
-
-          <ion-item>
-            <ion-label color="primary" stacked>
-              <span class="custom-font-size-t">Contraseña</span>
-            </ion-label>
-            <ion-input type="password" [(ngModel)]="CONEXION.password" required name='password' placeholder="Ingresa contraseña"></ion-input>
-          </ion-item>
-
-        </ion-list>
+              </ion-label>
+              <ion-select class="custom-font-size-t" [(ngModel)]="CONEXION.mode" name="mode" value="alimentator">
+                <ion-option value="alimentator">ALIMENTADOR</ion-option>
+                <ion-option value="production">PRODUCCIÓN</ion-option>
+              </ion-select>
+            </ion-item>
+          </ion-list>
         </ion-col>
       </ion-row>
       <ion-row>
@@ -43,17 +31,16 @@
           <button ion-button full type="submit">
             <span class="custom-font-size">Login</span>
           </button>
-
         </ion-col>
       </ion-row>
       <ion-row>
-          <ion-col width-100>
-            <ion-item>
-                <ion-label class="custom-font-size-t" color="dark">Servidor</ion-label>
-                <ion-toggle [(ngModel)]="login_server" [ngModelOptions] = {standalone:true} ></ion-toggle>
-            </ion-item>     
-          </ion-col>
-        </ion-row>
+        <ion-col width-100>
+          <ion-item>
+            <ion-label class="custom-font-size-t" color="dark">Servidor</ion-label>
+            <ion-toggle [(ngModel)]="login_server" [ngModelOptions] = {standalone:true} ></ion-toggle>
+          </ion-item>     
+        </ion-col>
+      </ion-row>
       <ion-row>
         <ion-col width-100>
           <ion-list *ngIf="!cargar && login_server" >
@@ -69,6 +56,40 @@
               </ion-label>
               <ion-input [(ngModel)]="CONEXION.db" required name='db' placeholder="Ingresa base de datos"></ion-input>
             </ion-item>
+            <ion-item *ngIf="CONEXION.company === 'vq';else default1">
+              <ion-avatar item-end>
+                <img style="width: 64px; height: 64px" src="assets/imgs/norvi_background.jpeg" />
+              </ion-avatar>
+              <ion-label color="primary" stacked>
+                <span class="custom-font-size-t">Usuario</span>
+              </ion-label>
+              <ion-input type="email" [(ngModel)]="CONEXION.username_vq" required name='username_vq' placeholder="Ingresa usuario"></ion-input>
+            </ion-item>
+            <ion-item *ngIf="CONEXION.company === 'vq';else default2">
+              <ion-label color="primary" stacked>
+                <span class="custom-font-size-t">Contraseña</span>
+              </ion-label>
+              <ion-input type="password" [(ngModel)]="CONEXION.password_vq" required name='password_vq' placeholder="Ingresa contraseña"></ion-input>
+            </ion-item>
+            <ng-template #default1>
+              <ion-item>
+                <ion-avatar item-end>
+                  <img style="width: 64px; height: 64px" src="assets/imgs/nogal_background.jpeg" />
+                </ion-avatar>
+                <ion-label color="primary" stacked>
+                  <span class="custom-font-size-t">Usuario</span>
+                </ion-label>
+                <ion-input type="email" [(ngModel)]="CONEXION.username_qv" required name='username_qv' placeholder="Ingresa usuario"></ion-input>
+              </ion-item>
+            </ng-template>
+            <ng-template #default2>
+              <ion-item>
+                <ion-label color="primary" stacked>
+                  <span class="custom-font-size-t">Contraseña</span>
+                </ion-label>
+                <ion-input type="password" [(ngModel)]="CONEXION.password_qv" required name='password_qv' placeholder="Ingresa contraseña"></ion-input>
+              </ion-item>
+            </ng-template>
           </ion-list>
         </ion-col>
       </ion-row>

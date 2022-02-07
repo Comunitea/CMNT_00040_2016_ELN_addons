@@ -250,7 +250,7 @@ export class ProductionProvider {
         }
     }
 
-    loadReasons(reasons, workcenter_id) {
+    loadStopReasons(reasons, workcenter_id) {
         this.technical_reasons = []
         this.organizative_reasons = []
         for (let indx in reasons) {
@@ -267,7 +267,7 @@ export class ProductionProvider {
     getStopReasons(workcenter_id){
         var promise = new Promise( (resolve, reject) => {
             this.odooCon.searchRead('stop.reason', [], ['id', 'name', 'reason_type', 'workcenter_ids']).then((res) => {
-                this.loadReasons(res, workcenter_id)
+                this.loadStopReasons(res, workcenter_id)
                 resolve();
             })
             .catch( (err) => {
@@ -278,14 +278,20 @@ export class ProductionProvider {
         return promise
     }
 
-    getScrapReasons() {
+    loadScrapReasons(reasons, workcenter_id) {
+        this.scrap_reasons = []
+        for (let indx in reasons) {
+            var r = reasons[indx];
+            if (r.workcenter_ids.indexOf(workcenter_id) >= 0){
+                this.scrap_reasons.push(r);
+            }
+        }
+    }
+
+    getScrapReasons(workcenter_id) {
         var promise = new Promise( (resolve, reject) => {
-            this.odooCon.searchRead('scrap.reason', [], ['id', 'name']).then((res) => {
-                this.scrap_reasons = [];
-                for (let indx in res) {
-                    var r = res[indx];
-                    this.scrap_reasons.push(r)
-                }
+            this.odooCon.searchRead('scrap.reason', [], ['id', 'name', 'workcenter_ids']).then((res) => {
+                this.loadScrapReasons(res, workcenter_id);
                 resolve();
             })
             .catch( (err) => {
@@ -335,7 +341,7 @@ export class ProductionProvider {
                     this.getAllowedOperators(reg);
                     this.getConsumptions();
                     this.getLots();           // TODO PUT PROMISE SYNTAX
-                    this.getScrapReasons();
+                    this.getScrapReasons(vals['workcenter_id']);
                     this.getQualityChecks().then((res) => {
                         resolve(res);
                     })

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController, AlertController } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
 import { ProductionProvider } from '../../providers/production/production';
 
 /**
@@ -15,7 +16,7 @@ import { ProductionProvider } from '../../providers/production/production';
   templateUrl: 'scrap-modal.html',
 })
 export class ScrapModalPage {
-
+    navbarColor: string = 'primary';
     qty;
     uos_qty;
     ctrl;
@@ -23,9 +24,13 @@ export class ScrapModalPage {
     reason_name: string;
     reasons: Object[];
 
-    constructor(public navCtrl: NavController, public navParams: NavParams,
+    constructor(public navCtrl: NavController, private storage: Storage,
+              public navParams: NavParams,
               public viewCtrl: ViewController, public alertCtrl: AlertController,
               private prodData: ProductionProvider) {
+        this.storage.get('CONEXION').then((con_data) => {
+            this.navbarColor = con_data.company == 'qv' ? 'qv' : 'vq';
+        })
         this.qty = 0.0;
         this.uos_qty = 0.0;
         this.ctrl = 'do';

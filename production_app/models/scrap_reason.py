@@ -5,13 +5,12 @@
 from openerp import models, fields
 
 
-REASON_TYPES = [
-    ('technical', 'Technical'),
-    ('organizative', 'Organizative')
-]
-
-
 class ScrapReason(models.Model):
     _name = 'scrap.reason'
 
     name = fields.Char('Reason')
+    workcenter_ids = fields.Many2many(
+        'mrp.workcenter',
+        rel='scrap_reasons_workcenter_rel',
+        id1='reason_id', id2='workcenter_id'
+    )

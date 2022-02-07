@@ -69,11 +69,16 @@ class MrpProductionWorkcenterLine(models.Model):
 class MrpWorkcenter(models.Model):
     _inherit = 'mrp.workcenter'
 
-    reason_ids = fields.Many2many(
+    stop_reason_ids = fields.Many2many(
         'stop.reason',
         rel='stop_reasons_workcenter_rel',
-        id1="workcenter_id", id2="reason_id",
+        id1='workcenter_id', id2='reason_id',
         domain=[('reason_type', '=', 'technical')]
+    )
+    scrap_reason_ids = fields.Many2many(
+        'scrap.reason',
+        rel='scrap_reasons_workcenter_rel',
+        id1='workcenter_id', id2='reason_id'
     )
     quality_check_ids = fields.Many2many(
         'product.quality.check',

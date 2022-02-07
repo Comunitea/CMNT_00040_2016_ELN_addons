@@ -65,9 +65,18 @@
                 <field name="process_type"/>
             </field>
             <notebook position="inside">
-                <page string="Technical Reasons">
-                    <group string="Technical Reasons">
-                         <field name="reason_ids" nolabel="1">
+                <page string="Stop Technical Reasons">
+                    <group string="Stop Technical Reasons">
+                         <field name="stop_reason_ids" nolabel="1">
+                            <tree>
+                                <field name="name"/>
+                            </tree>
+                        </field>
+                    </group>
+                </page>
+                <page string="Scrap Reasons">
+                    <group string="Scrap Reasons">
+                         <field name="scrap_reason_ids" nolabel="1">
                             <tree>
                                 <field name="name"/>
                             </tree>

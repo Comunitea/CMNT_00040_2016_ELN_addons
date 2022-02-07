@@ -124,6 +124,10 @@ class ProductionAppRegistry(models.Model):
         states=READONLY_STATES)
     note = fields.Text(string='Production notes')
     consumptions_note = fields.Text(string='Alimentator notes')
+    company_id = fields.Many2one(
+        'res.company', 'Company',
+        related='production_id.company_id',
+        readonly=True, store=True)
     # INDICATORS
     lead_time = fields.Float(related='production_id.lead_time')
     overweight = fields.Float(related='production_id.overweight')

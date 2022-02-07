@@ -17,15 +17,17 @@ export class ListPage {
     searchQuery: string = '';
     mode = '';
     items: Object[];
+    navbarColor: string = 'primary';
 
     constructor(public navCtrl: NavController, private storage: Storage, 
                 public alertCtrl: AlertController, 
                 private prodData: ProductionProvider) {
+        this.storage.get('CONEXION').then((con_data) => {
+            this.mode = con_data.mode;
+            this.navbarColor = con_data.company == 'qv' ? 'qv' : 'vq';
+        })
         this.workcenters = [];
         this.items = [];
-        this.storage.get('CONEXION').then((con_data) => {
-            this.mode = con_data.mode
-        })
         // this.getLines();
     }
 

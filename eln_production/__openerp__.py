@@ -41,6 +41,7 @@
     "init_xml": [],
     "data": [
         'security/ir.model.access.csv',
+        'security/security.xml',
         'data/ir_cron.xml',
         'data/stock_production_lot_seq.xml',
         'wizard/mrp_modify_consumption.xml',

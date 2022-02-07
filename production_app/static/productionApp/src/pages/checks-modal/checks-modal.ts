@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage,  NavParams, ViewController, AlertController} from 'ionic-angular';
+import { Storage } from '@ionic/storage';
 import { ProductionProvider } from '../../providers/production/production';
 import * as $ from 'jquery';
 
@@ -17,12 +18,19 @@ import * as $ from 'jquery';
   templateUrl: 'checks-modal.html',
 })
 export class ChecksModalPage {
+    navbarColor: string = 'primary';
     product_id;
     quality_type;
     quality_checks;
 
-    constructor(public navParams: NavParams, public viewCtrl: ViewController,
-                private prodData: ProductionProvider, public alertCtrl: AlertController) {
+    constructor(private storage: Storage,
+        public navParams: NavParams,
+        public viewCtrl: ViewController,
+        private prodData: ProductionProvider,
+        public alertCtrl: AlertController) {
+        this.storage.get('CONEXION').then((con_data) => {
+            this.navbarColor = con_data.company == 'qv' ? 'qv' : 'vq';
+        })
         this.product_id = this.prodData.product_id
         this.product_id = this.navParams.get('product_id');
         this.quality_type = this.navParams.get('quality_type');

@@ -38,6 +38,8 @@ class MrpWorkorder(models.Model):
         readonly=True)
     date_start = fields.Date('Start Date',
         readonly=True)
+    company_id = fields.Many2one('res.company', 'Company',
+        readonly=True)
 
     def init(self, cr):
         tools.drop_view_if_exists(cr, 'mrp_workorder')
@@ -60,12 +62,13 @@ class MrpWorkorder(models.Model):
                     sum(extract(epoch from wl.date_finished - wl.date_start)/3600)::decimal(16,2) as planified_time,
                     sum(extract(epoch from wl.date_finished - mp.create_date)/3600)::decimal(16,2) as production_lead_time,
                     mp.production_type as production_type,
-                    wl.state as state
+                    wl.state as state,
+                    mp.company_id as company_id
                 from mrp_production_workcenter_line wl
                     left join mrp_workcenter w on (w.id = wl.workcenter_id)
                     left join mrp_production mp on (mp.id = wl.production_id)
                     left join product_product pp on (pp.id = mp.product_id)
                     left join product_template pt on (pt.id = pp.product_tmpl_id)
                 group by
-                    w.costs_hour, mp.product_id, mp.name, wl.state, wl.date_planned, wl.date_start, wl.production_id, wl.workcenter_id, mp.production_type
+                    w.costs_hour, mp.product_id, mp.name, wl.state, wl.date_planned, wl.date_start, wl.production_id, wl.workcenter_id, mp.production_type, mp.company_id
         )""")

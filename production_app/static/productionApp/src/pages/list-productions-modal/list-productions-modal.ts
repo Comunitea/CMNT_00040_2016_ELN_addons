@@ -19,13 +19,15 @@ export class ListProductionsModalPage {
     items: Object[];
     workcenter_name = '';
     mode = '';
+    navbarColor: string = 'primary';
 
     constructor(public navCtrl: NavController, public navParams: NavParams,
                 public viewCtrl: ViewController, private storage: Storage,
 		public alertCtrl: AlertController,
                 private prodData: ProductionProvider) {
         this.storage.get('CONEXION').then((con_data) => {
-            this.mode = con_data.mode
+            this.mode = con_data.mode;
+            this.navbarColor = con_data.company == 'qv' ? 'qv' : 'vq';
         })
 	this.items = this.prodData.worklines;
         this.workcenter_name = this.prodData.workcenter['name'];

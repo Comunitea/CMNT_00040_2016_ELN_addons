@@ -6,7 +6,7 @@
 -->
 <ion-header>
 
-  <ion-navbar color="secondary">
+  <ion-navbar [color]="navbarColor">
     <ion-title *ngIf="mode_step === 'clean'"><span class="custom-font-size-t">Finalizar producción</span></ion-title>
     <ion-title *ngIf="mode_step !== 'clean'"><span class="custom-font-size-t">Empezar producción</span></ion-title>
     <ion-buttons end>

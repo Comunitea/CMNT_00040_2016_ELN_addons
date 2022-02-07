@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController, ModalController, AlertController } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
 import { ProductionProvider } from '../../providers/production/production';
 import { CalculatorModalPage } from '../../pages/calculator/calculator';
 
@@ -10,7 +11,7 @@ import { CalculatorModalPage } from '../../pages/calculator/calculator';
   templateUrl: 'finish-modal.html',
 })
 export class FinishModalPage {
-
+    navbarColor: string = 'primary';
     qty = 0;
     uos_qty = 0;
     lot: string;
@@ -22,10 +23,15 @@ export class FinishModalPage {
     ctrl: string = 'do';
     allow_zero: boolean = false;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams,
+    constructor(public navCtrl: NavController, private storage: Storage,
+                public navParams: NavParams,
                 public viewCtrl: ViewController, public alertCtrl: AlertController,
                 public modalCtrl: ModalController,
                 private prodData: ProductionProvider) {
+        this.storage.get('CONEXION').then((con_data) => {
+            this.mode = con_data.mode;
+            this.navbarColor = con_data.company == 'qv' ? 'qv' : 'vq';
+        })
         this.lots = [];
         this.items = [];
         this.mode_step = this.navParams.get('mode_step');
