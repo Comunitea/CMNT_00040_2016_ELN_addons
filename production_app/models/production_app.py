@@ -293,11 +293,6 @@ class ProductionAppRegistry(models.Model):
 
             allowed_operators = reg.get_allowed_operators()
 
-            use_time = reg.production_id.product_id.use_time
-            use_date = (datetime.now() + timedelta(use_time + 31))
-            use_date = datetime(year=use_date.year, month=use_date.month, day=1)
-            use_date = (use_date - timedelta(days=1)).strftime("%Y-%m-%d")
-
             uom_id = reg.product_id.uom_id
             uos_id = reg.product_id.uos_id
             uos_coeff = reg.product_id.uos_coeff
@@ -307,6 +302,7 @@ class ProductionAppRegistry(models.Model):
             consume_ids2 = reg.line_out_ids.mapped('product_id')
             consume_ids3 = reg.line_scheduled_ids.mapped('product_id')
             consume_ids = list(set(consume_ids1.ids + consume_ids2.ids + consume_ids3.ids))
+
             production_qty = reg.production_id.product_qty
             production_uos_qty = reg.production_id.product_uos_qty
             bom_app_notes = reg.production_id.bom_id.app_notes or ''
@@ -322,7 +318,7 @@ class ProductionAppRegistry(models.Model):
                 process_type = process_type and process_type[0] or False
             res.update(
                 allowed_operators=allowed_operators,
-                product_use_date=use_date,
+                lot_name=reg.lot_id.name,
                 product_ids=product_ids,
                 consume_ids=consume_ids,
                 production_qty=production_qty,
@@ -417,7 +413,7 @@ class ProductionAppRegistry(models.Model):
         sql = """
             select spl.id,
                 spl.name,
-                spl.use_date,
+                greatest(spl.use_date, spl.extended_shelf_life_date) as use_date,
                 sq.product_id,
                 sl.id as location_id,
                 sum(sq.qty) as qty_available
@@ -429,7 +425,7 @@ class ProductionAppRegistry(models.Model):
                 and sq.product_id in %s
             group by spl.id, sq.product_id, sl.id
             having sum(sq.qty) > 0.00
-            order by use_date
+            order by greatest(spl.use_date, spl.extended_shelf_life_date)
         """ % (product_ids)
         self._cr.execute(sql)
         records = self._cr.fetchall()
@@ -449,7 +445,7 @@ class ProductionAppRegistry(models.Model):
         sql = """
             select spl.id,
                 ('V#' || spl.name) as name,
-                spl.use_date,
+                greatest(spl.use_date, spl.extended_shelf_life_date) as use_date,
                 prod.product_id,
                 prod.location_dest_id as location_id,
                 min(prod.product_qty) as qty_available
@@ -461,7 +457,7 @@ class ProductionAppRegistry(models.Model):
                 and prod.state in ('confirmed', 'ready', 'in_production', 'finished')
                 and prod.product_id in %s
             group by spl.id, prod.product_id, prod.location_dest_id
-            order by use_date
+            order by greatest(spl.use_date, spl.extended_shelf_life_date)
         """ % (product_ids)
         self._cr.execute(sql)
         records = self._cr.fetchall()
@@ -478,6 +474,35 @@ class ProductionAppRegistry(models.Model):
             }
             lots.append(vals)
         return lots
+
+    @api.model
+    def get_max_use_date(self, values):
+        registry_id = values.get('registry_id', False)
+        reg = self.get_registry(registry_id=registry_id)
+        max_date = use_date = lot_name = False
+        if reg:
+            if reg.lot_id:
+                use_date = reg.lot_id.use_date
+                use_date = use_date and use_date[:10] or False
+            else:
+                use_time = reg.production_id.product_id.use_time
+                use_date = (datetime.now() + timedelta(use_time + 31))
+                use_date = datetime(year=use_date.year, month=use_date.month, day=1)
+                use_date = (use_date - timedelta(days=1)).strftime("%Y-%m-%d")
+            raw_lots = (reg.line_in_ids + reg.line_out_ids).mapped('lot_id')
+            max_date = min(
+                [max([x.use_date, x.extended_shelf_life_date])
+                for x in raw_lots if x.use_date or x.extended_shelf_life_date]
+                or [False]
+            )
+            max_date = max_date and max_date[:10] or False
+            lot_name = reg.lot_id.name
+        res= {
+            'max_date': max_date,
+            'use_date': use_date,
+            'lot_name': lot_name,
+        }
+        return res
 
     @api.model
     def start_production(self, values):
@@ -995,6 +1020,18 @@ class ProductionAppRegistry(models.Model):
                     move_id.force_assign()
         # Establecemos el registro a estado validado
         self.write({'state': 'validated'})
+        # Comprobamos si el consumo preferente del lote de producto terminado es correcto
+        raw_moves = self.production_id.move_lines2.filtered(
+           lambda r: r.state == 'done' and not r.scrapped)
+        raw_lots = raw_moves.mapped('quant_ids.lot_id')
+        raw_moves = self.production_id.move_lines.filtered(
+           lambda r: r.state != 'draft')
+        raw_lots |= raw_moves.mapped('restrict_lot_id')
+        produced_moves = self.production_id.move_created_ids2.filtered(
+           lambda r: r.state == 'done' and not r.scrapped)
+        produced_lots = produced_moves.mapped('quant_ids.lot_id')
+        produced_lots |= self.lot_id
+        self.production_id.check_produced_lot(raw_lots=raw_lots, produced_lots=produced_lots)
         # ---------------------------------------------------------------------
         # Aprovechamos para comprobar si existen operarios logueados
         # en otros registros de app finalizados o validados y los arreglamos.
@@ -1127,6 +1164,16 @@ class ProductionAppRegistry(models.Model):
                 reg.write(vals)
             res = reg.read()[0]
         return res
+
+    @api.model
+    def register_message(self, values):
+        registry_id = values.get('registry_id', False)
+        reg = self.get_registry(registry_id=registry_id)
+        msg = values.get('message', False)
+        if reg and msg:
+            body = msg
+            reg.message_post(body=body)
+        return True
 
     @api.multi
     def write(self, vals):

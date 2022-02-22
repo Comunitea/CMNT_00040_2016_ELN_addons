@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-02-04 14:49+0000\n"
-"PO-Revision-Date: 2022-02-04 15:51+0100\n"
+"POT-Creation-Date: 2022-02-22 10:12+0000\n"
+"PO-Revision-Date: 2022-02-22 11:22+0100\n"
 "Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,6 +16,16 @@ msgstr ""
 "Plural-Forms: \n"
 "Language: es\n"
 "X-Generator: Poedit 2.4.2\n"
+
+#. module: eln_production
+#: code:addons/eln_production/models/stock.py:53
+#, python-format
+msgid ""
+"\n"
+"To do this automatically, remove the extended shelf life date and the new date will be recalculated."
+msgstr ""
+"\n"
+"Para hacer esto automáticamente, elimine la fecha de vida útil extendida y la nueva fecha se volverá a calcular."
 
 #. module: eln_production
 #: code:addons/eln_production/models/mrp.py:77
@@ -181,7 +191,7 @@ msgstr "Empleado"
 #. module: eln_production
 #: code:addons/eln_production/models/mrp.py:342
 #: code:addons/eln_production/models/mrp.py:370
-#: code:addons/eln_production/models/mrp.py:701
+#: code:addons/eln_production/models/mrp.py:702
 #, python-format
 msgid "Error!"
 msgstr "¡Error!"
@@ -195,6 +205,17 @@ msgstr "Tiempo estimado"
 #: view:mrp.production.workcenter.line:eln_production.mrp_production_workcenter_form_view_inherit
 msgid "Estimation"
 msgstr "Estimación"
+
+#. module: eln_production
+#: field:product.product,extended_shelf_life_time:0
+#: field:product.template,extended_shelf_life_time:0
+msgid "Extended product shelf life time"
+msgstr "Tiempo de vida útil extendida producto"
+
+#. module: eln_production
+#: field:stock.production.lot,extended_shelf_life_date:0
+msgid "Extended shelf life"
+msgstr "Vida útil extendida"
 
 #. module: eln_production
 #: view:mrp.production:eln_production.mrp_production_form_inherit_10
@@ -255,6 +276,12 @@ msgstr "Información general"
 #: field:production.stops,id:0
 msgid "ID"
 msgstr "ID"
+
+#. module: eln_production
+#: code:addons/eln_production/models/stock.py:52
+#, python-format
+msgid "If the best before date is changed, perhaps you should update the extended shelf life date."
+msgstr "Si se cambia la fecha de consumo preferente, quizás deba actualizar la fecha de vida útil extendida."
 
 #. module: eln_production
 #: field:production.stops,in_production:0
@@ -319,6 +346,11 @@ msgstr "Ubicación"
 #: field:mrp.modify.consumption.line,lot_id:0
 msgid "Lot"
 msgstr "Lote"
+
+#. module: eln_production
+#: model:ir.model,name:eln_production.model_stock_production_lot
+msgid "Lot/Serial"
+msgstr "Lote/Nº de serie"
 
 #. module: eln_production
 #: model:ir.model,name:eln_production.model_mrp_production
@@ -507,6 +539,11 @@ msgstr "Fabricar producto"
 #: model:ir.model,name:eln_production.model_mrp_product_produce_line
 msgid "Product Produce Consume lines"
 msgstr "Líneas de consumo de los producto producidos"
+
+#. module: eln_production
+#: model:ir.model,name:eln_production.model_product_template
+msgid "Product Template"
+msgstr "Plantilla de producto"
 
 #. module: eln_production
 #: field:mrp.production.workcenter.line,product_uos:0
@@ -708,6 +745,11 @@ msgid "Theorical Cost"
 msgstr "Coste teórico"
 
 #. module: eln_production
+#: help:stock.production.lot,extended_shelf_life_date:0
+msgid "This is the extended shelf life date."
+msgstr "Esta es la fecha de la vida útil extendida."
+
+#. module: eln_production
 #: view:mrp.production.workcenter.line:eln_production.view_mrp_production_workcenter_line_kanban
 msgid "Tiempo estimado (h)"
 msgstr "Tiempo estimado (h)"
@@ -792,6 +834,12 @@ msgid "Update"
 msgstr "Actualizar"
 
 #. module: eln_production
+#: code:addons/eln_production/models/mrp.py:764
+#, python-format
+msgid "Use date should be checked. The Serial Number/Lot will be locked."
+msgstr "Se debe verificar la fecha de consumo preferente. El número de serie/lote se bloqueará."
+
+#. module: eln_production
 #: view:mrp.production:eln_production.mrp_production_form_inherit_10
 msgid "Validate Production"
 msgstr "Validar producción"
@@ -802,10 +850,17 @@ msgid "Validated"
 msgstr "Validada"
 
 #. module: eln_production
+#: code:addons/eln_production/models/stock.py:55
 #: code:addons/eln_production/models/stock_move_scrap.py:44
 #, python-format
 msgid "Warning!"
 msgstr "¡Advertencia!"
+
+#. module: eln_production
+#: help:product.product,extended_shelf_life_time:0
+#: help:product.template,extended_shelf_life_time:0
+msgid "When a new a Serial Number is issued, this is the number of additional days that the shelf life set by the manufacturer can be extended."
+msgstr "Cuando un nuevo nº de serie se asigna, este es el número de días adicionales que la vida útil fijada por el fabricante puede ser ampliada."
 
 #. module: eln_production
 #: field:mrp.modify.consumption.line,wiz_id:0
@@ -852,7 +907,7 @@ msgid "Yesterday"
 msgstr "Ayer"
 
 #. module: eln_production
-#: code:addons/eln_production/models/mrp.py:702
+#: code:addons/eln_production/models/mrp.py:703
 #, python-format
 msgid "You cannot delete a production which is not cancelled."
 msgstr "No se puede eliminar una producción que no esté cancelada."

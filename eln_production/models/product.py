@@ -47,3 +47,12 @@ class ProductProduct(models.Model):
         """
         for product in self:
             product.real_virtual_available = product.qty_available - product.outgoing_qty         
+
+
+class ProductTemplate(models.Model):
+    _inherit = 'product.template'
+
+    extended_shelf_life_time = fields.Integer('Extended product shelf life time',
+        help='When a new a Serial Number is issued, this is the number of additional days that the shelf life set by the manufacturer can be extended.')
+
+

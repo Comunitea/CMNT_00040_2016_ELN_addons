@@ -61,6 +61,8 @@ export class ProductionProvider {
     lot_name;
     lot_date;
     product_use_date: string;
+    product_max_date: string;
+    product_lot_name: string;
     workline_name: string;
     review_consumptions: boolean = false;
     consumptions_done: boolean = false;
@@ -205,6 +207,24 @@ export class ProductionProvider {
         });
     }
 
+    getMaxUseDate() {
+        var promise = new Promise( (resolve, reject) => {
+            var model = 'production.app.registry'
+            var method = 'get_max_use_date'
+            var values = {'registry_id': this.registry_id}
+            this.odooCon.execute(model, method, values).then((res) => {
+                this.product_max_date = res['max_date'] || '';
+                this.product_use_date = res['use_date'] || '';
+                this.product_lot_name = res['lot_name'] || '';
+                resolve();
+            })
+            .catch( (err) => {
+                console.log("Error en get_max_use_date")
+            });
+        });
+        return promise
+    }
+
     logInOperator(operator_id) {
         this.odooCon.operatorsById[operator_id]['log'] = 'in'
         var index = this.logged_ids.indexOf(operator_id);
@@ -264,7 +284,7 @@ export class ProductionProvider {
         }
     }
 
-    getStopReasons(workcenter_id){
+    getStopReasons(workcenter_id) {
         var promise = new Promise( (resolve, reject) => {
             this.odooCon.searchRead('stop.reason', [], ['id', 'name', 'reason_type', 'workcenter_ids']).then((res) => {
                 this.loadStopReasons(res, workcenter_id)
@@ -341,6 +361,7 @@ export class ProductionProvider {
                     this.getAllowedOperators(reg);
                     this.getConsumptions();
                     this.getLots();           // TODO PUT PROMISE SYNTAX
+                    this.getMaxUseDate();
                     this.getScrapReasons(vals['workcenter_id']);
                     this.getQualityChecks().then((res) => {
                         resolve(res);
@@ -372,7 +393,6 @@ export class ProductionProvider {
         this.state = data.state;
         this.start_checks = [];
         this.freq_checks = [];
-        this.product_use_date = data.product_use_date;
         this.scrap_qty = 0;
         this.production_qty = data.production_qty;
         this.production_uos_qty = data.production_uos_qty;
@@ -393,7 +413,7 @@ export class ProductionProvider {
         this.note = data.note || '';
         this.consumptions_note = data.consumptions_note || '';
         this.process_type = data.process_type || '';
-	this.setup_end = (data.setup_end != false);
+        this.setup_end = (data.setup_end != false);
     }
     
     // Load Quality checks in each type list
@@ -704,13 +724,17 @@ export class ProductionProvider {
 
     editNote() {
         var values = {'note': this.note};
-	console.log (values)
         this.setStepAsync('save_note', values);
     }
 
     editConsumptionsNote() {
         var values = {'consumptions_note': this.consumptions_note};
         this.setStepAsync('save_note', values);
+    }
+
+    registerMessage(msg) {
+        var values = {'message': msg};
+        this.setStepAsync('register_message', values);
     }
 
 }

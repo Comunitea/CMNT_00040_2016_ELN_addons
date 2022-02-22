@@ -27,6 +27,18 @@
             </field>
         </record>
 
+        <record id="view_product_form_expiry" model="ir.ui.view">
+            <field name="name">product.normal.form</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product_expiry.view_product_form_expiry" />
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="use_time" position="after">
+                    <field name="extended_shelf_life_time"/>
+                </field>
+            </field>
+        </record>
+
         <record id="mrp.product_template_action" model="ir.actions.act_window">
             <field name="name">Products</field>
             <field name="type">ir.actions.act_window</field>

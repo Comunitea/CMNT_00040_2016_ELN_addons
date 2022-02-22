@@ -56,6 +56,7 @@ export class ConsumeModalPage {
         const alert = this.alertCtrl.create({
             title: titulo,
             subTitle: texto,
+            enableBackdropDismiss: false,
             buttons: ['Ok']
         });
         alert.present();
@@ -96,6 +97,22 @@ export class ConsumeModalPage {
         if (this.line.lot_required && !this.line.lot_id && (this.line.type == 'in' || this.line.type == 'out')) {
             this.presentAlert("Error", "Es obligatorio indicar el lote")
         } else {
+            var max_date = this.prodData.lotsByProduct[this.line.product_id].filter(
+                lot_id => lot_id.id === this.line.lot_id)[0]['use_date'];
+            var use_date = this.prodData.product_use_date;
+            if (this.line.type == 'in' && use_date && max_date && use_date > max_date) {
+                this.presentAlert("Advertencia", 
+                    "La fecha de caducidad de este componente es:<br>" + 
+                    max_date.replace(/(\d{4})\-(\d{2})\-(\d{2}).*/, '$3-$2-$1') + 
+                    "<br>y no debería ser inferior a:<br>" + 
+                    use_date.replace(/(\d{4})\-(\d{2})\-(\d{2}).*/, '$3-$2-$1') + 
+                    ".<br>¡Proceda a informar al responsable de producción de esta anomalía!");
+                this.prodData.registerMessage(
+                    'Modo: Alimentador. ' + 
+                    'FCP corta en el producto: ' + 
+                    this.line.product_name + ', Lote: ' + this.line.lot_name + 
+                    '.');
+            };
             this.viewCtrl.dismiss(this.line);
         }
     }
@@ -104,6 +121,7 @@ export class ConsumeModalPage {
         let confirm = this.alertCtrl.create({
           title: '¿Eliminar línea?',
           message: '¿Seguro que deseas eliminar la línea seleccionada?',
+          enableBackdropDismiss: false,
           buttons: [
             {
               text: 'No',

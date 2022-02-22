@@ -43,7 +43,8 @@ export class UsersModalPage {
         const alert = this.alertCtrl.create({
             title: titulo,
             subTitle: texto,
-            buttons: ['Ok'],
+            enableBackdropDismiss: false,
+            buttons: ['Ok']
         });
         alert.present();
     }

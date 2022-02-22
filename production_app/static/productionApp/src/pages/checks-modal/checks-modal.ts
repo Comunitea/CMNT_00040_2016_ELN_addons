@@ -57,6 +57,7 @@ export class ChecksModalPage {
         const alert = this.alertCtrl.create({
             title: titulo,
             subTitle: texto,
+            enableBackdropDismiss: false,
             buttons: ['Ok']
         });
         alert.present();

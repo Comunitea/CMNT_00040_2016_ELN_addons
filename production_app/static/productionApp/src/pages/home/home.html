@@ -58,7 +58,7 @@
             </ion-item>
             <ion-item *ngIf="CONEXION.company === 'vq';else default1">
               <ion-avatar item-end>
-                <img style="width: 64px; height: 64px" src="assets/imgs/norvi_background.jpeg" />
+                <img style="width: 64px; height: 64px" src="assets/imgs/norvi_background.jpeg" (click)="change_company()"/>
               </ion-avatar>
               <ion-label color="primary" stacked>
                 <span class="custom-font-size-t">Usuario</span>
@@ -74,7 +74,7 @@
             <ng-template #default1>
               <ion-item>
                 <ion-avatar item-end>
-                  <img style="width: 64px; height: 64px" src="assets/imgs/nogal_background.jpeg" />
+                  <img style="width: 64px; height: 64px" src="assets/imgs/nogal_background.jpeg" (click)="change_company()"/>
                 </ion-avatar>
                 <ion-label color="primary" stacked>
                   <span class="custom-font-size-t">Usuario</span>

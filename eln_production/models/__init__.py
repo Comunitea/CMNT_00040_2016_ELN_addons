@@ -6,5 +6,4 @@ import mrp
 import procurement
 import product
 import stock_move_scrap
-import stock_move
-import stock_warehouse_orderpoint
+import stock
