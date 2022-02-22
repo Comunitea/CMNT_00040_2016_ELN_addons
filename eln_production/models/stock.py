@@ -18,7 +18,51 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp import models, api
+from openerp import models, fields, api, _
+from datetime import timedelta
+import openerp.addons.decimal_precision as dp
+
+
+class StockProductionLot(models.Model):
+    _inherit = 'stock.production.lot'
+
+    extended_shelf_life_date = fields.Datetime('Extended shelf life',
+        help='This is the extended shelf life date.')
+
+    @api.model
+    def create(self, vals):
+        res = super(StockProductionLot, self).create(vals)
+        if not vals.get('extended_shelf_life_date', False):
+            res.update_extended_shelf_life_date()
+        return res
+
+    @api.multi
+    def update_extended_shelf_life_date(self):
+        for lot_id in self:
+            date = False
+            if lot_id.use_date:
+                use_date = fields.Datetime.from_string(lot_id.use_date)
+                duration = lot_id.product_id.extended_shelf_life_time or 0
+                date = use_date + timedelta(days=duration)
+            lot_id.extended_shelf_life_date = date
+
+    @api.onchange('use_date')
+    def onchange_use_date(self):
+        if self._origin:
+            msg = _('If the best before date is changed, perhaps you should update the extended shelf life date.')
+            msg += _('\nTo do this automatically, remove the extended shelf life date and the new date will be recalculated.')
+            warning = {
+                'title': _('Warning!'),
+                'message': msg
+            }
+            return {'warning': warning}
+        else:
+            self.update_extended_shelf_life_date()
+
+    @api.onchange('extended_shelf_life_date')
+    def onchange_extended_shelf_life_date(self):
+        if self._origin and not self.extended_shelf_life_date:
+            self.update_extended_shelf_life_date()
 
 
 class StockMove(models.Model):
@@ -70,3 +114,12 @@ class StockMove(models.Model):
             lambda r: r.procurement_id and r.production_id)
         moves_to_write.write({'procurement_id': False})
         return new_moves
+
+
+class StockWarehouseOrderpoint(models.Model):
+    _inherit = 'stock.warehouse.orderpoint'
+
+    product_security_qty = fields.Float('Security Quantity',
+        digits=dp.get_precision('Product Unit of Measure'), required=True,
+        help="Security stock to determine priority on procurement orders.")
+

@@ -67,6 +67,7 @@ export class ProductionPage {
         let confirm = this.alertCtrl.create({
           title: '¿Salir de la aplicación?',
           message: '¿Seguro que deseas salir de la aplicación?',
+          enableBackdropDismiss: false,
           buttons: [
             {
               text: 'No',
@@ -91,6 +92,7 @@ export class ProductionPage {
             let confirm = this.alertCtrl.create({
               title: 'Confirmar',
               message: msg,
+              enableBackdropDismiss: false,
               buttons: [
                 {
                   text: 'No',
@@ -132,7 +134,8 @@ export class ProductionPage {
         const alert = this.alertCtrl.create({
             title: titulo,
             subTitle: texto,
-            buttons: ['Ok'],
+            enableBackdropDismiss: false,
+            buttons: ['Ok']
         });
         alert.present();
     }

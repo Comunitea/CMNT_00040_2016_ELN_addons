@@ -35,6 +35,7 @@ export class ListPage {
         let confirm = this.alertCtrl.create({
           title: '¿Salir de la aplicación?',
           message: '¿Seguro que deseas salir de la aplicación?',
+          enableBackdropDismiss: false,
           buttons: [
             {
               text: 'No',
@@ -57,6 +58,7 @@ export class ListPage {
         const alert = this.alertCtrl.create({
             title: titulo,
             subTitle: texto,
+            enableBackdropDismiss: false,
             buttons: ['Ok']
         });
         alert.present();

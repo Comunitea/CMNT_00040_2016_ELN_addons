@@ -16,6 +16,7 @@ export class FinishModalPage {
     uos_qty = 0;
     lot: string;
     date: string;
+    max_date: string;
     lots: Object[];
     items: Object[];
     mode: string = 'default';
@@ -35,7 +36,11 @@ export class FinishModalPage {
         this.lots = [];
         this.items = [];
         this.mode_step = this.navParams.get('mode_step');
-        this.date = this.prodData.product_use_date;
+        this.lot = this.prodData.product_lot_name;
+        this.prodData.getMaxUseDate().then(() => {
+            this.date = this.prodData.product_use_date;
+            this.max_date = this.prodData.product_max_date;
+        }).catch(() => {});
         this.ctrl = 'do'
     }
 
@@ -47,9 +52,31 @@ export class FinishModalPage {
         const alert = this.alertCtrl.create({
             title: titulo,
             subTitle: texto,
+            enableBackdropDismiss: false,
             buttons: ['Ok']
         });
         alert.present();
+    }
+
+    confirmationAlert(titulo, texto): Promise<boolean> {
+        let resolveFunction: (confirm: boolean) => void;
+        let promise = new Promise<boolean>(resolve => {
+            resolveFunction = resolve;
+        });
+        let alert = this.alertCtrl.create({
+            title: titulo,
+            subTitle: texto,
+            enableBackdropDismiss: false,
+            buttons: [ {
+                text: 'No',
+                handler: () => resolveFunction(false)
+            }, {
+                text: 'Sí',
+                handler: () => resolveFunction(true)
+            } ]
+        });
+        alert.present();
+        return promise;
     }
 
     confirm() {
@@ -64,20 +91,37 @@ export class FinishModalPage {
             } else {
                 this.presentAlert("Error", "Es obligatorio indicar una cantidad");
                 return;
-            }
+            };
         } else {
             if (isNaN(Date.parse(this.date))) {
                 this.presentAlert("Error", "La fecha indicada no es válida");
                 return;
-            }
+            };
             if (!(this.lot)) {
                 this.presentAlert("Error", "Es obligatorio indicar un lote");
                 return;
-            }
+            };
             res['lot'] = this.lot
             res['date'] = this.date
-        }
-        this.viewCtrl.dismiss(res);
+        };
+        if (this.date && this.max_date && this.date > this.max_date) {
+            let titulo = "Advertencia";
+            let texto = "La fecha de caducidad es:<br>" + 
+                this.date.replace(/(\d{4})\-(\d{2})\-(\d{2}).*/, '$3-$2-$1') + 
+                "<br>y no debería ser superior a:<br>" + 
+                this.max_date.replace(/(\d{4})\-(\d{2})\-(\d{2}).*/, '$3-$2-$1') + 
+                ".<br>¡Proceda a informar al responsable de producción de esta anomalía!" + 
+                "<br>¿Continuar?" 
+            this.confirmationAlert(titulo, texto).then(confirm => {
+                if (confirm) {
+                    this.prodData.registerMessage(
+                        'Modo: Producción. FCP corta en uno de los componentes. Estado: ' + this.mode_step + '.');
+                    this.viewCtrl.dismiss(res);
+                } else {
+                    return
+                }
+            })
+        };
     }
 
     closeModal() {

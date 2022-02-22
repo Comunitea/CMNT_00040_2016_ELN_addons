@@ -50,7 +50,6 @@
         'views/mrp_workflow.xml',
         'views/product_view.xml',
         'views/stock_view.xml',
-        'views/stock_warehouse_orderpoint_view.xml',
         'report/mrp_workorder_analysis_view.xml',
     ],
     "demo_xml": [],

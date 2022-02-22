@@ -626,6 +626,7 @@ class MrpProduction(models.Model):
                 price_unit = price_unit or move.product_id.standard_price
                 move.write({'price_unit': price_unit})
             production.write({'state': 'closed'})
+            production.check_produced_lot()
         return True
 
     @api.multi
@@ -741,3 +742,26 @@ class MrpProduction(models.Model):
             if production.priority != priority:
                 production.write({'priority': priority})
         return True
+
+    @api.multi
+    def check_produced_lot(self, raw_lots=False, produced_lots=False):
+        for production in self:
+            if not raw_lots:
+                raw_moves = production.move_lines2.filtered(
+                   lambda r: r.state == 'done' and not r.scrapped)
+                raw_lots = raw_moves.mapped('quant_ids.lot_id')
+            if not produced_lots:
+                produced_moves = production.move_created_ids.filtered(
+                   lambda r: r.state == 'done' and not r.scrapped)
+                produced_lots = produced_moves.mapped('quant_ids.lot_id')
+            max_date = min(
+                [max([x.use_date, x.extended_shelf_life_date])
+                for x in raw_lots if x.use_date or x.extended_shelf_life_date]
+                or [False]
+            )
+            for lot_id in produced_lots:
+                if max_date and lot_id.use_date and lot_id.use_date > max_date:
+                    body = _('Use date should be checked. The Serial Number/Lot will be locked.')
+                    lot_id.message_post(body=body)
+                    lot_id.lock_lot()
+
