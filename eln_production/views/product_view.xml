@@ -33,8 +33,9 @@
             <field name="inherit_id" ref="product_expiry.view_product_form_expiry" />
             <field name="type">form</field>
             <field name="arch" type="xml">
-                <field name="use_time" position="after">
+                <field name="alert_time" position="after">
                     <field name="extended_shelf_life_time"/>
+                    <field name="not_check_production_lot_date"/>
                 </field>
             </field>
         </record>

@@ -97,10 +97,15 @@ export class ConsumeModalPage {
         if (this.line.lot_required && !this.line.lot_id && (this.line.type == 'in' || this.line.type == 'out')) {
             this.presentAlert("Error", "Es obligatorio indicar el lote")
         } else {
-            var max_date = this.prodData.lotsByProduct[this.line.product_id].filter(
-                lot_id => lot_id.id === this.line.lot_id)[0]['use_date'];
             var use_date = this.prodData.product_use_date;
-            if (this.line.type == 'in' && use_date && max_date && use_date > max_date) {
+            var max_date = this.prodData.product_max_date;
+            var comp_product= this.prodData.lotsByProduct[this.line.product_id].filter(
+                lot_id => lot_id.id === this.line.lot_id);
+            var comp_date = !(comp_product === undefined || comp_product.length == 0) && comp_product[0]['use_date'] || '';
+            // console.log(comp_date, use_date, max_date);
+            // Si no tenemos max_date es porque el PT está marcado para no chequear o 
+            // porque aun no añadimos componentes al registro de app
+            if (this.line.type == 'in' && use_date && max_date && comp_date && use_date > comp_date) {
                 this.presentAlert("Advertencia", 
                     "La fecha de caducidad de este componente es:<br>" + 
                     max_date.replace(/(\d{4})\-(\d{2})\-(\d{2}).*/, '$3-$2-$1') + 

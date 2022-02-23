@@ -216,6 +216,7 @@ export class ProductionProvider {
                 this.product_max_date = res['max_date'] || '';
                 this.product_use_date = res['use_date'] || '';
                 this.product_lot_name = res['lot_name'] || '';
+                // console.log("product_lot_name:", this.product_lot_name, "product_use_date:", this.product_use_date, "product_max_date:", this.product_max_date);
                 resolve();
             })
             .catch( (err) => {

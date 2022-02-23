@@ -104,6 +104,8 @@ export class FinishModalPage {
             res['lot'] = this.lot
             res['date'] = this.date
         };
+        // Si no tenemos max_date es porque el PT está marcado para no chequear o 
+        // porque aun no añadimos componentes al registro de app
         if (this.date && this.max_date && this.date > this.max_date) {
             let titulo = "Advertencia";
             let texto = "La fecha de caducidad es:<br>" + 
@@ -116,12 +118,12 @@ export class FinishModalPage {
                 if (confirm) {
                     this.prodData.registerMessage(
                         'Modo: Producción. FCP corta en uno de los componentes. Estado: ' + this.mode_step + '.');
-                    this.viewCtrl.dismiss(res);
                 } else {
                     return
                 }
             })
         };
+        this.viewCtrl.dismiss(res);
     }
 
     closeModal() {

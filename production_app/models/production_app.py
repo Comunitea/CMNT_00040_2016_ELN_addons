@@ -490,12 +490,13 @@ class ProductionAppRegistry(models.Model):
                 use_date = datetime(year=use_date.year, month=use_date.month, day=1)
                 use_date = (use_date - timedelta(days=1)).strftime("%Y-%m-%d")
             raw_lots = (reg.line_in_ids + reg.line_out_ids).mapped('lot_id')
-            max_date = min(
-                [max([x.use_date, x.extended_shelf_life_date])
-                for x in raw_lots if x.use_date or x.extended_shelf_life_date]
-                or [False]
-            )
-            max_date = max_date and max_date[:10] or False
+            if not reg.product_id.not_check_production_lot_date:
+                max_date = min(
+                    [max([x.use_date, x.extended_shelf_life_date])
+                    for x in raw_lots if x.use_date or x.extended_shelf_life_date]
+                    or [False]
+                )
+                max_date = max_date and max_date[:10] or False
             lot_name = reg.lot_id.name
         res= {
             'max_date': max_date,

@@ -746,6 +746,8 @@ class MrpProduction(models.Model):
     @api.multi
     def check_produced_lot(self, raw_lots=False, produced_lots=False):
         for production in self:
+            if production.product_id.not_check_production_lot_date:
+                continue
             if not raw_lots:
                 raw_moves = production.move_lines2.filtered(
                    lambda r: r.state == 'done' and not r.scrapped)
