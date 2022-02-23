@@ -54,5 +54,7 @@ class ProductTemplate(models.Model):
 
     extended_shelf_life_time = fields.Integer('Extended product shelf life time',
         help='When a new a Serial Number is issued, this is the number of additional days that the shelf life set by the manufacturer can be extended.')
+    not_check_production_lot_date = fields.Boolean('Not check production lot date', default=False,
+        help="If it is checked, in case this product is produced, the date of the production Serial Number/Lot of this product will not be verified and it will not be locked if it is wrong.")
 
 

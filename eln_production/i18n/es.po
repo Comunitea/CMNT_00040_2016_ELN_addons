@@ -213,6 +213,12 @@ msgid "Extended product shelf life time"
 msgstr "Tiempo de vida útil extendida producto"
 
 #. module: eln_production
+#: field:product.product,not_check_production_lot_date:0
+#: field:product.template,not_check_production_lot_date:0
+msgid "Not check production lot date"
+msgstr "No verificar fecha del lote de producción"
+
+#. module: eln_production
 #: field:stock.production.lot,extended_shelf_life_date:0
 msgid "Extended shelf life"
 msgstr "Vida útil extendida"
@@ -861,6 +867,12 @@ msgstr "¡Advertencia!"
 #: help:product.template,extended_shelf_life_time:0
 msgid "When a new a Serial Number is issued, this is the number of additional days that the shelf life set by the manufacturer can be extended."
 msgstr "Cuando un nuevo nº de serie se asigna, este es el número de días adicionales que la vida útil fijada por el fabricante puede ser ampliada."
+
+#. module: eln_production
+#: help:product.product,not_check_production_lot_date:0
+#: help:product.template,not_check_production_lot_date:0
+msgid "If it is checked, in case this product is produced, the date of the production Serial Number/Lot of this product will not be verified and it will not be locked if it is wrong."
+msgstr "Si se marca, en caso de que este producto sea producido, la fecha de producción del nº de serie/lote de este producto no será verificada y no se bloquerá si es incorrecta."
 
 #. module: eln_production
 #: field:mrp.modify.consumption.line,wiz_id:0
