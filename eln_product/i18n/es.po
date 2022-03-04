@@ -6,16 +6,22 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-16 11:41+0000\n"
-"PO-Revision-Date: 2021-06-16 13:44+0200\n"
+"POT-Creation-Date: 2022-03-04 10:13+0000\n"
+"PO-Revision-Date: 2022-03-04 11:17+0100\n"
 "Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: \n"
 "Language: es\n"
 "X-Generator: Poedit 2.4.2\n"
+
+#. module: eln_product
+#: selection:product.category,expected_use:0
+#: selection:product.category,recursively_expected_use:0
+msgid "Auxiliary materials"
+msgstr "Materias auxiliares"
 
 #. module: eln_product
 #: field:product.product,dun14:0
@@ -38,9 +44,27 @@ msgid "EAN13"
 msgstr "EAN13"
 
 #. module: eln_product
+#: field:product.category,expected_use:0 field:product.product,expected_use:0
+#: field:product.template,expected_use:0
+msgid "Expected use"
+msgstr "Uso esperado"
+
+#. module: eln_product
+#: selection:product.category,expected_use:0
+#: selection:product.category,recursively_expected_use:0
+msgid "Finished goods"
+msgstr "Productos terminados"
+
+#. module: eln_product
 #: help:product.pricelist.item,ean13:0
 msgid "International Article Number used for product identification."
 msgstr "Número de artículo internacional usado para la identificación de producto."
+
+#. module: eln_product
+#: selection:product.category,expected_use:0
+#: selection:product.category,recursively_expected_use:0
+msgid "Packaging materials"
+msgstr "Embalajes"
 
 #. module: eln_product
 #: field:product.product,partner_product_code:0
@@ -63,6 +87,11 @@ msgid "Product"
 msgstr "Producto"
 
 #. module: eln_product
+#: model:ir.model,name:eln_product.model_product_category
+msgid "Product Category"
+msgstr "Categoría de producto"
+
+#. module: eln_product
 #: model:ir.model,name:eln_product.model_product_template
 msgid "Product Template"
 msgstr "Plantilla de producto"
@@ -71,6 +100,23 @@ msgstr "Plantilla de producto"
 #: field:product.product,ramp_up_date:0
 msgid "Ramp Up Date"
 msgstr "Fecha de Ramp Up"
+
+#. module: eln_product
+#: selection:product.category,expected_use:0
+#: selection:product.category,recursively_expected_use:0
+msgid "Raw materials"
+msgstr "Materias primas"
+
+#. module: eln_product
+#: field:product.category,recursively_expected_use:0
+msgid "Recursively expected use"
+msgstr "Uso esperado recursivo"
+
+#. module: eln_product
+#: selection:product.category,expected_use:0
+#: selection:product.category,recursively_expected_use:0
+msgid "Semi-finished goods"
+msgstr "Productos semiterminados"
 
 #. module: eln_product
 #: help:product.pricelist.item,uos_id:0
@@ -88,7 +134,7 @@ msgid "Stock available for assignment. It refers to the actual stock not reserve
 msgstr "Stock disponible para asignar. Se refiere a las existencias reales no reservadas."
 
 #. module: eln_product
-#: code:addons/eln_product/models/product.py:120
+#: code:addons/eln_product/models/product.py:121
 #, python-format
 msgid ""
 "The DUN-14 code you entered is already in use.\n"
@@ -98,7 +144,7 @@ msgstr ""
 "Las referencias de los productos relacionados son: %s"
 
 #. module: eln_product
-#: code:addons/eln_product/models/product.py:103
+#: code:addons/eln_product/models/product.py:104
 #, python-format
 msgid ""
 "The EAN-13 code you entered is already in use.\n"
@@ -118,8 +164,8 @@ msgid "UoS"
 msgstr "UdV"
 
 #. module: eln_product
-#: code:addons/eln_product/models/product.py:102
-#: code:addons/eln_product/models/product.py:119
+#: code:addons/eln_product/models/product.py:103
+#: code:addons/eln_product/models/product.py:120
 #, python-format
 msgid "Warning!"
 msgstr "¡Advertencia!"

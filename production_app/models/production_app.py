@@ -493,7 +493,8 @@ class ProductionAppRegistry(models.Model):
             if not reg.product_id.not_check_production_lot_date:
                 max_date = min(
                     [max([x.use_date, x.extended_shelf_life_date])
-                    for x in raw_lots if x.use_date or x.extended_shelf_life_date]
+                    if x.product_expected_use == 'raw' else x.use_date
+                    for x in raw_lots if x.use_date]
                     or [False]
                 )
                 max_date = max_date and max_date[:10] or False

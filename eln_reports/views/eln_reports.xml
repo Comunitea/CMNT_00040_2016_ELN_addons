@@ -199,17 +199,7 @@
           <field name="webkit_header" ref="eln_reports.ir_header_webkit_planning_report"/>
         </record>
 
-        <report
-            string="Label"
-            model="stock.picking"
-            name="label.barcode"
-            rml="eln_reports/report/barcode_label/barcode_label.jrxml"
-            id="barcode_label"
-            menu="False"
-            auto="True"
-            header="False"
-            />
-
+        <!-- Factura proforma -->
         <report
             id="report_sale_order_proforma"
             string="Proforma Invoice"
@@ -218,6 +208,34 @@
             file="eln_reports.report_saleorder_proforma"
             name="eln_reports.report_saleorder_proforma"
         />
+
+        <!-- Etiqueta Lote Palet -->
+        <report
+          string="Stock Production Lot label"
+          id="report_print_stock_production_lot_label"
+          model="stock.production.lot.label.wizard"
+          report_type="qweb-pdf"
+          name="stock_production_lot_label_wizard.stock_production_lot_label_report"
+          file="stock_production_lot_label_wizard.stock_production_lot_label_report"
+          menu="False"
+        />
+
+        <record id="stock_production_lot_label_paperformat_A5" model="report.paperformat">
+            <field name="name">Lot label A5</field>
+            <field name="default" eval="False"/>
+            <field name="format">A5</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">5</field>
+            <field name="margin_bottom">0</field>
+            <field name="margin_left">0</field>
+            <field name="margin_right">0</field>
+            <field name="header_spacing">0</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <record id="report_print_stock_production_lot_label" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="stock_production_lot_label_paperformat_A5"/>
+        </record>
 
     </data>
 </openerp>

@@ -758,7 +758,8 @@ class MrpProduction(models.Model):
                 produced_lots = produced_moves.mapped('quant_ids.lot_id')
             max_date = min(
                 [max([x.use_date, x.extended_shelf_life_date])
-                for x in raw_lots if x.use_date or x.extended_shelf_life_date]
+                if x.product_expected_use == 'raw' else x.use_date
+                for x in raw_lots if x.use_date]
                 or [False]
             )
             for lot_id in produced_lots:

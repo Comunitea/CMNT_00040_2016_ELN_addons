@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record id="product_category_form_view" model="ir.ui.view">
+            <field name="name">product.category.form.view</field>
+            <field name="model">product.category</field>
+            <field name="inherit_id" ref="product.product_category_form_view"/>
+            <field name="arch" type="xml">
+                <field name="type" position="after">
+                    <!-- <separator string="" colspan="2"/>  -->
+                    <field name="expected_use"/>
+                    <field name="recursively_expected_use"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>

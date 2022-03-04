@@ -6,14 +6,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-16 12:41+0000\n"
-"PO-Revision-Date: 2021-06-16 14:54+0200\n"
+"POT-Creation-Date: 2022-03-04 10:41+0000\n"
+"PO-Revision-Date: 2022-03-04 11:54+0100\n"
 "Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: \n"
 "Language: es\n"
 "X-Generator: Poedit 2.4.2\n"
 
@@ -53,15 +53,26 @@ msgid "Atypical"
 msgstr "Atípico"
 
 #. module: eln_reports
+#: selection:stock.production.lot.label.wizard.line,expected_use:0
+msgid "Auxiliary materials"
+msgstr "Materias auxiliares"
+
+#. module: eln_reports
 #: field:res.users,supplier_cip:0
 msgid "CIP"
 msgstr "CIP"
+
+#. module: eln_reports
+#: view:website:eln_reports.stock_production_lot_label_report
+msgid "CONSUMO PREFERENTE:"
+msgstr "CONSUMO PREFERENTE:"
 
 #. module: eln_reports
 #: view:planning.report.wizard:eln_reports.planning_report_wizard_view
 #: view:product.logistic.sheet.report.wizard:eln_reports.product_logistic_sheet_report_wizard_view
 #: view:product.technical.sheet.report.wizard:eln_reports.product_technical_sheet_report_wizard_view
 #: view:purchase.order.report.wizard:eln_reports.purchase_order_report_wizard_view
+#: view:stock.production.lot.label.wizard:eln_reports.stock_production_lot_label_wizard_view
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -79,6 +90,11 @@ msgstr "Marque esta casilla si la empresa es un agente."
 #: field:purchase.order.line,supplier:0
 msgid "Cod. Supplier"
 msgstr "Cod. Proveedor"
+
+#. module: eln_reports
+#: field:stock.production.lot.label.wizard.line,product_name:0
+msgid "Code and description"
+msgstr "Código y descripción"
 
 #. module: eln_reports
 #: report:addons/eln_reports/report/planning_report/planning_report_webkit.mako:27
@@ -99,6 +115,11 @@ msgstr "Fecha compromiso"
 #: field:res.users,ref_companies:0
 msgid "Companies that refers to partner"
 msgstr "Compañías que se refieren a la empresa"
+
+#. module: eln_reports
+#: field:stock.production.lot.label.wizard.line,company_id:0
+msgid "Company"
+msgstr "Compañía"
 
 #. module: eln_reports
 #: field:res.users,shop_ref_ids:0
@@ -145,6 +166,8 @@ msgstr "Hoja de control tostado"
 #: field:product.logistic.sheet.report.wizard,create_uid:0
 #: field:product.technical.sheet.report.wizard,create_uid:0
 #: field:purchase.order.report.wizard,create_uid:0
+#: field:stock.production.lot.label.wizard,create_uid:0
+#: field:stock.production.lot.label.wizard.line,create_uid:0
 msgid "Created by"
 msgstr "Created by"
 
@@ -153,6 +176,8 @@ msgstr "Created by"
 #: field:product.logistic.sheet.report.wizard,create_date:0
 #: field:product.technical.sheet.report.wizard,create_date:0
 #: field:purchase.order.report.wizard,create_date:0
+#: field:stock.production.lot.label.wizard,create_date:0
+#: field:stock.production.lot.label.wizard.line,create_date:0
 msgid "Created on"
 msgstr "Created on"
 
@@ -185,6 +210,11 @@ msgstr "Plazo de pago de cliente"
 #: model:ir.actions.report.xml,name:eln_reports.invoice_report_jasper
 msgid "Customer invoice"
 msgstr "Factura de cliente"
+
+#. module: eln_reports
+#: view:website:eln_reports.stock_production_lot_label_report
+msgid "CÓDIGO Y DESCRIPCIÓN:"
+msgstr "CÓDIGO Y DESCRIPCIÓN:"
 
 #. module: eln_reports
 #: report:addons/eln_reports/report/planning_report/planning_report_webkit.mako:28
@@ -227,6 +257,9 @@ msgstr "Descripción"
 #: field:product.logistic.sheet.report.wizard,display_name:0
 #: field:product.technical.sheet.report.wizard,display_name:0
 #: field:purchase.order.report.wizard,display_name:0
+#: field:report.stock_production_lot_label_wizard.stock_production_lot_label_report,display_name:0
+#: field:stock.production.lot.label.wizard,display_name:0
+#: field:stock.production.lot.label.wizard.line,display_name:0
 msgid "Display Name"
 msgstr "Nombre mostrado"
 
@@ -236,12 +269,29 @@ msgid "E.P. discounts"
 msgstr "Descuentos P.P."
 
 #. module: eln_reports
+#: code:addons/eln_reports/wizard/stock_production_lot_label_wizard.py:67
+#: code:addons/eln_reports/wizard/stock_production_lot_label_wizard.py:146
+#, python-format
+msgid "Error"
+msgstr "Error"
+
+#. module: eln_reports
 #: code:addons/eln_reports/report/planning_report/planning_report_parser.py:77
 #: code:addons/eln_reports/report/planning_report/planning_report_parser.py:85
 #: code:addons/eln_reports/report/planning_report/webkit_parser_header_fix.py:216
 #, python-format
 msgid "Error!"
 msgstr "¡Error!"
+
+#. module: eln_reports
+#: field:stock.production.lot.label.wizard.line,extended_shelf_life_date:0
+msgid "Extended shelf life date"
+msgstr "Vida útil extendida"
+
+#. module: eln_reports
+#: selection:stock.production.lot.label.wizard.line,expected_use:0
+msgid "Finished goods"
+msgstr "Productos terminados"
 
 #. module: eln_reports
 #: field:res.users,property_account_position:0
@@ -258,6 +308,9 @@ msgstr "Agrupar por ruta de transporte"
 #: field:product.logistic.sheet.report.wizard,id:0
 #: field:product.technical.sheet.report.wizard,id:0
 #: field:purchase.order.report.wizard,id:0
+#: field:report.stock_production_lot_label_wizard.stock_production_lot_label_report,id:0
+#: field:stock.production.lot.label.wizard,id:0
+#: field:stock.production.lot.label.wizard.line,id:0
 msgid "ID"
 msgstr "ID"
 
@@ -297,9 +350,24 @@ msgid "Journal Items"
 msgstr "Apuntes contables"
 
 #. module: eln_reports
-#: model:ir.actions.report.xml,name:eln_reports.barcode_label
-msgid "Label"
-msgstr "Etiqueta"
+#: view:website:eln_reports.stock_production_lot_label_report
+msgid "KGS:"
+msgstr "KGS:"
+
+#. module: eln_reports
+#: view:website:eln_reports.stock_production_lot_label_report
+msgid "LOTE:"
+msgstr "LOTE:"
+
+#. module: eln_reports
+#: view:stock.production.lot.label.wizard:eln_reports.stock_production_lot_label_wizard_view
+msgid "Label fields"
+msgstr "Campos de la etiqueta"
+
+#. module: eln_reports
+#: field:stock.production.lot.label.wizard.line,expected_use:0
+msgid "Label type"
+msgstr "Tipo de etiqueta"
 
 #. module: eln_reports
 #: field:product.logistic.sheet.report.wizard,language:0
@@ -313,6 +381,9 @@ msgstr "Idioma"
 #: field:product.logistic.sheet.report.wizard,__last_update:0
 #: field:product.technical.sheet.report.wizard,__last_update:0
 #: field:purchase.order.report.wizard,__last_update:0
+#: field:report.stock_production_lot_label_wizard.stock_production_lot_label_report,__last_update:0
+#: field:stock.production.lot.label.wizard,__last_update:0
+#: field:stock.production.lot.label.wizard.line,__last_update:0
 msgid "Last Modified on"
 msgstr "Last Modified on"
 
@@ -321,6 +392,8 @@ msgstr "Last Modified on"
 #: field:product.logistic.sheet.report.wizard,write_uid:0
 #: field:product.technical.sheet.report.wizard,write_uid:0
 #: field:purchase.order.report.wizard,write_uid:0
+#: field:stock.production.lot.label.wizard,write_uid:0
+#: field:stock.production.lot.label.wizard.line,write_uid:0
 msgid "Last Updated by"
 msgstr "Last Updated by"
 
@@ -329,6 +402,8 @@ msgstr "Last Updated by"
 #: field:product.logistic.sheet.report.wizard,write_date:0
 #: field:product.technical.sheet.report.wizard,write_date:0
 #: field:purchase.order.report.wizard,write_date:0
+#: field:stock.production.lot.label.wizard,write_date:0
+#: field:stock.production.lot.label.wizard.line,write_date:0
 msgid "Last Updated on"
 msgstr "Last Updated on"
 
@@ -338,9 +413,25 @@ msgid "Latest Full Reconciliation Date"
 msgstr "Última fecha de conciliación completa"
 
 #. module: eln_reports
+#: field:stock.production.lot.label.wizard,line_ids:0
+msgid "Lines"
+msgstr "Líneas"
+
+#. module: eln_reports
 #: view:website:stock.report_picking
 msgid "Lot"
 msgstr "Lote"
+
+#. module: eln_reports
+#: field:stock.production.lot.label.wizard.line,lot_id:0
+#: field:stock.production.lot.label.wizard.line,lot_name:0
+msgid "Lot/Serial Number"
+msgstr "Lote/Nº de serie"
+
+#. module: eln_reports
+#: view:stock.production.lot.label.wizard:eln_reports.stock_production_lot_label_wizard_view
+msgid "Lot/Serial Number selection"
+msgstr "Lote/Nº de serie"
 
 #. module: eln_reports
 #: code:addons/eln_reports/report/planning_report/webkit_parser_header_fix.py:160
@@ -361,9 +452,25 @@ msgid "No header defined for this Webkit report!"
 msgstr "¡Ninguna cabecera definida para este informe de Webkit!"
 
 #. module: eln_reports
+#: code:addons/eln_reports/wizard/stock_production_lot_label_wizard.py:68
+#, python-format
+msgid "Nothing to print"
+msgstr "Nada que imprimir."
+
+#. module: eln_reports
+#: view:website:eln_reports.stock_production_lot_label_report
+msgid "ORIGEN:"
+msgstr "ORIGEN:"
+
+#. module: eln_reports
 #: view:website:stock.report_picking
 msgid "Order (Origin)"
 msgstr "Pedido (Origen)"
+
+#. module: eln_reports
+#: field:stock.production.lot.label.wizard.line,origin:0
+msgid "Origin"
+msgstr "Origen"
 
 #. module: eln_reports
 #: view:website:eln_reports.report_saleorder_document_proforma
@@ -371,9 +478,19 @@ msgid "PROFORMA INVOICE N°"
 msgstr "FACTURA PROFORMA N°"
 
 #. module: eln_reports
+#: view:website:eln_reports.stock_production_lot_label_report
+msgid "PROVEEDOR:"
+msgstr "PROVEEDOR:"
+
+#. module: eln_reports
 #: view:website:stock.report_picking
 msgid "Packages / Weight"
 msgstr "Bultos / Peso"
+
+#. module: eln_reports
+#: selection:stock.production.lot.label.wizard.line,expected_use:0
+msgid "Packaging materials"
+msgstr "Embalajes"
 
 #. module: eln_reports
 #: code:addons/eln_reports/report/planning_report/planning_report_parser.py:49
@@ -437,10 +554,13 @@ msgstr "Precio unitario"
 #. module: eln_reports
 #: view:planning.report.wizard:eln_reports.planning_report_wizard_view
 #: view:product.logistic.sheet:eln_reports.product_logistic_sheet_form_view
+#: view:product.logistic.sheet:eln_reports.product_logistic_sheet_tree_view
 #: view:product.logistic.sheet.report.wizard:eln_reports.product_logistic_sheet_report_wizard_view
 #: view:product.technical.sheet:eln_reports.product_technical_sheet_form_view
+#: view:product.technical.sheet:eln_reports.product_technical_sheet_tree_view
 #: view:product.technical.sheet.report.wizard:eln_reports.product_technical_sheet_report_wizard_view
 #: view:purchase.order.report.wizard:eln_reports.purchase_order_report_wizard_view
+#: view:stock.production.lot.label.wizard:eln_reports.stock_production_lot_label_wizard_view
 msgid "Print"
 msgstr "Imprimir"
 
@@ -473,6 +593,7 @@ msgid "Print valued picking"
 msgstr "Imprimir albarán valorado"
 
 #. module: eln_reports
+#: field:stock.production.lot.label.wizard.line,product_id:0
 #: view:website:stock.report_picking
 msgid "Product"
 msgstr "Producto"
@@ -528,6 +649,11 @@ msgid "Quantity"
 msgstr "Cantidad"
 
 #. module: eln_reports
+#: selection:stock.production.lot.label.wizard.line,expected_use:0
+msgid "Raw materials"
+msgstr "Materias primas"
+
+#. module: eln_reports
 #: selection:planning.report.wizard,kanban_state:0
 msgid "Ready to load"
 msgstr "Listo para cargar"
@@ -569,6 +695,11 @@ msgid "Select the default payment mode for this supplier."
 msgstr "Seleccione el modo de pago por defecto cuando esta empresa actúa como proveedor."
 
 #. module: eln_reports
+#: selection:stock.production.lot.label.wizard.line,expected_use:0
+msgid "Semi-finished goods"
+msgstr "Productos semiterminados"
+
+#. module: eln_reports
 #: field:res.users,settlement:0
 msgid "Settlement period"
 msgstr "Período de liquidación"
@@ -604,6 +735,17 @@ msgid "State of readiness"
 msgstr "Estado de preparación"
 
 #. module: eln_reports
+#: model:ir.actions.act_window,name:eln_reports.action_stock_production_lot_label_wizard
+#: view:stock.production.lot.label.wizard:eln_reports.stock_production_lot_label_wizard_view
+msgid "Stock Production Label"
+msgstr "Etiqueta lotes de producción"
+
+#. module: eln_reports
+#: model:ir.actions.report.xml,name:eln_reports.report_print_stock_production_lot_label
+msgid "Stock Production Lot label"
+msgstr "Etiqueta lotes de producción"
+
+#. module: eln_reports
 #: model:ir.actions.report.xml,name:eln_reports.report_stock_picking_out_alt_jasper
 msgid "Stock picking out (Alt)"
 msgstr "Albarán de envío (ALT)"
@@ -624,6 +766,11 @@ msgid "Stock picking out 2x (Std)"
 msgstr "Albarán de envío 2x (STD)"
 
 #. module: eln_reports
+#: field:stock.production.lot.label.wizard.line,partner_id:0
+msgid "Supplier"
+msgstr "Proveedor"
+
+#. module: eln_reports
 #: view:website:stock.report_picking
 msgid "Supplier Address:"
 msgstr "Dirección del proveedor:"
@@ -642,6 +789,11 @@ msgstr "Modo de pago de proveedor"
 #: field:res.users,property_supplier_payment_term:0
 msgid "Supplier Payment Term"
 msgstr "Plazo de pago del proveedor"
+
+#. module: eln_reports
+#: field:stock.production.lot.label.wizard.line,partner_name:0
+msgid "Supplier name"
+msgstr "Nombre del proveedor"
 
 #. module: eln_reports
 #: view:website:report.external_layout_header
@@ -768,6 +920,11 @@ msgid "UoS"
 msgstr "UdV"
 
 #. module: eln_reports
+#: field:stock.production.lot.label.wizard.line,use_date:0
+msgid "Use date"
+msgstr "Fecha de consumo preferente"
+
+#. module: eln_reports
 #: model:ir.model,name:eln_reports.model_res_users field:res.users,users:0
 msgid "Users"
 msgstr "Usuarios"
@@ -781,6 +938,11 @@ msgstr "Sujeto a IVA"
 #: view:website:stock.report_picking
 msgid "VAT:"
 msgstr "NIF:"
+
+#. module: eln_reports
+#: view:website:eln_reports.stock_production_lot_label_report
+msgid "VIDA ÚTIL EXTENDIDA:"
+msgstr "VIDA ÚTIL EXTENDIDA:"
 
 #. module: eln_reports
 #: view:website:stock.report_picking
@@ -808,9 +970,20 @@ msgid "Webkit render"
 msgstr "Renderizador de Webkit"
 
 #. module: eln_reports
+#: field:stock.production.lot.label.wizard.line,wiz_id:0
+msgid "Wizard"
+msgstr "Wizard"
+
+#. module: eln_reports
 #: model:ir.model,name:eln_reports.model_mrp_workcenter
 msgid "Work Center"
 msgstr "Centro de producción"
+
+#. module: eln_reports
+#: code:addons/eln_reports/wizard/stock_production_lot_label_wizard.py:147
+#, python-format
+msgid "You must print it from a wizard"
+msgstr "Debe imprimirlo desde un asistente"
 
 #. module: eln_reports
 #: view:website:eln_reports.report_saleorder_document_proforma
@@ -822,3 +995,8 @@ msgstr "eln_reports.report_saleorder_document_proforma"
 #, python-format
 msgid "of"
 msgstr "de"
+
+#. module: eln_reports
+#: view:stock.production.lot.label.wizard:eln_reports.stock_production_lot_label_wizard_view
+msgid "or"
+msgstr "or"

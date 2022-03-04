@@ -28,6 +28,13 @@ class StockProductionLot(models.Model):
 
     extended_shelf_life_date = fields.Datetime('Extended shelf life',
         help='This is the extended shelf life date.')
+    product_expected_use = fields.Selection([
+        ('raw', 'Raw materials'),
+        ('auxiliary', 'Auxiliary materials'),
+        ('packaging', 'Packaging materials'),
+        ('semifinished', 'Semi-finished goods'),
+        ('finished', 'Finished goods')], string='Expected use',
+        related='product_id.categ_id.recursively_expected_use')
 
     @api.model
     def create(self, vals):
@@ -40,7 +47,7 @@ class StockProductionLot(models.Model):
     def update_extended_shelf_life_date(self):
         for lot_id in self:
             date = False
-            if lot_id.use_date:
+            if lot_id.use_date and lot_id.product_expected_use == 'raw':
                 use_date = fields.Datetime.from_string(lot_id.use_date)
                 duration = lot_id.product_id.extended_shelf_life_time or 0
                 date = use_date + timedelta(days=duration)
@@ -48,21 +55,23 @@ class StockProductionLot(models.Model):
 
     @api.onchange('use_date')
     def onchange_use_date(self):
-        if self._origin:
-            msg = _('If the best before date is changed, perhaps you should update the extended shelf life date.')
-            msg += _('\nTo do this automatically, remove the extended shelf life date and the new date will be recalculated.')
-            warning = {
-                'title': _('Warning!'),
-                'message': msg
-            }
-            return {'warning': warning}
-        else:
-            self.update_extended_shelf_life_date()
+        if self.product_expected_use == 'raw':
+            if self._origin:
+                msg = _('If the best before date is changed, perhaps you should update the extended shelf life date.')
+                msg += _('\nTo do this automatically, remove the extended shelf life date and the new date will be recalculated.')
+                warning = {
+                    'title': _('Warning!'),
+                    'message': msg
+                }
+                return {'warning': warning}
+            else:
+                self.update_extended_shelf_life_date()
 
     @api.onchange('extended_shelf_life_date')
     def onchange_extended_shelf_life_date(self):
-        if self._origin and not self.extended_shelf_life_date:
-            self.update_extended_shelf_life_date()
+        if self.product_expected_use == 'raw':
+            if self._origin and not self.extended_shelf_life_date:
+                self.update_extended_shelf_life_date()
 
 
 class StockMove(models.Model):

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="stock_production_lot_label_wizard_view" model="ir.ui.view">
+            <field name="name">Stock Production Label</field>
+            <field name="model">stock.production.lot.label.wizard</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Stock Production Label">
+                    <group>
+                        <field name="line_ids" nolabel="1">
+                            <tree>
+                                <field name="product_name"/>
+                                <field name="lot_name"/>
+                                <field name="use_date"/>
+                                <field name="extended_shelf_life_date"/>
+                                <field name="partner_name"/>
+                                <field name="origin"/>
+                            </tree>
+                            <form string="Stock Production Label">
+                                <group string="Lot/Serial Number selection">
+                                    <field name="product_id" options="{'no_create': True}"/>
+                                    <field name="lot_id" domain="[('product_id','=?', product_id)]" options="{'no_create': True}"/>
+                                    <field name="partner_id" options="{'no_create': True}"/>
+                                </group>
+                                <group string="Label fields">
+                                    <field name="expected_use"/>
+                                    <field name="product_name"/>
+                                    <field name="lot_name"/>
+                                    <field name="use_date"/>
+                                    <field name="extended_shelf_life_date" attrs="{'invisible': [('expected_use', '!=', 'raw')]}"/>
+                                    <field name="partner_name"/>
+                                    <field name="origin"/>
+                                </group>
+                            </form>
+                        </field>
+                    </group>
+                    <footer>
+                        <button name="print_report" string="Print" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="action_stock_production_lot_label_wizard"
+            key2="client_print_multi"
+            name="Stock Production Label"
+            res_model="stock.production.lot.label.wizard"
+            src_model="stock.production.lot"
+            view_mode="form"
+            target="new"
+            view_type="form" />
+
+        <act_window id="action_stock_production_lot_label_wizard"
+            key2="client_print_multi"
+            name="Stock Production Label"
+            res_model="stock.production.lot.label.wizard"
+            src_model="stock.picking"
+            view_mode="form"
+            target="new"
+            view_type="form" />
+
+    </data>
+</openerp>

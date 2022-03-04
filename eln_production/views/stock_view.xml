@@ -32,8 +32,9 @@
             <field name="inherit_id" ref="product_expiry.view_move_form_expiry" />
             <field name="type">form</field>
             <field name="arch" type="xml">
-                <field name="life_date" position="after">
-                    <field name="extended_shelf_life_date"/>
+                <field name="life_date" position="before">
+                    <field name="product_expected_use" invisible="1"/>
+                    <field name="extended_shelf_life_date" attrs="{'invisible': [('product_expected_use', '!=', 'raw')]}"/>
                 </field>
             </field>
         </record>

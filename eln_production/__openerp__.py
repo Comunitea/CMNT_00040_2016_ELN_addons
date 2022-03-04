@@ -37,6 +37,8 @@
         'stock_traceability_tree_trace_mrp',
         'hr',
         'stock_lock_by_lot',
+        'product_expiry',
+        'eln_product',
     ],
     "init_xml": [],
     "data": [

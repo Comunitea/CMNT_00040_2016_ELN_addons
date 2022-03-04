@@ -60,11 +60,6 @@ msgid "Allow to see production indicators"
 msgstr "Permitir ver indicadores de producción"
 
 #. module: performance_calculation
-#: field:product.category,applies_overweight_calculation:0
-msgid "Applies in overweight calculation"
-msgstr "Aplica en el cálculo de sobrepeso"
-
-#. module: performance_calculation
 #: field:mrp.indicators.oee.line,availability:0
 #: field:mrp.indicators.oee.summary,availability:0
 #: field:mrp.production.workcenter.line,availability:0
@@ -188,11 +183,6 @@ msgstr "Generar"
 #: field:mrp.indicators.scrap.line,id:0 field:performance.calculation,id:0
 msgid "ID"
 msgstr "ID"
-
-#. module: performance_calculation
-#: help:product.category,applies_overweight_calculation:0
-msgid "If checked, products in this category will be considered in the calculation of overweight for productions."
-msgstr "Si se marca, los productos de esta categoría se considerarán en el cálculo del sobrepeso para las producciones."
 
 #. module: performance_calculation
 #: field:mrp.indicators.oee.line,indicator_id:0
