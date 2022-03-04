@@ -178,7 +178,8 @@ class PerformanceCalculation(models.TransientModel):
                     continue
                 if move.location_dest_id.scrap_location:
                     continue
-                if not move.product_id.categ_id.applies_overweight_calculation:
+                expected_use = move.product_id.expected_use
+                if not expected_use in ('raw', 'semifinished', 'finished'):
                     continue
                 used_weight += move.product_uom_qty * move.product_id.weight_net
             overweight = 100 * (used_weight - theorical_weight) / (theorical_weight or 1.0)
@@ -194,7 +195,8 @@ class PerformanceCalculation(models.TransientModel):
         if prod and prod.bom_id:
             qty = qty_final = 0.0
             for line in prod.bom_id.bom_line_ids:
-                if not line.product_id.categ_id.applies_overweight_calculation:
+                expected_use = line.product_id.expected_use
+                if not expected_use in ('raw', 'semifinished', 'finished'):
                     continue
                 qty += line.product_qty
                 qty_final += line.product_qty * (line.product_efficiency or 1.0)

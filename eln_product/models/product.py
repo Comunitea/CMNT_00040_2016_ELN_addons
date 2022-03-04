@@ -21,6 +21,7 @@
 import math
 
 from openerp import models, fields, api, _
+from .product_category import EXPECTED_USE_TYPES
 import openerp.addons.decimal_precision as dp
 
 
@@ -134,4 +135,6 @@ class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
     uos_coeff = fields.Float(digits=(16,10))
+    expected_use = fields.Selection(EXPECTED_USE_TYPES, 'Expected use',
+        related='categ_id.recursively_expected_use')
 

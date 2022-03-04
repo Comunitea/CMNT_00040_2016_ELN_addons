@@ -35,6 +35,7 @@
     "init_xml": [],
     "data": [
         'views/product_view.xml',
+        'views/product_category_view.xml',
         'views/pricelist_view.xml',
     ],
     "demo_xml": [],

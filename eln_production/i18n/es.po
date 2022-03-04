@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-02-22 10:12+0000\n"
-"PO-Revision-Date: 2022-02-22 11:22+0100\n"
+"POT-Creation-Date: 2022-03-04 10:28+0000\n"
+"PO-Revision-Date: 2022-03-04 11:30+0100\n"
 "Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,7 @@ msgstr ""
 "X-Generator: Poedit 2.4.2\n"
 
 #. module: eln_production
-#: code:addons/eln_production/models/stock.py:53
+#: code:addons/eln_production/models/stock.py:61
 #, python-format
 msgid ""
 "\n"
@@ -207,16 +207,15 @@ msgid "Estimation"
 msgstr "Estimación"
 
 #. module: eln_production
+#: field:stock.production.lot,product_expected_use:0
+msgid "Expected use"
+msgstr "Uso esperado"
+
+#. module: eln_production
 #: field:product.product,extended_shelf_life_time:0
 #: field:product.template,extended_shelf_life_time:0
 msgid "Extended product shelf life time"
 msgstr "Tiempo de vida útil extendida producto"
-
-#. module: eln_production
-#: field:product.product,not_check_production_lot_date:0
-#: field:product.template,not_check_production_lot_date:0
-msgid "Not check production lot date"
-msgstr "No verificar fecha del lote de producción"
 
 #. module: eln_production
 #: field:stock.production.lot,extended_shelf_life_date:0
@@ -284,7 +283,18 @@ msgid "ID"
 msgstr "ID"
 
 #. module: eln_production
-#: code:addons/eln_production/models/stock.py:52
+#: help:product.product,default_locked_lot:0
+msgid "If checked, new Serial Numbers/lots will be created locked by default"
+msgstr "Si se marca, los nuevos números de serie/lotes se crearán bloqueados de forma predeterminada"
+
+#. module: eln_production
+#: help:product.product,not_check_production_lot_date:0
+#: help:product.template,not_check_production_lot_date:0
+msgid "If it is checked, in case this product is produced, the date of the production Serial Number/Lot of this product will not be verified and it will not be locked if it is wrong."
+msgstr "Si se marca, en caso de que este producto sea producido, la fecha de producción del nº de serie/lote de este producto no será verificada y no se bloquerá si es incorrecta."
+
+#. module: eln_production
+#: code:addons/eln_production/models/stock.py:60
 #, python-format
 msgid "If the best before date is changed, perhaps you should update the extended shelf life date."
 msgstr "Si se cambia la fecha de consumo preferente, quizás deba actualizar la fecha de vida útil extendida."
@@ -347,6 +357,11 @@ msgstr "Líneas"
 #: field:mrp.product.produce.line,location_id:0
 msgid "Location"
 msgstr "Ubicación"
+
+#. module: eln_production
+#: field:product.product,default_locked_lot:0
+msgid "Lock new Serial Numbers/Lots"
+msgstr "Bloquear nuevos Números de serie/Lotes"
 
 #. module: eln_production
 #: field:mrp.modify.consumption.line,lot_id:0
@@ -422,6 +437,12 @@ msgstr "No planificado"
 #: selection:mrp.workorder,production_type:0
 msgid "Normal"
 msgstr "Normal"
+
+#. module: eln_production
+#: field:product.product,not_check_production_lot_date:0
+#: field:product.template,not_check_production_lot_date:0
+msgid "Not check production lot date"
+msgstr "No verificar fecha del lote de producción"
 
 #. module: eln_production
 #: view:mrp.production:eln_production.mrp_production_form_inherit_10
@@ -840,7 +861,7 @@ msgid "Update"
 msgstr "Actualizar"
 
 #. module: eln_production
-#: code:addons/eln_production/models/mrp.py:764
+#: code:addons/eln_production/models/mrp.py:767
 #, python-format
 msgid "Use date should be checked. The Serial Number/Lot will be locked."
 msgstr "Se debe verificar la fecha de consumo preferente. El número de serie/lote se bloqueará."
@@ -856,7 +877,7 @@ msgid "Validated"
 msgstr "Validada"
 
 #. module: eln_production
-#: code:addons/eln_production/models/stock.py:55
+#: code:addons/eln_production/models/stock.py:63
 #: code:addons/eln_production/models/stock_move_scrap.py:44
 #, python-format
 msgid "Warning!"
@@ -867,12 +888,6 @@ msgstr "¡Advertencia!"
 #: help:product.template,extended_shelf_life_time:0
 msgid "When a new a Serial Number is issued, this is the number of additional days that the shelf life set by the manufacturer can be extended."
 msgstr "Cuando un nuevo nº de serie se asigna, este es el número de días adicionales que la vida útil fijada por el fabricante puede ser ampliada."
-
-#. module: eln_production
-#: help:product.product,not_check_production_lot_date:0
-#: help:product.template,not_check_production_lot_date:0
-msgid "If it is checked, in case this product is produced, the date of the production Serial Number/Lot of this product will not be verified and it will not be locked if it is wrong."
-msgstr "Si se marca, en caso de que este producto sea producido, la fecha de producción del nº de serie/lote de este producto no será verificada y no se bloquerá si es incorrecta."
 
 #. module: eln_production
 #: field:mrp.modify.consumption.line,wiz_id:0

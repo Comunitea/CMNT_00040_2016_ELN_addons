@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <template id="stock_production_lot_label_report">
+            <t t-foreach="docs" t-as="line">
+                <div class="page">
+                    <style>
+                        .table-bordered > thead > tr > th,
+                        .table-bordered > tbody > tr > th,
+                        .table-bordered > tfoot > tr > th,
+                        .table-bordered > thead > tr > td,
+                        .table-bordered > tbody > tr > td,
+                        .table-bordered > tfoot > tr > td {
+                          border: 2px solid black;
+                        }
+                    </style>
+                    
+                    <!-- ETIQUETA GENÉRICA **********************************************************************************  -->
+                    <table t-if="line.expected_use not in ('raw', 'semifinished')" class="table table-condensed table-bordered">
+                        <tr height="200px">
+                            <td class="text-center col-xs-12" t-att-colspan="4">
+                                <div align="left">CÓDIGO Y DESCRIPCIÓN:</div>
+                                <t t-if="len(line.product_name)&lt;=50"><b><div style="line-height: 100%; font-size: 65px" t-esc="line.product_name"/></b></t>
+                                <t t-if="len(line.product_name)&gt;50"><b><div style="line-height: 100%; font-size: 50px" t-esc="line.product_name"/></b></t>
+                            </td>
+                        </tr>
+                        <tr height="120px">
+                            <td class="text-center col-xs-6" t-att-colspan="2">
+                                <div align="left">CONSUMO PREFERENTE:</div>
+                                <b><div style="line-height: 100%; font-size: 85px" t-field="line.use_date" t-options='{"widget": "date"}'/></b>
+                            </td>
+                            <td class="text-center col-xs-6" t-att-colspan="2">
+                                <div align="left">ORIGEN:</div>
+                                <b>
+                                <t t-if="len(line.origin)&lt;=15"><div style="line-height: 100%; font-size: 48px" t-esc="line.origin"/></t>
+                                <t t-if="len(line.origin)&gt;15"><div style="line-height: 100%; font-size: 24px" t-esc="line.origin"/></t>
+                                </b>
+                            </td>
+                        </tr>
+                        <tr height="120px">
+                            <td class="text-center col-xs-12" t-att-colspan="4">
+                                <div align="left">LOTE:</div>
+                                <b><div style="line-height: 100%; font-size: 85px" t-esc="line.lot_name"/></b>
+                            </td>
+                        </tr>
+                        <tr height="100px">
+                            <td class="text-center col-xs-6" t-att-colspan="4">
+                                <div align="left">PROVEEDOR:</div>
+                                <b><div style="line-height: 100%; font-size: 20px" t-esc="line.partner_name"/></b>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <!-- ETIQUETA MATERIAL PRIMA ****************************************************************************  -->
+                    <table t-if="line.expected_use == 'raw'" class="table table-condensed table-bordered">
+                        <tr height="200px">
+                            <td class="text-center col-xs-12" t-att-colspan="4">
+                                <div align="left">CÓDIGO Y DESCRIPCIÓN:</div>
+                                <t t-if="len(line.product_name)&lt;=50"><b><div style="line-height: 100%; font-size: 65px" t-esc="line.product_name"/></b></t>
+                                <t t-if="len(line.product_name)&gt;50"><b><div style="line-height: 100%; font-size: 50px" t-esc="line.product_name"/></b></t>
+                            </td>
+                        </tr>
+                        <tr height="120px">
+                            <td class="text-center col-xs-6" t-att-colspan="2">
+                                <div align="left">CONSUMO PREFERENTE:</div>
+                                <b><div style="line-height: 100%; font-size: 85px" t-field="line.use_date" t-options='{"widget": "date"}'/></b>
+                            </td>
+                            <td class="text-center col-xs-6" t-att-colspan="2">
+                                <div align="left">VIDA ÚTIL EXTENDIDA:</div>
+                                <b><div style="line-height: 100%; font-size: 85px" t-field="line.extended_shelf_life_date" t-options='{"widget": "date"}'/></b>
+                            </td>
+                        </tr>
+                        <tr height="120px">
+                            <td class="text-center col-xs-12" t-att-colspan="4">
+                                <div align="left">LOTE:</div>
+                                <b><div style="line-height: 100%; font-size: 85px" t-esc="line.lot_name"/></b>
+                            </td>
+                        </tr>
+                        <tr height="100px">
+                            <td class="text-center col-xs-6" t-att-colspan="2">
+                                <div align="left">PROVEEDOR:</div>
+                                <b><div style="line-height: 100%; font-size: 20px" t-esc="line.partner_name"/></b>
+                            </td>
+                            <td class="text-center col-xs-6" t-att-colspan="2">
+                                <div align="left">ORIGEN:</div>
+                                <b>
+                                <t t-if="len(line.origin)&lt;=15"><div style="line-height: 100%; font-size: 48px" t-esc="line.origin"/></t>
+                                <t t-if="len(line.origin)&gt;15"><div style="line-height: 100%; font-size: 24px" t-esc="line.origin"/></t>
+                                </b>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <!-- ETIQUETA SEMITERMINADO *****************************************************************************  -->
+                    <table t-if="line.expected_use == 'semifinished'" class="table table-condensed table-bordered">
+                        <tr height="200px" class="border-black">
+                            <td class="text-center col-xs-12" t-att-colspan="4">
+                                <div align="left">CÓDIGO Y DESCRIPCIÓN:</div>
+                                <t t-if="len(line.product_name)&lt;=50"><b><div style="line-height: 100%; font-size: 65px" t-esc="line.product_name"/></b></t>
+                                <t t-if="len(line.product_name)&gt;50"><b><div style="line-height: 100%; font-size: 50px" t-esc="line.product_name"/></b></t>
+                            </td>
+                        </tr>
+                        <tr height="120px">
+                            <td class="text-center col-xs-6" t-att-colspan="2">
+                                <div align="left">CONSUMO PREFERENTE:</div>
+                                <b><div style="line-height: 100%; font-size: 85px" t-field="line.use_date" t-options='{"widget": "date"}'/></b>
+                            </td>
+                            <td class="text-center col-xs-6" t-att-colspan="2">
+                                <div align="left">ORIGEN:</div>
+                                <b>
+                                <t t-if="len(line.origin)&lt;=15"><div style="line-height: 100%; font-size: 48px" t-esc="line.origin"/></t>
+                                <t t-if="len(line.origin)&gt;15"><div style="line-height: 100%; font-size: 24px" t-esc="line.origin"/></t>
+                                </b>
+                            </td>
+                        </tr>
+                        <tr height="120px">
+                            <td class="text-center col-xs-12" t-att-colspan="4">
+                                <div align="left">LOTE:</div>
+                                <b><div style="line-height: 100%; font-size: 85px" t-esc="line.lot_name"/></b>
+                            </td>
+                        </tr>
+                        <tr height="150px">
+                            <td class="text-center col-xs-6" t-att-colspan="4">
+                                <div align="left">KGS:</div>
+                            </td>
+                        </tr>
+                    </table>
+
+               </div>
+            </t>
+       </template>
+    </data>
+</openerp>
