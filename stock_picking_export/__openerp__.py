@@ -17,7 +17,6 @@
         'account_payment_sale',
         'sale_early_payment_discount',
         'eln_sale',
-        'eln_reports',
      ],
     "init_xml" : [],
     'data': [

@@ -20,6 +20,10 @@ class StockPickingExport(models.TransientModel):
         ], string='File type', required=True)
     note = fields.Text(string='Log')
     data = fields.Binary('File', readonly=True)
+    subtract_returns = fields.Boolean(
+        string='Subtract returns',
+        default=True,
+        help="Check this box to subtract related returns to picking")
     sent_to_supplier = fields.Boolean(
         string='Set picking as sent to supplier',
         default=False,
@@ -135,32 +139,141 @@ class StockPickingExport(models.TransientModel):
                 return {}
 
     @api.model
+    def get_picking_lines(self, pickings):
+        lines = {}
+        picks = pickings.filtered(
+            lambda r: r.state == 'done')
+        if picks:
+            sql = """
+                SELECT
+                    spo.product_id    AS product_id,
+                    spo.lot_id        AS lot_id,
+                    smol.move_id      AS move_id,
+                    SUM(smol.qty)     AS product_qty,
+                    spo.picking_id    AS picking_id
+                FROM stock_pack_operation spo
+                JOIN stock_move_operation_link smol
+                    ON spo.id = smol.operation_id
+                WHERE spo.product_id IS NOT NULL
+                    AND spo.picking_id in %s
+                GROUP BY
+                    smol.move_id,
+                    spo.product_id,
+                    spo.lot_id,
+                    spo.picking_id
+            """
+            self._cr.execute(sql, [picks._ids])
+            records = self._cr.fetchall()
+            for record in records:
+                product_id = self.env['product.product'].browse(record[0])
+                lot_id = self.env['stock.production.lot'].browse(record[1])
+                move_id = self.env['stock.move'].browse(record[2])
+                product_qty = record[3] or 0.0
+                picking_id = self.env['stock.move'].browse(record[4])
+                total = 0.0
+                if move_id.procurement_id.sale_line_id:
+                    total = move_id.order_price_unit * product_qty
+                vals = {
+                    'product_id': product_id,
+                    'lot_id': lot_id,
+                    'move_id': move_id,
+                    'product_qty': product_qty,
+                    'picking_id': picking_id,
+                    'total': total,
+                }
+                if picking_id.id not in lines:
+                    lines[picking_id.id] = []
+                lines[picking_id.id].append(vals)
+        # Ordenamos por código, ean13, nombre, movimmiento y lote
+        for pick in pickings:
+            if pick.id not in lines:
+                lines[pick.id] = []
+            else:
+                lines[pick.id] = sorted(
+                    lines[pick.id], key=lambda a: (
+                        a['product_id'].default_code, a['product_id'].ean13, a['product_id'].name, a['move_id'], a['lot_id']
+                    )
+                )
+        return lines
+
+    @api.model
     def get_model_salica(self):
         err_log = ''
         text = ''
         separator = '|'
         active_ids = self._context.get('active_ids', [])
         pickings = self.env['stock.picking'].browse(active_ids)
+        for move in pickings.mapped('move_lines'):
+            if move.picking_id.sale_id and not move.procurement_id.sale_line_id:
+                err_msg = _("Error in picking '%s': extra move detected!") % (move.picking_id.name)
+                err_log += '\n' + err_msg
+        picking_lines = self.get_picking_lines(pickings)
         for picking in pickings:
             if picking.state != 'done':
                 raise exceptions.Warning(_('Warning'), _("You can only export pickings in 'done' state!"))
-            if picking.picking_type_code != 'outgoing':
-                raise exceptions.Warning(_('Warning'), _("You can only export outgoing pickings!"))
             if not picking.supplier_id or picking.supplier_id.name.upper().find('SALICA') == -1:
-                raise exceptions.Warning(_('Warning'), _("You can only export outgoing pickings from the supplier 'SALICA'!"))
-            if not picking.sale_id:
-                raise exceptions.Warning(_('Warning'), _("You can only export pickings from sales! (%s)") % (picking.name))
-        for move in pickings.mapped('move_lines'):
-            if not move.procurement_id.sale_line_id:
-                err_msg = _("Error in picking '%s': extra move detected!") % (move.picking_id.name)
-                err_log += '\n' + err_msg
-        out_report_lines = pickings.compute_out_report_lines()
-        for picking in pickings:
-            if picking.id not in out_report_lines or not out_report_lines[picking.id]: # Esto no debería pasar nunca
+                raise exceptions.Warning(_('Warning'), _("You can only export pickings from the supplier 'SALICA'!"))
+            if picking.id not in picking_lines or not picking_lines[picking.id]: # Esto no debería pasar nunca
                 err_msg = _("Error in picking '%s': not report lines!") % (picking.name)
                 err_log += '\n' + err_msg
                 continue
-            lines = out_report_lines[picking.id]
+            commercial_partner_id = picking.partner_id.commercial_partner_id
+            location_usage = picking.move_lines and picking.move_lines[0].location_id.usage
+            location_dest_usage = picking.move_lines and picking.move_lines[0].location_dest_id.usage
+            if not (location_usage == 'internal' and location_dest_usage == 'customer' or
+                    location_usage == 'customer' and location_dest_usage == 'internal'):
+                raise exceptions.Warning(_('Warning'), _("You can only export customer outgoing or incoming pickings! Picking: %s") % (picking.name))
+            if location_dest_usage == 'customer' and not picking.sale_id:
+                raise exceptions.Warning(_('Warning'), _("You can only export customer outgoing pickings with sales orders! Picking: %s") % (picking.name))
+            # Signo para las cantidades (positivo = venta, negativo = abono)
+            sign = -1 if location_dest_usage == 'internal' else 1
+            # Obtenemos la tienda del pedido de venta si lo hay, y sino la averiguamos por el proveedor del alabrán
+            if picking.sale_id:
+                shop_id = picking.sale_id.shop_id
+            else:
+                domain = [
+                    ('supplier_id', '=', picking.supplier_id.id),
+                    ('indirect_invoicing', '=', True)
+                ]
+                shop_id = self.env['sale.shop'].search(domain, limit=1)
+            if not shop_id:
+                raise exceptions.Warning(_('Warning'), _("No valid shop for picking %s!") % (picking.name))
+            # Obtenemos el modo de pago del pedido si lo hay, y sino el que tenga por defecto el cliente.
+            if picking.sale_id:
+                payment_mode = picking.sale_id.payment_mode_id and picking.sale_id.payment_mode_id.name.upper() or ''
+            else:
+                domain = [
+                    ('partner_id', '=', commercial_partner_id.id),
+                    ('shop_id', '=', shop_id.id)
+                ]
+                partner_shop_ids = self.env['partner.shop.payment'].search(domain, limit=1)
+                payment_mode = partner_shop_ids.customer_payment_mode or \
+                    commercial_partner_id.customer_payment_mode
+                payment_mode = payment_mode and payment_mode.name.upper() or ''
+            if payment_mode.find('GIRO') != -1:
+                payment_mode = 'G'
+            elif payment_mode.find('TRANSFERENCIA') != -1:
+                payment_mode = 'N'
+            elif payment_mode.find('PAGARE') != -1:
+                payment_mode = 'P'
+            elif payment_mode.find('CONTADO') != -1 or payment_mode.find('MANO') != -1:
+                payment_mode = 'T'
+            else:
+                raise exceptions.Warning(_('Warning'), _('Picking %s without know payment mode') % (picking.name))
+            # Obtenemos el código de cliente
+            domain = [
+                ('partner_id', '=', picking.partner_id.id),
+                ('shop_id', '=', shop_id.id)
+            ]
+            partner_shop_ids = self.env['partner.shop.ref'].search(domain, limit=1)
+            partner_code = partner_shop_ids.ref or picking.partner_id.ref or ''
+            if len(partner_code) > 0 and partner_code[:2] not in ['36', '15', '27', '32']:
+                err_msg = _("Error in picking '%s': Partner %s with bad reference!") % (picking.name, picking.partner_id.name)
+                err_log += '\n' + err_msg
+            if not partner_code:
+                raise exceptions.Warning(_('Warning'), _('Partner %s without reference (%s)') % (picking.partner_id.name, picking.name))
+            # Recorremos las lineas del albarán
+            lines = picking_lines[picking.id]
             line_pos = 0
             for line in lines:
                 product_id = line['product_id']
@@ -199,32 +312,19 @@ class StockPickingExport(models.TransientModel):
                 l_text += '360001'
                 l_text += separator
                 # Cantidad unidades de venta en unidades (8 posiciones sin comas, y signo para los abonos) ej, para 23 ó -23 : |00000023| ó |-0000023|
-                product_uom_qty = line['product_qty']
-                if move_id.returned_move_ids:
+                product_uom_qty = line['product_qty'] * sign
+                if self.subtract_returns and move_id.returned_move_ids:
                     for smol in move_id.returned_move_ids.linked_move_operation_ids:
                         if lot_id == smol.operation_id.lot_id:
-                            product_uom_qty -= smol.qty
+                            product_uom_qty -= smol.qty * sign
                 if product_uom_qty == 0: # No grabamos la linea
                     l_text = ''
                     continue
-                if product_uom_qty < 0:
+                if (product_uom_qty * sign) < 0:
                     raise exceptions.Warning(_('Warning'), _('Picking %s with negative quantities') % (picking.name))
                 l_text += self.parse_number(round(product_uom_qty, 0), 7, dec_length=0, include_sign=True, positive_sign='0', negative_sign='-')
                 l_text += separator
                 # Modo de pago (1 caracter) -> Giro: G, Transferencia: T, Pagaré: P, Contado: T
-                payment_mode = picking.sale_id.payment_mode_id and picking.sale_id.payment_mode_id.name.upper() or ''
-                if payment_mode.find('GIRO') != -1:
-                    payment_mode = 'G'
-                elif payment_mode.find('TRANSFERENCIA') != -1:
-                    payment_mode = 'N'
-                elif payment_mode.find('PAGARE') != -1:
-                    payment_mode = 'P'
-                elif payment_mode.find('CONTADO') != -1 or payment_mode.find('MANO') != -1:
-                    payment_mode = 'T'
-                else:
-                    payment_mode = False
-                if not payment_mode:
-                    raise exceptions.Warning(_('Warning'), _('Picking %s (%s) without know payment mode') % (picking.name, picking.sale_id.name))
                 l_text += payment_mode
                 l_text += separator
                 # Posición de albarán (3 digitos): 001, 002, etc
@@ -238,25 +338,14 @@ class StockPickingExport(models.TransientModel):
                 l_text += ' ' * 12
                 l_text += separator
                 # Código cliente Sálica (6 cifras)
-                domain = [
-                    ('partner_id', '=', picking.partner_id.id),
-                    ('shop_id', '=', picking.sale_id.shop_id.id)
-                ]
-                partner_shop_ids = self.env['partner.shop.ref'].search(domain, limit=1)
-                partner_code = partner_shop_ids.ref or picking.partner_id.ref or ''
-                if len(partner_code) > 0 and partner_code[:2] not in ['36', '15', '27', '32']:
-                    err_msg = _("Error in picking '%s': Partner %s with bad reference!") % (picking.name, picking.partner_id.name)
-                    err_log += '\n' + err_msg
-                if not partner_code:
-                    raise exceptions.Warning(_('Warning'), _('Partner %s without reference (%s)') % (picking.partner_id.name, picking.name))
                 l_text += self.parse_string(partner_code, 6)
                 l_text += separator
                 # Precio artículo/unidad (4 enteros, una coma y 4 decimales) Formato=eeee,dddd
-                price = move_id.procurement_id.sale_line_id.price_unit
+                price = move_id.procurement_id.sale_line_id.price_unit or 0.0
                 l_text += self.parse_number(price, 4, dec_length=4, dec_separator=',')
                 l_text += separator
                 # Descuento uno (2 enteros, una coma y 2 decimales) Formato=ee,dd
-                discount = move_id.procurement_id.sale_line_id.discount
+                discount = move_id.procurement_id.sale_line_id.discount or 0
                 l_text += self.parse_number(discount, 2, dec_length=2, dec_separator=',')
                 l_text += separator
                 # Descuento dos (2 enteros, una coma y 2 decimales) Formato=ee,dd
@@ -267,11 +356,9 @@ class StockPickingExport(models.TransientModel):
                 l_text += self.parse_string(product_id.name, 30)
                 l_text += separator
                 if l_text:
-                    if text:
-                        text += '\r\n'
-                    text += l_text
-                    if self.sent_to_supplier and not picking.sent_to_supplier:
-                        picking.write({'sent_to_supplier': True})
+                    text += ('\r\n' + l_text) if text else l_text
+            if text and self.sent_to_supplier and not picking.sent_to_supplier:
+                picking.write({'sent_to_supplier': True})
         return (text, err_log)
 
     @api.model
@@ -392,10 +479,8 @@ class StockPickingExport(models.TransientModel):
                 # Referencia cliente (numero de pedido) 15 espacios alfanuméricos
                 l_text += self.parse_string(picking.sale_id.client_order_ref, 15)
                 if l_text:
-                    if text:
-                        text += '\r\n'
-                    text += l_text
-                    if self.sent_to_supplier and not picking.sent_to_supplier:
-                        picking.write({'sent_to_supplier': True})
+                    text += ('\r\n' + l_text) if text else l_text
+            if text and self.sent_to_supplier and not picking.sent_to_supplier:
+                picking.write({'sent_to_supplier': True})
         return (text, err_log)
 
