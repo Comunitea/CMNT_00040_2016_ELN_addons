@@ -128,14 +128,14 @@ class SaleOrder(models.Model):
             today = fields.Date.context_today(self)
             initial_date = datetime.strptime(today, "%Y-%m-%d")
             end_date = datetime.strptime(loading_date, "%Y-%m-%d")
-            diff_days = 1 + len(rrule(
+            diff_days = -1 + len(rrule(
                 freq=3, # Daily
                 byweekday=(0, 1, 2, 3, 4),
                 wkst=0,
                 dtstart=initial_date,
                 until=end_date,
                 interval=1)
-                .between(initial_date, end_date, inc=False)
+                .between(initial_date, end_date, inc=True)
             )
             if diff_days == 0:
                 app_note = '*** RUTA CARGANDOSE/CARGADA ***' + ((note and '\n' + note) or '')
