@@ -736,6 +736,7 @@ msgstr "Estado de preparación"
 
 #. module: eln_reports
 #: model:ir.actions.act_window,name:eln_reports.action_stock_production_lot_label_wizard
+#: view:mrp.production.workcenter.line:eln_reports.view_mrp_production_workcenter_line_kanban
 #: view:stock.production.lot.label.wizard:eln_reports.stock_production_lot_label_wizard_view
 msgid "Stock Production Label"
 msgstr "Etiqueta lotes de producción"

@@ -753,7 +753,7 @@ class MrpProduction(models.Model):
                    lambda r: r.state == 'done' and not r.scrapped)
                 raw_lots = raw_moves.mapped('quant_ids.lot_id')
             if not produced_lots:
-                produced_moves = production.move_created_ids.filtered(
+                produced_moves = production.move_created_ids2.filtered(
                    lambda r: r.state == 'done' and not r.scrapped)
                 produced_lots = produced_moves.mapped('quant_ids.lot_id')
             max_date = min(

@@ -3,7 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from openerp import models, api, fields, exceptions, _
-from datetime import timedelta
+from datetime import datetime, timedelta
 
 
 class StockProductionLotLabelWizard(models.TransientModel):
@@ -58,6 +58,127 @@ class StockProductionLotLabelWizard(models.TransientModel):
                         'extended_shelf_life_date': op.lot_id.extended_shelf_life_date,
                         'partner_name': picking_id.partner_id.name,
                         'origin': '',
+                    })
+        if active_model == 'mrp.production.workcenter.line':
+            active_model = 'mrp.production'
+            wc_line_ids = self.env['mrp.production.workcenter.line'].browse(active_ids)
+            active_ids = wc_line_ids.mapped('production_id').ids
+        if active_model == 'mrp.production':
+            # No ponemos production_app como dependendencia, pero verificamos si existe
+            production_app = self.env['ir.module.module'].search(
+                [('name', '=', 'production_app'), ('state', '=', 'installed')])
+            production_ids = self.env['mrp.production'].browse(active_ids)
+            for production_id in production_ids:
+                if production_id.state == 'cancel':
+                    continue
+                product_name = production_id.product_id.name
+                if production_id.product_id.code:
+                    product_name = '[%s] %s' % (production_id.product_id.code, production_id.product_id.name)
+                lot_name = origin = ''
+                produced_moves = production_id.move_created_ids2.filtered(
+                   lambda r: r.state == 'done' and not r.scrapped)
+                produced_lots = produced_moves.mapped('quant_ids.lot_id')
+                if not produced_lots:
+                    if production_app:
+                        produced_lots = production_id.mapped('workcenter_lines.registry_id.lot_id')
+                if not produced_lots:
+                    process_type = production_id.workcenter_lines.filtered(
+                        lambda r: r.workcenter_id.process_type).mapped('workcenter_id.process_type')
+                    if 'toasted' in process_type and 'fried' in process_type:
+                        process_type = False
+                    elif 'toasted' in process_type: # Proceso prioritario
+                        process_type = 'toasted'
+                    elif 'fried' in process_type: # Proceso prioritario
+                        process_type = 'fried'
+                    else:
+                        process_type = process_type and process_type[0] or False
+                    if process_type == 'packing':
+                        week = datetime.now().strftime("%W")
+                        weekday = datetime.now().strftime("%w")
+                        year = datetime.now().strftime("%y")[-1:]
+                        lot_name = week + '/' + weekday + year
+                    elif process_type == 'toasted':
+                        lot_name = 'T-' + production_id.name
+                    elif process_type == 'fried':
+                        lot_name = 'F-' + production_id.name
+                    elif process_type == 'mixed':
+                        lot_name = 'C-' + production_id.name
+                    elif process_type == 'seasoned':
+                        lot_name = 'S-' + production_id.name
+                    else:
+                        lot_name = ''
+                # Intentamos ver en el registro de app el origen registrado la última vez para sugerirlo
+                if production_app:
+                    # Buscamos el control que hace referencia al origen del producto
+                    domain = [
+                        ('name', 'ilike', 'origen'),
+                        ('value_type', '=', 'text'),
+                    ]
+                    pqc_ids = self.env['product.quality.check'].search(domain)
+                    # Buscamos primero en los registros de app de la producción seleccionada
+                    qcl_ids = production_id.mapped('workcenter_lines.registry_id.qc_line_ids').filtered(
+                        lambda r: (
+                            r.pqc_id in pqc_ids and
+                            r.value != False
+                        )
+                    )
+                    qcl_ids = production_id.mapped('workcenter_lines.registry_id.qc_line_ids').filtered(
+                        lambda r: r.pqc_id in pqc_ids and r.value != False)
+                    # Si no hemos encontrado valores registrados buscamos en los últimos 10 registros de app del mismo producto
+                    if not qcl_ids:
+                        domain = [
+                            ('product_id', '=', production_id.product_id.id),
+                        ]
+                        registry_ids = self.env['production.app.registry'].search(domain,
+                            limit=10, order='production_start desc, id desc')
+                        qcl_ids = registry_ids.mapped('qc_line_ids').filtered(
+                            lambda r: (
+                                r.pqc_id in pqc_ids and
+                                r.value != False
+                            )
+                        )
+                    qcl_ids = qcl_ids.sorted(
+                        key=lambda a: a.date, reverse=True)
+                    origin = qcl_ids and qcl_ids[0].value.upper() or ''
+                if produced_lots:
+                    for lot_id in produced_lots:
+                        lines.append({
+                            'product_id': lot_id.product_id.id,
+                            'lot_id': lot_id.id,
+                            'partner_id': False,
+                            'expected_use': lot_id.product_id.expected_use,
+                            'product_name': product_name,
+                            'lot_name': lot_id.name,
+                            'use_date': lot_id.use_date,
+                            'extended_shelf_life_date': lot_id.extended_shelf_life_date,
+                            'partner_name': '',
+                            'origin': origin,
+                        })
+                elif lot_name:
+                    today_date = datetime.now()
+                    duration = production_id.product_id.use_time or 0
+                    use_date = today_date + timedelta(days=duration)
+                    if production_id.product_id.expected_use == 'finished':
+                        use_date += timedelta(days=31)
+                        use_date = datetime(year=use_date.year, month=use_date.month, day=1, hour=2)
+                        use_date -= timedelta(days=1)
+                    extended_shelf_life_date = False
+                    if production_id.product_id.expected_use == 'raw':
+                        duration = production_id.product_id.extended_shelf_life_time or 0
+                        extended_shelf_life_date = use_date + timedelta(days=duration)
+                        extended_shelf_life_date = extended_shelf_life_date.strftime('%Y-%m-%d')
+                    use_date = use_date and use_date.strftime('%Y-%m-%d')
+                    lines.append({
+                        'product_id': production_id.product_id.id,
+                        'lot_id': False,
+                        'partner_id': False,
+                        'expected_use': production_id.product_id.expected_use,
+                        'product_name': product_name,
+                        'lot_name': lot_name,
+                        'use_date': use_date,
+                        'extended_shelf_life_date': extended_shelf_life_date,
+                        'partner_name': '',
+                        'origin': origin,
                     })
         res.update(line_ids=lines)
         return res
