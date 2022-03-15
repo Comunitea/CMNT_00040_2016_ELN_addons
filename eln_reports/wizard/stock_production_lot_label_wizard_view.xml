@@ -63,5 +63,35 @@
             target="new"
             view_type="form" />
 
+        <act_window id="action_stock_production_lot_label_wizard"
+            key2="client_print_multi"
+            name="Stock Production Label"
+            res_model="stock.production.lot.label.wizard"
+            src_model="mrp.production"
+            view_mode="form"
+            target="new"
+            view_type="form" />
+
+        <act_window id="action_stock_production_lot_label_wizard"
+            key2="client_print_multi"
+            name="Stock Production Label"
+            res_model="stock.production.lot.label.wizard"
+            src_model="mrp.production.workcenter.line"
+            view_mode="form"
+            target="new"
+            view_type="form" />
+
+        <record model="ir.ui.view" id="view_mrp_production_workcenter_line_kanban">
+            <field name="name">mrp.production.workcenter.line.kanban</field>
+            <field name="model">mrp.production.workcenter.line</field>
+            <field name="type">kanban</field>
+            <field name="inherit_id" ref="eln_production.view_mrp_production_workcenter_line_kanban"/>
+            <field name="arch" type="xml">
+                <ul class="oe_dropdown_menu" position="inside">
+                    <li><a name="%(action_stock_production_lot_label_wizard)d" type="action">Stock Production Label</a></li>
+                </ul>
+            </field>
+         </record>
+
     </data>
 </openerp>
