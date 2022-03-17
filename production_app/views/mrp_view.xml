@@ -56,6 +56,13 @@
         </field>
     </record>
 
+    <act_window
+        id="act_mrp_production_to_production_app_registry_open"
+        name="Show App Registries"
+        domain="[('production_id', '=', active_id)]"
+        res_model="production.app.registry"
+        src_model="mrp.production"/>
+
     <record id="mrp_workcenter_view_inherit" model="ir.ui.view">
         <field name="name">mrp_workcenter_view_inherit</field>
         <field name="model">mrp.workcenter</field>
