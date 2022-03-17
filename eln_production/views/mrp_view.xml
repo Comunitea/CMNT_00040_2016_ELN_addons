@@ -364,10 +364,9 @@
                 
                 <page string="Work Orders" position="replace">
                     <page string="Work Orders">
-                        <button name="action_compute" states="draft,confirmed,ready,finished,validated,closed"
+                        <button name="action_compute" states="draft"
                             string="Compute Data" type="object"
-                            icon="terp-stock_format-scientific"
-                            colspan="2" />
+                            icon="terp-stock_format-scientific"/>
                         <field colspan="4" name="workcenter_lines" nolabel="1">
                             <form string="Production Work Centers">
                                 <header>
@@ -457,6 +456,13 @@
                 </page>
             </field>
         </record>
+
+        <act_window
+            id="act_mrp_production_to_workcenter_line_open"
+            name="Show Work Orders"
+            domain="[('production_id', '=', active_id)]"
+            res_model="mrp.production.workcenter.line"
+            src_model="mrp.production"/>
 
         <record id="workcenter_line_calendar" model="ir.ui.view">
             <field name="name">mrp.production.workcenter.line.calendar</field>

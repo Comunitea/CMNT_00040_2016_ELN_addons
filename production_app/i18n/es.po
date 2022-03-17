@@ -834,6 +834,11 @@ msgid "Setup Started Yesterday"
 msgstr "Preparación iniciada ayer"
 
 #. module: production_app
+#: model:ir.actions.act_window,name:production_app.act_mrp_production_to_production_app_registry_open
+msgid "Show App Registries"
+msgstr "Ver registros app"
+
+#. module: production_app
 #: view:production.app.registry:production_app.production_app_registry_form_view
 msgid "Source Location"
 msgstr "Ubicación origen"

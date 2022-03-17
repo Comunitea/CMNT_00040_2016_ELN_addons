@@ -719,6 +719,11 @@ msgid "Set Draft"
 msgstr "Cambiar a borrador"
 
 #. module: eln_production
+#: model:ir.actions.act_window,name:eln_production.act_mrp_production_to_workcenter_line_open
+msgid "Show Work Orders"
+msgstr "Ver órdenes de trabajo"
+
+#. module: eln_production
 #: field:mrp.modify.consumption.line,location_id:0
 msgid "Source location"
 msgstr "Ubicación origen"
