@@ -2,12 +2,14 @@
 # © 2016 Comunitea - Javier Colmenero <javier@comunitea.com>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from openerp import models, api
+from openerp import models, fields, api
 
 
 class ProcurementOrder(models.Model):
     _inherit = 'procurement.order'
     _order = 'id desc'
+
+    orderpoint_id = fields.Many2one(select=True) # Redefine index
 
     @api.model
     def _prepare_orderpoint_procurement(self, orderpoint, product_qty):

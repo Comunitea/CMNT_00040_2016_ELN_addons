@@ -40,11 +40,12 @@ class ProductPricelistItem(models.Model):
         for item in self:
             price = False
             product_id = item.product_id
-            if item.product_id:
-                pricelist = item.price_version_id.pricelist_id
+            if product_id:
+                price_version = item.price_version_id
+                pricelist = price_version.pricelist_id
                 if pricelist:
                     qty = item.min_quantity
-                    date_price = item.price_version_id.date_start or item.price_version_id.date_end 
+                    date_price = price_version.date_end or fields.Date.context_today(self)
                     price = pricelist.with_context(date=date_price).price_get(
                         product_id.id, qty or 1.0, partner=False)[pricelist.id]
             item.price_calculated = price or 0.0
