@@ -61,6 +61,7 @@ class SaleOrder(models.Model):
         "When this value cannot be calculated, it will be set to -1.\n"\
         "Values greater than 20 will also be set to -1.\n"\
         "Negative values should generally not be taken into account for statistical calculations.")
+    procurement_group_id = fields.Many2one(select=True) # Redefine index
 
     @api.multi
     @api.depends('state')
@@ -324,3 +325,10 @@ class SaleOrderLine(models.Model):
         if product:
             res['domain'] = {'product_uom': [('category_id', '=', product_obj.uom_id.category_id.id)]} #Esto sobra porque tenemos fijada la uom y no se permite cambiar
         return res
+
+
+class ProcurementOrder(models.Model):
+    _inherit = 'procurement.order'
+
+    sale_line_id = fields.Many2one(select=True) # Redefine index
+

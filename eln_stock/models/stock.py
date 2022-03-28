@@ -107,6 +107,7 @@ class StockMove(models.Model):
     _inherit = 'stock.move'
 
     availability = fields.Float(compute='_get_product_availability') # Redefine compute method
+    procurement_id = fields.Many2one(select=True) # Redefine index
 
     @api.multi
     def _get_product_availability(self):
