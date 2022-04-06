@@ -154,20 +154,16 @@ class StockProductionLotLabelWizard(models.TransientModel):
                             'partner_name': '',
                             'origin': origin,
                         })
-                elif lot_name:
+                else:
                     today_date = datetime.now()
                     duration = production_id.product_id.use_time or 0
                     use_date = today_date + timedelta(days=duration)
-                    if production_id.product_id.expected_use == 'finished':
-                        use_date += timedelta(days=31)
-                        use_date = datetime(year=use_date.year, month=use_date.month, day=1, hour=2)
-                        use_date -= timedelta(days=1)
                     extended_shelf_life_date = False
                     if production_id.product_id.expected_use == 'raw':
                         duration = production_id.product_id.extended_shelf_life_time or 0
                         extended_shelf_life_date = use_date + timedelta(days=duration)
                         extended_shelf_life_date = extended_shelf_life_date.strftime('%Y-%m-%d')
-                    use_date = use_date and use_date.strftime('%Y-%m-%d')
+                    use_date = use_date.strftime('%Y-%m-%d')
                     lines.append({
                         'product_id': production_id.product_id.id,
                         'lot_id': False,

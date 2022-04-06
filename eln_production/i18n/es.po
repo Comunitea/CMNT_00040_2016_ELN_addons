@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-04 10:28+0000\n"
-"PO-Revision-Date: 2022-03-04 11:30+0100\n"
+"POT-Creation-Date: 2022-04-06 11:24+0000\n"
+"PO-Revision-Date: 2022-04-06 15:03+0200\n"
 "Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Para hacer esto automáticamente, elimine la fecha de vida útil extendida y la nueva fecha se volverá a calcular."
 
 #. module: eln_production
-#: code:addons/eln_production/models/mrp.py:77
+#: code:addons/eln_production/models/mrp.py:78
 #, python-format
 msgid "Active Id not found"
 msgstr "Id. activo no encontrado"
@@ -91,6 +91,12 @@ msgstr "Capacidad por ciclo"
 #: model:ir.model,name:eln_production.model_change_production_qty
 msgid "Change Quantity of Products"
 msgstr "Cambiar cantidad de productos"
+
+#. module: eln_production
+#: field:product.product,check_production_lot_date_type:0
+#: field:product.template,check_production_lot_date_type:0
+msgid "Check production lot date"
+msgstr "Verificar fecha del lote de producción"
 
 #. module: eln_production
 #: view:mrp.production:eln_production.mrp_production_form_inherit_10
@@ -189,9 +195,9 @@ msgid "Employee"
 msgstr "Empleado"
 
 #. module: eln_production
-#: code:addons/eln_production/models/mrp.py:342
-#: code:addons/eln_production/models/mrp.py:370
-#: code:addons/eln_production/models/mrp.py:702
+#: code:addons/eln_production/models/mrp.py:343
+#: code:addons/eln_production/models/mrp.py:371
+#: code:addons/eln_production/models/mrp.py:703
 #, python-format
 msgid "Error!"
 msgstr "¡Error!"
@@ -288,12 +294,6 @@ msgid "If checked, new Serial Numbers/lots will be created locked by default"
 msgstr "Si se marca, los nuevos números de serie/lotes se crearán bloqueados de forma predeterminada"
 
 #. module: eln_production
-#: help:product.product,not_check_production_lot_date:0
-#: help:product.template,not_check_production_lot_date:0
-msgid "If it is checked, in case this product is produced, the date of the production Serial Number/Lot of this product will not be verified and it will not be locked if it is wrong."
-msgstr "Si se marca, en caso de que este producto sea producido, la fecha de producción del nº de serie/lote de este producto no será verificada y no se bloquerá si es incorrecta."
-
-#. module: eln_production
 #: code:addons/eln_production/models/stock.py:60
 #, python-format
 msgid "If the best before date is changed, perhaps you should update the extended shelf life date."
@@ -380,7 +380,7 @@ msgid "Manufacturing Order"
 msgstr "Orden de producción"
 
 #. module: eln_production
-#: code:addons/eln_production/models/mrp.py:63
+#: code:addons/eln_production/models/mrp.py:64
 #, python-format
 msgid "Manufacturing Order <em>%s</em> has changed the quantity: %s -> %s"
 msgstr "La orden de producción <em>%s</em> ha cambiado la cantidad: %s -> %s"
@@ -391,7 +391,7 @@ msgid "Manufacturing Orders"
 msgstr "Órdenes de producción"
 
 #. module: eln_production
-#: code:addons/eln_production/models/mrp.py:343
+#: code:addons/eln_production/models/mrp.py:344
 #, python-format
 msgid "Manufacturing order cannot be started in state \"%s\"!"
 msgstr "¡La orden de producción no se puede iniciar en estado \"%s\"!"
@@ -428,6 +428,23 @@ msgid "Name"
 msgstr "Nombre"
 
 #. module: eln_production
+#: selection:product.template,check_production_lot_date_type:0
+msgid "No check"
+msgstr "No verificar"
+
+#. module: eln_production
+#: help:product.product,check_production_lot_date_type:0
+#: help:product.template,check_production_lot_date_type:0
+msgid ""
+"No check: in case this product is produced, the date of the production Serial Number/Lot of this product will not be verified and it will not be locked if it is wrong.\n"
+"Short dates: in case this product is produced, the date of the production Serial Number/Lot of this product will be verified and it will be locked if a component with a expired date or a lower date than the product produced has been used.\n"
+"Only expired dates: in case this product is produced, the date of the production Serial Number/Lot of this product will be verified and it will be locked if a component with a expired date has been used."
+msgstr ""
+"No verificar: en caso de que este producto sea producido, la fecha de producción del nº de serie/lote de este producto no será verificada y no se bloqueará si es incorrecta.\n"
+"Fechas cortas: en caso de que este producto sea producido, la fecha de producción del nº de serie/lote de este producto será verificada y se bloqueará si se ha utilizado un componente con fecha caducada o una fecha inferior a la del producto producido.\n"
+"Solo fechas caducadas: en caso de que este producto sea producido, la fecha de producción del nº de serie/lote de este producto será verificada y se bloqueará si se ha utilizado un componente con fecha caducada."
+
+#. module: eln_production
 #: selection:mrp.production.workcenter.line,workorder_planned_state:0
 msgid "No planned"
 msgstr "No planificado"
@@ -439,12 +456,6 @@ msgid "Normal"
 msgstr "Normal"
 
 #. module: eln_production
-#: field:product.product,not_check_production_lot_date:0
-#: field:product.template,not_check_production_lot_date:0
-msgid "Not check production lot date"
-msgstr "No verificar fecha del lote de producción"
-
-#. module: eln_production
 #: view:mrp.production:eln_production.mrp_production_form_inherit_10
 #: field:mrp.production,note:0
 msgid "Notes"
@@ -454,6 +465,11 @@ msgstr "Notas"
 #: help:mrp.routing.workcenter,capacity_per_cycle:0
 msgid "Number of operations this Work Center can do in parallel. If this Work Center represents a team of 5 workers, the capacity per cycle is 5."
 msgstr "Número de operaciones que este centro de trabajo puede hacer en paralelo. Si este centro de trabajo representa un equipo de 5 trabajadores, la capacidad por ciclo es de 5."
+
+#. module: eln_production
+#: selection:product.template,check_production_lot_date_type:0
+msgid "Only expired dates"
+msgstr "Solo fechas caducadas"
 
 #. module: eln_production
 #: view:mrp.production:eln_production.mrp_production_form_inherit_10
@@ -472,7 +488,7 @@ msgid "Operators Nº"
 msgstr "Operarios Nº"
 
 #. module: eln_production
-#: code:addons/eln_production/models/mrp.py:525
+#: code:addons/eln_production/models/mrp.py:526
 #, python-format
 msgid "PROD: %s"
 msgstr "PROD: %s"
@@ -719,6 +735,11 @@ msgid "Set Draft"
 msgstr "Cambiar a borrador"
 
 #. module: eln_production
+#: selection:product.template,check_production_lot_date_type:0
+msgid "Short dates"
+msgstr "Fechas cortas"
+
+#. module: eln_production
 #: model:ir.actions.act_window,name:eln_production.act_mrp_production_to_workcenter_line_open
 msgid "Show Work Orders"
 msgstr "Ver órdenes de trabajo"
@@ -866,7 +887,7 @@ msgid "Update"
 msgstr "Actualizar"
 
 #. module: eln_production
-#: code:addons/eln_production/models/mrp.py:767
+#: code:addons/eln_production/models/mrp.py:775
 #, python-format
 msgid "Use date should be checked. The Serial Number/Lot will be locked."
 msgstr "Se debe verificar la fecha de consumo preferente. El número de serie/lote se bloqueará."
@@ -939,13 +960,13 @@ msgid "Yesterday"
 msgstr "Ayer"
 
 #. module: eln_production
-#: code:addons/eln_production/models/mrp.py:703
+#: code:addons/eln_production/models/mrp.py:704
 #, python-format
 msgid "You cannot delete a production which is not cancelled."
 msgstr "No se puede eliminar una producción que no esté cancelada."
 
 #. module: eln_production
-#: code:addons/eln_production/models/mrp.py:371
+#: code:addons/eln_production/models/mrp.py:372
 #, python-format
 msgid "You cannot delete a work order which is not in draft or cancelled."
 msgstr "No se puede eliminar una orden de trabajo que no esté en borrador o cancelada."

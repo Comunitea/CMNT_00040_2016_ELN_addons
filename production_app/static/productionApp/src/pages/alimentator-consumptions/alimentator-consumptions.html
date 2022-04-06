@@ -9,6 +9,9 @@
     <ion-navbar [color]="navbarColor">
         <ion-title><span class="custom-font-size">{{this.title}}</span></ion-title>
         <ion-buttons end>
+		    <ion-badge color="danger" *ngIf="this.prodData.odooCon.pending_calls.length > 0">
+                {{ this.prodData.odooCon.pending_calls.length }}
+            </ion-badge>
             <button ion-button full (click)="showConsumptions()">
                 <ion-icon name="clipboard"></ion-icon>
             </button>

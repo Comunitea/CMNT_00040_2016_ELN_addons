@@ -53,8 +53,21 @@ class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
     extended_shelf_life_time = fields.Integer('Extended product shelf life time',
-        help='When a new a Serial Number is issued, this is the number of additional days that the shelf life set by the manufacturer can be extended.')
-    not_check_production_lot_date = fields.Boolean('Not check production lot date', default=False,
-        help="If it is checked, in case this product is produced, the date of the production Serial Number/Lot of this product will not be verified and it will not be locked if it is wrong.")
-
+        help="When a new a Serial Number is issued, this is the number of "
+             "additional days that the shelf life set by the manufacturer can be extended.")
+    check_production_lot_date_type = fields.Selection([
+        ('no_check', 'No check'),
+        ('short_dates', 'Short dates'),
+        ('only_expired', 'Only expired dates')], 'Check production lot date',
+        default=False,
+        help="No check: in case this product is produced, the date of the "
+             "production Serial Number/Lot of this product will not be "
+             "verified and it will not be locked if it is wrong.\n"
+             "Short dates: in case this product is produced, the date of the "
+             "production Serial Number/Lot of this product will be verified "
+             "and it will be locked if a component with a expired date or a "
+             "lower date than the product produced has been used.\n"
+             "Only expired dates: in case this product is produced, the date of the "
+             "production Serial Number/Lot of this product will be verified "
+             "and it will be locked if a component with a expired date has been used.")
 
