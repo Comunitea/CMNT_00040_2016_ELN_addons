@@ -211,9 +211,15 @@ export class ProductionPage {
                 if (res === null || Object.keys(res).length === 0) {
                     reject();
                 } else {
-                    this.prodData.qty = res.qty;
-                    this.prodData.lot_name = res.lot;
-                    this.prodData.lot_date = res.date;
+                    if (res.hasOwnProperty('qty')) {
+                        this.prodData.qty = res.qty;
+                    };
+                    if (res.hasOwnProperty('lot')) {
+                        this.prodData.product_lot_name = res.lot;
+                    };
+                    if (res.hasOwnProperty('date')) {
+                        this.prodData.product_use_date = res.date;
+                    };
                     resolve();
                 }
             });

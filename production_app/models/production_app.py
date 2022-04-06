@@ -384,11 +384,9 @@ class ProductionAppRegistry(models.Model):
             if not lot_obj:
                 lot_date = values.get('lot_date', '')
                 try:
-                    lot_date = lot_date[:7] + '-01 02:00:00'
+                    lot_date = lot_date[:10] + ' 02:00:00'
                     lot_date = fields.Datetime.from_string(lot_date)
-                    lot_date = (lot_date + timedelta(31))
-                    lot_date = datetime(year=lot_date.year, month=lot_date.month, day=1, hour=2)
-                    lot_date = (lot_date - timedelta(days=1)).strftime("%Y-%m-%d %H:%M:%S")
+                    lot_date = lot_date.strftime("%Y-%m-%d %H:%M:%S")
                 except:
                     lot_date = False
                 lot_date = lot_date if lot_date else False
@@ -486,11 +484,10 @@ class ProductionAppRegistry(models.Model):
                 use_date = use_date and use_date[:10] or False
             else:
                 use_time = reg.production_id.product_id.use_time
-                use_date = (datetime.now() + timedelta(use_time + 31))
-                use_date = datetime(year=use_date.year, month=use_date.month, day=1)
-                use_date = (use_date - timedelta(days=1)).strftime("%Y-%m-%d")
+                use_date = datetime.now() + timedelta(use_time)
+                use_date = use_date.strftime("%Y-%m-%d")
             raw_lots = (reg.line_in_ids + reg.line_out_ids).mapped('lot_id')
-            if not reg.product_id.not_check_production_lot_date:
+            if reg.product_id.check_production_lot_date_type not in (False, 'no_check'):
                 max_date = min(
                     [max([x.use_date, x.extended_shelf_life_date])
                     if x.product_expected_use == 'raw' else x.use_date

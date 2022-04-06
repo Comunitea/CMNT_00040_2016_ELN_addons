@@ -58,8 +58,6 @@ export class ProductionProvider {
     uom: string;
     uos: string;
     uos_coeff: number;
-    lot_name;
-    lot_date;
     product_use_date: string;
     product_max_date: string;
     product_lot_name: string;
@@ -111,7 +109,6 @@ export class ProductionProvider {
         if (hours < 10) hours_str = "0" + hours_str;
         if (minutes < 10) minutes_str = "0" + minutes_str;
         if (seconds < 10) seconds_str = "0" + seconds_str;
-
         var today = year_str + "-" + month_str + "-" + day_str + " " + hours_str + ":" + minutes_str + ":" + seconds_str;
         return today;
     }
@@ -205,6 +202,42 @@ export class ProductionProvider {
         .catch( (err) => {
             console.log("Error buscando lotes")
         });
+    }
+
+    get_default_lot_name() {
+        var process_type = this.process_type;
+        var lot_name;
+        if (process_type == 'packing') {
+            lot_name = this.get_default_Packing_Lot(new Date());
+        } else if (process_type == 'toasted') {
+            lot_name = 'T-' + this.production;
+        } else if (process_type == 'fried') {
+            lot_name = 'F-' + this.production;
+        } else if (process_type == 'mixed') {
+            lot_name = 'C-' + this.production;
+        } else if (process_type == 'seasoned') {
+            lot_name = 'S-' + this.production;
+        } else {
+            lot_name = '';
+        }
+        return lot_name;
+    }
+
+    get_default_Packing_Lot(date) {
+        var d: any;
+        var yearStart: any;
+        // Copy date so don't modify original
+        d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+        // Set to nearest Thursday: current date + 4 - current day number
+        // Make Sunday's day number 7
+        d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
+        // Get first day of year
+        yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+        // Calculate full weeks to nearest Thursday
+        var weekNo = ('0' + (Math.ceil((((d - yearStart) / 86400000) + 1) / 7))).slice(-2);
+        var weekDay = (date.getUTCDay() || 7)
+        var year = d.getUTCFullYear().toString().slice(-1)
+        return weekNo + '/' + weekDay + year;
     }
 
     getMaxUseDate() {
@@ -661,8 +694,8 @@ export class ProductionProvider {
     startProduction() {
         this.state = 'started'
         var values = {'setup_end': this.getUTCDateStr(),
-                      'lot_name': this.lot_name,
-                      'lot_date': this.lot_date}
+                      'lot_name': this.product_lot_name,
+                      'lot_date': this.product_use_date}
         this.setStepAsync('start_production', values);
     }
 

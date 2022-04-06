@@ -20,6 +20,7 @@
 ##############################################################################
 from openerp import models, fields, api, exceptions, _
 from openerp import tools
+from datetime import datetime
 from openerp.addons.product import _common
 from openerp.tools import float_is_zero
 from openerp.tools.float_utils import float_round
@@ -746,7 +747,8 @@ class MrpProduction(models.Model):
     @api.multi
     def check_produced_lot(self, raw_lots=False, produced_lots=False):
         for production in self:
-            if production.product_id.not_check_production_lot_date:
+            check_production_lot_date_type =  production.product_id.check_production_lot_date_type
+            if check_production_lot_date_type in (False, 'no_check'):
                 continue
             if not raw_lots:
                 raw_moves = production.move_lines2.filtered(
@@ -763,7 +765,13 @@ class MrpProduction(models.Model):
                 or [False]
             )
             for lot_id in produced_lots:
-                if max_date and lot_id.use_date and lot_id.use_date > max_date:
+                today = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                use_date = lot_id.use_date or today
+                if check_production_lot_date_type == 'only_expired':
+                    produced_moves = production.move_created_ids2.filtered(
+                       lambda r: r.state == 'done' and not r.scrapped and r.date)
+                    use_date = min(produced_moves.mapped('date') or [False]) or today
+                if max_date and use_date > max_date:
                     body = _('Use date should be checked. The Serial Number/Lot will be locked.')
                     lot_id.message_post(body=body)
                     lot_id.lock_lot()

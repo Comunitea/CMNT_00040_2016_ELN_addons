@@ -52,7 +52,7 @@
 
         <ion-item *ngIf="(mode !== 'show') && (mode_step === 'start')">
             <ion-label color="primary" stacked><span>Fecha de caducidad</span></ion-label>
-            <ion-datetime displayFormat="MM/YYYY" pickerFormat="MM YYYY" max="2099-12-31" placeholder="Introducir caducidad" [(ngModel)]="date"></ion-datetime>
+            <ion-datetime displayFormat="DD/MM/YYYY" pickerFormat="DD MM YYYY" max="2099-12-31" placeholder="Introducir caducidad" [(ngModel)]="date"></ion-datetime>
         </ion-item>
     </ion-list>
 

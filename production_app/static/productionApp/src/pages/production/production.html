@@ -66,6 +66,8 @@
                             <div class="info-content">{{prodData.product}}</div>
                             <div class="info-content" *ngIf="prodData.production_uos_qty !== 0">{{prodData.production_qty}} {{prodData.uom}} / {{prodData.production_uos_qty}} {{prodData.uos}}</div>
                             <div class="info-content" *ngIf="prodData.production_uos_qty === 0">{{prodData.production_qty}} {{prodData.uom}}</div>
+                            <div class="info-content" *ngIf="prodData.product_lot_name !== ''">Caducidad: [{{prodData.product_use_date | date: 'dd/MM/yyyy'}}] · Lote: [{{prodData.product_lot_name}}]</div>
+                            <div class="info-warning" *ngIf="prodData.product_lot_name === ''">Caducidad: ¿{{prodData.product_use_date | date: 'dd/MM/yyyy'}}? · Lote: ¿{{prodData.get_default_lot_name()}}?</div>
                         </ion-col>
                     </ion-row>
                     <ion-row>
