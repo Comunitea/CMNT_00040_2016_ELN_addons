@@ -477,7 +477,7 @@ class ProductionAppRegistry(models.Model):
     def get_max_use_date(self, values):
         registry_id = values.get('registry_id', False)
         reg = self.get_registry(registry_id=registry_id)
-        max_date = use_date = lot_name = False
+        max_date = use_date = lot_name = check_type = False
         if reg:
             if reg.lot_id:
                 use_date = reg.lot_id.use_date
@@ -487,7 +487,8 @@ class ProductionAppRegistry(models.Model):
                 use_date = datetime.now() + timedelta(use_time)
                 use_date = use_date.strftime("%Y-%m-%d")
             raw_lots = (reg.line_in_ids + reg.line_out_ids).mapped('lot_id')
-            if reg.product_id.check_production_lot_date_type not in (False, 'no_check'):
+            check_type = reg.product_id.check_production_lot_date_type
+            if check_type not in (False, 'no_check'):
                 max_date = min(
                     [max([x.use_date, x.extended_shelf_life_date])
                     if x.product_expected_use == 'raw' else x.use_date
@@ -500,6 +501,7 @@ class ProductionAppRegistry(models.Model):
             'max_date': max_date,
             'use_date': use_date,
             'lot_name': lot_name,
+            'check_type': check_type,
         }
         return res
 

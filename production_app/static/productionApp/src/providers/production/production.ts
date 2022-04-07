@@ -61,6 +61,7 @@ export class ProductionProvider {
     product_use_date: string;
     product_max_date: string;
     product_lot_name: string;
+    product_check_type: string;
     workline_name: string;
     review_consumptions: boolean = false;
     consumptions_done: boolean = false;
@@ -249,7 +250,9 @@ export class ProductionProvider {
                 this.product_max_date = res['max_date'] || '';
                 this.product_use_date = res['use_date'] || '';
                 this.product_lot_name = res['lot_name'] || '';
-                // console.log("product_lot_name:", this.product_lot_name, "product_use_date:", this.product_use_date, "product_max_date:", this.product_max_date);
+                this.product_check_type = res['check_type'] || 'no_check';
+                // console.log("estoy en getMaxUseDate", "product_lot_name:", this.product_lot_name, "product_use_date:", this.product_use_date, 
+                //             "product_max_date:", this.product_max_date, "product_check_type:", this.product_check_type);
                 resolve();
             })
             .catch( (err) => {
