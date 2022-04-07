@@ -17,6 +17,7 @@ export class FinishModalPage {
     lot: string;
     date: string;
     max_date: string;
+    check_type: string;
     lots: Object[];
     items: Object[];
     mode: string = 'default';
@@ -35,16 +36,19 @@ export class FinishModalPage {
         })
         this.lots = [];
         this.items = [];
+        this.mode_step = this.navParams.get('mode_step');
         // Inicializamos los valores de lote y fecha del PT con lo que se ha cargado al inicializar el registro
         // por si cuando llamamos a getMaxUseDate() estamos offline (de esta forma tenemos unos valores 
         // que deberían ser válidos en el 99% de los casos)
         this.lot = this.prodData.product_lot_name;
         this.date = this.prodData.product_use_date;
         this.max_date = this.prodData.product_max_date;
+        this.check_type = this.prodData.product_check_type;
         this.prodData.getMaxUseDate().then(() => {
             this.lot = this.prodData.product_lot_name;
             this.date = this.prodData.product_use_date;
             this.max_date = this.prodData.product_max_date;
+            this.check_type = this.prodData.product_check_type;
         }).catch(() => {});
         this.ctrl = 'do'
     }
@@ -109,26 +113,48 @@ export class FinishModalPage {
             res['lot'] = this.lot
             res['date'] = this.date
         };
-        // Si no tenemos max_date es porque el PT está marcado para no chequear o 
-        // porque aun no añadimos componentes al registro de app
-        if (this.date && this.max_date && this.date > this.max_date) {
-            let titulo = "Advertencia";
-            let texto = "La fecha de caducidad es:<br>" + 
-                this.date.replace(/(\d{4})\-(\d{2})\-(\d{2}).*/, '$3-$2-$1') + 
-                "<br>y no debería ser superior a:<br>" + 
-                this.max_date.replace(/(\d{4})\-(\d{2})\-(\d{2}).*/, '$3-$2-$1') + 
-                ".<br>¡Proceda a informar al responsable de producción de esta anomalía!" + 
-                "<br>¿Continuar?" 
-            this.confirmationAlert(titulo, texto).then(confirm => {
-                if (confirm) {
-                    this.prodData.registerMessage(
-                        'Modo: Producción. FCP corta en uno de los componentes. Estado: ' + this.mode_step + '.');
-                } else {
-                    return
-                }
-            })
+        if (this.check_type != 'no_check') {
+            var today = this.prodData.getUTCDateStr().substring(0, 10) 
+            if (this.max_date && today > this.max_date) {
+                let titulo = "Advertencia";
+                let texto = "La fecha de caducidad de uno de los componentes ha expirado:<br>" + 
+                    this.max_date.replace(/(\d{4})\-(\d{2})\-(\d{2}).*/, '$3-$2-$1') + 
+                    ".<br>¡Proceda a informar al responsable de producción de esta anomalía!" + 
+                    "<br>¿Continuar?"
+                this.confirmationAlert(titulo, texto).then(confirm => {
+                    if (confirm) {
+                        this.prodData.registerMessage(
+                            'Modo: Producción. FCP expirada en uno de los componentes. Estado: ' + this.mode_step + '.'
+                        );
+                        this.viewCtrl.dismiss(res);
+                    } else {
+                        return;
+                    }
+                })
+            } else if (this.check_type == 'short_dates' && this.date && this.max_date && this.date > this.max_date) {
+                let titulo = "Advertencia";
+                let texto = "La fecha de caducidad es:<br>" + 
+                    this.date.replace(/(\d{4})\-(\d{2})\-(\d{2}).*/, '$3-$2-$1') + 
+                    "<br>y no debería ser superior a:<br>" + 
+                    this.max_date.replace(/(\d{4})\-(\d{2})\-(\d{2}).*/, '$3-$2-$1') + 
+                    ".<br>¡Proceda a informar al responsable de producción de esta anomalía!" + 
+                    "<br>¿Continuar?"
+                this.confirmationAlert(titulo, texto).then(confirm => {
+                    if (confirm) {
+                        this.prodData.registerMessage(
+                            'Modo: Producción. FCP corta en uno de los componentes. Estado: ' + this.mode_step + '.'
+                        );
+                        this.viewCtrl.dismiss(res);
+                    } else {
+                        return;
+                    }
+                })
+            } else {
+                this.viewCtrl.dismiss(res);
+            };
+        } else {
+            this.viewCtrl.dismiss(res);
         };
-        this.viewCtrl.dismiss(res);
     }
 
     closeModal() {

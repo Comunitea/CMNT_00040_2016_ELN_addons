@@ -62,6 +62,27 @@ export class ConsumeModalPage {
         alert.present();
     }
 
+    confirmationAlert(titulo, texto): Promise<boolean> {
+        let resolveFunction: (confirm: boolean) => void;
+        let promise = new Promise<boolean>(resolve => {
+            resolveFunction = resolve;
+        });
+        let alert = this.alertCtrl.create({
+            title: titulo,
+            subTitle: texto,
+            enableBackdropDismiss: false,
+            buttons: [ {
+                text: 'No',
+                handler: () => resolveFunction(false)
+            }, {
+                text: 'Sí',
+                handler: () => resolveFunction(true)
+            } ]
+        });
+        alert.present();
+        return promise;
+    }
+
     showLots() {
         this.mode = 'show'
         if (this.line.product_id in this.prodData.lotsByProduct) {
@@ -96,43 +117,61 @@ export class ConsumeModalPage {
     confirmModal() {
         if (this.line.lot_required && !this.line.lot_id && (this.line.type == 'in' || this.line.type == 'out')) {
             this.presentAlert("Error", "Es obligatorio indicar el lote")
-        } else {
-            var use_date = this.prodData.product_use_date;
-            var max_date = this.prodData.product_max_date;
-            var comp_product= this.prodData.lotsByProduct[this.line.product_id].filter(
-                lot_id => lot_id.id === this.line.lot_id);
-            var comp_date = (!(comp_product === undefined || comp_product.length == 0) &&
-                comp_product[0]['use_date'].substring(0, 10) || '');
+            return;
+        };
+        var use_date = this.prodData.product_use_date;
+        var check_type = this.prodData.product_check_type;
+        var comp_product= this.prodData.lotsByProduct[this.line.product_id].filter(
+            lot_id => lot_id.id === this.line.lot_id);
+        var comp_date = (!(comp_product === undefined || comp_product.length == 0) &&
+            comp_product[0]['use_date'].substring(0, 10) || '');
+        // console.log("comp_date", comp_date, "use_date", use_date, "check_type", check_type);
+        if (this.line.type == 'in' && check_type != 'no_check') {
             var today = this.prodData.getUTCDateStr().substring(0, 10) 
-            // console.log("comp_date", comp_date, "use_date", use_date, "max_date", max_date, "today", today);
-            // Si no tenemos max_date es porque el PT está marcado para no chequear o 
-            // porque aun no añadimos componentes al registro de app
-            if (this.line.type == 'in' && max_date && comp_date && today > comp_date) {
-                this.presentAlert("Advertencia", 
-                    "La fecha de caducidad de este componente ha expirado:<br>" + 
+            if (comp_date && today > comp_date) {
+                let titulo = "Advertencia";
+                let texto = "La fecha de caducidad de este componente ha expirado:<br>" + 
                     comp_date.replace(/(\d{4})\-(\d{2})\-(\d{2}).*/, '$3-$2-$1') + 
-                    ".<br>¡Proceda a informar al responsable de producción de esta anomalía!");
-                this.prodData.registerMessage(
-                    'Modo: Alimentador. ' + 
-                    'FCP expirada en el producto: ' + 
-                    this.line.product_name + ', Lote: ' + this.line.lot_name + 
-                    '.');
-            };
-            if (this.line.type == 'in' && use_date && max_date && comp_date && use_date > comp_date) {
-                this.presentAlert("Advertencia", 
-                    "La fecha de caducidad de este componente es:<br>" + 
+                    ".<br>¡Proceda a informar al responsable de producción de esta anomalía!" + 
+                    "<br>¿Continuar?"
+                this.confirmationAlert(titulo, texto).then(confirm => {
+                    if (confirm) {
+                        this.prodData.registerMessage(
+                            'Modo: Alimentador. ' + 
+                            'FCP expirada en el producto: ' + 
+                            this.line.product_name + ', Lote: ' + this.line.lot_name + '.'
+                        );
+                        this.viewCtrl.dismiss(this.line);
+                    } else {
+                        return
+                    }
+                })
+            } else if (check_type == 'short_dates' && use_date && comp_date && use_date > comp_date) {
+                let titulo = "Advertencia";
+                let texto = "La fecha de caducidad de este componente es:<br>" + 
                     comp_date.replace(/(\d{4})\-(\d{2})\-(\d{2}).*/, '$3-$2-$1') + 
                     "<br>y no debería ser inferior a:<br>" + 
                     use_date.replace(/(\d{4})\-(\d{2})\-(\d{2}).*/, '$3-$2-$1') + 
-                    ".<br>¡Proceda a informar al responsable de producción de esta anomalía!");
-                this.prodData.registerMessage(
-                    'Modo: Alimentador. ' + 
-                    'FCP corta en el producto: ' + 
-                    this.line.product_name + ', Lote: ' + this.line.lot_name + 
-                    '.');
+                    ".<br>¡Proceda a informar al responsable de producción de esta anomalía!" + 
+                    "<br>¿Continuar?"
+                this.confirmationAlert(titulo, texto).then(confirm => {
+                    if (confirm) {
+                        this.prodData.registerMessage(
+                            'Modo: Alimentador. ' + 
+                            'FCP corta en el producto: ' + 
+                            this.line.product_name + ', Lote: ' + this.line.lot_name + '.'
+                        );
+                        this.viewCtrl.dismiss(this.line);
+                    } else {
+                        return
+                    }
+                })
+            } else {
+                this.viewCtrl.dismiss(this.line);
             };
+        } else {
             this.viewCtrl.dismiss(this.line);
-        }
+        };
     }
 
     removeLine() {
