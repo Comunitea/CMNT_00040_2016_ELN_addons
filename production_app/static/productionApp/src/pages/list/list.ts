@@ -96,7 +96,13 @@ export class ListPage {
                                 this.items[indx]['review_consumptions'] = false
                             }
                         }
+                    })
+                    .catch( (err) => {
+                        this.presentAlert("Error", "Fallo en getLines(). Posiblemente no haya conexión con el servidor.");
                     });
+                })
+                .catch( (err) => {
+                    this.presentAlert("Error", "Fallo en getLines(). Posiblemente no haya conexión con el servidor.");
                 });
             }
         });
@@ -116,7 +122,7 @@ export class ListPage {
                 }); 
             })
             .catch( (err) => {
-                this.presentAlert(err.title, err.msg);
+                this.presentAlert("Error", "Fallo al cargar la producción.");
             }); 
         }
     }

@@ -453,7 +453,7 @@ export class ProductionPage {
             // this.prodData.active_operator_id = 0;
         })
         .catch( (err) => {
-            this.presentAlert(err.title, err.msg);
+            this.presentAlert("Error", "Fallo al cargar la siguiente producción.");
         }); 
     }
 
