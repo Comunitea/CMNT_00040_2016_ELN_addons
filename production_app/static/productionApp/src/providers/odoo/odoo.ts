@@ -88,13 +88,13 @@ export class OdooProvider {
                         })
                         .catch( () => {
                             this.pending_calls.push({'method': method, 'values': values})
-                            var err = {'title': '¡Error!', 'msg': 'Fallo al llamar al método ' + method + ' del modelo production.app.registry'}
+                            var err = {'title': '¡Error!', 'msg': 'Fallo al llamar al método ' + method + ' del modelo production_app_registry. Posiblemente no haya conexión con el servidor.'}
                             reject(err);
                         });
                     })
                     .catch( () => {
                         this.pending_calls.push({'method': method, 'values': values})
-                        var err = {'title': '¡Error!', 'msg': 'Fallo al llamar al método ' + method + ' del modelo production.app.registry'}
+                        var err = {'title': '¡Error!', 'msg': 'Fallo al llamar al método ' + method + ' del modelo production_app_registry. Posiblemente no haya conexión con el servidor.'}
                         reject(err);
                     });
                 }
@@ -119,7 +119,7 @@ export class OdooProvider {
                         resolve(res);
                     })
                     .catch( () => {
-                        var err = {'title': '¡Error!', 'msg': 'Fallo al llamar al hacer search_read'}
+                        var err = {'title': '¡Error!', 'msg': 'Fallo al llamar a search_read. Posiblemente no haya conexión con el servidor.'}
                         reject(err);
                     });
                 }
@@ -144,7 +144,7 @@ export class OdooProvider {
                         resolve(res);
                     })
                     .catch( () => {
-                        var err = {'title': '¡Error!', 'msg': 'Fallo al llamar al método ' + method + 'del modelo production.app.registry'}
+                        var err = {'title': '¡Error!', 'msg': 'Fallo al llamar al método ' + method + 'del modelo production_app_registry. Posiblemente no haya conexión con el servidor.'}
                         reject(err);
                     });
                 }
