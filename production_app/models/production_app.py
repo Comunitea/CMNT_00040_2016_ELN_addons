@@ -838,7 +838,7 @@ class ProductionAppRegistry(models.Model):
                 (reg.wc_line_id and reg.wc_line_id.name or '')
             body = _('Quality checks with errors. The Serial Number/Lot will be locked.') + '<br>' + body
             reg.lot_id.message_post(body=body)
-            reg.lot_id.lock_lot()
+            reg.lot_id.sudo().lock_lot()
         return True
 
     @api.model

@@ -774,5 +774,5 @@ class MrpProduction(models.Model):
                 if max_date and use_date > max_date:
                     body = _('Use date should be checked. The Serial Number/Lot will be locked.')
                     lot_id.message_post(body=body)
-                    lot_id.lock_lot()
+                    lot_id.sudo().lock_lot()
 
