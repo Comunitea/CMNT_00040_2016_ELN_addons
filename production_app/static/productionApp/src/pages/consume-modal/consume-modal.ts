@@ -121,11 +121,12 @@ export class ConsumeModalPage {
         };
         var use_date = this.prodData.product_use_date;
         var check_type = this.prodData.product_check_type;
-        var comp_product= this.prodData.lotsByProduct[this.line.product_id].filter(
-            lot_id => lot_id.id === this.line.lot_id);
+        var comp_product= this.prodData.lotsByProduct[this.line.product_id] && 
+            this.prodData.lotsByProduct[this.line.product_id].filter(
+                lot_id => (lot_id && lot_id.id || false) === this.line.lot_id);
         var comp_date = (!(comp_product === undefined || comp_product.length == 0) &&
-            comp_product[0]['use_date'].substring(0, 10) || '');
-        // console.log("comp_date", comp_date, "use_date", use_date, "check_type", check_type);
+            comp_product[0]['use_date'] && comp_product[0]['use_date'].substring(0, 10) || '');
+        // console.log("comp_product", comp_product, "comp_date", comp_date, "use_date", use_date, "check_type", check_type);
         if (this.line.type == 'in' && check_type != 'no_check') {
             var today = this.prodData.getUTCDateStr().substring(0, 10) 
             if (comp_date && today > comp_date) {
