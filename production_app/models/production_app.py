@@ -1032,7 +1032,9 @@ class ProductionAppRegistry(models.Model):
            lambda r: r.state == 'done' and not r.scrapped)
         produced_lots = produced_moves.mapped('quant_ids.lot_id')
         produced_lots |= self.lot_id
-        self.production_id.check_produced_lot(raw_lots=raw_lots, produced_lots=produced_lots)
+        if self.production_id.state not in ('closed', 'done'):
+            self.production_id.check_produced_lot(
+                raw_lots=raw_lots, produced_lots=produced_lots)
         # ---------------------------------------------------------------------
         # Aprovechamos para comprobar si existen operarios logueados
         # en otros registros de app finalizados o validados y los arreglamos.

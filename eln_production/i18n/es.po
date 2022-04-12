@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-06 11:24+0000\n"
-"PO-Revision-Date: 2022-04-06 15:03+0200\n"
+"POT-Creation-Date: 2022-04-12 15:48+0000\n"
+"PO-Revision-Date: 2022-04-12 17:50+0200\n"
 "Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -488,6 +488,11 @@ msgid "Operators Nº"
 msgstr "Operarios Nº"
 
 #. module: eln_production
+#: view:stock.production.lot:eln_production.view_production_lot_form_add_traceability
+msgid "Origin Lots"
+msgstr "Lotes origen"
+
+#. module: eln_production
 #: code:addons/eln_production/models/mrp.py:526
 #, python-format
 msgid "PROD: %s"
@@ -727,6 +732,12 @@ msgstr "Stock de seguridad usado para determinar prioridad en ódenes de producc
 #: field:mrp.workcenter,sequence:0
 msgid "Sequence"
 msgstr "Secuencia"
+
+#. module: eln_production
+#: code:addons/eln_production/models/stock.py:97
+#, python-format
+msgid "Serial Number"
+msgstr "Lote/Nº de serie"
 
 #. module: eln_production
 #: view:mrp.production:eln_production.mrp_production_form_inherit_10
