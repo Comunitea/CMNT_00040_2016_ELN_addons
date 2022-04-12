@@ -73,6 +73,37 @@ class StockProductionLot(models.Model):
             if self._origin and not self.extended_shelf_life_date:
                 self.update_extended_shelf_life_date()
 
+    @api.multi
+    def action_production_related_lots(self):
+        """
+        Muestra los lotes usados en una producción
+        para producir el lote seleccionado.
+        """
+        quant_obj = self.env['stock.quant']
+        user_company_ids = self.env.user.company_id
+        user_company_ids += user_company_ids.child_ids
+        domain = [
+            ('lot_id', 'in', self._ids),
+            ('company_id', 'in', user_company_ids._ids)
+        ]
+        quants = quant_obj.search(domain)
+        moves = quants.mapped('history_ids').filtered(
+            lambda r: r.parent_ids and r.production_id)
+        lot_ids = moves.mapped('parent_ids').mapped('quant_ids.lot_id')
+        if not lot_ids:
+            return {'type': 'ir.actions.act_window_close'}
+        value = {
+            'domain': str([('id', 'in', lot_ids.ids)]),
+            'name': _('Serial Number'),
+            'view_type': 'form',
+            'view_mode': 'tree,form',
+            'res_model': 'stock.production.lot',
+            'type': 'ir.actions.act_window',
+            'nodestroy': True,
+            'res_id': lot_ids.ids if len(lot_ids.ids) > 1 else lot_ids[0].id,
+        }
+        return value
+
 
 class StockMove(models.Model):
     _inherit = 'stock.move'

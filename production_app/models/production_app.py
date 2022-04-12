@@ -838,7 +838,7 @@ class ProductionAppRegistry(models.Model):
                 (reg.wc_line_id and reg.wc_line_id.name or '')
             body = _('Quality checks with errors. The Serial Number/Lot will be locked.') + '<br>' + body
             reg.lot_id.message_post(body=body)
-            reg.lot_id.lock_lot()
+            reg.lot_id.sudo().lock_lot()
         return True
 
     @api.model
@@ -1032,7 +1032,9 @@ class ProductionAppRegistry(models.Model):
            lambda r: r.state == 'done' and not r.scrapped)
         produced_lots = produced_moves.mapped('quant_ids.lot_id')
         produced_lots |= self.lot_id
-        self.production_id.check_produced_lot(raw_lots=raw_lots, produced_lots=produced_lots)
+        if self.production_id.state not in ('closed', 'done'):
+            self.production_id.check_produced_lot(
+                raw_lots=raw_lots, produced_lots=produced_lots)
         # ---------------------------------------------------------------------
         # Aprovechamos para comprobar si existen operarios logueados
         # en otros registros de app finalizados o validados y los arreglamos.

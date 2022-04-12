@@ -747,7 +747,7 @@ class MrpProduction(models.Model):
     @api.multi
     def check_produced_lot(self, raw_lots=False, produced_lots=False):
         for production in self:
-            check_production_lot_date_type =  production.product_id.check_production_lot_date_type
+            check_production_lot_date_type = production.product_id.check_production_lot_date_type
             if check_production_lot_date_type in (False, 'no_check'):
                 continue
             if not raw_lots:
@@ -774,5 +774,5 @@ class MrpProduction(models.Model):
                 if max_date and use_date > max_date:
                     body = _('Use date should be checked. The Serial Number/Lot will be locked.')
                     lot_id.message_post(body=body)
-                    lot_id.lock_lot()
+                    lot_id.sudo().lock_lot()
 

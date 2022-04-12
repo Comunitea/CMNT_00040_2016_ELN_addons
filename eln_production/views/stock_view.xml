@@ -39,5 +39,27 @@
             </field>
         </record>
 
+        <record id="view_production_lot_form_add_traceability" model="ir.ui.view">
+            <field name="name">stock.production.lot.form_add_related_lots</field>
+            <field name="model">stock.production.lot</field>
+            <field name="inherit_id" ref="stock_traceability_tree.view_production_lot_form_add_traceability"/>
+            <field name="arch" type="xml">
+                <button name="action_simplified_tree_traceability" position="after">
+                    <button name="action_production_related_lots" string="Origin Lots" type="object" icon="fa-random" class="oe_stat_button" attrs="{'invisible': [('quant_ids','=',[])]}"/>
+                </button>
+            </field>
+        </record>
+
+        <record id="view_production_lot_tree" model="ir.ui.view">
+            <field name="name">stock.production.lot.tree</field>
+            <field name="model">stock.production.lot</field>
+            <field name="inherit_id" ref="stock.view_production_lot_tree" />
+            <field name="arch" type="xml">
+                <field name="create_date" position="after">
+                    <field name="use_date"/>
+                </field>
+            </field>
+        </record>
+
     </data>
 </openerp>
