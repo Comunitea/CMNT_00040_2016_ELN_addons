@@ -2,8 +2,35 @@
 <openerp>
     <data>
 
-        <record id="print_desadv_paperformat" model="report.paperformat">
-            <field name="name">DESADV label</field>
+        <record id="print_desadv_paperformat_A5" model="report.paperformat">
+            <field name="name">DESADV label A5</field>
+            <field name="default" eval="False"/>
+            <field name="format">A5</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">30</field>
+            <field name="margin_bottom">10</field>
+            <field name="margin_left">10</field>
+            <field name="margin_right">10</field>
+            <field name="header_spacing">0</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report
+          string="DESADV label x1"
+          id="report_print_desadv_labels_x1"
+          model="stock.picking"
+          report_type="qweb-pdf"
+          name="eln_edi.desadv_report_x1"
+          file="eln_edi.desadv_report_x1"
+          menu="False"
+        />
+
+        <record id="report_print_desadv_labels_x1" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="print_desadv_paperformat_A5"/>
+        </record>
+
+        <record id="print_desadv_paperformat_A4" model="report.paperformat">
+            <field name="name">DESADV label A4</field>
             <field name="default" eval="False"/>
             <field name="format">A4</field>
             <field name="orientation">Landscape</field>
@@ -16,17 +43,17 @@
         </record>
 
         <report
-          string="DESADV label"
-          id="report_print_desadv_labels"
+          string="DESADV label x2"
+          id="report_print_desadv_labels_x2"
           model="stock.picking"
           report_type="qweb-pdf"
-          name="eln_edi.desadv_report"
-          file="eln_edi.desadv_report"
+          name="eln_edi.desadv_report_x2"
+          file="eln_edi.desadv_report_x2"
           menu="False"
         />
 
-        <record id="report_print_desadv_labels" model="ir.actions.report.xml">
-            <field name="paperformat_id" ref="print_desadv_paperformat"/>
+        <record id="report_print_desadv_labels_x2" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="print_desadv_paperformat_A4"/>
         </record>
 
     </data>
