@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-04 10:41+0000\n"
-"PO-Revision-Date: 2022-03-04 11:54+0100\n"
+"POT-Creation-Date: 2022-05-30 09:07+0000\n"
+"PO-Revision-Date: 2022-05-30 11:11+0200\n"
 "Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -31,6 +31,11 @@ msgstr "Nº de pedido de compra"
 #: field:res.users,sale_order_count:0
 msgid "# of Sales Order"
 msgstr "Nº de pedido de venta"
+
+#. module: eln_reports
+#: view:website:eln_reports.stock_picking_shipping_label_report
+msgid "ALBARÁN"
+msgstr "ALBARÁN"
 
 #. module: eln_reports
 #: field:res.users,property_account_payable:0
@@ -58,6 +63,11 @@ msgid "Auxiliary materials"
 msgstr "Materias auxiliares"
 
 #. module: eln_reports
+#: view:website:eln_reports.stock_picking_shipping_label_report
+msgid "BULTOS TOTALES"
+msgstr "BULTOS TOTALES"
+
+#. module: eln_reports
 #: field:res.users,supplier_cip:0
 msgid "CIP"
 msgstr "CIP"
@@ -72,6 +82,7 @@ msgstr "CONSUMO PREFERENTE:"
 #: view:product.logistic.sheet.report.wizard:eln_reports.product_logistic_sheet_report_wizard_view
 #: view:product.technical.sheet.report.wizard:eln_reports.product_technical_sheet_report_wizard_view
 #: view:purchase.order.report.wizard:eln_reports.purchase_order_report_wizard_view
+#: view:stock.picking.shipping.label.wizard:eln_reports.stock_picking_shipping_label_wizard_view
 #: view:stock.production.lot.label.wizard:eln_reports.stock_production_lot_label_wizard_view
 msgid "Cancel"
 msgstr "Cancelar"
@@ -166,6 +177,8 @@ msgstr "Hoja de control tostado"
 #: field:product.logistic.sheet.report.wizard,create_uid:0
 #: field:product.technical.sheet.report.wizard,create_uid:0
 #: field:purchase.order.report.wizard,create_uid:0
+#: field:stock.picking.shipping.label.wizard,create_uid:0
+#: field:stock.picking.shipping.label.wizard.line,create_uid:0
 #: field:stock.production.lot.label.wizard,create_uid:0
 #: field:stock.production.lot.label.wizard.line,create_uid:0
 msgid "Created by"
@@ -176,6 +189,8 @@ msgstr "Created by"
 #: field:product.logistic.sheet.report.wizard,create_date:0
 #: field:product.technical.sheet.report.wizard,create_date:0
 #: field:purchase.order.report.wizard,create_date:0
+#: field:stock.picking.shipping.label.wizard,create_date:0
+#: field:stock.picking.shipping.label.wizard.line,create_date:0
 #: field:stock.production.lot.label.wizard,create_date:0
 #: field:stock.production.lot.label.wizard.line,create_date:0
 msgid "Created on"
@@ -233,6 +248,7 @@ msgstr "Fecha en la que los apuntes de la empresa fueron completamente conciliad
 
 #. module: eln_reports
 #: field:purchase.order.report.wizard,delivery_address:0
+#: field:stock.picking.shipping.label.wizard.line,partner_shipping_id:0
 msgid "Delivery Address"
 msgstr "Dirección de envío"
 
@@ -257,7 +273,10 @@ msgstr "Descripción"
 #: field:product.logistic.sheet.report.wizard,display_name:0
 #: field:product.technical.sheet.report.wizard,display_name:0
 #: field:purchase.order.report.wizard,display_name:0
+#: field:report.stock_picking_shipping_label_wizard.stock_picking_shipping_label_report,display_name:0
 #: field:report.stock_production_lot_label_wizard.stock_production_lot_label_report,display_name:0
+#: field:stock.picking.shipping.label.wizard,display_name:0
+#: field:stock.picking.shipping.label.wizard.line,display_name:0
 #: field:stock.production.lot.label.wizard,display_name:0
 #: field:stock.production.lot.label.wizard.line,display_name:0
 msgid "Display Name"
@@ -269,8 +288,10 @@ msgid "E.P. discounts"
 msgstr "Descuentos P.P."
 
 #. module: eln_reports
-#: code:addons/eln_reports/wizard/stock_production_lot_label_wizard.py:67
-#: code:addons/eln_reports/wizard/stock_production_lot_label_wizard.py:146
+#: code:addons/eln_reports/wizard/stock_picking_shipping_label_wizard.py:43
+#: code:addons/eln_reports/wizard/stock_picking_shipping_label_wizard.py:74
+#: code:addons/eln_reports/wizard/stock_production_lot_label_wizard.py:186
+#: code:addons/eln_reports/wizard/stock_production_lot_label_wizard.py:265
 #, python-format
 msgid "Error"
 msgstr "Error"
@@ -308,7 +329,10 @@ msgstr "Agrupar por ruta de transporte"
 #: field:product.logistic.sheet.report.wizard,id:0
 #: field:product.technical.sheet.report.wizard,id:0
 #: field:purchase.order.report.wizard,id:0
+#: field:report.stock_picking_shipping_label_wizard.stock_picking_shipping_label_report,id:0
 #: field:report.stock_production_lot_label_wizard.stock_production_lot_label_report,id:0
+#: field:stock.picking.shipping.label.wizard,id:0
+#: field:stock.picking.shipping.label.wizard.line,id:0
 #: field:stock.production.lot.label.wizard,id:0
 #: field:stock.production.lot.label.wizard.line,id:0
 msgid "ID"
@@ -360,6 +384,11 @@ msgid "LOTE:"
 msgstr "LOTE:"
 
 #. module: eln_reports
+#: view:website:eln_reports.stock_picking_shipping_label_report
+msgid "LUGAR DE ENTREGA:"
+msgstr "LUGAR DE ENTREGA:"
+
+#. module: eln_reports
 #: view:stock.production.lot.label.wizard:eln_reports.stock_production_lot_label_wizard_view
 msgid "Label fields"
 msgstr "Campos de la etiqueta"
@@ -381,7 +410,10 @@ msgstr "Idioma"
 #: field:product.logistic.sheet.report.wizard,__last_update:0
 #: field:product.technical.sheet.report.wizard,__last_update:0
 #: field:purchase.order.report.wizard,__last_update:0
+#: field:report.stock_picking_shipping_label_wizard.stock_picking_shipping_label_report,__last_update:0
 #: field:report.stock_production_lot_label_wizard.stock_production_lot_label_report,__last_update:0
+#: field:stock.picking.shipping.label.wizard,__last_update:0
+#: field:stock.picking.shipping.label.wizard.line,__last_update:0
 #: field:stock.production.lot.label.wizard,__last_update:0
 #: field:stock.production.lot.label.wizard.line,__last_update:0
 msgid "Last Modified on"
@@ -392,6 +424,8 @@ msgstr "Last Modified on"
 #: field:product.logistic.sheet.report.wizard,write_uid:0
 #: field:product.technical.sheet.report.wizard,write_uid:0
 #: field:purchase.order.report.wizard,write_uid:0
+#: field:stock.picking.shipping.label.wizard,write_uid:0
+#: field:stock.picking.shipping.label.wizard.line,write_uid:0
 #: field:stock.production.lot.label.wizard,write_uid:0
 #: field:stock.production.lot.label.wizard.line,write_uid:0
 msgid "Last Updated by"
@@ -402,6 +436,8 @@ msgstr "Last Updated by"
 #: field:product.logistic.sheet.report.wizard,write_date:0
 #: field:product.technical.sheet.report.wizard,write_date:0
 #: field:purchase.order.report.wizard,write_date:0
+#: field:stock.picking.shipping.label.wizard,write_date:0
+#: field:stock.picking.shipping.label.wizard.line,write_date:0
 #: field:stock.production.lot.label.wizard,write_date:0
 #: field:stock.production.lot.label.wizard.line,write_date:0
 msgid "Last Updated on"
@@ -413,6 +449,7 @@ msgid "Latest Full Reconciliation Date"
 msgstr "Última fecha de conciliación completa"
 
 #. module: eln_reports
+#: field:stock.picking.shipping.label.wizard,line_ids:0
 #: field:stock.production.lot.label.wizard,line_ids:0
 msgid "Lines"
 msgstr "Líneas"
@@ -434,6 +471,11 @@ msgid "Lot/Serial Number selection"
 msgstr "Lote/Nº de serie"
 
 #. module: eln_reports
+#: view:website:eln_reports.stock_picking_shipping_label_report
+msgid "NOTAS:"
+msgstr "NOTAS:"
+
+#. module: eln_reports
 #: code:addons/eln_reports/report/planning_report/webkit_parser_header_fix.py:160
 #, python-format
 msgid "No diagnosis message was provided"
@@ -452,10 +494,26 @@ msgid "No header defined for this Webkit report!"
 msgstr "¡Ninguna cabecera definida para este informe de Webkit!"
 
 #. module: eln_reports
-#: code:addons/eln_reports/wizard/stock_production_lot_label_wizard.py:68
+#: field:stock.picking.shipping.label.wizard.line,note:0
+msgid "Notes"
+msgstr "Notas"
+
+#. module: eln_reports
+#: code:addons/eln_reports/wizard/stock_picking_shipping_label_wizard.py:44
+#: code:addons/eln_reports/wizard/stock_production_lot_label_wizard.py:187
 #, python-format
 msgid "Nothing to print"
 msgstr "Nada que imprimir."
+
+#. module: eln_reports
+#: field:stock.picking.shipping.label.wizard.line,total_packages:0
+msgid "Number of packages"
+msgstr "Número de bultos"
+
+#. module: eln_reports
+#: view:website:eln_reports.stock_picking_shipping_label_report
+msgid "Nº DE BULTO"
+msgstr "Nº DE BULTO"
 
 #. module: eln_reports
 #: view:website:eln_reports.stock_production_lot_label_report
@@ -560,6 +618,7 @@ msgstr "Precio unitario"
 #: view:product.technical.sheet:eln_reports.product_technical_sheet_tree_view
 #: view:product.technical.sheet.report.wizard:eln_reports.product_technical_sheet_report_wizard_view
 #: view:purchase.order.report.wizard:eln_reports.purchase_order_report_wizard_view
+#: view:stock.picking.shipping.label.wizard:eln_reports.stock_picking_shipping_label_wizard_view
 #: view:stock.production.lot.label.wizard:eln_reports.stock_production_lot_label_wizard_view
 msgid "Print"
 msgstr "Imprimir"
@@ -621,7 +680,7 @@ msgstr "Factura proforma"
 #. module: eln_reports
 #: model:ir.model,name:eln_reports.model_purchase_order_line
 msgid "Purchase Order Line"
-msgstr "Línea pedido de compra"
+msgstr "Línea orden de compra"
 
 #. module: eln_reports
 #: field:res.users,property_product_pricelist_purchase:0
@@ -647,6 +706,11 @@ msgstr "Cant. (UdV)"
 #: view:website:stock.report_picking
 msgid "Quantity"
 msgstr "Cantidad"
+
+#. module: eln_reports
+#: view:website:eln_reports.stock_picking_shipping_label_report
+msgid "REMITENTE:"
+msgstr "REMITENTE:"
 
 #. module: eln_reports
 #: selection:stock.production.lot.label.wizard.line,expected_use:0
@@ -733,6 +797,23 @@ msgstr "Estado"
 #: field:planning.report.wizard,kanban_state:0
 msgid "State of readiness"
 msgstr "Estado de preparación"
+
+#. module: eln_reports
+#: field:stock.picking.shipping.label.wizard.line,picking_id:0
+#: field:stock.picking.shipping.label.wizard.line,picking_name:0
+msgid "Stock Picking"
+msgstr "Albarán"
+
+#. module: eln_reports
+#: model:ir.actions.act_window,name:eln_reports.action_stock_picking_shipping_label_wizard
+#: view:stock.picking.shipping.label.wizard:eln_reports.stock_picking_shipping_label_wizard_view
+msgid "Stock Picking Shipping Label"
+msgstr "Etiqueta envío albarán"
+
+#. module: eln_reports
+#: model:ir.actions.report.xml,name:eln_reports.report_print_stock_picking_shipping_label
+msgid "Stock Picking Shipping label"
+msgstr "Etiqueta envío albarán"
 
 #. module: eln_reports
 #: model:ir.actions.act_window,name:eln_reports.action_stock_production_lot_label_wizard
@@ -971,6 +1052,7 @@ msgid "Webkit render"
 msgstr "Renderizador de Webkit"
 
 #. module: eln_reports
+#: field:stock.picking.shipping.label.wizard.line,wiz_id:0
 #: field:stock.production.lot.label.wizard.line,wiz_id:0
 msgid "Wizard"
 msgstr "Wizard"
@@ -981,7 +1063,8 @@ msgid "Work Center"
 msgstr "Centro de producción"
 
 #. module: eln_reports
-#: code:addons/eln_reports/wizard/stock_production_lot_label_wizard.py:147
+#: code:addons/eln_reports/wizard/stock_picking_shipping_label_wizard.py:75
+#: code:addons/eln_reports/wizard/stock_production_lot_label_wizard.py:266
 #, python-format
 msgid "You must print it from a wizard"
 msgstr "Debe imprimirlo desde un asistente"
@@ -998,6 +1081,7 @@ msgid "of"
 msgstr "de"
 
 #. module: eln_reports
+#: view:stock.picking.shipping.label.wizard:eln_reports.stock_picking_shipping_label_wizard_view
 #: view:stock.production.lot.label.wizard:eln_reports.stock_production_lot_label_wizard_view
 msgid "or"
 msgstr "or"
