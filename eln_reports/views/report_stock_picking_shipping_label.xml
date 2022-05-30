@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <template id="stock_picking_shipping_label_report">
+            <t t-foreach="docs" t-as="line">
+                <t t-set="total_packages" t-value="line.total_packages"/>
+                <t t-if="line.total_packages&lt;1"><t t-set="total_packages" t-value="1"/></t>
+                <t t-foreach="range(total_packages)" t-as="package">
+                    <div class="page">
+                        <style>
+                            .table-bordered > thead > tr > th,
+                            .table-bordered > tbody > tr > th,
+                            .table-bordered > tfoot > tr > th,
+                            .table-bordered > thead > tr > td,
+                            .table-bordered > tbody > tr > td,
+                            .table-bordered > tfoot > tr > td {
+                              border: 2px solid black;
+                            }
+                        </style>
+                        <td class="text-left col-xs-5">
+                            <table class="table table-bordered">
+                                <tr height="200px">
+                                    <td class="text-left col-xs-12" t-att-colspan="3">
+                                        <h5 align="left"><span><b>REMITENTE:</b></span></h5>
+                                        <h3 align="right">
+                                            <img t-if="line.picking_id.company_id.logo" t-att-src="'data:image/png;base64,%s' % line.picking_id.company_id.logo" style="max-width: 100px; max-height: 100px;"/>
+                                            <div t-field="line.picking_id.company_id.partner_id"
+                                                t-field-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": true}'
+                                                class="pull-left" align="left"
+                                            />
+                                        </h3>
+                                    </td>
+                                </tr>
+                                <tr height="275px">
+                                    <td class="text-left col-xs-12" t-att-colspan="3">
+                                        <h5 align="left"><span><b>LUGAR DE ENTREGA:</b></span></h5>
+                                        <h3>
+                                            <div t-field="line.picking_id.partner_id" 
+                                                t-field-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": true}'
+                                                class="pull-left"
+                                            />
+                                        </h3>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center col-xs-4">
+                                        <h5 align="center"><span><b>ALBARÁN</b></span></h5>
+                                        <h4 align="center"><span t-esc="line.picking_id.name"/></h4>
+                                        <h4 align="center"><span t-esc="line.picking_id.sale_id.client_order_ref"/></h4>
+                                    </td>
+                                    <td class="text-center col-xs-4">
+                                        <h5 align="center"><span><b>BULTOS TOTALES</b></span></h5>
+                                        <t t-if="line.total_packages&gt;0">
+                                            <h1 align="center"><span t-esc="total_packages"/></h1>
+                                        </t>
+                                    </td>
+                                    <td class="text-center col-xs-4">
+                                        <h5 align="center"><span><b>Nº DE BULTO</b></span></h5>
+                                        <t t-if="line.total_packages&gt;0">
+                                            <h1 align="center"><span t-esc="package+1"/>/<span t-esc="total_packages"/></h1>
+                                        </t>
+                                    </td>
+                                </tr>
+                                <tr height="200px">
+                                    <td class="text-left col-xs-9" t-att-colspan="2">
+                                        <h5 align="left"><span><b>NOTAS:</b></span></h5>
+                                        <h4 align="left" style="white-space: pre-wrap"><span t-esc="line.note"/></h4>
+                                    </td>
+                                    <td class="text-center col-xs-3" style="vertical-align: middle;">
+                                        <span t-usertime="%d-%m-%Y %H:%M:%S"/>
+                                        <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('QR', line.picking_id.name, 600, 600)" style="width:100px;height:100px"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</openerp>

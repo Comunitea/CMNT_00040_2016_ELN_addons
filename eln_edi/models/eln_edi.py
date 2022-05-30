@@ -298,7 +298,9 @@ class StockPicking(models.Model):
                     'pack_gs1_128': pack_gs1_128
                 })
         custom_data = {'lines_dic': p_dic}
-        rep_name = 'eln_edi.desadv_report'
+        rep_name = 'eln_edi.desadv_report_x1'
+        if self._context.get('num_labels', 1) == 2:
+            rep_name = 'eln_edi.desadv_report_x2'
         rep_action = self.env['report'].get_action(self, rep_name)
         rep_action['data'] = custom_data
         return rep_action

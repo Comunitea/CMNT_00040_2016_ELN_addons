@@ -66,7 +66,9 @@
     'init_xml': [],
     'data': [
         'security/ir.model.access.csv',
-        "views/desadv_report.xml",
+        "views/desadv_report_layout.xml",
+        "views/desadv_report_x1.xml",
+        "views/desadv_report_x2.xml",
         "views/report.xml",
         'wizard/edi_import_view.xml',
         'wizard/edi_export_view.xml',

@@ -23,3 +23,4 @@ import product_technical_sheet_report_wizard
 import product_logistic_sheet_report_wizard
 import planning_report_wizard
 import stock_production_lot_label_wizard
+import stock_picking_shipping_label_wizard

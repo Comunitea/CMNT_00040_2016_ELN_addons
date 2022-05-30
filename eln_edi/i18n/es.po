@@ -239,9 +239,14 @@ msgid "DESADV"
 msgstr "DESADV"
 
 #. module: eln_edi
-#: model:ir.actions.report.xml,name:eln_edi.report_print_desadv_labels
-msgid "DESADV label"
-msgstr "Etiqueta DESADV (GS1-128)"
+#: model:ir.actions.report.xml,name:eln_edi.report_print_desadv_labels_x1
+msgid "DESADV label x1"
+msgstr "Etiqueta DESADV (GS1-128) x1"
+
+#. module: eln_edi
+#: model:ir.actions.report.xml,name:eln_edi.report_print_desadv_labels_x2
+msgid "DESADV label x2"
+msgstr "Etiqueta DESADV (GS1-128) x2"
 
 #. module: eln_edi
 #: code:addons/eln_edi/wizard/edi_export.py:186
@@ -978,8 +983,13 @@ msgstr "Puerto"
 
 #. module: eln_edi
 #: view:stock.picking:eln_edi.view_picking_form
-msgid "Print DESADV label"
-msgstr "Etiqueta DESADV (GS1-128)"
+msgid "Print DESADV label x1"
+msgstr "Etiqueta DESADV (GS1-128) x1"
+
+#. module: eln_edi
+#: view:stock.picking:eln_edi.view_picking_form
+msgid "Print DESADV label x2"
+msgstr "Etiqueta DESADV (GS1-128) x2"
 
 #. module: eln_edi
 #: selection:edi.import,state:0

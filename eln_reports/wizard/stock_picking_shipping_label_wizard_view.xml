@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="stock_picking_shipping_label_wizard_view" model="ir.ui.view">
+            <field name="name">Stock Picking Shipping Label</field>
+            <field name="model">stock.picking.shipping.label.wizard</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Stock Picking Shipping Label">
+                    <group>
+                        <field name="line_ids" nolabel="1">
+                            <tree editable="bottom" create="false">
+                                <field name="picking_name"/>
+                                <field name="partner_shipping_id"/>
+                                <field name="total_packages"/>
+                                <field name="note"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <footer>
+                        <button name="print_report" string="Print" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="action_stock_picking_shipping_label_wizard"
+            key2="client_print_multi"
+            name="Stock Picking Shipping Label"
+            res_model="stock.picking.shipping.label.wizard"
+            src_model="stock.picking"
+            view_mode="form"
+            target="new"
+            view_type="form" />
+
+    </data>
+</openerp>
