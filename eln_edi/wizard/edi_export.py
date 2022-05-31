@@ -93,6 +93,7 @@ class EdiExport(models.TransientModel):
                     gln_ef = obj.company_id.gln_ef
                     gln_ve = picking_part and picking_part.commercial_partner_id.gln_ve or \
                         invoice_part.commercial_partner_id.gln_ve or obj.company_id.gln_ve
+                    gln_ve = self.check_gln_ve_exception(gln_ve, obj)
                     gln_de = picking_part and picking_part.gln_de or invoice_part.gln_de
                     gln_rf = picking_part and picking_part.gln_rf or invoice_part.gln_rf
                     gln_co = picking_part and picking_part.gln_co or invoice_part.gln_co
@@ -106,6 +107,7 @@ class EdiExport(models.TransientModel):
                     gln_ef = obj[0].company_id.gln_ef
                     gln_ve = picking_part and picking_part.commercial_partner_id.gln_ve or \
                         invoice_part.commercial_partner_id.gln_ve or obj[0].company_id.gln_ve
+                    gln_ve = self.check_gln_ve_exception(gln_ve, obj[0])
                     gln_de = picking_part and picking_part.gln_de or invoice_part.gln_de
                     gln_rf = picking_part and picking_part.gln_rf or invoice_part.gln_rf
                     gln_co = picking_part and picking_part.gln_co or invoice_part.gln_co
@@ -290,6 +292,7 @@ class EdiExport(models.TransientModel):
         gln_ef = invoice.company_id.gln_ef
         gln_ve = picking_part and picking_part.commercial_partner_id.gln_ve or \
             invoice_part.commercial_partner_id.gln_ve or invoice.company_id.gln_ve
+        gln_ve = self.check_gln_ve_exception(gln_ve, invoice)
         gln_de = picking_part and picking_part.gln_de or invoice_part.gln_de
         gln_rf = picking_part and picking_part.gln_rf or invoice_part.gln_rf
         gln_co = picking_part and picking_part.gln_co or invoice_part.gln_co
@@ -879,6 +882,7 @@ class EdiExport(models.TransientModel):
         errors = ''
         gln_ve = invoice_ids[0].partner_id.commercial_partner_id.gln_ve or \
             invoice_ids[0].company_id.gln_ve
+        gln_ve = self.check_gln_ve_exception(gln_ve, invoice_ids[0])
         gln_de_coa = invoice_ids[0].partner_id.commercial_partner_id.gln_de_coa
         gln_rm_coa = invoice_ids[0].partner_id.commercial_partner_id.gln_rm_coa
         for invoice in invoice_ids:
@@ -886,6 +890,7 @@ class EdiExport(models.TransientModel):
                 raise exceptions.Warning(_('Invoice error'), _('Validate the invoices before.'))
             gln_ve_aux = invoice.partner_id.commercial_partner_id.gln_ve or \
                 invoice.company_id.gln_ve
+            gln_ve_aux = self.check_gln_ve_exception(gln_ve_aux, invoice)
             gln_de_coa_aux = invoice.partner_id.commercial_partner_id.gln_de_coa
             gln_rm_coa_aux = invoice.partner_id.commercial_partner_id.gln_rm_coa
             if gln_ve != gln_ve_aux:
@@ -912,6 +917,7 @@ class EdiExport(models.TransientModel):
         f = codecs.open(file_name, 'w', 'utf-8')
         gln_ve = invoice_ids[0].partner_id.commercial_partner_id.gln_ve or \
             invoice_ids[0].company_id.gln_ve
+        gln_ve = self.check_gln_ve_exception(gln_ve, invoice_ids[0])
         gln_de_coa = invoice_ids[0].partner_id.commercial_partner_id.gln_de_coa
         gln_rm_coa = invoice_ids[0].partner_id.commercial_partner_id.gln_rm_coa
 
@@ -992,3 +998,19 @@ class EdiExport(models.TransientModel):
                         self.parse_invoice(reg, file_name)
                     self.create_doc(reg, file_name)
         return True
+
+    @api.model
+    def check_gln_ve_exception(self, default_gln_ve, invoice):
+        # Hacemos una excepción para cliente Euromadi - Portugal - Marca UP
+        # que tiene que tener gln_ve = 8412270000048,
+        # pero al mismo tiempo compra productos con el gln_ve = 8412270000031 (Portugal)
+        # y así evitamos tener un cliente creado para cada caso
+        gln_ve = default_gln_ve or ''
+        gln_rm_coa = invoice.partner_id.commercial_partner_id.gln_rm_coa
+        if gln_rm_coa == '5600000786802':
+            for line in invoice.invoice_line:
+                prod_name = line.product_id.name.upper()
+                if prod_name.find(' UP') != -1 or prod_name.find('"UP') != -1:
+                    gln_ve = '8412270000048'
+                    break
+        return gln_ve
