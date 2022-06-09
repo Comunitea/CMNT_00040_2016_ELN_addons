@@ -426,7 +426,6 @@ class ProductionAppRegistry(models.Model):
                             and sq.product_id in %s
                         group by spl.id, sq.product_id, sl.id
                         having sum(sq.qty) > 0.00
-                        order by greatest(spl.use_date, spl.extended_shelf_life_date)
                     ) union (
                         select 0 as id,
                             'SIN LOTE' as name,
