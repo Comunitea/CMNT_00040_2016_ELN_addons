@@ -409,22 +409,41 @@ class ProductionAppRegistry(models.Model):
         else:
             product_ids = str(tuple(product_ids))
         sql = """
-            select spl.id,
-                spl.name,
-                greatest(spl.use_date, spl.extended_shelf_life_date) as use_date,
-                sq.product_id,
-                sl.id as location_id,
-                sum(sq.qty) as qty_available
-            from stock_quant sq
-            join stock_production_lot spl on spl.id = sq.lot_id
-            join stock_location sl on sl.id = sq.location_id
-            where spl.locked_lot = False
-                and sl.usage = 'internal'
-                and sq.product_id in %s
-            group by spl.id, sq.product_id, sl.id
-            having sum(sq.qty) > 0.00
-            order by greatest(spl.use_date, spl.extended_shelf_life_date)
-        """ % (product_ids)
+            select * from
+                (
+                    (
+                        select spl.id,
+                            spl.name,
+                            greatest(spl.use_date, spl.extended_shelf_life_date) as use_date,
+                            sq.product_id,
+                            sl.id as location_id,
+                            sum(sq.qty) as qty_available
+                        from stock_quant sq
+                        join stock_production_lot spl on spl.id = sq.lot_id
+                        join stock_location sl on sl.id = sq.location_id
+                        where spl.locked_lot = False
+                            and sl.usage = 'internal'
+                            and sq.product_id in %s
+                        group by spl.id, sq.product_id, sl.id
+                        having sum(sq.qty) > 0.00
+                    ) union (
+                        select 0 as id,
+                            'SIN LOTE' as name,
+                            null as use_date,
+                            sq.product_id,
+                            sl.id as location_id,
+                            sum(sq.qty) as qty_available
+                        from stock_quant sq
+                        join stock_location sl on sl.id = sq.location_id
+                        where sq.lot_id is null
+                            and sl.usage = 'internal'
+                            and sq.product_id in %s
+                        group by sq.product_id, sl.id
+                        having sum(sq.qty) > 0.00
+                    )
+                ) available_stock
+           order by use_date
+        """ % (product_ids, product_ids)
         self._cr.execute(sql)
         records = self._cr.fetchall()
         lots = []

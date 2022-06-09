@@ -6,45 +6,69 @@
 -->
 <ion-header>
     <ion-navbar [color]="navbarColor">
-          <ion-title><span class="custom-font-size-t">Introducir Consumos</span></ion-title>
-          <ion-buttons end>
-              <button ion-button (click)="closeModal()">
-                  <span class="custom-font-size-t">Atrás</span>
-              </button>
-          </ion-buttons>
-        </ion-navbar>
+        <ion-title><span class="custom-font-size-t">Introducir Consumos</span></ion-title>
+        <ion-buttons end>
+            <button ion-button (click)="closeModal()">
+                <span class="custom-font-size-t">Atrás</span>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
 </ion-header>
 
-
 <ion-content padding>
-    <ion-title><span class="custom-font-size-t">{{line.product_name}}</span></ion-title>
-    
+    <ion-title>
+        <span class="custom-font-size-t">{{ line.product_name }}</span>
+    </ion-title>
+
     <ion-list>
         <ion-item *ngIf="(mode !== 'show')">
-            <ion-label color="primary" stacked><span>Cantidad en {{line.uom_name}}</span></ion-label>
-            <ion-input type="number" [(ngModel)]="line.qty" name='qty' clearInput (ionChange)='onchange_uom()' placeholder="Introducir cantidad"></ion-input>
-            <button *ngIf="line.product_name.toLowerCase().includes('bobina')" ion-button outline large item-right color="dark" (click)="convert_bobbin(line.qty)">
-                <ion-icon name="swap" ></ion-icon>
+            <ion-label color="primary" stacked><span>Cantidad en {{ line.uom_name }}</span></ion-label>
+            <ion-input type="number" [(ngModel)]="line.qty" name='qty' clearInput (ionChange)='onchange_uom()'
+                placeholder="Introducir cantidad"></ion-input>
+            <button *ngIf="line.product_name.toLowerCase().includes('bobina')" ion-button outline large item-right
+                color="dark" (click)="convert_bobbin(line.qty)">
+                <ion-icon name="swap"></ion-icon>
             </button>
             <button ion-button outline large item-right color="dark" (click)="open_calculator()">
-                <ion-icon name="calculator" ></ion-icon>
+                <ion-icon name="calculator"></ion-icon>
             </button>
         </ion-item>
         <ion-item *ngIf="(mode !== 'show' && line.type == 'finished')">
-            <ion-label color="primary" stacked><span>Cantidad en {{this.prodData.uos}}</span></ion-label>
-            <ion-input type="number" [(ngModel)]="uos_qty" name='uos_qty' clearInput (ionChange)='onchange_uos()' placeholder="Cant. segunda unidad"></ion-input>
+            <ion-label color="primary" stacked><span>Cantidad en {{ this.prodData.uos }}</span></ion-label>
+            <ion-input type="number" [(ngModel)]="uos_qty" name='uos_qty' clearInput (ionChange)='onchange_uos()'
+                placeholder="Cant. segunda unidad"></ion-input>
         </ion-item>
         <ion-item *ngIf="(mode !== 'show')">
             <ion-label color="primary" stacked><span>Lote</span></ion-label>
-            <ion-input type="text" [(ngModel)]="line.lot_name" required name='lot'  placeholder="Introducir lote" readonly></ion-input>
+            <ion-input type="text" [(ngModel)]="line.lot_name" required name='lot' placeholder="Introducir lote"
+                readonly></ion-input>
         </ion-item>
     </ion-list>
     <ion-searchbar *ngIf="mode === 'show'" (ionInput)="getItems($event)"></ion-searchbar>
-    <ion-list *ngIf="mode === 'show'"> 
-         <button ion-item *ngFor="let lot of items" (click)="lotSelected(lot)">
-            {{ lot.name  }} ({{ lot.qty_available }})
-        </button>  
-    </ion-list> 
+    <ion-grid class="my-grid" *ngIf="mode === 'show'">
+        <ion-row>
+            <ion-col col-6>
+                <span class="bold-header">Lote</span>
+            </ion-col>
+            <ion-col col-3 text-right>
+                <span class="bold-header">Cant.</span>
+            </ion-col>
+            <ion-col col-3 text-right>
+                <span class="bold-header">Caducidad</span>
+            </ion-col>
+        </ion-row>
+        <ion-row *ngFor="let lot of items" (click)="lotSelected(lot)">
+            <ion-col col-6>
+                <span class="col-content">{{ lot.name }}</span>
+            </ion-col>
+            <ion-col col-3 text-right>
+                <span class="col-content">{{ lot.qty_available | number:'1.2-2':'es' }}</span>
+            </ion-col>
+            <ion-col col-3 text-right>
+                <span class="col-content">{{ lot.use_date || '' | date:'dd/MM/yyyy' }}</span>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
 
     <ion-grid>
         <ion-row *ngIf="mode !== 'show' && line.type == 'in'">

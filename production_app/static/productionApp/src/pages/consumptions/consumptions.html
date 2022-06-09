@@ -6,12 +6,11 @@
 -->
 <ion-header>
 
-  <ion-navbar [color]="navbarColor">
-    <ion-title>Lista de materiales</ion-title>
-  </ion-navbar>
+    <ion-navbar [color]="navbarColor">
+        <ion-title>Lista de materiales</ion-title>
+    </ion-navbar>
 
 </ion-header>
-
 
 <ion-content padding>
     <ion-item>
@@ -33,21 +32,17 @@
                 <span class="bold-header">UdM</span>
             </ion-col>
         </ion-row>
-        <ion-row *ngFor="let line of allowed_lines">
+        <ion-row *ngFor="let line of allowed_lines" (click)="openStockInfo(line)">
             <ion-col col-8>
                 <span class="col-content">{{line.product_name}}</span>
             </ion-col>
-<!--
             <ion-col col-2 text-right>
-                <span class="col-content">{{line.qty * qty_to_calculate / prodData.production_qty | number:'1.2-2'}}</span>
-            </ion-col>
-            <ion-col col-2>
-                <span class="col-content">{{line.uom_name}}</span>
-            </ion-col>
--->
-            <ion-col col-2 text-right>
-                <span class="col-content" *ngIf="line.uom_name != 'g'">{{line.qty * qty_to_calculate / prodData.production_qty | number:'1.3-3':'es'}}</span>
-                <span class="col-content-2" *ngIf="line.uom_name == 'g'">{{line.qty * qty_to_calculate / prodData.production_qty | number:'1.3-3':'es'}}</span>
+                <span class="col-content" *ngIf="line.uom_name != 'g'">
+                    {{line.qty * qty_to_calculate / prodData.production_qty | number:'1.3-3':'es'}}
+                </span>
+                <span class="col-content-2" *ngIf="line.uom_name == 'g'">
+                    {{line.qty * qty_to_calculate / prodData.production_qty | number:'1.3-3':'es'}}
+                </span>
             </ion-col>
             <ion-col col-2>
                 <span class="col-content" *ngIf="line.uom_name != 'g'">{{line.uom_name}}</span>

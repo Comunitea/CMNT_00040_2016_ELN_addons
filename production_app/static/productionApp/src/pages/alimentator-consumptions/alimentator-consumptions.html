@@ -7,9 +7,9 @@
 <ion-header>
 
     <ion-navbar [color]="navbarColor">
-        <ion-title><span class="custom-font-size">{{this.title}}</span></ion-title>
+        <ion-title><span class="custom-font-size">{{ this.title }}</span></ion-title>
         <ion-buttons end>
-		    <ion-badge color="danger" *ngIf="this.prodData.odooCon.pending_calls.length > 0">
+            <ion-badge color="danger" *ngIf="this.prodData.odooCon.pending_calls.length > 0">
                 {{ this.prodData.odooCon.pending_calls.length }}
             </ion-badge>
             <button ion-button full (click)="showConsumptions()">
@@ -47,16 +47,16 @@
         </ion-row>
         <ion-row *ngFor="let line of consumptions_in" (click)="consume_click(line)">
             <ion-col col-6>
-                <span class="col-content">{{line.product_name}}<br>({{line.location_name}})</span>
+                <span class="col-content">{{ line.product_name }}<br>({{ line.location_name }})</span>
             </ion-col>
             <ion-col col-2 text-right>
-                <span class="col-content">{{line.qty}}</span>
+                <span class="col-content">{{ line.qty | number:'1.2-3':'es' }}</span>
             </ion-col>
             <ion-col col-2>
-                <span class="col-content">{{line.uom_name}}</span>
+                <span class="col-content">{{ line.uom_name }}</span>
             </ion-col>
             <ion-col col-2>
-                <span class="col-content">{{line.lot_name}}</span>
+                <span class="col-content">{{ line.lot_name }}</span>
             </ion-col>
         </ion-row>
     </ion-grid>
@@ -84,22 +84,22 @@
         </ion-row>
         <ion-row *ngFor="let line of consumptions_out" (click)="consume_click(line)">
             <ion-col col-6>
-                <span class="col-content">{{line.product_name}}<br>({{line.location_name}})</span>
+                <span class="col-content">{{ line.product_name }}<br>({{ line.location_name }})</span>
             </ion-col>
             <ion-col col-2 text-right>
-                <span class="col-content">{{line.qty}}</span>
+                <span class="col-content">{{ line.qty | number:'1.2-3':'es' }}</span>
             </ion-col>
             <ion-col col-2>
-                <span class="col-content">{{line.uom_name}}</span>
+                <span class="col-content">{{ line.uom_name }}</span>
             </ion-col>
             <ion-col col-2>
-                <span class="col-content">{{line.lot_name}}</span>
+                <span class="col-content">{{ line.lot_name }}</span>
             </ion-col>
         </ion-row>
     </ion-grid>
 
     <ion-item-divider color="dark">
-        <ion-label>PRODUCTO TERMINADO (Total = {{sum_finished_products}})</ion-label>
+        <ion-label>PRODUCTO TERMINADO (Total = {{ sum_finished_products }})</ion-label>
         <button ion-button clear item-right color="light" (click)="add_finished_products()">
             <ion-icon name="add-circle"></ion-icon>
         </button>
@@ -121,16 +121,16 @@
         </ion-row>
         <ion-row *ngFor="let line of finished_products" (click)="consume_click(line)">
             <ion-col col-6>
-                <span class="col-content">{{line.product_name}}<br>({{line.location_name}})</span>
+                <span class="col-content">{{ line.product_name}}<br>({{ line.location_name }})</span>
             </ion-col>
             <ion-col col-2 text-right>
-                <span class="col-content">{{line.qty}}</span>
+                <span class="col-content">{{ line.qty | number:'1.2-3':'es' }}</span>
             </ion-col>
             <ion-col col-2>
-                <span class="col-content">{{line.uom_name}}</span>
+                <span class="col-content">{{ line.uom_name }}</span>
             </ion-col>
             <ion-col col-2>
-                <span class="col-content">{{line.lot_name}}</span>
+                <span class="col-content">{{ line.lot_name }}</span>
             </ion-col>
         </ion-row>
     </ion-grid>
@@ -158,16 +158,18 @@
         </ion-row>
         <ion-row *ngFor="let line of consumptions_scrapped" (click)="consume_click(line)">
             <ion-col col-6>
-                <span class="col-content">{{line.product_name}}<br>({{line.location_name}}  ->  {{line.scrap_type_name}})</span>
+                <span class="col-content">
+                    {{ line.product_name }}<br>({{ line.location_name }} -> {{ line.scrap_type_name }})
+                </span>
             </ion-col>
             <ion-col col-2 text-right>
-                <span class="col-content">{{line.qty}}</span>
+                <span class="col-content">{{ line.qty | number:'1.2-3':'es' }}</span>
             </ion-col>
             <ion-col col-2>
-                <span class="col-content">{{line.uom_name}}</span>
+                <span class="col-content">{{ line.uom_name }}</span>
             </ion-col>
             <ion-col col-2>
-                <span class="col-content">{{line.lot_name}}</span>
+                <span class="col-content">{{ line.lot_name }}</span>
             </ion-col>
         </ion-row>
     </ion-grid>
@@ -177,15 +179,18 @@
     <ion-toolbar>
         <ion-item>
             <ion-label class="textarea-label">Notas:</ion-label>
-            <ion-textarea class="textarea-content" rows=5 (change)="noteChange()" [(ngModel)]="this.consumptions_note" placeholder="Introduzca los comentarios que desee aquí..."></ion-textarea>
+            <ion-textarea class="textarea-content" rows=5 (change)="noteChange()" [(ngModel)]="this.consumptions_note"
+                placeholder="Introduzca los comentarios que desee aquí..."></ion-textarea>
         </ion-item>
         <ion-item text-center>
             <ion-buttons color="light">
-                <button ion-button round outline icon-end *ngIf="prodData.consumptions_done == false" (click)="confirm_consumptions()">
+                <button ion-button round outline icon-end *ngIf="prodData.consumptions_done == false"
+                    (click)="confirm_consumptions()">
                     Consumos no confirmados
                     <ion-icon name="thumbs-down"></ion-icon>
                 </button>
-                <button ion-button round outline icon-end *ngIf="prodData.consumptions_done == true"  (click)="remove_confirm_consumptions()">
+                <button ion-button round outline icon-end *ngIf="prodData.consumptions_done == true"
+                    (click)="remove_confirm_consumptions()">
                     Consumos confirmados
                     <ion-icon name="thumbs-up"></ion-icon>
                 </button>

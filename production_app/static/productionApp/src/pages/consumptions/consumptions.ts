@@ -3,8 +3,7 @@ import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angu
 import { Storage } from '@ionic/storage';
 import { ProductionProvider } from '../../providers/production/production';
 import { CalculatorModalPage } from '../../pages/calculator/calculator';
-import es from '@angular/common/locales/es';
-import { registerLocaleData } from '@angular/common';
+import { StockInfoPage } from '../stock-info/stock-info';
 
 /**
  * Generated class for the ConsumptionsPage page.
@@ -15,27 +14,36 @@ import { registerLocaleData } from '@angular/common';
 
 @IonicPage()
 @Component({
-  selector: 'page-consumptions',
-  templateUrl: 'consumptions.html',
+    selector: 'page-consumptions',
+    templateUrl: 'consumptions.html',
 })
 export class ConsumptionsPage {
     allowed_lines: Object[];
     qty_to_calculate;
     navbarColor: string = 'primary';
-    
+
     constructor(public navCtrl: NavController, private storage: Storage,
-                public navParams: NavParams,
-                public modalCtrl: ModalController,
-                private prodData: ProductionProvider) {
+        public navParams: NavParams,
+        public modalCtrl: ModalController,
+        private prodData: ProductionProvider) {
         this.storage.get('CONEXION').then((con_data) => {
             this.navbarColor = con_data.company == 'qv' ? 'qv' : 'vq';
         })
-        registerLocaleData(es);
         this.qty_to_calculate = this.prodData.production_qty;
-   }
+    }
 
     ionViewDidLoad() {
         this.allowed_lines = this.prodData.consumptions;
+    }
+
+    openStockInfo(line) {
+        let vals = {
+            product_id: line.product_id,
+            location_id: line.location_id,
+            product_name: line.product_name,
+            uom_name: line.uom_name,
+        }
+        this.navCtrl.push(StockInfoPage, vals);
     }
 
     openCalculatorModal() {

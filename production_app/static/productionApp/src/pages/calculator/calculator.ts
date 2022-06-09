@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 import { NavController, ViewController } from 'ionic-angular';
-import es from '@angular/common/locales/es';
-import { registerLocaleData } from '@angular/common';
 
 @Component({
     selector: 'page-calculator',
@@ -24,7 +22,7 @@ export class CalculatorModalPage {
                 } else {
                     this.display = this.display * 10 + n;
                 }
-               break;
+                break;
             case 'operator':
                 this.display = n;
                 this.state = 'number';
@@ -93,7 +91,6 @@ export class CalculatorModalPage {
     }
 
     constructor(public navCtrl: NavController, public viewCtrl: ViewController) {
-        registerLocaleData(es);
     }
 
     ionViewDidLoad() {
@@ -105,7 +102,7 @@ export class CalculatorModalPage {
     }
 
     confirmModal() {
-        this.viewCtrl.dismiss({'display_value': this.display});
+        this.viewCtrl.dismiss({ 'display_value': this.display });
     }
 
 }
