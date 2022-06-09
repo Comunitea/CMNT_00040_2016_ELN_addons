@@ -11,7 +11,6 @@ import * as $ from 'jquery';
  * Ionic pages and navigation.
  */
 
-
 @IonicPage()
 @Component({
   selector: 'page-checks-modal',
@@ -42,6 +41,13 @@ export class ChecksModalPage {
         var new_list = []
         for (var index in qc_list) {
             var qc = qc_list[index];
+            if (qc.value_type == 'lot' && !(this.prodData.product_lot_name.length > 0)) {
+                continue
+            }
+            if (qc.value_type == 'lot') {
+                qc.value_type = 'text'
+                qc.required_text = this.prodData.product_lot_name
+            }
             var new_ = {};
             $.extend(new_, qc);
             new_list.push(new_); 
@@ -78,7 +84,7 @@ export class ChecksModalPage {
                 }
             } else if (qc.value_type == 'text') {
                 if (qc.required_text != '' && qc.required_text.toUpperCase() != qc.value.toUpperCase()) {
-                    if ((qc.required_text.length == 13 || qc.required_text.length == 14) && qc.value != '??') {
+                    if (qc.value != '??') {
                         this.presentAlert('Error de validación', 'El valor para <b>' + qc.name + '</b> no es correcto');
                     } else {
                         this.presentAlert('Error de validación', 'El valor para <b>' + qc.name + '</b> tiene que ser <b>' + qc.required_text + '</b>');

@@ -1,3 +1,42 @@
 page-consume-modal {
+    .col-content {
+        font-size: 1.6rem !important;
+    }
+
+    .bold-header {
+        font-size: 1.8rem !important;
+        font-weight: bold;
+    }
+
+    ion-row {
+        border-bottom: 1px solid #000;
+    }
+
+    .textarea-label {
+        font-size: 1.8rem !important;
+    }
+
+    .textarea-content {
+        font-size: 1.8rem !important;
+    }
+
+
+    @media (min-width:600px) {
+        .col-content {
+            font-size: 1.8rem !important;
+        }
+
+        .bold-header {
+            font-size: 1.8rem !important;
+        }
+
+        .textarea-content {
+            font-size: 1.8rem !important;
+        }
+
+        .textarea-label {
+            font-size: 1.8rem !important;
+        }
+    }
 
 }

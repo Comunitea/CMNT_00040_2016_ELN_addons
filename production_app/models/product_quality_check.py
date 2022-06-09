@@ -14,6 +14,7 @@ VALUE_TYPES = [
     ('text', 'Text'),
     ('numeric', 'Numeric'),
     ('barcode', 'Bar Code'),
+    ('lot', 'Lot'),
 ]
 
 BARCODE_TYPES = [
