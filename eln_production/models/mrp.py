@@ -771,6 +771,8 @@ class MrpProduction(models.Model):
                     produced_moves = production.move_created_ids2.filtered(
                        lambda r: r.state == 'done' and not r.scrapped and r.date)
                     use_date = min(produced_moves.mapped('date') or [False]) or today
+                max_date = max_date and max_date[:10] or False
+                use_date = use_date and use_date[:10] or False
                 if max_date and use_date > max_date:
                     body = _('Use date should be checked. The Serial Number/Lot will be locked.')
                     lot_id.message_post(body=body)
