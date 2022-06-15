@@ -56,7 +56,7 @@
             <field name="view_type">form</field>
         </record>
 
-        <menuitem action="action_product_ranking" id="menu_product_ranking" parent="stock.menu_product_in_config_stock" sequence="20"/>
+        <menuitem action="action_product_ranking" id="menu_product_ranking" parent="product.prod_config_main" groups="base.group_no_one"/>
         
     </data>
 </openerp>
