@@ -15,7 +15,6 @@
     "depends": [
         "base",
         "product",
-        "stock",
     ],
     "data": [
         'views/product_ranking_view.xml',

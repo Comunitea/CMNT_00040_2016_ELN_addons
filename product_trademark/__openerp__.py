@@ -26,7 +26,6 @@
     "depends": [
         'base',
         'product',
-        'stock',
     ],
     "category": "Product",
     "init_xml": [],
