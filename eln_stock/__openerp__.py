@@ -34,6 +34,7 @@
         'picking_invoice_rel',
         'web_readonly_bypass',
         'stock_picking_valued',
+        'stock_quant_merge',
     ],
     "init_xml": [],
     "data": [

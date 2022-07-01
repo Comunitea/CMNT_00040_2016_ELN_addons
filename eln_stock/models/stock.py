@@ -263,6 +263,37 @@ class StockMove(models.Model):
         return res
 
 
+class StockQuant(models.Model):
+    _inherit = "stock.quant"
+
+    @api.multi
+    def _mergeable_domain(self):
+        """Method from stock quant merge. Adds cost to domain and avoid merge quants with different history_ids"""
+        res = super(StockQuant, self)._mergeable_domain()
+        res.append(('cost', '=', self.cost))
+        where_query = self._where_calc(res)
+        from_clause, where_clause, where_clause_params = where_query.get_sql()
+        query = """SELECT id FROM stock_quant WHERE %s""" % (where_clause)
+        self._cr.execute(query, where_clause_params)
+        records = self._cr.fetchall()
+        quants = [x[0] for x in records]
+        same_history_ids = []
+        if quants:
+            # Fetch the history_ids manually as it will not do a join with the stock moves then (=> a lot faster)
+            self._cr.execute("""SELECT move_id FROM stock_quant_move_rel WHERE quant_id = %s""", (self.id,))
+            records = self._cr.fetchall()
+            main_history_ids = sorted([x[0] for x in records])
+            for quant in quants:
+                # Fetch the history_ids manually as it will not do a join with the stock moves then (=> a lot faster)
+                self._cr.execute("""SELECT move_id FROM stock_quant_move_rel WHERE quant_id = %s""", (quant,))
+                records = self._cr.fetchall()
+                comp_history_ids = sorted([x[0] for x in records])
+                if main_history_ids == comp_history_ids:
+                    same_history_ids += [quant]
+        res.append(('id', 'in', same_history_ids))
+        return res
+
+
 class StockProductionLot(models.Model):
     _inherit = 'stock.production.lot'
 
