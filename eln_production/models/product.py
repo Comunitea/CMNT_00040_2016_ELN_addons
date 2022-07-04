@@ -18,35 +18,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp import models, fields, api
-import openerp.addons.decimal_precision as dp
-
-
-class ProductProduct(models.Model):
-    _inherit = 'product.product'
-    
-    real_virtual_available = fields.Float('Real Quantity Available',
-        digits=dp.get_precision('Product Unit of Measure'),
-        compute='_product_real_available',
-        help="Forecast quantity (computed as Quantity On Hand - Outgoing)\n"
-             "In a context with a single Stock Location, this includes "
-             "goods stored at this Location, or any of its children.\n"
-             "In a context with a single Warehouse, this includes "
-             "goods stored in the Stock Location of this Warehouse, or any "
-             "of its children.\n"
-             "In a context with a single Shop, this includes goods "
-             "stored in the Stock Location of the Warehouse of this Shop, "
-             "or any of its children.\n"
-             "Otherwise, this includes goods stored in any Stock Location "
-             "typed as 'internal'.")
-
-    @api.multi
-    def _product_real_available(self):
-        """ Finds the incoming and outgoing quantity of product.
-        @return: Dictionary of values
-        """
-        for product in self:
-            product.real_virtual_available = product.qty_available - product.outgoing_qty         
+from openerp import models, fields
 
 
 class ProductTemplate(models.Model):
