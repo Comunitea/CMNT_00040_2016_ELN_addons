@@ -65,11 +65,11 @@ class ProductProduct(models.Model):
     partner_product_code = fields.Char('Partner code', size=64)
     dun14 = fields.Char('DUN14', size=14)
     development_code = fields.Char('Development code', size=64)
-    qty_dispo = fields.Float(
-        string='Stock available',
+    qty_available_immediately = fields.Float(
+        string='Quantity available immediately',
         digits=dp.get_precision('Product Unit of Measure'),
-        compute='_product_dispo',
-        help="Stock available for assignment. It refers to the actual stock not reserved.")
+        compute='_product_qty_available_immediately',
+        help="Quantity available immediately, computed as: Quantity On Hand - Outgoing quantity.")
     ramp_up_date = fields.Date('Ramp Up Date', copy=False,
         default=lambda s: fields.Date.context_today(s))
 
@@ -83,10 +83,9 @@ class ProductProduct(models.Model):
     _constraints = [(_check_dun_key, 'You provided an invalid "DUN14 Barcode" reference.', ['dun14'])]
 
     @api.multi
-    def _product_dispo(self):
+    def _product_qty_available_immediately(self):
         for product in self:
-            qty_dispo = product.qty_available - product.outgoing_qty
-            product.qty_dispo = qty_dispo if qty_dispo > 0.0 else 0.0
+            product.qty_available_immediately = product.qty_available - product.outgoing_qty
 
     @api.onchange('ean13')
     def onchange_ean13(self):
@@ -135,6 +134,15 @@ class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
     uos_coeff = fields.Float(digits=(16,10))
+    qty_available_immediately = fields.Float(
+        string='Quantity available immediately',
+        digits=dp.get_precision('Product Unit of Measure'),
+        compute='_product_qty_available_immediately',
+        help="Quantity available immediately, computed as: Quantity On Hand - Outgoing quantity.")
     expected_use = fields.Selection(EXPECTED_USE_TYPES, 'Expected use',
         related='categ_id.recursively_expected_use')
 
+    @api.multi
+    def _product_qty_available_immediately(self):
+        for product in self:
+            product.qty_available_immediately = product.qty_available - product.outgoing_qty

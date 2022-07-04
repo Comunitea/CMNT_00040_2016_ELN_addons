@@ -252,21 +252,6 @@ msgid "Finished"
 msgstr "Finalizada"
 
 #. module: eln_production
-#: help:product.product,real_virtual_available:0
-msgid ""
-"Forecast quantity (computed as Quantity On Hand - Outgoing)\n"
-"In a context with a single Stock Location, this includes goods stored at this Location, or any of its children.\n"
-"In a context with a single Warehouse, this includes goods stored in the Stock Location of this Warehouse, or any of its children.\n"
-"In a context with a single Shop, this includes goods stored in the Stock Location of the Warehouse of this Shop, or any of its children.\n"
-"Otherwise, this includes goods stored in any Stock Location typed as 'internal'."
-msgstr ""
-"Stock virtual real (calculado como Stock Real - Salidas)\n"
-"En un contexto con una única ubicación de almacén, el cálculo incluye los productos almacenados en esta ubicación, así como cualquiera de sus hijos.\n"
-"En un contexto de un único almacén, el cálculo incluye los productos almacenados en la ubicación de este almacén, así como cualquiera de sus hijos.\n"
-"En un contexto con una única tienda, el cálculo incluye los productos almacenados en la ubicación del almacén de la tienda, así como cualquiera de sus hijos.\n"
-"En otros contexto, el cálculo incluye los productos almacenados en cualquier ubicación de tipo \"interna\"."
-
-#. module: eln_production
 #: field:mrp.production.workcenter.line,gasoleo_start:0
 msgid "Gasoleo start"
 msgstr "Gasoleo inicial"
@@ -656,11 +641,6 @@ msgstr "Cantidad (en UdM por defecto)"
 #: view:mrp.production.workcenter.line:eln_production.mrp_production_workcenter_form_view_inherit
 msgid "Real"
 msgstr "Real"
-
-#. module: eln_production
-#: field:product.product,real_virtual_available:0
-msgid "Real Quantity Available"
-msgstr "Stock virtual real"
 
 #. module: eln_production
 #: field:mrp.production.workcenter.line,real_time:0
