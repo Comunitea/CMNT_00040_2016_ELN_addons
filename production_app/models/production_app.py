@@ -1010,19 +1010,22 @@ class ProductionAppRegistry(models.Model):
         }
         wc_line.production_stops_ids.unlink()
         wc_line.write(vals)
-        # Añadimos los consumos del alimentador a la orden de producción
-        # Si la producción solo tiene una orden de trabajo o se trata de la primera en validar,
-        # borramos los consumos previos. En caso contrario los añadimos.
+        # Añadimos los consumos del alimentador a la orden de producción.
+        # Para hacerlo, primero borramos los consumos previos.
+        # Luego añadimos todos los consumos de los registros de app validados relacionados con la producción.
         if self.production_id.state not in ('draft', 'closed', 'done'):
-            consumptions = self.get_merged_consumptions({'registry_id': self.id}).get('lines', False)
-            if consumptions == False:
-                raise exceptions.except_orm(_('Error'),
-                    _("You cannot validate because an error occurred when calculating the consumptions."))
-            registry_states = self.production_id.workcenter_lines.mapped('registry_id.state')
-            if 'validated' not in registry_states:
-                to_remove_ids = self.production_id.mapped('move_lines')
-                to_remove_ids.action_cancel()
-                to_remove_ids.unlink()
+            registry_ids = self.production_id.workcenter_lines.mapped('registry_id').filtered(
+                lambda r: r.state == 'validated' or r.id == self.id)
+            consumptions = []
+            for registry_id in registry_ids.ids:
+                lines = self.get_merged_consumptions({'registry_id': registry_id}).get('lines', False)
+                if lines == False:
+                    raise exceptions.except_orm(_('Error'),
+                        _("You cannot validate because an error occurred when calculating the consumptions."))
+                consumptions += lines
+            to_remove_ids = self.production_id.mapped('move_lines')
+            to_remove_ids.action_cancel()
+            to_remove_ids.unlink()
             for line in consumptions:
                 product_id = self.env['product.product'].browse(line['product_id'])
                 if product_id.type != 'service':
