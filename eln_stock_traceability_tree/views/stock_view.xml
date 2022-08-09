@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="stock_move_tree" model="ir.ui.view">
+            <field name="name">Stock Moves</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock_traceability_tree.stock_move_tree" />
+            <field name="arch" type="xml">
+                <field name="date_expected" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="move_type" position="replace"/>
+                <field name="picking_id" position="after">
+                    <field name="move_type"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="stock_move_tree2" model="ir.ui.view">
+            <field name="name">Stock Moves</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock_traceability_tree.stock_move_tree2" />
+            <field name="arch" type="xml">
+                <field name="date_expected" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="move_type" position="replace"/>
+                <field name="picking_id" position="after">
+                    <field name="move_type"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="stock_move_tree3" model="ir.ui.view">
+            <field name="name">Stock Moves</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock_traceability_tree.stock_move_tree3" />
+            <field name="arch" type="xml">
+                <field name="date_expected" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="move_type" position="replace"/>
+                <field name="picking_id" position="after">
+                    <field name="move_type"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="stock_move_tree4" model="ir.ui.view">
+            <field name="name">Stock Moves</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock_traceability_tree.stock_move_tree4" />
+            <field name="arch" type="xml">
+                <field name="date_expected" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="move_type" position="replace"/>
+                <field name="picking_id" position="after">
+                    <field name="move_type"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>
