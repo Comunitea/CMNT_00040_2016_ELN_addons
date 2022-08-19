@@ -52,3 +52,6 @@ class ProductQualityCheck(models.Model):
     only_first_workorder = fields.Boolean('Only first time',
         help="Only first work order of the day for each Work Center")
     note = fields.Text('Notes')
+    company_id = fields.Many2one(
+        'res.company', 'Company',
+        default=lambda self: self.env.user.company_id)

@@ -91,6 +91,7 @@ class MrpWorkcenter(models.Model):
         ('fried', 'Fried'),
         ('mixed', 'Mixed'),
         ('seasoned', 'Seasoned'),
+        ('labeling', 'Labeling'),
         ], string='Process Type')
 
 

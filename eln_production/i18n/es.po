@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-12 15:48+0000\n"
-"PO-Revision-Date: 2022-04-12 17:50+0200\n"
+"POT-Creation-Date: 2022-08-19 12:18+0000\n"
+"PO-Revision-Date: 2022-08-19 14:23+0200\n"
 "Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -93,7 +93,6 @@ msgid "Change Quantity of Products"
 msgstr "Cambiar cantidad de productos"
 
 #. module: eln_production
-#: field:product.product,check_production_lot_date_type:0
 #: field:product.template,check_production_lot_date_type:0
 msgid "Check production lot date"
 msgstr "Verificar fecha del lote de producción"
@@ -121,7 +120,7 @@ msgstr "Color production"
 
 #. module: eln_production
 #: field:mrp.production.workcenter.line,company_id:0
-#: field:mrp.workorder,company_id:0
+#: field:mrp.workorder,company_id:0 field:production.stops,company_id:0
 msgid "Company"
 msgstr "Compañía"
 
@@ -195,9 +194,9 @@ msgid "Employee"
 msgstr "Empleado"
 
 #. module: eln_production
-#: code:addons/eln_production/models/mrp.py:343
-#: code:addons/eln_production/models/mrp.py:371
-#: code:addons/eln_production/models/mrp.py:703
+#: code:addons/eln_production/models/mrp.py:347
+#: code:addons/eln_production/models/mrp.py:375
+#: code:addons/eln_production/models/mrp.py:707
 #, python-format
 msgid "Error!"
 msgstr "¡Error!"
@@ -218,7 +217,6 @@ msgid "Expected use"
 msgstr "Uso esperado"
 
 #. module: eln_production
-#: field:product.product,extended_shelf_life_time:0
 #: field:product.template,extended_shelf_life_time:0
 msgid "Extended product shelf life time"
 msgstr "Tiempo de vida útil extendida producto"
@@ -272,11 +270,6 @@ msgstr "Información general"
 #: field:production.stops,id:0
 msgid "ID"
 msgstr "ID"
-
-#. module: eln_production
-#: help:product.product,default_locked_lot:0
-msgid "If checked, new Serial Numbers/lots will be created locked by default"
-msgstr "Si se marca, los nuevos números de serie/lotes se crearán bloqueados de forma predeterminada"
 
 #. module: eln_production
 #: code:addons/eln_production/models/stock.py:60
@@ -344,11 +337,6 @@ msgid "Location"
 msgstr "Ubicación"
 
 #. module: eln_production
-#: field:product.product,default_locked_lot:0
-msgid "Lock new Serial Numbers/Lots"
-msgstr "Bloquear nuevos Números de serie/Lotes"
-
-#. module: eln_production
 #: field:mrp.modify.consumption.line,lot_id:0
 msgid "Lot"
 msgstr "Lote"
@@ -376,7 +364,7 @@ msgid "Manufacturing Orders"
 msgstr "Órdenes de producción"
 
 #. module: eln_production
-#: code:addons/eln_production/models/mrp.py:344
+#: code:addons/eln_production/models/mrp.py:348
 #, python-format
 msgid "Manufacturing order cannot be started in state \"%s\"!"
 msgstr "¡La orden de producción no se puede iniciar en estado \"%s\"!"
@@ -418,7 +406,6 @@ msgid "No check"
 msgstr "No verificar"
 
 #. module: eln_production
-#: help:product.product,check_production_lot_date_type:0
 #: help:product.template,check_production_lot_date_type:0
 msgid ""
 "No check: in case this product is produced, the date of the production Serial Number/Lot of this product will not be verified and it will not be locked if it is wrong.\n"
@@ -478,7 +465,7 @@ msgid "Origin Lots"
 msgstr "Lotes origen"
 
 #. module: eln_production
-#: code:addons/eln_production/models/mrp.py:526
+#: code:addons/eln_production/models/mrp.py:530
 #, python-format
 msgid "PROD: %s"
 msgstr "PROD: %s"
@@ -558,7 +545,6 @@ msgid "Produce"
 msgstr "Fabricar"
 
 #. module: eln_production
-#: model:ir.model,name:eln_production.model_product_product
 #: field:mrp.modify.consumption.line,product_id:0
 msgid "Product"
 msgstr "Producto"
@@ -878,7 +864,7 @@ msgid "Update"
 msgstr "Actualizar"
 
 #. module: eln_production
-#: code:addons/eln_production/models/mrp.py:775
+#: code:addons/eln_production/models/mrp.py:781
 #, python-format
 msgid "Use date should be checked. The Serial Number/Lot will be locked."
 msgstr "Se debe verificar la fecha de consumo preferente. El número de serie/lote se bloqueará."
@@ -901,7 +887,6 @@ msgid "Warning!"
 msgstr "¡Advertencia!"
 
 #. module: eln_production
-#: help:product.product,extended_shelf_life_time:0
 #: help:product.template,extended_shelf_life_time:0
 msgid "When a new a Serial Number is issued, this is the number of additional days that the shelf life set by the manufacturer can be extended."
 msgstr "Cuando un nuevo nº de serie se asigna, este es el número de días adicionales que la vida útil fijada por el fabricante puede ser ampliada."
@@ -951,13 +936,13 @@ msgid "Yesterday"
 msgstr "Ayer"
 
 #. module: eln_production
-#: code:addons/eln_production/models/mrp.py:704
+#: code:addons/eln_production/models/mrp.py:708
 #, python-format
 msgid "You cannot delete a production which is not cancelled."
 msgstr "No se puede eliminar una producción que no esté cancelada."
 
 #. module: eln_production
-#: code:addons/eln_production/models/mrp.py:372
+#: code:addons/eln_production/models/mrp.py:376
 #, python-format
 msgid "You cannot delete a work order which is not in draft or cancelled."
 msgstr "No se puede eliminar una orden de trabajo que no esté en borrador o cancelada."
