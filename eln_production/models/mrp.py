@@ -230,6 +230,10 @@ class ProductionStops(models.Model):
         help="Stop registered during production time")
     production_workcenter_line_id = fields.Many2one(
         'mrp.production.workcenter.line', 'Production workcenter line')
+    company_id = fields.Many2one(
+        'res.company', 'Company',
+        related='production_workcenter_line_id.company_id',
+        readonly=True, store=True)
 
 
 class MrpProductionWorkcenterLine(models.Model):

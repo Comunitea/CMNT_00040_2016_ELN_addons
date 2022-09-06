@@ -12,10 +12,10 @@
                 <field name="name"/>
                 <field name="quality_type"/>
                 <field name="value_type"/>
-                <!-- <field name="product_id"/> -->
                 <field name="workcenter_id"/>
                 <field name="repeat"/>
                 <field name="only_first_workorder"/>
+                <field name="company_id" groups="base.group_multi_company"/>
             </tree>
         </field>
     </record>
@@ -37,6 +37,7 @@
                         </group>
                         <group>
                             <field name="sequence"/>
+                            <field name="company_id" groups="base.group_multi_company" widget="selection"/>
                             <field name="required_text" attrs="{'invisible': [('value_type', '!=', 'text')]}"/>
                             <field name="min_value" attrs="{'invisible': [('value_type', '!=', 'numeric')]}"/>
                             <field name="max_value" attrs="{'invisible': [('value_type', '!=', 'numeric')]}"/>

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-09 13:32+0000\n"
-"PO-Revision-Date: 2022-06-09 15:34+0200\n"
+"POT-Creation-Date: 2022-08-19 12:23+0000\n"
+"PO-Revision-Date: 2022-08-19 14:24+0200\n"
 "Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,7 @@ msgstr ""
 "X-Generator: Poedit 2.4.2\n"
 
 #. module: production_app
-#: code:addons/production_app/models/mrp.py:153
+#: code:addons/production_app/models/mrp.py:154
 #, python-format
 msgid "%s"
 msgstr "%s"
@@ -29,7 +29,7 @@ msgid "APP State:"
 msgstr "Estado APP:"
 
 #. module: production_app
-#: code:addons/production_app/models/mrp.py:195
+#: code:addons/production_app/models/mrp.py:196
 #, python-format
 msgid "Active Id not found"
 msgstr "Id activo no encontrado"
@@ -80,7 +80,7 @@ msgid "Associated Workcenters"
 msgstr "Centros de trabajo asociados"
 
 #. module: production_app
-#: code:addons/production_app/models/mrp.py:116
+#: code:addons/production_app/models/mrp.py:117
 #, python-format
 msgid "At least one app registry associated with this production is not validated."
 msgstr "Al menos un registro de aplicación asociado a esta producción no está validado."
@@ -141,7 +141,9 @@ msgid "Cleaning Times"
 msgstr "Tiempos limpieza"
 
 #. module: production_app
+#: field:operator.line,company_id:0 field:product.quality.check,company_id:0
 #: field:production.app.registry,company_id:0
+#: field:quality.check.line,company_id:0 field:stop.line,company_id:0
 msgid "Company"
 msgstr "Compañía"
 
@@ -191,7 +193,7 @@ msgid "Created by"
 msgstr "Creado por"
 
 #. module: production_app
-#: code:addons/production_app/models/production_app.py:577
+#: code:addons/production_app/models/production_app.py:575
 #, python-format
 msgid "Created by app."
 msgstr "Creado por app."
@@ -250,12 +252,12 @@ msgid "EAN13"
 msgstr "EAN13"
 
 #. module: production_app
-#: code:addons/production_app/models/mrp.py:115
-#: code:addons/production_app/models/production_app.py:972
-#: code:addons/production_app/models/production_app.py:976
-#: code:addons/production_app/models/production_app.py:981
-#: code:addons/production_app/models/production_app.py:986
-#: code:addons/production_app/models/production_app.py:1020
+#: code:addons/production_app/models/mrp.py:116
+#: code:addons/production_app/models/production_app.py:970
+#: code:addons/production_app/models/production_app.py:974
+#: code:addons/production_app/models/production_app.py:979
+#: code:addons/production_app/models/production_app.py:984
+#: code:addons/production_app/models/production_app.py:1022
 #, python-format
 msgid "Error"
 msgstr "Error"
@@ -360,6 +362,11 @@ msgid "Is a Follower"
 msgstr "Es un seguidor"
 
 #. module: production_app
+#: selection:mrp.workcenter,process_type:0
+msgid "Labeling"
+msgstr "Etiquetado"
+
+#. module: production_app
 #: field:production.app.registry,message_last_post:0
 msgid "Last Message Date"
 msgstr "Fecha del último mensaje"
@@ -423,7 +430,7 @@ msgid "Manufacturing Order"
 msgstr "Orden de producción"
 
 #. module: production_app
-#: code:addons/production_app/models/production_app.py:585
+#: code:addons/production_app/models/production_app.py:583
 #, python-format
 msgid "Manufacturing Order: "
 msgstr "Orden de producción: "
@@ -542,7 +549,7 @@ msgid "Performance"
 msgstr "Rendimiento"
 
 #. module: production_app
-#: code:addons/production_app/models/mrp.py:126
+#: code:addons/production_app/models/mrp.py:127
 #, python-format
 msgid "Please provide a positive quantity to scrap."
 msgstr "Por favor, introduzca una cantidad positiva a desechar."
@@ -672,7 +679,7 @@ msgid "Quality checks to apply"
 msgstr "Controles de calidad para aplicar"
 
 #. module: production_app
-#: code:addons/production_app/models/production_app.py:859
+#: code:addons/production_app/models/production_app.py:857
 #, python-format
 msgid "Quality checks with errors. The Serial Number/Lot will be locked."
 msgstr "Controles de calidad con errores. El Número de serie/Lote se bloqueará."
@@ -951,7 +958,7 @@ msgid "Theo. Overweight (%)"
 msgstr "Sobrepeso teórico (%)"
 
 #. module: production_app
-#: code:addons/production_app/models/mrp.py:146
+#: code:addons/production_app/models/mrp.py:147
 #, python-format
 msgid "There is no valid scrap location."
 msgstr "No hay una ubicación de desecho válida."
@@ -1008,7 +1015,7 @@ msgid "Waiting"
 msgstr "En espera"
 
 #. module: production_app
-#: code:addons/production_app/models/production_app.py:1224
+#: code:addons/production_app/models/production_app.py:1225
 #, python-format
 msgid "Warning!"
 msgstr "¡Advertencia!"
@@ -1039,7 +1046,7 @@ msgid "Work Center"
 msgstr "Centro de producción"
 
 #. module: production_app
-#: code:addons/production_app/models/production_app.py:583
+#: code:addons/production_app/models/production_app.py:581
 #, python-format
 msgid "Work Center: "
 msgstr "Centro de producción: "
@@ -1068,20 +1075,20 @@ msgid "Workcenter ids"
 msgstr "Centros de producción"
 
 #. module: production_app
-#: code:addons/production_app/models/production_app.py:1225
+#: code:addons/production_app/models/production_app.py:1226
 #, python-format
 msgid "You can not set consumptions to done while they are checked to review."
 msgstr "No puedes establecer los consumos como realizados mientras estén marcados para revisar."
 
 #. module: production_app
 #: code:addons/production_app/models/mrp.py:23
-#: code:addons/production_app/models/mrp.py:105
+#: code:addons/production_app/models/mrp.py:106
 #, python-format
 msgid "You cannot cancel because one app registry is linked."
 msgstr "No puedes cancelar porque hay un registro de aplicación asociado."
 
 #. module: production_app
-#: code:addons/production_app/models/mrp.py:199
+#: code:addons/production_app/models/mrp.py:200
 #, python-format
 msgid "You cannot change qty because one app registry is linked."
 msgstr "No puedes cambiar la cantidad porque hay un registro de aplicación asociado."
@@ -1093,37 +1100,37 @@ msgid "You cannot remove because one app registry is linked."
 msgstr "No puedes eliminar porque hay un registro de aplicación asociado."
 
 #. module: production_app
-#: code:addons/production_app/models/production_app.py:1021
+#: code:addons/production_app/models/production_app.py:1023
 #, python-format
 msgid "You cannot validate because an error occurred when calculating the consumptions."
 msgstr "No puedes validar porque ocurrió un error en el cálculo de consumos."
 
 #. module: production_app
-#: code:addons/production_app/models/production_app.py:987
+#: code:addons/production_app/models/production_app.py:985
 #, python-format
 msgid "You cannot validate if the quantity in work orders associated with this production are not the same."
 msgstr "No puedes validar si la cantidad en las órdenes de trabajo asociadas a esta producción son diferentes."
 
 #. module: production_app
-#: code:addons/production_app/models/production_app.py:977
+#: code:addons/production_app/models/production_app.py:975
 #, python-format
 msgid "You cannot validate if the quantity of production are negative or zero."
 msgstr "No puedes validar si la cantidad de la producción es negativa o cero."
 
 #. module: production_app
-#: code:addons/production_app/models/production_app.py:982
+#: code:addons/production_app/models/production_app.py:980
 #, python-format
 msgid "You cannot validate if the quantity of the feeder and quantity of production are not the same."
 msgstr "No puedes validar si la cantidad del alimentador y la cantidad de producción son diferentes."
 
 #. module: production_app
-#: code:addons/production_app/models/production_app.py:973
+#: code:addons/production_app/models/production_app.py:971
 #, python-format
 msgid "You cannot validate without confirming consumptions."
 msgstr "No puedes validar si no están los consumos confirmados."
 
 #. module: production_app
-#: code:addons/production_app/models/mrp.py:152
+#: code:addons/production_app/models/mrp.py:153
 #, python-format
 msgid "You must assign a serial number for the scrapped product"
 msgstr "Debe asignar un número de serie para el producto desechado"

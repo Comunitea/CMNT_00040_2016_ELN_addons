@@ -9,6 +9,13 @@
             <field name="domain_force">['|',('company_id','child_of',[user.company_id.id]),('company_id','=',False)]</field>
         </record>
 
+        <record model="ir.rule" id="production_stops_rule">
+            <field name="name">production_stops multi-company</field>
+            <field name="model_id" search="[('model','=','production.stops')]" model="ir.model"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">['|',('company_id','child_of',[user.company_id.id]),('company_id','=',False)]</field>
+        </record>
+
         <record model="ir.rule" id="mrp_workorder_analysis_rule">
             <field name="name">mrp_workorder_analysis multi-company</field>
             <field name="model_id" search="[('model','=','mrp.workorder')]" model="ir.model"/>

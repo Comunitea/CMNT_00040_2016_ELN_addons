@@ -318,7 +318,6 @@ class ProductionAppRegistry(models.Model):
                 process_type = process_type and process_type[0] or False
             res.update(
                 allowed_operators=allowed_operators,
-                lot_name=reg.lot_id.name,
                 product_ids=product_ids,
                 consume_ids=consume_ids,
                 production_qty=production_qty,
@@ -1246,6 +1245,10 @@ class QualityCheckLine(models.Model):
     value = fields.Text('Value', readonly=False)
     operator_id = fields.Many2one(
         'hr.employee', 'Operator')
+    company_id = fields.Many2one(
+        'res.company', 'Company',
+        related='registry_id.company_id',
+        readonly=True, store=True)
 
 
 class StopLine(models.Model):
@@ -1263,6 +1266,10 @@ class StopLine(models.Model):
     operator_id = fields.Many2one('hr.employee', 'Operator')
     from_state = fields.Selection(APP_STATES, 'From State',
         default='started', required=True)
+    company_id = fields.Many2one(
+        'res.company', 'Company',
+        related='registry_id.company_id',
+        readonly=True, store=True)
 
     @api.multi
     @api.depends('stop_start', 'stop_end')
@@ -1287,6 +1294,10 @@ class OperatorLine(models.Model):
     date_out = fields.Datetime('Date Out', readonly=False)
     stop_duration = fields.Float('Hours',
         compute='_get_duration')
+    company_id = fields.Many2one(
+        'res.company', 'Company',
+        related='registry_id.company_id',
+        readonly=True, store=True)
 
     @api.multi
     @api.depends('date_in', 'date_out')
