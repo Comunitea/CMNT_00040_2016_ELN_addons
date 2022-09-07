@@ -4,3 +4,4 @@
 
 import stock_traceability
 import stock_simplified_traceability
+import stock
