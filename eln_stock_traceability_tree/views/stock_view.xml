@@ -14,6 +14,12 @@
                 <field name="picking_id" position="after">
                     <field name="move_type"/>
                 </field>
+                <field name="product_uom" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="product_qty" position="after">
+                    <field name="product_default_uom" string="UOM"/>
+                </field>
             </field>
         </record>
 
@@ -28,6 +34,12 @@
                 <field name="move_type" position="replace"/>
                 <field name="picking_id" position="after">
                     <field name="move_type"/>
+                </field>
+                <field name="product_uom" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="product_qty" position="after">
+                    <field name="product_default_uom" string="UOM"/>
                 </field>
             </field>
         </record>
@@ -44,6 +56,12 @@
                 <field name="picking_id" position="after">
                     <field name="move_type"/>
                 </field>
+                <field name="product_uom" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="product_qty" position="after">
+                    <field name="product_default_uom" string="UOM"/>
+                </field>
             </field>
         </record>
 
@@ -58,6 +76,12 @@
                 <field name="move_type" position="replace"/>
                 <field name="picking_id" position="after">
                     <field name="move_type"/>
+                </field>
+                <field name="product_uom" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="product_qty" position="after">
+                    <field name="product_default_uom" string="UOM"/>
                 </field>
             </field>
         </record>
