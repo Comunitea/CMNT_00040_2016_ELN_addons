@@ -11,14 +11,16 @@ from unidecode import unidecode
 
 class StockPickingExport(models.TransientModel):
     _name = 'stock.picking.export'
-    _description = 'Export stock picking to file'
+    _description = 'Export pickings to file'
 
     file_name = fields.Char(string='Filename', size=128, required=True, default='')
     file_type = fields.Selection([
         ('model_salica', 'SALICA'),
+        ('model_aspil', 'ASPIL'),
         ('model_deleben', 'DELEBEN'),
         ], string='File type', required=True)
-    note = fields.Text(string='Log')
+    note_1 = fields.Text(string='Log')
+    note_2 = fields.Text(string='Log')
     data = fields.Binary('File', readonly=True)
     subtract_returns = fields.Boolean(
         string='Subtract returns',
@@ -28,6 +30,10 @@ class StockPickingExport(models.TransientModel):
         string='Set picking as sent to supplier',
         default=False,
         help="Check this box if the physical delivery note has been sent to the supplier")
+    bypass_warnings = fields.Boolean(
+        string='Skip warnings',
+        default=False,
+        help="Check this box to bypass warnings")
     state = fields.Selection([
         ('choose', 'choose'),
         ('get', 'get'),
@@ -37,6 +43,8 @@ class StockPickingExport(models.TransientModel):
     def onchange_file_type(self):
         if self.file_type == 'model_salica':
             self.file_name = 'albacli.txt'
+        elif self.file_type == 'model_aspil':
+            self.file_name = 'aspil_albaranes.xls'
         elif self.file_type == 'model_deleben':
             self.file_name = 'LIALBA.txt'
         else:
@@ -111,32 +119,68 @@ class StockPickingExport(models.TransientModel):
         for wizard in self:
             text = ''
             if wizard.file_type == 'model_salica':
-                text, err_log = wizard.get_model_salica()
+                text, err_log, pickings_exported = wizard.get_model_salica()
+            if wizard.file_type == 'model_aspil':
+                text, err_log, pickings_exported = wizard.get_model_aspil()
             if wizard.file_type == 'model_deleben':
-                text, err_log = wizard.get_model_deleben()
+                text, err_log, pickings_exported = wizard.get_model_deleben()
             # -------------------------------------------------------------------------------------------------------------------------------
             # GENERAMOS FICHERO
             # -------------------------------------------------------------------------------------------------------------------------------
             if text:
-                data = base64.encodestring(text)
-                file_name = _("%s") % (wizard.file_name or 'albaran.txt')
-                if err_log:
-                    err_log = _("Export completed with errors:") + '\n' + err_log
+                if wizard.file_type == 'model_aspil':
+                    if err_log and not wizard.bypass_warnings:
+                        err_log = _("Export completed with errors:") + '\n' + err_log
+                        wizard.write({'state': 'choose', 'note_2': err_log})
+                        self._context.get('active_ids', [])
+                        return {
+                            'name': _('Export File Result'),
+                            'type': 'ir.actions.act_window',
+                            'res_model': 'stock.picking.export',
+                            'view_mode': 'form',
+                            'view_type': 'form',
+                            'res_id': wizard.id,
+                            'views': [(False, 'form')],
+                            'target': 'new',
+                            'context': self._context,
+                        }
+                    else:
+                        if self.sent_to_supplier:
+                            self.set_pickings_sent_to_supplier(pickings_exported)
+                        return {
+                            'type': 'ir.actions.report.xml',
+                            'report_name': 'stock_picking_export_aspil_xls',
+                            'datas': {'lines': text}
+                        }
                 else:
-                    err_log = _("Export completed without errors!")
-                wizard.write({'state': 'get', 'data': data, 'file_name': file_name, 'note': err_log})
-                return {
-                    'name': _('Export File Result'),
-                    'type': 'ir.actions.act_window',
-                    'res_model': 'stock.picking.export',
-                    'view_mode': 'form',
-                    'view_type': 'form',
-                    'res_id': wizard.id,
-                    'views': [(False, 'form')],
-                    'target': 'new',
-                }
+                    data = base64.encodestring(text)
+                    file_name = _("%s") % (wizard.file_name or 'albaran.txt')
+                    if err_log:
+                        err_log = _("Export completed with errors:") + '\n' + err_log
+                    else:
+                        err_log = _("Export completed without errors!")
+                    if self.sent_to_supplier:
+                        self.set_pickings_sent_to_supplier(pickings_exported)
+                    wizard.write({'state': 'get', 'data': data, 'file_name': file_name, 'note_1': err_log})
+                    return {
+                        'name': _('Export File Result'),
+                        'type': 'ir.actions.act_window',
+                        'res_model': 'stock.picking.export',
+                        'view_mode': 'form',
+                        'view_type': 'form',
+                        'res_id': wizard.id,
+                        'views': [(False, 'form')],
+                        'target': 'new',
+                        'context': self._context,
+                    }
             else:
                 return {}
+
+    @api.model
+    def set_pickings_sent_to_supplier(self, pickings):
+        picks = pickings.filtered(
+            lambda r: not r.sent_to_supplier)
+        picks.write({'sent_to_supplier': True})
 
     @api.model
     def get_picking_lines(self, pickings):
@@ -169,7 +213,7 @@ class StockPickingExport(models.TransientModel):
                 lot_id = self.env['stock.production.lot'].browse(record[1])
                 move_id = self.env['stock.move'].browse(record[2])
                 product_qty = record[3] or 0.0
-                picking_id = self.env['stock.move'].browse(record[4])
+                picking_id = self.env['stock.picking'].browse(record[4])
                 total = 0.0
                 if move_id.procurement_id.sale_line_id:
                     total = move_id.order_price_unit * product_qty
@@ -203,12 +247,10 @@ class StockPickingExport(models.TransientModel):
         separator = '|'
         active_ids = self._context.get('active_ids', [])
         pickings = self.env['stock.picking'].browse(active_ids)
-        for move in pickings.mapped('move_lines'):
-            if move.picking_id.sale_id and not move.procurement_id.sale_line_id:
-                err_msg = _("Error in picking '%s': extra move detected!") % (move.picking_id.name)
-                err_log += '\n' + err_msg
         picking_lines = self.get_picking_lines(pickings)
+        pickings_exported = self.env['stock.picking']
         for picking in pickings:
+            line_pos = 0
             if picking.state != 'done':
                 raise exceptions.Warning(_('Warning'), _("You can only export pickings in 'done' state!"))
             if not picking.supplier_id or picking.supplier_id.name.upper().find('SALICA') == -1:
@@ -227,7 +269,7 @@ class StockPickingExport(models.TransientModel):
                 raise exceptions.Warning(_('Warning'), _("You can only export customer outgoing pickings with sales orders! Picking: %s") % (picking.name))
             # Signo para las cantidades (positivo = venta, negativo = abono)
             sign = -1 if location_dest_usage == 'internal' else 1
-            # Obtenemos la tienda del pedido de venta si lo hay, y sino la averiguamos por el proveedor del alabrán
+            # Obtenemos la tienda del pedido de venta si lo hay, y sino la averiguamos por el proveedor del albarán
             if picking.sale_id:
                 shop_id = picking.sale_id.shop_id
             else:
@@ -274,7 +316,6 @@ class StockPickingExport(models.TransientModel):
                 raise exceptions.Warning(_('Warning'), _('Partner %s without reference (%s)') % (picking.partner_id.name, picking.name))
             # Recorremos las lineas del albarán
             lines = picking_lines[picking.id]
-            line_pos = 0
             for line in lines:
                 product_id = line['product_id']
                 lot_id = line['lot_id']
@@ -295,7 +336,7 @@ class StockPickingExport(models.TransientModel):
                 l_text += self.parse_string('00000000', 8)
                 l_text += separator
                 # Código artículo (14 caracteres) = Código artículo sálica (9 cifras) + 5 espacios en blanco
-                supplier_product_code = product_id.seller_ids[0].product_code
+                supplier_product_code = product_id.seller_ids and product_id.seller_ids[0].product_code or False
                 if not supplier_product_code:
                     raise exceptions.Warning(_('Warning'), _('Product %s without supplier code') % (product_id.display_name))
                 supplier_product_code = self.parse_string(supplier_product_code, 9)
@@ -322,6 +363,10 @@ class StockPickingExport(models.TransientModel):
                     continue
                 if (product_uom_qty * sign) < 0:
                     raise exceptions.Warning(_('Warning'), _('Picking %s with negative quantities') % (picking.name))
+                extra_move = move_id.picking_id.sale_id and not move_id.procurement_id.sale_line_id
+                if extra_move:
+                    err_msg = _("Error in picking '%s': extra move detected!") % (move_id.picking_id.name)
+                    err_log += '\n' + err_msg
                 l_text += self.parse_number(round(product_uom_qty, 0), 7, dec_length=0, include_sign=True, positive_sign='0', negative_sign='-')
                 l_text += separator
                 # Modo de pago (1 caracter) -> Giro: G, Transferencia: T, Pagaré: P, Contado: T
@@ -355,11 +400,137 @@ class StockPickingExport(models.TransientModel):
                 # Descripción del artículo utilizada por Distribuidor (30 espacios alfanuméricos)
                 l_text += self.parse_string(product_id.name, 30)
                 l_text += separator
-                if l_text:
-                    text += ('\r\n' + l_text) if text else l_text
-            if text and self.sent_to_supplier and not picking.sent_to_supplier:
-                picking.write({'sent_to_supplier': True})
-        return (text, err_log)
+                text += ('\r\n' + l_text) if text else l_text
+            if line_pos > 0: # Significa que se ha generado al menos un registro por albarán
+                pickings_exported |= picking
+        return (text, err_log, pickings_exported)
+
+    @api.model
+    def get_model_aspil(self):
+        err_log = ''
+        text = []
+        active_ids = self._context.get('active_ids', [])
+        pickings = self.env['stock.picking'].browse(active_ids)
+        picking_lines = self.get_picking_lines(pickings)
+        pickings_exported = self.env['stock.picking']
+        picking_pos = 0
+        for picking in pickings:
+            line_pos = 0
+            if picking.state != 'done':
+                raise exceptions.Warning(_('Warning'), _("You can only export pickings in 'done' state!"))
+            if not picking.supplier_id or picking.supplier_id.name.upper().find('EXTRUSIONADOS') == -1:
+                raise exceptions.Warning(_('Warning'), _("You can only export pickings from the supplier 'ASPIL'!"))
+            if picking.id not in picking_lines or not picking_lines[picking.id]: # Esto no debería pasar nunca
+                err_msg = _("Error in picking '%s': not report lines!") % (picking.name)
+                err_log += '\n' + err_msg
+                continue
+            location_usage = picking.move_lines and picking.move_lines[0].location_id.usage
+            location_dest_usage = picking.move_lines and picking.move_lines[0].location_dest_id.usage
+            if not (location_usage == 'internal' and location_dest_usage == 'customer' or
+                    location_usage == 'customer' and location_dest_usage == 'internal'):
+                raise exceptions.Warning(_('Warning'), _("You can only export customer outgoing or incoming pickings! Picking: %s") % (picking.name))
+            if location_dest_usage == 'customer' and not picking.sale_id:
+                raise exceptions.Warning(_('Warning'), _("You can only export customer outgoing pickings with sales orders! Picking: %s") % (picking.name))
+            # Signo para las cantidades (positivo = venta, negativo = abono)
+            sign = -1 if location_dest_usage == 'internal' else 1
+            # Obtenemos la tienda del pedido de venta si lo hay, y sino la averiguamos por el proveedor del albarán
+            if picking.sale_id:
+                shop_id = picking.sale_id.shop_id
+            else:
+                domain = [
+                    ('supplier_id', '=', picking.supplier_id.id),
+                    ('indirect_invoicing', '=', True)
+                ]
+                shop_id = self.env['sale.shop'].search(domain, limit=1)
+            if not shop_id:
+                raise exceptions.Warning(_('Warning'), _("No valid shop for picking %s!") % (picking.name))
+            # Obtenemos el código de cliente
+            domain = [
+                ('partner_id', '=', picking.partner_id.id),
+                ('shop_id', '=', shop_id.id)
+            ]
+            partner_shop_ids = self.env['partner.shop.ref'].search(domain, limit=1)
+            partner_code = partner_shop_ids.ref or picking.partner_id.ref or ''
+            if not partner_code:
+                raise exceptions.Warning(_('Warning'), _('Partner %s without reference (%s)') % (picking.partner_id.name, picking.name))
+            # Recorremos las lineas del albarán
+            lines = picking_lines[picking.id]
+            picking_pos += 1
+            for line in lines:
+                product_id = line['product_id']
+                lot_id = line['lot_id']
+                move_id = line['move_id']
+                if move_id.state != 'done': # Esto no debería pasar nunca
+                    err_msg = _("Error in picking '%s': move not done!") % (picking.name)
+                    err_log += '\n' + err_msg
+                    continue
+                l_text = {}
+                # Número de albarán o contador de cabecera
+                #picking_number = int(re.findall('\d+', picking.name[-7:])[0])
+                picking_number = picking_pos
+                # Código de cliente APEX (partner_code)
+                # Número de pedido cliente
+                client_order_ref = picking.sale_id.client_order_ref
+                # Número de albarán
+                picking_name = picking.name
+                # Fecha albarán
+                date_done = picking.date_done and picking.date_done[:10] or ''
+                picking_date = self.parse_short_date(date_done, '%d/%m/%Y')
+                # Código de artículo APEX
+                supplier_product_code = product_id.seller_ids and product_id.seller_ids[0].product_code or False
+                if not supplier_product_code:
+                    raise exceptions.Warning(_('Warning'), _('Product %s without supplier code') % (product_id.display_name))
+                # Código almacén asignado al distribuidor
+                warehouse_code = 'D42'
+                # Cantidad (en cajas). Para especificar cantidades en bolsas hay que calcular la parte proporcional de caja que supone.
+                product_uom_qty = line['product_qty'] * sign
+                if self.subtract_returns and move_id.returned_move_ids:
+                    for smol in move_id.returned_move_ids.linked_move_operation_ids:
+                        if lot_id == smol.operation_id.lot_id:
+                            product_uom_qty -= smol.qty * sign
+                if product_uom_qty == 0: # No grabamos la linea
+                    l_text = ''
+                    continue
+                extra_move = move_id.picking_id.sale_id and not move_id.procurement_id.sale_line_id
+                if extra_move:
+                    err_msg = _("Error in picking '%s': extra move detected!") % (move_id.picking_id.name)
+                    err_log += '\n' + err_msg
+                if (product_uom_qty * sign) < 0:
+                    raise exceptions.Warning(_('Warning'), _('Picking %s with negative quantities') % (picking.name))
+                t_uom = self.env['product.uom']
+                uom_id = product_id.uom_id.id
+                uos_id = move_id.product_uos.id or product_id.uos_id.id
+                product_uos_qty = t_uom._compute_qty(uom_id, product_uom_qty, uos_id)
+                # Lote
+                lot_name = lot_id.name
+                # Precio (0 para regalos. '' para cálculo automático)
+                price = ''
+                #if extra_move:
+                #    price = ''
+                #else:
+                #    price = move_id.procurement_id.sale_line_id.price_unit or 0.0
+                #    price = round(price * product_uom_qty / product_uos_qty, 3)
+                #    price = 0.0 if price == 0.0 else ''
+                # Número línea
+                line_pos += 1
+
+                l_text = {
+                    'picking_number': picking_number, # Número de albarán o contador de cabecera
+                    'partner_code': partner_code, # Código de cliente APEX (partner_code)
+                    'client_order_ref': client_order_ref, # Número de pedido cliente
+                    'picking_name': picking_name, # Número de albarán
+                    'picking_date': picking_date, # Fecha albarán
+                    'line_pos': line_pos, # Número línea
+                    'supplier_product_code': supplier_product_code, # Código de artículo APEX
+                    'warehouse_code': warehouse_code, # Código almacén asignado al distribuidor
+                    'product_uos_qty': product_uos_qty, # Cantidad (en cajas)
+                    'lot_name': lot_name, # Lote
+                    'price': price, # Precio (0 para regalos. '' para cálculo automático)
+                }
+                text.append(l_text)
+            if line_pos > 0: # Significa que se ha generado al menos un registro por albarán
+                pickings_exported |= picking
+        return (text, err_log, pickings_exported)
 
     @api.model
     def get_model_deleben(self):
@@ -368,6 +539,7 @@ class StockPickingExport(models.TransientModel):
         separator = ' '
         active_ids = self._context.get('active_ids', [])
         pickings = self.env['stock.picking'].browse(active_ids)
+        pickings_exported = self.env['stock.picking']
         for picking in pickings:
             if picking.state != 'done':
                 raise exceptions.Warning(_('Warning'), _("You can only export pickings in 'done' state!"))
@@ -381,6 +553,7 @@ class StockPickingExport(models.TransientModel):
             if not move.procurement_id.sale_line_id:
                 err_msg = _("Error in picking '%s': extra move detected!") % (move.picking_id.name)
                 err_log += '\n' + err_msg
+        line_pos = 0
         for picking in pickings:
             lines = picking.pack_operation_ids.read_group(
                 [('picking_id', 'in', picking.ids)],
@@ -478,9 +651,10 @@ class StockPickingExport(models.TransientModel):
                 l_text += separator
                 # Referencia cliente (numero de pedido) 15 espacios alfanuméricos
                 l_text += self.parse_string(picking.sale_id.client_order_ref, 15)
-                if l_text:
-                    text += ('\r\n' + l_text) if text else l_text
-            if text and self.sent_to_supplier and not picking.sent_to_supplier:
-                picking.write({'sent_to_supplier': True})
-        return (text, err_log)
+                # Número línea
+                line_pos += 1
+                text += ('\r\n' + l_text) if text else l_text
+            if line_pos > 0: # Significa que se ha generado al menos un registro por albarán
+                pickings_exported |= picking
+        return (text, err_log, pickings_exported)
 
