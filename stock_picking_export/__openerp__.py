@@ -6,7 +6,7 @@
     'name': "Stock Picking Export",
     'version': '1.0',
     'category': 'Warehouse Management',
-    'description': """Módulo que permite la exportación de albaranes a fichero de texto""",
+    'description': """Módulo que permite la exportación de albaranes a ficheros""",
     'author': 'Pedro Gómez',
     'website': 'www.elnogal.com',
     "depends" : [
@@ -17,10 +17,12 @@
         'account_payment_sale',
         'sale_early_payment_discount',
         'eln_sale',
+        'report_xls',
      ],
     "init_xml" : [],
     'data': [
-        'stock_picking_export_view.xml',
+        'wizard/stock_picking_export_view.xml',
+        'report/stock_picking_export_report.xml',
     ],
     "demo_xml" : [],
     "active": False,
