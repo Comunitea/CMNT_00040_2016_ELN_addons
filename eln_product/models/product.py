@@ -93,6 +93,12 @@ class ProductProduct(models.Model):
             Comprueba que no esté en uso ya el código ean introducido. Si lo está muestra un aviso
         """
         if self.ean13:
+            if len(self.ean13) == 12:
+                warning = {
+                    'title': _('Warning!'),
+                    'message' : _('The EAN-13 code you entered is incomplete.\nThe check digit is: %s') % (dun_checksum('0' + self.ean13 + '0'))
+                }
+                return {'warning': warning}
             product_ids = self.search([('ean13', '=', self.ean13), ('id', '!=', self._origin.id), ('active', '=', True)], limit=100)
             if product_ids:
                 cadena = '| '
@@ -110,6 +116,12 @@ class ProductProduct(models.Model):
             Comprueba que no esté en uso ya el código dun introducido. Si lo está muestra un aviso
         """
         if self.dun14:
+            if len(self.dun14) == 13:
+                warning = {
+                    'title': _('Warning!'),
+                    'message' : _('The DUN-14 code you entered is incomplete.\nThe check digit is: %s') % (dun_checksum(self.dun14 + '0'))
+                }
+                return {'warning': warning}
             product_ids = self.search([('dun14', '=', self.dun14), ('id', '!=', self._origin.id), ('active', '=', True)], limit=100)
             if product_ids:
                 cadena = '| '
