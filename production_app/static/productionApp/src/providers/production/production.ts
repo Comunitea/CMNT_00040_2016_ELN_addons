@@ -56,6 +56,7 @@ export class ProductionProvider {
     scrap_reason_id: number;
     production_qty: number;
     production_uos_qty: number;
+    registry_qty: number;
     uom: string;
     uos: string;
     uos_coeff: number;
@@ -424,6 +425,7 @@ export class ProductionProvider {
         this.scrap_qty = 0;
         this.production_qty = data.production_qty;
         this.production_uos_qty = data.production_uos_qty;
+        this.registry_qty = data.registry_qty;
         this.uom = data.uom;
         this.uos = data.uos;
         this.uom_id = data.uom_id;

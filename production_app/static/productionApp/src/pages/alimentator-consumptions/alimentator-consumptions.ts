@@ -53,7 +53,7 @@ export class AlimentatorConsumptionsPage {
         this.consumptions_scheduled = this.prodData.consumptions_scheduled;
         this.finished_products = this.prodData.finished_products;
         this.sum_finished_products = this.finished_products.reduce((sum, product) => sum + product.qty, 0);
-        this.qty_scheduled = this.prodData.production_qty;
+        this.qty_scheduled = this.prodData.registry_qty;
     }
 
     presentAlert(titulo, texto) {
@@ -232,14 +232,14 @@ export class AlimentatorConsumptionsPage {
 
     qty_scheduled_swap(option) {
         if (option == "no_swap") {
-            if (this.qty_scheduled != this.prodData.production_qty) {
+            if (this.qty_scheduled != this.prodData.registry_qty) {
                 this.qty_scheduled = this.sum_finished_products;
             }
         } else {
-            if (this.qty_scheduled == this.prodData.production_qty) {
+            if (this.qty_scheduled == this.prodData.registry_qty) {
                 this.qty_scheduled = this.sum_finished_products;
             } else {
-                this.qty_scheduled = this.prodData.production_qty;
+                this.qty_scheduled = this.prodData.registry_qty;
             }
         }
     }
