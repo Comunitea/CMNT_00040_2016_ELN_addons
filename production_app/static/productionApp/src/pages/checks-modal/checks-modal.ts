@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage,  NavParams, ViewController, AlertController} from 'ionic-angular';
+import { IonicPage, NavParams, ViewController, AlertController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { ProductionProvider } from '../../providers/production/production';
 import * as $ from 'jquery';
 
@@ -13,20 +14,22 @@ import * as $ from 'jquery';
 
 @IonicPage()
 @Component({
-  selector: 'page-checks-modal',
-  templateUrl: 'checks-modal.html',
+    selector: 'page-checks-modal',
+    templateUrl: 'checks-modal.html',
 })
 export class ChecksModalPage {
     navbarColor: string = 'primary';
     product_id;
     quality_type;
     quality_checks;
+    canLeave: boolean = true;
 
     constructor(private storage: Storage,
         public navParams: NavParams,
         public viewCtrl: ViewController,
         private prodData: ProductionProvider,
-        public alertCtrl: AlertController) {
+        public alertCtrl: AlertController,
+        private barcodeScanner: BarcodeScanner) {
         this.storage.get('CONEXION').then((con_data) => {
             this.navbarColor = con_data.company == 'qv' ? 'qv' : 'vq';
         })
@@ -34,6 +37,7 @@ export class ChecksModalPage {
         this.product_id = this.navParams.get('product_id');
         this.quality_type = this.navParams.get('quality_type');
         this.quality_checks = this.initQualityChecks();
+        this.canLeave = true;
     }
 
     initQualityChecks() {
@@ -50,13 +54,21 @@ export class ChecksModalPage {
             }
             var new_ = {};
             $.extend(new_, qc);
-            new_list.push(new_); 
+            new_list.push(new_);
         }
         return new_list;
     }
-     
+
     ionViewDidLoad() {
         console.log('ionViewDidLoad ChecksModalPage');
+    }
+
+    ionViewCanLeave() {
+        console.log('ionViewCanLeave ChecksModalPage');
+        if (!this.canLeave) {
+            this.canLeave = true;
+            return false;
+        }
     }
 
     presentAlert(titulo, texto) {
@@ -82,7 +94,7 @@ export class ChecksModalPage {
                     this.presentAlert('Error de validación', 'El valor para <b>' + qc.name + '</b> tiene que ser <b>OK</b>');
                     error = true;
                 }
-            } else if (qc.value_type == 'text') {
+            } else if (qc.value_type == 'text' || qc.value_type == 'barcode') {
                 if (qc.required_text != '' && qc.required_text.toUpperCase() != qc.value.toUpperCase()) {
                     if (qc.value != '??') {
                         this.presentAlert('Error de validación', 'El valor para <b>' + qc.name + '</b> no es correcto');
@@ -103,7 +115,7 @@ export class ChecksModalPage {
                     error = true;
                 }
             }
-	    this.quality_checks[indx]['error'] = error;
+            this.quality_checks[indx]['error'] = error;
         }
         // Si el tipo de control es final, permitimos continuar aunque haya respuestas erróneas
         // En este caso, se grabará el resultado erróneo y se bloqueará el lote
@@ -111,6 +123,25 @@ export class ChecksModalPage {
         if (!error || this.quality_type == 'end') {
             this.viewCtrl.dismiss(this.quality_checks);
         }
+    }
+
+    openBarcodeScanner(qc) {
+        var options = {
+            prompt: qc.name,
+            preferFrontCamera: false,
+            showFlipCameraButton: true,
+            showTorchButton: true,
+            torchOn: false,
+        }
+        this.barcodeScanner.scan(options).then(barcodeData => {
+            if (barcodeData.cancelled) {
+                this.canLeave = false;
+            } else {
+                qc.value = barcodeData.text;
+            }
+        }).catch(err => {
+            console.log('Error', err);
+        });
     }
 
 }

@@ -16,38 +16,44 @@ import { ProductionProvider } from '../../providers/production/production';
 
 @IonicPage()
 @Component({
-  selector: 'page-alimentator-consumptions',
-  templateUrl: 'alimentator-consumptions.html',
+    selector: 'page-alimentator-consumptions',
+    templateUrl: 'alimentator-consumptions.html',
 })
 export class AlimentatorConsumptionsPage {
 
     consumptions_in: any[];
     consumptions_out: any[];
     consumptions_scrapped: any[];
+    consumptions_scheduled: any[];
     finished_products: any[];
     sum_finished_products;
+    show_scheduled: boolean = false;
+    qty_scheduled;
     title: string;
     consumptions_note: string;
     navbarColor: string = 'primary';
 
     constructor(public navCtrl: NavController, private storage: Storage,
-                public navParams: NavParams,
-                public alertCtrl: AlertController,
-                public modalCtrl: ModalController,
-                private prodData: ProductionProvider) {
+        public navParams: NavParams,
+        public alertCtrl: AlertController,
+        public modalCtrl: ModalController,
+        private prodData: ProductionProvider) {
         this.storage.get('CONEXION').then((con_data) => {
             this.navbarColor = con_data.company == 'qv' ? 'qv' : 'vq';
         })
         this.title = this.prodData.workline_name
-	this.consumptions_note = this.prodData.consumptions_note;
+        this.consumptions_note = this.prodData.consumptions_note;
+        this.show_scheduled = false;
     }
 
     ionViewDidLoad() {
         this.consumptions_in = this.prodData.consumptions_in;
         this.consumptions_out = this.prodData.consumptions_out;
         this.consumptions_scrapped = this.prodData.consumptions_scrapped;
+        this.consumptions_scheduled = this.prodData.consumptions_scheduled;
         this.finished_products = this.prodData.finished_products;
         this.sum_finished_products = this.finished_products.reduce((sum, product) => sum + product.qty, 0);
+        this.qty_scheduled = this.prodData.production_qty;
     }
 
     presentAlert(titulo, texto) {
@@ -103,9 +109,9 @@ export class AlimentatorConsumptionsPage {
             this.prodData.getConsumeInOut().then((res) => {
                 this.finished_products = this.prodData.finished_products;
                 this.sum_finished_products = this.finished_products.reduce((sum, product) => sum + product.qty, 0);
+                this.qty_scheduled_swap("no_swap");
             })
-        })
-        .catch( (err) => {
+        }).catch((err) => {
             this.presentAlert("Error", "Fallo al escribir la línea de producto terminado");
         });
     }
@@ -119,7 +125,7 @@ export class AlimentatorConsumptionsPage {
     }
 
     block_by_consumptions_done() {
-        if (this.prodData.consumptions_done == true ) {
+        if (this.prodData.consumptions_done == true) {
             this.presentAlert("Error", "No se pueden modificar consumos confirmados");
             return true;
         }
@@ -142,11 +148,11 @@ export class AlimentatorConsumptionsPage {
                     this.consumptions_in = this.prodData.consumptions_in;
                     this.consumptions_out = this.prodData.consumptions_out;
                     this.consumptions_scrapped = this.prodData.consumptions_scrapped;
+                    this.consumptions_scheduled = this.prodData.consumptions_scheduled;
                 })
-            })
-            .catch( (err) => {
+            }).catch((err) => {
                 this.presentAlert("Error", "Fallo al escribir la línea de consumo");
-            }); 
+            });
         });
     }
 
@@ -154,24 +160,25 @@ export class AlimentatorConsumptionsPage {
         if (this.block_by_state() || this.block_by_consumptions_done()) {
             return;
         }
-        var mydata = {'line': line}
+        var mydata = { 'line': line }
         let consumeModal = this.modalCtrl.create(ConsumeModalPage, mydata);
         consumeModal.present();
 
-         // When modal closes
-         consumeModal.onDidDismiss(line_vals => {
+        // When modal closes
+        consumeModal.onDidDismiss(line_vals => {
             this.prodData.saveConsumptionLine(line_vals).then((res) => {
                 this.prodData.getConsumeInOut().then((res) => {
                     this.consumptions_in = this.prodData.consumptions_in;
                     this.consumptions_out = this.prodData.consumptions_out;
                     this.consumptions_scrapped = this.prodData.consumptions_scrapped;
+                    this.consumptions_scheduled = this.prodData.consumptions_scheduled;
                     this.finished_products = this.prodData.finished_products;
                     this.sum_finished_products = this.finished_products.reduce((sum, product) => sum + product.qty, 0);
+                    this.qty_scheduled_swap("no_swap");
                 })
-            })
-            .catch( (err) => {
+            }).catch((err) => {
                 this.presentAlert("Error", "Fallo al escribir la línea de consumo");
-            }); 
+            });
         });
     }
 
@@ -185,13 +192,12 @@ export class AlimentatorConsumptionsPage {
         }
         if (total_finished_products == 0) {
             this.presentAlert("Error", "La cantidad total de producto terminado no puede ser 0");
-	    return;
+            return;
         }
         this.prodData.getMergedConsumptions().then((res) => {
             this.prodData.consumptions_done = true;
             this.prodData.setConsumptionsDone();
-        })
-        .catch( (err) => {
+        }).catch((err) => {
             this.presentAlert("Error", "Errores detectados en las lineas de consumos");
         });
     }
@@ -205,7 +211,7 @@ export class AlimentatorConsumptionsPage {
     }
 
     noteChange() {
-	this.prodData.consumptions_note = this.consumptions_note;
+        this.prodData.consumptions_note = this.consumptions_note;
         this.prodData.editConsumptionsNote();
         // console.log("onchange");
     }
@@ -220,5 +226,22 @@ export class AlimentatorConsumptionsPage {
         calculatorModal.present();
     }
 
+    show_consumptions_scheduled() {
+        this.show_scheduled = !this.show_scheduled;
+    }
+
+    qty_scheduled_swap(option) {
+        if (option == "no_swap") {
+            if (this.qty_scheduled != this.prodData.production_qty) {
+                this.qty_scheduled = this.sum_finished_products;
+            }
+        } else {
+            if (this.qty_scheduled == this.prodData.production_qty) {
+                this.qty_scheduled = this.sum_finished_products;
+            } else {
+                this.qty_scheduled = this.prodData.production_qty;
+            }
+        }
+    }
 
 }

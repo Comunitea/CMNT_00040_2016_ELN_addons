@@ -9,6 +9,7 @@ import { HttpModule } from '@angular/http';
 import { IonicStorageModule } from '@ionic/storage';
 import { Network } from '@ionic-native/network';
 import { File } from '@ionic-native/file';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 
 import { LOCALE_ID } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
@@ -100,6 +101,7 @@ import { TimerComponent } from '../components/timer/timer';
         { provide: ErrorHandler, useClass: IonicErrorHandler },
         File,
         Network,
+        BarcodeScanner,
         OdooProvider,
         ProductionProvider,
         { provide: LOCALE_ID, useValue: 'es' },

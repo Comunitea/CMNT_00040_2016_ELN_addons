@@ -10,4 +10,4 @@ import { NgModule } from '@angular/core';
     //IonicPageModule.forChild(ChecksModalPage),
   ],
 })
-export class ChecksModalPageModule {}
+export class ChecksModalPageModule { }

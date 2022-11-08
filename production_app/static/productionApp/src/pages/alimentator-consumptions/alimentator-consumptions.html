@@ -99,7 +99,7 @@
     </ion-grid>
 
     <ion-item-divider color="dark">
-        <ion-label>PRODUCTO TERMINADO (Total = {{ sum_finished_products }})</ion-label>
+        <ion-label>PRODUCTO TERMINADO (total = {{ sum_finished_products }} {{ prodData.uom }})</ion-label>
         <button ion-button clear item-right color="light" (click)="add_finished_products()">
             <ion-icon name="add-circle"></ion-icon>
         </button>
@@ -173,6 +173,45 @@
             </ion-col>
         </ion-row>
     </ion-grid>
+
+    <ion-item-divider color="alternative">
+        <ion-label (click)="qty_scheduled_swap()">CONSUMOS PLANIFICADOS (para {{ qty_scheduled }} {{ prodData.uom }} de producto terminado)</ion-label>
+        <button ion-button clear item-right color="light" (click)="show_consumptions_scheduled()">
+            <ion-icon *ngIf="!show_scheduled" name="arrow-dropdown-circle"></ion-icon>
+            <ion-icon *ngIf="show_scheduled" name="arrow-dropup-circle"></ion-icon>
+        </button>
+    </ion-item-divider>
+    <ion-grid class="my-grid" *ngIf="show_scheduled">
+        <ion-row>
+            <ion-col col-6>
+                <span class="bold-header">Producto</span>
+            </ion-col>
+            <ion-col col-2 text-right>
+                <span class="bold-header">Cant. Plan.</span>
+            </ion-col>
+            <ion-col col-2 text-right>
+                <span class="bold-header">Cant. Real</span>
+            </ion-col>
+            <ion-col col-2 text-right>
+                <span class="bold-header">Plan. - Real</span>
+            </ion-col>
+        </ion-row>
+        <ion-row *ngFor="let line of consumptions_scheduled">
+            <ion-col col-6>
+                <span class="col-content">{{ line.product_name}}<br>({{ line.location_name }})</span>
+            </ion-col>
+            <ion-col col-2 text-right>
+                <span class="col-content">{{ line.qty * qty_scheduled / prodData.production_qty | number:'1.2-3':'es' }}<br>{{ line.uom_name }}</span>
+            </ion-col>
+            <ion-col col-2 text-right>
+                <span class="col-content-b">{{ line.qty_to_compare | number:'1.2-3':'es' }}<br>{{ line.uom_name }}</span>
+            </ion-col>
+            <ion-col col-2 text-right>
+                <span class="col-content">{{ line.qty * qty_scheduled / prodData.production_qty - line.qty_to_compare| number:'1.2-3':'es' }}<br>{{ line.uom_name }}</span>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
 </ion-content>
 
 <ion-footer>
