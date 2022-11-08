@@ -29,7 +29,7 @@ export class ConsumptionsPage {
         this.storage.get('CONEXION').then((con_data) => {
             this.navbarColor = con_data.company == 'qv' ? 'qv' : 'vq';
         })
-        this.qty_to_calculate = this.prodData.production_qty;
+        this.qty_to_calculate = this.prodData.registry_qty;
     }
 
     ionViewDidLoad() {

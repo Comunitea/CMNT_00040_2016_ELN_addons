@@ -322,6 +322,7 @@ class ProductionAppRegistry(models.Model):
                 consume_ids=consume_ids,
                 production_qty=production_qty,
                 production_uos_qty=production_uos_qty,
+                registry_qty=reg.qty or production_qty,
                 workline_name=vals.get('workline_name', '') or '',
                 uom=uom_id.name, uos=uos_id.name, uos_coeff=uos_coeff,
                 uom_id=uom_id.id, uos_id=uos_id.id,

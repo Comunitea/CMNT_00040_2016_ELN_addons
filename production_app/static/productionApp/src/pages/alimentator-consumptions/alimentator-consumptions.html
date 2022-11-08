@@ -201,13 +201,13 @@
                 <span class="col-content">{{ line.product_name}}<br>({{ line.location_name }})</span>
             </ion-col>
             <ion-col col-2 text-right>
-                <span class="col-content">{{ line.qty * qty_scheduled / prodData.production_qty | number:'1.2-3':'es' }}<br>{{ line.uom_name }}</span>
+                <span class="col-content">{{ line.qty * qty_scheduled / prodData.registry_qty | number:'1.2-3':'es' }}<br>{{ line.uom_name }}</span>
             </ion-col>
             <ion-col col-2 text-right>
                 <span class="col-content-b">{{ line.qty_to_compare | number:'1.2-3':'es' }}<br>{{ line.uom_name }}</span>
             </ion-col>
             <ion-col col-2 text-right>
-                <span class="col-content">{{ line.qty * qty_scheduled / prodData.production_qty - line.qty_to_compare| number:'1.2-3':'es' }}<br>{{ line.uom_name }}</span>
+                <span class="col-content">{{ line.qty * qty_scheduled / prodData.registry_qty - line.qty_to_compare| number:'1.2-3':'es' }}<br>{{ line.uom_name }}</span>
             </ion-col>
         </ion-row>
     </ion-grid>
