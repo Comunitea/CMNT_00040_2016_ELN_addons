@@ -808,12 +808,12 @@ class ProductionAppRegistry(models.Model):
             if dic['value_type'] == 'barcode':
                 if dic['barcode_type'] == 'ean13':
                     dic.update({
-                        'value_type': 'text',
+                        #'value_type': 'text',
                         'required_text': product.ean13,
                     })
                 if dic['barcode_type'] == 'dun14':
                     dic.update({
-                        'value_type': 'text',
+                        #'value_type': 'text',
                         'required_text': product.dun14,
                     })
             res2.append(dic)

@@ -3,11 +3,11 @@ import { NgModule } from '@angular/core';
 //import { AlimentatorConsumptionsPage } from './alimentator-consumptions';
 
 @NgModule({
-  declarations: [
-    //AlimentatorConsumptionsPage,
-  ],
-  imports: [
-    //IonicPageModule.forChild(AlimentatorConsumptionsPage),
-  ],
+    declarations: [
+        //AlimentatorConsumptionsPage,
+    ],
+    imports: [
+        //IonicPageModule.forChild(AlimentatorConsumptionsPage),
+    ],
 })
-export class AlimentatorConsumptionsPageModule {}
+export class AlimentatorConsumptionsPageModule { }

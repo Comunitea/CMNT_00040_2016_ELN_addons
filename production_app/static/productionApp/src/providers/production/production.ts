@@ -12,7 +12,7 @@ import * as $ from 'jquery';
 export class ProductionProvider {
     operators: any;
     lots: any;
-    
+
     lotsByProduct: Object = {};
     workcenter: Object = {};
     workline: Object = {};
@@ -45,6 +45,7 @@ export class ProductionProvider {
     consumptions_in: Object[];
     consumptions_out: Object[];
     consumptions_scrapped: Object[];
+    consumptions_scheduled: Object[];
     finished_products: Object[];
 
     operator_line_id;
@@ -88,6 +89,7 @@ export class ProductionProvider {
         this.consumptions_in = [];
         this.consumptions_out = [];
         this.consumptions_scrapped = [];
+        this.consumptions_scheduled = [];
         this.finished_products = [];
     }
 
@@ -149,7 +151,7 @@ export class ProductionProvider {
         var log_in_list = this.getLogInOperators()
         for (let indx in log_in_list) {
             let op = log_in_list[indx];
-            str_names += op.name + ', ' 
+            str_names += op.name + ', '
         }
         return str_names
     }
@@ -169,19 +171,18 @@ export class ProductionProvider {
     getLots() {
         var model = 'production.app.registry'
         var method = 'get_available_lot'
-        var values = {'product_ids': this.consume_ids}
+        var values = { 'product_ids': this.consume_ids }
         this.lotsByProduct = {}
         this.odooCon.execute(model, method, values).then((lot_ids) => {
             for (let indx in lot_ids) {
                 let lot = lot_ids[indx];
                 let product_id = lot.product_id;
-                if (!(product_id in this.lotsByProduct)){
+                if (!(product_id in this.lotsByProduct)) {
                     this.lotsByProduct[product_id] = []
                 }
                 this.lotsByProduct[product_id].push(lot)
             }
-        })
-        .catch( (err) => {
+        }).catch((err) => {
             console.log("Error buscando lotes")
         });
 
@@ -199,8 +200,7 @@ export class ProductionProvider {
                 lot.location_id = false
                 this.lotsByProduct[product_id].push(lot)
             }
-        })
-        .catch( (err) => {
+        }).catch((err) => {
             console.log("Error buscando lotes")
         });
     }
@@ -242,10 +242,10 @@ export class ProductionProvider {
     }
 
     getMaxUseDate() {
-        var promise = new Promise( (resolve, reject) => {
+        var promise = new Promise((resolve, reject) => {
             var model = 'production.app.registry'
             var method = 'get_max_use_date'
-            var values = {'registry_id': this.registry_id}
+            var values = { 'registry_id': this.registry_id }
             this.odooCon.execute(model, method, values).then((res) => {
                 this.product_max_date = res['max_date'] || '';
                 this.product_use_date = res['use_date'] || '';
@@ -254,8 +254,7 @@ export class ProductionProvider {
                 // console.log("estoy en getMaxUseDate", "product_lot_name:", this.product_lot_name, "product_use_date:", this.product_use_date, 
                 //             "product_max_date:", this.product_max_date, "product_check_type:", this.product_check_type);
                 resolve();
-            })
-            .catch( (err) => {
+            }).catch((err) => {
                 console.log("Error en get_max_use_date")
             });
         });
@@ -268,11 +267,10 @@ export class ProductionProvider {
         if (index <= -1) {
             this.logged_ids.push(operator_id)
         }
-        var values = {'registry_id': this.registry_id, 'operator_id': operator_id, 'date_in': this.getUTCDateStr()};
+        var values = { 'registry_id': this.registry_id, 'operator_id': operator_id, 'date_in': this.getUTCDateStr() };
         this.odooCon.callRegistry('log_in_operator', values).then((res) => {
             this.odooCon.operatorsById[operator_id]['operator_line_id'] = res['operator_line_id'];
-        })
-        .catch( (err) => {
+        }).catch((err) => {
             this.manageOdooFail()
         });
     }
@@ -287,22 +285,21 @@ export class ProductionProvider {
         if (index > -1) {
             this.logged_ids.splice(index, 1);
         }
-        if (this.active_operator_id === operator_id){
+        if (this.active_operator_id === operator_id) {
             this.active_operator_id = 0;
         }
         let operator_line_id = this.odooCon.operatorsById[operator_id]['operator_line_id']
-        var values =  {'registry_id': this.registry_id, 'operator_line_id': operator_line_id, 'date_out': this.getUTCDateStr()};
+        var values = { 'registry_id': this.registry_id, 'operator_line_id': operator_line_id, 'date_out': this.getUTCDateStr() };
         this.odooCon.callRegistry('log_out_operator', values).then((res) => {
             this.odooCon.operatorsById[operator_id]['operator_line_id'] = false;
-        })
-        .catch( (err) => {
+        }).catch((err) => {
             this.manageOdooFail()
         });
     }
 
     setLoggedTimes() {
         for (let indx in this.logged_ids) {
-            let operator_id =  this.logged_ids[indx]
+            let operator_id = this.logged_ids[indx]
             this.logInOperator(operator_id)
         }
     }
@@ -312,22 +309,20 @@ export class ProductionProvider {
         this.organizative_reasons = []
         for (let indx in reasons) {
             var r = reasons[indx];
-            if ( (r.reason_type == 'technical') && (r.workcenter_ids.indexOf(workcenter_id) >= 0) ){
+            if ((r.reason_type == 'technical') && (r.workcenter_ids.indexOf(workcenter_id) >= 0)) {
                 this.technical_reasons.push(r);
-            }
-            else if (r.reason_type == 'organizative'){
+            } else if (r.reason_type == 'organizative') {
                 this.organizative_reasons.push(r);
             }
         }
     }
 
     getStopReasons(workcenter_id) {
-        var promise = new Promise( (resolve, reject) => {
+        var promise = new Promise((resolve, reject) => {
             this.odooCon.searchRead('stop.reason', [], ['id', 'name', 'reason_type', 'workcenter_ids']).then((res) => {
                 this.loadStopReasons(res, workcenter_id)
                 resolve();
-            })
-            .catch( (err) => {
+            }).catch((err) => {
                 console.log("GET STOP REASONS ERROR")
                 reject();
             });
@@ -339,19 +334,18 @@ export class ProductionProvider {
         this.scrap_reasons = []
         for (let indx in reasons) {
             var r = reasons[indx];
-            if (r.workcenter_ids.indexOf(workcenter_id) >= 0){
+            if (r.workcenter_ids.indexOf(workcenter_id) >= 0) {
                 this.scrap_reasons.push(r);
             }
         }
     }
 
     getScrapReasons(workcenter_id) {
-        var promise = new Promise( (resolve, reject) => {
+        var promise = new Promise((resolve, reject) => {
             this.odooCon.searchRead('scrap.reason', [], ['id', 'name', 'workcenter_ids']).then((res) => {
                 this.loadScrapReasons(res, workcenter_id);
                 resolve();
-            })
-            .catch( (err) => {
+            }).catch((err) => {
                 console.log("GET SCRAP REASONS ERROR")
                 reject();
             });
@@ -360,13 +354,13 @@ export class ProductionProvider {
     }
 
     getWorkcenterLines() {
-        var promise = new Promise( (resolve, reject) => {
+        var promise = new Promise((resolve, reject) => {
             var domain = [
                 ['workcenter_id', '=', this.workcenter['id']],
-                ['production_state', 'in', ['ready','confirmed','in_production','finished','validated']],
+                ['production_state', 'in', ['ready', 'confirmed', 'in_production', 'finished', 'validated']],
                 '|',
                 ['registry_id', '=', false],
-                ['app_state', 'not in', ['finished','validated']],
+                ['app_state', 'not in', ['finished', 'validated']],
                 ['workorder_planned_state', '=', '1'],
             ];
             var fields = ['id', 'name', 'production_id', 'workcenter_id'];
@@ -378,8 +372,7 @@ export class ProductionProvider {
                     this.worklines.push(r)
                 }
                 resolve();
-            })
-            .catch( (err) => {
+            }).catch((err) => {
                 console.log("getWorkcenterLines ERROR")
                 reject();
             });
@@ -389,9 +382,9 @@ export class ProductionProvider {
 
     // Gets all the data needed from the app.regystry model
     loadProduction(vals) {
-        var promise = new Promise( (resolve, reject) => {
+        var promise = new Promise((resolve, reject) => {
             var method = 'app_get_registry'
-            var values = {'workline_id': vals['workline_id'], 'workcenter_id': vals['workcenter_id'], 'workline_name': vals['workline_name']}
+            var values = { 'workline_id': vals['workline_id'], 'workcenter_id': vals['workcenter_id'], 'workline_name': vals['workline_name'] }
             this.odooCon.callRegistry(method, values).then((reg: Object) => {
                 if ('id' in reg) {
                     this.initData(reg);
@@ -402,17 +395,15 @@ export class ProductionProvider {
                     this.getScrapReasons(vals['workcenter_id']);
                     this.getQualityChecks().then((res) => {
                         resolve(res);
-                    })
-                    .catch( (err) => {
+                    }).catch((err) => {
                         console.log("Fallo al cargar los controles de calidad.");
-			reject();
-                    }); 
+                        reject();
+                    });
                 } else {
-                    var err = {'title': 'Aviso', 'msg': 'No hay órdenes de trabajo planificadas.'}
+                    var err = { 'title': 'Aviso', 'msg': 'No hay órdenes de trabajo planificadas.' }
                     reject(err)
                 }
-            })
-            .catch( (err) => {
+            }).catch((err) => {
                 reject(err);
             });
         });
@@ -452,7 +443,7 @@ export class ProductionProvider {
         this.process_type = data.process_type || '';
         this.setup_end = (data.setup_end != false);
     }
-    
+
     // Load Quality checks in each type list
     loadQualityChecks(q_checks) {
         for (let indx in q_checks) {
@@ -467,7 +458,7 @@ export class ProductionProvider {
 
     // Ask odoo for quality checks
     getQualityChecks() {
-        var promise = new Promise( (resolve, reject) => {
+        var promise = new Promise((resolve, reject) => {
             var values = {
                 'product_id': this.product_id,
                 'workcenter_id': this.workcenter['id'],
@@ -476,8 +467,7 @@ export class ProductionProvider {
             this.odooCon.callRegistry(method, values).then((res) => {
                 this.loadQualityChecks(res);
                 resolve();
-            })
-            .catch( (err) => {
+            }).catch((err) => {
                 console.log("GET QUALITY CHECKS ERROR")
                 reject();
             });
@@ -503,14 +493,14 @@ export class ProductionProvider {
             };
             this.consumptions.push(vals);
         }
-        var grouped_lines = this.consumptions.reduce(function(a, e) {
-          let key = (e['product_id'] + '|' + e['uom_id'] + '|' + e['location_id']);
-          (!a[key] ? a[key] = e : (a[key]['qty'] += e['qty']));
-          return a;
+        var grouped_lines = this.consumptions.reduce(function (a, e) {
+            let key = (e['product_id'] + '|' + e['uom_id'] + '|' + e['location_id']);
+            (!a[key] ? a[key] = e : (a[key]['qty'] += e['qty']));
+            return a;
         }, {});
         this.consumptions = []
         for (let key in grouped_lines) {
-             this.consumptions.push(grouped_lines[key])
+            this.consumptions.push(grouped_lines[key])
         }
     }
 
@@ -518,12 +508,13 @@ export class ProductionProvider {
         this.consumptions_in = [];
         this.consumptions_out = [];
         this.consumptions_scrapped = [];
+        this.consumptions_scheduled = []
         this.finished_products = [];
         for (let indx in lines) {
             var line = lines[indx];
             var lot_name = '';
             var lot_id = false;
-            if (line['lot_id']){
+            if (line['lot_id']) {
                 lot_name = line['lot_id'][1]
                 lot_id = line['lot_id'][0]
             }
@@ -541,6 +532,7 @@ export class ProductionProvider {
                 'uom_id': line['product_uom'][0],
                 'uom_name': line['product_uom'][1],
                 'qty': line['product_qty'],
+                'qty_to_compare': line['qty_to_compare'], //Solo para scheduled
                 'location_id': line['location_id'][0],
                 'location_name': line['location_id'][1],
                 'lot_id': lot_id,
@@ -563,18 +555,20 @@ export class ProductionProvider {
             if (type == 'scrapped') {
                 this.consumptions_scrapped.push(vals);
             }
+            if (type == 'scheduled') {
+                this.consumptions_scheduled.push(vals);
+            }
         }
     }
 
     getConsumptions() {
-        var promise = new Promise( (resolve, reject) => {
+        var promise = new Promise((resolve, reject) => {
             var domain = [['registry_id', '=', this.registry_id], ['type', '=', 'scheduled']]
             var fields = []
             this.odooCon.searchRead('consumption.line', domain, fields).then((lines) => {
                 this.loadConsumptions(lines)
                 resolve();
-            })
-            .catch( (err) => {
+            }).catch((err) => {
                 console.log("Error obteniendo consumos");
             });
         });
@@ -582,14 +576,13 @@ export class ProductionProvider {
     }
 
     getConsumeInOut() {
-        var promise = new Promise( (resolve, reject) => {
+        var promise = new Promise((resolve, reject) => {
             var domain = [['registry_id', '=', this.registry_id]]
             var fields = []
             this.odooCon.searchRead('consumption.line', domain, fields).then((lines) => {
                 this.loadConsumptionsLines(lines)
                 resolve();
-            })
-            .catch( (err) => {
+            }).catch((err) => {
                 console.log("Error obteniendo líneas de consumos");
             });
         });
@@ -597,15 +590,14 @@ export class ProductionProvider {
     }
 
     saveConsumptionLine(line) {
-        var promise = new Promise( (resolve, reject) => {
+        var promise = new Promise((resolve, reject) => {
             var values = {
                 'registry_id': this.registry_id,
                 'line': line,
             }
             this.odooCon.callRegistry('app_save_consumption_line', values).then((res) => {
                 resolve();
-            })
-            .catch( (err) => {
+            }).catch((err) => {
                 // this.manageOdooFail()
                 reject();
             });
@@ -614,7 +606,7 @@ export class ProductionProvider {
     }
 
     getMergedConsumptions() {
-        var promise = new Promise( (resolve, reject) => {
+        var promise = new Promise((resolve, reject) => {
             var values = {
                 'registry_id': this.registry_id,
             }
@@ -625,8 +617,7 @@ export class ProductionProvider {
                 } else {
                     reject();
                 }
-            })
-            .catch( (err) => {
+            }).catch((err) => {
                 reject();
             });
         });
@@ -636,11 +627,11 @@ export class ProductionProvider {
     saveQualityChecks(data) {
         // We want to pass by value the object
         var new_lines = []
-        for (var index in data){
+        for (var index in data) {
             var new_ = {}
             var obj = data[index]
             $.extend(new_, obj)
-            new_lines.push(new_) 
+            new_lines.push(new_)
         }
         var values = {
             'registry_id': this.registry_id,
@@ -650,8 +641,7 @@ export class ProductionProvider {
         }
         this.odooCon.callRegistry('app_save_quality_checks', values).then((res) => {
             console.log("RESULTADO GUARDADO")
-        })
-        .catch( (err) => {
+        }).catch((err) => {
             this.manageOdooFail()
         });
     }
@@ -661,7 +651,7 @@ export class ProductionProvider {
     }
 
     setStepAsync(method, values) {
-        values['registry_id'] = this.registry_id;     
+        values['registry_id'] = this.registry_id;
         this.odooCon.callRegistry(method, values).then((res) => {
             if (method == 'stop_production') {
                 this.odooCon.stop_from_state = res['stop_from_state'];
@@ -669,8 +659,7 @@ export class ProductionProvider {
             if (res['state']) {
                 this.state = res['state'];
             }
-        })
-        .catch( (err) => {
+        }).catch((err) => {
             this.manageOdooFail()
         });
     }
@@ -690,15 +679,17 @@ export class ProductionProvider {
 
     setupProduction() {
         this.state = 'setup'
-        var values = {'setup_start': this.getUTCDateStr()}
+        var values = { 'setup_start': this.getUTCDateStr() }
         this.setStepAsync('setup_production', values);
     }
 
     startProduction() {
         this.state = 'started'
-        var values = {'setup_end': this.getUTCDateStr(),
-                      'lot_name': this.product_lot_name,
-                      'lot_date': this.product_use_date}
+        var values = {
+            'setup_end': this.getUTCDateStr(),
+            'lot_name': this.product_lot_name,
+            'lot_date': this.product_use_date
+        }
         this.setStepAsync('start_production', values);
     }
 
@@ -707,19 +698,21 @@ export class ProductionProvider {
         if (isNaN(Date.parse(stop_start))) {
             stop_start = this.getUTCDateStr()
         }
-        var values = {'reason_id': reason_id,
-                      'active_operator_id': this.active_operator_id,
-                      'stop_start': stop_start}
+        var values = {
+            'reason_id': reason_id,
+            'active_operator_id': this.active_operator_id,
+            'stop_start': stop_start
+        }
         this.setStepAsync('stop_production', values);
     }
 
     restartProduction() {
         if (this.odooCon.stop_from_state in this.states) {
-           this.state = this.odooCon.stop_from_state
+            this.state = this.odooCon.stop_from_state
         } else {
-           this.state = 'started'
+            this.state = 'started'
         }
-        var values = {'stop_end': this.getUTCDateStr()}
+        var values = { 'stop_end': this.getUTCDateStr() }
         this.setStepAsync('restart_production', values);
     }
 
@@ -728,14 +721,16 @@ export class ProductionProvider {
         if (isNaN(Date.parse(cleaning_start))) {
             cleaning_start = this.getUTCDateStr()
         }
-        var values = {'cleaning_start': cleaning_start}
+        var values = { 'cleaning_start': cleaning_start }
         this.setStepAsync('clean_production', values);
     }
 
     finishProduction() {
         this.state = 'finished'
-        var values = {'qty': this.qty,
-                      'cleaning_end': this.getUTCDateStr()}
+        var values = {
+            'qty': this.qty,
+            'cleaning_end': this.getUTCDateStr()
+        }
         this.setStepAsync('finish_production', values);
     }
 
@@ -744,33 +739,38 @@ export class ProductionProvider {
         if (isNaN(Date.parse(cleaning_start))) {
             cleaning_start = this.getUTCDateStr()
         }
-        var values = {'cleaning_start': cleaning_start,
-                      'stop_end': cleaning_start}
+        var values = {
+            'cleaning_start': cleaning_start,
+            'stop_end': cleaning_start
+        }
         this.setStepAsync('restart_and_clean_production', values);
     }
 
     scrapProduction() {
-        var values = {'scrap_qty': this.scrap_qty, 'scrap_reason_id': this.scrap_reason_id};
+        var values = {
+            'scrap_qty': this.scrap_qty,
+            'scrap_reason_id': this.scrap_reason_id
+        };
         this.setStepAsync('scrap_production', values);
     }
 
     createMaintenanceOrder(reason_id) {
-        var values = {'reason_id': reason_id}
+        var values = { 'reason_id': reason_id }
         this.setStepAsync('create_maintenance_order', values);
     }
 
     editNote() {
-        var values = {'note': this.note};
+        var values = { 'note': this.note };
         this.setStepAsync('save_note', values);
     }
 
     editConsumptionsNote() {
-        var values = {'consumptions_note': this.consumptions_note};
+        var values = { 'consumptions_note': this.consumptions_note };
         this.setStepAsync('save_note', values);
     }
 
     registerMessage(msg) {
-        var values = {'message': msg};
+        var values = { 'message': msg };
         this.setStepAsync('register_message', values);
     }
 

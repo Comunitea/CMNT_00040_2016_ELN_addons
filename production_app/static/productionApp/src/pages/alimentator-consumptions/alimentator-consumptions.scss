@@ -2,16 +2,25 @@ page-alimentator-consumptions {
     .col-content {
         font-size: 1.2rem !important;
     }
+
+    .col-content-b {
+        font-size: 1.2rem !important;
+        color: #488aff;
+    }
+
     .bold-header {
         font-size: 1.4rem !important;
         font-weight: bold;
     }
+
     ion-row {
         border-bottom: 1px solid #000;
     }
+
     .textarea-label {
         font-size: 1.4rem !important;
     }
+
     .textarea-content {
         font-size: 1.4rem !important;
         background-color: lightyellow;
@@ -22,19 +31,28 @@ page-alimentator-consumptions {
         .col-content {
             font-size: 1.2rem !important;
         }
+
+        .col-content-b {
+            font-size: 1.2rem !important;
+            color: #488aff;
+        }
+
         .bold-header {
             font-size: 1.4rem !important;
-       }
+        }
+
         .textarea-content {
             font-size: 1.4rem !important;
         }
+
         .textarea-label {
             font-size: 1.4rem !important;
         }
     }
+
     ion-row:hover {
         background-color: lightyellow;
         border-color: black;
         cursor: pointer;
-        }
+    }
 }
