@@ -43,9 +43,11 @@
                                 <field name="gln_ef" readonly="1"/>
                                 <field name="gln_ve" readonly="1" />
                                 <field name="gln_de" readonly="1" />
-                                <field name="gln_rf" readonly="1" />
+                                <field name="gln_rf" readonly="1" attrs="{'invisible': [('type', '=', 'desadv')]}"/>
                                 <field name="gln_co" readonly="1" />
                                 <field name="gln_rm" readonly="1" />
+                                <field name="gln_supplier" readonly="1" attrs="{'invisible': [('type', '!=', 'desadv')]}"/>
+                                <field name="gln_desadv" readonly="1" attrs="{'invisible': [('type', '!=', 'desadv')]}"/>
                             </group>
                             <newline/>
                         </group>

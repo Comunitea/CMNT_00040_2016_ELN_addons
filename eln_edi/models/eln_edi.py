@@ -69,6 +69,8 @@ class EdiDoc(models.Model):
         help="GLN (Buyer / Who order)")
     gln_rm = fields.Char('GLN Goods receiver', size=13,
         help="GLN (Receiver of the goods / Who receives)")
+    gln_supplier = fields.Char('GLN Picking supplier', size=13) # DESADV
+    gln_desadv = fields.Char('GLN Picking receiver', size=13) # DESADV
 
 
 class EdiConfiguration(models.Model):

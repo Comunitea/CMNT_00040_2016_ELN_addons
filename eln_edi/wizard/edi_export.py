@@ -61,6 +61,7 @@ class EdiExport(models.TransientModel):
         if obj:
             active_model = self._context.get('active_model', '')
             name = gln_ef = gln_ve = gln_co = gln_rf = gln_rm = gln_de = \
+                gln_supplier = gln_desadv = \
                 doc_type = sale_order_id = picking_id = invoice_id = \
                 coacsu_invoice_ids = False
             if active_model == 'sale.order':
@@ -79,9 +80,9 @@ class EdiExport(models.TransientModel):
                 gln_rf = obj.partner_id.gln_rf
                 gln_co = obj.partner_id.gln_co
                 gln_rm = obj.partner_id.gln_rm
-                gln_proveedor = obj.supplier_id and \
+                gln_supplier = obj.supplier_id and \
                     (obj.supplier_id.commercial_partner_id.gln_desadv or 
-                     obj.supplier_id.commercial_partner_id.gln_de)
+                     obj.supplier_id.commercial_partner_id.gln_de) or obj.company_id.gln_ef
                 gln_desadv = obj.partner_id.commercial_partner_id.gln_desadv or obj.partner_id.gln_de
                 doc_type = 'desadv'
                 picking_id = obj.id
@@ -135,6 +136,8 @@ class EdiExport(models.TransientModel):
                 'gln_rf': gln_rf,
                 'gln_co': gln_co,
                 'gln_rm': gln_rm,
+                'gln_supplier': gln_supplier,
+                'gln_desadv': gln_desadv,
                 'message': f.read(),
             }
             f.close()
@@ -619,7 +622,7 @@ class EdiExport(models.TransientModel):
         gln_rf = picking.partner_id.gln_rf
         gln_co = picking.partner_id.gln_co
         gln_rm = picking.partner_id.gln_rm
-        gln_proveedor = picking.supplier_id and \
+        gln_supplier = picking.supplier_id and \
             (picking.supplier_id.commercial_partner_id.gln_desadv or 
              picking.supplier_id.commercial_partner_id.gln_de)
         gln_desadv = picking.partner_id.commercial_partner_id.gln_desadv or picking.partner_id.gln_de
@@ -632,7 +635,7 @@ class EdiExport(models.TransientModel):
            (gln_ve2 and not self.check_ean13(gln_ve2)):
             errors += _('The partner %s not have some GLN defined correctly.\n') % \
                 picking.partner_id.name
-        if picking.supplier_id and not self.check_ean13(gln_proveedor):
+        if picking.supplier_id and not self.check_ean13(gln_supplier):
             errors += _('The supplier %s not have recipient GLN defined correctly.\n') % \
                 picking.supplier_id.commercial_partner_id.name
         if not picking.company_id.gs1:
@@ -668,7 +671,7 @@ class EdiExport(models.TransientModel):
         gln_rf = picking.partner_id.gln_rf
         gln_co = picking.partner_id.gln_co
         gln_rm = picking.partner_id.gln_rm
-        gln_proveedor = picking.supplier_id and \
+        gln_supplier = picking.supplier_id and \
             (picking.supplier_id.commercial_partner_id.gln_desadv or 
              picking.supplier_id.commercial_partner_id.gln_de)
         gln_desadv = picking.partner_id.commercial_partner_id.gln_desadv or picking.partner_id.gln_de
@@ -682,7 +685,7 @@ class EdiExport(models.TransientModel):
         picking_data = '0'
 
         # Buzón de destino
-        picking_data += self.parse_number(gln_de, 13, 0)
+        picking_data += self.parse_number(gln_desadv, 13, 0)
         
         # Número de aviso de expedición
         picking_data += self.parse_string(picking_name, 35)
@@ -729,12 +732,12 @@ class EdiExport(models.TransientModel):
         
         # Código EAN proveedor de la mercancía. El de la compañía si mercancía propia, sino el del proveedor de la mercancía.
         if picking.supplier_id:
-            picking_data += self.parse_number(gln_proveedor, 13, 0)
+            picking_data += self.parse_number(gln_supplier, 13, 0)
         else:
             picking_data += self.parse_number(gln_ef, 13, 0)
 
         # Código EAN destino del mensaje
-        picking_data += self.parse_number(gln_desadv, 13, 0)
+        picking_data += self.parse_number(gln_de, 13, 0)
 
         # Código EAN lugar de entrega mercancía
         picking_data += self.parse_number(gln_rm, 13, 0)
@@ -818,6 +821,14 @@ class EdiExport(models.TransientModel):
             picking_data += self.parse_string('BJ', 3)
             # SSCC de la unidad de expedición
             picking_data += self.parse_string(picking.get_sscc(num), 35)
+            # Peso AAC (Peso Neto Total) en g (al cliente le llegan convertidos a kg)
+            total_net_weight = sum([v['product_id'].weight_net * v['product_qty'] for v in val])
+            total_net_weight = 1000 * total_net_weight
+            picking_data += self.parse_number(total_net_weight, 15, 0)
+            # Peso AAD (Peso Bruto Total) en g (al cliente le llegan convertidos a kg)
+            total_gross_weight = sum([v['product_id'].weight * v['product_qty'] for v in val])
+            total_gross_weight = 1000 * total_gross_weight
+            picking_data += self.parse_number(total_gross_weight, 15, 0)
             f.write(picking_data)
             # LINEAS
             num_lin = 1

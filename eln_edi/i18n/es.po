@@ -642,6 +642,16 @@ msgid "GLN Message receiver"
 msgstr "GLN Receptor Mensaje"
 
 #. module: eln_edi
+#: field:edi.doc,gln_supplier:0
+msgid "GLN Picking supplier"
+msgstr "GLN Proveedor albarán"
+
+#. module: eln_edi
+#: field:edi.doc,gln_desadv:0
+msgid "GLN Picking receiver"
+msgstr "GLN Receptor albarán"
+
+#. module: eln_edi
 #: field:res.partner,gln_desadv:0
 msgid "GLN Picking receiver (DESADV)"
 msgstr "GLN Receptor albarán (DESADV)"
