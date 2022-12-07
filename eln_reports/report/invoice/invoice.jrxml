@@ -1109,15 +1109,16 @@ $F{Nombre_de_la_compania-name} + " · " + $F{Calle-street-company} + " · " + $F
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="90" splitType="Stretch">
+		<band height="100" splitType="Stretch">
 			<textField>
-				<reportElement positionType="Float" x="0" y="58" width="555" height="32"/>
+				<reportElement positionType="Float" x="0" y="58" width="555" height="42"/>
 				<textElement lineSpacing="Single" markup="html">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L},
 "IMPORTANTE:" + "<br>" +
-"Rogamos eviten devolver los giros. Estamos a su disposición para resolver cualquier duda o anomalía."
+"- Rogamos eviten devolver los giros. Estamos a su disposición para resolver cualquier duda o anomalía." + "<br>" +
+"- Los envases y embalajes incluidos en esta factura están exentos del Impuesto Especial sobre los Envases de Plástico no Reutilizable en virtud del artículo 75 de la Ley 7/2002, de 8 de abril, de residuos y suelos contaminados para una economía circular."
 )]]></textFieldExpression>
 			</textField>
 			<componentElement>
