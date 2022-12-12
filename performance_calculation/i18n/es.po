@@ -6,16 +6,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-25 16:50+0000\n"
-"PO-Revision-Date: 2020-11-25 17:50+0100\n"
-"Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
+"POT-Creation-Date: 2022-12-12 16:49+0000\n"
+"PO-Revision-Date: 2022-12-12 17:55+0100\n"
+"Last-Translator: <>\n"
 "Language-Team: \n"
+"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
-"Language: es\n"
-"X-Generator: Poedit 2.4.1\n"
+"X-Generator: Poedit 3.1.1\n"
 
 #. module: performance_calculation
 #: code:addons/performance_calculation/wizard/performance_calculation.py:72
@@ -48,8 +48,8 @@ msgid " to: "
 msgstr " hasta: "
 
 #. module: performance_calculation
-#: code:addons/performance_calculation/wizard/performance_calculation.py:436
-#: code:addons/performance_calculation/wizard/performance_calculation.py:467
+#: code:addons/performance_calculation/wizard/performance_calculation.py:402
+#: code:addons/performance_calculation/wizard/performance_calculation.py:433
 #, python-format
 msgid "AVG"
 msgstr "AVG"
@@ -229,6 +229,12 @@ msgid "Indicators scrap"
 msgstr "Indicador Scrap & Usage"
 
 #. module: performance_calculation
+#: field:mrp.indicators.scrap.line,inventory_cost:0
+#: field:mrp.production,ind_inventory_cost:0
+msgid "Inventory cost"
+msgstr "Coste de inventario"
+
+#. module: performance_calculation
 #: field:mrp.indicators.oee,__last_update:0
 #: field:mrp.indicators.oee.line,__last_update:0
 #: field:mrp.indicators.oee.summary,__last_update:0
@@ -323,11 +329,6 @@ msgid "Overweight (%)"
 msgstr "Sobrepeso (%)"
 
 #. module: performance_calculation
-#: field:mrp.production,theorical_overweight:0
-msgid "Theo. Overweight (%)"
-msgstr "Sobrepeso teórico (%)"
-
-#. module: performance_calculation
 #: view:mrp.indicators.overweight:performance_calculation.mrp_indicators_overweight_form
 msgid "Overweight +"
 msgstr "Sobrepeso +"
@@ -366,15 +367,9 @@ msgid "Product"
 msgstr "Producto"
 
 #. module: performance_calculation
-#: model:ir.model,name:performance_calculation.model_product_category
-msgid "Product Category"
-msgstr "Categoría de producto"
-
-#. module: performance_calculation
 #: field:mrp.indicators.oee.line,production_id:0
 #: field:mrp.indicators.overweight.line,production_id:0
 #: field:mrp.indicators.scrap.line,production_id:0
-#: view:product.category:performance_calculation.product_category_form_view_inh_overweight
 msgid "Production"
 msgstr "Producción"
 
@@ -410,6 +405,7 @@ msgstr "Calidad"
 
 #. module: performance_calculation
 #: field:mrp.indicators.scrap.line,real_cost:0
+#: field:mrp.production,ind_real_cost:0
 msgid "Real cost"
 msgstr "Coste real"
 
@@ -442,7 +438,7 @@ msgid "Routing"
 msgstr "Proceso Productivo"
 
 #. module: performance_calculation
-#: code:addons/performance_calculation/wizard/performance_calculation.py:532
+#: code:addons/performance_calculation/wizard/performance_calculation.py:498
 #, python-format
 msgid "SUM"
 msgstr "SUM"
@@ -461,6 +457,7 @@ msgstr "Scrap & Usage"
 #: model:ir.actions.act_window,name:performance_calculation.action_mrp_indicators_scrap
 #: model:ir.ui.menu,name:performance_calculation.mrp_indicators_scrap_menu
 #: view:mrp.indicators.scrap:performance_calculation.mrp_indicators_scrap_form
+#: view:mrp.indicators.scrap.line:performance_calculation.mrp_indicators_scrap_line_form
 msgid "Scrap and Usage"
 msgstr "Scrap & Usage"
 
@@ -524,14 +521,20 @@ msgid "Summary type"
 msgstr "Tipo de resumen"
 
 #. module: performance_calculation
-#: code:addons/performance_calculation/wizard/performance_calculation.py:483
-#: code:addons/performance_calculation/wizard/performance_calculation.py:543
+#: code:addons/performance_calculation/wizard/performance_calculation.py:449
+#: code:addons/performance_calculation/wizard/performance_calculation.py:509
 #, python-format
 msgid "TOTAL"
 msgstr "TOTAL"
 
 #. module: performance_calculation
+#: field:mrp.production,theorical_overweight:0
+msgid "Theo. Overweight (%)"
+msgstr "Sobrepeso teórico (%)"
+
+#. module: performance_calculation
 #: field:mrp.indicators.scrap.line,theorical_cost:0
+#: field:mrp.production,ind_theorical_cost:0
 msgid "Theorical cost"
 msgstr "Coste teórico"
 
@@ -559,6 +562,11 @@ msgstr "Total"
 #: view:mrp.indicators.overweight:performance_calculation.mrp_indicators_overweight_form
 msgid "Total Consumed Qty"
 msgstr "Total Cant. Consumida"
+
+#. module: performance_calculation
+#: view:mrp.indicators.scrap:performance_calculation.mrp_indicators_scrap_form
+msgid "Total Inventory Cost"
+msgstr "Total Coste Inventario"
 
 #. module: performance_calculation
 #: view:mrp.indicators.overweight:performance_calculation.mrp_indicators_overweight_form

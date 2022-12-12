@@ -23,6 +23,15 @@ class MrpProduction(models.Model):
     ind_usage = fields.Float(string='Indicator Usage',
         compute='_get_indicators',
         readonly=True)
+    ind_inventory_cost = fields.Float(string='Inventory cost',
+        compute='_get_indicators',
+        readonly=True)
+    ind_theorical_cost = fields.Float(string='Theorical cost',
+        compute='_get_indicators',
+        readonly=True)
+    ind_real_cost = fields.Float(string='Real cost',
+        compute='_get_indicators',
+        readonly=True)
 
     @api.multi
     def _get_indicators(self):
@@ -44,10 +53,17 @@ class MrpProduction(models.Model):
                 result = pc_obj._get_scrap_and_usage(production)
                 scrap = result['scrap']
                 usage = result['usage']
+                inventory_cost = result['inventory_cost']
+                theorical_cost = result['theo_cost']
+                real_cost = result['real_real_cost']
+                
             production.lead_time = lead_time
             production.overweight = overweight
             production.ind_scrap = scrap
             production.ind_usage = usage
+            production.ind_inventory_cost = inventory_cost
+            production.ind_theorical_cost = theorical_cost
+            production.ind_real_cost = real_cost
 
     @api.multi
     def action_confirm(self):

@@ -11,11 +11,18 @@
             <field name="arch" type="xml">
                 <page string="Extra Information" position="inside">
                     <group groups="performance_calculation.group_production_indicators">
-                        <field name="lead_time"/>
-                        <field name="overweight"/>
-                        <field name="theorical_overweight"/>
-                        <field name="ind_scrap"/>
-                        <field name="ind_usage"/>
+                        <group>
+                            <field name="lead_time"/>
+                            <field name="overweight"/>
+                            <field name="theorical_overweight"/>
+                            <field name="ind_scrap"/>
+                            <field name="ind_usage"/>
+                        </group>
+                        <group>
+                            <field name="ind_inventory_cost"/>
+                            <field name="ind_theorical_cost"/>
+                            <field name="ind_real_cost"/>
+                        </group>
                     </group>
                 </page>
             </field>

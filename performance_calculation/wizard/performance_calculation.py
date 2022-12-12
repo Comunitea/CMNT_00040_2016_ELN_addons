@@ -139,7 +139,7 @@ class PerformanceCalculation(models.TransientModel):
     @api.model
     def _get_scrap_and_usage(self, prod=False):
         qty_finished = qty_real_finished = qty_scrap = 0.0
-        theo_cost = real_real_cost = 0.0
+        theo_cost = real_real_cost = inventory_cost = 0.0
         scrap = usage = 0.0
         if prod:
             qty_finished, qty_real_finished, qty_scrap = self._get_total_qty(prod)
@@ -156,6 +156,8 @@ class PerformanceCalculation(models.TransientModel):
                     real_cost += (move.price_unit * move.product_uom_qty)
             usage = real_cost - theo_cost
             real_real_cost = real_cost + scrap
+            inventory_cost = prod.move_created_ids2 and prod.move_created_ids2[0].price_unit or 0.0
+            inventory_cost = inventory_cost * (qty_finished or 1.0)
         return {
            'qty_finished': qty_finished,
            'real_qty_finished': qty_real_finished,
@@ -164,6 +166,7 @@ class PerformanceCalculation(models.TransientModel):
            'real_real_cost': real_real_cost,
            'scrap': scrap,
            'usage': usage,
+           'inventory_cost': inventory_cost,
         }
 
     @api.model
@@ -243,7 +246,7 @@ class PerformanceCalculation(models.TransientModel):
 
     @api.multi
     def _prepare_scrap_indicator_line(self, indicator_id, prod, qty_finished=0.0, real_qty_finished=0.0,
-            qty_scrap=0.0, theo_cost=0.0, real_cost=0.0, usage=0.0, scrap=0.0):
+            qty_scrap=0.0, theo_cost=0.0, real_cost=0.0, usage=0.0, scrap=0.0, inventory_cost=0.0):
         self.ensure_one()
         res = {
             'name': "SCRAPL / " + self.name + " / " + time.strftime('%Y-%m-%d %H:%M:%S'),
@@ -258,6 +261,7 @@ class PerformanceCalculation(models.TransientModel):
             'theorical_cost': theo_cost,
             'scrap_cost': scrap,
             'usage_cost': usage,
+            'inventory_cost': inventory_cost,
             'indicator_id': indicator_id,
         }
         return res
@@ -340,9 +344,10 @@ class PerformanceCalculation(models.TransientModel):
                 real_real_cost = result['real_real_cost']
                 usage = result['usage']
                 scrap = result['scrap']
+                inventory_cost = result['inventory_cost']
                 vals = self._prepare_scrap_indicator_line(
                     indicator_id.id, prod, qty_finished, real_qty_finished,
-                    qty_scrap, theo_cost, real_real_cost, usage, scrap)
+                    qty_scrap, theo_cost, real_real_cost, usage, scrap, inventory_cost)
                 ind_line_obj.create(vals)
         return indicator_id.id
 
