@@ -163,14 +163,14 @@
             <field name="arch" type="xml">
                 <form string="Scrap and Usage">
                     <group col="4" colspan="4">
-	                    <field name="name"/>
-	                    <field name="date"/>
-	                    <field name="production_id"/>
+                        <field name="name"/>
+                        <field name="date"/>
+                        <field name="production_id"/>
                         <field name="product_id"/>
                     </group>
                     <group col="4" colspan="4">
                         <group>
-	                    <field name="inventory_cost"/>
+                            <field name="inventory_cost"/>
                             <field name="real_cost"/>
                             <field name="theorical_cost"/>
                             <field name="scrap_cost"/>
