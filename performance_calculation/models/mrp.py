@@ -38,6 +38,7 @@ class MrpProduction(models.Model):
         pc_obj = self.env['performance.calculation']
         for production in self:
             lead_time = overweight = scrap = usage = 0.0
+            inventory_cost = theorical_cost = real_cost = 0.0
             if production.state == 'done':
                 # lead time
                 create_date = datetime.strptime(production.date, '%Y-%m-%d %H:%M:%S')
