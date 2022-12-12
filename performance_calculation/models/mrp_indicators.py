@@ -129,6 +129,8 @@ class MrpIndicatorsScrapLine(models.Model):
         digits_compute=dp.get_precision('Product Unit of Measure'))
     usage_cost = fields.Float('Usage',
         digits_compute=dp.get_precision('Product Unit of Measure'))
+    inventory_cost = fields.Float('Inventory cost',
+        digits_compute=dp.get_precision('Product Unit of Measure'))
     indicator_id = fields.Many2one('mrp.indicators.scrap', 'Indicator',
         ondelete='cascade', required=True)
 

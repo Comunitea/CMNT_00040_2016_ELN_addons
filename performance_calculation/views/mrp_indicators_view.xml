@@ -137,10 +137,11 @@
                     <notebook colspan="5">
                         <page string="Lines">
                             <field name="line_ids" colspan="4" nolabel="1" widget="one2many_list" readonly="1">
-                                <tree string="Lines">
+                                <tree string="Lines" colors="red:(inventory_cost-theorical_cost)&lt;0;green:(inventory_cost-theorical_cost)==0">
                                     <field name="date"/>
                                     <field name="production_id"/>
                                     <field name="product_id"/>
+                                    <field name="inventory_cost" sum="Total Inventory Cost"/>
                                     <field name="real_qty" sum="Total Real Qty"/>
                                     <field name="theorical_qty" sum="Total Theoric Qty"/>
                                     <field name="real_cost" sum="Total Real Cost"/>
@@ -151,6 +152,37 @@
                             </field>
                         </page>
                     </notebook>
+                </form>
+            </field>
+        </record>
+
+        <record id="mrp_indicators_scrap_line_form" model="ir.ui.view">
+            <field name="name">mrp.indicators.scrap.line.form</field>
+            <field name="model">mrp.indicators.scrap.line</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Scrap and Usage">
+                    <group col="4" colspan="4">
+                        <field name="name"/>
+                        <field name="date"/>
+                        <field name="production_id"/>
+                        <field name="product_id"/>
+                    </group>
+                    <group col="4" colspan="4">
+                        <group>
+                            <field name="inventory_cost"/>
+                            <field name="real_cost"/>
+                            <field name="theorical_cost"/>
+                            <field name="scrap_cost"/>
+                            <field name="usage_cost"/>
+                        </group>
+                        <group>
+                            <field name="product_uom"/>
+                            <field name="real_qty"/>
+                            <field name="theorical_qty"/>
+                            <field name="scrap_qty"/>
+                        </group>
+                    </group>
                 </form>
             </field>
         </record>
