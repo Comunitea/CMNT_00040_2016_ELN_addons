@@ -25,7 +25,7 @@
 
 <ion-content padding>
     <ion-item-divider color="secondary">
-        <ion-label>ENTRADAS</ion-label>
+        <ion-label>[{{ consumptions_in && consumptions_in.length || 0 }}L] ENTRADAS</ion-label>
         <button ion-button clear item-right color="light" (click)="open_list_consumes_in()">
             <ion-icon name="add-circle"></ion-icon>
         </button>
@@ -62,7 +62,7 @@
     </ion-grid>
 
     <ion-item-divider color="primary">
-        <ion-label>SALIDAS</ion-label>
+        <ion-label>[{{ consumptions_out && consumptions_out.length || 0 }}L] SALIDAS</ion-label>
         <button ion-button clear item-right color="light" (click)="open_list_consumes_out()">
             <ion-icon name="add-circle"></ion-icon>
         </button>
@@ -99,7 +99,7 @@
     </ion-grid>
 
     <ion-item-divider color="dark">
-        <ion-label>PRODUCTO TERMINADO (total = {{ sum_finished_products }} {{ prodData.uom }})</ion-label>
+        <ion-label>[{{ finished_products && finished_products.length || 0 }}L] PRODUCTO TERMINADO (total = {{ sum_finished_products }} {{ prodData.uom }})</ion-label>
         <button ion-button clear item-right color="light" (click)="add_finished_products()">
             <ion-icon name="add-circle"></ion-icon>
         </button>
@@ -136,7 +136,7 @@
     </ion-grid>
 
     <ion-item-divider color="danger">
-        <ion-label>SCRAP</ion-label>
+        <ion-label>[{{ consumptions_scrapped && consumptions_scrapped.length || 0 }}L] SCRAP</ion-label>
         <button ion-button clear item-right color="light" (click)="open_list_consumes_scrapped()">
             <ion-icon name="add-circle"></ion-icon>
         </button>
@@ -175,7 +175,7 @@
     </ion-grid>
 
     <ion-item-divider color="alternative">
-        <ion-label (click)="qty_scheduled_swap()">CONSUMOS PLANIFICADOS (para {{ qty_scheduled }} {{ prodData.uom }} de producto terminado)</ion-label>
+        <ion-label (click)="qty_scheduled_swap()">[{{ consumptions_scheduled && consumptions_scheduled.length || 0 }}L] CONSUMOS PLANIFICADOS (para {{ qty_scheduled }} {{ prodData.uom }} de producto terminado)</ion-label>
         <button ion-button clear item-right color="light" (click)="show_consumptions_scheduled()">
             <ion-icon *ngIf="!show_scheduled" name="arrow-dropdown-circle"></ion-icon>
             <ion-icon *ngIf="show_scheduled" name="arrow-dropup-circle"></ion-icon>
