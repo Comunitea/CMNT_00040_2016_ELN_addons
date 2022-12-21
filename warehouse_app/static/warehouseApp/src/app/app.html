@@ -1,23 +1,26 @@
 <ion-menu [content]="content">
     <ion-header>
         <ion-toolbar>
-            <ion-title>Menú</ion-title>
+            <ion-title>Menu</ion-title>
         </ion-toolbar>
     </ion-header>
 
     <ion-content>
         <ion-list>
             <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
-                {{ p.title }}
+                {{p.title}}
             </button>
         </ion-list>
+        <ion-item-group *ngIf="user">
+            <ion-item>
+                <ion-label color="primary">{{ user.name }}</ion-label>
+            </ion-item>
+            <ion-item>
+                <ion-label color="odoo">{{ user.company_id && user.company_id[1] }}</ion-label>
+            </ion-item>
+        </ion-item-group>
     </ion-content>
 
-    <ion-footer>
-        <ion-item text-center color="light">
-            <span class="version-footer">ProductionApp - Versión: 2022.12.21</span>
-        </ion-item>
-    </ion-footer>
 </ion-menu>
 
 <!-- Disable swipe-to-go-back because it's poor UX to combine STGB with side menus -->
