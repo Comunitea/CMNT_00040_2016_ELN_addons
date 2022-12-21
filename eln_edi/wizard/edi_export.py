@@ -798,6 +798,7 @@ class EdiExport(models.TransientModel):
         f.write(picking_data)
 
         packing_ids = picking.get_packing_ids()
+        num_lin = 1
         for k, val in packing_ids.items():
             num = k
             # Identificador de registro – 2
@@ -831,7 +832,7 @@ class EdiExport(models.TransientModel):
             picking_data += self.parse_number(total_gross_weight, 15, 0)
             f.write(picking_data)
             # LINEAS
-            num_lin = 1
+            #num_lin = 1 A partir del 19-12-2022 reseteamos contador linea por cada registro tipo 2 en lugar de tipo 3
             for v in val:
                 # Identificador de registro – 3
                 picking_data = '\r\n3'
