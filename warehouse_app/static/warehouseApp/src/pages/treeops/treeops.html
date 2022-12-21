@@ -1,0 +1,110 @@
+<!--
+  Generated template for the TreepickPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+    <ion-navbar color="primary">
+        <ion-title *ngIf="!cargar">{{ pick['name']}} [{{ pick['remaining_ops'] }} / {{ pick['pack_operation_count'] }}]
+        </ion-title>
+        <ion-buttons start>
+            <button ion-button item-start (click)="treepick(true)">
+                <ion-icon name="undo"></ion-icon>
+            </button>
+        </ion-buttons>
+        <ion-buttons end>
+            <button ion-button item-end (click)="infopick(true)" *ngIf="!info_pick">
+                <ion-icon name="document"></ion-icon>
+            </button>
+            <button ion-button item-end (click)="infopick(false)" *ngIf="info_pick">
+                <ion-icon name="list-box"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+
+    <ion-item-group *ngIf="!cargar && info_pick">
+        <ion-item no-lines>
+            <ion-label color='sales'>{{ pick.partner_id[1] }}</ion-label>
+        </ion-item>
+        <ion-item no-lines>
+            <ion-label color='operations'>{{ pick.user_id && pick.user_id[1] || "Usuario" }}</ion-label>
+            <button ion-button item-end (click)="doAssign(pick.id, false)" [hidden]='!pick.user_id'
+                color='odoo'>Liberar</button>
+            <button ion-button item-end (click)="doAssign(pick.id, true)" [hidden]='pick.user_id'
+                color='odoo'>Asignar</button>
+        </ion-item>
+        <ion-item no-lines>
+            <ion-label color='operations'>
+                Operaciones
+            </ion-label>
+            <ion-select [(ngModel)]="whatOps" interface="popover" (ionChange)='seeAll2()'>
+                <ion-option value="Todas">Todas</ion-option>
+                <ion-option value="Pendientes">Pendientes</ion-option>
+                <ion-option value="Realizadas">Realizadas</ion-option>
+            </ion-select>
+            <button ion-button color="odoo" item-end (click)="reorder_picks()">
+                <ion-icon name="shuffle"></ion-icon>
+            </button>
+        </ion-item>
+
+        <ion-item no-lines>
+            <ion-label color='operations'>
+                Acciones
+            </ion-label>
+            <button ion-button item-end (click)="doPreparePartial(pick.id)" [hidden]='pick.pack_operation_count != 0'
+                color='odoo'>Preparar</button>
+            <button ion-button item-end (click)="ask_doTransfer(pick.id)"
+                [hidden]='pick.pack_operation_count == 0 || pick.state == "done" || (pick.pack_operation_count == pick.remaining_ops)'
+                color='odoo'>Validar</button>
+        </ion-item>
+
+
+        <!-- PICK -->
+        <ion-item no-lines [hidden]='model == "stock.picking"'>
+            <ion-label text-right>
+                {{ pick.picking_state }}
+            </ion-label>
+        </ion-item>
+        <ion-item no-lines>
+            <ion-label text-right>
+                {{pick['location_id'] && pick.location_id[1]}} >> {{ pick['location_dest_id'] &&
+                pick.location_dest_id[1] }}
+            </ion-label>
+        </ion-item>
+        <ion-item no-lines>
+            <ion-label text-right>
+                Pendientes {{ pick.remaining_ops }} de {{ pick.pack_operation_count }}
+            </ion-label>
+        </ion-item>
+    </ion-item-group>
+</ion-header>
+
+<ion-content nopadding>
+    <div *ngIf="cargar" style="text-align: center" no-lines>
+        <ion-spinner name="circles"></ion-spinner><br>
+        <b>Cargando...</b>
+    </div>
+
+    <ion-list *ngIf="pick && !cargar && !info_pick" class="all0">
+        <stock-operation *ngFor="let item of pick.pack_operation_ids; let i = index" [stock_operation]="item"
+            [pick]='pick' [whatOps]="whatOps" (notify)="doOp(i, item.id, $event)"
+            [hidden]="whatOps=='Pendientes' && item.pda_done || whatOps=='Realizadas' && !item.pda_done">
+        </stock-operation>
+    </ion-list>
+
+</ion-content>
+<ion-footer>
+    <form [formGroup]="barcodeForm" class="alignBottom">
+        <ion-item>
+            <ion-label color="odoo" item-start>Scan: </ion-label>
+            <ion-input #scan [formControl]="barcodeForm.controls['scan']" type="text" name="scan" placeholder="Scan">
+            </ion-input>
+
+            <button ion-button icon-only item-end clear (click)="submitScan()">
+                <ion-icon name="barcode"></ion-icon>
+            </button>
+        </ion-item>
+    </form>
+</ion-footer>

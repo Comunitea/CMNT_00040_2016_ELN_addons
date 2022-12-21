@@ -1,0 +1,83 @@
+<!--
+  Generated template for the TreepickPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+    <ion-navbar color="primary">
+        <button ion-button icon-only menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title>Listado de Albaranes</ion-title>
+        <ion-buttons end>
+            <button ion-button (click)='logOut()'>
+                <ion-icon name="log-out"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+
+    <div class='noPadding'>
+        <ion-segment *ngIf="!picking_types">
+            <ion-segment-button value="All" (click)="filter_picks(0)">
+                <ion-icon name="apps"></ion-icon>
+            </ion-segment-button>
+        </ion-segment>
+        <ion-segment *ngIf="picking_types">
+            <ion-segment-button value="All" (click)="filter_picks(0)">
+                <ion-icon name="apps"></ion-icon>
+            </ion-segment-button>
+            <ion-segment-button *ngFor="let pick_type of picking_types" value="{{ pick_type && pick_type.id }}"
+                (click)="filter_picks(pick_type && pick_type.id)">
+                {{ pick_type && pick_type.short_name || pick_type && pick_type.name }}
+            </ion-segment-button>
+        </ion-segment>
+    </div>
+</ion-header>
+
+<ion-content padding>
+
+    <div *ngIf="cargar" style="text-align: center">
+        <ion-spinner name="circles"></ion-spinner><br>
+        <b>Cargando...</b>
+    </div>
+
+    <ion-grid *ngIf="!cargar">
+        <ion-row [hidden]='picks.length>0 || cargar'>
+            <ion-col>
+                <ion-item color="sales"> No hay albaranes</ion-item>
+            </ion-col>
+        </ion-row>
+        <ion-row class="title_ops">
+            <ion-col col-6>
+                Albarán
+            </ion-col>
+            <ion-col col-6 text-right>
+                OPs Ptes/Tot
+            </ion-col>
+        </ion-row>
+        <ion-row *ngFor="let pick of picks; trackBy: index;" item-start
+            (click)="showtreeop_ids(pick.id, pick.pack_operation_count)" class="itemwaiting"
+            [ngClass]="{'has_ops': pick.pack_operation_count!=0, 'has_no_pending_ops': pick.pack_operation_count!=0 && pick.remaining_ops == 0}">
+            <ion-col col-9>
+                {{ pick.name }}
+            </ion-col>
+            <ion-col col-3 text-right>
+                {{ pick.pack_operation_count!=0 && pick.ops_str || '' }}
+            </ion-col>
+            <ion-col col-12 text-center>{{ pick.partner_id[1] }}</ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>
+<ion-footer>
+    <form [formGroup]="barcodeForm" class="alignBottom">
+        <ion-item>
+            <ion-label color="odoo" item-start>Scan: </ion-label>
+            <ion-input #scan [formControl]="barcodeForm.controls['scan']" type="text" name="scan" placeholder="Scan">
+            </ion-input>
+            <button ion-button icon-only item-end clear (click)="submitScan()">
+                <ion-icon name="barcode"></ion-icon>
+            </button>
+        </ion-item>
+    </form>
+</ion-footer>
