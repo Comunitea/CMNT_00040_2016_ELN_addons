@@ -46,7 +46,7 @@ class ProductCostsLine(models.TransientModel):
     total = fields.Boolean('Total')
 
     @api.model
-    def _get_costs(self, element_id=False, product_id=False):
+    def _get_costs(self, element_id=False, product_id=False, bom_id=False):
         theoric = 0.0
         forecasted = 0.0
         product_obj = self.env['product.product']
@@ -55,8 +55,8 @@ class ProductCostsLine(models.TransientModel):
         if element_id and product_id:
             # THEORIC COST
             if element_id.cost_type == 'bom':
-                if product_id.bom_ids:
-                    bom = product_id.bom_ids[0]
+                if bom_id or product_id.bom_ids:
+                    bom = bom_id or product_id.bom_ids[0]
                     factor = uom_obj._compute_qty(
                         bom.product_uom.id, bom.product_qty, product_id.uom_id.id)
                     res1, res2 = bom_obj._bom_explode(bom, product_id.id, factor / bom.product_qty, properties=[])
@@ -145,7 +145,8 @@ class ProductCostsLine(models.TransientModel):
                 forecasted = 0.0
                 for element in elements:
                     if element.cost_type not in ('total', 'inventory'):
-                        theoric, forecasted = self._get_costs(element, product)
+                        bom_id = self.env['mrp.bom'].browse(self._context.get('bom_id', False))
+                        theoric, forecasted = self._get_costs(element, product, bom_id)
                         sumtheo += theoric
                         sumforecasted += forecasted
                     else:

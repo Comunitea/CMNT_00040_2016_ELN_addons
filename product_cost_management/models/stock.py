@@ -32,6 +32,7 @@ class StockMove(models.Model):
                 ctx = self._context.copy()
                 ctx.update(
                     product_id=move.product_id.id,
+                    bom_id=move.production_id.bom_id.id,
                 )
                 pcl_obj = self.env['product.costs.line']
                 cost = pcl_obj.with_context(ctx).get_product_costs()
