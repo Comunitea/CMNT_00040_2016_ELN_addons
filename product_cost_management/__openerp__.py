@@ -40,6 +40,7 @@
         'data/ir_cron.xml',
         'views/product.xml',
         'views/product_cost_management_menus.xml',
+        'views/mrp_view.xml',
         'security/ir.model.access.csv',
         'security/product_cost_security.xml',
      ],
