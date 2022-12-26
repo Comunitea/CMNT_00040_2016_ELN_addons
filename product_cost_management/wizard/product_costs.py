@@ -120,7 +120,7 @@ class ProductCostsLine(models.TransientModel):
         return theoric, forecasted
 
     @api.model
-    def get_product_costs(self):
+    def get_product_costs(self, bom_id=False):
         prod_obj = self.env['product.product']
         prod_cost_obj = self.env['product.cost']
         prod_cost_lines_obj = self.env['product.cost.lines']
@@ -145,7 +145,6 @@ class ProductCostsLine(models.TransientModel):
                 forecasted = 0.0
                 for element in elements:
                     if element.cost_type not in ('total', 'inventory'):
-                        bom_id = self.env['mrp.bom'].browse(self._context.get('bom_id', False))
                         theoric, forecasted = self._get_costs(element, product, bom_id)
                         sumtheo += theoric
                         sumforecasted += forecasted
