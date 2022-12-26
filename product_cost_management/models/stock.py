@@ -32,10 +32,10 @@ class StockMove(models.Model):
                 ctx = self._context.copy()
                 ctx.update(
                     product_id=move.product_id.id,
-                    bom_id=move.production_id.bom_id.id,
                 )
                 pcl_obj = self.env['product.costs.line']
-                cost = pcl_obj.with_context(ctx).get_product_costs()
+                bom_id=move.production_id.bom_id
+                cost = pcl_obj.with_context(ctx).get_product_costs(bom_id=bom_id)
                 price = cost.get('inventory_cost', False)
                 if price:
                     move.write({'price_unit': price})
