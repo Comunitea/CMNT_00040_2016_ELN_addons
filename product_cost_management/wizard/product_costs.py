@@ -74,7 +74,7 @@ class ProductCostsLine(models.TransientModel):
                                         register_costs=False,
                                         product_id=productb.id,
                                     )
-                                    cost = self.with_context(ctx).get_product_costs(bom_id=False)
+                                    cost = self.with_context(ctx).get_product_costs()
                                     forecasted_price = cost.get('forecasted_price', False) or productb.forecasted_price or productb.standard_price or 0.0
                                 else:
                                     forecasted_price = productb.forecasted_price or productb.standard_price or 0.0
