@@ -19,7 +19,7 @@
 <ion-content padding>
     <ion-item [hidden]='quality_checks.length>0' color="danger">No hay controles de calidad</ion-item>
     <ion-list>
-        <ion-item *ngFor="let qc of quality_checks,  let i = index;">
+        <ion-item *ngFor="let qc of quality_checks">
             <ion-label stacked>{{ qc.name }}</ion-label>
             <ion-label stacked *ngIf="qc['note']" class="note">{{ qc.note }}</ion-label>
             <ion-select interface="popover" *ngIf="qc['value_type'] == 'check'" [(ngModel)]="qc['value']">
@@ -30,12 +30,12 @@
             <ion-input *ngIf="qc['value_type'] == 'text'" type="text" [(ngModel)]="qc['value']"></ion-input>
             <button ion-button item-right default outline *ngIf="qc['value_type'] == 'text' && qc['suggested_values'].length > 0 && !qc['suggested_values'].includes(qc['value'].toUpperCase())">
                 <ion-icon name="list-box"></ion-icon>
-                <ion-select [(ngModel)]="qc['value']" #typeSelect interface="popover" [id]="'select'+i">
+                <ion-select interface="popover" [(ngModel)]="qc['value']">
                     <ion-option *ngFor="let suggested_value of qc['suggested_values']" value="{{ suggested_value }}">
                         {{ suggested_value }} 
                     </ion-option>
                  </ion-select>
-             </button>
+            </button>
             <ion-input *ngIf="qc['value_type'] == 'barcode'" type="text" [(ngModel)]="qc['value']"></ion-input>
             <button ion-button item-right default *ngIf="qc['value_type'] == 'barcode'" (click)='openBarcodeScanner(qc)'>
                 <ion-icon name="barcode"></ion-icon>
