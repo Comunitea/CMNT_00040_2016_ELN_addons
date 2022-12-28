@@ -833,7 +833,7 @@ class ProductionAppRegistry(models.Model):
                 records = self._cr.fetchall()
                 suggested_values = []
                 if records:
-                    suggested_values =[v[0] for v in records]
+                    suggested_values = [v[0] for v in records]
                 dic['suggested_values'] = suggested_values
             res2.append(dic)
         return res2
