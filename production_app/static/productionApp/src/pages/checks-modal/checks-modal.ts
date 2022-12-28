@@ -51,6 +51,7 @@ export class ChecksModalPage {
             if (qc.value_type == 'lot') {
                 qc.value_type = 'text'
                 qc.required_text = this.prodData.product_lot_name
+                qc.suggested_values = []
             }
             var new_ = {};
             $.extend(new_, qc);

@@ -795,6 +795,7 @@ class ProductionAppRegistry(models.Model):
         res = self.env['product.quality.check'].search_read(domain, fields)
         res2 = []
         for dic in res:
+            dic['suggested_values'] = []
             if dic['quality_type'] == 'start' and dic['only_first_workorder']:
                 today = datetime.now().strftime("%Y-%m-%d")
                 domain = [
@@ -817,6 +818,23 @@ class ProductionAppRegistry(models.Model):
                         #'value_type': 'text',
                         'required_text': product.dun14,
                     })
+            if dic['value_type'] == 'text':
+                sql = """
+                    with posible_values AS (
+                        select distinct (UPPER(TRIM(value))) as value_alias, date from quality_check_line
+                        where pqc_id = %s
+                        order by date desc, UPPER(TRIM(value))
+                        limit 50
+                    )
+                    select distinct value_alias from posible_values
+                    order by value_alias limit 5
+                """ % (dic['id'])
+                self._cr.execute(sql)                
+                records = self._cr.fetchall()
+                suggested_values = []
+                if records:
+                    suggested_values =[v[0] for v in records]
+                dic['suggested_values'] = suggested_values
             res2.append(dic)
         return res2
 
