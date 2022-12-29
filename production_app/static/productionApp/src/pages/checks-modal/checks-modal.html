@@ -28,6 +28,14 @@
             </ion-select>
             <ion-input *ngIf="qc['value_type'] == 'numeric'" type="number" [(ngModel)]="qc['value']"></ion-input>
             <ion-input *ngIf="qc['value_type'] == 'text'" type="text" [(ngModel)]="qc['value']"></ion-input>
+            <button ion-button item-right default outline *ngIf="qc['value_type'] == 'text' && qc['suggested_values'].length > 0 && !qc['suggested_values'].includes(qc['value'].toUpperCase())">
+                <ion-icon name="list-box"></ion-icon>
+                <ion-select interface="popover" [(ngModel)]="qc['value']">
+                    <ion-option *ngFor="let suggested_value of qc['suggested_values']" value="{{ suggested_value }}">
+                        {{ suggested_value }} 
+                    </ion-option>
+                 </ion-select>
+            </button>
             <ion-input *ngIf="qc['value_type'] == 'barcode'" type="text" [(ngModel)]="qc['value']"></ion-input>
             <button ion-button item-right default *ngIf="qc['value_type'] == 'barcode'" (click)='openBarcodeScanner(qc)'>
                 <ion-icon name="barcode"></ion-icon>
