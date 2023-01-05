@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data noupdate="0">
+
+        <!--
+             BOE-A-2022-22685 Real Decreto-ley 20/2022, de 27 de diciembre:
+             https://www.boe.es/buscar/doc.php?id=BOE-A-2022-22685
+        -->
+
+        <record id="l10n_es_aeat_sii.aeat_sii_map_line_SFESB" model="aeat.sii.map.lines">
+            <field name="taxes" eval="[(4, ref('account_tax_template_s_iva0_bca'))]"/>
+        </record>
+        <record id="l10n_es_aeat_sii.aeat_sii_map_line_SFESB" model="aeat.sii.map.lines">
+            <field name="taxes" eval="[(4, ref('account_tax_template_s_iva5_bca'))]"/>
+        </record>
+
+        <record id="l10n_es_aeat_sii.aeat_sii_map_line_SFRS" model="aeat.sii.map.lines">
+            <field name="taxes" eval="[(4, ref('account_tax_template_p_iva0_bca'))]"/>
+        </record>
+        <record id="l10n_es_aeat_sii.aeat_sii_map_line_SFRS" model="aeat.sii.map.lines">
+            <field name="taxes" eval="[(4, ref('account_tax_template_p_iva5_bca'))]"/>
+        </record>
+        <record id="l10n_es_aeat_sii.aeat_sii_map_line_SFRS" model="aeat.sii.map.lines">
+            <field name="taxes" eval="[(4, ref('account_tax_template_p_iva0_ibca'))]"/>
+        </record>
+        <record id="l10n_es_aeat_sii.aeat_sii_map_line_SFRS" model="aeat.sii.map.lines">
+            <field name="taxes" eval="[(4, ref('account_tax_template_p_iva5_ibca'))]"/>
+        </record>
+        <record id="l10n_es_aeat_sii.aeat_sii_map_line_SFRS" model="aeat.sii.map.lines">
+            <field name="taxes" eval="[(4, ref('account_tax_template_p_iva0_ic_bca'))]"/>
+        </record>
+        <record id="l10n_es_aeat_sii.aeat_sii_map_line_SFRS" model="aeat.sii.map.lines">
+            <field name="taxes" eval="[(4, ref('account_tax_template_p_iva5_ic_bca'))]"/>
+        </record>
+
+
+        <record id="l10n_es_aeat_sii.aeat_sii_map_line_RE" model="aeat.sii.map.lines">
+            <field name="taxes" eval="[(4, ref('account_tax_template_p_req0_a'))]"/>
+        </record>
+        <record id="l10n_es_aeat_sii.aeat_sii_map_line_RE" model="aeat.sii.map.lines">
+            <field name="taxes" eval="[(4, ref('account_tax_template_s_req0_a'))]"/>
+        </record>
+        <record id="l10n_es_aeat_sii.aeat_sii_map_line_RE" model="aeat.sii.map.lines">
+            <field name="taxes" eval="[(4, ref('account_tax_template_p_req0625_a'))]"/>
+        </record>
+        <record id="l10n_es_aeat_sii.aeat_sii_map_line_RE" model="aeat.sii.map.lines">
+            <field name="taxes" eval="[(4, ref('account_tax_template_s_req0625_a'))]"/>
+        </record>
+
+ </data>
+</openerp>
