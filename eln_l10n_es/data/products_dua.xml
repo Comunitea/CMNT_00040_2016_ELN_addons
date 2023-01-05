@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data noupdate="0">
+
+<record id="producto_dua_valoracion_0_a" model="product.product">
+    <field name="uom_id" ref="product.product_uom_unit"/>
+    <field name="uom_po_id" ref="product.product_uom_unit"/>
+    <field name="supplier_taxes_id" eval="False"/>
+    <field name="taxes_id" eval="False"/>
+    <field name="name">DUA Valoración IVA 0% (Alimentos)</field>
+    <field name="categ_id" ref="product.product_category_all"/>
+    <field name="type">service</field>
+    <field name="sale_ok" eval="False"/>
+    <field name="purchase_ok" eval="False"/>
+</record>
+
+</data>
+</openerp>

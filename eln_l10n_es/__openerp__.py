@@ -21,6 +21,7 @@
         "data/fiscal_positions_common.xml",
         "data/fiscal_position_taxes_dua.xml",
         "data/aeat_sii_map_data.xml",
+        "data/products_dua.xml",
     ],
     "demo_xml": [],
     "installable": True,
