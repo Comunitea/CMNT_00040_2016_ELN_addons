@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="0">
+
+        <!--
+             BOE-A-2022-22685 Real Decreto-ley 20/2022, de 27 de diciembre:
+             https://www.boe.es/buscar/doc.php?id=BOE-A-2022-22685
+        -->
+
+        <record id="fptt_dua_0b"
+            model="account.fiscal.position.tax.template">
+            <field name="position_id" ref="l10n_es_dua.fp_dua"/>
+            <field name="tax_src_id" ref="account_tax_template_p_iva0_bca"/>
+            <field name="tax_dest_id" ref="l10n_es_dua.account_tax_template_p_dua0"/>
+        </record>
+        <record id="fptt_dua_ventas_0b"
+            model="account.fiscal.position.tax.template">
+            <field name="position_id" ref="l10n_es_dua.fp_dua"/>
+            <field name="tax_src_id" ref="account_tax_template_s_iva0_bca"/>
+            <field name="tax_dest_id" ref="l10n_es.account_tax_template_s_iva0_e"/>
+        </record>
+
+        <record id="fptt_dua_5b"
+            model="account.fiscal.position.tax.template">
+            <field name="position_id" ref="l10n_es_dua.fp_dua"/>
+            <field name="tax_src_id" ref="account_tax_template_p_iva5_bca"/>
+            <field name="tax_dest_id" ref="l10n_es_dua.account_tax_template_p_dua0"/>
+        </record>
+        <record id="fptt_dua_ventas_5b"
+            model="account.fiscal.position.tax.template">
+            <field name="position_id" ref="l10n_es_dua.fp_dua"/>
+            <field name="tax_src_id" ref="account_tax_template_s_iva5_bca"/>
+            <field name="tax_dest_id" ref="l10n_es.account_tax_template_s_iva0_e"/>
+        </record>
+
+    </data>
+</openerp>
