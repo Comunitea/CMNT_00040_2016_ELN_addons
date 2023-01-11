@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright 2022 El Nogal - Pedro Gómez <pegomez@elnogal.com>
+# Copyright 2023 El Nogal - Pedro Gómez <pegomez@elnogal.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 {
     "name": "El Nogal - Spanish Charts of Accounts (PGCE 2008)",
@@ -13,6 +13,7 @@
         "l10n_es",
         "l10n_es_dua",
         "l10n_es_aeat_sii",
+        "l10n_es_dua_sii",
     ],
     "init_xml": [],
     "data": [
