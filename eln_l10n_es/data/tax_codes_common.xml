@@ -230,40 +230,40 @@
           <field name="name">[03] Régimen general IVA devengado (Alimentos). Cuota (5%)</field>
           <field name="sign">1.0</field>
         </record>
-        <record id="account_tax_code_template_MBYCDRDERC0625A" model="account.tax.code.template">
+        <record id="account_tax_code_template_MBYCDRDERC062A" model="account.tax.code.template">
           <field name="parent_id" ref="l10n_es.account_tax_code_template_MBYCDRDERC"/>
-          <field name="code">MBYCDRDERC0625A</field>
-          <field name="name">Modificaciones bases y cuotas del recargo de equivalencia repercutido (Alimentos). Cuota 0.625%.</field>
+          <field name="code">MBYCDRDERC062A</field>
+          <field name="name">Modificaciones bases y cuotas del recargo de equivalencia repercutido (Alimentos). Cuota 0.62%.</field>
           <field name="sign">1.0</field>
         </record>
-        <record id="account_tax_code_template_REBI0625A" model="account.tax.code.template">
+        <record id="account_tax_code_template_REBI062A" model="account.tax.code.template">
           <field name="parent_id" ref="l10n_es.account_tax_code_template_IDBI"/>
-          <field name="code">REBI0625A</field>
-          <field name="name">[16] Recargo equivalencia (Alimentos). Base Imponible. (0.625%)</field>
+          <field name="code">REBI062A</field>
+          <field name="name">[16] Recargo equivalencia (Alimentos). Base Imponible. (0.62%)</field>
           <field name="sign">1.0</field>
         </record>
-        <record id="account_tax_code_template_REC0625A" model="account.tax.code.template">
+        <record id="account_tax_code_template_REC062A" model="account.tax.code.template">
           <field name="parent_id" ref="l10n_es.account_tax_code_template_ITDC"/>
-          <field name="code">REC0625A</field>
-          <field name="name">[18] Recargo equivalencia (Alimentos). Cuota (0.625%)</field>
+          <field name="code">REC062A</field>
+          <field name="name">[18] Recargo equivalencia (Alimentos). Cuota (0.62%)</field>
           <field name="sign">1.0</field>
         </record>
-        <record id="account_tax_code_template_RDDSCRE0625A" model="account.tax.code.template">
+        <record id="account_tax_code_template_RDDSCRE062A" model="account.tax.code.template">
           <field name="parent_id" ref="l10n_es.account_tax_code_template_RDDSC"/>
-          <field name="code">RDDSCRE0625A</field>
-          <field name="name">Rectificación de deducciones soportado (Alimentos). Recargo de equivalencia 0.625%.</field>
+          <field name="code">RDDSCRE062A</field>
+          <field name="name">Rectificación de deducciones soportado (Alimentos). Recargo de equivalencia 0.62%.</field>
           <field name="sign">1.0</field>
         </record>
-        <record id="account_tax_code_template_REDBI0625A" model="account.tax.code.template">
+        <record id="account_tax_code_template_REDBI062A" model="account.tax.code.template">
           <field name="parent_id" ref="l10n_es.account_tax_code_template_OICBI"/>
-          <field name="code">REDBI0625A</field>
-          <field name="name">Recargo equivalencia deducciones (Alimentos). Base imponible (0.625%)</field>
+          <field name="code">REDBI062A</field>
+          <field name="name">Recargo equivalencia deducciones (Alimentos). Base imponible (0.62%)</field>
           <field name="sign">1.0</field>
         </record>
-        <record id="account_tax_code_template_REDC0625A" model="account.tax.code.template">
+        <record id="account_tax_code_template_REDC062A" model="account.tax.code.template">
           <field name="parent_id" ref="l10n_es.account_tax_code_template_SOICC"/>
-          <field name="code">REDC0625A</field>
-          <field name="name">Recargo equivalencia deducciones (Alimentos). Cuota (0.625%)</field>
+          <field name="code">REDC062A</field>
+          <field name="name">Recargo equivalencia deducciones (Alimentos). Cuota (0.62%)</field>
           <field name="sign">1.0</field>
         </record>
 

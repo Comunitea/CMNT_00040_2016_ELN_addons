@@ -89,7 +89,7 @@
             model="account.fiscal.position.tax.template">
             <field name="position_id" ref="l10n_es.fp_recargo"/>
             <field name="tax_src_id" ref="account_tax_template_s_iva5_bca"/>
-            <field name="tax_dest_id" ref="account_tax_template_s_req0625_a"/>
+            <field name="tax_dest_id" ref="account_tax_template_s_req062_a"/>
         </record>
         <record id="fptt_recargo_buy_0a"
             model="account.fiscal.position.tax.template">
@@ -113,7 +113,7 @@
             model="account.fiscal.position.tax.template">
             <field name="position_id" ref="l10n_es.fp_recargo"/>
             <field name="tax_src_id" ref="account_tax_template_p_iva5_bca"/>
-            <field name="tax_dest_id" ref="account_tax_template_p_req0625_a"/>
+            <field name="tax_dest_id" ref="account_tax_template_p_req062_a"/>
         </record>
 
     </data>
