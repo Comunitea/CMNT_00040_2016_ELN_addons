@@ -19,7 +19,7 @@ msgstr ""
 
 #: /tmp/tmp.j1gD0sea54:797 /tmp/tmp.j1gD0sea54:1361 /tmp/tmp.j1gD0sea54:1925
 msgid "PRODUCTO:"
-msgstr "PROCESSUS"
+msgstr "PRODUIT:"
 
 #: /tmp/tmp.j1gD0sea54:801 /tmp/tmp.j1gD0sea54:1365 /tmp/tmp.j1gD0sea54:1929
 msgid "CÓDIGO INTERNO:"
