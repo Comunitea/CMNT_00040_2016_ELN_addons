@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="sheet_product" language="i18ngroovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="2.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="920"/>
+	<property name="ireport.y" value="0"/>
 	<style name="table" lineSpacing="Single">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -335,7 +335,7 @@
 		<groupHeader>
 			<band height="200">
 				<textField>
-					<reportElement x="3" y="1" width="86" height="13"/>
+					<reportElement x="3" y="1" width="63" height="13"/>
 					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single" markup="none">
 						<font size="9" isBold="true"/>
 					</textElement>
@@ -416,7 +416,7 @@
 					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "INGREDIENTES")]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="89" y="2" width="466" height="11"/>
+					<reportElement positionType="Float" x="66" y="2" width="489" height="11"/>
 					<textElement textAlignment="Left" lineSpacing="Single" markup="none">
 						<font size="9" isBold="false"/>
 					</textElement>
@@ -500,7 +500,8 @@
 					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="none">
 						<font size="9" isBold="false"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{EAN13-ean13} + " (EAN13)"]]></textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA[($F{EAN13-ean13}.length() == 13 && $F{EAN13-ean13}.charAt(0) == '0' ?
+$F{EAN13-ean13}.substring(1, 13) + " (UPC-A)" : $F{EAN13-ean13} + " (EAN13)")]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 					<reportElement positionType="Float" x="256" y="81" width="120" height="12"/>

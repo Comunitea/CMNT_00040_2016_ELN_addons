@@ -809,9 +809,13 @@ class ProductionAppRegistry(models.Model):
             dic.update({'value': ''})
             if dic['value_type'] == 'barcode':
                 if dic['barcode_type'] == 'ean13':
+                    barcode = product.ean13 or ''
+                    if len(barcode) == 13 and barcode.count('0') != 13:
+                        if barcode.startswith('0'):
+                            barcode = barcode[-12:]
                     dic.update({
                         #'value_type': 'text',
-                        'required_text': product.ean13,
+                        'required_text': barcode,
                     })
                 if dic['barcode_type'] == 'dun14':
                     dic.update({
