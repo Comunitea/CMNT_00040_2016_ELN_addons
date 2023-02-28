@@ -14,6 +14,7 @@
         "l10n_es_dua",
         "l10n_es_aeat_sii",
         "l10n_es_dua_sii",
+        "l10n_es_aeat_mod303",
     ],
     "init_xml": [],
     "data": [
@@ -23,6 +24,8 @@
         "data/fiscal_position_taxes_dua.xml",
         "data/aeat_sii_map_data.xml",
         "data/products_dua.xml",
+        "data/tax_code_map_mod303_data.xml",
+        "data/aeat_export_mod303_2023_data.xml",
     ],
     "demo_xml": [],
     "installable": True,
