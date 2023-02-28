@@ -47,12 +47,7 @@ class StockPickingExport(models.TransientModel):
         elif self.file_type == 'model_aspil':
             self.file_name = 'aspil_albaranes.xls'
         elif self.file_type == 'model_mars':
-            sold_to_mayorista = '40014122' # Gum/Candy - FRZ
-            active_ids = self._context.get('active_ids', [])
-            pickings = self.env['stock.picking'].browse(active_ids)
-            if pickings and pickings[0].move_lines:
-                if pickings[0].move_lines[0]['product_id'].ean13[:7] == '5000159':
-                    sold_to_mayorista = '40014121' # Choco - FRZ
+            sold_to_mayorista = '17610705' # VQ
             date_now = datetime.now().strftime('%Y%m%d%H%M%S')
             file_name = sold_to_mayorista + date_now + '.txt'
             self.file_name = file_name
@@ -592,10 +587,7 @@ class StockPickingExport(models.TransientModel):
             partner_code = partner_shop_ids.ref or ''
             if not partner_code:
                 raise exceptions.Warning(_('Warning'), _('Partner %s without reference (%s)') % (picking.partner_id.name, picking.name))
-            sold_to_mayorista = '40014122' # Gum/Candy - FRZ
-            if picking_lines[picking.id]:
-                if picking_lines[picking.id][0]['product_id'].ean13[:7] == '5000159':
-                    sold_to_mayorista = '40014121' # Choco - FRZ
+            sold_to_mayorista = '17610705' # VQ
             # Preparamos la cabecera
             l_text = '6CABPEDIDOMAYORISTA'
             text += ('\r\n' + l_text) if text else l_text
@@ -603,9 +595,11 @@ class StockPickingExport(models.TransientModel):
             l_text = '3A'
             # 2. Sold to del mayorista (8)
             l_text += sold_to_mayorista
-            # 3. Número de albarán (numérico 9)
-            numalb = re.findall('\d+', picking.name[-7:])[0]
-            l_text += self.parse_number(numalb, 9, dec_length=0)
+            # 3. Número de albarán (alfanumérico 10)
+            #numalb = re.findall('\d+', picking.name[-7:])[0]
+            #numalb = self.parse_number(numalb, 9, dec_length=0)
+            numalb = self.parse_string(picking.name, 10)
+            l_text += numalb
             # 4. Ship to del cliente (8)
             ship_to_cliente = self.parse_string(partner_code, 8)
             l_text += ship_to_cliente
@@ -637,8 +631,8 @@ class StockPickingExport(models.TransientModel):
                 l_text = '3A'
                 # 2. Sold to del mayorista (8)
                 l_text += sold_to_mayorista
-                # 3. Número de albarán (numérico 9)
-                l_text += self.parse_number(numalb, 9, dec_length=0)
+                # 3. Número de albarán (alfanumérico 10)
+                l_text += numalb
                 # 4. Ship to del cliente (8)
                 l_text += ship_to_cliente
                 # 5. Rep Item (6)
