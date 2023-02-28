@@ -595,19 +595,22 @@ class StockPickingExport(models.TransientModel):
             l_text = '3A'
             # 2. Sold to del mayorista (8)
             l_text += sold_to_mayorista
-            # 3. Número de albarán (alfanumérico 10)
-            #numalb = re.findall('\d+', picking.name[-7:])[0]
-            #numalb = self.parse_number(numalb, 9, dec_length=0)
-            numalb = self.parse_string(picking.name, 10)
-            l_text += numalb
+            # 3. Número de pedido del cliente (9)
+            numped = picking.sale_id.client_order_ref or ''
+            if numped:
+                numped = self.parse_string(numped, 9, fill=' ')
+            else:
+                numped = self.parse_string('', 9, fill='0')
+            l_text += numped
             # 4. Ship to del cliente (8)
             ship_to_cliente = self.parse_string(partner_code, 8)
             l_text += ship_to_cliente
             # 5. Fecha de pedido ddmmyy (6)
             sale_date = picking.sale_id.date_order and picking.sale_id.date_order[:10] or ''
             l_text += self.parse_short_date(sale_date, '%d%m%y')
-            # 6. Número de pedido del cliente (15)
-            l_text += self.parse_string(picking.sale_id.client_order_ref, 15)
+            # 6. Número de albarán (15)
+            numalb = self.parse_string(picking.name, 15)
+            l_text += numalb
             # 7. Fecha de entrega ddmmyy (6)
             picking_date = picking.effective_date and picking.effective_date[:10] or '' # picking.date_done[:10]
             l_text += self.parse_short_date(picking_date, '%d%m%y')
@@ -631,8 +634,8 @@ class StockPickingExport(models.TransientModel):
                 l_text = '3A'
                 # 2. Sold to del mayorista (8)
                 l_text += sold_to_mayorista
-                # 3. Número de albarán (alfanumérico 10)
-                l_text += numalb
+                # 3. Número de pedido del cliente (9)
+                l_text += numped
                 # 4. Ship to del cliente (8)
                 l_text += ship_to_cliente
                 # 5. Rep Item (6)
