@@ -40,6 +40,25 @@ class StockPickingExport(models.TransientModel):
         ('get', 'get'),
         ], string='File type', required=True, default='choose')
 
+    @api.model
+    def default_get(self, fields):
+        res = super(StockPickingExport, self).default_get(fields)
+        active_ids = self._context.get('active_ids', [])
+        pickings = self.env['stock.picking'].browse(active_ids)
+        file_type = False
+        if pickings and pickings[0].supplier_id:
+            if not (pickings[0].supplier_id.name.upper().find('SALICA') == -1):
+                file_type = 'model_salica'
+            elif not (pickings[0].supplier_id.name.upper().find('EXTRUSIONADOS') == -1):
+                file_type = 'model_aspil'
+            elif not (pickings[0].supplier_id.name.upper().find('MARS') == -1):
+                file_type = 'model_mars'
+            elif not (pickings[0].supplier_id.name.upper().find('BAHLSEN') == -1):
+                file_type = 'model_deleben'
+        res.update(file_type=file_type)
+        return res
+
+
     @api.onchange('file_type')
     def onchange_file_type(self):
         if self.file_type == 'model_salica':
@@ -57,7 +76,7 @@ class StockPickingExport(models.TransientModel):
             self.file_name = 'albaran.txt'
 
     @staticmethod
-    def parse_string(string, length, fill=' '):
+    def parse_string(string, length, fill=' ', fill_mode='right'):
         if not string:
             return fill * length
         if isinstance(string, float):
@@ -73,7 +92,11 @@ class StockPickingExport(models.TransientModel):
             string = string[:length]
 
         string = string[0:length]
-        new_string = string + fill * (length - len(string))
+
+        if fill_mode == 'left':
+            new_string = fill * (length - len(string)) + string
+        else:
+            new_string = string + fill * (length - len(string))
 
         if len(new_string) != length:
             raise exceptions.except_orm(_('Error parsing!'), _('The length of "%s" is greater of %s.') % (new_string, length))
@@ -94,14 +117,15 @@ class StockPickingExport(models.TransientModel):
             number = 0.0
         number = float(number)
         if number >= 0:
-            sign = positive_sign
+            sign = positive_sign or ''
         else:
-            sign = negative_sign
+            sign = negative_sign or ''
         number = abs(number)
         int_part = int(number)
         ascii_string = ''
         if include_sign:
             ascii_string += sign
+            int_length -= len(sign)
         if dec_length > 0:
             if zero_fill:
                 ascii_string += '%0*.*f' % (int_length + dec_length + 1, dec_length, number)
@@ -113,7 +137,7 @@ class StockPickingExport(models.TransientModel):
                 ascii_string += '%.*d' % (int_length, int_part)
             else:
                 ascii_string += '%*d' % (int_length, int_part)
-        total_length = (include_sign and sign and 1 or 0) + \
+        total_length = (include_sign and sign and len(sign) or 0) + \
                        int_length + dec_length + \
                        (dec_length and dec_separator and 1 or 0)
         assert len(ascii_string) == total_length, \
@@ -375,7 +399,7 @@ class StockPickingExport(models.TransientModel):
                 if extra_move:
                     err_msg = _("Error in picking '%s': extra move detected!") % (move_id.picking_id.name)
                     err_log += '\n' + err_msg
-                l_text += self.parse_number(round(product_uom_qty, 0), 7, dec_length=0, include_sign=True, positive_sign='0', negative_sign='-')
+                l_text += self.parse_number(round(product_uom_qty, 0), 8, dec_length=0, include_sign=True, positive_sign='0', negative_sign='-')
                 l_text += separator
                 # Modo de pago (1 caracter) -> Giro: G, Transferencia: T, Pagaré: P, Contado: T
                 l_text += payment_mode
@@ -597,13 +621,11 @@ class StockPickingExport(models.TransientModel):
             l_text += sold_to_mayorista
             # 3. Número de pedido del cliente (9)
             numped = picking.sale_id.client_order_ref or ''
-            if numped:
-                numped = self.parse_string(numped, 9, fill=' ')
-            else:
-                numped = self.parse_string('', 9, fill='0')
+            numped = re.findall('\d+', numped[-9:]) or ['0']
+            numped = self.parse_number(numped[-1], 9)
             l_text += numped
             # 4. Ship to del cliente (8)
-            ship_to_cliente = self.parse_string(partner_code, 8)
+            ship_to_cliente = self.parse_string(partner_code, 8, fill='0', fill_mode='left')
             l_text += ship_to_cliente
             # 5. Fecha de pedido ddmmyy (6)
             sale_date = picking.sale_id.date_order and picking.sale_id.date_order[:10] or ''
@@ -668,13 +690,12 @@ class StockPickingExport(models.TransientModel):
                     err_msg = _("Error in picking '%s': quantities with decimals!") % (picking.name)
                     if err_log.find(err_msg) == -1:
                         err_log += '\n' + err_msg
-                l_text += self.parse_number(round(product_uos_qty, 0), 4, dec_length=0, include_sign=True, positive_sign='0', negative_sign='-')
+                l_text += self.parse_number(round(product_uos_qty, 0), 4, dec_length=0, include_sign=True, positive_sign='', negative_sign='-')
                 # 7. Unidad de medida (3)
                 uos_name = uos_id.name
                 if not uos_name:
                     err_msg = _("Error in picking '%s': not UoS in code %s!") % (move_id.picking_id.name, product_id.default_code)
                     err_log += '\n' + err_msg
-                #if line['product_uom_id'].uom_type == 'reference'
                 uos_code = ''
                 if uos_name.upper().find('ESTUCHE') != -1:
                     uos_code = 'SB'
