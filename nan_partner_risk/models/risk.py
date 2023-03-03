@@ -31,7 +31,10 @@ import time
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
-    state = fields.Selection(selection_add=[('wait_risk', 'Waiting Risk Approval')])
+    state = fields.Selection(selection_add=[
+        ('wait_risk', 'Waiting Risk Approval'),
+        ('risk_approved', 'Risk Approved'),
+    ])
 
     @api.multi
     def onchange_partner_id(self, part):
