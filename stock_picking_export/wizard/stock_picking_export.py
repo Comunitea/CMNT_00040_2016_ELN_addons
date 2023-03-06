@@ -710,6 +710,8 @@ class StockPickingExport(models.TransientModel):
                 # 8. Item category (2)
                 l_text += '00'
                 text += ('\r\n' + l_text) if text else l_text
+                # Número línea
+                line_pos += 1
             if line_pos > 0: # Significa que se ha generado al menos un registro por albarán
                 pickings_exported |= picking
         return (text, err_log, pickings_exported)
