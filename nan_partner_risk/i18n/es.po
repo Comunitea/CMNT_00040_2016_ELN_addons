@@ -196,6 +196,7 @@ msgstr "Imprimir"
 
 #. module: nan_partner_risk
 #: view:sale.order:nan_partner_risk.view_sales_order_add_wait_risk_filter
+#: selection:sale.order,state:0
 msgid "Risk Approved"
 msgstr "Riesgo aprobado"
 
@@ -270,6 +271,7 @@ msgstr "Ver información del riesgo"
 
 #. module: nan_partner_risk
 #: view:sale.order:nan_partner_risk.view_sales_order_add_wait_risk_filter
+#: selection:sale.order,state:0
 msgid "Waiting Risk Approval"
 msgstr "Esperando aprobación de riesgo"
 
