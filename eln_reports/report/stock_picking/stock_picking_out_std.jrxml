@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="stock_picking_out" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="144"/>
 	<property name="ireport.layers" value="##Thu Apr 28 19:25:55 CEST 2016\nlayer.2.visible=false\nlayer.1.name=STANDARD\nlayer.0.visible=true\nlayer.2.id=2\nlayer.1.printWhenExpression=$P{VERSION_ALTERNATIVA} \=\= false\nlayer.2.name=ALTERNATE\nlayer.2.printWhenExpression=$P{VERSION_ALTERNATIVA} \=\= true\nlayer.1.id=1\nlayer.1.visible=true\nlayer.0.id=0\nlayer.0.name=Background"/>
 	<style name="table" lineSpacing="Single">
 		<box>
@@ -294,6 +294,15 @@ EN EL ARCHIVO packing_list_alt, PONER EL VALOR A true]]></parameterDescription>
 	<field name="Paquetes-packages_uos" class="java.lang.Integer">
 		<fieldDescription><![CDATA[/data/record/packages_uos]]></fieldDescription>
 	</field>
+	<field name="pallet_type_1" class="java.lang.Integer">
+		<fieldDescription><![CDATA[/data/record/pallet_type_1]]></fieldDescription>
+	</field>
+	<field name="pallet_type_2" class="java.lang.Integer">
+		<fieldDescription><![CDATA[/data/record/pallet_type_2]]></fieldDescription>
+	</field>
+	<field name="pallet_type_3" class="java.lang.Integer">
+		<fieldDescription><![CDATA[/data/record/pallet_type_3]]></fieldDescription>
+	</field>
 	<variable name="L" class="java.util.Locale" resetType="Page">
 		<variableExpression><![CDATA[new Locale($F{Idioma-lang}.split("_")[0],$F{Idioma-lang}.split("_")[1])]]></variableExpression>
 		<initialValueExpression><![CDATA[new Locale($F{Idioma-lang}.split("_")[0],$F{Idioma-lang}.split("_")[1])]]></initialValueExpression>
@@ -346,6 +355,9 @@ EN EL ARCHIVO packing_list_alt, PONER EL VALOR A true]]></parameterDescription>
 		<variableExpression><![CDATA[tr($V{L}, "Caducidad:")]]></variableExpression>
 		<initialValueExpression><![CDATA[]]></initialValueExpression>
 	</variable>
+	<variable name="Total Palets" class="java.lang.Integer">
+		<variableExpression><![CDATA[($F{pallet_type_1} == null ? 0.0 : $F{pallet_type_1}) + ($F{pallet_type_2} == null ? 0.0 : $F{pallet_type_2}) + ($F{pallet_type_3} == null ? 0.0 : $F{pallet_type_3})]]></variableExpression>
+	</variable>
 	<group name="Picking" isResetPageNumber="true" isReprintHeaderOnEachPage="true" minHeightToStartNewPage="260" footerPosition="ForceAtBottom">
 		<groupExpression><![CDATA[$F{id}]]></groupExpression>
 		<groupFooter>
@@ -370,14 +382,14 @@ EN EL ARCHIVO packing_list_alt, PONER EL VALOR A true]]></parameterDescription>
 					</graphicElement>
 				</rectangle>
 				<textField>
-					<reportElement x="192" y="4" width="100" height="13"/>
+					<reportElement x="187" y="4" width="100" height="13"/>
 					<textElement verticalAlignment="Middle" lineSpacing="Single" markup="none">
 						<font size="6"/>
 					</textElement>
 					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "OBSERVACIONES:")]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement x="192" y="17" width="217" height="53"/>
+					<reportElement x="187" y="17" width="217" height="53"/>
 					<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
 						<topPen lineWidth="0.5"/>
 						<leftPen lineWidth="0.5"/>
@@ -462,7 +474,7 @@ EN EL ARCHIVO packing_list_alt, PONER EL VALOR A true]]></parameterDescription>
 						<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "Impuestos")]]></textFieldExpression>
 					</textField>
 					<textField>
-						<reportElement mode="Opaque" x="280" y="0" width="64" height="13" backcolor="#EBEBEB"/>
+						<reportElement mode="Opaque" x="275" y="0" width="64" height="13" backcolor="#EBEBEB"/>
 						<box>
 							<pen lineWidth="0.5"/>
 							<topPen lineWidth="0.5"/>
@@ -476,7 +488,7 @@ EN EL ARCHIVO packing_list_alt, PONER EL VALOR A true]]></parameterDescription>
 						<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "Total AL CONTADO")]]></textFieldExpression>
 					</textField>
 					<textField>
-						<reportElement mode="Opaque" x="344" y="0" width="64" height="13" backcolor="#EBEBEB"/>
+						<reportElement mode="Opaque" x="339" y="0" width="64" height="13" backcolor="#EBEBEB"/>
 						<box>
 							<pen lineWidth="0.5"/>
 							<topPen lineWidth="0.5"/>
@@ -518,7 +530,7 @@ EN EL ARCHIVO packing_list_alt, PONER EL VALOR A true]]></parameterDescription>
 						<textFieldExpression class="java.lang.String"><![CDATA[$F{Albaran_valorado-valued_picking} ? $F{Impuestos_P.P.-early_payment_disc_tax} : null]]></textFieldExpression>
 					</textField>
 					<textField pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
-						<reportElement x="280" y="13" width="64" height="13"/>
+						<reportElement x="275" y="13" width="64" height="13"/>
 						<box>
 							<pen lineWidth="0.5"/>
 							<topPen lineWidth="0.5"/>
@@ -560,7 +572,7 @@ EN EL ARCHIVO packing_list_alt, PONER EL VALOR A true]]></parameterDescription>
 						<textFieldExpression class="java.lang.String"><![CDATA[$F{Albaran_valorado-valued_picking} ? $F{Base_Imponible-amount_untaxed} : null]]></textFieldExpression>
 					</textField>
 					<textField pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
-						<reportElement x="344" y="13" width="64" height="13"/>
+						<reportElement x="339" y="13" width="64" height="13"/>
 						<box>
 							<pen lineWidth="0.5"/>
 							<topPen lineWidth="0.5"/>
@@ -589,20 +601,20 @@ EN EL ARCHIVO packing_list_alt, PONER EL VALOR A true]]></parameterDescription>
 					</textField>
 				</frame>
 				<textField>
-					<reportElement x="418" y="4" width="100" height="13"/>
+					<reportElement x="408" y="4" width="100" height="13"/>
 					<textElement verticalAlignment="Middle" lineSpacing="Single" markup="none">
 						<font size="6"/>
 					</textElement>
 					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "OTRA INFORMACIÓN:")]]></textFieldExpression>
 				</textField>
 				<rectangle>
-					<reportElement x="418" y="17" width="137" height="111"/>
+					<reportElement x="408" y="17" width="147" height="111"/>
 					<graphicElement>
 						<pen lineWidth="0.5"/>
 					</graphicElement>
 				</rectangle>
 				<frame>
-					<reportElement x="192" y="74" width="217" height="18"/>
+					<reportElement x="187" y="74" width="217" height="18"/>
 					<rectangle>
 						<reportElement mode="Transparent" x="0" y="0" width="217" height="18"/>
 						<graphicElement>
@@ -643,7 +655,7 @@ EN EL ARCHIVO packing_list_alt, PONER EL VALOR A true]]></parameterDescription>
 					</textField>
 				</frame>
 				<textField isBlankWhenNull="true">
-					<reportElement x="418" y="17" width="136" height="30"/>
+					<reportElement x="408" y="17" width="147" height="30"/>
 					<box topPadding="5" leftPadding="5"/>
 					<textElement lineSpacing="Single" markup="html">
 						<font size="8"/>
@@ -655,7 +667,7 @@ tr($V{L}, "Tel. Móvil: ") +
 ($F{envio-mobile}.isEmpty() ? $F{commercial_partner_id-mobile} : $F{envio-mobile})]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement x="419" y="47" width="136" height="30"/>
+					<reportElement x="408" y="47" width="147" height="30"/>
 					<box topPadding="5" leftPadding="5"/>
 					<textElement lineSpacing="Single" markup="html">
 						<font size="8"/>
@@ -666,12 +678,16 @@ tr($V{L}, "Tel. Móvil: ") +
 tr($V{L}, "Bultos: ") + $F{Paquetes-packages_uos}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement x="419" y="102" width="136" height="20"/>
+					<reportElement x="408" y="83" width="147" height="43"/>
 					<box topPadding="5" leftPadding="5"/>
 					<textElement verticalAlignment="Bottom" lineSpacing="Single" markup="html">
 						<font size="8"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "Palets: ")]]></textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA[($F{pallet_type_1} == null ? "" : tr($V{L}, "B1208A-Pallet CHEP 800x1200: ") + $F{pallet_type_1} + "<br>") +
+($F{pallet_type_2} == null ? "" : tr($V{L}, "P0604A-Pallet CHEP 400x600: ") + $F{pallet_type_2} + "<br>") +
+($F{pallet_type_3} == null ? "" : tr($V{L}, "Others types of pallets: ") + $F{pallet_type_3} + "<br>") +
+(tr($V{L}, "Total pallets: ") + ($V{Total Palets} == 0 ? "" : $V{Total Palets})
+)]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupFooter>
