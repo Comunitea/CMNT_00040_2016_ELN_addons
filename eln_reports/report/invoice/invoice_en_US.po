@@ -7,183 +7,232 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-10 16:57+0200\n"
-"PO-Revision-Date: 2021-05-10 17:03+0200\n"
-"Language: en_US\n"
+"POT-Creation-Date: 2023-03-10 11:22+0100\n"
+"PO-Revision-Date: 2023-03-10 11:47+0100\n"
+"Last-Translator: \n"
+"Language-Team: Pedro Gómez <pegomez@elnogal.com>\n"
+"Language: es_ES\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
-"Language-Team: \n"
-"X-Generator: Poedit 2.4.2\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.1.1\n"
 
-#: /tmp/tmp.B9GgASDE8E:829 /tmp/tmp.B9GgASDE8E:1112 /tmp/tmp.B9GgASDE8E:1395
-msgid "COBROS: Consignar PAGADO y firma cobrador"
-msgstr "CHARGES: Consign PAID and signature collector"
-
-#: /tmp/tmp.B9GgASDE8E:833 /tmp/tmp.B9GgASDE8E:1116 /tmp/tmp.B9GgASDE8E:1399
-msgid "TOTAL FACTURA"
-msgstr "TOTAL INVOICE"
-
-#: /tmp/tmp.B9GgASDE8E:833 /tmp/tmp.B9GgASDE8E:1116 /tmp/tmp.B9GgASDE8E:1399
-msgid "TOTAL ABONO"
-msgstr "TOTAL REFUND"
-
-#: /tmp/tmp.B9GgASDE8E:845 /tmp/tmp.B9GgASDE8E:1128 /tmp/tmp.B9GgASDE8E:1411
-msgid "Plazo de pago:"
-msgstr "Payment term:"
-
-#: /tmp/tmp.B9GgASDE8E:853 /tmp/tmp.B9GgASDE8E:1136 /tmp/tmp.B9GgASDE8E:1419
-msgid "Tipo de pago:"
-msgstr "Payment type:"
-
-#: /tmp/tmp.B9GgASDE8E:862 /tmp/tmp.B9GgASDE8E:1145 /tmp/tmp.B9GgASDE8E:1428
-msgid "Cuenta bancaria:"
-msgstr "Bank account:"
-
-#: /tmp/tmp.B9GgASDE8E:867 /tmp/tmp.B9GgASDE8E:1150 /tmp/tmp.B9GgASDE8E:1433
-msgid "Vencimiento:"
-msgstr "Maturity:"
-
-#: /tmp/tmp.B9GgASDE8E:883 /tmp/tmp.B9GgASDE8E:1166 /tmp/tmp.B9GgASDE8E:1449
-msgid "OBSERVACIONES:"
-msgstr "OBSERVATIONS:"
-
-#: /tmp/tmp.B9GgASDE8E:891 /tmp/tmp.B9GgASDE8E:1174 /tmp/tmp.B9GgASDE8E:1457
-msgid "INFORMACION DE PAGO:"
-msgstr "PAYMENT INFORMATION:"
-
-#: /tmp/tmp.B9GgASDE8E:896 /tmp/tmp.B9GgASDE8E:1179 /tmp/tmp.B9GgASDE8E:1462
-msgid "FACTURA"
-msgstr "INVOICE"
-
-#: /tmp/tmp.B9GgASDE8E:898 /tmp/tmp.B9GgASDE8E:1181 /tmp/tmp.B9GgASDE8E:1464
-msgid "FACTURA<BR>ABONO"
-msgstr "REFUND<BR>INVOICE"
-
-#: /tmp/tmp.B9GgASDE8E:915 /tmp/tmp.B9GgASDE8E:1198 /tmp/tmp.B9GgASDE8E:1481
-msgid "Factura:"
-msgstr "Invoice:"
-
-#: /tmp/tmp.B9GgASDE8E:917 /tmp/tmp.B9GgASDE8E:1200 /tmp/tmp.B9GgASDE8E:1483
-msgid "Factura Rectificativa:"
-msgstr "Refund Invoice:"
-
-#: /tmp/tmp.B9GgASDE8E:921 /tmp/tmp.B9GgASDE8E:1204 /tmp/tmp.B9GgASDE8E:1487
-msgid "Fecha Factura:"
-msgstr "Invoice Date:"
-
-#: /tmp/tmp.B9GgASDE8E:925 /tmp/tmp.B9GgASDE8E:1208 /tmp/tmp.B9GgASDE8E:1491
-msgid "Código Cliente:"
-msgstr "Customer code:"
-
-#: /tmp/tmp.B9GgASDE8E:933 /tmp/tmp.B9GgASDE8E:1216 /tmp/tmp.B9GgASDE8E:1499
-msgid "Cód. Prov. (CIP):"
-msgstr "Supplier code:"
-
-#: /tmp/tmp.B9GgASDE8E:937 /tmp/tmp.B9GgASDE8E:1220 /tmp/tmp.B9GgASDE8E:1503
-msgid "Página:"
-msgstr "Page:"
-
-#: /tmp/tmp.B9GgASDE8E:961 /tmp/tmp.B9GgASDE8E:1244 /tmp/tmp.B9GgASDE8E:1527
-msgid "de"
-msgstr "of"
-
-#: /tmp/tmp.B9GgASDE8E:973 /tmp/tmp.B9GgASDE8E:1256 /tmp/tmp.B9GgASDE8E:1539
-msgid "Moneda:"
-msgstr "Currency:"
-
-#: /tmp/tmp.B9GgASDE8E:984 /tmp/tmp.B9GgASDE8E:1267 /tmp/tmp.B9GgASDE8E:1550
-msgid "Tel.:"
-msgstr "Tel.:"
-
-#: /tmp/tmp.B9GgASDE8E:984 /tmp/tmp.B9GgASDE8E:1044 /tmp/tmp.B9GgASDE8E:1267
-#: /tmp/tmp.B9GgASDE8E:1327 /tmp/tmp.B9GgASDE8E:1550 /tmp/tmp.B9GgASDE8E:1610
-msgid "Fax:"
-msgstr "Fax:"
-
-#: /tmp/tmp.B9GgASDE8E:984 /tmp/tmp.B9GgASDE8E:1044 /tmp/tmp.B9GgASDE8E:1267
-#: /tmp/tmp.B9GgASDE8E:1327 /tmp/tmp.B9GgASDE8E:1550 /tmp/tmp.B9GgASDE8E:1610
-msgid "e-mail:"
-msgstr "e-mail:"
-
-#: /tmp/tmp.B9GgASDE8E:992 /tmp/tmp.B9GgASDE8E:1275 /tmp/tmp.B9GgASDE8E:1558
-msgid "CLIENTE:"
-msgstr "CUSTOMER:"
-
-#: /tmp/tmp.B9GgASDE8E:1006 /tmp/tmp.B9GgASDE8E:1025 /tmp/tmp.B9GgASDE8E:1289
-#: /tmp/tmp.B9GgASDE8E:1308 /tmp/tmp.B9GgASDE8E:1572 /tmp/tmp.B9GgASDE8E:1591
-msgid "CIF/NIF:"
-msgstr "VAT Nº:"
-
-#: /tmp/tmp.B9GgASDE8E:1010 /tmp/tmp.B9GgASDE8E:1293 /tmp/tmp.B9GgASDE8E:1576
-msgid "DIRECCIÓN DE FACTURA:"
-msgstr "INVOICE ADDRESS:"
-
-#: /tmp/tmp.B9GgASDE8E:1030 /tmp/tmp.B9GgASDE8E:1313 /tmp/tmp.B9GgASDE8E:1596
-msgid "IMPORTANTE:<br>Rogamos eviten devolver los giros. Estamos a su disposición para resolver cualquier duda o anomalía."
-msgstr "IMPORTANT:<br>Please avoid returning the money orders. We are at your disposal to solve any doubt or anomaly."
-
-#: /tmp/tmp.B9GgASDE8E:1044 /tmp/tmp.B9GgASDE8E:1327 /tmp/tmp.B9GgASDE8E:1610
-msgid "En cumplimiento de la Ley Orgánica 15/99, de 13 de diciembre, de Protección de Datos de Carácter Personal, le indicamos que la información que Ud. nos facilita de forma voluntaria, por cualquiera de nuestros medios de recogida de información, tiene como única finalidad la incorporación a un fichero automatizado de datos de carácter personal cuyas finalidades son: la gestión contable y fiscal, la facturación de servicios, la realización de propuestas y presupuestos, la gestión comercial por parte de"
-msgstr "In compliance with the Organic Law 15/99 of December 13, Protection of Personal Data, we indicate that the information that you provide us voluntarily, by any of our means of collecting information, is unique purpose the incorporation into an automated file of personal data whose purposes are: accounting and fiscal management, billing of services, making proposals and budgets, commercial management by"
-
-#: /tmp/tmp.B9GgASDE8E:1044 /tmp/tmp.B9GgASDE8E:1327 /tmp/tmp.B9GgASDE8E:1610
-msgid "la cual es titular de dichos ficheros. Para la realización de las gestiones antes mencionadas puede ser necesario que se cedan los datos a encargados de tratamiento, empresas colaboradoras y administraciones públicas. Esta autorización se hace efectiva de forma retroactiva a cualquier tratamiento de datos hechos ya por parte del titular del fichero, siempre y cuando la finalidad fuese la anteriormente indicada. También se hace efectiva para cualquier otro tratamiento necesario para la prestación de servicios de reciente o nueva contratación. Se le garantiza total confidencialidad y si desea ejercer el derecho de acceso, rectificación, oposición o cancelación, dirija un escrito a:"
-msgstr "which is the owner of said files. In order to carry out the aforementioned procedures, it may be necessary to transfer the data to treatment managers, collaborating companies and public administrations. This authorization is effective retroactively to any processing of data already made by the owner of the file, provided that the purpose was as indicated above. It also becomes effective for any other treatment necessary for the provision of new or new contracting services. You are guaranteed total confidentiality and if you wish to exercise the right of access, rectification, opposition or cancellation, address a letter to:"
-
-#: /tmp/tmp.B9GgASDE8E:2375 /tmp/tmp.B9GgASDE8E:2545 /tmp/tmp.B9GgASDE8E:2715
+#: /tmp/tmp.QSQ72s1MVZ:857 /tmp/tmp.QSQ72s1MVZ:1267 /tmp/tmp.QSQ72s1MVZ:1677
 msgid "CÓDIGO INTERNO"
 msgstr "INTERNAL CODE"
 
-#: /tmp/tmp.B9GgASDE8E:2375 /tmp/tmp.B9GgASDE8E:2545 /tmp/tmp.B9GgASDE8E:2715
+#: /tmp/tmp.QSQ72s1MVZ:857 /tmp/tmp.QSQ72s1MVZ:1267 /tmp/tmp.QSQ72s1MVZ:1677
 msgid "CÓDIGO EAN-13"
 msgstr "EAN-13 CODE"
 
-#: /tmp/tmp.B9GgASDE8E:2387 /tmp/tmp.B9GgASDE8E:2557 /tmp/tmp.B9GgASDE8E:2727
+#: /tmp/tmp.QSQ72s1MVZ:865 /tmp/tmp.QSQ72s1MVZ:1275 /tmp/tmp.QSQ72s1MVZ:1685
 msgid "ARTÍCULO"
 msgstr "ITEM"
 
-#: /tmp/tmp.B9GgASDE8E:2395 /tmp/tmp.B9GgASDE8E:2565 /tmp/tmp.B9GgASDE8E:2735
-msgid "Albarán:"
-msgstr "Delivery note:"
-
-#: /tmp/tmp.B9GgASDE8E:2397 /tmp/tmp.B9GgASDE8E:2567 /tmp/tmp.B9GgASDE8E:2737
-msgid "NºPedido:"
-msgstr "Order Nº:"
-
-#: /tmp/tmp.B9GgASDE8E:2401 /tmp/tmp.B9GgASDE8E:2571 /tmp/tmp.B9GgASDE8E:2741
+#: /tmp/tmp.QSQ72s1MVZ:873 /tmp/tmp.QSQ72s1MVZ:1283 /tmp/tmp.QSQ72s1MVZ:1693
 msgid "CAJAS<br>TOTALES"
 msgstr "TOTAL<br>BOXES"
 
-#: /tmp/tmp.B9GgASDE8E:2413 /tmp/tmp.B9GgASDE8E:2583 /tmp/tmp.B9GgASDE8E:2753
+#: /tmp/tmp.QSQ72s1MVZ:881 /tmp/tmp.QSQ72s1MVZ:1291 /tmp/tmp.QSQ72s1MVZ:1701
 msgid "UNIDADES TOTALES"
 msgstr "TOTAL UNITS"
 
-#: /tmp/tmp.B9GgASDE8E:2427 /tmp/tmp.B9GgASDE8E:2597 /tmp/tmp.B9GgASDE8E:2767
+#: /tmp/tmp.QSQ72s1MVZ:889 /tmp/tmp.QSQ72s1MVZ:1299 /tmp/tmp.QSQ72s1MVZ:1709
 msgid "PRECIO UNITARIO"
 msgstr "UNIT PRICE"
 
-#: /tmp/tmp.B9GgASDE8E:2441 /tmp/tmp.B9GgASDE8E:2611 /tmp/tmp.B9GgASDE8E:2781
+#: /tmp/tmp.QSQ72s1MVZ:897 /tmp/tmp.QSQ72s1MVZ:1307 /tmp/tmp.QSQ72s1MVZ:1717
 msgid "%<br>DTO."
 msgstr "%<br>DSC."
 
-#: /tmp/tmp.B9GgASDE8E:2453 /tmp/tmp.B9GgASDE8E:2623 /tmp/tmp.B9GgASDE8E:2793
+#: /tmp/tmp.QSQ72s1MVZ:905 /tmp/tmp.QSQ72s1MVZ:1315 /tmp/tmp.QSQ72s1MVZ:1725
 msgid "IMPORTE"
 msgstr "AMOUNT"
 
-#: /tmp/tmp.B9GgASDE8E:2465 /tmp/tmp.B9GgASDE8E:2635 /tmp/tmp.B9GgASDE8E:2805
+#: /tmp/tmp.QSQ72s1MVZ:913 /tmp/tmp.QSQ72s1MVZ:1323 /tmp/tmp.QSQ72s1MVZ:1733
 msgid "%<br>IMPUES-<br>TOS"
 msgstr "%<br>TAXES"
 
-#: /tmp/tmp.B9GgASDE8E:3498 /tmp/tmp.B9GgASDE8E:3590 /tmp/tmp.B9GgASDE8E:3682
+#: /tmp/tmp.QSQ72s1MVZ:921 /tmp/tmp.QSQ72s1MVZ:1331 /tmp/tmp.QSQ72s1MVZ:1741
+msgid "Albarán:"
+msgstr "Delivery note:"
+
+#: /tmp/tmp.QSQ72s1MVZ:929 /tmp/tmp.QSQ72s1MVZ:1339 /tmp/tmp.QSQ72s1MVZ:1749
+msgid "NºPedido:"
+msgstr "Order Nº:"
+
+#: /tmp/tmp.QSQ72s1MVZ:941 /tmp/tmp.QSQ72s1MVZ:1351 /tmp/tmp.QSQ72s1MVZ:1761
+msgid "COBROS: Consignar PAGADO y firma cobrador"
+msgstr "CHARGES: Consign PAID and signature collector"
+
+#: /tmp/tmp.QSQ72s1MVZ:945 /tmp/tmp.QSQ72s1MVZ:1355 /tmp/tmp.QSQ72s1MVZ:1765
+msgid "TOTAL FACTURA"
+msgstr "TOTAL INVOICE"
+
+#: /tmp/tmp.QSQ72s1MVZ:945 /tmp/tmp.QSQ72s1MVZ:1355 /tmp/tmp.QSQ72s1MVZ:1765
+msgid "TOTAL ABONO"
+msgstr "TOTAL REFUND"
+
+#: /tmp/tmp.QSQ72s1MVZ:957 /tmp/tmp.QSQ72s1MVZ:1367 /tmp/tmp.QSQ72s1MVZ:1777
+msgid "Plazo de pago:"
+msgstr "Payment term:"
+
+#: /tmp/tmp.QSQ72s1MVZ:965 /tmp/tmp.QSQ72s1MVZ:1375 /tmp/tmp.QSQ72s1MVZ:1785
+msgid "Tipo de pago:"
+msgstr "Payment type:"
+
+#: /tmp/tmp.QSQ72s1MVZ:974 /tmp/tmp.QSQ72s1MVZ:1384 /tmp/tmp.QSQ72s1MVZ:1794
+msgid "Cuenta bancaria:"
+msgstr "Bank account:"
+
+#: /tmp/tmp.QSQ72s1MVZ:979 /tmp/tmp.QSQ72s1MVZ:1389 /tmp/tmp.QSQ72s1MVZ:1799
+msgid "Vencimiento:"
+msgstr "Maturity:"
+
+#: /tmp/tmp.QSQ72s1MVZ:995 /tmp/tmp.QSQ72s1MVZ:1405 /tmp/tmp.QSQ72s1MVZ:1815
+msgid "OBSERVACIONES:"
+msgstr "OBSERVATIONS:"
+
+#: /tmp/tmp.QSQ72s1MVZ:1003 /tmp/tmp.QSQ72s1MVZ:1413 /tmp/tmp.QSQ72s1MVZ:1823
+msgid "INFORMACION DE PAGO:"
+msgstr "PAYMENT INFORMATION:"
+
+#: /tmp/tmp.QSQ72s1MVZ:1008 /tmp/tmp.QSQ72s1MVZ:1418 /tmp/tmp.QSQ72s1MVZ:1828
+msgid "FACTURA"
+msgstr "INVOICE"
+
+#: /tmp/tmp.QSQ72s1MVZ:1010 /tmp/tmp.QSQ72s1MVZ:1420 /tmp/tmp.QSQ72s1MVZ:1830
+msgid "FACTURA<BR>ABONO"
+msgstr "REFUND<BR>INVOICE"
+
+#: /tmp/tmp.QSQ72s1MVZ:1027 /tmp/tmp.QSQ72s1MVZ:1437 /tmp/tmp.QSQ72s1MVZ:1847
+msgid "Factura:"
+msgstr "Invoice:"
+
+#: /tmp/tmp.QSQ72s1MVZ:1029 /tmp/tmp.QSQ72s1MVZ:1439 /tmp/tmp.QSQ72s1MVZ:1849
+msgid "Factura Rectificativa:"
+msgstr "Refund Invoice:"
+
+#: /tmp/tmp.QSQ72s1MVZ:1033 /tmp/tmp.QSQ72s1MVZ:1443 /tmp/tmp.QSQ72s1MVZ:1853
+msgid "Fecha Factura:"
+msgstr "Invoice Date:"
+
+#: /tmp/tmp.QSQ72s1MVZ:1037 /tmp/tmp.QSQ72s1MVZ:1447 /tmp/tmp.QSQ72s1MVZ:1857
+msgid "Código Cliente:"
+msgstr "Customer code:"
+
+#: /tmp/tmp.QSQ72s1MVZ:1045 /tmp/tmp.QSQ72s1MVZ:1455 /tmp/tmp.QSQ72s1MVZ:1865
+msgid "Cód. Prov. (CIP):"
+msgstr "Supplier code:"
+
+#: /tmp/tmp.QSQ72s1MVZ:1049 /tmp/tmp.QSQ72s1MVZ:1459 /tmp/tmp.QSQ72s1MVZ:1869
+msgid "Página:"
+msgstr "Page:"
+
+#: /tmp/tmp.QSQ72s1MVZ:1073 /tmp/tmp.QSQ72s1MVZ:1483 /tmp/tmp.QSQ72s1MVZ:1893
+msgid "de"
+msgstr "of"
+
+#: /tmp/tmp.QSQ72s1MVZ:1085 /tmp/tmp.QSQ72s1MVZ:1495 /tmp/tmp.QSQ72s1MVZ:1905
+msgid "Moneda:"
+msgstr "Currency:"
+
+#: /tmp/tmp.QSQ72s1MVZ:1096 /tmp/tmp.QSQ72s1MVZ:1506 /tmp/tmp.QSQ72s1MVZ:1916
+msgid "Tel.:"
+msgstr "Tel.:"
+
+#: /tmp/tmp.QSQ72s1MVZ:1096 /tmp/tmp.QSQ72s1MVZ:1195 /tmp/tmp.QSQ72s1MVZ:1506
+#: /tmp/tmp.QSQ72s1MVZ:1605 /tmp/tmp.QSQ72s1MVZ:1916 /tmp/tmp.QSQ72s1MVZ:2015
+msgid "Fax:"
+msgstr "Fax:"
+
+#: /tmp/tmp.QSQ72s1MVZ:1096 /tmp/tmp.QSQ72s1MVZ:1195 /tmp/tmp.QSQ72s1MVZ:1506
+#: /tmp/tmp.QSQ72s1MVZ:1605 /tmp/tmp.QSQ72s1MVZ:1916 /tmp/tmp.QSQ72s1MVZ:2015
+msgid "e-mail:"
+msgstr "e-mail:"
+
+#: /tmp/tmp.QSQ72s1MVZ:1104 /tmp/tmp.QSQ72s1MVZ:1514 /tmp/tmp.QSQ72s1MVZ:1924
+msgid "CLIENTE:"
+msgstr "CUSTOMER:"
+
+#: /tmp/tmp.QSQ72s1MVZ:1118 /tmp/tmp.QSQ72s1MVZ:1137 /tmp/tmp.QSQ72s1MVZ:1528
+#: /tmp/tmp.QSQ72s1MVZ:1547 /tmp/tmp.QSQ72s1MVZ:1938 /tmp/tmp.QSQ72s1MVZ:1957
+msgid "CIF/NIF:"
+msgstr "VAT Nº:"
+
+#: /tmp/tmp.QSQ72s1MVZ:1122 /tmp/tmp.QSQ72s1MVZ:1532 /tmp/tmp.QSQ72s1MVZ:1942
+msgid "DIRECCIÓN DE FACTURA:"
+msgstr "INVOICE ADDRESS:"
+
+#: /tmp/tmp.QSQ72s1MVZ:1142 /tmp/tmp.QSQ72s1MVZ:1552 /tmp/tmp.QSQ72s1MVZ:1962
+msgid ""
+"IMPORTANTE:<br>- Rogamos eviten devolver los giros. Estamos a su disposición "
+"para resolver cualquier duda o anomalía."
+msgstr ""
+"IMPORTANT:<br>- Please avoid returning the money orders. We are at your "
+"disposal to solve any doubt or anomaly."
+
+#: /tmp/tmp.QSQ72s1MVZ:1146 /tmp/tmp.QSQ72s1MVZ:1556 /tmp/tmp.QSQ72s1MVZ:1966
+msgid ""
+"<br>- Los envases y embalajes incluidos en esta factura están exentos del "
+"Impuesto Especial sobre los Envases de Plástico no Reutilizable en virtud "
+"del artículo 75 de la Ley 7/2002, de 8 de abril, de residuos y suelos "
+"contaminados para una economía circular."
+msgstr ""
+"<br>- The containers and packaging included in this invoice are exempt from "
+"the Special Tax on Non-Reusable Plastic Packaging according to Article 75 of "
+"Law 7/2002, of April 8, of residues and contaminated soils for a circular "
+"economy."
+
+#: /tmp/tmp.QSQ72s1MVZ:1195 /tmp/tmp.QSQ72s1MVZ:1605 /tmp/tmp.QSQ72s1MVZ:2015
+msgid ""
+"En cumplimiento de la Ley Orgánica 15/99, de 13 de diciembre, de Protección "
+"de Datos de Carácter Personal, le indicamos que la información que Ud. nos "
+"facilita de forma voluntaria, por cualquiera de nuestros medios de recogida "
+"de información, tiene como única finalidad la incorporación a un fichero "
+"automatizado de datos de carácter personal cuyas finalidades son: la gestión "
+"contable y fiscal, la facturación de servicios, la realización de propuestas "
+"y presupuestos, la gestión comercial por parte de"
+msgstr ""
+"In compliance with the Organic Law 15/99 of December 13, Protection of "
+"Personal Data, we indicate that the information that you provide us "
+"voluntarily, by any of our means of collecting information, is unique "
+"purpose the incorporation into an automated file of personal data whose "
+"purposes are: accounting and fiscal management, billing of services, making "
+"proposals and budgets, commercial management by"
+
+#: /tmp/tmp.QSQ72s1MVZ:1195 /tmp/tmp.QSQ72s1MVZ:1605 /tmp/tmp.QSQ72s1MVZ:2015
+msgid ""
+"la cual es titular de dichos ficheros. Para la realización de las gestiones "
+"antes mencionadas puede ser necesario que se cedan los datos a encargados de "
+"tratamiento, empresas colaboradoras y administraciones públicas. Esta "
+"autorización se hace efectiva de forma retroactiva a cualquier tratamiento "
+"de datos hechos ya por parte del titular del fichero, siempre y cuando la "
+"finalidad fuese la anteriormente indicada. También se hace efectiva para "
+"cualquier otro tratamiento necesario para la prestación de servicios de "
+"reciente o nueva contratación. Se le garantiza total confidencialidad y si "
+"desea ejercer el derecho de acceso, rectificación, oposición o cancelación, "
+"dirija un escrito a:"
+msgstr ""
+"which is the owner of said files. In order to carry out the aforementioned "
+"procedures, it may be necessary to transfer the data to treatment managers, "
+"collaborating companies and public administrations. This authorization is "
+"effective retroactively to any processing of data already made by the owner "
+"of the file, provided that the purpose was as indicated above. It also "
+"becomes effective for any other treatment necessary for the provision of new "
+"or new contracting services. You are guaranteed total confidentiality and if "
+"you wish to exercise the right of access, rectification, opposition or "
+"cancellation, address a letter to:"
+
+#: /tmp/tmp.QSQ72s1MVZ:3849 /tmp/tmp.QSQ72s1MVZ:3941 /tmp/tmp.QSQ72s1MVZ:4033
 msgid "TIPO DE IMPUESTO"
 msgstr "TAX TYPE"
 
-#: /tmp/tmp.B9GgASDE8E:3506 /tmp/tmp.B9GgASDE8E:3598 /tmp/tmp.B9GgASDE8E:3690
+#: /tmp/tmp.QSQ72s1MVZ:3857 /tmp/tmp.QSQ72s1MVZ:3949 /tmp/tmp.QSQ72s1MVZ:4041
 msgid "BASE<br>IMPONIBLE"
 msgstr "TAXABLE<br>BASE"
 
-#: /tmp/tmp.B9GgASDE8E:3518 /tmp/tmp.B9GgASDE8E:3610 /tmp/tmp.B9GgASDE8E:3702
+#: /tmp/tmp.QSQ72s1MVZ:3869 /tmp/tmp.QSQ72s1MVZ:3961 /tmp/tmp.QSQ72s1MVZ:4053
 msgid "IMPORTE<br>IMPUESTO"
 msgstr "TAX<br>AMOUNT"

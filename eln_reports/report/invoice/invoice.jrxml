@@ -1117,9 +1117,11 @@ $F{Nombre_de_la_compania-name} + " · " + $F{Calle-street-company} + " · " + $F
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L},
 "IMPORTANTE:" + "<br>" +
-"- Rogamos eviten devolver los giros. Estamos a su disposición para resolver cualquier duda o anomalía." + "<br>" +
-"- Los envases y embalajes incluidos en esta factura están exentos del Impuesto Especial sobre los Envases de Plástico no Reutilizable en virtud del artículo 75 de la Ley 7/2002, de 8 de abril, de residuos y suelos contaminados para una economía circular."
-)]]></textFieldExpression>
+"- Rogamos eviten devolver los giros. Estamos a su disposición para resolver cualquier duda o anomalía.") +
+($F{cliente-country_name}.toUpperCase().compareTo("ESPAÑA") == 0 ?
+tr($V{L},
+"<br>" + "- Los envases y embalajes incluidos en esta factura están exentos del Impuesto Especial sobre los Envases de Plástico no Reutilizable en virtud del artículo 75 de la Ley 7/2002, de 8 de abril, de residuos y suelos contaminados para una economía circular.")
+: "")]]></textFieldExpression>
 			</textField>
 			<componentElement>
 				<reportElement key="Table INVOICE LINES" style="table" mode="Transparent" x="0" y="0" width="555" height="48">

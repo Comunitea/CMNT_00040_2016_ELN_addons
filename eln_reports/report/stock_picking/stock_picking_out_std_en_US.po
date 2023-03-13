@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-11-18 12:06+0100\n"
-"PO-Revision-Date: 2021-05-10 12:28+0200\n"
+"PO-Revision-Date: 2023-03-13 10:54+0100\n"
+"Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
+"Language-Team: \n"
 "Language: en_US\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
-"Language-Team: \n"
-"X-Generator: Poedit 2.4.2\n"
+"X-Generator: Poedit 3.1.1\n"
 
 #: /tmp/tmp.uMZkn12cT8:883 /tmp/tmp.uMZkn12cT8:1413 /tmp/tmp.uMZkn12cT8:1943
 msgid "RECIBI: (Firma y Sello)"
@@ -81,9 +81,21 @@ msgstr "Gross Weight (kg): "
 msgid "Bultos: "
 msgstr "Packages: "
 
-#: /tmp/tmp.uMZkn12cT8:994 /tmp/tmp.uMZkn12cT8:1524 /tmp/tmp.uMZkn12cT8:2054
-msgid "Palets: "
-msgstr "Palets: "
+#: /tmp/tmp.gHvxZi4PUB:1106 /tmp/tmp.gHvxZi4PUB:1764 /tmp/tmp.gHvxZi4PUB:2422
+msgid "B1208A-Pallet CHEP 800x1200: "
+msgstr "B1208A-Pallet CHEP 800x1200: "
+
+#: /tmp/tmp.gHvxZi4PUB:1107 /tmp/tmp.gHvxZi4PUB:1765 /tmp/tmp.gHvxZi4PUB:2423
+msgid "P0604A-Pallet CHEP 400x600: "
+msgstr "P0604A-Pallet CHEP 400x600: "
+
+#: /tmp/tmp.gHvxZi4PUB:1108 /tmp/tmp.gHvxZi4PUB:1766 /tmp/tmp.gHvxZi4PUB:2424
+msgid "Others types of pallets: "
+msgstr "Others types of pallets: "
+
+#: /tmp/tmp.gHvxZi4PUB:1109 /tmp/tmp.gHvxZi4PUB:1767 /tmp/tmp.gHvxZi4PUB:2425
+msgid "Total pallets: "
+msgstr "Total pallets: "
 
 #: /tmp/tmp.uMZkn12cT8:998 /tmp/tmp.uMZkn12cT8:1528 /tmp/tmp.uMZkn12cT8:2058
 msgid "ALBARAN"
