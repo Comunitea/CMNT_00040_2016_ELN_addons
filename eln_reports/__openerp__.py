@@ -40,6 +40,7 @@
         'eln_sale',
         'product_data_sheet',
         'eln_product',
+        'stock_picking_pallets',
     ],
     'init_xml': [],
     'data': [
