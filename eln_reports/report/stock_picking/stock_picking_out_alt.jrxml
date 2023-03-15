@@ -303,6 +303,9 @@ EN EL ARCHIVO packing_list_alt, PONER EL VALOR A true]]></parameterDescription>
 	<field name="pallet_type_3" class="java.lang.Integer">
 		<fieldDescription><![CDATA[/data/record/pallet_type_3]]></fieldDescription>
 	</field>
+	<field name="transport_company_pallets" class="java.lang.Integer">
+		<fieldDescription><![CDATA[/data/record/transport_company_pallets]]></fieldDescription>
+	</field>
 	<variable name="L" class="java.util.Locale" resetType="Page">
 		<variableExpression><![CDATA[new Locale($F{Idioma-lang}.split("_")[0],$F{Idioma-lang}.split("_")[1])]]></variableExpression>
 		<initialValueExpression><![CDATA[new Locale($F{Idioma-lang}.split("_")[0],$F{Idioma-lang}.split("_")[1])]]></initialValueExpression>
@@ -354,9 +357,6 @@ EN EL ARCHIVO packing_list_alt, PONER EL VALOR A true]]></parameterDescription>
 	<variable name="T-CAD" class="java.lang.String">
 		<variableExpression><![CDATA[tr($V{L}, "Caducidad:")]]></variableExpression>
 		<initialValueExpression><![CDATA[]]></initialValueExpression>
-	</variable>
-	<variable name="Total Palets" class="java.lang.Integer">
-		<variableExpression><![CDATA[($F{pallet_type_1} == null ? 0.0 : $F{pallet_type_1}) + ($F{pallet_type_2} == null ? 0.0 : $F{pallet_type_2}) + ($F{pallet_type_3} == null ? 0.0 : $F{pallet_type_3})]]></variableExpression>
 	</variable>
 	<group name="Picking" isResetPageNumber="true" isReprintHeaderOnEachPage="true" minHeightToStartNewPage="260" footerPosition="ForceAtBottom">
 		<groupExpression><![CDATA[$F{id}]]></groupExpression>
@@ -678,16 +678,13 @@ tr($V{L}, "Tel. Móvil: ") +
 tr($V{L}, "Bultos: ") + $F{Paquetes-packages_uos}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement x="408" y="83" width="147" height="43"/>
+					<reportElement x="408" y="108" width="147" height="20"/>
 					<box topPadding="5" leftPadding="5"/>
-					<textElement verticalAlignment="Bottom" lineSpacing="Single" markup="html">
+					<textElement verticalAlignment="Top" lineSpacing="Single" markup="html">
 						<font size="8"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[($F{pallet_type_1} == null ? "" : tr($V{L}, "B1208A-Pallet CHEP 800x1200: ") + $F{pallet_type_1} + "<br>") +
-($F{pallet_type_2} == null ? "" : tr($V{L}, "P0604A-Pallet CHEP 400x600: ") + $F{pallet_type_2} + "<br>") +
-($F{pallet_type_3} == null ? "" : tr($V{L}, "Others types of pallets: ") + $F{pallet_type_3} + "<br>") +
-(tr($V{L}, "Total pallets: ") + ($V{Total Palets} == 0 ? "" : $V{Total Palets})
-)]]></textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "Transport company pallets: ") + ($F{transport_company_pallets} == null ? "" : $F{transport_company_pallets})
+]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupFooter>
@@ -1131,7 +1128,7 @@ $F{Nombre_de_la_compania-name} + " · " + $F{Calle-street-company} + " · " + $F
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="90" splitType="Stretch">
+		<band height="108" splitType="Stretch">
 			<componentElement>
 				<reportElement key="table_key" style="table" mode="Transparent" x="0" y="0" width="555" height="48"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
@@ -1461,8 +1458,25 @@ new DecimalFormat("#,##0.00").format($F{uom_qty})]]></textFieldExpression>
 					</jr:column>
 				</jr:table>
 			</componentElement>
+			<rectangle>
+				<reportElement positionType="Float" x="0" y="53" width="555" height="18"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
 			<textField>
-				<reportElement positionType="Float" x="0" y="58" width="555" height="32"/>
+				<reportElement positionType="Float" x="4" y="53" width="550" height="18"/>
+				<textElement verticalAlignment="Middle" lineSpacing="Single" markup="html">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[(
+tr($V{L}, "B1208A-Pallet CHEP 800x1200: ") + ($F{pallet_type_1} == null ? "___" : $F{pallet_type_1}) + " | " +
+tr($V{L}, "P0604A-Pallet CHEP 400x600: ") + ($F{pallet_type_2} == null ? "___" : $F{pallet_type_2}) + " | " +
+tr($V{L}, "Others types of pallets: ") + ($F{pallet_type_3} == null ? "___" : $F{pallet_type_3})
+)]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="0" y="76" width="555" height="32"/>
 				<textElement lineSpacing="Single" markup="html">
 					<font size="8"/>
 				</textElement>

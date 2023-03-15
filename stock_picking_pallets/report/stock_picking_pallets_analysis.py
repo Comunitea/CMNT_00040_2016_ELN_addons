@@ -20,6 +20,7 @@ class StockPickingPalletAnalysis(models.Model):
     pallet_type_1 = fields.Integer(string='B1208A-Pallet CHEP 800x1200', readonly=True)
     pallet_type_2 = fields.Integer(string='P0604A-Pallet CHEP 400x600', readonly=True)
     pallet_type_3 = fields.Integer(string='Others types of pallets', readonly=True)
+    transport_company_pallets = fields.Integer('Transport company pallets', readonly=True)
     picking_type_code = fields.Char(string='Picking Type Code', readonly=True)
 
     def init(self, cr):
@@ -32,13 +33,15 @@ class StockPickingPalletAnalysis(models.Model):
                 sp.date_done AS date,
                 sp.partner_id as partner_id,
                 sp.company_id AS company_id,
-                sp.pallet_type_1 as pallet_type_1,
-                sp.pallet_type_2 as pallet_type_2,
-                sp.pallet_type_3 as pallet_type_3,
+                CASE WHEN spt.code in ('incoming', 'internal') THEN sp.pallet_type_1 ELSE -1 * sp.pallet_type_1 END as pallet_type_1,
+                CASE WHEN spt.code in ('incoming', 'internal') THEN sp.pallet_type_2 ELSE -1 * sp.pallet_type_2 END as pallet_type_2,
+                CASE WHEN spt.code in ('incoming', 'internal') THEN sp.pallet_type_3 ELSE -1 * sp.pallet_type_3 END as pallet_type_3,
+                CASE WHEN spt.code in ('incoming', 'internal') THEN sp.transport_company_pallets ELSE -1 * sp.transport_company_pallets END as transport_company_pallets,
                 spt.code as picking_type_code
             FROM stock_picking sp
             JOIN stock_picking_type spt ON spt.id = sp.picking_type_id
-            WHERE sp.state = 'done' and (sp.pallet_type_1 > 0 or sp.pallet_type_2 > 0 or sp.pallet_type_3 > 0)
+            WHERE sp.state = 'done' and
+                (sp.pallet_type_1 > 0 or sp.pallet_type_2 > 0 or sp.pallet_type_3 > 0 or sp.transport_company_pallets > 0)
             )"""
             % (self._table)
         )
