@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-03-13 15:04+0000\n"
-"PO-Revision-Date: 2023-03-13 16:11+0100\n"
+"PO-Revision-Date: 2023-03-15 18:02+0100\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -166,4 +166,12 @@ msgstr "Este año"
 #: code:addons/stock_picking_pallets/report/gs1_128_parser.py:42
 #, python-format
 msgid "You must print it from a wizard"
-msgstr "You must print it from a wizard"
+msgstr "Debe imprimirlo desde un asistente"
+
+#. module: stock_picking_pallets
+#: field:stock.picking,transport_company_pallets:0
+#: view:stock.picking.pallet.analysis:stock_picking_pallets.stock_pack_operation_analysis_graph_search
+#: field:stock.picking.pallet.analysis,transport_company_pallets:0
+#: field:stock.transfer_details,transport_company_pallets:0
+msgid "Transport company pallets"
+msgstr "Palets agencia de transporte"
