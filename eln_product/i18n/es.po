@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-05 15:07+0000\n"
-"PO-Revision-Date: 2022-10-05 17:10+0200\n"
+"POT-Creation-Date: 2023-03-17 16:02+0000\n"
+"PO-Revision-Date: 2023-03-17 17:03+0100\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -134,6 +134,11 @@ msgstr "Productos semiterminados"
 #: help:product.pricelist.item,uos_id:0
 msgid "Specify a unit of measure here if invoicing is made in another unit of measure than inventory. Keep empty to use the default unit of measure."
 msgstr "Especifique aquí una unidad de medida si la factura se realizará en otra unidad distinta a la del inventario. Déjelo vacío para usar la de por defecto."
+
+#. module: eln_product
+#: view:product.template:eln_product.product_template_search_view
+msgid "Supplier Product Code"
+msgstr "Código producto proveedor"
 
 #. module: eln_product
 #: code:addons/eln_product/models/product.py:132

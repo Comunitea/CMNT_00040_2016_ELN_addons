@@ -23,6 +23,9 @@
                 <field name="company_id" position="after">
                     <field name="container_numbers" />
                 </field>
+                <field name="product_id" position="attributes">
+                    <attribute name="context">{'purchase_order': True}</attribute>
+                </field>
             </field>
         </record>
 
