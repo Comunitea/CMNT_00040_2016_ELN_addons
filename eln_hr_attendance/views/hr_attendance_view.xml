@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="view_attendance_form" model="ir.ui.view">
+            <field name="name">hr.attendance.form</field>
+            <field name="model">hr.attendance</field>
+            <field name="inherit_id" ref="hr_attendance.view_attendance_form"/>
+            <field name="arch" type="xml">
+                <field name="name" position="before">
+                    <field name="old_name" invisible="1"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_attendance_who" model="ir.ui.view">
+            <field name="name">hr.attendance.tree</field>
+            <field name="model">hr.attendance</field>
+            <field name="inherit_id" ref="hr_attendance.view_attendance_who"/>
+            <field name="arch" type="xml">
+                <field name="action" position="after">
+                    <field name="action_desc"/>
+                </field>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_hr_attendance_filter">
+            <field name="name">view_hr_attendance_filter</field>
+            <field name="model">hr.attendance</field>
+            <field name="inherit_id" ref="hr_attendance.view_hr_attendance_filter"/>
+            <field name="arch" type="xml">
+                <filter string="My Attendance" position="attributes">
+                    <attribute name="domain">['|','|',('employee_id.user_id.id','=',uid),('employee_id.user_id2.id','=',uid),('employee_id.user_id3.id','=',uid)]</attribute>
+                </filter>
+            </field>
+        </record>
+
+        <record id="hr_attendance_employee" model="ir.ui.view">
+            <field name="name">hr.employee.form</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <sheet position="before">
+                    <header>
+                        <button name="attendance_action_change" readonly="1" states="present" string="Sign Out" context="{'type':'sign_out'}" type="object" groups="base.group_hr_attendance" class="oe_highlight" />
+                        <button name="attendance_action_change" states="absent" string="Sign In" context="{'type':'sign_in'}" type="object" groups="base.group_hr_attendance"/>
+                        <field name="state2" widget="statusbar" statusbar_colors='{"present":"blue","absent":"red"}' groups="base.group_hr_attendance"/>
+                    </header>
+                </sheet>
+            </field>
+        </record>
+
+        <record id="view_employee_tree" model="ir.ui.view">
+            <field name="name">hr.employee.tree</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_tree"/>
+            <field name="arch" type="xml">
+                <field name="coach_id" position="after">
+                    <field name="state"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>
