@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="view_employee_form" model="ir.ui.view">
+            <field name="name">hr.employee.form</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="user_id" position="attributes">
+                    <attribute name="string">Main User Odoo</attribute>
+                </field>
+                <field name="user_id" position="after">
+                    <field name="user_id2" string="Second User Odoo"
+                        context="{'default_groups_ref': ['base.group_user']}"/>
+                    <field name="user_id3" string="Third User Odoo"
+                        context="{'default_groups_ref': ['base.group_user']}"/>
+                </field>
+             </field>
+        </record>
+
+        <record id="view_employee_filter" model="ir.ui.view">
+            <field name="name">Employees</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_filter"/>
+            <field name="arch" type="xml">
+                <group string="Group By" position="before">
+                    <filter string="My employee" domain="['|', '|', ('user_id', '=', uid), ('user_id2', '=', uid), ('user_id3', '=', uid)]" name="my_employee_filter"/>
+                    <filter string="In Company" domain="[('fecha_alta_empresa', '!=', False), ('fecha_baja_empresa', '=', False)]" name="employee_in_company_filter" />
+                </group>
+             </field>
+         </record>
+
+        <record id="hr.open_view_employee_list_my" model="ir.actions.act_window">
+            <field name="context">{'search_default_my_employee_filter':1}</field>
+        </record>
+
+    </data>
+</openerp>

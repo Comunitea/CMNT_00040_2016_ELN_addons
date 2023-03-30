@@ -21,15 +21,6 @@
                 <field name="address_home_id" position="attributes">
                     <attribute name="invisible">1</attribute>
                 </field>
-                <field name="user_id" position="attributes">
-                    <attribute name="string">Main User Odoo</attribute>
-                </field>
-                <field name="user_id" position="after">
-                    <field name="user_id2" string="Second User Odoo"
-                        context="{'default_groups_ref': ['base.group_user']}"/>
-                    <field name="user_id3" string="Third User Odoo"
-                        context="{'default_groups_ref': ['base.group_user']}"/>
-                </field>
 
                 <field name="address_home_id" position="after">
                     <group colspan="2" col="4">
@@ -40,7 +31,7 @@
                         <field name="personal_state" placeholder="State" colspan="2" nolabel="1" />
                         <field name="personal_country" placeholder="Country" colspan="2" nolabel="1" />
                         <field name="personal_phone" placeholder="Fixed phone" colspan="2" />
-                        <field name="personal_mobile" placeholder="Mobile phone" colspan="2"  />
+                        <field name="personal_mobile" placeholder="Mobile phone" colspan="2" />
                         <field name="personal_email" placeholder="email" colspan="4" />
                     </group>
                 </field>
@@ -137,22 +128,6 @@
                     </group>
                 </page>
             </field>
-        </record>
-
-        <record id="view_employee_filter" model="ir.ui.view">
-            <field name="name">Employees</field>
-            <field name="model">hr.employee</field>
-            <field name="inherit_id" ref="hr.view_employee_filter"/>
-            <field name="arch" type="xml">
-                <group string="Group By" position="before">
-                    <filter string="My employee" domain="['|', '|', ('user_id', '=', uid), ('user_id2', '=', uid), ('user_id2', '=', uid)]" name="my_employee_filter"/>
-                    <filter string="In Company" domain="[('fecha_alta_empresa', '!=', False), ('fecha_baja_empresa', '=', False)]" name="employee_in_company_filter" />
-                </group>
-             </field>
-         </record>
-
-        <record id="hr.open_view_employee_list_my" model="ir.actions.act_window">
-            <field name="context">{'search_default_my_employee_filter':1}</field>
         </record>
 
     </data>

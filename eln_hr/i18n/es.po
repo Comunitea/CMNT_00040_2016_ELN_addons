@@ -6,16 +6,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-29 08:57+0000\n"
-"PO-Revision-Date: 2023-03-29 11:01+0200\n"
-"Last-Translator: <>\n"
+"POT-Creation-Date: 2019-10-09 14:40+0000\n"
+"PO-Revision-Date: 2019-10-09 16:41+0200\n"
+"Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
 "Language-Team: \n"
-"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
-"X-Generator: Poedit 3.1.1\n"
+"Language: es\n"
+"X-Generator: Poedit 2.2.4\n"
 
 #. module: eln_hr
 #: view:hr.employee:eln_hr.view_employee_form
@@ -157,11 +157,6 @@ msgid "Fixed phone"
 msgstr "Teléfono fijo"
 
 #. module: eln_hr
-#: view:hr.employee:eln_hr.view_employee_filter
-msgid "Group By"
-msgstr "Agrupar por"
-
-#. module: eln_hr
 #: field:hr.employee,formacion_academica_ids:0
 #: model:ir.model,name:eln_hr.model_hr_employee_formacion_academica
 msgid "Human Resources - Academic Background"
@@ -200,11 +195,6 @@ msgid "ID"
 msgstr "ID"
 
 #. module: eln_hr
-#: view:hr.employee:eln_hr.view_employee_filter
-msgid "In Company"
-msgstr "En la empresa"
-
-#. module: eln_hr
 #: field:hr.employee_contrataciones_anteriores,__last_update:0
 #: field:hr.employee_experiencia_laboral,__last_update:0
 #: field:hr.employee_formacion_academica,__last_update:0
@@ -237,11 +227,6 @@ msgid "Leaving Date"
 msgstr "Fecha baja"
 
 #. module: eln_hr
-#: view:hr.employee:eln_hr.view_employee_form
-msgid "Main User Odoo"
-msgstr "Usuario principal Odoo"
-
-#. module: eln_hr
 #: field:hr.employee,personal_mobile:0
 msgid "Mobile"
 msgstr "Móvil"
@@ -250,11 +235,6 @@ msgstr "Móvil"
 #: view:hr.employee:eln_hr.view_employee_form
 msgid "Mobile phone"
 msgstr "Teléfono móvil"
-
-#. module: eln_hr
-#: view:hr.employee:eln_hr.view_employee_filter
-msgid "My employee"
-msgstr "Mi empleado"
 
 #. module: eln_hr
 #: field:hr.employee,numero_hijos:0
@@ -346,21 +326,6 @@ msgid "Recruitment Information"
 msgstr "Información contratación"
 
 #. module: eln_hr
-#: help:hr.employee,user_id2:0 help:hr.employee,user_id3:0
-msgid "Related user name for the resource to manage its access."
-msgstr "Usuario relacionado con el recurso para gestionar su acceso."
-
-#. module: eln_hr
-#: field:hr.employee,user_id2:0
-msgid "Second User"
-msgstr "Segundo usuario"
-
-#. module: eln_hr
-#: view:hr.employee:eln_hr.view_employee_form
-msgid "Second User Odoo"
-msgstr "Segundo usuario Odoo"
-
-#. module: eln_hr
 #: field:hr.employee_contrataciones_anteriores,fecha_inicio:0
 #: field:hr.employee_experiencia_laboral,fecha_inicio:0
 msgid "Start Date"
@@ -398,16 +363,6 @@ msgstr "Estudios"
 #: field:hr.employee_formacion_academica,centro:0
 msgid "Study Centre"
 msgstr "Centro"
-
-#. module: eln_hr
-#: field:hr.employee,user_id3:0
-msgid "Third User"
-msgstr "Tercer usuario"
-
-#. module: eln_hr
-#: view:hr.employee:eln_hr.view_employee_form
-msgid "Third User Odoo"
-msgstr "Tercer usuario Odoo"
 
 #. module: eln_hr
 #: field:hr.employee_formacion_en_la_empresa,tipo_certificacion:0

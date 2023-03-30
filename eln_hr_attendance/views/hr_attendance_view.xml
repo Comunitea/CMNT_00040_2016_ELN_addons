@@ -20,6 +20,7 @@
             <field name="arch" type="xml">
                 <field name="action" position="after">
                     <field name="action_desc"/>
+                    <field name="worked_hours" groups="base.group_hr_manager"/>
                 </field>
             </field>
         </record>
