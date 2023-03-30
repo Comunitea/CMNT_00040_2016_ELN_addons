@@ -57,6 +57,16 @@ class HrAttendance(models.Model):
         res = super(HrAttendance, self).unlink()
         return res
 
+    @api.multi
+    def _altern_si_so(self):
+        if (self.env.ref('base.group_hr_user').id not in self.env.user.groups_id.ids):
+            return super(HrAttendance, self)._altern_si_so()
+        else:
+            return True
+
+    _constraints = [(_altern_si_so, 'Error ! Sign in (resp. Sign out) must follow Sign out (resp. Sign in)', ['action'])]
+
+
 class HrEmployee(models.Model):
     _inherit = 'hr.employee'
 

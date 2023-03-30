@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-29 09:02+0000\n"
-"PO-Revision-Date: 2023-03-29 11:04+0200\n"
+"POT-Creation-Date: 2023-03-29 19:27+0000\n"
+"PO-Revision-Date: 2023-03-29 21:30+0200\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -24,6 +24,13 @@ msgid "Attendance"
 msgstr "Asistencia"
 
 #. module: eln_hr_attendance
+#. openerp-web
+#: code:addons/eln_hr_attendance/static/src/js/attendance.js:35
+#, python-format
+msgid "Click to Sign In at %s."
+msgstr "Pulse para registrar la entrada a %s."
+
+#. module: eln_hr_attendance
 #: model:ir.model,name:eln_hr_attendance.model_hr_employee
 msgid "Employee"
 msgstr "Empleado"
@@ -37,14 +44,56 @@ msgid "Error!"
 msgstr "Error!"
 
 #. module: eln_hr_attendance
+#: view:hr.employee:eln_hr_attendance.view_employee_filter
+msgid "Group By"
+msgstr "Agrupar por"
+
+#. module: eln_hr_attendance
+#: view:hr.employee:eln_hr_attendance.view_employee_filter
+msgid "In Company"
+msgstr "En la empresa"
+
+#. module: eln_hr_attendance
+#. openerp-web
+#: code:addons/eln_hr_attendance/static/src/js/attendance.js:33
+#, python-format
+msgid "Last sign in: %s,<br />%s.<br />Click to sign out."
+msgstr "Última entrada: %s,<br/>%s.<br/>Pulse para registrar salida."
+
+#. module: eln_hr_attendance
+#: view:hr.employee:eln_hr_attendance.view_employee_form
+msgid "Main User Odoo"
+msgstr "Usuario principal Odoo"
+
+#. module: eln_hr_attendance
 #: view:hr.attendance:eln_hr_attendance.view_hr_attendance_filter
 msgid "My Attendance"
 msgstr "Mi asistencia"
 
 #. module: eln_hr_attendance
+#: view:hr.employee:eln_hr_attendance.view_employee_filter
+msgid "My employee"
+msgstr "Mi empleado"
+
+#. module: eln_hr_attendance
 #: field:hr.attendance,old_name:0
 msgid "Original Date"
 msgstr "Fecha original"
+
+#. module: eln_hr_attendance
+#: help:hr.employee,user_id2:0 help:hr.employee,user_id3:0
+msgid "Related user name for the resource to manage its access."
+msgstr "Usuario relacionado con el recurso para gestionar su acceso."
+
+#. module: eln_hr_attendance
+#: field:hr.employee,user_id2:0
+msgid "Second User"
+msgstr "Segundo usuario"
+
+#. module: eln_hr_attendance
+#: view:hr.employee:eln_hr_attendance.view_employee_form
+msgid "Second User Odoo"
+msgstr "Segundo usuario Odoo"
 
 #. module: eln_hr_attendance
 #: view:hr.employee:eln_hr_attendance.hr_attendance_employee
@@ -55,6 +104,16 @@ msgstr "Registrar entrada"
 #: view:hr.employee:eln_hr_attendance.hr_attendance_employee
 msgid "Sign Out"
 msgstr "Registrar salida"
+
+#. module: eln_hr_attendance
+#: field:hr.employee,user_id3:0
+msgid "Third User"
+msgstr "Tercer usuario"
+
+#. module: eln_hr_attendance
+#: view:hr.employee:eln_hr_attendance.view_employee_form
+msgid "Third User Odoo"
+msgstr "Tercer usuario Odoo"
 
 #. module: eln_hr_attendance
 #: code:addons/eln_hr_attendance/models/hr_attendance.py:45

@@ -58,9 +58,6 @@ class HrEmployee(models.Model):
     carnet_conducir_c = fields.Boolean('Driving License C')
     carnet_conducir_c1 = fields.Boolean('Driving License C1')
     observaciones = fields.Text('Observations')
-    
-    user_id2 = fields.Many2one('res.users', string='Second User', help='Related user name for the resource to manage its access.')
-    user_id3 = fields.Many2one('res.users', string='Third User',help='Related user name for the resource to manage its access.')
 
     @api.multi
     def unlink(self):
@@ -150,3 +147,4 @@ class HrEmployeeFormacionEnLaEmpresa(models.Model):
     fecha_curso = fields.Char('Date', size=10)
     valoracion = fields.Char('Valuation', size=64)
     fecha_valoracion = fields.Char('Valued on Date', size=10)
+

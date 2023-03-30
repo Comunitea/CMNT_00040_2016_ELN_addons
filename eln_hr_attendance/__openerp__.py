@@ -16,6 +16,8 @@
      ],
     "init_xml": [],
     "data": [
+        'views/hr_attendance.xml',
+        'views/hr_view.xml',
         'views/hr_attendance_view.xml',
         'report/hr_employee_attendance_report.xml',
     ],
