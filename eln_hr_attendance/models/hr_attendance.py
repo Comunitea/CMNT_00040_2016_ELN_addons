@@ -5,6 +5,7 @@
 from openerp import models, fields, api, exceptions, _
 
 
+
 class HrAttendance(models.Model):
     _inherit = 'hr.attendance'
     _order = 'name asc'
@@ -59,17 +60,12 @@ class HrAttendance(models.Model):
 
     @api.multi
     def _altern_si_so(self):
+        if self.env.ref('hr_attendance.hr_action_reason_to_review') in self.mapped('action_desc'):
+            return True
         if (self.env.ref('base.group_hr_user').id not in self.env.user.groups_id.ids):
             return super(HrAttendance, self)._altern_si_so()
         else:
             return True
 
     _constraints = [(_altern_si_so, 'Error ! Sign in (resp. Sign out) must follow Sign out (resp. Sign in)', ['action'])]
-
-
-class HrEmployee(models.Model):
-    _inherit = 'hr.employee'
-
-    state2 = fields.Selection(related='state')
-
 

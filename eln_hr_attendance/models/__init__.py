@@ -4,3 +4,4 @@
 
 import hr
 import hr_attendance
+import resource
