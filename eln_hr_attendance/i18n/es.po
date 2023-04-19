@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-29 19:27+0000\n"
-"PO-Revision-Date: 2023-03-29 21:30+0200\n"
+"POT-Creation-Date: 2023-04-17 09:18+0000\n"
+"PO-Revision-Date: 2023-04-17 11:20+0200\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -16,6 +16,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 3.1.1\n"
+
+#. module: eln_hr_attendance
+#: constraint:hr.employee:0
+msgid "An user can only be assigned to one employee."
+msgstr "Un usuario sólo puede asignarse a un empleado."
 
 #. module: eln_hr_attendance
 #: field:hr.employee,state2:0
@@ -31,13 +36,23 @@ msgid "Click to Sign In at %s."
 msgstr "Pulse para registrar la entrada a %s."
 
 #. module: eln_hr_attendance
+#: view:hr.attendance:eln_hr_attendance.view_hr_attendance_filter
+msgid "Day"
+msgstr "Día"
+
+#. module: eln_hr_attendance
 #: model:ir.model,name:eln_hr_attendance.model_hr_employee
 msgid "Employee"
 msgstr "Empleado"
 
 #. module: eln_hr_attendance
-#: code:addons/eln_hr_attendance/models/hr_attendance.py:44
-#: code:addons/eln_hr_attendance/models/hr_attendance.py:55
+#: constraint:hr.attendance:0
+msgid "Error ! Sign in (resp. Sign out) must follow Sign out (resp. Sign in)"
+msgstr "¡Error! Una entrada debe seguir a un registro de salida."
+
+#. module: eln_hr_attendance
+#: code:addons/eln_hr_attendance/models/hr_attendance.py:45
+#: code:addons/eln_hr_attendance/models/hr_attendance.py:56
 #: code:addons/eln_hr_attendance/report/hr_attendance_report_parser.py:26
 #, python-format
 msgid "Error!"
@@ -116,8 +131,8 @@ msgid "Third User Odoo"
 msgstr "Tercer usuario Odoo"
 
 #. module: eln_hr_attendance
-#: code:addons/eln_hr_attendance/models/hr_attendance.py:45
-#: code:addons/eln_hr_attendance/models/hr_attendance.py:56
+#: code:addons/eln_hr_attendance/models/hr_attendance.py:46
+#: code:addons/eln_hr_attendance/models/hr_attendance.py:57
 #, python-format
 msgid "You are not authorized to make changes"
 msgstr "No está autorizado a realizar cambios"
@@ -132,3 +147,8 @@ msgstr "No está autorizado a imprimir estos datos"
 #: view:hr.attendance:eln_hr_attendance.view_hr_attendance_filter
 msgid "['|','|',('employee_id.user_id.id','=',uid),('employee_id.user_id2.id','=',uid),('employee_id.user_id3.id','=',uid)]"
 msgstr "['|','|',('employee_id.user_id.id','=',uid),('employee_id.user_id2.id','=',uid),('employee_id.user_id3.id','=',uid)]"
+
+#. module: eln_hr_attendance
+#: view:hr.attendance:eln_hr_attendance.view_hr_attendance_filter
+msgid "my_attendance"
+msgstr "my_attendance"
