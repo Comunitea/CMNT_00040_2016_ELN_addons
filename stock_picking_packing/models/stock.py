@@ -99,6 +99,66 @@ class StockPicking(models.Model):
         return rep_action
 
     @api.multi
+    def action_print_gs1_128_box_label(self):
+        p_dic = {}
+        t_uom = self.env['product.uom']
+        for picking in self:
+            packing_ids = picking.with_context(auto='default').get_packing_ids()
+            for k, vals in packing_ids.items():
+                if picking.id not in p_dic:
+                    p_dic[picking.id] = []
+                for val in vals:
+                    pack_lot = val['lot_id']
+                    pack_lot_name = val['lot_id'].name and pack_lot.name[:20] or '?'
+                    try:
+                        pack_date1 = datetime.strptime(pack_lot.use_date[:10], '%Y-%m-%d').strftime('%y%m%d')
+                        pack_date2 = datetime.strptime(pack_lot.use_date[:10], '%Y-%m-%d').strftime('%d-%m-%Y')
+                    except:
+                        pack_date1 = '?'
+                        pack_date2 = '?'
+                    pack_dun14 = val['product_id'].dun14 or \
+                        val['product_id'].ean13 and ('0' + val['product_id'].ean13) or '?'
+                    pack_code = val['product_id'].default_code or '?'
+                    pack_name = val['product_id'].name or '?'
+                    pack_display_name = val['product_id'].display_name or '?'
+                    pack_uos_qty = int(val['product_qty_uos'])
+                    pack_uos_name = val['product_uos_id'].name or '?'
+                    units_per_box = val['product_id'].uos_id and t_uom._compute_qty(
+                        val['product_id'].uos_id.id, 1, val['product_id'].uom_id.id) or 1
+                    pack_weight_net = int(units_per_box * val['product_id'].weight_net * 1000)
+                    pack_qty_len = len(str(pack_uos_qty))
+                    pack_qty_len = 0 if pack_qty_len%2==0 else 1 # 0: par, 1:impar - Usamos juego de caracteres C (num. dígitos par)
+                    # \xf1 = FNC1 -> Sólo al principio o después de longitud variable si no es al final
+                    codes = str('\xf1') + \
+                            str('01') + str(pack_dun14) + \
+                            str('15') + str(pack_date1) + \
+                            str('10') + str(pack_lot_name[-14:])
+                    humanReadable1 = '(01)' + str(pack_dun14) + \
+                                    '(15)' + str(pack_date1) + \
+                                    '(10)' + str(pack_lot_name[-14:])
+                    pack_gs1_128_l1 = self.get_gs1_128_barcode_image(codes, width=2400, humanReadable=False)
+                    p_dic[picking.id].append({
+                        'product_pack': k,
+                        'pack_code': pack_code,
+                        'pack_name': pack_name,
+                        'pack_display_name': pack_display_name,
+                        'pack_dun14': pack_dun14,
+                        'pack_ean13': val['product_id'].ean13 or '?',
+                        'pack_uos_qty': pack_uos_qty,
+                        'pack_uos': pack_uos_name,
+                        'pack_weight_net': pack_weight_net,
+                        'pack_lot': pack_lot_name,
+                        'pack_date': pack_date2,
+                        'pack_gs1_128_l1': pack_gs1_128_l1,
+                        'humanReadable1': humanReadable1,
+                    })
+        custom_data = {'lines_dic': p_dic}
+        rep_name = 'stock_picking_packing.gs1_128_box_report'
+        rep_action = self.env['report'].get_action(self, rep_name)
+        rep_action['data'] = custom_data
+        return rep_action
+
+    @api.multi
     def get_sscc(self, sequence=0):
         # Cálculo del código SSCC y el dígito de control
         # 18 dígitos con la siguiente estructura:
@@ -202,14 +262,26 @@ class StockPicking(models.Model):
                         product_uos_id.id, boxes_pallet, line.product_uom_id.id) or line.product_qty
                     boxes_pallet = t_uom._compute_qty(
                         line.product_uom_id.id, units_pallet, product_uos_id.id)
-                    split = True if line.product_qty%units_pallet == 0 else False
-                    if split:
-                        total_pallets = int(line.product_qty / units_pallet) or 1
-                        vals['product_qty'] = units_pallet
-                        vals['product_qty_uos'] = boxes_pallet
-                        for i in range(total_pallets):
-                            packing_ids[k] = [vals]
+                    total_boxes = t_uom._compute_qty(
+                        line.product_uom_id.id, line.product_qty, product_uos_id.id)
+                    total_qty = line.product_qty
+                    if total_boxes.is_integer() and total_qty >= units_pallet:
+                        remaining_qty = total_qty
+                        while remaining_qty >= units_pallet:
+                            vals['product_qty'] = units_pallet
+                            vals['product_qty_uos'] = boxes_pallet
+                            packing_ids[k] = [vals.copy()]
                             k += 1
+                            remaining_qty -= units_pallet
+                        else:
+                            if remaining_qty > 0:
+                                remaining_boxes_pallet = t_uom._compute_qty(
+                                    line.product_uom_id.id, remaining_qty, product_uos_id.id)
+                                vals['product_qty'] = remaining_qty
+                                vals['product_qty_uos'] = remaining_boxes_pallet
+                                packing_ids[k] = [vals.copy()]
+                                k += 1
+                                remaining_qty = 0
                     else:
                         packing_ids[k] = [vals]
                         k += 1

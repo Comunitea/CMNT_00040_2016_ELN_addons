@@ -7,7 +7,7 @@
              <field name="model">product.price.history.analysis</field>
              <field name="arch" type="xml">
                  <graph string="Product Price Analysis" type="pivot" stacked="True">
-                     <field name="datetime" type="row" interval="week"/>
+                     <field name="datetime" type="row" interval="day"/>
                      <field name="product_id" type="col"/>
                      <field name="cost" type="measure"/>
                  </graph>
@@ -24,17 +24,18 @@
                     <field name="company_id"/>
                     <separator/>
                     <filter string="This Year" name="year" domain="
-                    [('datetime','&lt;=', time.strftime('%%Y-12-31')),
-                    ('datetime','&gt;=', time.strftime('%%Y-01-01'))]"/>
-                    <filter string="Last Year" name="last_year" domain="
-                    [('datetime','&lt;=', (datetime.date.today()+datetime.timedelta(days=-365)).strftime('%%Y-12-31 00:00:00')),
-                    ('datetime','&gt;=', (datetime.date.today()+datetime.timedelta(days=-365)).strftime('%%Y-01-01 23:59:59'))]"/>
+                    [('datetime','&gt;=', time.strftime('%%Y-01-01 00:00:00'))]"/>
+                    <filter string="Previous Year" name="previous_year" domain="
+                    [('datetime','&gt;=',(context_today()-relativedelta(years=1)).strftime('%%Y-01-01 00:00:00')),
+                    ('datetime','&lt;=',(context_today()-relativedelta(years=1)).strftime('%%Y-12-31 23:59:59'))]"/>
                     <filter string="Last 12 Months" name="last_12_months" domain="
-                    [('datetime','&lt;=', (datetime.date.today()+datetime.timedelta(days=-1)).strftime('%%Y-%%m-%%d 00:00:00')),
-                    ('datetime','&gt;=', (datetime.date.today()+datetime.timedelta(days=-365)).strftime('%%Y-%%m-%%d 23:59:59'))]"/>
+                    [('datetime','&gt;=',(context_today()-relativedelta(months=12)).strftime('%%Y-%%m-01 00:00:00'))]"/>
                     <group expand="1" string="Group By">
                         <filter string="Product" name="Product" context="{'group_by':'product_id'}"/>
-                        <filter string="Date" name="Fecha" context="{'group_by':'datetime'}"/>
+                        <filter string="Month" name="groupby_month" context="{'group_by':'datetime'}"/>
+                        <filter string="Week" name="groupby_week" context="{'group_by':'datetime:week'}"/>
+                        <filter string="Day" name="groupby_day" context="{'group_by':'datetime:day'}"/>
+                        <filter string="Id" name="groupby_id" context="{'group_by':'history_id'}"/>
                         <filter string="Company" name="Company" context="{'group_by':'company_id'}"/>
                     </group>
                 </search>

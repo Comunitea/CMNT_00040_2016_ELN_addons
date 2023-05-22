@@ -6,16 +6,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-23 09:18+0000\n"
-"PO-Revision-Date: 2021-04-23 11:19+0200\n"
-"Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
+"POT-Creation-Date: 2023-05-22 15:19+0000\n"
+"PO-Revision-Date: 2023-05-22 17:25+0200\n"
+"Last-Translator: <>\n"
 "Language-Team: \n"
+"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
-"Language: es\n"
-"X-Generator: Poedit 2.4.2\n"
+"X-Generator: Poedit 3.3.1\n"
 
 #. module: stock_picking_packing
 #: help:res.company,gs1:0
@@ -82,6 +82,12 @@ msgid "Created on"
 msgstr "Created on"
 
 #. module: stock_picking_packing
+#: view:website:stock_picking_packing.gs1_128_box_report
+msgid "DUN14:"
+msgstr "DUN14:"
+
+#. module: stock_picking_packing
+#: field:report.stock_picking_packing.gs1_128_box_report,display_name:0
 #: field:report.stock_picking_packing.gs1_128_report_x1,display_name:0
 #: field:report.stock_picking_packing.gs1_128_report_x2,display_name:0
 #: field:stock.picking.modify.packing,display_name:0
@@ -91,8 +97,14 @@ msgid "Display Name"
 msgstr "Display Name"
 
 #. module: stock_picking_packing
+#: view:website:stock_picking_packing.gs1_128_box_report
+msgid "EAN13:"
+msgstr "EAN13:"
+
+#. module: stock_picking_packing
 #: code:addons/stock_picking_packing/report/gs1_128_parser.py:17
 #: code:addons/stock_picking_packing/report/gs1_128_parser.py:41
+#: code:addons/stock_picking_packing/report/gs1_128_parser.py:65
 #, python-format
 msgid "Error"
 msgstr "Error"
@@ -103,9 +115,19 @@ msgid "F. CONSUMO"
 msgstr "F. CONSUMO"
 
 #. module: stock_picking_packing
+#: view:website:stock_picking_packing.gs1_128_box_report
+msgid "Fecha Cons. Pref.:"
+msgstr "Fecha Cons. Pref.:"
+
+#. module: stock_picking_packing
 #: field:res.company,gs1:0
 msgid "GS1 code"
 msgstr "Código GS1"
+
+#. module: stock_picking_packing
+#: model:ir.actions.report.xml,name:stock_picking_packing.report_print_gs1_128_box_labels
+msgid "GS1-128 box label"
+msgstr "Etiqueta GS1-128 caja"
 
 #. module: stock_picking_packing
 #: model:ir.actions.report.xml,name:stock_picking_packing.report_print_gs1_128_labels_x1
@@ -123,6 +145,7 @@ msgid "GTIN:"
 msgstr "GTIN:"
 
 #. module: stock_picking_packing
+#: field:report.stock_picking_packing.gs1_128_box_report,id:0
 #: field:report.stock_picking_packing.gs1_128_report_x1,id:0
 #: field:report.stock_picking_packing.gs1_128_report_x2,id:0
 #: field:stock.picking.modify.packing,id:0
@@ -147,6 +170,7 @@ msgid "LUGAR DE ENTREGA:"
 msgstr "LUGAR DE ENTREGA:"
 
 #. module: stock_picking_packing
+#: field:report.stock_picking_packing.gs1_128_box_report,__last_update:0
 #: field:report.stock_picking_packing.gs1_128_report_x1,__last_update:0
 #: field:report.stock_picking_packing.gs1_128_report_x2,__last_update:0
 #: field:stock.picking.modify.packing,__last_update:0
@@ -184,6 +208,11 @@ msgstr "Logística"
 #: field:stock.picking.packing,lot_id:0
 msgid "Lot/Serial Number"
 msgstr "Lote/Nº de serie"
+
+#. module: stock_picking_packing
+#: view:website:stock_picking_packing.gs1_128_box_report
+msgid "Lote:"
+msgstr "Lote:"
 
 #. module: stock_picking_packing
 #: view:stock.picking.modify.packing:stock_picking_packing.stock_picking_modify_packing_form
@@ -233,6 +262,11 @@ msgid "Packings"
 msgstr "Embalajes"
 
 #. module: stock_picking_packing
+#: view:website:stock_picking_packing.gs1_128_box_report
+msgid "Peso Neto Caja (g):"
+msgstr "Peso Neto Caja (g):"
+
+#. module: stock_picking_packing
 #: field:stock.picking.modify.packing,picking_id:0
 msgid "Picking"
 msgstr "Albarán"
@@ -249,13 +283,13 @@ msgstr "Tenga en cuenta que:"
 
 #. module: stock_picking_packing
 #: view:stock.picking:stock_picking_packing.view_picking_form
-msgid "Print GS1-128 label x1"
-msgstr "Etiqueta GS1-128 x1"
+msgid "Print GS1-128 box label"
+msgstr "Etiqueta GS1-128 caja"
 
 #. module: stock_picking_packing
 #: view:stock.picking:stock_picking_packing.view_picking_form
-msgid "Print GS1-128 label x2"
-msgstr "Etiqueta GS1-128 x2"
+msgid "Print GS1-128 label"
+msgstr "Etiqueta GS1-128"
 
 #. module: stock_picking_packing
 #: field:stock.picking.modify.packing.line,product_id:0
@@ -302,7 +336,7 @@ msgid "Stock Picking"
 msgstr "Albarán"
 
 #. module: stock_picking_packing
-#: code:addons/stock_picking_packing/models/stock.py:113
+#: code:addons/stock_picking_packing/models/stock.py:173
 #, python-format
 msgid "The company GS1 code is wrong"
 msgstr "El código GS1 de la Compañía es incorrecto"
@@ -313,13 +347,18 @@ msgid "The stock operation where the packing has been made"
 msgstr "La operación de existencia en la que se creó el paquete"
 
 #. module: stock_picking_packing
+#: view:website:stock_picking_packing.gs1_128_box_report
+msgid "Unidades x Caja:"
+msgstr "Unidades x Caja:"
+
+#. module: stock_picking_packing
 #: field:stock.picking.modify.packing.line,product_uom_id:0
 #: field:stock.picking.packing,product_uom_id:0
 msgid "Unit of Measure"
 msgstr "Unidad de medida"
 
 #. module: stock_picking_packing
-#: code:addons/stock_picking_packing/models/stock.py:112
+#: code:addons/stock_picking_packing/models/stock.py:172
 #: code:addons/stock_picking_packing/wizard/stock_picking_modify_packing.py:87
 #, python-format
 msgid "Warning!"
@@ -339,6 +378,7 @@ msgstr "Únicamente puede dividir las cantidades en diferentes paquetes, no aña
 #. module: stock_picking_packing
 #: code:addons/stock_picking_packing/report/gs1_128_parser.py:18
 #: code:addons/stock_picking_packing/report/gs1_128_parser.py:42
+#: code:addons/stock_picking_packing/report/gs1_128_parser.py:66
 #, python-format
 msgid "You must print it from a wizard"
 msgstr "Debe imprimirlo desde un asistente"

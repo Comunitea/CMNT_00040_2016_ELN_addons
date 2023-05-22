@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+       <template id="gs1_128_box_report">
+           <t t-foreach="docs" t-as="picking">
+               <t t-foreach="line_objs[picking]" t-as="p">
+                   <div class="page">
+                           <!-- <table class="table table-condensed table-bordered">  -->
+                           <table style="width: 100%;cellspacing:0;cellpadding:3">
+                               <tr style="font-size:8px;">
+                                   <td class="text-left col-xs-4">
+                                       <span><b>Unidades x Caja: </b></span><span t-esc="p['pack_uos']"/>
+                                   </td> 
+                                   <td class="text-left col-xs-4">
+                                       <span><b>Lote: </b></span><span t-esc="p['pack_lot']"/>
+                                   </td> 
+                                   <td class="text-left col-xs-4">
+                                       <span><b>EAN13: </b></span><span t-esc="p['pack_ean13']"/>
+                                   </td> 
+                               </tr>
+                               <tr style="font-size:8px;">
+                                   <td class="text-left col-xs-4">
+                                       <span><b>Peso Neto Caja (g): </b></span><span t-esc="p['pack_weight_net']"/>
+                                   </td> 
+                                   <td class="text-left col-xs-4">
+                                       <span><b>Fecha Cons. Pref.: </b></span><span t-esc="p['pack_date']"/>
+                                   </td> 
+                                   <td class="text-left col-xs-4">
+                                       <span><b>DUN14: </b></span><span t-esc="p['pack_dun14']"/>
+                                   </td> 
+                               </tr>
+                               <tr style="font-size:10px;">
+                                   <td class="text-center col-xs-8" t-att-colspan="3">
+                                       <span t-esc="p['pack_display_name']"/>
+                                       <img t-att-src="'data:image/png;base64,%s' % p['pack_gs1_128_l1']" style="width:500px;height:50px"/>
+                                       <span t-esc="p['humanReadable1']"/>
+                                   </td> 
+                               </tr>
+                       </table>
+                   </div>
+               </t>
+           </t>
+       </template>
+    </data>
+</openerp>
