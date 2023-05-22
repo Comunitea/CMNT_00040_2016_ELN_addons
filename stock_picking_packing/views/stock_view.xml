@@ -12,8 +12,9 @@
                     <page string="Logistic" 
                     attrs="{'invisible': ['|', ('picking_type_code', '=', 'incoming'), ('state', '!=', 'done')]}">
                         <separator string="Packing"/>
-                        <button name="action_print_gs1_128_label" type="object" string="Print GS1-128 label x1" context="{'num_labels': 1}"/>
-                        <button name="action_print_gs1_128_label" type="object" string="Print GS1-128 label x2" context="{'num_labels': 2}"/>
+                        <button name="action_print_gs1_128_label" type="object" string="Print GS1-128 label" context="{'num_labels': 1}"/>
+                        <!-- <button name="action_print_gs1_128_label" type="object" string="Print GS1-128 label x2" context="{'num_labels': 2}"/> -->
+                        <button name="action_print_gs1_128_box_label" type="object" string="Print GS1-128 box label"/>
                         <field name="packing_ids" readonly="1"/>
                         <button name="modify_picking_packing" type="object" states="done" string="Set picking packing"/>
                         <button name="restore_picking_packing" type="object" states="done" string="Restore picking packing"/>

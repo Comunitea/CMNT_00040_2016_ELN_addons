@@ -24,6 +24,7 @@
         'views/gs1_128_report_layout.xml',
         'views/gs1_128_report_x1.xml',
         'views/gs1_128_report_x2.xml',
+        'views/gs1_128_box_report.xml',
         'views/report.xml',
     ],
     "demo_xml": [],

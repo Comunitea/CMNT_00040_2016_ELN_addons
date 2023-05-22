@@ -56,5 +56,34 @@
             <field name="paperformat_id" ref="print_GS1_128_paperformat_A4"/>
         </record>
 
+        <record id="print_GS1_128_box_paperformat_105x50" model="report.paperformat">
+            <field name="name">GS1-128 box label 105x50</field>
+            <field name="default" eval="False"/>
+            <field name="format">custom</field>
+            <field name="page_height">105</field>
+            <field name="page_width">50</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">5</field>
+            <field name="margin_bottom">5</field>
+            <field name="margin_left">0</field>
+            <field name="margin_right">0</field>
+            <field name="header_spacing">0</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report
+          string="GS1-128 box label"
+          id="report_print_gs1_128_box_labels"
+          model="stock.picking"
+          report_type="qweb-pdf"
+          name="stock_picking_packing.gs1_128_box_report"
+          file="stock_picking_packing.gs1_128_box_report"
+          menu="False"
+        />
+
+        <record id="report_print_gs1_128_box_labels" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="print_GS1_128_box_paperformat_105x50"/>
+        </record>
+
     </data>
 </openerp>

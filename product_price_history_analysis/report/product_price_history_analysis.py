@@ -27,6 +27,7 @@ class ProductPriceHistoryAnalysis(models.Model):
     _auto = False
     _rec_name = 'product_id'
 
+    history_id = fields.Integer('id', readonly=True)
     product_id = fields.Many2one(
         'product.product', string='Product', readonly=True)
     product_template_id = fields.Many2one(
@@ -42,6 +43,7 @@ class ProductPriceHistoryAnalysis(models.Model):
             """CREATE or REPLACE VIEW %s as (
             SELECT
                 pph.id AS id,
+                pph.id AS history_id,
                 pph.product_template_id AS product_template_id,
                 round(CAST(pph.cost as numeric), 3) AS cost,
                 pph.datetime AS datetime,

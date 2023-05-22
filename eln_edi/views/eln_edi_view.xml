@@ -376,8 +376,8 @@
                     <field name="edi_docs" select="1" readonly="1"/>
                 </page>
                 <field name="packing_ids" position="before">
-                    <button name="action_print_desadv_label" type="object" string="Print DESADV label x1" context="{'num_labels': 1}"/>
-                    <button name="action_print_desadv_label" type="object" string="Print DESADV label x2" context="{'num_labels': 2}"/>
+                    <button name="action_print_desadv_label" type="object" string="Print DESADV label" context="{'num_labels': 1}"/>
+                    <!-- <button name="action_print_desadv_label" type="object" string="Print DESADV label x2" context="{'num_labels': 2}"/> -->
                 </field>
             </field>
         </record>
