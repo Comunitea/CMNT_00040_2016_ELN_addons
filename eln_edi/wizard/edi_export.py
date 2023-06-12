@@ -446,9 +446,9 @@ class EdiExport(models.TransientModel):
             invoice_data += '25 '
         for payment in payments:
             if invoice.type == 'out_refund':
-                invoice_data += self.parse_short_date(payment.date_maturity) + self.parse_number(payment.credit, 18, 3)
+                invoice_data += self.parse_short_date(payment.date_maturity) + self.parse_number(payment.credit - payment.debit, 18, 3)
             else:
-                invoice_data += self.parse_short_date(payment.date_maturity) + self.parse_number(payment.debit, 18, 3)
+                invoice_data += self.parse_short_date(payment.date_maturity) + self.parse_number(payment.debit - payment.credit, 18, 3)
         invoice_data += (' ' * 26) * (3 - len(payments))
 
         # Posiciones no usadas
