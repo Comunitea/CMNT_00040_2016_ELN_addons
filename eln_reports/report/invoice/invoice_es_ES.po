@@ -7,165 +7,164 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-10 11:22+0100\n"
-"PO-Revision-Date: 2023-03-10 12:07+0100\n"
+"POT-Creation-Date: 2023-07-19 08:54+0200\n"
+"PO-Revision-Date: 2023-07-19 08:56+0200\n"
 "Last-Translator: \n"
-"Language-Team: Pedro Gómez <pegomez@elnogal.com>\n"
+"Language-Team: \n"
 "Language: es_ES\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.3.1\n"
 
-#: /tmp/tmp.QSQ72s1MVZ:857 /tmp/tmp.QSQ72s1MVZ:1267 /tmp/tmp.QSQ72s1MVZ:1677
+#: /tmp/tmp.0PayrTlVlj:859 /tmp/tmp.0PayrTlVlj:1273 /tmp/tmp.0PayrTlVlj:1687
 msgid "CÓDIGO INTERNO"
 msgstr "CÓDIGO INTERNO"
 
-#: /tmp/tmp.QSQ72s1MVZ:857 /tmp/tmp.QSQ72s1MVZ:1267 /tmp/tmp.QSQ72s1MVZ:1677
+#: /tmp/tmp.0PayrTlVlj:859 /tmp/tmp.0PayrTlVlj:1273 /tmp/tmp.0PayrTlVlj:1687
 msgid "CÓDIGO EAN-13"
 msgstr "CÓDIGO EAN-13"
 
-#: /tmp/tmp.QSQ72s1MVZ:865 /tmp/tmp.QSQ72s1MVZ:1275 /tmp/tmp.QSQ72s1MVZ:1685
+#: /tmp/tmp.0PayrTlVlj:867 /tmp/tmp.0PayrTlVlj:1281 /tmp/tmp.0PayrTlVlj:1695
 msgid "ARTÍCULO"
 msgstr "ARTÍCULO"
 
-#: /tmp/tmp.QSQ72s1MVZ:873 /tmp/tmp.QSQ72s1MVZ:1283 /tmp/tmp.QSQ72s1MVZ:1693
+#: /tmp/tmp.0PayrTlVlj:875 /tmp/tmp.0PayrTlVlj:1289 /tmp/tmp.0PayrTlVlj:1703
 msgid "CAJAS<br>TOTALES"
 msgstr "CAJAS<br>TOTALES"
 
-#: /tmp/tmp.QSQ72s1MVZ:881 /tmp/tmp.QSQ72s1MVZ:1291 /tmp/tmp.QSQ72s1MVZ:1701
+#: /tmp/tmp.0PayrTlVlj:883 /tmp/tmp.0PayrTlVlj:1297 /tmp/tmp.0PayrTlVlj:1711
 msgid "UNIDADES TOTALES"
 msgstr "UNIDADES TOTALES"
 
-#: /tmp/tmp.QSQ72s1MVZ:889 /tmp/tmp.QSQ72s1MVZ:1299 /tmp/tmp.QSQ72s1MVZ:1709
+#: /tmp/tmp.0PayrTlVlj:891 /tmp/tmp.0PayrTlVlj:1305 /tmp/tmp.0PayrTlVlj:1719
 msgid "PRECIO UNITARIO"
 msgstr "PRECIO UNITARIO"
 
-#: /tmp/tmp.QSQ72s1MVZ:897 /tmp/tmp.QSQ72s1MVZ:1307 /tmp/tmp.QSQ72s1MVZ:1717
+#: /tmp/tmp.0PayrTlVlj:899 /tmp/tmp.0PayrTlVlj:1313 /tmp/tmp.0PayrTlVlj:1727
 msgid "%<br>DTO."
 msgstr "%<br>DTO."
 
-#: /tmp/tmp.QSQ72s1MVZ:905 /tmp/tmp.QSQ72s1MVZ:1315 /tmp/tmp.QSQ72s1MVZ:1725
+#: /tmp/tmp.0PayrTlVlj:907 /tmp/tmp.0PayrTlVlj:1321 /tmp/tmp.0PayrTlVlj:1735
 msgid "IMPORTE"
 msgstr "IMPORTE"
 
-#: /tmp/tmp.QSQ72s1MVZ:913 /tmp/tmp.QSQ72s1MVZ:1323 /tmp/tmp.QSQ72s1MVZ:1733
+#: /tmp/tmp.0PayrTlVlj:915 /tmp/tmp.0PayrTlVlj:1329 /tmp/tmp.0PayrTlVlj:1743
 msgid "%<br>IMPUES-<br>TOS"
 msgstr "%<br>IMPUES-<br>TOS"
 
-#: /tmp/tmp.QSQ72s1MVZ:921 /tmp/tmp.QSQ72s1MVZ:1331 /tmp/tmp.QSQ72s1MVZ:1741
+#: /tmp/tmp.0PayrTlVlj:923 /tmp/tmp.0PayrTlVlj:1337 /tmp/tmp.0PayrTlVlj:1751
 msgid "Albarán:"
 msgstr "Albarán:"
 
-#: /tmp/tmp.QSQ72s1MVZ:929 /tmp/tmp.QSQ72s1MVZ:1339 /tmp/tmp.QSQ72s1MVZ:1749
+#: /tmp/tmp.0PayrTlVlj:931 /tmp/tmp.0PayrTlVlj:1345 /tmp/tmp.0PayrTlVlj:1759
 msgid "NºPedido:"
 msgstr "Nº Pedido:"
 
-#: /tmp/tmp.QSQ72s1MVZ:941 /tmp/tmp.QSQ72s1MVZ:1351 /tmp/tmp.QSQ72s1MVZ:1761
+#: /tmp/tmp.0PayrTlVlj:943 /tmp/tmp.0PayrTlVlj:1357 /tmp/tmp.0PayrTlVlj:1771
 msgid "COBROS: Consignar PAGADO y firma cobrador"
 msgstr "COBROS: Consignar PAGADO y firma cobrador"
 
-#: /tmp/tmp.QSQ72s1MVZ:945 /tmp/tmp.QSQ72s1MVZ:1355 /tmp/tmp.QSQ72s1MVZ:1765
+#: /tmp/tmp.0PayrTlVlj:947 /tmp/tmp.0PayrTlVlj:1361 /tmp/tmp.0PayrTlVlj:1775
 msgid "TOTAL FACTURA"
 msgstr "TOTAL FACTURA"
 
-#: /tmp/tmp.QSQ72s1MVZ:945 /tmp/tmp.QSQ72s1MVZ:1355 /tmp/tmp.QSQ72s1MVZ:1765
+#: /tmp/tmp.0PayrTlVlj:947 /tmp/tmp.0PayrTlVlj:1361 /tmp/tmp.0PayrTlVlj:1775
 msgid "TOTAL ABONO"
 msgstr "TOTAL ABONO"
 
-#: /tmp/tmp.QSQ72s1MVZ:957 /tmp/tmp.QSQ72s1MVZ:1367 /tmp/tmp.QSQ72s1MVZ:1777
+#: /tmp/tmp.0PayrTlVlj:959 /tmp/tmp.0PayrTlVlj:1373 /tmp/tmp.0PayrTlVlj:1787
 msgid "Plazo de pago:"
 msgstr "Plazo de pago:"
 
-#: /tmp/tmp.QSQ72s1MVZ:965 /tmp/tmp.QSQ72s1MVZ:1375 /tmp/tmp.QSQ72s1MVZ:1785
+#: /tmp/tmp.0PayrTlVlj:967 /tmp/tmp.0PayrTlVlj:1381 /tmp/tmp.0PayrTlVlj:1795
 msgid "Tipo de pago:"
 msgstr "Tipo de pago:"
 
-#: /tmp/tmp.QSQ72s1MVZ:974 /tmp/tmp.QSQ72s1MVZ:1384 /tmp/tmp.QSQ72s1MVZ:1794
+#: /tmp/tmp.0PayrTlVlj:976 /tmp/tmp.0PayrTlVlj:1390 /tmp/tmp.0PayrTlVlj:1804
 msgid "Cuenta bancaria:"
 msgstr "Cuenta bancaria:"
 
-#: /tmp/tmp.QSQ72s1MVZ:979 /tmp/tmp.QSQ72s1MVZ:1389 /tmp/tmp.QSQ72s1MVZ:1799
+#: /tmp/tmp.0PayrTlVlj:981 /tmp/tmp.0PayrTlVlj:1395 /tmp/tmp.0PayrTlVlj:1809
 msgid "Vencimiento:"
 msgstr "Vencimiento:"
 
-#: /tmp/tmp.QSQ72s1MVZ:995 /tmp/tmp.QSQ72s1MVZ:1405 /tmp/tmp.QSQ72s1MVZ:1815
+#: /tmp/tmp.0PayrTlVlj:997 /tmp/tmp.0PayrTlVlj:1411 /tmp/tmp.0PayrTlVlj:1825
 msgid "OBSERVACIONES:"
 msgstr "OBSERVACIONES:"
 
-#: /tmp/tmp.QSQ72s1MVZ:1003 /tmp/tmp.QSQ72s1MVZ:1413 /tmp/tmp.QSQ72s1MVZ:1823
+#: /tmp/tmp.0PayrTlVlj:1005 /tmp/tmp.0PayrTlVlj:1419 /tmp/tmp.0PayrTlVlj:1833
 msgid "INFORMACION DE PAGO:"
 msgstr "INFORMACION DE PAGO:"
 
-#: /tmp/tmp.QSQ72s1MVZ:1008 /tmp/tmp.QSQ72s1MVZ:1418 /tmp/tmp.QSQ72s1MVZ:1828
+#: /tmp/tmp.0PayrTlVlj:1010 /tmp/tmp.0PayrTlVlj:1424 /tmp/tmp.0PayrTlVlj:1838
 msgid "FACTURA"
 msgstr "FACTURA"
 
-#: /tmp/tmp.QSQ72s1MVZ:1010 /tmp/tmp.QSQ72s1MVZ:1420 /tmp/tmp.QSQ72s1MVZ:1830
+#: /tmp/tmp.0PayrTlVlj:1012 /tmp/tmp.0PayrTlVlj:1426 /tmp/tmp.0PayrTlVlj:1840
 msgid "FACTURA<BR>ABONO"
 msgstr "FACTURA<BR>ABONO"
 
-#: /tmp/tmp.QSQ72s1MVZ:1027 /tmp/tmp.QSQ72s1MVZ:1437 /tmp/tmp.QSQ72s1MVZ:1847
+#: /tmp/tmp.0PayrTlVlj:1029 /tmp/tmp.0PayrTlVlj:1443 /tmp/tmp.0PayrTlVlj:1857
 msgid "Factura:"
 msgstr "Factura:"
 
-#: /tmp/tmp.QSQ72s1MVZ:1029 /tmp/tmp.QSQ72s1MVZ:1439 /tmp/tmp.QSQ72s1MVZ:1849
+#: /tmp/tmp.0PayrTlVlj:1031 /tmp/tmp.0PayrTlVlj:1445 /tmp/tmp.0PayrTlVlj:1859
 msgid "Factura Rectificativa:"
 msgstr "Factura Rectificativa:"
 
-#: /tmp/tmp.QSQ72s1MVZ:1033 /tmp/tmp.QSQ72s1MVZ:1443 /tmp/tmp.QSQ72s1MVZ:1853
+#: /tmp/tmp.0PayrTlVlj:1035 /tmp/tmp.0PayrTlVlj:1449 /tmp/tmp.0PayrTlVlj:1863
 msgid "Fecha Factura:"
 msgstr "Fecha Factura:"
 
-#: /tmp/tmp.QSQ72s1MVZ:1037 /tmp/tmp.QSQ72s1MVZ:1447 /tmp/tmp.QSQ72s1MVZ:1857
+#: /tmp/tmp.0PayrTlVlj:1039 /tmp/tmp.0PayrTlVlj:1453 /tmp/tmp.0PayrTlVlj:1867
 msgid "Código Cliente:"
 msgstr "Código Cliente:"
 
-#: /tmp/tmp.QSQ72s1MVZ:1045 /tmp/tmp.QSQ72s1MVZ:1455 /tmp/tmp.QSQ72s1MVZ:1865
+#: /tmp/tmp.0PayrTlVlj:1047 /tmp/tmp.0PayrTlVlj:1461 /tmp/tmp.0PayrTlVlj:1875
 msgid "Cód. Prov. (CIP):"
 msgstr "Cód. Prov. (CIP):"
 
-#: /tmp/tmp.QSQ72s1MVZ:1049 /tmp/tmp.QSQ72s1MVZ:1459 /tmp/tmp.QSQ72s1MVZ:1869
+#: /tmp/tmp.0PayrTlVlj:1051 /tmp/tmp.0PayrTlVlj:1465 /tmp/tmp.0PayrTlVlj:1879
 msgid "Página:"
 msgstr "Página:"
 
-#: /tmp/tmp.QSQ72s1MVZ:1073 /tmp/tmp.QSQ72s1MVZ:1483 /tmp/tmp.QSQ72s1MVZ:1893
+#: /tmp/tmp.0PayrTlVlj:1075 /tmp/tmp.0PayrTlVlj:1489 /tmp/tmp.0PayrTlVlj:1903
 msgid "de"
 msgstr "de"
 
-#: /tmp/tmp.QSQ72s1MVZ:1085 /tmp/tmp.QSQ72s1MVZ:1495 /tmp/tmp.QSQ72s1MVZ:1905
+#: /tmp/tmp.0PayrTlVlj:1087 /tmp/tmp.0PayrTlVlj:1501 /tmp/tmp.0PayrTlVlj:1915
 msgid "Moneda:"
 msgstr "Moneda:"
 
-#: /tmp/tmp.QSQ72s1MVZ:1096 /tmp/tmp.QSQ72s1MVZ:1506 /tmp/tmp.QSQ72s1MVZ:1916
+#: /tmp/tmp.0PayrTlVlj:1098 /tmp/tmp.0PayrTlVlj:1512 /tmp/tmp.0PayrTlVlj:1926
 msgid "Tel.:"
 msgstr "Tel.:"
 
-#: /tmp/tmp.QSQ72s1MVZ:1096 /tmp/tmp.QSQ72s1MVZ:1195 /tmp/tmp.QSQ72s1MVZ:1506
-#: /tmp/tmp.QSQ72s1MVZ:1605 /tmp/tmp.QSQ72s1MVZ:1916 /tmp/tmp.QSQ72s1MVZ:2015
+#: /tmp/tmp.0PayrTlVlj:1098 /tmp/tmp.0PayrTlVlj:1201 /tmp/tmp.0PayrTlVlj:1512
+#: /tmp/tmp.0PayrTlVlj:1615 /tmp/tmp.0PayrTlVlj:1926 /tmp/tmp.0PayrTlVlj:2029
 msgid "Fax:"
 msgstr "Fax:"
 
-#: /tmp/tmp.QSQ72s1MVZ:1096 /tmp/tmp.QSQ72s1MVZ:1195 /tmp/tmp.QSQ72s1MVZ:1506
-#: /tmp/tmp.QSQ72s1MVZ:1605 /tmp/tmp.QSQ72s1MVZ:1916 /tmp/tmp.QSQ72s1MVZ:2015
+#: /tmp/tmp.0PayrTlVlj:1098 /tmp/tmp.0PayrTlVlj:1201 /tmp/tmp.0PayrTlVlj:1512
+#: /tmp/tmp.0PayrTlVlj:1615 /tmp/tmp.0PayrTlVlj:1926 /tmp/tmp.0PayrTlVlj:2029
 msgid "e-mail:"
 msgstr "e-mail:"
 
-#: /tmp/tmp.QSQ72s1MVZ:1104 /tmp/tmp.QSQ72s1MVZ:1514 /tmp/tmp.QSQ72s1MVZ:1924
+#: /tmp/tmp.0PayrTlVlj:1106 /tmp/tmp.0PayrTlVlj:1520 /tmp/tmp.0PayrTlVlj:1934
 msgid "CLIENTE:"
 msgstr "CLIENTE:"
 
-#: /tmp/tmp.QSQ72s1MVZ:1118 /tmp/tmp.QSQ72s1MVZ:1137 /tmp/tmp.QSQ72s1MVZ:1528
-#: /tmp/tmp.QSQ72s1MVZ:1547 /tmp/tmp.QSQ72s1MVZ:1938 /tmp/tmp.QSQ72s1MVZ:1957
+#: /tmp/tmp.0PayrTlVlj:1120 /tmp/tmp.0PayrTlVlj:1139 /tmp/tmp.0PayrTlVlj:1534
+#: /tmp/tmp.0PayrTlVlj:1553 /tmp/tmp.0PayrTlVlj:1948 /tmp/tmp.0PayrTlVlj:1967
 msgid "CIF/NIF:"
 msgstr "CIF/NIF:"
 
-#: /tmp/tmp.QSQ72s1MVZ:1122 /tmp/tmp.QSQ72s1MVZ:1532 /tmp/tmp.QSQ72s1MVZ:1942
+#: /tmp/tmp.0PayrTlVlj:1124 /tmp/tmp.0PayrTlVlj:1538 /tmp/tmp.0PayrTlVlj:1952
 msgid "DIRECCIÓN DE FACTURA:"
 msgstr "DIRECCIÓN DE FACTURA:"
 
-#: /tmp/tmp.QSQ72s1MVZ:1142 /tmp/tmp.QSQ72s1MVZ:1552 /tmp/tmp.QSQ72s1MVZ:1962
+#: /tmp/tmp.0PayrTlVlj:1144 /tmp/tmp.0PayrTlVlj:1558 /tmp/tmp.0PayrTlVlj:1972
 msgid ""
 "IMPORTANTE:<br>- Rogamos eviten devolver los giros. Estamos a su disposición "
 "para resolver cualquier duda o anomalía."
@@ -173,7 +172,7 @@ msgstr ""
 "IMPORTANTE:<br>- Rogamos eviten devolver los giros. Estamos a su disposición "
 "para resolver cualquier duda o anomalía."
 
-#: /tmp/tmp.QSQ72s1MVZ:1146 /tmp/tmp.QSQ72s1MVZ:1556 /tmp/tmp.QSQ72s1MVZ:1966
+#: /tmp/tmp.0PayrTlVlj:1148 /tmp/tmp.0PayrTlVlj:1562 /tmp/tmp.0PayrTlVlj:1976
 msgid ""
 "<br>- Los envases y embalajes incluidos en esta factura están exentos del "
 "Impuesto Especial sobre los Envases de Plástico no Reutilizable en virtud "
@@ -185,7 +184,11 @@ msgstr ""
 "del artículo 75 de la Ley 7/2002, de 8 de abril, de residuos y suelos "
 "contaminados para una economía circular."
 
-#: /tmp/tmp.QSQ72s1MVZ:1195 /tmp/tmp.QSQ72s1MVZ:1605 /tmp/tmp.QSQ72s1MVZ:2015
+#: /tmp/tmp.0PayrTlVlj:1152 /tmp/tmp.0PayrTlVlj:1566 /tmp/tmp.0PayrTlVlj:1980
+msgid "<br>- Registro de productores de producto:"
+msgstr "<br>- Registro de productores de producto:"
+
+#: /tmp/tmp.0PayrTlVlj:1201 /tmp/tmp.0PayrTlVlj:1615 /tmp/tmp.0PayrTlVlj:2029
 msgid ""
 "En cumplimiento de la Ley Orgánica 15/99, de 13 de diciembre, de Protección "
 "de Datos de Carácter Personal, le indicamos que la información que Ud. nos "
@@ -203,7 +206,7 @@ msgstr ""
 "contable y fiscal, la facturación de servicios, la realización de propuestas "
 "y presupuestos, la gestión comercial por parte de"
 
-#: /tmp/tmp.QSQ72s1MVZ:1195 /tmp/tmp.QSQ72s1MVZ:1605 /tmp/tmp.QSQ72s1MVZ:2015
+#: /tmp/tmp.0PayrTlVlj:1201 /tmp/tmp.0PayrTlVlj:1615 /tmp/tmp.0PayrTlVlj:2029
 msgid ""
 "la cual es titular de dichos ficheros. Para la realización de las gestiones "
 "antes mencionadas puede ser necesario que se cedan los datos a encargados de "
@@ -227,14 +230,14 @@ msgstr ""
 "desea ejercer el derecho de acceso, rectificación, oposición o cancelación, "
 "dirija un escrito a:"
 
-#: /tmp/tmp.QSQ72s1MVZ:3849 /tmp/tmp.QSQ72s1MVZ:3941 /tmp/tmp.QSQ72s1MVZ:4033
+#: /tmp/tmp.0PayrTlVlj:3863 /tmp/tmp.0PayrTlVlj:3955 /tmp/tmp.0PayrTlVlj:4047
 msgid "TIPO DE IMPUESTO"
 msgstr "TIPO DE IMPUESTO"
 
-#: /tmp/tmp.QSQ72s1MVZ:3857 /tmp/tmp.QSQ72s1MVZ:3949 /tmp/tmp.QSQ72s1MVZ:4041
+#: /tmp/tmp.0PayrTlVlj:3871 /tmp/tmp.0PayrTlVlj:3963 /tmp/tmp.0PayrTlVlj:4055
 msgid "BASE<br>IMPONIBLE"
 msgstr "BASE<br>IMPONIBLE"
 
-#: /tmp/tmp.QSQ72s1MVZ:3869 /tmp/tmp.QSQ72s1MVZ:3961 /tmp/tmp.QSQ72s1MVZ:4053
+#: /tmp/tmp.0PayrTlVlj:3883 /tmp/tmp.0PayrTlVlj:3975 /tmp/tmp.0PayrTlVlj:4067
 msgid "IMPORTE<br>IMPUESTO"
 msgstr "IMPORTE<br>IMPUESTO"

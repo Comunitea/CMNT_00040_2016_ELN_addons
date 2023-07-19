@@ -48,7 +48,8 @@
                         <filter string="Date" name="Fecha" context="{'group_by':'date'}"/>
                         <filter string="B1208A-Pallet CHEP 800x1200" name="pallet_type_1" context="{'group_by':'pallet_type_1'}"/>
                         <filter string="P0604A-Pallet CHEP 400x600" name="pallet_type_2" context="{'group_by':'pallet_type_2'}"/>
-                        <filter string="Others types of pallets" name="pallet_type_3" context="{'group_by':'pallet_type_3'}"/>
+                        <filter string="Pallet IPP 800x1200" name="pallet_type_3" context="{'group_by':'pallet_type_3'}"/>
+                        <filter string="Others types of pallets" name="pallet_type_9" context="{'group_by':'pallet_type_9'}"/>
                         <filter string="Picking Type Code" name="picking_type_code" context="{'group_by':'picking_type_code'}"/>
                         <filter string="Company" name="Company" context="{'group_by':'company_id'}"/>
                     </group>

@@ -10,5 +10,6 @@ class StockPicking(models.Model):
 
     pallet_type_1 = fields.Integer('B1208A-Pallet CHEP 800x1200')
     pallet_type_2 = fields.Integer('P0604A-Pallet CHEP 400x600')
-    pallet_type_3 = fields.Integer('Others types of pallets')
+    pallet_type_3 = fields.Integer('Pallet IPP 800x1200')
+    pallet_type_9 = fields.Integer('Others types of pallets')
     transport_company_pallets = fields.Integer('Transport company pallets')

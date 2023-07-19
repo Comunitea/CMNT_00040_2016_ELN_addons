@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="stock_picking_out" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="384"/>
+	<property name="ireport.y" value="288"/>
 	<property name="ireport.layers" value="##Thu Apr 28 19:25:55 CEST 2016\nlayer.2.visible=false\nlayer.1.name=STANDARD\nlayer.0.visible=true\nlayer.2.id=2\nlayer.1.printWhenExpression=$P{VERSION_ALTERNATIVA} \=\= false\nlayer.2.name=ALTERNATE\nlayer.2.printWhenExpression=$P{VERSION_ALTERNATIVA} \=\= true\nlayer.1.id=1\nlayer.1.visible=true\nlayer.0.id=0\nlayer.0.name=Background"/>
 	<style name="table" lineSpacing="Single">
 		<box>
@@ -302,6 +302,9 @@ EN EL ARCHIVO packing_list_alt, PONER EL VALOR A true]]></parameterDescription>
 	</field>
 	<field name="pallet_type_3" class="java.lang.Integer">
 		<fieldDescription><![CDATA[/data/record/pallet_type_3]]></fieldDescription>
+	</field>
+	<field name="pallet_type_9" class="java.lang.Integer">
+		<fieldDescription><![CDATA[/data/record/pallet_type_9]]></fieldDescription>
 	</field>
 	<field name="transport_company_pallets" class="java.lang.Integer">
 		<fieldDescription><![CDATA[/data/record/transport_company_pallets]]></fieldDescription>
@@ -683,8 +686,7 @@ tr($V{L}, "Bultos: ") + $F{Paquetes-packages_uos}]]></textFieldExpression>
 					<textElement verticalAlignment="Top" lineSpacing="Single" markup="html">
 						<font size="8"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "Transport company pallets: ") + ($F{transport_company_pallets} == null ? "" : $F{transport_company_pallets})
-]]></textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "Transport company pallets: ") + ($F{transport_company_pallets} == null ? "" : $F{transport_company_pallets})]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupFooter>
@@ -1472,7 +1474,8 @@ new DecimalFormat("#,##0.00").format($F{uom_qty})]]></textFieldExpression>
 				<textFieldExpression class="java.lang.String"><![CDATA[(
 tr($V{L}, "B1208A-Pallet CHEP 800x1200: ") + ($F{pallet_type_1} == null ? "___" : $F{pallet_type_1}) + " | " +
 tr($V{L}, "P0604A-Pallet CHEP 400x600: ") + ($F{pallet_type_2} == null ? "___" : $F{pallet_type_2}) + " | " +
-tr($V{L}, "Others types of pallets: ") + ($F{pallet_type_3} == null ? "___" : $F{pallet_type_3})
+tr($V{L}, "Pallet IPP 800x1200: ") + ($F{pallet_type_3} == null ? "___" : $F{pallet_type_3}) + " | " +
+tr($V{L}, "Others types of pallets: ") + ($F{pallet_type_9} == null ? "___" : $F{pallet_type_9})
 )]]></textFieldExpression>
 			</textField>
 			<textField>
@@ -1505,7 +1508,7 @@ tr($V{L}, "Others types of pallets: ") + ($F{pallet_type_3} == null ? "___" : $F
 				<textElement textAlignment="Justified" verticalAlignment="Middle" lineSpacing="Single" markup="none">
 					<font size="5"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "En cumplimiento de la Ley Orgánica 15/99, de 13 de diciembre, de Protección de Datos de Carácter Personal, le indicamos que la información que Ud. nos facilita de forma voluntaria, por cualquiera de nuestros medios de recogida de información, tiene como única finalidad la incorporación a un fichero automatizado de datos de carácter personal cuyas finalidades son: la gestión contable y fiscal, la facturación de servicios, la realización de propuestas y presupuestos, la gestión comercial por parte de") + " " + $F{Nombre_de_la_compania-name} + " " + tr($V{L}, "la cual es titular de dichos ficheros. Para la realización de las gestiones antes mencionadas puede ser necesario que se cedan los datos a encargados de tratamiento, empresas colaboradoras y administraciones públicas. Esta autorización se hace efectiva de forma retroactiva a cualquier tratamiento de datos hechos ya por parte del titular del fichero, siempre y cuando la finalidad fuese la anteriormente indicada. También se hace efectiva para cualquier otro tratamiento necesario para la prestación de servicios de reciente o nueva contratación. Se le garantiza total confidencialidad y si desea ejercer el derecho de acceso, rectificación, oposición o cancelación, dirija un escrito a:") + " " + $F{Nombre_de_la_compania-name} + " · " + $F{Calle-street-company} + " · " + $F{Calle2-street2-company} + " · " + $F{C.P.-zip-company} + " " + $F{Ciudad-city-company} + " · " + $F{Nombre_provincia-name-company} + " (" + $F{Nombre_del_pais-name-company} + ")" + " · " + tr($V{L}, "Fax:") + " " + $F{Fax-fax-company} + " · " + tr($V{L}, "e-mail:") + " " + $F{Email-email-company} + " "]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "En cumplimiento de la Ley Orgánica 15/99, de 13 de diciembre, de Protección de Datos de Carácter Personal, le indicamos que la información que Ud. nos facilita de forma voluntaria, por cualquiera de nuestros medios de recogida de información, tiene como única finalidad la incorporación a un fichero automatizado de datos de carácter personal cuyas finalidades son: la gestión contable y fiscal, la facturación de servicios, la realización de propuestas y presupuestos, la gestión comercial por parte de") + " " + $F{Nombre_de_la_compania-name} + " " + tr($V{L}, "la cual es titular de dichos ficheros. Para la realización de las gestiones antes mencionadas puede ser necesario que se cedan los datos a encargados de tratamiento, empresas colaboradoras y administraciones públicas. Esta autorización se hace efectiva de forma retroactiva a cualquier tratamiento de datos hechos ya por parte del titular del fichero, siempre y cuando la finalidad fuese la anteriormente indicada. También se hace efectiva para cualquier otro tratamiento necesario para la prestación de servicios de reciente o nueva contratación. Se le garantiza total confidencialidad y si desea ejercer el derecho de acceso, rectificación, oposición o cancelación, dirija un escrito a:") + " " + $F{Nombre_de_la_compania-name} + " · " + $F{Calle-street-company} + ($F{Calle2-street2-company} ? " · " + $F{Calle2-street2-company} : "") + " · " + $F{C.P.-zip-company} + " " + $F{Ciudad-city-company} + " · " + $F{Nombre_provincia-name-company} + " (" + $F{Nombre_del_pais-name-company} + ")" + " · " + tr($V{L}, "Fax:") + " " + $F{Fax-fax-company} + " · " + tr($V{L}, "e-mail:") + " " + $F{Email-email-company} + " "]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement positionType="FixRelativeToBottom" mode="Opaque" x="0" y="0" width="555" height="42">

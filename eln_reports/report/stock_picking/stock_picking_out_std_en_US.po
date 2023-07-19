@@ -7,204 +7,208 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-15 18:07+0100\n"
-"PO-Revision-Date: 2023-03-15 18:21+0100\n"
+"POT-Creation-Date: 2023-07-19 10:42+0200\n"
+"PO-Revision-Date: 2023-07-19 11:11+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: en_US\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.3.1\n"
 
-#: /tmp/tmp.Qr6vphsQ22:907 /tmp/tmp.Qr6vphsQ22:1565 /tmp/tmp.Qr6vphsQ22:2223
+#: /tmp/tmp.3oh6uTnsPP:909 /tmp/tmp.3oh6uTnsPP:1568 /tmp/tmp.3oh6uTnsPP:2227
 msgid "CÓDIGO INTERNO"
 msgstr "INTERNAL CODE"
 
-#: /tmp/tmp.Qr6vphsQ22:907 /tmp/tmp.Qr6vphsQ22:1565 /tmp/tmp.Qr6vphsQ22:2223
+#: /tmp/tmp.3oh6uTnsPP:909 /tmp/tmp.3oh6uTnsPP:1568 /tmp/tmp.3oh6uTnsPP:2227
 msgid "CÓDIGO EAN-13"
 msgstr "EAN-13 CODE"
 
-#: /tmp/tmp.Qr6vphsQ22:915 /tmp/tmp.Qr6vphsQ22:1573 /tmp/tmp.Qr6vphsQ22:2231
+#: /tmp/tmp.3oh6uTnsPP:917 /tmp/tmp.3oh6uTnsPP:1576 /tmp/tmp.3oh6uTnsPP:2235
 msgid "ARTÍCULO"
 msgstr "ITEM"
 
-#: /tmp/tmp.Qr6vphsQ22:923 /tmp/tmp.Qr6vphsQ22:1581 /tmp/tmp.Qr6vphsQ22:2239
+#: /tmp/tmp.3oh6uTnsPP:925 /tmp/tmp.3oh6uTnsPP:1584 /tmp/tmp.3oh6uTnsPP:2243
 msgid "CAJAS TOTALES"
 msgstr "TOTAL BOXES"
 
-#: /tmp/tmp.Qr6vphsQ22:931 /tmp/tmp.Qr6vphsQ22:1589 /tmp/tmp.Qr6vphsQ22:2247
+#: /tmp/tmp.3oh6uTnsPP:933 /tmp/tmp.3oh6uTnsPP:1592 /tmp/tmp.3oh6uTnsPP:2251
 msgid "UNIDADES TOTALES"
 msgstr "TOTAL<br>UNITS"
 
-#: /tmp/tmp.Qr6vphsQ22:939 /tmp/tmp.Qr6vphsQ22:1597 /tmp/tmp.Qr6vphsQ22:2255
+#: /tmp/tmp.3oh6uTnsPP:941 /tmp/tmp.3oh6uTnsPP:1600 /tmp/tmp.3oh6uTnsPP:2259
 msgid "PRECIO UNITARIO"
 msgstr "UNIT PRICE"
 
-#: /tmp/tmp.Qr6vphsQ22:947 /tmp/tmp.Qr6vphsQ22:1605 /tmp/tmp.Qr6vphsQ22:2263
+#: /tmp/tmp.3oh6uTnsPP:949 /tmp/tmp.3oh6uTnsPP:1608 /tmp/tmp.3oh6uTnsPP:2267
 msgid "%<br>DTO."
 msgstr "%<br>DSC."
 
-#: /tmp/tmp.Qr6vphsQ22:955 /tmp/tmp.Qr6vphsQ22:1613 /tmp/tmp.Qr6vphsQ22:2271
+#: /tmp/tmp.3oh6uTnsPP:957 /tmp/tmp.3oh6uTnsPP:1616 /tmp/tmp.3oh6uTnsPP:2275
 msgid "IMPORTE"
 msgstr "AMOUNT"
 
-#: /tmp/tmp.Qr6vphsQ22:963 /tmp/tmp.Qr6vphsQ22:1621 /tmp/tmp.Qr6vphsQ22:2279
+#: /tmp/tmp.3oh6uTnsPP:965 /tmp/tmp.3oh6uTnsPP:1624 /tmp/tmp.3oh6uTnsPP:2283
 msgid "%<br>IVA"
 msgstr "%<br>VAT"
 
-#: /tmp/tmp.Qr6vphsQ22:971 /tmp/tmp.Qr6vphsQ22:1629 /tmp/tmp.Qr6vphsQ22:2287
+#: /tmp/tmp.3oh6uTnsPP:973 /tmp/tmp.3oh6uTnsPP:1632 /tmp/tmp.3oh6uTnsPP:2291
 msgid "Lote:"
 msgstr "Lot:"
 
-#: /tmp/tmp.Qr6vphsQ22:979 /tmp/tmp.Qr6vphsQ22:1637 /tmp/tmp.Qr6vphsQ22:2295
+#: /tmp/tmp.3oh6uTnsPP:981 /tmp/tmp.3oh6uTnsPP:1640 /tmp/tmp.3oh6uTnsPP:2299
 msgid "Caducidad:"
 msgstr "Expiration:"
 
-#: /tmp/tmp.Qr6vphsQ22:991 /tmp/tmp.Qr6vphsQ22:1649 /tmp/tmp.Qr6vphsQ22:2307
+#: /tmp/tmp.3oh6uTnsPP:993 /tmp/tmp.3oh6uTnsPP:1652 /tmp/tmp.3oh6uTnsPP:2311
 msgid "RECIBI: (Firma y Sello)"
 msgstr "RECEIVED: (Signature and Seal)"
 
-#: /tmp/tmp.Qr6vphsQ22:995 /tmp/tmp.Qr6vphsQ22:1653 /tmp/tmp.Qr6vphsQ22:2311
+#: /tmp/tmp.3oh6uTnsPP:997 /tmp/tmp.3oh6uTnsPP:1656 /tmp/tmp.3oh6uTnsPP:2315
 msgid "OBSERVACIONES:"
 msgstr "NOTES:"
 
-#: /tmp/tmp.Qr6vphsQ22:1003 /tmp/tmp.Qr6vphsQ22:1661 /tmp/tmp.Qr6vphsQ22:2319
+#: /tmp/tmp.3oh6uTnsPP:1005 /tmp/tmp.3oh6uTnsPP:1664 /tmp/tmp.3oh6uTnsPP:2323
 msgid "Suma Importes"
 msgstr "Sum Amount"
 
-#: /tmp/tmp.Qr6vphsQ22:1007 /tmp/tmp.Qr6vphsQ22:1665 /tmp/tmp.Qr6vphsQ22:2323
+#: /tmp/tmp.3oh6uTnsPP:1009 /tmp/tmp.3oh6uTnsPP:1668 /tmp/tmp.3oh6uTnsPP:2327
 msgid "% P.P."
 msgstr "% E.P."
 
-#: /tmp/tmp.Qr6vphsQ22:1011 /tmp/tmp.Qr6vphsQ22:1669 /tmp/tmp.Qr6vphsQ22:2327
+#: /tmp/tmp.3oh6uTnsPP:1013 /tmp/tmp.3oh6uTnsPP:1672 /tmp/tmp.3oh6uTnsPP:2331
 msgid "Importe P.P."
 msgstr "E.P. Amount"
 
-#: /tmp/tmp.Qr6vphsQ22:1015 /tmp/tmp.Qr6vphsQ22:1673 /tmp/tmp.Qr6vphsQ22:2331
+#: /tmp/tmp.3oh6uTnsPP:1017 /tmp/tmp.3oh6uTnsPP:1676 /tmp/tmp.3oh6uTnsPP:2335
 msgid "Base Imponible"
 msgstr "Taxable Amount"
 
-#: /tmp/tmp.Qr6vphsQ22:1019 /tmp/tmp.Qr6vphsQ22:1677 /tmp/tmp.Qr6vphsQ22:2335
+#: /tmp/tmp.3oh6uTnsPP:1021 /tmp/tmp.3oh6uTnsPP:1680 /tmp/tmp.3oh6uTnsPP:2339
 msgid "Impuestos"
 msgstr "Taxes"
 
-#: /tmp/tmp.Qr6vphsQ22:1023 /tmp/tmp.Qr6vphsQ22:1681 /tmp/tmp.Qr6vphsQ22:2339
+#: /tmp/tmp.3oh6uTnsPP:1025 /tmp/tmp.3oh6uTnsPP:1684 /tmp/tmp.3oh6uTnsPP:2343
 msgid "Total AL CONTADO"
 msgstr "Total E.P. AMOUNT"
 
-#: /tmp/tmp.Qr6vphsQ22:1027 /tmp/tmp.Qr6vphsQ22:1685 /tmp/tmp.Qr6vphsQ22:2343
+#: /tmp/tmp.3oh6uTnsPP:1029 /tmp/tmp.3oh6uTnsPP:1688 /tmp/tmp.3oh6uTnsPP:2347
 msgid "Total APLAZADO"
 msgstr "Total AMOUNT"
 
-#: /tmp/tmp.Qr6vphsQ22:1059 /tmp/tmp.Qr6vphsQ22:1717 /tmp/tmp.Qr6vphsQ22:2375
+#: /tmp/tmp.3oh6uTnsPP:1061 /tmp/tmp.3oh6uTnsPP:1720 /tmp/tmp.3oh6uTnsPP:2379
 msgid "OTRA INFORMACIÓN:"
 msgstr "OTHER INFORMATION:"
 
-#: /tmp/tmp.Qr6vphsQ22:1063 /tmp/tmp.Qr6vphsQ22:1721 /tmp/tmp.Qr6vphsQ22:2379
+#: /tmp/tmp.3oh6uTnsPP:1065 /tmp/tmp.3oh6uTnsPP:1724 /tmp/tmp.3oh6uTnsPP:2383
 msgid "Plazo de pago:"
 msgstr "Payment term:"
 
-#: /tmp/tmp.Qr6vphsQ22:1075 /tmp/tmp.Qr6vphsQ22:1733 /tmp/tmp.Qr6vphsQ22:2391
+#: /tmp/tmp.3oh6uTnsPP:1077 /tmp/tmp.3oh6uTnsPP:1736 /tmp/tmp.3oh6uTnsPP:2395
 msgid "Tipo de pago:"
 msgstr "Payment type:"
 
-#: /tmp/tmp.Qr6vphsQ22:1087 /tmp/tmp.Qr6vphsQ22:1745 /tmp/tmp.Qr6vphsQ22:2403
+#: /tmp/tmp.3oh6uTnsPP:1089 /tmp/tmp.3oh6uTnsPP:1748 /tmp/tmp.3oh6uTnsPP:2407
 msgid "Tel. Fijo: "
 msgstr "Phone: "
 
-#: /tmp/tmp.Qr6vphsQ22:1090 /tmp/tmp.Qr6vphsQ22:1748 /tmp/tmp.Qr6vphsQ22:2406
+#: /tmp/tmp.3oh6uTnsPP:1092 /tmp/tmp.3oh6uTnsPP:1751 /tmp/tmp.3oh6uTnsPP:2410
 msgid "Tel. Móvil: "
 msgstr "Mobile: "
 
-#: /tmp/tmp.Qr6vphsQ22:1095 /tmp/tmp.Qr6vphsQ22:1753 /tmp/tmp.Qr6vphsQ22:2411
+#: /tmp/tmp.3oh6uTnsPP:1097 /tmp/tmp.3oh6uTnsPP:1756 /tmp/tmp.3oh6uTnsPP:2415
 msgid "Peso Bruto (kg): "
 msgstr "Gross Weight (kg): "
 
-#: /tmp/tmp.Qr6vphsQ22:1098 /tmp/tmp.Qr6vphsQ22:1756 /tmp/tmp.Qr6vphsQ22:2414
+#: /tmp/tmp.3oh6uTnsPP:1100 /tmp/tmp.3oh6uTnsPP:1759 /tmp/tmp.3oh6uTnsPP:2418
 msgid "Bultos: "
 msgstr "Packages: "
 
-#: /tmp/tmp.Qr6vphsQ22:1102 /tmp/tmp.Qr6vphsQ22:1760 /tmp/tmp.Qr6vphsQ22:2418
+#: /tmp/tmp.3oh6uTnsPP:1104 /tmp/tmp.3oh6uTnsPP:1763 /tmp/tmp.3oh6uTnsPP:2422
 msgid "Transport company pallets: "
 msgstr "Transport company pallets: "
 
-#: /tmp/tmp.Qr6vphsQ22:1106 /tmp/tmp.Qr6vphsQ22:1764 /tmp/tmp.Qr6vphsQ22:2422
+#: /tmp/tmp.3oh6uTnsPP:1108 /tmp/tmp.3oh6uTnsPP:1767 /tmp/tmp.3oh6uTnsPP:2426
 msgid "ALBARAN"
 msgstr "PACKING LIST"
 
-#: /tmp/tmp.Qr6vphsQ22:1136 /tmp/tmp.Qr6vphsQ22:1794 /tmp/tmp.Qr6vphsQ22:2452
+#: /tmp/tmp.3oh6uTnsPP:1138 /tmp/tmp.3oh6uTnsPP:1797 /tmp/tmp.3oh6uTnsPP:2456
 msgid "Nº Albarán:"
 msgstr "Packing List Nº:"
 
-#: /tmp/tmp.Qr6vphsQ22:1140 /tmp/tmp.Qr6vphsQ22:1798 /tmp/tmp.Qr6vphsQ22:2456
+#: /tmp/tmp.3oh6uTnsPP:1142 /tmp/tmp.3oh6uTnsPP:1801 /tmp/tmp.3oh6uTnsPP:2460
 msgid "Fecha Albarán:"
 msgstr "Packing List Date:"
 
-#: /tmp/tmp.Qr6vphsQ22:1144 /tmp/tmp.Qr6vphsQ22:1802 /tmp/tmp.Qr6vphsQ22:2460
+#: /tmp/tmp.3oh6uTnsPP:1146 /tmp/tmp.3oh6uTnsPP:1805 /tmp/tmp.3oh6uTnsPP:2464
 msgid "Código Cliente:"
 msgstr "Client Code:"
 
-#: /tmp/tmp.Qr6vphsQ22:1148 /tmp/tmp.Qr6vphsQ22:1806 /tmp/tmp.Qr6vphsQ22:2464
+#: /tmp/tmp.3oh6uTnsPP:1150 /tmp/tmp.3oh6uTnsPP:1809 /tmp/tmp.3oh6uTnsPP:2468
 msgid "Pedido Cliente:"
 msgstr "Customer Order:"
 
-#: /tmp/tmp.Qr6vphsQ22:1152 /tmp/tmp.Qr6vphsQ22:1810 /tmp/tmp.Qr6vphsQ22:2468
+#: /tmp/tmp.3oh6uTnsPP:1154 /tmp/tmp.3oh6uTnsPP:1813 /tmp/tmp.3oh6uTnsPP:2472
 msgid "Cód. Prov. (CIP):"
 msgstr "Supplier Code:"
 
-#: /tmp/tmp.Qr6vphsQ22:1156 /tmp/tmp.Qr6vphsQ22:1814 /tmp/tmp.Qr6vphsQ22:2472
+#: /tmp/tmp.3oh6uTnsPP:1158 /tmp/tmp.3oh6uTnsPP:1817 /tmp/tmp.3oh6uTnsPP:2476
 msgid "Página:"
 msgstr "Page:"
 
-#: /tmp/tmp.Qr6vphsQ22:1180 /tmp/tmp.Qr6vphsQ22:1838 /tmp/tmp.Qr6vphsQ22:2496
+#: /tmp/tmp.3oh6uTnsPP:1182 /tmp/tmp.3oh6uTnsPP:1841 /tmp/tmp.3oh6uTnsPP:2500
 msgid "de"
 msgstr "of"
 
-#: /tmp/tmp.Qr6vphsQ22:1192 /tmp/tmp.Qr6vphsQ22:1850 /tmp/tmp.Qr6vphsQ22:2508
+#: /tmp/tmp.3oh6uTnsPP:1194 /tmp/tmp.3oh6uTnsPP:1853 /tmp/tmp.3oh6uTnsPP:2512
 msgid "Fecha Entrega:"
 msgstr "Delivery Date:"
 
-#: /tmp/tmp.Qr6vphsQ22:1219 /tmp/tmp.Qr6vphsQ22:1877 /tmp/tmp.Qr6vphsQ22:2535
+#: /tmp/tmp.3oh6uTnsPP:1221 /tmp/tmp.3oh6uTnsPP:1880 /tmp/tmp.3oh6uTnsPP:2539
 msgid "Tel.:"
 msgstr "Tel.:"
 
-#: /tmp/tmp.Qr6vphsQ22:1219 /tmp/tmp.Qr6vphsQ22:1469 /tmp/tmp.Qr6vphsQ22:1877
-#: /tmp/tmp.Qr6vphsQ22:2127 /tmp/tmp.Qr6vphsQ22:2535 /tmp/tmp.Qr6vphsQ22:2785
+#: /tmp/tmp.3oh6uTnsPP:1221 /tmp/tmp.3oh6uTnsPP:1472 /tmp/tmp.3oh6uTnsPP:1880
+#: /tmp/tmp.3oh6uTnsPP:2131 /tmp/tmp.3oh6uTnsPP:2539 /tmp/tmp.3oh6uTnsPP:2790
 msgid "Fax:"
-msgstr ""
+msgstr "Fax:"
 
-#: /tmp/tmp.Qr6vphsQ22:1219 /tmp/tmp.Qr6vphsQ22:1469 /tmp/tmp.Qr6vphsQ22:1877
-#: /tmp/tmp.Qr6vphsQ22:2127 /tmp/tmp.Qr6vphsQ22:2535 /tmp/tmp.Qr6vphsQ22:2785
+#: /tmp/tmp.3oh6uTnsPP:1221 /tmp/tmp.3oh6uTnsPP:1472 /tmp/tmp.3oh6uTnsPP:1880
+#: /tmp/tmp.3oh6uTnsPP:2131 /tmp/tmp.3oh6uTnsPP:2539 /tmp/tmp.3oh6uTnsPP:2790
 msgid "e-mail:"
-msgstr ""
+msgstr "e-mail:"
 
-#: /tmp/tmp.Qr6vphsQ22:1283 /tmp/tmp.Qr6vphsQ22:1941 /tmp/tmp.Qr6vphsQ22:2599
+#: /tmp/tmp.3oh6uTnsPP:1285 /tmp/tmp.3oh6uTnsPP:1944 /tmp/tmp.3oh6uTnsPP:2603
 msgid "PROVEEDOR:"
 msgstr "SUPPLIER:"
 
-#: /tmp/tmp.Qr6vphsQ22:1310 /tmp/tmp.Qr6vphsQ22:1329 /tmp/tmp.Qr6vphsQ22:1968
-#: /tmp/tmp.Qr6vphsQ22:1987 /tmp/tmp.Qr6vphsQ22:2626 /tmp/tmp.Qr6vphsQ22:2645
+#: /tmp/tmp.3oh6uTnsPP:1312 /tmp/tmp.3oh6uTnsPP:1331 /tmp/tmp.3oh6uTnsPP:1971
+#: /tmp/tmp.3oh6uTnsPP:1990 /tmp/tmp.3oh6uTnsPP:2630 /tmp/tmp.3oh6uTnsPP:2649
 msgid "CIF/NIF:"
 msgstr "VAT:"
 
-#: /tmp/tmp.Qr6vphsQ22:1314 /tmp/tmp.Qr6vphsQ22:1972 /tmp/tmp.Qr6vphsQ22:2630
+#: /tmp/tmp.3oh6uTnsPP:1316 /tmp/tmp.3oh6uTnsPP:1975 /tmp/tmp.3oh6uTnsPP:2634
 msgid "DIRECCIÓN DE ENTREGA:"
 msgstr "SHIPPING ADDRESS:"
 
-#: /tmp/tmp.Qr6vphsQ22:1450 /tmp/tmp.Qr6vphsQ22:2108 /tmp/tmp.Qr6vphsQ22:2766
+#: /tmp/tmp.3oh6uTnsPP:1452 /tmp/tmp.3oh6uTnsPP:2111 /tmp/tmp.3oh6uTnsPP:2770
 msgid "B1208A-Pallet CHEP 800x1200: "
 msgstr "B1208A-Pallet CHEP 800x1200: "
 
-#: /tmp/tmp.Qr6vphsQ22:1451 /tmp/tmp.Qr6vphsQ22:2109 /tmp/tmp.Qr6vphsQ22:2767
+#: /tmp/tmp.3oh6uTnsPP:1453 /tmp/tmp.3oh6uTnsPP:2112 /tmp/tmp.3oh6uTnsPP:2771
 msgid "P0604A-Pallet CHEP 400x600: "
 msgstr "P0604A-Pallet CHEP 400x600: "
 
-#: /tmp/tmp.Qr6vphsQ22:1452 /tmp/tmp.Qr6vphsQ22:2110 /tmp/tmp.Qr6vphsQ22:2768
+#: /tmp/tmp.3oh6uTnsPP:1454 /tmp/tmp.3oh6uTnsPP:2113 /tmp/tmp.3oh6uTnsPP:2772
+msgid "Pallet IPP 800x1200: "
+msgstr "Pallet IPP 800x1200: "
+
+#: /tmp/tmp.3oh6uTnsPP:1455 /tmp/tmp.3oh6uTnsPP:2114 /tmp/tmp.3oh6uTnsPP:2773
 msgid "Others types of pallets: "
 msgstr "Others types of pallets: "
 
-#: /tmp/tmp.Qr6vphsQ22:1458 /tmp/tmp.Qr6vphsQ22:2116 /tmp/tmp.Qr6vphsQ22:2774
+#: /tmp/tmp.3oh6uTnsPP:1461 /tmp/tmp.3oh6uTnsPP:2120 /tmp/tmp.3oh6uTnsPP:2779
 msgid ""
 "IMPORTANTE:<br>No se admitirán reclamaciones sobre los envíos, pasados ocho "
 "días de la recepción de la mercancía por el comprador.<br>La conservación de "
@@ -214,7 +218,7 @@ msgstr ""
 "receipt of the goods by the buyer.<br>The conservation of the goods over to "
 "the buyer's risk and expense for her."
 
-#: /tmp/tmp.Qr6vphsQ22:1469 /tmp/tmp.Qr6vphsQ22:2127 /tmp/tmp.Qr6vphsQ22:2785
+#: /tmp/tmp.3oh6uTnsPP:1472 /tmp/tmp.3oh6uTnsPP:2131 /tmp/tmp.3oh6uTnsPP:2790
 msgid ""
 "En cumplimiento de la Ley Orgánica 15/99, de 13 de diciembre, de Protección "
 "de Datos de Carácter Personal, le indicamos que la información que Ud. nos "
@@ -231,7 +235,7 @@ msgstr ""
 "management, billing services, making proposals and budgets, business "
 "management by"
 
-#: /tmp/tmp.Qr6vphsQ22:1469 /tmp/tmp.Qr6vphsQ22:2127 /tmp/tmp.Qr6vphsQ22:2785
+#: /tmp/tmp.3oh6uTnsPP:1472 /tmp/tmp.3oh6uTnsPP:2131 /tmp/tmp.3oh6uTnsPP:2790
 msgid ""
 "la cual es titular de dichos ficheros. Para la realización de las gestiones "
 "antes mencionadas puede ser necesario que se cedan los datos a encargados de "

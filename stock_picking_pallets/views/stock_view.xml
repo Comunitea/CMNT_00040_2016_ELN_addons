@@ -12,6 +12,7 @@
                     <field name="pallet_type_1"/>
                     <field name="pallet_type_2"/>
                     <field name="pallet_type_3"/>
+                    <field name="pallet_type_9"/>
                     <field name="transport_company_pallets"/>
                 </field>
             </field>
