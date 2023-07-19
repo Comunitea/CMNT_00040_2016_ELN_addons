@@ -4,6 +4,7 @@
 
 import account_invoice
 import product
+import res_company
 import res_partner
 import sale_shop
 import sale

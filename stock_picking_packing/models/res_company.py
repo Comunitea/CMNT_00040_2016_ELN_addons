@@ -8,6 +8,5 @@ from openerp import models, fields
 class ResCompany(models.Model):
     _inherit = 'res.company'
 
-    company_registry = fields.Char(size=256)
     gs1 = fields.Char(string='GS1 code',
       help='AECOC GS1 code of the Company. Used to coding GTIN-13, GTIN-14, GS1-128, SSCC, etc.')

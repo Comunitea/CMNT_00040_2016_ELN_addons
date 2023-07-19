@@ -491,6 +491,9 @@
 	<field name="CIP-supplier_cip" class="java.lang.String">
 		<fieldDescription><![CDATA[/data/record/CIP-supplier_cip]]></fieldDescription>
 	</field>
+	<field name="registro_productores_producto-product_manufacturers_registry" class="java.lang.String">
+		<fieldDescription><![CDATA[/data/record/Compania-company_id/registro_productores_producto-product_manufacturers_registry]]></fieldDescription>
+	</field>
 	<variable name="L" class="java.util.Locale" resetType="Page">
 		<variableExpression><![CDATA[new Locale($F{Idioma-lang}.split("_")[0],$F{Idioma-lang}.split("_")[1])]]></variableExpression>
 		<initialValueExpression><![CDATA[new Locale($F{Idioma-lang}.split("_")[0],$F{Idioma-lang}.split("_")[1])]]></initialValueExpression>
@@ -597,7 +600,7 @@
 						<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
 							<font size="12"/>
 						</textElement>
-						<textFieldExpression class="java.lang.String"><![CDATA[$F{Total-amount_total}]]></textFieldExpression>
+						<textFieldExpression class="java.lang.String"><![CDATA[$F{Total-amount_total} ? $F{Total-amount_total} : "0,00"]]></textFieldExpression>
 					</textField>
 					<textField pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
 						<reportElement x="0" y="32" width="100" height="16"/>
@@ -742,7 +745,7 @@ $F{Numero_de_cuenta-acc_number}.isEmpty() ?
 									<textElement textAlignment="Right" verticalAlignment="Middle" lineSpacing="Single">
 										<font size="8"/>
 									</textElement>
-									<textFieldExpression class="java.lang.String"><![CDATA[$F{Subtotal-amount_untaxed}]]></textFieldExpression>
+									<textFieldExpression class="java.lang.String"><![CDATA[$F{Subtotal-amount_untaxed} ? $F{Subtotal-amount_untaxed} : "0,00"]]></textFieldExpression>
 								</textField>
 							</jr:columnFooter>
 							<jr:detailCell height="12" rowSpan="1">
@@ -754,7 +757,7 @@ $F{Numero_de_cuenta-acc_number}.isEmpty() ?
 									<textElement textAlignment="Right" verticalAlignment="Middle" rotation="None" lineSpacing="Single" markup="none">
 										<font fontName="SansSerif" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 									</textElement>
-									<textFieldExpression class="java.lang.String"><![CDATA[$F{Base-base}]]></textFieldExpression>
+									<textFieldExpression class="java.lang.String"><![CDATA[$F{Base-base} ? $F{Base-base} : "0,00"]]></textFieldExpression>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
@@ -787,7 +790,7 @@ $F{Numero_de_cuenta-acc_number}.isEmpty() ?
 									<textElement textAlignment="Right" verticalAlignment="Middle" lineSpacing="Single">
 										<font size="8"/>
 									</textElement>
-									<textFieldExpression class="java.lang.String"><![CDATA[$F{Impuesto-amount_tax}]]></textFieldExpression>
+									<textFieldExpression class="java.lang.String"><![CDATA[$F{Impuesto-amount_tax} ? $F{Impuesto-amount_tax} : "0,00"]]></textFieldExpression>
 								</textField>
 							</jr:columnFooter>
 							<jr:detailCell height="12" rowSpan="1">
@@ -799,7 +802,7 @@ $F{Numero_de_cuenta-acc_number}.isEmpty() ?
 									<textElement textAlignment="Right" verticalAlignment="Middle" rotation="None" lineSpacing="Single" markup="none">
 										<font fontName="SansSerif" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 									</textElement>
-									<textFieldExpression class="java.lang.String"><![CDATA[$F{Importe-amount}]]></textFieldExpression>
+									<textFieldExpression class="java.lang.String"><![CDATA[$F{Importe-amount} ? $F{Importe-amount} : "0,00"]]></textFieldExpression>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
@@ -1109,9 +1112,9 @@ $F{Nombre_de_la_compania-name} + " · " + $F{Calle-street-company} + " · " + $F
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="100" splitType="Stretch">
+		<band height="110" splitType="Stretch">
 			<textField>
-				<reportElement positionType="Float" x="0" y="58" width="555" height="42"/>
+				<reportElement positionType="Float" x="0" y="58" width="555" height="52"/>
 				<textElement lineSpacing="Single" markup="html">
 					<font size="8"/>
 				</textElement>
@@ -1121,6 +1124,10 @@ $F{Nombre_de_la_compania-name} + " · " + $F{Calle-street-company} + " · " + $F
 ($F{cliente-country_name}.toUpperCase().compareTo("ESPAÑA") == 0 ?
 tr($V{L},
 "<br>" + "- Los envases y embalajes incluidos en esta factura están exentos del Impuesto Especial sobre los Envases de Plástico no Reutilizable en virtud del artículo 75 de la Ley 7/2002, de 8 de abril, de residuos y suelos contaminados para una economía circular.")
+: "") +
+(!$F{registro_productores_producto-product_manufacturers_registry}.isEmpty() ?
+tr($V{L},
+"<br>" + "- Registro de productores de producto:") + " " + $F{registro_productores_producto-product_manufacturers_registry}
 : "")]]></textFieldExpression>
 			</textField>
 			<componentElement>
@@ -1527,7 +1534,7 @@ new DecimalFormat("#,##0.00;-#,##0.00").format($F{uom_qty})]]></textFieldExpress
 				<textElement textAlignment="Justified" verticalAlignment="Middle" lineSpacing="Single" markup="none">
 					<font size="5"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "En cumplimiento de la Ley Orgánica 15/99, de 13 de diciembre, de Protección de Datos de Carácter Personal, le indicamos que la información que Ud. nos facilita de forma voluntaria, por cualquiera de nuestros medios de recogida de información, tiene como única finalidad la incorporación a un fichero automatizado de datos de carácter personal cuyas finalidades son: la gestión contable y fiscal, la facturación de servicios, la realización de propuestas y presupuestos, la gestión comercial por parte de") + " " + $F{Nombre_de_la_compania-name} + " " + tr($V{L}, "la cual es titular de dichos ficheros. Para la realización de las gestiones antes mencionadas puede ser necesario que se cedan los datos a encargados de tratamiento, empresas colaboradoras y administraciones públicas. Esta autorización se hace efectiva de forma retroactiva a cualquier tratamiento de datos hechos ya por parte del titular del fichero, siempre y cuando la finalidad fuese la anteriormente indicada. También se hace efectiva para cualquier otro tratamiento necesario para la prestación de servicios de reciente o nueva contratación. Se le garantiza total confidencialidad y si desea ejercer el derecho de acceso, rectificación, oposición o cancelación, dirija un escrito a:") + " " + $F{Nombre_de_la_compania-name} + " · " + $F{Calle-street-company} + " · " + $F{Calle2-street2-company} + " · " + $F{C.P.-zip-company} + " " + $F{Ciudad-city-company} + " · " + $F{Nombre_provincia-name-company} + " (" + $F{Nombre_del_pais-name-company} + ")" + " · " + tr($V{L}, "Fax:") + " " + $F{Fax-fax-company} + " · " + tr($V{L}, "e-mail:") + " " + $F{Email-email-company} + " "]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "En cumplimiento de la Ley Orgánica 15/99, de 13 de diciembre, de Protección de Datos de Carácter Personal, le indicamos que la información que Ud. nos facilita de forma voluntaria, por cualquiera de nuestros medios de recogida de información, tiene como única finalidad la incorporación a un fichero automatizado de datos de carácter personal cuyas finalidades son: la gestión contable y fiscal, la facturación de servicios, la realización de propuestas y presupuestos, la gestión comercial por parte de") + " " + $F{Nombre_de_la_compania-name} + " " + tr($V{L}, "la cual es titular de dichos ficheros. Para la realización de las gestiones antes mencionadas puede ser necesario que se cedan los datos a encargados de tratamiento, empresas colaboradoras y administraciones públicas. Esta autorización se hace efectiva de forma retroactiva a cualquier tratamiento de datos hechos ya por parte del titular del fichero, siempre y cuando la finalidad fuese la anteriormente indicada. También se hace efectiva para cualquier otro tratamiento necesario para la prestación de servicios de reciente o nueva contratación. Se le garantiza total confidencialidad y si desea ejercer el derecho de acceso, rectificación, oposición o cancelación, dirija un escrito a:") + " " + $F{Nombre_de_la_compania-name} + " · " + $F{Calle-street-company} + ($F{Calle2-street2-company} ? " · " + $F{Calle2-street2-company} : "") + " · " + $F{C.P.-zip-company} + " " + $F{Ciudad-city-company} + " · " + $F{Nombre_provincia-name-company} + " (" + $F{Nombre_del_pais-name-company} + ")" + " · " + tr($V{L}, "Fax:") + " " + $F{Fax-fax-company} + " · " + tr($V{L}, "e-mail:") + " " + $F{Email-email-company} + " "]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageFooter>

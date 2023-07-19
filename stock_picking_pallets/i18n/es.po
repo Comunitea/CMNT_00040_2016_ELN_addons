@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-05-22 13:42+0000\n"
-"PO-Revision-Date: 2023-05-22 15:44+0200\n"
+"PO-Revision-Date: 2023-07-19 09:52+0200\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -73,10 +73,10 @@ msgid "Last Modified on"
 msgstr "Last Modified on"
 
 #. module: stock_picking_pallets
-#: field:stock.picking,pallet_type_3:0
+#: field:stock.picking,pallet_type_9:0
 #: view:stock.picking.pallet.analysis:stock_picking_pallets.stock_pack_operation_analysis_graph_search
-#: field:stock.picking.pallet.analysis,pallet_type_3:0
-#: field:stock.transfer_details,pallet_type_3:0
+#: field:stock.picking.pallet.analysis,pallet_type_9:0
+#: field:stock.transfer_details,pallet_type_9:0
 msgid "Others types of pallets"
 msgstr "Otros tipos de palets"
 
@@ -92,6 +92,14 @@ msgstr "Salida"
 #: field:stock.transfer_details,pallet_type_2:0
 msgid "P0604A-Pallet CHEP 400x600"
 msgstr "P0604A-Palet CHEP 400x600"
+
+#. module: stock_picking_pallets
+#: field:stock.picking,pallet_type_3:0
+#: view:stock.picking.pallet.analysis:stock_picking_pallets.stock_pack_operation_analysis_graph_search
+#: field:stock.picking.pallet.analysis,pallet_type_3:0
+#: field:stock.transfer_details,pallet_type_3:0
+msgid "Pallet IPP 800x1200"
+msgstr "Palet IPP 800x1200"
 
 #. module: stock_picking_pallets
 #: view:stock.picking.pallet.analysis:stock_picking_pallets.stock_pack_operation_analysis_graph

@@ -11,10 +11,11 @@
                     <attribute name="default_focus">1</attribute>
                 </field>
                 <group groups="stock.group_tracking_lot" position="after">
-                    <group col="4">
+                    <group col="6">
                         <field name="pallet_type_1"/>
-                        <field name="pallet_type_3"/>
                         <field name="pallet_type_2"/>
+                        <field name="pallet_type_3"/>
+                        <field name="pallet_type_9"/>
                         <field name="transport_company_pallets"/>
                     </group>
                 </group>
