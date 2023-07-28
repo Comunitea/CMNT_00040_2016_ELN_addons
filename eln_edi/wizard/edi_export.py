@@ -148,10 +148,11 @@ class EdiExport(models.TransientModel):
     def check_invoice_data(self, invoice):
         errors = ''
         invoice_part = invoice.partner_id
+        invoice_commercial_part = invoice.partner_id.commercial_partner_id
         picking_part = invoice.picking_ids and invoice.picking_ids[0].partner_id or False
         gln_ef = invoice.company_id.gln_ef
         gln_ve1 = invoice.company_id.gln_ve
-        gln_ve2 = picking_part and picking_part.commercial_partner_id.gln_ve or invoice_part.commercial_partner_id.gln_ve
+        gln_ve2 = picking_part and picking_part.commercial_partner_id.gln_ve or invoice_commercial_part.gln_ve
         gln_de = picking_part and picking_part.gln_de or invoice_part.gln_de
         gln_rf = picking_part and picking_part.gln_rf or invoice_part.gln_rf
         gln_co = picking_part and picking_part.gln_co or invoice_part.gln_co
@@ -162,9 +163,9 @@ class EdiExport(models.TransientModel):
         if not invoice.company_id.edi_rm:
             errors += _('The company %s not have trade register defined.\n') % \
                 invoice.company_id.name
-        if not invoice.partner_id.commercial_partner_id.vat:
+        if not invoice_commercial_part.vat:
             errors += _('The partner %s not have vat.\n') % \
-                invoice.partner_id.commercial_partner_id.name
+                invoice_commercial_part.name
         if not invoice.company_id.partner_id.vat:
             errors += _('The partner %s not have vat.\n') % \
                 invoice.company_id.partner_id.name
@@ -273,16 +274,20 @@ class EdiExport(models.TransientModel):
     @api.model
     def parse_invoice(self, invoice, file_name):
 
-        def parse_address(address, gln_val, name=''):
+        def parse_address(address, gln_val, invoice, name=''):
             address_data = ''
             address_data += self.parse_number(gln_val, 13, 0)
             address_data += self.parse_string(name or address.name, 35)
-            edir_rm = 'edi_rm' in address._fields and address.edi_rm or False
-            address_data += self.parse_string(edir_rm, 35) # Reg. Mercantil
+            edi_rm = 'edi_rm' in address._fields and address.edi_rm or False
+            address_data += self.parse_string(edi_rm, 35) # Reg. Mercantil
             address_data += self.parse_string(address.street, 35)
             address_data += self.parse_string(address.city, 35)
             address_data += self.parse_string(address.zip, 9)
-            vat = 'commercial_partner_id' in address._fields and address.commercial_partner_id.vat or address.vat
+            vat = 'commercial_partner_id' in address._fields \
+                and address.commercial_partner_id.vat or address.vat
+            tin_vat_format = invoice.partner_id.commercial_partner_id.edi_tin_vat_format
+            if not tin_vat_format and len(vat) > 2:
+                vat = vat[2:]
             address_data += self.parse_string(vat, 17)
             return address_data
 
@@ -291,10 +296,11 @@ class EdiExport(models.TransientModel):
         f = codecs.open(file_name, 'w', 'utf-8')
 
         invoice_part = invoice.partner_id
+        invoice_commercial_part = invoice.partner_id.commercial_partner_id
         picking_part = invoice.picking_ids and invoice.picking_ids[0].partner_id or False
         gln_ef = invoice.company_id.gln_ef
         gln_ve = picking_part and picking_part.commercial_partner_id.gln_ve or \
-            invoice_part.commercial_partner_id.gln_ve or invoice.company_id.gln_ve
+            invoice_commercial_part.gln_ve or invoice.company_id.gln_ve
         gln_ve = self.check_gln_ve_exception(gln_ve, invoice)
         gln_de = picking_part and picking_part.gln_de or invoice_part.gln_de
         gln_rf = picking_part and picking_part.gln_rf or invoice_part.gln_rf
@@ -321,12 +327,12 @@ class EdiExport(models.TransientModel):
         invoice_data += ' ' * 3
 
         # código de sección de proveedor.
-        section_code = invoice.partner_id.commercial_partner_id.section_code
-        if invoice.partner_id.commercial_partner_id.edi_filename == 'ECI':
+        section_code = invoice_commercial_part.section_code
+        if invoice_commercial_part.edi_filename == 'ECI':
             # Para El Corte Inglés enviamos el código departamento interno en lugar de la sección.
             # Aunque este código de departamento va en este caso repetido en el fichero en otra posición,
             # no es mapeado en la traducción de Generix
-            section_code = invoice.partner_id.commercial_partner_id.department_code_edi
+            section_code = invoice_commercial_part.department_code_edi
         elif (section_code == '03072901'
               and gln_rf in ('8424818010006', '8424818290002') # FRZ ó VMR
               and gln_rm not in ('8424818019016', '8424818299012')): # No es una Plataforma
@@ -414,24 +420,24 @@ class EdiExport(models.TransientModel):
         # receptor
         if gln_rf == '8425228000007':
             # Excepción CENCOSU
-            invoice_data += parse_address(invoice.partner_id, gln_rf, 'CENCOSU SL')
+            invoice_data += parse_address(invoice_part, gln_rf, invoice, 'CENCOSU SL')
         else:
-            invoice_data += parse_address(invoice.partner_id, gln_rf)
+            invoice_data += parse_address(invoice_part, gln_rf, invoice)
 
         # emisor factura
-        invoice_data += parse_address(invoice.company_id, gln_ef)
+        invoice_data += parse_address(invoice.company_id, gln_ef, invoice)
         
         # vendedor
-        invoice_data += parse_address(invoice.company_id, gln_ve)
+        invoice_data += parse_address(invoice.company_id, gln_ve, invoice)
 
         # comprador
-        invoice_data += parse_address(invoice.partner_id.commercial_partner_id, gln_co)
+        invoice_data += parse_address(invoice_commercial_part, gln_co, invoice)
 
         # código de departamento interno
-        invoice_data += self.parse_string(invoice.partner_id.commercial_partner_id.department_code_edi, 3)
+        invoice_data += self.parse_string(invoice_commercial_part.department_code_edi, 3)
 
         # receptor de la mercancia
-        invoice_data += parse_address(invoice.picking_ids and invoice.picking_ids[0].partner_id or invoice.partner_id, gln_rm)
+        invoice_data += parse_address(invoice.picking_ids and invoice.picking_ids[0].partner_id or invoice_part, gln_rm, invoice)
 
         # divisa
         invoice_data += self.parse_string(invoice.currency_id.name or u'EUR', 3)
@@ -458,10 +464,10 @@ class EdiExport(models.TransientModel):
         # 0-> Factura normal
         # 1-> Envía factura normal + copia
         # T-> Indica que el documento debe enviarse al entorno de pruebas (cuando edi_test_mode esta activo)
-        if invoice.partner_id.commercial_partner_id.edi_test_mode:
+        if invoice_commercial_part.edi_test_mode:
             invoice_data += 'T'
         else:
-            if invoice.partner_id.commercial_partner_id.edi_invoice_copy:
+            if invoice_commercial_part.edi_invoice_copy:
                 invoice_data += '1'
             else:
                 invoice_data += '0'
@@ -494,7 +500,7 @@ class EdiExport(models.TransientModel):
             line_data += self.parse_number(line.product_id.ean13, 13, 0)
             line_data += self.parse_string(line.product_id.partner_product_code, 35)
             line_data += self.parse_string(line.product_id.default_code, 35)
-            line_data += self.parse_string(line.product_id.with_context(lang=invoice.partner_id.lang).name, 35)
+            line_data += self.parse_string(line.product_id.with_context(lang=invoice_part.lang).name, 35)
             #line_data += self.parse_string(line.name, 35)
 
             # cantidades facturada enviada y sin cargo
@@ -505,7 +511,7 @@ class EdiExport(models.TransientModel):
             uos_id = line.uos_id.id
             uom_id = line.product_id.uom_id.id
             line_qty = t_uom._compute_qty(uos_id, qty, uom_id)
-            if line.partner_id.commercial_partner_id.edi_uos_as_uom_on_kgm_required:
+            if invoice_commercial_part.edi_uos_as_uom_on_kgm_required:
                 kgm_uom = self.env['ir.model.data'].xmlid_to_res_id('product.product_uom_kgm')
                 if uom_id == kgm_uom:
                     line_qty = t_uom._compute_qty(uos_id, qty, (line.product_id.uos_id.id or uos_id))
@@ -533,7 +539,7 @@ class EdiExport(models.TransientModel):
 
             # numero de pedido
             numped = False
-            if line.partner_id.commercial_partner_id.edi_order_ref_required:
+            if invoice_commercial_part.edi_order_ref_required:
                 if line.stock_move_id.procurement_id.sale_line_id:
                     numped = line.stock_move_id.procurement_id.sale_line_id.order_id.client_order_ref
                 else:
@@ -574,7 +580,7 @@ class EdiExport(models.TransientModel):
                 line_data += 'EXT' + ' ' * 23
 
             # fecha de entrega
-            if line.partner_id.commercial_partner_id.edi_date_required:
+            if invoice_commercial_part.edi_date_required:
                 date = line.stock_move_id.picking_id.effective_date or line.stock_move_id.picking_id.date_done
                 if not date or date > invoice.date_invoice:
                     date = invoice.date_invoice

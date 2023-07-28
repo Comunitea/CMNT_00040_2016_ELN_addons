@@ -123,6 +123,8 @@ class ResPartner(models.Model):
         help="Check if customer requires the order ref in the EDI lines of invoice. Usually it is always required.")
     edi_uos_as_uom_on_kgm_required = fields.Boolean('Use UoS as UoM if UoM is kg',
         help="Check if customer requires invoicing products with UoM kg interpreting UoM = UoS. (1 bag of 5 kg is 1 bag, not 5 kg).")
+    edi_tin_vat_format = fields.Boolean('TIN in VAT format (Country Code + TIN)', default=True,
+        help="When checked, the TIN will be sent in VAT format (Country Code + TIN), otherwise only the TIN will be sent. Default: checked")
     edi_filename = fields.Char('EDI filename suffix', size=3,
         help="Partner suffix for edi filename.")
     gln_ve = fields.Char('GLN Seller', size=13,
