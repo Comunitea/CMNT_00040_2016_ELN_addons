@@ -10,6 +10,7 @@ class ProcurementOrder(models.Model):
     _order = 'id desc'
 
     orderpoint_id = fields.Many2one(select=True) # Redefine index
+    move_dest_id = fields.Many2one(select=True) # Redefine index
 
     @api.model
     def _prepare_orderpoint_procurement(self, orderpoint, product_qty):
