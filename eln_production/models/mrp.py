@@ -468,6 +468,7 @@ class MrpProduction(models.Model):
         digits=dp.get_precision('Product Price'), copy=False)
     production_type = fields.Selection(PRODUCTION_TYPES, 'Type of production',
         default='normal', copy=False)
+    move_prod_id = fields.Many2one(select=True) # Redefine index
 
     @api.multi
     def _get_color_production(self):

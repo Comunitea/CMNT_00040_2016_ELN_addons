@@ -108,6 +108,8 @@ class StockProductionLot(models.Model):
 class StockMove(models.Model):
     _inherit = 'stock.move'
 
+    consumed_for = fields.Many2one(select=True) # Redefine index
+
     @api.multi
     def action_consume(self, product_qty, location_id=False,
         restrict_lot_id=False, restrict_partner_id=False, consumed_for=False):

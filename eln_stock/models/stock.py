@@ -108,6 +108,8 @@ class StockMove(models.Model):
 
     availability = fields.Float(compute='_get_product_availability') # Redefine compute method
     procurement_id = fields.Many2one(select=True) # Redefine index
+    origin_returned_move_id = fields.Many2one(select=True) # Redefine index
+    split_from = fields.Many2one(select=True) # Redefine index
 
     @api.multi
     def _get_product_availability(self):
@@ -266,6 +268,8 @@ class StockMove(models.Model):
 class StockQuant(models.Model):
     _inherit = "stock.quant"
 
+    negative_move_id = fields.Many2one(select=True) # Redefine index
+
     @api.multi
     def _mergeable_domain(self):
         """Method from stock quant merge. Adds cost to domain and avoid merge quants with different history_ids"""
@@ -371,3 +375,9 @@ class StockPickingType(models.Model):
             (pt.warehouse_id.name + ' - ') or '') + pt.name)
             for pt in self
         ]
+
+class StockMoveOperationLink(models.Model):
+    _inherit = 'stock.move.operation.link'
+
+    move_id = fields.Many2one(select=True) # Redefine index
+    operation_id = fields.Many2one(select=True) # Redefine index
