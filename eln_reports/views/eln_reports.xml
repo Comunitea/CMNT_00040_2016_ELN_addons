@@ -265,5 +265,32 @@
             <field name="paperformat_id" ref="stock_picking_shipping_label_paperformat_A5"/>
         </record>
 
+        <!-- Packing List (para sanidad) -->
+        <report
+            string="Packing List"
+            id="action_report_packing_list"
+            model="stock.picking"
+            report_type="qweb-pdf"
+            name="eln_reports.report_packing_list"
+            file="eln_reports.report_packing_list"
+        />
+
+        <record id="packing_list_report_paperformat_A4" model="report.paperformat">
+            <field name="name">Packing List label A4 landscape</field>
+            <field name="default" eval="False"/>
+            <field name="format">A4</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">50</field>
+            <field name="margin_bottom">23</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_spacing">45</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <record id="action_report_packing_list" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="packing_list_report_paperformat_A4"/>
+        </record>
+
     </data>
 </openerp>

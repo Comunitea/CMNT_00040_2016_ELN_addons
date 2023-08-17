@@ -6,16 +6,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-30 09:07+0000\n"
-"PO-Revision-Date: 2022-05-30 11:11+0200\n"
-"Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
+"POT-Creation-Date: 2023-08-17 11:39+0000\n"
+"PO-Revision-Date: 2023-08-17 13:50+0200\n"
+"Last-Translator: <>\n"
 "Language-Team: \n"
+"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: \n"
-"Language: es\n"
-"X-Generator: Poedit 2.4.2\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.3.2\n"
 
 #. module: eln_reports
 #: field:res.users,supplier_invoice_count:0
@@ -31,6 +31,11 @@ msgstr "Nº de pedido de compra"
 #: field:res.users,sale_order_count:0
 msgid "# of Sales Order"
 msgstr "Nº de pedido de venta"
+
+#. module: eln_reports
+#: view:website:eln_reports.report_packing_list
+msgid "&bull;"
+msgstr "&bull;"
 
 #. module: eln_reports
 #: view:website:eln_reports.stock_picking_shipping_label_report
@@ -227,6 +232,11 @@ msgid "Customer invoice"
 msgstr "Factura de cliente"
 
 #. module: eln_reports
+#: view:website:eln_reports.report_packing_list
+msgid "Customer:"
+msgstr "Destinatario:"
+
+#. module: eln_reports
 #: view:website:eln_reports.stock_production_lot_label_report
 msgid "CÓDIGO Y DESCRIPCIÓN:"
 msgstr "CÓDIGO Y DESCRIPCIÓN:"
@@ -288,6 +298,11 @@ msgid "E.P. discounts"
 msgstr "Descuentos P.P."
 
 #. module: eln_reports
+#: view:website:eln_reports.report_packing_list
+msgid "Email:"
+msgstr "Correo electrónico:"
+
+#. module: eln_reports
 #: code:addons/eln_reports/wizard/stock_picking_shipping_label_wizard.py:43
 #: code:addons/eln_reports/wizard/stock_picking_shipping_label_wizard.py:74
 #: code:addons/eln_reports/wizard/stock_production_lot_label_wizard.py:186
@@ -305,9 +320,19 @@ msgid "Error!"
 msgstr "¡Error!"
 
 #. module: eln_reports
+#: view:website:eln_reports.report_packing_list
+msgid "Expiration Date"
+msgstr "Fecha caducidad"
+
+#. module: eln_reports
 #: field:stock.production.lot.label.wizard.line,extended_shelf_life_date:0
 msgid "Extended shelf life date"
 msgstr "Vida útil extendida"
+
+#. module: eln_reports
+#: view:website:eln_reports.report_packing_list
+msgid "Fax:"
+msgstr "Fax:"
 
 #. module: eln_reports
 #: selection:stock.production.lot.label.wizard.line,expected_use:0
@@ -318,6 +343,11 @@ msgstr "Productos terminados"
 #: field:res.users,property_account_position:0
 msgid "Fiscal Position"
 msgstr "Posición fiscal"
+
+#. module: eln_reports
+#: view:website:eln_reports.report_packing_list
+msgid "Gross Weight (kg)"
+msgstr "Peso bruto (kg)"
 
 #. module: eln_reports
 #: field:planning.report.wizard,group_by_route:0
@@ -359,9 +389,19 @@ msgid "Internal supplier code"
 msgstr "Código interno del proveedor"
 
 #. module: eln_reports
+#: view:website:eln_reports.report_packing_list
+msgid "Invoice Date"
+msgstr "Fecha factura"
+
+#. module: eln_reports
 #: model:ir.model,name:eln_reports.model_account_invoice_line
 msgid "Invoice Line"
 msgstr "Línea de factura"
+
+#. module: eln_reports
+#: view:website:eln_reports.report_packing_list
+msgid "Invoice Number"
+msgstr "Número de factura"
 
 #. module: eln_reports
 #: field:res.users,invoice_ids:0
@@ -455,6 +495,7 @@ msgid "Lines"
 msgstr "Líneas"
 
 #. module: eln_reports
+#: view:website:eln_reports.report_packing_list
 #: view:website:stock.report_picking
 msgid "Lot"
 msgstr "Lote"
@@ -474,6 +515,11 @@ msgstr "Lote/Nº de serie"
 #: view:website:eln_reports.stock_picking_shipping_label_report
 msgid "NOTAS:"
 msgstr "NOTAS:"
+
+#. module: eln_reports
+#: view:website:eln_reports.report_packing_list
+msgid "Net Weight (kg)"
+msgstr "Peso neto (kg)"
 
 #. module: eln_reports
 #: code:addons/eln_reports/report/planning_report/webkit_parser_header_fix.py:160
@@ -527,8 +573,14 @@ msgstr "Pedido (Origen)"
 
 #. module: eln_reports
 #: field:stock.production.lot.label.wizard.line,origin:0
+#: view:website:eln_reports.report_packing_list
 msgid "Origin"
 msgstr "Origen"
+
+#. module: eln_reports
+#: view:website:eln_reports.report_packing_list
+msgid "PACKING LIST"
+msgstr "PACKING LIST"
 
 #. module: eln_reports
 #: view:website:eln_reports.report_saleorder_document_proforma
@@ -541,6 +593,11 @@ msgid "PROVEEDOR:"
 msgstr "PROVEEDOR:"
 
 #. module: eln_reports
+#: view:website:eln_reports.report_packing_list
+msgid "Packages / Gross Weight"
+msgstr "Bultos / Peso bruto"
+
+#. module: eln_reports
 #: view:website:stock.report_picking
 msgid "Packages / Weight"
 msgstr "Bultos / Peso"
@@ -551,10 +608,20 @@ msgid "Packaging materials"
 msgstr "Embalajes"
 
 #. module: eln_reports
+#: model:ir.actions.report.xml,name:eln_reports.action_report_packing_list
+msgid "Packing List"
+msgstr "Packing List"
+
+#. module: eln_reports
 #: code:addons/eln_reports/report/planning_report/planning_report_parser.py:49
 #, python-format
 msgid "Page"
 msgstr "Página"
+
+#. module: eln_reports
+#: view:website:eln_reports.report_packing_list
+msgid "Page:"
+msgstr "Página:"
 
 #. module: eln_reports
 #: field:res.users,debit_limit:0
@@ -572,9 +639,24 @@ msgid "Pending"
 msgstr "Pendiente"
 
 #. module: eln_reports
+#: view:website:eln_reports.report_packing_list
+msgid "Phone:"
+msgstr "Teléfono:"
+
+#. module: eln_reports
+#: view:website:eln_reports.report_packing_list
+msgid "Picking Date"
+msgstr "Picking Date"
+
+#. module: eln_reports
 #: model:ir.model,name:eln_reports.model_stock_picking
 msgid "Picking List"
 msgstr "Albarán"
+
+#. module: eln_reports
+#: view:website:eln_reports.report_packing_list
+msgid "Picking Number"
+msgstr "Número de albarán"
 
 #. module: eln_reports
 #: model:ir.actions.act_window,name:eln_reports.action_planning_report_wizard
@@ -653,6 +735,7 @@ msgstr "Imprimir albarán valorado"
 
 #. module: eln_reports
 #: field:stock.production.lot.label.wizard.line,product_id:0
+#: view:website:eln_reports.report_packing_list
 #: view:website:stock.report_picking
 msgid "Product"
 msgstr "Producto"
@@ -703,6 +786,7 @@ msgid "Qty (UoS)"
 msgstr "Cant. (UdV)"
 
 #. module: eln_reports
+#: view:website:eln_reports.report_packing_list
 #: view:website:stock.report_picking
 msgid "Quantity"
 msgstr "Cantidad"
@@ -762,6 +846,11 @@ msgstr "Seleccione el modo de pago por defecto cuando esta empresa actúa como p
 #: selection:stock.production.lot.label.wizard.line,expected_use:0
 msgid "Semi-finished goods"
 msgstr "Productos semiterminados"
+
+#. module: eln_reports
+#: view:website:eln_reports.report_packing_list
+msgid "Sender:"
+msgstr "Remitente:"
 
 #. module: eln_reports
 #: field:res.users,settlement:0
@@ -878,9 +967,19 @@ msgid "Supplier name"
 msgstr "Nombre del proveedor"
 
 #. module: eln_reports
+#: view:website:eln_reports.report_packing_list
+msgid "Supplier:"
+msgstr "Proveedor:"
+
+#. module: eln_reports
 #: view:website:report.external_layout_header
 msgid "TIN:"
 msgstr "NIF:"
+
+#. module: eln_reports
+#: view:website:eln_reports.report_packing_list
+msgid "TOTAL"
+msgstr "TOTAL"
 
 #. module: eln_reports
 #: field:account.invoice.line,tax_str:0 view:website:stock.report_picking
@@ -997,6 +1096,7 @@ msgstr "UdM"
 
 #. module: eln_reports
 #: report:addons/eln_reports/report/planning_report/planning_report_webkit.mako:33
+#: view:website:eln_reports.report_packing_list
 #: view:website:stock.report_picking
 msgid "UoS"
 msgstr "UdV"
@@ -1017,6 +1117,7 @@ msgid "VAT Legal Statement"
 msgstr "Sujeto a IVA"
 
 #. module: eln_reports
+#: view:website:eln_reports.report_packing_list
 #: view:website:stock.report_picking
 msgid "VAT:"
 msgstr "NIF:"
@@ -1030,6 +1131,11 @@ msgstr "VIDA ÚTIL EXTENDIDA:"
 #: view:website:stock.report_picking
 msgid "Warehouse Address:"
 msgstr "Dirección del almacén"
+
+#. module: eln_reports
+#: view:website:eln_reports.report_packing_list
+msgid "Warehouse:"
+msgstr "Almacén:"
 
 #. module: eln_reports
 #: code:addons/eln_reports/report/planning_report/webkit_parser_header_fix.py:216
@@ -1050,6 +1156,11 @@ msgstr "Webkit error"
 #, python-format
 msgid "Webkit render"
 msgstr "Renderizador de Webkit"
+
+#. module: eln_reports
+#: view:website:eln_reports.report_packing_list
+msgid "Website:"
+msgstr "Sitio web:"
 
 #. module: eln_reports
 #: field:stock.picking.shipping.label.wizard.line,wiz_id:0
