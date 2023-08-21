@@ -59,6 +59,7 @@
         'views/report_saleorder_proforma.xml',
         'views/report_stock_picking_shipping_label.xml',
         'views/report_stock_production_lot_label.xml',
+        'views/report_packing_list.xml',
      ],
     'demo_xml': [],
     'active': False,

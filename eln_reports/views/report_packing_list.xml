@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <template id="style">
+            body {
+                color: #000 !important;
+                word-wrap: break-word;
+            }
+            .border-black td {
+                border-top: 1px solid black !important;
+            }
+            .table-condensed > thead > tr > th {
+                border-bottom: 1px solid black !important;
+            }
+            .table-condensed > tbody > tr {
+                page-break-inside: avoid !important;
+            }
+            .zero_min_height {
+                min-height: 0px !important;
+            }
+        </template>
+
+        <template id="report_packing_list">
+            <t t-call="report.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <div class="header">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <img t-if="o.company_id.logo" t-att-src="'data:image/png;base64,%s' % o.company_id.logo" style="max-height: 45px;"/>
+                            </div>
+                            <div class="col-xs-9 text-right" style="margin-top:20px;">
+                                <span>PACKING LIST</span>
+                            </div>
+                        </div>
+                        <div class="row zero_min_height">
+                            <div class="col-xs-12">
+                                <div style="border-bottom: 1px solid black;"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <table class="table table-condensed">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <div t-if="o.picking_type_id.code=='outgoing'">
+                                                    <span>
+                                                        <strong>Sender:</strong>
+                                                    </span>
+                                                </div>
+                                                <div t-field="o.company_id.partner_id" 
+                                                    t-field-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": true}'
+                                                />
+                                                <span>VAT: <span t-field="o.company_id.partner_id.vat"/></span>
+                                            </td>
+                                            <td>
+                                                <div t-if="o.picking_type_id.code=='incoming' and o.partner_id">
+                                                    <span>
+                                                        <strong>Supplier:</strong>
+                                                    </span>
+                                                </div>
+                                                <div t-if="o.picking_type_id.code=='internal' and o.partner_id">
+                                                    <span>
+                                                        <strong>Warehouse:</strong>
+                                                    </span>
+                                                </div>
+                                                <div t-if="o.picking_type_id.code=='outgoing' and o.partner_id">
+                                                    <span>
+                                                        <strong>Customer:</strong>
+                                                    </span>
+                                                </div>
+                                                <div t-if="o.partner_id" name="partner_header">
+                                                    <div t-field="o.partner_id.commercial_partner_id" 
+                                                        t-field-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": true}'
+                                                    />
+                                                    <span>VAT: <span t-field="o.partner_id.vat"/></span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="page">
+                        <t t-set="sum_qty" t-value="0"/>
+                        <t t-set="sum_net_weight" t-value="0"/>
+                        <t t-set="sum_gross_weight" t-value="0"/>
+                        <t t-foreach="o.move_lines" t-as="move">
+                            <t t-set="sum_qty" t-value="sum_qty + move.product_uos_qty"/>
+                            <t t-set="sum_net_weight" t-value="sum_net_weight + move.product_id.weight_net * move.product_qty"/>
+                            <t t-set="sum_gross_weight" t-value="sum_gross_weight + move.product_id.weight * move.product_qty"/>
+                        </t>
+                        <table class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <div t-if="o.invoice_ids">
+                                            <strong>Invoice Number</strong>
+                                        </div>
+                                        <div t-if="not o.invoice_ids">
+                                            <strong>Picking Number</strong>
+                                        </div>
+                                    </th>
+                                    <th>
+                                        <div t-if="o.invoice_ids">
+                                            <strong>Invoice Date</strong>
+                                        </div>
+                                        <div t-if="not o.invoice_ids">
+                                            <strong>Picking Date</strong>
+                                        </div>
+                                    </th>
+                                    <th class="text-right">
+                                        <strong>Packages / Gross Weight</strong>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div t-if="o.invoice_ids">
+                                            <span t-field="o.invoice_ids[0].number"/>
+                                        </div>
+                                        <div t-if="not o.invoice_ids">
+                                            <span t-field="o.name"/>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div t-if="o.invoice_ids">
+                                            <span t-field="o.invoice_ids[0].date_invoice"/>
+                                        </div>
+                                        <div t-if="not o.invoice_ids and o.date_done">
+                                            <span t-field="o.date_done"/>
+                                        </div>
+                                        <div t-if="not o.invoice_ids and not o.date_done">
+                                            <span t-field="o.date"/>
+                                        </div>
+                                    </td>
+                                    <td class="text-right">
+                                        <t t-if="env.lang != 'en_US'">
+                                            <span t-esc="'{0:,.2f}'.format(sum_qty).replace(',', 'X').replace('.', ',').replace('X', '.')"/>
+                                        </t>
+                                        <t t-if="env.lang == 'en_US'">
+                                            <span t-esc="'{0:.2f}'.format(sum_qty)"/>
+                                        </t>
+                                        <span> / </span>
+                                        <t t-if="env.lang != 'en_US'">
+                                            <span t-esc="'{0:,.2f}'.format(sum_gross_weight).replace(',', 'X').replace('.', ',').replace('X', '.')"/>
+                                        </t>
+                                        <t t-if="env.lang == 'en_US'">
+                                            <span t-esc="'{0:.2f}'.format(sum_gross_weight)"/>
+                                        </t>
+                                        <span> kg</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <strong>Product</strong>
+                                    </th>
+                                    <th class="text-right">
+                                        <strong>Quantity</strong>
+                                    </th>
+                                    <th class="text-left">
+                                        <strong>UoS</strong>
+                                    </th>
+                                    <th class="text-left">
+                                        <strong>Lot</strong>
+                                    </th>
+                                    <th class="text-left">
+                                        <strong>Expiration Date</strong>
+                                    </th>
+                                    <th class="text-left">
+                                        <strong>Origin</strong>
+                                    </th>
+                                    <th class="text-right">
+                                        <strong>Net Weight (kg)</strong>
+                                    </th>
+                                    <th class="text-right">
+                                        <strong>Gross Weight (kg)</strong>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-if="o.state != 'done'">
+                                    <tr t-foreach="o.move_lines.sorted(key=lambda r: (r.product_id.categ_id.complete_name, r.product_id.default_code, r.product_id.id), reverse=False)" t-as="move">
+                                        <t t-if="(o.state != 'partially_available') or (move.reserved_availability > 0)">
+                                            <td>
+                                                <span t-field="move.product_id"/>
+                                            </td>
+                                            <td class="text-right">
+                                                <t t-if="env.lang != 'en_US'">
+                                                    <span t-esc="'{0:,.2f}'.format(move.product_uos_qty).replace(',', 'X').replace('.', ',').replace('X', '.')"/>
+                                                </t>
+                                                <t t-if="env.lang == 'en_US'">
+                                                    <span t-esc="'{0:.2f}'.format(move.product_uos_qty)"/>
+                                                </t>
+                                            </td>
+                                            <td class="text-left">
+                                                <span t-field="move.product_uos"/>
+                                            </td>
+                                            <td class="text-left">
+                                                <span></span>
+                                            </td>
+                                            <td class="text-left">
+                                                <span></span>
+                                            </td>
+                                            <td class="text-left">
+                                                <span t-field="move.product_id.origin_country_id.name"/>
+                                            </td>
+                                            <td class="text-right">
+                                                <t t-if="move.product_uom_qty">
+                                                    <t t-set="net_wight" t-value="move.product_id.weight_net * move.product_qty"/>
+                                                    <t t-if="env.lang != 'en_US'">
+                                                        <span t-esc="'{0:,.2f}'.format(net_wight).replace(',', 'X').replace('.', ',').replace('X', '.')"/>
+                                                    </t>
+                                                    <t t-if="env.lang == 'en_US'">
+                                                        <span t-esc="'{0:.2f}'.format(net_wight)"/>
+                                                    </t>
+                                                </t>
+                                                <t t-if="not move.product_uom_qty">
+                                                    <span>---</span>
+                                                </t>
+                                            </td>
+                                            <td class="text-right">
+                                                <t t-if="move.product_uom_qty">
+                                                    <t t-set="gross_weight" t-value="move.product_id.weight * move.product_qty"/>
+                                                    <t t-if="env.lang != 'en_US'">
+                                                        <span t-esc="'{0:,.2f}'.format(gross_weight).replace(',', 'X').replace('.', ',').replace('X', '.')"/>
+                                                    </t>
+                                                    <t t-if="env.lang == 'en_US'">
+                                                        <span t-esc="'{0:.2f}'.format(gross_weight)"/>
+                                                    </t>
+                                                </t>
+                                                <t t-if="not move.product_uom_qty">
+                                                    <span>---</span>
+                                                </t>
+                                            </td>
+                                        </t>
+                                    </tr>
+                                </t>
+                                <t t-if="o.state == 'done'">
+                                    <tr t-foreach="o.pack_operation_ids.sorted(key=lambda r: (r.product_id.categ_id.complete_name, r.product_id.default_code, r.product_id.id), reverse=False)" t-as="operation">
+                                        <t t-if="operation.linked_move_operation_ids and operation.linked_move_operation_ids[0].move_id">
+                                            <td>
+                                                <span t-field="operation.linked_move_operation_ids[0].move_id.product_id"/>
+                                            </td>
+                                            <td class="text-right">
+                                                <t t-if="operation.linked_move_operation_ids[0].move_id.product_uom_qty">
+                                                    <t t-set="uos_qty" t-value="operation.product_qty / operation.linked_move_operation_ids[0].move_id.product_uos.factor_inv"/>
+                                                    <t t-if="env.lang != 'en_US'">
+                                                        <span t-esc="'{0:,.2f}'.format(uos_qty).replace(',', 'X').replace('.', ',').replace('X', '.')"/>
+                                                    </t>
+                                                    <t t-if="env.lang == 'en_US'">
+                                                        <span t-esc="'{0:.2f}'.format(uos_qty)"/>
+                                                    </t>
+                                                </t>
+                                                <t t-if="not operation.linked_move_operation_ids[0].move_id.product_uom_qty">
+                                                    <span>---</span>
+                                                </t>
+                                            </td>
+                                            <td class="text-left">
+                                                <span t-field="operation.linked_move_operation_ids[0].move_id.product_uos"/>
+                                            </td>
+                                            <td class="text-left">
+                                                <span t-field="operation.lot_id"/>
+                                            </td>
+                                            <td class="text-left">
+                                                <span t-field="operation.lot_id.use_date" t-field-options='{"format": "dd/MM/yyyy"}'/>
+                                            </td>
+                                            <td class="text-left">
+                                                <span t-field="operation.linked_move_operation_ids[0].move_id.product_id.origin_country_id.name"/>
+                                            </td>
+                                            <td class="text-right">
+                                                <t t-if="operation.linked_move_operation_ids[0].move_id.product_uom_qty">
+                                                    <t t-set="net_wight" t-value="operation.product_id.weight_net * operation.product_qty"/>
+                                                    <t t-if="env.lang != 'en_US'">
+                                                        <span t-esc="'{0:,.2f}'.format(net_wight).replace(',', 'X').replace('.', ',').replace('X', '.')"/>
+                                                    </t>
+                                                    <t t-if="env.lang == 'en_US'">
+                                                        <span t-esc="'{0:.2f}'.format(net_wight)"/>
+                                                    </t>
+                                                </t>
+                                                <t t-if="not operation.linked_move_operation_ids[0].move_id.product_uom_qty">
+                                                    <span>---</span>
+                                                </t>
+                                            </td>
+                                            <td class="text-right">
+                                                <t t-if="operation.linked_move_operation_ids[0].move_id.product_uom_qty">
+                                                    <t t-set="gross_weight" t-value="operation.product_id.weight * operation.product_qty"/>
+                                                    <t t-if="env.lang != 'en_US'">
+                                                        <span t-esc="'{0:,.2f}'.format(gross_weight).replace(',', 'X').replace('.', ',').replace('X', '.')"/>
+                                                    </t>
+                                                    <t t-if="env.lang == 'en_US'">
+                                                        <span t-esc="'{0:.2f}'.format(gross_weight)"/>
+                                                    </t>
+                                                </t>
+                                                <t t-if="not operation.linked_move_operation_ids[0].move_id.product_uom_qty">
+                                                    <span>---</span>
+                                                </t>
+                                            </td>
+                                        </t>
+                                    </tr>
+                                </t>
+                                <tr>
+                                    <td class="text-right">
+                                        <strong>TOTAL</strong>
+                                    </td>
+                                    <td class="text-right">
+                                        <t t-if="env.lang != 'en_US'">
+                                            <span t-esc="'{0:,.2f}'.format(sum_qty).replace(',', 'X').replace('.', ',').replace('X', '.')"/>
+                                        </t>
+                                        <t t-if="env.lang == 'en_US'">
+                                            <span t-esc="'{0:.2f}'.format(sum_qty)"/>
+                                        </t>
+                                    </td>
+                                    <td class="text-left">
+                                        <span></span>
+                                    </td>
+                                    <td class="text-left">
+                                        <span></span>
+                                    </td>
+                                    <td class="text-left">
+                                        <span></span>
+                                    </td>
+                                    <td class="text-left">
+                                        <span></span>
+                                    </td>
+                                    <td class="text-right">
+                                        <t t-if="env.lang != 'en_US'">
+                                            <span t-esc="'{0:,.2f}'.format(sum_net_weight).replace(',', 'X').replace('.', ',').replace('X', '.')"/>
+                                        </t>
+                                        <t t-if="env.lang == 'en_US'">
+                                            <span t-esc="'{0:.2f}'.format(sum_net_weight)"/>
+                                        </t>
+                                    </td>
+                                    <td class="text-right">
+                                        <t t-if="env.lang != 'en_US'">
+                                            <span t-esc="'{0:,.2f}'.format(sum_gross_weight).replace(',', 'X').replace('.', ',').replace('X', '.')"/>
+                                        </t>
+                                        <t t-if="env.lang == 'en_US'">
+                                            <span t-esc="'{0:.2f}'.format(sum_gross_weight)"/>
+                                        </t>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="footer">
+                        <div t-if="o.company_id.company_registry" class="text-center" style="border-top: 1px solid black;">
+                            <span t-field="o.company_id.company_registry"/>
+                        </div>
+                        <div class="text-center" style="border-top: 1px solid black;">
+                            <ul t-if="not o.company_id.custom_footer" class="list-inline">
+                                <li t-if="o.company_id.phone">Phone: <span t-field="o.company_id.phone"/></li>
+                
+                                <li t-if="o.company_id.fax and o.company_id.phone">&amp;bull;</li>
+                                <li t-if="o.company_id.fax">Fax: <span t-field="o.company_id.fax"/></li>
+                
+                                <li t-if="o.company_id.email">&amp;bull;</li>
+                                <li t-if="o.company_id.email">Email: <span t-field="o.company_id.email"/></li>
+                
+                                <li t-if="o.company_id.website">&amp;bull;</li>
+                                <li t-if="o.company_id.website">Website: <span t-field="o.company_id.website"/></li>
+                            </ul>
+                            <t t-if="o.company_id.custom_footer">
+                                <span t-raw="o.company_id.rml_footer"/>
+                            </t>
+                            <ul class="list-inline">
+                                <li>Page:</li>
+                                <li><span class="page"/></li>
+                                <li>/</li>
+                                <li><span class="topage"/></li>
+                            </ul>
+                        </div>
+                    </div>      
+                </t>
+             </t>
+        </template>
+    </data>
+</openerp>
