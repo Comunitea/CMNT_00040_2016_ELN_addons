@@ -144,6 +144,21 @@ class StockPickingExport(models.TransientModel):
             _("The formated string must match the given length")
         return str(ascii_string)
 
+    @api.model
+    def _subtract_returns(self, product_uom_qty, move_id, lot_id):
+        if move_id.returned_move_ids:
+            for smol in move_id.returned_move_ids.mapped('linked_move_operation_ids'):
+                linked_move_id = smol.move_id
+                if linked_move_id.state != 'done':
+                    continue
+                location_dest_usage = linked_move_id.location_dest_id.usage
+                sign = -1 if location_dest_usage == 'internal' else 1
+                if lot_id == smol.operation_id.lot_id:
+                    product_uom_qty += smol.qty * sign
+                if linked_move_id.returned_move_ids:
+                    product_uom_qty = self._subtract_returns(product_uom_qty, linked_move_id, lot_id)
+        return product_uom_qty
+
     @api.multi
     def stock_picking_export(self):
         for wizard in self:
@@ -387,9 +402,7 @@ class StockPickingExport(models.TransientModel):
                 # Cantidad unidades de venta en unidades (8 posiciones sin comas, y signo para los abonos) ej, para 23 ó -23 : |00000023| ó |-0000023|
                 product_uom_qty = line['product_qty'] * sign
                 if self.subtract_returns and move_id.returned_move_ids:
-                    for smol in move_id.returned_move_ids.linked_move_operation_ids:
-                        if lot_id == smol.operation_id.lot_id:
-                            product_uom_qty -= smol.qty * sign
+                    product_uom_qty = self._subtract_returns(product_uom_qty, move_id, lot_id)
                 if product_uom_qty == 0: # No grabamos la linea
                     l_text = ''
                     continue
@@ -517,9 +530,7 @@ class StockPickingExport(models.TransientModel):
                 # Cantidad (en cajas). Para especificar cantidades en bolsas hay que calcular la parte proporcional de caja que supone.
                 product_uom_qty = line['product_qty'] * sign
                 if self.subtract_returns and move_id.returned_move_ids:
-                    for smol in move_id.returned_move_ids.linked_move_operation_ids:
-                        if lot_id == smol.operation_id.lot_id:
-                            product_uom_qty -= smol.qty * sign
+                    product_uom_qty = self._subtract_returns(product_uom_qty, move_id, lot_id)
                 if product_uom_qty == 0: # No grabamos la linea
                     l_text = ''
                     continue
@@ -668,9 +679,7 @@ class StockPickingExport(models.TransientModel):
                 # 6. Cantidad servida (4)
                 product_uom_qty = line['product_qty'] * sign
                 if self.subtract_returns and move_id.returned_move_ids:
-                    for smol in move_id.returned_move_ids.linked_move_operation_ids:
-                        if lot_id == smol.operation_id.lot_id:
-                            product_uom_qty -= smol.qty * sign
+                    product_uom_qty = self._subtract_returns(product_uom_qty, move_id, lot_id)
                 if product_uom_qty == 0: # No grabamos la linea
                     l_text = ''
                     continue
