@@ -30,7 +30,7 @@ class StockPickingShippingLabelWizard(models.TransientModel):
                     'picking_id': picking_id.id,
                     'picking_name': picking_id.name,
                     'partner_shipping_id': picking_id.partner_id.display_name,
-                    'total_packages': 1,
+                    'total_packages': picking_id.transport_company_pallets or 1,
                     'note': picking_id.note,
                 })
         res.update(line_ids=lines)
