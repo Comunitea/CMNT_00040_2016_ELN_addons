@@ -822,23 +822,27 @@ class ProductionAppRegistry(models.Model):
                         #'value_type': 'text',
                         'required_text': product.dun14,
                     })
-            if dic['value_type'] == 'text':
-                sql = """
-                    with posible_values AS (
-                        select distinct (UPPER(TRIM(value))) as value_alias, date from quality_check_line
-                        where pqc_id = %s
-                        order by date desc, UPPER(TRIM(value))
-                        limit 50
-                    )
-                    select distinct value_alias from posible_values
-                    order by value_alias limit 5
-                """ % (dic['id'])
-                self._cr.execute(sql)                
-                records = self._cr.fetchall()
-                suggested_values = []
-                if records:
-                    suggested_values = [v[0] for v in records]
-                dic['suggested_values'] = suggested_values
+            # Decidimos no obtener valores sugeridos para forzar a los operarios
+            # a rellenarlos siempre y no elegir uno de la lista y que resulte incorrecto
+            # por falta de atención.
+            # Comentamos el código por si se decide volver a mostrarlos. (05-10-2023)
+            #if dic['value_type'] == 'text':
+            #    sql = """
+            #        with posible_values AS (
+            #            select distinct (UPPER(TRIM(value))) as value_alias, date from quality_check_line
+            #            where pqc_id = %s
+            #            order by date desc, UPPER(TRIM(value))
+            #            limit 50
+            #        )
+            #        select distinct value_alias from posible_values
+            #        order by value_alias limit 5
+            #    """ % (dic['id'])
+            #    self._cr.execute(sql)
+            #    records = self._cr.fetchall()
+            #    suggested_values = []
+            #    if records:
+            #        suggested_values = [v[0] for v in records]
+            #    dic['suggested_values'] = suggested_values
             res2.append(dic)
         return res2
 
