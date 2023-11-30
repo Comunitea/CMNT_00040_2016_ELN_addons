@@ -1,80 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-       <template id="gs1_128_report_layout">
-           <td class="text-left col-xs-5">
-               <table class="table table-condensed table-bordered">
-                   <tr>
-                       <td class="text-left col-xs-12" t-att-colspan="3">
-                           <h5 align="right">
-                               <img t-if="picking.company_id.logo" t-att-src="'data:image/png;base64,%s' % picking.company_id.logo" style="max-width:150px;max-height:70px;"/>
-                               <b>
-                               <div t-field="picking.company_id.partner_id"
-                                    t-field-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": true}'
-                                    class="pull-left" align="left"
-                               />
-                               </b>
-                           </h5>
-                       </td>
-                   </tr>
-                   <tr>
-                       <td class="text-left col-xs-12" t-att-colspan="3">
-                           <span align="left"><b>LUGAR DE ENTREGA:</b></span>
-                           <br/>
-                               <div t-field="picking.partner_id" 
-                                    t-field-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": true}'
-                                    class="pull-left"
+        <template id="gs1_128_report_layout">
+            <td class="text-left col-xs-5">
+                <table class="table table-condensed table-bordered">
+                    <tr>
+                        <td class="text-left col-xs-12" t-att-colspan="3">
+                            <h5 align="right">
+                                <img t-if="picking.company_id.logo" t-att-src="'data:image/png;base64,%s' % picking.company_id.logo" style="max-width:150px;max-height:70px;"/>
+                                <b>
+                                <div t-field="picking.company_id.partner_id"
+                                     t-field-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": true}'
+                                     class="pull-left" align="left"
                                 />
-                       </td>
-                   </tr>
-                   <tr>
-                       <td class="text-center col-xs-12" t-att-colspan="3">
-                           <span><b>PRODUCTO: </b></span><span t-esc="p['pack_name']"/>
-                       </td>
-                   </tr>
-                   <tr>
-                       <td class="text-center col-xs-3">
-                           <span><b>ALBARÁN</b></span>
-                           <br/>
-                           <span t-esc="picking.name"/>
-                           <br/>
-                           <span><b>BULTO: </b></span><span t-esc="p['product_pack']"/>/<span t-esc="p['total_pack']"/>
-                       </td>
-                       <td class="text-left col-xs-6">
-                           <span><b>GTIN: </b></span><span t-esc="p['pack_dun14']"/>
-                           <br/>
-                           <span><b>CANTIDAD: </b></span><span t-esc="p['pack_uos_qty']"/> <span t-esc="p['pack_uos']"/>
-                           <br/>
-                           <span><b>LOTE: </b></span><span t-esc="p['pack_lot']"/>
-                       </td>
-                       <td class="text-center col-xs-3">
-                           <span><b>F. CONSUMO</b></span>
-                           <br/>
-                           <span><b>PREFERENTE:</b></span>
-                           <br/>
-                           <span t-esc="p['pack_date']"/>
-                       </td>
-                   </tr>
-                   <tr>
-                       <td class="text-center col-xs-12" t-att-colspan="3">
-                           <span><b>SSCC: </b></span><span t-esc="p['pack_sscc']"/>
-                       </td>
-                   </tr>
-                   <tr>
-                       <td class="text-center col-xs-12" t-att-colspan="3">
-                           <br/>
-                           <img t-att-src="'data:image/png;base64,%s' % p['pack_gs1_128_l1']" style="width:550px;height:145px"/>
-                           <br/>
-                           <span t-esc="p['humanReadable1']"/>
-                           <br/><br/>
-                           <img t-att-src="'data:image/png;base64,%s' % p['pack_gs1_128_l2']" style="width:550px;height:145px"/>
-                           <br/>
-                           <span t-esc="p['humanReadable2']"/>
-                           <br/><br/>
-                       </td> 
-                   </tr>
-               </table>
-           </td>
-       </template>
+                                </b>
+                            </h5>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-left col-xs-12" t-att-colspan="3">
+                            <span align="left"><b>SHIPPING ADDRESS:</b></span>
+                            <br/>
+                                <div t-field="picking.partner_id"
+                                     t-field-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": true}'
+                                     class="pull-left"
+                                 />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center col-xs-12" t-att-colspan="3">
+                            <span><b>PRODUCT: </b></span><span t-esc="p['pack_name']"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center col-xs-3">
+                            <span><b>PICKING:</b></span>
+                            <br/>
+                            <span t-esc="picking.name"/>
+                            <br/>
+                            <span><b>PACKAGE: </b></span><span t-esc="p['product_pack']"/>/<span t-esc="p['total_pack']"/>
+                        </td>
+                        <td class="text-left col-xs-6">
+                            <span><b>GTIN: </b></span><span t-esc="p['pack_dun14']"/>
+                            <br/>
+                            <span><b>QTY: </b></span><span t-esc="p['pack_uos_qty']"/> <span t-esc="p['pack_uos']"/>
+                            <br/>
+                            <span><b>LOT: </b></span><span t-esc="p['pack_lot']"/>
+                        </td>
+                        <td class="text-center col-xs-3">
+                            <span><b>BEST BEFORE</b></span>
+                            <br/>
+                            <span><b>DATE:</b></span>
+                            <br/>
+                            <span t-esc="p['pack_date']"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center col-xs-12" t-att-colspan="3">
+                            <span><b>SSCC: </b></span><span t-esc="p['pack_sscc']"/>
+                            <span t-if="picking.client_order_ref">
+                            <span> - </span>
+                            <span><b>CUSTOMER ORDER N.: </b></span><span t-esc="picking.client_order_ref"/>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center col-xs-12" t-att-colspan="3">
+                            <br/>
+                            <img t-att-src="'data:image/png;base64,%s' % p['pack_gs1_128_l1']" style="width:550px;height:145px"/>
+                            <br/>
+                            <span t-esc="p['humanReadable1']"/>
+                            <br/><br/>
+                            <img t-att-src="'data:image/png;base64,%s' % p['pack_gs1_128_l2']" style="width:550px;height:145px"/>
+                            <br/>
+                            <span t-esc="p['humanReadable2']"/>
+                            <br/><br/>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </template>
     </data>
 </openerp>
