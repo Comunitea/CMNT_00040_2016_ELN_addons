@@ -39,7 +39,7 @@ class StockPicking(models.Model):
     def action_print_gs1_128_label(self):
         p_dic = {}
         for picking in self:
-            packing_ids = picking.get_packing_ids()
+            packing_ids = picking.with_context(lang=picking.partner_id.lang).get_packing_ids()
             for k, vals in packing_ids.items():
                 pack_sscc = picking.get_sscc(k)
                 if picking.id not in p_dic:
