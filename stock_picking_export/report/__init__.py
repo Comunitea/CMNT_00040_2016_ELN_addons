@@ -3,3 +3,4 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import stock_picking_export_aspil_xls
+import stock_picking_export_chep_xls

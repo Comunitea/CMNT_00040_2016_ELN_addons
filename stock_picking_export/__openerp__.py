@@ -17,10 +17,12 @@
         'account_payment_sale',
         'sale_early_payment_discount',
         'eln_sale',
+        'stock_picking_pallets',
         'report_xls',
      ],
     "init_xml" : [],
     'data': [
+        'views/res_partner_view.xml',
         'wizard/stock_picking_export_view.xml',
         'report/stock_picking_export_report.xml',
     ],
