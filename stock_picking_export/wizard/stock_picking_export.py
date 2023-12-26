@@ -19,6 +19,7 @@ class StockPickingExport(models.TransientModel):
         ('model_aspil', 'ASPIL'),
         ('model_mars', 'MARS'),
         ('model_deleben', 'DELEBEN'),
+        ('model_chep', 'CHEP'),
         ], string='File type', required=True)
     note_1 = fields.Text(string='Log')
     note_2 = fields.Text(string='Log')
@@ -72,6 +73,8 @@ class StockPickingExport(models.TransientModel):
             self.file_name = file_name
         elif self.file_type == 'model_deleben':
             self.file_name = 'LIALBA.txt'
+        elif self.file_type == 'model_chep':
+            self.file_name = 'chep_albaranes.xls'
         else:
             self.file_name = 'albaran.txt'
 
@@ -171,6 +174,8 @@ class StockPickingExport(models.TransientModel):
                 text, err_log, pickings_exported = wizard.get_model_mars()
             if wizard.file_type == 'model_deleben':
                 text, err_log, pickings_exported = wizard.get_model_deleben()
+            if wizard.file_type == 'model_chep':
+                text, err_log, pickings_exported = wizard.get_model_chep()
             # -------------------------------------------------------------------------------------------------------------------------------
             # GENERAMOS FICHERO
             # -------------------------------------------------------------------------------------------------------------------------------
@@ -197,6 +202,28 @@ class StockPickingExport(models.TransientModel):
                         return {
                             'type': 'ir.actions.report.xml',
                             'report_name': 'stock_picking_export_aspil_xls',
+                            'datas': {'lines': text}
+                        }
+                elif wizard.file_type == 'model_chep':
+                    if err_log and not wizard.bypass_warnings:
+                        err_log = _("Export completed with errors:") + '\n' + err_log
+                        wizard.write({'state': 'choose', 'note_2': err_log})
+                        self._context.get('active_ids', [])
+                        return {
+                            'name': _('Export File Result'),
+                            'type': 'ir.actions.act_window',
+                            'res_model': 'stock.picking.export',
+                            'view_mode': 'form',
+                            'view_type': 'form',
+                            'res_id': wizard.id,
+                            'views': [(False, 'form')],
+                            'target': 'new',
+                            'context': self._context,
+                        }
+                    else:
+                        return {
+                            'type': 'ir.actions.report.xml',
+                            'report_name': 'stock_picking_export_chep_xls',
                             'datas': {'lines': text}
                         }
                 else:
@@ -847,6 +874,95 @@ class StockPickingExport(models.TransientModel):
                 # Número línea
                 line_pos += 1
                 text += ('\r\n' + l_text) if text else l_text
+            if line_pos > 0: # Significa que se ha generado al menos un registro por albarán
+                pickings_exported |= picking
+        return (text, err_log, pickings_exported)
+
+
+    @api.model
+    def get_model_chep(self):
+        err_log = ''
+        text = []
+        active_ids = self._context.get('active_ids', [])
+        pickings = self.env['stock.picking'].browse(active_ids)
+        picking_lines = self.get_picking_lines(pickings)
+        pickings_exported = self.env['stock.picking']
+        for picking in pickings:
+            line_pos = 0
+            if not (picking.pallet_type_1 or picking.pallet_type_2):
+                continue
+            if picking.state != 'done':
+                raise exceptions.Warning(_('Warning'), _("You can only export pickings in 'done' state!"))
+            if picking.id not in picking_lines or not picking_lines[picking.id]: # Esto no debería pasar nunca
+                err_msg = _("Error in picking '%s': not report lines!") % (picking.name)
+                err_log += '\n' + err_msg
+                continue
+            location_usage = picking.move_lines and picking.move_lines[0].location_id.usage
+            location_dest_usage = picking.move_lines and picking.move_lines[0].location_dest_id.usage
+            if not (location_usage == 'internal' and location_dest_usage == 'customer' or
+                    location_usage == 'customer' and location_dest_usage == 'internal'):
+                err_msg = _("You can only export customer outgoing or incoming pickings! Picking: %s") % (picking.name)
+                err_log += '\n' + err_msg
+            if location_dest_usage == 'customer' and not picking.sale_id:
+                err_msg = _("You can only export customer outgoing pickings with sales orders! Picking: %s") % (picking.name)
+                err_log += '\n' + err_msg
+            # Obtenemos el código de cliente
+            partner_code = picking.partner_id.chep_ref or picking.partner_id.commercial_partner_id.chep_ref or ''
+            if not partner_code:
+                partner_code = '??????????'
+                err_msg = _("Partner %s without reference (%s)") % (picking.partner_id.name, picking.name)
+                err_log += '\n' + err_msg
+            # Código de la empresa
+            company_code = '0100961921'
+            #if picking.company_id.vat:
+            #    if not (picking.company_id.vat.find('330') == -1):
+            #        company_code = '0100977023'
+            #    elif not (picking.company_id.vat.find('956') == -1):
+            #        company_code = '0100961921'
+            # Tipo de transferencia
+            transfer_type = ''
+            if location_dest_usage == 'customer':
+                transfer_type = 'SALIDA'
+            if location_dest_usage == 'internal':
+                transfer_type = 'ENTRADA'
+            if location_usage == 'internal' and location_dest_usage == 'internal':
+                transfer_type = ''
+            # Número de albarán
+            picking_name = picking.name
+            # Número de pedido
+            other_ref = picking.client_order_ref or ''
+            # Fecha albarán
+            date_done = picking.date_done and picking.date_done[:10] or ''
+            picking_date = self.parse_short_date(date_done, '%d/%m/%Y')
+            # Código de pallet
+            if picking.pallet_type_1:
+                supplier_product_code = '3-B1208A'
+                qty = picking.pallet_type_1
+                l_text = {
+                    'company_code': company_code,
+                    'partner_code': partner_code, # Código de cliente CHEP
+                    'picking_name': picking_name, # Número de albarán
+                    'transfer_type': transfer_type, # Tipo de transferencia
+                    'picking_date': picking_date, # Fecha albarán
+                    'supplier_product_code': supplier_product_code, # Código de artículo CHEP
+                    'qty': qty, # Cantidad
+                    'other_ref': other_ref,
+                }
+                text.append(l_text)
+            if picking.pallet_type_2:
+                supplier_product_code = '16-P0604'
+                qty = picking.pallet_type_2
+                l_text = {
+                    'company_code': company_code,
+                    'partner_code': partner_code, # Código de cliente CHEP
+                    'picking_name': picking_name, # Número de albarán
+                    'transfer_type': transfer_type, # Tipo de transferencia
+                    'picking_date': picking_date, # Fecha albarán
+                    'supplier_product_code': supplier_product_code, # Código de artículo CHEP
+                    'qty': qty, # Cantidad
+                    'other_ref': other_ref,
+                }
+                text.append(l_text)
             if line_pos > 0: # Significa que se ha generado al menos un registro por albarán
                 pickings_exported |= picking
         return (text, err_log, pickings_exported)

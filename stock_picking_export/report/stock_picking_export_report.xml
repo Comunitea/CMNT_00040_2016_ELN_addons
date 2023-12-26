@@ -3,10 +3,19 @@
   <data>
 
     <record id="stock_picking_export_aspil_xls" model="ir.actions.report.xml">
-      <field name="name">ASPIL_ALBARANES</field>
+      <field name="name">aspil_albaranes</field>
       <field name="model">stock.picking</field>
       <field name="type">ir.actions.report.xml</field>
       <field name="report_name">stock_picking_export_aspil_xls</field>
+      <field name="report_type">xls</field>
+      <field name="auto" eval="False"/>
+    </record>
+
+    <record id="stock_picking_export_chep_xls" model="ir.actions.report.xml">
+      <field name="name">chep_albaranes</field>
+      <field name="model">stock.picking</field>
+      <field name="type">ir.actions.report.xml</field>
+      <field name="report_name">stock_picking_export_chep_xls</field>
       <field name="report_type">xls</field>
       <field name="auto" eval="False"/>
     </record>
