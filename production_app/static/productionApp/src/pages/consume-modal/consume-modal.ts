@@ -234,8 +234,11 @@ export class ConsumeModalPage {
     onchange_uom() {
         if (this.ctrl !== 'not do') {
             var uos_coeff = this.prodData.uos_coeff;
-            this.uos_qty = parseFloat((this.line.qty * uos_coeff).toFixed(2));
-            this.ctrl = 'not do';
+            var new_qty = parseFloat((this.line.qty * uos_coeff).toFixed(2));
+            if (new_qty !== this.uos_qty) {
+                this.uos_qty = new_qty;
+                this.ctrl = 'not do';
+            }
         } else {
             this.ctrl = 'do';
         }
@@ -247,8 +250,11 @@ export class ConsumeModalPage {
             if (uos_coeff == 0) {
                 uos_coeff = 1;
             }
-            this.line.qty = parseFloat((this.uos_qty / uos_coeff).toFixed(2))
-            this.ctrl = 'not do';
+            var new_qty = parseFloat((this.uos_qty / uos_coeff).toFixed(2));
+            if (new_qty !== this.line.qty) {
+                this.line.qty = new_qty;
+                this.ctrl = 'not do';
+            }
         } else {
             this.ctrl = 'do';
         }  

@@ -208,8 +208,11 @@ export class FinishModalPage {
     onchange_uom() {
         if (this.ctrl !== 'not do') {
             var uos_coeff = this.prodData.uos_coeff;
-            this.uos_qty = parseFloat((this.qty * uos_coeff).toFixed(2));
-            this.ctrl = 'not do';
+            var new_qty = parseFloat((this.qty * uos_coeff).toFixed(2));
+            if (new_qty !== this.uos_qty) {
+                this.uos_qty = new_qty;
+                this.ctrl = 'not do';
+            }
         } else {
             this.ctrl = 'do';
         }
@@ -221,9 +224,12 @@ export class FinishModalPage {
             if (uos_coeff == 0) {
                 uos_coeff = 1;
             }
-            this.qty = parseFloat((this.uos_qty / uos_coeff).toFixed(2))
-            this.ctrl = 'not do';
-        } else {
+            var new_qty = parseFloat((this.uos_qty / uos_coeff).toFixed(2));
+            if (new_qty !== this.qty) {
+                this.qty = new_qty;
+                this.ctrl = 'not do';
+            }
+       } else {
             this.ctrl = 'do';
         }  
     }
