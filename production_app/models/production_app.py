@@ -172,7 +172,7 @@ class ProductionAppRegistry(models.Model):
         domain = [
             ('workcenter_id', '=', workcenter_id),
             ('state', '!=', 'done'),
-            ('production_state', 'in', ('ready', 'confirmed', 'in_production')),
+            ('production_state', 'in', ('ready', 'confirmed', 'in_production', 'finished')),
              '|',
             ('registry_id', '=', False),
             ('app_state', 'not in', ('finished', 'validated')),
