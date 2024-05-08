@@ -122,7 +122,11 @@ export class ListPage {
                 }); 
             })
             .catch( (err) => {
-                this.presentAlert("Error", "Fallo al cargar la producción.");
+                if (err && err['title'] && err['msg']) {
+                    this.presentAlert(err['title'], err['msg']);
+                } else {
+                    this.presentAlert("Error", "Fallo al cargar la producción.");
+                };
             }); 
         }
     }

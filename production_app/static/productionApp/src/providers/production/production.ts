@@ -398,11 +398,11 @@ export class ProductionProvider {
                         resolve(res);
                     }).catch((err) => {
                         console.log("Fallo al cargar los controles de calidad.");
-                        reject();
+                        reject(err);
                     });
                 } else {
-                    var err = { 'title': 'Aviso', 'msg': 'No hay órdenes de trabajo planificadas.' }
-                    reject(err)
+                    var err = { 'title': 'Aviso', 'msg': 'No hay órdenes de trabajo planificadas.' };
+                    reject(err);
                 }
             }).catch((err) => {
                 reject(err);
@@ -471,7 +471,7 @@ export class ProductionProvider {
                 resolve();
             }).catch((err) => {
                 console.log("GET QUALITY CHECKS ERROR")
-                reject();
+                reject(err);
             });
         });
         return promise
