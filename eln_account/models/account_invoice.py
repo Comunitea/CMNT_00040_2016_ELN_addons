@@ -38,11 +38,6 @@ class AccountInvoice(models.Model):
             return self.env.user.company_id.currency_id
         return super(AccountInvoice, self)._default_currency()
 
-    received_check = fields.Many2one(
-        string='Received check',
-        comodel_name='account.check.deposit',
-        compute='_received_check',
-        help="To write down that a check in paper support has been received, for example.")
     journal_id = fields.Many2one(
         string='Journal',
         comodel_name='account.journal',
@@ -59,16 +54,6 @@ class AccountInvoice(models.Model):
         default=_default_currency)
     origin_invoices_ids = fields.Many2many(copy=False)
     refund_invoice_ids = fields.Many2many(copy=False)
-
-    @api.multi
-    def _received_check(self):
-        for inv in self:
-            received_check = False
-            for payment in inv.payment_ids:
-                if payment.check_deposit_id:
-                    received_check = payment.check_deposit_id
-                    break
-            inv.received_check = received_check
 
     @api.multi
     def onchange_company_id(self, company_id, part_id, type, invoice_line, currency_id):

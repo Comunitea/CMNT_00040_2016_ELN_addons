@@ -28,7 +28,6 @@
     'depends': [
         'account',
         'sale_early_payment_discount',
-        'account_check_deposit',
         'eln_product',
         'product_ranking',
         'product_trademark',
