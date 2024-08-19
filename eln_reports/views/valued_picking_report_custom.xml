@@ -65,6 +65,9 @@
                                                 <strong>State</strong>
                                             </th>
                                             <th>
+                                                <strong>Client Ref</strong>
+                                            </th>
+                                            <th>
                                                 <strong>Commitment Date</strong>
                                             </th>
                                             <th>
@@ -82,6 +85,9 @@
                                             </td>
                                             <td>
                                                 <span t-field="o.state"/>
+                                            </td>
+                                            <td>
+                                                <span t-field="o.client_order_ref"/>
                                             </td>
                                             <td>
                                                 <span t-field="o.date"/>

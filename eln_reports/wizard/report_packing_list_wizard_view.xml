@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <record id="report_packing_list_wizard_view" model="ir.ui.view">
+            <field name="name">Print packing list</field>
+            <field name="model">report.packing.list.wizard</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+	            <form string="Print packing list">
+	                <group colspan="2">
+                        <field name="language"/>
+	                </group>
+                    <footer>
+                        <button name="print_report" string="Print" type="object" class="oe_highlight" />
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+	            </form>
+            </field>
+        </record>
+
+        <act_window name="Packing List"
+            res_model="report.packing.list.wizard"
+            src_model="stock.picking"
+            view_mode="form"
+            target="new"
+            key2="client_print_multi"
+            id="action_report_packing_list_wizard"/>
+
+    </data>
+</openerp>

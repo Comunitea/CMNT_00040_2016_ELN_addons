@@ -34,7 +34,7 @@
         'stock',
         'report_webkit',
         'delivery_route',
-        'picking_invoice_rel',  # Por campo stock_move_id
+        'picking_invoice_rel',  # Por campo stock_move_id, client_order_ref
         'eln_production',
         'product_expiry',
         'eln_sale',
@@ -53,6 +53,7 @@
         'wizard/product_logistic_sheet_report_wizard_view.xml',
         'wizard/stock_picking_shipping_label_wizard_view.xml',
         'wizard/stock_production_lot_label_wizard_view.xml',
+        'wizard/report_packing_list_wizard_view.xml',
         'views/eln_reports.xml',
         'views/layouts_custom.xml',
         'views/valued_picking_report_custom.xml',

@@ -7,3 +7,4 @@ import mrp
 import purchase
 import res_users
 import stock
+import report_packing_list_parser

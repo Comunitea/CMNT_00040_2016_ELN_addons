@@ -273,6 +273,7 @@
             report_type="qweb-pdf"
             name="eln_reports.report_packing_list"
             file="eln_reports.report_packing_list"
+            menu="False"
         />
 
         <record id="packing_list_report_paperformat_A4" model="report.paperformat">
