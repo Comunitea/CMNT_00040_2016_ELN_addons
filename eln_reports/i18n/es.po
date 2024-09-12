@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-17 11:39+0000\n"
-"PO-Revision-Date: 2023-08-17 13:50+0200\n"
+"POT-Creation-Date: 2024-08-19 07:12+0000\n"
+"PO-Revision-Date: 2024-08-19 10:38+0200\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.3.2\n"
+"X-Generator: Poedit 3.4.4\n"
 
 #. module: eln_reports
 #: field:res.users,supplier_invoice_count:0
@@ -87,6 +87,7 @@ msgstr "CONSUMO PREFERENTE:"
 #: view:product.logistic.sheet.report.wizard:eln_reports.product_logistic_sheet_report_wizard_view
 #: view:product.technical.sheet.report.wizard:eln_reports.product_technical_sheet_report_wizard_view
 #: view:purchase.order.report.wizard:eln_reports.purchase_order_report_wizard_view
+#: view:report.packing.list.wizard:eln_reports.report_packing_list_wizard_view
 #: view:stock.picking.shipping.label.wizard:eln_reports.stock_picking_shipping_label_wizard_view
 #: view:stock.production.lot.label.wizard:eln_reports.stock_production_lot_label_wizard_view
 msgid "Cancel"
@@ -101,6 +102,11 @@ msgstr "Marque esta opción si la empresa está sujeta al IVA. Será utilizado p
 #: help:res.users,agent:0
 msgid "Check this field if the partner is a creditor or an agent."
 msgstr "Marque esta casilla si la empresa es un agente."
+
+#. module: eln_reports
+#: view:website:stock.report_picking
+msgid "Client Ref"
+msgstr "Ref. cliente"
 
 #. module: eln_reports
 #: field:purchase.order.line,supplier:0
@@ -182,6 +188,7 @@ msgstr "Hoja de control tostado"
 #: field:product.logistic.sheet.report.wizard,create_uid:0
 #: field:product.technical.sheet.report.wizard,create_uid:0
 #: field:purchase.order.report.wizard,create_uid:0
+#: field:report.packing.list.wizard,create_uid:0
 #: field:stock.picking.shipping.label.wizard,create_uid:0
 #: field:stock.picking.shipping.label.wizard.line,create_uid:0
 #: field:stock.production.lot.label.wizard,create_uid:0
@@ -194,6 +201,7 @@ msgstr "Created by"
 #: field:product.logistic.sheet.report.wizard,create_date:0
 #: field:product.technical.sheet.report.wizard,create_date:0
 #: field:purchase.order.report.wizard,create_date:0
+#: field:report.packing.list.wizard,create_date:0
 #: field:stock.picking.shipping.label.wizard,create_date:0
 #: field:stock.picking.shipping.label.wizard.line,create_date:0
 #: field:stock.production.lot.label.wizard,create_date:0
@@ -283,6 +291,8 @@ msgstr "Descripción"
 #: field:product.logistic.sheet.report.wizard,display_name:0
 #: field:product.technical.sheet.report.wizard,display_name:0
 #: field:purchase.order.report.wizard,display_name:0
+#: field:report.eln_reports.report_packing_list,display_name:0
+#: field:report.packing.list.wizard,display_name:0
 #: field:report.stock_picking_shipping_label_wizard.stock_picking_shipping_label_report,display_name:0
 #: field:report.stock_production_lot_label_wizard.stock_production_lot_label_report,display_name:0
 #: field:stock.picking.shipping.label.wizard,display_name:0
@@ -359,6 +369,8 @@ msgstr "Agrupar por ruta de transporte"
 #: field:product.logistic.sheet.report.wizard,id:0
 #: field:product.technical.sheet.report.wizard,id:0
 #: field:purchase.order.report.wizard,id:0
+#: field:report.eln_reports.report_packing_list,id:0
+#: field:report.packing.list.wizard,id:0
 #: field:report.stock_picking_shipping_label_wizard.stock_picking_shipping_label_report,id:0
 #: field:report.stock_production_lot_label_wizard.stock_production_lot_label_report,id:0
 #: field:stock.picking.shipping.label.wizard,id:0
@@ -442,6 +454,7 @@ msgstr "Tipo de etiqueta"
 #: field:product.logistic.sheet.report.wizard,language:0
 #: field:product.technical.sheet.report.wizard,language:0
 #: field:purchase.order.report.wizard,language:0
+#: field:report.packing.list.wizard,language:0
 msgid "Language"
 msgstr "Idioma"
 
@@ -450,6 +463,8 @@ msgstr "Idioma"
 #: field:product.logistic.sheet.report.wizard,__last_update:0
 #: field:product.technical.sheet.report.wizard,__last_update:0
 #: field:purchase.order.report.wizard,__last_update:0
+#: field:report.eln_reports.report_packing_list,__last_update:0
+#: field:report.packing.list.wizard,__last_update:0
 #: field:report.stock_picking_shipping_label_wizard.stock_picking_shipping_label_report,__last_update:0
 #: field:report.stock_production_lot_label_wizard.stock_production_lot_label_report,__last_update:0
 #: field:stock.picking.shipping.label.wizard,__last_update:0
@@ -464,6 +479,7 @@ msgstr "Last Modified on"
 #: field:product.logistic.sheet.report.wizard,write_uid:0
 #: field:product.technical.sheet.report.wizard,write_uid:0
 #: field:purchase.order.report.wizard,write_uid:0
+#: field:report.packing.list.wizard,write_uid:0
 #: field:stock.picking.shipping.label.wizard,write_uid:0
 #: field:stock.picking.shipping.label.wizard.line,write_uid:0
 #: field:stock.production.lot.label.wizard,write_uid:0
@@ -476,6 +492,7 @@ msgstr "Last Updated by"
 #: field:product.logistic.sheet.report.wizard,write_date:0
 #: field:product.technical.sheet.report.wizard,write_date:0
 #: field:purchase.order.report.wizard,write_date:0
+#: field:report.packing.list.wizard,write_date:0
 #: field:stock.picking.shipping.label.wizard,write_date:0
 #: field:stock.picking.shipping.label.wizard.line,write_date:0
 #: field:stock.production.lot.label.wizard,write_date:0
@@ -609,6 +626,7 @@ msgstr "Embalajes"
 
 #. module: eln_reports
 #: model:ir.actions.report.xml,name:eln_reports.action_report_packing_list
+#: model:ir.actions.act_window,name:eln_reports.action_report_packing_list_wizard
 msgid "Packing List"
 msgstr "Packing List"
 
@@ -646,7 +664,7 @@ msgstr "Teléfono:"
 #. module: eln_reports
 #: view:website:eln_reports.report_packing_list
 msgid "Picking Date"
-msgstr "Picking Date"
+msgstr "Fecha albarán"
 
 #. module: eln_reports
 #: model:ir.model,name:eln_reports.model_stock_picking
@@ -700,6 +718,7 @@ msgstr "Precio unitario"
 #: view:product.technical.sheet:eln_reports.product_technical_sheet_tree_view
 #: view:product.technical.sheet.report.wizard:eln_reports.product_technical_sheet_report_wizard_view
 #: view:purchase.order.report.wizard:eln_reports.purchase_order_report_wizard_view
+#: view:report.packing.list.wizard:eln_reports.report_packing_list_wizard_view
 #: view:stock.picking.shipping.label.wizard:eln_reports.stock_picking_shipping_label_wizard_view
 #: view:stock.production.lot.label.wizard:eln_reports.stock_production_lot_label_wizard_view
 msgid "Print"
@@ -710,6 +729,11 @@ msgstr "Imprimir"
 #: view:product.technical.sheet.report.wizard:eln_reports.product_technical_sheet_report_wizard_view
 msgid "Print Product Technical Sheet"
 msgstr "Imprimir ficha técnica de producto"
+
+#. module: eln_reports
+#: view:report.packing.list.wizard:eln_reports.report_packing_list_wizard_view
+msgid "Print packing list"
+msgstr "Imprimir packing list"
 
 #. module: eln_reports
 #: model:ir.ui.menu,name:eln_reports.print_planning_routes
@@ -761,9 +785,14 @@ msgid "Proforma Invoice"
 msgstr "Factura proforma"
 
 #. module: eln_reports
+#: model:ir.model,name:eln_reports.model_purchase_order
+msgid "Purchase Order"
+msgstr "Pedido de compra"
+
+#. module: eln_reports
 #: model:ir.model,name:eln_reports.model_purchase_order_line
 msgid "Purchase Order Line"
-msgstr "Línea orden de compra"
+msgstr "Línea pedido de compra"
 
 #. module: eln_reports
 #: field:res.users,property_product_pricelist_purchase:0
@@ -886,6 +915,11 @@ msgstr "Estado"
 #: field:planning.report.wizard,kanban_state:0
 msgid "State of readiness"
 msgstr "Estado de preparación"
+
+#. module: eln_reports
+#: model:ir.model,name:eln_reports.model_stock_move
+msgid "Stock Move"
+msgstr "Movimiento de existencias"
 
 #. module: eln_reports
 #: field:stock.picking.shipping.label.wizard.line,picking_id:0
@@ -1107,7 +1141,7 @@ msgid "Use date"
 msgstr "Fecha de consumo preferente"
 
 #. module: eln_reports
-#: model:ir.model,name:eln_reports.model_res_users field:res.users,users:0
+#: field:res.users,users:0
 msgid "Users"
 msgstr "Usuarios"
 
@@ -1192,7 +1226,8 @@ msgid "of"
 msgstr "de"
 
 #. module: eln_reports
+#: view:report.packing.list.wizard:eln_reports.report_packing_list_wizard_view
 #: view:stock.picking.shipping.label.wizard:eln_reports.stock_picking_shipping_label_wizard_view
 #: view:stock.production.lot.label.wizard:eln_reports.stock_production_lot_label_wizard_view
 msgid "or"
-msgstr "or"
+msgstr "o"
