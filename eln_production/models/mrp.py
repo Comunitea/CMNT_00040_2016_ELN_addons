@@ -139,7 +139,7 @@ class MrpBom(models.Model):
                 wc_use.uom_id.id, wc_use.qty_per_cycle, bom.product_uom.id)
             oper = []
             if operators_n and operators:
-                for op in range(0, (operators_n)):
+                for op in range(0, (min(operators_n, len(operators)))):
                     oper.append(operators[op])
             lang = self.env.user.lang or u'es_ES'
             hour = (factor * bom.product_qty) * (wc_use.hour_nbr or 1.0) / (qty_per_cycle or 1.0)
