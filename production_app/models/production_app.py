@@ -1263,15 +1263,23 @@ class ProductionAppRegistry(models.Model):
 class QualityCheckLine(models.Model):
     _name = 'quality.check.line'
 
+    @api.model
+    def _get_employee(self):
+        employee_id = self.env['hr.employee'].search([('user_id', '=', self.env.user.id)], limit=1)
+        return employee_id and employee_id.id
+
     registry_id = fields.Many2one(
         'production.app.registry', 'App Registry', readonly=True,
         ondelete='cascade')
     pqc_id = fields.Many2one(
         'product.quality.check', 'Quality Check', readonly=False)
-    date = fields.Datetime('Date', readonly=False)
+    date = fields.Datetime('Date',
+        default=fields.Datetime.now,
+        readonly=False)
     value = fields.Text('Value', readonly=False)
     operator_id = fields.Many2one(
-        'hr.employee', 'Operator')
+        'hr.employee', 'Operator',
+        default=_get_employee)
     company_id = fields.Many2one(
         'res.company', 'Company',
         related='registry_id.company_id',
