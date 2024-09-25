@@ -47,5 +47,50 @@
             <field name="taxes" eval="[(4, ref('account_tax_template_s_req062_a'))]"/>
         </record>
 
+        <!--
+             BOE-A-2024-12944 Real Decreto-ley 4/2024, de 27 de junio:
+             https://www.boe.es/buscar/doc.php?id=BOE-A-2024-12944
+        -->
+
+        <record id="l10n_es_aeat_sii.aeat_sii_map_line_SFESB" model="aeat.sii.map.lines">
+            <field name="taxes" eval="[(4, ref('account_tax_template_s_iva2_bca'))]"/>
+        </record>
+        <record id="l10n_es_aeat_sii.aeat_sii_map_line_SFESB" model="aeat.sii.map.lines">
+            <field name="taxes" eval="[(4, ref('account_tax_template_s_iva75_bca'))]"/>
+        </record>
+
+        <record id="l10n_es_aeat_sii.aeat_sii_map_line_SFRS" model="aeat.sii.map.lines">
+            <field name="taxes" eval="[(4, ref('account_tax_template_p_iva2_bca'))]"/>
+        </record>
+        <record id="l10n_es_aeat_sii.aeat_sii_map_line_SFRS" model="aeat.sii.map.lines">
+            <field name="taxes" eval="[(4, ref('account_tax_template_p_iva75_bca'))]"/>
+        </record>
+        <record id="l10n_es_aeat_sii.aeat_sii_map_line_SFRS" model="aeat.sii.map.lines">
+            <field name="taxes" eval="[(4, ref('account_tax_template_p_iva2_ibca'))]"/>
+        </record>
+        <record id="l10n_es_aeat_sii.aeat_sii_map_line_SFRS" model="aeat.sii.map.lines">
+            <field name="taxes" eval="[(4, ref('account_tax_template_p_iva75_ibca'))]"/>
+        </record>
+        <record id="l10n_es_aeat_sii.aeat_sii_map_line_SFRS" model="aeat.sii.map.lines">
+            <field name="taxes" eval="[(4, ref('account_tax_template_p_iva2_ic_bca'))]"/>
+        </record>
+        <record id="l10n_es_aeat_sii.aeat_sii_map_line_SFRS" model="aeat.sii.map.lines">
+            <field name="taxes" eval="[(4, ref('account_tax_template_p_iva75_ic_bca'))]"/>
+        </record>
+
+
+        <record id="l10n_es_aeat_sii.aeat_sii_map_line_RE" model="aeat.sii.map.lines">
+            <field name="taxes" eval="[(4, ref('account_tax_template_p_req026_a'))]"/>
+        </record>
+        <record id="l10n_es_aeat_sii.aeat_sii_map_line_RE" model="aeat.sii.map.lines">
+            <field name="taxes" eval="[(4, ref('account_tax_template_s_req026_a'))]"/>
+        </record>
+        <record id="l10n_es_aeat_sii.aeat_sii_map_line_RE" model="aeat.sii.map.lines">
+            <field name="taxes" eval="[(4, ref('account_tax_template_p_req1_a'))]"/>
+        </record>
+        <record id="l10n_es_aeat_sii.aeat_sii_map_line_RE" model="aeat.sii.map.lines">
+            <field name="taxes" eval="[(4, ref('account_tax_template_s_req1_a'))]"/>
+        </record>
+
  </data>
 </openerp>

@@ -5,7 +5,6 @@
         <record id="aeat_mod303_2023_sub01_export_config" model="aeat.model.export.config">
             <field name="name">Exportación modelo 303 2023 - Régimen general/simplificado</field>
             <field name="model_number">303</field>
-            <field name="active" eval="False"/>
         </record>
 
         <record id="aeat_mod303_2023_sub01_export_line_01" model="aeat.model.export.config.line">
@@ -1034,7 +1033,6 @@
         <record id="aeat_mod303_2023_sub03_export_config" model="aeat.model.export.config">
             <field name="name">Exportación modelo 303 2023 - Información adicional + Resultado</field>
             <field name="model_number">303</field>
-            <field name="active" eval="False"/>
         </record>
 
         <record id="aeat_mod303_2023_sub03_export_line_01" model="aeat.model.export.config.line">
@@ -1455,7 +1453,6 @@
         <record id="aeat_mod303_2023_sub04_export_config" model="aeat.model.export.config">
             <field name="name">Exportación modelo 303 2023 - Información adicional - Último periodo exonerados 390</field>
             <field name="model_number">303</field>
-            <field name="active" eval="False"/>
         </record>
 
         <record id="aeat_mod303_2023_sub04_export_line_01" model="aeat.model.export.config.line">
