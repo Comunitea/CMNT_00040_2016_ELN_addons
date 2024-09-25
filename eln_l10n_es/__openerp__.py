@@ -5,7 +5,6 @@
     "name": "El Nogal - Spanish Charts of Accounts (PGCE 2008)",
     "version": "8.0.0.0.0",
     "category": 'Accounting & Finance',
-    "description": """l10n_es - module customizations for El Nogal""",
     "author": 'Pedro Gómez',
     "website": 'www.elnogal.com',
     "license": "AGPL-3",

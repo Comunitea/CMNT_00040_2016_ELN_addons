@@ -6,6 +6,12 @@
             <field name="date_from"></field>
             <field name="date_to"></field>
         </record>
+
+        <!--
+             BOE-A-2022-22685 Real Decreto-ley 20/2022, de 27 de diciembre:
+             https://www.boe.es/buscar/doc.php?id=BOE-A-2022-22685
+        -->
+
         <record id="aeat_mod303_map_line_150" model="aeat.mod.map.tax.code.line">
             <field name="field_number">150</field>
             <field name="tax_codes" eval="[(4, ref('account_tax_code_template_RGIDBI0'))]"/>
@@ -33,30 +39,95 @@
             <field name="name">Régimen General - Cuota 5% (Alimentos)</field>
         </record>
 
-        <record id="aeat_mod303_map_line_160" model="aeat.mod.map.tax.code.line">
-            <field name="field_number">160</field>
+        <record id="aeat_mod303_map_line_16-0" model="aeat.mod.map.tax.code.line">
+            <field name="field_number">16</field>
             <field name="tax_codes" eval="[(4, ref('account_tax_code_template_REBI0A'))]"/>
             <field name="map_parent_id" ref="l10n_es_aeat_mod303.aeat_mod303_map"/>
             <field name="name">Recargo equivalencia - Base imponible 0% (Alimentos)</field>
         </record>
-        <record id="aeat_mod303_map_line_180" model="aeat.mod.map.tax.code.line">
-            <field name="field_number">180</field>
+        <record id="aeat_mod303_map_line_18-0" model="aeat.mod.map.tax.code.line">
+            <field name="field_number">18</field>
+            <field name="to_regularize" eval="True"/>
             <field name="tax_codes" eval="[(4, ref('account_tax_code_template_REC0A'))]"/>
             <field name="map_parent_id" ref="l10n_es_aeat_mod303.aeat_mod303_map"/>
             <field name="name">Recargo equivalencia - Cuota 0% (Alimentos)</field>
         </record>
-        <record id="aeat_mod303_map_line_162" model="aeat.mod.map.tax.code.line">
-            <field name="field_number">162</field>
+        <record id="aeat_mod303_map_line_16-062" model="aeat.mod.map.tax.code.line">
+            <field name="field_number">16</field>
             <field name="tax_codes" eval="[(4, ref('account_tax_code_template_REBI062A'))]"/>
             <field name="map_parent_id" ref="l10n_es_aeat_mod303.aeat_mod303_map"/>
             <field name="name">Recargo equivalencia - Base imponible 0.62% (Alimentos)</field>
         </record>
-        <record id="aeat_mod303_map_line_182" model="aeat.mod.map.tax.code.line">
-            <field name="field_number">182</field>
+        <record id="aeat_mod303_map_line_18-062" model="aeat.mod.map.tax.code.line">
+            <field name="field_number">18</field>
+            <field name="to_regularize" eval="True"/>
             <field name="tax_codes" eval="[(4, ref('account_tax_code_template_REC062A'))]"/>
             <field name="map_parent_id" ref="l10n_es_aeat_mod303.aeat_mod303_map"/>
             <field name="name">Recargo equivalencia - Cuota 0.62% (Alimentos)</field>
         </record>
+
+        <!--
+             BOE-A-2024-12944 Real Decreto-ley 4/2024, de 27 de junio:
+             https://www.boe.es/buscar/doc.php?id=BOE-A-2024-12944
+        -->
+
+        <record id="aeat_mod303_map_line_165" model="aeat.mod.map.tax.code.line">
+            <field name="field_number">165</field>
+            <field name="tax_codes" eval="[(4, ref('account_tax_code_template_RGIDBI2'))]"/>
+            <field name="map_parent_id" ref="l10n_es_aeat_mod303.aeat_mod303_map"/>
+            <field name="name">Régimen General - Base imponible 2% (Alimentos)</field>
+        </record>
+        <record id="aeat_mod303_map_line_167" model="aeat.mod.map.tax.code.line">
+            <field name="field_number">167</field>
+            <field name="to_regularize" eval="True"/>
+            <field name="tax_codes" eval="[(4, ref('account_tax_code_template_RGIDC2'))]"/>
+            <field name="map_parent_id" ref="l10n_es_aeat_mod303.aeat_mod303_map"/>
+            <field name="name">Régimen General - Cuota 2% (Alimentos)</field>
+        </record>
+        <record id="aeat_mod303_map_line_153-75" model="aeat.mod.map.tax.code.line">
+            <field name="field_number">153</field>
+            <field name="tax_codes" eval="[(4, ref('account_tax_code_template_RGIDBI75'))]"/>
+            <field name="map_parent_id" ref="l10n_es_aeat_mod303.aeat_mod303_map"/>
+            <field name="name">Régimen General - Base imponible 7.5% (Alimentos)</field>
+        </record>
+        <record id="aeat_mod303_map_line_155-75" model="aeat.mod.map.tax.code.line">
+            <field name="field_number">155</field>
+            <field name="to_regularize" eval="True"/>
+            <field name="tax_codes" eval="[(4, ref('account_tax_code_template_RGIDC75'))]"/>
+            <field name="map_parent_id" ref="l10n_es_aeat_mod303.aeat_mod303_map"/>
+            <field name="name">Régimen General - Cuota 7.5% (Alimentos)</field>
+        </record>
+
+        <record id="aeat_mod303_map_line_168" model="aeat.mod.map.tax.code.line">
+            <field name="field_number">168</field>
+            <field name="tax_codes" eval="[(4, ref('account_tax_code_template_REBI026A'))]"/>
+            <field name="map_parent_id" ref="l10n_es_aeat_mod303.aeat_mod303_map"/>
+            <field name="name">Recargo equivalencia - Base imponible 0.26% (Alimentos)</field>
+        </record>
+        <record id="aeat_mod303_map_line_170" model="aeat.mod.map.tax.code.line">
+            <field name="field_number">170</field>
+            <field name="to_regularize" eval="True"/>
+            <field name="tax_codes" eval="[(4, ref('account_tax_code_template_REC026A'))]"/>
+            <field name="map_parent_id" ref="l10n_es_aeat_mod303.aeat_mod303_map"/>
+            <field name="name">Recargo equivalencia - Cuota 0.26% (Alimentos)</field>
+        </record>
+        <record id="aeat_mod303_map_line_16-1" model="aeat.mod.map.tax.code.line">
+            <field name="field_number">16</field>
+            <field name="tax_codes" eval="[(4, ref('account_tax_code_template_REBI1A'))]"/>
+            <field name="map_parent_id" ref="l10n_es_aeat_mod303.aeat_mod303_map"/>
+            <field name="name">Recargo equivalencia - Base imponible 1% (Alimentos)</field>
+        </record>
+        <record id="aeat_mod303_map_line_18-1" model="aeat.mod.map.tax.code.line">
+            <field name="field_number">18</field>
+            <field name="to_regularize" eval="True"/>
+            <field name="tax_codes" eval="[(4, ref('account_tax_code_template_REC1A'))]"/>
+            <field name="map_parent_id" ref="l10n_es_aeat_mod303.aeat_mod303_map"/>
+            <field name="name">Recargo equivalencia - Cuota 1% (Alimentos)</field>
+        </record>
+
+        <!--
+             Corrección errata en descripción R.E. 1.2% -> 1.4%
+        -->
 
         <record id="l10n_es_aeat_mod303.aeat_mod303_map_line_19" model="aeat.mod.map.tax.code.line">
             <field name="name">Recargo equivalencia - Base imponible 1.4%</field>

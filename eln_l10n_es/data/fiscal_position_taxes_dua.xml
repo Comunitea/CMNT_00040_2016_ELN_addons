@@ -33,5 +33,36 @@
             <field name="tax_dest_id" ref="l10n_es.account_tax_template_s_iva0_e"/>
         </record>
 
+        <!--
+             BOE-A-2024-12944 Real Decreto-ley 4/2024, de 27 de junio:
+             https://www.boe.es/buscar/doc.php?id=BOE-A-2024-12944
+        -->
+
+        <record id="fptt_dua_2b"
+            model="account.fiscal.position.tax.template">
+            <field name="position_id" ref="l10n_es_dua.fp_dua"/>
+            <field name="tax_src_id" ref="account_tax_template_p_iva2_bca"/>
+            <field name="tax_dest_id" ref="l10n_es_dua.account_tax_template_p_dua0"/>
+        </record>
+        <record id="fptt_dua_ventas_2b"
+            model="account.fiscal.position.tax.template">
+            <field name="position_id" ref="l10n_es_dua.fp_dua"/>
+            <field name="tax_src_id" ref="account_tax_template_s_iva2_bca"/>
+            <field name="tax_dest_id" ref="l10n_es.account_tax_template_s_iva0_e"/>
+        </record>
+
+        <record id="fptt_dua_75b"
+            model="account.fiscal.position.tax.template">
+            <field name="position_id" ref="l10n_es_dua.fp_dua"/>
+            <field name="tax_src_id" ref="account_tax_template_p_iva75_bca"/>
+            <field name="tax_dest_id" ref="l10n_es_dua.account_tax_template_p_dua0"/>
+        </record>
+        <record id="fptt_dua_ventas_75b"
+            model="account.fiscal.position.tax.template">
+            <field name="position_id" ref="l10n_es_dua.fp_dua"/>
+            <field name="tax_src_id" ref="account_tax_template_s_iva75_bca"/>
+            <field name="tax_dest_id" ref="l10n_es.account_tax_template_s_iva0_e"/>
+        </record>
+
     </data>
 </openerp>
