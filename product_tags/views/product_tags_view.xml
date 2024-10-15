@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        
+        <record id="product_tags_tree" model="ir.ui.view">
+            <field name="name">product.tags.tree</field>
+            <field name="model">product.tags</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Tags">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="product_tags_form" model="ir.ui.view">
+            <field name="name">product.tags.form</field>
+            <field name="model">product.tags</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Tags">
+                    <group>
+                        <field name="name"/>
+                        <field name="active"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="product_tags_search" model="ir.ui.view">
+            <field name="name">product.tags.search</field>
+            <field name="model">product.tags</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Search tags">
+                    <group>
+                        <field name="name"/>
+                        <field name="active"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_product_tags" model="ir.actions.act_window">
+            <field name="name">Tags</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.tags</field>
+            
+        </record>
+
+        <menuitem action="action_product_tags" id="menu_product_tags" parent="stock.menu_product_in_config_stock" groups="base.group_no_one"/>
+        
+    </data>
+</odoo>

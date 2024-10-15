@@ -1,0 +1,4 @@
+# SALE ORDER IMPORT
+
+## NOTAS MIGRACIÓN.
+- no migrar

@@ -1,0 +1,4 @@
+# ELN STOCK TRACEABILITY TREE
+
+## NOTAS MIGRACIÓN.
+- no migrar

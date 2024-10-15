@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+    <data>
+         <record id="view_mrp_forecast_merge" model="ir.ui.view">
+            <field name="name">Merge MRP forecast</field>
+            <field name="model">merge.mrp.forecast</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+               <form string="Merge mrp forecast">
+                    <h3>Please note that:</h3>
+                    <li>The selected forecasts will be merged into a new one.</li>
+                    <li>The forecasts used will not be deleted, only a new one will be created.</li>
+                    <footer>
+                        <button special="cancel" string="Cancel" icon="gtk-cancel"/>
+                        <button name="merge_mrp_forecast" string="Merge mrp forecast" type="object" icon="gtk-convert"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window name="Merge MRP forecast"
+            context="{'search_default_draft': 1, 'search_default_approved': False}"
+            res_model="merge.mrp.forecast"
+            src_model="mrp.forecast"
+            view_mode="form"
+            target="new"
+            multi="True"
+            key2="client_action_multi"
+            groups=""
+            id="action_view_merge_mrp_forecast"/>
+
+        <record id="view_stock_forecast_merge" model="ir.ui.view">
+            <field name="name">Merge stock forecast</field>
+            <field name="model">merge.stock.forecast</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+               <form string="Merge stock forecast">
+                    <h3>Please note that:</h3>
+                    <li>The selected forecasts will be merged into a new one.</li>
+                    <li>The forecasts used will not be deleted, only a new one will be created.</li>
+                    <footer>
+                        <button special="cancel" string="Cancel" icon="gtk-cancel"/>
+                        <button name="merge_stock_forecast" string="Merge stock forecast" type="object" icon="gtk-convert"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window name="Merge stock forecast"
+            context="{'search_default_draft': 1, 'search_default_approved': False}"
+            res_model="merge.stock.forecast"
+            src_model="forecast.kg.sold"
+            view_mode="form"
+            target="new"
+            multi="True"
+            key2="client_action_multi"
+            groups=""
+            id="action_view_merge_stock_forecast"/>
+    </data>
+</odoo>

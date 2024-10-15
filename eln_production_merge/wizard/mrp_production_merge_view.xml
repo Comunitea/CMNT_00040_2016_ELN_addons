@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+    <data>
+         <record id="view_mrp_production_merge" model="ir.ui.view">
+            <field name="name">Mrp production merge</field>
+            <field name="model">mrp.production.merge</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Unify productions">
+                    <separator colspan="4" string="Do you really want to unify the productions?" />
+                    <field name="valid_production_id"/>
+                    <newline/>
+                    <label string="Invalid productions" colspan="4"/>
+                    <field name="invalid_production_ids" colspan="4" nolabel="1"/>
+                    <separator string="" colspan="6"/>
+                    <footer>
+                        <button icon="gtk-cancel" special="cancel" string="Cancel" colspan="2"/>
+                        <button icon="terp-gtk-go-back-rtl" name="do_merge" string="Unify" type="object" colspan="2" default_focus="1" />
+                    </footer>
+               </form>
+            </field>
+        </record>
+
+        <record id="action_mrp_production_merge" model="ir.actions.act_window">
+            <field name="name">Production merge</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">mrp.production.merge</field>
+            
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_mrp_production_merge"/>
+            <field name="target">new</field>
+            <field name="multi">True</field>
+        </record>
+
+        <record model="ir.values" id="mrp_production_merge">
+            <field name="model_id" ref="mrp.model_mrp_production" />
+            <field name="name">Production merge</field>
+            <field name="key2">client_action_multi</field>
+            <field name="value" eval="'ir.actions.act_window,' + str(ref('action_mrp_production_merge'))" />
+            <field name="key">action</field>
+            <field name="model">mrp.production</field>
+        </record>
+    </data>
+</odoo>

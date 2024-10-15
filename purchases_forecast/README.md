@@ -1,0 +1,4 @@
+# PURCHASE FORECAST
+
+## NOTAS MIGRACIÓN.
+- no migrar

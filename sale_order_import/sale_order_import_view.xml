@@ -1,0 +1,60 @@
+<?xml version="1.0" ?>
+<odoo>
+    <data>
+
+        <record id="sale_order_import_view" model="ir.ui.view">
+            <field name="name">sale.order.import.form</field>
+            <field name="model">sale.order.import</field>
+            <field name="type">form</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <form string="Import File">
+                    <group col="4">
+                        <separator string="Select your file :" colspan="4"/>
+                        <field name="file" filename="file_name" colspan="4"/>
+                        <field name="file_name" colspan="4"/>
+                        <field name="file_type"/>
+                        <field name="shop_id" required="1" colspan="2"/>
+                        <field name="import_actions" colspan="2"/>
+                    </group>
+                    <footer>
+                        <button special="cancel" string="Cancel" icon="gtk-cancel"/>
+                        <button name="sale_order_import" string="Import" type="object" icon="gtk-ok"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="sale_order_import_result_view" model="ir.ui.view">
+            <field name="name">sale.order.import.result.form</field>
+            <field name="model">sale.order.import</field>
+            <field name="type">form</field>
+            <field name="priority">2</field>
+            <field name="arch" type="xml">
+                <form string="Import File">
+                    <separator colspan="4" string="Results:" />
+                    <field name="note" colspan="4" nolabel="1" width="800" height="600"/>
+                    <newline/>
+                    <separator colspan="6"/>
+                    <button special="cancel" string="Close" icon="gtk-cancel"/>
+                </form>
+            </field>
+        </record>
+
+        <!-- ########################################### -->
+        <!-- Menus                                       -->
+        <!-- ########################################### -->
+
+        <record id="action_sale_order_import" model="ir.actions.act_window">
+            <field name="name">Sales orders import</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.order.import</field>
+            
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem action="action_sale_order_import" id="menu_sale_order_import" parent="base.menu_sales" sequence="6" groups="sales_team.group_sale_salesman,base.group_sale_manager"/>
+
+    </data>
+</odoo>

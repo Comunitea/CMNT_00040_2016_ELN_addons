@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+    <data>
+        <record id="stock_location_templates_tree" model="ir.ui.view">
+            <field name="name">stock.location.templates.tree</field>
+            <field name="model">stock.location.templates</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Location Templates">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+       <record id="stock_location_templates_form" model="ir.ui.view">
+            <field name="name">stock.location.templates.form</field>
+            <field name="model">stock.location.templates</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Location Templates">
+                    <field name="name"/>
+                    <field name="company_id"/>
+                    <newline/>
+                    <notebook colspan="5">
+                    <page string="Logistics Flows">
+                        <field name="flow_pull_ids" colspan="4" nolabel="1">
+                            <tree string="Pulled flows">
+                                <field name="name"/>
+                                <field name="location_id" attrs="{'required': [('type_proc', '=', 'move')]}"/>
+                                <field name="type_proc"/>
+                                <field name="journal_id" />
+                                <field name="company_id" groups="base.group_multi_company"/>
+                            </tree>
+                            <form string="Pulled Paths">
+                                <separator string="Conditions" colspan="4"/>
+                                <field name="name" colspan="4"/>
+                                <field name="location_id"/>
+                                <separator string="Action Type" colspan="4"/>
+                                <field name="type_proc"/>
+                                <separator string="Parameters" colspan="4"/>
+                                <field name="company_id" groups="base.group_multi_company"/>
+                                <newline/>
+                                <group col="4" colspan="4" attrs="{'invisible':[('type_proc','!=','move')]}">
+                                    <field name="location_src_id" attrs="{'required': [('type_proc', '=', 'move')]}"/>
+                                    <field name="picking_type"/>
+                                    <field name="partner_address_id"/>
+                                    <field name="procure_method"/>
+                                    <field name="cancel_cascade"/>
+                                    <field name="automatic_exec"/>
+                                    <field name="invoice_state"/>
+                                    <field name="journal_id" />
+                                </group>
+                            </form>
+                        </field>
+                        <field name="path_ids" colspan="4" nolabel="1">
+                        <field name="name"/>
+                            <tree string="Pushed flows">
+                                <field name="location_from_id"/>
+                                <field name="location_dest_id"/>
+                                <field name="auto"/>
+                                <field name="name"/>
+                                <field name="invoice_state"/>
+                                <field name="company_id" groups="base.group_multi_company"/>
+                            </tree>
+                            <form string="Pushed flows">
+                                <group colspan="4" col="6">
+                                    <field name="name"/>
+                                    <field name="location_from_id"/>
+                                    <field name="location_dest_id"/>
+                                    <field name="auto"/>
+                                    <field name="delay"/>
+                                    <field name="journal_id" />
+                                </group>
+                                <field name="picking_type"/>
+                                <field name="invoice_state"/>
+                                <field name="company_id" groups="base.group_multi_company"/>
+                            </form>
+                        </field>
+                    </page>
+                    </notebook>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_stock_location_templates_filter" model="ir.ui.view">
+            <field name="name">stock.location.templates.list.select</field>
+            <field name="model">stock.location.templates</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+               <search string="Search Stock Location Templates">
+                    <field name="name"/>
+               </search>
+            </field>
+        </record>
+
+        <record id="action_stock_location_templates_form" model="ir.actions.act_window">
+            <field name="name">Stock Location Templates</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">stock.location.templates</field>
+            
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_stock_location_templates_filter"/>
+            <field name="context">{}</field>
+        </record>
+
+        <menuitem id="menu_stock_location_templates" parent="stock.menu_stock_config_settings" sequence="20" name="Stock Location Templates"/>
+        <menuitem action="action_stock_location_templates_form" id="stock_location_templates_form_menu" parent="menu_stock_location_templates" sequence="1"/>
+
+        <record id="product_normal_form_inherit_location" model="ir.ui.view">
+            <field name="name">product.product.form</field>
+            <field name="model">product.product</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="stock_location.product_normal_form_inherit_location"/>
+            <field name="arch" type="xml">
+                <!--
+                <xpath expr="/form/notebook/page[@string='Logistics Flows']/field[@name='flow_pull_ids']/form/field[@name='cancel_cascade']" position="before">
+                    <field name="automatic_exec"/>
+                </xpath>
+                -->
+                <field name="cancel_cascade" position="after">
+                    <field name="automatic_exec"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</odoo>

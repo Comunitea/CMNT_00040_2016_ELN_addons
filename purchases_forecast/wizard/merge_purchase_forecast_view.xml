@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+    <data>
+         <record id="view_purchase_forecast_merge" model="ir.ui.view">
+            <field name="name">Merge purchases forecast</field>
+            <field name="model">merge.purchase.forecast</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+               <form string="Merge purchases forecast">
+                    <h3>Please note that:</h3>
+                    <li>The selected forecasts will be merged into a new one.</li>
+                    <li>The forecasts used will not be deleted, only a new one will be created.</li>
+                    <footer>
+                        <button special="cancel" string="Cancel" icon="gtk-cancel"/>
+                        <button name="merge_purchases_forecasts" string="Merge purchases forecast" type="object" icon="gtk-convert"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window name="Merge purchases forecast"
+            context="{'search_default_draft': 1, 'search_default_approved': False}"
+            res_model="merge.purchase.forecast"
+            src_model="purchases.forecast"
+            view_mode="form"
+            target="new"
+            multi="True"
+            key2="client_action_multi"
+            id="action_view_merge_purchase_forecast"/>
+    </data>
+</odoo>

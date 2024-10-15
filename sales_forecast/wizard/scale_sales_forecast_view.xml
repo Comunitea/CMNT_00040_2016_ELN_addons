@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+    <data>
+        <record id="view_sales_forecast_scale" model="ir.ui.view">
+            <field name="name">Scale sales forecast</field>
+            <field name="model">scale.sales.forecast</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Scale sales forecast">
+                    <group>
+	                    <field name="percent_increase"/>
+                    </group>
+                    <h3>Please note that:</h3>
+                    <li>Only quantities are scaled.</li>
+                    <li>The amounts will be filled to zeros.</li>
+                    <footer>
+	                    <button icon="gtk-cancel" special="cancel" string="Cancel"/>
+	                    <button string='Generate new scaled forecasts' icon="gtk-execute" name="scale_sales_forecast" type="object"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window name="Scale sales forecast"
+            res_model="scale.sales.forecast"
+            src_model="sales.forecast"
+            view_mode="form"
+            target="new"
+            key2="client_action_multi"
+            id="action_view_sales_forecast_scale"/>            
+            
+    </data>
+</odoo>

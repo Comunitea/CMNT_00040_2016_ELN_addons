@@ -1,0 +1,180 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* eln_production_merge
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-05-30 14:59+0000\n"
+"PO-Revision-Date: 2019-05-31 12:47+0200\n"
+"Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: es\n"
+"X-Generator: Poedit 2.2.3\n"
+
+#. module: eln_production_merge
+#: view:mrp.production.merge:eln_production_merge.view_mrp_production_merge
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: eln_production_merge
+#: field:mrp.production.merge,create_uid:0
+msgid "Created by"
+msgstr "Created by"
+
+#. module: eln_production_merge
+#: field:mrp.production.merge,create_date:0
+msgid "Created on"
+msgstr "Created on"
+
+#. module: eln_production_merge
+#: field:mrp.production.merge,display_name:0
+msgid "Display Name"
+msgstr "Display Name"
+
+#. module: eln_production_merge
+#: view:mrp.production.merge:eln_production_merge.view_mrp_production_merge
+msgid "Do you really want to unify the productions?"
+msgstr "¿Estás seguro de querer unificar las producciones?"
+
+#. module: eln_production_merge
+#: code:addons/eln_production_merge/models/mrp.py:40
+#: code:addons/eln_production_merge/models/mrp.py:44
+#: code:addons/eln_production_merge/models/mrp.py:52
+#: code:addons/eln_production_merge/models/mrp.py:56
+#: code:addons/eln_production_merge/models/mrp.py:60
+#: code:addons/eln_production_merge/models/mrp.py:64
+#: code:addons/eln_production_merge/models/mrp.py:68
+#: code:addons/eln_production_merge/models/mrp.py:72
+#, python-format
+msgid "Error !"
+msgstr "¡Error!"
+
+#. module: eln_production_merge
+#: field:mrp.production.merge,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: eln_production_merge
+#: view:mrp.production.merge:eln_production_merge.view_mrp_production_merge
+msgid "Invalid productions"
+msgstr "Producciones no válidas"
+
+#. module: eln_production_merge
+#: field:mrp.production.merge,__last_update:0
+msgid "Last Modified on"
+msgstr "Last Modified on"
+
+#. module: eln_production_merge
+#: field:mrp.production.merge,write_uid:0
+msgid "Last Updated by"
+msgstr "Last Updated by"
+
+#. module: eln_production_merge
+#: field:mrp.production.merge,write_date:0
+msgid "Last Updated on"
+msgstr "Last Updated on"
+
+#. module: eln_production_merge
+#: help:mrp.production,product_ingredient_ids:0
+msgid "List of production orders that have been merged into the current one."
+msgstr "Lista de órdenes de producción que se han fusionado en la actual."
+
+#. module: eln_production_merge
+#: model:ir.model,name:eln_production_merge.model_mrp_production
+msgid "Manufacturing Order"
+msgstr "Orden de producción"
+
+#. module: eln_production_merge
+#: field:mrp.production,product_ingredient_ids:0
+msgid "Merged from"
+msgstr "Fusionar desde"
+
+#. module: eln_production_merge
+#: field:mrp.production,merged_into_id:0
+msgid "Merged into"
+msgstr "Fusionar en"
+
+#. module: eln_production_merge
+#: code:addons/eln_production_merge/wizard/mrp_production_merge.py:52
+#, python-format
+msgid "Production Orders"
+msgstr "Órdenes de producción"
+
+#. module: eln_production_merge
+#: model:ir.actions.act_window,name:eln_production_merge.action_mrp_production_merge
+msgid "Production merge"
+msgstr "Fusionar producciones"
+
+#. module: eln_production_merge
+#: code:addons/eln_production_merge/models/mrp.py:65
+#, python-format
+msgid "Production order \"%s\" BOM is different from the one in the first selected order."
+msgstr "La LdM de la orden de producción \"%s\" es diferente a la de la primera orden."
+
+#. module: eln_production_merge
+#: code:addons/eln_production_merge/models/mrp.py:61
+#, python-format
+msgid "Production order \"%s\" UOM is different from the one in the first selected order."
+msgstr "La UdM de la orden de producción \"%s\" es diferente a la de la primera orden."
+
+#. module: eln_production_merge
+#: code:addons/eln_production_merge/models/mrp.py:73
+#, python-format
+msgid "Production order \"%s\" UOS is different from the one in the first selected order."
+msgstr "La UdV de la orden de producción \"%s\" es diferente a la de la primera orden."
+
+#. module: eln_production_merge
+#: code:addons/eln_production_merge/models/mrp.py:45
+#: code:addons/eln_production_merge/models/mrp.py:53
+#, python-format
+msgid "Production order \"%s\" must be in status \"confirmed\" or \"ready\"."
+msgstr "La orden de producción \"%s\" tiene que estar en estado \"Esperando mercancía\" o \"Listo para fabricar\"."
+
+#. module: eln_production_merge
+#: code:addons/eln_production_merge/models/mrp.py:57
+#, python-format
+msgid "Production order \"%s\" product is different from the one in the first selected order."
+msgstr "El producto de la orden de producción \"%s\" es diferente al de la primera orden."
+
+#. module: eln_production_merge
+#: code:addons/eln_production_merge/models/mrp.py:69
+#, python-format
+msgid "Production order \"%s\" routing is different from the one in the first selected order. %s - %s"
+msgstr "El proceso productivo de la orden de produccion \"%s\" es diferente al de la primera orden. %s - %s"
+
+#. module: eln_production_merge
+#: help:mrp.production,merged_into_id:0
+msgid "Production order in which this production order has been merged into."
+msgstr "Orden de producción en la cual se a fusionado esta orden de producción."
+
+#. module: eln_production_merge
+#: field:mrp.production.merge,valid_production_id:0
+msgid "Production to keep"
+msgstr "Producción a mantener"
+
+#. module: eln_production_merge
+#: field:mrp.production.merge,invalid_production_ids:0
+msgid "Productions to cancel"
+msgstr "Producciones a cancelar"
+
+#. module: eln_production_merge
+#: code:addons/eln_production_merge/models/mrp.py:41
+#, python-format
+msgid "To merge at least two productions are needed."
+msgstr "Para poder fusionar se necesitan al menos dos producciones."
+
+#. module: eln_production_merge
+#: view:mrp.production.merge:eln_production_merge.view_mrp_production_merge
+msgid "Unify"
+msgstr "Unificar"
+
+#. module: eln_production_merge
+#: view:mrp.production.merge:eln_production_merge.view_mrp_production_merge
+msgid "Unify productions"
+msgstr "Unificar producciones"

@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <!--
+             BOE-A-2022-22685 Real Decreto-ley 20/2022, de 27 de diciembre:
+             https://www.boe.es/buscar/doc.php?id=BOE-A-2022-22685
+        -->
+
+        <record id="account_tax_code_template_RDDSC0IBA" model="account.tax.code.template">
+          <field name="parent_id" ref="l10n_es.account_tax_code_template_RDDSC"/>
+          <field name="code">RDDSC0IBA</field>
+          <field name="name">Rectificación de deducciones soportado. Cuota 0% intracomunitaria (Bienes alimentos).</field>
+          <field name="sign">1.0</field>
+        </record>
+        <record id="account_tax_code_template_AIBABI0" model="account.tax.code.template">
+          <field name="parent_id" ref="l10n_es.account_tax_code_template_AIBYSCBI"/>
+          <field name="code">AIBYSCBI0</field>
+          <field name="name">Adquisiciones intracomunitarias bienes alimentos. Base Imponible. (0%)</field>
+          <field name="sign">1.0</field>
+        </record>
+        <record id="account_tax_code_template_AIBYSCC0" model="account.tax.code.template">
+          <field name="parent_id" ref="l10n_es.account_tax_code_template_AIBYSCC"/>
+          <field name="code">AIBYSCC0</field>
+          <field name="name">Adquisiciones intracomunitarias bienes alimentos. Cuota. (0%)</field>
+          <field name="sign">1.0</field>
+        </record>
+        <record id="account_tax_code_template_AIBCAC0" model="account.tax.code.template">
+          <field name="parent_id" ref="account_tax_code_template_AIBYSCC0"/>
+          <field name="code">AIBCAC0</field>
+          <field name="name">Adquisiciones intracomunitarias bienes alimentos. Cuota. (0%)</field>
+          <field name="sign">1.0</field>
+        </record>
+        <record id="account_tax_code_template_AIBCABI0" model="account.tax.code.template">
+          <field name="parent_id" ref="account_tax_code_template_AIBABI0"/>
+          <field name="code">AIBCABI0</field>
+          <field name="name">Adquisiciones intracomunitarias bienes (Alimentos). Base Imponible. (0%)</field>
+          <field name="sign">1.0</field>
+        </record>
+        <record id="account_tax_code_template_MBYCRC0IBA" model="account.tax.code.template">
+          <field name="parent_id" ref="l10n_es.account_tax_code_template_MBYCRC"/>
+          <field name="code">MBYCRC0IB</field>
+          <field name="name">Modificación bases y cuotas repercutido. Cuota 0% intracomunitaria (Bienes alimentos).</field>
+          <field name="sign">1.0</field>
+        </record>
+        <record id="account_tax_code_template_AIBCA" model="account.tax.code.template">
+          <field name="parent_id" ref="l10n_es.account_tax_code_template_AIDBYSC"/>
+          <field name="code">AIBCA</field>
+          <field name="name">Adquisiciones intracomunitarias Bienes (Alimentos). Cuota.</field>
+          <field name="sign">1.0</field>
+        </record>
+        <record id="account_tax_code_template_RDDSC0EBA" model="account.tax.code.template">
+          <field name="parent_id" ref="l10n_es.account_tax_code_template_RDDSC"/>
+          <field name="code">RDDSC0EBA</field>
+          <field name="name">Rectificación de deducciones soportado. Cuota 0% extracomunitaria (Bienes alimentos).</field>
+          <field name="sign">1.0</field>
+        </record>
+        <record id="account_tax_code_template_IBABI0" model="account.tax.code.template">
+          <field name="parent_id" ref="l10n_es.account_tax_code_template_IBCBI"/>
+          <field name="code">IBABI0</field>
+          <field name="name">Importaciones bienes (Alimentos). Base Imponible. (0%)</field>
+          <field name="sign">1.0</field>
+        </record>
+        <record id="account_tax_code_template_DIBAC0" model="account.tax.code.template">
+          <field name="parent_id" ref="l10n_es.account_tax_code_template_DIBCC"/>
+          <field name="code">DIBAC0</field>
+          <field name="name">Devengo importaciones bienes (Alimentos). Cuota. (0%)</field>
+          <field name="sign">1.0</field>
+        </record>
+        <record id="account_tax_code_template_RDDSC0BA" model="account.tax.code.template">
+          <field name="parent_id" ref="l10n_es.account_tax_code_template_RDDSC"/>
+          <field name="code">RDDSC0BA</field>
+          <field name="name">Rectificación de deducciones soportado. Cuota 0% (Bienes alimentos).</field>
+          <field name="sign">1.0</field>
+        </record>
+        <record id="account_tax_code_template_OICBI0" model="account.tax.code.template">
+          <field name="parent_id" ref="l10n_es.account_tax_code_template_OICBI"/>
+          <field name="code">OICBI0</field>
+          <field name="name">Operaciones interiores corrientes (Alimentos). Base Imponible. (0%)</field>
+          <field name="sign">1.0</field>
+        </record>
+        <record id="account_tax_code_template_SOICC0" model="account.tax.code.template">
+          <field name="parent_id" ref="l10n_es.account_tax_code_template_SOICC"/>
+          <field name="code">SOICC0</field>
+          <field name="name">Soportado operaciones interiores corrientes (Alimentos). Cuota. (0%)</field>
+          <field name="sign">1.0</field>
+        </record>
+        <record id="account_tax_code_template_MBYCRC0BA" model="account.tax.code.template">
+          <field name="parent_id" ref="l10n_es.account_tax_code_template_MBYCRC"/>
+          <field name="code">MBYCRC0BA</field>
+          <field name="name">Modificación bases y cuotas repercutido. Cuota 0% (Bienes alimentos).</field>
+          <field name="sign">1.0</field>
+        </record>
+        <record id="account_tax_code_template_RGIDBI0" model="account.tax.code.template">
+          <field name="parent_id" ref="l10n_es.account_tax_code_template_IDBI"/>
+          <field name="code">RGIDBI0</field>
+          <field name="name">[150] Régimen general IVA devengado. Base imponible (Alimentos) (0%)</field>
+          <field name="sign">1.0</field>
+        </record>
+        <record id="account_tax_code_template_RGIDC0" model="account.tax.code.template">
+          <field name="parent_id" ref="l10n_es.account_tax_code_template_ITDC"/>
+          <field name="code">RGIDC0</field>
+          <field name="name">[152] Régimen general IVA devengado (Alimentos). Cuota (0%)</field>
+          <field name="sign">1.0</field>
+        </record>
+        <record id="account_tax_code_template_MBYCDRDERC0A" model="account.tax.code.template">
+          <field name="parent_id" ref="l10n_es.account_tax_code_template_MBYCDRDERC"/>
+          <field name="code">MBYCDRDERC0A</field>
+          <field name="name">Modificaciones bases y cuotas del recargo de equivalencia repercutido (Alimentos). Cuota 0%.</field>
+          <field name="sign">1.0</field>
+        </record>
+        <record id="account_tax_code_template_REBI0A" model="account.tax.code.template">
+          <field name="parent_id" ref="l10n_es.account_tax_code_template_IDBI"/>
+          <field name="code">REBI0A</field>
+          <field name="name">[16] Recargo equivalencia (Alimentos). Base Imponible. (0%)</field>
+          <field name="sign">1.0</field>
+        </record>
+        <record id="account_tax_code_template_REC0A" model="account.tax.code.template">
+          <field name="parent_id" ref="l10n_es.account_tax_code_template_ITDC"/>
+          <field name="code">REC0A</field>
+          <field name="name">[18] Recargo equivalencia (Alimentos). Cuota (0%)</field>
+          <field name="sign">1.0</field>
+        </record>
+        <record id="account_tax_code_template_RDDSCRE0A" model="account.tax.code.template">
+          <field name="parent_id" ref="l10n_es.account_tax_code_template_RDDSC"/>
+          <field name="code">RDDSCRE0A</field>
+          <field name="name">Rectificación de deducciones soportado (Alimentos). Recargo de equivalencia 0%.</field>
+          <field name="sign">1.0</field>
+        </record>
+        <record id="account_tax_code_template_REDBI0A" model="account.tax.code.template">
+          <field name="parent_id" ref="l10n_es.account_tax_code_template_OICBI"/>
+          <field name="code">REDBI0A</field>
+          <field name="name">Recargo equivalencia ded. (Alimentos). Base imponible (0%)</field>
+          <field name="sign">1.0</field>
+        </record>
+        <record id="account_tax_code_template_REDC0A" model="account.tax.code.template">
+          <field name="parent_id" ref="l10n_es.account_tax_code_template_SOICC"/>
+          <field name="code">REDC0A</field>
+          <field name="name">Recargo equivalencia ded. (Alimentos). Cuota (0%)</field>
+          <field name="sign">1.0</field>
+        </record>
+
+        <record id="account_tax_code_template_RDDSC5IBA" model="account.tax.code.template">
+          <field name="parent_id" ref="l10n_es.account_tax_code_template_RDDSC"/>
+          <field name="code">RDDSC5IBA</field>
+          <field name="name">Rectificación de deducciones soportado. Cuota 5% intracomunitaria (Bienes alimentos).</field>
+          <field name="sign">1.0</field>
+        </record>
+        <record id="account_tax_code_template_AIBABI5" model="account.tax.code.template">
+          <field name="parent_id" ref="l10n_es.account_tax_code_template_AIBYSCBI"/>
+          <field name="code">AIBYSCBI5</field>
+          <field name="name">Adquisiciones intracomunitarias bienes alimentos. Base Imponible. (5%)</field>
+          <field name="sign">1.0</field>
+        </record>
+        <record id="account_tax_code_template_AIBYSCC5" model="account.tax.code.template">
+          <field name="parent_id" ref="l10n_es.account_tax_code_template_AIBYSCC"/>
+          <field name="code">AIBYSCC5</field>
+          <field name="name">Adquisiciones intracomunitarias bienes alimentos. Cuota. (5%)</field>
+          <field name="sign">1.0</field>
+        </record>
+        <record id="account_tax_code_template_AIBCAC5" model="account.tax.code.template">
+          <field name="parent_id" ref="account_tax_code_template_AIBYSCC5"/>
+          <field name="code">AIBCAC5</field>
+          <field name="name">Adquisiciones intracomunitarias bienes alimentos. Cuota. (5%)</field>
+          <field name="sign">1.0</field>
+        </record>
+        <record id="account_tax_code_template_AIBCABI5" model="account.tax.code.template">
+          <field name="parent_id" ref="account_tax_code_template_AIBABI5"/>
+          <field name="code">AIBCABI5</field>
+          <field name="name">Adquisiciones intracomunitarias bienes (Alimentos). Base Imponible. (5%)</field>
+          <field name="sign">1.0</field>
+        </record>
+        <record id="account_tax_code_template_MBYCRC5IBA" model="account.tax.code.template">
+          <field name="parent_id" ref="l10n_es.account_tax_code_template_MBYCRC"/>
+          <field name="code">MBYCRC5IB</field>
+          <field name="name">Modificación bases y cuotas repercutido. Cuota 5% intracomunitaria (Bienes alimentos).</field>
+          <field name="sign">1.0</field>
+        </record>
+        <record id="account_tax_code_template_RDDSC5EBA" model="account.tax.code.template">
+          <field name="parent_id" ref="l10n_es.account_tax_code_template_RDDSC"/>
+          <field name="code">RDDSC5EBA</field>
+          <field name="name">Rectificación de deducciones soportado. Cuota 5% extracomunitaria (Bienes alimentos).</field>
+          <field name="sign">1.0</field>
+        </record>
+        <record id="account_tax_code_template_IBABI5" model="account.tax.code.template">
+          <field name="parent_id" ref="l10n_es.account_tax_code_template_IBCBI"/>
+          <field name="code">IBABI5</field>
+          <field name="name">Importaciones bienes (Alimentos). Base Imponible. (5%)</field>
+          <field name="sign">1.0</field>
+        </record>
+        <record id="account_tax_code_template_DIBAC5" model="account.tax.code.template">
+          <field name="parent_id" ref="l10n_es.account_tax_code_template_DIBCC"/>
+          <field name="code">DIBAC5</field>
+          <field name="name">Devengo importaciones bienes (Alimentos). Cuota. (5%)</field>
+          <field name="sign">1.0</field>
+        </record>
+        <record id="account_tax_code_template_RDDSC5BA" model="account.tax.code.template">
+          <field name="parent_id" ref="l10n_es.account_tax_code_template_RDDSC"/>
+          <field name="code">RDDSC5BA</field>
+          <field name="name">Rectificación de deducciones soportado. Cuota 5% (Bienes alimentos).</field>
+          <field name="sign">1.0</field>
+        </record>
+        <record id="account_tax_code_template_OICBI5" model="account.tax.code.template">
+          <field name="parent_id" ref="l10n_es.account_tax_code_template_OICBI"/>
+          <field name="code">OICBI5</field>
+          <field name="name">Operaciones interiores corrientes (Alimentos). Base Imponible. (5%)</field>
+          <field name="sign">1.0</field>
+        </record>
+        <record id="account_tax_code_template_SOICC5" model="account.tax.code.template">
+          <field name="parent_id" ref="l10n_es.account_tax_code_template_SOICC"/>
+          <field name="code">SOICC5</field>
+          <field name="name">Soportado operaciones interiores corrientes (Alimentos). Cuota. (5%)</field>
+          <field name="sign">1.0</field>
+        </record>
+        <record id="account_tax_code_template_MBYCRC5BA" model="account.tax.code.template">
+          <field name="parent_id" ref="l10n_es.account_tax_code_template_MBYCRC"/>
+          <field name="code">MBYCRC5BA</field>
+          <field name="name">Modificación bases y cuotas repercutido. Cuota 5% (bienes alimentos).</field>
+          <field name="sign">1.0</field>
+        </record>
+        <record id="account_tax_code_template_RGIDBI5" model="account.tax.code.template">
+          <field name="parent_id" ref="l10n_es.account_tax_code_template_IDBI"/>
+          <field name="code">RGIDBI5</field>
+          <field name="name">[153] Régimen general IVA devengado. Base imponible (Alimentos) (5%)</field>
+          <field name="sign">1.0</field>
+        </record>
+        <record id="account_tax_code_template_RGIDC5" model="account.tax.code.template">
+          <field name="parent_id" ref="l10n_es.account_tax_code_template_ITDC"/>
+          <field name="code">RGIDC5</field>
+          <field name="name">[155] Régimen general IVA devengado (Alimentos). Cuota (5%)</field>
+          <field name="sign">1.0</field>
+        </record>
+        <record id="account_tax_code_template_MBYCDRDERC062A" model="account.tax.code.template">
+          <field name="parent_id" ref="l10n_es.account_tax_code_template_MBYCDRDERC"/>
+          <field name="code">MBYCDRDERC062A</field>
+          <field name="name">Modificaciones bases y cuotas del recargo de equivalencia repercutido (Alimentos). Cuota 0.62%.</field>
+          <field name="sign">1.0</field>
+        </record>
+        <record id="account_tax_code_template_REBI062A" model="account.tax.code.template">
+          <field name="parent_id" ref="l10n_es.account_tax_code_template_IDBI"/>
+          <field name="code">REBI062A</field>
+          <field name="name">[16] Recargo equivalencia (Alimentos). Base Imponible. (0.62%)</field>
+          <field name="sign">1.0</field>
+        </record>
+        <record id="account_tax_code_template_REC062A" model="account.tax.code.template">
+          <field name="parent_id" ref="l10n_es.account_tax_code_template_ITDC"/>
+          <field name="code">REC062A</field>
+          <field name="name">[18] Recargo equivalencia (Alimentos). Cuota (0.62%)</field>
+          <field name="sign">1.0</field>
+        </record>
+        <record id="account_tax_code_template_RDDSCRE062A" model="account.tax.code.template">
+          <field name="parent_id" ref="l10n_es.account_tax_code_template_RDDSC"/>
+          <field name="code">RDDSCRE062A</field>
+          <field name="name">Rectificación de deducciones soportado (Alimentos). Recargo de equivalencia 0.62%.</field>
+          <field name="sign">1.0</field>
+        </record>
+        <record id="account_tax_code_template_REDBI062A" model="account.tax.code.template">
+          <field name="parent_id" ref="l10n_es.account_tax_code_template_OICBI"/>
+          <field name="code">REDBI062A</field>
+          <field name="name">Recargo equivalencia deducciones (Alimentos). Base imponible (0.62%)</field>
+          <field name="sign">1.0</field>
+        </record>
+        <record id="account_tax_code_template_REDC062A" model="account.tax.code.template">
+          <field name="parent_id" ref="l10n_es.account_tax_code_template_SOICC"/>
+          <field name="code">REDC062A</field>
+          <field name="name">Recargo equivalencia deducciones (Alimentos). Cuota (0.62%)</field>
+          <field name="sign">1.0</field>
+        </record>
+
+    </data>
+</odoo>

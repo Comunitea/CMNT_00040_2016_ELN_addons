@@ -1,0 +1,137 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* sales_mrp_stock_forecast_link
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-02-20 21:21+0000\n"
+"PO-Revision-Date: 2017-02-20 22:22+0100\n"
+"Last-Translator: Pedro <pegomez@elnogal.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: es\n"
+"X-Generator: Poedit 1.8.11\n"
+
+#. module: sales_mrp_stock_forecast_link
+#: view:sales.mrp.forecast:sales_mrp_stock_forecast_link.view_sales_mrp_forecast_wizard
+msgid "Are you sure you want to create a mrp forecast for selected sales forecasts?"
+msgstr "¿Seguro que quiere crear una previsión de horas con las previsiones de ventas seleccionadas?"
+
+#. module: sales_mrp_stock_forecast_link
+#: view:sales.stock.forecast:sales_mrp_stock_forecast_link.view_sales_stock_forecast_wizard
+msgid "Are you sure you want to create a stock forecast for selected sales forecasts?"
+msgstr "¿Seguro que quiere crear una previsión de kg vendidos con las previsiones de ventas seleccionadas?"
+
+#. module: sales_mrp_stock_forecast_link
+#: view:sales.mrp.forecast:sales_mrp_stock_forecast_link.view_sales_mrp_forecast_wizard
+#: view:sales.stock.forecast:sales_mrp_stock_forecast_link.view_sales_stock_forecast_wizard
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: sales_mrp_stock_forecast_link
+#: field:sales.mrp.forecast,create_uid:0
+#: field:sales.stock.forecast,create_uid:0
+msgid "Created by"
+msgstr "Created by"
+
+#. module: sales_mrp_stock_forecast_link
+#: field:sales.mrp.forecast,create_date:0
+#: field:sales.stock.forecast,create_date:0
+msgid "Created on"
+msgstr "Created on"
+
+#. module: sales_mrp_stock_forecast_link
+#: field:sales.mrp.forecast,display_name:0
+#: field:sales.stock.forecast,display_name:0
+msgid "Display Name"
+msgstr "Nombre mostrado"
+
+#. module: sales_mrp_stock_forecast_link
+#: code:addons/sales_mrp_stock_forecast_link/wizard/sales_mrp_forecast.py:34
+#: code:addons/sales_mrp_stock_forecast_link/wizard/sales_stock_forecast.py:34
+#, python-format
+msgid "Error !"
+msgstr "¡Error!"
+
+#. module: sales_mrp_stock_forecast_link
+#: code:addons/sales_mrp_stock_forecast_link/sales_forecast.py:41
+#, python-format
+msgid "Forecast of kg sold. Origin: "
+msgstr "Previsión de kg vendidos. Origen: "
+
+#. module: sales_mrp_stock_forecast_link
+#: code:addons/sales_mrp_stock_forecast_link/sales_forecast.py:115
+#, python-format
+msgid "Forecast of production hours. Origin: "
+msgstr "Previsión de horas de producción. Origen: "
+
+#. module: sales_mrp_stock_forecast_link
+#: view:sales.mrp.forecast:sales_mrp_stock_forecast_link.view_sales_mrp_forecast_wizard
+#: view:sales.stock.forecast:sales_mrp_stock_forecast_link.view_sales_stock_forecast_wizard
+msgid "Generate"
+msgstr "Generar"
+
+#. module: sales_mrp_stock_forecast_link
+#: model:ir.actions.act_window,name:sales_mrp_stock_forecast_link.act_generate_stock_forecast_sales
+msgid "Generate Kg Sold forecast"
+msgstr "Generar previsión de kg vendidos"
+
+#. module: sales_mrp_stock_forecast_link
+#: model:ir.actions.act_window,name:sales_mrp_stock_forecast_link.act_generate_mrp_forecast_sales
+msgid "Generate mrp forecast"
+msgstr "Generar previsión de horas de fabricación"
+
+#. module: sales_mrp_stock_forecast_link
+#: field:sales.mrp.forecast,id:0 field:sales.stock.forecast,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: sales_mrp_stock_forecast_link
+#: field:sales.mrp.forecast,__last_update:0
+#: field:sales.stock.forecast,__last_update:0
+msgid "Last Modified on"
+msgstr "Last Modified on"
+
+#. module: sales_mrp_stock_forecast_link
+#: field:sales.mrp.forecast,write_uid:0 field:sales.stock.forecast,write_uid:0
+msgid "Last Updated by"
+msgstr "Last Updated by"
+
+#. module: sales_mrp_stock_forecast_link
+#: field:sales.mrp.forecast,write_date:0
+#: field:sales.stock.forecast,write_date:0
+msgid "Last Updated on"
+msgstr "Last Updated on"
+
+#. module: sales_mrp_stock_forecast_link
+#: model:ir.model,name:sales_mrp_stock_forecast_link.model_sales_forecast
+msgid "Sales forecast"
+msgstr "Previsión de ventas"
+
+#. module: sales_mrp_stock_forecast_link
+#: view:sales.mrp.forecast:sales_mrp_stock_forecast_link.view_sales_mrp_forecast_wizard
+msgid "Sales forecast to mrp forecast"
+msgstr "Sales forecast to mrp forecast"
+
+#. module: sales_mrp_stock_forecast_link
+#: view:sales.stock.forecast:sales_mrp_stock_forecast_link.view_sales_stock_forecast_wizard
+msgid "Sales forecast to stock forecast"
+msgstr "Sales forecast to stock forecast"
+
+#. module: sales_mrp_stock_forecast_link
+#: code:addons/sales_mrp_stock_forecast_link/wizard/sales_mrp_forecast.py:34
+#: code:addons/sales_mrp_stock_forecast_link/wizard/sales_stock_forecast.py:34
+#, python-format
+msgid "You must select at least one forecast."
+msgstr "Debe seleccionar al menos una previsión."
+
+#. module: sales_mrp_stock_forecast_link
+#: code:addons/sales_mrp_stock_forecast_link/sales_forecast.py:64
+#, python-format
+msgid "undefined"
+msgstr "No definido"

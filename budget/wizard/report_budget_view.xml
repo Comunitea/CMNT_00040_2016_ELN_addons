@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+    <data>
+         <record id="view_report_budget_form" model="ir.ui.view">
+            <field name="name">report.budget.form</field>
+            <field name="model">report.budget</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Report Budget">
+                    <group>
+                        <field name="version_id" widget="selection"/>
+                        <field name="date_to"/>
+                        <field name="item_id"/>
+                    </group>
+                    <footer>
+                        <button icon="gtk-cancel" special="cancel" string="Cancel" colspan="2"/>
+                        <button icon="gtk-print" name="print_report" string="Print" type="object" colspan="2" default_focus="1" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+          <record id="action_report_budget" model="ir.actions.act_window">
+             <field name="name">Budget</field>
+             <field name="res_model">report.budget</field>
+             <field name="type">ir.actions.act_window</field>
+             
+             <field name="view_mode">form</field>
+             <field name="view_id" ref="view_report_budget_form"/>
+             <field name="context">{}</field>
+             <field name="target">new</field>
+       </record>
+
+       <act_window name="Print budget"
+            res_model="report.budget"
+            src_model="budget.budget"
+            view_mode="form"
+            target="new"
+            key2="client_action_multi"
+            id="act_wzd_report_budget"/>
+
+    </data>
+</odoo>

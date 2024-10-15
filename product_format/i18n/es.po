@@ -1,0 +1,86 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* product_format
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-07-18 16:40+0000\n"
+"PO-Revision-Date: 2018-07-18 18:40+0200\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: es_ES\n"
+"X-Generator: Poedit 2.0.9\n"
+
+#. module: product_format
+#: field:product.format,active:0
+msgid "Active"
+msgstr "Activo"
+
+#. module: product_format
+#: field:product.format,create_uid:0
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: product_format
+#: field:product.format,create_date:0
+msgid "Created on"
+msgstr "Creado en"
+
+#. module: product_format
+#: field:product.format,display_name:0
+msgid "Display Name"
+msgstr "Nombre mostrado"
+
+#. module: product_format
+#: view:product.format:product_format.product_format_form
+#: field:product.template,format_id:0
+msgid "Format"
+msgstr "Formato"
+
+#. module: product_format
+#: model:ir.actions.act_window,name:product_format.action_product_format
+#: model:ir.ui.menu,name:product_format.menu_product_format
+#: view:product.format:product_format.product_format_tree
+msgid "Formats"
+msgstr "Formatos"
+
+#. module: product_format
+#: field:product.format,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: product_format
+#: field:product.format,__last_update:0
+msgid "Last Modified on"
+msgstr "Última modificación en"
+
+#. module: product_format
+#: field:product.format,write_uid:0
+msgid "Last Updated by"
+msgstr "Última actualización por"
+
+#. module: product_format
+#: field:product.format,write_date:0
+msgid "Last Updated on"
+msgstr "Última actualización en"
+
+#. module: product_format
+#: field:product.format,name:0
+msgid "Name"
+msgstr "Nombre"
+
+#. module: product_format
+#: model:ir.model,name:product_format.model_product_template
+msgid "Product Template"
+msgstr "Plantilla de producto"
+
+#. module: product_format
+#: view:product.format:product_format.product_format_search
+msgid "Search formats"
+msgstr "Buscar formatos"
