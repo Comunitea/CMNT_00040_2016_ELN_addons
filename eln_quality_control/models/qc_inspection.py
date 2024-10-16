@@ -49,7 +49,9 @@ class QcInspection(models.Model):
         if (trigger_line.test.only_purchases and 
                 trigger_line.trigger.picking_type.code == 'incoming' and
                 object_ref and object_ref._name == 'stock.pack.operation'):
-            make_inspection = True if object_ref.picking_id.purchase_id else False
+            purchase_line_ids = object_ref.picking_id.move_lines.mapped('purchase_line_id')
+            make_inspection = True if purchase_line_ids else False
+            #make_inspection = True if object_ref.picking_id.purchase_id else False
             if not make_inspection:
                 return self.env['qc.inspection']
         if object_ref and object_ref._name == 'stock.move':
