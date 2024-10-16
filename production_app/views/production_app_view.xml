@@ -121,7 +121,9 @@
                                                 <field name="product_qty" string="Quantity Scheduled"/>
                                                 <field name="qty_to_compare" string="Quantity Real"/>
                                                 <field name="product_uom"/>
-                                                <field name="location_id" string="Source Location"/>
+                                                <field name="location_id" string="Source Location"
+                                                       widget="selection"
+                                                       domain="[('usage', '=', 'internal'), '|', ('name', 'ilike', 'stock'), ('name', 'ilike', 'Reacondicionado')]"/>
                                             </tree>
                                         </field>
                                     </group>
