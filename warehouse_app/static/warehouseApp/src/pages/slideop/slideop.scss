@@ -1,0 +1,35 @@
+page-slideop {
+
+
+    .b-product {
+        color: white;
+        border: none;
+        font-weight: bold;
+        background-color: color($colors, operations);
+        font-size: 1.2em;
+    }
+
+    .b-op {
+        color: color($colors, operations);
+        border: none;
+        background-color: white;
+        font-size: 1.2em;
+    }
+
+    .b-qty {
+        color: color($colors, odoo);
+        border: none;
+        background-color: white;
+    }
+
+    .badge_checked {
+        border: none;
+        background-color: white;
+        color: color($colors, odooprimary);
+    }
+
+    .bigsize {
+        font-size: 3em;
+    }
+
+}

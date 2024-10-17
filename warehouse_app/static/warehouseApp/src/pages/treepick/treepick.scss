@@ -1,0 +1,11 @@
+page-treepick {
+    .title_ops {
+        background-color: color($colors, odooprimary);
+    }
+    .has_ops {
+        background-color: color($colors, odoolight);
+    }
+    .has_no_pending_ops {
+        background-color: color($colors, itemtitle);
+    }
+}

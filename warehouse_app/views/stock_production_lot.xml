@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="stock_lot_warehouse_app_form_view">
+            <field name="name">stock.lot.warehouse_app.form</field>
+            <field name="model">stock.production.lot</field>
+            <field name="inherit_id" ref="stock.view_production_lot_form" />
+            <field name="arch" type="xml">
+                <field name="ref" position="after">
+                    <field name="location_id" />
+                    <field name="virtual_available" />
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>

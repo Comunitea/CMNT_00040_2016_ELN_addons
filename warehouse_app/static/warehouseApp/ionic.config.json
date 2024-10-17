@@ -1,0 +1,7 @@
+{
+  "name": "warehouseApp",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular"
+}

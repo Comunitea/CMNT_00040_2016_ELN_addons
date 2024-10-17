@@ -1,0 +1,302 @@
+// http://ionicframework.com/docs/theming/
+
+
+// App Global Sass
+// --------------------------------------------------
+// Put style rules here that you want to apply globally. These
+// styles are for the entire app and not just one component.
+// Additionally, this file can be also used as an entry point
+// to import other Sass files to be included in the output CSS.
+//
+// Shared Sass variables, which can be used to adjust Ionic's
+// default Sass variables, belong in "theme/variables.scss".
+//
+// To declare rules for a specific mode, create a child rule
+// for the .md, .ios, or .wp mode classes. The mode class is
+// automatically applied to the <body> element in the app.
+
+
+.home {
+    background: color($colors, primary);
+    color: color($colors, light);
+    margin-top: 20px;
+}
+
+.toolbar-title {
+    text-align: center;
+}
+
+.tabs-md .tab-button-icon {
+    color: #ccc;
+}
+
+.temp {
+    font-size: 90px;
+    text-align: center;
+    font-weight: normal;
+}
+
+badge_checked .location,
+.icon,
+.desc {
+    text-align: center;
+}
+
+.icon img {
+    width: 100px;
+    color: color($colors, odoo);
+}
+
+ion-badge {
+    width: 33%;
+    padding: 4px;
+    margin: 4px;
+}
+
+.all0 {
+    margin: 0px;
+    padding: 0px;
+}
+
+.w100 {
+    width: 100%;
+}
+
+.w75 {
+    width: 75%;
+}
+
+.w50 {
+    width: 50%;
+}
+
+.w33 {
+    width: 33%;
+}
+
+.w33 {
+    width: 33%;
+}
+
+.w25 {
+    width: 25%;
+}
+
+.w20 {
+    width: 20%;
+}
+
+.item-block {
+    min-height: 1rem;
+}
+
+.item-md {
+    padding-left: 4px;
+}
+
+.label-md {
+    padding: 4px;
+    margin: 4px;
+}
+
+.badge-md {
+    padding: 4px;
+}
+
+.item-md [item-left],
+.item-md [item-right],
+.item-md [item-start],
+.item-md [item-end] {
+    margin: 4px 4px 4px 0;
+}
+
+.itemdone {
+    color: color($colors, itemdone);
+}
+
+.itemwaiting {
+    color: color($colors, itemwaiting);
+}
+
+.itemerror {
+    color: color($colors, itemerror);
+}
+
+/*
+.itemIcons {
+    color: color($colors, odoo);
+    font-size: larger;
+}
+
+.location{
+    font-size:40px;
+}
+
+.desc{
+    font-size:30px;
+}
+.footers {
+    background-color:color($colors, odoolight);
+}
+h2 {
+    color: color($colors, odootext);
+    padding-bottom: 8px;
+}
+.danger {
+    color: color($colors, danger);
+}
+button {
+    background-color: color($colors, odoo);
+}
+.not_op_done{
+    color: color($colors, danger);
+}
+
+.op_done{
+    color: color($colors, secondary);
+}
+.ion-badge .ion-item {
+    padding: 0px;
+    margin: 0px
+}
+.op_change {
+    color: color($colors, danger);
+}
+.debugClass {
+    font-size: smaller;
+}
+.alignTop {
+    align-items: flex-start;
+    min-height: 100%;
+}
+.alignBottom {
+    align-items: flex-end
+}
+.noPadding{
+    //height: 710px;
+    border-top: none;
+    border-bottom:none;
+    margin-bottom: 0px;
+    
+}
+ion-label{
+    white-space: pre-line!important;
+    line-height: 12pt;
+    margin: 0;
+}
+.all0 {
+    margin: 0px;
+    padding: 0px;
+}
+.all0 .all0-inner .ion-grid-inner{
+    margin: 0px;
+    padding: 0px;
+}
+input:focus { 
+    background-color:color($colors, light); ;
+}
+ion-toast.toastNo {
+    $toast-md-background: color($colors, danger);
+}
+ion-toast.toastOk {
+    $toast-md-background: color($colors, odoo);
+}
+.bold {
+    font-weight: bold;
+  }
+.pdaChecked {color: color($colors, odootext);}
+
+.pickwaiting {color: color($colors, sales);}
+.pickdone {color: color($colors, odoo);}
+
+.ok{
+    font-weight: bold;
+    background-color:color($colors, odoolight); 
+    color: color($colors, odoo);
+}
+.no_ok{
+    font-weight: bold;
+    background-color:color($colors, odoo); 
+    color: color($colors, odoolight);
+}
+
+ion-button .button-inner {
+    font-size: small;
+}
+.ioninfo {
+    width: 33%;
+}
+.ioninfo .ion-info-inner{
+    margin: 0px;
+    padding: 0px;
+}
+
+.label-inner {
+    margin: 0px;
+    padding: 0px;
+}
+.buttonProduct{
+    height: 20pt;
+    font-weight: bold;
+    color: color($colors, product);
+    border: none; 
+    background-color: color($colors, light);
+    
+}
+.w100{
+    width: 100%;
+    margin: 2px
+}
+.w75{
+    width: 75%
+}
+.w50{
+    width: 50%;
+    margin: 2px
+}
+.w33{
+    width: 33%;
+    margin: 2px
+}
+.buttonProduct .button-inner{
+    justify-content:flex-start;
+    /*font-size: small;
+}
+.buttonProduct:hover{
+    background-color: color($colors, product)!important;
+    color: color($colors, light);
+}
+.buttonOp{
+    width: 75%;
+    
+    color: color($colors, product);
+    border: none; 
+    
+    background-color: color($colors, product)!important;
+    color: color($colors, light);
+}
+.buttonOp_ok{
+    width: 75%;
+    
+    color: color($colors, product);
+    border: none; 
+    
+}
+.buttonOp .button-inner{
+    justify-content:flex-end;
+    font-size: small;
+}
+.buttonOp_ok .button-inner{
+    justify-content:flex-end;
+    font-size: small;
+}
+.buttonOp:hover{
+    background-color: color($colors, product)!important;
+    color: color($colors, light);
+}
+.badge_0 {
+    background-color: color($colors, odooprimary)
+}
+.item-block {
+    min-height: 1rem
+}*/

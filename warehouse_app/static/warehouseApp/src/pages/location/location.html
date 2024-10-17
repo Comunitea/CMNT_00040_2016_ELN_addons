@@ -1,0 +1,99 @@
+<!--
+  Generated template for the ProductPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+    <ion-navbar>
+        <ion-title>{{ location && location.name || "Cargando ..." }}</ion-title>
+        <ion-buttons end>
+
+            <!--button ion-button (click)="reorder_picks()">
+              <ion-icon name="git-compare"></ion-icon>
+            </button>
+          
+            <button ion-button (click)="goHome()">
+              <ion-icon name="home"></ion-icon>
+            </button-->
+            <ion-toggle item-end [(ngModel)]="cabecera"></ion-toggle>
+        </ion-buttons>
+
+    </ion-navbar>
+
+</ion-header>
+<ion-content>
+    <div *ngIf="cargar" style="text-align: center">
+        <ion-spinner name="circles"></ion-spinner><br>
+        <b>Cargando...</b>
+    </div>
+
+    <ion-list *ngIf="!cargar">
+
+        <ion-item-group [hidden]='cabecera'>
+            <ion-item>
+                <ion-label>Código de barras</ion-label>
+                <ion-note item-end>{{ location.loc_barcode }}</ion-note>
+            </ion-item>
+            <ion-item>
+                <ion-label>Tipo de uso:</ion-label>
+                <ion-note item-end>{{ location.usage }}</ion-note>
+            </ion-item>
+            <ion-item>
+                <ion-label>Necesita validación:</ion-label>
+                <ion-toggle [(ngModel)]="location.need_check"></ion-toggle>
+            </ion-item>
+            <ion-item>
+                <ion-label>Necesita paquete:</ion-label>
+                <ion-toggle [(ngModel)]="location.in_pack"></ion-toggle>
+            </ion-item>
+            <ion-item>
+                <ion-label>Nº líneas:</ion-label>
+                <ion-badge color="white" item-end class="w20" (click)="inputlineas()">
+                    {{ limit}}
+                </ion-badge>
+            </ion-item>
+        </ion-item-group>
+
+        <div id="stock" [hidden]='!cabecera'>
+
+            <ion-item no-lines>
+                <button ion-button class="w33" (click)="load_stock(id, 'stock')">
+                    Stock
+                </button>
+                <button ion-button class="w33" (click)="load_stock(id, 'lot')">
+                    Lotes
+                </button>
+
+            </ion-item>
+            <ion-item no-lines>
+                <ion-icon class="w25 " name="skip-backward" item-start color="primary"
+                    (click)="load_stock(id, type, 0, 0)"></ion-icon>
+                <ion-icon class="w25" name="rewind" item-start color="primary"
+                    (click)="load_stock(id, type, offset, -limit)"></ion-icon>
+                <ion-icon class="w25" name="fastforward" item-start color="primary"
+                    (click)="load_stock(id, type, offset, limit)"></ion-icon>
+                <ion-icon class="w25" name="skip-forward" item-start color="primary"
+                    (click)="load_stock(id, type, 0 , 0, true)"></ion-icon>
+            </ion-item>
+            <ion-item-group *ngFor="let item of stock;">
+                <ion-item no-lines>
+
+                    <ion-badge text-wrap item-end class="w75 p-product">
+                        {{ item.product_id }}
+                    </ion-badge>
+                    <ion-badge item-end text-wrap class="w20 b-qty">
+                        {{ item.qty }} {{ item.uom_name }}
+                    </ion-badge>
+                </ion-item>
+                <ion-item>
+                    <ion-badge [hidden]="!item.lot_name" text-wrap item-end class="b-qty">
+                        {{ item.lot_name }}
+                    </ion-badge>
+
+                </ion-item>
+            </ion-item-group>
+        </div>
+    </ion-list>
+</ion-content>

@@ -1,0 +1,30 @@
+<!-- Generated template for the StockOperationComponent component -->
+
+<ion-item-sliding [hidden]="whatOps=='Pendientes' && stock_operation.pda_done">
+    <ion-item no-lines>
+        <ion-item no-lines>
+            <ion-badge item-end class="w100 b-product" (click)="openOp(stock_operation.id, stock_operation.index)">
+                {{ stock_operation.pda_product_id[1] || 'SIN PRODUCTO' }}
+            </ion-badge>
+        </ion-item>
+        <ion-item no-lines>
+            <ion-badge item-start class="w50 b-qty" [ngClass]="{'b-checked':stock_operation.pda_done == true}">
+                {{ stock_operation.qty_done }} de {{ stock_operation.product_qty }} {{ stock_operation.product_uom_id && stock_operation.product_uom_id[1] }}
+            </ion-badge>
+            <ion-badge item-start class="w50 b-op" [hidden]="!stock_operation.lot_id"
+                (click)="openform('stock.production.lot', stock_operation.lot_id[0])">
+                {{ stock_operation.lot_id[1] }}
+            </ion-badge>
+        </ion-item>
+    </ion-item>
+    <ion-item-options *ngIf="process_from_tree" side="right">
+        <button ion-button color="danger" [hidden]="!stock_operation.pda_done" (click)="doOp(false)">
+            <ion-icon name="trash"></ion-icon>
+            {{ 'Deshacer' }}
+        </button>
+        <button ion-button color="secondary" [hidden]="stock_operation.pda_done" (click)="doOp(true)">
+            <ion-icon name="checkmark-circle-outline"></ion-icon>
+            {{ 'Procesar' }}
+        </button>
+    </ion-item-options>
+</ion-item-sliding>

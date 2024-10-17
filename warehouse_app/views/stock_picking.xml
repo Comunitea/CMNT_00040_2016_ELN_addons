@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_picking_inherit_form_warehouse_app" model="ir.ui.view">
+            <field name="name">stock.picking.form.inherit</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='do_enter_transfer_details']" position="after">
+                    <button name="pda_do_transfer"
+                            string="PDA Do Transfer"
+                            groups="warehouse_app.group_warehouse_app_debug" type="object" class="oe_highlight"
+                            attrs="{'invisible': [('state', 'not in', ['assigned', 'partially_available'])]}"/>
+                    <button name="pda_do_prepare_partial"
+                            string="PDA Do prepare partial"
+                            groups="warehouse_app.group_warehouse_app_debug" type="object" class="oe_highlight"
+                            attrs="{'invisible': [('pack_operation_ids', '!=', [])]}"/>
+                </xpath>
+                <xpath expr="//page[@string='Operations']" position="attributes">
+                     <attribute name="attrs">{'invisible': 0}</attribute>
+                </xpath>
+                <field name="location_id" position="attributes">
+                    <attribute name="invisible">0</attribute>
+                    <attribute name='groups'>"warehouse_app.group_warehouse_app_debug"</attribute>
+                </field>
+                <field name="location_dest_id" position="attributes">
+                    <attribute name="invisible">0</attribute>
+                    <attribute name='groups'>"warehouse_app.group_warehouse_app_debug"</attribute>
+                </field>
+                <field name="partner_id" position="after">
+                    <field name="user_id"/>
+                </field>
+
+                <xpath expr="//field[@name='product_qty']" position="after">
+                    <field name="qty_done" groups="warehouse_app.group_warehouse_app_debug"/>
+                    <field name="pda_done" groups="warehouse_app.group_warehouse_app_debug"/>
+                    <field name="pda_checked" groups="warehouse_app.group_warehouse_app_debug"/>
+                </xpath>
+                <xpath expr="//field[@name='pack_operation_ids']/tree" position="attributes">
+                    <attribute name="colors">green:pda_done==True</attribute>
+                </xpath>
+                <xpath expr="//page[@string='Operations']" position="inside">
+                    <group>
+                        <field name="done_ops" groups="warehouse_app.group_warehouse_app_debug"/>
+                        <field name="pack_operation_count" groups="warehouse_app.group_warehouse_app_debug"/>
+                        <field name="remaining_ops" groups="warehouse_app.group_warehouse_app_debug"/>
+                        <field name="ops_str" groups="warehouse_app.group_warehouse_app_debug"/>
+                    </group>
+                </xpath>
+
+                <xpath expr="//field[@name='result_package_id']" position="after">
+                    <button name="set_pda_done" class="oe_stat_button"
+                          type="object"
+                            groups="warehouse_app.group_warehouse_app_debug"
+                            attributes="{'invisible': [('state','not in',('assigned', 'partially_available'))]}"
+                            icon="gtk-refresh" help="Set as pda done"/>
+                </xpath>
+        </field>
+        </record>
+        <!-- <delete model="ir.ui.view" id="view_picking_type_form_warehouse_app"/> -->
+        <record id="view_picking_type_form_warehouse_app" model="ir.ui.view">
+            <field name="name">Picking Types</field>
+            <field name="model">stock.picking.type</field>
+            <field name="inherit_id" ref="stock.view_picking_type_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group/field[@name='default_location_src_id']/.." position="after">
+                    <separator string="Info PDA"/>
+                    <group>
+                        <field name="show_in_pda"/>
+                        <field name="short_name"/>
+                        <field name="need_confirm"/>
+                        <field name="process_from_tree"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

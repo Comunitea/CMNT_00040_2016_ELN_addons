@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+         <record id="product_normal_form_view_add_warehouse_app_fields" model="ir.ui.view">
+            <field name="name">product.normal.form.warehouse</field>
+            <field name="model">product.product</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='ean13']" position="after">
+                    <field name="pda_name"/>
+                </xpath>
+            </field>
+         </record>
+    </data>
+</odoo>
