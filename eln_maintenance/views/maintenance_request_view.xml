@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="maintenance_request_calendar_view">
+            <field name="name">maintenance.request.Calendar</field>
+            <field name="model">maintenance.request</field>
+            <field name="type">calendar</field>
+            <field name="arch" type="xml">
+                <calendar string="Maintenance request" date_start="request_date" color="department_id">
+                    <field name="name"/>
+                    <field name="state"/>
+                </calendar>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="maintenance_request_tree_view">
+            <field name="name">maintenance.request.tree</field>
+            <field name="model">maintenance.request</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Maintenance request" colors="grey:state == 'cancel';blue:state == 'draft'">
+                    <field name="name"/>
+                    <field name="applicant_id"/>
+                    <field name="department_id"/>
+                    <field name="request_date"/>
+                    <field name="estimated_date"/>
+                    <field name="maintenance_type_id"/>
+                    <field name="ttr" avg="MTTR"/>
+                    <field name="tbf" avg="MTTR"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="maintenance_request_form_view">
+            <field name="name">maintenance.request.form</field>
+            <field name="model">maintenance.request</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Maintenance request" >
+                    <header>
+                        <button name="send_email" type="object" string="Send email"
+                                states="draft,confirmed,cancel"/>
+                        <button name="create_maintenance_order" type="object" string="Create maintenance order"
+                                states="draft"/>
+                        <button name="set_to_draft" type="object" string="Set Draft"
+                                states="confirmed"
+                                groups="maintenance.group_maintenance_operator"/>
+                        <button name="%(cancel_maintenance_request_type_tree)d" type="action" string="Cancel"
+                                states="draft"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,confirmed"/>
+                    </header>
+                    <sheet>
+                        <group col="4" colspan="4">
+                            <group colspan="2" col="2">
+                                <field name="name"/>
+                                <field name="applicant_id"/>
+                                <field name="department_id"/>
+                            </group>
+                            <group colspan="2" col="2">
+                                <field name="request_date"/>
+                                <field name="estimated_date"/>
+                            </group>
+                        </group>
+                        <group col="6" colspan="4" string="Information">
+                            <group colspan="3" col="2">
+                                <field name="symptom" widget="char"/>
+                                <field name="maintenance_type_id"/>
+                                <field name="element_id"/>
+                            </group>
+                            <group colspan="3" col="2">
+                                <field name="survey_id"/>
+                                <field name="type" invisible="1"/>
+                                <field name="ttr" attrs="{'invisible': [('type', '!=', 'corrective')]}"/>
+                                <field name="tbf" attrs="{'invisible': [('type', '!=', 'corrective')]}"/>
+                            </group>
+                            <group colspan="6" col="4" string="Maintenance orders">
+                                <field name="maintenance_order_ids" nolabel="1"/>
+                            </group>
+                        </group>
+                        <group col="6" colspan="4">
+                            <group colspan="2" col="2" string="Notes">
+                                <field name="note" nolabel="1"/>
+                            </group>
+                        </group>
+                        <group attrs="{'invisible':[('state','!=','cancel')]}" colspan="4">
+                            <field name="cancel_reason"/>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_maintenance_request_filter" model="ir.ui.view">
+            <field name="name">maintenance.request.filter</field>
+            <field name="model">maintenance.request</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="applicant_id"/>
+                    <field name="element_id"/>
+                    <field name="maintenance_type_id"/>
+                    <separator/>
+                    <filter string="Mine" domain="[('applicant_id','=',uid)]"/>
+                    <separator/>
+                    <filter string="Draft" domain="[('state','=','draft')]"/>
+                    <filter string="Confirmed" domain="[('state','=','confirmed')]"/>
+                    <separator/>
+                    <filter string="Corrective" domain="[('type','=','corrective')]"/>
+                    <separator/>
+                    <group expand="0" string="Group By...">
+                        <filter string="State" domain="[]"
+                            context="{'group_by':'state'}"/>
+                        <filter string="Maintenance type" domain="[]"
+                            context="{'group_by':'maintenance_type_id'}"/>
+                        <filter string="Department" domain="[]"
+                            context="{'group_by':'department_id'}"/>
+                        <filter string="Applicant" domain="[]"
+                            context="{'group_by':'applicant_id'}"/>
+                        <filter string="Element" domain="[]"
+                            context="{'group_by':'element_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_maintenance_request_graph" model="ir.ui.view">
+             <field name="name">maintenance.request.graph</field>
+             <field name="model">maintenance.request</field>
+             <field name="arch" type="xml">
+                 <graph string="Maintenance request analysis" type="pivot">
+                    <field name="maintenance_type_id" type="row"/>
+                    <field name="request_date" interval="month" type="col"/>
+                    <field name="ttr" type="measure"/>
+                 </graph>
+             </field>
+        </record>
+
+        <record id="action_maintenance_request_tree" model="ir.actions.act_window">
+            <field name="name">Requests</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">maintenance.request</field>
+            
+            <field name="view_mode">tree,form,calendar,graph</field>
+            <field name="view_id" ref="maintenance_request_tree_view"/>
+            <field name="search_view_id" ref="view_maintenance_request_filter"/>
+        </record>
+
+        <menuitem action="action_maintenance_request_tree" id="menu_maintenance_request_tree"
+            parent="menu_maintenance" sequence="1" groups="group_maintenance_user"/>
+
+    </data>
+</odoo>

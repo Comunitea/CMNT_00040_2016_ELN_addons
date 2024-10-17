@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <menuitem name="Maintenance" id="menu_mantenimiento_root"
+            sequence="70" groups="group_maintenance_user"/>
+
+        <menuitem id="menu_maintenance" name="Maintenance"
+            parent="menu_mantenimiento_root" sequence="1"/>
+
+        <menuitem id="menu_maintenance_config" name="Configuration"
+            parent="menu_mantenimiento_root" sequence="2" groups="base.group_no_one,group_maintenance_user"/>
+
+        <record model="ir.ui.view" id="maintenance_element_tree_view">
+            <field name="name">maintenance.element.tree</field>
+            <field name="model">maintenance.element</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Maintenance element">
+                    <field name="name"/>
+                    <field name="complete_name"/>
+                    <field name="type"/>
+                    <field name="code"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="maintenance_element_form_view">
+            <field name="name">maintenance.element.form</field>
+            <field name="model">maintenance.element</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Maintenance element">
+                    <group>
+                        <group>
+                            <field name="name" colspan="2"/>
+                            <field name="code"/>
+                            <field name="type"/>
+                            <field name="parent_id" domain="[('id', '!=', id)]"/>
+                        </group>
+                        <group>
+                            <field name="complete_name"/>
+                            <field name="company_id"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Maintenance type">
+                            <field name="maintenance_type_ids" nolabel="1" colspan="4"/>
+                        </page>
+                        <page string="Description">
+                            <field name="description" nolabel="1" colspan="4"/>
+                        </page>
+                    </notebook>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_maintenance_element_filter" model="ir.ui.view">
+            <field name="name">maintenance.element.filter</field>
+            <field name="model">maintenance.element</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="type"/>
+                    <field name="complete_name"/>
+                    <field name="parent_id"/>
+                    <newline/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Type" domain="[]" context="{'group_by':'type'}"/>
+                        <filter string="Parent element" context="{'group_by':'parent_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_maintenance_element_tree" model="ir.actions.act_window">
+            <field name="name">Maintenance elements</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">maintenance.element</field>
+            
+            <field name="view_id" ref="maintenance_element_tree_view"/>
+            <field name="search_view_id" ref="view_maintenance_element_filter"/>
+        </record>
+
+        <menuitem action="action_maintenance_element_tree" id="menu_maintenance_element_tree"
+            parent="menu_maintenance_config" sequence="1"/>
+
+        <record model="ir.ui.view" id="maintenance_element_type_tree_view">
+            <field name="name">maintenance.element.type.tree</field>
+            <field name="model">maintenance.element.type</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Maintenance type">
+                    <field name="maintenance_type_id"/>
+                    <field name="type"/>
+                    <field name="priority"/>
+                    <field name="planned"/>
+                    <field name="frequency"/>
+                    <field name="interval"/>
+                    <field name="initial_date" widget="date"/>
+                    <field name="last_run" widget="date"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="maintenance_element_type_form_view">
+            <field name="name">maintenance.element.type.form</field>
+            <field name="model">maintenance.element.type</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Maintenance type">
+                    <group>
+                        <group>
+                            <field name="maintenance_type_id" colspan="2"/>
+                            <field name="type"/>
+                            <field name="applicant_id"/>
+                            <field name="survey_id"/>
+                        </group>
+                        <group >
+                            <field name="company_id"/>
+                            <field name="priority"/>
+                            <field name="planned"/>
+                        </group>
+                    </group>
+                    <newline/>
+                    <group attrs="{'invisible':[('planned','!=',True)]}" string="Planning">
+                        <field name="frequency" attrs="{'required':[('planned','!=',False)]}"/>
+                        <field name="interval" attrs="{'required':[('planned','!=',False)]}"/>
+                        <field name="initial_date" attrs="{'required':[('planned','!=',False)]}"/>
+                        <field name="last_run" readonly="1"/>
+                        <group string="Excluded days" colspan="4">
+                            <group>
+                                <field name="monday"/>
+                                <field name="tuesday"/>
+                                <field name="wednesday"/>
+                                <field name="thursday"/>
+                            </group>
+                            <group>
+                                <field name="friday"/>
+                                <field name="saturday"/>
+                                <field name="sunday"/>
+                            </group>
+                        </group>
+                    </group>
+                    <newline/>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_maintenance_element_type_filter" model="ir.ui.view">
+            <field name="name">maintenance.element.type.filter</field>
+            <field name="model">maintenance.element.type</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="type"/>
+                    <newline/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Type" domain="[]" context="{'group_by':'type'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+	</data>
+</odoo>

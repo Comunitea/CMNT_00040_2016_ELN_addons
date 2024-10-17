@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="maintenance_order_time_report_tree_view">
+            <field name="name">maintenance.order.time.report.tree</field>
+            <field name="model">maintenance.order.time.report</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Timesheet">
+                    <field name="date"/>
+                    <field name="start_time" widget="float_time"/>
+                    <field name="end_time" widget="float_time"/>
+                    <field name="total" widget="float_time"/>
+                    <field name="employee_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="maintenance_order_time_report_form_view">
+            <field name="name">maintenance.order.time.report.form</field>
+            <field name="model">maintenance.order.time.report</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Timesheet">
+                    <group>
+                        <group>
+                            <field name="date"/>
+                            <field name="employee_id"/>
+                        </group>
+                        <group>
+                            <field name="start_time" widget="float_time"/>
+                            <field name="end_time" widget="float_time"/>
+                            <field name="total" widget="float_time"/>
+                        </group>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="maintenance_order_calendar_view">
+            <field name="name">maintenance.order.Calendar</field>
+            <field name="model">maintenance.order</field>
+            <field name="type">calendar</field>
+            <field name="arch" type="xml">
+                <calendar string="Maintenance orders" date_start="initial_date"
+                    date_stop="final_date" color="assigned_department_id">
+                    <field name="name"/>
+                </calendar>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="maintenance_order_tree_view">
+            <field name="name">maintenance.order.tree</field>
+            <field name="model">maintenance.order</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Maintenance orders"
+                    colors="blue:state == 'draft';grey:state == 'cancel';red:state in ('open','pending')">
+                    <field name="name"/>
+                    <field name="request_date"/>
+                    <field name="origin_department_id"/>
+                    <field name="assigned_department_id"/>
+                    <field name="maintenance_type_id"/>
+                    <field name="initial_date"/>
+                    <field name="final_date"/>
+                    <field name="manager_id"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="maintenance_order_form_view">
+            <field name="name">maintenance.order.form</field>
+            <field name="model">maintenance.order</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Maintenance order">
+                    <header>
+                        <button name="send_email" type="object" string="Enviar correo"
+                                states="draft,open,pending,done"/>
+                        <button name="maintenance_order_open" type="object" string="Start"
+                                states="draft"
+                                groups="maintenance.group_maintenance_operator"/>
+                        <button name="request_validation" type="object" string="Ready to approval"
+                                states='open'
+                                groups="maintenance.group_maintenance_operator"/>
+                        <button name="maintenance_order_done" type="object" string="Approve"
+                                states='pending'
+                                groups="maintenance.group_maintenance_manager"/>
+                        <button name="maintenance_order_set_to_draft" type="object" string="Set Draft"
+                                states="open,cancel"
+                                groups="maintenance.group_maintenance_operator"/>
+                        <button name="request_validation_to_open" type="object" string="Set Started"
+                                states='pending'
+                                groups="maintenance.group_maintenance_operator"/>
+                        <button name="maintenance_order_cancel" type="object" string="Cancel"
+                                states="draft,open,pending"
+                                groups="maintenance.group_maintenance_manager"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,open,pending,done"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                                <field name="request_date"/>
+                                <field name="initial_date"/>
+                                <field name="final_date"/>
+                            </group>
+                        </group>
+                        <notebook colspan="4">
+                            <page string="General Information">
+                                <group col="6" colspan="4">
+                                    <group col="2">
+                                        <field name="request_id"/>
+                                        <field name="origin_department_id"/>
+                                        <field name="assigned_department_id"/>
+                                        <field name="manager_id"/>
+                                    </group>
+                                    <group col="2">
+                                        <field name="maintenance_type_id"/>
+                                        <field name="element_id"/>
+                                        <field name="symptom" widget="char"/>
+                                        <field name="stop_type"/>
+                                    </group>
+                                    <group col="2">
+                                        <field name="survey_id"/>
+                                        <field name="parent_id" domain="[('id', '!=', id)]"/>
+                                        <field name="approved_by"/>
+                                        <field name="approved_date"/>
+                                    </group>
+                                </group>
+                                <group col="6" colspan="4">
+                                    <group colspan="2" col="2" string="Notes">
+                                        <field name="note" nolabel="1"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Timesheet">
+                                <field name="hour_ids" colspan="4" nolabel="1"/>
+                            </page>
+                            <page string="Auxiliary orders">
+                                <field name="child_ids" colspan="4" nolabel="1" domain="[('id', '!=', id)]"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <!--
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                    -->
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="maintenance_order_form_view_inherited">
+            <field name="name">maintenance.order.form.inherited</field>
+            <field name="model">maintenance.order</field>
+            <field name="inherit_id" ref="maintenance_order_form_view"/>
+            <field name="groups_id" eval="[(6, 0, [ref('maintenance.group_maintenance_manager')])]"/>
+            <field name="arch" type="xml">
+                <field name="approved_by" position="attributes">
+                    <attribute name="readonly">False</attribute>
+                </field>
+                <field name="approved_date" position="attributes">
+                    <attribute name="readonly">False</attribute>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_maintenance_order_filter" model="ir.ui.view">
+            <field name="name">maintenance.order.filter</field>
+            <field name="model">maintenance.order</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Search">
+                    <field name="name"/>
+                    <field name="assigned_department_id"/>
+                    <field name="maintenance_type_id"/>
+                    <field name="manager_id"/>
+                    <separator/>
+                    <filter string="Draft" domain="[('state','=','draft')]"/>
+                    <filter string="Started" domain="[('state','=','open')]"/>
+                    <filter string="Pending approval" domain="[('state','=','pending')]"/>
+                    <filter string="Done" domain="[('state','=','done')]"/>
+                    <separator/>
+                    <group expand="0" string="Group By...">
+                        <filter string="State" domain="[]"
+                            context="{'group_by':'state'}"/>
+                        <filter string="Assigned department" domain="[]"
+                            context="{'group_by':'assigned_department_id'}"/>
+                        <filter string="Maintenance type" domain="[]"
+                            context="{'group_by':'maintenance_type_id'}"/>
+                        <filter string="Responsible" domain="[]"
+                            context="{'group_by':'manager_id'}"/>
+                        <filter string="Element" domain="[]"
+                            context="{'group_by':'element_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_maintenance_order_tree" model="ir.actions.act_window">
+            <field name="name">Maintenance orders</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">maintenance.order</field>
+            
+            <field name="view_mode">tree,form,calendar</field>
+            <field name="view_id" ref="maintenance_order_tree_view"/>
+            <field name="search_view_id" ref="view_maintenance_order_filter"/>
+        </record>
+
+        <menuitem action="action_maintenance_order_tree" id="menu_maintenance_order_tree"
+            parent="menu_maintenance" sequence="2" groups="group_maintenance_operator"/>
+
+	</data>
+</odoo>
