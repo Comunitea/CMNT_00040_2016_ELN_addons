@@ -30,11 +30,6 @@ class AccountInvoiceLine(models.Model):
 class AccountInvoiceLineAgent(models.Model):
     _inherit = "account.invoice.line.agent"
 
-    _sql_constraints = [
-        ('unique_agent', 'Check(1=1)',
-         'You can only add one time each agent.')
-    ]
-
     invoiced_amount = fields.Float(
         string="Invoiced amount", compute="_compute_amount", store=True)
 
