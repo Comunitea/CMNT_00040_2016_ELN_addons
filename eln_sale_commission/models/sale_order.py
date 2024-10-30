@@ -27,13 +27,3 @@ class SaleOrderLine(models.Model):
         return super(SaleOrderLine, self)._default_agents()
 
     agents = fields.One2many(default=_default_agents)
-
-
-class SaleOrderLineAgent(models.Model):
-
-    _inherit = 'sale.order.line.agent'
-
-    _sql_constraints = [
-        ('unique_agent', 'Check(1=1)',
-         'You can only add one time each agent.'),
-    ]
