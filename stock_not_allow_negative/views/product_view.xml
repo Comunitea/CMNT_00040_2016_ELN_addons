@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+    <data>
+
+        <record id="view_product_no_negative_form" model="ir.ui.view">
+            <field name="name">view.product.no.negative.form</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="stock.view_template_property_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='virtual_available']" position="after">
+                    <field name='allow_negative_stock' groups="stock.group_stock_manager" 
+                           attrs="{'invisible':[('type','!=','product')]}"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

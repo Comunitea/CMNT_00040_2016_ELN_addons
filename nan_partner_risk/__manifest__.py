@@ -1,6 +1,7 @@
 # -*- encoding: utf-8 -*-
 
 # NO MIGRAR
+# SUSTITUIDO POR ELN RISK
 # A DESINTALAR
 
 {
@@ -20,7 +21,7 @@ Developed for Trod y Avia, S.L.""",
         'sale',
         'sale_stock',
         'partner_risk_insurance',  # Pedro dependency, for partner risk states
-        'eln_risk',
+        # 'eln_risk',
     ],
     "category": "Custom Modules",
     # "data": [
