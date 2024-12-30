@@ -4,7 +4,7 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
-
+import { Insomnia } from '@ionic-native/insomnia';
 import { HttpModule } from '@angular/http';
 import { IonicStorageModule } from '@ionic/storage';
 import { Network } from '@ionic-native/network';
@@ -98,6 +98,7 @@ import { TimerComponent } from '../components/timer/timer';
     providers: [
         StatusBar,
         SplashScreen,
+        Insomnia,
         { provide: ErrorHandler, useClass: IonicErrorHandler },
         File,
         Network,
