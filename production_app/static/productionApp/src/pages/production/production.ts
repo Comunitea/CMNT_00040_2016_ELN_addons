@@ -1,6 +1,7 @@
 import { Component, ViewChildren, QueryList } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, ModalController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
+import { Insomnia } from '@ionic-native/insomnia';
 import { HomePage } from '../../pages/home/home';
 import { ChecksModalPage } from '../../pages/checks-modal/checks-modal';
 import { CalculatorModalPage } from '../../pages/calculator/calculator';
@@ -30,14 +31,27 @@ export class ProductionPage {
     constructor(public navCtrl: NavController, private storage: Storage,
                 public navParams: NavParams, public alertCtrl: AlertController,
                 public modalCtrl: ModalController,
-                private prodData: ProductionProvider) {
+                private prodData: ProductionProvider,
+                private insomnia: Insomnia) {
         this.storage.get('CONEXION').then((con_data) => {
             this.navbarColor = con_data.company == 'qv' ? 'qv' : 'vq';
         })
     }
 
     ionViewDidLoad() {
+        this.insomnia.keepAwake().then(
+            () => console.log('keepAwake success'),
+            () => console.log('keepAwake error')
+        );
         this.initProduction();
+    }
+
+    ionViewWillUnload() {
+        // Permitimos el modo suspensión de nuevo
+        this.insomnia.allowSleepAgain().then(
+            () => console.log('allowSleep success'),
+            () => console.log('allowSleep error')
+        );
     }
 
     initProduction() {
