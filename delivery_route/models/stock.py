@@ -69,6 +69,10 @@ class StockPicking(models.Model):
     loading_date = fields.Date(
         string='Loading Date',
         help="Date on which the delivery order will be loaded.")
+    calendar_date = fields.Date(
+        string='Computed date to use in calendar',
+        compute='_get_calendar_date', store=False,
+        search='_search_calendar_date')
     city = fields.Char(
         string='City',
         related='partner_id.city',
@@ -129,6 +133,21 @@ class StockPicking(models.Model):
             picking.weight = weight
             picking.weight_net = weight_net
             picking.volume = volume
+
+    @api.multi
+    def _get_calendar_date(self):
+        for picking in self:
+            calendar_date = picking.requested_date or picking.effective_date
+            picking.calendar_date = calendar_date or fields.Date.context_today(self)
+
+    @api.model
+    def _search_calendar_date(self, operator, operand):
+        res = [
+            '|',
+            ('requested_date', operator, operand),
+            ('effective_date', operator, operand),
+        ]
+        return res
 
     @api.onchange('delivery_route_id')
     def onchange_route_id(self):
