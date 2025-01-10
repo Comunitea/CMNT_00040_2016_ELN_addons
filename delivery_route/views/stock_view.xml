@@ -212,10 +212,11 @@
             <field name="model">stock.picking</field>
             <field name="priority" eval="2"/>
             <field name="arch" type="xml">
-                <calendar string="Calendar View" date_start="loading_date" date_stop="loading_date" color="partner_id">
+                <calendar string="Calendar View" date_start="calendar_date" color="partner_id">
                     <field name="name"/>
-                    <field name="delivery_route_id"/>
                     <field name="partner_id"/>
+                    <field name="requested_date"/>
+                    <field name="city"/>
                 </calendar>
             </field>
         </record>
