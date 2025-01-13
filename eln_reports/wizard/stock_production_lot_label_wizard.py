@@ -93,9 +93,10 @@ class StockProductionLotLabelWizard(models.TransientModel):
                     else:
                         process_type = process_type and process_type[0] or False
                     if process_type == 'packing':
-                        week = datetime.now().strftime("%W")
-                        weekday = datetime.now().strftime("%w")
-                        year = datetime.now().strftime("%y")[-1:]
+                        today = datetime.now()
+                        week = str(today.isocalendar()[1]).zfill(2)
+                        weekday = str(today.isocalendar()[2])
+                        year = str(today.isocalendar()[0])[-1:]
                         lot_name = week + '/' + weekday + year
                     elif process_type == 'toasted':
                         lot_name = 'T-' + production_id.name
