@@ -269,5 +269,24 @@
     <menuitem id="menu_production_app_registry" name="App Registries" parent="mrp.menu_mrp_manufacturing"
               action="action_production_app_registry" sequence="3"/>
 
+    <record model='ir.actions.act_url' id='action_open_ionic_production_app'>
+            <field name='name'>Production App</field>
+            <field name='url'>/productionApp</field>
+            <field name='target'>new</field>
+    </record>
+
+    <!--
+    <menuitem id="menu_ionic_production_app" name="Production App" parent="mrp.menu_mrp_manufacturing"
+              action="action_open_ionic_production_app" sequence="4"/>
+    -->
+
+    <record model="ir.values" id="action_open_ionic_production_app">
+        <field name="name">Production App</field>
+        <field name="key2">client_action_multi</field>
+        <field name="value" eval="'ir.actions.act_url,' + str(ref('action_open_ionic_production_app'))" />
+        <field name="key">action</field>
+        <field name="model">production.app.registry</field>
+    </record>
+
     </data>
 </openerp>
