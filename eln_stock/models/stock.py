@@ -35,6 +35,13 @@ class StockPicking(models.Model):
         comodel_name='sale.order',
         compute="_get_sale_id")
 
+    def _auto_init(self, cr, context=None):
+        res = super(StockPicking, self)._auto_init(cr, context=context)
+        cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = %s', ('stock_picking_group_id_index',))
+        if not cr.fetchone():
+            cr.execute('CREATE INDEX stock_picking_group_id_index ON stock_picking (group_id)')
+        return res
+
     @api.multi
     def _get_sale_id(self):
         """
