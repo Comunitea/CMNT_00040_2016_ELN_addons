@@ -317,16 +317,34 @@ export class ProductionPage {
     clearIntervales() {
         for (let indx in this.prodData.interval_list) {
             let int = this.prodData.interval_list[indx];
-            clearInterval(int);
+            clearTimeout(int);
         }
         this.prodData.interval_list = [];
     }
 
     scheduleIntervals(delay, qchecks) {
-        let timerId = setInterval(() => 
-        {
-            this.openChecksModal('freq', qchecks, false).then(() => {}).catch(() => {});
-        }, delay*60*1000);
+        let timerId;
+        // Función para manejar la apertura del modal
+        const openModal = () => {
+            this.openChecksModal('freq', qchecks, false)
+                .then(() => {
+                    // Si el modal se abrió correctamente
+                    // console.log("OK openChecksModal");
+                    // this.prodData.interval_list = this.prodData.interval_list.filter((f_timerId) => f_timerId !== timerId) // Si queremos elimiar el viejo id de la lista
+                    timerId = setTimeout(openModal, delay * 60 * 1000); // Volvemos a programar el siguiente
+                    this.prodData.interval_list.push(timerId);
+                })
+                .catch(() => {
+                    // Si la apertura del modal falló
+                    // console.log("ERROR openChecksModal");
+                    // this.prodData.interval_list = this.prodData.interval_list.filter((f_timerId) => f_timerId !== timerId) // Si queremos elimiar el viejo id de la lista
+                    timerId = setTimeout(openModal, delay * 60 * 1000); // Volvemos a programar el siguiente
+                    this.prodData.interval_list.push(timerId);
+                });
+        };
+        timerId = setTimeout(openModal, delay * 60 * 1000);
+
+        // Añade el ID del temporizador a la lista de intervalos
         this.prodData.interval_list.push(timerId);
     }
 
