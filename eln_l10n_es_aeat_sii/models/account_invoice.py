@@ -22,10 +22,10 @@ class AccountInvoice(models.Model):
         Hay casos en los que debemos informar de la FechaOperacion.
         Por ejemplo cuando vamos a enviar una factura emitida (normalmente
         rectificativa, como un rappel, etc.) con un tipo de impuesto existente
-        en un periodo anterior al actual y que ya no está vigente. 
+        en un periodo anterior al actual y que ya no está vigente.
         Se debe en ese caso registrar la fecha de la operación. Cuando
         la factura rectificada afecte a muchas facturas, se pondrá el último día
-        del mes del último periodo afectado. 
+        del mes del último periodo afectado.
 
         """
         res = super(AccountInvoice, self)._get_sii_invoice_dict_out(
@@ -39,4 +39,27 @@ class AccountInvoice(models.Model):
         if not cancel and res.get('FacturaExpedida') and operation_date:
             if not 'FechaOperacion' in res['FacturaExpedida']:
                 res['FacturaExpedida']['FechaOperacion'] = operation_date
+        return res
+
+    @api.multi
+    def _get_sii_invoice_dict_in(self, cancel=False):
+        """
+        Hay casos en los que debemos informar de la FechaOperacion.
+        Por ejemplo cuando recibimos una factura
+        con un tipo de impuesto existente
+        en un periodo anterior al actual y que ya no está vigente.
+        Se debe en ese caso registrar la fecha de la operación.
+
+        """
+        res = super(AccountInvoice, self)._get_sii_invoice_dict_in(
+            cancel=cancel,
+        )
+        operation_date = (
+            self.sii_operation_date and
+            self.sii_operation_date < self.date_invoice and
+            self._change_date_format(self.sii_operation_date)
+        )
+        if not cancel and res.get('FacturaRecibida') and operation_date:
+            if not 'FechaOperacion' in res['FacturaRecibida']:
+                res['FacturaRecibida']['FechaOperacion'] = operation_date
         return res
