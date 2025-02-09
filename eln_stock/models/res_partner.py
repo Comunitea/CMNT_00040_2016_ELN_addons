@@ -35,8 +35,14 @@ class ResPartner(models.Model):
 
     @api.multi
     def _get_deliveries_count(self):
-        for part in self:
-            part.picking_count = len(part.out_picking_ids)
+        picking_type = self.env['stock.picking.type'].search([('code', '=', 'outgoing')])
+        for partner in self:
+            domain = [
+                ('partner_id', '=', partner.id),
+                ('picking_type_id', 'in', picking_type.ids),
+            ]
+            picking_count = self.env['stock.picking'].search(domain, count=True)
+            partner.picking_count = picking_count
 
     @api.multi
     def action_picking_out(self):

@@ -39,6 +39,16 @@ class ResPartner(models.Model):
         string='CIP', size=9,
         company_dependent=True,
         help='Internal supplier code')
+    sale_order_count = fields.Integer(
+        string='# of Sales Order',
+        compute='_sale_order_count')
+
+    @api.multi
+    def _sale_order_count(self):
+        for partner in self:
+            domain = [('partner_id', 'in', partner.ids + partner.child_ids.ids)]
+            order_count = self.env['sale.order'].search(domain, count=True)
+            partner.sale_order_count = order_count
 
     @api.model
     def _commercial_fields(self):
