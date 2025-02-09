@@ -26,6 +26,7 @@ class StockPicking(models.Model):
     _inherit = 'stock.picking'
     _order = 'id desc'
 
+    partner_id = fields.Many2one(select=True) # Redefine index
     address = fields.Char(
         string='Address',
         compute='_get_address',
