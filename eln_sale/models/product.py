@@ -19,11 +19,13 @@
 #
 ##############################################################################
 
-from openerp import models, api
+from openerp import models, fields, api
 
 
 class ProductProduct(models.Model):
     _inherit = 'product.product'
+
+    sales_count = fields.Integer(compute='_sales_count') # Redefine compute method
 
     @api.model
     def name_search(self, name='', args=None, operator='ilike', limit=80):
@@ -35,3 +37,21 @@ class ProductProduct(models.Model):
                 products = prodids.mapped('product_id')
                 res = products.name_get()
         return res
+
+    @api.multi
+    def _sales_count(self):
+        r = dict.fromkeys(self.ids, 0)
+        domain = [
+            ('state', 'in', ['confirmed', 'done']),
+            ('product_id', 'in', self.ids),
+        ]
+        res = self.env['sale.order.line'].read_group(domain, ['product_id', 'product_uom_qty', 'product_uom'], ['product_id', 'product_uom'], lazy=False)
+        for group in res:
+            from_unit = group['product_uom'][0]
+            to_unit = self.browse(group['product_id'][0]).uom_id.id
+            uom_qty = group['product_uom_qty']
+            if from_unit != to_unit:
+                uom_qty = self.env['product.uom']._compute_qty(from_unit, group['product_uom_qty'], to_unit)
+            r[group['product_id'][0]] += uom_qty
+        for product in self:
+            product.sales_count = r[product.id]
