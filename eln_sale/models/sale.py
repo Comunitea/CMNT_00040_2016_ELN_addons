@@ -265,6 +265,13 @@ class SaleOrder(models.Model):
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
+    def _auto_init(self, cr, context=None):
+        res = super(SaleOrderLine, self)._auto_init(cr, context=context)
+        cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = %s', ('sale_order_line_product_id_index',))
+        if not cr.fetchone():
+            cr.execute('CREATE INDEX sale_order_line_product_id_index ON sale_order_line (product_id)')
+        return res
+
     @api.multi
     def product_id_change(self, pricelist, product, qty=0,
             uom=False, qty_uos=0, uos=False, name='',
