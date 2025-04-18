@@ -27,6 +27,7 @@
         "author" : "Pexego",
         "website" : "http://www.pexego.es",
         "category" : "Manufacturing",
+        "license" : "AGPL-3",
         "description": """Master Procurement Schedule""",
         "depends" : [
             'product',

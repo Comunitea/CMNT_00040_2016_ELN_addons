@@ -15,6 +15,7 @@ It also modifies the workflow of sale orders by adding a new step when partner's
 Developed for Trod y Avia, S.L.""",
     "author": "NaN·tic",
     "website": "http://www.NaN-tic.com",
+    "license": "AGPL-3",
     "depends": [
         'base',
         'account',

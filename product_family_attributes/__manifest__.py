@@ -26,6 +26,7 @@
         """,
     "version" : "1.0",
     "author" : "Pexego",
+    "license" : "AGPL-3",
     "depends" : ["base", "product","stock", "purchase"],
     "category" : "Stock",
     # "init_xml" : [],

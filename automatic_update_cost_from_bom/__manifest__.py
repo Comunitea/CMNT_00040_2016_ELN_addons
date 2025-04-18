@@ -25,6 +25,7 @@
     "description" : """Cron job to automate update product cost from BOMs""",
     "version" : "1.0",
     "author" : "Pexego",
+    "license" : "AGPL-3",
     "depends" : [
         "base", "product",
         #  "product_extended"

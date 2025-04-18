@@ -27,6 +27,7 @@
     "version" : "1.0",
     "author" : "Pexego",
     "website" : "http://www.pexego.es",
+    "license" : "AGPL-3",
     "category" : "Enterprise Specific Modules",
     "description": """Product Samples Management in Openerp""",
     "depends" : [

@@ -25,6 +25,7 @@
         """,
     "version" : "1.0",
     "author" : "Pexego",
+    "license" : "AGPL-3",
     # "depends" : ["base", "product","stock",],
     "depends" : ["base", "product","stock"], # Modificado post-migración
     "category" : "Manufacturing",

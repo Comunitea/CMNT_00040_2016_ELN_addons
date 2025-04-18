@@ -28,6 +28,7 @@
         """,
     "version" : "1.0",
     "author" : "Pexego",
+    "license" : "AGPL-3",
     # "depends" : ["base", "product", "stock", "procurement", "stock_location_templates", "eln_stock"],
     # "depends" : ["base", "product", "stock", "procurement", "eln_stock"], # Modificado post-migración
     "depends" : ["base", "product", "stock", "eln_stock"], # Modificado post-migración

@@ -28,6 +28,7 @@
     'description': """Allow to account prepaid expenses on invoices""",
     'author': 'Pexego Sistemas Informáticos',
     'website': 'https://www.pexego.es',
+    'license': 'AGPL-3',
     'depends': ['account'],
     'init_xml': [],
     # 'data': [

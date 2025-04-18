@@ -22,6 +22,7 @@
     "name": 'Eln Maintenance',
     "version": '8.0.1.0.0',
     "author": 'Pexego',
+    "license": 'AGPL-3',
     "category": 'Generic Modules',
     "description": """
     This module provide: Maintenance functionality.

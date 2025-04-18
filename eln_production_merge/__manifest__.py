@@ -28,6 +28,7 @@
     'description': """Adds a new wizard that allows merging two or more production orders""",
     'author': 'Pexego Sistemas Informáticos',
     'website': 'www.pexego.es',
+    "license": 'AGPL-3',
     "depends": [
         'base',
         'product',

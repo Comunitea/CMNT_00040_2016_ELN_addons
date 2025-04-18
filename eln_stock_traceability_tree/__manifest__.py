@@ -7,6 +7,7 @@
     'version': '8.0.1.0.0',
     'author': 'Pedro Gómez',
     'website': 'www.elnogal.com',
+    'license': 'AGPL-3',
     'category': 'Stock/Traceability',
     # 'depends': [
     #     'stock_traceability_tree',
