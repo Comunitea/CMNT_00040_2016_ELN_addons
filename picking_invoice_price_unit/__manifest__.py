@@ -26,6 +26,7 @@ Si existe pedido de venta o pedido de compra se obtiene el precio unitario indic
 En caso contrario se obtendrá de la tarifa de venta o compra del clinte o proveedor y en su defecto del producto (precio venta o coste).""",
     "version": "1.0",
     "author": "Pedro Gómez",
+    "license": "AGPL-3",
     "depends": [
         'base',
         'stock',

@@ -9,6 +9,7 @@
     "description": """El Nogal Attendances customizations""",
     "author": 'Pedro Gómez',
     "website": 'www.elnogal.com',
+    "license": 'AGPL-3',
     "depends": [
         'eln_hr',
         'hr_attendance',

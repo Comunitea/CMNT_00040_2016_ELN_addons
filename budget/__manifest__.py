@@ -27,6 +27,7 @@
 {"name": "Multicurrency Analytic Budget",
  "version": "1.1",
  "author": "Camptocamp,Odoo Community Association (OCA)",
+ "license" : "AGPL-3",
  "category": "Generic Modules/Accounting",
  "website": "http://camptocamp.com",
  "description": """

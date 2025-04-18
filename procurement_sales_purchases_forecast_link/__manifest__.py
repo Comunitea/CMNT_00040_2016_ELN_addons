@@ -25,6 +25,7 @@
         "version" : "1.0",
         "author" : "Pexego",
         "website" : "http://www.pexego.es",
+        "license" : "AGPL-3",
         "category" : "Forecast",
         "description": """Link between sales forecast, purchases forecast and master procurement schedule""",
         "depends" : [

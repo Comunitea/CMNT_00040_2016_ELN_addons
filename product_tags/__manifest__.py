@@ -8,6 +8,7 @@
     'version': '8.0.1.0.1',
     'author': 'Pedro Gómez',
     'website': 'www.elnogal.com',
+    "license": 'AGPL-3',
     'depends': [
         'base',
         'product',

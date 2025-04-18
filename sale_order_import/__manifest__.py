@@ -28,6 +28,7 @@
     'description': """Módulo que permite la importacion de pedidos de venta desde ficheros externos""",
     'author': 'Pedro Gómez',
     'website': 'www.elnogal.com',
+    "license": 'AGPL-3',
     "depends" : ['sale',
                  'sales_team',
                 #  'eln_custom',

@@ -26,6 +26,7 @@
         "name" : "Budget product",
         "version" : "1.0",
         "author" : "Pexego",
+        "license" : "AGPL-3",
         "website" : "http://www.pexego.es",
         "category" : "Sales",
         "description": """Add product field to the budget lines for create lines per product.""",

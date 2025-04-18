@@ -27,6 +27,7 @@
         "author" : "Pexego",
         "website" : "http://www.pexego.es",
         "category" : "Purchases",
+        "license" : "AGPL-3",
         "description": """Purchases forecast budget""",
         # "depends" : ['budget','purchases_forecast'],
         # "init_xml" : [],

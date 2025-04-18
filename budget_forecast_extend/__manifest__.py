@@ -26,6 +26,7 @@
         "version" : "1.0",
         "author" : "Pexego",
         "website" : "http://www.pexego.es",
+        "license" : "AGPL-3",
         "category" : "Budget",
         "description": """Add fields.""",
         # "depends" : ['budget','sales_forecast','purchases_forecast', 'base', 'purchases_forecast_budget'],
