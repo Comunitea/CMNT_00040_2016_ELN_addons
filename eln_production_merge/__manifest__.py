@@ -23,7 +23,7 @@
 
 {
     'name': "El Nogal Productions Merge",
-    'version': '1.0',
+    'version': '17.0.1.0.0',
     'category': '',
     'description': """Adds a new wizard that allows merging two or more production orders""",
     'author': 'Pexego Sistemas Informáticos',

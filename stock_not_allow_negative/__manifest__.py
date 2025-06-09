@@ -20,7 +20,7 @@
 ##############################################################################
 {
     "name": "Not Allow Negative Stock",
-    "version": "16.0.1.0.1",
+    "version": "17.0.1.0.0",
     'author': 'Pedro Gómez',
     "category": "Custom",
     'description': """Not allow negative stock levels""",

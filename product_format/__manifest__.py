@@ -21,7 +21,7 @@
 {
     "name": "Product Format",
     "description": """Add format field to product""",
-    "version": "1.0",
+    "version": "17.0.1.0.0",
     "author": "Pexego",
     "license": "AGPL-3",
     "depends": [

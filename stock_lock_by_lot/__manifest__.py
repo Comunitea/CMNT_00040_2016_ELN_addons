@@ -7,7 +7,7 @@
 {
     "name": 'Stock Lock By Lot',
     "description": 'Lock stock moves by lot - Simplified version based on the OCA module stock_lock_lot',
-    "version": '8.0.1.0.1',
+    "version": '17.0.1.0.0',
     "author": 'OdooMRP team,'
               'Avanzosc,'
               'Serv. Tecnol. Avanzados - Pedro M. Baeza,'

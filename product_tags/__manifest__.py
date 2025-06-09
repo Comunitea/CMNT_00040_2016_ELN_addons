@@ -5,7 +5,7 @@
 {
     'name': 'Product Tags',
     'description': """Add tags to products""",
-    'version': '8.0.1.0.1',
+    'version': '17.0.1.0.0',
     'author': 'Pedro Gómez',
     'website': 'www.elnogal.com',
     "license": 'AGPL-3',

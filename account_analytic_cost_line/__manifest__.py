@@ -24,7 +24,7 @@
 {
     "name": "Account analytic cost line",
     "summary": "",
-    "version": "8.0.1.0.0",
+    "version": "17.0.1.0.0",
     "category": "Uncategorized",
     "description": "Account analytic cost line",
     "website": "comunitea.com",

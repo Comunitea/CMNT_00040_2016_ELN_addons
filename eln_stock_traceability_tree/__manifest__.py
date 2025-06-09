@@ -4,7 +4,7 @@
 # NO MIGRAR
 {
     'name': 'El Nogal - Stock Traceability Tree',
-    'version': '8.0.1.0.0',
+    'version': '17.0.1.0.0',
     'author': 'Pedro Gómez',
     'website': 'www.elnogal.com',
     'license': 'AGPL-3',

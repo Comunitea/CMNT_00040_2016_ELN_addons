@@ -23,7 +23,7 @@
 {
     "name" : "Automatic update cost from BOMs",
     "description" : """Cron job to automate update product cost from BOMs""",
-    "version" : "1.0",
+    "version" : "17.0.1.0.0",
     "author" : "Pexego",
     "license" : "AGPL-3",
     "depends" : [

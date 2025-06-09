@@ -4,7 +4,7 @@
 
 {
     "name": "El Nogal Attendances customizations",
-    "version": '8.0.1.0.1',
+    "version": '17.0.1.0.0',
     "category": 'Human Resources',
     "description": """El Nogal Attendances customizations""",
     "author": 'Pedro Gómez',

@@ -26,7 +26,7 @@
     "description": """
        Module that adds a wizard to make transfers of merchandise between companies.
         """,
-    "version" : "1.0",
+    "version" : "17.0.1.0.0",
     "author" : "Pexego",
     "license" : "AGPL-3",
     # "depends" : ["base", "product", "stock", "procurement", "stock_location_templates", "eln_stock"],

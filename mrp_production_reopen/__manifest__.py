@@ -24,7 +24,7 @@
 
 {
         "name" : "Reabrir proceso de producción",
-        "version" : "1.0",
+        "version" : "17.0.1.0.0",
         "author" : "Pexego",
         "website" : "http://www.pexego.es",
         "license" : "AGPL-3",
