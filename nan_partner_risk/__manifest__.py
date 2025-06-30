@@ -6,7 +6,7 @@
 
 {
     "name": "Partner Risk Analysis",
-    "version": "17.0.1.0.0",
+    "version": "18.0.1.0.0",
     "description": """This module adds a new button in the partner form to analyze current state of a partner risk.
 It reports current information regarding amount of debt in invoices, orders, etc.
 

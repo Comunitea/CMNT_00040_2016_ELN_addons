@@ -23,7 +23,7 @@
 
 {
     'name': "Sale Order Import",
-    'version': '17.0.1.0.0',
+    'version': '18.0.1.0.0',
     'category': 'Sale',
     'description': """Módulo que permite la importacion de pedidos de venta desde ficheros externos""",
     'author': 'Pedro Gómez',

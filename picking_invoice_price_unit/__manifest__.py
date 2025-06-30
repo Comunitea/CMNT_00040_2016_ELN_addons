@@ -24,7 +24,7 @@
     "description" : """Modifica el método que se usa para obtener el precio unitario cuando se genera la factura desde un albarán. 
 Si existe pedido de venta o pedido de compra se obtiene el precio unitario indicado en el pedido de venta o compra.
 En caso contrario se obtendrá de la tarifa de venta o compra del clinte o proveedor y en su defecto del producto (precio venta o coste).""",
-    "version": "17.0.1.0.0",
+    "version": "18.0.1.0.0",
     "author": "Pedro Gómez",
     "license": "AGPL-3",
     "depends": [

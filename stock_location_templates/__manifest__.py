@@ -23,7 +23,7 @@
     "description": """
         Module that adds templates logistics flows to simplify the configuration process these into products.
         """,
-    "version" : "17.0.1.0.0",
+    "version" : "18.0.1.0.0",
     "author" : "Pexego",
     "license" : "AGPL-3",
     # "depends" : ["base", "product","stock",],

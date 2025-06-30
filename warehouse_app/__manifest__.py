@@ -4,7 +4,7 @@
 
 {
     'name': 'Warehouse App',
-    'version': '17.0.1.0.0',
+    'version': '18.0.1.0.0',
     'author': 'Kiko Sánchez',
     'category': 'Inventory, Logistic, Storage',
     'website': 'https://www.comunitea.com',

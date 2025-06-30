@@ -24,7 +24,7 @@
     "description": """
         With this module you can adds fields to OpenERP products.
         """,
-    "version" : "17.0.1.0.0",
+    "version" : "18.0.1.0.0",
     "author" : "Pexego",
     "license" : "AGPL-3",
     "depends" : ["base", "product","stock", "purchase"],

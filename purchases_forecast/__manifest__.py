@@ -23,7 +23,7 @@
 
 {
         "name" : "Purchases forecast",
-        "version" : "17.0.1.0.0",
+        "version" : "18.0.1.0.0",
         "author" : "Pexego",
         "website" : "http://www.pexego.es",
         "license" : "AGPL-3",
