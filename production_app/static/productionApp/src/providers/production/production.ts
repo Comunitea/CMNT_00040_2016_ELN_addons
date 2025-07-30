@@ -238,8 +238,8 @@ export class ProductionProvider {
         // Calculate full weeks to nearest Thursday
         var weekNo = ('0' + (Math.ceil((((d - yearStart) / 86400000) + 1) / 7))).slice(-2);
         var weekDay = (date.getUTCDay() || 7)
-        var year = d.getUTCFullYear().toString().slice(-1)
-        return weekNo + '/' + weekDay + year;
+        var year = d.getUTCFullYear().toString().slice(-2)
+        return weekNo + weekDay + year;
     }
 
     getMaxUseDate() {
