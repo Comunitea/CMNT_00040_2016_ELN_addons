@@ -41,10 +41,12 @@ export class ChecksModalPage {
     }
 
     initQualityChecks() {
+        var displayed_date = this.prodData.getUTCDateStr();
         var qc_list = this.navParams.get('quality_checks');
         var new_list = []
         for (var index in qc_list) {
             var qc = qc_list[index];
+            qc.displayed_date = displayed_date;
             if (qc.value_type == 'lot' && !(this.prodData.product_lot_name.length > 0)) {
                 continue
             }
@@ -88,6 +90,11 @@ export class ChecksModalPage {
 
     confirmModal() {
         var error = false;
+        for (const qc of this.quality_checks) {
+            if (qc.value == 'debug') { // Para pruebas en desarrollo
+                return this.viewCtrl.dismiss(this.quality_checks);
+            }
+        };
         for (let indx in this.quality_checks) {
             var qc = this.quality_checks[indx];
             if (qc.value_type == 'check') {

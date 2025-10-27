@@ -866,6 +866,7 @@ class ProductionAppRegistry(models.Model):
             vals = {
                 'registry_id': registry_id,
                 'pqc_id': dic.get('id', False),
+                'displayed_date': dic.get('displayed_date', False),
                 'date': date,
                 'value': qc_value,
                 'operator_id': operator_id
@@ -1273,6 +1274,9 @@ class QualityCheckLine(models.Model):
         ondelete='cascade')
     pqc_id = fields.Many2one(
         'product.quality.check', 'Quality Check', readonly=False)
+    displayed_date = fields.Datetime('Displayed Date',
+        readonly=False,
+        help="Date and time when the question or field was first displayed to the user, used to calculate the response time.")
     date = fields.Datetime('Date',
         default=fields.Datetime.now,
         readonly=False)
