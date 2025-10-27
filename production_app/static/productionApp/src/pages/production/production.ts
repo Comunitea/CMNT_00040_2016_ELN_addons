@@ -161,7 +161,7 @@ export class ProductionPage {
                 'quality_type': qtype,
                 'quality_checks': qchecks
             }
-            let myModal = this.modalCtrl.create(ChecksModalPage, mydata);
+            let myModal = this.modalCtrl.create(ChecksModalPage, mydata, { enableBackdropDismiss: false });
 
             // When modal closes
             myModal.onDidDismiss(data => {

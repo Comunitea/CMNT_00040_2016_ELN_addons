@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavParams, ViewController, AlertController } from 'ionic-angular';
+import { IonicPage, NavParams, ViewController, AlertController, Platform } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { ProductionProvider } from '../../providers/production/production';
@@ -23,8 +23,11 @@ export class ChecksModalPage {
     quality_type;
     quality_checks;
     canLeave: boolean = true;
+    private backButtonHandler?: Function;
 
-    constructor(private storage: Storage,
+    constructor(
+        private platform: Platform,
+        private storage: Storage,
         public navParams: NavParams,
         public viewCtrl: ViewController,
         private prodData: ProductionProvider,
@@ -74,6 +77,22 @@ export class ChecksModalPage {
         }
     }
 
+    ionViewDidEnter() {
+        // Bloquea el botón físico “Atrás” mientras el modal esté visible
+        this.backButtonHandler = this.platform.registerBackButtonAction(() => {
+            console.log('Botón atrás bloqueado dentro del modal');
+            // No hacemos nada: se evita el cierre accidental
+        }, 100); // prioridad alta
+    }
+
+    ionViewWillLeave() {
+        // Al salir, liberamos el bloqueo y restauramos el comportamiento normal
+        if (this.backButtonHandler) {
+            this.backButtonHandler(); // cancela el registro anterior
+            this.backButtonHandler = null;
+        }
+    }
+
     presentAlert(titulo, texto) {
         const alert = this.alertCtrl.create({
             title: titulo,
@@ -85,7 +104,13 @@ export class ChecksModalPage {
     }
 
     closeModal() {
-        this.viewCtrl.dismiss([]);
+	if (this.quality_type == 'freq') {
+            this.presentAlert('Error de validación', '¡¡¡Es obligatorio responder a todas las preguntas!!!');
+            // En caso de permitir volver atrás, debemos poner aquí si queremos devolver this.viewCtrl.dismiss(this.quality_checks)
+            // para que registre los controles vacios y si queremos que bloquee lote entonces debemos establecer error con algún valor.
+        } else {
+            this.viewCtrl.dismiss([])
+        };
     }
 
     confirmModal() {
