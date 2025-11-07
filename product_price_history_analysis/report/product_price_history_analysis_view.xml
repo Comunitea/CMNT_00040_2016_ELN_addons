@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="product_price_history_analysis_graph" model="ir.ui.view">
+            <field name="name">product.price.history.analysis.graph</field>
+            <field name="model">product.price.history.analysis</field>
+            <field name="arch" type="xml">
+                <graph string="Product Price Analysis" type="pivot" stacked="True">
+                    <field name="datetime" type="row" interval="week"/>
+                    <field name="product_id" type="col"/>
+                    <field name="cost" type="measure"/>
+                </graph>
+            </field>
+    </record>
+
+    <record id="product_price_history_analysis_graph_search" model="ir.ui.view">
+        <field name="name">product.price.history.analysis.search</field>
+        <field name="model">product.price.history.analysis</field>
+        <field name="arch" type="xml">
+            <search string="Product Price Analysis">
+                <field name="product_id"/>
+                <field name="product_template_id"/>
+                <field name="company_id"/>
+                <separator/>
+                <filter string="This Year" name="year" domain="
+                [('datetime','&gt;=', time.strftime('%%Y-01-01 00:00:00'))]"/>
+                <filter string="Previous Year" name="previous_year" domain="
+                [('datetime','&gt;=',(context_today()-relativedelta(years=1)).strftime('%%Y-01-01 00:00:00')),
+                ('datetime','&lt;=',(context_today()-relativedelta(years=1)).strftime('%%Y-12-31 23:59:59'))]"/>
+                <filter string="Last 12 Months" name="last_12_months" domain="
+                [('datetime','&gt;=',(context_today()-relativedelta(months=12)).strftime('%%Y-%%m-01 00:00:00'))]"/>
+                <group expand="1" string="Group By">
+                    <filter string="Product" name="Product" context="{'group_by':'product_id'}"/>
+                    <filter string="Month" name="groupby_month" context="{'group_by':'datetime'}"/>
+                    <filter string="Week" name="groupby_week" context="{'group_by':'datetime:week'}"/>
+                    <filter string="Day" name="groupby_day" context="{'group_by':'datetime:day'}"/>
+                    <filter string="Id" name="groupby_id" context="{'group_by':'history_id'}"/>
+                    <filter string="Company" name="Company" context="{'group_by':'company_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_product_price_history_analysis_graph" model="ir.actions.act_window">
+        <field name="name">Product Price Analysis</field>
+        <field name="res_model">product.price.history.analysis</field>
+        <field name="view_mode">graph</field>
+        <field name="search_view_id" ref="product_price_history_analysis_graph_search"/>
+        <field name="view_id" ref="product_price_history_analysis_graph"/>
+        <field name="context">{'search_default_last_12_months':1}</field>
+    </record>
+
+    <menuitem action="action_product_price_history_analysis_graph" id="menu_product_price_history_analysis_graph" parent="base.next_id_64" sequence="98"/>
+
+    <record model="ir.ui.view" id="product_form_view_history_analysis_button">
+        <field name="name">product.product.history.analysis</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='buttons']" position="attributes">
+                <attribute name="style">width: 450px;</attribute>
+            </xpath>
+            <xpath expr="//div[@name='buttons']" position="inside">
+                <button name="action_view_history_analysis" string="Cost Price Analysis" type="object" class="oe_inline oe_stat_button" 
+                    icon="fa-line-chart" groups="stock.group_stock_user"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="product_template_form_view_history_analysis_button">
+        <field name="name">product.template.history.analysis</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='buttons']" position="attributes">
+                <attribute name="style">width: 450px;</attribute>
+            </xpath>
+            <xpath expr="//div[@name='buttons']" position="inside">
+                <button name="action_view_history_analysis" string="Cost Price Analysis" type="object" class="oe_inline oe_stat_button" 
+                    icon="fa-line-chart" groups="stock.group_stock_user"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

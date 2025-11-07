@@ -1,0 +1,110 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* modify_invoice_analytic_account
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-03-10 11:49+0000\n"
+"PO-Revision-Date: 2017-03-10 12:54+0100\n"
+"Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: es_ES\n"
+"X-Generator: Poedit 1.8.6\n"
+
+#. module: modify_invoice_analytic_account
+#: field:modify.invoice.analytic.account.wzd,analytic_account_id:0
+msgid "Account analytic"
+msgstr "Cuenta analítica"
+
+#. module: modify_invoice_analytic_account
+#: view:modify.invoice.analytic.account.wzd:modify_invoice_analytic_account.modify_invoice_analytic_account_wzd__form_view
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: modify_invoice_analytic_account
+#: field:modify.invoice.analytic.account.wzd,create_uid:0
+msgid "Created by"
+msgstr "Created by"
+
+#. module: modify_invoice_analytic_account
+#: field:modify.invoice.analytic.account.wzd,create_date:0
+msgid "Created on"
+msgstr "Created on"
+
+#. module: modify_invoice_analytic_account
+#: field:modify.invoice.analytic.account.wzd,display_name:0
+msgid "Display Name"
+msgstr "Display Name"
+
+#. module: modify_invoice_analytic_account
+#: field:modify.invoice.analytic.account.wzd,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: modify_invoice_analytic_account
+#: code:addons/modify_invoice_analytic_account/wizard/modify_invoice_analytic_account_wzd.py:50
+#, python-format
+msgid "Invalid Action!"
+msgstr "¡Acción no válida!"
+
+#. module: modify_invoice_analytic_account
+#: view:modify.invoice.analytic.account.wzd:modify_invoice_analytic_account.modify_invoice_analytic_account_wzd__form_view
+msgid "It will also be modified in the related account moves."
+msgstr "Se modifcará también en los apuntes contables relacionados."
+
+#. module: modify_invoice_analytic_account
+#: field:modify.invoice.analytic.account.wzd,__last_update:0
+msgid "Last Modified on"
+msgstr "Last Modified on"
+
+#. module: modify_invoice_analytic_account
+#: field:modify.invoice.analytic.account.wzd,write_uid:0
+msgid "Last Updated by"
+msgstr "Last Updated by"
+
+#. module: modify_invoice_analytic_account
+#: field:modify.invoice.analytic.account.wzd,write_date:0
+msgid "Last Updated on"
+msgstr "Last Updated on"
+
+#. module: modify_invoice_analytic_account
+#: view:modify.invoice.analytic.account.wzd:modify_invoice_analytic_account.modify_invoice_analytic_account_wzd__form_view
+msgid "Modify"
+msgstr "Modificar"
+
+#. module: modify_invoice_analytic_account
+#: model:ir.actions.act_window,name:modify_invoice_analytic_account.modify_invoice_analytic_account_wzd_action
+msgid "Modify invoice analytic account"
+msgstr "Modificar cuenta analítica de la factura"
+
+#. module: modify_invoice_analytic_account
+#: view:modify.invoice.analytic.account.wzd:modify_invoice_analytic_account.modify_invoice_analytic_account_wzd__form_view
+msgid "Please note that:"
+msgstr "Tenga en cuenta que:"
+
+#. module: modify_invoice_analytic_account
+#: view:modify.invoice.analytic.account.wzd:modify_invoice_analytic_account.modify_invoice_analytic_account_wzd__form_view
+msgid "Select analytic account"
+msgstr "Seleccionar cuenta analítica"
+
+#. module: modify_invoice_analytic_account
+#: code:addons/modify_invoice_analytic_account/wizard/modify_invoice_analytic_account_wzd.py:51
+#, python-format
+msgid "The analytic account can not be modified using this wizard, because the invoice is not validated."
+msgstr "La cuenta analítica no se puede modificar con este asistente, porque la factura no está validada."
+
+#. module: modify_invoice_analytic_account
+#: view:modify.invoice.analytic.account.wzd:modify_invoice_analytic_account.modify_invoice_analytic_account_wzd__form_view
+msgid "The analytic account will be established in all lines of the invoice."
+msgstr "La cuenta analítica será establecida en todas la líneas de la factura."
+
+#. module: modify_invoice_analytic_account
+#: view:modify.invoice.analytic.account.wzd:modify_invoice_analytic_account.modify_invoice_analytic_account_wzd__form_view
+msgid "The related analytical moves will also be recreated."
+msgstr "Los apuntes analíticos relacionados también serán recreados."

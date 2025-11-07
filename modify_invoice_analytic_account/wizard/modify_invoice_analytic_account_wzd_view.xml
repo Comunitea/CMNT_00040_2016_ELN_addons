@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="modify_invoice_analytic_account_wzd__form_view" model="ir.ui.view">
+        <field name="name">modify.invoice.analytic.account.wzd.form.view</field>
+        <field name="model">modify.invoice.analytic.account.wzd</field>
+        <field name="arch" type="xml">
+            <form>
+                <group string="Select analytic account">
+                    <field name="analytic_account_id" domain="[('type','!=','view')]"/>
+                </group>
+                <h3>Please note that:</h3>
+                <li>The analytic account will be established in all lines of the invoice.</li>
+                <li>It will also be modified in the related account moves.</li>
+                <li>The related analytical moves will also be recreated.</li>
+                <footer>
+                    <button name="action_print_expense" string="Cancel" special="cancel" class="oe_inline oe_stat_button"
+                            icon="fa-close"/>
+                    <button name="action_modify_invoice_analytic" string="Modify" type="object" class="oe_inline oe_stat_button"
+                            icon="fa-edit"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <act_window id="modify_invoice_analytic_account_wzd_action"
+        name="Modify invoice analytic account"
+        key2="client_action_multi"
+        src_model="account.invoice"
+        res_model="modify.invoice.analytic.account.wzd"
+        view_mode="form"
+        view_type="form"
+        target="new"
+        groups="analytic.group_analytic_accounting"
+        />
+
+</odoo>
