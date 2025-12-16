@@ -15,6 +15,8 @@ class StockPackOperationAnalysis(models.Model):
     lot_id = fields.Many2one(
         'stock.production.lot', string='Lot/Serial Number', readonly=True)
     product_qty = fields.Float(string='Quantity', readonly=True)
+    price_unit = fields.Float(string='Unit Price', group_operator='avg', readonly=True)
+    cost_total = fields.Float(string='Cost Total', readonly=True)
     picking_id = fields.Many2one(
         'stock.picking', string='Stock Picking', readonly=True)
     date = fields.Datetime('Date', readonly=True)
@@ -38,6 +40,8 @@ class StockPackOperationAnalysis(models.Model):
                 spo.product_id AS product_id,
                 spo.date AS date,
                 spo.product_qty as product_qty,
+                sm.price_unit AS price_unit,
+                (COALESCE(sm.price_unit, 0.0) * COALESCE(spo.product_qty, 0.0)) AS cost_total,
                 spo.lot_id as lot_id,
                 sp.id as picking_id,
                 sp.partner_id as partner_id,
@@ -49,6 +53,12 @@ class StockPackOperationAnalysis(models.Model):
             JOIN stock_picking sp ON sp.id = spo.picking_id
             JOIN product_product pp on pp.id = spo.product_id
             JOIN product_template pt on pt.id = pp.product_tmpl_id
+            LEFT JOIN (
+                SELECT operation_id, MIN(move_id) AS move_id
+                FROM stock_move_operation_link
+                GROUP BY operation_id
+            ) rel1 ON rel1.operation_id = spo.id
+            LEFT JOIN stock_move sm ON sm.id = rel1.move_id
             WHERE sp.state = 'done'
             )"""
             % (self._table)
