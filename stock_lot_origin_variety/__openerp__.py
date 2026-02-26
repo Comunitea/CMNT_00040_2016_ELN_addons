@@ -3,7 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
-    "name": "Stock Lot - Origin and Variety",
+    "name": "Stock Lot Origin and Variety",
     "version": '8.0.1.0.1',
     "category": 'Warehouse Management',
     "description": """Add Origin and Variety to Lot/Serial numbers""",
@@ -14,7 +14,6 @@
      ],
     "init_xml": [],
     "data": [
-        'views/product_view.xml',
         'views/stock_production_lot_view.xml',
     ],
     "demo_xml": [],
