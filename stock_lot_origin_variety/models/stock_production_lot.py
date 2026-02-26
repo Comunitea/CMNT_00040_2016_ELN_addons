@@ -2,7 +2,7 @@
 # Copyright 2026 El Nogal - Pedro Gómez <pegomez@elnogal.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp import models, fields, api, exceptions, _
+from openerp import models, fields, api
 
 
 class StockProductionLot(models.Model):
@@ -16,47 +16,37 @@ class StockProductionLot(models.Model):
     variety = fields.Char('Variety')
 
     @api.model
-    def default_get(self, fields):
-        res = super(StockProductionLot, self).default_get(fields)
-        product_id = res.get('product_id')
-        if product_id and not res.get('variety'):
-            product_id = self.env['product.product'].browse(product_id)
-            res['variety'] = product_id.product_tmpl_id.variety or False
-        return res
-
-    def _raise_if_invalid_origin(self):
-        for lot in self:
-            if not lot.product_id:
-                continue
-            allowed = lot.product_id.product_tmpl_id.origin_country_ids
-            invalid = lot.origin_country_ids - allowed
-            if allowed and invalid:
-                raise exceptions.ValidationError(
-                    _("Only the following countries are allowed for this product '%s': %s")
-                    % (lot.product_id.display_name, ", ".join(allowed.mapped('name')))
-                )
-
-    @api.model
     def create(self, vals):
         lot = super(StockProductionLot, self).create(vals)
-        lot._raise_if_invalid_origin()
+        if lot and lot.product_id and not vals.get('variety') and not lot.variety:
+            domain = [
+                ('product_id', '=', lot.product_id.id),
+                ('variety', '!=', False),
+                ('id', '!=', lot.id),
+            ]
+            last = self.env['stock.production.lot'].search(
+                domain,
+                order='create_date desc, id desc',
+                limit=1,
+            )
+            if last.variety:
+                lot.variety = last.variety
         return lot
-
-    @api.multi
-    def write(self, vals):
-        res = super(StockProductionLot, self).write(vals)
-        if 'origin_country_ids' in vals or 'product_id' in vals:
-            self._raise_if_invalid_origin()
-        return res
 
     @api.onchange('product_id')
     def onchange_product_id(self):
-        if self.product_id:
-            product_tmpl_id = self.product_id.product_tmpl_id
-            self.variety = product_tmpl_id.variety or False
-            return {'domain': {'origin_country_ids': [('id', 'in', product_tmpl_id.origin_country_ids.ids)]}}
-        self.variety = False
-        return {'domain': {'origin_country_ids': []}}
-
-
-
+        if not self.product_id:
+            self.variety = False
+        else:
+            domain = [
+                ('product_id', '=', self.product_id.id),
+                ('variety', '!=', False),
+            ]
+            if self.id and isinstance(self.id, int):
+                domain.append(('id', '!=', self.id))
+            last_lot = self.env['stock.production.lot'].search(
+                domain,
+                order='create_date desc, id desc',
+                limit=1,
+            )
+            self.variety = last_lot.variety or False
