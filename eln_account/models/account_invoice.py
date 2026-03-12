@@ -63,6 +63,9 @@ class AccountInvoice(models.Model):
 
     @api.multi
     def _get_cost_subtotal(self):
+        # No ponemos product_cost_management como dependencia, pero verificamos si existe
+        has_product_cost_management =bool(self.env['ir.module.module'].search(
+            [('name', '=', 'product_cost_management'), ('state', '=', 'installed')], limit=1))
         product_tmpl_obj = self.env['product.template']
         t_uom = self.env['product.uom']
         invoices = self.filtered(
@@ -94,6 +97,33 @@ class AccountInvoice(models.Model):
                 sign = -1 if line.price_subtotal < 0 else 1
                 cost_subtotal = invoice.currency_id.round(abs(price_unit * uom_qty) * sign)
                 line.cost_subtotal = cost_subtotal
+                cost_base = cost_subtotal
+
+                if has_product_cost_management :
+                    from_production= False
+                    if move_lines and line.product_id.type != 'service':
+                        for move_line in move_lines.filtered(lambda r: r.product_id == line.product_id):
+                            for quant in move_line.quant_ids.filtered(lambda r: r.qty > 0):
+                                if any(move_history.production_id for move_history in quant.history_ids):
+                                    from_production = True
+                                    break
+                            if from_production:
+                                break
+                    if from_production:
+                        product_cost_obj = self.env['product.cost']
+                        domain = [
+                            ('company_id', '=', line.company_id.id),
+                            ('product_id', '=', line.product_id.id),
+                            ('date', '<=', invoice.date_invoice or fields.Date.context_today(self)),
+                        ]
+                        product_cost_id = product_cost_obj.search(domain, limit=1, order='date desc')
+                        added_cost = 0.0
+                        if product_cost_id:
+                            for cost_line in product_cost_id.product_cost_lines:
+                                if cost_line.name not in ('LdM', 'Coste Entrante') and not cost_line.total:
+                                    added_cost += cost_line.theoric_cost
+                        cost_base = cost_subtotal - abs(added_cost * uom_qty) * sign
+                line.cost_base = cost_base
 
     @api.multi
     def invoice_validate(self):
@@ -120,6 +150,9 @@ class AccountInvoiceLine(models.Model):
     cost_subtotal = fields.Float('Cost Subtotal')
     origin_line_ids = fields.Many2many(copy=False)
     refund_line_ids = fields.Many2many(copy=False)
+    # El cost_base es el coste base del producto sin añadidos ni extras,
+    # es decir, coste de compra o coste de LdM puro. 12-03-2026
+    cost_base = fields.Float('Cost Base')
 
     @api.one
     @api.depends('quantity')
