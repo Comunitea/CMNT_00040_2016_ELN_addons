@@ -571,8 +571,8 @@ class EdiExport(models.TransientModel):
                 imp = round(imp, 2)
                 line_data += self.parse_string(line.invoice_line_tax_id[0].edi_code or 'VAT', 3)
                 if line.invoice_line_tax_id[0].edi_code and line.invoice_line_tax_id[0].edi_code == 'EXT':
-                    line_data += self.parse_number(False, 5, 2)
-                    line_data += self.parse_number(False, 18, 3)
+                    line_data += self.parse_number('0', 5, 2)
+                    line_data += self.parse_number('0', 18, 3)
                 else:
                     line_data += self.parse_number(imp, 5, 2)
                     line_data += self.parse_number((line.price_subtotal * (imp/100.0)), 18, 3)
