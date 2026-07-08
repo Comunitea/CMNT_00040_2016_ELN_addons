@@ -553,7 +553,7 @@ class StockPickingExport(models.TransientModel):
                 if not supplier_product_code:
                     raise exceptions.Warning(_('Warning'), _('Product %s without supplier code') % (product_id.display_name))
                 # Código almacén asignado al distribuidor
-                warehouse_code = 'D42'
+                warehouse_code = 'RIB1'
                 # Cantidad (en cajas). Para especificar cantidades en bolsas hay que calcular la parte proporcional de caja que supone.
                 product_uom_qty = line['product_qty'] * sign
                 if self.subtract_returns and move_id.returned_move_ids:
