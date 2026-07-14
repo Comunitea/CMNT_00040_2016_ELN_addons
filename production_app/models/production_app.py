@@ -1366,7 +1366,7 @@ class ConsumptionLine(models.Model):
         return location_id
 
     registry_id = fields.Many2one(
-        'production.app.registry', 'App Registry', readonly=True,
+        'production.app.registry', 'App Registry', readonly=True, index=True,
         ondelete='cascade')
     type = fields.Selection([
         ('in', 'In'),
