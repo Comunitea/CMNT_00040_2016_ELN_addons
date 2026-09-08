@@ -1,49 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="sheet_product" language="i18ngroovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="sheet_product" language="i18ngroovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ad9a8397-2031-40a4-8df1-cdf6e7af9820">
 	<property name="ireport.zoom" value="2.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
-	<style name="table" lineSpacing="Single">
+	<property name="ireport.y" value="852"/>
+	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
 		</box>
+		<paragraph lineSpacing="Single"/>
 	</style>
-	<style name="table_TH" mode="Opaque" backcolor="#FFFFFF" lineSpacing="Single">
+	<style name="table_TH" mode="Opaque" backcolor="#FFFFFF">
 		<box>
 			<pen lineWidth="0.5" lineColor="#000000"/>
 		</box>
+		<paragraph lineSpacing="Single"/>
 	</style>
-	<style name="table_CH" mode="Opaque" backcolor="#FFBFBF" lineSpacing="Single">
+	<style name="table_CH" mode="Opaque" backcolor="#FFBFBF">
 		<box>
 			<pen lineWidth="0.5" lineColor="#000000"/>
 		</box>
+		<paragraph lineSpacing="Single"/>
 	</style>
-	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF" lineSpacing="Single">
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
 		<box>
 			<pen lineWidth="0.5" lineColor="#000000"/>
 		</box>
+		<paragraph lineSpacing="Single"/>
 	</style>
-	<style name="table 1" lineSpacing="Single">
+	<style name="table 1">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
 		</box>
+		<paragraph lineSpacing="Single"/>
 	</style>
-	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF" lineSpacing="Single">
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
 		<box>
 			<pen lineWidth="0.5" lineColor="#000000"/>
 		</box>
+		<paragraph lineSpacing="Single"/>
 	</style>
-	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF" lineSpacing="Single">
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
 		<box>
 			<pen lineWidth="0.5" lineColor="#000000"/>
 		</box>
+		<paragraph lineSpacing="Single"/>
 	</style>
-	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF" lineSpacing="Single">
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
 		<box>
 			<pen lineWidth="0.5" lineColor="#000000"/>
 		</box>
+		<paragraph lineSpacing="Single"/>
 	</style>
-	<subDataset name="Ingredients">
+	<subDataset name="Ingredients" uuid="c5ce5b3a-4e2f-4ac5-a8f2-342e76bb2e90">
 		<parameter name="ORDER_ID" class="java.lang.Integer"/>
 		<parameter name="REWIND" class="java.lang.Object" isForPrompting="false">
 			<parameterDescription><![CDATA[]]></parameterDescription>
@@ -79,7 +87,7 @@
 		</variable>
 		<filterExpression><![CDATA[$P{ORDER_ID} == $F{id}]]></filterExpression>
 	</subDataset>
-	<subDataset name="chemical_parameters">
+	<subDataset name="chemical_parameters" uuid="536dcaa8-42c4-4459-9408-adee1f98ff9f">
 		<parameter name="ORDER_ID" class="java.lang.Integer"/>
 		<parameter name="REWIND" class="java.lang.Object" isForPrompting="false">
 			<parameterDescription><![CDATA[]]></parameterDescription>
@@ -107,7 +115,7 @@
 		</variable>
 		<filterExpression><![CDATA[$P{ORDER_ID} == $F{id} && $F{Tipo-type} == "chemical"]]></filterExpression>
 	</subDataset>
-	<subDataset name="physical_parameters">
+	<subDataset name="physical_parameters" uuid="f14beb1b-b0ca-460b-bc09-9d45eb44ce18">
 		<parameter name="ORDER_ID" class="java.lang.Integer"/>
 		<parameter name="REWIND" class="java.lang.Object" isForPrompting="false">
 			<parameterDescription><![CDATA[]]></parameterDescription>
@@ -135,7 +143,7 @@
 		</variable>
 		<filterExpression><![CDATA[$P{ORDER_ID} == $F{id} && $F{Tipo-type} == "physical"]]></filterExpression>
 	</subDataset>
-	<subDataset name="microbiological_parameters">
+	<subDataset name="microbiological_parameters" uuid="ec339229-8e7d-48a9-85ff-3a8cce84c823">
 		<parameter name="ORDER_ID" class="java.lang.Integer"/>
 		<parameter name="REWIND" class="java.lang.Object" isForPrompting="false">
 			<parameterDescription><![CDATA[]]></parameterDescription>
@@ -163,7 +171,7 @@
 		</variable>
 		<filterExpression><![CDATA[$P{ORDER_ID} == $F{id} && $F{Tipo-type} == "microbiological"]]></filterExpression>
 	</subDataset>
-	<subDataset name="organoleptic_parameters">
+	<subDataset name="organoleptic_parameters" uuid="7cd50628-1dab-4760-9e37-bd10684b165b">
 		<parameter name="ORDER_ID" class="java.lang.Integer"/>
 		<parameter name="REWIND" class="java.lang.Object" isForPrompting="false">
 			<parameterDescription><![CDATA[]]></parameterDescription>
@@ -251,6 +259,9 @@
 	<field name="OGMs-ogms" class="java.lang.String">
 		<fieldDescription><![CDATA[OGMs-ogms]]></fieldDescription>
 	</field>
+	<field name="applicable_regulations" class="java.lang.String">
+		<fieldDescription><![CDATA[applicable_regulations]]></fieldDescription>
+	</field>
 	<field name="Comentarios-comments" class="java.lang.String">
 		<fieldDescription><![CDATA[Comentarios-comments]]></fieldDescription>
 	</field>
@@ -335,229 +346,251 @@
 		<groupHeader>
 			<band height="200">
 				<textField>
-					<reportElement x="3" y="1" width="63" height="13"/>
-					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement x="3" y="1" width="63" height="13" uuid="79694864-ea07-4cfe-b1ca-eaf075dff282"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="true"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "PRODUCTO:")]]></textFieldExpression>
+					<textFieldExpression><![CDATA[tr($V{L}, "PRODUCTO:")]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="7" y="13" width="87" height="14"/>
-					<textElement textAlignment="Right" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement x="7" y="13" width="87" height="14" uuid="badafd4f-59cd-4052-b15a-a60548e43c6a"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "CÓDIGO INTERNO:")]]></textFieldExpression>
+					<textFieldExpression><![CDATA[tr($V{L}, "CÓDIGO INTERNO:")]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="3" y="40" width="122" height="13"/>
-					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement x="3" y="40" width="122" height="13" uuid="4068adcb-47ae-48bc-a40c-c78d99e1bf76"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="true"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L},"FORMATO COMERCIAL")]]></textFieldExpression>
+					<textFieldExpression><![CDATA[tr($V{L},"FORMATO COMERCIAL")]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="254" y="14" width="87" height="13"/>
-					<textElement textAlignment="Right" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement x="254" y="14" width="87" height="13" uuid="b85d3fa9-0de7-4a36-8ecf-ed73ea840432"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "CÓDIGO CLIENTE:")]]></textFieldExpression>
+					<textFieldExpression><![CDATA[tr($V{L}, "CÓDIGO CLIENTE:")]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="6" y="57" width="250" height="13"/>
-					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement x="6" y="57" width="250" height="13" uuid="e17c1b2a-318f-4360-978d-457456f4e64d"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
 						<font size="7" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[" " + tr($V{L}, "DESCRIPCIÓN")]]></textFieldExpression>
+					<textFieldExpression><![CDATA[" " + tr($V{L}, "DESCRIPCIÓN")]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="7" y="94" width="150" height="13">
+					<reportElement x="7" y="94" width="150" height="13" uuid="aa40932f-5016-437a-8961-6b2b14b7bd87">
 						<printWhenExpression><![CDATA[!($F{Net_Drained_Weight__g-unit_net_weight_drained} > 0)]]></printWhenExpression>
 					</reportElement>
-					<textElement textAlignment="Right" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<textElement textAlignment="Right" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "ATMÓSFERA PROTECTORA") + ":"]]></textFieldExpression>
+					<textFieldExpression><![CDATA[tr($V{L}, "ATMÓSFERA PROTECTORA") + ":"]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="418" y="57" width="60" height="13"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement x="418" y="57" width="60" height="13" uuid="bf4440bf-991a-410b-93e7-20619f32d521"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
 						<font size="7" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "PESO NETO")]]></textFieldExpression>
+					<textFieldExpression><![CDATA[tr($V{L}, "PESO NETO")]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="256" y="57" width="120" height="13"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement x="256" y="57" width="120" height="13" uuid="b2612213-176a-47a7-9768-20517c7be232"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
 						<font size="7" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "CODIFICACIÓN")]]></textFieldExpression>
+					<textFieldExpression><![CDATA[tr($V{L}, "CODIFICACIÓN")]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="376" y="57" width="42" height="13"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement x="376" y="57" width="42" height="13" uuid="4306a349-6ceb-4e48-8915-49379c0a3969"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
 						<font size="7" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "UDS/CAJA")]]></textFieldExpression>
+					<textFieldExpression><![CDATA[tr($V{L}, "UDS/CAJA")]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="317" y="94" width="96" height="13">
+					<reportElement x="317" y="94" width="96" height="13" uuid="8f45bafe-fb7d-4f9c-9542-fe757d922e42">
 						<printWhenExpression><![CDATA[!($F{Net_Drained_Weight__g-unit_net_weight_drained} > 0)]]></printWhenExpression>
 					</reportElement>
-					<textElement textAlignment="Right" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<textElement textAlignment="Right" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "BOLSA PERFORADA") + ":"]]></textFieldExpression>
+					<textFieldExpression><![CDATA[tr($V{L}, "BOLSA PERFORADA") + ":"]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="3" y="113" width="233" height="13"/>
-					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement x="3" y="113" width="233" height="13" uuid="9a22c066-3385-4c9e-a726-b49164125f48"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="true"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "INGREDIENTES")]]></textFieldExpression>
+					<textFieldExpression><![CDATA[tr($V{L}, "INGREDIENTES")]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="66" y="2" width="489" height="11"/>
-					<textElement textAlignment="Left" lineSpacing="Single" markup="none">
+					<reportElement positionType="Float" x="66" y="2" width="489" height="11" uuid="bd576646-98b0-48c6-9191-8c8f250d8ec9"/>
+					<textElement textAlignment="Left" markup="none">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{Name-name}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{Name-name}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="173" y="94" width="31" height="13">
+					<reportElement positionType="Float" x="173" y="94" width="31" height="13" uuid="c7da1bcc-b776-4b59-8646-62819820983d">
 						<printWhenExpression><![CDATA[!($F{Net_Drained_Weight__g-unit_net_weight_drained} > 0)]]></printWhenExpression>
 					</reportElement>
-					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{Envasado_en_atmosfera_protectora-protective_atmosphere} ? tr($V{L}, "SI") : tr($V{L}, "NO")]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{Envasado_en_atmosfera_protectora-protective_atmosphere} ? tr($V{L}, "SI") : tr($V{L}, "NO")]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="427" y="94" width="31" height="13">
+					<reportElement positionType="Float" x="427" y="94" width="31" height="13" uuid="e5be74ce-1f8f-4308-81e2-6aaed6f478b3">
 						<printWhenExpression><![CDATA[!($F{Net_Drained_Weight__g-unit_net_weight_drained} > 0)]]></printWhenExpression>
 					</reportElement>
-					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{Bolsa_pinchada-perforated_bag} ? tr($V{L}, "SI") : tr($V{L}, "NO")]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{Bolsa_pinchada-perforated_bag} ? tr($V{L}, "SI") : tr($V{L}, "NO")]]></textFieldExpression>
 				</textField>
 				<line>
-					<reportElement x="0" y="13" width="553" height="1"/>
+					<reportElement x="0" y="13" width="553" height="1" uuid="d3990df0-724c-42b1-af23-9fbb7664ab06"/>
 				</line>
 				<line>
-					<reportElement x="0" y="26" width="553" height="1"/>
+					<reportElement x="0" y="26" width="553" height="1" uuid="fb0364df-70ff-4820-b17e-f0c9a4ec63ff"/>
 				</line>
 				<line>
-					<reportElement x="0" y="40" width="553" height="1"/>
+					<reportElement x="0" y="40" width="553" height="1" uuid="baa28386-1e2e-4271-9a20-7f123231c520"/>
 				</line>
 				<line>
-					<reportElement x="0" y="52" width="553" height="1"/>
+					<reportElement x="0" y="52" width="553" height="1" uuid="ed5cc026-3cb8-4b96-b5b2-fb7b6d24521d"/>
 				</line>
 				<line>
-					<reportElement x="6" y="57" width="541" height="1"/>
+					<reportElement x="6" y="57" width="541" height="1" uuid="14739b32-f0d5-44c6-ac0b-d28cb6788e2d"/>
 				</line>
 				<line>
-					<reportElement x="6" y="70" width="541" height="1"/>
+					<reportElement x="6" y="70" width="541" height="1" uuid="4a705539-92a5-4b31-a906-ea86b10cfbc6"/>
 				</line>
 				<line>
-					<reportElement x="6" y="93" width="541" height="1"/>
+					<reportElement x="6" y="93" width="541" height="1" uuid="9b5535cf-39ac-4fc9-a536-b75f3e6105a7"/>
 				</line>
 				<line>
-					<reportElement x="6" y="106" width="541" height="1"/>
+					<reportElement x="6" y="106" width="541" height="1" uuid="2730aae2-b127-4639-b01c-8396f7b538d1"/>
 				</line>
 				<line>
-					<reportElement x="0" y="113" width="553" height="1"/>
+					<reportElement x="0" y="113" width="553" height="1" uuid="baf7ab28-39c5-4617-a66f-4c793a531a33"/>
 				</line>
 				<line>
-					<reportElement x="0" y="126" width="553" height="1"/>
+					<reportElement x="0" y="126" width="553" height="1" uuid="3e98e830-1a1a-4847-a67d-3098be9bb2d3"/>
 				</line>
 				<line direction="BottomUp">
-					<reportElement x="256" y="57" width="1" height="36"/>
+					<reportElement x="256" y="57" width="1" height="36" uuid="05ffa293-7385-4567-bebe-6bb8ef261e33"/>
 				</line>
 				<line direction="BottomUp">
-					<reportElement x="376" y="57" width="1" height="36"/>
+					<reportElement x="376" y="57" width="1" height="36" uuid="1d58dcbd-750d-46d0-b494-d5bb90c10583"/>
 				</line>
 				<line direction="BottomUp">
-					<reportElement x="418" y="57" width="1" height="36"/>
+					<reportElement x="418" y="57" width="1" height="36" uuid="7d85fa5a-d80e-4509-b708-0bedefd9e54f"/>
 				</line>
 				<line direction="BottomUp">
-					<reportElement x="478" y="57" width="1" height="36"/>
+					<reportElement x="478" y="57" width="1" height="36" uuid="e854b68f-40a5-4484-8a5e-a351f8f34f6b"/>
 				</line>
 				<line direction="BottomUp">
-					<reportElement x="6" y="57" width="1" height="49"/>
+					<reportElement x="6" y="57" width="1" height="49" uuid="3f172aff-354f-43fc-9ff4-a11f4b71aea2"/>
 				</line>
 				<line direction="BottomUp">
-					<reportElement x="547" y="57" width="1" height="49"/>
+					<reportElement x="547" y="57" width="1" height="49" uuid="bdde2c2e-c07b-4a01-9fa8-3e3c7672852d"/>
 				</line>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="104" y="13" width="150" height="14"/>
-					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement positionType="Float" x="104" y="13" width="150" height="14" uuid="e7586a70-164c-41ad-97c2-f1f12251c3d7"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{Referencia-code}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{Referencia-code}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="256" y="71" width="120" height="11"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement positionType="Float" x="256" y="71" width="120" height="11" uuid="2ab4a790-ebfb-4d34-bfeb-c470458435da"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[($F{EAN13-ean13}.length() == 13 && $F{EAN13-ean13}.charAt(0) == '0' ?
+					<textFieldExpression><![CDATA[($F{EAN13-ean13}.length() == 13 && $F{EAN13-ean13}.charAt(0) == '0' ?
 $F{EAN13-ean13}.substring(1, 13) + " (UPC-A)" : $F{EAN13-ean13} + " (EAN13)")]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="256" y="81" width="120" height="12"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement positionType="Float" x="256" y="81" width="120" height="12" uuid="8975d8db-8994-4e33-98f8-96b641b5d65d"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{DUN14-dun14} + " (DUN14)"]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{DUN14-dun14} + " (DUN14)"]]></textFieldExpression>
 				</textField>
 				<textField pattern="#,##0;#,##0-" isBlankWhenNull="true">
-					<reportElement x="418" y="71" width="46" height="22"/>
-					<textElement textAlignment="Right" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement x="418" y="71" width="46" height="22" uuid="da7d1257-360d-443b-aab8-e356622437a6"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.Float"><![CDATA[$F{Peso_neto_por_unidad__g-unit_net_weight}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{Peso_neto_por_unidad__g-unit_net_weight}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="348" y="13" width="200" height="14"/>
-					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement positionType="Float" x="348" y="13" width="200" height="14" uuid="b38f914a-ec83-4b89-b3f0-1b6cffe48448"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{Partner_code-partner_product_code}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{Partner_code-partner_product_code}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="6" y="71" width="250" height="22" isPrintWhenDetailOverflows="true"/>
+					<reportElement positionType="Float" x="6" y="71" width="250" height="22" isPrintWhenDetailOverflows="true" uuid="f3508910-697a-4830-89fe-3ff356eb2478"/>
 					<box leftPadding="0" rightPadding="0"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{Commercial_format-commercial_format}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{Commercial_format-commercial_format}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="###0;###0-">
-					<reportElement positionType="Float" x="376" y="71" width="42" height="22" isPrintWhenDetailOverflows="true"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement positionType="Float" x="376" y="71" width="42" height="22" isPrintWhenDetailOverflows="true" uuid="03ca448a-7f59-4fd1-a9ae-bc09351a8de5"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{category_uom_id} != '2' ? 1 / $F{UOM____UOS_Coeff-uos_coeff} : 1]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{category_uom_id} != '2' ? 1 / $F{UOM____UOS_Coeff-uos_coeff} : 1]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="464" y="71" width="14" height="22"/>
-					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement x="464" y="71" width="14" height="22" uuid="f6b570cf-9930-42ce-97cb-adc17fa2923b"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, " g")]]></textFieldExpression>
+					<textFieldExpression><![CDATA[tr($V{L}, " g")]]></textFieldExpression>
 				</textField>
 				<componentElement>
-					<reportElement key="" positionType="Float" stretchType="RelativeToTallestObject" x="10" y="133" width="533" height="43">
+					<reportElement key="" positionType="Float" stretchType="RelativeToTallestObject" x="10" y="133" width="533" height="43" uuid="073a0ec9-f150-45bd-a790-d69df28bea89">
 						<property name="OPENERP_RELATIONS" value="product_ingredient_ids"/>
 					</reportElement>
 					<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-						<datasetRun subDataset="Ingredients">
+						<datasetRun subDataset="Ingredients" uuid="e9b5b0fa-5de3-402c-8c8c-6ecc0b41b1ff">
 							<datasetParameter name="ORDER_ID">
 								<datasetParameterExpression><![CDATA[$F{id}]]></datasetParameterExpression>
 							</datasetParameter>
 							<dataSourceExpression><![CDATA[$P{TABLE_LINES_INGREDIENTES}]]></dataSourceExpression>
 						</datasetRun>
-						<jr:column width="185">
+						<jr:column width="185" uuid="a00781f4-89f2-40c0-a81a-90b2803e35d6">
 							<jr:columnHeader height="13" rowSpan="1">
 								<box>
 									<topPen lineWidth="1.0" lineStyle="Solid"/>
@@ -566,9 +599,11 @@ $F{EAN13-ean13}.substring(1, 13) + " (UPC-A)" : $F{EAN13-ean13} + " (EAN13)")]]>
 									<rightPen lineWidth="0.5" lineStyle="Solid"/>
 								</box>
 								<textField>
-									<reportElement x="0" y="0" width="185" height="13"/>
-									<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="none"/>
-									<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "DENOMINACIÓN")]]></textFieldExpression>
+									<reportElement x="0" y="0" width="185" height="13" uuid="a628119b-c6d7-4fa5-a926-c0591e209d1e"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+										<paragraph lineSpacing="Single"/>
+									</textElement>
+									<textFieldExpression><![CDATA[tr($V{L}, "DENOMINACIÓN")]]></textFieldExpression>
 								</textField>
 							</jr:columnHeader>
 							<jr:columnFooter height="0" rowSpan="1">
@@ -584,21 +619,22 @@ $F{EAN13-ean13}.substring(1, 13) + " (UPC-A)" : $F{EAN13-ean13} + " (EAN13)")]]>
 									<rightPen lineWidth="0.5" lineStyle="Solid"/>
 								</box>
 								<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-									<reportElement positionType="Float" x="0" y="0" width="185" height="14"/>
+									<reportElement positionType="Float" x="0" y="0" width="185" height="14" uuid="84b4e422-db09-4da8-abc8-7e2aba7a9171"/>
 									<box topPadding="0" leftPadding="2" bottomPadding="2" rightPadding="2">
 										<topPen lineWidth="0.0" lineStyle="Solid"/>
 										<leftPen lineWidth="0.0" lineStyle="Solid"/>
 										<bottomPen lineWidth="0.0" lineStyle="Solid"/>
 										<rightPen lineWidth="0.0" lineStyle="Solid"/>
 									</box>
-									<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single">
+									<textElement textAlignment="Left" verticalAlignment="Middle">
 										<font size="9"/>
+										<paragraph lineSpacing="Single"/>
 									</textElement>
-									<textFieldExpression class="java.lang.String"><![CDATA[$F{Nombre-name}]]></textFieldExpression>
+									<textFieldExpression><![CDATA[$F{Nombre-name}]]></textFieldExpression>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
-						<jr:column width="72">
+						<jr:column width="72" uuid="a29d084e-6359-4726-b7a7-ab3ac4f5f760">
 							<jr:columnHeader height="13" rowSpan="1">
 								<box>
 									<topPen lineWidth="1.0" lineStyle="Solid"/>
@@ -607,9 +643,11 @@ $F{EAN13-ean13}.substring(1, 13) + " (UPC-A)" : $F{EAN13-ean13} + " (EAN13)")]]>
 									<rightPen lineWidth="0.5" lineStyle="Solid"/>
 								</box>
 								<textField>
-									<reportElement x="0" y="0" width="72" height="13"/>
-									<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="none"/>
-									<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "VARIEDAD")]]></textFieldExpression>
+									<reportElement x="0" y="0" width="72" height="13" uuid="0a69926f-9eb9-4720-9444-d16c7c1d9524"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+										<paragraph lineSpacing="Single"/>
+									</textElement>
+									<textFieldExpression><![CDATA[tr($V{L}, "VARIEDAD")]]></textFieldExpression>
 								</textField>
 							</jr:columnHeader>
 							<jr:columnFooter height="0" rowSpan="1">
@@ -625,21 +663,22 @@ $F{EAN13-ean13}.substring(1, 13) + " (UPC-A)" : $F{EAN13-ean13} + " (EAN13)")]]>
 									<rightPen lineWidth="0.0" lineStyle="Solid"/>
 								</box>
 								<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-									<reportElement positionType="Float" x="0" y="0" width="72" height="13"/>
+									<reportElement positionType="Float" x="0" y="0" width="72" height="13" uuid="25e31a7c-4f31-4208-96d5-423aeb0908dc"/>
 									<box>
 										<topPen lineWidth="0.0" lineStyle="Solid"/>
 										<leftPen lineWidth="0.0" lineStyle="Solid"/>
 										<bottomPen lineWidth="0.0" lineStyle="Solid"/>
 										<rightPen lineWidth="0.0" lineStyle="Solid"/>
 									</box>
-									<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
+									<textElement textAlignment="Center" verticalAlignment="Middle">
 										<font size="9"/>
+										<paragraph lineSpacing="Single"/>
 									</textElement>
-									<textFieldExpression class="java.lang.String"><![CDATA[$F{Variedad-variety}]]></textFieldExpression>
+									<textFieldExpression><![CDATA[$F{Variedad-variety}]]></textFieldExpression>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
-						<jr:column width="72">
+						<jr:column width="72" uuid="3fafe15c-6d77-46b7-97fa-60416506b3ec">
 							<jr:columnHeader height="13" rowSpan="1">
 								<box>
 									<topPen lineWidth="1.0" lineStyle="Solid"/>
@@ -648,9 +687,11 @@ $F{EAN13-ean13}.substring(1, 13) + " (UPC-A)" : $F{EAN13-ean13} + " (EAN13)")]]>
 									<rightPen lineWidth="0.5" lineStyle="Solid"/>
 								</box>
 								<textField>
-									<reportElement x="0" y="0" width="72" height="13"/>
-									<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="none"/>
-									<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "PROCESO")]]></textFieldExpression>
+									<reportElement x="0" y="0" width="72" height="13" uuid="1599a49c-238c-4af4-8c17-482b8a9e0a8e"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+										<paragraph lineSpacing="Single"/>
+									</textElement>
+									<textFieldExpression><![CDATA[tr($V{L}, "PROCESO")]]></textFieldExpression>
 								</textField>
 							</jr:columnHeader>
 							<jr:columnFooter height="0" rowSpan="1">
@@ -666,21 +707,22 @@ $F{EAN13-ean13}.substring(1, 13) + " (UPC-A)" : $F{EAN13-ean13} + " (EAN13)")]]>
 									<rightPen lineWidth="0.5" lineStyle="Solid"/>
 								</box>
 								<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
-									<reportElement positionType="Float" x="0" y="0" width="72" height="13"/>
+									<reportElement positionType="Float" x="0" y="0" width="72" height="13" uuid="98139c6f-1ca0-4b8b-9986-b7a095e5247d"/>
 									<box>
 										<topPen lineWidth="0.0" lineStyle="Solid"/>
 										<leftPen lineWidth="0.0" lineStyle="Solid"/>
 										<bottomPen lineWidth="0.0" lineStyle="Solid"/>
 										<rightPen lineWidth="0.0" lineStyle="Solid"/>
 									</box>
-									<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
+									<textElement textAlignment="Center" verticalAlignment="Middle">
 										<font size="9"/>
+										<paragraph lineSpacing="Single"/>
 									</textElement>
-									<textFieldExpression class="java.lang.String"><![CDATA[$F{Proceso-process}]]></textFieldExpression>
+									<textFieldExpression><![CDATA[$F{Proceso-process}]]></textFieldExpression>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
-						<jr:column width="72">
+						<jr:column width="72" uuid="48575e29-c140-41a9-bea0-fabf842bbfa1">
 							<jr:columnHeader height="13" rowSpan="1">
 								<box>
 									<topPen lineWidth="1.0" lineStyle="Solid"/>
@@ -689,9 +731,11 @@ $F{EAN13-ean13}.substring(1, 13) + " (UPC-A)" : $F{EAN13-ean13} + " (EAN13)")]]>
 									<rightPen lineWidth="0.5" lineStyle="Solid"/>
 								</box>
 								<textField>
-									<reportElement x="0" y="0" width="72" height="13"/>
-									<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="none"/>
-									<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "CALIBRE")]]></textFieldExpression>
+									<reportElement x="0" y="0" width="72" height="13" uuid="e1299d4b-4e8e-4f5d-b8b6-6d8ddc80077f"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+										<paragraph lineSpacing="Single"/>
+									</textElement>
+									<textFieldExpression><![CDATA[tr($V{L}, "CALIBRE")]]></textFieldExpression>
 								</textField>
 							</jr:columnHeader>
 							<jr:columnFooter height="0" rowSpan="1">
@@ -707,21 +751,22 @@ $F{EAN13-ean13}.substring(1, 13) + " (UPC-A)" : $F{EAN13-ean13} + " (EAN13)")]]>
 									<rightPen lineWidth="0.5" lineStyle="Solid"/>
 								</box>
 								<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-									<reportElement positionType="Float" x="0" y="0" width="72" height="13"/>
+									<reportElement positionType="Float" x="0" y="0" width="72" height="13" uuid="dd70971c-d908-4844-9497-53af68476a68"/>
 									<box>
 										<topPen lineWidth="0.0" lineStyle="Solid"/>
 										<leftPen lineWidth="0.0" lineStyle="Solid"/>
 										<bottomPen lineWidth="0.0" lineStyle="Solid"/>
 										<rightPen lineWidth="0.0" lineStyle="Solid"/>
 									</box>
-									<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
+									<textElement textAlignment="Center" verticalAlignment="Middle">
 										<font size="9"/>
+										<paragraph lineSpacing="Single"/>
 									</textElement>
-									<textFieldExpression class="java.lang.String"><![CDATA[$F{Calibre-caliber}]]></textFieldExpression>
+									<textFieldExpression><![CDATA[$F{Calibre-caliber}]]></textFieldExpression>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
-						<jr:column width="72">
+						<jr:column width="72" uuid="8295e5f3-d171-4df5-99c2-2186f8d0aafb">
 							<jr:columnHeader height="13" rowSpan="1">
 								<box>
 									<topPen lineWidth="1.0" lineStyle="Solid"/>
@@ -730,9 +775,11 @@ $F{EAN13-ean13}.substring(1, 13) + " (UPC-A)" : $F{EAN13-ean13} + " (EAN13)")]]>
 									<rightPen lineWidth="0.5" lineStyle="Solid"/>
 								</box>
 								<textField>
-									<reportElement x="0" y="0" width="72" height="13"/>
-									<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="none"/>
-									<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "ORIGEN")]]></textFieldExpression>
+									<reportElement x="0" y="0" width="72" height="13" uuid="4576ec23-1ba8-4f2a-a957-681a2f1f08ba"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+										<paragraph lineSpacing="Single"/>
+									</textElement>
+									<textFieldExpression><![CDATA[tr($V{L}, "ORIGEN")]]></textFieldExpression>
 								</textField>
 							</jr:columnHeader>
 							<jr:columnFooter height="0" rowSpan="1">
@@ -748,21 +795,22 @@ $F{EAN13-ean13}.substring(1, 13) + " (UPC-A)" : $F{EAN13-ean13} + " (EAN13)")]]>
 									<rightPen lineWidth="0.5" lineStyle="Solid"/>
 								</box>
 								<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
-									<reportElement positionType="Float" x="0" y="0" width="72" height="13"/>
+									<reportElement positionType="Float" x="0" y="0" width="72" height="13" uuid="ba71905a-7eb2-4d7d-b55c-b3a9cb5b025d"/>
 									<box>
 										<topPen lineWidth="0.0" lineStyle="Solid"/>
 										<leftPen lineWidth="0.0" lineStyle="Solid"/>
 										<bottomPen lineWidth="0.0" lineStyle="Solid"/>
 										<rightPen lineWidth="0.0" lineStyle="Solid"/>
 									</box>
-									<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
+									<textElement textAlignment="Center" verticalAlignment="Middle">
 										<font size="9"/>
+										<paragraph lineSpacing="Single"/>
 									</textElement>
-									<textFieldExpression class="java.lang.String"><![CDATA[$F{Origen-origin}]]></textFieldExpression>
+									<textFieldExpression><![CDATA[$F{Origen-origin}]]></textFieldExpression>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
-						<jr:column width="60">
+						<jr:column width="60" uuid="eb85135e-be3a-4553-8296-dc3061d8e086">
 							<jr:columnHeader height="13" rowSpan="1">
 								<box>
 									<topPen lineWidth="1.0" lineStyle="Solid"/>
@@ -771,9 +819,11 @@ $F{EAN13-ean13}.substring(1, 13) + " (UPC-A)" : $F{EAN13-ean13} + " (EAN13)")]]>
 									<rightPen lineWidth="1.0" lineStyle="Solid"/>
 								</box>
 								<textField>
-									<reportElement x="0" y="0" width="60" height="13"/>
-									<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="none"/>
-									<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "CANT. (%)")]]></textFieldExpression>
+									<reportElement x="0" y="0" width="60" height="13" uuid="b3c72efc-bf54-4691-b181-b49f51bce384"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+										<paragraph lineSpacing="Single"/>
+									</textElement>
+									<textFieldExpression><![CDATA[tr($V{L}, "CANT. (%)")]]></textFieldExpression>
 								</textField>
 							</jr:columnHeader>
 							<jr:columnFooter height="0" rowSpan="1">
@@ -789,24 +839,26 @@ $F{EAN13-ean13}.substring(1, 13) + " (UPC-A)" : $F{EAN13-ean13} + " (EAN13)")]]>
 									<rightPen lineWidth="1.0" lineStyle="Solid"/>
 								</box>
 								<textField isStretchWithOverflow="true" pattern="#,##0.000" isBlankWhenNull="true">
-									<reportElement positionType="Float" x="0" y="0" width="45" height="13"/>
+									<reportElement positionType="Float" x="0" y="0" width="45" height="13" uuid="33659eff-abe7-41fc-bd0d-5a46f756d4cc"/>
 									<box>
 										<topPen lineWidth="0.0" lineStyle="Solid"/>
 										<leftPen lineWidth="0.0" lineStyle="Solid"/>
 										<bottomPen lineWidth="0.0" lineStyle="Solid"/>
 										<rightPen lineWidth="0.0" lineStyle="Solid"/>
 									</box>
-									<textElement textAlignment="Right" verticalAlignment="Middle" lineSpacing="Single">
+									<textElement textAlignment="Right" verticalAlignment="Middle">
 										<font size="9"/>
+										<paragraph lineSpacing="Single"/>
 									</textElement>
-									<textFieldExpression class="java.lang.String"><![CDATA[$F{Cant.-product_qty_percent}]]></textFieldExpression>
+									<textFieldExpression><![CDATA[$F{Cant.-product_qty_percent}]]></textFieldExpression>
 								</textField>
 								<staticText>
-									<reportElement x="48" y="0" width="12" height="13">
+									<reportElement x="48" y="0" width="12" height="13" uuid="53613fbd-2ee5-41e4-ad47-87caa779a4c6">
 										<printWhenExpression><![CDATA[$F{Cant.-product_qty_percent} != 0.0]]></printWhenExpression>
 									</reportElement>
-									<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single">
+									<textElement textAlignment="Left" verticalAlignment="Middle">
 										<font size="9" isBold="false"/>
+										<paragraph lineSpacing="Single"/>
 									</textElement>
 									<text><![CDATA[%]]></text>
 								</staticText>
@@ -815,119 +867,131 @@ $F{EAN13-ean13}.substring(1, 13) + " (UPC-A)" : $F{EAN13-ean13} + " (EAN13)")]]>
 					</jr:table>
 				</componentElement>
 				<textField>
-					<reportElement x="479" y="57" width="68" height="13">
+					<reportElement x="479" y="57" width="68" height="13" uuid="bd936fb4-a701-4d43-8fc8-e5420a410fc9">
 						<printWhenExpression><![CDATA[$F{Net_Drained_Weight__g-unit_net_weight_drained} > 0]]></printWhenExpression>
 					</reportElement>
-					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
 						<font size="7" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "PESO ESCURRIDO")]]></textFieldExpression>
+					<textFieldExpression><![CDATA[tr($V{L}, "PESO ESCURRIDO")]]></textFieldExpression>
 				</textField>
 				<textField pattern="#,##0;#,##0-" isBlankWhenNull="true">
-					<reportElement x="487" y="71" width="46" height="22">
+					<reportElement x="487" y="71" width="46" height="22" uuid="69fdf322-d050-49d9-8ed2-f1bedd97847d">
 						<printWhenExpression><![CDATA[$F{Net_Drained_Weight__g-unit_net_weight_drained} > 0]]></printWhenExpression>
 					</reportElement>
-					<textElement textAlignment="Right" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<textElement textAlignment="Right" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.Float"><![CDATA[$F{Net_Drained_Weight__g-unit_net_weight_drained}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{Net_Drained_Weight__g-unit_net_weight_drained}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="533" y="71" width="14" height="22">
+					<reportElement x="533" y="71" width="14" height="22" uuid="2f8815f2-9590-423a-9f23-f5efbd6b5813">
 						<printWhenExpression><![CDATA[$F{Net_Drained_Weight__g-unit_net_weight_drained} > 0]]></printWhenExpression>
 					</reportElement>
-					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, " g")]]></textFieldExpression>
+					<textFieldExpression><![CDATA[tr($V{L}, " g")]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupHeader>
 		<groupFooter>
 			<band height="99">
 				<textField>
-					<reportElement positionType="Float" x="6" y="1" width="175" height="13"/>
-					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement positionType="Float" x="6" y="1" width="175" height="13" uuid="089ed576-2c2a-403a-9fd8-ae881bb69652"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="true"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "REDACTADO POR:")]]></textFieldExpression>
+					<textFieldExpression><![CDATA[tr($V{L}, "REDACTADO POR:")]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement positionType="Float" x="189" y="1" width="175" height="13"/>
-					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement positionType="Float" x="189" y="1" width="175" height="13" uuid="87c3a812-078a-46e5-8438-3436cf88d79e"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="true"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "REVISADO POR:")]]></textFieldExpression>
+					<textFieldExpression><![CDATA[tr($V{L}, "REVISADO POR:")]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement positionType="Float" x="375" y="1" width="175" height="13"/>
-					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement positionType="Float" x="375" y="1" width="175" height="13" uuid="88ebc6a8-2f19-41ba-8696-97757f990dff"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="true"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "APROBADO POR:")]]></textFieldExpression>
+					<textFieldExpression><![CDATA[tr($V{L}, "APROBADO POR:")]]></textFieldExpression>
 				</textField>
 				<image hAlign="Center" vAlign="Middle" onErrorType="Blank">
-					<reportElement positionType="Float" x="44" y="14" width="96" height="58"/>
-					<imageExpression class="java.lang.String"><![CDATA[new java.io.ByteArrayInputStream(org.apache.commons.codec.binary.Base64.decodeBase64($F{Signature-written_signature}.getBytes()))]]></imageExpression>
+					<reportElement positionType="Float" x="44" y="14" width="96" height="58" uuid="40e7ae80-6846-4907-893d-8c56668eee43"/>
+					<imageExpression><![CDATA[new java.io.ByteArrayInputStream(org.apache.commons.codec.binary.Base64.decodeBase64($F{Signature-written_signature}.getBytes()))]]></imageExpression>
 				</image>
 				<image hAlign="Center" vAlign="Middle" onErrorType="Blank">
-					<reportElement positionType="Float" x="228" y="14" width="96" height="58"/>
-					<imageExpression class="java.lang.String"><![CDATA[new java.io.ByteArrayInputStream(org.apache.commons.codec.binary.Base64.decodeBase64($F{Signature-reviewed_signature}.getBytes()))]]></imageExpression>
+					<reportElement positionType="Float" x="228" y="14" width="96" height="58" uuid="07934deb-5c38-4608-8d18-a6a62eae3cf5"/>
+					<imageExpression><![CDATA[new java.io.ByteArrayInputStream(org.apache.commons.codec.binary.Base64.decodeBase64($F{Signature-reviewed_signature}.getBytes()))]]></imageExpression>
 				</image>
 				<image hAlign="Center" vAlign="Middle" onErrorType="Blank">
-					<reportElement positionType="Float" x="413" y="14" width="96" height="58"/>
-					<imageExpression class="java.lang.String"><![CDATA[new java.io.ByteArrayInputStream(org.apache.commons.codec.binary.Base64.decodeBase64($F{Signature-approved_signature}.getBytes()))]]></imageExpression>
+					<reportElement positionType="Float" x="413" y="14" width="96" height="58" uuid="8ae484b7-a899-48c5-800f-0dc9f370d1e2"/>
+					<imageExpression><![CDATA[new java.io.ByteArrayInputStream(org.apache.commons.codec.binary.Base64.decodeBase64($F{Signature-approved_signature}.getBytes()))]]></imageExpression>
 				</image>
 				<textField>
-					<reportElement positionType="Float" x="6" y="85" width="175" height="13"/>
-					<textElement verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement positionType="Float" x="6" y="85" width="175" height="13" uuid="83b17f68-0991-426e-839c-cb44cdf0d2b8"/>
+					<textElement verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="false" isItalic="false" isUnderline="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{Nombre_del_trabajo-name3}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{Nombre_del_trabajo-name3}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement positionType="Float" x="189" y="85" width="175" height="13"/>
-					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement positionType="Float" x="189" y="85" width="175" height="13" uuid="98ab6824-db9e-44cd-8df9-45c4a7289df0"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{Nombre_del_trabajo-name2}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{Nombre_del_trabajo-name2}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement positionType="Float" x="375" y="85" width="175" height="13"/>
-					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement positionType="Float" x="375" y="85" width="175" height="13" uuid="ce612bf7-02b6-4edc-bdfc-f781cfdecdf3"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{Nombre_del_trabajo-name}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{Nombre_del_trabajo-name}]]></textFieldExpression>
 				</textField>
 				<line>
-					<reportElement positionType="Float" x="0" y="98" width="553" height="1"/>
+					<reportElement positionType="Float" x="0" y="98" width="553" height="1" uuid="4d077f37-09c7-4568-871d-a69fee1a73b8"/>
 				</line>
 				<line direction="BottomUp">
-					<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="184" y="0" width="1" height="98"/>
+					<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="184" y="0" width="1" height="98" uuid="4879bba1-ae92-4cb3-9283-91f92bd3ef8c"/>
 				</line>
 				<line direction="BottomUp">
-					<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="369" y="0" width="1" height="98"/>
+					<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="369" y="0" width="1" height="98" uuid="82b4ee9e-2c57-4aff-b33e-fb04cff97438"/>
 				</line>
 				<textField isBlankWhenNull="false">
-					<reportElement positionType="Float" x="6" y="72" width="175" height="13"/>
-					<textElement verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement positionType="Float" x="6" y="72" width="175" height="13" uuid="266a7169-153d-425f-8e61-03da38dbf8a6"/>
+					<textElement verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="false" isItalic="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{Name-name4}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{Name-name4}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement positionType="Float" x="189" y="72" width="175" height="13"/>
-					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement positionType="Float" x="189" y="72" width="175" height="13" uuid="73caa4d6-b0fa-4fe5-b61b-640b29a35116"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{Name-name3}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{Name-name3}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement positionType="Float" x="375" y="72" width="175" height="13"/>
-					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement positionType="Float" x="375" y="72" width="175" height="13" uuid="2efce44e-e890-4f46-ba6d-9d499cfbbbb9"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{Name-name2}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{Name-name2}]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupFooter>
@@ -935,177 +999,190 @@ $F{EAN13-ean13}.substring(1, 13) + " (UPC-A)" : $F{EAN13-ean13} + " (EAN13)")]]>
 	<background>
 		<band height="802">
 			<rectangle>
-				<reportElement mode="Transparent" x="0" y="0" width="553" height="802"/>
+				<reportElement mode="Transparent" x="0" y="0" width="553" height="802" uuid="02c6f720-36e7-4057-b061-88ad3b48762e"/>
 			</rectangle>
 		</band>
 	</background>
 	<pageHeader>
 		<band height="55">
 			<staticText>
-				<reportElement x="422" y="0" width="132" height="12"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+				<reportElement x="422" y="0" width="132" height="12" uuid="9ea1f75c-65f9-43ab-89b9-fdcf1563362e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
 					<font size="9" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[QUA - R/FT]]></text>
 			</staticText>
 			<line direction="BottomUp">
-				<reportElement x="88" y="1" width="1" height="53"/>
+				<reportElement x="88" y="1" width="1" height="53" uuid="baba8e63-6e6e-4a57-a61a-9c71ceaf0c87"/>
 			</line>
 			<image hAlign="Center" vAlign="Middle" onErrorType="Blank">
-				<reportElement x="1" y="2" width="86" height="53"/>
-				<imageExpression class="java.lang.String"><![CDATA[$F{Logo-logo}]]></imageExpression>
+				<reportElement x="1" y="2" width="86" height="53" uuid="1e631fb5-276e-40ed-a7c5-ea1645a9b1a4"/>
+				<imageExpression><![CDATA[$F{Logo-logo}]]></imageExpression>
 			</image>
 			<line direction="BottomUp">
-				<reportElement x="422" y="1" width="1" height="53"/>
+				<reportElement x="422" y="1" width="1" height="53" uuid="e3e526b9-21bf-4065-828f-7ceba832f201"/>
 			</line>
 			<line>
-				<reportElement x="0" y="54" width="553" height="1"/>
+				<reportElement x="0" y="54" width="553" height="1" uuid="5b4a2d84-37ef-473e-b716-edb547f2b684"/>
 			</line>
 			<textField>
-				<reportElement x="478" y="12" width="70" height="13"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+				<reportElement x="478" y="12" width="70" height="13" uuid="fedb96e2-1264-4835-87c8-ca12187c9534"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle" markup="none">
 					<font size="9" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L},"Edición:") + " " + "2"]]></textFieldExpression>
+				<textFieldExpression><![CDATA[tr($V{L},"Edición:") + " " + "2"]]></textFieldExpression>
 			</textField>
 			<frame>
-				<reportElement x="88" y="0" width="334" height="55"/>
+				<reportElement x="88" y="0" width="334" height="55" uuid="7d592735-a3c1-4cd4-9589-39d3f77500e9"/>
 			</frame>
 			<textField>
-				<reportElement x="427" y="12" width="89" height="13"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+				<reportElement x="427" y="12" width="89" height="13" uuid="c8e2b921-f5e5-430a-967e-553fbc7e09c9"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
 					<font size="9" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L},"Fecha:") + " " + "09/03/15"]]></textFieldExpression>
+				<textFieldExpression><![CDATA[tr($V{L},"Fecha:") + " " + "09/03/15"]]></textFieldExpression>
 			</textField>
 			<frame>
-				<reportElement x="0" y="0" width="556" height="55"/>
+				<reportElement x="0" y="0" width="556" height="55" uuid="e098a6a0-ce12-45a5-80a6-62eb43db4e93"/>
 				<textField isBlankWhenNull="true">
-					<reportElement positionType="Float" x="422" y="37" width="132" height="17" isPrintWhenDetailOverflows="true"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement positionType="Float" x="422" y="37" width="132" height="17" isPrintWhenDetailOverflows="true" uuid="49bc1bed-4f3a-49c6-9880-a364d964f425"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{Last_revision-last_revision}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{Last_revision-last_revision}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="119" y="0" width="275" height="55"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
+					<reportElement x="119" y="0" width="275" height="55" uuid="aaebe52d-76ba-4dbc-b5a7-ecb532f712b1"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="20" isBold="true"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "FICHA TÉCNICA DE PRODUCTO")]]></textFieldExpression>
+					<textFieldExpression><![CDATA[tr($V{L}, "FICHA TÉCNICA DE PRODUCTO")]]></textFieldExpression>
 				</textField>
 			</frame>
 			<textField>
-				<reportElement x="422" y="25" width="86" height="13"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle" lineSpacing="Single">
+				<reportElement x="422" y="25" width="86" height="13" uuid="e3234732-d0a8-40ff-8a02-d44c691881b1"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="9" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L},"Página ")+$V{PAGE_NUMBER}+tr($V{L}," de ")]]></textFieldExpression>
+				<textFieldExpression><![CDATA[tr($V{L},"Página ")+$V{PAGE_NUMBER}+tr($V{L}," de ")]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
-				<reportElement x="510" y="25" width="43" height="13"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single">
+				<reportElement x="510" y="25" width="43" height="13" uuid="ae09cd2f-1dc8-4c3a-9faf-42a60025a4dc"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="9" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
 	<detail>
 		<band height="42">
 			<line>
-				<reportElement positionType="Float" x="0" y="0" width="553" height="1"/>
+				<reportElement positionType="Float" x="0" y="0" width="553" height="1" uuid="b3c2a7fa-fa85-4ac0-bc68-ec4b38b4b2c3"/>
 			</line>
 			<line>
-				<reportElement positionType="Float" x="0" y="14" width="553" height="1"/>
+				<reportElement positionType="Float" x="0" y="14" width="553" height="1" uuid="c7e4db17-ba54-4d07-a60f-6d3aa47bef39"/>
 			</line>
 			<textField>
-				<reportElement positionType="Float" x="3" y="1" width="273" height="13"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+				<reportElement positionType="Float" x="3" y="1" width="273" height="13" uuid="7e64ec2c-a9dd-47db-86c0-95ae77bce5dd"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
 					<font size="9" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "PARÁMETROS ORGANOLÉPTICOS")]]></textFieldExpression>
+				<textFieldExpression><![CDATA[tr($V{L}, "PARÁMETROS ORGANOLÉPTICOS")]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="Float" x="279" y="1" width="273" height="13"/>
+				<reportElement positionType="Float" x="279" y="1" width="273" height="13" uuid="a0c294f8-a69a-4d2a-a770-7da008a8b2c4"/>
 				<box leftPadding="2">
 					<leftPen lineWidth="1.0"/>
 				</box>
-				<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+				<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
 					<font size="9" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "PARÁMETROS FÍSICOS")]]></textFieldExpression>
+				<textFieldExpression><![CDATA[tr($V{L}, "PARÁMETROS FÍSICOS")]]></textFieldExpression>
 			</textField>
 			<componentElement>
-				<reportElement key="Tabla ORGANOLEPTICOS" positionType="Float" x="6" y="15" width="270" height="22">
+				<reportElement key="Tabla ORGANOLEPTICOS" positionType="Float" x="6" y="15" width="270" height="22" uuid="51aaca26-894c-4120-9185-cf6770290084">
 					<property name="OPENERP_RELATIONS" value="parameter_ids"/>
 				</reportElement>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="organoleptic_parameters">
+					<datasetRun subDataset="organoleptic_parameters" uuid="63e94852-7d0b-400b-bbc7-de5905e541fa">
 						<datasetParameter name="ORDER_ID">
 							<datasetParameterExpression><![CDATA[$F{id}]]></datasetParameterExpression>
 						</datasetParameter>
 						<dataSourceExpression><![CDATA[$P{TABLE_LINES_ORGANOLEPTICOS}]]></dataSourceExpression>
 					</datasetRun>
-					<jr:column width="90">
+					<jr:column width="90" uuid="425c00e3-8019-46d0-ae9d-df1c1236e6f2">
 						<jr:detailCell height="12" rowSpan="1">
 							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement positionType="Float" x="0" y="1" width="90" height="11" isPrintWhenDetailOverflows="true"/>
-								<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single">
+								<reportElement positionType="Float" x="0" y="1" width="90" height="11" isPrintWhenDetailOverflows="true" uuid="e9cc202e-c8df-4277-b680-2804afae0517"/>
+								<textElement textAlignment="Left" verticalAlignment="Middle">
 									<font size="9"/>
+									<paragraph lineSpacing="Single"/>
 								</textElement>
-								<textFieldExpression class="java.lang.String"><![CDATA[$F{Nombre-name}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{Nombre-name}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="180">
+					<jr:column width="180" uuid="726ddd9a-6868-44f5-8727-4106454c800d">
 						<jr:detailCell height="12" rowSpan="1">
 							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement positionType="Float" x="0" y="1" width="180" height="11" isPrintWhenDetailOverflows="true"/>
-								<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single">
+								<reportElement positionType="Float" x="0" y="1" width="180" height="11" isPrintWhenDetailOverflows="true" uuid="47719652-5cdc-4cdf-8f24-6611ce2b864b"/>
+								<textElement textAlignment="Left" verticalAlignment="Middle">
 									<font size="9"/>
+									<paragraph lineSpacing="Single"/>
 								</textElement>
-								<textFieldExpression class="java.lang.String"><![CDATA[$F{Valor-value}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{Valor-value}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
 				</jr:table>
 			</componentElement>
 			<componentElement>
-				<reportElement key="Tabla FISICOS" positionType="Float" x="279" y="15" width="273" height="22">
+				<reportElement key="Tabla FISICOS" positionType="Float" x="279" y="15" width="273" height="22" uuid="3f3c41c1-fba5-417d-8add-e82ff79edbf9">
 					<property name="OPENERP_RELATIONS" value="parameter_ids"/>
 				</reportElement>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="physical_parameters">
+					<datasetRun subDataset="physical_parameters" uuid="221acf8e-ab54-45f4-a1e3-89302505ab5c">
 						<datasetParameter name="ORDER_ID">
 							<datasetParameterExpression><![CDATA[$F{id}]]></datasetParameterExpression>
 						</datasetParameter>
 						<dataSourceExpression><![CDATA[$P{TABLE_LINES_FISICOS}]]></dataSourceExpression>
 					</datasetRun>
-					<jr:column width="180">
+					<jr:column width="180" uuid="b0c6d3ad-447c-4734-ab16-a2e7eef2cf10">
 						<jr:detailCell height="12" rowSpan="1">
 							<box leftPadding="0">
 								<leftPen lineWidth="1.0"/>
 								<rightPen lineWidth="0.0"/>
 							</box>
 							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement positionType="Float" x="0" y="1" width="180" height="11" isPrintWhenDetailOverflows="true"/>
+								<reportElement positionType="Float" x="0" y="1" width="180" height="11" isPrintWhenDetailOverflows="true" uuid="bab44282-918e-40db-801b-8b2c22ed030c"/>
 								<box leftPadding="2"/>
-								<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single">
+								<textElement textAlignment="Left" verticalAlignment="Middle">
 									<font size="9"/>
+									<paragraph lineSpacing="Single"/>
 								</textElement>
-								<textFieldExpression class="java.lang.String"><![CDATA[$F{Nombre-name}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{Nombre-name}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="90">
+					<jr:column width="90" uuid="32fe8cb2-6c76-41e2-8ef3-6d7c6a89a4bb">
 						<jr:detailCell height="12" rowSpan="1">
 							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement positionType="Float" x="0" y="1" width="90" height="11" isPrintWhenDetailOverflows="true"/>
-								<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single">
+								<reportElement positionType="Float" x="0" y="1" width="90" height="11" isPrintWhenDetailOverflows="true" uuid="2fa3dc93-4e24-45ba-8c7a-54b5215cdc28"/>
+								<textElement textAlignment="Left" verticalAlignment="Middle">
 									<font size="9"/>
+									<paragraph lineSpacing="Single"/>
 								</textElement>
-								<textFieldExpression class="java.lang.String"><![CDATA[$F{Valor-value}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{Valor-value}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -1114,702 +1191,813 @@ $F{EAN13-ean13}.substring(1, 13) + " (UPC-A)" : $F{EAN13-ean13} + " (EAN13)")]]>
 		</band>
 		<band height="42">
 			<line>
-				<reportElement positionType="Float" x="0" y="0" width="553" height="1"/>
+				<reportElement positionType="Float" x="0" y="0" width="553" height="1" uuid="6afff334-4543-44df-9506-d1b4d9923ef6"/>
 			</line>
 			<line>
-				<reportElement positionType="Float" x="0" y="14" width="553" height="1"/>
+				<reportElement positionType="Float" x="0" y="14" width="553" height="1" uuid="c6b4a507-bf18-4661-8faa-c975ebbc8955"/>
 			</line>
 			<textField>
-				<reportElement positionType="Float" x="3" y="1" width="273" height="13"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+				<reportElement positionType="Float" x="3" y="1" width="273" height="13" uuid="4bcf5d59-82bb-43ef-b205-ee1dd9da6cf3"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
 					<font size="9" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "PARÁMETROS QUÍMICOS")]]></textFieldExpression>
+				<textFieldExpression><![CDATA[tr($V{L}, "PARÁMETROS QUÍMICOS")]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="Float" x="279" y="1" width="273" height="13"/>
+				<reportElement positionType="Float" x="279" y="1" width="273" height="13" uuid="a6fe82ac-1042-419f-a538-2477df8d20e2"/>
 				<box leftPadding="2">
 					<leftPen lineWidth="1.0"/>
 				</box>
-				<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+				<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
 					<font size="9" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "PARÁMETROS MICROBIOLÓGICOS")]]></textFieldExpression>
+				<textFieldExpression><![CDATA[tr($V{L}, "PARÁMETROS MICROBIOLÓGICOS")]]></textFieldExpression>
 			</textField>
 			<componentElement>
-				<reportElement key="Tabla QUIMICOS" positionType="Float" x="6" y="15" width="270" height="22">
+				<reportElement key="Tabla QUIMICOS" positionType="Float" x="6" y="15" width="270" height="22" uuid="77f84ae6-2c3b-48dd-ab5e-c4b4223ab04c">
 					<property name="OPENERP_RELATIONS" value="parameter_ids"/>
 				</reportElement>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="chemical_parameters">
+					<datasetRun subDataset="chemical_parameters" uuid="b39cc275-1a31-4ba3-8569-c105ab4b6bd0">
 						<datasetParameter name="ORDER_ID">
 							<datasetParameterExpression><![CDATA[$F{id}]]></datasetParameterExpression>
 						</datasetParameter>
 						<dataSourceExpression><![CDATA[$P{TABLE_LINES_QUIMICOS}]]></dataSourceExpression>
 					</datasetRun>
-					<jr:column width="180">
+					<jr:column width="180" uuid="a526d416-931e-43fa-b0b9-5804f9b43c6a">
 						<jr:detailCell height="12" rowSpan="1">
 							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement positionType="Float" x="0" y="1" width="180" height="11" isPrintWhenDetailOverflows="true"/>
-								<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single">
+								<reportElement positionType="Float" x="0" y="1" width="180" height="11" isPrintWhenDetailOverflows="true" uuid="bf5f27fb-0eae-484d-b291-885e4351bade"/>
+								<textElement textAlignment="Left" verticalAlignment="Middle">
 									<font size="9"/>
+									<paragraph lineSpacing="Single"/>
 								</textElement>
-								<textFieldExpression class="java.lang.String"><![CDATA[$F{Nombre-name}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{Nombre-name}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="90">
+					<jr:column width="90" uuid="7c99aa0f-c62e-45e3-9130-bd02904230b6">
 						<jr:detailCell height="12" rowSpan="1">
 							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement positionType="Float" x="0" y="1" width="90" height="11" isPrintWhenDetailOverflows="true"/>
-								<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single">
+								<reportElement positionType="Float" x="0" y="1" width="90" height="11" isPrintWhenDetailOverflows="true" uuid="13520b21-4b9f-4b74-96c0-98542c3626e4"/>
+								<textElement textAlignment="Left" verticalAlignment="Middle">
 									<font size="9"/>
+									<paragraph lineSpacing="Single"/>
 								</textElement>
-								<textFieldExpression class="java.lang.String"><![CDATA[$F{Valor-value}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{Valor-value}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
 				</jr:table>
 			</componentElement>
 			<componentElement>
-				<reportElement key="Tabla MICROBIOLOGICOS" positionType="Float" x="279" y="15" width="273" height="22">
+				<reportElement key="Tabla MICROBIOLOGICOS" positionType="Float" x="279" y="15" width="273" height="22" uuid="76b6e9cb-5e76-4ff5-a9aa-a264677ed3d7">
 					<property name="OPENERP_RELATIONS" value="parameter_ids"/>
 				</reportElement>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="microbiological_parameters">
+					<datasetRun subDataset="microbiological_parameters" uuid="b2ce6329-e6f7-4bf7-b8bb-8ce3c0cf0e2a">
 						<datasetParameter name="ORDER_ID">
 							<datasetParameterExpression><![CDATA[$F{id}]]></datasetParameterExpression>
 						</datasetParameter>
 						<dataSourceExpression><![CDATA[$P{TABLE_LINES_MICROBIOLOGICOS}]]></dataSourceExpression>
 					</datasetRun>
-					<jr:column width="180">
+					<jr:column width="180" uuid="30f26131-bb30-4c6f-bd0e-0ac1f2f9cead">
 						<jr:detailCell height="12" rowSpan="1">
 							<box leftPadding="0">
 								<leftPen lineWidth="1.0"/>
 								<rightPen lineWidth="0.0"/>
 							</box>
 							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement positionType="Float" x="0" y="1" width="180" height="11" isPrintWhenDetailOverflows="true"/>
+								<reportElement positionType="Float" x="0" y="1" width="180" height="11" isPrintWhenDetailOverflows="true" uuid="bbe91986-6d0f-49ec-9687-b44ff9e6fbd1"/>
 								<box leftPadding="2"/>
-								<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single">
+								<textElement textAlignment="Left" verticalAlignment="Middle">
 									<font size="9"/>
+									<paragraph lineSpacing="Single"/>
 								</textElement>
-								<textFieldExpression class="java.lang.String"><![CDATA[$F{Nombre-name}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{Nombre-name}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="90">
+					<jr:column width="90" uuid="2398fddb-22d5-4e65-a509-51cb2b686974">
 						<jr:detailCell height="12" rowSpan="1">
 							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement positionType="Float" x="0" y="1" width="90" height="11" isPrintWhenDetailOverflows="true"/>
-								<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single">
+								<reportElement positionType="Float" x="0" y="1" width="90" height="11" isPrintWhenDetailOverflows="true" uuid="f77d1a06-5b78-4f8d-965a-6da044d0aefa"/>
+								<textElement textAlignment="Left" verticalAlignment="Middle">
 									<font size="9"/>
+									<paragraph lineSpacing="Single"/>
 								</textElement>
-								<textFieldExpression class="java.lang.String"><![CDATA[$F{Valor-value}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{Valor-value}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
 				</jr:table>
 			</componentElement>
 		</band>
-		<band height="365">
+		<band height="306">
 			<line>
-				<reportElement x="0" y="0" width="553" height="1"/>
+				<reportElement x="0" y="0" width="553" height="1" uuid="c3b21a54-e363-4aab-9667-c7d41b49ef9f"/>
 			</line>
 			<line>
-				<reportElement x="0" y="13" width="553" height="1"/>
+				<reportElement x="0" y="13" width="553" height="1" uuid="2bc937a6-46e6-466f-90be-381683d7780c"/>
 			</line>
 			<line direction="BottomUp">
-				<reportElement x="279" y="0" width="1" height="13"/>
+				<reportElement x="279" y="0" width="1" height="13" uuid="17efa99d-104c-4e95-baa7-c9ec25440142"/>
 			</line>
 			<textField>
-				<reportElement x="1" y="0" width="274" height="13"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+				<reportElement x="1" y="0" width="274" height="13" uuid="3c2a2af2-8f4f-430d-8c22-608420ec937e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
 					<font size="9" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "VALORES NUTRICIONALES MEDIOS (por 100 g)")]]></textFieldExpression>
+				<textFieldExpression><![CDATA[tr($V{L}, "VALORES NUTRICIONALES MEDIOS (por 100 g)")]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="279" y="0" width="273" height="13"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+				<reportElement x="279" y="0" width="273" height="13" uuid="e6cc6eab-d7e3-420c-9509-b585fc283495"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
 					<font size="9" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "VALORES NUTRICIONALES MEDIOS (por ración)")]]></textFieldExpression>
+				<textFieldExpression><![CDATA[tr($V{L}, "VALORES NUTRICIONALES MEDIOS (por ración)")]]></textFieldExpression>
 			</textField>
 			<elementGroup>
 				<line>
-					<reportElement x="28" y="36" width="218" height="1"/>
+					<reportElement x="28" y="36" width="218" height="1" uuid="3441f95c-3ef2-4d42-bd5e-f487c745bb20"/>
 				</line>
 				<line>
-					<reportElement x="28" y="47" width="218" height="1"/>
+					<reportElement x="28" y="47" width="218" height="1" uuid="7f4e2a10-b961-4748-a7a9-895c85eb09d7"/>
 				</line>
 				<line>
-					<reportElement x="28" y="58" width="218" height="1"/>
+					<reportElement x="28" y="58" width="218" height="1" uuid="de0fc64b-2397-42a6-846e-e00220f5eca1"/>
 				</line>
 				<line>
-					<reportElement x="28" y="69" width="218" height="1"/>
+					<reportElement x="28" y="69" width="218" height="1" uuid="3ac5824d-9cd6-4219-a415-66eda3f20aac"/>
 				</line>
 				<line>
-					<reportElement x="28" y="80" width="218" height="1"/>
+					<reportElement x="28" y="80" width="218" height="1" uuid="0d6047f3-d9b2-4091-a5ca-9c9296f0c57b"/>
 				</line>
 				<line>
-					<reportElement x="28" y="91" width="218" height="1"/>
+					<reportElement x="28" y="91" width="218" height="1" uuid="867d3c0d-f458-4d25-8ecc-187d74fc6299"/>
 				</line>
 				<line>
-					<reportElement x="154" y="25" width="1" height="77"/>
+					<reportElement x="154" y="25" width="1" height="77" uuid="d7cc28ef-d698-481f-9da6-ea4500bdc8f8"/>
 				</line>
 				<rectangle>
-					<reportElement mode="Transparent" x="28" y="25" width="218" height="77" forecolor="#000000"/>
+					<reportElement mode="Transparent" x="28" y="25" width="218" height="77" forecolor="#000000" uuid="51bf9f72-c05d-42bb-953f-d4feeb6c257a"/>
 				</rectangle>
 			</elementGroup>
 			<elementGroup>
 				<textField>
-					<reportElement mode="Transparent" x="29" y="25" width="125" height="11"/>
-					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement mode="Transparent" x="29" y="25" width="125" height="11" uuid="c2a3cc90-4a4c-4b08-bddb-173e92d17240"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="true"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "Valor energético")]]></textFieldExpression>
+					<textFieldExpression><![CDATA[tr($V{L}, "Valor energético")]]></textFieldExpression>
 				</textField>
 				<textField pattern="" isBlankWhenNull="false">
-					<reportElement positionType="Float" x="152" y="25" width="96" height="11"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement positionType="Float" x="152" y="25" width="96" height="11" uuid="84b5e881-deab-4a27-b1a0-5572e3036f18"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[($F{Energia_kJ-energy_kj}.isEmpty() ? "? " + tr($V{L}, "kJ") : (Math.round(new Double($F{Energia_kJ-energy_kj}) * 1) / 1) + " " + tr($V{L}, "kJ"))
+					<textFieldExpression><![CDATA[($F{Energia_kJ-energy_kj}.isEmpty() ? "? " + tr($V{L}, "kJ") : (Math.round(new Double($F{Energia_kJ-energy_kj}) * 1) / 1) + " " + tr($V{L}, "kJ"))
 + "/" +
 ($F{Energia_kcal-energy_kcal}.isEmpty() ? "? " + tr($V{L}, "kcal") : (Math.round(new Double($F{Energia_kcal-energy_kcal}) * 1) / 1) + " " + tr($V{L}, "kcal"))]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="29" y="58" width="125" height="11"/>
-					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement x="29" y="58" width="125" height="11" uuid="4eb36d47-1f87-4c28-8cea-352ecfe38f16"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="true"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "Hidratos de carbono")]]></textFieldExpression>
+					<textFieldExpression><![CDATA[tr($V{L}, "Hidratos de carbono")]]></textFieldExpression>
 				</textField>
 				<textField pattern="###0.###;###0.###-" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="154" y="58" width="56" height="11"/>
-					<textElement textAlignment="Right" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement positionType="Float" x="154" y="58" width="56" height="11" uuid="22e03abb-cd6d-4c6b-aed0-812322797ddc"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{Hidratos_de_carbono-carbohydrates}.isEmpty() ? new Double("0.000") : new Double($F{Hidratos_de_carbono-carbohydrates})]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{Hidratos_de_carbono-carbohydrates}.isEmpty() ? new Double("0.000") : new Double($F{Hidratos_de_carbono-carbohydrates})]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="211" y="36" width="23" height="11"/>
-					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement x="211" y="36" width="23" height="11" uuid="cc006597-1abd-4e53-abf2-7b7760dd29a8"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, " g")]]></textFieldExpression>
+					<textFieldExpression><![CDATA[tr($V{L}, " g")]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="29" y="69" width="125" height="11"/>
-					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement x="29" y="69" width="125" height="11" uuid="2ab155b5-dee8-4b6b-ae8f-1c4ec2fb5c53"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "de los cuales azúcares")]]></textFieldExpression>
+					<textFieldExpression><![CDATA[tr($V{L}, "de los cuales azúcares")]]></textFieldExpression>
 				</textField>
 				<textField pattern="###0.###;###0.###-" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="154" y="69" width="56" height="11"/>
-					<textElement textAlignment="Right" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement positionType="Float" x="154" y="69" width="56" height="11" uuid="4618214a-f697-4b64-a7d2-fe3f9c471c29"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{De_los_cuales_azucares-carbo_sugar}.isEmpty() ? new Double("0.000") : new Double($F{De_los_cuales_azucares-carbo_sugar})]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{De_los_cuales_azucares-carbo_sugar}.isEmpty() ? new Double("0.000") : new Double($F{De_los_cuales_azucares-carbo_sugar})]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="211" y="47" width="23" height="11"/>
-					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement x="211" y="47" width="23" height="11" uuid="fcf14fc7-a68d-4533-bffe-08e8531d7dea"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, " g")]]></textFieldExpression>
+					<textFieldExpression><![CDATA[tr($V{L}, " g")]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="29" y="36" width="125" height="11"/>
-					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement x="29" y="36" width="125" height="11" uuid="8e0adbf8-baf7-42a8-8cdf-7331c920abb7"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="true"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "Grasas")]]></textFieldExpression>
+					<textFieldExpression><![CDATA[tr($V{L}, "Grasas")]]></textFieldExpression>
 				</textField>
 				<textField pattern="###0.###;###0.###-" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="154" y="36" width="56" height="11"/>
-					<textElement textAlignment="Right" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement positionType="Float" x="154" y="36" width="56" height="11" uuid="acbdf258-898b-45cb-811c-0b621c633979"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{Grasas-fats}.isEmpty() ? new Double("0.000") : new Double($F{Grasas-fats})]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{Grasas-fats}.isEmpty() ? new Double("0.000") : new Double($F{Grasas-fats})]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="211" y="58" width="23" height="11"/>
-					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement x="211" y="58" width="23" height="11" uuid="b656c589-d15e-4f34-8c1a-8efbc3ce7069"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, " g")]]></textFieldExpression>
+					<textFieldExpression><![CDATA[tr($V{L}, " g")]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="29" y="47" width="125" height="11"/>
-					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement x="29" y="47" width="125" height="11" uuid="8fad4b59-5ded-488d-af7b-5841885e25ad"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "de las cuales saturadas")]]></textFieldExpression>
+					<textFieldExpression><![CDATA[tr($V{L}, "de las cuales saturadas")]]></textFieldExpression>
 				</textField>
 				<textField pattern="###0.###;###0.###-" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="154" y="47" width="56" height="11"/>
-					<textElement textAlignment="Right" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement positionType="Float" x="154" y="47" width="56" height="11" uuid="a3730de7-e267-4f70-ab67-ecb0ad1f79b9"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{De_las_cuales_Saturadas-fat_saturates}.isEmpty() ? new Double("0.000") : new Double($F{De_las_cuales_Saturadas-fat_saturates})]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{De_las_cuales_Saturadas-fat_saturates}.isEmpty() ? new Double("0.000") : new Double($F{De_las_cuales_Saturadas-fat_saturates})]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="211" y="69" width="23" height="11"/>
-					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement x="211" y="69" width="23" height="11" uuid="9d9c6a58-81d5-4e53-b6b6-dffdc0f335dd"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, " g")]]></textFieldExpression>
+					<textFieldExpression><![CDATA[tr($V{L}, " g")]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="29" y="80" width="125" height="11"/>
-					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement x="29" y="80" width="125" height="11" uuid="7fc7d6b7-284e-4481-994a-1a39d6b730f7"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="true"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "Proteínas")]]></textFieldExpression>
+					<textFieldExpression><![CDATA[tr($V{L}, "Proteínas")]]></textFieldExpression>
 				</textField>
 				<textField pattern="###0.###;###0.###-" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="154" y="80" width="56" height="11"/>
-					<textElement textAlignment="Right" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement positionType="Float" x="154" y="80" width="56" height="11" uuid="36406ab3-5f5e-49cf-a59b-e3e31d88b9a4"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{Proteinas-proteins}.isEmpty() ? new Double("0.000") : new Double($F{Proteinas-proteins})]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{Proteinas-proteins}.isEmpty() ? new Double("0.000") : new Double($F{Proteinas-proteins})]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="211" y="80" width="23" height="11"/>
-					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement x="211" y="80" width="23" height="11" uuid="e9ec084b-a508-421d-b17d-1d3739b188ec"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, " g")]]></textFieldExpression>
+					<textFieldExpression><![CDATA[tr($V{L}, " g")]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="29" y="91" width="125" height="11"/>
-					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement x="29" y="91" width="125" height="11" uuid="637a082f-17f5-4533-919f-c1b77908fda4"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="true"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "Sal")]]></textFieldExpression>
+					<textFieldExpression><![CDATA[tr($V{L}, "Sal")]]></textFieldExpression>
 				</textField>
 				<textField pattern="###0.###;###0.###-" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="154" y="91" width="56" height="11"/>
-					<textElement textAlignment="Right" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement positionType="Float" x="154" y="91" width="56" height="11" uuid="4e198834-20df-45c9-90dd-53d4b53344ff"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{Sal-salt}.isEmpty() ? new Double("0.000") : new Double($F{Sal-salt})]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{Sal-salt}.isEmpty() ? new Double("0.000") : new Double($F{Sal-salt})]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="211" y="91" width="23" height="11"/>
-					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement x="211" y="91" width="23" height="11" uuid="77e3916d-372b-4ecb-9dd1-3c54f5de3370"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, " g")]]></textFieldExpression>
+					<textFieldExpression><![CDATA[tr($V{L}, " g")]]></textFieldExpression>
 				</textField>
 			</elementGroup>
 			<elementGroup>
 				<line>
-					<reportElement x="292" y="36" width="245" height="1"/>
+					<reportElement x="292" y="36" width="245" height="1" uuid="8cf2bae0-a3f5-4029-957c-961fc04f704f"/>
 				</line>
 				<line>
-					<reportElement x="292" y="47" width="245" height="1"/>
+					<reportElement x="292" y="47" width="245" height="1" uuid="c4defea1-1f1d-47a0-b770-f840bd9d18d1"/>
 				</line>
 				<line>
-					<reportElement x="292" y="58" width="245" height="1"/>
+					<reportElement x="292" y="58" width="245" height="1" uuid="007a953d-c7f4-41bb-8438-f96338af49d2"/>
 				</line>
 				<line>
-					<reportElement x="292" y="69" width="245" height="1"/>
+					<reportElement x="292" y="69" width="245" height="1" uuid="ea8dc428-da96-45e2-a042-a852c7a47ece"/>
 				</line>
 				<line>
-					<reportElement x="292" y="80" width="245" height="1"/>
+					<reportElement x="292" y="80" width="245" height="1" uuid="67d53905-ae84-4744-8e97-03778c2b0c75"/>
 				</line>
 				<line>
-					<reportElement x="292" y="91" width="245" height="1"/>
+					<reportElement x="292" y="91" width="245" height="1" uuid="1fa7477e-1873-4069-9667-6af0c57b5c32"/>
 				</line>
 				<line>
-					<reportElement x="420" y="25" width="1" height="77"/>
+					<reportElement x="420" y="25" width="1" height="77" uuid="9d18a133-4c47-42c6-8c4c-1c4cd3a84a1c"/>
 				</line>
 				<line>
-					<reportElement x="505" y="25" width="1" height="77"/>
+					<reportElement x="505" y="25" width="1" height="77" uuid="0ffd77fb-04ea-4897-9edd-33347b956525"/>
 				</line>
 				<rectangle>
-					<reportElement mode="Transparent" x="292" y="25" width="245" height="77" forecolor="#000000"/>
+					<reportElement mode="Transparent" x="292" y="25" width="245" height="77" forecolor="#000000" uuid="1c402c50-a070-4eb0-9f67-2a44b587da32"/>
 				</rectangle>
 			</elementGroup>
 			<elementGroup>
 				<textField isBlankWhenNull="true">
-					<reportElement x="420" y="14" width="85" height="11"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement x="420" y="14" width="85" height="11" uuid="e9498d67-3cb8-4236-a9a9-886de7b84635"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L},"Ración ") + $F{Recommended_ration__gr-recommended_ration} + " g"]]></textFieldExpression>
+					<textFieldExpression><![CDATA[tr($V{L},"Ración ") + $F{Recommended_ration__gr-recommended_ration} + " g"]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="502" y="14" width="37" height="11"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement x="502" y="14" width="37" height="11" uuid="90923089-387f-442f-87dc-304c5eaf580f"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "% CDO (*)")]]></textFieldExpression>
+					<textFieldExpression><![CDATA[tr($V{L}, "% CDO (*)")]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="293" y="25" width="125" height="11"/>
-					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement x="293" y="25" width="125" height="11" uuid="4b404b68-34fd-4ae4-9e72-17e6bc7ed7c2"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="true"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "Valor energético")]]></textFieldExpression>
+					<textFieldExpression><![CDATA[tr($V{L}, "Valor energético")]]></textFieldExpression>
 				</textField>
 				<textField pattern="" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="421" y="25" width="85" height="11"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement positionType="Float" x="421" y="25" width="85" height="11" uuid="d603c146-30d9-4cab-8965-6ccf1c2639fd"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[($F{Energia_kJ-energy_kj}.isEmpty() ? "? " + tr($V{L}, "kJ") : (Math.round((new Double($F{Energia_kJ-energy_kj}) * $F{Recommended_ration__gr-recommended_ration} / 100) * 1) / 1) + " " + tr($V{L}, "kJ"))
+					<textFieldExpression><![CDATA[($F{Energia_kJ-energy_kj}.isEmpty() ? "? " + tr($V{L}, "kJ") : (Math.round((new Double($F{Energia_kJ-energy_kj}) * $F{Recommended_ration__gr-recommended_ration} / 100) * 1) / 1) + " " + tr($V{L}, "kJ"))
 + "/" +
 ($F{Energia_kcal-energy_kcal}.isEmpty() ? "? " + tr($V{L}, "kcal") : (Math.round((new Double($F{Energia_kcal-energy_kcal}) * $F{Recommended_ration__gr-recommended_ration} / 100) * 1) / 1) + " " + tr($V{L}, "kcal"))]]></textFieldExpression>
 				</textField>
 				<textField pattern="###0;###0-" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="506" y="25" width="18" height="11"/>
-					<textElement textAlignment="Right" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement positionType="Float" x="506" y="25" width="18" height="11" uuid="945cf29d-2754-4d40-9b46-8a706fe428aa"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{Energia_kcal-energy_kcal}.isEmpty() ? "?" : (new Double($F{Energia_kcal-energy_kcal}) * $F{Recommended_ration__gr-recommended_ration}) / 2000]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{Energia_kcal-energy_kcal}.isEmpty() ? "?" : (new Double($F{Energia_kcal-energy_kcal}) * $F{Recommended_ration__gr-recommended_ration}) / 2000]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="524" y="25" width="12" height="11"/>
-					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single">
+					<reportElement x="524" y="25" width="12" height="11" uuid="28a253aa-2a4e-43b2-977d-ab960f367f84"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
 					<text><![CDATA[%]]></text>
 				</staticText>
 				<textField>
-					<reportElement x="293" y="58" width="125" height="11"/>
-					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement x="293" y="58" width="125" height="11" uuid="28b4013b-ce2d-44f3-b215-53b326d544b5"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="true"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "Hidratos de carbono")]]></textFieldExpression>
+					<textFieldExpression><![CDATA[tr($V{L}, "Hidratos de carbono")]]></textFieldExpression>
 				</textField>
 				<textField pattern="###0.#;###0.#-" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="421" y="58" width="56" height="11"/>
-					<textElement textAlignment="Right" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement positionType="Float" x="421" y="58" width="56" height="11" uuid="c6993c49-e3bb-4df0-a07e-b456314968d9"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{Hidratos_de_carbono-carbohydrates}.isEmpty() ? new Double("0.0") : (new Double($F{Hidratos_de_carbono-carbohydrates}) * $F{Recommended_ration__gr-recommended_ration}) / 100]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{Hidratos_de_carbono-carbohydrates}.isEmpty() ? new Double("0.0") : (new Double($F{Hidratos_de_carbono-carbohydrates}) * $F{Recommended_ration__gr-recommended_ration}) / 100]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="478" y="36" width="23" height="11"/>
-					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement x="478" y="36" width="23" height="11" uuid="a4a52e73-19df-41a2-90ba-b9d73b97af82"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, " g")]]></textFieldExpression>
+					<textFieldExpression><![CDATA[tr($V{L}, " g")]]></textFieldExpression>
 				</textField>
 				<textField pattern="###0;###0-" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="506" y="58" width="18" height="11"/>
-					<textElement textAlignment="Right" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement positionType="Float" x="506" y="58" width="18" height="11" uuid="a1547df7-82f8-439f-b701-3d890472238e"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{Hidratos_de_carbono-carbohydrates}.isEmpty() ? new Double("0.0") : (new Double($F{Hidratos_de_carbono-carbohydrates}) * $F{Recommended_ration__gr-recommended_ration}) / 270]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{Hidratos_de_carbono-carbohydrates}.isEmpty() ? new Double("0.0") : (new Double($F{Hidratos_de_carbono-carbohydrates}) * $F{Recommended_ration__gr-recommended_ration}) / 270]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="524" y="36" width="12" height="11"/>
-					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single">
+					<reportElement x="524" y="36" width="12" height="11" uuid="fbc95c8e-8b0c-42d5-88f0-65d08555096e"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
 					<text><![CDATA[%]]></text>
 				</staticText>
 				<textField>
-					<reportElement x="293" y="69" width="125" height="11"/>
-					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement x="293" y="69" width="125" height="11" uuid="a8c8b3a6-4184-49ff-89b7-97d339cab9a5"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "de los cuales azúcares")]]></textFieldExpression>
+					<textFieldExpression><![CDATA[tr($V{L}, "de los cuales azúcares")]]></textFieldExpression>
 				</textField>
 				<textField pattern="###0.#;###0.#-" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="421" y="69" width="56" height="11"/>
-					<textElement textAlignment="Right" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement positionType="Float" x="421" y="69" width="56" height="11" uuid="90219103-a495-4c61-8266-8f6b073d575d"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{De_los_cuales_azucares-carbo_sugar}.isEmpty() ? new Double("0.0") : (new Double($F{De_los_cuales_azucares-carbo_sugar}) * $F{Recommended_ration__gr-recommended_ration}) / 100]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{De_los_cuales_azucares-carbo_sugar}.isEmpty() ? new Double("0.0") : (new Double($F{De_los_cuales_azucares-carbo_sugar}) * $F{Recommended_ration__gr-recommended_ration}) / 100]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="478" y="47" width="23" height="11"/>
-					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement x="478" y="47" width="23" height="11" uuid="f3618e1b-d3ef-4520-b176-35d3a9d864e1"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, " g")]]></textFieldExpression>
+					<textFieldExpression><![CDATA[tr($V{L}, " g")]]></textFieldExpression>
 				</textField>
 				<textField pattern="###0;###0-" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="506" y="69" width="18" height="11"/>
-					<textElement textAlignment="Right" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement positionType="Float" x="506" y="69" width="18" height="11" uuid="f6ae84d9-fab4-477b-a2d3-cdd392ecae50"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{De_los_cuales_azucares-carbo_sugar}.isEmpty() ? new Double("0.0") : (new Double($F{De_los_cuales_azucares-carbo_sugar}) * $F{Recommended_ration__gr-recommended_ration}) / 90]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{De_los_cuales_azucares-carbo_sugar}.isEmpty() ? new Double("0.0") : (new Double($F{De_los_cuales_azucares-carbo_sugar}) * $F{Recommended_ration__gr-recommended_ration}) / 90]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="524" y="47" width="12" height="11"/>
-					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single">
+					<reportElement x="524" y="47" width="12" height="11" uuid="1d2c4a15-10d4-4290-b7c5-c00baf2ced8f"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
 					<text><![CDATA[%]]></text>
 				</staticText>
 				<textField>
-					<reportElement x="293" y="36" width="125" height="11"/>
-					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement x="293" y="36" width="125" height="11" uuid="e923afa6-16e3-41bc-a025-b07577273667"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="true"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "Grasas")]]></textFieldExpression>
+					<textFieldExpression><![CDATA[tr($V{L}, "Grasas")]]></textFieldExpression>
 				</textField>
 				<textField pattern="###0.#;###0.#-" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="421" y="36" width="56" height="11"/>
-					<textElement textAlignment="Right" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement positionType="Float" x="421" y="36" width="56" height="11" uuid="aeb35702-1057-4165-850e-11ec0f9877a9"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{Grasas-fats}.isEmpty() ? new Double("0.0") : (new Double($F{Grasas-fats}) * $F{Recommended_ration__gr-recommended_ration}) / 100]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{Grasas-fats}.isEmpty() ? new Double("0.0") : (new Double($F{Grasas-fats}) * $F{Recommended_ration__gr-recommended_ration}) / 100]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="478" y="58" width="23" height="11"/>
-					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement x="478" y="58" width="23" height="11" uuid="568407a3-ca41-4797-b8a7-fb6c356c7645"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, " g")]]></textFieldExpression>
+					<textFieldExpression><![CDATA[tr($V{L}, " g")]]></textFieldExpression>
 				</textField>
 				<textField pattern="###0;###0-" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="506" y="36" width="18" height="11"/>
-					<textElement textAlignment="Right" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement positionType="Float" x="506" y="36" width="18" height="11" uuid="31ca7c5f-597d-40b3-93ea-a8e1d4319940"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{Grasas-fats}.isEmpty() ? new Double("0.0") : (new Double($F{Grasas-fats}) * $F{Recommended_ration__gr-recommended_ration}) / 70]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{Grasas-fats}.isEmpty() ? new Double("0.0") : (new Double($F{Grasas-fats}) * $F{Recommended_ration__gr-recommended_ration}) / 70]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="524" y="58" width="12" height="11"/>
-					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single">
+					<reportElement x="524" y="58" width="12" height="11" uuid="f96d8b27-761e-40b1-8db9-1e036b55da06"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
 					<text><![CDATA[%]]></text>
 				</staticText>
 				<textField>
-					<reportElement x="293" y="47" width="125" height="11"/>
-					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement x="293" y="47" width="125" height="11" uuid="a318c571-8375-407b-8116-f1c7ef824f76"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "de las cuales saturadas")]]></textFieldExpression>
+					<textFieldExpression><![CDATA[tr($V{L}, "de las cuales saturadas")]]></textFieldExpression>
 				</textField>
 				<textField pattern="###0.#;###0.#-" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="421" y="47" width="56" height="11"/>
-					<textElement textAlignment="Right" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement positionType="Float" x="421" y="47" width="56" height="11" uuid="c0ce28f7-d785-4585-8678-c1a60c0d43fb"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{De_las_cuales_Saturadas-fat_saturates}.isEmpty() ? new Double("0.0") : (new Double($F{De_las_cuales_Saturadas-fat_saturates}) * $F{Recommended_ration__gr-recommended_ration}) / 100]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{De_las_cuales_Saturadas-fat_saturates}.isEmpty() ? new Double("0.0") : (new Double($F{De_las_cuales_Saturadas-fat_saturates}) * $F{Recommended_ration__gr-recommended_ration}) / 100]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="478" y="69" width="23" height="11"/>
-					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement x="478" y="69" width="23" height="11" uuid="c67dbaf6-bf6b-4ae1-91de-72bd95f3d4cf"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, " g")]]></textFieldExpression>
+					<textFieldExpression><![CDATA[tr($V{L}, " g")]]></textFieldExpression>
 				</textField>
 				<textField pattern="###0;###0-" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="506" y="47" width="18" height="11"/>
-					<textElement textAlignment="Right" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement positionType="Float" x="506" y="47" width="18" height="11" uuid="56111c33-f961-4151-b32a-5fa264bec84b"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{De_las_cuales_Saturadas-fat_saturates}.isEmpty() ? new Double("0.0") : (new Double($F{De_las_cuales_Saturadas-fat_saturates}) * $F{Recommended_ration__gr-recommended_ration}) / 20]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{De_las_cuales_Saturadas-fat_saturates}.isEmpty() ? new Double("0.0") : (new Double($F{De_las_cuales_Saturadas-fat_saturates}) * $F{Recommended_ration__gr-recommended_ration}) / 20]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="524" y="69" width="12" height="11"/>
-					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single">
+					<reportElement x="524" y="69" width="12" height="11" uuid="ae8bf914-7a46-4547-995e-22d20b60b3da"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
 					<text><![CDATA[%]]></text>
 				</staticText>
 				<textField>
-					<reportElement x="293" y="80" width="125" height="11"/>
-					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement x="293" y="80" width="125" height="11" uuid="4a15d989-8db0-44fd-a884-a06a71c4c23c"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="true"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "Proteínas")]]></textFieldExpression>
+					<textFieldExpression><![CDATA[tr($V{L}, "Proteínas")]]></textFieldExpression>
 				</textField>
 				<textField pattern="###0.#;###0.#-" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="421" y="80" width="56" height="11"/>
-					<textElement textAlignment="Right" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement positionType="Float" x="421" y="80" width="56" height="11" uuid="fd09f1c0-ee21-431d-911c-62b71fa70ea8"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{Proteinas-proteins}.isEmpty() ? new Double("0.0") : (new Double($F{Proteinas-proteins}) * $F{Recommended_ration__gr-recommended_ration}) / 100]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{Proteinas-proteins}.isEmpty() ? new Double("0.0") : (new Double($F{Proteinas-proteins}) * $F{Recommended_ration__gr-recommended_ration}) / 100]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="478" y="80" width="23" height="11"/>
-					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement x="478" y="80" width="23" height="11" uuid="7e3b036d-8516-42a7-9d6d-cc7ab8263dfd"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, " g")]]></textFieldExpression>
+					<textFieldExpression><![CDATA[tr($V{L}, " g")]]></textFieldExpression>
 				</textField>
 				<textField pattern="###0;###0-" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="506" y="80" width="18" height="11"/>
-					<textElement textAlignment="Right" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement positionType="Float" x="506" y="80" width="18" height="11" uuid="1903a982-89e5-42ed-8849-34339d8133ce"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{Proteinas-proteins}.isEmpty() ? new Double("0.0") : (new Double($F{Proteinas-proteins}) * $F{Recommended_ration__gr-recommended_ration}) / 50]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{Proteinas-proteins}.isEmpty() ? new Double("0.0") : (new Double($F{Proteinas-proteins}) * $F{Recommended_ration__gr-recommended_ration}) / 50]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="524" y="80" width="12" height="11"/>
-					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single">
+					<reportElement x="524" y="80" width="12" height="11" uuid="577f2484-605e-4004-b06b-80ea649dff8f"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
 					<text><![CDATA[%]]></text>
 				</staticText>
 				<textField>
-					<reportElement x="293" y="91" width="125" height="11"/>
-					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement x="293" y="91" width="125" height="11" uuid="e8c3ab74-b030-4058-bd8d-e771add91ddb"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="true"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "Sal")]]></textFieldExpression>
+					<textFieldExpression><![CDATA[tr($V{L}, "Sal")]]></textFieldExpression>
 				</textField>
 				<textField pattern="###0.#;###0.#-" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="421" y="91" width="56" height="11"/>
-					<textElement textAlignment="Right" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement positionType="Float" x="421" y="91" width="56" height="11" uuid="efedc4d7-1156-4c05-ab88-c34ef0e8ae95"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{Sal-salt}.isEmpty() ? new Double("0.0") : (new Double($F{Sal-salt}) * $F{Recommended_ration__gr-recommended_ration}) / 100]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{Sal-salt}.isEmpty() ? new Double("0.0") : (new Double($F{Sal-salt}) * $F{Recommended_ration__gr-recommended_ration}) / 100]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="478" y="91" width="23" height="11"/>
-					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement x="478" y="91" width="23" height="11" uuid="6fe5dab2-949f-4f36-b958-88af9b0f307e"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, " g")]]></textFieldExpression>
+					<textFieldExpression><![CDATA[tr($V{L}, " g")]]></textFieldExpression>
 				</textField>
 				<textField pattern="###0;###0-" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="506" y="91" width="18" height="11"/>
-					<textElement textAlignment="Right" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+					<reportElement positionType="Float" x="506" y="91" width="18" height="11" uuid="485875e0-1bed-4628-98d1-2061b30ab814"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle" markup="none">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{Sal-salt}.isEmpty() ? new Double("0.0") : (new Double($F{Sal-salt}) * $F{Recommended_ration__gr-recommended_ration}) / 6]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{Sal-salt}.isEmpty() ? new Double("0.0") : (new Double($F{Sal-salt}) * $F{Recommended_ration__gr-recommended_ration}) / 6]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="524" y="91" width="12" height="11"/>
-					<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single">
+					<reportElement x="524" y="91" width="12" height="11" uuid="1db4deb8-0a7a-4837-9978-c0c8f0cfef07"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
 						<font size="9" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
 					<text><![CDATA[%]]></text>
 				</staticText>
 				<textField>
-					<reportElement x="294" y="103" width="245" height="38"/>
-					<textElement textAlignment="Left" lineSpacing="Single" markup="none">
+					<reportElement x="294" y="103" width="245" height="38" uuid="31d0df6e-abff-4f4c-be18-86bf2241e9af"/>
+					<textElement textAlignment="Left" markup="none">
 						<font size="8" isBold="false"/>
+						<paragraph lineSpacing="Single"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "* Valores diarios orientativos para un adulto con una ingesta diaria de 2000 kcal. Las necesidades nutricionales individuales pueden variar en función del sexo, edad, actividad física y otros factores.")]]></textFieldExpression>
+					<textFieldExpression><![CDATA[tr($V{L}, "* Valores diarios orientativos para un adulto con una ingesta diaria de 2000 kcal. Las necesidades nutricionales individuales pueden variar en función del sexo, edad, actividad física y otros factores.")]]></textFieldExpression>
 				</textField>
 			</elementGroup>
 			<line>
-				<reportElement x="0" y="146" width="553" height="1"/>
+				<reportElement x="0" y="146" width="553" height="1" uuid="41bfd816-8026-44a7-bf56-e4ab12a94964"/>
 			</line>
 			<textField>
-				<reportElement x="3" y="147" width="271" height="13"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+				<reportElement x="3" y="147" width="271" height="13" uuid="b2eac33c-8e76-4a15-b283-11b95d44e413"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
 					<font size="9" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "CONDICIONES DE CONSERVACIÓN")]]></textFieldExpression>
+				<textFieldExpression><![CDATA[tr($V{L}, "CONDICIONES DE CONSERVACIÓN")]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="3" y="160" width="550" height="13"/>
-				<textElement textAlignment="Left" lineSpacing="Single" markup="none">
+				<reportElement positionType="Float" x="3" y="160" width="550" height="13" uuid="200347b6-b87b-4009-8a02-774da0669075"/>
+				<textElement textAlignment="Left" markup="none">
 					<font size="9" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{Condiciones_de_conservacion-storage_conditions}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{Condiciones_de_conservacion-storage_conditions}]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement positionType="Float" x="0" y="173" width="553" height="1"/>
+				<reportElement positionType="Float" x="0" y="173" width="553" height="1" uuid="6fba8248-d2c7-41ff-9e68-6f8d6cc59647"/>
 			</line>
 			<textField>
-				<reportElement positionType="Float" x="3" y="174" width="272" height="13"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+				<reportElement positionType="Float" x="3" y="174" width="272" height="13" uuid="05d19316-bc08-4eb6-8aca-e306f26b60eb"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
 					<font size="9" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "USO ESPERADO")]]></textFieldExpression>
+				<textFieldExpression><![CDATA[tr($V{L}, "USO ESPERADO")]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="3" y="187" width="550" height="12"/>
-				<textElement textAlignment="Left" lineSpacing="Single" markup="none">
+				<reportElement positionType="Float" x="3" y="187" width="550" height="12" uuid="d2d16dbf-3509-40ca-b3c1-ee9c7b1bbda9"/>
+				<textElement textAlignment="Left" markup="none">
 					<font size="9" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{Uso_esperado-expected_use}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{Uso_esperado-expected_use}]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement positionType="Float" x="0" y="199" width="553" height="1"/>
+				<reportElement positionType="Float" x="0" y="199" width="553" height="1" uuid="b1da5cdb-76cb-4e4e-8f69-6c5b06a78619"/>
 			</line>
 			<textField>
-				<reportElement positionType="Float" x="3" y="200" width="550" height="13"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+				<reportElement positionType="Float" x="3" y="200" width="550" height="13" uuid="ddb8b01f-c20b-4e6e-bec2-6cf823b685cb"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
 					<font size="9" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "VIDA ÚTIL")]]></textFieldExpression>
+				<textFieldExpression><![CDATA[tr($V{L}, "VIDA ÚTIL")]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="3" y="213" width="550" height="13"/>
-				<textElement textAlignment="Left" lineSpacing="Single" markup="none">
+				<reportElement positionType="Float" x="3" y="213" width="550" height="13" uuid="ecb57a53-aa96-4df8-b97a-66429291ff4f"/>
+				<textElement textAlignment="Left" markup="none">
 					<font size="9" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{Tiempo_de_uso_producto-use_time} + tr($V{L}, " días desde fecha de fabricación")]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{Tiempo_de_uso_producto-use_time} + tr($V{L}, " días desde fecha de fabricación")]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="Float" x="0" y="227" width="553" height="13"/>
+				<reportElement positionType="Float" x="0" y="227" width="553" height="13" uuid="471ed903-95e6-409b-b07f-a0ec76ba34ca"/>
 				<box leftPadding="3" bottomPadding="2">
 					<topPen lineWidth="1.0"/>
 				</box>
-				<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+				<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
 					<font size="9" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "ALÉRGENOS")]]></textFieldExpression>
+				<textFieldExpression><![CDATA[tr($V{L}, "ALÉRGENOS")]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="3" y="239" width="550" height="27"/>
-				<textElement textAlignment="Left" verticalAlignment="Top" lineSpacing="Single" markup="none">
+				<reportElement positionType="Float" x="3" y="239" width="550" height="27" uuid="a536228f-ed04-43a9-9753-d952fcac1d35"/>
+				<textElement textAlignment="Left" verticalAlignment="Top" markup="none">
 					<font size="9" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, $F{Alergenos-allergen})]]></textFieldExpression>
+				<textFieldExpression><![CDATA[tr($V{L}, $F{Alergenos-allergen})]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="Float" x="0" y="266" width="553" height="13"/>
+				<reportElement positionType="Float" x="0" y="266" width="553" height="13" uuid="89b81150-a10f-48f7-8205-63c9dd2c1001"/>
 				<box leftPadding="3" bottomPadding="2">
 					<topPen lineWidth="1.0"/>
 				</box>
-				<textElement textAlignment="Left" verticalAlignment="Middle" lineSpacing="Single" markup="none">
+				<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
 					<font size="9" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "OGM's")]]></textFieldExpression>
+				<textFieldExpression><![CDATA[tr($V{L}, "OGM's")]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="3" y="278" width="550" height="27"/>
-				<textElement textAlignment="Left" verticalAlignment="Top" lineSpacing="Single" markup="none">
+				<reportElement positionType="Float" x="3" y="278" width="550" height="27" uuid="fa3069c2-d96e-459d-978b-a0dfcf015be2"/>
+				<textElement textAlignment="Left" verticalAlignment="Top" markup="none">
 					<font size="9" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{OGMs-ogms}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{OGMs-ogms}]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement positionType="Float" x="0" y="305" width="553" height="1"/>
-			</line>
-			<textField>
-				<reportElement positionType="Float" x="3" y="305" width="547" height="23"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single" markup="none">
-					<font size="9" isBold="true" isUnderline="false"/>
-				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, "OBSERVACIONES")]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="3" y="328" width="547" height="37" isPrintWhenDetailOverflows="true"/>
-				<textElement textAlignment="Center" lineSpacing="Single">
-					<font size="9" isBold="true"/>
-				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[tr($V{L}, $F{Comentarios-comments})]]></textFieldExpression>
-			</textField>
-			<line>
-				<reportElement positionType="Float" x="0" y="364" width="553" height="1"/>
+				<reportElement positionType="Float" x="0" y="305" width="553" height="1" uuid="36cba4bb-18d5-44a1-8478-f2ec52690736"/>
 			</line>
 			<textField isBlankWhenNull="false">
-				<reportElement x="29" y="110" width="110" height="13"/>
-				<textElement textAlignment="Left" lineSpacing="Single" markup="none">
+				<reportElement x="29" y="110" width="110" height="13" uuid="be4dd592-a1fd-4893-9783-f0647eb5b397"/>
+				<textElement textAlignment="Left" markup="none">
 					<font size="8" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[!$F{nutriscore}.isEmpty()? tr($V{L}, "Nutri-Score:") + " " + $F{nutriscore}.toUpperCase() : ""]]></textFieldExpression>
+				<textFieldExpression><![CDATA[!$F{nutriscore}.isEmpty()
+					? tr($V{L}, "Nutri-Score:") + " " + $F{nutriscore}.toUpperCase()
+					: ""]]></textFieldExpression>
 			</textField>
+		</band>
+		<band height="29" splitType="Prevent">
+			<textField>
+				<reportElement positionType="Float" x="3" y="0" width="547" height="13" uuid="f2f60173-f5f4-4524-bcd3-f43d6802df70"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
+					<font size="9" isBold="true" isUnderline="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[tr($V{L}, "OBSERVACIONES")]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="3" y="13" width="547" height="13" uuid="8bc8a6b6-9b41-4e49-ab45-2b1efbe94459"/>
+				<textElement textAlignment="Left" markup="html">
+					<font size="9" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[(
+    $F{applicable_regulations} != null
+    && !$F{applicable_regulations}.trim().isEmpty()
+        ? "<u>" + tr($V{L}, "NORMATIVA APLICABLE:") + "</u><br/>"
+          + tr($V{L}, $F{applicable_regulations})
+                .replace("&", "&amp;")
+                .replace("<", "&lt;")
+                .replace(">", "&gt;")
+        : ""
+)
++
+(
+    $F{applicable_regulations} != null
+    && !$F{applicable_regulations}.trim().isEmpty()
+    && $F{Comentarios-comments} != null
+    && !$F{Comentarios-comments}.trim().isEmpty()
+        ? "<br/>"
+        : ""
+)
++
+(
+    $F{Comentarios-comments} != null
+    && !$F{Comentarios-comments}.trim().isEmpty()
+        ? "<u>" + tr($V{L}, "COMENTARIOS:") + "</u><br/>"
+          + tr($V{L}, $F{Comentarios-comments})
+                .replace("&", "&amp;")
+                .replace("<", "&lt;")
+                .replace(">", "&gt;")
+        : ""
+)]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="Float" x="0" y="28" width="553" height="1" uuid="02d74aea-1814-4876-a208-5978991c5a98"/>
+			</line>
 		</band>
 	</detail>
 </jasperReport>

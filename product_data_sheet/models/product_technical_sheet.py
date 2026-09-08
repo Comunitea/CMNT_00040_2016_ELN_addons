@@ -38,6 +38,7 @@ class ProductTechnicalSheet(models.Model):
     parameter_ids = fields.One2many(
         'product.parameter.product', 'product_technical_sheet_id', 'Parameters',
         copy=True)
+    applicable_regulations = fields.Text('Applicable Regulations', translate=True)
     revision_ids = fields.One2many(
         'product.revision', 'product_technical_sheet_id', 'Revisions')
     last_revision = fields.Char(string='Last revision', compute='_get_last_revision', size=255, readonly=True)
