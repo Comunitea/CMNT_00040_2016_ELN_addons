@@ -120,6 +120,10 @@
                                 </group>
                                 <newline/>
                                 <group>
+                                    <separator string="Applicable Regulations" colspan="4"/>
+                                    <field name="applicable_regulations" nolabel="1"/>
+                                </group>
+                                <group>
                                     <separator string="Observations" colspan="4"/>
                                     <field name="comments"/>
                                 </group>

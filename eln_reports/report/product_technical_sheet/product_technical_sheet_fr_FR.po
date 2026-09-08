@@ -3,195 +3,206 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PEDRO\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-03 09:26+0200\n"
-"PO-Revision-Date: 2015-06-03 09:59+0100\n"
+"POT-Creation-Date: 2026-09-08 11:39+0200\n"
+"PO-Revision-Date: 2026-09-08 12:49+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
 "Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Last-Translator: Pedro Gómez <pegomez@elnogal.com>\n"
-"Language-Team: \n"
-"X-Generator: Poedit 1.7.5\n"
+"X-Generator: Poedit 3.9\n"
 
-#: /tmp/tmp.j1gD0sea54:797 /tmp/tmp.j1gD0sea54:1361 /tmp/tmp.j1gD0sea54:1925
+#: /tmp/tmp.TihhArZFJQ:815 /tmp/tmp.TihhArZFJQ:1449 /tmp/tmp.TihhArZFJQ:2083
 msgid "PRODUCTO:"
 msgstr "PRODUIT:"
 
-#: /tmp/tmp.j1gD0sea54:801 /tmp/tmp.j1gD0sea54:1365 /tmp/tmp.j1gD0sea54:1929
+#: /tmp/tmp.TihhArZFJQ:819 /tmp/tmp.TihhArZFJQ:1453 /tmp/tmp.TihhArZFJQ:2087
 msgid "CÓDIGO INTERNO:"
 msgstr "CODE INTERNE:"
 
-#: /tmp/tmp.j1gD0sea54:805 /tmp/tmp.j1gD0sea54:1369 /tmp/tmp.j1gD0sea54:1933
+#: /tmp/tmp.TihhArZFJQ:823 /tmp/tmp.TihhArZFJQ:1457 /tmp/tmp.TihhArZFJQ:2091
 msgid "FORMATO COMERCIAL"
 msgstr "FORMAT COMMERCIAL"
 
-#: /tmp/tmp.j1gD0sea54:809 /tmp/tmp.j1gD0sea54:1373 /tmp/tmp.j1gD0sea54:1937
+#: /tmp/tmp.TihhArZFJQ:827 /tmp/tmp.TihhArZFJQ:1461 /tmp/tmp.TihhArZFJQ:2095
 msgid "CÓDIGO CLIENTE:"
 msgstr "CODE CLIENT:"
 
-#: /tmp/tmp.j1gD0sea54:813 /tmp/tmp.j1gD0sea54:1377 /tmp/tmp.j1gD0sea54:1941
+#: /tmp/tmp.TihhArZFJQ:831 /tmp/tmp.TihhArZFJQ:1465 /tmp/tmp.TihhArZFJQ:2099
 msgid "DESCRIPCIÓN"
 msgstr "DESCRIPTION"
 
-#: /tmp/tmp.j1gD0sea54:817 /tmp/tmp.j1gD0sea54:1381 /tmp/tmp.j1gD0sea54:1945
+#: /tmp/tmp.TihhArZFJQ:839 /tmp/tmp.TihhArZFJQ:1473 /tmp/tmp.TihhArZFJQ:2107
 msgid "ATMÓSFERA PROTECTORA"
 msgstr "ATMOSPHERE PROTECTION"
 
-#: /tmp/tmp.j1gD0sea54:821 /tmp/tmp.j1gD0sea54:1385 /tmp/tmp.j1gD0sea54:1949
+#: /tmp/tmp.TihhArZFJQ:843 /tmp/tmp.TihhArZFJQ:1477 /tmp/tmp.TihhArZFJQ:2111
 msgid "PESO NETO"
 msgstr "POIDS NET"
 
-#: /tmp/tmp.j1gD0sea54:825 /tmp/tmp.j1gD0sea54:1389 /tmp/tmp.j1gD0sea54:1953
+#: /tmp/tmp.TihhArZFJQ:847 /tmp/tmp.TihhArZFJQ:1481 /tmp/tmp.TihhArZFJQ:2115
 msgid "CODIFICACIÓN"
 msgstr "CODAGE"
 
-#: /tmp/tmp.j1gD0sea54:829 /tmp/tmp.j1gD0sea54:1393 /tmp/tmp.j1gD0sea54:1957
+#: /tmp/tmp.TihhArZFJQ:851 /tmp/tmp.TihhArZFJQ:1485 /tmp/tmp.TihhArZFJQ:2119
 msgid "UDS/CAJA"
 msgstr "UDS/BOX"
 
-#: /tmp/tmp.j1gD0sea54:833 /tmp/tmp.j1gD0sea54:1397 /tmp/tmp.j1gD0sea54:1961
+#: /tmp/tmp.TihhArZFJQ:859 /tmp/tmp.TihhArZFJQ:1493 /tmp/tmp.TihhArZFJQ:2127
 msgid "BOLSA PERFORADA"
 msgstr "PERFORES BAG"
 
-#: /tmp/tmp.j1gD0sea54:837 /tmp/tmp.j1gD0sea54:1401 /tmp/tmp.j1gD0sea54:1965
+#: /tmp/tmp.TihhArZFJQ:863 /tmp/tmp.TihhArZFJQ:1497 /tmp/tmp.TihhArZFJQ:2131
 msgid "INGREDIENTES"
 msgstr "INGRÉDIENTS"
 
-#: /tmp/tmp.j1gD0sea54:845 /tmp/tmp.j1gD0sea54:849 /tmp/tmp.j1gD0sea54:1409
-#: /tmp/tmp.j1gD0sea54:1413 /tmp/tmp.j1gD0sea54:1973 /tmp/tmp.j1gD0sea54:1977
+#: /tmp/tmp.TihhArZFJQ:875 /tmp/tmp.TihhArZFJQ:883 /tmp/tmp.TihhArZFJQ:1509
+#: /tmp/tmp.TihhArZFJQ:1517 /tmp/tmp.TihhArZFJQ:2143 /tmp/tmp.TihhArZFJQ:2151
 msgid "SI"
 msgstr "OUI"
 
-#: /tmp/tmp.j1gD0sea54:845 /tmp/tmp.j1gD0sea54:849 /tmp/tmp.j1gD0sea54:1409
-#: /tmp/tmp.j1gD0sea54:1413 /tmp/tmp.j1gD0sea54:1973 /tmp/tmp.j1gD0sea54:1977
+#: /tmp/tmp.TihhArZFJQ:875 /tmp/tmp.TihhArZFJQ:883 /tmp/tmp.TihhArZFJQ:1509
+#: /tmp/tmp.TihhArZFJQ:1517 /tmp/tmp.TihhArZFJQ:2143 /tmp/tmp.TihhArZFJQ:2151
 msgid "NO"
 msgstr "NON"
 
-#: /tmp/tmp.j1gD0sea54:881 /tmp/tmp.j1gD0sea54:1045 /tmp/tmp.j1gD0sea54:1057
-#: /tmp/tmp.j1gD0sea54:1069 /tmp/tmp.j1gD0sea54:1081 /tmp/tmp.j1gD0sea54:1093
-#: /tmp/tmp.j1gD0sea54:1105 /tmp/tmp.j1gD0sea54:1141 /tmp/tmp.j1gD0sea54:1169
-#: /tmp/tmp.j1gD0sea54:1185 /tmp/tmp.j1gD0sea54:1201 /tmp/tmp.j1gD0sea54:1217
-#: /tmp/tmp.j1gD0sea54:1233 /tmp/tmp.j1gD0sea54:1445 /tmp/tmp.j1gD0sea54:1609
-#: /tmp/tmp.j1gD0sea54:1621 /tmp/tmp.j1gD0sea54:1633 /tmp/tmp.j1gD0sea54:1645
-#: /tmp/tmp.j1gD0sea54:1657 /tmp/tmp.j1gD0sea54:1669 /tmp/tmp.j1gD0sea54:1705
-#: /tmp/tmp.j1gD0sea54:1733 /tmp/tmp.j1gD0sea54:1749 /tmp/tmp.j1gD0sea54:1765
-#: /tmp/tmp.j1gD0sea54:1781 /tmp/tmp.j1gD0sea54:1797 /tmp/tmp.j1gD0sea54:2009
-#: /tmp/tmp.j1gD0sea54:2173 /tmp/tmp.j1gD0sea54:2185 /tmp/tmp.j1gD0sea54:2197
-#: /tmp/tmp.j1gD0sea54:2209 /tmp/tmp.j1gD0sea54:2221 /tmp/tmp.j1gD0sea54:2233
-#: /tmp/tmp.j1gD0sea54:2269 /tmp/tmp.j1gD0sea54:2297 /tmp/tmp.j1gD0sea54:2313
-#: /tmp/tmp.j1gD0sea54:2329 /tmp/tmp.j1gD0sea54:2345 /tmp/tmp.j1gD0sea54:2361
+#: /tmp/tmp.TihhArZFJQ:916 /tmp/tmp.TihhArZFJQ:948 /tmp/tmp.TihhArZFJQ:1102
+#: /tmp/tmp.TihhArZFJQ:1114 /tmp/tmp.TihhArZFJQ:1126 /tmp/tmp.TihhArZFJQ:1138
+#: /tmp/tmp.TihhArZFJQ:1150 /tmp/tmp.TihhArZFJQ:1162 /tmp/tmp.TihhArZFJQ:1208
+#: /tmp/tmp.TihhArZFJQ:1224 /tmp/tmp.TihhArZFJQ:1240 /tmp/tmp.TihhArZFJQ:1256
+#: /tmp/tmp.TihhArZFJQ:1272 /tmp/tmp.TihhArZFJQ:1288 /tmp/tmp.TihhArZFJQ:1550
+#: /tmp/tmp.TihhArZFJQ:1582 /tmp/tmp.TihhArZFJQ:1736 /tmp/tmp.TihhArZFJQ:1748
+#: /tmp/tmp.TihhArZFJQ:1760 /tmp/tmp.TihhArZFJQ:1772 /tmp/tmp.TihhArZFJQ:1784
+#: /tmp/tmp.TihhArZFJQ:1796 /tmp/tmp.TihhArZFJQ:1842 /tmp/tmp.TihhArZFJQ:1858
+#: /tmp/tmp.TihhArZFJQ:1874 /tmp/tmp.TihhArZFJQ:1890 /tmp/tmp.TihhArZFJQ:1906
+#: /tmp/tmp.TihhArZFJQ:1922 /tmp/tmp.TihhArZFJQ:2184 /tmp/tmp.TihhArZFJQ:2216
+#: /tmp/tmp.TihhArZFJQ:2370 /tmp/tmp.TihhArZFJQ:2382 /tmp/tmp.TihhArZFJQ:2394
+#: /tmp/tmp.TihhArZFJQ:2406 /tmp/tmp.TihhArZFJQ:2418 /tmp/tmp.TihhArZFJQ:2430
+#: /tmp/tmp.TihhArZFJQ:2476 /tmp/tmp.TihhArZFJQ:2492 /tmp/tmp.TihhArZFJQ:2508
+#: /tmp/tmp.TihhArZFJQ:2524 /tmp/tmp.TihhArZFJQ:2540 /tmp/tmp.TihhArZFJQ:2556
 msgid " g"
 msgstr " g"
 
-#: /tmp/tmp.j1gD0sea54:893 /tmp/tmp.j1gD0sea54:1457 /tmp/tmp.j1gD0sea54:2021
+#: /tmp/tmp.TihhArZFJQ:932 /tmp/tmp.TihhArZFJQ:1566 /tmp/tmp.TihhArZFJQ:2200
+msgid "PESO ESCURRIDO"
+msgstr "POIDS ÉGOUTTÉ"
+
+#: /tmp/tmp.TihhArZFJQ:952 /tmp/tmp.TihhArZFJQ:1586 /tmp/tmp.TihhArZFJQ:2220
 msgid "REDACTADO POR:"
 msgstr "DONE PAR:"
 
-#: /tmp/tmp.j1gD0sea54:897 /tmp/tmp.j1gD0sea54:1461 /tmp/tmp.j1gD0sea54:2025
+#: /tmp/tmp.TihhArZFJQ:956 /tmp/tmp.TihhArZFJQ:1590 /tmp/tmp.TihhArZFJQ:2224
 msgid "REVISADO POR:"
 msgstr "REVU PAR:"
 
-#: /tmp/tmp.j1gD0sea54:901 /tmp/tmp.j1gD0sea54:1465 /tmp/tmp.j1gD0sea54:2029
+#: /tmp/tmp.TihhArZFJQ:960 /tmp/tmp.TihhArZFJQ:1594 /tmp/tmp.TihhArZFJQ:2228
 msgid "APROBADO POR:"
 msgstr "APPROUVÉ PAR:"
 
-#: /tmp/tmp.j1gD0sea54:945 /tmp/tmp.j1gD0sea54:1509 /tmp/tmp.j1gD0sea54:2073
+#: /tmp/tmp.TihhArZFJQ:1004 /tmp/tmp.TihhArZFJQ:1638 /tmp/tmp.TihhArZFJQ:2272
 msgid "Edición:"
 msgstr "Édition:"
 
-#: /tmp/tmp.j1gD0sea54:949 /tmp/tmp.j1gD0sea54:1513 /tmp/tmp.j1gD0sea54:2077
+#: /tmp/tmp.TihhArZFJQ:1008 /tmp/tmp.TihhArZFJQ:1642 /tmp/tmp.TihhArZFJQ:2276
 msgid "Fecha:"
 msgstr "Date:"
 
-#: /tmp/tmp.j1gD0sea54:957 /tmp/tmp.j1gD0sea54:1521 /tmp/tmp.j1gD0sea54:2085
+#: /tmp/tmp.TihhArZFJQ:1016 /tmp/tmp.TihhArZFJQ:1650 /tmp/tmp.TihhArZFJQ:2284
 msgid "FICHA TÉCNICA DE PRODUCTO"
 msgstr "FICHE TECHNIQUE DU PRODUIT"
 
-#: /tmp/tmp.j1gD0sea54:961 /tmp/tmp.j1gD0sea54:1525 /tmp/tmp.j1gD0sea54:2089
+#: /tmp/tmp.TihhArZFJQ:1020 /tmp/tmp.TihhArZFJQ:1654 /tmp/tmp.TihhArZFJQ:2288
 msgid "Página "
 msgstr "Page "
 
-#: /tmp/tmp.j1gD0sea54:961 /tmp/tmp.j1gD0sea54:1525 /tmp/tmp.j1gD0sea54:2089
+#: /tmp/tmp.TihhArZFJQ:1020 /tmp/tmp.TihhArZFJQ:1654 /tmp/tmp.TihhArZFJQ:2288
 msgid " de "
 msgstr "des "
 
-#: /tmp/tmp.j1gD0sea54:969 /tmp/tmp.j1gD0sea54:1533 /tmp/tmp.j1gD0sea54:2097
+#: /tmp/tmp.TihhArZFJQ:1028 /tmp/tmp.TihhArZFJQ:1662 /tmp/tmp.TihhArZFJQ:2296
 msgid "PARÁMETROS ORGANOLÉPTICOS"
 msgstr "PARAMÈTRES ORGANOLEPTIQUES"
 
-#: /tmp/tmp.j1gD0sea54:973 /tmp/tmp.j1gD0sea54:1537 /tmp/tmp.j1gD0sea54:2101
+#: /tmp/tmp.TihhArZFJQ:1032 /tmp/tmp.TihhArZFJQ:1666 /tmp/tmp.TihhArZFJQ:2300
 msgid "PARÁMETROS FÍSICOS"
 msgstr "PARAMÈTRES PHYSIQUE"
 
-#: /tmp/tmp.j1gD0sea54:993 /tmp/tmp.j1gD0sea54:1557 /tmp/tmp.j1gD0sea54:2121
+#: /tmp/tmp.TihhArZFJQ:1052 /tmp/tmp.TihhArZFJQ:1686 /tmp/tmp.TihhArZFJQ:2320
 msgid "PARÁMETROS QUÍMICOS"
 msgstr "PARAMÈTRES CHIMIQUES"
 
-#: /tmp/tmp.j1gD0sea54:997 /tmp/tmp.j1gD0sea54:1561 /tmp/tmp.j1gD0sea54:2125
+#: /tmp/tmp.TihhArZFJQ:1056 /tmp/tmp.TihhArZFJQ:1690 /tmp/tmp.TihhArZFJQ:2324
 msgid "PARÁMETROS MICROBIOLÓGICOS"
 msgstr "PARAMÉTRES MICROBIOLOGIQUES"
 
-#: /tmp/tmp.j1gD0sea54:1017 /tmp/tmp.j1gD0sea54:1581 /tmp/tmp.j1gD0sea54:2145
+#: /tmp/tmp.TihhArZFJQ:1076 /tmp/tmp.TihhArZFJQ:1710 /tmp/tmp.TihhArZFJQ:2344
 msgid "VALORES NUTRICIONALES MEDIOS (por 100 g)"
 msgstr "VALEURS NUTRITIONNELLES MÉDIAS (par 100 g)"
 
-#: /tmp/tmp.j1gD0sea54:1021 /tmp/tmp.j1gD0sea54:1585 /tmp/tmp.j1gD0sea54:2149
+#: /tmp/tmp.TihhArZFJQ:1080 /tmp/tmp.TihhArZFJQ:1714 /tmp/tmp.TihhArZFJQ:2348
 msgid "VALORES NUTRICIONALES MEDIOS (por ración)"
 msgstr "VALEURS NUTRITIONNELLES MÉDIAS (par portion)"
 
-#: /tmp/tmp.j1gD0sea54:1025 /tmp/tmp.j1gD0sea54:1117 /tmp/tmp.j1gD0sea54:1589
-#: /tmp/tmp.j1gD0sea54:1681 /tmp/tmp.j1gD0sea54:2153 /tmp/tmp.j1gD0sea54:2245
+#: /tmp/tmp.TihhArZFJQ:1084 /tmp/tmp.TihhArZFJQ:1186 /tmp/tmp.TihhArZFJQ:1718
+#: /tmp/tmp.TihhArZFJQ:1820 /tmp/tmp.TihhArZFJQ:2352 /tmp/tmp.TihhArZFJQ:2454
 msgid "Valor energético"
 msgstr "Énergie"
 
-#: /tmp/tmp.j1gD0sea54:1033 /tmp/tmp.j1gD0sea54:1125 /tmp/tmp.j1gD0sea54:1597
-#: /tmp/tmp.j1gD0sea54:1689 /tmp/tmp.j1gD0sea54:2161 /tmp/tmp.j1gD0sea54:2253
-msgid " kcal"
-msgstr " kcal"
+#: /tmp/tmp.TihhArZFJQ:1088 /tmp/tmp.TihhArZFJQ:1190 /tmp/tmp.TihhArZFJQ:1722
+#: /tmp/tmp.TihhArZFJQ:1824 /tmp/tmp.TihhArZFJQ:2356 /tmp/tmp.TihhArZFJQ:2458
+msgid "kJ"
+msgstr "kJ"
 
-#: /tmp/tmp.j1gD0sea54:1037 /tmp/tmp.j1gD0sea54:1133 /tmp/tmp.j1gD0sea54:1601
-#: /tmp/tmp.j1gD0sea54:1697 /tmp/tmp.j1gD0sea54:2165 /tmp/tmp.j1gD0sea54:2261
+#: /tmp/tmp.TihhArZFJQ:1090 /tmp/tmp.TihhArZFJQ:1192 /tmp/tmp.TihhArZFJQ:1724
+#: /tmp/tmp.TihhArZFJQ:1826 /tmp/tmp.TihhArZFJQ:2358 /tmp/tmp.TihhArZFJQ:2460
+msgid "kcal"
+msgstr "kcal"
+
+#: /tmp/tmp.TihhArZFJQ:1094 /tmp/tmp.TihhArZFJQ:1200 /tmp/tmp.TihhArZFJQ:1728
+#: /tmp/tmp.TihhArZFJQ:1834 /tmp/tmp.TihhArZFJQ:2362 /tmp/tmp.TihhArZFJQ:2468
 msgid "Hidratos de carbono"
-msgstr "Hydrates de carbone"
+msgstr "Hidratos de carbono"
 
-#: /tmp/tmp.j1gD0sea54:1049 /tmp/tmp.j1gD0sea54:1161 /tmp/tmp.j1gD0sea54:1613
-#: /tmp/tmp.j1gD0sea54:1725 /tmp/tmp.j1gD0sea54:2177 /tmp/tmp.j1gD0sea54:2289
+#: /tmp/tmp.TihhArZFJQ:1106 /tmp/tmp.TihhArZFJQ:1216 /tmp/tmp.TihhArZFJQ:1740
+#: /tmp/tmp.TihhArZFJQ:1850 /tmp/tmp.TihhArZFJQ:2374 /tmp/tmp.TihhArZFJQ:2484
 msgid "de los cuales azúcares"
 msgstr "dont sucres"
 
-#: /tmp/tmp.j1gD0sea54:1061 /tmp/tmp.j1gD0sea54:1177 /tmp/tmp.j1gD0sea54:1625
-#: /tmp/tmp.j1gD0sea54:1741 /tmp/tmp.j1gD0sea54:2189 /tmp/tmp.j1gD0sea54:2305
+#: /tmp/tmp.TihhArZFJQ:1118 /tmp/tmp.TihhArZFJQ:1232 /tmp/tmp.TihhArZFJQ:1752
+#: /tmp/tmp.TihhArZFJQ:1866 /tmp/tmp.TihhArZFJQ:2386 /tmp/tmp.TihhArZFJQ:2500
 msgid "Grasas"
 msgstr "Graisse"
 
-#: /tmp/tmp.j1gD0sea54:1073 /tmp/tmp.j1gD0sea54:1193 /tmp/tmp.j1gD0sea54:1637
-#: /tmp/tmp.j1gD0sea54:1757 /tmp/tmp.j1gD0sea54:2201 /tmp/tmp.j1gD0sea54:2321
+#: /tmp/tmp.TihhArZFJQ:1130 /tmp/tmp.TihhArZFJQ:1248 /tmp/tmp.TihhArZFJQ:1764
+#: /tmp/tmp.TihhArZFJQ:1882 /tmp/tmp.TihhArZFJQ:2398 /tmp/tmp.TihhArZFJQ:2516
 msgid "de las cuales saturadas"
 msgstr "dont acides gras saturés"
 
-#: /tmp/tmp.j1gD0sea54:1085 /tmp/tmp.j1gD0sea54:1209 /tmp/tmp.j1gD0sea54:1649
-#: /tmp/tmp.j1gD0sea54:1773 /tmp/tmp.j1gD0sea54:2213 /tmp/tmp.j1gD0sea54:2337
+#: /tmp/tmp.TihhArZFJQ:1142 /tmp/tmp.TihhArZFJQ:1264 /tmp/tmp.TihhArZFJQ:1776
+#: /tmp/tmp.TihhArZFJQ:1898 /tmp/tmp.TihhArZFJQ:2410 /tmp/tmp.TihhArZFJQ:2532
 msgid "Proteínas"
 msgstr "Poteins"
 
-#: /tmp/tmp.j1gD0sea54:1097 /tmp/tmp.j1gD0sea54:1225 /tmp/tmp.j1gD0sea54:1661
-#: /tmp/tmp.j1gD0sea54:1789 /tmp/tmp.j1gD0sea54:2225 /tmp/tmp.j1gD0sea54:2353
+#: /tmp/tmp.TihhArZFJQ:1154 /tmp/tmp.TihhArZFJQ:1280 /tmp/tmp.TihhArZFJQ:1788
+#: /tmp/tmp.TihhArZFJQ:1914 /tmp/tmp.TihhArZFJQ:2422 /tmp/tmp.TihhArZFJQ:2548
 msgid "Sal"
 msgstr "Sal"
 
-#: /tmp/tmp.j1gD0sea54:1109 /tmp/tmp.j1gD0sea54:1673 /tmp/tmp.j1gD0sea54:2237
+#: /tmp/tmp.TihhArZFJQ:1178 /tmp/tmp.TihhArZFJQ:1812 /tmp/tmp.TihhArZFJQ:2446
 msgid "Ración "
 msgstr "Ration "
 
-#: /tmp/tmp.j1gD0sea54:1113 /tmp/tmp.j1gD0sea54:1677 /tmp/tmp.j1gD0sea54:2241
+#: /tmp/tmp.TihhArZFJQ:1182 /tmp/tmp.TihhArZFJQ:1816 /tmp/tmp.TihhArZFJQ:2450
 msgid "% CDO (*)"
 msgstr "% CDO (*)"
 
-#: /tmp/tmp.j1gD0sea54:1241 /tmp/tmp.j1gD0sea54:1805 /tmp/tmp.j1gD0sea54:2369
+#: /tmp/tmp.TihhArZFJQ:1296 /tmp/tmp.TihhArZFJQ:1930 /tmp/tmp.TihhArZFJQ:2564
 msgid ""
 "* Valores diarios orientativos para un adulto con una ingesta diaria de 2000 "
 "kcal. Las necesidades nutricionales individuales pueden variar en función "
@@ -201,54 +212,66 @@ msgstr ""
 "quotidien de 2000 kcal. Des besoins nutritionnels individuels varient selon "
 "le sexe, l'âge, l'activité physique et d'autres facteurs."
 
-#: /tmp/tmp.j1gD0sea54:1245 /tmp/tmp.j1gD0sea54:1809 /tmp/tmp.j1gD0sea54:2373
+#: /tmp/tmp.TihhArZFJQ:1300 /tmp/tmp.TihhArZFJQ:1934 /tmp/tmp.TihhArZFJQ:2568
 msgid "CONDICIONES DE CONSERVACIÓN"
 msgstr "CONDITIONS DE CONSERVATION"
 
-#: /tmp/tmp.j1gD0sea54:1253 /tmp/tmp.j1gD0sea54:1817 /tmp/tmp.j1gD0sea54:2381
+#: /tmp/tmp.TihhArZFJQ:1308 /tmp/tmp.TihhArZFJQ:1942 /tmp/tmp.TihhArZFJQ:2576
 msgid "USO ESPERADO"
 msgstr "UTILISATION PRÉVUE"
 
-#: /tmp/tmp.j1gD0sea54:1261 /tmp/tmp.j1gD0sea54:1825 /tmp/tmp.j1gD0sea54:2389
+#: /tmp/tmp.TihhArZFJQ:1316 /tmp/tmp.TihhArZFJQ:1950 /tmp/tmp.TihhArZFJQ:2584
 msgid "VIDA ÚTIL"
 msgstr "VIE UTILE"
 
-#: /tmp/tmp.j1gD0sea54:1265 /tmp/tmp.j1gD0sea54:1829 /tmp/tmp.j1gD0sea54:2393
+#: /tmp/tmp.TihhArZFJQ:1320 /tmp/tmp.TihhArZFJQ:1954 /tmp/tmp.TihhArZFJQ:2588
 msgid " días desde fecha de fabricación"
 msgstr " jours à compter de la date de fabrication."
 
-#: /tmp/tmp.j1gD0sea54:1269 /tmp/tmp.j1gD0sea54:1833 /tmp/tmp.j1gD0sea54:2397
+#: /tmp/tmp.TihhArZFJQ:1324 /tmp/tmp.TihhArZFJQ:1958 /tmp/tmp.TihhArZFJQ:2592
 msgid "ALÉRGENOS"
 msgstr "ALLERGEN"
 
-#: /tmp/tmp.j1gD0sea54:1277 /tmp/tmp.j1gD0sea54:1841 /tmp/tmp.j1gD0sea54:2405
+#: /tmp/tmp.TihhArZFJQ:1332 /tmp/tmp.TihhArZFJQ:1966 /tmp/tmp.TihhArZFJQ:2600
 msgid "OGM's"
 msgstr "OGM's"
 
-#: /tmp/tmp.j1gD0sea54:1285 /tmp/tmp.j1gD0sea54:1849 /tmp/tmp.j1gD0sea54:2413
+#: /tmp/tmp.TihhArZFJQ:1340 /tmp/tmp.TihhArZFJQ:1974 /tmp/tmp.TihhArZFJQ:2608
 msgid "OBSERVACIONES"
 msgstr "COMMENTAIRES"
 
-#: /tmp/tmp.j1gD0sea54:3090 /tmp/tmp.j1gD0sea54:3202 /tmp/tmp.j1gD0sea54:3314
+#: /tmp/tmp.TihhArZFJQ:1347 /tmp/tmp.TihhArZFJQ:1981 /tmp/tmp.TihhArZFJQ:2615
+msgid "NORMATIVA APLICABLE:"
+msgstr "RÉGLEMENTATION APPLICABLE:"
+
+#: /tmp/tmp.TihhArZFJQ:1367 /tmp/tmp.TihhArZFJQ:2001 /tmp/tmp.TihhArZFJQ:2635
+msgid "COMENTARIOS:"
+msgstr "COMMENTAIRES:"
+
+#: /tmp/tmp.TihhArZFJQ:1377 /tmp/tmp.TihhArZFJQ:2011 /tmp/tmp.TihhArZFJQ:2645
+msgid "Nutri-Score:"
+msgstr "Nutri-Score:"
+
+#: /tmp/tmp.TihhArZFJQ:3326 /tmp/tmp.TihhArZFJQ:3438 /tmp/tmp.TihhArZFJQ:3550
 msgid "DENOMINACIÓN"
 msgstr "TITRE"
 
-#: /tmp/tmp.j1gD0sea54:3098 /tmp/tmp.j1gD0sea54:3210 /tmp/tmp.j1gD0sea54:3322
+#: /tmp/tmp.TihhArZFJQ:3334 /tmp/tmp.TihhArZFJQ:3446 /tmp/tmp.TihhArZFJQ:3558
 msgid "VARIEDAD"
 msgstr "VARIÉTÉ"
 
-#: /tmp/tmp.j1gD0sea54:3106 /tmp/tmp.j1gD0sea54:3218 /tmp/tmp.j1gD0sea54:3330
+#: /tmp/tmp.TihhArZFJQ:3342 /tmp/tmp.TihhArZFJQ:3454 /tmp/tmp.TihhArZFJQ:3566
 msgid "PROCESO"
 msgstr "PROCESSUS"
 
-#: /tmp/tmp.j1gD0sea54:3114 /tmp/tmp.j1gD0sea54:3226 /tmp/tmp.j1gD0sea54:3338
+#: /tmp/tmp.TihhArZFJQ:3350 /tmp/tmp.TihhArZFJQ:3462 /tmp/tmp.TihhArZFJQ:3574
 msgid "CALIBRE"
 msgstr "CALIBRE"
 
-#: /tmp/tmp.j1gD0sea54:3122 /tmp/tmp.j1gD0sea54:3234 /tmp/tmp.j1gD0sea54:3346
+#: /tmp/tmp.TihhArZFJQ:3358 /tmp/tmp.TihhArZFJQ:3470 /tmp/tmp.TihhArZFJQ:3582
 msgid "ORIGEN"
 msgstr "ORIGINE"
 
-#: /tmp/tmp.j1gD0sea54:3130 /tmp/tmp.j1gD0sea54:3242 /tmp/tmp.j1gD0sea54:3354
+#: /tmp/tmp.TihhArZFJQ:3366 /tmp/tmp.TihhArZFJQ:3478 /tmp/tmp.TihhArZFJQ:3590
 msgid "CANT. (%)"
 msgstr "QTE. (%)"
