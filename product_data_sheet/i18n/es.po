@@ -114,6 +114,7 @@ msgid "Comments"
 msgstr "Comentarios"
 
 #. module: product_data_sheet
+#: view:product.technical.sheet:product_data_sheet.product_technical_sheet_form_view
 #: field:product.technical.sheet,applicable_regulations:0
 msgid "Applicable Regulations"
 msgstr "Normativa aplicable"
